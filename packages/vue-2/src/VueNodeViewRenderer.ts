@@ -1,65 +1,44 @@
 import {
+  DecorationWithType,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Vue from 'vue'
-import { PropType, VueConstructor } from 'vue/types/umd'
+import { VueConstructor } from 'vue/types/umd'
+import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
-  editor: {
-    type: Object as PropType<NodeViewProps['editor']>,
-    required: true as const,
-  },
-  node: {
-    type: Object as PropType<NodeViewProps['node']>,
-    required: true as const,
-  },
-  decorations: {
-    type: Object as PropType<NodeViewProps['decorations']>,
-    required: true as const,
-  },
-  selected: {
-    type: Boolean as PropType<NodeViewProps['selected']>,
-    required: true as const,
-  },
-  extension: {
-    type: Object as PropType<NodeViewProps['extension']>,
-    required: true as const,
-  },
-  getPos: {
-    type: Function as PropType<NodeViewProps['getPos']>,
-    required: true as const,
-  },
-  updateAttributes: {
-    type: Function as PropType<NodeViewProps['updateAttributes']>,
-    required: true as const,
-  },
-  deleteNode: {
-    type: Function as PropType<NodeViewProps['deleteNode']>,
-    required: true as const,
-  },
+  editor: objectProp<NodeViewProps['editor']>().required,
+  node: objectProp<NodeViewProps['node']>().required,
+  decorations: objectProp<NodeViewProps['decorations']>().required,
+  selected: booleanProp().required,
+  extension: objectProp<NodeViewProps['extension']>().required,
+  getPos: functionProp<NodeViewProps['getPos']>().required,
+  updateAttributes: functionProp<NodeViewProps['updateAttributes']>().required,
+  deleteNode: functionProp<NodeViewProps['deleteNode']>().required,
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
-  update: ((props: {
-    oldNode: ProseMirrorNode,
-    oldDecorations: Decoration[],
-    newNode: ProseMirrorNode,
-    newDecorations: Decoration[],
-    updateProps: () => void,
-  }) => boolean) | null,
+  update:
+    | ((props: {
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
+      }) => boolean)
+    | null
 }
 
-class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRendererOptions> {
-
+class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
   decorationClasses!: {
@@ -87,17 +66,15 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
     // @ts-ignore
     const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
 
-    const Component = vue
-      .extend(this.component)
-      .extend({
-        props: Object.keys(props),
-        provide: () => {
-          return {
-            onDragStart,
-            decorationClasses: this.decorationClasses,
-          }
-        },
-      })
+    const Component = vue.extend(this.component).extend({
+      props: Object.keys(props),
+      provide: () => {
+        return {
+          onDragStart,
+          decorationClasses: this.decorationClasses,
+        }
+      },
+    })
 
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
@@ -123,7 +100,7 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
     return (contentElement || this.dom) as HTMLElement | null
   }
 
-  update(node: ProseMirrorNode, decorations: Decoration[]) {
+  update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)
@@ -165,29 +142,35 @@ class VueNodeView extends NodeView<(Vue | VueConstructor), Editor, VueNodeViewRe
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   getDecorationClasses() {
-    return this.decorations
-      // @ts-ignore
-      .map(item => item.type.attrs.class)
-      .flat()
-      .join(' ')
+    return (
+      this.decorations
+        // @ts-ignore
+        .map(item => item.type.attrs.class)
+        .flat()
+        .join(' ')
+    )
   }
 
   destroy() {
     this.renderer.destroy()
   }
-
 }
 
-export function VueNodeViewRenderer(component: Vue | VueConstructor, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
+export function VueNodeViewRenderer(
+  component: Vue | VueConstructor,
+  options?: Partial<VueNodeViewRendererOptions>,
+): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly

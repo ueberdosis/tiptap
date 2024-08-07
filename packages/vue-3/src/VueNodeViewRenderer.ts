@@ -1,12 +1,13 @@
 import {
+  DecorationWithType,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Decoration, NodeView as ProseMirrorNodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import {
   Component,
   defineComponent,
@@ -16,8 +17,8 @@ import {
   ref,
 } from 'vue'
 
-import { Editor } from './Editor'
-import { VueRenderer } from './VueRenderer'
+import { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
   editor: {
@@ -55,17 +56,18 @@ export const nodeViewProps = {
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
-  update: ((props: {
-    oldNode: ProseMirrorNode,
-    oldDecorations: Decoration[],
-    newNode: ProseMirrorNode,
-    newDecorations: Decoration[],
-    updateProps: () => void,
-  }) => boolean) | null,
+  update:
+    | ((props: {
+        oldNode: ProseMirrorNode
+        oldDecorations: Decoration[]
+        newNode: ProseMirrorNode
+        newDecorations: Decoration[]
+        updateProps: () => void
+      }) => boolean)
+    | null
 }
 
 class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions> {
-
   renderer!: VueRenderer
 
   decorationClasses!: Ref<string>
@@ -106,6 +108,13 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // @ts-ignore
       // eslint-disable-next-line
       __cssModules: this.component.__cssModules,
+      // add support for vue devtools
+      // @ts-ignore
+      // eslint-disable-next-line
+      __name: this.component.__name,
+      // @ts-ignore
+      // eslint-disable-next-line
+      __file: this.component.__file,
     })
 
     this.renderer = new VueRenderer(extendedComponent, {
@@ -115,7 +124,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   }
 
   get dom() {
-    if (!this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+    if (!this.renderer.element || !this.renderer.element.hasAttribute('data-node-view-wrapper')) {
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
@@ -127,12 +136,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return null
     }
 
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    return (contentElement || this.dom) as HTMLElement | null
+    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
   }
 
-  update(node: ProseMirrorNode, decorations: Decoration[]) {
+  update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)
@@ -174,29 +181,39 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.renderer.updateProps({
       selected: true,
     })
+    if (this.renderer.element) {
+      this.renderer.element.classList.add('ProseMirror-selectednode')
+    }
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    if (this.renderer.element) {
+      this.renderer.element.classList.remove('ProseMirror-selectednode')
+    }
   }
 
   getDecorationClasses() {
-    return this.decorations
-      // @ts-ignore
-      .map(item => item.type.attrs.class)
-      .flat()
-      .join(' ')
+    return (
+      this.decorations
+        // @ts-ignore
+        .map(item => item.type.attrs.class)
+        .flat()
+        .join(' ')
+    )
   }
 
   destroy() {
     this.renderer.destroy()
   }
-
 }
 
-export function VueNodeViewRenderer(component: Component, options?: Partial<VueNodeViewRendererOptions>): NodeViewRenderer {
+export function VueNodeViewRenderer(
+  component: Component,
+  options?: Partial<VueNodeViewRendererOptions>,
+): NodeViewRenderer {
   return (props: NodeViewRendererProps) => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly

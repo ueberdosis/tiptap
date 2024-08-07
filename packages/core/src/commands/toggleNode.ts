@@ -1,16 +1,24 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { isNodeActive } from '../helpers/isNodeActive'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { isNodeActive } from '../helpers/isNodeActive.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     toggleNode: {
       /**
        * Toggle a node with another node.
+       * @param typeOrName The type or name of the node.
+       * @param toggleTypeOrName The type or name of the node to toggle.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.toggleNode('heading', 'paragraph')
        */
-      toggleNode: (typeOrName: string | NodeType, toggleTypeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      toggleNode: (
+        typeOrName: string | NodeType,
+        toggleTypeOrName: string | NodeType,
+        attributes?: Record<string, any>,
+      ) => ReturnType
     }
   }
 }

@@ -1,5 +1,5 @@
-import { TextAlign } from './text-align'
+import { TextAlign } from './text-align.js'
 
-export * from './text-align'
+export * from './text-align.js'
 
 export default TextAlign

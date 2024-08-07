@@ -3,168 +3,163 @@
 
 name: build
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
       - main
+      - develop
+      - next
+      - release/*
   pull_request:
     branches:
       - main
+      - develop
+      - next
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
+      - uses: actions/checkout@v4.1.4
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.4.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Load cached dependencies
+        uses: actions/cache@v4.0.2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            **/.turbo
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v3.0.8
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
 
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install
+      #    - name: Fix code style linting errors
+      #      id: lint-fix
+      #      run: npm run lint:fix
+      #      continue-on-error: true
+      #
+      #    - name: Commit fixed linting errors
+      #      id: commit
+      #      uses: stefanzweifel/git-auto-commit-action@v4
+      #      with:
+      #        commit_message: "ci: fix code style linting errors"
 
-#    - name: Fix code style linting errors
-#      id: lint-fix
-#      run: npm run lint:fix
-#      continue-on-error: true
-#
-#    - name: Commit fixed linting errors
-#      id: commit
-#      uses: stefanzweifel/git-auto-commit-action@v4
-#      with:
-#        commit_message: "ci: fix code style linting errors"
-
-    - name: Lint code
-      id: lint
-      run: npm run lint
-
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Lint code
+        id: lint
+        run: npm run lint
 
   test:
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
+        test-spec:
+          - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
+          #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
+          - { name: "Demos/Examples", spec: "./demos/src/Examples/**/*.spec.{js,ts}" }
+          - { name: "Demos/Experiments", spec: "./demos/src/Experiments/**/*.spec.{js,ts}" }
+          - { name: "Demos/Extensions", spec: "./demos/src/Extensions/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideContent", spec: "./demos/src/GuideContent/**/*.spec.{js,ts}" }
+          - { name: "Demos/GuideGettingStarted", spec: "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" }
+          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
+          - { name: "Demos/Marks", spec: "./demos/src/Marks/**/*.spec.{js,ts}" }
+          - { name: "Demos/Nodes", spec: "./demos/src/Nodes/**/*.spec.{js,ts}" }
+          #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
+      - uses: actions/checkout@v4.1.4
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.4.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        id: install-dependencies
+        run: npm install
 
-    - name: Run tests with Cypress
-      id: cypress
-      uses: cypress-io/github-action@v4.2.0
-      with:
-        cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-        start: npm run start
-        wait-on: 'http://localhost:3000'
-        project: ./tests
-        browser: chrome
-        quiet: true
+      - name: Try to build the packages
+        id: build-packages
+        run: npm run build:pm
 
-    - name: Export screenshots (on failure only)
-      uses: actions/upload-artifact@v3.1.0
-      if: failure()
-      with:
-        name: cypress-screenshots
-        path: tests/cypress/screenshots
-        retention-days: 7
+      - name: Test ${{ matrix.test-spec.name }}
+        id: cypress
+        uses: cypress-io/github-action@v6.7.2
+        with:
+          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          start: npm run serve
+          wait-on: 'http://localhost:3000'
+          spec: ${{ matrix.test-spec.spec }}
+          project: ./tests
+          browser: chrome
+          quiet: true
 
-    - name: Export screen recordings (on failure only)
-      uses: actions/upload-artifact@v3.1.0
-      if: failure()
-      with:
-        name: cypress-videos
-        path: tests/cypress/videos
-        retention-days: 7
+      - name: Export screenshots (on failure only)
+        uses: actions/upload-artifact@v4.3.5
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/cypress/screenshots
+          retention-days: 7
 
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Export screen recordings (on failure only)
+        uses: actions/upload-artifact@v4.3.5
+        if: failure()
+        with:
+          name: cypress-videos
+          path: tests/cypress/videos
+          retention-days: 7
 
   build:
     runs-on: ubuntu-latest
 
     needs: lint
 
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
+      - uses: actions/checkout@v4.1.4
 
-    - uses: actions/checkout@v3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3.4.1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Load cached dependencies
+        uses: actions/cache@v4.0.2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Load cached dependencies
-      uses: actions/cache@v3.0.8
-      id: cache
-      with:
-        path: |
-          **/node_modules
-          /home/runner/.cache/Cypress
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        id: install-dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
 
-    - name: Install dependencies
-      id: install-dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install
-
-    - name: Try to build the packages
-      id: build-packages
-      run: npm run build:ci
-
-    - name: Send Slack notifications
-      uses: act10ns/slack@v1
-      if: failure()
-      with:
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-        channel: '#tiptap-notifications'
+      - name: Try to build the packages
+        id: build-packages
+        run: npm run build:ci

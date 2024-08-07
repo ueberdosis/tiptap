@@ -1,16 +1,20 @@
 import './styles.scss'
 
+import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-import suggestion from './suggestion'
+import suggestion from './suggestion.js'
 
 export default () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       Mention.configure({
         HTMLAttributes: {
           class: 'mention',

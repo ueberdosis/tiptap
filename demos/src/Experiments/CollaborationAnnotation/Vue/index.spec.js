@@ -4,20 +4,20 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
   })
 
   /* it('renders two editors', () => {
-    cy.get('.ProseMirror').should('have.length', 2)
+    cy.get('.tiptap').should('have.length', 2)
   }) */
 
   // TODO: Fix those tests in the future
-  // Current problem is that ProseMirror seems to mismatch a transformation somewhere inside those tests
+  // Current problem is that tiptap seems to mismatch a transformation somewhere inside those tests
   // So to fix this, we should look for a different way to simulate the annotation process
 
   /* it('sets an annotation in editor 1 and shows annotations in both editors', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt', () => 'This is a test comment')
-      cy.get('.editor-1 .ProseMirror').type('{selectall}{backspace}Hello world{selectall}')
-      cy.get('button').contains('comment').eq(0).click()
-      cy.get('.editor-1 .ProseMirror').type('{end}')
-      cy.get('.ProseMirror .annotation').should('have.length', 2)
+      cy.get('.editor-1 .tiptap').type('{selectall}{backspace}Hello world{selectall}')
+      cy.get('button').contains('Comment').eq(0).click()
+      cy.get('.editor-1 .tiptap').type('{end}')
+      cy.get('.tiptap .annotation').should('have.length', 2)
       cy.get('.comment').should('exist').contains('This is a test comment')
     })
   }) */
@@ -41,12 +41,12 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
         }
       })
 
-      cy.get('.editor-1 .ProseMirror').type('{selectall}{backspace}Hello world{selectall}')
-      cy.get('button').contains('comment').eq(0).click()
+      cy.get('.editor-1 .tiptap').type('{selectall}{backspace}Hello world{selectall}')
+      cy.get('button').contains('Comment').eq(0).click()
       cy.wait(1000)
-      cy.get('.editor-1 .ProseMirror').find('.annotation').click()
+      cy.get('.editor-1 .tiptap').find('.annotation').click()
       cy.get('.comment').should('exist').contains('This is a test comment')
-      cy.get('button').contains('update').click()
+      cy.get('button').contains('Update').click()
       cy.wait(1000)
       cy.get('.comment').should('exist').contains('This is the new comment')
     })
@@ -56,13 +56,13 @@ context('/src/Experiments/CollaborationAnnotation/Vue/', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt', () => 'This is a test comment')
 
-      cy.get('.editor-1 .ProseMirror').type('{selectall}{backspace}Hello world{selectall}')
-      cy.get('button').contains('comment').eq(0).click()
+      cy.get('.editor-1 .tiptap').type('{selectall}{backspace}Hello world{selectall}')
+      cy.get('button').contains('Comment').eq(0).click()
       cy.wait(1000)
-      cy.get('.editor-1 .ProseMirror').find('.annotation').click()
+      cy.get('.editor-1 .tiptap').find('.annotation').click()
       cy.get('.comment').should('exist').contains('This is a test comment')
-      cy.get('button').contains('remove').click()
-      cy.get('.ProseMirror .annotation').should('not.exist')
+      cy.get('button').contains('Remove').click()
+      cy.get('.tiptap .annotation').should('not.exist')
       cy.wait(1000)
       cy.get('.comment').should('not.exist')
     })

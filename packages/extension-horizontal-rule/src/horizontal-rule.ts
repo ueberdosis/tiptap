@@ -1,12 +1,15 @@
 import {
-  mergeAttributes,
-  Node,
-  nodeInputRule,
+  isNodeSelection, mergeAttributes, Node, nodeInputRule,
 } from '@tiptap/core'
-import { TextSelection } from 'prosemirror-state'
+import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
-  HTMLAttributes: Record<string, any>,
+  /**
+   * The HTML attributes for a horizontal rule node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -14,12 +17,17 @@ declare module '@tiptap/core' {
     horizontalRule: {
       /**
        * Add a horizontal rule
+       * @example editor.commands.setHorizontalRule()
        */
-      setHorizontalRule: () => ReturnType,
+      setHorizontalRule: () => ReturnType
     }
   }
 }
 
+/**
+ * This extension allows you to insert horizontal rules.
+ * @see https://www.tiptap.dev/api/nodes/horizontal-rule
+ */
 export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: 'horizontalRule',
 
@@ -32,9 +40,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   group: 'block',
 
   parseHTML() {
-    return [
-      { tag: 'hr' },
-    ]
+    return [{ tag: 'hr' }]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -43,34 +49,65 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
   addCommands() {
     return {
-      setHorizontalRule: () => ({ chain }) => {
-        return chain()
-          .insertContent({ type: this.name })
-          // set cursor after horizontal rule
-          .command(({ tr, dispatch }) => {
-            if (dispatch) {
-              const { $to } = tr.selection
-              const posAfter = $to.end()
+      setHorizontalRule:
+        () => ({ chain, state }) => {
+          const { selection } = state
+          const { $from: $originFrom, $to: $originTo } = selection
 
-              if ($to.nodeAfter) {
-                tr.setSelection(TextSelection.create(tr.doc, $to.pos))
-              } else {
-                // add node after horizontal rule if it’s the end of the document
-                const node = $to.parent.type.contentMatch.defaultType?.create()
+          const currentChain = chain()
 
-                if (node) {
-                  tr.insert(posAfter, node)
-                  tr.setSelection(TextSelection.create(tr.doc, posAfter))
+          if ($originFrom.parentOffset === 0) {
+            currentChain.insertContentAt(
+              {
+                from: Math.max($originFrom.pos - 1, 0),
+                to: $originTo.pos,
+              },
+              {
+                type: this.name,
+              },
+            )
+          } else if (isNodeSelection(selection)) {
+            currentChain.insertContentAt($originTo.pos, {
+              type: this.name,
+            })
+          } else {
+            currentChain.insertContent({ type: this.name })
+          }
+
+          return (
+            currentChain
+              // set cursor after horizontal rule
+              .command(({ tr, dispatch }) => {
+                if (dispatch) {
+                  const { $to } = tr.selection
+                  const posAfter = $to.end()
+
+                  if ($to.nodeAfter) {
+                    if ($to.nodeAfter.isTextblock) {
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos + 1))
+                    } else if ($to.nodeAfter.isBlock) {
+                      tr.setSelection(NodeSelection.create(tr.doc, $to.pos))
+                    } else {
+                      tr.setSelection(TextSelection.create(tr.doc, $to.pos))
+                    }
+                  } else {
+                    // add node after horizontal rule if it’s the end of the document
+                    const node = $to.parent.type.contentMatch.defaultType?.create()
+
+                    if (node) {
+                      tr.insert(posAfter, node)
+                      tr.setSelection(TextSelection.create(tr.doc, posAfter + 1))
+                    }
+                  }
+
+                  tr.scrollIntoView()
                 }
-              }
 
-              tr.scrollIntoView()
-            }
-
-            return true
-          })
-          .run()
-      },
+                return true
+              })
+              .run()
+          )
+        },
     }
   },
 

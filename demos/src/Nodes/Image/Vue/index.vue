@@ -1,8 +1,12 @@
 <template>
-  <div v-if="editor">
-    <button @click="addImage">
-      setImage
-    </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="addImage">
+          Set image
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -47,8 +51,8 @@ export default {
       ],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
+        <img src="https://placehold.co/800x400" />
+        <img src="https://placehold.co/800x400/6A00F5/white" />
       `,
     })
   },
@@ -61,17 +65,19 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
   img {
-    max-width: 100%;
+    display: block;
     height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
 
     &.ProseMirror-selectednode {
-      outline: 3px solid #68CEF8;
+      outline: 3px solid var(--purple);
     }
   }
 }

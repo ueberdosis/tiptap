@@ -1,7 +1,3 @@
-// load specific languages only
-// import { lowlight } from 'lowlight/lib/core'
-// import javascript from 'highlight.js/lib/languages/javascript'
-// lowlight.registerLanguage('javascript', javascript)
 import './styles.scss'
 
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
@@ -13,16 +9,21 @@ import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
-// load all highlight.js languages
-import { lowlight } from 'lowlight'
+// load all languages with "all" or common languages with "common"
+import { all, createLowlight } from 'lowlight'
 import React from 'react'
 
+// eslint-disable-next-line
 import CodeBlockComponent from './CodeBlockComponent'
 
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
+// create a lowlight instance
+const lowlight = createLowlight(all)
+
+// you can also register individual languages
+lowlight.register('html', html)
+lowlight.register('css', css)
+lowlight.register('js', js)
+lowlight.register('ts', ts)
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -30,9 +31,13 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
-      code block
-    </button>
+    <div className="control-group">
+      <div className="button-group">
+        <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
+          Toggle code block
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -52,7 +57,7 @@ export default () => {
     ],
     content: `
         <p>
-          That’s a boring paragraph followed by a fenced code block:
+          That's a boring paragraph followed by a fenced code block:
         </p>
         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
@@ -72,9 +77,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

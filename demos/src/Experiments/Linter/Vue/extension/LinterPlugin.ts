@@ -1,9 +1,9 @@
-import { Node as ProsemirrorNode } from 'prosemirror-model'
+import { Node as ProsemirrorNode } from '@tiptap/pm/model'
 
 export interface Result {
-  message: string,
-  from: number,
-  to: number,
+  message: string
+  from: number
+  to: number
   fix?: Function
 }
 

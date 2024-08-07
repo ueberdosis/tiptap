@@ -1,17 +1,21 @@
 <template>
-  <div v-if="editor">
-    <button @click="addCapturedTable">
-      add table
-    </button>
-    <button @click="addCapturedImage">
-      add image
-    </button>
-    <button @click="removeCapturedTable">
-      remove table
-    </button>
-    <button @click="removeCapturedImage">
-      remove image
-    </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="addCapturedTable">
+          Add table with caption
+        </button>
+        <button @click="addCapturedImage">
+          Add image with caption
+        </button>
+        <button @click="removeCapturedTable">
+          Remove table with caption
+        </button>
+        <button @click="removeCapturedImage">
+          Remove image with caption
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -25,8 +29,8 @@ import TableRow from '@tiptap/extension-table-row'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { Figcaption } from './figcaption'
-import { Figure } from './figure'
+import { Figcaption } from './figcaption.ts'
+import { Figure } from './figure.ts'
 
 const ImageFigure = Figure.extend({
   name: 'capturedImage',
@@ -62,14 +66,14 @@ export default {
               content: [
                 {
                   type: 'text',
-                  text: 'image caption',
+                  text: 'Image caption',
                 },
               ],
             },
             {
               type: 'image',
               attrs: {
-                src: 'https://source.unsplash.com/K9QHL52rE2k/800x400',
+                src: 'https://placehold.co/800x400/orange/white',
               },
             },
           ],
@@ -89,7 +93,7 @@ export default {
               content: [
                 {
                   type: 'text',
-                  text: 'table caption',
+                  text: 'Table caption',
                 },
               ],
             },
@@ -107,7 +111,7 @@ export default {
                           content: [
                             {
                               type: 'text',
-                              text: 'cell 1',
+                              text: 'Cell 1',
                             },
                           ],
                         },
@@ -121,7 +125,7 @@ export default {
                           content: [
                             {
                               type: 'text',
-                              text: 'cell 2',
+                              text: 'Cell 2',
                             },
                           ],
                         },
@@ -172,10 +176,10 @@ export default {
           <figcaption>
             Image caption
           </figcaption>
-          <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" alt="Random photo of something" title="Who’s dat?">
+          <img src="https://placehold.co/800x400/black/white" alt="Random photo of something" title="Who’s dat?">
         </figure>
         <p>Some text</p>
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400">
+        <img src="https://placehold.co/800x400">
         <p>Some text</p>
         <figure data-type="capturedTable">
           <figcaption>
@@ -189,20 +193,20 @@ export default {
               </tr>
               <tr>
                 <td>Cyndi Lauper</td>
-                <td>singer</td>
-                <td>songwriter</td>
-                <td>actress</td>
+                <td>Singer</td>
+                <td>Songwriter</td>
+                <td>Actress</td>
               </tr>
               <tr>
                 <td>Marie Curie</td>
-                <td>scientist</td>
-                <td>chemist</td>
-                <td>physicist</td>
+                <td>Scientist</td>
+                <td>Chemist</td>
+                <td>Physicist</td>
               </tr>
               <tr>
                 <td>Indira Gandhi</td>
-                <td>prime minister</td>
-                <td colspan="2">politician</td>
+                <td>Prime minister</td>
+                <td colspan="2">Politician</td>
               </tr>
             </tbody>
           </table>
@@ -216,20 +220,20 @@ export default {
             </tr>
             <tr>
               <td>Cyndi Lauper</td>
-              <td>singer</td>
-              <td>songwriter</td>
-              <td>actress</td>
+              <td>Singer</td>
+              <td>Songwriter</td>
+              <td>Actress</td>
             </tr>
             <tr>
               <td>Marie Curie</td>
-              <td>scientist</td>
-              <td>chemist</td>
-              <td>physicist</td>
+              <td>Scientist</td>
+              <td>Chemist</td>
+              <td>Physicist</td>
             </tr>
             <tr>
               <td>Indira Gandhi</td>
-              <td>prime minister</td>
-              <td colspan="2">politician</td>
+              <td>Prime minister</td>
+              <td colspan="2">Politician</td>
             </tr>
           </tbody>
         </table>
@@ -244,57 +248,123 @@ export default {
 </script>
 
 <style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
-  figure {
-    max-width: 25rem;
-    border: 3px solid #0D0D0D;
-    border-radius: 0.5rem;
-    margin: 1rem 0;
-    padding: 0.5rem;
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
 
-  figcaption {
-    margin: 0.25rem 0;
-    text-align: center;
-    padding: 0.5rem;
-    border: 2px dashed #0D0D0D20;
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+  pre {
+    background: var(--black);
     border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
 
-    &:first-child {
-      margin-top: 0;
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
     }
+  }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
   }
 
   img {
     display: block;
-    max-width: min(100%, 25rem);
     height: auto;
-    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--purple);
+    }
   }
 
   table {
     border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
     margin: 0;
     overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
 
     td,
     th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
+      border: 1px solid var(--gray-3);
       box-sizing: border-box;
+      min-width: 1em;
+      padding: 6px 8px;
       position: relative;
+      vertical-align: top;
 
       > * {
         margin-bottom: 0;
@@ -302,28 +372,68 @@ export default {
     }
 
     th {
+      background-color: var(--gray-1);
       font-weight: bold;
       text-align: left;
-      background-color: #f1f3f5;
     }
 
     .selectedCell:after {
-      z-index: 2;
-      position: absolute;
+      background: var(--gray-2);
       content: "";
       left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
       pointer-events: none;
+      position: absolute;
+      z-index: 2;
     }
 
     .column-resize-handle {
+      background-color: var(--purple);
+      bottom: -2px;
+      pointer-events: none;
       position: absolute;
       right: -2px;
       top: 0;
-      bottom: -2px;
       width: 4px;
-      background-color: #adf;
-      pointer-events: none;
+    }
+  }
+
+  .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  &.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
+
+  /* Figure */
+  figure {
+    align-items: start;
+    border: 2px solid var(--black);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    width: fit-content;
+
+    > *:not(figcaption) {
+      margin: 0;
+      max-width: 100%;
+    }
+
+    &:has(figcaption:active) {
+      border-color: var(--purple);
+    }
+
+    figcaption {
+      border-radius: 0.5rem;
+      border: 2px dashed #0D0D0D20;
+      padding: 0.5rem;
+      text-align: center;
+      width: 100%;
     }
   }
 }

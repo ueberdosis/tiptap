@@ -6,7 +6,18 @@ import {
 } from '@tiptap/core'
 
 export interface HighlightOptions {
+  /**
+   * Allow multiple highlight colors
+   * @default false
+   * @example true
+   */
   multicolor: boolean,
+
+  /**
+   * HTML attributes to add to the highlight element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -15,23 +26,39 @@ declare module '@tiptap/core' {
     highlight: {
       /**
        * Set a highlight mark
+       * @param attributes The highlight attributes
+       * @example editor.commands.setHighlight({ color: 'red' })
        */
       setHighlight: (attributes?: { color: string }) => ReturnType,
       /**
        * Toggle a highlight mark
+       * @param attributes The highlight attributes
+       * @example editor.commands.toggleHighlight({ color: 'red' })
        */
       toggleHighlight: (attributes?: { color: string }) => ReturnType,
       /**
        * Unset a highlight mark
+       * @example editor.commands.unsetHighlight()
        */
       unsetHighlight: () => ReturnType,
     }
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:==)((?:[^~=]+))(?:==))$/
-export const pasteRegex = /(?:^|\s)((?:==)((?:[^~=]+))(?:==))/g
+/**
+ * Matches a highlight to a ==highlight== on input.
+ */
+export const inputRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))$/
 
+/**
+ * Matches a highlight to a ==highlight== on paste.
+ */
+export const pasteRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))/g
+
+/**
+ * This extension allows you to highlight text.
+ * @see https://www.tiptap.dev/api/marks/highlight
+ */
 export const Highlight = Mark.create<HighlightOptions>({
   name: 'highlight',
 
@@ -58,7 +85,7 @@ export const Highlight = Mark.create<HighlightOptions>({
 
           return {
             'data-color': attributes.color,
-            style: `background-color: ${attributes.color}`,
+            style: `background-color: ${attributes.color}; color: inherit`,
           }
         },
       },

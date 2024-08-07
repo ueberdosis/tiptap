@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 // @ts-ignore
 function nodeEqualsType({ types, node }) {
@@ -13,8 +13,8 @@ function nodeEqualsType({ types, node }) {
  */
 
 export interface TrailingNodeOptions {
-  node: string,
-  notAfter: string[],
+  node: string
+  notAfter: string[]
 }
 
 export const TrailingNode = Extension.create<TrailingNodeOptions>({
@@ -23,9 +23,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
   addOptions() {
     return {
       node: 'paragraph',
-      notAfter: [
-        'paragraph',
-      ],
+      notAfter: ['paragraph'],
     }
   },
 

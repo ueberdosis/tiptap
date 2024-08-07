@@ -1,5 +1,5 @@
-import { MaybeReturnType } from '../types'
-import { isFunction } from './isFunction'
+import { MaybeReturnType } from '../types.js'
+import { isFunction } from './isFunction.js'
 
 /**
  * Optionally calls `value` as a function.

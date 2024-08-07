@@ -1,0 +1,45 @@
+name: Documentation feedback
+description: Share what we need to explain better.
+title: "[Documentation]: "
+labels:
+  - "Type: Documentation"
+  - "Category: Open Source"
+  - "Status: New"
+body:
+  - type: input
+    id: url
+    attributes:
+      label: What’s the URL to the page you’re sending feedback for?
+      placeholder: https://tiptap.dev/example
+    validations:
+      required: true
+  - type: textarea
+    id: part-of-the-documentation
+    attributes:
+      label: What part of the documentation needs improvement?
+      placeholder: "I’ve read the following page of the documentation …"
+    validations:
+      required: true
+  - type: textarea
+    id: good-parts
+    attributes:
+      label: What is helpful about that part?
+      placeholder: "I think this part is really good: …"
+    validations:
+      required: true
+  - type: textarea
+    id: bad-parts
+    attributes:
+      label: What is hard to understand, missing or misleading?
+      placeholder: "But you really need to improve …"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything to add? (optional)
+      description: "Add any other context or screenshots here."
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to send us feedback!

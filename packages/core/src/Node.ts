@@ -1,16 +1,14 @@
 import {
-  DOMOutputSpec,
-  Node as ProseMirrorNode,
-  NodeSpec,
-  NodeType,
-} from 'prosemirror-model'
-import { Plugin, Transaction } from 'prosemirror-state'
+  DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType,
+} from '@tiptap/pm/model'
+import { Plugin, Transaction } from '@tiptap/pm/state'
 
-import { NodeConfig } from '.'
-import { Editor } from './Editor'
-import { getExtensionField } from './helpers/getExtensionField'
-import { InputRule } from './InputRule'
-import { PasteRule } from './PasteRule'
+import { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import { NodeConfig } from './index.js'
+import { InputRule } from './InputRule.js'
+import { Mark } from './Mark.js'
+import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
   Attributes,
@@ -20,452 +18,710 @@ import {
   NodeViewRenderer,
   ParentConfig,
   RawCommands,
-} from './types'
-import { callOrReturn } from './utilities/callOrReturn'
-import { mergeDeep } from './utilities/mergeDeep'
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {
-    [key: string]: any;
+    // @ts-ignore - this is a dynamic key
+    [key: string]: any
 
     /**
-     * Name
+     * The extension name - this must be unique.
+     * It will be used to identify the extension.
+     *
+     * @example 'myExtension'
      */
-    name: string,
+    name: string
 
     /**
-     * Priority
+     * The priority of your extension. The higher, the later it will be called
+     * and will take precedence over other extensions with a lower priority.
+     * @default 1000
+     * @example 1001
      */
-    priority?: number,
+    priority?: number
 
     /**
-     * Default options
+     * The default options for this extension.
+     * @example
+     * defaultOptions: {
+     *   myOption: 'foo',
+     *   myOtherOption: 10,
+     * }
      */
-    defaultOptions?: Options,
+    defaultOptions?: Options
 
     /**
-     * Default Options
+     * This method will add options to this extension
+     * @see https://tiptap.dev/guide/custom-extensions#settings
+     * @example
+     * addOptions() {
+     *  return {
+     *    myOption: 'foo',
+     *    myOtherOption: 10,
+     * }
      */
     addOptions?: (this: {
-      name: string,
-      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addOptions'], undefined>,
-    }) => Options,
+      name: string
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addOptions'], undefined>
+    }) => Options
 
     /**
-     * Default Storage
+     * The default storage this extension can save data to.
+     * @see https://tiptap.dev/guide/custom-extensions#storage
+     * @example
+     * defaultStorage: {
+     *   prefetchedUsers: [],
+     *   loading: false,
+     * }
      */
     addStorage?: (this: {
-      name: string,
-      options: Options,
-      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addStorage'], undefined>,
-    }) => Storage,
+      name: string
+      options: Options
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addStorage'], undefined>
+    }) => Storage
 
     /**
-     * Global attributes
+     * This function adds globalAttributes to specific nodes.
+     * @see https://tiptap.dev/guide/custom-extensions#global-attributes
+     * @example
+     * addGlobalAttributes() {
+     *   return [
+     *     {
+             // Extend the following extensions
+     *       types: [
+     *         'heading',
+     *         'paragraph',
+     *       ],
+     *       // … with those attributes
+     *       attributes: {
+     *         textAlign: {
+     *           default: 'left',
+     *           renderHTML: attributes => ({
+     *             style: `text-align: ${attributes.textAlign}`,
+     *           }),
+     *           parseHTML: element => element.style.textAlign || 'left',
+     *         },
+     *       },
+     *     },
+     *   ]
+     * }
      */
     addGlobalAttributes?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addGlobalAttributes'],
-    }) => GlobalAttributes | {},
+      name: string
+      options: Options
+      storage: Storage
+      extensions: (Node | Mark)[]
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addGlobalAttributes']
+    }) => GlobalAttributes
 
     /**
-     * Raw
+     * This function adds commands to the editor
+     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @example
+     * addCommands() {
+     *   return {
+     *     myCommand: () => ({ chain }) => chain().setMark('type', 'foo').run(),
+     *   }
+     * }
      */
     addCommands?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addCommands'],
-    }) => Partial<RawCommands>,
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: NodeType
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addCommands']
+    }) => Partial<RawCommands>
 
     /**
-     * Keyboard shortcuts
+     * This function registers keyboard shortcuts.
+     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @example
+     * addKeyboardShortcuts() {
+     *   return {
+     *     'Mod-l': () => this.editor.commands.toggleBulletList(),
+     *   }
+     * },
      */
     addKeyboardShortcuts?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addKeyboardShortcuts'],
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: NodeType
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addKeyboardShortcuts']
     }) => {
-      [key: string]: KeyboardShortcutCommand,
-    },
+      [key: string]: KeyboardShortcutCommand
+    }
 
     /**
-     * Input rules
+     * This function adds input rules to the editor.
+     * @see https://tiptap.dev/guide/custom-extensions#input-rules
+     * @example
+     * addInputRules() {
+     *   return [
+     *     markInputRule({
+     *       find: inputRegex,
+     *       type: this.type,
+     *     }),
+     *   ]
+     * },
      */
     addInputRules?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addInputRules'],
-    }) => InputRule[],
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: NodeType
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addInputRules']
+    }) => InputRule[]
 
     /**
-     * Paste rules
+     * This function adds paste rules to the editor.
+     * @see https://tiptap.dev/guide/custom-extensions#paste-rules
+     * @example
+     * addPasteRules() {
+     *   return [
+     *     markPasteRule({
+     *       find: pasteRegex,
+     *       type: this.type,
+     *     }),
+     *   ]
+     * },
      */
     addPasteRules?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addPasteRules'],
-    }) => PasteRule[],
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: NodeType
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addPasteRules']
+    }) => PasteRule[]
 
     /**
-     * ProseMirror plugins
+     * This function adds Prosemirror plugins to the editor
+     * @see https://tiptap.dev/guide/custom-extensions#prosemirror-plugins
+     * @example
+     * addProseMirrorPlugins() {
+     *   return [
+     *     customPlugin(),
+     *   ]
+     * }
      */
     addProseMirrorPlugins?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addProseMirrorPlugins'],
-    }) => Plugin[],
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: NodeType
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addProseMirrorPlugins']
+    }) => Plugin[]
 
     /**
-     * Extensions
+     * This function adds additional extensions to the editor. This is useful for
+     * building extension kits.
+     * @example
+     * addExtensions() {
+     *   return [
+     *     BulletList,
+     *     OrderedList,
+     *     ListItem
+     *   ]
+     * }
      */
     addExtensions?: (this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addExtensions'],
-    }) => Extensions,
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addExtensions']
+    }) => Extensions
 
     /**
-     * Extend Node Schema
+     * This function extends the schema of the node.
+     * @example
+     * extendNodeSchema() {
+     *   return {
+     *     group: 'inline',
+     *     selectable: false,
+     *   }
+     * }
      */
-    extendNodeSchema?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['extendNodeSchema'],
-      },
-      extension: Node,
-    ) => Record<string, any>) | null,
+    extendNodeSchema?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            parent: ParentConfig<NodeConfig<Options, Storage>>['extendNodeSchema']
+          },
+          extension: Node,
+        ) => Record<string, any>)
+      | null
 
     /**
-     * Extend Mark Schema
+     * This function extends the schema of the mark.
+     * @example
+     * extendMarkSchema() {
+     *   return {
+     *     group: 'inline',
+     *     selectable: false,
+     *   }
+     * }
      */
-    extendMarkSchema?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['extendMarkSchema'],
-      },
-      extension: Node,
-    ) => Record<string, any>) | null,
+    extendMarkSchema?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            parent: ParentConfig<NodeConfig<Options, Storage>>['extendMarkSchema']
+            editor?: Editor
+          },
+          extension: Node,
+        ) => Record<string, any>)
+      | null
 
     /**
      * The editor is not ready yet.
      */
-    onBeforeCreate?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['onBeforeCreate'],
-    }) => void) | null,
+    onBeforeCreate?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['onBeforeCreate']
+        }) => void)
+      | null
 
     /**
      * The editor is ready.
      */
-    onCreate?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['onCreate'],
-    }) => void) | null,
+    onCreate?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['onCreate']
+        }) => void)
+      | null
 
     /**
      * The content has changed.
      */
-    onUpdate?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['onUpdate'],
-    }) => void) | null,
+    onUpdate?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['onUpdate']
+        }) => void)
+      | null
 
     /**
      * The selection has changed.
      */
-    onSelectionUpdate?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['onSelectionUpdate'],
-    }) => void) | null,
+    onSelectionUpdate?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['onSelectionUpdate']
+        }) => void)
+      | null
 
     /**
      * The editor state has changed.
      */
-    onTransaction?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        editor: Editor,
-        type: NodeType,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['onTransaction'],
-      },
-      props: {
-        transaction: Transaction,
-      },
-    ) => void) | null,
+    onTransaction?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            type: NodeType
+            parent: ParentConfig<NodeConfig<Options, Storage>>['onTransaction']
+          },
+          props: {
+            transaction: Transaction
+          },
+        ) => void)
+      | null
 
     /**
      * The editor is focused.
      */
-    onFocus?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        editor: Editor,
-        type: NodeType,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['onFocus'],
-      },
-      props: {
-        event: FocusEvent,
-      },
-    ) => void) | null,
+    onFocus?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            type: NodeType
+            parent: ParentConfig<NodeConfig<Options, Storage>>['onFocus']
+          },
+          props: {
+            event: FocusEvent
+          },
+        ) => void)
+      | null
 
     /**
      * The editor isn’t focused anymore.
      */
-    onBlur?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        editor: Editor,
-        type: NodeType,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['onBlur'],
-      },
-      props: {
-        event: FocusEvent,
-      },
-    ) => void) | null,
+    onBlur?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            type: NodeType
+            parent: ParentConfig<NodeConfig<Options, Storage>>['onBlur']
+          },
+          props: {
+            event: FocusEvent
+          },
+        ) => void)
+      | null
 
     /**
      * The editor is destroyed.
      */
-    onDestroy?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['onDestroy'],
-    }) => void) | null,
+    onDestroy?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['onDestroy']
+        }) => void)
+      | null
 
     /**
      * Node View
      */
-    addNodeView?: ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      editor: Editor,
-      type: NodeType,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView'],
-    }) => NodeViewRenderer) | null,
+    addNodeView?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: NodeType
+          parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
+        }) => NodeViewRenderer)
+      | null
 
     /**
-     * TopNode
+     * Defines if this node should be a top level node (doc)
+     * @default false
+     * @example true
      */
-    topNode?: boolean,
+    topNode?: boolean
 
     /**
-     * Content
+     * The content expression for this node, as described in the [schema
+     * guide](/docs/guide/#schema.content_expressions). When not given,
+     * the node does not allow any content.
+     *
+     * You can read more about it on the Prosemirror documentation here
+     * @see https://prosemirror.net/docs/guide/#schema.content_expressions
+     * @default undefined
+     * @example content: 'block+'
+     * @example content: 'headline paragraph block*'
      */
-    content?: NodeSpec['content'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['content'],
-    }) => NodeSpec['content']),
+    content?:
+      | NodeSpec['content']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['content']
+          editor?: Editor
+        }) => NodeSpec['content'])
 
     /**
-     * Marks
+     * The marks that are allowed inside of this node. May be a
+     * space-separated string referring to mark names or groups, `"_"`
+     * to explicitly allow all marks, or `""` to disallow marks. When
+     * not given, nodes with inline content default to allowing all
+     * marks, other nodes default to not allowing marks.
+     *
+     * @example marks: 'strong em'
      */
-    marks?: NodeSpec['marks'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['marks'],
-    }) => NodeSpec['marks']),
+    marks?:
+      | NodeSpec['marks']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['marks']
+          editor?: Editor
+        }) => NodeSpec['marks'])
 
     /**
-     * Group
+     * The group or space-separated groups to which this node belongs,
+     * which can be referred to in the content expressions for the
+     * schema.
+     *
+     * By default Tiptap uses the groups 'block' and 'inline' for nodes. You
+     * can also use custom groups if you want to group specific nodes together
+     * and handle them in your schema.
+     * @example group: 'block'
+     * @example group: 'inline'
+     * @example group: 'customBlock' // this uses a custom group
      */
-    group?: NodeSpec['group'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['group'],
-    }) => NodeSpec['group']),
+    group?:
+      | NodeSpec['group']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['group']
+          editor?: Editor
+        }) => NodeSpec['group'])
 
     /**
-     * Inline
+     * Should be set to true for inline nodes. (Implied for text nodes.)
      */
-    inline?: NodeSpec['inline'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['inline'],
-    }) => NodeSpec['inline']),
+    inline?:
+      | NodeSpec['inline']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['inline']
+          editor?: Editor
+        }) => NodeSpec['inline'])
 
     /**
-     * Atom
+     * Can be set to true to indicate that, though this isn't a [leaf
+     * node](https://prosemirror.net/docs/ref/#model.NodeType.isLeaf), it doesn't have directly editable
+     * content and should be treated as a single unit in the view.
+     *
+     * @example atom: true
      */
-    atom?: NodeSpec['atom'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['atom'],
-    }) => NodeSpec['atom']),
+    atom?:
+      | NodeSpec['atom']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['atom']
+          editor?: Editor
+        }) => NodeSpec['atom'])
 
     /**
-     * Selectable
+     * Controls whether nodes of this type can be selected as a [node
+     * selection](https://prosemirror.net/docs/ref/#state.NodeSelection). Defaults to true for non-text
+     * nodes.
+     *
+     * @default true
+     * @example selectable: false
      */
-    selectable?: NodeSpec['selectable'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['selectable'],
-    }) => NodeSpec['selectable']),
+    selectable?:
+      | NodeSpec['selectable']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['selectable']
+          editor?: Editor
+        }) => NodeSpec['selectable'])
 
     /**
-     * Draggable
+     * Determines whether nodes of this type can be dragged without
+     * being selected. Defaults to false.
+     *
+     * @default: false
+     * @example: draggable: true
      */
-    draggable?: NodeSpec['draggable'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['draggable'],
-    }) => NodeSpec['draggable']),
+    draggable?:
+      | NodeSpec['draggable']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['draggable']
+          editor?: Editor
+        }) => NodeSpec['draggable'])
 
     /**
-     * Code
+     * Can be used to indicate that this node contains code, which
+     * causes some commands to behave differently.
      */
-    code?: NodeSpec['code'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['code'],
-    }) => NodeSpec['code']),
+    code?:
+      | NodeSpec['code']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['code']
+          editor?: Editor
+        }) => NodeSpec['code'])
 
     /**
-     * Whitespace
+     * Controls way whitespace in this a node is parsed. The default is
+     * `"normal"`, which causes the [DOM parser](https://prosemirror.net/docs/ref/#model.DOMParser) to
+     * collapse whitespace in normal mode, and normalize it (replacing
+     * newlines and such with spaces) otherwise. `"pre"` causes the
+     * parser to preserve spaces inside the node. When this option isn't
+     * given, but [`code`](https://prosemirror.net/docs/ref/#model.NodeSpec.code) is true, `whitespace`
+     * will default to `"pre"`. Note that this option doesn't influence
+     * the way the node is rendered—that should be handled by `toDOM`
+     * and/or styling.
      */
-    whitespace?: NodeSpec['whitespace'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace'],
-    }) => NodeSpec['whitespace']),
+    whitespace?:
+      | NodeSpec['whitespace']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace']
+          editor?: Editor
+        }) => NodeSpec['whitespace'])
 
     /**
-     * Defining
+     * When enabled, enables both
+     * [`definingAsContext`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingAsContext) and
+     * [`definingForContent`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingForContent).
+     *
+     * @default false
+     * @example isolating: true
      */
-    defining?: NodeSpec['defining'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['defining'],
-    }) => NodeSpec['defining']),
+    defining?:
+      | NodeSpec['defining']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['defining']
+          editor?: Editor
+        }) => NodeSpec['defining'])
 
     /**
-     * Isolating
+     * When enabled (default is false), the sides of nodes of this type
+     * count as boundaries that regular editing operations, like
+     * backspacing or lifting, won't cross. An example of a node that
+     * should probably have this enabled is a table cell.
      */
-    isolating?: NodeSpec['isolating'] | ((this: {
-      name: string,
-      options: Options,
-      storage: Storage,
-      parent: ParentConfig<NodeConfig<Options, Storage>>['isolating'],
-    }) => NodeSpec['isolating']),
+    isolating?:
+      | NodeSpec['isolating']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['isolating']
+          editor?: Editor
+        }) => NodeSpec['isolating'])
 
     /**
-     * Parse HTML
+     * Associates DOM parser information with this node, which can be
+     * used by [`DOMParser.fromSchema`](https://prosemirror.net/docs/ref/#model.DOMParser^fromSchema) to
+     * automatically derive a parser. The `node` field in the rules is
+     * implied (the name of this node will be filled in automatically).
+     * If you supply your own parser, you do not need to also specify
+     * parsing rules in your schema.
+     *
+     * @example parseHTML: [{ tag: 'div', attrs: { 'data-id': 'my-block' } }]
      */
-    parseHTML?: (
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML'],
-      },
-    ) => NodeSpec['parseDOM'],
+    parseHTML?: (this: {
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML']
+      editor?: Editor
+    }) => NodeSpec['parseDOM']
 
     /**
-     * Render HTML
+     * A description of a DOM structure. Can be either a string, which is
+     * interpreted as a text node, a DOM node, which is interpreted as
+     * itself, a `{dom, contentDOM}` object, or an array.
+     *
+     * An array describes a DOM element. The first value in the array
+     * should be a string—the name of the DOM element, optionally prefixed
+     * by a namespace URL and a space. If the second element is plain
+     * object, it is interpreted as a set of attributes for the element.
+     * Any elements after that (including the 2nd if it's not an attribute
+     * object) are interpreted as children of the DOM elements, and must
+     * either be valid `DOMOutputSpec` values, or the number zero.
+     *
+     * The number zero (pronounced “hole”) is used to indicate the place
+     * where a node's child nodes should be inserted. If it occurs in an
+     * output spec, it should be the only child element in its parent
+     * node.
+     *
+     * @example toDOM: ['div[data-id="my-block"]', { class: 'my-block' }, 0]
      */
-    renderHTML?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML'],
-      },
-      props: {
-        node: ProseMirrorNode,
-        HTMLAttributes: Record<string, any>,
-      }
-    ) => DOMOutputSpec) | null,
+    renderHTML?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML']
+            editor?: Editor
+          },
+          props: {
+            node: ProseMirrorNode
+            HTMLAttributes: Record<string, any>
+          },
+        ) => DOMOutputSpec)
+      | null
 
     /**
-     * Render Text
+     * renders the node as text
+     * @example renderText: () => 'foo
      */
-    renderText?: ((
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['renderText'],
-      },
-      props: {
-        node: ProseMirrorNode,
-        pos: number,
-        parent: ProseMirrorNode,
-        index: number,
-      }
-    ) => string) | null,
+    renderText?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            parent: ParentConfig<NodeConfig<Options, Storage>>['renderText']
+            editor?: Editor
+          },
+          props: {
+            node: ProseMirrorNode
+            pos: number
+            parent: ProseMirrorNode
+            index: number
+          },
+        ) => string)
+      | null
 
     /**
-     * Add Attributes
+     * Add attributes to the node
+     * @example addAttributes: () => ({ class: 'foo' })
      */
-    addAttributes?: (
-      this: {
-        name: string,
-        options: Options,
-        storage: Storage,
-        parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes'],
-      },
-    ) => Attributes | {},
+    addAttributes?: (this: {
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
+      editor?: Editor
+    }) => Attributes | {}
   }
 }
 
+/**
+ * The Node class is used to create custom node extensions.
+ * @see https://tiptap.dev/api/extensions#create-a-new-extension
+ */
 export class Node<Options = any, Storage = any> {
   type = 'node'
 
@@ -492,31 +748,29 @@ export class Node<Options = any, Storage = any> {
 
     this.name = this.config.name
 
-    if (config.defaultOptions) {
-      console.warn(`[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`)
+    if (config.defaultOptions && Object.keys(config.defaultOptions).length > 0) {
+      console.warn(
+        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`,
+      )
     }
 
     // TODO: remove `addOptions` fallback
     this.options = this.config.defaultOptions
 
     if (this.config.addOptions) {
-      this.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
-        this,
-        'addOptions',
-        {
+      this.options = callOrReturn(
+        getExtensionField<AnyConfig['addOptions']>(this, 'addOptions', {
           name: this.name,
-        },
-      ))
+        }),
+      )
     }
 
-    this.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
-      this,
-      'addStorage',
-      {
+    this.storage = callOrReturn(
+      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
         name: this.name,
         options: this.options,
-      },
-    )) || {}
+      }),
+    ) || {}
   }
 
   static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> = {}) {
@@ -526,53 +780,50 @@ export class Node<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend()
-
-    extension.options = mergeDeep(this.options, options) as Options
-
-    extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
-      extension,
-      'addStorage',
-      {
-        name: extension.name,
-        options: extension.options,
+    const extension = this.extend<Options, Storage>({
+      ...this.config,
+      addOptions: () => {
+        return mergeDeep(this.options as Record<string, any>, options) as Options
       },
-    ))
+    })
+
+    // Always preserve the current name
+    extension.name = this.name
+    // Set the parent to be our parent
+    extension.parent = this.parent
 
     return extension
   }
 
-  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedStorage>> = {}) {
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedStorage>> = {},
+  ) {
     const extension = new Node<ExtendedOptions, ExtendedStorage>(extendedConfig)
 
     extension.parent = this
 
     this.child = extension
 
-    extension.name = extendedConfig.name
-      ? extendedConfig.name
-      : extension.parent.name
+    extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions) {
-      console.warn(`[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`)
+    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
+      console.warn(
+        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
+      )
     }
 
-    extension.options = callOrReturn(getExtensionField<AnyConfig['addOptions']>(
-      extension,
-      'addOptions',
-      {
+    extension.options = callOrReturn(
+      getExtensionField<AnyConfig['addOptions']>(extension, 'addOptions', {
         name: extension.name,
-      },
-    ))
+      }),
+    )
 
-    extension.storage = callOrReturn(getExtensionField<AnyConfig['addStorage']>(
-      extension,
-      'addStorage',
-      {
+    extension.storage = callOrReturn(
+      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
         name: extension.name,
         options: extension.options,
-      },
-    ))
+      }),
+    )
 
     return extension
   }

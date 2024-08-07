@@ -1,15 +1,18 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-      toggleCode
-    </button>
-    <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">
-      setCode
-    </button>
-    <button @click="editor.chain().focus().unsetCode().run()" :disabled="!editor.isActive('code')">
-      unsetCode
-    </button>
-
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+          Toggle code
+        </button>
+        <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">
+          Set code
+        </button>
+        <button @click="editor.chain().focus().unsetCode().run()" :disabled="!editor.isActive('code')">
+          Unset code
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -55,18 +58,18 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
+  /* Code and preformatted text styles */
   code {
-    font-size: 0.9rem;
-    padding: 0.25em;
-    border-radius: 0.25em;
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
-    box-decoration-break: clone;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
 }
 </style>

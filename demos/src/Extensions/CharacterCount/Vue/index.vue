@@ -1,9 +1,38 @@
 <template>
-  <div>
+  <div class="container" v-if="editor">
     <editor-content :editor="editor" />
 
-    <div class="character-count" v-if="editor">
-      {{ editor.storage.characterCount.characters() }}/{{ limit }} characters
+    <div :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === limit}">
+      <svg
+        height="20"
+        width="20"
+        viewBox="0 0 20 20"
+      >
+        <circle
+          r="10"
+          cx="10"
+          cy="10"
+          fill="#e9ecef"
+        />
+        <circle
+          r="5"
+          cx="10"
+          cy="10"
+          fill="transparent"
+          stroke="currentColor"
+          stroke-width="10"
+          :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
+          transform="rotate(-90) translate(-20)"
+        />
+        <circle
+          r="6"
+          cx="10"
+          cy="10"
+          fill="white"
+        />
+      </svg>
+
+      {{ editor.storage.characterCount.characters() }} / {{ limit }} characters
       <br>
       {{ editor.storage.characterCount.words() }} words
     </div>
@@ -47,6 +76,12 @@ export default {
     })
   },
 
+  computed: {
+    percentage() {
+      return Math.round((100 / this.limit) * this.editor.storage.characterCount.characters())
+    },
+  },
+
   beforeUnmount() {
     this.editor.destroy()
   },
@@ -55,14 +90,28 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 }
 
+/* Character count */
 .character-count {
-  margin-top: 1rem;
-  color: #868e96;
+  align-items: center;
+  color: var(--gray-5);
+  display: flex;
+  font-size: 0.75rem;
+  gap: .5rem;
+  margin: 1.5rem;
+
+  svg {
+    color: var(--purple);
+  }
+
+  &--warning,
+  &--warning svg {
+    color: var(--red);
+  }
 }
 </style>

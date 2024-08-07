@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration-cursor",
   "description": "collaboration cursor extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.5.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,23 +12,37 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-collaboration-cursor.cjs.js",
-  "umd": "dist/tiptap-extension-collaboration-cursor.umd.js",
-  "module": "dist/tiptap-extension-collaboration-cursor.esm.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-collaboration-cursor/src/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-collaboration-cursor/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+  "devDependencies": {
+    "@tiptap/core": "^2.5.9",
+    "y-prosemirror": "^1.2.11"
   },
-  "dependencies": {
-    "y-prosemirror": "1.0.20"
+  "peerDependencies": {
+    "@tiptap/core": "^2.5.9",
+    "y-prosemirror": "^1.2.11"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-collaboration-cursor"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

@@ -1,11 +1,12 @@
 import { Editor } from '@tiptap/core'
+import { MarkType } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
-import { MarkType } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
 
 type PasteHandlerOptions = {
-  editor: Editor,
-  type: MarkType,
+  editor: Editor
+  defaultProtocol: string
+  type: MarkType
 }
 
 export function pasteHandler(options: PasteHandlerOptions): Plugin {
@@ -27,7 +28,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           textContent += node.textContent
         })
 
-        const link = find(textContent).find(item => item.isLink && item.value === textContent)
+        const link = find(textContent, { defaultProtocol: options.defaultProtocol }).find(item => item.isLink && item.value === textContent)
 
         if (!textContent || !link) {
           return false

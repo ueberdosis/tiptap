@@ -10,6 +10,7 @@ import React, { useCallback } from 'react'
 
 export default () => {
   const editor = useEditor({
+    editable: true,
     extensions: [
       Document,
       Paragraph,
@@ -17,6 +18,8 @@ export default () => {
       Code,
       Link.configure({
         openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
       }),
     ],
     content: `
@@ -57,15 +60,19 @@ export default () => {
 
   return (
     <>
-      <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
-        setLink
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetLink().run()}
-        disabled={!editor.isActive('link')}
-      >
-        unsetLink
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
+            Set link
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetLink().run()}
+            disabled={!editor.isActive('link')}
+          >
+            Unset link
+          </button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
     </>
   )

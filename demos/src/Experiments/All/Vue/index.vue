@@ -1,69 +1,71 @@
 <template>
-  <div>
-    <div v-if="editor" class="menu">
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        bold
-      </button>
-      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        italic
-      </button>
-      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        strike
-      </button>
-      <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-        code
-      </button>
-      <button @click="editor.chain().focus().unsetAllMarks().run()">
-        clear marks
-      </button>
-      <button @click="editor.chain().focus().clearNodes().run()">
-        clear nodes
-      </button>
-      <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-        paragraph
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        h1
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        h2
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-        h3
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
-        h4
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
-        h5
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
-        h6
-      </button>
-      <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        bullet list
-      </button>
-      <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-        ordered list
-      </button>
-      <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-        code block
-      </button>
-      <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-        blockquote
-      </button>
-      <button @click="editor.chain().focus().setHorizontalRule().run()">
-        horizontal rule
-      </button>
-      <button @click="editor.chain().focus().setHardBreak().run()">
-        hard break
-      </button>
-      <button @click="editor.chain().focus().undo().run()">
-        undo
-      </button>
-      <button @click="editor.chain().focus().redo().run()">
-        redo
-      </button>
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+          Bold
+        </button>
+        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+          Italic
+        </button>
+        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+          Strike
+        </button>
+        <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
+          Code
+        </button>
+        <button @click="editor.chain().focus().unsetAllMarks().run()">
+          Clear marks
+        </button>
+        <button @click="editor.chain().focus().clearNodes().run()">
+          Clear nodes
+        </button>
+        <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+          Paragraph
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+          H1
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+          H2
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+          H3
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+          H4
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+          H5
+        </button>
+        <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
+          h6
+        </button>
+        <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+          Bullet list
+        </button>
+        <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+          Ordered list
+        </button>
+        <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+          Code block
+        </button>
+        <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+          Blockquote
+        </button>
+        <button @click="editor.chain().focus().setHorizontalRule().run()">
+          Horizontal rule
+        </button>
+        <button @click="editor.chain().focus().setHardBreak().run()">
+          Hard break
+        </button>
+        <button @click="editor.chain().focus().undo().run()">
+          Undo
+        </button>
+        <button @click="editor.chain().focus().redo().run()">
+          Redo
+        </button>
+      </div>
     </div>
     <editor-content :editor="editor" />
   </div>
@@ -106,7 +108,9 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { lowlight } from 'lowlight'
+import { all, createLowlight } from 'lowlight'
+
+const lowlight = createLowlight(all)
 
 export default {
   components: {
@@ -176,18 +180,18 @@ export default {
           Hi there,
         </h2>
         <p>
-          this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+          this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
         </p>
         <ul>
           <li>
-            That’s a bullet list with one …
+            That's a bullet list with one …
           </li>
           <li>
             … or two list items.
           </li>
         </ul>
         <p>
-          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+          Isn't that great? And all of that is editable. But wait, there's more. Let's try a code block:
         </p>
         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
@@ -201,10 +205,10 @@ export default {
     console.log(i);
 }</code></pre>
         <p>
-          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+          I know, I know, this is impressive. It's only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
         </p>
         <blockquote>
-          Wow, that’s amazing. Good work, boy! 👏
+          Wow, that's amazing. Good work, boy! 👏
           <br />
           — Mom
         </blockquote>
@@ -212,9 +216,9 @@ export default {
         <p style="text-align: center">first paragraph</p>
         <p style="text-align: right">second paragraph</p>
         <h2>Color</h2>
-        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <p><span style="color: #958DF1">Oh, for some reason that's purple.</span></p>
         <h2>Highlight</h2>
-        <p>This isn’t highlighted.</s></p>
+        <p>This isn't highlighted.</s></p>
         <p><mark>But that one is.</mark></p>
         <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
         <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
@@ -232,26 +236,26 @@ export default {
             </tr>
             <tr>
               <td>Cyndi Lauper</td>
-              <td>singer</td>
-              <td>songwriter</td>
-              <td>actress</td>
+              <td>Singer</td>
+              <td>Songwriter</td>
+              <td>Actress</td>
             </tr>
             <tr>
               <td>Marie Curie</td>
-              <td>scientist</td>
-              <td>chemist</td>
-              <td>physicist</td>
+              <td>Scientist</td>
+              <td>Chemist</td>
+              <td>Physicist</td>
             </tr>
             <tr>
               <td>Indira Gandhi</td>
-              <td>prime minister</td>
-              <td colspan="2">politician</td>
+              <td>Prime minister</td>
+              <td colspan="2">Politician</td>
             </tr>
           </tbody>
         </table>
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
+        <img src="https://placehold.co/800x400" />
+        <img src="https://placehold.co/800x400/6A00F5/white" />
       `,
     })
   },
@@ -263,16 +267,73 @@ export default {
 </script>
 
 <style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
+  /* Placeholder (on every new line) */
+  .is-empty::before {
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  a {
+    color: var(--purple);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--purple-contrast);
+    }
+  }
+
+  /* List styles */
   ul,
   ol {
     padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
 
+  /* Task list specific styles */
+  ul[data-type="taskList"] {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+
+    li {
+      align-items: flex-start;
+      display: flex;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
+      }
+    }
+
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    ul[data-type="taskList"] {
+      margin: 0;
+    }
+  }
+
+  /* Heading styles */
   h1,
   h2,
   h3,
@@ -280,27 +341,64 @@ export default {
   h5,
   h6 {
     line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
   }
 
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* Display empty p */
+  p:empty::before {
+    content: '\00a0';
+  }
+
+  /* Code and preformatted text styles */
   code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
+    background: var(--black);
     border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
 
     code {
-      color: inherit;
-      padding: 0;
       background: none;
+      color: inherit;
       font-size: 0.8rem;
+      padding: 0;
     }
 
+    /* Code styling */
     .hljs-comment,
     .hljs-quote {
       color: #616161;
@@ -316,7 +414,7 @@ export default {
     .hljs-name,
     .hljs-selector-id,
     .hljs-selector-class {
-      color: #F98181;
+      color: #f98181;
     }
 
     .hljs-number,
@@ -326,23 +424,23 @@ export default {
     .hljs-literal,
     .hljs-type,
     .hljs-params {
-      color: #FBBC88;
+      color: #fbbc88;
     }
 
     .hljs-string,
     .hljs-symbol,
     .hljs-bullet {
-      color: #B9F18D;
+      color: #b9f18d;
     }
 
     .hljs-title,
     .hljs-section {
-      color: #FAF594;
+      color: #faf594;
     }
 
     .hljs-keyword,
     .hljs-selector-tag {
-      color: #70CFF8;
+      color: #70cff8;
     }
 
     .hljs-emphasis {
@@ -354,37 +452,91 @@ export default {
     }
   }
 
+  .code-block {
+    position: relative;
+
+    select {
+      position: absolute;
+      background-color: var(--white);
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="Black" d="M7 10l5 5 5-5z"/></svg>');
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+  }
+
+  mark {
+    background-color: #FAF594;
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    padding: 0.1rem 0.3rem;
+  }
+
   img {
-    max-width: 100%;
+    display: block;
     height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--purple);
+      transition: outline 0.15s;
+    }
   }
 
   blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 
   hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    border-top: 1px solid var(--gray-2);
     margin: 2rem 0;
   }
 
+  .mention {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: var(--purple);
+    padding: 0.1rem 0.3rem;
+  }
+
+  /* Color swatches */
+  .color {
+    white-space: nowrap;
+
+    &::before {
+      background-color: var(--color);
+      border: 1px solid rgba(128, 128, 128, 0.3);
+      border-radius: 2px;
+      content: " ";
+      display: inline-block;
+      height: 1em;
+      margin-bottom: 0.15em;
+      margin-right: 0.1em;
+      vertical-align: middle;
+      width: 1em;
+    }
+  }
+
+  /* Table-specific styling */
   table {
     border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
     margin: 0;
     overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
 
     td,
     th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
+      border: 1px solid var(--gray-3);
       box-sizing: border-box;
+      min-width: 1em;
+      padding: 6px 8px;
       position: relative;
+      vertical-align: top;
 
       > * {
         margin-bottom: 0;
@@ -392,87 +544,91 @@ export default {
     }
 
     th {
+      background-color: var(--gray-1);
       font-weight: bold;
       text-align: left;
-      background-color: #f1f3f5;
     }
 
     .selectedCell:after {
-      z-index: 2;
-      position: absolute;
+      background: var(--gray-2);
       content: "";
       left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
       pointer-events: none;
+      position: absolute;
+      z-index: 2;
     }
 
     .column-resize-handle {
+      background-color: var(--purple);
+      bottom: -2px;
+      pointer-events: none;
       position: absolute;
       right: -2px;
       top: 0;
-      bottom: -2px;
       width: 4px;
-      background-color: #adf;
-      pointer-events: none;
-    }
-
-    p {
-      margin: 0;
     }
   }
 
-  ul[data-type="taskList"] {
-    list-style: none;
-    padding: 0;
+  .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
 
-    p {
-      margin: 0;
+  &.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
+}
+
+/* Floating/Bubble Menus */
+.bubble-menu {
+  background-color: var(--white);
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  padding: 0.2rem;
+
+  button {
+    background-color: unset;
+
+    &:hover {
+      background-color: var(--gray-3);
     }
 
-    li {
-      display: flex;
+    &.is-active {
+      background-color: var(--purple);
 
-      > label {
-        flex: 0 0 auto;
-        margin-right: 0.5rem;
-        user-select: none;
-      }
-
-      > div {
-        flex: 1 1 auto;
+      &:hover {
+        background-color: var(--purple-contrast);
       }
     }
   }
 }
 
-.ProseMirror p.is-empty::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #adb5bd;
-  pointer-events: none;
-  height: 0;
-}
+.floating-menu {
+  display: flex;
+  background-color: var(--gray-3);
+  padding: 0.1rem;
+  border-radius: 0.5rem;
 
-.tableWrapper {
-  overflow-x: auto;
-}
+  button {
+    background-color: unset;
+    padding: 0.275rem 0.425rem;
+    border-radius: 0.3rem;
 
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize;
-}
+    &:hover {
+      background-color: var(--gray-3);
+    }
 
-.mention {
-  border: 1px solid #000;
-  border-radius: 0.4rem;
-  padding: 0.1rem 0.3rem;
-  box-decoration-break: clone;
-}
+    &.is-active {
+      background-color: var(--white);
+      color: var(--purple);
 
-.menu {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 1;
+      &:hover {
+        color: var(--purple-contrast);
+      }
+    }
+  }
 }
 </style>

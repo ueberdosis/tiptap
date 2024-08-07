@@ -1,23 +1,22 @@
 import {
-  Fragment,
-  Node as ProseMirrorNode,
-  NodeType,
-  Slice,
-} from 'prosemirror-model'
-import { TextSelection } from 'prosemirror-state'
-import { canSplit } from 'prosemirror-transform'
+  Fragment, Node as ProseMirrorNode, NodeType, Slice,
+} from '@tiptap/pm/model'
+import { TextSelection } from '@tiptap/pm/state'
+import { canSplit } from '@tiptap/pm/transform'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     splitListItem: {
       /**
        * Splits one list item into two list items.
+       * @param typeOrName The type or name of the node.
+       * @example editor.commands.splitListItem('listItem')
        */
-      splitListItem: (typeOrName: string | NodeType) => ReturnType,
+      splitListItem: (typeOrName: string | NodeType) => ReturnType
     }
   }
 }
@@ -30,7 +29,7 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
 
   // @ts-ignore
   // eslint-disable-next-line
-  const node: ProseMirrorNode = state.selection.node
+    const node: ProseMirrorNode = state.selection.node
 
   if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
     return false
@@ -50,8 +49,8 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
     // command handle lifting.
     if (
       $from.depth === 2
-      || $from.node(-3).type !== type
-      || $from.index(-2) !== $from.node(-2).childCount - 1
+        || $from.node(-3).type !== type
+        || $from.index(-2) !== $from.node(-2).childCount - 1
     ) {
       return false
     }
@@ -59,11 +58,7 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
     if (dispatch) {
       let wrap = Fragment.empty
       // eslint-disable-next-line
-      const depthBefore = $from.index(-1)
-        ? 1
-        : $from.index(-2)
-          ? 2
-          : 3
+        const depthBefore = $from.index(-1) ? 1 : $from.index(-2) ? 2 : 3
 
       // Build a fragment containing empty versions of the structure
       // from the outer list item to the parent node of the cursor
@@ -72,11 +67,7 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
       }
 
       // eslint-disable-next-line
-      const depthAfter = $from.indexAfter(-1) < $from.node(-2).childCount
-        ? 1
-        : $from.indexAfter(-2) < $from.node(-3).childCount
-          ? 2
-          : 3
+        const depthAfter = $from.indexAfter(-1) < $from.node(-2).childCount ? 1 : $from.indexAfter(-2) < $from.node(-3).childCount ? 2 : 3
 
       // Add a second list item with an empty default start node
       const newNextTypeAttributes = getSplittedAttributes(
@@ -114,9 +105,7 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
     return true
   }
 
-  const nextType = $to.pos === $from.end()
-    ? grandParent.contentMatchAt(0).defaultType
-    : null
+  const nextType = $to.pos === $from.end() ? grandParent.contentMatchAt(0).defaultType : null
 
   const newTypeAttributes = getSplittedAttributes(
     extensionAttributes,
@@ -132,7 +121,10 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
   tr.delete($from.pos, $to.pos)
 
   const types = nextType
-    ? [{ type, attrs: newTypeAttributes }, { type: nextType, attrs: newNextTypeAttributes }]
+    ? [
+      { type, attrs: newTypeAttributes },
+      { type: nextType, attrs: newNextTypeAttributes },
+    ]
     : [{ type, attrs: newTypeAttributes }]
 
   if (!canSplit(tr.doc, $from.pos, 2)) {
@@ -140,7 +132,19 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
   }
 
   if (dispatch) {
+    const { selection, storedMarks } = state
+    const { splittableMarks } = editor.extensionManager
+    const marks = storedMarks || (selection.$to.parentOffset && selection.$from.marks())
+
     tr.split($from.pos, 2, types).scrollIntoView()
+
+    if (!marks || !dispatch) {
+      return true
+    }
+
+    const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+
+    tr.ensureMarks(filteredMarks)
   }
 
   return true

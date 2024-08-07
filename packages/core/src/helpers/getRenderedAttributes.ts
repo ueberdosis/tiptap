@@ -1,9 +1,12 @@
-import { Mark, Node } from 'prosemirror-model'
+import { Mark, Node } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types'
-import { mergeAttributes } from '../utilities/mergeAttributes'
+import { ExtensionAttribute } from '../types.js'
+import { mergeAttributes } from '../utilities/mergeAttributes.js'
 
-export function getRenderedAttributes(nodeOrMark: Node | Mark, extensionAttributes: ExtensionAttribute[]): Record<string, any> {
+export function getRenderedAttributes(
+  nodeOrMark: Node | Mark,
+  extensionAttributes: ExtensionAttribute[],
+): Record<string, any> {
   return extensionAttributes
     .filter(item => item.attribute.rendered)
     .map(item => {

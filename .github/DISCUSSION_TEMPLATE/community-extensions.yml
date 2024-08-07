@@ -1,0 +1,51 @@
+title: "Community Extension: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hey! Thanks for your time and effort to create a new community extension! Please make sure to fill out the form below.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe how your extension works and what it does.
+      placeholder: "My extension does …"
+    validations:
+      required: true
+  - type: textarea
+    id: installation
+    attributes:
+      label: Installation
+      description: Please describe how users can install your extension.
+      placeholder: "npm install …"
+    validations:
+      required: true
+  - type: textarea
+    id: usage
+    attributes:
+      label: Usage
+      description: Please describe how users can use your extension in their editor.
+      placeholder: "To use my extension you have to …"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Please select the type of this extension.
+      options:
+        - "Node"
+        - "Mark"
+        - "Prosemirror plugin"
+        - "Package or Kit"
+        - "Other"
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: Other
+      description: Feel free to add any other information about your extension.
+      placeholder: "I hope you like …"
+    validations:
+      required: false

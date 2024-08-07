@@ -1,5 +1,5 @@
-import { Strike } from './strike'
+import { Strike } from './strike.js'
 
-export * from './strike'
+export * from './strike.js'
 
 export default Strike

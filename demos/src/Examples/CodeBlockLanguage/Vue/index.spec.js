@@ -15,7 +15,8 @@ context('/src/Examples/CodeBlockLanguage/Vue/', () => {
 
       expect(initialCount).to.be.greaterThan(0)
 
-      cy.get('.ProseMirror select').select('java')
+      cy.wait(100)
+      cy.get('.tiptap select').select('java')
       cy.wait(500)
 
       cy.get('[class^=hljs]').then(newElements => {

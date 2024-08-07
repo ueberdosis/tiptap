@@ -1,5 +1,5 @@
-import { ListItem } from './list-item'
+import { ListItem } from './list-item.js'
 
-export * from './list-item'
+export * from './list-item.js'
 
 export default ListItem

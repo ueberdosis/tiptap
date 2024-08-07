@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "2.0.0-beta.199",
+  "version": "2.5.9",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,20 +12,31 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-extension-floating-menu.cjs.js",
-  "umd": "dist/tiptap-extension-floating-menu.umd.js",
-  "module": "dist/tiptap-extension-floating-menu.esm.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/extension-floating-menu/src/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
   "types": "dist/packages/extension-floating-menu/src/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
+  "devDependencies": {
+    "@tiptap/core": "^2.5.9",
+    "@tiptap/pm": "^2.5.9"
+  },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+    "@tiptap/core": "^2.5.9",
+    "@tiptap/pm": "^2.5.9"
   },
   "dependencies": {
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -33,5 +44,9 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-floating-menu"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
 }

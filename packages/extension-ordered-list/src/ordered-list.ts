@@ -1,8 +1,36 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
+import ListItem from '../../extension-list-item/src/index.js'
+import TextStyle from '../../extension-text-style/src/index.js'
+
 export interface OrderedListOptions {
+  /**
+   * The node type name for list items.
+   * @default 'listItem'
+   * @example 'myListItem'
+   */
   itemTypeName: string,
+
+  /**
+   * The HTML attributes for an ordered list node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
+
+  /**
+   * Keep the marks when splitting a list item.
+   * @default false
+   * @example true
+   */
+  keepMarks: boolean,
+
+  /**
+   * Keep the attributes when splitting a list item.
+   * @default false
+   * @example true
+   */
+  keepAttributes: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -10,14 +38,24 @@ declare module '@tiptap/core' {
     orderedList: {
       /**
        * Toggle an ordered list
+       * @example editor.commands.toggleOrderedList()
        */
       toggleOrderedList: () => ReturnType,
     }
   }
 }
 
+/**
+ * Matches an ordered list to a 1. on input (or any number followed by a dot).
+ */
 export const inputRegex = /^(\d+)\.\s$/
 
+/**
+ * This extension allows you to create ordered lists.
+ * This requires the ListItem extension
+ * @see https://www.tiptap.dev/api/nodes/ordered-list
+ * @see https://www.tiptap.dev/api/nodes/list-item
+ */
 export const OrderedList = Node.create<OrderedListOptions>({
   name: 'orderedList',
 
@@ -25,6 +63,8 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return {
       itemTypeName: 'listItem',
       HTMLAttributes: {},
+      keepMarks: false,
+      keepAttributes: false,
     }
   },
 
@@ -65,8 +105,11 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addCommands() {
     return {
-      toggleOrderedList: () => ({ commands }) => {
-        return commands.toggleList(this.name, this.options.itemTypeName)
+      toggleOrderedList: () => ({ commands, chain }) => {
+        if (this.options.keepAttributes) {
+          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
+        }
+        return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
       },
     }
   },
@@ -78,13 +121,26 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   addInputRules() {
-    return [
-      wrappingInputRule({
+    let inputRule = wrappingInputRule({
+      find: inputRegex,
+      type: this.type,
+      getAttributes: match => ({ start: +match[1] }),
+      joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
+    })
+
+    if (this.options.keepMarks || this.options.keepAttributes) {
+      inputRule = wrappingInputRule({
         find: inputRegex,
         type: this.type,
-        getAttributes: match => ({ start: +match[1] }),
+        keepMarks: this.options.keepMarks,
+        keepAttributes: this.options.keepAttributes,
+        getAttributes: match => ({ start: +match[1], ...this.editor.getAttributes(TextStyle.name) }),
         joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
-      }),
+        editor: this.editor,
+      })
+    }
+    return [
+      inputRule,
     ]
   },
 })

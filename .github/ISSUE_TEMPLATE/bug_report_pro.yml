@@ -1,0 +1,91 @@
+name: Bug Report (Tiptap Pro)
+title: "[PRO]: "
+description: If you've encountered a bug with Tiptap Pro features, please report it here.
+labels:
+  - "Type: Bug"
+  - "Category: Pro"
+  - "Status: New"
+body:
+  - type: markdown
+    attributes:
+      value: "### Please ensure this issue is for Tiptap Pro features only. Provide as much detail as possible to help us identify the issue quickly."
+  - type: input
+    id: packages
+    attributes:
+      label: Affected Packages
+      description: List all Tiptap Pro packages where you experienced the bug.
+      placeholder: core, extension-mention, react
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version(s)
+      description: Specify the version(s) of the affected packages.
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Description of the Bug
+      description: Provide a clear and concise description of what the bug is.
+      placeholder: "The issue occurs when..."
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser Used
+      description: Select the browser where the bug was observed.
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "### Helpful Code Examples"
+  - type: markdown
+    attributes:
+      value: "Providing a CodeSandbox link is crucial for diagnosing issues faster. Below are templates you might use:"
+  - type: markdown
+    attributes:
+      value: |
+        - JavaScript: [Template](https://codesandbox.io/s/tiptap-js-fv1lyo)
+        - React: [Template](https://codesandbox.io/s/tiptap-react-qidlsv)
+        - Vue 2: [Template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
+        - Vue 3: [Template](https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h)
+  - type: input
+    id: sandbox
+    attributes:
+      label: Code Example (Preferred)
+      description: "Provide a link to a CodeSandbox or other code repository to help us reproduce the issue."
+      placeholder: https://codesandbox.io/s/example
+    validations:
+      required: false
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: Describe what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context (Optional)
+      description: "Add any other context about the problem here, like screenshots or videos."
+  - type: checkboxes
+    attributes:
+      label: Dependency Updates
+      description: "Have you updated your dependencies? It can often resolve issues."
+      options:
+        - label: Yes, I've updated all my dependencies.
+          required: true
+  - type: markdown
+    attributes:
+      value: "Thank you for contributing to Tiptap Pro by reporting this issue!"
