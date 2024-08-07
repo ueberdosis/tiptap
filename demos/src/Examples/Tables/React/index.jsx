@@ -157,8 +157,8 @@ export default () => {
       <table>
         <tbody>
           <tr>
-            <th>Name</th>
-            <th colspan="3">Description</th>
+            <th colwidth="200">Name</th>
+            <th colspan="3" colwidth="150,100">Description</th>
           </tr>
           <tr>
             <td>Cyndi Lauper</td>
