@@ -1,5 +1,5 @@
 import { getExtensionField } from '../helpers/getExtensionField.js'
-import { NodeConfig } from '../index.js'
+import type { NodeConfig } from '../index.js'
 import { Extensions } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 import { splitExtensions } from './splitExtensions.js'

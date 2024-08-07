@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "es2019",
     "module": "esnext",
     "strict": true,
@@ -16,7 +17,7 @@
     "allowJs": true,
     "checkJs": false,
     "paths": {
-      "@tiptap/*": ["packages/*/dist", "packages/*/src"]
+      "@tiptap/*": ["packages/*/src", "packages/*/dist"]
     },
     "lib": [
       "esnext",
