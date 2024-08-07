@@ -100,13 +100,12 @@ class EditorInstanceManager {
   private getInitialEditor() {
     if (this.options.current.immediatelyRender === undefined) {
       if (isSSR || isNext) {
-        // TODO in the next major release, we should throw an error here
         if (isDev) {
           /**
            * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
            * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
            */
-          console.warn(
+          throw new Error(
             'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
           )
         }
