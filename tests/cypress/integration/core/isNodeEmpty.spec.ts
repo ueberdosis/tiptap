@@ -3,13 +3,53 @@
 import { getSchema, isNodeEmpty } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
+import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
 
-const schema = getSchema([StarterKit])
-const modifiedSchema = getSchema([StarterKit.configure({ document: false }), Document.extend({ content: 'heading block*' })])
-const imageSchema = getSchema([StarterKit.configure({ document: false }), Document.extend({ content: 'image block*' }), Image])
+const schema = getSchema([StarterKit, Mention])
+const modifiedSchema = getSchema([
+  StarterKit.configure({ document: false }),
+  Document.extend({ content: 'heading block*' }),
+])
+const imageSchema = getSchema([
+  StarterKit.configure({ document: false }),
+  Document.extend({ content: 'image block*' }),
+  Image,
+])
 
 describe('isNodeEmpty', () => {
+  describe('ignoreWhitespace=true', () => {
+    it('should return true when text has only whitespace', () => {
+      const node = schema.nodeFromJSON({ type: 'text', text: ' \n\t\r\n' })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+    })
+
+    it('should return true when a paragraph has only whitespace', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{ type: 'text', text: ' \n\t\r\n' }],
+      })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+    })
+
+    it('should return true for a hardbreak', () => {
+      const node = schema.nodeFromJSON({ type: 'hardBreak' })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+    })
+
+    it('should return true when a paragraph has only a hardbreak', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{ type: 'hardBreak' }],
+      })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+    })
+  })
+
   describe('with default schema', () => {
     it('should return false when text has content', () => {
       const node = schema.nodeFromJSON({ type: 'text', text: 'Hello world!' })
@@ -21,6 +61,32 @@ describe('isNodeEmpty', () => {
       const node = schema.nodeFromJSON({
         type: 'paragraph',
         content: [{ type: 'text', text: 'Hello world!' }],
+      })
+
+      expect(isNodeEmpty(node)).to.eq(false)
+    })
+
+    it('should return false when a paragraph has hardbreaks', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{ type: 'hardBreak' }],
+      })
+
+      expect(isNodeEmpty(node)).to.eq(false)
+    })
+
+    it('should return false when a paragraph has a mention', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [
+          {
+            type: 'mention',
+            attrs: {
+              id: 'Winona Ryder',
+              label: null,
+            },
+          },
+        ],
       })
 
       expect(isNodeEmpty(node)).to.eq(false)
@@ -95,9 +161,7 @@ describe('isNodeEmpty', () => {
         content: [
           {
             type: 'heading',
-            content: [
-              { type: 'text', text: 'Hello world!' },
-            ],
+            content: [{ type: 'text', text: 'Hello world!' }],
           },
         ],
       })
@@ -112,9 +176,7 @@ describe('isNodeEmpty', () => {
           { type: 'heading' },
           {
             type: 'paragraph',
-            content: [
-              { type: 'text', text: 'Hello world!' },
-            ],
+            content: [{ type: 'text', text: 'Hello world!' }],
           },
         ],
       })
@@ -137,9 +199,7 @@ describe('isNodeEmpty', () => {
     it('should return true when a document has an empty heading with attrs', () => {
       const node = modifiedSchema.nodeFromJSON({
         type: 'doc',
-        content: [
-          { type: 'heading', content: [], attrs: { level: 2 } },
-        ],
+        content: [{ type: 'heading', content: [], attrs: { level: 2 } }],
       })
 
       expect(isNodeEmpty(node)).to.eq(true)
@@ -177,7 +237,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).to.eq(false)
     })
   })
 })

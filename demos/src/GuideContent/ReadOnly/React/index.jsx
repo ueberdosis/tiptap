@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 export default () => {
   const [editable, setEditable] = useState(false)
   const editor = useEditor({
+    shouldRerenderOnTransaction: false,
     editable,
     content: `
         <p>

@@ -62,7 +62,7 @@ function EditorInstance({ shouldOptimizeRendering }) {
   })
 
   return (
-    <>
+    <div>
       <div className="control-group">
         <div>Number of renders: <span id="render-count">{countRenderRef.current}</span></div>
       </div>
@@ -89,12 +89,13 @@ function EditorInstance({ shouldOptimizeRendering }) {
         </BubbleMenu>
       )}
       <EditorContent editor={editor} />
-    </>
+    </div>
   )
 }
 
 const EditorControls = () => {
   const [shouldOptimizeRendering, setShouldOptimizeRendering] = React.useState(true)
+  const [rendered, setRendered] = React.useState(true)
 
   return (
     <>
@@ -123,8 +124,9 @@ const EditorControls = () => {
             Render every transaction (default behavior)
           </label>
         </div>
+        <button onClick={() => setRendered(a => !a)}>Toggle rendered</button>
       </div>
-      <EditorInstance shouldOptimizeRendering={shouldOptimizeRendering} />
+      {rendered && <EditorInstance shouldOptimizeRendering={shouldOptimizeRendering} />}
     </>
   )
 }

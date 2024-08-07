@@ -7,13 +7,6 @@ export interface CodeBlockLowlightOptions extends CodeBlockOptions {
    * The lowlight instance.
    */
   lowlight: any,
-
-  /**
-   * The default language.
-   * @default null
-   * @example 'javascript'
-   */
-  defaultLanguage: string | null | undefined,
 }
 
 /**
@@ -25,7 +18,6 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
     return {
       ...this.parent?.(),
       lowlight: {},
-      defaultLanguage: null,
     }
   },
 
