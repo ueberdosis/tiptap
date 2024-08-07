@@ -38,8 +38,8 @@ declare module '@tiptap/core' {
     /**
      * The priority of your extension. The higher, the later it will be called
      * and will take precedence over other extensions with a lower priority.
-     * @default 1000
-     * @example 1001
+     * @default 100
+     * @example 101
      */
     priority?: number
 
