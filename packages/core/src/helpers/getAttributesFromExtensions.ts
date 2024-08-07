@@ -1,4 +1,4 @@
-import { MarkConfig, NodeConfig } from '../index.js'
+import type { MarkConfig, NodeConfig } from '../index.js'
 import {
   AnyConfig,
   Attribute,

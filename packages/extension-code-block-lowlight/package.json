@@ -15,7 +15,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-code-block-lowlight/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -23,7 +23,7 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/extension-code-block-lowlight/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
@@ -31,12 +31,15 @@
   "devDependencies": {
     "@tiptap/core": "^3.0.0-next.0",
     "@tiptap/extension-code-block": "^3.0.0-next.0",
-    "@tiptap/pm": "^3.0.0-next.0"
+    "@tiptap/pm": "^3.0.0-next.0",
+    "lowlight": "^2 || ^3"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.0",
     "@tiptap/extension-code-block": "^3.0.0-next.0",
-    "@tiptap/pm": "^3.0.0-next.0"
+    "@tiptap/pm": "^3.0.0-next.0",
+    "lowlight": "^2 || ^3",
+    "highlight.js": "^11"
   },
   "repository": {
     "type": "git",
@@ -44,7 +47,6 @@
     "directory": "packages/extension-code-block-lowlight"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup"
   }
 }

@@ -2,7 +2,7 @@ import {
   MarkSpec, NodeSpec, Schema, TagParseRule,
 } from '@tiptap/pm/model'
 
-import { Editor, MarkConfig, NodeConfig } from '../index.js'
+import type { Editor, MarkConfig, NodeConfig } from '../index.js'
 import { AnyConfig, Extensions } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 import { isEmptyObject } from '../utilities/isEmptyObject.js'
