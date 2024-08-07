@@ -221,7 +221,12 @@ export function VueNodeViewRenderer(
     if (!(props.editor as Editor).contentComponent) {
       return {}
     }
+    // check for class-component and normalize if neccessary
+    const normalizedComponent = typeof component === 'function' && '__vccOpts' in component
+      // eslint-disable-next-line no-underscore-dangle
+      ? component.__vccOpts as Component
+      : component
 
-    return new VueNodeView(component, props, options) as unknown as ProseMirrorNodeView
+    return new VueNodeView(normalizedComponent, props, options) as unknown as ProseMirrorNodeView
   }
 }
