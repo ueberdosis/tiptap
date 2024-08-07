@@ -354,6 +354,7 @@ declare module '@tiptap/core' {
             parent: ParentConfig<NodeConfig<Options, Storage>>['onTransaction']
           },
           props: {
+            editor: Editor
             transaction: Transaction
           },
         ) => void)
