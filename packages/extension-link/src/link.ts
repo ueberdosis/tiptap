@@ -140,9 +140,7 @@ export const Link = Mark.create<LinkOptions>({
     reset()
   },
 
-  inclusive() {
-    return this.options.autolink
-  },
+  inclusive: false,
 
   addOptions() {
     return {
