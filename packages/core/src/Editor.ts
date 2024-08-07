@@ -13,7 +13,7 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, DecorationManager, Editable, FocusEvents, Keymap, Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -253,6 +253,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       }),
       Commands,
       FocusEvents,
+      DecorationManager,
       Keymap,
       Tabindex,
     ] : []

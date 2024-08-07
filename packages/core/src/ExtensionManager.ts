@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
 import { Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
-import { Decoration, EditorView } from '@tiptap/pm/view'
+import { Decoration as PMDecoration, EditorView } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions.js'
@@ -14,6 +14,7 @@ import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled.js'
 import { splitExtensions } from './helpers/splitExtensions.js'
 import { Mark, NodeConfig } from './index.js'
 import { InputRule, inputRulesPlugin } from './InputRule.js'
+import { Decoration } from './lib/decorations/Decoration.js'
 import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
 import { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
@@ -292,7 +293,7 @@ export class ExtensionManager {
             node: ProsemirrorNode,
             view: EditorView,
             getPos: (() => number) | boolean,
-            decorations: Decoration[],
+            decorations: PMDecoration[],
           ) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
@@ -309,6 +310,34 @@ export class ExtensionManager {
           return [extension.name, nodeview]
         }),
     )
+  }
+
+  get decorations(): Decoration[] {
+    const { editor } = this
+
+    const decorations = this.extensions.map(extension => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: extension.storage,
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const addDecorations = getExtensionField<AnyConfig['addDecorations']>(
+        extension,
+        'addDecorations',
+        context,
+      )
+
+      if (!addDecorations) {
+        return
+      }
+
+      return addDecorations()
+    }).filter(deco => deco !== undefined).flat()
+
+    return decorations
   }
 
   /**

@@ -7,6 +7,7 @@ import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import { NodeConfig } from './index.js'
 import { InputRule } from './InputRule.js'
+import { Decoration } from './lib/decorations/Decoration.js'
 import { Mark } from './Mark.js'
 import { PasteRule } from './PasteRule.js'
 import {
@@ -238,6 +239,23 @@ declare module '@tiptap/core' {
       storage: Storage
       parent: ParentConfig<NodeConfig<Options, Storage>>['addExtensions']
     }) => Extensions
+
+    /**
+     * This function adds decorations to the current editor state. This can be used
+     * to render decorations into the editor without using the Prosemirror plugin API.
+     * @example
+     * addDecorations() {
+     *   return [
+     *     new DocumentStateDecoration(0)
+     *   ]
+     * }
+     */
+    addDecorations?: (this: {
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addDecorations']
+    }) => Decoration[]
 
     /**
      * This function extends the schema of the node.
