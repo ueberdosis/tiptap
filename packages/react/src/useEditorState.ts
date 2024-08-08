@@ -1,7 +1,6 @@
+import type { Editor } from '@tiptap/core'
 import { useDebugValue, useEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
-
-import type { Editor } from './Editor.js'
 
 export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
   editor: TEditor;
