@@ -1,6 +1,7 @@
+import { Editor } from '@tiptap/core'
 import React, { createContext, ReactNode, useContext } from 'react'
 
-import { Editor } from './Editor.js'
+import { Editor as ReactEditor } from './Editor.js'
 import { EditorContent } from './EditorContent.js'
 import { useEditor, UseEditorOptions } from './useEditor.js'
 
@@ -44,7 +45,7 @@ export function EditorProvider({
       {slotBefore}
       <EditorConsumer>
         {({ editor: currentEditor }) => (
-          <EditorContent editor={currentEditor} />
+          <EditorContent editor={currentEditor as ReactEditor} />
         )}
       </EditorConsumer>
       {children}

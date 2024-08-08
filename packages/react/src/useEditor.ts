@@ -1,4 +1,4 @@
-import { EditorOptions } from '@tiptap/core'
+import { type EditorOptions, Editor } from '@tiptap/core'
 import {
   DependencyList,
   MutableRefObject,
@@ -9,7 +9,6 @@ import {
 } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
-import { Editor } from './Editor.js'
 import { useEditorState } from './useEditorState.js'
 
 const isDev = process.env.NODE_ENV !== 'production'
