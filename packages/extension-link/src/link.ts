@@ -164,6 +164,9 @@ export const Link = Mark.create<LinkOptions>({
     return {
       href: {
         default: null,
+        parseHTML(element) {
+          return element.getAttribute('href')
+        },
       },
       target: {
         default: this.options.HTMLAttributes.target,
@@ -187,7 +190,7 @@ export const Link = Mark.create<LinkOptions>({
         if (!href || !isAllowedUri(href)) {
           return false
         }
-        return { href }
+        return null
       },
     }]
   },
