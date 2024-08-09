@@ -58,25 +58,23 @@ class ReactNodeView extends NodeView<
       this.component.displayName = capitalizeFirstChar(this.extension.name)
     }
 
-    const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
-      const Component = this.component
-      const onDragStart = this.onDragStart.bind(this)
-      const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
-        if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
-          element.appendChild(this.contentDOMElement)
-        }
+    const onDragStart = this.onDragStart.bind(this)
+    const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
+      if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
+        element.appendChild(this.contentDOMElement)
       }
-
-      return (
-        <>
-          {/* @ts-ignore */}
-          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-            {/* @ts-ignore */}
-            <Component {...componentProps} />
-          </ReactNodeViewContext.Provider>
-        </>
-      )
     }
+    const context = { onDragStart, nodeViewContentRef }
+    const Component = this.component
+    // For performance reasons, we memoize the provider component
+    // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
+    const ReactNodeViewProvider: React.FunctionComponent = React.memo(componentProps => {
+      return (
+        <ReactNodeViewContext.Provider value={context}>
+          {React.createElement(Component, componentProps)}
+        </ReactNodeViewContext.Provider>
+      )
+    })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 

@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
+import { flushSync } from 'react-dom'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
@@ -121,7 +122,15 @@ export class ReactRenderer<R = unknown, P = unknown> {
       })
     }
 
-    this.render()
+    if (this.editor.isInitialized) {
+      // On first render, we need to flush the render synchronously
+      // Renders afterwards can be async, but this fixes a cursor positioning issue
+      flushSync(() => {
+        this.render()
+      })
+    } else {
+      this.render()
+    }
   }
 
   render(): void {
@@ -134,7 +143,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
       }
     }
 
-    this.reactElement = <Component {...props } />
+    this.reactElement = React.createElement(Component, props)
 
     this.editor?.contentComponent?.setRenderer(this.id, this)
   }
