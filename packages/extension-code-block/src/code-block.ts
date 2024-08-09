@@ -1,5 +1,10 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import {
+  Plugin,
+  PluginKey,
+  Selection,
+  TextSelection,
+} from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
@@ -17,6 +22,12 @@ export interface CodeBlockOptions {
    * @default true
    */
   exitOnArrowDown: boolean
+  /**
+   * The default language.
+   * @default null
+   * @example 'js'
+   */
+  defaultLanguage: string | null | undefined
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    * @default {}
@@ -66,6 +77,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
+      defaultLanguage: null,
       HTMLAttributes: {},
     }
   },
@@ -83,7 +95,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addAttributes() {
     return {
       language: {
-        default: null,
+        default: this.options.defaultLanguage,
         parseHTML: element => {
           const { languageClassPrefix } = this.options
           const classNames = [...(element.firstElementChild?.classList || [])]
@@ -222,7 +234,10 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         const nodeAfter = doc.nodeAt(after)
 
         if (nodeAfter) {
-          return false
+          return editor.commands.command(({ tr }) => {
+            tr.setSelection(Selection.near(doc.resolve(after)))
+            return true
+          })
         }
 
         return editor.commands.exitCode()

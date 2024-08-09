@@ -50,6 +50,9 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  preview: {
+    port: 3000,
+  },
   optimizeDeps: {
     include: includeDependencies,
   },
@@ -62,11 +65,16 @@ export default defineConfig({
     },
   },
 
+  worker: {
+    format: 'es',
+  },
+
   plugins: [
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
+    // @ts-ignore
     vue(),
     // @ts-ignore
     react(),

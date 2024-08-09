@@ -54,4 +54,26 @@ context('/src/Nodes/HorizontalRule/React/', () => {
       cy.get('.tiptap hr').should('exist')
     })
   })
+
+  it('should replace selection correctly', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>Example Text</p><p>Example Text</p>')
+
+      // From the start of the document to the start of the second textblock.
+      editor.commands.setTextSelection({ from: 0, to: 15 })
+      editor.commands.setHorizontalRule()
+
+      expect(editor.getHTML()).to.eq('<hr><p>Example Text</p>')
+
+      editor.commands.setContent('<p>Example Text</p><p>Example Text</p>')
+
+      // From the end of the first textblock to the start of the second textblock.
+      editor.commands.setTextSelection({ from: 13, to: 15 })
+      editor.commands.setHorizontalRule()
+
+      expect(editor.getHTML()).to.eq(
+        '<p>Example Text</p><hr><p>Example Text</p>',
+      )
+    })
+  })
 })

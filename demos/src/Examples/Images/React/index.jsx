@@ -37,9 +37,13 @@ export default () => {
   }
 
   return (
-    <div>
-      <button onClick={addImage}>add image from URL</button>
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={addImage}>Add image from URL</button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

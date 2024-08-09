@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper class="vue-component">
-    <span class="label" contenteditable="false">Vue Component</span>
-    <node-view-content class="content" />
+    <label contenteditable="false">Vue Component</label>
+    <node-view-content class="content is-editable" />
   </node-view-wrapper>
 </template>
 
@@ -19,32 +19,37 @@ export default {
 </script>
 
 <style lang="scss">
-.vue-component {
-  background: #FAF594;
-  border: 3px solid #0D0D0D;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-  position: relative;
-}
+.tiptap {
+  /* Vue component */
+  .vue-component {
+    background-color: var(--purple-light);
+    border: 2px solid var(--purple);
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+    position: relative;
 
-.label {
-  margin-left: 1rem;
-  background-color: #0D0D0D;
-  font-size: 0.6rem;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #fff;
-  position: absolute;
-  top: 0;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0 0 0.5rem 0.5rem;
-}
+    label {
+      background-color: var(--purple);
+      border-radius: 0 0 0.5rem 0;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      top: 0;
+    }
 
-.content {
-  margin: 2.5rem 1rem 1rem;
-  padding: 0.5rem;
-  border: 2px dashed #0D0D0D20;
-  border-radius: 0.5rem;
+    .content {
+      margin-top: 1.5rem;
+      padding: 1rem;
+
+      &.is-editable {
+        border: 2px dashed var(--gray-3);
+        border-radius: 0.5rem;
+        margin: 2.5rem 1rem 1rem;
+        padding: 0.5rem;
+      }
+    }
+  }
 }
 </style>

@@ -34,8 +34,8 @@ declare module '@tiptap/core' {
     /**
      * The priority of your extension. The higher, the later it will be called
      * and will take precedence over other extensions with a lower priority.
-     * @default 1000
-     * @example 1001
+     * @default 100
+     * @example 101
      */
     priority?: number
 
@@ -51,7 +51,7 @@ declare module '@tiptap/core' {
 
     /**
      * This method will add options to this extension
-     * @see https://tiptap.dev/guide/custom-extensions#settings
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#settings
      * @example
      * addOptions() {
      *  return {
@@ -66,7 +66,7 @@ declare module '@tiptap/core' {
 
     /**
      * The default storage this extension can save data to.
-     * @see https://tiptap.dev/guide/custom-extensions#storage
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#storage
      * @example
      * defaultStorage: {
      *   prefetchedUsers: [],
@@ -81,7 +81,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds globalAttributes to specific nodes.
-     * @see https://tiptap.dev/guide/custom-extensions#global-attributes
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#global-attributes
      * @example
      * addGlobalAttributes() {
      *   return [
@@ -115,7 +115,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds commands to the editor
-     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#commands
      * @example
      * addCommands() {
      *   return {
@@ -133,7 +133,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function registers keyboard shortcuts.
-     * @see https://tiptap.dev/guide/custom-extensions#keyboard-shortcuts
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#keyboard-shortcuts
      * @example
      * addKeyboardShortcuts() {
      *   return {
@@ -153,7 +153,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds input rules to the editor.
-     * @see https://tiptap.dev/guide/custom-extensions#input-rules
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#input-rules
      * @example
      * addInputRules() {
      *   return [
@@ -174,7 +174,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds paste rules to the editor.
-     * @see https://tiptap.dev/guide/custom-extensions#paste-rules
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#paste-rules
      * @example
      * addPasteRules() {
      *   return [
@@ -195,7 +195,7 @@ declare module '@tiptap/core' {
 
     /**
      * This function adds Prosemirror plugins to the editor
-     * @see https://tiptap.dev/guide/custom-extensions#prosemirror-plugins
+     * @see https://tiptap.dev/docs/editor/guide/custom-extensions#prosemirror-plugins
      * @example
      * addProseMirrorPlugins() {
      *   return [
@@ -339,6 +339,7 @@ declare module '@tiptap/core' {
             parent: ParentConfig<ExtensionConfig<Options, Storage>>['onTransaction']
           },
           props: {
+            editor: Editor
             transaction: Transaction
           },
         ) => void)
@@ -457,17 +458,17 @@ export class Extension<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend()
+    const extension = this.extend<Options, Storage>({
+      ...this.config,
+      addOptions: () => {
+        return mergeDeep(this.options as Record<string, any>, options) as Options
+      },
+    })
 
+    // Always preserve the current name
+    extension.name = this.name
+    // Set the parent to be our parent
     extension.parent = this.parent
-    extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
-
-    extension.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
-        name: extension.name,
-        options: extension.options,
-      }),
-    )
 
     return extension
   }
@@ -483,7 +484,7 @@ export class Extension<Options = any, Storage = any> {
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions) {
+    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
       console.warn(
         `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
       )
