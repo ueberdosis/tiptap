@@ -1,14 +1,15 @@
-// @ts-nocheck
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeView } from '@tiptap/pm/view'
 
+import { getColStyleDeclaration } from './utilities/colStyle.js'
+
 export function updateColumns(
   node: ProseMirrorNode,
-  colgroup: Element,
-  table: Element,
+  colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
+  table: HTMLTableElement,
   cellMinWidth: number,
   overrideCol?: number,
-  overrideValue?: any,
+  overrideValue?: number,
 ) {
   let totalWidth = 0
   let fixedWidth = true
@@ -19,7 +20,7 @@ export function updateColumns(
     const { colspan, colwidth } = row.child(i).attrs
 
     for (let j = 0; j < colspan; j += 1, col += 1) {
-      const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j]
+      const hasWidth = overrideCol === col ? overrideValue : (colwidth && colwidth[j]) as number | undefined
       const cssWidth = hasWidth ? `${hasWidth}px` : ''
 
       totalWidth += hasWidth || cellMinWidth
@@ -28,11 +29,14 @@ export function updateColumns(
         fixedWidth = false
       }
 
-      if (!nextDOM) {
-        colgroup.appendChild(document.createElement('col')).style.width = cssWidth
+      if (nextDOM === null) {
+        const colElement = document.createElement('col')
+
+        colElement.style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+        colgroup.appendChild(colElement)
       } else {
-        if (nextDOM.style.width !== cssWidth) {
-          nextDOM.style.width = cssWidth
+        if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
+          (nextDOM as HTMLTableColElement).style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
         }
 
         nextDOM = nextDOM.nextSibling
@@ -43,7 +47,7 @@ export function updateColumns(
   while (nextDOM) {
     const after = nextDOM.nextSibling
 
-    nextDOM.parentNode.removeChild(nextDOM)
+    nextDOM.parentNode!.removeChild(nextDOM)
     nextDOM = after
   }
 
@@ -61,13 +65,13 @@ export class TableView implements NodeView {
 
   cellMinWidth: number
 
-  dom: Element
+  dom: HTMLDivElement
 
-  table: Element
+  table: HTMLTableElement
 
-  colgroup: Element
+  colgroup: HTMLTableColElement
 
-  contentDOM: Element
+  contentDOM: HTMLTableSectionElement
 
   constructor(node: ProseMirrorNode, cellMinWidth: number) {
     this.node = node
