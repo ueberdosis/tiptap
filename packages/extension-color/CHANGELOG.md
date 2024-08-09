@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [86a8553]
+- Updated dependencies [c0e631f]
+- Updated dependencies [e31673d]
+  - @tiptap/core@3.0.0
+  - @tiptap/extension-text-style@3.0.0
+
 ## 2.5.9
 
 ### Patch Changes
