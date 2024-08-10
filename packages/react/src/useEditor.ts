@@ -136,18 +136,20 @@ class EditorInstanceManager {
    * Create a new editor instance. And attach event listeners.
    */
   private createEditor(): Editor {
-    const editor = new Editor(this.options.current)
-
-    // Always call the most recent version of the callback function by default
-    editor.on('beforeCreate', (...args) => this.options.current.onBeforeCreate?.(...args))
-    editor.on('blur', (...args) => this.options.current.onBlur?.(...args))
-    editor.on('create', (...args) => this.options.current.onCreate?.(...args))
-    editor.on('destroy', (...args) => this.options.current.onDestroy?.(...args))
-    editor.on('focus', (...args) => this.options.current.onFocus?.(...args))
-    editor.on('selectionUpdate', (...args) => this.options.current.onSelectionUpdate?.(...args))
-    editor.on('transaction', (...args) => this.options.current.onTransaction?.(...args))
-    editor.on('update', (...args) => this.options.current.onUpdate?.(...args))
-    editor.on('contentError', (...args) => this.options.current.onContentError?.(...args))
+    const optionsToApply: Partial<EditorOptions> = {
+      ...this.options.current,
+      // Always call the most recent version of the callback function by default
+      onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
+      onBlur: (...args) => this.options.current.onBlur?.(...args),
+      onCreate: (...args) => this.options.current.onCreate?.(...args),
+      onDestroy: (...args) => this.options.current.onDestroy?.(...args),
+      onFocus: (...args) => this.options.current.onFocus?.(...args),
+      onSelectionUpdate: (...args) => this.options.current.onSelectionUpdate?.(...args),
+      onTransaction: (...args) => this.options.current.onTransaction?.(...args),
+      onUpdate: (...args) => this.options.current.onUpdate?.(...args),
+      onContentError: (...args) => this.options.current.onContentError?.(...args),
+    }
+    const editor = new Editor(optionsToApply)
 
     // no need to keep track of the event listeners, they will be removed when the editor is destroyed
 
@@ -215,7 +217,6 @@ class EditorInstanceManager {
    * Recreate the editor instance if the dependencies have changed.
    */
   private refreshEditorInstance(deps: DependencyList) {
-
     if (this.editor && !this.editor.isDestroyed) {
       // Editor instance already exists
       if (this.previousDeps === null) {
