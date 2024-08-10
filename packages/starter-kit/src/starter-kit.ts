@@ -12,11 +12,14 @@ import { Heading, HeadingOptions } from '@tiptap/extension-heading'
 import { History, HistoryOptions } from '@tiptap/extension-history'
 import { HorizontalRule, HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
 import { Italic, ItalicOptions } from '@tiptap/extension-italic'
+import { Link, LinkOptions } from '@tiptap/extension-link'
 import { ListItem, ListItemOptions } from '@tiptap/extension-list-item'
+import { ListKeymap, ListKeymapOptions } from '@tiptap/extension-list-keymap'
 import { OrderedList, OrderedListOptions } from '@tiptap/extension-ordered-list'
 import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
+import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
 
 export interface StarterKitOptions {
   /**
@@ -104,6 +107,18 @@ export interface StarterKitOptions {
   listItem: Partial<ListItemOptions> | false,
 
   /**
+   * If set to false, the listItemKeymap extension will not be registered
+   * @example listKeymap: false
+   */
+  listKeymap: Partial<ListKeymapOptions> | false,
+
+  /**
+   * If set to false, the link extension will not be registered
+   * @example link: false
+   */
+  link: Partial<LinkOptions> | false,
+
+  /**
    * If set to false, the orderedList extension will not be registered
    * @example orderedList: false
    */
@@ -126,6 +141,12 @@ export interface StarterKitOptions {
    * @example text: false
    */
   text: false,
+
+  /**
+   * If set to false, the underline extension will not be registered
+   * @example underline: false
+   */
+  underline: Partial<UnderlineOptions> | false,
 }
 
 /**
@@ -195,6 +216,14 @@ export const StarterKit = Extension.create<StarterKitOptions>({
       extensions.push(ListItem.configure(this.options?.listItem))
     }
 
+    if (this.options.listKeymap !== false) {
+      extensions.push(ListKeymap.configure(this.options?.listKeymap))
+    }
+
+    if (this.options.link !== false) {
+      extensions.push(Link.configure(this.options?.link))
+    }
+
     if (this.options.orderedList !== false) {
       extensions.push(OrderedList.configure(this.options?.orderedList))
     }
@@ -209,6 +238,10 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.text !== false) {
       extensions.push(Text.configure(this.options?.text))
+    }
+
+    if (this.options.underline !== false) {
+      extensions.push(Underline.configure(this.options?.underline))
     }
 
     return extensions
