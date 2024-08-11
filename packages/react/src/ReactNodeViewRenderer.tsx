@@ -58,31 +58,33 @@ class ReactNodeView extends NodeView<
       this.component.displayName = capitalizeFirstChar(this.extension.name)
     }
 
-    const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
-      const Component = this.component
-      const onDragStart = this.onDragStart.bind(this)
-      const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
-        if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
-          element.appendChild(this.contentDOMElement)
-        }
+    const onDragStart = this.onDragStart.bind(this)
+    const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
+      if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
+        element.appendChild(this.contentDOMElement)
       }
-
-      return (
-        <>
-          {/* @ts-ignore */}
-          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-            {/* @ts-ignore */}
-            <Component {...componentProps} />
-          </ReactNodeViewContext.Provider>
-        </>
-      )
     }
+    const context = { onDragStart, nodeViewContentRef }
+    const Component = this.component
+    // For performance reasons, we memoize the provider component
+    // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
+    const ReactNodeViewProvider: React.FunctionComponent = React.memo(componentProps => {
+      return (
+        <ReactNodeViewContext.Provider value={context}>
+          {React.createElement(Component, componentProps)}
+        </ReactNodeViewContext.Provider>
+      )
+    })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
-    this.contentDOMElement = this.node.isLeaf
-      ? null
-      : document.createElement(this.node.isInline ? 'span' : 'div')
+    if (this.node.isLeaf) {
+      this.contentDOMElement = null
+    } else if (this.options.contentDOMElementTag) {
+      this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+    } else {
+      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+    }
 
     if (this.contentDOMElement) {
       // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
@@ -134,8 +136,16 @@ class ReactNodeView extends NodeView<
     const { from, to } = this.editor.state.selection
 
     if (from <= this.getPos() && to >= this.getPos() + this.node.nodeSize) {
+      if (this.renderer.props.selected) {
+        return
+      }
+
       this.selectNode()
     } else {
+      if (!this.renderer.props.selected) {
+        return
+      }
+
       this.deselectNode()
     }
   }
@@ -181,12 +191,14 @@ class ReactNodeView extends NodeView<
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   destroy() {

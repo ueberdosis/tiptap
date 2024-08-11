@@ -25,7 +25,7 @@ context('/src/Examples/Savvy/Vue/', () => {
   tests.forEach(test => {
     it(`should parse ${test[0]} correctly`, () => {
       cy.get('.tiptap')
-        .type(test[0])
+        .type(`${test[0]} `)
         .should('contain', test[1])
     })
   })

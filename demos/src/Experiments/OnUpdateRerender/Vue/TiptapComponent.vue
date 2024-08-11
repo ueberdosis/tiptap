@@ -6,7 +6,7 @@
 
 <script>
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-2'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {
@@ -33,14 +33,14 @@ export default {
       ],
       content: `
         <p>
-          This is a radically reduced version of tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
+          This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
         </p>
         <p>
           The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different.
         </p>
       `,
       onUpdate: ({ editor: currentEditor }) => {
-        console.log(this.count, 'onUpdate', currentEditor.getHTML())
+        console.log(this.count, 'onUpdate', currentEditor.getHTML()) // eslint-disable-line no-console
       },
     })
   },

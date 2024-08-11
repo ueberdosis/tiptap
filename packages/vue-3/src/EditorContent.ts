@@ -1,5 +1,4 @@
 import {
-  DefineComponent,
   defineComponent,
   getCurrentInstance,
   h,
@@ -8,7 +7,6 @@ import {
   PropType,
   Ref,
   ref,
-  Teleport,
   unref,
   watchEffect,
 } from 'vue'
@@ -45,6 +43,16 @@ export const EditorContent = defineComponent({
           // @ts-ignore
           editor.contentComponent = instance.ctx._
 
+          if (instance) {
+            editor.appContext = {
+              ...instance.appContext,
+              // Vue internally uses prototype chain to forward/shadow injects across the entire component chain
+              // so don't use object spread operator or 'Object.assign' and just set `provides` as is on editor's appContext
+              // @ts-expect-error forward instance's 'provides' into appContext
+              provides: instance.provides,
+            }
+          }
+
           editor.setOptions({
             element,
           })
@@ -69,6 +77,7 @@ export const EditorContent = defineComponent({
       }
 
       editor.contentComponent = null
+      editor.appContext = null
 
       if (!editor.options.element.firstChild) {
         return
@@ -87,35 +96,11 @@ export const EditorContent = defineComponent({
   },
 
   render() {
-    const vueRenderers: any[] = []
-
-    if (this.editor) {
-      this.editor.vueRenderers.forEach(vueRenderer => {
-        const node = h(
-          Teleport,
-          {
-            to: vueRenderer.teleportElement,
-            key: vueRenderer.id,
-          },
-          h(
-            vueRenderer.component as DefineComponent,
-            {
-              ref: vueRenderer.id,
-              ...vueRenderer.props,
-            },
-          ),
-        )
-
-        vueRenderers.push(node)
-      })
-    }
-
     return h(
       'div',
       {
         ref: (el: any) => { this.rootEl = el },
       },
-      ...vueRenderers,
     )
   },
 })

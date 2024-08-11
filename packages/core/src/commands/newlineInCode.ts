@@ -7,6 +7,7 @@ declare module '@tiptap/core' {
     newlineInCode: {
       /**
        * Add a newline character in code.
+       * @example editor.commands.newlineInCode()
        */
       newlineInCode: () => ReturnType
     }

@@ -142,12 +142,14 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.renderer.updateProps({
       selected: true,
     })
+    this.renderer.element.classList.add('ProseMirror-selectednode')
   }
 
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
     })
+    this.renderer.element.classList.remove('ProseMirror-selectednode')
   }
 
   getDecorationClasses() {

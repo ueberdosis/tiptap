@@ -1,8 +1,14 @@
 import { Editor } from '@tiptap/core'
 import React from 'react'
+import { flushSync } from 'react-dom'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
+/**
+ * Check if a component is a class component.
+ * @param Component
+ * @returns {boolean}
+ */
 function isClassComponent(Component: any) {
   return !!(
     typeof Component === 'function'
@@ -11,6 +17,11 @@ function isClassComponent(Component: any) {
   )
 }
 
+/**
+ * Check if a component is a forward ref component.
+ * @param Component
+ * @returns {boolean}
+ */
 function isForwardRefComponent(Component: any) {
   return !!(
     typeof Component === 'object'
@@ -19,10 +30,40 @@ function isForwardRefComponent(Component: any) {
 }
 
 export interface ReactRendererOptions {
+  /**
+   * The editor instance.
+   * @type {Editor}
+   */
   editor: Editor,
+
+  /**
+   * The props for the component.
+   * @type {Record<string, any>}
+   * @default {}
+   */
   props?: Record<string, any>,
+
+  /**
+   * The tag name of the element.
+   * @type {string}
+   * @default 'div'
+   */
   as?: string,
+
+  /**
+   * The class name of the element.
+   * @type {string}
+   * @default ''
+   * @example 'foo bar'
+   */
   className?: string,
+
+  /**
+   * The attributes of the element.
+   * @type {Record<string, string>}
+   * @default {}
+   * @example { 'data-foo': 'bar' }
+   */
   attrs?: Record<string, string>,
 }
 
@@ -31,6 +72,17 @@ type ComponentType<R, P> =
   React.FunctionComponent<P> |
   React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>;
 
+/**
+ * The ReactRenderer class. It's responsible for rendering React components inside the editor.
+ * @example
+ * new ReactRenderer(MyComponent, {
+ *   editor,
+ *   props: {
+ *     foo: 'bar',
+ *   },
+ *   as: 'span',
+ * })
+*/
 export class ReactRenderer<R = unknown, P = unknown> {
   id: string
 
@@ -70,7 +122,15 @@ export class ReactRenderer<R = unknown, P = unknown> {
       })
     }
 
-    this.render()
+    if (this.editor.isInitialized) {
+      // On first render, we need to flush the render synchronously
+      // Renders afterwards can be async, but this fixes a cursor positioning issue
+      flushSync(() => {
+        this.render()
+      })
+    } else {
+      this.render()
+    }
   }
 
   render(): void {
@@ -83,7 +143,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
       }
     }
 
-    this.reactElement = <Component {...props } />
+    this.reactElement = React.createElement(Component, props)
 
     this.editor?.contentComponent?.setRenderer(this.id, this)
   }
