@@ -68,7 +68,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
         parseHTML: element => {
           const dataChecked = element.getAttribute('data-checked')
 
-          return dataChecked == null || dataChecked === 'true'
+          return dataChecked === '' || dataChecked === 'true'
         },
         renderHTML: attributes => ({
           'data-checked': attributes.checked,

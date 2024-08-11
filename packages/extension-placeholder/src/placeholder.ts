@@ -32,6 +32,12 @@ export interface PlaceholderOptions {
     | string
 
   /**
+   * See https://github.com/ueberdosis/tiptap/pull/5278 for more information.
+   * @deprecated This option is no longer respected and this type will be removed in the next major version.
+   */
+  considerAnyAsEmpty?: boolean
+
+  /**
    * **Checks if the placeholder should be only shown when the editor is editable.**
    *
    * If true, the placeholder will only be shown when the editor is editable.

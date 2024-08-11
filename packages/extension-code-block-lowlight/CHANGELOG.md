@@ -1,5 +1,39 @@
 # Change Log
 
+## 2.5.9
+
+### Patch Changes
+
+- d6e56c4: declare lowlight to be a peer dep of extension-code-block-lowlight, update usage to v3
+- 4b215f7: `defaultLanguage` on Code Block Lowlight was not being respected properly, to address this we added `defaultLanguage` as an option to the code-block extension.
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [4b215f7]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/extension-code-block@2.5.9
+  - @tiptap/pm@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-code-block@2.5.8
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/extension-code-block@2.5.7
+  - @tiptap/pm@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes

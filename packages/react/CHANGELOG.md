@@ -1,5 +1,51 @@
 # Change Log
 
+## 2.5.9
+
+### Patch Changes
+
+- 7c8889a: Optimize `useEditor` and `useEditorState` to reduce number of instances created while still being performant #5432
+
+  The core of this change is two-fold:
+
+  - have the effect run on every render (i.e. without a dep array)
+  - schedule destruction of instances, but bail on the actual destruction if the instance was still mounted and a new instance had not been created yet
+
+  It should plug a memory leak, where editor instances could be created but not cleaned up in strict mode.
+  As well as fixing a bug where a re-render, with deps, was not applying new options that were set on `useEditor`.
+
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/extension-bubble-menu@2.5.9
+  - @tiptap/extension-floating-menu@2.5.9
+  - @tiptap/pm@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- 99d7820: Resolve a bug an editor could be instantiated but not destroyed. This was causing issues with multiple instances of plugins still being active and interfering with each other
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-bubble-menu@2.5.8
+  - @tiptap/extension-floating-menu@2.5.8
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- 42dc27a: Fix, if using a deps array destroy the previous instance to avoid ghost instances
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/extension-bubble-menu@2.5.7
+  - @tiptap/extension-floating-menu@2.5.7
+  - @tiptap/pm@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes

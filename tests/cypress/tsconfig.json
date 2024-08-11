@@ -6,7 +6,7 @@
     "sourceMap": false,
     "types": ["cypress", "react", "react-dom"],
     "paths": {
-      "@tiptap/*": ["packages/*/dist", "packages/*/src"],
+      "@tiptap/*": ["packages/*/src", "packages/*/dist"],
       "@tiptap/pm/*": ["../../pm/*/dist"]
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"],

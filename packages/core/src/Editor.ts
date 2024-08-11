@@ -39,6 +39,7 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
+// @ts-ignore
 export interface TiptapEditorHTMLElement extends HTMLElement {
   editor?: Editor
 }
@@ -55,6 +56,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public view!: EditorView
 
   public isFocused = false
+
+  /**
+   * The editor is considered initialized after the `create` event has been emitted.
+   */
+  public isInitialized = false
 
   public extensionStorage: Record<string, any> = {}
 
@@ -110,6 +116,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
+      this.isInitialized = true
     }, 0)
   }
 
@@ -340,6 +347,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
+    // @ts-ignore
     const dom = this.view.dom as TiptapEditorHTMLElement
 
     dom.editor = this

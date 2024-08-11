@@ -1,5 +1,85 @@
 # Change Log
 
+## 2.5.9
+
+### Patch Changes
+
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [4b215f7]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/extension-code-block@2.5.9
+  - @tiptap/extension-blockquote@2.5.9
+  - @tiptap/extension-bold@2.5.9
+  - @tiptap/extension-bullet-list@2.5.9
+  - @tiptap/extension-code@2.5.9
+  - @tiptap/extension-document@2.5.9
+  - @tiptap/extension-dropcursor@2.5.9
+  - @tiptap/extension-gapcursor@2.5.9
+  - @tiptap/extension-hard-break@2.5.9
+  - @tiptap/extension-heading@2.5.9
+  - @tiptap/extension-history@2.5.9
+  - @tiptap/extension-horizontal-rule@2.5.9
+  - @tiptap/extension-italic@2.5.9
+  - @tiptap/extension-list-item@2.5.9
+  - @tiptap/extension-ordered-list@2.5.9
+  - @tiptap/extension-paragraph@2.5.9
+  - @tiptap/extension-strike@2.5.9
+  - @tiptap/extension-text@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-blockquote@2.5.8
+  - @tiptap/extension-bold@2.5.8
+  - @tiptap/extension-bullet-list@2.5.8
+  - @tiptap/extension-code@2.5.8
+  - @tiptap/extension-code-block@2.5.8
+  - @tiptap/extension-document@2.5.8
+  - @tiptap/extension-dropcursor@2.5.8
+  - @tiptap/extension-gapcursor@2.5.8
+  - @tiptap/extension-hard-break@2.5.8
+  - @tiptap/extension-heading@2.5.8
+  - @tiptap/extension-history@2.5.8
+  - @tiptap/extension-horizontal-rule@2.5.8
+  - @tiptap/extension-italic@2.5.8
+  - @tiptap/extension-list-item@2.5.8
+  - @tiptap/extension-ordered-list@2.5.8
+  - @tiptap/extension-paragraph@2.5.8
+  - @tiptap/extension-strike@2.5.8
+  - @tiptap/extension-text@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/extension-blockquote@2.5.7
+  - @tiptap/extension-bold@2.5.7
+  - @tiptap/extension-bullet-list@2.5.7
+  - @tiptap/extension-code@2.5.7
+  - @tiptap/extension-code-block@2.5.7
+  - @tiptap/extension-document@2.5.7
+  - @tiptap/extension-dropcursor@2.5.7
+  - @tiptap/extension-gapcursor@2.5.7
+  - @tiptap/extension-hard-break@2.5.7
+  - @tiptap/extension-heading@2.5.7
+  - @tiptap/extension-history@2.5.7
+  - @tiptap/extension-horizontal-rule@2.5.7
+  - @tiptap/extension-italic@2.5.7
+  - @tiptap/extension-list-item@2.5.7
+  - @tiptap/extension-ordered-list@2.5.7
+  - @tiptap/extension-paragraph@2.5.7
+  - @tiptap/extension-strike@2.5.7
+  - @tiptap/extension-text@2.5.7
+
 ## 2.5.6
 
 ### Patch Changes
