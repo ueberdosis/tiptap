@@ -14,9 +14,10 @@ declare module '@tiptap/core' {
       /**
        * Splits one list item into two list items.
        * @param typeOrName The type or name of the node.
+       * @param overrideAttrs The attributes to ensure on the new node.
        * @example editor.commands.splitListItem('listItem')
        */
-      splitListItem: (typeOrName: string | NodeType, overrideAttrs?: {[key: string]: any}) => ReturnType
+      splitListItem: (typeOrName: string | NodeType, overrideAttrs?: Record<string, any>) => ReturnType
     }
   }
 }
