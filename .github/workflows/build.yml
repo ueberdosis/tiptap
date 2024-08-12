@@ -35,6 +35,9 @@ jobs:
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+      
+      - name: Use Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Load cached dependencies
         uses: actions/cache@v4.0.2
@@ -49,7 +52,7 @@ jobs:
       - name: Install dependencies
         id: install-dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: bun install --no-interactive
 
       #    - name: Fix code style linting errors
       #      id: lint-fix
@@ -92,21 +95,24 @@ jobs:
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+      
+      - name: Use Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: bun install --no-interactive
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:pm
+        run: bun run build:pm
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
         uses: cypress-io/github-action@v6.7.2
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          start: npm run serve
+          start: bun run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
@@ -145,6 +151,9 @@ jobs:
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+      
+      - name: Use Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Load cached dependencies
         uses: actions/cache@v4.0.2
@@ -158,8 +167,8 @@ jobs:
       - name: Install dependencies
         id: install-dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: bun install --no-interactive
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:ci
+        run: bun run build:ci
