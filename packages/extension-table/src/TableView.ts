@@ -16,30 +16,32 @@ export function updateColumns(
   let nextDOM = colgroup.firstChild
   const row = node.firstChild
 
-  for (let i = 0, col = 0; i < row.childCount; i += 1) {
-    const { colspan, colwidth } = row.child(i).attrs
+  if (row !== null) {
+    for (let i = 0, col = 0; i < row.childCount; i += 1) {
+      const { colspan, colwidth } = row.child(i).attrs
 
-    for (let j = 0; j < colspan; j += 1, col += 1) {
-      const hasWidth = overrideCol === col ? overrideValue : (colwidth && colwidth[j]) as number | undefined
-      const cssWidth = hasWidth ? `${hasWidth}px` : ''
+      for (let j = 0; j < colspan; j += 1, col += 1) {
+        const hasWidth = overrideCol === col ? overrideValue : (colwidth && colwidth[j]) as number | undefined
+        const cssWidth = hasWidth ? `${hasWidth}px` : ''
 
-      totalWidth += hasWidth || cellMinWidth
+        totalWidth += hasWidth || cellMinWidth
 
-      if (!hasWidth) {
-        fixedWidth = false
-      }
-
-      if (nextDOM === null) {
-        const colElement = document.createElement('col')
-
-        colElement.style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
-        colgroup.appendChild(colElement)
-      } else {
-        if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
-          (nextDOM as HTMLTableColElement).style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+        if (!hasWidth) {
+          fixedWidth = false
         }
 
-        nextDOM = nextDOM.nextSibling
+        if (nextDOM === null) {
+          const colElement = document.createElement('col')
+
+          colElement.style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+          colgroup.appendChild(colElement)
+        } else {
+          if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
+            (nextDOM as HTMLTableColElement).style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+          }
+
+          nextDOM = nextDOM.nextSibling
+        }
       }
     }
   }
@@ -47,7 +49,7 @@ export function updateColumns(
   while (nextDOM) {
     const after = nextDOM.nextSibling
 
-    nextDOM.parentNode!.removeChild(nextDOM)
+    nextDOM.parentNode?.removeChild(nextDOM)
     nextDOM = after
   }
 
