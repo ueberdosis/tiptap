@@ -32,6 +32,7 @@
     "@vitejs/plugin-vue": "^5.0.0",
     "autoprefixer": "^10.4.2",
     "iframe-resizer": "^4.3.2",
+    "esbuild": "0.23.0",
     "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
     "prosemirror-dev-tools": "^4.0.0",
