@@ -23,7 +23,7 @@ const getPackageDependencies = () => {
   })
   paths.push({
     find: 'y-prosemirror',
-    replacement: resolve('./node_modules/y-prosemirror/src/y-prosemirror.js'),
+    replacement: resolve('../node_modules/y-prosemirror/src/y-prosemirror.js'),
   })
 
   fg.sync('../packages/*', { onlyDirectories: true })
