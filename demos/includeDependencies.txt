@@ -20,6 +20,7 @@ prosemirror-view
 react
 react-dom
 react-dom/client
+use-sync-external-store/shim
 use-sync-external-store/shim/with-selector
 shiki
 simplify-js
@@ -27,3 +28,5 @@ tippy.js
 uuid
 y-webrtc
 yjs
+y-prosemirror
+@hocuspocus/provider
