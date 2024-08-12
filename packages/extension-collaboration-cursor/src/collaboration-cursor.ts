@@ -96,6 +96,8 @@ const defaultOnUpdate = () => null
 export const CollaborationCursor = Extension.create<CollaborationCursorOptions, CollaborationCursorStorage>({
   name: 'collaborationCursor',
 
+  priority: 1001,
+
   addOptions() {
     return {
       provider: null,
