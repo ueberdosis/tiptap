@@ -28,6 +28,5 @@ tippy.js
 uuid
 y-webrtc
 yjs
-y-prosemirror
 @hocuspocus/provider
 @lifeomic/attempt
