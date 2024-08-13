@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.2
+
+### Patch Changes
+
+- d4d99e8: When changing the types, a bug was introduced where null could no longer be a valid value
+  - @tiptap/core@2.6.2
+  - @tiptap/extension-bubble-menu@2.6.2
+  - @tiptap/extension-floating-menu@2.6.2
+  - @tiptap/pm@2.6.2
+
 ## 2.6.1
 
 ### Patch Changes
