@@ -47,7 +47,8 @@
     "@tiptap/extension-ordered-list": "^2.6.0",
     "@tiptap/extension-paragraph": "^2.6.0",
     "@tiptap/extension-strike": "^2.6.0",
-    "@tiptap/extension-text": "^2.6.0"
+    "@tiptap/extension-text": "^2.6.0",
+    "@tiptap/pm": "^2.6.0"
   },
   "repository": {
     "type": "git",
