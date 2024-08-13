@@ -35,10 +35,10 @@ declare module '@tiptap/core' {
     name: string
 
     /**
-     * The priority of your extension. The higher, the later it will be called
+     * The priority of your extension. The higher, the earlier it will be called
      * and will take precedence over other extensions with a lower priority.
-     * @default 1000
-     * @example 1001
+     * @default 100
+     * @example 101
      */
     priority?: number
 
@@ -352,6 +352,7 @@ declare module '@tiptap/core' {
             parent: ParentConfig<MarkConfig<Options, Storage>>['onTransaction']
           },
           props: {
+            editor: Editor
             transaction: Transaction
           },
         ) => void)
@@ -589,7 +590,7 @@ export class Mark<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend({
+    const extension = this.extend<Options, Storage>({
       ...this.config,
       addOptions: () => {
         return mergeDeep(this.options as Record<string, any>, options) as Options

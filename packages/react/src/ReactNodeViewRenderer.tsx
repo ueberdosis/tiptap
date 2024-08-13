@@ -1,5 +1,6 @@
 import {
   DecorationWithType,
+  Editor,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
@@ -10,7 +11,7 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import React from 'react'
 
-import { Editor } from './Editor.js'
+import { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
 
@@ -58,25 +59,23 @@ class ReactNodeView extends NodeView<
       this.component.displayName = capitalizeFirstChar(this.extension.name)
     }
 
-    const ReactNodeViewProvider: React.FunctionComponent = componentProps => {
-      const Component = this.component
-      const onDragStart = this.onDragStart.bind(this)
-      const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
-        if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
-          element.appendChild(this.contentDOMElement)
-        }
+    const onDragStart = this.onDragStart.bind(this)
+    const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
+      if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
+        element.appendChild(this.contentDOMElement)
       }
-
-      return (
-        <>
-          {/* @ts-ignore */}
-          <ReactNodeViewContext.Provider value={{ onDragStart, nodeViewContentRef }}>
-            {/* @ts-ignore */}
-            <Component {...componentProps} />
-          </ReactNodeViewContext.Provider>
-        </>
-      )
     }
+    const context = { onDragStart, nodeViewContentRef }
+    const Component = this.component
+    // For performance reasons, we memoize the provider component
+    // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
+    const ReactNodeViewProvider: React.FunctionComponent = React.memo(componentProps => {
+      return (
+        <ReactNodeViewContext.Provider value={context}>
+          {React.createElement(Component, componentProps)}
+        </ReactNodeViewContext.Provider>
+      )
+    })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
@@ -218,7 +217,7 @@ export function ReactNodeViewRenderer(
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    if (!(props.editor as Editor).contentComponent) {
+    if (!(props.editor as EditorWithContentComponent).contentComponent) {
       return {}
     }
 

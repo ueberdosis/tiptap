@@ -1,5 +1,70 @@
 # Change Log
 
+## 2.6.2
+
+### Patch Changes
+
+- @tiptap/pm@2.6.2
+
+## 2.6.1
+
+### Patch Changes
+
+- @tiptap/pm@2.6.1
+
+## 2.6.0
+
+### Minor Changes
+
+- 86a8553: Add `getContent` to nodePasteRules to allow specifying inner content to a created node
+- 222f2ac: Add the ability to add new attributes to a splitted list item
+- e31673d: This PR significantly improves the performance of React NodeViews in a couple of ways:
+
+  - It now uses useSyncExternalStore to synchronize changes between React & the editor instance
+  - It dramatically reduces the number of re-renders by re-using instances of React portals that have already been initialized and unaffected by the change made in the editor
+
+  We were seeing performance problems with React NodeViews because a change to one of them would cause a re-render to all instances of node views. For an application that heavily relies on node views in React, this was quite expensive.
+  This should dramatically cut down on the number of instances that have to re-render, and, making each of those re-renders much less costly.
+
+### Patch Changes
+
+- @tiptap/pm@2.6.0
+
+## 2.5.9
+
+### Patch Changes
+
+- 84ebd51: Fix change criteria for isNodeEmpty to resolve #5415
+- 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
+- ae0254d: Add `ignoreWhitespace` option to `isNodeEmpty` to ignore any whitespace and hardbreaks in a node to check for emptiness
+- efb27fa: This fixes a discrepency between `getMarksBetween` and `isActive(markName)` where the position used for getMarksBetween was off by one
+  - @tiptap/pm@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- a08bf85: This fixes a bug with inputrules not being able to resolve positions properly
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- b012471: This addresses an issue with `isNodeEmpty` function where it was also comparing node attributes and finding mismatches on actually empty nodes. This helps placeholders find empty content correctly
+- cc3497e: Fixes a bug where if `enableContentCheck` was true, inserting content as JSON nodes would fail. This was because the node that was being created technically had a different schema than the content being inserted, so it would fail to generate the correct content value
+  - @tiptap/pm@2.5.7
+
+## 2.5.6
+
+### Patch Changes
+
+- 618bca9: Adjust the `splitBlock` command to return `false` when it was unsuccessful.
+- 35682d1: This fixes a bug with the placeholder extension where a heading level other than the default was not considered empty, when comparing node contents, we need to consider that the node attributes are carried over for a fair comparison of content instead of attribute values
+- 2104f0f: Add a check beforecreateNodeViews so that view.setProps is not called when the view has already been destroyed
+- Updated dependencies [b5c1b32]
+  - @tiptap/pm@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes

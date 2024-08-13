@@ -1,6 +1,5 @@
 export * from './BubbleMenu.js'
 export * from './Context.js'
-export { Editor } from './Editor.js'
 export * from './EditorContent.js'
 export * from './FloatingMenu.js'
 export * from './NodeViewContent.js'

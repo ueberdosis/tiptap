@@ -1,5 +1,84 @@
 # Change Log
 
+## 2.6.2
+
+### Patch Changes
+
+- @tiptap/core@2.6.2
+- @tiptap/extension-bubble-menu@2.6.2
+- @tiptap/extension-floating-menu@2.6.2
+- @tiptap/pm@2.6.2
+
+## 2.6.1
+
+### Patch Changes
+
+- @tiptap/core@2.6.1
+- @tiptap/extension-bubble-menu@2.6.1
+- @tiptap/extension-floating-menu@2.6.1
+- @tiptap/pm@2.6.1
+
+## 2.6.0
+
+### Patch Changes
+
+- be63e59: fix vue3 class components not working as node views
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/extension-bubble-menu@2.6.0
+  - @tiptap/extension-floating-menu@2.6.0
+  - @tiptap/pm@2.6.0
+
+## 2.5.9
+
+### Patch Changes
+
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/extension-bubble-menu@2.5.9
+  - @tiptap/extension-floating-menu@2.5.9
+  - @tiptap/pm@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- f7f644f: Correctly set editor's appContext.provide to forward full inject chain
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-bubble-menu@2.5.8
+  - @tiptap/extension-floating-menu@2.5.8
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/extension-bubble-menu@2.5.7
+  - @tiptap/extension-floating-menu@2.5.7
+  - @tiptap/pm@2.5.7
+
+## 2.5.6
+
+### Patch Changes
+
+- Updated dependencies [b5c1b32]
+- Updated dependencies [618bca9]
+- Updated dependencies [35682d1]
+- Updated dependencies [2104f0f]
+  - @tiptap/pm@2.5.6
+  - @tiptap/core@2.5.6
+  - @tiptap/extension-bubble-menu@2.5.6
+  - @tiptap/extension-floating-menu@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes

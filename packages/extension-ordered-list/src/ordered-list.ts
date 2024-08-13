@@ -84,6 +84,10 @@ export const OrderedList = Node.create<OrderedListOptions>({
             : 1
         },
       },
+      type: {
+        default: null,
+        parseHTML: element => element.getAttribute('type'),
+      },
     }
   },
 

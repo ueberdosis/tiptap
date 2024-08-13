@@ -81,6 +81,13 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
       })
     } catch (e) {
+      editor.emit('contentError', {
+        editor,
+        error: e as Error,
+        disableCollaboration: () => {
+          console.error('[tiptap error]: Unable to disable collaboration at this point in time')
+        },
+      })
       return false
     }
 

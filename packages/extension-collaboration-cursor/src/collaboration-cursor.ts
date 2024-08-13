@@ -96,6 +96,8 @@ const defaultOnUpdate = () => null
 export const CollaborationCursor = Extension.create<CollaborationCursorOptions, CollaborationCursorStorage>({
   name: 'collaborationCursor',
 
+  priority: 999,
+
   addOptions() {
     return {
       provider: null,
@@ -126,6 +128,9 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
   onCreate() {
     if (this.options.onUpdate !== defaultOnUpdate) {
       console.warn('[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor')
+    }
+    if (!this.options.provider) {
+      throw new Error('The "provider" option is required for the CollaborationCursor extension')
     }
   },
 

@@ -1,5 +1,108 @@
 # Change Log
 
+## 2.6.2
+
+### Patch Changes
+
+- d4d99e8: When changing the types, a bug was introduced where null could no longer be a valid value
+  - @tiptap/core@2.6.2
+  - @tiptap/extension-bubble-menu@2.6.2
+  - @tiptap/extension-floating-menu@2.6.2
+  - @tiptap/pm@2.6.2
+
+## 2.6.1
+
+### Patch Changes
+
+- a42692e: This resolves some typescript errors with the exported React type to remove contentComponent from being exported (it is an implementation detail)
+  - @tiptap/core@2.6.1
+  - @tiptap/extension-bubble-menu@2.6.1
+  - @tiptap/extension-floating-menu@2.6.1
+  - @tiptap/pm@2.6.1
+
+## 2.6.0
+
+### Minor Changes
+
+- e31673d: This PR significantly improves the performance of React NodeViews in a couple of ways:
+
+  - It now uses useSyncExternalStore to synchronize changes between React & the editor instance
+  - It dramatically reduces the number of re-renders by re-using instances of React portals that have already been initialized and unaffected by the change made in the editor
+
+  We were seeing performance problems with React NodeViews because a change to one of them would cause a re-render to all instances of node views. For an application that heavily relies on node views in React, this was quite expensive.
+  This should dramatically cut down on the number of instances that have to re-render, and, making each of those re-renders much less costly.
+
+### Patch Changes
+
+- c7fd0f8: Updates the typings to `useEditor` and `EditorProvider` to not conflict with the core Editor type
+- 8ea34e4: This resolves a bug with `useEditor` where event handlers were being called 2x for what should have been a single registration
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/extension-bubble-menu@2.6.0
+  - @tiptap/extension-floating-menu@2.6.0
+  - @tiptap/pm@2.6.0
+
+## 2.5.9
+
+### Patch Changes
+
+- 7c8889a: Optimize `useEditor` and `useEditorState` to reduce number of instances created while still being performant #5432
+
+  The core of this change is two-fold:
+
+  - have the effect run on every render (i.e. without a dep array)
+  - schedule destruction of instances, but bail on the actual destruction if the instance was still mounted and a new instance had not been created yet
+
+  It should plug a memory leak, where editor instances could be created but not cleaned up in strict mode.
+  As well as fixing a bug where a re-render, with deps, was not applying new options that were set on `useEditor`.
+
+- Updated dependencies [84ebd51]
+- Updated dependencies [0ec0af6]
+- Updated dependencies [ae0254d]
+- Updated dependencies [efb27fa]
+  - @tiptap/core@2.5.9
+  - @tiptap/extension-bubble-menu@2.5.9
+  - @tiptap/extension-floating-menu@2.5.9
+  - @tiptap/pm@2.5.9
+
+## 2.5.8
+
+### Patch Changes
+
+- 99d7820: Resolve a bug an editor could be instantiated but not destroyed. This was causing issues with multiple instances of plugins still being active and interfering with each other
+- Updated dependencies [a08bf85]
+  - @tiptap/core@2.5.8
+  - @tiptap/extension-bubble-menu@2.5.8
+  - @tiptap/extension-floating-menu@2.5.8
+  - @tiptap/pm@2.5.8
+
+## 2.5.7
+
+### Patch Changes
+
+- 42dc27a: Fix, if using a deps array destroy the previous instance to avoid ghost instances
+- Updated dependencies [b012471]
+- Updated dependencies [cc3497e]
+  - @tiptap/core@2.5.7
+  - @tiptap/extension-bubble-menu@2.5.7
+  - @tiptap/extension-floating-menu@2.5.7
+  - @tiptap/pm@2.5.7
+
+## 2.5.6
+
+### Patch Changes
+
+- Updated dependencies [b5c1b32]
+- Updated dependencies [618bca9]
+- Updated dependencies [35682d1]
+- Updated dependencies [2104f0f]
+  - @tiptap/pm@2.5.6
+  - @tiptap/core@2.5.6
+  - @tiptap/extension-bubble-menu@2.5.6
+  - @tiptap/extension-floating-menu@2.5.6
+
 ## 2.5.5
 
 ### Patch Changes

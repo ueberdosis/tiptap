@@ -1,10 +1,9 @@
-import { Editor, getAttributes } from '@tiptap/core'
+import { getAttributes } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType;
-  editor: Editor;
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -16,7 +15,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
-        if (!options.editor.isEditable) {
+        if (!view.editable) {
           return false
         }
 

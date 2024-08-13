@@ -23,6 +23,12 @@ export interface CodeBlockOptions {
    */
   exitOnArrowDown: boolean
   /**
+   * The default language.
+   * @default null
+   * @example 'js'
+   */
+  defaultLanguage: string | null | undefined
+  /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    * @default {}
    * @example { class: 'foo' }
@@ -71,6 +77,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
+      defaultLanguage: null,
       HTMLAttributes: {},
     }
   },
@@ -88,7 +95,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addAttributes() {
     return {
       language: {
-        default: null,
+        default: this.options.defaultLanguage,
         parseHTML: element => {
           const { languageClassPrefix } = this.options
           const classNames = [...(element.firstElementChild?.classList || [])]
