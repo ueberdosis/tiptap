@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.1
+
+### Patch Changes
+
+- a42692e: This resolves some typescript errors with the exported React type to remove contentComponent from being exported (it is an implementation detail)
+  - @tiptap/core@2.6.1
+  - @tiptap/extension-bubble-menu@2.6.1
+  - @tiptap/extension-floating-menu@2.6.1
+  - @tiptap/pm@2.6.1
+
 ## 2.6.0
 
 ### Minor Changes
