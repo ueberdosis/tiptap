@@ -108,7 +108,7 @@ export class PureEditorContent extends React.Component<
     this.initialized = false
 
     this.state = {
-      hasContentComponentInitialized: Boolean((props.editor as EditorWithContentComponent).contentComponent),
+      hasContentComponentInitialized: Boolean((props.editor as EditorWithContentComponent | null)?.contentComponent),
     }
   }
 
@@ -121,7 +121,7 @@ export class PureEditorContent extends React.Component<
   }
 
   init() {
-    const editor = this.props.editor as EditorWithContentComponent
+    const editor = this.props.editor as EditorWithContentComponent | null
 
     if (editor && !editor.isDestroyed && editor.options.element) {
       if (editor.contentComponent) {
@@ -165,7 +165,7 @@ export class PureEditorContent extends React.Component<
   }
 
   componentWillUnmount() {
-    const editor = this.props.editor as EditorWithContentComponent
+    const editor = this.props.editor as EditorWithContentComponent | null
 
     if (!editor) {
       return
