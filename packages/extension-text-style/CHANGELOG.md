@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.0
+
+### Patch Changes
+
+- c0e631f: Give text-style extension a higher priority to have colors apply to things like underlines and strikethroughs
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes

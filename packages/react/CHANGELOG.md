@@ -1,5 +1,29 @@
 # Change Log
 
+## 2.6.0
+
+### Minor Changes
+
+- e31673d: This PR significantly improves the performance of React NodeViews in a couple of ways:
+
+  - It now uses useSyncExternalStore to synchronize changes between React & the editor instance
+  - It dramatically reduces the number of re-renders by re-using instances of React portals that have already been initialized and unaffected by the change made in the editor
+
+  We were seeing performance problems with React NodeViews because a change to one of them would cause a re-render to all instances of node views. For an application that heavily relies on node views in React, this was quite expensive.
+  This should dramatically cut down on the number of instances that have to re-render, and, making each of those re-renders much less costly.
+
+### Patch Changes
+
+- c7fd0f8: Updates the typings to `useEditor` and `EditorProvider` to not conflict with the core Editor type
+- 8ea34e4: This resolves a bug with `useEditor` where event handlers were being called 2x for what should have been a single registration
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/extension-bubble-menu@2.6.0
+  - @tiptap/extension-floating-menu@2.6.0
+  - @tiptap/pm@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.6.0
+
+### Patch Changes
+
+- 08b4319: Fixes a bug where link `href` was converted to number or boolean during HTML parsing, leading to a crash in rendering.
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/pm@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes

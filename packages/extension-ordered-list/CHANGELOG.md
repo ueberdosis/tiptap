@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.6.0
+
+### Minor Changes
+
+- da7b337: Support the `type` attribute for ordered lists
+
+### Patch Changes
+
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes
