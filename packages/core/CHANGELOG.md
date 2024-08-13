@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.0.0
+## 2.6.0
 
 ### Minor Changes
 
@@ -16,7 +16,7 @@
 
 ### Patch Changes
 
-- @tiptap/pm@3.0.0
+- @tiptap/pm@2.6.0
 
 ## 2.5.9
 

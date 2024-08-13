@@ -1,15 +1,15 @@
 # Change Log
 
-## 3.0.0
+## 2.6.0
 
 ### Patch Changes
 
 - Updated dependencies [86a8553]
 - Updated dependencies [222f2ac]
 - Updated dependencies [e31673d]
-  - @tiptap/core@3.0.0
-  - @tiptap/extension-code-block@3.0.0
-  - @tiptap/pm@3.0.0
+  - @tiptap/core@2.6.0
+  - @tiptap/extension-code-block@2.6.0
+  - @tiptap/pm@2.6.0
 
 ## 2.5.9
 
