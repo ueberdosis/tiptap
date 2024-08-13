@@ -4,7 +4,7 @@ import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor.js'
 import { Node } from './Node.js'
-import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
+import { DecorationWithType, NodeViewProps, NodeViewRendererOptions } from './types.js'
 import { isAndroid } from './utilities/isAndroid.js'
 import { isiOS } from './utilities/isiOS.js'
 
@@ -33,7 +33,7 @@ export class NodeView<
 
   isDragging = false
 
-  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
+  constructor(component: Component, props: NodeViewProps, options?: Partial<Options>) {
     this.component = component
     this.editor = props.editor as NodeEditor
     this.options = {
@@ -43,7 +43,7 @@ export class NodeView<
     } as Options
     this.extension = props.extension
     this.node = props.node
-    this.decorations = props.decorations as DecorationWithType[]
+    this.decorations = props.decorations
     this.getPos = props.getPos
     this.mount()
   }

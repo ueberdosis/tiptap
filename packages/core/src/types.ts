@@ -207,16 +207,7 @@ export interface NodeViewRendererOptions {
   contentDOMElementTag: string;
 }
 
-export type NodeViewRendererProps = {
-  editor: Editor;
-  node: ProseMirrorNode;
-  getPos: (() => number) | boolean;
-  HTMLAttributes: Record<string, any>;
-  decorations: Decoration[];
-  extension: Node;
-};
-
-export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView | {};
+export type NodeViewRenderer = (props: NodeViewProps) => NodeView | {};
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 
