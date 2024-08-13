@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import React from 'react'
 import { flushSync } from 'react-dom'
 
-import { Editor as ExtendedEditor } from './Editor.js'
+import { EditorWithContentComponent } from './Editor.js'
 
 /**
  * Check if a component is a class component.
@@ -86,7 +86,7 @@ type ComponentType<R, P> =
 export class ReactRenderer<R = unknown, P = unknown> {
   id: string
 
-  editor: ExtendedEditor
+  editor: Editor
 
   component: any
 
@@ -107,7 +107,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
-    this.editor = editor as ExtendedEditor
+    this.editor = editor as EditorWithContentComponent
     this.props = props
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
@@ -136,6 +136,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
   render(): void {
     const Component = this.component
     const props = this.props
+    const editor = this.editor as EditorWithContentComponent
 
     if (isClassComponent(Component) || isForwardRefComponent(Component)) {
       props.ref = (ref: R) => {
@@ -145,7 +146,7 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = React.createElement(Component, props)
 
-    this.editor?.contentComponent?.setRenderer(this.id, this)
+    editor?.contentComponent?.setRenderer(this.id, this)
   }
 
   updateProps(props: Record<string, any> = {}): void {
@@ -158,6 +159,8 @@ export class ReactRenderer<R = unknown, P = unknown> {
   }
 
   destroy(): void {
-    this.editor?.contentComponent?.removeRenderer(this.id)
+    const editor = this.editor as EditorWithContentComponent
+
+    editor?.contentComponent?.removeRenderer(this.id)
   }
 }
