@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.6.2
+
+### Patch Changes
+
+- @tiptap/pm@2.6.2
+
 ## 2.6.1
 
 ### Patch Changes
