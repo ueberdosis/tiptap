@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.0
+
+### Patch Changes
+
+- be63e59: fix vue3 class components not working as node views
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@3.0.0
+  - @tiptap/extension-bubble-menu@3.0.0
+  - @tiptap/extension-floating-menu@3.0.0
+  - @tiptap/pm@3.0.0
+
 ## 2.5.9
 
 ### Patch Changes
