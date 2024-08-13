@@ -1,10 +1,11 @@
+import { Editor } from '@tiptap/core'
 import React, {
   ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject,
 } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
-import { Editor } from './Editor.js'
+import { ContentComponent, EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(
@@ -24,7 +25,7 @@ const mergeRefs = <T extends HTMLDivElement>(
 /**
  * This component renders all of the editor's node views.
  */
-const Portals: React.FC<{ contentComponent: Exclude<Editor['contentComponent'], null> }> = ({
+const Portals: React.FC<{ contentComponent: ContentComponent }> = ({
   contentComponent,
 }) => {
   // For performance reasons, we render the node view portals on state changes only
@@ -47,7 +48,7 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   innerRef?: ForwardedRef<HTMLDivElement | null>;
 }
 
-function getInstance(): Exclude<Editor['contentComponent'], null> {
+function getInstance(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
 
@@ -107,7 +108,7 @@ export class PureEditorContent extends React.Component<
     this.initialized = false
 
     this.state = {
-      hasContentComponentInitialized: Boolean(props.editor?.contentComponent),
+      hasContentComponentInitialized: Boolean((props.editor as EditorWithContentComponent).contentComponent),
     }
   }
 
@@ -120,7 +121,7 @@ export class PureEditorContent extends React.Component<
   }
 
   init() {
-    const { editor } = this.props
+    const editor = this.props.editor as EditorWithContentComponent
 
     if (editor && !editor.isDestroyed && editor.options.element) {
       if (editor.contentComponent) {
@@ -164,7 +165,7 @@ export class PureEditorContent extends React.Component<
   }
 
   componentWillUnmount() {
-    const { editor } = this.props
+    const editor = this.props.editor as EditorWithContentComponent
 
     if (!editor) {
       return
@@ -215,6 +216,7 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
       return Math.floor(Math.random() * 0xffffffff).toString()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
