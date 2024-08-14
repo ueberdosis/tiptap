@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes
