@@ -1,5 +1,42 @@
 # Change Log
 
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 64a74f6: We have now added the Link, ListKeymap, and Underline extensions to the starter kit for a smoother onboarding experience
+
+  If you have theses extensions in your project, you can remove them from your project and use the ones from the starter kit instead.
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/extension-horizontal-rule@3.0.0-next.1
+  - @tiptap/extension-ordered-list@3.0.0-next.1
+  - @tiptap/extension-bullet-list@3.0.0-next.1
+  - @tiptap/extension-list-keymap@3.0.0-next.1
+  - @tiptap/extension-blockquote@3.0.0-next.1
+  - @tiptap/extension-code-block@3.0.0-next.1
+  - @tiptap/extension-dropcursor@3.0.0-next.1
+  - @tiptap/extension-hard-break@3.0.0-next.1
+  - @tiptap/extension-gapcursor@3.0.0-next.1
+  - @tiptap/extension-list-item@3.0.0-next.1
+  - @tiptap/extension-paragraph@3.0.0-next.1
+  - @tiptap/extension-underline@3.0.0-next.1
+  - @tiptap/extension-document@3.0.0-next.1
+  - @tiptap/extension-heading@3.0.0-next.1
+  - @tiptap/extension-history@3.0.0-next.1
+  - @tiptap/extension-italic@3.0.0-next.1
+  - @tiptap/extension-strike@3.0.0-next.1
+  - @tiptap/extension-bold@3.0.0-next.1
+  - @tiptap/extension-code@3.0.0-next.1
+  - @tiptap/extension-link@3.0.0-next.1
+  - @tiptap/extension-text@3.0.0-next.1
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
 ## 3.0.0-next.0
 
 ### Patch Changes

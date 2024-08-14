@@ -1,5 +1,24 @@
 # Change Log
 
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- 08593a2: Throw an error in development mode if immediatelyRender is not set in SSR mode
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/extension-floating-menu@3.0.0-next.1
+  - @tiptap/extension-bubble-menu@3.0.0-next.1
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
 ## 3.0.0-next.0
 
 ### Major Changes

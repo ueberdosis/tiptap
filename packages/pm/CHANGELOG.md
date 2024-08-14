@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
 ## 3.0.0-next.0
 
 ## 2.5.8
