@@ -22,10 +22,7 @@
 
 <script>
 import Image from '@tiptap/extension-image'
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
+import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
@@ -161,10 +158,11 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Table,
-        TableRow,
-        TableHeader,
-        TableCell,
+        TableKit.configure({
+          table: {
+            resizable: true,
+          },
+        }),
         ImageFigure,
         TableFigure,
         Figcaption,
