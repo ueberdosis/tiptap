@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.6.3
+
+### Patch Changes
+
+- da76972: Resolve several selection related bug #2690 #5208
+  - @tiptap/pm@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes
