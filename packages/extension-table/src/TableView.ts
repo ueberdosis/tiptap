@@ -30,14 +30,19 @@ export function updateColumns(
           fixedWidth = false
         }
 
-        if (nextDOM === null) {
+        if (!nextDOM) {
           const colElement = document.createElement('col')
 
-          colElement.style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+          const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
+          colElement.style.setProperty(propertyKey, propertyValue)
+
           colgroup.appendChild(colElement)
         } else {
           if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
-            (nextDOM as HTMLTableColElement).style.setProperty(...getColStyleDeclaration(cellMinWidth, hasWidth))
+            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth);
+
+            (nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
           }
 
           nextDOM = nextDOM.nextSibling

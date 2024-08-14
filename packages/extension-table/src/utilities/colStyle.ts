@@ -8,7 +8,3 @@ export function getColStyleDeclaration(minWidth: number, width: number | undefin
   return ['min-width', `${minWidth}px`]
 
 }
-
-export function getColStyle(minWidth: number, width: number): string {
-  return getColStyleDeclaration(minWidth, width).join(': ')
-}

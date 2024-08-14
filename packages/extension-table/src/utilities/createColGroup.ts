@@ -1,6 +1,6 @@
 import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { getColStyle } from './colStyle.js'
+import { getColStyleDeclaration } from './colStyle.js'
 
 export type ColGroup = {
   colgroup: DOMOutputSpec
@@ -54,9 +54,11 @@ export function createColGroup(
         fixedWidth = false
       }
 
+      const [property, value] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
       cols.push([
         'col',
-        { style: getColStyle(cellMinWidth, hasWidth) },
+        { style: `${property}: ${value}` },
       ])
     }
   }
