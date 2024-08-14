@@ -3,8 +3,8 @@ import {
   Editor,
   NodeView,
   NodeViewProps,
-  NodeViewRenderer,
   NodeViewRendererOptions,
+  NodeViewRendererReactVue,
 } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
@@ -211,8 +211,8 @@ class ReactNodeView extends NodeView<
 export function ReactNodeViewRenderer(
   component: any,
   options?: Partial<ReactNodeViewRendererOptions>,
-): NodeViewRenderer {
-  return (props: NodeViewProps) => {
+): NodeViewRendererReactVue {
+  return props => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet

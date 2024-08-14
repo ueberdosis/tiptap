@@ -199,6 +199,15 @@ export type NodeViewProps = {
   deleteNode: () => void;
 };
 
+export type NodeViewRendererProps = {
+  editor: Editor;
+  node: ProseMirrorNode;
+  getPos: (() => number) | boolean;
+  HTMLAttributes: Record<string, any>;
+  decorations: Decoration[];
+  extension: Node;
+};
+
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null;
   ignoreMutation:
@@ -207,7 +216,9 @@ export interface NodeViewRendererOptions {
   contentDOMElementTag: string;
 }
 
-export type NodeViewRenderer = (props: NodeViewProps) => NodeView | {};
+export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView | {};
+
+export type NodeViewRendererReactVue = (props: NodeViewProps) => NodeView | {};
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 
