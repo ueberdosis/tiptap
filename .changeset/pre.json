@@ -59,8 +59,11 @@
     "@tiptap/vue-3": "2.5.6"
   },
   "changesets": [
+    "big-wolves-design",
+    "chilled-trees-agree",
     "dirty-bats-look",
-    "early-singers-begin",
-    "wise-beers-reflect"
+    "perfect-rice-vanish",
+    "pink-bobcats-grin",
+    "weak-books-eat"
   ]
 }
