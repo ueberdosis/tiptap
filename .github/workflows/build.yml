@@ -114,7 +114,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         if: failure()
         with:
           name: cypress-screenshots
@@ -122,7 +122,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         if: failure()
         with:
           name: cypress-videos

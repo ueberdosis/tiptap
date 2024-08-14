@@ -21,6 +21,10 @@ const getPackageDependencies = () => {
     find: 'yjs',
     replacement: resolve('../node_modules/yjs/src/index.js'),
   })
+  paths.push({
+    find: 'y-prosemirror',
+    replacement: resolve('../node_modules/y-prosemirror/src/y-prosemirror.js'),
+  })
 
   fg.sync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))

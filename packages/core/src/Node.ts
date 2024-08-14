@@ -36,10 +36,10 @@ declare module '@tiptap/core' {
     name: string
 
     /**
-     * The priority of your extension. The higher, the later it will be called
+     * The priority of your extension. The higher, the earlier it will be called
      * and will take precedence over other extensions with a lower priority.
-     * @default 1000
-     * @example 1001
+     * @default 100
+     * @example 101
      */
     priority?: number
 
@@ -354,6 +354,7 @@ declare module '@tiptap/core' {
             parent: ParentConfig<NodeConfig<Options, Storage>>['onTransaction']
           },
           props: {
+            editor: Editor
             transaction: Transaction
           },
         ) => void)
