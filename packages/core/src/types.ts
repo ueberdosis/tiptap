@@ -199,6 +199,14 @@ export type NodeViewProps = {
   deleteNode: () => void;
 };
 
+export interface NodeViewRendererOptions {
+  stopEvent: ((props: { event: Event }) => boolean) | null;
+  ignoreMutation:
+    | ((props: { mutation: MutationRecord | { type: 'selection'; target: Element } }) => boolean)
+    | null;
+  contentDOMElementTag: string;
+}
+
 export type NodeViewRendererProps = {
   editor: Editor;
   node: ProseMirrorNode;
@@ -207,14 +215,6 @@ export type NodeViewRendererProps = {
   decorations: Decoration[];
   extension: Node;
 };
-
-export interface NodeViewRendererOptions {
-  stopEvent: ((props: { event: Event }) => boolean) | null;
-  ignoreMutation:
-    | ((props: { mutation: MutationRecord | { type: 'selection'; target: Element } }) => boolean)
-    | null;
-  contentDOMElementTag: string;
-}
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView | {};
 
