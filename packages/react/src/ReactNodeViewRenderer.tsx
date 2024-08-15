@@ -161,7 +161,9 @@ class ReactNodeView extends NodeView<
   update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
-      this.updateElementAttributes()
+      if (typeof this.options.attrs === 'function') {
+        this.updateElementAttributes()
+      }
     }
 
     if (node.type !== this.node.type) {
@@ -217,10 +219,17 @@ class ReactNodeView extends NodeView<
   }
 
   updateElementAttributes() {
-    if (this.options.attrs && typeof this.options.attrs === 'function') {
-      const extensionAttributes = this.editor.extensionManager.attributes
-      const HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
-      const attrsObj = this.options.attrs({ node: this.node, HTMLAttributes })
+    if (this.options.attrs) {
+      let attrsObj: Record<string, string> = {}
+
+      if (typeof this.options.attrs === 'function') {
+        const extensionAttributes = this.editor.extensionManager.attributes
+        const HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
+
+        attrsObj = this.options.attrs({ node: this.node, HTMLAttributes })
+      } else {
+        attrsObj = this.options.attrs
+      }
 
       Object.keys(attrsObj).forEach(key => {
         this.renderer.element.setAttribute(key, attrsObj[key])
