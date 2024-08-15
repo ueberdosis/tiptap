@@ -64,6 +64,11 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public extensionStorage: Record<string, any> = {}
 
+  /**
+   * A unique ID for this editor instance.
+   */
+  public instanceId = Math.random().toString(36).slice(2, 9)
+
   public options: EditorOptions = {
     element: document.createElement('div'),
     content: '',
