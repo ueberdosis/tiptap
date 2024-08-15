@@ -106,7 +106,9 @@ export const Keymap = Extension.create({
           const docChanges = transactions.some(transaction => transaction.docChanged)
             && !oldState.doc.eq(newState.doc)
 
-          if (!docChanges) {
+          const ignoreTr = transactions.some(transaction => transaction.getMeta('preventClearDocument'))
+
+          if (!docChanges || ignoreTr) {
             return
           }
 
