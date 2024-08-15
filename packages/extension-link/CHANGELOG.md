@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.6.4
+
+### Patch Changes
+
+- 593f107: Respect custom protocols for links again, custom protocols are supported in additional to the default set #5468
+  - @tiptap/core@2.6.4
+  - @tiptap/pm@2.6.4
+
 ## 2.6.3
 
 ### Patch Changes
