@@ -261,7 +261,12 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
-    ] : []
+    ].filter(ext => {
+      if (typeof this.options.enableCoreExtensions === 'object') {
+        return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+      }
+      return true
+    }) : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
