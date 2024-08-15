@@ -57,14 +57,6 @@ export interface ReactRendererOptions {
    * @example 'foo bar'
    */
   className?: string,
-
-  /**
-   * The attributes of the element.
-   * @type {Record<string, string>}
-   * @default {}
-   * @example { 'data-foo': 'bar' }
-   */
-  attrs?: Record<string, string>,
 }
 
 type ComponentType<R, P> =
@@ -103,7 +95,6 @@ export class ReactRenderer<R = unknown, P = unknown> {
     props = {},
     as = 'div',
     className = '',
-    attrs,
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
@@ -114,12 +105,6 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     if (className) {
       this.element.classList.add(...className.split(' '))
-    }
-
-    if (attrs) {
-      Object.keys(attrs).forEach(key => {
-        this.element.setAttribute(key, attrs[key])
-      })
     }
 
     if (this.editor.isInitialized) {
