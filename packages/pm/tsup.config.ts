@@ -7,6 +7,7 @@ export default defineConfig(options => {
     dts: true,
     splitting: true,
     clean: true,
+    noExternal: [/^prosemirror/],
     format: [
       'esm',
       'cjs',
