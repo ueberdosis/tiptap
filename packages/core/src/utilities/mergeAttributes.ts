@@ -23,29 +23,24 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
 
           mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
-          const newStyles: string[] = value ? value.split(';') : []
-          const existingStyles: string[] = mergedAttributes[key] ? mergedAttributes[key].split(';') : []
+          const newStyles: string[] = value ? value.split(';').map((style: string) => style.trim()).filter(Boolean) : []
+          const existingStyles: string[] = mergedAttributes[key] ? mergedAttributes[key].split(';').map((style: string) => style.trim()).filter(Boolean) : []
 
-          const newStyleProperties = newStyles.map(newStyle => newStyle.split(':'))
-          const existingStyleProperties = existingStyles.map(existingStyle => existingStyle.split(':'))
+          const styleMap = new Map<string, string>()
 
-          const newStyleKeys = newStyleProperties.map(property => property[0])
+          existingStyles.forEach(style => {
+            const [property, val] = style.split(':').map(part => part.trim())
 
-          const updatedExistingStyleProperties = existingStyleProperties.filter(
-            existingStyleProperty => !newStyleKeys.includes(existingStyleProperty[0]),
-          )
+            styleMap.set(property, val)
+          })
 
-          const existingStyleAttributes = updatedExistingStyleProperties.map(
-            updatedExistingStyleProperty => updatedExistingStyleProperty.join(':'),
-          ).join('; ')
+          newStyles.forEach(style => {
+            const [property, val] = style.split(':').map(part => part.trim())
 
-          const newStyleAttributes = newStyleProperties.map(
-            valueStyleProperty => valueStyleProperty.join(':'),
-          ).join('; ')
+            styleMap.set(property, val)
+          })
 
-          const mergedStyleAttributes = [existingStyleAttributes, newStyleAttributes].filter(attribute => !!attribute)
-
-          mergedAttributes[key] = mergedStyleAttributes.join('; ')
+          mergedAttributes[key] = Array.from(styleMap.entries()).map(([property, val]) => `${property}: ${val}`).join('; ')
         } else {
           mergedAttributes[key] = value
         }
