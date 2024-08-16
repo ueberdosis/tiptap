@@ -3,7 +3,7 @@ import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
-  type: MarkType
+  type: MarkType;
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -15,9 +15,19 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
-        const eventTarget = event.target as HTMLElement
+        if (!view.editable) {
+          return false
+        }
 
-        if (eventTarget.nodeName !== 'A') {
+        let a = event.target as HTMLElement
+        const els = []
+
+        while (a.nodeName !== 'DIV') {
+          els.push(a)
+          a = a.parentNode as HTMLElement
+        }
+
+        if (!els.find(value => value.nodeName === 'A')) {
           return false
         }
 
@@ -28,9 +38,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const target = link?.target ?? attrs.target
 
         if (link && href) {
-          if (view.editable) {
-            window.open(href, target)
-          }
+          window.open(href, target)
 
           return true
         }

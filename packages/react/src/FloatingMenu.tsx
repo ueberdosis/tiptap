@@ -7,7 +7,8 @@ import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey' | 'editor'>, 'element'> & {
+export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
+  editor: FloatingMenuPluginProps['editor'] | null;
   className?: string,
   children: React.ReactNode
 }

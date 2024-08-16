@@ -18,7 +18,7 @@ export const Keymap = Extension.create({
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const $parentPos = $anchor.parent.isTextblock ? tr.doc.resolve(pos - 1) : $anchor
+        const $parentPos = $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
         const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
         const parentPos = $anchor.pos - $anchor.parentOffset
@@ -27,7 +27,13 @@ export const Keymap = Extension.create({
           ? parentPos === $anchor.pos
           : Selection.atStart(doc).from === pos
 
-        if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
+        if (
+          !empty
+          || !parent.type.isTextblock
+          || parent.textContent.length
+          || !isAtStart
+          || (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
+        ) {
           return false
         }
 

@@ -5,8 +5,10 @@
 </template>
 
 <script>
+import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
-import StarterKit from '@tiptap/starter-kit'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import suggestion from './suggestion.js'
@@ -25,7 +27,9 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        StarterKit,
+        Document,
+        Paragraph,
+        Text,
         Mention.configure({
           HTMLAttributes: {
             class: 'mention',
@@ -50,16 +54,18 @@ export default {
 </script>
 
 <style lang="scss">
+/* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
-}
 
-.mention {
-  border: 1px solid #000;
-  border-radius: 0.4rem;
-  padding: 0.1rem 0.3rem;
-  box-decoration-break: clone;
+  .mention {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: var(--purple);
+    padding: 0.1rem 0.3rem;
+  }
 }
 </style>

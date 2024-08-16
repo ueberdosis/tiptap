@@ -17,10 +17,9 @@ const notes: TNote[] = [
 ]
 
 export default () => {
-
   return (
-    <div>
+    <>
       {notes.map(note => <Note note={note} key={note.id}/>)}
-    </div>
+    </>
   )
 }

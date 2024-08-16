@@ -14,7 +14,12 @@ export default function init(name: string, source: any) {
 
   import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.vue`)
     .then(module => {
-      createApp(module.default).mount('#app')
+      const app = createApp(module.default)
+
+      if (typeof module.configureApp === 'function') {
+        module.configureApp(app)
+      }
+      app.mount('#app')
       debug()
     })
 }
