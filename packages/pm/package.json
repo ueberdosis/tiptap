@@ -128,7 +128,7 @@
   "dependencies": {
     "prosemirror-changeset": "^2.2.1",
     "prosemirror-collab": "^1.3.1",
-    "prosemirror-commands": "^1.5.2",
+    "prosemirror-commands": "^1.6.0",
     "prosemirror-dropcursor": "^1.8.1",
     "prosemirror-gapcursor": "^1.3.2",
     "prosemirror-history": "^1.4.1",
@@ -136,14 +136,14 @@
     "prosemirror-keymap": "^1.2.2",
     "prosemirror-markdown": "^1.13.0",
     "prosemirror-menu": "^1.2.4",
-    "prosemirror-model": "^1.22.2",
+    "prosemirror-model": "^1.22.3",
     "prosemirror-schema-basic": "^1.2.3",
     "prosemirror-schema-list": "^1.4.1",
     "prosemirror-state": "^1.4.3",
     "prosemirror-tables": "^1.4.0",
-    "prosemirror-trailing-node": "^2.0.9",
-    "prosemirror-transform": "^1.9.0",
-    "prosemirror-view": "^1.33.9"
+    "prosemirror-trailing-node": "^3.0.0",
+    "prosemirror-transform": "^1.10.0",
+    "prosemirror-view": "^1.33.10"
   },
   "repository": {
     "type": "git",

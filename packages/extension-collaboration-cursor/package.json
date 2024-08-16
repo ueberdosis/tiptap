@@ -30,7 +30,7 @@
   ],
   "devDependencies": {
     "@tiptap/core": "^2.6.4",
-    "y-prosemirror": "^1.2.11"
+    "y-prosemirror": "^1.2.12"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.6.4",
