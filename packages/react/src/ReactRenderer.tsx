@@ -148,4 +148,10 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     editor?.contentComponent?.removeRenderer(this.id)
   }
+
+  updateAttributes(attributes: Record<string, string>): void {
+    Object.keys(attributes).forEach(key => {
+      this.element.setAttribute(key, attributes[key])
+    })
+  }
 }

@@ -231,9 +231,7 @@ class ReactNodeView extends NodeView<
         attrsObj = this.options.attrs
       }
 
-      Object.keys(attrsObj).forEach(key => {
-        this.renderer.element.setAttribute(key, attrsObj[key])
-      })
+      this.renderer.updateAttributes(attrsObj)
     }
   }
 }
