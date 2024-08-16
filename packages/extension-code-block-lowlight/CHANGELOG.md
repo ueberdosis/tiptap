@@ -1,5 +1,22 @@
 # Change Log
 
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/core@2.6.4
+- @tiptap/extension-code-block@2.6.4
+- @tiptap/pm@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+  - @tiptap/extension-code-block@2.6.3
+  - @tiptap/pm@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes

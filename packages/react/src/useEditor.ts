@@ -78,6 +78,7 @@ class EditorInstanceManager {
     this.options = options
     this.subscriptions = new Set<() => void>()
     this.setEditor(this.getInitialEditor())
+    this.scheduleDestroy()
 
     this.getEditor = this.getEditor.bind(this)
     this.getServerSnapshot = this.getServerSnapshot.bind(this)
@@ -253,10 +254,10 @@ class EditorInstanceManager {
     const currentInstanceId = this.instanceId
     const currentEditor = this.editor
 
-    // Wait a tick to see if the component is still mounted
+    // Wait two ticks to see if the component is still mounted
     this.scheduledDestructionTimeout = setTimeout(() => {
       if (this.isComponentMounted && this.instanceId === currentInstanceId) {
-        // If still mounted on the next tick, with the same instanceId, do not destroy the editor
+        // If still mounted on the following tick, with the same instanceId, do not destroy the editor
         if (currentEditor) {
           // just re-apply options as they might have changed
           currentEditor.setOptions(this.options.current)
@@ -269,7 +270,9 @@ class EditorInstanceManager {
           this.setEditor(null)
         }
       }
-    }, 0)
+      // This allows the effect to run again between ticks
+      // which may save us from having to re-create the editor
+    }, 1)
   }
 }
 
