@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.4
+
+### Patch Changes
+
+- 6a0f4f3: Resolves a bug where `useEditor` may not properly cleanup an instance created when in React's StrictMode #5492
+  - @tiptap/core@2.6.4
+  - @tiptap/extension-bubble-menu@2.6.4
+  - @tiptap/extension-floating-menu@2.6.4
+  - @tiptap/pm@2.6.4
+
 ## 2.6.3
 
 ### Patch Changes

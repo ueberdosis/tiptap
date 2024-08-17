@@ -1,4 +1,5 @@
 import type { Editor } from '@tiptap/core'
+import deepEqual from 'fast-deep-equal/es6/react'
 import { useDebugValue, useEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
 
@@ -20,7 +21,7 @@ export type UseEditorStateOptions<
   selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult;
   /**
    * A custom equality function to determine if the editor should re-render.
-   * @default `(a, b) => a === b`
+   * @default `deepEqual` from `fast-deep-equal`
    */
   equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean;
 };
@@ -126,7 +127,7 @@ export function useEditorState<TSelectorResult>(
     editorInstance.getSnapshot,
     editorInstance.getServerSnapshot,
     options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
-    options.equalityFn,
+    options.equalityFn ?? deepEqual,
   )
 
   useEffect(() => {
