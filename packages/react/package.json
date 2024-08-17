@@ -32,6 +32,7 @@
     "@tiptap/extension-bubble-menu": "^2.6.4",
     "@tiptap/extension-floating-menu": "^2.6.4",
     "@types/use-sync-external-store": "^0.0.6",
+    "fast-deep-equal": "^3",
     "use-sync-external-store": "^1.2.2"
   },
   "devDependencies": {
