@@ -1,6 +1,7 @@
 import {
   DecorationWithType,
   Editor,
+  getRenderedAttributes,
   NodeView,
   NodeViewProps,
   NodeViewRenderer,
@@ -27,7 +28,12 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     | null
   as?: string
   className?: string
-  attrs?: Record<string, string>
+  attrs?:
+    | Record<string, string>
+    | ((props: {
+        node: ProseMirrorNode
+        HTMLAttributes: Record<string, any>
+      }) => Record<string, string>)
 }
 
 class ReactNodeView extends NodeView<
@@ -110,8 +116,9 @@ class ReactNodeView extends NodeView<
       props,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
-      attrs: this.options.attrs,
     })
+
+    this.updateElementAttributes()
   }
 
   get dom() {
@@ -154,6 +161,9 @@ class ReactNodeView extends NodeView<
   update(node: ProseMirrorNode, decorations: DecorationWithType[]) {
     const updateProps = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
+      if (typeof this.options.attrs === 'function') {
+        this.updateElementAttributes()
+      }
     }
 
     if (node.type !== this.node.type) {
@@ -206,6 +216,23 @@ class ReactNodeView extends NodeView<
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
     this.contentDOMElement = null
+  }
+
+  updateElementAttributes() {
+    if (this.options.attrs) {
+      let attrsObj: Record<string, string> = {}
+
+      if (typeof this.options.attrs === 'function') {
+        const extensionAttributes = this.editor.extensionManager.attributes
+        const HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
+
+        attrsObj = this.options.attrs({ node: this.node, HTMLAttributes })
+      } else {
+        attrsObj = this.options.attrs
+      }
+
+      this.renderer.updateAttributes(attrsObj)
+    }
   }
 }
 
