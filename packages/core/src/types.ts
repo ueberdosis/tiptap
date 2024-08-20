@@ -83,7 +83,24 @@ export interface EditorOptions {
   };
   enableInputRules: EnableRules;
   enablePasteRules: EnableRules;
-  enableCoreExtensions: boolean;
+  /**
+   * Determines whether core extensions are enabled.
+   *
+   * If set to `false`, all core extensions will be disabled.
+   * To disable specific core extensions, provide an object where the keys are the extension names and the values are `false`.
+   * Extensions not listed in the object will remain enabled.
+   *
+   * @example
+   * // Disable all core extensions
+   * enabledCoreExtensions: false
+   *
+   * @example
+   * // Disable only the keymap core extension
+   * enabledCoreExtensions: { keymap: false }
+   *
+   * @default true
+   */
+  enableCoreExtensions: boolean | Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>;
   /**
    * If `true`, the editor will check the content for errors on initialization.
    * Emitting the `contentError` event if the content is invalid.
