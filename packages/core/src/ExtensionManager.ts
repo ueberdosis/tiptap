@@ -301,7 +301,7 @@ export class ExtensionManager {
               // pass-through
               node,
               view,
-              getPos,
+              getPos: getPos as () => number,
               decorations,
               innerDecorations,
               // tiptap-specific
