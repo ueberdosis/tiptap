@@ -137,6 +137,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
+      checkbox.addEventListener('mousedown', event => event.preventDefault())
       checkbox.addEventListener('change', event => {
         // if the editor isn’t editable and we don't have a handler for
         // readonly checks we have to undo the latest change
