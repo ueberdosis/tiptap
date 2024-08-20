@@ -154,6 +154,10 @@ export const TaskItem = Node.create<TaskItemOptions>({
             .focus(undefined, { scrollIntoView: false })
             .command(({ tr }) => {
               const position = getPos()
+
+              if (typeof position !== 'number') {
+                return false
+              }
               const currentNode = tr.doc.nodeAt(position)
 
               tr.setNodeMarkup(position, undefined, {
