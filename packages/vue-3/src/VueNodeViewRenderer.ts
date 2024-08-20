@@ -266,6 +266,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
   destroy() {
     this.renderer.destroy()
+    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
   }
 }
 
