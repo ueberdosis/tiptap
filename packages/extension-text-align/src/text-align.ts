@@ -1,8 +1,25 @@
 import { Extension } from '@tiptap/core'
 
 export interface TextAlignOptions {
+  /**
+   * The types where the text align attribute can be applied.
+   * @default []
+   * @example ['heading', 'paragraph']
+   */
   types: string[],
+
+  /**
+   * The alignments which are allowed.
+   * @default ['left', 'center', 'right', 'justify']
+   * @example ['left', 'right']
+   */
   alignments: string[],
+
+  /**
+   * The default alignment.
+   * @default 'left'
+   * @example 'center'
+   */
   defaultAlignment: string,
 }
 
@@ -11,16 +28,23 @@ declare module '@tiptap/core' {
     textAlign: {
       /**
        * Set the text align attribute
+       * @param alignment The alignment
+       * @example editor.commands.setTextAlign('left')
        */
       setTextAlign: (alignment: string) => ReturnType,
       /**
        * Unset the text align attribute
+       * @example editor.commands.unsetTextAlign()
        */
       unsetTextAlign: () => ReturnType,
     }
   }
 }
 
+/**
+ * This extension allows you to align text.
+ * @see https://www.tiptap.dev/api/extensions/text-align
+ */
 export const TextAlign = Extension.create<TextAlignOptions>({
   name: 'textAlign',
 
@@ -39,7 +63,11 @@ export const TextAlign = Extension.create<TextAlignOptions>({
         attributes: {
           textAlign: {
             default: this.options.defaultAlignment,
-            parseHTML: element => element.style.textAlign || this.options.defaultAlignment,
+            parseHTML: element => {
+              const alignment = element.style.textAlign || this.options.defaultAlignment
+
+              return this.options.alignments.includes(alignment) ? alignment : this.options.defaultAlignment
+            },
             renderHTML: attributes => {
               if (attributes.textAlign === this.options.defaultAlignment) {
                 return {}
@@ -60,11 +88,15 @@ export const TextAlign = Extension.create<TextAlignOptions>({
           return false
         }
 
-        return this.options.types.every(type => commands.updateAttributes(type, { textAlign: alignment }))
+        return this.options.types
+          .map(type => commands.updateAttributes(type, { textAlign: alignment }))
+          .every(response => response)
       },
 
       unsetTextAlign: () => ({ commands }) => {
-        return this.options.types.every(type => commands.resetAttributes(type, 'textAlign'))
+        return this.options.types
+          .map(type => commands.resetAttributes(type, 'textAlign'))
+          .every(response => response)
       },
     }
   },

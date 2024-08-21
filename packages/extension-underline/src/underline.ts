@@ -1,6 +1,11 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface UnderlineOptions {
+  /**
+   * HTML attributes to add to the underline element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -9,20 +14,27 @@ declare module '@tiptap/core' {
     underline: {
       /**
        * Set an underline mark
+       * @example editor.commands.setUnderline()
        */
       setUnderline: () => ReturnType,
       /**
        * Toggle an underline mark
+       * @example editor.commands.toggleUnderline()
        */
       toggleUnderline: () => ReturnType,
       /**
        * Unset an underline mark
+       * @example editor.commands.unsetUnderline()
        */
       unsetUnderline: () => ReturnType,
     }
   }
 }
 
+/**
+ * This extension allows you to create underline text.
+ * @see https://www.tiptap.dev/api/marks/underline
+ */
 export const Underline = Mark.create<UnderlineOptions>({
   name: 'underline',
 
