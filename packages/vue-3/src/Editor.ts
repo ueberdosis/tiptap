@@ -75,7 +75,9 @@ export class Editor extends CoreEditor {
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
   ): void {
     super.registerPlugin(plugin, handlePlugins)
-    this.reactiveState.value = this.view.state
+    if (this.reactiveState) {
+      this.reactiveState.value = this.view.state
+    }
   }
 
   /**
@@ -83,6 +85,8 @@ export class Editor extends CoreEditor {
    */
   public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
     super.unregisterPlugin(nameOrPluginKey)
-    this.reactiveState.value = this.view.state
+    if (this.reactiveState) {
+      this.reactiveState.value = this.view.state
+    }
   }
 }

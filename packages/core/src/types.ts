@@ -3,6 +3,7 @@ import {
   Node as ProseMirrorNode,
   NodeType,
   ParseOptions,
+  Slice,
 } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
 import {
@@ -121,6 +122,8 @@ export interface EditorOptions {
   onFocus: (props: EditorEvents['focus']) => void;
   onBlur: (props: EditorEvents['blur']) => void;
   onDestroy: (props: EditorEvents['destroy']) => void;
+  onPaste: (e: ClipboardEvent, slice: Slice) => void
+  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
 }
 
 export type HTMLContent = string;
