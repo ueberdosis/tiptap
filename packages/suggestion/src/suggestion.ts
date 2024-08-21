@@ -195,7 +195,7 @@ export function Suggestion<I = any, TSelected = any>({
           const stopped = prev.active && !next.active
           const changed = !started && !stopped && prev.query !== next.query
 
-          const handleStart = started
+          const handleStart = started || (moved && changed)
           const handleChange = changed || moved
           const handleExit = stopped
 
