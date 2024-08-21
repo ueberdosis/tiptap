@@ -1,5 +1,31 @@
 # Change Log
 
+## 2.6.5
+
+### Patch Changes
+
+- 3c3d714: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+  - @tiptap/core@2.6.5
+  - @tiptap/pm@2.6.5
+  - @tiptap/suggestion@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/core@2.6.4
+- @tiptap/pm@2.6.4
+- @tiptap/suggestion@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+  - @tiptap/pm@2.6.3
+  - @tiptap/suggestion@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes
