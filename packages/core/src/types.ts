@@ -100,7 +100,7 @@ export interface EditorOptions {
    *
    * @default true
    */
-  enableCoreExtensions: boolean | Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>;
+  enableCoreExtensions?: boolean | Partial<Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>>;
   /**
    * If `true`, the editor will check the content for errors on initialization.
    * Emitting the `contentError` event if the content is invalid.
