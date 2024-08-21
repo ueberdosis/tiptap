@@ -4,9 +4,7 @@ context('/src/GuideContent/ReadOnly/React/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
   })
 
   it('should be read-only', () => {

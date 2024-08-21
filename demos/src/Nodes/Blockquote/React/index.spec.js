@@ -80,6 +80,7 @@ context('/src/Nodes/Blockquote/React/', () => {
   })
 
   it('should make a blockquote from markdown shortcuts', () => {
-    cy.get('.tiptap').type('> Quote').find('blockquote').should('contain', 'Quote')
+    cy.get('.tiptap').realType('> Quote')
+    cy.get('.tiptap').find('blockquote').should('contain', 'Quote')
   })
 })

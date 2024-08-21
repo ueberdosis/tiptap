@@ -4,19 +4,19 @@ context('/src/Examples/InteractivityComponentContent/React/', () => {
   })
 
   it('should have a working tiptap instance', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       // eslint-disable-next-line
       expect(editor).to.not.be.null
     })
   })
 
   it('should render a custom node', () => {
-    cy.get('.ProseMirror .react-component')
+    cy.get('.tiptap .react-component')
       .should('have.length', 1)
   })
 
   it('should allow text editing inside component', () => {
-    cy.get('.ProseMirror .react-component .content div')
+    cy.get('.tiptap .react-component .content div')
       .invoke('attr', 'contentEditable', true)
       .invoke('text', '')
       .type('Hello World!')
@@ -24,24 +24,27 @@ context('/src/Examples/InteractivityComponentContent/React/', () => {
   })
 
   it('should allow text editing inside component with markdown text', () => {
-    cy.get('.ProseMirror .react-component .content div')
+    cy.get('.tiptap .react-component .content div')
       .invoke('attr', 'contentEditable', true)
       .invoke('text', '')
-      .type('Hello World! This is **bold**.')
+      .click()
+    cy.get('.tiptap .react-component .content div')
+      .realType('Hello World! This is **bold**.')
+    cy.get('.tiptap .react-component .content div')
       .should('have.text', 'Hello World! This is bold.')
 
-    cy.get('.ProseMirror .react-component .content strong')
+    cy.get('.tiptap .react-component .content strong')
       .should('exist')
   })
 
   it('should remove node via selectall', () => {
-    cy.get('.ProseMirror .react-component')
+    cy.get('.tiptap .react-component')
       .should('have.length', 1)
 
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('{selectall}{backspace}')
 
-    cy.get('.ProseMirror .react-component')
+    cy.get('.tiptap .react-component')
       .should('have.length', 0)
   })
 })

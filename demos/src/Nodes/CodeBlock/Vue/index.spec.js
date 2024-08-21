@@ -87,8 +87,8 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('``` Code')
-        .find('pre>code')
+        .realType('``` Code')
+      cy.get('.tiptap').find('pre>code')
         .should('contain', 'Code')
     })
   })
@@ -98,8 +98,8 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('~~~ Code')
-        .find('pre>code')
+        .realType('~~~ Code')
+      cy.get('.tiptap').find('pre>code')
         .should('contain', 'Code')
     })
   })
@@ -109,8 +109,8 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('```js Code')
-        .find('pre>code.language-js')
+        .realType('```js Code')
+      cy.get('.tiptap').find('pre>code.language-js')
         .should('contain', 'Code')
     })
   })
@@ -120,8 +120,8 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('~~~js Code')
-        .find('pre>code.language-js')
+        .realType('~~~js Code')
+      cy.get('.tiptap').find('pre>code.language-js')
         .should('contain', 'Code')
     })
   })
@@ -131,8 +131,8 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('```{enter}Code')
-        .find('pre>code')
+        .realType('```{enter}Code')
+      cy.get('.tiptap').find('pre>code')
         .should('contain', 'Code')
     })
   })
@@ -142,7 +142,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('``` {backspace}')
+        .realType('``` {backspace}')
 
       cy.get('.tiptap pre')
         .should('not.exist')
@@ -157,7 +157,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
         .should('not.exist')
 
       cy.get('.tiptap')
-        .type('Paragraph{enter}``` A{backspace}{backspace}')
+        .realType('Paragraph{enter}``` A{backspace}{backspace}')
 
       cy.get('.tiptap pre')
         .should('not.exist')
@@ -172,7 +172,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
         .should('not.exist')
 
       cy.get('.tiptap')
-        .type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
+        .realType('Paragraph{enter}{enter}``` A{backspace}{backspace}')
 
       cy.get('.tiptap pre')
         .should('not.exist')
@@ -187,7 +187,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
         .should('not.exist')
 
       cy.get('.tiptap')
-        .type('``` A{leftArrow}{backspace}')
+        .type('``` A{leftarrow}{backspace}')
 
       cy.get('.tiptap pre')
         .should('not.exist')

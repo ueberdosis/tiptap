@@ -4,9 +4,7 @@ context('/src/Examples/Tasks/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
   })
 
   it('should always use task items', () => {
