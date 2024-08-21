@@ -121,8 +121,8 @@ export interface EditorOptions {
   onFocus: (props: EditorEvents['focus']) => void;
   onBlur: (props: EditorEvents['blur']) => void;
   onDestroy: (props: EditorEvents['destroy']) => void;
-  onPaste?: (e: ClipboardEvent) => void
-  onDrop?: (e: DragEvent) => void
+  onPaste: (e: ClipboardEvent) => void
+  onDrop: (e: DragEvent) => void
 }
 
 export type HTMLContent = string;
