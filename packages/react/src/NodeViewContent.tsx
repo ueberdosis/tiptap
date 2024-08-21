@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useReactNodeView } from './useReactNodeView'
+import { useReactNodeView } from './useReactNodeView.js'
 
 export interface NodeViewContentProps {
   [key: string]: any,
@@ -12,6 +12,7 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
   const { nodeViewContentRef } = useReactNodeView()
 
   return (
+    // @ts-ignore
     <Tag
       {...props}
       ref={nodeViewContentRef}

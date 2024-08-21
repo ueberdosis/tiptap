@@ -1,6 +1,6 @@
 import { EditorView } from '@tiptap/pm/view'
 
-import LinterPlugin, { Result as Issue } from '../LinterPlugin'
+import LinterPlugin, { Result as Issue } from '../LinterPlugin.js'
 
 export class Punctuation extends LinterPlugin {
   public regex = / ([,.!?:]) ?/g

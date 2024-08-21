@@ -1,6 +1,8 @@
 import { defineComponent, h } from 'vue'
 
 export const NodeViewWrapper = defineComponent({
+  name: 'NodeViewWrapper',
+
   props: {
     as: {
       type: String,

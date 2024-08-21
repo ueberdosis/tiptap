@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useReactNodeView } from './useReactNodeView'
+import { useReactNodeView } from './useReactNodeView.js'
 
 export interface NodeViewWrapperProps {
   [key: string]: any,
@@ -12,6 +12,7 @@ export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef(
   const Tag = props.as || 'div'
 
   return (
+    // @ts-ignore
     <Tag
       {...props}
       ref={ref}

@@ -1,17 +1,17 @@
 import { EditorState, Plugin, TextSelection } from '@tiptap/pm/state'
 
-import { CommandManager } from './CommandManager'
-import { Editor } from './Editor'
-import { createChainableState } from './helpers/createChainableState'
-import { getTextContentFromNodes } from './helpers/getTextContentFromNodes'
+import { CommandManager } from './CommandManager.js'
+import { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
+import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
 import {
   CanCommands,
   ChainedCommands,
   ExtendedRegExpMatchArray,
   Range,
   SingleCommands,
-} from './types'
-import { isRegExp } from './utilities/isRegExp'
+} from './types.js'
+import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {
   index: number
@@ -189,6 +189,26 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
 
         if (stored) {
           return stored
+        }
+
+        // if InputRule is triggered by insertContent()
+        const simulatedInputMeta = tr.getMeta('applyInputRules')
+        const isSimulatedInput = !!simulatedInputMeta
+
+        if (isSimulatedInput) {
+          setTimeout(() => {
+            const { from, text } = simulatedInputMeta
+            const to = from + text.length
+
+            run({
+              editor,
+              from,
+              to,
+              text,
+              rules,
+              plugin,
+            })
+          })
         }
 
         return tr.selectionSet || tr.docChanged ? null : prev

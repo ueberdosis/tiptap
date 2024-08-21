@@ -1,5 +1,5 @@
-import { Superscript } from './superscript'
+import { Superscript } from './superscript.js'
 
-export * from './superscript'
+export * from './superscript.js'
 
 export default Superscript

@@ -1,7 +1,7 @@
 import { ParseRule } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types'
-import { fromString } from '../utilities/fromString'
+import { ExtensionAttribute } from '../types.js'
+import { fromString } from '../utilities/fromString.js'
 
 /**
  * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
@@ -13,13 +13,13 @@ export function injectExtensionAttributesToParseRule(
   parseRule: ParseRule,
   extensionAttributes: ExtensionAttribute[],
 ): ParseRule {
-  if (parseRule.style) {
+  if ('style' in parseRule) {
     return parseRule
   }
 
   return {
     ...parseRule,
-    getAttrs: node => {
+    getAttrs: (node: HTMLElement) => {
       const oldAttributes = parseRule.getAttrs ? parseRule.getAttrs(node) : parseRule.attrs
 
       if (oldAttributes === false) {
@@ -28,8 +28,8 @@ export function injectExtensionAttributesToParseRule(
 
       const newAttributes = extensionAttributes.reduce((items, item) => {
         const value = item.attribute.parseHTML
-          ? item.attribute.parseHTML(node as HTMLElement)
-          : fromString((node as HTMLElement).getAttribute(item.name))
+          ? item.attribute.parseHTML(node)
+          : fromString((node).getAttribute(item.name))
 
         if (value === null || value === undefined) {
           return items

@@ -1,9 +1,9 @@
 import { EditorState, NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { canSplit } from '@tiptap/pm/transform'
 
-import { defaultBlockAt } from '../helpers/defaultBlockAt'
-import { getSplittedAttributes } from '../helpers/getSplittedAttributes'
-import { RawCommands } from '../types'
+import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
+import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
+import { RawCommands } from '../types.js'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   const marks = state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
@@ -20,6 +20,9 @@ declare module '@tiptap/core' {
     splitBlock: {
       /**
        * Forks a new node from an existing node.
+       * @param options.keepMarks Keep marks from the previous node.
+       * @example editor.commands.splitBlock()
+       * @example editor.commands.splitBlock({ keepMarks: true })
        */
       splitBlock: (options?: { keepMarks?: boolean }) => ReturnType
     }
@@ -58,18 +61,30 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
     return false
   }
 
-  if (dispatch) {
-    const atEnd = $to.parentOffset === $to.parent.content.size
+  const atEnd = $to.parentOffset === $to.parent.content.size
 
-    if (selection instanceof TextSelection) {
-      tr.deleteSelection()
-    }
+  const deflt = $from.depth === 0
+    ? undefined
+    : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
 
-    const deflt = $from.depth === 0
-      ? undefined
-      : defaultBlockAt($from.node(-1).contentMatchAt($from.indexAfter(-1)))
+  let types = atEnd && deflt
+    ? [
+      {
+        type: deflt,
+        attrs: newAttributes,
+      },
+    ]
+    : undefined
 
-    let types = atEnd && deflt
+  let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
+
+  if (
+    !types
+      && !can
+      && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
+  ) {
+    can = true
+    types = deflt
       ? [
         {
           type: deflt,
@@ -77,26 +92,14 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
         },
       ]
       : undefined
+  }
 
-    let can = canSplit(tr.doc, tr.mapping.map($from.pos), 1, types)
-
-    if (
-      !types
-        && !can
-        && canSplit(tr.doc, tr.mapping.map($from.pos), 1, deflt ? [{ type: deflt }] : undefined)
-    ) {
-      can = true
-      types = deflt
-        ? [
-          {
-            type: deflt,
-            attrs: newAttributes,
-          },
-        ]
-        : undefined
-    }
-
+  if (dispatch) {
     if (can) {
+      if (selection instanceof TextSelection) {
+        tr.deleteSelection()
+      }
+
       tr.split(tr.mapping.map($from.pos), 1, types)
 
       if (deflt && !atEnd && !$from.parentOffset && $from.parent.type !== deflt) {
@@ -116,5 +119,5 @@ export const splitBlock: RawCommands['splitBlock'] = ({ keepMarks = true } = {})
     tr.scrollIntoView()
   }
 
-  return true
+  return can
 }

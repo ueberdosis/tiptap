@@ -1,15 +1,19 @@
 import { lift as originalLift } from '@tiptap/pm/commands'
 import { NodeType } from '@tiptap/pm/model'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { isNodeActive } from '../helpers/isNodeActive'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { isNodeActive } from '../helpers/isNodeActive.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     lift: {
       /**
-       * Removes an existing wrap.
+       * Removes an existing wrap if possible lifting the node out of it
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.lift('paragraph')
+       * @example editor.commands.lift('heading', { level: 1 })
        */
       lift: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }

@@ -1,10 +1,11 @@
 import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 
-import { CommandManager } from '../CommandManager'
-import { Extension } from '../Extension'
-import { createChainableState } from '../helpers/createChainableState'
-import { isiOS } from '../utilities/isiOS'
-import { isMacOS } from '../utilities/isMacOS'
+import { CommandManager } from '../CommandManager.js'
+import { Extension } from '../Extension.js'
+import { createChainableState } from '../helpers/createChainableState.js'
+import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
+import { isiOS } from '../utilities/isiOS.js'
+import { isMacOS } from '../utilities/isMacOS.js'
 
 export const Keymap = Extension.create({
   name: 'keymap',
@@ -12,19 +13,34 @@ export const Keymap = Extension.create({
   addKeyboardShortcuts() {
     const handleBackspace = () => this.editor.commands.first(({ commands }) => [
       () => commands.undoInputRule(),
+
       // maybe convert first text block node to default node
       () => commands.command(({ tr }) => {
         const { selection, doc } = tr
         const { empty, $anchor } = selection
         const { pos, parent } = $anchor
-        const isAtStart = Selection.atStart(doc).from === pos
+        const $parentPos = $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
+        const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
-        if (!empty || !isAtStart || !parent.type.isTextblock || parent.textContent.length) {
+        const parentPos = $anchor.pos - $anchor.parentOffset
+
+        const isAtStart = (parentIsIsolating && $parentPos.parent.childCount === 1)
+          ? parentPos === $anchor.pos
+          : Selection.atStart(doc).from === pos
+
+        if (
+          !empty
+          || !parent.type.isTextblock
+          || parent.textContent.length
+          || !isAtStart
+          || (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
+        ) {
           return false
         }
 
         return commands.clearNodes()
       }),
+
       () => commands.deleteSelection(),
       () => commands.joinBackward(),
       () => commands.selectNodeBackward(),
@@ -91,7 +107,9 @@ export const Keymap = Extension.create({
           const docChanges = transactions.some(transaction => transaction.docChanged)
             && !oldState.doc.eq(newState.doc)
 
-          if (!docChanges) {
+          const ignoreTr = transactions.some(transaction => transaction.getMeta('preventClearDocument'))
+
+          if (!docChanges || ignoreTr) {
             return
           }
 
@@ -104,7 +122,7 @@ export const Keymap = Extension.create({
             return
           }
 
-          const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
+          const isEmpty = isNodeEmpty(newState.doc)
 
           if (!isEmpty) {
             return

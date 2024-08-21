@@ -1,14 +1,16 @@
-import { MarkSpec, NodeSpec, Schema } from '@tiptap/pm/model'
+import {
+  MarkSpec, NodeSpec, Schema, TagParseRule,
+} from '@tiptap/pm/model'
 
-import { Editor, MarkConfig, NodeConfig } from '..'
-import { AnyConfig, Extensions } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
-import { isEmptyObject } from '../utilities/isEmptyObject'
-import { getAttributesFromExtensions } from './getAttributesFromExtensions'
-import { getExtensionField } from './getExtensionField'
-import { getRenderedAttributes } from './getRenderedAttributes'
-import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule'
-import { splitExtensions } from './splitExtensions'
+import { Editor, MarkConfig, NodeConfig } from '../index.js'
+import { AnyConfig, Extensions } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
+import { isEmptyObject } from '../utilities/isEmptyObject.js'
+import { getAttributesFromExtensions } from './getAttributesFromExtensions.js'
+import { getExtensionField } from './getExtensionField.js'
+import { getRenderedAttributes } from './getRenderedAttributes.js'
+import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule.js'
+import { splitExtensions } from './splitExtensions.js'
 
 function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(
@@ -23,6 +25,12 @@ function cleanUpSchemaItem<T>(data: T) {
   ) as T
 }
 
+/**
+ * Creates a new Prosemirror schema based on the given extensions.
+ * @param extensions An array of Tiptap extensions
+ * @param editor The editor instance
+ * @returns A Prosemirror schema
+ */
 export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
@@ -69,6 +77,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
           getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context),
         ),
         code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
+        whitespace: callOrReturn(getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)),
         defining: callOrReturn(
           getExtensionField<NodeConfig['defining']>(extension, 'defining', context),
         ),
@@ -87,7 +96,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (parseHTML) {
-        schema.parseDOM = parseHTML.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes))
+        schema.parseDOM = parseHTML.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes)) as TagParseRule[]
       }
 
       const renderHTML = getExtensionField<NodeConfig['renderHTML']>(

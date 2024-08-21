@@ -1,18 +1,36 @@
 import { ParseOptions } from '@tiptap/pm/model'
 
-import { Content, RawCommands } from '../types'
+import { Content, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     insertContent: {
       /**
        * Insert a node or string of HTML at the current position.
+       * @example editor.commands.insertContent('<h1>Example</h1>')
+       * @example editor.commands.insertContent('<h1>Example</h1>', { updateSelection: false })
        */
       insertContent: (
+        /**
+         * The ProseMirror content to insert.
+         */
         value: Content,
+
+        /**
+         * Optional options
+         */
         options?: {
+          /**
+           * Options for parsing the content.
+           */
           parseOptions?: ParseOptions
+
+          /**
+           * Whether to update the selection after inserting the content.
+           */
           updateSelection?: boolean
+          applyInputRules?: boolean
+          applyPasteRules?: boolean
         },
       ) => ReturnType
     }
