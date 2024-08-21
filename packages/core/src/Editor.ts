@@ -90,8 +90,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     onBlur: () => null,
     onDestroy: () => null,
     onContentError: ({ error }) => { throw error },
-    onPaste: undefined,
-    onDrop: undefined,
+    onPaste: () => null,
+    onDrop: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
