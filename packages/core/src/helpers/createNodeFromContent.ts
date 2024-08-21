@@ -45,7 +45,13 @@ export function createNodeFromContent(
         return Fragment.fromArray(content.map(item => schema.nodeFromJSON(item)))
       }
 
-      return schema.nodeFromJSON(content)
+      const node = schema.nodeFromJSON(content)
+
+      if (options.errorOnInvalidContent) {
+        node.check()
+      }
+
+      return node
     } catch (error) {
       if (options.errorOnInvalidContent) {
         throw new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
