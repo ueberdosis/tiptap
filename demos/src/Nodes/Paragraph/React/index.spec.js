@@ -4,9 +4,7 @@ context('/src/Nodes/Paragraph/React/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
   })
 
   it('should parse paragraphs correctly', () => {

@@ -37,7 +37,7 @@ context('/src/Nodes/HorizontalRule/React/', () => {
 
       cy.get('.tiptap hr').should('not.exist')
 
-      cy.get('.tiptap').type('---')
+      cy.get('.tiptap').realType('---')
 
       cy.get('.tiptap hr').should('exist')
     })
@@ -49,7 +49,7 @@ context('/src/Nodes/HorizontalRule/React/', () => {
 
       cy.get('.tiptap hr').should('not.exist')
 
-      cy.get('.tiptap').type('___ ')
+      cy.get('.tiptap').realType('___ ')
 
       cy.get('.tiptap hr').should('exist')
     })

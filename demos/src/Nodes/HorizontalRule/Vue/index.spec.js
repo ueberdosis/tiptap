@@ -42,7 +42,7 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
         .should('not.exist')
 
       cy.get('.tiptap')
-        .type('---')
+        .realType('---')
 
       cy.get('.tiptap hr')
         .should('exist')
@@ -57,7 +57,7 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
         .should('not.exist')
 
       cy.get('.tiptap')
-        .type('___ ')
+        .realType('___ ')
 
       cy.get('.tiptap hr')
         .should('exist')

@@ -4,9 +4,7 @@ context('/src/Examples/Savvy/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
   })
 
   const tests = [
@@ -25,7 +23,8 @@ context('/src/Examples/Savvy/Vue/', () => {
   tests.forEach(test => {
     it(`should parse ${test[0]} correctly`, () => {
       cy.get('.tiptap')
-        .type(`${test[0]} `)
+        .realType(`${test[0]} `)
+      cy.get('.tiptap')
         .should('contain', test[1])
     })
   })

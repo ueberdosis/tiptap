@@ -76,7 +76,8 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap').type('``` Code').find('pre>code').should('contain', 'Code')
+      cy.get('.tiptap').realType('``` Code')
+      cy.get('.tiptap').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -84,7 +85,8 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap').type('~~~ Code').find('pre>code').should('contain', 'Code')
+      cy.get('.tiptap').realType('~~~ Code')
+      cy.get('.tiptap').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -93,8 +95,8 @@ context('/src/Nodes/CodeBlock/React/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('```js Code')
-        .find('pre>code.language-js')
+        .realType('```js Code')
+      cy.get('.tiptap').find('pre>code.language-js')
         .should('contain', 'Code')
     })
   })
@@ -104,8 +106,8 @@ context('/src/Nodes/CodeBlock/React/', () => {
       editor.commands.clearContent()
 
       cy.get('.tiptap')
-        .type('~~~js Code')
-        .find('pre>code.language-js')
+        .realType('~~~js Code')
+      cy.get('.tiptap').find('pre>code.language-js')
         .should('contain', 'Code')
     })
   })
@@ -114,7 +116,8 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap').type('```{enter}Code').find('pre>code').should('contain', 'Code')
+      cy.get('.tiptap').realType('```{enter}Code')
+      cy.get('.tiptap').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -122,7 +125,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap').type('``` {backspace}')
+      cy.get('.tiptap').realType('``` {backspace}')
 
       cy.get('.tiptap pre').should('not.exist')
     })
@@ -134,7 +137,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
 
       cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap').type('Paragraph{enter}``` A{backspace}{backspace}')
+      cy.get('.tiptap').realType('Paragraph{enter}``` A{backspace}{backspace}')
 
       cy.get('.tiptap pre').should('not.exist')
     })
@@ -146,7 +149,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
 
       cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap').type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
+      cy.get('.tiptap').realType('Paragraph{enter}{enter}``` A{backspace}{backspace}')
 
       cy.get('.tiptap pre').should('not.exist')
     })
@@ -158,7 +161,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
 
       cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap').type('``` A{leftArrow}{backspace}')
+      cy.get('.tiptap').realType('``` A{leftarrow}{backspace}')
 
       cy.get('.tiptap pre').should('not.exist')
     })

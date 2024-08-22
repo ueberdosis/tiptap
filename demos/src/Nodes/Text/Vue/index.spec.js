@@ -4,9 +4,7 @@ context('/src/Nodes/Text/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
   })
 
   it('text should be wrapped in a paragraph by default', () => {

@@ -69,12 +69,10 @@ context('/src/Nodes/TaskList/Vue/', () => {
   })
 
   it('should leave the list with double enter', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
 
     cy.get('.tiptap')
-      .type('[ ] List Item 1{enter}{enter}Paragraph')
+      .realType('[ ] List Item 1{enter}{enter}Paragraph')
 
     cy.get('.tiptap')
       .find('li')
@@ -87,12 +85,10 @@ context('/src/Nodes/TaskList/Vue/', () => {
   })
 
   it('should make a task list from square brackets', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
 
     cy.get('.tiptap')
-      .type('[ ] List Item 1{enter}List Item 2')
+      .realType('[ ] List Item 1{enter}List Item 2')
 
     cy.get('.tiptap')
       .find('li:nth-child(1)')
@@ -106,12 +102,10 @@ context('/src/Nodes/TaskList/Vue/', () => {
   })
 
   it('should make a task list from checked square brackets', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.clearContent()
-    })
+    cy.resetEditor()
 
     cy.get('.tiptap')
-      .type('[x] List Item 1{enter}List Item 2')
+      .realType('[x] List Item 1{enter}List Item 2')
 
     cy.get('.tiptap')
       .find('li:nth-child(1)')
