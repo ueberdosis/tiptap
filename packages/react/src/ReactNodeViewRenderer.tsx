@@ -88,6 +88,7 @@ class ReactNodeView extends NodeView<
     }
 
     if (this.contentDOMElement) {
+      this.contentDOMElement.dataset.reactMount = '';
       // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
       // With this fix it seems to work fine
       // See: https://github.com/ueberdosis/tiptap/issues/1197
