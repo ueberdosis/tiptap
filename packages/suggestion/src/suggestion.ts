@@ -130,6 +130,11 @@ export interface SuggestionProps<I = any, TSelected = any> {
   items: I[]
 
   /**
+   * The state of loading items.
+   */
+  isLoading: boolean
+
+  /**
    * A function that is called when a suggestion is selected.
    * @param props The props object.
    * @returns void
@@ -215,6 +220,7 @@ export function Suggestion<I = any, TSelected = any>({
             query: state.query,
             text: state.text,
             items: [],
+            isLoading: false,
             command: commandProps => {
               return command({
                 editor,
@@ -247,9 +253,14 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           if (handleChange || handleStart) {
-            props.items = await items({
-              editor,
-              query: state.query,
+            props.isLoading = true
+            Promise.resolve(items({ editor, query: state.query })).then(result => {
+              if (props == null) {
+                return
+              }
+              props.isLoading = false
+              props.items = result
+              renderer?.onUpdate?.(props)
             })
           }
 
