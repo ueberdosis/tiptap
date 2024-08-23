@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+- Updated dependencies [84f491c]
+  - @tiptap/core@2.6.6
+  - @tiptap/suggestion@2.6.6
+  - @tiptap/pm@2.6.6
+
 ## 2.6.5
 
 ### Patch Changes
