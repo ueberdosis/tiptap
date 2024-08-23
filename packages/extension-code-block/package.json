@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block",
   "description": "code block extension for tiptap",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,12 +29,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.6.5",
-    "@tiptap/pm": "^2.6.5"
+    "@tiptap/core": "^2.6.6",
+    "@tiptap/pm": "^2.6.6"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.6.5",
-    "@tiptap/pm": "^2.6.5"
+    "@tiptap/core": "^2.6.6",
+    "@tiptap/pm": "^2.6.6"
   },
   "repository": {
     "type": "git",

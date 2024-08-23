@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.6.6
+
+### Patch Changes
+
+- 84f491c: Dropdowns from the suggestion utility couldn't be closed with the `Esc` key
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+  - @tiptap/pm@2.6.6
+
 ## 2.6.5
 
 ### Patch Changes
