@@ -197,7 +197,7 @@ export function Suggestion<I = any, TSelected = any>({
 
           const handleStart = started || (moved && changed)
           const handleChange = changed || moved
-          const handleExit = stopped
+          const handleExit = stopped || (moved && changed)
 
           // Cancel when suggestion isn't active
           if (!handleStart && !handleChange && !handleExit) {
