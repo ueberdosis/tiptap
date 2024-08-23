@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.6.6
+
+### Patch Changes
+
+- 8d8d999: fix: check for schema's nesting rules on contentCheck
+  - @tiptap/pm@2.6.6
+
 ## 2.6.5
 
 ### Patch Changes

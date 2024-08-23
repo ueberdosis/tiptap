@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+  - @tiptap/extension-bubble-menu@2.6.6
+  - @tiptap/extension-floating-menu@2.6.6
+  - @tiptap/pm@2.6.6
+
 ## 2.6.5
 
 ### Patch Changes
