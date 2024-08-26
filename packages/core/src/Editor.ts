@@ -39,10 +39,9 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
-declare global {
-  interface HTMLElement {
-    editor?: Editor;
-  }
+// @ts-ignore
+export interface TiptapEditorHTMLElement extends HTMLElement {
+  editor?: Editor
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
@@ -57,6 +56,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public view!: EditorView
 
   public isFocused = false
+
+  /**
+   * The editor is considered initialized after the `create` event has been emitted.
+   */
+  public isInitialized = false
 
   public extensionStorage: Record<string, any> = {}
 
@@ -112,6 +116,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
+      this.isInitialized = true
     }, 0)
   }
 
@@ -342,7 +347,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
-    const dom = this.view.dom as HTMLElement
+    // @ts-ignore
+    const dom = this.view.dom as TiptapEditorHTMLElement
 
     dom.editor = this
   }
@@ -351,6 +357,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates all node views.
    */
   public createNodeViews(): void {
+    if (this.view.isDestroyed) {
+      return
+    }
+
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
@@ -406,6 +416,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
+    this.emit('beforeTransaction', {
+      editor: this,
+      transaction,
+      nextState: state,
+    })
     this.view.updateState(state)
     this.emit('transaction', {
       editor: this,

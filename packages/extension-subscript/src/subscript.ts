@@ -61,7 +61,7 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
           // If it falls through we’ll match, and this mark will be applied.
           return null
         },
-      } satisfies StyleParseRule,
+      } as StyleParseRule,
     ]
   },
 

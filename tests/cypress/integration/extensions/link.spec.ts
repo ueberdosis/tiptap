@@ -250,4 +250,29 @@ describe('extension-link', () => {
       getEditorEl()?.remove()
     })
   })
+
+  describe('custom protocols', () => {
+    it('allows using additional custom protocols', () => {
+      ['custom://test.css', 'another-custom://protocol.html', ...validUrls].forEach(url => {
+        editor = new Editor({
+          element: createEditorEl(),
+          extensions: [
+            Document,
+            Text,
+            Paragraph,
+            Link.configure({
+              protocols: ['custom', { scheme: 'another-custom' }],
+            }),
+          ],
+          content: `<p><a href="${url}">hello world!</a></p>`,
+        })
+
+        expect(editor.getHTML()).to.include(url)
+        expect(JSON.stringify(editor.getJSON())).to.include(url)
+
+        editor?.destroy()
+        getEditorEl()?.remove()
+      })
+    })
+  })
 })

@@ -108,7 +108,9 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { lowlight } from 'lowlight'
+import { all, createLowlight } from 'lowlight'
+
+const lowlight = createLowlight(all)
 
 export default {
   components: {
@@ -182,14 +184,14 @@ export default {
         </p>
         <ul>
           <li>
-            That’s a bullet list with one …
+            That's a bullet list with one …
           </li>
           <li>
             … or two list items.
           </li>
         </ul>
         <p>
-          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+          Isn't that great? And all of that is editable. But wait, there's more. Let's try a code block:
         </p>
         <pre><code class="language-javascript">for (var i=1; i <= 20; i++)
 {
@@ -203,10 +205,10 @@ export default {
     console.log(i);
 }</code></pre>
         <p>
-          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+          I know, I know, this is impressive. It's only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
         </p>
         <blockquote>
-          Wow, that’s amazing. Good work, boy! 👏
+          Wow, that's amazing. Good work, boy! 👏
           <br />
           — Mom
         </blockquote>
@@ -214,9 +216,9 @@ export default {
         <p style="text-align: center">first paragraph</p>
         <p style="text-align: right">second paragraph</p>
         <h2>Color</h2>
-        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <p><span style="color: #958DF1">Oh, for some reason that's purple.</span></p>
         <h2>Highlight</h2>
-        <p>This isn’t highlighted.</s></p>
+        <p>This isn't highlighted.</s></p>
         <p><mark>But that one is.</mark></p>
         <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
         <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>

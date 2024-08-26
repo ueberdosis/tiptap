@@ -45,7 +45,13 @@ export function createNodeFromContent(
         return Fragment.fromArray(content.map(item => schema.nodeFromJSON(item)))
       }
 
-      return schema.nodeFromJSON(content)
+      const node = schema.nodeFromJSON(content)
+
+      if (options.errorOnInvalidContent) {
+        node.check()
+      }
+
+      return node
     } catch (error) {
       if (options.errorOnInvalidContent) {
         throw new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
@@ -58,12 +64,14 @@ export function createNodeFromContent(
   }
 
   if (isTextContent) {
-    let schemaToUse = schema
-    let hasInvalidContent = false
 
-    // Only ever check for invalid content if we're supposed to throw an error
+    // Check for invalid content
     if (options.errorOnInvalidContent) {
-      schemaToUse = new Schema({
+      let hasInvalidContent = false
+      let invalidContent = ''
+
+      // A copy of the current schema with a catch-all node at the end
+      const contentCheckSchema = new Schema({
         topNode: schema.spec.topNode,
         marks: schema.spec.marks,
         // Prosemirror's schemas are executed such that: the last to execute, matches last
@@ -75,9 +83,11 @@ export function createNodeFromContent(
             parseDOM: [
               {
                 tag: '*',
-                getAttrs: () => {
+                getAttrs: e => {
                   // If this is ever called, we know that the content has something that we don't know how to handle in the schema
                   hasInvalidContent = true
+                  // Try to stringify the element for a more helpful error message
+                  invalidContent = typeof e === 'string' ? e : e.outerHTML
                   return null
                 },
               },
@@ -85,19 +95,26 @@ export function createNodeFromContent(
           },
         }),
       })
+
+      if (options.slice) {
+        DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions)
+      } else {
+        DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
+      }
+
+      if (options.errorOnInvalidContent && hasInvalidContent) {
+        throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
+      }
     }
 
-    const parser = DOMParser.fromSchema(schemaToUse)
+    const parser = DOMParser.fromSchema(schema)
 
-    const response = options.slice
-      ? parser.parseSlice(elementFromString(content), options.parseOptions).content
-      : parser.parse(elementFromString(content), options.parseOptions)
-
-    if (options.errorOnInvalidContent && hasInvalidContent) {
-      throw new Error('[tiptap error]: Invalid HTML content')
+    if (options.slice) {
+      return parser.parseSlice(elementFromString(content), options.parseOptions).content
     }
 
-    return response
+    return parser.parse(elementFromString(content), options.parseOptions)
+
   }
 
   return createNodeFromContent('', schema, options)

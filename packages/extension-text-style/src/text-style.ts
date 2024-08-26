@@ -33,6 +33,8 @@ declare module '@tiptap/core' {
 export const TextStyle = Mark.create<TextStyleOptions>({
   name: 'textStyle',
 
+  priority: 101,
+
   addOptions() {
     return {
       HTMLAttributes: {},

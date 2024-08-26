@@ -14,14 +14,15 @@ declare module '@tiptap/core' {
       /**
        * Splits one list item into two list items.
        * @param typeOrName The type or name of the node.
+       * @param overrideAttrs The attributes to ensure on the new node.
        * @example editor.commands.splitListItem('listItem')
        */
-      splitListItem: (typeOrName: string | NodeType) => ReturnType
+      splitListItem: (typeOrName: string | NodeType, overrideAttrs?: Record<string, any>) => ReturnType
     }
   }
 }
 
-export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
+export const splitListItem: RawCommands['splitListItem'] = (typeOrName, overrideAttrs = {}) => ({
   tr, state, dispatch, editor,
 }) => {
   const type = getNodeType(typeOrName, state.schema)
@@ -70,11 +71,14 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
         const depthAfter = $from.indexAfter(-1) < $from.node(-2).childCount ? 1 : $from.indexAfter(-2) < $from.node(-3).childCount ? 2 : 3
 
       // Add a second list item with an empty default start node
-      const newNextTypeAttributes = getSplittedAttributes(
-        extensionAttributes,
-        $from.node().type.name,
-        $from.node().attrs,
-      )
+      const newNextTypeAttributes = {
+        ...getSplittedAttributes(
+          extensionAttributes,
+          $from.node().type.name,
+          $from.node().attrs,
+        ),
+        ...overrideAttrs,
+      }
       const nextType = type.contentMatch.defaultType?.createAndFill(newNextTypeAttributes) || undefined
 
       wrap = wrap.append(Fragment.from(type.createAndFill(null, nextType) || undefined))
@@ -107,16 +111,22 @@ export const splitListItem: RawCommands['splitListItem'] = typeOrName => ({
 
   const nextType = $to.pos === $from.end() ? grandParent.contentMatchAt(0).defaultType : null
 
-  const newTypeAttributes = getSplittedAttributes(
-    extensionAttributes,
-    grandParent.type.name,
-    grandParent.attrs,
-  )
-  const newNextTypeAttributes = getSplittedAttributes(
-    extensionAttributes,
-    $from.node().type.name,
-    $from.node().attrs,
-  )
+  const newTypeAttributes = {
+    ...getSplittedAttributes(
+      extensionAttributes,
+      grandParent.type.name,
+      grandParent.attrs,
+    ),
+    ...overrideAttrs,
+  }
+  const newNextTypeAttributes = {
+    ...getSplittedAttributes(
+      extensionAttributes,
+      $from.node().type.name,
+      $from.node().attrs,
+    ),
+    ...overrideAttrs,
+  }
 
   tr.delete($from.pos, $to.pos)
 
