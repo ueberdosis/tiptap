@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
 ## 2.6.6
 
 ## 2.6.5
