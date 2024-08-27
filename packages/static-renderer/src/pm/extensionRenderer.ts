@@ -32,8 +32,8 @@ export function mapNodeExtensionToReactNode<T>(
   domOutputSpecToElement: DomOutputSpecToElement<T>,
   extension: NodeExtension,
   extensionAttributes: ExtensionAttribute[],
+  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, Node>, 'unhandledNode'>>,
 ): [string, (props: NodeProps<Node, T | T[]>) => T] {
-
   const context = {
     name: extension.name,
     options: extension.options,
@@ -48,6 +48,9 @@ export function mapNodeExtensionToReactNode<T>(
   )
 
   if (!renderToHTML) {
+    if (options?.unhandledNode) {
+      return [extension.name, options.unhandledNode]
+    }
     return [
       extension.name,
       () => {
@@ -90,6 +93,7 @@ export function mapMarkExtensionToReactNode<T>(
   domOutputSpecToElement: DomOutputSpecToElement<T>,
   extension: MarkExtension,
   extensionAttributes: ExtensionAttribute[],
+  options?: Partial<Pick<TiptapStaticRendererOptions<T, Mark, Node>, 'unhandledMark'>>,
 ): [string, (props: MarkProps<Mark, T | T[]>) => T] {
   const context = {
     name: extension.name,
@@ -105,6 +109,9 @@ export function mapMarkExtensionToReactNode<T>(
   )
 
   if (!renderToHTML) {
+    if (options?.unhandledMark) {
+      return [extension.name, options.unhandledMark]
+    }
     return [
       extension.name,
       () => {
@@ -194,6 +201,7 @@ export function renderToElement<T>({
             domOutputSpecToElement,
             nodeExtension,
             extensionAttributes,
+            options,
           )),
       ),
       ...mapDefinedTypes,
@@ -208,7 +216,13 @@ export function renderToElement<T>({
               return !(e.name in options.markMapping)
             }
             return true
-          }).map(mark => mapMarkExtensionToReactNode<T>(domOutputSpecToElement, mark, extensionAttributes)),
+          })
+          .map(mark => mapMarkExtensionToReactNode<T>(
+            domOutputSpecToElement,
+            mark,
+            extensionAttributes,
+            options,
+          )),
       ),
       ...options?.markMapping,
     },
