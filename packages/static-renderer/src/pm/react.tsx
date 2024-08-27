@@ -1,43 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import {
-  Extensions,
-  getAttributesFromExtensions,
-  getExtensionField,
-  getSchema,
-  MarkConfig,
-  NodeConfig,
-  splitExtensions,
-} from '@tiptap/core'
+/* eslint-disable no-plusplus, @typescript-eslint/no-explicit-any */
+import { Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
-import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
 
-import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../base.js'
-import { getHTMLAttributes, resolveExtensions } from '../helpers.js'
-import { DOMOutputSpecArray } from '../types.js'
+import { renderJSONContentToReactElement } from '../json/react.js'
+import { TiptapStaticRendererOptions } from '../json/renderer.js'
+import type { DOMOutputSpecArray } from '../types.js'
+import { renderToElement } from './extensionRenderer.js'
 
-export function reactRenderer(
-  options: TiptapStaticRendererOptions<React.ReactNode, Mark, Node>,
-) {
-  let key = 0
-
-  return TiptapStaticRenderer(
-    ({ component, props: { children, ...props } }) => {
-      key += 1
-      return React.createElement(
-        component as React.FC<typeof props>,
-        Object.assign(props, { key }),
-        ([] as React.ReactNode[]).concat(children),
-      )
+/**
+ * This function maps the attributes of a node or mark to HTML attributes
+ * @param attrs The attributes to map
+ * @param key The key to use for the React element
+ * @returns The mapped HTML attributes as an object
+ */
+function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Record<string, any> {
+  if (!attrs) {
+    return { key }
+  }
+  return Object.entries(attrs).reduce(
+    (acc, [name, value]) => {
+      if (name === 'class') {
+        return Object.assign(acc, { className: value })
+      }
+      return Object.assign(acc, { [name]: value })
     },
-    options,
+    { key },
   )
 }
 
-function domToElement(
+/**
+ * Take a DOMOutputSpec and return a function that can render it to a React element
+ * @param content The DOMOutputSpec to convert to a React element
+ * @returns A function that can render the DOMOutputSpec to a React element
+ */
+export function domOutputSpecToReactElement(
   content: DOMOutputSpec,
+  key = 0,
 ): (children?: React.ReactNode) => React.ReactNode {
   if (typeof content === 'string') {
     return () => content
@@ -46,387 +45,89 @@ function domToElement(
     const [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
 
     if (attrs === undefined) {
-      return () => React.createElement(tag)
+      return () => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()))
     }
     if (attrs === 0) {
-      return child => React.createElement(tag, undefined, child)
+      return child => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()), child)
     }
     if (typeof attrs === 'object') {
       if (Array.isArray(attrs)) {
         if (children === undefined) {
           return child => React.createElement(
             tag,
-            undefined,
-            domToElement(attrs as DOMOutputSpecArray)(child),
+            mapAttrsToHTMLAttributes(undefined, key.toString()),
+            domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
           )
         }
         if (children === 0) {
           return child => React.createElement(
             tag,
-            undefined,
-            domToElement(attrs as DOMOutputSpecArray)(child),
+            mapAttrsToHTMLAttributes(undefined, key.toString()),
+            domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
           )
         }
         return child => React.createElement(
           tag,
-          undefined,
-          domToElement(attrs as DOMOutputSpecArray)(child),
-          [children].concat(rest).map(a => domToElement(a)(child)),
+          mapAttrsToHTMLAttributes(undefined, key.toString()),
+          domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
+          [children]
+            .concat(rest)
+            .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
         )
       }
       if (children === undefined) {
-        return () => React.createElement(tag, attrs)
+        return () => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()))
       }
       if (children === 0) {
-        return child => React.createElement(tag, attrs, child)
+        return child => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child)
       }
 
       return child => React.createElement(
         tag,
-        attrs,
-        [children].concat(rest).map(a => domToElement(a)(child)),
+        mapAttrsToHTMLAttributes(attrs, key.toString()),
+        [children]
+          .concat(rest)
+          .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
       )
-
     }
   }
 
-  // TODO support DOM?
-  throw new Error('Unsupported DOM type', { cause: content })
+  // TODO support DOM elements? How to handle them?
+  throw new Error(
+    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output',
+    {
+      cause: content,
+    },
+  )
 }
 
-export function generateMappings(
-  extensions: Extensions,
-): TiptapStaticRendererOptions<React.ReactNode, Mark, Node> {
-  extensions = resolveExtensions(extensions)
-  const extensionAttributes = getAttributesFromExtensions(extensions)
-  const { nodeExtensions, markExtensions } = splitExtensions(extensions)
-
-  return {
-    nodeMapping: Object.fromEntries(
-      nodeExtensions.map(extension => {
-        if (extension.name === 'doc') {
-          // Skip any work for the doc extension
-          return [
-            extension.name,
-            ({ children }) => {
-              return children
-            },
-          ]
-        }
-        if (extension.name === 'text') {
-          // Skip any work for the text extension
-          return ['text', ({ node }) => node.text!]
-        }
-
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: extension.storage,
-          parent: extension.parent,
-        }
-
-        const renderToHTML = getExtensionField<NodeConfig['renderHTML']>(
-          extension,
-          'renderHTML',
-          context,
-        )
-
-        if (!renderToHTML) {
-          return [
-            extension.name,
-            () => {
-              throw new Error(
-                `Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`,
-              )
-            },
-          ]
-        }
-
-        return [
-          extension.name,
-          ({ node, children }) => {
-            return domToElement(
-              renderToHTML({
-                node,
-                HTMLAttributes: getHTMLAttributes(node, extensionAttributes),
-              }),
-            )(children)
-          },
-        ]
-      }),
-    ),
-    markMapping: Object.fromEntries(
-      markExtensions.map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: extension.storage,
-          parent: extension.parent,
-        }
-
-        const renderToHTML = getExtensionField<MarkConfig['renderHTML']>(
-          extension,
-          'renderHTML',
-          context,
-        )
-
-        if (!renderToHTML) {
-          return [
-            extension.name,
-            () => {
-              throw new Error(
-                `Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`,
-              )
-            },
-          ]
-        }
-
-        return [
-          extension.name,
-          ({ mark, children }) => {
-            return domToElement(
-              renderToHTML({
-                mark,
-                HTMLAttributes: getHTMLAttributes(mark, extensionAttributes),
-              }),
-            )(children)
-          },
-        ]
-      }),
-    ),
-  }
+/**
+ * This function will statically render a Prosemirror Node to a React component using the given extensions
+ * @param content The content to render to a React component
+ * @param extensions The extensions to use for rendering
+ * @param options The options to use for rendering
+ * @returns The React element that represents the rendered content
+ */
+export function renderToReactElement({
+  content,
+  extensions,
+  options,
+}: {
+  content: Node | JSONContent;
+  extensions: Extensions;
+  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>;
+}): React.ReactNode {
+  return renderToElement<React.ReactNode>({
+    renderer: renderJSONContentToReactElement,
+    domOutputSpecToElement: domOutputSpecToReactElement,
+    mapDefinedTypes: {
+      // Map a doc node to concatenated children
+      doc: ({ children }) => <>{children}</>,
+      // Map a text node to its text content
+      text: ({ node }) => node.text ?? '',
+    },
+    content,
+    extensions,
+    options,
+  })
 }
-
-const extensions = [StarterKit]
-const fn = reactRenderer(
-  //   {
-  //   nodeMapping: {
-  //     text({ node }) {
-  //       return node.text!;
-  //     },
-  //     heading({ node, children }) {
-  //       return <h1 {...node.attrs}>{children}</h1>;
-  //     },
-  //   },
-  //   markMapping: {},
-  // }
-  generateMappings(extensions),
-)
-
-const schema = getSchema([StarterKit])
-
-console.log(
-  renderToStaticMarkup(
-    fn({
-      content: schema.nodeFromJSON(
-        //   {
-        //   type: "heading",
-        //   content: [
-        //     {
-        //       type: "text",
-        //       text: "hello world",
-        //       marks: [],
-        //     },
-        //   ],
-        //   attrs: { level: 2 },
-        // }
-        {
-          type: 'doc',
-          from: 0,
-          to: 574,
-          content: [
-            {
-              type: 'heading',
-              from: 0,
-              to: 11,
-              attrs: {
-                level: 2,
-              },
-              content: [
-                {
-                  type: 'text',
-                  from: 1,
-                  to: 10,
-                  text: 'Hi there,',
-                },
-              ],
-            },
-            {
-              type: 'paragraph',
-              from: 11,
-              to: 169,
-              content: [
-                {
-                  type: 'text',
-                  from: 12,
-                  to: 22,
-                  text: 'this is a ',
-                },
-                {
-                  type: 'text',
-                  from: 22,
-                  to: 27,
-                  marks: [
-                    {
-                      type: 'italic',
-                    },
-                  ],
-                  text: 'basic',
-                },
-                {
-                  type: 'text',
-                  from: 27,
-                  to: 39,
-                  text: ' example of ',
-                },
-                {
-                  type: 'text',
-                  from: 39,
-                  to: 45,
-                  marks: [
-                    {
-                      type: 'bold',
-                    },
-                  ],
-                  text: 'Tiptap',
-                },
-                {
-                  type: 'text',
-                  from: 45,
-                  to: 168,
-                  text: '. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:',
-                },
-              ],
-            },
-            {
-              type: 'bulletList',
-              from: 169,
-              to: 230,
-              content: [
-                {
-                  type: 'listItem',
-                  from: 170,
-                  to: 205,
-                  attrs: {
-                    color: '',
-                  },
-                  content: [
-                    {
-                      type: 'paragraph',
-                      from: 171,
-                      to: 204,
-                      content: [
-                        {
-                          type: 'text',
-                          from: 172,
-                          to: 203,
-                          text: 'That’s a bullet list with one …',
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: 'listItem',
-                  from: 205,
-                  to: 229,
-                  attrs: {
-                    color: '',
-                  },
-                  content: [
-                    {
-                      type: 'paragraph',
-                      from: 206,
-                      to: 228,
-                      content: [
-                        {
-                          type: 'text',
-                          from: 207,
-                          to: 227,
-                          text: '… or two list items.',
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: 'paragraph',
-              from: 230,
-              to: 326,
-              content: [
-                {
-                  type: 'text',
-                  from: 231,
-                  to: 325,
-                  text: 'Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:',
-                },
-              ],
-            },
-            {
-              type: 'codeBlock',
-              from: 326,
-              to: 353,
-              attrs: {
-                language: 'css',
-              },
-              content: [
-                {
-                  type: 'text',
-                  from: 327,
-                  to: 352,
-                  text: 'body {\n  display: none;\n}',
-                },
-              ],
-            },
-            {
-              type: 'paragraph',
-              from: 353,
-              to: 522,
-              content: [
-                {
-                  type: 'text',
-                  from: 354,
-                  to: 521,
-                  text: 'I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.',
-                },
-              ],
-            },
-            {
-              type: 'blockquote',
-              from: 522,
-              to: 572,
-              content: [
-                {
-                  type: 'paragraph',
-                  from: 523,
-                  to: 571,
-                  content: [
-                    {
-                      type: 'text',
-                      from: 524,
-                      to: 564,
-                      text: 'Wow, that’s amazing. Good work, boy! 👏 ',
-                    },
-                    {
-                      type: 'hardBreak',
-                      from: 564,
-                      to: 565,
-                    },
-                    {
-                      type: 'text',
-                      from: 565,
-                      to: 570,
-                      text: '— Mom',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ),
-    }),
-  ),
-)
