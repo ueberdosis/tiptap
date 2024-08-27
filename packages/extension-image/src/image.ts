@@ -37,9 +37,9 @@ declare module '@tiptap/core' {
        * @example
        * editor
        *   .commands
-       *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo' })
+       *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo', loading: 'lazy' })
        */
-      setImage: (options: { src: string, alt?: string, title?: string }) => ReturnType,
+      setImage: (options: { src: string, alt?: string, title?: string, loading?: string }) => ReturnType,
     }
   }
 }
@@ -82,6 +82,9 @@ export const Image = Node.create<ImageOptions>({
       alt: {
         default: null,
       },
+      loading: {
+        default: null,
+      },
       title: {
         default: null,
       },
@@ -119,9 +122,9 @@ export const Image = Node.create<ImageOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: match => {
-          const [,, alt, src, title] = match
+          const [,, alt, loading, src, title] = match
 
-          return { src, alt, title }
+          return { src, alt, loading, title }
         },
       }),
     ]
