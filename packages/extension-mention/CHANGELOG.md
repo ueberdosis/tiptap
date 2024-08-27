@@ -1,5 +1,24 @@
 # Change Log
 
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- da8fcf3: Add support for cross-window institation with mentions
+- 8a55cdd: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+- Updated dependencies [97ea55f]
+- Updated dependencies [bd34793]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [daad533]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+  - @tiptap/pm@2.7.0-pre.0
+  - @tiptap/suggestion@2.7.0-pre.0
+
 ## 2.6.6
 
 ### Patch Changes

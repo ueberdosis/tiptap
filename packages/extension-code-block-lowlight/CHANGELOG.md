@@ -1,5 +1,22 @@
 # Change Log
 
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- 9907eb3: Add support for lowlight v3 aliases
+- Updated dependencies [97ea55f]
+- Updated dependencies [bd34793]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+  - @tiptap/pm@2.7.0-pre.0
+  - @tiptap/extension-code-block@2.7.0-pre.0
+
 ## 2.6.6
 
 ### Patch Changes
