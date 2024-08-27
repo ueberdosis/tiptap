@@ -12,7 +12,7 @@ export function createStyleTag(style: string, nonce?: string, suffix?: string): 
   }
 
   styleNode.setAttribute(`data-tiptap-style${suffix ? `-${suffix}` : ''}`, '')
-  styleNode.innerHTML = style
+  styleNode.textContent = style
   document.getElementsByTagName('head')[0].appendChild(styleNode)
 
   return styleNode
