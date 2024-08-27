@@ -24,7 +24,7 @@ const renderToMarkdown = ({ content }: { content: JSONContent | Node }) => rende
           return `- ${serializeChildrenToHTMLString(children).trim()}\n`
         }
         if (parent?.type.name === 'orderedList') {
-          let number = 1
+          let number = parent.attrs.start || 1
 
           parent.forEach((parentChild, _offset, index) => {
             if (node === parentChild) {
