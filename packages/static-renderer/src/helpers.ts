@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ExtensionAttribute,
-  getAttributesFromExtensions,
-  mergeAttributes,
-  resolveExtensions,
-} from '@tiptap/core'
-import { TextAlign } from '@tiptap/extension-text-align'
-import { TextStyle } from '@tiptap/extension-text-style'
-import StarterKit from '@tiptap/starter-kit'
+import { ExtensionAttribute, mergeAttributes } from '@tiptap/core'
 
 import type { MarkType, NodeType } from './types'
 
@@ -57,10 +49,7 @@ export function getAttributes(
         }
       )
     })
-    .reduce(
-      (attributes, attribute) => mergeAttributes(attributes, attribute),
-      {},
-    )
+    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
 }
 
 /**
@@ -74,30 +63,3 @@ export function getHTMLAttributes(
 ) {
   return getAttributes(nodeOrMark, extensionAttributes, true)
 }
-
-const extensionAttributes = getAttributesFromExtensions(
-  resolveExtensions([
-    StarterKit,
-    TextAlign.configure({
-      types: ['paragraph', 'heading'],
-    }),
-    TextStyle,
-  ]),
-)
-const attributes = getAttributes(
-  {
-    type: 'heading',
-    attrs: {
-      textAlign: 'right',
-    },
-    content: [
-      {
-        type: 'text',
-        text: 'hello world',
-      },
-    ],
-  },
-  extensionAttributes,
-)
-
-console.log(attributes)

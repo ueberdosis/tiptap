@@ -2,61 +2,34 @@
 
 import React from 'react'
 
-import {
-  NodeProps,
-  TiptapStaticRenderer,
-  TiptapStaticRendererOptions,
-} from '../base.js'
-import { NodeType } from '../types.js'
+import { MarkType, NodeType } from '../types.js'
+import { TiptapStaticRenderer, TiptapStaticRendererOptions } from './renderer.js'
 
-export const reactRenderer = (
-  options: TiptapStaticRendererOptions<React.ReactNode>,
-) => {
+export function renderJSONContentToReactElement<
+  /**
+   * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
+   */
+  TMarkType extends { type: any } = MarkType,
+  /**
+   * A node type is either a JSON representation of a node or a Prosemirror node instance
+   */
+  TNodeType extends {
+    content?: { forEach:(cb: (node: TNodeType) => void) => void };
+    marks?: readonly TMarkType[];
+    type: string | { name: string };
+  } = NodeType,
+>(options: TiptapStaticRendererOptions<React.ReactNode, TMarkType, TNodeType>) {
   let key = 0
 
-  return TiptapStaticRenderer(
+  return TiptapStaticRenderer<React.ReactNode, TMarkType, TNodeType>(
     ({ component, props: { children, ...props } }) => {
-      key += 1
       return React.createElement(
         component as React.FC<typeof props>,
-        Object.assign(props, { key }),
+        // eslint-disable-next-line no-plusplus
+        Object.assign(props, { key: key++ }),
         ([] as React.ReactNode[]).concat(children),
       )
     },
     options,
   )
 }
-
-const fn = reactRenderer({
-  nodeMapping: {
-    text({ node }) {
-      return node.text ?? null
-    },
-    heading({
-      node,
-      children,
-    }: NodeProps<NodeType<'heading', { level: number }>, React.ReactNode>) {
-      const level = node.attrs.level
-      const hTag = `h${level}`
-
-      return React.createElement(hTag, node.attrs, children)
-    },
-  },
-  markMapping: {},
-})
-
-console.log(
-  fn({
-    content: {
-      type: 'heading',
-      content: [
-        {
-          type: 'text',
-          text: 'hello world',
-          marks: [],
-        },
-      ],
-      attrs: { level: 2 },
-    },
-  }),
-)

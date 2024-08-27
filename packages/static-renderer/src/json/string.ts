@@ -1,46 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../base.js'
+import { MarkType, NodeType } from '../types.js'
+import { TiptapStaticRenderer, TiptapStaticRendererOptions } from './renderer.js'
 
-export const stringRenderer = (
-  options: TiptapStaticRendererOptions<string>,
-) => {
+export function renderJSONContentToString<
+/**
+ * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
+ */
+TMarkType extends { type: any } = MarkType,
+/**
+ * A node type is either a JSON representation of a node or a Prosemirror node instance
+ */
+TNodeType extends {
+  content?: { forEach:(cb: (node: TNodeType) => void) => void };
+  marks?: readonly TMarkType[];
+  type: string | { name: string };
+} = NodeType,
+>(options: TiptapStaticRendererOptions<string, TMarkType, TNodeType>) {
   return TiptapStaticRenderer(ctx => {
     return ctx.component(ctx.props as any)
   }, options)
 }
-
-const fnAgain = stringRenderer({
-  nodeMapping: {
-    text({ node }) {
-      return node.text!
-    },
-    heading({ node, children }) {
-      const level = node.attrs?.level
-      const attrs = Object.entries(node.attrs || {})
-        .map(([key, value]) => `${key}=${JSON.stringify(value)}`)
-        .join(' ')
-
-      return `<h${level}${attrs ? ` ${attrs}` : ''}>${([] as string[])
-        .concat(children || '')
-        .filter(Boolean)
-        .join('\n')}</h${level}>`
-    },
-  },
-  markMapping: {},
-})
-
-console.log(
-  fnAgain({
-    content: {
-      type: 'heading',
-      content: [
-        {
-          type: 'text',
-          text: 'hello world',
-          marks: [],
-        },
-      ],
-      attrs: { level: 2 },
-    },
-  }),
-)

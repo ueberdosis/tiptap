@@ -1,12 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MarkType, NodeType } from './types'
+import type { MarkType, NodeType } from '../types'
 
 /**
  * Props for a node renderer
  */
 export type NodeProps<TNodeType = any, TChildren = any> = {
+  /**
+   * The current node to render
+   */
   node: TNodeType;
+  /**
+   * Unless the node is the root node, this will always be defined
+   */
+  parent?: TNodeType;
+  /**
+   * The children of the current node
+   */
   children?: TChildren;
+  /**
+   * Render a child element
+   */
+  renderElement: (props: {
+    /**
+     * Tiptap JSON content to render
+     */
+    content: TNodeType;
+    /**
+     * The parent node of the current node
+     */
+    parent?: TNodeType;
+  })=> TChildren;
 };
 
 /**
@@ -147,24 +170,18 @@ cb: (node: TNodeType) => void) => void };
    */
   return function renderContent({
     content,
+    parent,
   }: {
     /**
      * Tiptap JSON content to render
      */
     content: TNodeType;
+    /**
+     * The parent node of the current node
+     */
+    parent?: TNodeType;
   }): TReturnType {
-    // recursively render child content nodes
-    const children: TReturnType[] = []
 
-    if (content.content) {
-      content.content.forEach(child => {
-        children.push(
-          renderContent({
-            content: child,
-          }),
-        )
-      })
-    }
     const nodeType = typeof content.type === 'string' ? content.type : content.type.name
     const NodeHandler = nodeMapping[nodeType] ?? unhandledNode
 
@@ -174,7 +191,29 @@ cb: (node: TNodeType) => void) => void };
 
     const nodeContent = renderComponent({
       component: NodeHandler,
-      props: { node: content, children },
+      props: {
+        node: content,
+        parent,
+        renderElement: renderContent,
+        // Lazily compute the children to avoid unnecessary recursion
+        get children() {
+        // recursively render child content nodes
+          const children: TReturnType[] = []
+
+          if (content.content) {
+            content.content.forEach(child => {
+              children.push(
+                renderContent({
+                  content: child,
+                  parent: content,
+                }),
+              )
+            })
+          }
+
+          return children
+        },
+      },
     })
 
     // apply marks to the content
@@ -189,7 +228,11 @@ cb: (node: TNodeType) => void) => void };
 
         return renderComponent({
           component: MarkHandler,
-          props: { mark, node: undefined, children: acc },
+          props: {
+            mark,
+            parent,
+            children: acc,
+          },
         })
       }, nodeContent)
       : nodeContent
