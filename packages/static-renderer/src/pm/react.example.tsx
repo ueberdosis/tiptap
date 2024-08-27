@@ -1,11 +1,38 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import {
+  Node,
+  NodeViewContent,
+  ReactNodeViewContentProvider,
+  ReactNodeViewRenderer,
+} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
-import { renderToReactElement } from './react.js'
+import { renderToReactElement } from './react.jsx'
+
+// This component does not have a NodeViewContent, so it does not render it's children's rich text content
+function MyCustomComponentWithoutContent() {
+  const [count, setCount] = React.useState(200)
+
+  return (
+    <div className='custom-component-without-content' onClick={() => setCount(a => a + 1)}>
+      {count} This is a react component!
+    </div>
+  )
+}
+
+// This component does have a NodeViewContent, so it will render it's children's rich text content
+function MyCustomComponentWithContent() {
+  return (
+    <div className='custom-component-with-content'>
+      Custom component with content in React!
+      <NodeViewContent />
+    </div>
+  )
+}
 
 /**
  * This example demonstrates how to render a Prosemirror Node (or JSON Content) to a React Element.
@@ -15,12 +42,50 @@ import { renderToReactElement } from './react.js'
  * You have complete control over the rendering process. And can replace how each Node/Mark is rendered.
  */
 
+const CustomNodeExtensionWithContent = Node.create({
+  name: 'customNodeExtensionWithContent',
+  content: 'text*',
+  group: 'block',
+  renderHTML() {
+    return ['div', { class: 'my-custom-component-with-content' }, 0] as const
+  },
+  addNodeView() {
+    return ReactNodeViewRenderer(MyCustomComponentWithContent)
+  },
+})
+
+const CustomNodeExtensionWithoutContent = Node.create({
+  name: 'customNodeExtensionWithoutContent',
+  atom: true,
+  renderHTML() {
+    return ['div', { class: 'my-custom-component-without-content' }] as const
+  },
+  addNodeView() {
+    return ReactNodeViewRenderer(MyCustomComponentWithoutContent)
+  },
+})
+
 const Element = renderToReactElement({
-  extensions: [StarterKit],
+  extensions: [StarterKit, CustomNodeExtensionWithContent, CustomNodeExtensionWithoutContent],
   options: {
     nodeMapping: {
+      // You can replace the rendering of a node with a custom react component
       heading({ node, children }) {
-        return <h1 {...node.attrs}>THIS IS AN EXAMPLE OF CUSTOM RENDERING{children}</h1>
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [count, setCount] = React.useState(100)
+
+        return <h1 {...node.attrs} onClick={() => setCount(100)}>Can you use React hooks? {count}% {children}</h1>
+      },
+      // Node views are not supported in the static renderer, so you need to supply the custom component yourself
+      customNodeExtensionWithContent({ children }) {
+        return (
+          <ReactNodeViewContentProvider content={children}>
+            <MyCustomComponentWithContent />
+          </ReactNodeViewContentProvider>
+        )
+      },
+      customNodeExtensionWithoutContent() {
+        return <MyCustomComponentWithoutContent />
       },
     },
     markMapping: {},
@@ -45,6 +110,20 @@ const Element = renderToReactElement({
             text: 'Hi there,',
           },
         ],
+      },
+      // This is a custom node extension with content
+      {
+        type: 'customNodeExtensionWithContent',
+        content: [
+          {
+            type: 'text',
+            text: 'MY CUSTOM COMPONENT CONTENT!!!',
+          },
+        ],
+      },
+      // This is a custom node extension without content
+      {
+        type: 'customNodeExtensionWithoutContent',
       },
       {
         type: 'paragraph',
