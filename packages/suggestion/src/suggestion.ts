@@ -253,7 +253,7 @@ export function Suggestion<I = any, TSelected = any>({
             })
           }
 
-          if (handleExit) {
+          if (handleExit || !props.items?.length) {
             renderer?.onExit?.(props)
           }
 
