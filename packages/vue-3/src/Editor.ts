@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
+import { Editor as CoreEditor, EditorOptions, isFunction } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import {
   AppContext,
@@ -74,9 +74,16 @@ export class Editor extends CoreEditor {
     plugin: Plugin,
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
   ): void {
-    super.registerPlugin(plugin, handlePlugins)
+    const plugins = isFunction(handlePlugins)
+      ? handlePlugins(plugin, [...this.state.plugins])
+      : [...this.state.plugins, plugin]
+
+    const state = this.state.reconfigure({ plugins })
+
+    this.view.updateState(state)
+
     if (this.reactiveState) {
-      this.reactiveState.value = this.view.state
+      this.reactiveState.value = state
     }
   }
 
@@ -84,9 +91,22 @@ export class Editor extends CoreEditor {
    * Unregister a ProseMirror plugin.
    */
   public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
-    super.unregisterPlugin(nameOrPluginKey)
+    if (this.isDestroyed) {
+      return
+    }
+
+    // @ts-ignore
+    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+
+    const state = this.state.reconfigure({
+      // @ts-ignore
+      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
+    })
+
+    this.view.updateState(state)
+
     if (this.reactiveState) {
-      this.reactiveState.value = this.view.state
+      this.reactiveState.value = state
     }
   }
 }
