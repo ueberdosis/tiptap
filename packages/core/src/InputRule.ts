@@ -216,6 +216,17 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
     },
 
     props: {
+      handleTextInput(view, from, to, text) {
+        return run({
+          editor,
+          from,
+          to,
+          text,
+          rules,
+          plugin,
+        })
+      },
+
       handleDOMEvents: {
         compositionend: view => {
           setTimeout(() => {
@@ -233,20 +244,6 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
             }
           })
 
-          return false
-        },
-
-        keyup(view, event) {
-          if (event.key.length === 1) {
-            return run({
-              editor,
-              from: view.state.selection.from,
-              to: view.state.selection.from,
-              text: '',
-              rules,
-              plugin,
-            })
-          }
           return false
         },
       },

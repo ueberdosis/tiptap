@@ -72,12 +72,10 @@ context('/src/Marks/Bold/React/', () => {
   })
 
   it('should make a bold text from the default markdown shortcut', () => {
-    cy.get('.tiptap').realType('**Bold**')
-    cy.get('.tiptap').find('strong').should('contain', 'Bold')
+    cy.get('.tiptap').type('**Bold**').find('strong').should('contain', 'Bold')
   })
 
   it('should make a bold text from the alternative markdown shortcut', () => {
-    cy.get('.tiptap').realType('__Bold__')
-    cy.get('.tiptap').find('strong').should('contain', 'Bold')
+    cy.get('.tiptap').type('__Bold__').find('strong').should('contain', 'Bold')
   })
 })

@@ -52,7 +52,6 @@
     "@typescript-eslint/parser": "^5.62.0",
     "babel-loader": "^9.1.3",
     "cypress": "^10.11.0",
-    "cypress-real-events": "^1.13.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",

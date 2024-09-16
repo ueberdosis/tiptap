@@ -79,8 +79,7 @@ context('/src/Marks/Strike/Vue/', () => {
 
   it('should make a striked text from the markdown shortcut', () => {
     cy.get('.tiptap')
-      .realType('~~Strike~~')
-    cy.get('.tiptap')
+      .type('~~Strike~~')
       .find('s')
       .should('contain', 'Strike')
   })

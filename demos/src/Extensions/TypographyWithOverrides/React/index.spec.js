@@ -4,11 +4,12 @@ context('/src/Extensions/TypographyWithOverrides/React/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should use correct override for rightArrow', () => {
-    cy.get('.tiptap').realType('-> Hello!')
-    cy.get('.tiptap').should('contain', '=====> Hello!')
+    cy.get('.tiptap').type('-> Hello!').should('contain', '=====> Hello!')
   })
 })
