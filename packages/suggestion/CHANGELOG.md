@@ -1,5 +1,7 @@
 # Change Log
 
+## 2.7.1
+
 ## 2.7.0
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.7.1
+
+### Patch Changes
+
+- 888f574: Fixed Slice import in DropPlugin
+
 ## 2.7.0
 
 ### Minor Changes
