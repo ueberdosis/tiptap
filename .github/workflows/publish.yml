@@ -65,7 +65,7 @@ jobs:
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'
         id: slack
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {
@@ -77,7 +77,7 @@ jobs:
       - name: Send failure notification
         if: failure()
         id: slack_failure
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {
