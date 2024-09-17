@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- daad533: Dropdowns from the suggestion utility couldn't be closed with the `Esc` key
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

@@ -64,9 +64,11 @@ context('/src/Nodes/TaskList/React/', () => {
   })
 
   it('should leave the list with double enter', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('[ ] List Item 1{enter}{enter}Paragraph')
+    cy.get('.tiptap').type('[ ] List Item 1{enter}{enter}Paragraph')
 
     cy.get('.tiptap').find('li').its('length').should('eq', 1)
 
@@ -74,9 +76,11 @@ context('/src/Nodes/TaskList/React/', () => {
   })
 
   it('should make a task list from square brackets', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('[ ] List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('[ ] List Item 1{enter}List Item 2')
 
     cy.get('.tiptap')
       .find('li:nth-child(1)')
@@ -90,9 +94,11 @@ context('/src/Nodes/TaskList/React/', () => {
   })
 
   it('should make a task list from checked square brackets', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('[x] List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('[x] List Item 1{enter}List Item 2')
 
     cy.get('.tiptap')
       .find('li:nth-child(1)')

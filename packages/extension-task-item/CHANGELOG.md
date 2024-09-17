@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- dbcdaad: Prevent `onBlur` from being trigged when a task item is toggled
+
 ## 2.7.0-pre.0
 
 ### Patch Changes
