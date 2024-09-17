@@ -35,9 +35,9 @@
     "lowlight": "^2 || ^3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0-pre.0",
-    "@tiptap/extension-code-block": "^2.7.0-pre.0",
-    "@tiptap/pm": "^2.7.0-pre.0",
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/extension-code-block": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
     "lowlight": "^2 || ^3",
     "highlight.js": "^11"
   },

@@ -44,8 +44,8 @@
     "react-dom": "^18.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0-pre.0",
-    "@tiptap/pm": "^2.7.0-pre.0",
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },

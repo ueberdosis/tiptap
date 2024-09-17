@@ -33,7 +33,7 @@
     "y-prosemirror": "^1.2.12"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0-pre.0",
+    "@tiptap/core": "^2.7.0",
     "y-prosemirror": "^1.2.11"
   },
   "repository": {

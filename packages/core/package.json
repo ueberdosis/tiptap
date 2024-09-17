@@ -35,7 +35,7 @@
     "@tiptap/pm": "^2.7.0"
   },
   "peerDependencies": {
-    "@tiptap/pm": "^2.7.0-pre.0"
+    "@tiptap/pm": "^2.7.0"
   },
   "repository": {
     "type": "git",
