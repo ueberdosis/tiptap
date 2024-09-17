@@ -72,7 +72,7 @@
     "tsup": "^8.1.0",
     "turbo": "2.0.6",
     "typescript": "^5.5.3",
-    "webpack": "^5.92.1"
+    "webpack": "^5.94.0"
   },
   "overrides": {
     "@rollup/pluginutils": "^5.1.0"
