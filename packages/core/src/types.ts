@@ -236,7 +236,7 @@ export type NodeViewRendererProps = {
   // pass-through from prosemirror
   node: Parameters<NodeViewConstructor>[0];
   view: Parameters<NodeViewConstructor>[1];
-  getPos: () => number; // TODO getPos was incorrectly typed before, change to `Parameters<NodeViewConstructor>[2];` in the next major version
+  getPos: Parameters<NodeViewConstructor>[2];
   decorations: Parameters<NodeViewConstructor>[3];
   innerDecorations: Parameters<NodeViewConstructor>[4];
   // tiptap-specific
