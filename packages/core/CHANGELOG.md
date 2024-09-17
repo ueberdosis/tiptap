@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.7.0
+
+### Minor Changes
+
+- 97ea55f: Fixes #5490. The `preventClearDocument` meta tag can now be used to prevent the `clearDocument` plugin in the core keymap extension from modifying transactions that appear to clear the document (but might be clearing it for other reasons).
+- 9e18d24: Added `onPaste` and `onDrop` options to the editor allowing for easier event binding for both cases
+- 97ea55f: An object can now be passed to `enableCoreExtensions` to allow disabling only specific core extensions.
+
+### Patch Changes
+
+- f805333: fix: check for schema's nesting rules on contentCheck
+- 07fa49d: Copy over node attributes on node toggling (for example to keep text styles while toggling a headline)
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- a22767e: Merging inline style attributes now can properly merge conflicting style attribute names, resulting in cleaner HTML output and correctness
+
 ## 2.7.0-pre.0
 
 ### Minor Changes

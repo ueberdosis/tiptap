@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.7.0
+
+### Patch Changes
+
+- 9907eb3: Add support for lowlight v3 aliases
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

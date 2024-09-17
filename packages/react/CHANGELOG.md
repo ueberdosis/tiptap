@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.7.0
+
+### Patch Changes
+
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- c99627d: `useEditorState` now defaults to using a deep equal comparison for it's `equalityFn` option, which makes it more convenient to use
+- 4ff2a4e: ReactNodeViewRenderer now accepts a callback for attrs of the wrapping element to be updated on each node view update
+  - @tiptap/extension-bubble-menu@2.7.0
+  - @tiptap/extension-floating-menu@2.7.0
+
 ## 2.7.0-pre.0
 
 ### Patch Changes
