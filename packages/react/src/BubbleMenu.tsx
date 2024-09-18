@@ -46,7 +46,7 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     })
 
     menuEditor.registerPlugin(plugin)
-    return () => menuEditor.unregisterPlugin(pluginKey)
+    return () => { menuEditor.unregisterPlugin(pluginKey) }
   }, [props.editor, currentEditor, element])
 
   return (
