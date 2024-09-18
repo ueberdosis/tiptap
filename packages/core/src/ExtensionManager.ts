@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
-import { Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
+import { Schema } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
-import { Decoration, EditorView } from '@tiptap/pm/view'
+import { NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions.js'
@@ -288,21 +288,26 @@ export class ExtensionManager {
             return []
           }
 
-          const nodeview = (
-            node: ProsemirrorNode,
-            view: EditorView,
-            getPos: (() => number) | boolean,
-            decorations: Decoration[],
+          const nodeview: NodeViewConstructor = (
+            node,
+            view,
+            getPos,
+            decorations,
+            innerDecorations,
           ) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
             return addNodeView()({
-              editor,
+              // pass-through
               node,
-              getPos,
+              view,
+              getPos: getPos as () => number,
               decorations,
-              HTMLAttributes,
+              innerDecorations,
+              // tiptap-specific
+              editor,
               extension,
+              HTMLAttributes,
             })
           }
 

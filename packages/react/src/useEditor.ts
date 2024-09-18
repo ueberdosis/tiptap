@@ -149,6 +149,8 @@ class EditorInstanceManager {
       onTransaction: (...args) => this.options.current.onTransaction?.(...args),
       onUpdate: (...args) => this.options.current.onUpdate?.(...args),
       onContentError: (...args) => this.options.current.onContentError?.(...args),
+      onDrop: (...args) => this.options.current.onDrop?.(...args),
+      onPaste: (...args) => this.options.current.onPaste?.(...args),
     }
     const editor = new Editor(optionsToApply)
 

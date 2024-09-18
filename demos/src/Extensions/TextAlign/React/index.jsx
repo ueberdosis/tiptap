@@ -58,7 +58,21 @@ export default () => {
           >
             Justify
           </button>
-          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>Unset text align</button>
+          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>
+            Unset text align
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            className={editor.isActive({ level: 1 }) ? 'is-active' : ''}
+          >
+            Toggle H1
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            className={editor.isActive({ level: 2 }) ? 'is-active' : ''}
+          >
+            Toggle H2
+          </button>
         </div>
       </div>
       <EditorContent editor={editor} />
