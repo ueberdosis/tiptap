@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.7.2
+
+### Patch Changes
+
+- cbe06d1: Fix registerPlugin() for late-registering plugins
+  - @tiptap/extension-bubble-menu@2.7.2
+  - @tiptap/extension-floating-menu@2.7.2
+
 ## 2.7.1
 
 ### Patch Changes
