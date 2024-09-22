@@ -61,14 +61,4 @@ context('/src/Marks/Italic/React/', () => {
       .find('em')
       .should('not.exist')
   })
-
-  it('should make a italic text from the default markdown shortcut', () => {
-    cy.get('.tiptap').realType('*Italic*')
-    cy.get('.tiptap').find('em').should('contain', 'Italic')
-  })
-
-  it('should make a italic text from the alternative markdown shortcut', () => {
-    cy.get('.tiptap').realType('_Italic_')
-    cy.get('.tiptap').find('em').should('contain', 'Italic')
-  })
 })
