@@ -1,5 +1,25 @@
 # Change Log
 
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.6.6
+
+## 2.6.5
+
 ## 2.6.4
 
 ## 2.6.3

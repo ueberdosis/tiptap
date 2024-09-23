@@ -65,4 +65,20 @@ describe('mergeAttributes', () => {
       class: 'foo',
     })
   })
+
+  it('should overwrite styles', () => {
+    const value = mergeAttributes({ style: 'color: red' }, { style: 'color: green' })
+
+    expect(value).to.deep.eq({
+      style: 'color: green',
+    })
+  })
+
+  it('should merge several styles', () => {
+    const value = mergeAttributes({ style: 'color: red; background-color: red' }, { style: 'color: green;  background-color: red; margin-left: 30px' })
+
+    expect(value).to.deep.eq({
+      style: 'color: green; background-color: red; margin-left: 30px',
+    })
+  })
 })

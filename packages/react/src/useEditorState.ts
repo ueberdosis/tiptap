@@ -7,6 +7,7 @@ export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> =
   editor: TEditor;
   transactionNumber: number;
 };
+
 export type UseEditorStateOptions<
   TSelectorResult,
   TEditor extends Editor | null = Editor | null,
@@ -109,30 +110,63 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
   }
 }
 
+/**
+ * This hook allows you to watch for changes on the editor instance.
+ * It will allow you to select a part of the editor state and re-render the component when it changes.
+ * @example
+ * ```tsx
+ * const editor = useEditor({...options})
+ * const { currentSelection } = useEditorState({
+ *  editor,
+ *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
+ * })
+ */
 export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor>
 ): TSelectorResult;
+/**
+ * This hook allows you to watch for changes on the editor instance.
+ * It will allow you to select a part of the editor state and re-render the component when it changes.
+ * @example
+ * ```tsx
+ * const editor = useEditor({...options})
+ * const { currentSelection } = useEditorState({
+ *  editor,
+ *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
+ * })
+ */
 export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor | null>
 ): TSelectorResult | null;
 
+/**
+ * This hook allows you to watch for changes on the editor instance.
+ * It will allow you to select a part of the editor state and re-render the component when it changes.
+ * @example
+ * ```tsx
+ * const editor = useEditor({...options})
+ * const { currentSelection } = useEditorState({
+ *  editor,
+ *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
+ * })
+ */
 export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
-  const [editorInstance] = useState(() => new EditorStateManager(options.editor))
+  const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
-    editorInstance.subscribe,
-    editorInstance.getSnapshot,
-    editorInstance.getServerSnapshot,
+    editorStateManager.subscribe,
+    editorStateManager.getSnapshot,
+    editorStateManager.getServerSnapshot,
     options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
     options.equalityFn ?? deepEqual,
   )
 
   useEffect(() => {
-    return editorInstance.watch(options.editor)
-  }, [options.editor, editorInstance])
+    return editorStateManager.watch(options.editor)
+  }, [options.editor, editorStateManager])
 
   useDebugValue(selectedState)
 

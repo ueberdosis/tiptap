@@ -3,10 +3,15 @@ import {
   Node as ProseMirrorNode,
   NodeType,
   ParseOptions,
+  Slice,
 } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
 import {
-  Decoration, EditorProps, EditorView, NodeView,
+  Decoration,
+  EditorProps,
+  EditorView,
+  NodeView,
+  NodeViewConstructor,
 } from '@tiptap/pm/view'
 
 import { Editor } from './Editor.js'
@@ -79,7 +84,24 @@ export interface EditorOptions {
   };
   enableInputRules: EnableRules;
   enablePasteRules: EnableRules;
-  enableCoreExtensions: boolean;
+  /**
+   * Determines whether core extensions are enabled.
+   *
+   * If set to `false`, all core extensions will be disabled.
+   * To disable specific core extensions, provide an object where the keys are the extension names and the values are `false`.
+   * Extensions not listed in the object will remain enabled.
+   *
+   * @example
+   * // Disable all core extensions
+   * enabledCoreExtensions: false
+   *
+   * @example
+   * // Disable only the keymap core extension
+   * enabledCoreExtensions: { keymap: false }
+   *
+   * @default true
+   */
+  enableCoreExtensions?: boolean | Partial<Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>>;
   /**
    * If `true`, the editor will check the content for errors on initialization.
    * Emitting the `contentError` event if the content is invalid.
@@ -100,6 +122,8 @@ export interface EditorOptions {
   onFocus: (props: EditorEvents['focus']) => void;
   onBlur: (props: EditorEvents['blur']) => void;
   onDestroy: (props: EditorEvents['destroy']) => void;
+  onPaste: (e: ClipboardEvent, slice: Slice) => void
+  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
 }
 
 export type HTMLContent = string;
@@ -184,20 +208,21 @@ export type ValuesOf<T> = T[keyof T];
 
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T];
 
+export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & {};
+
 export type DecorationWithType = Decoration & {
   type: NodeType;
 };
 
-export type NodeViewProps = {
-  editor: Editor;
-  node: ProseMirrorNode;
-  decorations: DecorationWithType[];
-  selected: boolean;
-  extension: Node;
-  getPos: () => number;
-  updateAttributes: (attributes: Record<string, any>) => void;
-  deleteNode: () => void;
-};
+export type NodeViewProps = Simplify<
+  Omit<NodeViewRendererProps, 'decorations'> & {
+    // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
+    decorations: readonly DecorationWithType[];
+    selected: boolean;
+    updateAttributes: (attributes: Record<string, any>) => void;
+    deleteNode: () => void;
+  }
+>;
 
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null;
@@ -208,15 +233,19 @@ export interface NodeViewRendererOptions {
 }
 
 export type NodeViewRendererProps = {
+  // pass-through from prosemirror
+  node: Parameters<NodeViewConstructor>[0];
+  view: Parameters<NodeViewConstructor>[1];
+  getPos: () => number; // TODO getPos was incorrectly typed before, change to `Parameters<NodeViewConstructor>[2];` in the next major version
+  decorations: Parameters<NodeViewConstructor>[3];
+  innerDecorations: Parameters<NodeViewConstructor>[4];
+  // tiptap-specific
   editor: Editor;
-  node: ProseMirrorNode;
-  getPos: (() => number) | boolean;
-  HTMLAttributes: Record<string, any>;
-  decorations: Decoration[];
   extension: Node;
+  HTMLAttributes: Record<string, any>;
 };
 
-export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView | {};
+export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView;
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 

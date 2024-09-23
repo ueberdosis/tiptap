@@ -24,6 +24,8 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { NodePos } from './NodePos.js'
+import { DropPlugin } from './plugins/DropPlugin.js'
+import { PastePlugin } from './plugins/PastePlugin.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -88,6 +90,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     onBlur: () => null,
     onDestroy: () => null,
     onContentError: ({ error }) => { throw error },
+    onPaste: () => null,
+    onDrop: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -108,6 +112,14 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
+
+    if (this.options.onPaste) {
+      this.registerPlugin(PastePlugin(this.options.onPaste))
+    }
+
+    if (this.options.onDrop) {
+      this.registerPlugin(DropPlugin(this.options.onDrop))
+    }
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -212,11 +224,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    *
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
+   * @returns The new editor state
    */
   public registerPlugin(
     plugin: Plugin,
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
-  ): void {
+  ): EditorState {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
@@ -224,16 +237,19 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.reconfigure({ plugins })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
    * Unregister a ProseMirror plugin.
    *
    * @param nameOrPluginKey The plugins name
+   * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
     if (this.isDestroyed) {
-      return
+      return undefined
     }
 
     // @ts-ignore
@@ -245,6 +261,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
@@ -261,7 +279,12 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
-    ] : []
+    ].filter(ext => {
+      if (typeof this.options.enableCoreExtensions === 'object') {
+        return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+      }
+      return true
+    }) : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
