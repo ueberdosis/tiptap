@@ -304,9 +304,7 @@ export class ReactNodeView<
       let attrsObj: Record<string, string> = {}
 
       if (typeof this.options.attrs === 'function') {
-        const extensionAttributes = this.editor.extensionManager.attributes.filter(
-          attribute => attribute.type === this.node.type.name,
-        )
+        const extensionAttributes = this.editor.extensionManager.attributes
         const HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
 
         attrsObj = this.options.attrs({ node: this.node, HTMLAttributes })
