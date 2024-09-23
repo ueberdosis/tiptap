@@ -1,6 +1,6 @@
 import { Extensions, getSchema } from '@tiptap/core'
 import { DOMParser, ParseOptions } from '@tiptap/pm/model'
-import { parseHTML } from 'zeed-dom'
+import { DOMParser as HappyDomParser, Window } from 'happy-dom'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
@@ -16,7 +16,13 @@ import { parseHTML } from 'zeed-dom'
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   const schema = getSchema(extensions)
-  const dom = parseHTML(html) as unknown as Node
+  const window = new Window()
+  const dom = new HappyDomParser(window).parseFromString(
+    html,
+    'text/html',
+  ).body
 
-  return DOMParser.fromSchema(schema).parse(dom, options).toJSON()
+  return DOMParser.fromSchema(schema)
+    .parse(dom as never, options)
+    .toJSON()
 }
