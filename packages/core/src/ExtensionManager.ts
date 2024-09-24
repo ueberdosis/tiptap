@@ -260,7 +260,7 @@ export class ExtensionManager {
    * Get all node views from the extensions.
    * @returns An object with all node views where the key is the node name and the value is the node view function
    */
-  get nodeViews() {
+  get nodeViews(): Record<string, NodeViewConstructor> {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
 
