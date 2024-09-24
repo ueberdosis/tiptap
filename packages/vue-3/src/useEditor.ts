@@ -1,7 +1,5 @@
 import { EditorOptions } from '@tiptap/core'
-import {
-  onMounted, onUnmounted, shallowRef,
-} from 'vue'
+import { onBeforeUnmount, onMounted, shallowRef } from 'vue'
 
 import { Editor } from './Editor.js'
 
@@ -12,7 +10,7 @@ export const useEditor = (options: Partial<EditorOptions> = {}) => {
     editor.value = new Editor(options)
   })
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     editor.value?.destroy()
   })
 
