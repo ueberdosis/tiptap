@@ -71,6 +71,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     }
 
     let content: Fragment | ProseMirrorNode
+    const { selection } = editor.state
 
     try {
       content = createNodeFromContent(value, editor.schema, {
@@ -139,6 +140,13 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       tr.insertText(newContent, from, to)
     } else {
       newContent = content
+
+      const fromSelectionAtStart = selection.$from.parentOffset === 0
+      const isTextSelection = selection.$from.node().isText || selection.$from.node().isTextblock
+
+      if (fromSelectionAtStart && isTextSelection) {
+        from = Math.max(0, from - 1)
+      }
 
       tr.replaceWith(from, to, newContent)
     }
