@@ -64,7 +64,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.10",
     "minimist": "^1.2.8",
-    "rollup": "^4.18.0",
+    "rollup": "^4.22.4",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-typescript2": "^0.36.0",
