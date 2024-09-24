@@ -1,5 +1,5 @@
 ---
-"@tiptap/react": patch
+"@tiptap/core": patch
 ---
 
-Fix incorrect extensionAttributes value
+filter rendered extensionAttributes (#5588)
