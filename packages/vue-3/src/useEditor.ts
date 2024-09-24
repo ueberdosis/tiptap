@@ -12,9 +12,9 @@ export const useEditor = (options: Partial<EditorOptions> = {}) => {
     editor.value = new Editor(options)
   })
 
-  // onUnmounted(() => {
-  //   editor.value?.destroy()
-  // })
+  onUnmounted(() => {
+    editor.value?.destroy()
+  })
 
   return editor
 }

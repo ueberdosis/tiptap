@@ -4,8 +4,6 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
-  onMounted,
-  onUnmounted,
   PropType,
   Ref,
   ref,
@@ -29,7 +27,7 @@ export const EditorContent = defineComponent({
     const rootEl: Ref<Element | undefined> = ref()
     const instance = getCurrentInstance()
 
-    onMounted(() => {
+    watchEffect(() => {
       const editor = props.editor
 
       if (editor && editor.options.element && rootEl.value) {
@@ -62,13 +60,6 @@ export const EditorContent = defineComponent({
           editor.createNodeViews()
         })
 
-        const newElement = document.createElement('div')
-
-        newElement.append(...editor.options.element.childNodes)
-
-        editor.setOptions({
-          element: newElement,
-        })
       }
     })
 

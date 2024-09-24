@@ -22,10 +22,6 @@ const editor = useEditor({
   extensions: [
     StarterKit,
   ],
-
-  onDestroy: () => {
-    console.log('editor destroyed')
-  },
 })
 
 const showEditor = ref(false)
