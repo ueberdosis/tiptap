@@ -242,4 +242,25 @@ describe('createNodeFromContent', () => {
       ]), { errorOnInvalidContent: true })
     }).to.throw('[tiptap error]: Invalid JSON content')
   })
+
+  it('if `errorOnInvalidContent` is true, will throw an error, when the JSON content does not follow the nesting rules of the schema', () => {
+    const content = {
+      type: 'paragraph',
+      content: [{
+        type: 'paragraph',
+        content: [{
+          type: 'text',
+          text: 'Example Text',
+        }],
+      }],
+    }
+
+    expect(() => {
+      createNodeFromContent(content, getSchemaByResolvedExtensions([
+        Document,
+        Paragraph,
+        Text,
+      ]), { errorOnInvalidContent: true })
+    }).to.throw('[tiptap error]: Invalid JSON content')
+  })
 })

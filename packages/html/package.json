@@ -36,7 +36,7 @@
     "@tiptap/pm": "^3.0.0-next.1"
   },
   "dependencies": {
-    "zeed-dom": "^0.10.9"
+    "zeed-dom": "^0.15.1"
   },
   "repository": {
     "type": "git",
