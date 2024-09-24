@@ -4,6 +4,8 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
+  onMounted,
+  onUnmounted,
   PropType,
   Ref,
   ref,
@@ -27,7 +29,7 @@ export const EditorContent = defineComponent({
     const rootEl: Ref<Element | undefined> = ref()
     const instance = getCurrentInstance()
 
-    watchEffect(() => {
+    onMounted(() => {
       const editor = props.editor
 
       if (editor && editor.options.element && rootEl.value) {
@@ -59,6 +61,14 @@ export const EditorContent = defineComponent({
 
           editor.createNodeViews()
         })
+
+        const newElement = document.createElement('div')
+
+        newElement.append(...editor.options.element.childNodes)
+
+        editor.setOptions({
+          element: newElement,
+        })
       }
     })
 
@@ -78,18 +88,6 @@ export const EditorContent = defineComponent({
 
       editor.contentComponent = null
       editor.appContext = null
-
-      if (!editor.options.element.firstChild) {
-        return
-      }
-
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.options.element.childNodes)
-
-      editor.setOptions({
-        element: newElement,
-      })
     })
 
     return { rootEl }

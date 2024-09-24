@@ -22,10 +22,38 @@ const editor = useEditor({
   extensions: [
     StarterKit,
   ],
+
+  onDestroy: () => {
+    console.log('editor destroyed')
+  },
 })
+
+const showEditor = ref(false)
 
 </script>
 
 <template>
-  <editor-content :editor="editor" />
+  <div>
+    <button type="button" @click="showEditor = !showEditor" style="margin-bottom: 1rem;">
+      {{ showEditor ? 'Hide editor' : 'Show editor' }}
+    </button>
+
+    <transition name="fade">
+      <div v-if="showEditor" style="background-color: pink; border: 1px solid black; padding: 1rem;">
+        <editor-content :editor="editor" />
+      </div>
+    </transition>
+  </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
