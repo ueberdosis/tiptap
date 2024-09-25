@@ -101,7 +101,19 @@ export interface EditorOptions {
    *
    * @default true
    */
-  enableCoreExtensions?: boolean | Partial<Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>>;
+  enableCoreExtensions?:
+    | boolean
+    | Partial<
+        Record<
+          | 'editable'
+          | 'clipboardTextSerializer'
+          | 'commands'
+          | 'focusEvents'
+          | 'keymap'
+          | 'tabindex',
+          false
+        >
+      >;
   /**
    * If `true`, the editor will check the content for errors on initialization.
    * Emitting the `contentError` event if the content is invalid.
@@ -122,8 +134,8 @@ export interface EditorOptions {
   onFocus: (props: EditorEvents['focus']) => void;
   onBlur: (props: EditorEvents['blur']) => void;
   onDestroy: (props: EditorEvents['destroy']) => void;
-  onPaste: (e: ClipboardEvent, slice: Slice) => void
-  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
+  onPaste: (e: ClipboardEvent, slice: Slice) => void;
+  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void;
 }
 
 export type HTMLContent = string;
@@ -208,21 +220,17 @@ export type ValuesOf<T> = T[keyof T];
 
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T];
 
-export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & {};
-
 export type DecorationWithType = Decoration & {
   type: NodeType;
 };
 
-export type NodeViewProps = Simplify<
-  Omit<NodeViewRendererProps, 'decorations'> & {
-    // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
-    decorations: readonly DecorationWithType[];
-    selected: boolean;
-    updateAttributes: (attributes: Record<string, any>) => void;
-    deleteNode: () => void;
-  }
->;
+export interface NodeViewProps extends NodeViewRendererProps {
+  // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
+  decorations: readonly DecorationWithType[];
+  selected: boolean;
+  updateAttributes: (attributes: Record<string, any>) => void;
+  deleteNode: () => void;
+}
 
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null;
@@ -232,7 +240,7 @@ export interface NodeViewRendererOptions {
   contentDOMElementTag: string;
 }
 
-export type NodeViewRendererProps = {
+export interface NodeViewRendererProps {
   // pass-through from prosemirror
   node: Parameters<NodeViewConstructor>[0];
   view: Parameters<NodeViewConstructor>[1];
@@ -243,7 +251,7 @@ export type NodeViewRendererProps = {
   editor: Editor;
   extension: Node;
   HTMLAttributes: Record<string, any>;
-};
+}
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView;
 
