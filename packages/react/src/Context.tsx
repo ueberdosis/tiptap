@@ -34,7 +34,7 @@ export type EditorProviderProps = {
  * with `useCurrentEditor`.
  */
 export function EditorProvider({
-  children, slotAfter, slotBefore, editorContainerProps, ...editorOptions
+  children, slotAfter, slotBefore, editorContainerProps = {}, ...editorOptions
 }: EditorProviderProps) {
   const editor = useEditor(editorOptions)
 
