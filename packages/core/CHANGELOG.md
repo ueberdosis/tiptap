@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.7.3
+
+### Patch Changes
+
+- f76515a: Update the typing for NodeViewProps to be an interface rather than a concrete type #5632
+- d57ee51: filter rendered extensionAttributes (#5588)
+
 ## 2.7.2
 
 ## 2.7.1
