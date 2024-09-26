@@ -568,6 +568,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.emit('destroy')
 
     if (this.view) {
+      // Cleanup our reference to prevent circular references which caused memory leaks
+      // @ts-ignore
+      const dom = this.view.dom as TiptapEditorHTMLElement
+
+      if (dom && dom.editor) {
+        delete dom.editor
+      }
       this.view.destroy()
     }
 
