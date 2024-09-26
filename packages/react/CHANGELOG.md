@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.7.4
+
+### Patch Changes
+
+- 26056aa: Add editorContainerProps to EditorProvider. This allows for any HTML attributes to be added to the EditorContent when using EditorProvider
+  - @tiptap/extension-bubble-menu@2.7.4
+  - @tiptap/extension-floating-menu@2.7.4
+
 ## 2.7.3
 
 ### Patch Changes
