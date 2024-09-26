@@ -52,7 +52,10 @@ export const baseConfig = ({
         compilerOptions: {
           declaration: true,
           rootDir: `./packages/${pkg.name.split('/')[1]}/src`,
-          paths: {},
+          declarationMap: true,
+          paths: {
+            '@tiptap/*': ['packages/*/dist', 'packages/*/src'],
+          },
           noEmit: false,
         },
         include: null,
