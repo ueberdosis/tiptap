@@ -1,5 +1,31 @@
 # Change Log
 
+## 2.7.4
+
+### Patch Changes
+
+- Updated dependencies [7ef401d]
+  - @tiptap/core@2.7.4
+  - @tiptap/extension-blockquote@2.7.4
+  - @tiptap/extension-bold@2.7.4
+  - @tiptap/extension-bullet-list@2.7.4
+  - @tiptap/extension-code@2.7.4
+  - @tiptap/extension-code-block@2.7.4
+  - @tiptap/extension-document@2.7.4
+  - @tiptap/extension-dropcursor@2.7.4
+  - @tiptap/extension-gapcursor@2.7.4
+  - @tiptap/extension-hard-break@2.7.4
+  - @tiptap/extension-heading@2.7.4
+  - @tiptap/extension-history@2.7.4
+  - @tiptap/extension-horizontal-rule@2.7.4
+  - @tiptap/extension-italic@2.7.4
+  - @tiptap/extension-list-item@2.7.4
+  - @tiptap/extension-ordered-list@2.7.4
+  - @tiptap/extension-paragraph@2.7.4
+  - @tiptap/extension-strike@2.7.4
+  - @tiptap/extension-text@2.7.4
+  - @tiptap/pm@2.7.4
+
 ## 2.7.3
 
 ### Patch Changes
