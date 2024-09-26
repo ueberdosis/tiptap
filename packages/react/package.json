@@ -14,7 +14,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/packages/react/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -22,7 +22,7 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/react/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "type": "module",
   "files": [
     "src",

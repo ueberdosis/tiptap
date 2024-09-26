@@ -51,9 +51,8 @@ export const baseConfig = ({
       tsconfigOverride: {
         compilerOptions: {
           declaration: true,
-          paths: {
-            '@tiptap/*': ['packages/*/src'],
-          },
+          rootDir: `./packages/${pkg.name.split('/')[1]}/src`,
+          paths: {},
         },
         include: null,
       },

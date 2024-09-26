@@ -15,7 +15,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-italic/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -23,7 +23,7 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/extension-italic/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
