@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Major Changes
+
+- 37913d5: Fix `getPos` type in `NodeViewRendererProps` to potentially be `undefined`
+
+  Breaking change: Types may flag uses of getPos where an `undefined` possibility isn't handled.
+  Why this change was made: To ensure the type reflects the real functionality of this function.
+  How to update: Ensure that the return value of `getPos` exists before making use of the value.
+
+- 12bb31a: `insertContent` and `insertContentAt` commands should not split text nodes like paragraphs into multiple nodes when the inserted content is at the beginning of the text to avoid empty nodes being created
+
 ## 3.0.0-next.1
 
 ### Major Changes

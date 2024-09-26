@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-subscript",
   "description": "subscript extension for tiptap",
-  "version": "3.0.0-next.1",
+  "version": "3.0.0-next.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -28,7 +28,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.1"
+    "@tiptap/core": "^3.0.0-next.2"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1"
