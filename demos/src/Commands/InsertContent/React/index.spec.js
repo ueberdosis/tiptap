@@ -11,7 +11,7 @@ context('/src/Commands/InsertContent/React/', () => {
     cy.get('button[data-test-id="html-content"]').click()
 
     // check if the content html is correct
-    cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
+    cy.get('.tiptap').should('contain.html', '<h1><a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap</a></h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
   })
 
   it('should keep spaces inbetween tags in html content', () => {
@@ -91,4 +91,21 @@ context('/src/Commands/InsertContent/React/', () => {
     })
   })
 
+  it('should split content when image is inserted inbetween text', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>HelloWorld</p>')
+      editor.commands.setTextSelection(6)
+      editor.commands.insertContent('<img src="https://example.image/1" alt="This is an example" />')
+      cy.get('.tiptap').should('contain.html', '<p>Hello</p><img src="https://example.image/1" alt="This is an example" contenteditable="false" draggable="true"><p>World</p>')
+    })
+  })
+
+  it('should not split content when image is inserted at beginning of text', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>HelloWorld</p>')
+      editor.commands.setTextSelection(1)
+      editor.commands.insertContent('<img src="https://example.image/1" alt="This is an example" />')
+      cy.get('.tiptap').should('contain.html', '<img src="https://example.image/1" alt="This is an example" contenteditable="false" draggable="true"><p>HelloWorld</p>')
+    })
+  })
 })
