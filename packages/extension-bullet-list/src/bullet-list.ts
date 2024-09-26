@@ -1,7 +1,6 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
-
-import ListItem from '../../extension-list-item/src/index.js'
-import TextStyle from '../../extension-text-style/src/index.js'
+import { ListItem } from '@tiptap/extension-list-item'
+import { TextStyle } from '@tiptap/extension-text-style'
 
 export interface BulletListOptions {
   /**

@@ -15,7 +15,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-bullet-list/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -23,16 +23,20 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/extension-bullet-list/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.7.4"
+    "@tiptap/core": "^2.7.4",
+    "@tiptap/extension-list-item": "^2.7.4",
+    "@tiptap/extension-text-style": "^2.7.4"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0"
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/extension-list-item": "^2.7.0",
+    "@tiptap/extension-text-style": "^2.7.0"
   },
   "repository": {
     "type": "git",

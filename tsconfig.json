@@ -15,8 +15,9 @@
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
+    "noEmit": true,
     "paths": {
-      "@tiptap/*": ["packages/*/dist", "packages/*/src"]
+      "@tiptap/*": ["packages/*/src", "packages/*/dist"]
     },
     "lib": [
       "esnext",
