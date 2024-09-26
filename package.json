@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "npm@10.8.1",
+  "packageManager": "npm@10.8.2",
   "workspaces": [
     "demos",
     "shared/*",
@@ -59,13 +59,13 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.27.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
+    "lint-staged": "^15.2.10",
     "minimist": "^1.2.8",
     "ts-loader": "9.3.1",
     "tsup": "8.2.4",
     "turbo": "2.0.6",
     "typescript": "^5.5.3",
-    "webpack": "^5.92.1"
+    "webpack": "^5.94.0"
   },
   "overrides": {
     "@rollup/pluginutils": "^5.1.0"
