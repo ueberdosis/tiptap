@@ -53,6 +53,7 @@ export const baseConfig = ({
           declaration: true,
           rootDir: `./packages/${pkg.name.split('/')[1]}/src`,
           paths: {},
+          noEmit: false,
         },
         include: null,
       },

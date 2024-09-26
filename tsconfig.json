@@ -15,6 +15,7 @@
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
+    "noEmit": true,
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
     },
