@@ -13,7 +13,10 @@ export const Drop = Extension.create({
         props: {
           handleDrop: (_, e, slice, moved) => {
             this.editor.emit('drop', {
-              editor: this.editor, event: e, slice, moved,
+              editor: this.editor,
+              event: e,
+              slice,
+              moved,
             })
           },
         },
