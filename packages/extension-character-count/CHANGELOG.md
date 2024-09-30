@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 93bc933: Make counter function accessible from outside character-count extension
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
 ## 2.7.4
 
 ## 2.7.3
