@@ -13,7 +13,8 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
+  Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -24,8 +25,6 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { NodePos } from './NodePos.js'
-import { DropPlugin } from './plugins/DropPlugin.js'
-import { PastePlugin } from './plugins/PastePlugin.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -112,14 +111,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
-
-    if (this.options.onPaste) {
-      this.registerPlugin(PastePlugin(this.options.onPaste))
-    }
-
-    if (this.options.onDrop) {
-      this.registerPlugin(DropPlugin(this.options.onDrop))
-    }
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -279,7 +270,16 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
+      this.options.onDrop && Drop.configure({
+        onDrop: this.options.onDrop,
+      }),
+      this.options.onPaste && Paste.configure({
+        onPaste: this.options.onPaste,
+      }),
     ].filter(ext => {
+      if (!ext) {
+        return false
+      }
       if (typeof this.options.enableCoreExtensions === 'object') {
         return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
       }
