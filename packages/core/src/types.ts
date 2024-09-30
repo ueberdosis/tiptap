@@ -63,6 +63,8 @@ export interface EditorEvents {
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction };
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction };
   destroy: void;
+  paste: { editor: Editor; event: ClipboardEvent; slice: Slice };
+  drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean };
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean;
@@ -110,7 +112,9 @@ export interface EditorOptions {
           | 'commands'
           | 'focusEvents'
           | 'keymap'
-          | 'tabindex',
+          | 'tabindex'
+          | 'drop'
+          | 'paste',
           false
         >
       >;

@@ -111,6 +111,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
+    this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
+    this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -270,16 +272,9 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
-      this.options.onDrop && Drop.configure({
-        onDrop: this.options.onDrop,
-      }),
-      this.options.onPaste && Paste.configure({
-        onPaste: this.options.onPaste,
-      }),
+      Drop,
+      Paste,
     ].filter(ext => {
-      if (!ext) {
-        return false
-      }
       if (typeof this.options.enableCoreExtensions === 'object') {
         return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
       }

@@ -1,27 +1,11 @@
-import type { Slice } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { Extension } from '../Extension.js'
 
-export type PastOptions = {
-  onPaste?: (e: ClipboardEvent, slice: Slice) => void;
-}
-
-export const Paste = Extension.create<PastOptions>({
+export const Paste = Extension.create({
   name: 'paste',
 
-  addOptions() {
-    return {
-      onPaste: undefined,
-    }
-  },
-
   addProseMirrorPlugins() {
-    const onPaste = this.options.onPaste
-
-    if (!onPaste) {
-      return []
-    }
 
     return [
       new Plugin({
@@ -29,7 +13,11 @@ export const Paste = Extension.create<PastOptions>({
 
         props: {
           handlePaste: (_view, e, slice) => {
-            onPaste(e, slice)
+            this.editor.emit('paste', {
+              editor: this.editor,
+              event: e,
+              slice,
+            })
           },
         },
       }),
