@@ -70,13 +70,6 @@ export const EditorContent = defineComponent({
         return
       }
 
-      // destroy nodeviews before vue removes dom element
-      if (!editor.isDestroyed) {
-        editor.view.setProps({
-          nodeViews: {},
-        })
-      }
-
       editor.contentComponent = null
       editor.appContext = null
     })
