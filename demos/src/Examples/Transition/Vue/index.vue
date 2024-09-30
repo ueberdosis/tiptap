@@ -31,7 +31,7 @@ const showEditor = ref(false)
     </button>
 
     <transition name="fade">
-      <div v-if="showEditor" style="background-color: pink; border: 1px solid black; padding: 1rem;">
+      <div v-if="showEditor" class="tiptap-wrapper">
         <editor-content :editor="editor" />
       </div>
     </transition>
@@ -41,11 +41,18 @@ const showEditor = ref(false)
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 2s ease;
+  transition: opacity 1s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.tiptap-wrapper {
+  background-color: var(--purple-light);
+  border: 2px solid var(--purple);
+  border-radius: 0.5rem;
+  margin: 1rem 0;
 }
 </style>
