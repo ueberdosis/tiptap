@@ -1,5 +1,36 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- Updated dependencies [6834a7f]
+- Updated dependencies [8ee534d]
+  - @tiptap/extension-horizontal-rule@2.8.0
+  - @tiptap/extension-ordered-list@2.8.0
+  - @tiptap/extension-bullet-list@2.8.0
+  - @tiptap/extension-blockquote@2.8.0
+  - @tiptap/extension-code-block@2.8.0
+  - @tiptap/extension-dropcursor@2.8.0
+  - @tiptap/extension-hard-break@2.8.0
+  - @tiptap/extension-gapcursor@2.8.0
+  - @tiptap/extension-list-item@2.8.0
+  - @tiptap/extension-paragraph@2.8.0
+  - @tiptap/extension-document@2.8.0
+  - @tiptap/extension-heading@2.8.0
+  - @tiptap/extension-history@2.8.0
+  - @tiptap/extension-italic@2.8.0
+  - @tiptap/extension-strike@2.8.0
+  - @tiptap/extension-bold@2.8.0
+  - @tiptap/extension-code@2.8.0
+  - @tiptap/extension-text@2.8.0
+  - @tiptap/core@2.8.0
+  - @tiptap/pm@2.8.0
+
 ## 2.7.4
 
 ### Patch Changes

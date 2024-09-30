@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- Updated dependencies [6834a7f]
+  - @tiptap/extension-floating-menu@2.8.0
+  - @tiptap/extension-bubble-menu@2.8.0
+
 ## 2.7.4
 
 ### Patch Changes

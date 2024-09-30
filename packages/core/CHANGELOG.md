@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- 8ee534d: This refactors the `onDrop` and `onPaste` event callbacks to be Tiptap extensions rather than separate Prosemirror plugins which was forcing the editor to recreate the view on initialization.
+
 ## 2.7.4
 
 ### Patch Changes
