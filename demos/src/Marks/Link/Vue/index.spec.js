@@ -101,6 +101,20 @@ context('/src/Marks/Link/Vue/', () => {
       .should('have.attr', 'href', 'https://example.com?paramA=nice&paramB=cool')
   })
 
+  it('correctly links multiple pasted HTML urls', () => {
+    cy.get('.tiptap')
+      .type('{backspace}')
+      .paste({ pastePayload: '<a href="https://duckduckgo.com/">https://duckduckgo.com/</a><a href="https://www.bing.com/">https://www.bing.com/</a>', pasteType: 'text/html' })
+
+    cy.get('.tiptap')
+      .find('a[href="https://duckduckgo.com/"]')
+      .should('contain', 'https://duckduckgo.com/')
+
+    cy.get('.tiptap')
+      .find('a[href="https://www.bing.com/"]')
+      .should('contain', 'https://www.bing.com/')
+  })
+
   it('correctly detects multiple pasted URLs', () => {
     cy.get('.tiptap').paste({ pastePayload: 'https://example1.com, https://example2.com/foobar, (http://example3.com/foobar)', pasteType: 'text/plain' })
 
