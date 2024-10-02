@@ -1,13 +1,14 @@
 import {
   Mark as ProseMirrorMark,
   Node as ProseMirrorNode,
-  NodeType,
   ParseOptions,
   Slice,
 } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
+import { Mappable } from '@tiptap/pm/transform'
 import {
   Decoration,
+  DecorationAttrs,
   EditorProps,
   EditorView,
   NodeView,
@@ -224,8 +225,27 @@ export type ValuesOf<T> = T[keyof T];
 
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T];
 
+export type DOMNode = InstanceType<typeof window.Node>
+
+/**
+ * prosemirror-view does not export the `type` property of `Decoration`.
+ * So, this defines the `DecorationType` interface to include the `type` property.
+ */
+export interface DecorationType {
+  spec: any
+  map(mapping: Mappable, span: Decoration, offset: number, oldOffset: number): Decoration | null
+  valid(node: Node, span: Decoration): boolean
+  eq(other: DecorationType): boolean
+  destroy(dom: DOMNode): void
+  readonly attrs: DecorationAttrs
+}
+
+/**
+ * prosemirror-view does not export the `type` property of `Decoration`.
+ * This adds the `type` property to the `Decoration` type.
+ */
 export type DecorationWithType = Decoration & {
-  type: NodeType;
+  type: DecorationType;
 };
 
 export interface NodeViewProps extends NodeViewRendererProps {
@@ -246,14 +266,40 @@ export interface NodeViewRendererOptions {
 
 export interface NodeViewRendererProps {
   // pass-through from prosemirror
+  /**
+   * The node that is being rendered.
+   */
   node: Parameters<NodeViewConstructor>[0];
+  /**
+   * The editor's view.
+   */
   view: Parameters<NodeViewConstructor>[1];
+  /**
+   * A function that can be called to get the node's current position in the document.
+   */
   getPos: () => number; // TODO getPos was incorrectly typed before, change to `Parameters<NodeViewConstructor>[2];` in the next major version
+  /**
+   * is an array of node or inline decorations that are active around the node.
+   * They are automatically drawn in the normal way, and you will usually just want to ignore this, but they can also be used as a way to provide context information to the node view without adding it to the document itself.
+   */
   decorations: Parameters<NodeViewConstructor>[3];
+  /**
+   * holds the decorations for the node's content. You can safely ignore this if your view has no content or a contentDOM property, since the editor will draw the decorations on the content.
+   * But if you, for example, want to create a nested editor with the content, it may make sense to provide it with the inner decorations.
+   */
   innerDecorations: Parameters<NodeViewConstructor>[4];
   // tiptap-specific
+  /**
+   * The editor instance.
+   */
   editor: Editor;
+  /**
+   * The extension that is responsible for the node.
+   */
   extension: Node;
+  /**
+   * The HTML attributes that should be added to the node's DOM element.
+   */
   HTMLAttributes: Record<string, any>;
 }
 
