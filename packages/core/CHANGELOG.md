@@ -1,5 +1,36 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- 8ee534d: This refactors the `onDrop` and `onPaste` event callbacks to be Tiptap extensions rather than separate Prosemirror plugins which was forcing the editor to recreate the view on initialization.
+
+## 2.7.4
+
+### Patch Changes
+
+- 7ef401d: This plugs a memory leak where there is a circular reference between the view's DOM node and the editor instance, to resolve this, before destroying the view we need to delete the reference to the editor instance on the DOM node #5654
+
+## 2.7.3
+
+### Patch Changes
+
+- f76515a: Update the typing for NodeViewProps to be an interface rather than a concrete type #5632
+- d57ee51: filter rendered extensionAttributes (#5588)
+
+## 2.7.2
+
+## 2.7.1
+
+### Patch Changes
+
+- 888f574: Fixed Slice import in DropPlugin
+
 ## 2.7.0
 
 ### Minor Changes

@@ -1,5 +1,46 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- Updated dependencies [6834a7f]
+  - @tiptap/extension-floating-menu@2.8.0
+  - @tiptap/extension-bubble-menu@2.8.0
+
+## 2.7.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.4
+- @tiptap/extension-floating-menu@2.7.4
+
+## 2.7.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.3
+- @tiptap/extension-floating-menu@2.7.3
+
+## 2.7.2
+
+### Patch Changes
+
+- cbe06d1: Fix registerPlugin() for late-registering plugins
+  - @tiptap/extension-bubble-menu@2.7.2
+  - @tiptap/extension-floating-menu@2.7.2
+
+## 2.7.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.1
+- @tiptap/extension-floating-menu@2.7.1
+
 ## 2.7.0
 
 ### Minor Changes

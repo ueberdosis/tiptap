@@ -13,7 +13,8 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
+  Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -24,8 +25,6 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { NodePos } from './NodePos.js'
-import { DropPlugin } from './plugins/DropPlugin.js'
-import { PastePlugin } from './plugins/PastePlugin.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -112,14 +111,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
-
-    if (this.options.onPaste) {
-      this.registerPlugin(PastePlugin(this.options.onPaste))
-    }
-
-    if (this.options.onDrop) {
-      this.registerPlugin(DropPlugin(this.options.onDrop))
-    }
+    this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
+    this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -224,11 +217,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    *
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
+   * @returns The new editor state
    */
   public registerPlugin(
     plugin: Plugin,
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
-  ): void {
+  ): EditorState {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
@@ -236,16 +230,19 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.reconfigure({ plugins })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
    * Unregister a ProseMirror plugin.
    *
    * @param nameOrPluginKey The plugins name
+   * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
     if (this.isDestroyed) {
-      return
+      return undefined
     }
 
     // @ts-ignore
@@ -257,6 +254,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
@@ -273,6 +272,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
+      Drop,
+      Paste,
     ].filter(ext => {
       if (typeof this.options.enableCoreExtensions === 'object') {
         return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
@@ -562,6 +563,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.emit('destroy')
 
     if (this.view) {
+      // Cleanup our reference to prevent circular references which caused memory leaks
+      // @ts-ignore
+      const dom = this.view.dom as TiptapEditorHTMLElement
+
+      if (dom && dom.editor) {
+        delete dom.editor
+      }
       this.view.destroy()
     }
 
