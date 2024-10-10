@@ -29,17 +29,20 @@ export function getMarkRange(
   if (!$pos || !type) {
     return
   }
-
   let start = $pos.parent.childAfter($pos.parentOffset)
 
-  if ($pos.parentOffset === start.offset && start.offset !== 0) {
+  // If the cursor is at the start of a text node that does not have the mark, look backward
+  if (!start.node || !start.node.marks.some(mark => mark.type === type)) {
     start = $pos.parent.childBefore($pos.parentOffset)
   }
 
-  if (!start.node) {
+  // If there is no text node with the mark even backward, return undefined
+  if (!start.node || !start.node.marks.some(mark => mark.type === type)) {
     return
   }
 
+  // We now know that the cursor is either at the start, middle or end of a text node with the specified mark
+  // so we can look it up on the targeted mark
   const mark = findMarkInSet([...start.node.marks], type, attributes)
 
   if (!mark) {
