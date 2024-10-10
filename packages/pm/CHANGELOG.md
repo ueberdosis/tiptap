@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.8.1
+
+### Patch Changes
+
+- feea1f6: Update prosemirror-view version
+
 ## 2.8.0
 
 ### Minor Changes
