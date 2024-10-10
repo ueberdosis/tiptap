@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.8.1
+
+### Patch Changes
+
+- d96f679: Fixed an issue while updating attributes on a NodePos that was not a text
+- e606c06: Updates the typings of `DecorationsWithTypes` to be more accurate to the prosemirror implementation even though it is not completely exposed as an API
+- d96f679: Fixed issues with NodePos child positions causing wrong positions when used on non-text atoms
+
 ## 2.8.0
 
 ### Minor Changes

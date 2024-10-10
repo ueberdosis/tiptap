@@ -1,5 +1,36 @@
 # Change Log
 
+## 2.8.1
+
+### Patch Changes
+
+- 087e581: Adds @tiptap/extension-text-style to @tiptap/starter-kit deps but does not install the extension, since it is only to resolve a peer dep install for list-items
+- Updated dependencies [feea1f6]
+- Updated dependencies [d96f679]
+- Updated dependencies [e606c06]
+- Updated dependencies [d96f679]
+  - @tiptap/pm@2.8.1
+  - @tiptap/core@2.8.1
+  - @tiptap/extension-blockquote@2.8.1
+  - @tiptap/extension-bold@2.8.1
+  - @tiptap/extension-bullet-list@2.8.1
+  - @tiptap/extension-code@2.8.1
+  - @tiptap/extension-code-block@2.8.1
+  - @tiptap/extension-document@2.8.1
+  - @tiptap/extension-dropcursor@2.8.1
+  - @tiptap/extension-gapcursor@2.8.1
+  - @tiptap/extension-hard-break@2.8.1
+  - @tiptap/extension-heading@2.8.1
+  - @tiptap/extension-history@2.8.1
+  - @tiptap/extension-horizontal-rule@2.8.1
+  - @tiptap/extension-italic@2.8.1
+  - @tiptap/extension-list-item@2.8.1
+  - @tiptap/extension-ordered-list@2.8.1
+  - @tiptap/extension-paragraph@2.8.1
+  - @tiptap/extension-strike@2.8.1
+  - @tiptap/extension-text@2.8.1
+  - @tiptap/extension-text-style@2.8.1
+
 ## 2.8.0
 
 ### Minor Changes
