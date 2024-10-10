@@ -135,8 +135,9 @@ export class NodePos {
 
     this.node.content.forEach((node, offset) => {
       const isBlock = node.isBlock && !node.isTextblock
+      const isNonTextAtom = node.isAtom && !node.isText
 
-      const targetPos = this.pos + offset + 1
+      const targetPos = this.pos + offset + (isNonTextAtom ? 0 : 1)
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
       if (!isBlock && $pos.depth <= this.depth) {
@@ -235,9 +236,12 @@ export class NodePos {
   }
 
   setAttribute(attributes: { [key: string]: any }) {
-    const oldSelection = this.editor.state.selection
+    const { selection } = this.editor.state
 
-    this.editor.chain().setTextSelection(this.from).updateAttributes(this.node.type.name, attributes).setTextSelection(oldSelection.from)
+    this.editor.chain()
+      .setTextSelection(this.from)
+      .updateAttributes(this.node.type.name, attributes)
+      .setTextSelection(selection.from)
       .run()
   }
 }
