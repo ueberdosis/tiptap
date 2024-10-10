@@ -236,12 +236,13 @@ export class NodePos {
   }
 
   setAttribute(attributes: { [key: string]: any }) {
-    const { selection } = this.editor.state
+    const { tr } = this.editor.state
 
-    this.editor.chain()
-      .setTextSelection(this.from)
-      .updateAttributes(this.node.type.name, attributes)
-      .setTextSelection(selection.from)
-      .run()
+    tr.setNodeMarkup(this.from, undefined, {
+      ...this.node.attrs,
+      ...attributes,
+    })
+
+    this.editor.view.dispatch(tr)
   }
 }
