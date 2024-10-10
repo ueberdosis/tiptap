@@ -59,6 +59,7 @@ export const EditorContent = defineComponent({
 
           editor.createNodeViews()
         })
+
       }
     })
 
@@ -69,27 +70,8 @@ export const EditorContent = defineComponent({
         return
       }
 
-      // destroy nodeviews before vue removes dom element
-      if (!editor.isDestroyed) {
-        editor.view.setProps({
-          nodeViews: {},
-        })
-      }
-
       editor.contentComponent = null
       editor.appContext = null
-
-      if (!editor.options.element.firstChild) {
-        return
-      }
-
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.options.element.childNodes)
-
-      editor.setOptions({
-        element: newElement,
-      })
     })
 
     return { rootEl }
