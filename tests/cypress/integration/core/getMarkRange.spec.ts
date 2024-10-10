@@ -55,9 +55,6 @@ describe('getMarkRange', () => {
       from: 11,
       to: 17,
     })
-
-    // eslint-disable-next-line no-console
-    console.log(range)
   })
 
   it('gets the correct range for a position at the end of the mark', () => {
@@ -69,9 +66,6 @@ describe('getMarkRange', () => {
       from: 11,
       to: 17,
     })
-
-    // eslint-disable-next-line no-console
-    console.log(range)
   })
 
   it('gets undefined if a mark is not found', () => {
@@ -80,8 +74,5 @@ describe('getMarkRange', () => {
     const range = getMarkRange($pos, schema.marks.link)
 
     expect(range).to.eq(undefined)
-
-    // eslint-disable-next-line no-console
-    console.log(range)
   })
 })
