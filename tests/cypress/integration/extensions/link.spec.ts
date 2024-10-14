@@ -27,6 +27,7 @@ describe('extension-link', () => {
     '../relative.html',
     'mailto:info@example.com',
     'ftp://info@example.com',
+    // 'currentdir/image.png', should work?
   ]
 
   it('does output href tag for valid JSON schemas', () => {
@@ -262,6 +263,31 @@ describe('extension-link', () => {
             Paragraph,
             Link.configure({
               protocols: ['custom', { scheme: 'another-custom' }],
+            }),
+          ],
+          content: `<p><a href="${url}">hello world!</a></p>`,
+        })
+
+        expect(editor.getHTML()).to.include(url)
+        expect(JSON.stringify(editor.getJSON())).to.include(url)
+
+        editor?.destroy()
+        getEditorEl()?.remove()
+      })
+    })
+  })
+  describe('custom uri validator', () => {
+    it('allows using an optional custom uri validator function', () => {
+
+      ['currentdir/page.html', ...validUrls].forEach(url => {
+        editor = new Editor({
+          element: createEditorEl(),
+          extensions: [
+            Document,
+            Text,
+            Paragraph,
+            Link.configure({
+              customUriValidator: uri => (/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i).test(uri),
             }),
           ],
           content: `<p><a href="${url}">hello world!</a></p>`,
