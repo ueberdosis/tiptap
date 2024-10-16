@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-gapcursor",
   "description": "gapcursor extension for tiptap",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,8 +29,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.8.0",
-    "@tiptap/pm": "^2.8.0"
+    "@tiptap/core": "^2.8.1",
+    "@tiptap/pm": "^2.8.1"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.7.0",
