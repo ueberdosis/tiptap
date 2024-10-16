@@ -56,11 +56,15 @@ export const History = Extension.create<HistoryOptions>({
   addCommands() {
     return {
       undo: () => ({ editor, state, dispatch }) => {
-        if (!editor.isEditable) return false
+        if (!editor.isEditable) {
+          return false
+        }
         return undo(state, dispatch)
       },
       redo: () => ({ editor, state, dispatch }) => {
-        if (!editor.isEditable) return false
+        if (!editor.isEditable) {
+          return false
+        }
         return redo(state, dispatch)
       },
     }
