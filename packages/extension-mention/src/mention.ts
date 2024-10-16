@@ -77,6 +77,8 @@ export const MentionPluginKey = new PluginKey('mention')
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
+  priority: 101,
+
   addOptions() {
     return {
       HTMLAttributes: {},
