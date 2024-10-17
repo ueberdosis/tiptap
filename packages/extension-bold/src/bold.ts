@@ -76,6 +76,10 @@ export const Bold = Mark.create<BoldOptions>({
         getAttrs: node => (node as HTMLElement).style.fontWeight !== 'normal' && null,
       },
       {
+        style: 'font-weight=400',
+        clearMark: mark => mark.type.name === this.name,
+      },
+      {
         style: 'font-weight',
         getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value as string) && null,
       },
