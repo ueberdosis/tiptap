@@ -114,7 +114,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
           }
 
           if (markType && node.marks.length) {
-            node.marks.forEach(mark: MarkType => {
+            node.marks.forEach((mark: MarkType) => {
               if (markType === mark.type) {
                 const trimmedFrom = Math.max(pos, from)
                 const trimmedTo = Math.min(pos + node.nodeSize, to)
