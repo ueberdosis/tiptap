@@ -50,13 +50,13 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
     markType = getMarkType(typeOrName as MarkType, state.schema)
   }
 
-  if (dispatch) {
+  if (dispatch && nodeType !== null) {
     /*
      * If the user didn't select anything then start from the
      * current cursor, grab a NodePos, and find the closest
      * typeOrName from that NodePos
      */
-    if (nodeType !== null && tr.selection.empty) {
+    if (tr.selection.empty) {
       // get a NodePos
       const pos = editor.$pos(tr.selection.anchor)
       const node = pos.closest(nodeType.name)
@@ -114,7 +114,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
           }
 
           if (markType && node.marks.length) {
-            node.marks.forEach((mark: MarkType) => {
+            node.marks.forEach((mark: any) => {
               if (markType === mark.type) {
                 const trimmedFrom = Math.max(pos, from)
                 const trimmedTo = Math.min(pos + node.nodeSize, to)
