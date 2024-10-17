@@ -50,7 +50,6 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
     markType = getMarkType(typeOrName as MarkType, state.schema)
   }
 
-
   if (dispatch) {
     /*
      * If the user didn't select anything then start from the
@@ -75,7 +74,7 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
           node.node.marks.forEach(mark => {
             if (markType === mark.type) {
               tr.addMark(
-                pos,
+                pos.pos,
                 node.node.nodeSize,
                 markType.create({
                   ...mark.attrs,
@@ -114,8 +113,8 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
             })
           }
 
-          if (markType && node.node.marks.length) {
-            node.node.marks.forEach(mark => {
+          if (markType && node.marks.length) {
+            node.marks.forEach(mark: MarkType => {
               if (markType === mark.type) {
                 const trimmedFrom = Math.max(pos, from)
                 const trimmedTo = Math.min(pos + node.nodeSize, to)
