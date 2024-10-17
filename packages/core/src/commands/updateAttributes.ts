@@ -102,35 +102,39 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
          * but.. it works. (I've to check the
          * prosemirror/tiptap documentation)
          */
-        const from = editor.$pos(range.$from.pos).closest(nodeType.name).pos - 1
-        const to = range.$to.pos
+        const rnode = editor.$pos(range.$from.pos).closest(nodeType.name)
 
-        state.doc.nodesBetween(from, to, (node, pos) => {
-          if (nodeType && nodeType === node.type && pos >= from && pos <= to) {
-            tr.setNodeMarkup(pos, undefined, {
-              ...node.attrs,
-              ...attributes,
-            })
-          }
+        if (rnode !== null) {
+          const from = rnode.pos - 1
+          const to = range.$to.pos
 
-          if (markType && node.marks.length) {
-            node.marks.forEach((mark: any) => {
-              if (markType === mark.type) {
-                const trimmedFrom = Math.max(pos, from)
-                const trimmedTo = Math.min(pos + node.nodeSize, to)
+          state.doc.nodesBetween(from, to, (node, pos) => {
+            if (nodeType && nodeType === node.type && pos >= from && pos <= to) {
+              tr.setNodeMarkup(pos, undefined, {
+                ...node.attrs,
+                ...attributes,
+              })
+            }
 
-                tr.addMark(
-                  trimmedFrom,
-                  trimmedTo,
-                  markType.create({
-                    ...mark.attrs,
-                    ...attributes,
-                  }),
-                )
-              }
-            })
-          }
-        })
+            if (markType && node.marks.length) {
+              node.marks.forEach((mark: any) => {
+                if (markType === mark.type) {
+                  const trimmedFrom = Math.max(pos, from)
+                  const trimmedTo = Math.min(pos + node.nodeSize, to)
+
+                  tr.addMark(
+                    trimmedFrom,
+                    trimmedTo,
+                    markType.create({
+                      ...mark.attrs,
+                      ...attributes,
+                    }),
+                  )
+                }
+              })
+            }
+          })
+        }
       })
     }
   }
