@@ -101,9 +101,8 @@ export class CommandManager {
 
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
-    const dispatch = false
     const tr = startTr || state.tr
-    const props = this.buildProps(tr, dispatch)
+    const props = this.buildProps(tr, true)
     const formattedCommands = Object.fromEntries(
       Object.entries(rawCommands).map(([name, command]) => {
         return [name, (...args: never[]) => command(...args)({ ...props, dispatch: undefined })]
@@ -112,7 +111,7 @@ export class CommandManager {
 
     return {
       ...formattedCommands,
-      chain: () => this.createChain(tr, dispatch),
+      chain: () => this.createChain(tr, true),
     } as CanCommands
   }
 
@@ -129,7 +128,7 @@ export class CommandManager {
         transaction: tr,
       }),
       dispatch: shouldDispatch ? () => undefined : undefined,
-      chain: () => this.createChain(tr, shouldDispatch),
+      chain: () => this.createChain(tr),
       can: () => this.createCan(tr),
       get commands() {
         return Object.fromEntries(
