@@ -57,31 +57,34 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
      * current cursor, grab a NodePos, and find the closest
      * typeOrName from that NodePos
      */
-    if (tr.selection.empty) {
+    if (nodeType !== null && tr.selection.empty) {
       // get a NodePos
       const pos = editor.$pos(tr.selection.anchor)
       const node = pos.closest(nodeType.name)
 
-      if (nodeType && nodeType === node.type) {
-        tr.setNodeMarkup(node.pos-1, null, {
-          ...node.node.attrs,
-          ...attributes,
-        })
-      }
+      if (node !== null) {
 
-      if (markType && node.marks.length) {
-        node.marks.forEach(mark => {
-          if (markType === mark.type) {
-            tr.addMark(
-              pos,
-              pos.node.nodeSize,
-              markType.create({
-                ...mark.attrs,
-                ...attributes,
-              }),
-            )
-          }
-        })
+        if (nodeType === node.node.type) {
+          tr.setNodeMarkup(node.pos - 1, null, {
+            ...node.node.attrs,
+            ...attributes,
+          })
+        }
+
+        if (markType && node.node.marks.length) {
+          node.node.marks.forEach(mark => {
+            if (markType === mark.type) {
+              tr.addMark(
+                pos,
+                node.node.nodeSize,
+                markType.create({
+                  ...mark.attrs,
+                  ...attributes,
+                }),
+              )
+            }
+          })
+        }
       }
     } else {
       tr.selection.ranges.forEach(range => {
@@ -101,7 +104,6 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
          * prosemirror/tiptap documentation)
          */
         const from = editor.$pos(range.$from.pos).closest(nodeType.name).pos - 1
-
         const to = range.$to.pos
 
         state.doc.nodesBetween(from, to, (node, pos) => {
@@ -112,8 +114,8 @@ export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, at
             })
           }
 
-          if (markType && node.marks.length) {
-            node.marks.forEach(mark => {
+          if (markType && node.node.marks.length) {
+            node.node.marks.forEach(mark => {
               if (markType === mark.type) {
                 const trimmedFrom = Math.max(pos, from)
                 const trimmedTo = Math.min(pos + node.nodeSize, to)
