@@ -34,7 +34,12 @@ const showEditor = ref(false)
 
 <template>
   <div>
-    <button type="button" @click="showEditor = !showEditor" style="margin-bottom: 1rem;">
+    <button
+      type="button"
+      @click="showEditor = !showEditor"
+      style="margin-bottom: 1rem;"
+      id="toggle-editor"
+    >
       {{ showEditor ? 'Hide editor' : 'Show editor' }}
     </button>
 
