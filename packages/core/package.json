@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,7 +32,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/pm": "^2.8.0"
+    "@tiptap/pm": "^2.8.1"
   },
   "peerDependencies": {
     "@tiptap/pm": "^2.7.0"
