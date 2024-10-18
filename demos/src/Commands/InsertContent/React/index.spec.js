@@ -91,4 +91,28 @@ context('/src/Commands/InsertContent/React/', () => {
     })
   })
 
+  it('should respect editor.options.parseOptions if defined to be `false`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: false }
+      editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
+  it('should respect editor.options.parseOptions if defined to be `full`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: 'full' }
+      editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello\n World</strong></p>')
+    })
+  })
+
+  it('should respect editor.options.parseOptions if defined to be `true`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: true }
+      editor.commands.insertContent('<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello  World</strong></p>')
+    })
+  })
+
 })

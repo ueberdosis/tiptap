@@ -63,7 +63,7 @@ const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     options = {
-      parseOptions: {},
+      parseOptions: editor.options.parseOptions,
       updateSelection: true,
       applyInputRules: false,
       applyPasteRules: false,
