@@ -119,7 +119,10 @@ export class NodeView<
     }
 
     if (typeof this.options.stopEvent === 'function') {
-      return this.options.stopEvent({ event })
+      const shouldStopEvent = return this.options.stopEvent({ event })
+      if (shouldStopEvent !== null) {
+        return shouldStopEvent;
+      }
     }
 
     const target = event.target as HTMLElement
@@ -220,7 +223,10 @@ export class NodeView<
     }
 
     if (typeof this.options.ignoreMutation === 'function') {
-      return this.options.ignoreMutation({ mutation })
+      const shouldIgnoreMutation = this.options.ignoreMutation({ mutation })
+      if (shouldIgnoreMutation !== null) {
+        return shouldIgnoreMutation;
+      }
     }
 
     // a leaf/atom node is like a black box for ProseMirror
