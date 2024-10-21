@@ -10,6 +10,28 @@ context('/src/Examples/Default/React/', () => {
     })
   })
 
+  it('Heading, bulletList, and orderedList should be allowed to convert between each other.', () => {
+    cy.get('.tiptap h1').should('exist')
+    cy.get('.tiptap ul').should('not.exist')
+    cy.get('.tiptap ol').should('not.exist')
+    cy.get('button').contains('Bullet list').should('not.be.disabled')
+    cy.get('button').contains('Ordered list').should('not.be.disabled')
+
+    cy.get('button').contains('Bullet list').click()
+    cy.get('.tiptap h1').should('not.exist')
+    cy.get('.tiptap ul').should('exist')
+    cy.get('.tiptap ol').should('not.exist')
+    cy.get('button').contains('H1').should('not.be.disabled')
+    cy.get('button').contains('Ordered list').should('not.be.disabled')
+
+    cy.get('button').contains('Ordered list').click()
+    cy.get('.tiptap h1').should('not.exist')
+    cy.get('.tiptap ul').should('not.exist')
+    cy.get('.tiptap ol').should('exist')
+    cy.get('button').contains('H1').should('not.be.disabled')
+    cy.get('button').contains('Bullet list').should('not.be.disabled')
+  })
+
   it('should apply the paragraph style when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap h1').should('exist')
     cy.get('.tiptap p').should('not.exist')
