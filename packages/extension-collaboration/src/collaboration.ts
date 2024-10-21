@@ -7,10 +7,9 @@ import {
   ySyncPlugin,
   yUndoPlugin,
   yUndoPluginKey,
+  yXmlFragmentToProsemirrorJSON,
 } from 'y-prosemirror'
 import { Doc, UndoManager, XmlFragment } from 'yjs'
-
-import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1];
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0];
@@ -204,6 +203,31 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
+    if (this.editor.options.enableContentCheck) {
+      fragment.doc?.on('beforeTransaction', () => {
+        try {
+          const jsonContent = (yXmlFragmentToProsemirrorJSON(fragment))
+
+          if (jsonContent.content.length === 0) {
+            return
+          }
+
+          this.editor.schema.nodeFromJSON(jsonContent).check()
+        } catch (error) {
+          this.editor.emit('contentError', {
+            error: error as Error,
+            editor: this.editor,
+            disableCollaboration: () => {
+              fragment.doc?.destroy()
+              this.storage.isDisabled = true
+            },
+          })
+          // If the content is invalid, return false to prevent the transaction from being applied
+          return false
+        }
+      })
+    }
+
     return [
       ySyncPluginInstance,
       yUndoPluginInstance,
@@ -211,7 +235,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       this.editor.options.enableContentCheck
         && new Plugin({
           key: new PluginKey('filterInvalidContent'),
-          filterTransaction: tr => {
+          filterTransaction: () => {
             // When collaboration is disabled, prevent any sync transactions from being applied
             if (this.storage.isDisabled) {
               // Destroy the Yjs document to prevent any further sync transactions
@@ -220,29 +244,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
               return true
             }
 
-            // Is this transaction from Yjs Sync Plugin?
-            if (isChangeOrigin(tr)) {
-
-              // Did the doc actually change as a result of this transaction?
-              if (tr.docChanged) {
-                // Attempt check if the content is valid to the schema
-                try {
-                  const content = tr.doc.toJSON()
-
-                  this.editor.schema.nodeFromJSON(content).check()
-                } catch (error) {
-                  this.editor.emit('contentError', {
-                    error: error as Error,
-                    editor: this.editor,
-                    disableCollaboration: () => {
-                      this.storage.isDisabled = true
-                    },
-                  })
-                  // If the content is invalid, return false to prevent the transaction from being applied
-                  return false
-                }
-              }
-            }
             return true
           },
         }),

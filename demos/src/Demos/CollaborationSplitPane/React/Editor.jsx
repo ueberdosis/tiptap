@@ -78,7 +78,9 @@ const getInitialUser = () => {
   }
 }
 
-const Editor = ({ ydoc, provider, room }) => {
+const Editor = ({
+  ydoc, provider, room, id,
+}) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
@@ -97,6 +99,7 @@ const Editor = ({ ydoc, provider, room }) => {
     extensions: [
       StarterKit.configure({
         history: false,
+        bold: id === 1 ? undefined : false,
       }),
       Highlight,
       TaskList,
