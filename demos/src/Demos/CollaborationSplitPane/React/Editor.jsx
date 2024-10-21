@@ -80,7 +80,9 @@ const getInitialUser = () => {
   )
 }
 
-const Editor = ({ ydoc, provider, room }) => {
+const Editor = ({
+  ydoc, provider, room,
+}) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
@@ -104,13 +106,13 @@ const Editor = ({ ydoc, provider, room }) => {
       Highlight,
       TaskList,
       TaskItem,
-      CharacterCount.configure({
+      CharacterCount.extend().configure({
         limit: 10000,
       }),
-      Collaboration.configure({
+      Collaboration.extend().configure({
         document: ydoc,
       }),
-      CollaborationCursor.configure({
+      CollaborationCursor.extend().configure({
         provider,
       }),
     ],

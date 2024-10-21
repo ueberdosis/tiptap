@@ -237,24 +237,28 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Unregister a ProseMirror plugin.
    *
-   * @param nameOrPluginKey The plugins name
+   * @param nameOrPluginKeyToRemove The plugins name
    * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
+  public unregisterPlugin(nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]): EditorState | undefined {
     if (this.isDestroyed) {
       return undefined
     }
 
-    // @ts-ignore
-    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
-
     const prevPlugins = this.state.plugins
-    // @ts-ignore
-    const plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+    let plugins = prevPlugins;
+
+    ([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
+      // @ts-ignore
+      const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+
+      // @ts-ignore
+      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+    })
 
     if (prevPlugins.length === plugins.length) {
       // No plugin was removed, so we don’t need to update the state
-      return
+      return undefined
     }
 
     const state = this.state.reconfigure({
