@@ -30,8 +30,8 @@ const providerB = new TiptapCollabProvider({
 const App = () => {
   return (
     <div className="col-group">
-      <Editor provider={providerA} ydoc={ydocA} room={room} id={1} />
-      <Editor provider={providerB} ydoc={ydocB} room={room} id={2} />
+      <Editor provider={providerA} ydoc={ydocA} room={room} />
+      <Editor provider={providerB} ydoc={ydocB} room={room} />
     </div>
   )
 }
