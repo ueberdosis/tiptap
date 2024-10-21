@@ -101,7 +101,7 @@ export class CommandManager {
 
   public createCan(startTr?: Transaction): CanCommands {
     const { rawCommands, state } = this
-    const dispatch = false
+    const dispatch = true
     const tr = startTr || state.tr
     const props = this.buildProps(tr, dispatch)
     const formattedCommands = Object.fromEntries(
