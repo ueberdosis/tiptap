@@ -337,6 +337,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         editor: this,
         error: e as Error,
         disableCollaboration: () => {
+          if (this.storage.collaboration) {
+            this.storage.collaboration.isDisabled = true
+          }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
           this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
 

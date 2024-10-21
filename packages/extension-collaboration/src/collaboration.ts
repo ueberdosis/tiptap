@@ -167,8 +167,9 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
       if (undoManager.restore) {
         undoManager.restore()
-        // eslint-disable-next-line
-        undoManager.restore = () => {};
+        undoManager.restore = () => {
+          // noop
+        }
       }
 
       const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
@@ -176,8 +177,8 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       return {
         destroy: () => {
           const hasUndoManSelf = undoManager.trackedOrigins.has(undoManager)
-          // eslint-disable-next-line
-          const observers = undoManager._observers;
+          // eslint-disable-next-line no-underscore-dangle
+          const observers = undoManager._observers
 
           undoManager.restore = () => {
             if (hasUndoManSelf) {
@@ -185,8 +186,8 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             }
 
             undoManager.doc.on('afterTransaction', undoManager.afterTransactionHandler)
-            // eslint-disable-next-line
-            undoManager._observers = observers;
+            // eslint-disable-next-line no-underscore-dangle
+            undoManager._observers = observers
           }
 
           if (viewRet?.destroy) {
@@ -215,6 +216,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             if (this.storage.isDisabled) {
               // Destroy the Yjs document to prevent any further sync transactions
               fragment.doc?.destroy()
+
               return true
             }
 
@@ -234,7 +236,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
                     editor: this.editor,
                     disableCollaboration: () => {
                       this.storage.isDisabled = true
-                      fragment.doc?.destroy()
                     },
                   })
                   // If the content is invalid, return false to prevent the transaction from being applied

@@ -72,24 +72,19 @@ const getRandomColor = () => getRandomElement(colors)
 const getRandomName = () => getRandomElement(names)
 
 const getInitialUser = () => {
-  return (
-    {
-      name: getRandomName(),
-      color: getRandomColor(),
-    }
-  )
+  return {
+    name: getRandomName(),
+    color: getRandomColor(),
+  }
 }
 
-const Editor = ({
-  ydoc, provider, room,
-}) => {
+const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
   const editor = useEditor({
     enableContentCheck: true,
-    onContentError: ({ disableCollaboration, error }) => {
-      console.log(error)
+    onContentError: ({ disableCollaboration }) => {
       disableCollaboration()
     },
     onCreate: ({ editor: currentEditor }) => {
@@ -156,7 +151,7 @@ const Editor = ({
       <div className="control-group">
         <div className="button-group">
           <button
-            onClick={() => editor.chain().focus().insertContentAt(0, '<bad-html>test</bad-html>', { errorOnInvalidContent: true }).run()}
+            onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor.isActive('bold') ? 'is-active' : ''}
           >
             Bold
@@ -190,7 +185,10 @@ const Editor = ({
 
       <EditorContent editor={editor} className="main-group" />
 
-      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
+      <div
+        className="collab-status-group"
+        data-state={status === 'connected' ? 'online' : 'offline'}
+      >
         <label>
           {status === 'connected'
             ? `${editor.storage.collaborationCursor.users.length} user${
@@ -198,7 +196,9 @@ const Editor = ({
             } online in ${room}`
             : 'offline'}
         </label>
-        <button style={{ '--color': currentUser.color }} onClick={setName}>✎ {currentUser.name}</button>
+        <button style={{ '--color': currentUser.color }} onClick={setName}>
+          ✎ {currentUser.name}
+        </button>
       </div>
     </div>
   )
