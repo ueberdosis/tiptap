@@ -168,7 +168,7 @@ describe('can', () => {
     expect(canSetMarkToBold).to.eq(true)
   })
 
-  it('builds and passes down an undefined dispatch for nested "can" chain', () => {
+  it('builds and passes down a function dispatch for nested "can" chain', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, History],
     })
@@ -191,8 +191,8 @@ describe('can', () => {
       .run()
 
     // eslint-disable-next-line no-unused-expressions
-    expect(capturedOuterDispatch).to.be.undefined
+    expect(capturedOuterDispatch).to.be.not.undefined
     // eslint-disable-next-line no-unused-expressions
-    expect(capturedInnerDispatch).to.be.undefined
+    expect(capturedInnerDispatch).to.be.not.undefined
   })
 })
