@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 context('/src/Examples/Transition/Vue/', () => {
   beforeEach(() => {
     cy.visit('/src/Examples/Transition/Vue/')
@@ -22,7 +24,7 @@ context('/src/Examples/Transition/Vue/', () => {
     cy.get('.tiptap').should('exist')
     cy.get('.tiptap').should('be.visible')
 
-    cy.get('button').click()
+    cy.get('button').contains('Hide editor').click()
 
     cy.get('.tiptap').should('not.exist')
   })
