@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 context('/src/Examples/Default/React/', () => {
   before(() => {
     cy.visit('/src/Examples/Default/React/')
@@ -8,6 +10,54 @@ context('/src/Examples/Default/React/', () => {
       editor.commands.setContent('<h1>Example Text</h1>')
       cy.get('.tiptap').type('{selectall}')
     })
+  })
+
+  it('Allow setting blockquote when the selection is within a list.', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent(`
+<ul>
+  <li>
+    That’s a bullet list with one …
+  </li>
+  <li>
+    … or two list items.
+  </li>
+</ul>`)
+      editor.commands.setTextSelection(15)
+    })
+
+    cy.get('.tiptap ul').should('exist')
+    cy.get('.tiptap blockquote > ul').should('not.exist')
+    cy.get('#toggleBlockquote').should('not.be.disabled')
+
+    cy.get('#toggleBlockquote').click()
+    cy.get('.tiptap blockquote > ul').should('exist')
+  })
+
+  it('Allow unsetting blockquote when the selection is within a list.', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent(`
+<blockquote>
+  <ul>
+    <li>
+      That’s a bullet list with one …
+    </li>
+    <li>
+      … or two list items.
+    </li>
+  </ul>
+</blockquote>
+        `)
+      editor.commands.setTextSelection(15)
+    })
+
+    cy.get('.tiptap ul').should('exist')
+    cy.get('.tiptap blockquote > ul').should('exist')
+    cy.get('#toggleBlockquote').should('not.be.disabled')
+
+    cy.get('#toggleBlockquote').click()
+    cy.get('.tiptap ul').should('exist')
+    cy.get('.tiptap blockquote').should('not.exist')
   })
 
   it('should apply the paragraph style when the keyboard shortcut is pressed', () => {

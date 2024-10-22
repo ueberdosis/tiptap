@@ -136,8 +136,10 @@ const MenuBar = () => {
           Code block
         </button>
         <button
+          id="toggleBlockquote"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={editor.isActive('blockquote') ? 'is-active' : ''}
+          disabled={!editor.can().toggleBlockquote()}
         >
           Blockquote
         </button>
