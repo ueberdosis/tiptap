@@ -12,7 +12,7 @@ context('/src/Examples/Default/React/', () => {
     })
   })
 
-  it('Allow setting blockquote when the selection is within a list.', () => {
+  it('Allow setting blockquote when the cursor is on the first element of a list item.', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent(`
 <ul>
@@ -32,6 +32,32 @@ context('/src/Examples/Default/React/', () => {
 
     cy.get('#toggleBlockquote').click()
     cy.get('.tiptap blockquote > ul').should('exist')
+  })
+
+  it('Allow setting blockquote when the cursor is on the second element of a list item.', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent(`
+<ul>
+  <li>
+    <p>
+      1234567890
+    </p>
+    <p>
+      This is the second element of the list item
+    </p>
+  </li>
+  <li>
+    Light attracts bugs.
+  </li>
+</ul>`)
+      editor.commands.setTextSelection(35)
+    })
+    cy.get('.tiptap ul').should('exist')
+    cy.get('#toggleBlockquote').should('not.be.disabled')
+
+    cy.get('#toggleBlockquote').click()
+    cy.get('.tiptap blockquote > ul').should('not.exist')
+    cy.get('.tiptap li > blockquote').should('exist')
   })
 
   it('Allow unsetting blockquote when the selection is within a list.', () => {
