@@ -70,8 +70,18 @@ export const EditorContent = defineComponent({
         return
       }
 
+      const newEl = document.createElement('div')
+
+      newEl.innerHTML = editor.view.dom.innerHTML
+      rootEl.value?.appendChild(newEl)
+
+      editor.view.setProps({
+        nodeViews: undefined,
+      })
+
       editor.contentComponent = null
       editor.appContext = null
+      editor.destroy()
     })
 
     return { rootEl }
