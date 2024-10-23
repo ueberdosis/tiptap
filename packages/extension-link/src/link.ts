@@ -78,6 +78,13 @@ export interface LinkOptions {
    * @returns - True if the url is valid, false otherwise.
    */
   validate: (url: string) => boolean
+
+  /**
+   * A custom validation function for uri's.
+   * @param url - The url to be validated.
+   * @returns - True if the url is valid, false otherwise.
+   */
+  customUriValidator?: (url: string | undefined) => boolean
 }
 
 declare module '@tiptap/core' {
@@ -124,6 +131,13 @@ function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocol
 
   // eslint-disable-next-line no-useless-escape
   return !uri || uri.replace(ATTR_WHITESPACE, '').match(new RegExp(`^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))`, 'i'))
+}
+
+function validateUri(uri: string | undefined, protocols?: LinkOptions['protocols'], customUriValidator?: LinkOptions['customUriValidator']) {
+  if (customUriValidator) {
+    return customUriValidator(uri)
+  }
+  return isAllowedUri(uri, protocols)
 }
 
 /**
@@ -200,7 +214,7 @@ export const Link = Mark.create<LinkOptions>({
         const href = (dom as HTMLElement).getAttribute('href')
 
         // prevent XSS attacks
-        if (!href || !isAllowedUri(href, this.options.protocols)) {
+        if (!href || !validateUri(href, this.options.protocols, this.options.customUriValidator)) {
           return false
         }
         return null
@@ -210,7 +224,7 @@ export const Link = Mark.create<LinkOptions>({
 
   renderHTML({ HTMLAttributes }) {
     // prevent XSS attacks
-    if (!isAllowedUri(HTMLAttributes.href, this.options.protocols)) {
+    if (!validateUri(HTMLAttributes.href, this.options.protocols, this.options.customUriValidator)) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
     }
