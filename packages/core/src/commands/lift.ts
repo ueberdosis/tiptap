@@ -1,9 +1,10 @@
-import { lift as originalLift } from '@tiptap/pm/commands'
 import { NodeType } from '@tiptap/pm/model'
+import { liftTarget } from '@tiptap/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isNodeActive } from '../helpers/isNodeActive.js'
 import { RawCommands } from '../types.js'
+import { isNumber } from '../utilities/isNumber.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -20,7 +21,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const lift: RawCommands['lift'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
+export const lift: RawCommands['lift'] = (typeOrName, attributes = {}) => ({ state, tr, dispatch }) => {
   const type = getNodeType(typeOrName, state.schema)
   const isActive = isNodeActive(state, type, attributes)
 
@@ -28,5 +29,18 @@ export const lift: RawCommands['lift'] = (typeOrName, attributes = {}) => ({ sta
     return false
   }
 
-  return originalLift(state, dispatch)
+  const { $from, $to } = state.selection
+
+  const range = $from.blockRange($to, node => node.type === type)
+
+  if (range) {
+    const target = liftTarget(range)
+
+    if (isNumber(target)) {
+      dispatch?.(tr.lift(range, target))
+      return true
+    }
+  }
+
+  return false
 }
