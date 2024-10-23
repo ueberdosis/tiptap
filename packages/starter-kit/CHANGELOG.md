@@ -1,5 +1,32 @@
 # Change Log
 
+## 2.9.1
+
+### Patch Changes
+
+- Updated dependencies [0c9004f]
+  - @tiptap/extension-ordered-list@2.9.1
+  - @tiptap/extension-bullet-list@2.9.1
+  - @tiptap/core@2.9.1
+  - @tiptap/extension-blockquote@2.9.1
+  - @tiptap/extension-bold@2.9.1
+  - @tiptap/extension-code@2.9.1
+  - @tiptap/extension-code-block@2.9.1
+  - @tiptap/extension-document@2.9.1
+  - @tiptap/extension-dropcursor@2.9.1
+  - @tiptap/extension-gapcursor@2.9.1
+  - @tiptap/extension-hard-break@2.9.1
+  - @tiptap/extension-heading@2.9.1
+  - @tiptap/extension-history@2.9.1
+  - @tiptap/extension-horizontal-rule@2.9.1
+  - @tiptap/extension-italic@2.9.1
+  - @tiptap/extension-list-item@2.9.1
+  - @tiptap/extension-paragraph@2.9.1
+  - @tiptap/extension-strike@2.9.1
+  - @tiptap/extension-text@2.9.1
+  - @tiptap/extension-text-style@2.9.1
+  - @tiptap/pm@2.9.1
+
 ## 2.9.0
 
 ### Patch Changes
