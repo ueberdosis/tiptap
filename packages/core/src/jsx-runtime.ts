@@ -35,7 +35,7 @@ export function Fragment(props: { children: JSXRenderer[] }) {
   return props.children
 }
 
-export const h: JSXRenderer = (tag, attributes, ...children) => {
+export const h: JSXRenderer = (tag, attributes) => {
   // Treat the slot tag as the Prosemirror hole to render content into
   if (tag === 'slot') {
     return 0
@@ -46,8 +46,10 @@ export const h: JSXRenderer = (tag, attributes, ...children) => {
     return tag(attributes)
   }
 
+  const { children, ...rest } = attributes ?? {}
+
   // Otherwise, return the tag, attributes, and children
-  return [tag, attributes ?? {}, ...children]
+  return [tag, rest, children]
 }
 
 // See
