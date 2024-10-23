@@ -3,7 +3,7 @@
     "target": "es2019",
     "module": "esnext",
     "strict": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "importHelpers": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
