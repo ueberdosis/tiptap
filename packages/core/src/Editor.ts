@@ -360,20 +360,17 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
+      attributes: {
+        // add `role="textbox"` to the editor element
+        role: 'textbox',
+        ...this.options.editorProps?.attributes,
+      },
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc,
         selection: selection || undefined,
       }),
     })
-
-    // add `role="textbox"` to the editor element
-    this.view.dom.setAttribute('role', 'textbox')
-
-    // add aria-label to the editor element
-    if (!this.view.dom.getAttribute('aria-label')) {
-      this.view.dom.setAttribute('aria-label', 'Rich-Text Editor')
-    }
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
