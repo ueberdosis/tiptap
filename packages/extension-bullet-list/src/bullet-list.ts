@@ -1,6 +1,7 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
-import { ListItem } from '@tiptap/extension-list-item'
-import { TextStyle } from '@tiptap/extension-text-style'
+
+const ListItemName = 'listItem'
+const TextStyleName = 'textStyle'
 
 export interface BulletListOptions {
   /**
@@ -86,7 +87,7 @@ export const BulletList = Node.create<BulletListOptions>({
     return {
       toggleBulletList: () => ({ commands, chain }) => {
         if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
+          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName)).run()
         }
         return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
       },
@@ -111,7 +112,7 @@ export const BulletList = Node.create<BulletListOptions>({
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,
-        getAttributes: () => { return this.editor.getAttributes(TextStyle.name) },
+        getAttributes: () => { return this.editor.getAttributes(TextStyleName) },
         editor: this.editor,
       })
     }
