@@ -1,5 +1,41 @@
 # Change Log
 
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- feea1f6: Update prosemirror-view version
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.6.6
+
 ## 2.6.5
 
 ## 2.6.4

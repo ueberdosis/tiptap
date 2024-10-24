@@ -4,7 +4,9 @@ context('/src/GuideContent/ReadOnly/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should be read-only', () => {

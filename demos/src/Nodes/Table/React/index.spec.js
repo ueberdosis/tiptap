@@ -4,7 +4,9 @@ context('/src/Nodes/Table/React/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('creates a table (1x1)', () => {

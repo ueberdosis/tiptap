@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.5.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
 ## 2.4.2
 
 ### Patch Changes

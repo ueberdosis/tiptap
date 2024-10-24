@@ -63,7 +63,7 @@ const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     options = {
-      parseOptions: {},
+      parseOptions: editor.options.parseOptions,
       updateSelection: true,
       applyInputRules: false,
       applyPasteRules: false,
@@ -85,7 +85,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         editor,
         error: e as Error,
         disableCollaboration: () => {
-          console.error('[tiptap error]: Unable to disable collaboration at this point in time')
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isDisabled = true
+          }
         },
       })
       return false

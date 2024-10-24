@@ -4,7 +4,9 @@ context('/src/Experiments/Commands/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should open a popup after typing a slash', () => {
@@ -16,8 +18,7 @@ context('/src/Experiments/Commands/Vue/', () => {
     ]
 
     items.forEach((item, i) => {
-      cy.get('.tiptap').type('{selectall}{backspace}')
-      cy.get('.tiptap').realType('/')
+      cy.get('.tiptap').type('{selectall}{backspace}/')
       cy.get('.tippy-content .dropdown-menu').should('exist')
       cy.get('.tippy-content .dropdown-menu button').eq(i).click()
       cy.get('.tiptap').type(`I am a ${item.tag}`)
@@ -26,14 +27,14 @@ context('/src/Experiments/Commands/Vue/', () => {
   })
 
   it('should close the popup without any command via esc', () => {
-    cy.get('.tiptap').realType('/')
+    cy.get('.tiptap').type('{selectall}{backspace}/')
     cy.get('.tippy-content .dropdown-menu').should('exist')
     cy.get('.tiptap').type('{esc}')
     cy.get('.tippy-content .dropdown-menu').should('not.exist')
   })
 
   it('should open the popup when the cursor is after a slash', () => {
-    cy.get('.tiptap').realType('/')
+    cy.get('.tiptap').type('{selectall}{backspace}/')
     cy.get('.tippy-content .dropdown-menu').should('exist')
     cy.get('.tiptap').type('{leftArrow}')
     cy.get('.tippy-content .dropdown-menu').should('not.exist')

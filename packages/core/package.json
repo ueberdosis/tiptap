@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.6.5",
+  "version": "2.9.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -18,7 +18,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/core/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -26,16 +26,16 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/core/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/pm": "^2.6.5"
+    "@tiptap/pm": "^2.9.1"
   },
   "peerDependencies": {
-    "@tiptap/pm": "^2.6.5"
+    "@tiptap/pm": "^2.7.0"
   },
   "repository": {
     "type": "git",

@@ -199,7 +199,10 @@ class EditorInstanceManager {
       if (this.editor && !this.editor.isDestroyed && deps.length === 0) {
         // if the editor does exist & deps are empty, we don't need to re-initialize the editor
         // we can fast-path to update the editor options on the existing instance
-        this.editor.setOptions(this.options.current)
+        this.editor.setOptions({
+          ...this.options.current,
+          editable: this.editor.isEditable,
+        })
       } else {
         // When the editor:
         // - does not yet exist

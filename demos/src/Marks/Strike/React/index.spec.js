@@ -71,8 +71,7 @@ context('/src/Marks/Strike/React/', () => {
       .should('not.exist')
   })
 
-  it.only('should make a striked text from the markdown shortcut', () => {
-    cy.get('.tiptap').realType('~~Strike~~')
-    cy.get('.tiptap').find('s').should('contain', 'Strike')
+  it('should make a striked text from the markdown shortcut', () => {
+    cy.get('.tiptap').type('~~Strike~~').find('s').should('contain', 'Strike')
   })
 })
