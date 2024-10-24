@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content,
+        value: Content | ProseMirrorNode | Fragment,
 
         /**
          * Optional options
@@ -132,6 +132,16 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       // otherwise if it is an array, we have to join it
       if (Array.isArray(value)) {
         newContent = value.map(v => v.text || '').join('')
+      } else if (value instanceof Fragment) {
+        let text = ''
+
+        value.forEach(node => {
+          if (node.text) {
+            text += node.text
+          }
+        })
+
+        newContent = text
       } else if (typeof value === 'object' && !!value && !!value.text) {
         newContent = value.text
       } else {
