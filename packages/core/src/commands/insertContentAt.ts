@@ -85,7 +85,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         editor,
         error: e as Error,
         disableCollaboration: () => {
-          console.error('[tiptap error]: Unable to disable collaboration at this point in time')
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isDisabled = true
+          }
         },
       })
       return false

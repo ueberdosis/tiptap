@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.9.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.9.1
+- @tiptap/extension-floating-menu@2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- 304eedb: preserve editable option across re-renders #5547
+  - @tiptap/extension-bubble-menu@2.9.0
+  - @tiptap/extension-floating-menu@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- ae711ab: Increase mention extension priority to allow mentions to be inserted in lists using the Enter key
+
 ## 2.8.0
 
 ### Minor Changes
