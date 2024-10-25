@@ -1,8 +1,10 @@
+import { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { EditorState, Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
+import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import {
   CanCommands,
   ChainedCommands,
@@ -14,14 +16,16 @@ import { isNumber } from './utilities/isNumber.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type PasteRuleMatch = {
-  index: number
-  text: string
-  replaceWith?: string
-  match?: RegExpMatchArray
-  data?: Record<string, any>
-}
+  index: number;
+  text: string;
+  replaceWith?: string;
+  match?: RegExpMatchArray;
+  data?: Record<string, any>;
+};
 
-export type PasteRuleFinder = RegExp | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined)
+export type PasteRuleFinder =
+  | RegExp
+  | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined);
 
 /**
  * Paste rules are used to react to pasted content.
@@ -31,28 +35,28 @@ export class PasteRule {
   find: PasteRuleFinder
 
   handler: (props: {
-    state: EditorState
-    range: Range
-    match: ExtendedRegExpMatchArray
-    commands: SingleCommands
-    chain: () => ChainedCommands
-    can: () => CanCommands
-    pasteEvent: ClipboardEvent | null
-    dropEvent: DragEvent | null
+    state: EditorState;
+    range: Range;
+    match: ExtendedRegExpMatchArray;
+    commands: SingleCommands;
+    chain: () => ChainedCommands;
+    can: () => CanCommands;
+    pasteEvent: ClipboardEvent | null;
+    dropEvent: DragEvent | null;
   }) => void | null
 
   constructor(config: {
-    find: PasteRuleFinder
+    find: PasteRuleFinder;
     handler: (props: {
-      can: () => CanCommands
-      chain: () => ChainedCommands
-      commands: SingleCommands
-      dropEvent: DragEvent | null
-      match: ExtendedRegExpMatchArray
-      pasteEvent: ClipboardEvent | null
-      range: Range
-      state: EditorState
-    }) => void | null
+      can: () => CanCommands;
+      chain: () => ChainedCommands;
+      commands: SingleCommands;
+      dropEvent: DragEvent | null;
+      match: ExtendedRegExpMatchArray;
+      pasteEvent: ClipboardEvent | null;
+      range: Range;
+      state: EditorState;
+    }) => void | null;
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -96,13 +100,13 @@ const pasteRuleMatcherHandler = (
 }
 
 function run(config: {
-  editor: Editor
-  state: EditorState
-  from: number
-  to: number
-  rule: PasteRule
-  pasteEvent: ClipboardEvent | null
-  dropEvent: DragEvent | null
+  editor: Editor;
+  state: EditorState;
+  from: number;
+  to: number;
+  rule: PasteRule;
+  pasteEvent: ClipboardEvent | null;
+  dropEvent: DragEvent | null;
 }): boolean {
   const {
     editor, state, from, to, rule, pasteEvent, dropEvent,
@@ -179,7 +183,13 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
   let isPastedFromProseMirror = false
   let isDroppedFromProseMirror = false
   let pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
-  let dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+  let dropEvent: DragEvent | null
+
+  try {
+    dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+  } catch (e) {
+    dropEvent = null
+  }
 
   const processEvent = ({
     state,
@@ -188,11 +198,11 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
     rule,
     pasteEvt,
   }: {
-    state: EditorState
-    from: number
-    to: { b: number }
-    rule: PasteRule
-    pasteEvt: ClipboardEvent | null
+    state: EditorState;
+    from: number;
+    to: { b: number };
+    rule: PasteRule;
+    pasteEvt: ClipboardEvent | null;
   }) => {
     const tr = state.tr
     const chainableState = createChainableState({
@@ -214,7 +224,11 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       return
     }
 
-    dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+    try {
+      dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
+    } catch (e) {
+      dropEvent = null
+    }
     pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null
 
     return tr
@@ -266,7 +280,9 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
         const isDrop = transaction.getMeta('uiEvent') === 'drop' && !isDroppedFromProseMirror
 
         // if PasteRule is triggered by insertContent()
-        const simulatedPasteMeta = transaction.getMeta('applyPasteRules')
+        const simulatedPasteMeta = transaction.getMeta('applyPasteRules') as
+          | undefined
+          | { from: number; text: string | ProseMirrorNode | Fragment }
         const isSimulatedPaste = !!simulatedPasteMeta
 
         if (!isPaste && !isDrop && !isSimulatedPaste) {
@@ -275,8 +291,17 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
         // Handle simulated paste
         if (isSimulatedPaste) {
-          const { from, text } = simulatedPasteMeta
+          let { text } = simulatedPasteMeta
+
+          if (typeof text === 'string') {
+            text = text as string
+          } else {
+            text = getHTMLFromFragment(Fragment.from(text), state.schema)
+          }
+
+          const { from } = simulatedPasteMeta
           const to = from + text.length
+
           const pasteEvt = createClipboardPasteEvent(text)
 
           return processEvent({
