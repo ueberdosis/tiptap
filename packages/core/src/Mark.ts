@@ -64,7 +64,7 @@ declare module '@tiptap/core' {
      */
     addOptions?: (this: {
       name: string
-      parent: Exclude<ParentConfig<MarkConfig<Options, Storage>>['addOptions'], undefined>
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addOptions']
     }) => Options
 
     /**
@@ -79,7 +79,7 @@ declare module '@tiptap/core' {
     addStorage?: (this: {
       name: string
       options: Options
-      parent: Exclude<ParentConfig<MarkConfig<Options, Storage>>['addStorage'], undefined>
+      parent: ParentConfig<MarkConfig<Options, Storage>>['addStorage']
     }) => Storage
 
     /**
