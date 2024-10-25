@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.9.1
+
+### Patch Changes
+
+- 0c9004f: This resolves an issue where the bullet-list and ordered-list extensions were depending on the list-item and text-style extensions unneccesarily. They are no longer imported and constants are used instead.
+
+## 2.9.0
+
 ## 2.8.0
 
 ### Minor Changes
