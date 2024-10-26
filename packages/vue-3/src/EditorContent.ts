@@ -4,6 +4,7 @@ import {
   h,
   nextTick,
   onBeforeUnmount,
+  onMounted,
   PropType,
   Ref,
   ref,
@@ -26,6 +27,8 @@ export const EditorContent = defineComponent({
   setup(props) {
     const rootEl: Ref<Element | undefined> = ref()
     const instance = getCurrentInstance()
+
+    onMounted(() => console.log('editor content mounted'))
 
     watchEffect(() => {
       const editor = props.editor
@@ -66,19 +69,16 @@ export const EditorContent = defineComponent({
     onBeforeUnmount(() => {
       const editor = props.editor
 
-      if (!editor) {
+      if (!editor || !rootEl.value) {
         return
       }
 
-      const newEl = document.createElement('div')
+      // Cloning the root of the editor to avoid content being lost by destroy
+      const newEl = rootEl.value.cloneNode(true) as HTMLElement
 
-      newEl.innerHTML = editor.view.dom.innerHTML
-      rootEl.value?.appendChild(newEl)
+      rootEl.value.parentNode?.replaceChild(newEl, rootEl.value)
 
-      editor.view.setProps({
-        nodeViews: undefined,
-      })
-
+      // Destroy the editor
       editor.contentComponent = null
       editor.appContext = null
       editor.destroy()

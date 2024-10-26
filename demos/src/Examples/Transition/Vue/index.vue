@@ -1,10 +1,33 @@
 <script setup lang="ts">
-
+import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { ref } from 'vue'
 
-import ParentComponent from './ParentComponent.vue'
+import VueComponent from './Extension.js'
+import type { TNote } from './types.js'
 
 const showEditor = ref(false)
+
+const note = ref<TNote>({
+  id: 'note-1',
+  content: `
+  <p>Some random note text</p>
+  <vue-component count="0"></vue-component>
+  `,
+})
+
+const editor = useEditor({
+  content: note.value.content,
+  editorProps: {
+    attributes: {
+      class: 'textarea',
+    },
+  },
+  extensions: [
+    StarterKit,
+    VueComponent,
+  ],
+})
 
 </script>
 
@@ -21,7 +44,7 @@ const showEditor = ref(false)
 
     <transition name="fade">
       <div v-if="showEditor" class="tiptap-wrapper">
-        <ParentComponent />
+        <EditorContent :editor="editor" />
       </div>
     </transition>
   </div>
