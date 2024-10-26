@@ -594,8 +594,6 @@ export class Editor extends EventEmitter<EditorEvents> {
         delete dom.editor
       }
 
-      console.log('Destroying view, before transition is done.')
-
       this.view.destroy()
     }
 
