@@ -593,7 +593,6 @@ export class Editor extends EventEmitter<EditorEvents> {
       if (dom && dom.editor) {
         delete dom.editor
       }
-
       this.view.destroy()
     }
 

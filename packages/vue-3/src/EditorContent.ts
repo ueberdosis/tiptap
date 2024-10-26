@@ -59,21 +59,15 @@ export const EditorContent = defineComponent({
 
           editor.createNodeViews()
         })
-
       }
     })
 
     onBeforeUnmount(() => {
       const editor = props.editor
 
-      if (!editor || !rootEl.value) {
+      if (!editor) {
         return
       }
-
-      // Cloning the root of the editor to avoid content being lost by destroy
-      const newEl = rootEl.value.cloneNode(true) as HTMLElement
-
-      rootEl.value.parentNode?.replaceChild(newEl, rootEl.value)
 
       editor.contentComponent = null
       editor.appContext = null
