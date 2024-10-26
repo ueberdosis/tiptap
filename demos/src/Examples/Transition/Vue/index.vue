@@ -40,10 +40,10 @@ const editor = useEditor({
   <!-- Transition with editor in the same component -->
   <div>
     <button
+      id="toggle-direct-editor"
       type="button"
-      @click="showDirectEditor = !showDirectEditor"
       style="margin-bottom: 1rem;"
-      id="toggle-editor"
+      @click="showDirectEditor = !showDirectEditor"
     >
       {{ showDirectEditor ? 'Hide direct editor' : 'Show direct editor' }}
     </button>
@@ -60,10 +60,10 @@ const editor = useEditor({
   <!-- Transition with editor in a child component -->
   <div>
     <button
+      id="toggle-nested-editor"
       type="button"
-      @click="showNestedEditor = !showNestedEditor"
       style="margin-bottom: 1rem;"
-      id="toggle-editor"
+      @click="showNestedEditor = !showNestedEditor"
     >
       {{ showNestedEditor ? 'Hide nested editor' : 'Show nested editor' }}
     </button>
