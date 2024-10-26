@@ -7,8 +7,10 @@ import VueComponent from './Extension.js'
 import ParentComponent from './ParentComponent.vue'
 import type { TNote } from './types.js'
 
+/** Display editor in the same component */
 const showDirectEditor = ref(false)
 
+/** Display editor in a child component */
 const showNestedEditor = ref(false)
 
 const note = ref<TNote>({
@@ -35,6 +37,7 @@ const editor = useEditor({
 </script>
 
 <template>
+  <!-- Transition with editor in the same component -->
   <div>
     <button
       type="button"
@@ -54,6 +57,7 @@ const editor = useEditor({
 
   <hr>
 
+  <!-- Transition with editor in a child component -->
   <div>
     <button
       type="button"
@@ -84,8 +88,8 @@ const editor = useEditor({
 }
 
 hr {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .tiptap-wrapper {
