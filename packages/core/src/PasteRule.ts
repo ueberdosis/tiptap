@@ -29,7 +29,7 @@ export type PasteRuleFinder =
 
 /**
  * Paste rules are used to react to pasted content.
- * @see https://tiptap.dev/guide/custom-extensions/#paste-rules
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#paste-rules
  */
 export class PasteRule {
   find: PasteRuleFinder
