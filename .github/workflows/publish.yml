@@ -37,7 +37,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.1.2
         id: cache
         with:
           path: |
