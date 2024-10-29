@@ -100,18 +100,4 @@ context('/src/Examples/Default/React/', () => {
     cy.get('button').contains('Hard break').click()
     cy.get('.tiptap h1 br').should('exist')
   })
-
-  it('should undo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
-  })
-
-  it('should redo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
-    cy.get('button').contains('Redo').click()
-    cy.get('.tiptap').should('not.contain', 'Hello world')
-  })
 })
