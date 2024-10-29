@@ -1,5 +1,116 @@
 # Change Log
 
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- ae711ab: Increase mention extension priority to allow mentions to be inserted in lists using the Enter key
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- da8fcf3: Add support for cross-window institation with mentions
+- 8a55cdd: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- da8fcf3: Add support for cross-window institation with mentions
+- 8a55cdd: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+- Updated dependencies [97ea55f]
+- Updated dependencies [bd34793]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [daad533]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+  - @tiptap/pm@2.7.0-pre.0
+  - @tiptap/suggestion@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+- Updated dependencies [84f491c]
+  - @tiptap/core@2.6.6
+  - @tiptap/suggestion@2.6.6
+  - @tiptap/pm@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- 3c3d714: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+  - @tiptap/core@2.6.5
+  - @tiptap/pm@2.6.5
+  - @tiptap/suggestion@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/core@2.6.4
+- @tiptap/pm@2.6.4
+- @tiptap/suggestion@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+  - @tiptap/pm@2.6.3
+  - @tiptap/suggestion@2.6.3
+
+## 2.6.2
+
+### Patch Changes
+
+- @tiptap/core@2.6.2
+- @tiptap/pm@2.6.2
+- @tiptap/suggestion@2.6.2
+
+## 2.6.1
+
+### Patch Changes
+
+- @tiptap/core@2.6.1
+- @tiptap/pm@2.6.1
+- @tiptap/suggestion@2.6.1
+
+## 2.6.0
+
+### Patch Changes
+
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/suggestion@2.6.0
+  - @tiptap/pm@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes

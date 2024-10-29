@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import React from 'react'
 import { flushSync } from 'react-dom'
 
-import { Editor as ExtendedEditor } from './Editor.js'
+import { EditorWithContentComponent } from './Editor.js'
 
 /**
  * Check if a component is a class component.
@@ -57,14 +57,6 @@ export interface ReactRendererOptions {
    * @example 'foo bar'
    */
   className?: string,
-
-  /**
-   * The attributes of the element.
-   * @type {Record<string, string>}
-   * @default {}
-   * @example { 'data-foo': 'bar' }
-   */
-  attrs?: Record<string, string>,
 }
 
 type ComponentType<R, P> =
@@ -83,43 +75,39 @@ type ComponentType<R, P> =
  *   as: 'span',
  * })
 */
-export class ReactRenderer<R = unknown, P = unknown> {
+export class ReactRenderer<R = unknown, P extends Record<string, any> = {}> {
   id: string
 
-  editor: ExtendedEditor
+  editor: Editor
 
   component: any
 
   element: Element
 
-  props: Record<string, any>
+  props: P
 
   reactElement: React.ReactNode
 
   ref: R | null = null
 
+  /**
+   * Immediately creates element and renders the provided React component.
+   */
   constructor(component: ComponentType<R, P>, {
     editor,
     props = {},
     as = 'div',
     className = '',
-    attrs,
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
-    this.editor = editor as ExtendedEditor
-    this.props = props
+    this.editor = editor as EditorWithContentComponent
+    this.props = props as P
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
 
     if (className) {
       this.element.classList.add(...className.split(' '))
-    }
-
-    if (attrs) {
-      Object.keys(attrs).forEach(key => {
-        this.element.setAttribute(key, attrs[key])
-      })
     }
 
     if (this.editor.isInitialized) {
@@ -133,11 +121,16 @@ export class ReactRenderer<R = unknown, P = unknown> {
     }
   }
 
+  /**
+   * Render the React component.
+   */
   render(): void {
     const Component = this.component
     const props = this.props
+    const editor = this.editor as EditorWithContentComponent
 
     if (isClassComponent(Component) || isForwardRefComponent(Component)) {
+      // @ts-ignore This is a hack to make the ref work
       props.ref = (ref: R) => {
         this.ref = ref
       }
@@ -145,9 +138,12 @@ export class ReactRenderer<R = unknown, P = unknown> {
 
     this.reactElement = React.createElement(Component, props)
 
-    this.editor?.contentComponent?.setRenderer(this.id, this)
+    editor?.contentComponent?.setRenderer(this.id, this)
   }
 
+  /**
+   * Re-renders the React component with new props.
+   */
   updateProps(props: Record<string, any> = {}): void {
     this.props = {
       ...this.props,
@@ -157,7 +153,21 @@ export class ReactRenderer<R = unknown, P = unknown> {
     this.render()
   }
 
+  /**
+   * Destroy the React component.
+   */
   destroy(): void {
-    this.editor?.contentComponent?.removeRenderer(this.id)
+    const editor = this.editor as EditorWithContentComponent
+
+    editor?.contentComponent?.removeRenderer(this.id)
+  }
+
+  /**
+   * Update the attributes of the element that holds the React component.
+   */
+  updateAttributes(attributes: Record<string, string>): void {
+    Object.keys(attributes).forEach(key => {
+      this.element.setAttribute(key, attributes[key])
+    })
   }
 }

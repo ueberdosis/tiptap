@@ -37,6 +37,21 @@ context('/src/Extensions/TextAlign/React/', () => {
     })
   })
 
+  it('should keep the text aligned when toggling headings', () => {
+    const alignments = ['center', 'right', 'justify']
+    const headings = [1, 2]
+
+    cy.get('.tiptap').then(([{ editor }]) => {
+      alignments.forEach(alignment => {
+        headings.forEach(level => {
+          editor.commands.setContent(`<p style="text-align: ${alignment}">Example Text</p>`)
+          editor.commands.toggleHeading({ level })
+          expect(editor.getHTML()).to.eq(`<h${level} style="text-align: ${alignment}">Example Text</h${level}>`)
+        })
+      })
+    })
+  })
+
   it('aligns the text left on the 1st button', () => {
     cy.get('button:nth-child(1)').click()
 

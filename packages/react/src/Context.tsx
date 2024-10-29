@@ -1,7 +1,9 @@
 import { Editor } from '@tiptap/core'
-import React, { createContext, ReactNode, useContext } from 'react'
+import React, {
+  createContext, HTMLAttributes, ReactNode, useContext,
+  useMemo,
+} from 'react'
 
-import { Editor as ReactEditor } from './Editor.js'
 import { EditorContent } from './EditorContent.js'
 import { useEditor, UseEditorOptions } from './useEditor.js'
 
@@ -24,6 +26,7 @@ export type EditorProviderProps = {
   children?: ReactNode;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
+  editorContainerProps?: HTMLAttributes<HTMLDivElement>;
 } & UseEditorOptions
 
 /**
@@ -32,20 +35,21 @@ export type EditorProviderProps = {
  * with `useCurrentEditor`.
  */
 export function EditorProvider({
-  children, slotAfter, slotBefore, ...editorOptions
+  children, slotAfter, slotBefore, editorContainerProps = {}, ...editorOptions
 }: EditorProviderProps) {
   const editor = useEditor(editorOptions)
+  const editorContextValue = useMemo(() => ({ editor }), [editor])
 
   if (!editor) {
     return null
   }
 
   return (
-    <EditorContext.Provider value={{ editor }}>
+    <EditorContext.Provider value={editorContextValue}>
       {slotBefore}
       <EditorConsumer>
         {({ editor: currentEditor }) => (
-          <EditorContent editor={currentEditor as ReactEditor} />
+          <EditorContent editor={currentEditor} {...editorContainerProps} />
         )}
       </EditorConsumer>
       {children}

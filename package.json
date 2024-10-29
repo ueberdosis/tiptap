@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "npm@10.8.1",
+  "packageManager": "npm@10.8.2",
   "workspaces": [
     "demos",
     "shared/*",
@@ -31,7 +31,8 @@
     "reset": "npm run clean:packages && npm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
     "prepare": "husky install",
     "turbo": "turbo",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "version": "npm run changeset -- version && npm i"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
@@ -62,9 +63,9 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.27.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
+    "lint-staged": "^15.2.10",
     "minimist": "^1.2.8",
-    "rollup": "^4.18.0",
+    "rollup": "^4.22.4",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-typescript2": "^0.36.0",
@@ -72,7 +73,7 @@
     "tsup": "^8.1.0",
     "turbo": "2.0.6",
     "typescript": "^5.5.3",
-    "webpack": "^5.92.1"
+    "webpack": "^5.94.0"
   },
   "overrides": {
     "@rollup/pluginutils": "^5.1.0"

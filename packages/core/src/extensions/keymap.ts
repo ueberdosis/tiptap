@@ -3,6 +3,7 @@ import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 import { CommandManager } from '../CommandManager.js'
 import { Extension } from '../Extension.js'
 import { createChainableState } from '../helpers/createChainableState.js'
+import { isNodeEmpty } from '../helpers/isNodeEmpty.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 
@@ -106,7 +107,9 @@ export const Keymap = Extension.create({
           const docChanges = transactions.some(transaction => transaction.docChanged)
             && !oldState.doc.eq(newState.doc)
 
-          if (!docChanges) {
+          const ignoreTr = transactions.some(transaction => transaction.getMeta('preventClearDocument'))
+
+          if (!docChanges || ignoreTr) {
             return
           }
 
@@ -119,7 +122,7 @@ export const Keymap = Extension.create({
             return
           }
 
-          const isEmpty = newState.doc.textBetween(0, newState.doc.content.size, ' ', ' ').length === 0
+          const isEmpty = isNodeEmpty(newState.doc)
 
           if (!isEmpty) {
             return

@@ -37,7 +37,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.1.2
         id: cache
         with:
           path: |
@@ -55,6 +55,7 @@ jobs:
         with:
           createGithubReleases: false
           publish: npm run publish
+          version: npm run version
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-
             ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
@@ -65,7 +66,7 @@ jobs:
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'
         id: slack
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {
@@ -77,7 +78,7 @@ jobs:
       - name: Send failure notification
         if: failure()
         id: slack_failure
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {

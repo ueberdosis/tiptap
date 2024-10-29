@@ -77,6 +77,8 @@ export const MentionPluginKey = new PluginKey('mention')
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
+  priority: 101,
+
   addOptions() {
     return {
       HTMLAttributes: {},
@@ -119,7 +121,8 @@ export const Mention = Node.create<MentionOptions>({
             ])
             .run()
 
-          window.getSelection()?.collapseToEnd()
+          // get reference to `window` object from editor element, to support cross-frame JS usage
+          editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd()
         },
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from)

@@ -9,7 +9,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
  * matched text is typed into it. When using a regular expresion you’ll
  * probably want the regexp to start with `^`, so that the pattern can
  * only occur at the start of a textblock.
- * @see https://tiptap.dev/guide/custom-extensions/#input-rules
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function textblockTypeInputRule(config: {
   find: InputRuleFinder

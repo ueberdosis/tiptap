@@ -1,5 +1,174 @@
 # Change Log
 
+## 2.9.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.9.1
+- @tiptap/extension-floating-menu@2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- 304eedb: preserve editable option across re-renders #5547
+  - @tiptap/extension-bubble-menu@2.9.0
+  - @tiptap/extension-floating-menu@2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- Updated dependencies [6834a7f]
+  - @tiptap/extension-floating-menu@2.8.0
+  - @tiptap/extension-bubble-menu@2.8.0
+
+## 2.7.4
+
+### Patch Changes
+
+- 26056aa: Add editorContainerProps to EditorProvider. This allows for any HTML attributes to be added to the EditorContent when using EditorProvider
+  - @tiptap/extension-bubble-menu@2.7.4
+  - @tiptap/extension-floating-menu@2.7.4
+
+## 2.7.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.3
+- @tiptap/extension-floating-menu@2.7.3
+
+## 2.7.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.2
+- @tiptap/extension-floating-menu@2.7.2
+
+## 2.7.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.1
+- @tiptap/extension-floating-menu@2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- c99627d: `useEditorState` now defaults to using a deep equal comparison for it's `equalityFn` option, which makes it more convenient to use
+- 4ff2a4e: ReactNodeViewRenderer now accepts a callback for attrs of the wrapping element to be updated on each node view update
+  - @tiptap/extension-bubble-menu@2.7.0
+  - @tiptap/extension-floating-menu@2.7.0
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- c99627d: `useEditorState` now defaults to using a deep equal comparison for it's `equalityFn` option, which makes it more convenient to use
+- 4ff2a4e: ReactNodeViewRenderer now accepts a callback for attrs of the wrapping element to be updated on each node view update
+- Updated dependencies [97ea55f]
+- Updated dependencies [bd34793]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+  - @tiptap/pm@2.7.0-pre.0
+  - @tiptap/extension-bubble-menu@2.7.0-pre.0
+  - @tiptap/extension-floating-menu@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+  - @tiptap/extension-bubble-menu@2.6.6
+  - @tiptap/extension-floating-menu@2.6.6
+  - @tiptap/pm@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- @tiptap/core@2.6.5
+- @tiptap/extension-bubble-menu@2.6.5
+- @tiptap/extension-floating-menu@2.6.5
+- @tiptap/pm@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- 6a0f4f3: Resolves a bug where `useEditor` may not properly cleanup an instance created when in React's StrictMode #5492
+  - @tiptap/core@2.6.4
+  - @tiptap/extension-bubble-menu@2.6.4
+  - @tiptap/extension-floating-menu@2.6.4
+  - @tiptap/pm@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+  - @tiptap/extension-bubble-menu@2.6.3
+  - @tiptap/extension-floating-menu@2.6.3
+  - @tiptap/pm@2.6.3
+
+## 2.6.2
+
+### Patch Changes
+
+- d4d99e8: When changing the types, a bug was introduced where null could no longer be a valid value
+  - @tiptap/core@2.6.2
+  - @tiptap/extension-bubble-menu@2.6.2
+  - @tiptap/extension-floating-menu@2.6.2
+  - @tiptap/pm@2.6.2
+
+## 2.6.1
+
+### Patch Changes
+
+- a42692e: This resolves some typescript errors with the exported React type to remove contentComponent from being exported (it is an implementation detail)
+  - @tiptap/core@2.6.1
+  - @tiptap/extension-bubble-menu@2.6.1
+  - @tiptap/extension-floating-menu@2.6.1
+  - @tiptap/pm@2.6.1
+
+## 2.6.0
+
+### Minor Changes
+
+- e31673d: This PR significantly improves the performance of React NodeViews in a couple of ways:
+
+  - It now uses useSyncExternalStore to synchronize changes between React & the editor instance
+  - It dramatically reduces the number of re-renders by re-using instances of React portals that have already been initialized and unaffected by the change made in the editor
+
+  We were seeing performance problems with React NodeViews because a change to one of them would cause a re-render to all instances of node views. For an application that heavily relies on node views in React, this was quite expensive.
+  This should dramatically cut down on the number of instances that have to re-render, and, making each of those re-renders much less costly.
+
+### Patch Changes
+
+- c7fd0f8: Updates the typings to `useEditor` and `EditorProvider` to not conflict with the core Editor type
+- 8ea34e4: This resolves a bug with `useEditor` where event handlers were being called 2x for what should have been a single registration
+- Updated dependencies [86a8553]
+- Updated dependencies [222f2ac]
+- Updated dependencies [e31673d]
+  - @tiptap/core@2.6.0
+  - @tiptap/extension-bubble-menu@2.6.0
+  - @tiptap/extension-floating-menu@2.6.0
+  - @tiptap/pm@2.6.0
+
 ## 2.5.9
 
 ### Patch Changes
