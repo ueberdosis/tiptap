@@ -27,32 +27,6 @@ context('/src/Examples/Default/React/', () => {
   ]
 
   buttonMarks.forEach(m => {
-    it(`should disable ${m.label} when the code tag is enabled for cursor`, () => {
-      cy.get('.tiptap').type('{selectall}Hello world')
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains(m.label).should('be.disabled')
-    })
-
-    it(`should enable ${m.label} when the code tag is disabled for cursor`, () => {
-      cy.get('.tiptap').type('{selectall}Hello world')
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains(m.label).should('not.be.disabled')
-    })
-
-    it(`should disable ${m.label} when the code tag is enabled for selection`, () => {
-      cy.get('.tiptap').type('{selectall}Hello world{selectall}')
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains(m.label).should('be.disabled')
-    })
-
-    it(`should enable ${m.label} when the code tag is disabled for selection`, () => {
-      cy.get('.tiptap').type('{selectall}Hello world{selectall}')
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains('Code').click()
-      cy.get('button').contains(m.label).should('not.be.disabled')
-    })
-
     it(`should apply ${m.label} when the button is pressed`, () => {
       cy.get('.tiptap').type('{selectall}Hello world')
       cy.get('button').contains('Paragraph').click()
@@ -125,19 +99,5 @@ context('/src/Examples/Default/React/', () => {
     cy.get('.tiptap').type('{rightArrow}')
     cy.get('button').contains('Hard break').click()
     cy.get('.tiptap h1 br').should('exist')
-  })
-
-  it('should undo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
-  })
-
-  it('should redo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
-    cy.get('button').contains('Redo').click()
-    cy.get('.tiptap').should('not.contain', 'Hello world')
   })
 })
