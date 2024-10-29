@@ -80,6 +80,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enablePasteRules: true,
     enableCoreExtensions: true,
     enableContentCheck: false,
+    addNodenameAttribute: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -508,7 +509,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get attributes of the currently selected node or mark.
    */
   public getAttributes(nameOrType: string | NodeType | MarkType): Record<string, any> {
-    return getAttributes(this.state, nameOrType)
+    return getAttributes(this.state, nameOrType, this.options.addNodenameAttribute)
   }
 
   /**
