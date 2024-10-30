@@ -16,7 +16,7 @@ import {
   ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
   Tabindex,
 } from './extensions/index.js'
-import { Typenames } from './extensions/typeNames.js'
+import { Typenames } from './extensions/typenames.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
@@ -79,9 +79,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     coreExtensionOptions: {},
     enableInputRules: true,
     enablePasteRules: true,
-    enableCoreExtensions: true,
+    enableCoreExtensions: { typenames: false },
     enableContentCheck: false,
-    addTypeAttributes: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -288,16 +287,13 @@ export class Editor extends EventEmitter<EditorEvents> {
       Tabindex,
       Drop,
       Paste,
+      Typenames,
     ].filter(ext => {
       if (typeof this.options.enableCoreExtensions === 'object') {
         return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
       }
       return true
     }) : []
-
-    if (this.options.addTypeAttributes) {
-      coreExtensions.push(Typenames)
-    }
 
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
