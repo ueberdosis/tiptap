@@ -10,8 +10,6 @@ import React from 'react'
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
 
-  window.editor = editor
-
   if (!editor) {
     return null
   }
