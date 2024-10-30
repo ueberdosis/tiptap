@@ -237,20 +237,32 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Unregister a ProseMirror plugin.
    *
-   * @param nameOrPluginKey The plugins name
+   * @param nameOrPluginKeyToRemove The plugins name
    * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
+  public unregisterPlugin(nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]): EditorState | undefined {
     if (this.isDestroyed) {
       return undefined
     }
 
-    // @ts-ignore
-    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+    const prevPlugins = this.state.plugins
+    let plugins = prevPlugins;
+
+    ([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
+      // @ts-ignore
+      const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+
+      // @ts-ignore
+      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+    })
+
+    if (prevPlugins.length === plugins.length) {
+      // No plugin was removed, so we don’t need to update the state
+      return undefined
+    }
 
     const state = this.state.reconfigure({
-      // @ts-ignore
-      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
+      plugins,
     })
 
     this.view.updateState(state)
@@ -325,6 +337,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         editor: this,
         error: e as Error,
         disableCollaboration: () => {
+          if (this.storage.collaboration) {
+            this.storage.collaboration.isDisabled = true
+          }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
           this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
 
@@ -351,6 +366,14 @@ export class Editor extends EventEmitter<EditorEvents> {
         selection: selection || undefined,
       }),
     })
+
+    // add `role="textbox"` to the editor element
+    this.view.dom.setAttribute('role', 'textbox')
+
+    // add aria-label to the editor element
+    if (!this.view.dom.getAttribute('aria-label')) {
+      this.view.dom.setAttribute('aria-label', 'Rich-Text Editor')
+    }
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.

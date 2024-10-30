@@ -9,7 +9,7 @@ const appId = '7j9y6m10'
 const room = `room.${new Date()
   .getFullYear()
   .toString()
-  .slice(-2)}${new Date().getMonth() + 1}${new Date().getDate()}`
+  .slice(-2)}${new Date().getMonth() + 1}${new Date().getDate()}-ok`
 
 // ydoc and provider for Editor A
 const ydocA = new Y.Doc()
