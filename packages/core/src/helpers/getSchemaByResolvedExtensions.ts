@@ -108,7 +108,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       if (renderHTML) {
         schema.toDOM = node => renderHTML({
           node,
-          HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
+          HTMLAttributes: getRenderedAttributes(node, extensionAttributes, editor?.options.addTypeAttributes),
         })
       }
 
@@ -188,7 +188,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       if (renderHTML) {
         schema.toDOM = mark => renderHTML({
           mark,
-          HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
+          HTMLAttributes: getRenderedAttributes(mark, extensionAttributes, editor?.options.addTypeAttributes),
         })
       }
 

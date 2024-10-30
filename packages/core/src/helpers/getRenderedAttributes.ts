@@ -6,7 +6,7 @@ import { mergeAttributes } from '../utilities/mergeAttributes.js'
 export function getRenderedAttributes(
   nodeOrMark: Node | Mark,
   extensionAttributes: ExtensionAttribute[],
-  addNodenameAttribute = false,
+  addTypeAttributes = false,
 ): Record<string, any> {
   const attributes = extensionAttributes
     .filter(
@@ -22,10 +22,10 @@ export function getRenderedAttributes(
 
       return item.attribute.renderHTML(nodeOrMark.attrs) || {}
     })
-    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
+    .reduce((currentAttributes, attribute) => mergeAttributes(currentAttributes, attribute), {})
 
-  if (addNodenameAttribute) {
-    attributes['data-tiptap-node'] = nodeOrMark.type.name
+  if (addTypeAttributes) {
+    attributes['data-node-type'] = nodeOrMark.type.name
   }
 
   return attributes

@@ -230,6 +230,6 @@ const content = `
 
 export default () => {
   return (
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
+    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content} addTypeAttributes></EditorProvider>
   )
 }

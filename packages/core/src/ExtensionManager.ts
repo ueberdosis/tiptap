@@ -254,7 +254,7 @@ export class ExtensionManager {
    * @returns An array of attributes
    */
   get attributes() {
-    return getAttributesFromExtensions(this.extensions, this.editor.options.addNodenameAttribute)
+    return getAttributesFromExtensions(this.extensions)
   }
 
   /**
