@@ -272,6 +272,7 @@ export class ExtensionManager {
           const extensionAttributes = this.attributes.filter(
             attribute => attribute.type === extension.name,
           )
+
           const context = {
             name: extension.name,
             options: extension.options,

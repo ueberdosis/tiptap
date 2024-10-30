@@ -106,10 +106,19 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (renderHTML) {
-        schema.toDOM = node => renderHTML({
-          node,
-          HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
-        })
+        schema.toDOM = node => {
+          const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
+
+          if (editor?.options.addTypeAttributes) {
+            HTMLAttributes['data-tiptap-element'] = ''
+            HTMLAttributes['data-tiptap-name'] = extension.name
+          }
+
+          return renderHTML({
+            node,
+            HTMLAttributes,
+          })
+        }
       }
 
       const renderText = getExtensionField<NodeConfig['renderText']>(
@@ -186,10 +195,19 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (renderHTML) {
-        schema.toDOM = mark => renderHTML({
-          mark,
-          HTMLAttributes: getRenderedAttributes(mark, extensionAttributes),
-        })
+        schema.toDOM = mark => {
+          const HTMLAttributes = getRenderedAttributes(mark, extensionAttributes)
+
+          if (editor?.options.addTypeAttributes) {
+            HTMLAttributes['data-tiptap-element'] = ''
+            HTMLAttributes['data-tiptap-name'] = extension.name
+          }
+
+          return renderHTML({
+            mark,
+            HTMLAttributes,
+          })
+        }
       }
 
       return [extension.name, schema]
