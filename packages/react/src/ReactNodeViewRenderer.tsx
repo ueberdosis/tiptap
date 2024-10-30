@@ -150,9 +150,7 @@ export class ReactNodeView<
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
 
-    if (this.editor.options.addTypeAttributes) {
-      this.renderer.element.setAttribute('data-node-view', '')
-    }
+    this.renderer.element.setAttribute('data-node-view-wrapper', '')
 
     this.updateElementAttributes()
   }

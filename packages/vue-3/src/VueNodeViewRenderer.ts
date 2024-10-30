@@ -125,9 +125,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       props,
     })
 
-    if (this.editor.options.addTypeAttributes) {
-      this.renderer.element?.setAttribute('data-node-type', this.node.type.name)
-    }
+    this.renderer.element?.setAttribute('data-node-view-wrapper', '')
   }
 
   /**
