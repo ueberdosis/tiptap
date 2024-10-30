@@ -81,7 +81,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enablePasteRules: true,
     enableCoreExtensions: true,
     enableContentCheck: false,
-    addTypeAttributes: true,
+    addTypeAttributes: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
