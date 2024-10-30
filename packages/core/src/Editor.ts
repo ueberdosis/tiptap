@@ -16,6 +16,7 @@ import {
   ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
   Tabindex,
 } from './extensions/index.js'
+import { Typenames } from './extensions/typeNames.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
@@ -293,6 +294,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
       return true
     }) : []
+
+    if (this.options.addTypeAttributes) {
+      coreExtensions.push(Typenames)
+    }
+
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -509,7 +515,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get attributes of the currently selected node or mark.
    */
   public getAttributes(nameOrType: string | NodeType | MarkType): Record<string, any> {
-    return getAttributes(this.state, nameOrType, this.options.addTypeAttributes)
+    return getAttributes(this.state, nameOrType)
   }
 
   /**

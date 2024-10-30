@@ -127,7 +127,7 @@ export interface EditorOptions {
    */
   enableContentCheck: boolean;
   /**
-   * If `true`, the editor will add a `data-node-type` attribute to all nodes and marks for better identification
+   * If `true`, the editor will add a `data-tiptap` attribute to all nodes and marks for better identification
    * of node types for example in end-to-end tests or for styling purposes.
    */
   addTypeAttributes: boolean;
