@@ -87,8 +87,6 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       parent: this.editor.contentComponent,
       propsData: props,
     })
-
-    this.renderer.element.setAttribute('data-node-view-wrapper', '')
   }
 
   /**
