@@ -1,5 +1,13 @@
 import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 
+import { getColStyleDeclaration } from './colStyle.js'
+
+export type ColGroup = {
+  colgroup: DOMOutputSpec
+  tableWidth: string
+  tableMinWidth: string
+} | Record<string, never>;
+
 /**
  * Creates a colgroup element for a table node in ProseMirror.
  *
@@ -12,9 +20,19 @@ import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 export function createColGroup(
   node: ProseMirrorNode,
   cellMinWidth: number,
+): ColGroup
+export function createColGroup(
+  node: ProseMirrorNode,
+  cellMinWidth: number,
+  overrideCol: number,
+  overrideValue: number,
+): ColGroup
+export function createColGroup(
+  node: ProseMirrorNode,
+  cellMinWidth: number,
   overrideCol?: number,
-  overrideValue?: any,
-) {
+  overrideValue?: number,
+): ColGroup {
   let totalWidth = 0
   let fixedWidth = true
   const cols: DOMOutputSpec[] = []
@@ -28,8 +46,7 @@ export function createColGroup(
     const { colspan, colwidth } = row.child(i).attrs
 
     for (let j = 0; j < colspan; j += 1, col += 1) {
-      const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j]
-      const cssWidth = hasWidth ? `${hasWidth}px` : ''
+      const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j] as number | undefined
 
       totalWidth += hasWidth || cellMinWidth
 
@@ -37,7 +54,12 @@ export function createColGroup(
         fixedWidth = false
       }
 
-      cols.push(['col', cssWidth ? { style: `width: ${cssWidth}` } : {}])
+      const [property, value] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
+      cols.push([
+        'col',
+        { style: `${property}: ${value}` },
+      ])
     }
   }
 
