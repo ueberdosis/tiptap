@@ -10,6 +10,8 @@ import React from 'react'
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
 
+  window.editor = editor
+
   if (!editor) {
     return null
   }
@@ -230,6 +232,6 @@ const content = `
 
 export default () => {
   return (
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content} rendering={{ addTypeAttributes: true }}></EditorProvider>
+    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
   )
 }

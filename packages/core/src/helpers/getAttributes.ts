@@ -20,13 +20,11 @@ export function getAttributes(
     state.schema,
   )
 
-  let attributes: Record<string, any> = {}
-
   if (schemaType === 'node') {
-    attributes = getNodeAttributes(state, typeOrName as NodeType)
-  } else if (schemaType === 'mark') {
-    attributes = getMarkAttributes(state, typeOrName as MarkType)
+    return getNodeAttributes(state, typeOrName as NodeType)
+  } if (schemaType === 'mark') {
+    return getMarkAttributes(state, typeOrName as MarkType)
   }
 
-  return attributes
+  return {}
 }
