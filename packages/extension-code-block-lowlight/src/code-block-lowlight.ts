@@ -16,7 +16,8 @@ export interface CodeBlockLowlightOptions extends CodeBlockOptions {
 export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
   addOptions() {
     return {
-      ...this.parent?.(),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...this.parent!(),
       lowlight: {},
     }
   },
