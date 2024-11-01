@@ -53,6 +53,6 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
-    "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }
