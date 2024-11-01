@@ -13,7 +13,8 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
+  Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -24,8 +25,6 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import { NodePos } from './NodePos.js'
-import { DropPlugin } from './plugins/DropPlugin.js'
-import { PastePlugin } from './plugins/PastePlugin.js'
 import { style } from './style.js'
 import {
   CanCommands,
@@ -117,14 +116,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
-
-    if (this.options.onPaste) {
-      this.registerPlugin(PastePlugin(this.options.onPaste))
-    }
-
-    if (this.options.onDrop) {
-      this.registerPlugin(DropPlugin(this.options.onDrop))
-    }
+    this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
+    this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -249,20 +242,32 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Unregister a ProseMirror plugin.
    *
-   * @param nameOrPluginKey The plugins name
+   * @param nameOrPluginKeyToRemove The plugins name
    * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
+  public unregisterPlugin(nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]): EditorState | undefined {
     if (this.isDestroyed) {
       return undefined
     }
 
-    // @ts-ignore
-    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+    const prevPlugins = this.state.plugins
+    let plugins = prevPlugins;
+
+    ([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
+      // @ts-ignore
+      const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+
+      // @ts-ignore
+      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+    })
+
+    if (prevPlugins.length === plugins.length) {
+      // No plugin was removed, so we don’t need to update the state
+      return undefined
+    }
 
     const state = this.state.reconfigure({
-      // @ts-ignore
-      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
+      plugins,
     })
 
     this.view.updateState(state)
@@ -284,6 +289,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
+      Drop,
+      Paste,
     ].filter(ext => {
       if (typeof this.options.enableCoreExtensions === 'object') {
         return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
@@ -335,6 +342,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         editor: this,
         error: e as Error,
         disableCollaboration: () => {
+          if (this.storage.collaboration) {
+            this.storage.collaboration.isDisabled = true
+          }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
           this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
 
@@ -361,6 +371,14 @@ export class Editor extends EventEmitter<EditorEvents> {
         selection: selection || undefined,
       }),
     })
+
+    // add `role="textbox"` to the editor element
+    this.view.dom.setAttribute('role', 'textbox')
+
+    // add aria-label to the editor element
+    if (!this.view.dom.getAttribute('aria-label')) {
+      this.view.dom.setAttribute('aria-label', 'Rich-Text Editor')
+    }
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.

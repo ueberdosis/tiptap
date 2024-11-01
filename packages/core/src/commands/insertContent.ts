@@ -1,4 +1,4 @@
-import { ParseOptions } from '@tiptap/pm/model'
+import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { Content, RawCommands } from '../types.js'
 
@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content,
+        value: Content | ProseMirrorNode | Fragment,
 
         /**
          * Optional options
@@ -23,17 +23,17 @@ declare module '@tiptap/core' {
           /**
            * Options for parsing the content.
            */
-          parseOptions?: ParseOptions
+          parseOptions?: ParseOptions;
 
           /**
            * Whether to update the selection after inserting the content.
            */
-          updateSelection?: boolean
-          applyInputRules?: boolean
-          applyPasteRules?: boolean
-        },
-      ) => ReturnType
-    }
+          updateSelection?: boolean;
+          applyInputRules?: boolean;
+          applyPasteRules?: boolean;
+        }
+      ) => ReturnType;
+    };
   }
 }
 

@@ -2,6 +2,7 @@ import './styles.scss'
 
 import { Color } from '@tiptap/extension-color'
 import { Image } from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
@@ -57,6 +58,7 @@ const extensions = [
   Image,
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ types: [ListItem.name] }),
+  Link,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,

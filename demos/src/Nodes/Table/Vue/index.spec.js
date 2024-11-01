@@ -56,13 +56,23 @@ context('/src/Nodes/Table/Vue/', () => {
     })
   })
 
+  it('sets the minimum width on the colgroups by default (3x1)', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertTable({ cols: 3, rows: 1, withHeaderRow: false })
+
+      cy.get('.tiptap').find('col').invoke('attr', 'style').should('eq', 'min-width: 25px;')
+    })
+  })
+
   it('generates correct markup for a table (1x1)', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: false })
 
       const html = editor.getHTML()
 
-      expect(html).to.equal('<table style="min-width: 25px"><colgroup><col></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>')
+      expect(html).to.equal(
+        '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
+      )
     })
   })
 
@@ -72,7 +82,9 @@ context('/src/Nodes/Table/Vue/', () => {
 
       const html = editor.getHTML()
 
-      expect(html).to.equal('<table style="min-width: 25px"><colgroup><col></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>')
+      expect(html).to.equal(
+        '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',
+      )
     })
   })
 
