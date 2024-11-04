@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- 6fae240: Add parse rules that reset bold & italic marks
+
 ## 2.8.0
 
 ### Minor Changes

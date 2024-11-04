@@ -23,10 +23,13 @@ export type CreateNodeFromContentOptions = {
  * @returns The created Prosemirror node or fragment
  */
 export function createNodeFromContent(
-  content: Content,
+  content: Content | ProseMirrorNode | Fragment,
   schema: Schema,
   options?: CreateNodeFromContentOptions,
 ): ProseMirrorNode | Fragment {
+  if (content instanceof ProseMirrorNode || content instanceof Fragment) {
+    return content
+  }
   options = {
     slice: true,
     parseOptions: {},

@@ -1,4 +1,4 @@
-import { ParseOptions } from '@tiptap/pm/model'
+import { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
 import { Content, RawCommands } from '../types.js'
@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
         /**
          * The new content.
          */
-        content: Content,
+        content: Content | Fragment | ProseMirrorNode,
 
         /**
          * Whether to emit an update event.
@@ -37,10 +37,10 @@ declare module '@tiptap/core' {
           /**
            * Whether to throw an error if the content is invalid.
            */
-           errorOnInvalidContent?: boolean
-        },
-      ) => ReturnType
-    }
+          errorOnInvalidContent?: boolean;
+        }
+      ) => ReturnType;
+    };
   }
 }
 
@@ -66,12 +66,8 @@ export const setContent: RawCommands['setContent'] = (content, emitUpdate = fals
     tr.setMeta('preventUpdate', !emitUpdate)
   }
 
-  return commands.insertContentAt(
-    { from: 0, to: doc.content.size },
-    content,
-    {
-      parseOptions,
-      errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
-    },
-  )
+  return commands.insertContentAt({ from: 0, to: doc.content.size }, content, {
+    parseOptions,
+    errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+  })
 }

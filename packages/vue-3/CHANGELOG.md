@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.9.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.9.1
+- @tiptap/extension-floating-menu@2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- 364231a: Fix editor content being destroyed before transition end
+  - @tiptap/extension-bubble-menu@2.9.0
+  - @tiptap/extension-floating-menu@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes
