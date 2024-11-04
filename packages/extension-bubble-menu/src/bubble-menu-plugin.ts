@@ -46,6 +46,7 @@ export interface BubbleMenuPluginProps {
   shouldShow?:
     | ((props: {
         editor: Editor
+        element: HTMLElement
         view: EditorView
         state: EditorState
         oldState?: EditorState
@@ -238,6 +239,7 @@ export class BubbleMenuView {
 
     const shouldShow = this.shouldShow?.({
       editor: this.editor,
+      element: this.element,
       view,
       state,
       oldState,
