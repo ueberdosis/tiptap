@@ -136,7 +136,7 @@ context('/src/Marks/Link/React/', () => {
     disallowedProtocols.forEach(url => {
       cy.get('.tiptap').then(([{ editor }]) => {
         editor.commands.setContent(`<p><a href="${url}">Example Text</a></p>`)
-        expect(editor.getHTML()).to.not.include(`<a href="${url}">`)
+        expect(editor.getHTML()).to.not.include(url)
       })
     })
   })
@@ -147,7 +147,7 @@ context('/src/Marks/Link/React/', () => {
     disallowedDomains.forEach(url => {
       cy.get('.tiptap').then(([{ editor }]) => {
         editor.commands.setContent(`<p><a href="${url}">Example Text</a></p>`)
-        expect(editor.getHTML()).to.not.include(`<a href="${url}">`)
+        expect(editor.getHTML()).to.not.include(url)
       })
     })
   })

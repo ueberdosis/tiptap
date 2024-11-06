@@ -73,7 +73,7 @@ export interface LinkOptions {
   HTMLAttributes: Record<string, any>
 
   /**
-   * A validation function that modifies link verification for the auto linker.
+   * A validation function that modifies link verification.
    * @param url - The url to be validated.
    * @param ctx - An object containing:
    *              - `defaultValidate`: A function that performs the default URL validation.
