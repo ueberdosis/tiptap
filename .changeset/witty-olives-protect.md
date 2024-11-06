@@ -3,4 +3,4 @@
 "tiptap-demos": patch
 ---
 
-Refactor validate and add shouldAutoLink function to improve URL handling
+The link extension's `validate` option now applies to both auto-linking and XSS mitigation. While, the new `shouldAutoLink` option is used to disable auto linking on an otherwise valid url.
