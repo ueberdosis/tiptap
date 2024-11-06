@@ -73,11 +73,25 @@ export interface LinkOptions {
   HTMLAttributes: Record<string, any>
 
   /**
-   * A validation function that modifies link verification for the auto linker.
-   * @param url - The url to be validated.
-   * @returns - True if the url is valid, false otherwise.
+   * A validation function that modifies link verification.
+   *
+   * @param {string} url - The URL to be validated.
+   * @param {Object} ctx - An object containing:
+   * @param {Function} ctx.defaultValidate - A function that performs the default URL validation.
+   * @param {string[]} ctx.protocols - An array of allowed protocols for the URL (e.g., "http", "https").
+   * @param {string} ctx.defaultProtocol - A string that represents the default protocol (e.g., 'http').
+   *
+   * @returns {boolean} True if the URL is valid, false otherwise.
    */
-  validate: (url: string) => boolean
+  validate: (url: string, ctx: { defaultValidate: (url: string) => boolean, protocols: Array<LinkProtocolOptions | string>, defaultProtocol: string }) => boolean
+
+  /**
+   * Determines whether a valid link should be automatically linked in the content.
+   *
+   * @param {string} url - The URL that has already been validated.
+   * @returns {boolean} - True if the link should be auto-linked; false if it should not be auto-linked.
+   */
+  shouldAutoLink: (url: string) => boolean
 }
 
 declare module '@tiptap/core' {
@@ -169,7 +183,8 @@ export const Link = Mark.create<LinkOptions>({
         rel: 'noopener noreferrer nofollow',
         class: null,
       },
-      validate: url => !!url,
+      validate: (url, ctx) => !!isAllowedUri(url, ctx.protocols),
+      shouldAutoLink: url => !!url,
     }
   },
 
@@ -200,7 +215,7 @@ export const Link = Mark.create<LinkOptions>({
         const href = (dom as HTMLElement).getAttribute('href')
 
         // prevent XSS attacks
-        if (!href || !isAllowedUri(href, this.options.protocols)) {
+        if (!href || !this.options.validate(href, { defaultValidate: url => !!isAllowedUri(url, this.options.protocols), protocols: this.options.protocols, defaultProtocol: this.options.defaultProtocol })) {
           return false
         }
         return null
@@ -210,7 +225,7 @@ export const Link = Mark.create<LinkOptions>({
 
   renderHTML({ HTMLAttributes }) {
     // prevent XSS attacks
-    if (!isAllowedUri(HTMLAttributes.href, this.options.protocols)) {
+    if (!this.options.validate(HTMLAttributes.href, { defaultValidate: href => !!isAllowedUri(href, this.options.protocols), protocols: this.options.protocols, defaultProtocol: this.options.defaultProtocol })) {
       // strip out the href
       return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
     }
@@ -250,8 +265,8 @@ export const Link = Mark.create<LinkOptions>({
           const foundLinks: PasteRuleMatch[] = []
 
           if (text) {
-            const { validate } = this.options
-            const links = find(text).filter(item => item.isLink && validate(item.value))
+            const { validate, protocols, defaultProtocol } = this.options
+            const links = find(text).filter(item => item.isLink && validate(item.value, { defaultValidate: href => !!isAllowedUri(href, protocols), protocols, defaultProtocol }))
 
             if (links.length) {
               links.forEach(link => (foundLinks.push({
@@ -278,13 +293,15 @@ export const Link = Mark.create<LinkOptions>({
 
   addProseMirrorPlugins() {
     const plugins: Plugin[] = []
+    const { validate, protocols, defaultProtocol } = this.options
 
     if (this.options.autolink) {
       plugins.push(
         autolink({
           type: this.type,
           defaultProtocol: this.options.defaultProtocol,
-          validate: this.options.validate,
+          validate: url => validate(url, { defaultValidate: href => !!isAllowedUri(href, protocols), protocols, defaultProtocol }),
+          shouldAutoLink: this.options.shouldAutoLink,
         }),
       )
     }
