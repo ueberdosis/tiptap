@@ -74,20 +74,22 @@ export interface LinkOptions {
 
   /**
    * A validation function that modifies link verification.
-   * @param url - The url to be validated.
-   * @param ctx - An object containing:
-   *              - `defaultValidate`: A function that performs the default URL validation.
-   *              - `protocols`: An array of allowed protocols for the URL (e.g., "http", "https").
-   *              - `defaultProtocol`: A string that represents the default protocol (e.g. 'http')
-   * @returns - True if the url is valid, false otherwise.
+   *
+   * @param {string} url - The URL to be validated.
+   * @param {Object} ctx - An object containing:
+   * @param {Function} ctx.defaultValidate - A function that performs the default URL validation.
+   * @param {string[]} ctx.protocols - An array of allowed protocols for the URL (e.g., "http", "https").
+   * @param {string} ctx.defaultProtocol - A string that represents the default protocol (e.g., 'http').
+   *
+   * @returns {boolean} True if the URL is valid, false otherwise.
    */
   validate: (url: string, ctx: { defaultValidate: (url: string) => boolean, protocols: Array<LinkProtocolOptions | string>, defaultProtocol: string }) => boolean
 
   /**
    * Determines whether a valid link should be automatically linked in the content.
    *
-   * @param url - The URL that has already been validated.
-   * @returns - True if the link should be auto-linked; false if it should not be auto-linked.
+   * @param {string} url - The URL that has already been validated.
+   * @returns {boolean} - True if the link should be auto-linked; false if it should not be auto-linked.
    */
   shouldAutoLink: (url: string) => boolean
 }
