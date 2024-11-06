@@ -263,9 +263,8 @@ export const Link = Mark.create<LinkOptions>({
           const foundLinks: PasteRuleMatch[] = []
 
           if (text) {
-            console.log(text)
             const { validate, protocols, defaultProtocol } = this.options
-            const links = find(text).filter(item => item.isLink && validate(item.href, { defaultValidate: href => !!isAllowedUri(href, protocols), protocols, defaultProtocol }))
+            const links = find(text).filter(item => item.isLink && validate(item.value, { defaultValidate: href => !!isAllowedUri(href, protocols), protocols, defaultProtocol }))
 
             if (links.length) {
               links.forEach(link => (foundLinks.push({
