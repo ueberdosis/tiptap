@@ -1,77 +1,78 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import React, {
-  useEffect, useRef,
-} from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
+export type FloatingMenuProps = Omit<
+  Optional<FloatingMenuPluginProps, 'pluginKey'>,
+  'element' | 'editor'
+> & {
   editor: FloatingMenuPluginProps['editor'] | null;
-  className?: string,
-  children: React.ReactNode
-  options?: FloatingMenuPluginProps['options']
-}
+  className?: string;
+  children: React.ReactNode;
+  options?: FloatingMenuPluginProps['options'];
+} & Partial<Omit<HTMLDivElement, 'children' | 'class'>>;
 
-export const FloatingMenu = (props: FloatingMenuProps) => {
-  const menuEl = useRef(document.createElement('div'))
+export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(({
+  pluginKey = 'floatingMenu',
+  editor,
+  shouldShow = null,
+  options,
+  children,
+  ...restProps
+}, ref) => {
+  const menuEl = useRef(Object.assign(document.createElement('div'), restProps))
+
+  if (typeof ref === 'function') {
+    ref(menuEl.current)
+  } else if (ref) {
+    ref.current = menuEl.current
+  }
+
   const { editor: currentEditor } = useCurrentEditor()
 
   useEffect(() => {
-    menuEl.current.style.visibility = 'hidden'
-    menuEl.current.style.position = 'absolute'
+    const floatingMenuElement = menuEl.current
 
-    if (props.editor?.isDestroyed || currentEditor?.isDestroyed) {
+    floatingMenuElement.style.visibility = 'hidden'
+    floatingMenuElement.style.position = 'absolute'
+
+    if (editor?.isDestroyed || currentEditor?.isDestroyed) {
       return
     }
 
-    const {
-      pluginKey = 'floatingMenu',
-      editor,
-      options,
-      shouldShow = null,
-    } = props
+    const attachToEditor = editor || currentEditor
 
-    const menuEditor = editor || currentEditor
-
-    if (!menuEditor) {
-      console.warn('FloatingMenu component is not rendered inside of an editor component or does not have editor prop.')
+    if (!attachToEditor) {
+      console.warn(
+        'FloatingMenu component is not rendered inside of an editor component or does not have editor prop.',
+      )
       return
     }
 
     const plugin = FloatingMenuPlugin({
+      editor: attachToEditor,
+      element: floatingMenuElement,
       pluginKey,
-      editor: menuEditor,
-      element: menuEl.current,
-      options,
       shouldShow,
+      options,
     })
 
-    menuEditor.registerPlugin(plugin)
+    attachToEditor.registerPlugin(plugin)
+
     return () => {
-      menuEditor.unregisterPlugin(pluginKey)
+      attachToEditor.unregisterPlugin(pluginKey)
       window.requestAnimationFrame(() => {
-        if (menuEl.current.parentNode) {
-          menuEl.current.parentNode.removeChild(menuEl.current)
+        if (floatingMenuElement.parentNode) {
+          floatingMenuElement.parentNode.removeChild(floatingMenuElement)
         }
       })
     }
-  }, [
-    props.editor,
-    currentEditor,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, currentEditor])
 
-  const portal = createPortal(
-    (
-    <div className={props.className}>
-      {props.children}
-    </div>
-    ), menuEl.current,
-  )
-
-  return (
-    <>{portal}</>
-  )
-}
+  return createPortal(<>{children}</>, menuEl.current)
+})

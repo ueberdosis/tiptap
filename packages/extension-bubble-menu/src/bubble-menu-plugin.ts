@@ -10,7 +10,9 @@ import {
 import {
   Editor, isTextSelection, posToDOMRect,
 } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
+import {
+  EditorState, Plugin, PluginKey, PluginView,
+} from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 export interface BubbleMenuPluginProps {
@@ -86,7 +88,7 @@ export type BubbleMenuViewProps = BubbleMenuPluginProps & {
   view: EditorView
 }
 
-export class BubbleMenuView {
+export class BubbleMenuView implements PluginView {
   public editor: Editor
 
   public element: HTMLElement
@@ -358,14 +360,14 @@ export class BubbleMenuView {
   show() {
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach from body
-    document.body.appendChild(this.element)
+    // attach to editor's parent element
+    this.view.dom.parentElement?.appendChild(this.element)
   }
 
   hide() {
     this.element.style.visibility = 'hidden'
     this.element.style.opacity = '0'
-    // remove from body
+    // remove from the parent element
     this.element.remove()
   }
 
