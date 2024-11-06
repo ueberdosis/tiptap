@@ -29,7 +29,7 @@ export type UseEditorOptions = Partial<EditorOptions> & {
   /**
    * Whether to re-render the editor on each transaction.
    * This is legacy behavior that will be removed in future versions.
-   * @default true
+   * @default false
    */
   shouldRerenderOnTransaction?: boolean;
 };
@@ -328,7 +328,7 @@ export function useEditor(
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false) {
+      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
         // This will prevent the editor from re-rendering on each transaction
         return null
       }
