@@ -24,7 +24,7 @@ export default () => {
         validate: (url, ctx) => {
           try {
             // construct URL
-            const parsedUrl = url.startsWith('http') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`)
+            const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`)
 
             // use default validation
             if (!ctx.defaultValidate(parsedUrl.href)) {
@@ -63,7 +63,7 @@ export default () => {
         shouldAutoLink: url => {
           try {
             // construct URL
-            const parsedUrl = url.startsWith('http') ? new URL(url) : new URL(`https://${url}`)
+            const parsedUrl = url.includes(':') ? new URL(url) : new URL(`https://${url}`)
 
             // only auto-link if the domain is not in the disallowed list
             const disallowedDomains = ['example-no-autolink.com', 'another-no-autolink.com']
