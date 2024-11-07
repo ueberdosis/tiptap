@@ -21,7 +21,7 @@ export default () => {
         autolink: true,
         defaultProtocol: 'https',
         protocols: ['http', 'https'],
-        validate: (url, ctx) => {
+        isAllowedUri: (url, ctx) => {
           try {
             // construct URL
             const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`)
