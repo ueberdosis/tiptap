@@ -288,9 +288,9 @@ class EditorInstanceManager {
  * @example const editor = useEditor({ extensions: [...] })
  */
 export function useEditor(
-  options: UseEditorOptions & { immediatelyRender: true },
+  options: UseEditorOptions & { immediatelyRender: false },
   deps?: DependencyList
-): Editor;
+): Editor | null;
 
 /**
  * This hook allows you to create an editor instance.
@@ -299,7 +299,7 @@ export function useEditor(
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(options?: UseEditorOptions, deps?: DependencyList): Editor | null;
+export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor;
 
 export function useEditor(
   options: UseEditorOptions = {},
