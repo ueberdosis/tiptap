@@ -15,7 +15,7 @@ export function NodeTypeDropdown({ editor }: { editor: Editor }) {
       const activeNode = ctx.editor.state.selection.$from.node(1)
 
       return {
-        activeNodeType: activeNode.type.name.slice(0, 1).toUpperCase() + activeNode.type.name.slice(1) || 'Paragraph',
+        activeNodeType: activeNode?.type.name ?? 'paragraph',
       }
     },
   })
@@ -53,7 +53,7 @@ export function NodeTypeDropdown({ editor }: { editor: Editor }) {
         }`}
         tabIndex={-1}
       >
-        Node Type: {activeNodeType}
+        Node Type: {activeNodeType.slice(0, 1).toUpperCase() + activeNodeType.slice(1)}
       </button>
       {isOpen && (
         <div

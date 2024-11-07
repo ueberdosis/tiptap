@@ -11,10 +11,8 @@ export type FloatingMenuProps = Omit<
   'element' | 'editor'
 > & {
   editor: FloatingMenuPluginProps['editor'] | null;
-  className?: string;
-  children: React.ReactNode;
   options?: FloatingMenuPluginProps['options'];
-} & Partial<Omit<HTMLDivElement, 'children' | 'class'>>;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(({
   pluginKey = 'floatingMenu',
@@ -24,7 +22,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
   children,
   ...restProps
 }, ref) => {
-  const menuEl = useRef(Object.assign(document.createElement('div'), restProps))
+  const menuEl = useRef(document.createElement('div'))
 
   if (typeof ref === 'function') {
     ref(menuEl.current)
@@ -74,5 +72,12 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, currentEditor])
 
-  return createPortal(<>{children}</>, menuEl.current)
+  return createPortal(
+    <div
+      {...restProps}
+    >
+      {children}
+    </div>,
+    menuEl.current,
+  )
 })
