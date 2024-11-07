@@ -58,6 +58,10 @@ export const setContent: RawCommands['setContent'] = (content, emitUpdate = fals
 
     if (dispatch) {
       tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+
+      Object.entries(document.attrs).forEach(([key, value]) => {
+        tr.setDocAttribute(key, value)
+      })
     }
     return true
   }
