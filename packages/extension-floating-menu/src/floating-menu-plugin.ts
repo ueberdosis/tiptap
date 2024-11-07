@@ -84,7 +84,6 @@ export class FloatingMenuView {
     const isRootDepth = $anchor.depth === 1
     const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
 
-    console.log('should ran')
     if (
       !view.hasFocus()
       || !empty
@@ -94,7 +93,6 @@ export class FloatingMenuView {
     ) {
       return false
     }
-    console.log(true)
 
     return true
   }
@@ -173,7 +171,6 @@ export class FloatingMenuView {
       ...options,
     }
 
-    console.log('should show', shouldShow)
     if (shouldShow) {
       this.shouldShow = shouldShow
     }

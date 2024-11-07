@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 
 /**
  * Handle arrow navigation within a menu bar container, and allow to escape to the editor
@@ -46,6 +46,62 @@ export function useFocusMenubar({
     onKeydown,
   }
 
+  const focusNextButton = useCallback((el = document.activeElement) => {
+    if (!containerRef.current) {
+      return null
+    }
+
+    const elements = Array.from(containerRef.current.querySelectorAll('button'))
+    const index = elements.findIndex(element => element === el)
+
+    // Find the next enabled button
+    for (let i = index + 1; i <= elements.length; i += 1) {
+      if (!elements[i % elements.length].disabled) {
+        elements[i % elements.length].focus()
+        return elements[i % elements.length]
+      }
+    }
+    return null
+  }, [containerRef])
+
+  const focusPreviousButton = useCallback((el = document.activeElement) => {
+    if (!containerRef.current) {
+      return null
+    }
+
+    const elements = Array.from(containerRef.current.querySelectorAll('button'))
+    const index = elements.findIndex(element => element === el)
+
+    // Find the previous enabled button
+    for (let i = index - 1; i >= -1; i -= 1) {
+      // If we reach the beginning, start from the end
+      if (i < 0) {
+        i = elements.length - 1
+      }
+      if (!elements[i].disabled) {
+        elements[i].focus()
+        return elements[i]
+      }
+    }
+    return null
+  }, [containerRef])
+
+  const focusButton = useCallback((el: HTMLButtonElement | null | undefined, direction: 'forwards' | 'backwards' = 'forwards') => {
+    if (!el) {
+      return
+    }
+    if (!el.disabled) {
+      el.focus()
+      return
+    }
+    if (direction === 'forwards') {
+      focusNextButton(el)
+    }
+    if (direction === 'backwards') {
+      focusPreviousButton(el)
+    }
+  }, [focusNextButton, focusPreviousButton])
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!containerRef.current) {
@@ -60,44 +116,25 @@ export function useFocusMenubar({
       const elements = Array.from(containerRef.current.querySelectorAll('button'))
       const isFocusedOnButton = elements.includes(event.target as HTMLButtonElement)
 
-      // Allow to escape to the editor
       if (isFocusedOnButton || event.target === containerRef.current) {
+        // Allow to escape to the editor
         if (event.key === 'Escape') {
           event.preventDefault()
           callbacks.current.onEscape(editor)
-          return
+          return true
         }
-      }
-
-      if (isFocusedOnButton) {
         // Handle arrow navigation within the menu bar
         if (event.key === 'ArrowRight') {
-          const index = elements.indexOf(event.target as HTMLButtonElement)
-
-          // Find the next enabled button
-          for (let i = index + 1; i <= elements.length; i += 1) {
-            if (!elements[i % elements.length].disabled) {
-              event.preventDefault()
-              elements[i % elements.length].focus()
-              return
-            }
+          if (focusNextButton(event.target as HTMLButtonElement)) {
+            event.preventDefault()
+            return true
           }
         }
 
         if (event.key === 'ArrowLeft') {
-          const index = elements.indexOf(event.target as HTMLButtonElement)
-
-          // Find the previous enabled button
-          for (let i = index - 1; i >= -1; i -= 1) {
-            // If we reach the beginning, start from the end
-            if (i < 0) {
-              i = elements.length - 1
-            }
-            if (!elements[i].disabled) {
-              event.preventDefault()
-              elements[i].focus()
-              return
-            }
+          if (focusPreviousButton(event.target as HTMLButtonElement)) {
+            event.preventDefault()
+            return true
           }
         }
       }
@@ -108,5 +145,7 @@ export function useFocusMenubar({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [containerRef, editor])
+  }, [containerRef, editor, focusNextButton, focusPreviousButton])
+
+  return { focusNextButton, focusPreviousButton, focusButton }
 }

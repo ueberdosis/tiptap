@@ -1,47 +1,41 @@
-import "./styles.scss";
+import './styles.scss'
 
-import Placeholder from "@tiptap/extension-placeholder";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import React from "react";
+// import Placeholder from '@tiptap/extension-placeholder'
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import React from 'react'
 
-import { TextMenu } from "./TextMenu";
-import { MenuBar } from "./MenuBar.jsx";
-import { InsertMenu } from "./InsertMenu";
+import { InsertMenu } from './InsertMenu.jsx'
+import { MenuBar } from './MenuBar.jsx'
+import { TextMenu } from './TextMenu.jsx'
 
 export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Placeholder.configure({
-        placeholder: "Use Alt + F10 to focus the menu bar",
-      }),
     ],
-    immediatelyRender: false,
+    content: `
+    <h2>Accessibility Demo</h2>
+    <p>Tab into the demo & navigate around with only your keyboard</p>
+    <p>Use <code>Alt + F10</code> to focus the menu bar</p>
+    `,
     editorProps: {
-      attributes: (state): Record<string, string> => {
-        return {
-          // Make sure the editor is announced as a rich text editor
-          "aria-label": "Rich Text Editor",
-          // editor accepts multiline input
-          "aria-multiline": "true",
-          // dynamically set the aria-readonly attribute
-          "aria-readonly": editor?.isEditable ? "false" : "true",
-        };
+      attributes: {
+        // Make sure the editor is announced as a rich text editor
+        'aria-label': 'Rich Text Editor',
+        // editor accepts multiline input
+        'aria-multiline': 'true',
+        'aria-readonly': 'false',
       },
     },
-  });
-
-  if (!editor) {
-    return null;
-  }
+  })
 
   return (
-    <div role="application">
+    <div role="application" className="editor-application">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
       <TextMenu editor={editor} />
       <InsertMenu editor={editor} />
     </div>
-  );
-};
+  )
+}
