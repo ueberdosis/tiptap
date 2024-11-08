@@ -1,14 +1,248 @@
 import { Editor } from '@tiptap/core'
-import React, { useRef } from 'react'
+import { useEditorState } from '@tiptap/react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { NodeTypeDropdown } from './NodeTypeDropdown.js'
 import { useFocusMenubar } from './useFocusMenubar.js'
 
 /**
- * An accessible menu bar for the editor
+ * Handles the heading dropdown
  */
-export const MenuBar = ({ editor }: { editor: Editor }) => {
+function NodeTypeDropdown({ editor }: { editor: Editor }) {
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => {
+      const activeNode = ctx.editor.state.selection.$from.node(1)
+
+      return {
+        activeNodeType: activeNode?.type.name ?? 'paragraph',
+        isParagraph: ctx.editor.isActive('paragraph'),
+        isHeading1: ctx.editor.isActive('heading', { level: 1 }),
+        isHeading2: ctx.editor.isActive('heading', { level: 2 }),
+        isHeading3: ctx.editor.isActive('heading', { level: 3 }),
+        isHeading4: ctx.editor.isActive('heading', { level: 4 }),
+        isHeading5: ctx.editor.isActive('heading', { level: 5 }),
+        isHeading6: ctx.editor.isActive('heading', { level: 6 }),
+        isBulletList: ctx.editor.isActive('bulletList'),
+        isOrderedList: ctx.editor.isActive('orderedList'),
+        isCodeBlock: ctx.editor.isActive('codeBlock'),
+        isBlockquote: ctx.editor.isActive('blockquote'),
+      }
+    },
+  })
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
+  return (
+    <div className="node-type-dropdown__container" ref={menuRef}>
+      <button
+        onClick={() => {
+          setIsOpen(open => !open)
+        }}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setIsOpen(open => !open)
+          }
+        }}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+        aria-controls="heading-dropdown"
+        className={`node-type-dropdown__trigger${isOpen ? ' is-active' : ''}`}
+        tabIndex={-1}
+      >
+        Node Type: {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
+      </button>
+      {isOpen && (
+        <div
+          ref={dropdownRef}
+          id="node-type-dropdown"
+          role="menu"
+          className="node-type-dropdown__items"
+        >
+          <button
+            onClick={() => {
+              editor.chain().focus().setParagraph().run()
+              setIsOpen(false)
+            }}
+            className={editorState.isParagraph ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="Paragraph"
+            // This is the first element in the dropdown, so if it loses focus, close the dropdown
+            onBlur={e => {
+              // Is it not within the dropdown?
+              if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
+                e.preventDefault()
+                setIsOpen(false)
+              }
+            }}
+          >
+            Paragraph
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 1 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading1 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H1"
+          >
+            H1
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 2 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading2 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H2"
+          >
+            H2
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 3 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading3 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H3"
+          >
+            H3
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 4 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading4 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H4"
+          >
+            H4
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 5 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading5 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H5"
+          >
+            H5
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleHeading({ level: 6 }).run()
+              setIsOpen(false)
+            }}
+            className={editorState.isHeading6 ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="H6"
+          >
+            H6
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleBulletList().run()
+              setIsOpen(false)
+            }}
+            className={editorState.isBulletList ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="Bullet list"
+          >
+            Bullet list
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleOrderedList().run()
+              setIsOpen(false)
+            }}
+            className={editorState.isOrderedList ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="Ordered List"
+          >
+            Ordered list
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleCodeBlock().run()
+              setIsOpen(false)
+            }}
+            className={editorState.isCodeBlock ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="Code block"
+          >
+            Code block
+          </button>
+          <button
+            onClick={() => {
+              editor.chain().focus().toggleBlockquote().run()
+              setIsOpen(false)
+            }}
+            className={editorState.isBlockquote ? 'is-active' : ''}
+            tabIndex={-1}
+            role="menuitem"
+            aria-label="Blockquote"
+            onBlur={e => {
+              if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
+                e.preventDefault()
+                setIsOpen(false)
+              }
+            }}
+          >
+            Blockquote
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * An accessible static top menu bar for the editor
+ */
+export function MenuBar({ editor }: { editor: Editor }) {
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        canUndo: ctx.editor.can().chain().focus().undo()
+          .run(),
+        canRedo: ctx.editor.can().chain().focus().redo()
+          .run(),
+      }
+    },
+  })
 
   useFocusMenubar({
     ref: containerRef,
@@ -32,8 +266,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         <NodeTypeDropdown editor={editor} />
         <button
           onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().chain().focus().undo()
-            .run()}
+          disabled={!editorState.canUndo}
           tabIndex={-1}
           aria-label="Undo"
         >
@@ -41,8 +274,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         </button>
         <button
           onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().chain().focus().redo()
-            .run()}
+          disabled={!editorState.canRedo}
           tabIndex={-1}
           aria-label="Redo"
         >
