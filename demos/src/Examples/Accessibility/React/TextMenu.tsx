@@ -68,6 +68,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editorState.canBold}
         className={editorState.isBold ? 'is-active' : ''}
+        aria-pressed={editorState.isBold}
         aria-label="Bold"
         tabIndex={-1}
       >
@@ -77,6 +78,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editorState.canItalic}
         className={editorState.isItalic ? 'is-active' : ''}
+        aria-pressed={editorState.isItalic}
         aria-label="Italic"
         tabIndex={-1}
       >
@@ -86,7 +88,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editorState.canStrike}
         className={editorState.isStrike ? 'is-active' : ''}
-        aria-label="Strikethrough"
+        aria-pressed={editorState.isStrike}
         tabIndex={-1}
       >
         Strike
@@ -95,6 +97,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editorState.canCode}
         className={editorState.isCode ? 'is-active' : ''}
+        aria-pressed={editorState.isCode}
         aria-label="Code"
         tabIndex={-1}
       >
