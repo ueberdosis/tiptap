@@ -1,3 +1,18 @@
+.tiptap {
+  /**
+    * This fixes a bug with voiceover where it speaks text that runs from one element to another as one word like so:
+    *
+    * <h1>Heading</h1>
+    * <p>Paragraph</p>
+    *
+    * Voiceover would read this as "HeadingParagraph" instead of "Heading Paragraph"
+    * So, we add a zero-width space after each block element to fix this.
+    */
+  h1::after, h2::after, h3::after, h4::after, h5::after, h6::after, p::after {
+    content: "\200B"
+  }
+}
+
 .node-type-dropdown__container {
   position: relative;
 }
@@ -31,7 +46,7 @@
 }
 
 
-/* Bubble menu */
+/* Bubble menu styles */
 .bubble-menu {
   background-color: var(--white);
   border: 1px solid var(--gray-1);
@@ -57,7 +72,7 @@
   }
 }
 
-/* Floating menu */
+/* Floating menu styles */
 .floating-menu {
   display: flex;
   background-color: var(--gray-3);
