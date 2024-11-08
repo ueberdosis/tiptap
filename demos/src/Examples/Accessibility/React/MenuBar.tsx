@@ -62,7 +62,6 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
         aria-haspopup="true"
         aria-expanded={isOpen}
         aria-controls="heading-dropdown"
-        aria-orientation="vertical"
         className={`node-type-dropdown__trigger${isOpen ? ' is-active' : ''}`}
         tabIndex={-1}
       >
@@ -74,6 +73,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
           ref={dropdownRef}
           id="node-type-dropdown"
           role="menu"
+          aria-orientation="vertical"
           className="node-type-dropdown__items"
         >
           <button
