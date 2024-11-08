@@ -15,6 +15,11 @@ context('/src/GuideContent/ReadOnly/React/', () => {
       cy.get('.tiptap').type('Edited: ')
 
       cy.get('.tiptap p:first').should('not.contain', 'Edited: ')
+
+      cy
+        .get('.tiptap')
+        .invoke('attr', 'tabindex')
+        .should('not.exist')
     })
   })
 
@@ -24,6 +29,11 @@ context('/src/GuideContent/ReadOnly/React/', () => {
       cy.get('.tiptap').type('Edited: ')
 
       cy.get('.tiptap p:first').should('contain', 'Edited: ')
+
+      cy
+        .get('.tiptap')
+        .invoke('attr', 'tabindex')
+        .should('eq', '0')
     })
   })
 })

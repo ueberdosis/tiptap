@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Subscript from '@tiptap/extension-subscript'
@@ -21,24 +23,28 @@ export default () => {
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleSubscript().run()}
-        className={editor.isActive('subscript') ? 'is-active' : ''}
-      >
-        toggleSubscript
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setSubscript().run()}
-        disabled={editor.isActive('subscript')}
-      >
-        setSubscript
-      </button>
-      <button
-        onClick={() => editor.chain().focus().unsetSubscript().run()}
-        disabled={!editor.isActive('subscript')}
-      >
-        unsetSubscript
-      </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().toggleSubscript().run()}
+            className={editor.isActive('subscript') ? 'is-active' : ''}
+          >
+            Toggle subscript
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setSubscript().run()}
+            disabled={editor.isActive('subscript')}
+          >
+            Set subscript
+          </button>
+          <button
+            onClick={() => editor.chain().focus().unsetSubscript().run()}
+            disabled={!editor.isActive('subscript')}
+          >
+            Unset subscript
+          </button>
+        </div>
+      </div>
 
       <EditorContent editor={editor} />
     </>

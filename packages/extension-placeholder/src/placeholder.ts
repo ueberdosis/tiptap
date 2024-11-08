@@ -1,4 +1,4 @@
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension, isNodeEmpty } from '@tiptap/core'
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
@@ -32,13 +32,10 @@ export interface PlaceholderOptions {
     | string
 
   /**
-   * **Used for empty check on the document.**
-   *
-   * If true, any node that is not a leaf or atom will be considered for empty check.
-   * If false, only default nodes (paragraphs) will be considered for empty check.
-   * @default false
+   * See https://github.com/ueberdosis/tiptap/pull/5278 for more information.
+   * @deprecated This option is no longer respected and this type will be removed in the next major version.
    */
-  considerAnyAsEmpty: boolean
+  considerAnyAsEmpty?: boolean
 
   /**
    * **Checks if the placeholder should be only shown when the editor is editable.**
@@ -82,7 +79,6 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       emptyNodeClass: 'is-empty',
       placeholder: 'Write something …',
       showOnlyWhenEditable: true,
-      considerAnyAsEmpty: false,
       showOnlyCurrent: true,
       includeChildren: false,
     }
@@ -102,21 +98,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               return null
             }
 
-            // only calculate isEmpty once due to its performance impacts (see issue #3360)
-            const { firstChild } = doc.content
-            const isLeaf = firstChild && firstChild.type.isLeaf
-            const isAtom = firstChild && firstChild.isAtom
-            const isValidNode = this.options.considerAnyAsEmpty
-              ? true
-              : firstChild && firstChild.type.name === doc.type.contentMatch.defaultType?.name
-            const isEmptyDoc = doc.content.childCount <= 1
-              && firstChild
-              && isValidNode
-              && (firstChild.nodeSize <= 2 && (!isLeaf || !isAtom))
+            const isEmptyDoc = this.editor.isEmpty
 
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
-              const isEmpty = !node.isLeaf && !node.childCount
+              const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]

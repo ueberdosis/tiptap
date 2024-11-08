@@ -65,7 +65,11 @@ export const TaskItem = Node.create<TaskItemOptions>({
       checked: {
         default: false,
         keepOnSplit: false,
-        parseHTML: element => element.getAttribute('data-checked') === 'true',
+        parseHTML: element => {
+          const dataChecked = element.getAttribute('data-checked')
+
+          return dataChecked === '' || dataChecked === 'true'
+        },
         renderHTML: attributes => ({
           'data-checked': attributes.checked,
         }),
@@ -133,6 +137,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
+      checkbox.addEventListener('mousedown', event => event.preventDefault())
       checkbox.addEventListener('change', event => {
         // if the editor isn’t editable and we don't have a handler for
         // readonly checks we have to undo the latest change
@@ -150,6 +155,10 @@ export const TaskItem = Node.create<TaskItemOptions>({
             .focus(undefined, { scrollIntoView: false })
             .command(({ tr }) => {
               const position = getPos()
+
+              if (typeof position !== 'number') {
+                return false
+              }
               const currentNode = tr.doc.nodeAt(position)
 
               tr.setNodeMarkup(position, undefined, {

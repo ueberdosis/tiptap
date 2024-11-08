@@ -1,7 +1,7 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
-import ListItem from '../../extension-list-item/src/index.js'
-import TextStyle from '../../extension-text-style/src/index.js'
+const ListItemName = 'listItem'
+const TextStyleName = 'textStyle'
 
 export interface OrderedListOptions {
   /**
@@ -84,6 +84,10 @@ export const OrderedList = Node.create<OrderedListOptions>({
             : 1
         },
       },
+      type: {
+        default: undefined,
+        parseHTML: element => element.getAttribute('type'),
+      },
     }
   },
 
@@ -107,7 +111,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return {
       toggleOrderedList: () => ({ commands, chain }) => {
         if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItem.name, this.editor.getAttributes(TextStyle.name)).run()
+          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName)).run()
         }
         return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
       },
@@ -134,7 +138,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,
-        getAttributes: match => ({ start: +match[1], ...this.editor.getAttributes(TextStyle.name) }),
+        getAttributes: match => ({ start: +match[1], ...this.editor.getAttributes(TextStyleName) }),
         joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
         editor: this.editor,
       })

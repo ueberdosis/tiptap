@@ -7,6 +7,7 @@ import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import { NodeConfig } from './index.js'
 import { InputRule } from './InputRule.js'
+import { Mark } from './Mark.js'
 import { PasteRule } from './PasteRule.js'
 import {
   AnyConfig,
@@ -23,6 +24,7 @@ import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options = any, Storage = any> {
+    // @ts-ignore - this is a dynamic key
     [key: string]: any
 
     /**
@@ -34,10 +36,10 @@ declare module '@tiptap/core' {
     name: string
 
     /**
-     * The priority of your extension. The higher, the later it will be called
+     * The priority of your extension. The higher, the earlier it will be called
      * and will take precedence over other extensions with a lower priority.
-     * @default 1000
-     * @example 1001
+     * @default 100
+     * @example 101
      */
     priority?: number
 
@@ -63,7 +65,7 @@ declare module '@tiptap/core' {
      */
     addOptions?: (this: {
       name: string
-      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addOptions'], undefined>
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addOptions']
     }) => Options
 
     /**
@@ -78,7 +80,7 @@ declare module '@tiptap/core' {
     addStorage?: (this: {
       name: string
       options: Options
-      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addStorage'], undefined>
+      parent: ParentConfig<NodeConfig<Options, Storage>>['addStorage']
     }) => Storage
 
     /**
@@ -111,8 +113,9 @@ declare module '@tiptap/core' {
       name: string
       options: Options
       storage: Storage
+      extensions: (Node | Mark)[]
       parent: ParentConfig<NodeConfig<Options, Storage>>['addGlobalAttributes']
-    }) => GlobalAttributes | {}
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor
@@ -351,6 +354,7 @@ declare module '@tiptap/core' {
             parent: ParentConfig<NodeConfig<Options, Storage>>['onTransaction']
           },
           props: {
+            editor: Editor
             transaction: Transaction
           },
         ) => void)
@@ -777,16 +781,17 @@ export class Node<Options = any, Storage = any> {
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend()
+    const extension = this.extend<Options, Storage>({
+      ...this.config,
+      addOptions: () => {
+        return mergeDeep(this.options as Record<string, any>, options) as Options
+      },
+    })
 
-    extension.options = mergeDeep(this.options as Record<string, any>, options) as Options
-
-    extension.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
-        name: extension.name,
-        options: extension.options,
-      }),
-    )
+    // Always preserve the current name
+    extension.name = this.name
+    // Set the parent to be our parent
+    extension.parent = this.parent
 
     return extension
   }
@@ -794,7 +799,7 @@ export class Node<Options = any, Storage = any> {
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
     extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedStorage>> = {},
   ) {
-    const extension = new Node<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig })
+    const extension = new Node<ExtendedOptions, ExtendedStorage>(extendedConfig)
 
     extension.parent = this
 
@@ -802,7 +807,7 @@ export class Node<Options = any, Storage = any> {
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions) {
+    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
       console.warn(
         `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
       )

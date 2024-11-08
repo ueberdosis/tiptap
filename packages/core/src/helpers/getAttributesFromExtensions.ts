@@ -5,7 +5,6 @@ import {
   Attributes,
   ExtensionAttribute,
   Extensions,
-  GlobalAttributes,
 } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 import { splitExtensions } from './splitExtensions.js'
@@ -32,6 +31,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
       name: extension.name,
       options: extension.options,
       storage: extension.storage,
+      extensions: nodeAndMarkExtensions,
     }
 
     const addGlobalAttributes = getExtensionField<AnyConfig['addGlobalAttributes']>(
@@ -44,8 +44,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
       return
     }
 
-    // TODO: remove `as GlobalAttributes`
-    const globalAttributes = addGlobalAttributes() as GlobalAttributes
+    const globalAttributes = addGlobalAttributes()
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {

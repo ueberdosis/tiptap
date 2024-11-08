@@ -64,7 +64,7 @@ export default () => {
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={editor.isActive('bulletList') ? 'is-active' : ''}
         >
-          Bullet List
+          Bullet list
         </button>
       </FloatingMenu>}
 

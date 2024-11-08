@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
         /**
          * The new content.
          */
-        content: Content,
+        content: Content | Fragment | ProseMirrorNode,
 
         /**
          * Whether to emit an update event.
@@ -37,29 +37,37 @@ declare module '@tiptap/core' {
           /**
            * Whether to throw an error if the content is invalid.
            */
-           errorOnInvalidContent?: boolean
-        },
-      ) => ReturnType
-    }
+          errorOnInvalidContent?: boolean;
+        }
+      ) => ReturnType;
+    };
   }
 }
 
-export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}, options = {}) => ({ tr, editor, dispatch }) => {
+export const setContent: RawCommands['setContent'] = (content, emitUpdate = false, parseOptions = {}, options = {}) => ({
+  editor, tr, dispatch, commands,
+}) => {
   const { doc } = tr
 
-  let document: Fragment | ProseMirrorNode
-
-  try {
-    document = createDocument(content, editor.schema, parseOptions, {
+  // This is to keep backward compatibility with the previous behavior
+  // TODO remove this in the next major version
+  if (parseOptions.preserveWhitespace !== 'full') {
+    const document = createDocument(content, editor.schema, parseOptions, {
       errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
     })
-  } catch (e) {
-    return false
+
+    if (dispatch) {
+      tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+    }
+    return true
   }
 
   if (dispatch) {
-    tr.replaceWith(0, doc.content.size, document).setMeta('preventUpdate', !emitUpdate)
+    tr.setMeta('preventUpdate', !emitUpdate)
   }
 
-  return true
+  return commands.insertContentAt({ from: 0, to: doc.content.size }, content, {
+    parseOptions,
+    errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+  })
 }

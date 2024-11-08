@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content,
+        value: Content | ProseMirrorNode | Fragment,
 
         /**
          * Optional options
@@ -57,13 +57,13 @@ declare module '@tiptap/core' {
 }
 
 const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment is Fragment => {
-  return nodeOrFragment.toString().startsWith('<')
+  return !('type' in nodeOrFragment)
 }
 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     options = {
-      parseOptions: {},
+      parseOptions: editor.options.parseOptions,
       updateSelection: true,
       applyInputRules: false,
       applyPasteRules: false,
@@ -81,12 +81,16 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
       })
     } catch (e) {
+      editor.emit('contentError', {
+        editor,
+        error: e as Error,
+        disableCollaboration: () => {
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isDisabled = true
+          }
+        },
+      })
       return false
-    }
-
-    // don’t dispatch an empty fragment because this can lead to strange errors
-    if (content.toString() === '<>') {
-      return true
     }
 
     let { from, to } = typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
@@ -128,6 +132,16 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       // otherwise if it is an array, we have to join it
       if (Array.isArray(value)) {
         newContent = value.map(v => v.text || '').join('')
+      } else if (value instanceof Fragment) {
+        let text = ''
+
+        value.forEach(node => {
+          if (node.text) {
+            text += node.text
+          }
+        })
+
+        newContent = text
       } else if (typeof value === 'object' && !!value && !!value.text) {
         newContent = value.text
       } else {

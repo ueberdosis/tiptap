@@ -1,0 +1,72 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Placeholder (at the top) */
+  p.is-editor-empty:first-child::before {
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  &.ProseMirror-focused p.is-editor-empty:first-child::before {
+    content: '';
+  }
+}
+
+/* Bubble menu */
+.bubble-menu {
+  background-color: var(--white);
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  padding: 0.2rem;
+
+  button {
+    background-color: unset;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &.is-active {
+      background-color: var(--purple);
+
+      &:hover {
+        background-color: var(--purple-contrast);
+      }
+    }
+  }
+}
+
+/* Floating menu */
+.floating-menu {
+  display: flex;
+  background-color: var(--gray-3);
+  padding: 0.1rem;
+  border-radius: 0.5rem;
+
+  button {
+    background-color: unset;
+    padding: 0.275rem 0.425rem;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &.is-active {
+      background-color: var(--white);
+      color: var(--purple);
+
+      &:hover {
+        color: var(--purple-contrast);
+      }
+    }
+  }
+}

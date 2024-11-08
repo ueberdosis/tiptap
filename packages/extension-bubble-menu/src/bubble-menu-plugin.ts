@@ -46,6 +46,7 @@ export interface BubbleMenuPluginProps {
   shouldShow?:
     | ((props: {
         editor: Editor
+        element: HTMLElement
         view: EditorView
         state: EditorState
         oldState?: EditorState
@@ -189,7 +190,7 @@ export class BubbleMenuView {
 
   update(view: EditorView, oldState?: EditorState) {
     const { state } = view
-    const hasValidSelection = state.selection.$from.pos !== state.selection.$to.pos
+    const hasValidSelection = state.selection.from !== state.selection.to
 
     if (this.updateDelay > 0 && hasValidSelection) {
       this.handleDebouncedUpdate(view, oldState)
@@ -238,6 +239,7 @@ export class BubbleMenuView {
 
     const shouldShow = this.shouldShow?.({
       editor: this.editor,
+      element: this.element,
       view,
       state,
       oldState,

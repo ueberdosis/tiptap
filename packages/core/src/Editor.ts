@@ -13,7 +13,8 @@ import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Editable, FocusEvents, Keymap, Tabindex,
+  ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
+  Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -39,10 +40,9 @@ import { isFunction } from './utilities/isFunction.js'
 
 export * as extensions from './extensions/index.js'
 
-declare global {
-  interface HTMLElement {
-    editor?: Editor;
-  }
+// @ts-ignore
+export interface TiptapEditorHTMLElement extends HTMLElement {
+  editor?: Editor
 }
 
 export class Editor extends EventEmitter<EditorEvents> {
@@ -57,6 +57,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public view!: EditorView
 
   public isFocused = false
+
+  /**
+   * The editor is considered initialized after the `create` event has been emitted.
+   */
+  public isInitialized = false
 
   public extensionStorage: Record<string, any> = {}
 
@@ -84,6 +89,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     onBlur: () => null,
     onDestroy: () => null,
     onContentError: ({ error }) => { throw error },
+    onPaste: () => null,
+    onDrop: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -104,6 +111,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
+    this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
+    this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -112,6 +121,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
       this.commands.focus(this.options.autofocus)
       this.emit('create', { editor: this })
+      this.isInitialized = true
     }, 0)
   }
 
@@ -207,11 +217,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    *
    * @param plugin A ProseMirror plugin
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
+   * @returns The new editor state
    */
   public registerPlugin(
     plugin: Plugin,
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
-  ): void {
+  ): EditorState {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
       : [...this.state.plugins, plugin]
@@ -219,27 +230,44 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.reconfigure({ plugins })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
    * Unregister a ProseMirror plugin.
    *
-   * @param nameOrPluginKey The plugins name
+   * @param nameOrPluginKeyToRemove The plugins name
+   * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
+  public unregisterPlugin(nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]): EditorState | undefined {
     if (this.isDestroyed) {
-      return
+      return undefined
     }
 
-    // @ts-ignore
-    const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+    const prevPlugins = this.state.plugins
+    let plugins = prevPlugins;
+
+    ([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
+      // @ts-ignore
+      const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
+
+      // @ts-ignore
+      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+    })
+
+    if (prevPlugins.length === plugins.length) {
+      // No plugin was removed, so we don’t need to update the state
+      return undefined
+    }
 
     const state = this.state.reconfigure({
-      // @ts-ignore
-      plugins: this.state.plugins.filter(plugin => !plugin.key.startsWith(name)),
+      plugins,
     })
 
     this.view.updateState(state)
+
+    return state
   }
 
   /**
@@ -256,7 +284,14 @@ export class Editor extends EventEmitter<EditorEvents> {
       FocusEvents,
       Keymap,
       Tabindex,
-    ] : []
+      Drop,
+      Paste,
+    ].filter(ext => {
+      if (typeof this.options.enableCoreExtensions === 'object') {
+        return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+      }
+      return true
+    }) : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -302,6 +337,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         editor: this,
         error: e as Error,
         disableCollaboration: () => {
+          if (this.storage.collaboration) {
+            this.storage.collaboration.isDisabled = true
+          }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
           this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
 
@@ -322,6 +360,11 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.view = new EditorView(this.options.element, {
       ...this.options.editorProps,
+      attributes: {
+        // add `role="textbox"` to the editor element
+        role: 'textbox',
+        ...this.options.editorProps?.attributes,
+      },
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: EditorState.create({
         doc,
@@ -342,7 +385,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
-    const dom = this.view.dom as HTMLElement
+    // @ts-ignore
+    const dom = this.view.dom as TiptapEditorHTMLElement
 
     dom.editor = this
   }
@@ -351,6 +395,10 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates all node views.
    */
   public createNodeViews(): void {
+    if (this.view.isDestroyed) {
+      return
+    }
+
     this.view.setProps({
       nodeViews: this.extensionManager.nodeViews,
     })
@@ -406,6 +454,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     const state = this.state.apply(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
 
+    this.emit('beforeTransaction', {
+      editor: this,
+      transaction,
+      nextState: state,
+    })
     this.view.updateState(state)
     this.emit('transaction', {
       editor: this,
@@ -530,6 +583,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.emit('destroy')
 
     if (this.view) {
+      // Cleanup our reference to prevent circular references which caused memory leaks
+      // @ts-ignore
+      const dom = this.view.dom as TiptapEditorHTMLElement
+
+      if (dom && dom.editor) {
+        delete dom.editor
+      }
       this.view.destroy()
     }
 

@@ -1,3 +1,5 @@
+import type { Plugin, PluginKey } from '@tiptap/pm/state'
+
 import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -9,7 +11,7 @@ declare module '@tiptap/core' {
        * @param value The value to store.
        * @example editor.commands.setMeta('foo', 'bar')
        */
-      setMeta: (key: string, value: any) => ReturnType,
+      setMeta: (key: string | Plugin | PluginKey, value: any) => ReturnType,
     }
   }
 }

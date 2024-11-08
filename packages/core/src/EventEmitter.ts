@@ -55,7 +55,7 @@ export class EventEmitter<T extends Record<string, any>> {
     return this.on(event, onceFn)
   }
 
-  protected removeAllListeners(): void {
+  public removeAllListeners(): void {
     this.callbacks = {}
   }
 }
