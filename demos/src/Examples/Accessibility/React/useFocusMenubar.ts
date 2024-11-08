@@ -124,14 +124,14 @@ export function useFocusMenubar({
           return true
         }
         // Handle arrow navigation within the menu bar
-        if (event.key === 'ArrowRight') {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
           if (focusNextButton(event.target as HTMLButtonElement)) {
             event.preventDefault()
             return true
           }
         }
 
-        if (event.key === 'ArrowLeft') {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
           if (focusPreviousButton(event.target as HTMLButtonElement)) {
             event.preventDefault()
             return true
