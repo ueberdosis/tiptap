@@ -3,6 +3,9 @@ import React, { useRef } from 'react'
 
 import { useFocusMenubar } from './useFocusMenubar.js'
 
+/**
+ * A floating menu for inserting new elements like lists, horizontal rules, etc.
+ */
 export function InsertMenu({ editor }: { editor: Editor }) {
   const containerRef = useRef<HTMLDivElement>(null)
 

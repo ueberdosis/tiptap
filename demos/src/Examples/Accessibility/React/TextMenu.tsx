@@ -4,6 +4,9 @@ import React, { useRef } from 'react'
 
 import { useFocusMenubar } from './useFocusMenubar.js'
 
+/**
+ * Handles formatting text with marks like bold, italic, etc.
+ */
 export function TextMenu({ editor }: { editor: Editor }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
