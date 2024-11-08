@@ -37,7 +37,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       aria-orientation="horizontal"
       role="menubar"
       aria-label="Insert Element menu"
-      className='floating-menu'
+      className="floating-menu"
       // Types are broken here, since we import jsx from vue-2
       ref={containerRef as any}
       onFocus={e => {

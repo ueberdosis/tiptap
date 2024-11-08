@@ -38,10 +38,14 @@ export function TextMenu({ editor }: { editor: Editor }) {
     ref: containerRef,
     onEscape: () => {
       // On escape, focus the editor & dismiss the menu by moving the selection to the end of the selection
-      editor.chain().focus().command(({ tr }) => {
-        tr.setSelection(Selection.near(tr.selection.$to))
-        return true
-      }).run()
+      editor
+        .chain()
+        .focus()
+        .command(({ tr }) => {
+          tr.setSelection(Selection.near(tr.selection.$to))
+          return true
+        })
+        .run()
     },
   })
 
@@ -52,7 +56,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
       aria-label="Text formatting menu"
       aria-orientation="horizontal"
       role="menubar"
-      className='bubble-menu'
+      className="bubble-menu"
       // Types are broken here, since we import jsx from vue-2
       ref={containerRef as any}
       onFocus={e => {
