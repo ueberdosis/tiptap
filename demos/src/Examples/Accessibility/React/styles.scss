@@ -10,8 +10,24 @@
   right: 0;
   gap: 0.25rem;
   padding: 0.25rem 0;
-  background-color: var(--gray-1);
+  background-color: var(--white);
   z-index: 1000;
+
+  button {
+    background-color: unset;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &.is-active {
+      background-color: var(--purple);
+
+      &:hover {
+        background-color: var(--purple-contrast);
+      }
+    }
+  }
 }
 
 
