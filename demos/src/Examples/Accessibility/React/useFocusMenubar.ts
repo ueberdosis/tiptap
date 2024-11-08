@@ -46,61 +46,73 @@ export function useFocusMenubar({
     onKeydown,
   }
 
-  const focusNextButton = useCallback((el = document.activeElement) => {
-    if (!containerRef.current) {
+  const focusNextButton = useCallback(
+    (el = document.activeElement) => {
+      if (!containerRef.current) {
+        return null
+      }
+
+      const elements = Array.from(containerRef.current.querySelectorAll('button'))
+      const index = elements.findIndex(element => element === el)
+
+      // Find the next enabled button
+      for (let i = index + 1; i <= elements.length; i += 1) {
+        if (!elements[i % elements.length].disabled) {
+          elements[i % elements.length].focus()
+          return elements[i % elements.length]
+        }
+      }
       return null
-    }
+    },
+    [containerRef],
+  )
 
-    const elements = Array.from(containerRef.current.querySelectorAll('button'))
-    const index = elements.findIndex(element => element === el)
-
-    // Find the next enabled button
-    for (let i = index + 1; i <= elements.length; i += 1) {
-      if (!elements[i % elements.length].disabled) {
-        elements[i % elements.length].focus()
-        return elements[i % elements.length]
+  const focusPreviousButton = useCallback(
+    (el = document.activeElement) => {
+      if (!containerRef.current) {
+        return null
       }
-    }
-    return null
-  }, [containerRef])
 
-  const focusPreviousButton = useCallback((el = document.activeElement) => {
-    if (!containerRef.current) {
+      const elements = Array.from(containerRef.current.querySelectorAll('button'))
+      const index = elements.findIndex(element => element === el)
+
+      // Find the previous enabled button
+      for (let i = index - 1; i >= -1; i -= 1) {
+        // If we reach the beginning, start from the end
+        if (i < 0) {
+          i = elements.length - 1
+        }
+        if (!elements[i].disabled) {
+          elements[i].focus()
+          return elements[i]
+        }
+      }
       return null
-    }
+    },
+    [containerRef],
+  )
 
-    const elements = Array.from(containerRef.current.querySelectorAll('button'))
-    const index = elements.findIndex(element => element === el)
-
-    // Find the previous enabled button
-    for (let i = index - 1; i >= -1; i -= 1) {
-      // If we reach the beginning, start from the end
-      if (i < 0) {
-        i = elements.length - 1
+  const focusButton = useCallback(
+    (
+      el: HTMLButtonElement | null | undefined,
+      direction: 'forwards' | 'backwards' = 'forwards',
+    ) => {
+      if (!el) {
+        return
       }
-      if (!elements[i].disabled) {
-        elements[i].focus()
-        return elements[i]
+      if (!el.disabled) {
+        el.focus()
+        return
       }
-    }
-    return null
-  }, [containerRef])
-
-  const focusButton = useCallback((el: HTMLButtonElement | null | undefined, direction: 'forwards' | 'backwards' = 'forwards') => {
-    if (!el) {
-      return
-    }
-    if (!el.disabled) {
-      el.focus()
-      return
-    }
-    if (direction === 'forwards') {
-      focusNextButton(el)
-    }
-    if (direction === 'backwards') {
-      focusPreviousButton(el)
-    }
-  }, [focusNextButton, focusPreviousButton])
+      if (direction === 'forwards') {
+        focusNextButton(el)
+      }
+      if (direction === 'backwards') {
+        focusPreviousButton(el)
+      }
+    },
+    [focusNextButton, focusPreviousButton],
+  )
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

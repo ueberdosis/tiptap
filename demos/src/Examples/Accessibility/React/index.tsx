@@ -11,9 +11,7 @@ import { TextMenu } from './TextMenu.jsx'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
     content: `
     <h2>Accessibility Demo</h2>
     <p>Tab into the demo & navigate around with only your keyboard</p>
