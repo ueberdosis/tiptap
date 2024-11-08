@@ -52,6 +52,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={activeNodeType === 'bulletList' ? 'is-active' : ''}
+        aria-pressed={activeNodeType === 'bulletList'}
         aria-label="Bullet List"
         tabIndex={-1}
       >
@@ -60,6 +61,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={activeNodeType === 'orderedList' ? 'is-active' : ''}
+        aria-pressed={activeNodeType === 'orderedList'}
         aria-label="Ordered List"
         tabIndex={-1}
       >

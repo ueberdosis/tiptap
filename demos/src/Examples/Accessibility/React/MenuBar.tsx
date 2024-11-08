@@ -62,10 +62,12 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
         aria-haspopup="true"
         aria-expanded={isOpen}
         aria-controls="heading-dropdown"
+        aria-orientation="vertical"
         className={`node-type-dropdown__trigger${isOpen ? ' is-active' : ''}`}
         tabIndex={-1}
       >
-        Node Type: {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
+        Node Type:{' '}
+        {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
       </button>
       {isOpen && (
         <div
@@ -83,6 +85,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
             tabIndex={-1}
             role="menuitem"
             aria-label="Paragraph"
+            aria-pressed={editorState.isParagraph}
             // This is the first element in the dropdown, so if it loses focus, close the dropdown
             onBlur={e => {
               // Is it not within the dropdown?
@@ -100,6 +103,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading1 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading1}
             tabIndex={-1}
             role="menuitem"
             aria-label="H1"
@@ -112,6 +116,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading2 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading2}
             tabIndex={-1}
             role="menuitem"
             aria-label="H2"
@@ -124,6 +129,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading3 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading3}
             tabIndex={-1}
             role="menuitem"
             aria-label="H3"
@@ -136,6 +142,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading4 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading4}
             tabIndex={-1}
             role="menuitem"
             aria-label="H4"
@@ -148,6 +155,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading5 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading5}
             tabIndex={-1}
             role="menuitem"
             aria-label="H5"
@@ -160,6 +168,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isHeading6 ? 'is-active' : ''}
+            aria-pressed={editorState.isHeading6}
             tabIndex={-1}
             role="menuitem"
             aria-label="H6"
@@ -172,6 +181,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isBulletList ? 'is-active' : ''}
+            aria-pressed={editorState.isBulletList}
             tabIndex={-1}
             role="menuitem"
             aria-label="Bullet list"
@@ -184,6 +194,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isOrderedList ? 'is-active' : ''}
+            aria-pressed={editorState.isOrderedList}
             tabIndex={-1}
             role="menuitem"
             aria-label="Ordered List"
@@ -196,6 +207,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isCodeBlock ? 'is-active' : ''}
+            aria-pressed={editorState.isCodeBlock}
             tabIndex={-1}
             role="menuitem"
             aria-label="Code block"
@@ -208,6 +220,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
               setIsOpen(false)
             }}
             className={editorState.isBlockquote ? 'is-active' : ''}
+            aria-pressed={editorState.isBlockquote}
             tabIndex={-1}
             role="menuitem"
             aria-label="Blockquote"
@@ -261,7 +274,13 @@ export function MenuBar({ editor }: { editor: Editor }) {
   }
 
   return (
-    <div className="control-group" role="toolbar" aria-orientation="horizontal" ref={containerRef}>
+    <div
+      className="control-group"
+      role="toolbar"
+      aria-orientation="horizontal"
+      aria-keyshortcuts="Alt+F10"
+      ref={containerRef}
+    >
       <div className="button-group">
         <NodeTypeDropdown editor={editor} />
         <button
