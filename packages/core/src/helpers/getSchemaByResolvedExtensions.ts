@@ -78,6 +78,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         ),
         code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
         whitespace: callOrReturn(getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)),
+        linebreakReplacement: callOrReturn(getExtensionField<NodeConfig['linebreakReplacement']>(extension, 'linebreakReplacement', context)),
         defining: callOrReturn(
           getExtensionField<NodeConfig['defining']>(extension, 'defining', context),
         ),
