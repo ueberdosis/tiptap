@@ -35,6 +35,7 @@ type AutolinkOptions = {
   type: MarkType
   defaultProtocol: string
   validate: (url: string) => boolean
+  shouldAutoLink: (url: string) => boolean
 }
 
 /**
@@ -144,6 +145,8 @@ export function autolink(options: AutolinkOptions): Plugin {
             })
             // validate link
             .filter(link => options.validate(link.value))
+            // check whether should autolink
+            .filter(link => options.shouldAutoLink(link.value))
             // Add link mark.
             .forEach(link => {
               if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {

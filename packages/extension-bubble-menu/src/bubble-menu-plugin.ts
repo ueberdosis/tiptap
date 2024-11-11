@@ -56,6 +56,7 @@ export interface BubbleMenuPluginProps {
   shouldShow:
     | ((props: {
         editor: Editor
+        element: HTMLElement
         view: EditorView
         state: EditorState
         oldState?: EditorState
@@ -315,12 +316,14 @@ export class BubbleMenuView {
     const { state } = this.view
     const { selection } = state
 
+    // support for CellSelections
     const { ranges } = selection
     const from = Math.min(...ranges.map(range => range.$from.pos))
     const to = Math.max(...ranges.map(range => range.$to.pos))
 
     const shouldShow = this.shouldShow?.({
       editor: this.editor,
+      element: this.element,
       view: this.view,
       state,
       oldState,

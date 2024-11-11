@@ -46,6 +46,15 @@ export class EventEmitter<T extends Record<string, any>> {
     return this
   }
 
+  public once<EventName extends StringKeyOf<T>>(event: EventName, fn: CallbackFunction<T, EventName>): this {
+    const onceFn = (...args: CallbackType<T, EventName>) => {
+      this.off(event, onceFn)
+      fn.apply(this, args)
+    }
+
+    return this.on(event, onceFn)
+  }
+
   public removeAllListeners(): void {
     this.callbacks = {}
   }

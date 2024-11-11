@@ -596,6 +596,25 @@ declare module '@tiptap/core' {
         }) => NodeSpec['whitespace'])
 
     /**
+     * Allows a **single** node to be set as linebreak equivalent (e.g. hardBreak).
+     * When converting between block types that have whitespace set to "pre"
+     * and don't support the linebreak node (e.g. codeBlock) and other block types
+     * that do support the linebreak node (e.g. paragraphs) - this node will be used
+     * as the linebreak instead of stripping the newline.
+     *
+     * See [linebreakReplacement](https://prosemirror.net/docs/ref/#model.NodeSpec.linebreakReplacement).
+     */
+    linebreakReplacement?:
+      | NodeSpec['linebreakReplacement']
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['linebreakReplacement']
+          editor?: Editor
+        }) => NodeSpec['linebreakReplacement'])
+
+    /**
      * When enabled, enables both
      * [`definingAsContext`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingAsContext) and
      * [`definingForContent`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingForContent).

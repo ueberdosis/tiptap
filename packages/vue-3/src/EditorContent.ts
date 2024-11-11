@@ -59,7 +59,6 @@ export const EditorContent = defineComponent({
 
           editor.createNodeViews()
         })
-
       }
     })
 
