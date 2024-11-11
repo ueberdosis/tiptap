@@ -2,7 +2,9 @@ context('/src/Extensions/History/React/', () => {
   beforeEach(() => {
     cy.visit('/src/Extensions/History/React/')
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p>Mistake</p>')
+      setTimeout(() => {
+        editor.commands.setContent('<p>Mistake</p>')
+      }, 0)
     })
   })
 

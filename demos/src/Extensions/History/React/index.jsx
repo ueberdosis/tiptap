@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import History from '@tiptap/extension-history'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -20,6 +20,18 @@ export default () => {
       `,
   })
 
+  const { canUndo, canRedo } = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        canUndo: ctx.editor.can().chain().focus().undo()
+          .run(),
+        canRedo: ctx.editor.can().chain().focus().redo()
+          .run(),
+      }
+    },
+  })
+
   if (!editor) {
     return null
   }
@@ -28,10 +40,10 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
+          <button onClick={() => editor.chain().focus().undo().run()} disabled={!canUndo}>
             Undo
           </button>
-          <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
+          <button onClick={() => editor.chain().focus().redo().run()} disabled={!canRedo}>
             Redo
           </button>
         </div>
