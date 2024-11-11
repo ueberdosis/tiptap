@@ -5,7 +5,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import TextStyle from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -21,6 +21,29 @@ export default () => {
       `,
   })
 
+  const {
+    isInter,
+    isComicSans,
+    isSerif,
+    isMonospace,
+    isCursive,
+    isComicSansQuoted,
+    isCssVariable,
+  } = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        isInter: ctx.editor.isActive('textStyle', { fontFamily: 'Inter' }),
+        isComicSans: ctx.editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }),
+        isSerif: editor.isActive('textStyle', { fontFamily: 'serif' }),
+        isMonospace: editor.isActive('textStyle', { fontFamily: 'monospace' }),
+        isCursive: editor.isActive('textStyle', { fontFamily: 'cursive' }),
+        isComicSansQuoted: editor.isActive('textStyle', { fontFamily: '"Comic Sans"' }),
+        isCssVariable: editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }),
+      }
+    },
+  })
+
   if (!editor) {
     return null
   }
@@ -31,58 +54,58 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().setFontFamily('Inter').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'Inter' }) ? 'is-active' : ''}
+            className={isInter ? 'is-active' : ''}
             data-test-id="inter"
           >
             Inter
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()}
-            className={
-              editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' })
-                ? 'is-active'
-                : ''
-            }
+            className={isComicSans ? 'is-active' : ''}
             data-test-id="comic-sans"
           >
             Comic Sans
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('serif').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'serif' }) ? 'is-active' : ''}
+            className={isSerif ? 'is-active' : ''}
             data-test-id="serif"
           >
             Serif
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('monospace').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'monospace' }) ? 'is-active' : ''}
+            className={isMonospace ? 'is-active' : ''}
             data-test-id="monospace"
           >
             Monospace
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('cursive').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'cursive' }) ? 'is-active' : ''}
+            className={isCursive ? 'is-active' : ''}
             data-test-id="cursive"
           >
             Cursive
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('var(--title-font-family)').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }) ? 'is-active' : ''}
+            className={isCssVariable ? 'is-active' : ''}
             data-test-id="css-variable"
           >
             CSS variable
           </button>
           <button
-            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
-            className={editor.isActive('textStyle', { fontFamily: '"Comic Sans"' }) ? 'is-active' : ''}
+            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()
+            }
+            className={isComicSansQuoted ? 'is-active' : ''}
             data-test-id="comic-sans-quoted"
           >
             Comic Sans quoted
           </button>
-          <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
+          <button
+            onClick={() => editor.chain().focus().unsetFontFamily().run()}
+            data-test-id="unsetFontFamily"
+          >
             Unset font family
           </button>
         </div>
