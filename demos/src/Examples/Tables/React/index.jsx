@@ -180,6 +180,7 @@ export default () => {
         </tbody>
       </table>
     `,
+    shouldRerenderOnTransaction: true,
   })
 
   return (
