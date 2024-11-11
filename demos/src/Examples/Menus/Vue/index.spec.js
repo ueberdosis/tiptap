@@ -10,17 +10,13 @@ context('/src/Examples/Menus/Vue/', () => {
   })
 
   it('should show menu when the editor is empty', () => {
-    cy.get('body')
-      .find('.floating-menu')
+    cy.get('body').find('.floating-menu')
   })
 
   it('should show menu when text is selected', () => {
-    cy.get('.tiptap')
-      .type('Test')
-      .type('{selectall}')
+    cy.get('.tiptap').type('Test').type('{selectall}')
 
-    cy.get('body')
-      .find('.bubble-menu')
+    cy.get('body').find('.bubble-menu')
   })
 
   const marks = [
@@ -40,17 +36,11 @@ context('/src/Examples/Menus/Vue/', () => {
 
   marks.forEach(mark => {
     it(`should apply ${mark.button} correctly`, () => {
-      cy.get('.tiptap')
-        .type('Test')
-        .type('{selectall}')
+      cy.get('.tiptap').type('Test').type('{selectall}')
 
-      cy.get('body')
-        .find('.bubble-menu')
-        .contains(mark.button)
-        .click()
+      cy.get('body').find('.bubble-menu').contains(mark.button).click()
 
-      cy.get('.tiptap')
-        .find(`p ${mark.tag}`)
+      cy.get('.tiptap').find(`p ${mark.tag}`)
     })
   })
 })

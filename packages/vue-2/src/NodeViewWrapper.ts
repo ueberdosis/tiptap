@@ -1,11 +1,11 @@
 import Vue, { Component, CreateElement } from 'vue'
 
 export interface NodeViewWrapperInterface extends Vue {
-  as: string,
+  as: string
   decorationClasses: {
-    value: string,
-  },
-  onDragStart: Function,
+    value: string
+  }
+  onDragStart: Function
 }
 
 export const NodeViewWrapper: Component = {

@@ -1,11 +1,5 @@
 import type { MarkConfig, NodeConfig } from '../index.js'
-import {
-  AnyConfig,
-  Attribute,
-  Attributes,
-  ExtensionAttribute,
-  Extensions,
-} from '../types.js'
+import { AnyConfig, Attribute, Attributes, ExtensionAttribute, Extensions } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 import { splitExtensions } from './splitExtensions.js'
 
@@ -48,18 +42,16 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
 
     globalAttributes.forEach(globalAttribute => {
       globalAttribute.types.forEach(type => {
-        Object
-          .entries(globalAttribute.attributes)
-          .forEach(([name, attribute]) => {
-            extensionAttributes.push({
-              type,
-              name,
-              attribute: {
-                ...defaultAttribute,
-                ...attribute,
-              },
-            })
+        Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
+          extensionAttributes.push({
+            type,
+            name,
+            attribute: {
+              ...defaultAttribute,
+              ...attribute,
+            },
           })
+        })
       })
     })
   })
@@ -84,28 +76,26 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     // TODO: remove `as Attributes`
     const attributes = addAttributes() as Attributes
 
-    Object
-      .entries(attributes)
-      .forEach(([name, attribute]) => {
-        const mergedAttr = {
-          ...defaultAttribute,
-          ...attribute,
-        }
+    Object.entries(attributes).forEach(([name, attribute]) => {
+      const mergedAttr = {
+        ...defaultAttribute,
+        ...attribute,
+      }
 
-        if (typeof mergedAttr?.default === 'function') {
-          mergedAttr.default = mergedAttr.default()
-        }
+      if (typeof mergedAttr?.default === 'function') {
+        mergedAttr.default = mergedAttr.default()
+      }
 
-        if (mergedAttr?.isRequired && mergedAttr?.default === undefined) {
-          delete mergedAttr.default
-        }
+      if (mergedAttr?.isRequired && mergedAttr?.default === undefined) {
+        delete mergedAttr.default
+      }
 
-        extensionAttributes.push({
-          type: extension.name,
-          name,
-          attribute: mergedAttr,
-        })
+      extensionAttributes.push({
+        type: extension.name,
+        name,
+        attribute: mergedAttr,
       })
+    })
   })
 
   return extensionAttributes

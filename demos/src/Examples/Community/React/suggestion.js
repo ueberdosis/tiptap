@@ -1,8 +1,4 @@
-import {
-  computePosition,
-  flip,
-  shift,
-} from '@floating-ui/dom'
+import { computePosition, flip, shift } from '@floating-ui/dom'
 import { posToDOMRect, ReactRenderer } from '@tiptap/react'
 
 import { MentionList } from './MentionList.jsx'
@@ -27,8 +23,34 @@ const updatePosition = (editor, element) => {
 export default {
   items: ({ query }) => {
     return [
-      'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
-    ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
+      'Lea Thompson',
+      'Cyndi Lauper',
+      'Tom Cruise',
+      'Madonna',
+      'Jerry Hall',
+      'Joan Collins',
+      'Winona Ryder',
+      'Christina Applegate',
+      'Alyssa Milano',
+      'Molly Ringwald',
+      'Ally Sheedy',
+      'Debbie Harry',
+      'Olivia Newton-John',
+      'Elton John',
+      'Michael J. Fox',
+      'Axl Rose',
+      'Emilio Estevez',
+      'Ralph Macchio',
+      'Rob Lowe',
+      'Jennifer Grey',
+      'Mickey Rourke',
+      'John Cusack',
+      'Matthew Broderick',
+      'Justine Bateman',
+      'Lisa Bonet',
+    ]
+      .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
+      .slice(0, 5)
   },
 
   render: () => {
@@ -36,7 +58,6 @@ export default {
 
     return {
       onStart: props => {
-
         if (!props.clientRect) {
           return
         }

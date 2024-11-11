@@ -146,7 +146,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 /* Basic editor styles */
 .tiptap {
   :first-child {
@@ -173,7 +172,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -193,11 +192,11 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
       margin: 0;
     }
   }
@@ -218,7 +217,7 @@ export default {
     .form__item {
       border-radius: 5px;
       border: 1px solid var(--gray-3);
-      transition: .1s all ease-in-out;
+      transition: 0.1s all ease-in-out;
 
       &:hover {
         border-color: var(--purple);

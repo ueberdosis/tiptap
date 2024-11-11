@@ -78,9 +78,7 @@ const getInitialUser = () => {
   }
 }
 
-const Editor = ({
-  ydoc, provider, room,
-}) => {
+const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
@@ -187,15 +185,12 @@ const Editor = ({
 
       <EditorContent editor={editor} className="main-group" />
 
-      <div
-        className="collab-status-group"
-        data-state={status === 'connected' ? 'online' : 'offline'}
-      >
+      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
         <label>
           {status === 'connected'
             ? `${editor.storage.collaborationCursor.users.length} user${
-              editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
-            } online in ${room}`
+                editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
+              } online in ${room}`
             : 'offline'}
         </label>
         <button style={{ '--color': currentUser.color }} onClick={setName}>

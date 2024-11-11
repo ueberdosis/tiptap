@@ -14,14 +14,11 @@ context('/src/Nodes/Image/Vue/', () => {
     cy.window().then(win => {
       cy.stub(win, 'prompt').returns('foobar.png')
 
-      cy.get('button:first')
-        .click()
+      cy.get('button:first').click()
 
       cy.window().its('prompt').should('be.called')
 
-      cy.get('.tiptap')
-        .find('img')
-        .should('have.attr', 'src', 'foobar.png')
+      cy.get('.tiptap').find('img').should('have.attr', 'src', 'foobar.png')
     })
   })
 })

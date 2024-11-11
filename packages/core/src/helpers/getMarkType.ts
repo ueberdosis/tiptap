@@ -3,9 +3,7 @@ import { MarkType, Schema } from '@tiptap/pm/model'
 export function getMarkType(nameOrType: string | MarkType, schema: Schema): MarkType {
   if (typeof nameOrType === 'string') {
     if (!schema.marks[nameOrType]) {
-      throw Error(
-        `There is no mark type named '${nameOrType}'. Maybe you forgot to add the extension?`,
-      )
+      throw Error(`There is no mark type named '${nameOrType}'. Maybe you forgot to add the extension?`)
     }
 
     return schema.marks[nameOrType]

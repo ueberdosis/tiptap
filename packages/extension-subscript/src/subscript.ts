@@ -7,7 +7,7 @@ export interface SubscriptExtensionOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Object,
+  HTMLAttributes: Object
 }
 
 declare module '@tiptap/core' {
@@ -17,17 +17,17 @@ declare module '@tiptap/core' {
        * Set a subscript mark
        * @example editor.commands.setSubscript()
        */
-      setSubscript: () => ReturnType,
+      setSubscript: () => ReturnType
       /**
        * Toggle a subscript mark
        * @example editor.commands.toggleSubscript()
        */
-      toggleSubscript: () => ReturnType,
+      toggleSubscript: () => ReturnType
       /**
        * Unset a subscript mark
        * @example editor.commands.unsetSubscript()
        */
-      unsetSubscript: () => ReturnType,
+      unsetSubscript: () => ReturnType
     }
   }
 }
@@ -71,15 +71,21 @@ export const Subscript = Mark.create<SubscriptExtensionOptions>({
 
   addCommands() {
     return {
-      setSubscript: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleSubscript: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetSubscript: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setSubscript:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleSubscript:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetSubscript:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

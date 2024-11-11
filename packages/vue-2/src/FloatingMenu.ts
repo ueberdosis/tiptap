@@ -2,10 +2,10 @@ import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-f
 import Vue, { Component, CreateElement, PropType } from 'vue'
 
 export interface FloatingMenuInterface extends Vue {
-  pluginKey: FloatingMenuPluginProps['pluginKey'],
-  options: FloatingMenuPluginProps['options'],
-  editor: FloatingMenuPluginProps['editor'],
-  shouldShow: FloatingMenuPluginProps['shouldShow'],
+  pluginKey: FloatingMenuPluginProps['pluginKey']
+  options: FloatingMenuPluginProps['options']
+  editor: FloatingMenuPluginProps['editor']
+  shouldShow: FloatingMenuPluginProps['shouldShow']
 }
 
 export const FloatingMenu: Component = {
@@ -41,19 +41,21 @@ export const FloatingMenu: Component = {
           return
         }
 
-        (this.$el as HTMLElement).style.visibility = 'hidden';
-        (this.$el as HTMLElement).style.position = 'absolute'
+        ;(this.$el as HTMLElement).style.visibility = 'hidden'
+        ;(this.$el as HTMLElement).style.position = 'absolute'
 
         this.$el.remove()
 
         this.$nextTick(() => {
-          editor.registerPlugin(FloatingMenuPlugin({
-            pluginKey: this.pluginKey,
-            editor,
-            element: this.$el as HTMLElement,
-            options: this.options,
-            shouldShow: this.shouldShow,
-          }))
+          editor.registerPlugin(
+            FloatingMenuPlugin({
+              pluginKey: this.pluginKey,
+              editor,
+              element: this.$el as HTMLElement,
+              options: this.options,
+              shouldShow: this.shouldShow,
+            }),
+          )
         })
       },
     },

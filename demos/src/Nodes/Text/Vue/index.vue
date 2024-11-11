@@ -23,11 +23,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-      ],
+      extensions: [Document, Paragraph, Text],
       content: `
         <p>The Text extension is required, at least if you want to have text in your text editor and that’s very likely.</p>
       `,

@@ -7,11 +7,13 @@ declare module '@tiptap/core' {
        * Trigger enter.
        * @example editor.commands.enter()
        */
-      enter: () => ReturnType,
+      enter: () => ReturnType
     }
   }
 }
 
-export const enter: RawCommands['enter'] = () => ({ commands }) => {
-  return commands.keyboardShortcut('Enter')
-}
+export const enter: RawCommands['enter'] =
+  () =>
+  ({ commands }) => {
+    return commands.keyboardShortcut('Enter')
+  }

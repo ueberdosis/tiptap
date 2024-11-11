@@ -25,40 +25,27 @@ context('/src/Nodes/OrderedList/Vue/', () => {
   })
 
   it('the button should make the selected line a ordered list item', () => {
-    cy.get('.tiptap ol')
-      .should('not.exist')
+    cy.get('.tiptap ol').should('not.exist')
 
-    cy.get('.tiptap ol li')
-      .should('not.exist')
+    cy.get('.tiptap ol li').should('not.exist')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap')
-      .find('ol')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('ol').should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .find('ol li')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('ol li').should('contain', 'Example Text')
   })
 
   it('the button should toggle the ordered list', () => {
-    cy.get('.tiptap ol')
-      .should('not.exist')
+    cy.get('.tiptap ol').should('not.exist')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap')
-      .find('ol')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('ol').should('contain', 'Example Text')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap ol')
-      .should('not.exist')
+    cy.get('.tiptap ol').should('not.exist')
   })
 
   it('should make the paragraph an ordered list keyboard shortcut is pressed', () => {
@@ -73,17 +60,11 @@ context('/src/Nodes/OrderedList/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('1. List Item 1{enter}{enter}Paragraph')
+    cy.get('.tiptap').type('1. List Item 1{enter}{enter}Paragraph')
 
-    cy.get('.tiptap')
-      .find('li')
-      .its('length')
-      .should('eq', 1)
+    cy.get('.tiptap').find('li').its('length').should('eq', 1)
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('contain', 'Paragraph')
+    cy.get('.tiptap').find('p').should('contain', 'Paragraph')
   })
 
   it('should make a ordered list from a number', () => {
@@ -91,16 +72,11 @@ context('/src/Nodes/OrderedList/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('1. List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('1. List Item 1{enter}List Item 2')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(1)')
-      .should('contain', 'List Item 1')
+    cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(2)')
-      .should('contain', 'List Item 2')
+    cy.get('.tiptap').find('li:nth-child(2)').should('contain', 'List Item 2')
   })
 
   it('should make a ordered list from a number other than number one', () => {
@@ -108,8 +84,7 @@ context('/src/Nodes/OrderedList/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('2. List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('2. List Item 1{enter}List Item 2')
 
     cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
     cy.get('.tiptap').find('li:nth-child(2)').should('contain', 'List Item 2')
@@ -120,11 +95,8 @@ context('/src/Nodes/OrderedList/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('1. {backspace}Example')
+    cy.get('.tiptap').type('1. {backspace}Example')
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('contain', '1. Example')
+    cy.get('.tiptap').find('p').should('contain', '1. Example')
   })
 })

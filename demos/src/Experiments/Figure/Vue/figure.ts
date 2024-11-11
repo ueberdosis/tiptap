@@ -1,13 +1,7 @@
-import {
-  findChildrenInRange,
-  mergeAttributes,
-  Node,
-  nodeInputRule,
-  Tracker,
-} from '@tiptap/core'
+import { findChildrenInRange, mergeAttributes, Node, nodeInputRule, Tracker } from '@tiptap/core'
 
 export interface FigureOptions {
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -16,22 +10,17 @@ declare module '@tiptap/core' {
       /**
        * Add a figure element
        */
-      setFigure: (options: {
-        src: string,
-        alt?: string,
-        title?: string,
-        caption?: string,
-      }) => ReturnType,
+      setFigure: (options: { src: string; alt?: string; title?: string; caption?: string }) => ReturnType
 
       /**
        * Converts an image to a figure
        */
-      imageToFigure: () => ReturnType,
+      imageToFigure: () => ReturnType
 
       /**
        * Converts a figure to an image
        */
-      figureToImage: () => ReturnType,
+      figureToImage: () => ReturnType
     }
   }
 }
@@ -85,7 +74,8 @@ export const Figure = Node.create<FigureOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return [
-      'figure', this.options.HTMLAttributes,
+      'figure',
+      this.options.HTMLAttributes,
       ['img', mergeAttributes(HTMLAttributes, { draggable: false, contenteditable: false })],
       ['figcaption', 0],
     ]
@@ -93,88 +83,94 @@ export const Figure = Node.create<FigureOptions>({
 
   addCommands() {
     return {
-      setFigure: ({ caption, ...attrs }) => ({ chain }) => {
-        return chain()
-          .insertContent({
-            type: this.name,
-            attrs,
-            content: caption
-              ? [{ type: 'text', text: caption }]
-              : [],
-          })
-          // set cursor at end of caption field
-          .command(({ tr, commands }) => {
-            const { doc, selection } = tr
-            const position = doc.resolve(selection.to - 2).end()
+      setFigure:
+        ({ caption, ...attrs }) =>
+        ({ chain }) => {
+          return (
+            chain()
+              .insertContent({
+                type: this.name,
+                attrs,
+                content: caption ? [{ type: 'text', text: caption }] : [],
+              })
+              // set cursor at end of caption field
+              .command(({ tr, commands }) => {
+                const { doc, selection } = tr
+                const position = doc.resolve(selection.to - 2).end()
 
-            return commands.setTextSelection(position)
-          })
-          .run()
-      },
+                return commands.setTextSelection(position)
+              })
+              .run()
+          )
+        },
 
-      imageToFigure: () => ({ tr, commands }) => {
-        const { doc, selection } = tr
-        const { from, to } = selection
-        const images = findChildrenInRange(doc, { from, to }, node => node.type.name === 'image')
+      imageToFigure:
+        () =>
+        ({ tr, commands }) => {
+          const { doc, selection } = tr
+          const { from, to } = selection
+          const images = findChildrenInRange(doc, { from, to }, node => node.type.name === 'image')
 
-        if (!images.length) {
-          return false
-        }
-
-        const tracker = new Tracker(tr)
-
-        return commands.forEach(images, ({ node, pos }) => {
-          const mapResult = tracker.map(pos)
-
-          if (mapResult.deleted) {
+          if (!images.length) {
             return false
           }
 
-          const range = {
-            from: mapResult.position,
-            to: mapResult.position + node.nodeSize,
-          }
+          const tracker = new Tracker(tr)
 
-          return commands.insertContentAt(range, {
-            type: this.name,
-            attrs: {
-              src: node.attrs.src,
-            },
+          return commands.forEach(images, ({ node, pos }) => {
+            const mapResult = tracker.map(pos)
+
+            if (mapResult.deleted) {
+              return false
+            }
+
+            const range = {
+              from: mapResult.position,
+              to: mapResult.position + node.nodeSize,
+            }
+
+            return commands.insertContentAt(range, {
+              type: this.name,
+              attrs: {
+                src: node.attrs.src,
+              },
+            })
           })
-        })
-      },
+        },
 
-      figureToImage: () => ({ tr, commands }) => {
-        const { doc, selection } = tr
-        const { from, to } = selection
-        const figures = findChildrenInRange(doc, { from, to }, node => node.type.name === this.name)
+      figureToImage:
+        () =>
+        ({ tr, commands }) => {
+          const { doc, selection } = tr
+          const { from, to } = selection
+          const figures = findChildrenInRange(doc, { from, to }, node => node.type.name === this.name)
 
-        if (!figures.length) {
-          return false
-        }
-
-        const tracker = new Tracker(tr)
-
-        return commands.forEach(figures, ({ node, pos }) => {
-          const mapResult = tracker.map(pos)
-
-          if (mapResult.deleted) {
+          if (!figures.length) {
             return false
           }
 
-          const range = {
-            from: mapResult.position,
-            to: mapResult.position + node.nodeSize,
-          }
+          const tracker = new Tracker(tr)
 
-          return commands.insertContentAt(range, {
-            type: 'image',
-            attrs: {
-              src: node.attrs.src,
-            },
+          return commands.forEach(figures, ({ node, pos }) => {
+            const mapResult = tracker.map(pos)
+
+            if (mapResult.deleted) {
+              return false
+            }
+
+            const range = {
+              from: mapResult.position,
+              to: mapResult.position + node.nodeSize,
+            }
+
+            return commands.insertContentAt(range, {
+              type: 'image',
+              attrs: {
+                src: node.attrs.src,
+              },
+            })
           })
-        })
-      },
+        },
     }
   },
 

@@ -11,54 +11,59 @@ export const Keymap = Extension.create({
   name: 'keymap',
 
   addKeyboardShortcuts() {
-    const handleBackspace = () => this.editor.commands.first(({ commands }) => [
-      () => commands.undoInputRule(),
+    const handleBackspace = () =>
+      this.editor.commands.first(({ commands }) => [
+        () => commands.undoInputRule(),
 
-      // maybe convert first text block node to default node
-      () => commands.command(({ tr }) => {
-        const { selection, doc } = tr
-        const { empty, $anchor } = selection
-        const { pos, parent } = $anchor
-        const $parentPos = $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
-        const parentIsIsolating = $parentPos.parent.type.spec.isolating
+        // maybe convert first text block node to default node
+        () =>
+          commands.command(({ tr }) => {
+            const { selection, doc } = tr
+            const { empty, $anchor } = selection
+            const { pos, parent } = $anchor
+            const $parentPos = $anchor.parent.isTextblock && pos > 0 ? tr.doc.resolve(pos - 1) : $anchor
+            const parentIsIsolating = $parentPos.parent.type.spec.isolating
 
-        const parentPos = $anchor.pos - $anchor.parentOffset
+            const parentPos = $anchor.pos - $anchor.parentOffset
 
-        const isAtStart = (parentIsIsolating && $parentPos.parent.childCount === 1)
-          ? parentPos === $anchor.pos
-          : Selection.atStart(doc).from === pos
+            const isAtStart =
+              parentIsIsolating && $parentPos.parent.childCount === 1
+                ? parentPos === $anchor.pos
+                : Selection.atStart(doc).from === pos
 
-        if (
-          !empty
-          || !parent.type.isTextblock
-          || parent.textContent.length
-          || !isAtStart
-          || (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
-        ) {
-          return false
-        }
+            if (
+              !empty ||
+              !parent.type.isTextblock ||
+              parent.textContent.length ||
+              !isAtStart ||
+              (isAtStart && $anchor.parent.type.name === 'paragraph') // prevent clearNodes when no nodes to clear, otherwise history stack is appended
+            ) {
+              return false
+            }
 
-        return commands.clearNodes()
-      }),
+            return commands.clearNodes()
+          }),
 
-      () => commands.deleteSelection(),
-      () => commands.joinBackward(),
-      () => commands.selectNodeBackward(),
-    ])
+        () => commands.deleteSelection(),
+        () => commands.joinBackward(),
+        () => commands.selectNodeBackward(),
+      ])
 
-    const handleDelete = () => this.editor.commands.first(({ commands }) => [
-      () => commands.deleteSelection(),
-      () => commands.deleteCurrentNode(),
-      () => commands.joinForward(),
-      () => commands.selectNodeForward(),
-    ])
+    const handleDelete = () =>
+      this.editor.commands.first(({ commands }) => [
+        () => commands.deleteSelection(),
+        () => commands.deleteCurrentNode(),
+        () => commands.joinForward(),
+        () => commands.selectNodeForward(),
+      ])
 
-    const handleEnter = () => this.editor.commands.first(({ commands }) => [
-      () => commands.newlineInCode(),
-      () => commands.createParagraphNear(),
-      () => commands.liftEmptyBlock(),
-      () => commands.splitBlock(),
-    ])
+    const handleEnter = () =>
+      this.editor.commands.first(({ commands }) => [
+        () => commands.newlineInCode(),
+        () => commands.createParagraphNear(),
+        () => commands.liftEmptyBlock(),
+        () => commands.splitBlock(),
+      ])
 
     const baseKeymap = {
       Enter: handleEnter,
@@ -104,8 +109,7 @@ export const Keymap = Extension.create({
       new Plugin({
         key: new PluginKey('clearDocument'),
         appendTransaction: (transactions, oldState, newState) => {
-          const docChanges = transactions.some(transaction => transaction.docChanged)
-            && !oldState.doc.eq(newState.doc)
+          const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
 
           const ignoreTr = transactions.some(transaction => transaction.getMeta('preventClearDocument'))
 

@@ -55,9 +55,7 @@ context('/src/Extensions/Typography/React/', () => {
   })
 
   it('should make a registered trademark sign', () => {
-    cy.get('.tiptap')
-      .type('(r) registeredTrademark')
-      .should('contain', '® registeredTrademark')
+    cy.get('.tiptap').type('(r) registeredTrademark').should('contain', '® registeredTrademark')
   })
 
   it('should make a trademark sign', () => {

@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 
-import {
-  getSchemaByResolvedExtensions, getTextContentFromNodes,
-} from '@tiptap/core'
+import { getSchemaByResolvedExtensions, getTextContentFromNodes } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'

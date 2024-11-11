@@ -23,36 +23,20 @@ context('/src/Nodes/Paragraph/Vue/', () => {
   })
 
   it('text should be wrapped in a paragraph by default', () => {
-    cy.get('.tiptap')
-      .type('Example Text')
-      .find('p')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').type('Example Text').find('p').should('contain', 'Example Text')
   })
 
   it('enter should make a new paragraph', () => {
-    cy.get('.tiptap')
-      .type('First Paragraph{enter}Second Paragraph')
-      .find('p')
-      .should('have.length', 2)
+    cy.get('.tiptap').type('First Paragraph{enter}Second Paragraph').find('p').should('have.length', 2)
 
-    cy.get('.tiptap')
-      .find('p:first')
-      .should('contain', 'First Paragraph')
+    cy.get('.tiptap').find('p:first').should('contain', 'First Paragraph')
 
-    cy.get('.tiptap')
-      .find('p:nth-child(2)')
-      .should('contain', 'Second Paragraph')
+    cy.get('.tiptap').find('p:nth-child(2)').should('contain', 'Second Paragraph')
   })
 
   it('backspace should remove the second paragraph', () => {
-    cy.get('.tiptap')
-      .type('{enter}')
-      .find('p')
-      .should('have.length', 2)
+    cy.get('.tiptap').type('{enter}').find('p').should('have.length', 2)
 
-    cy.get('.tiptap')
-      .type('{backspace}')
-      .find('p')
-      .should('have.length', 1)
+    cy.get('.tiptap').type('{backspace}').find('p').should('have.length', 1)
   })
 })

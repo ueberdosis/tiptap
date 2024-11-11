@@ -2,19 +2,28 @@
   <div class="container">
     <div class="control-group">
       <label>
-        <input type="checkbox" :checked="isEditable" @change="() => isEditable = !isEditable">
+        <input type="checkbox" :checked="isEditable" @change="() => (isEditable = !isEditable)" />
         Editable
       </label>
     </div>
     <floating-menu :editor="editor" v-if="editor">
       <div class="floating-menu">
-        <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        >
           H1
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
           H2
         </button>
-        <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+        <button
+          @click="editor.chain().focus().toggleBulletList().run()"
+          :class="{ 'is-active': editor.isActive('bulletList') }"
+        >
           Bullet list
         </button>
       </div>
@@ -48,9 +57,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: `
         <p>
           This is an example of a Medium-like editor. Enter a new line and some buttons will appear.

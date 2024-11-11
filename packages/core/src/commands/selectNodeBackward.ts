@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectNodeBackward: RawCommands['selectNodeBackward'] = () => ({ state, dispatch }) => {
-  return originalSelectNodeBackward(state, dispatch)
-}
+export const selectNodeBackward: RawCommands['selectNodeBackward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalSelectNodeBackward(state, dispatch)
+  }

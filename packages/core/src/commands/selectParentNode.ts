@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectParentNode: RawCommands['selectParentNode'] = () => ({ state, dispatch }) => {
-  return originalSelectParentNode(state, dispatch)
-}
+export const selectParentNode: RawCommands['selectParentNode'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalSelectParentNode(state, dispatch)
+  }

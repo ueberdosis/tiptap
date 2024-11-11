@@ -11,10 +11,7 @@ context('/src/Extensions/FontFamily/React/', () => {
   })
 
   it('should set the font-family of the selected text', () => {
-    cy.get('[data-test-id="monospace"]')
-      .should('not.have.class', 'is-active')
-      .click()
-      .should('have.class', 'is-active')
+    cy.get('[data-test-id="monospace"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
 
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: monospace')
   })

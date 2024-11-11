@@ -26,7 +26,7 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
     const $listPos = editor.state.doc.resolve($anchor.before() - 1)
 
-    const listDescendants: Array<{ node: Node, pos: number }> = []
+    const listDescendants: Array<{ node: Node; pos: number }> = []
 
     $listPos.node().descendants((node, pos) => {
       if (node.type.name === name) {
@@ -42,7 +42,11 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
 
     const $lastItemPos = editor.state.doc.resolve($listPos.start() + lastItem.pos + 1)
 
-    return editor.chain().cut({ from: $anchor.start() - 1, to: $anchor.end() + 1 }, $lastItemPos.end()).joinForward().run()
+    return editor
+      .chain()
+      .cut({ from: $anchor.start() - 1, to: $anchor.end() + 1 }, $lastItemPos.end())
+      .joinForward()
+      .run()
   }
 
   // if the cursor is not inside the current node type

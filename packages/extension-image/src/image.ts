@@ -1,8 +1,4 @@
-import {
-  mergeAttributes,
-  Node,
-  nodeInputRule,
-} from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -10,7 +6,7 @@ export interface ImageOptions {
    * @default false
    * @example true
    */
-  inline: boolean,
+  inline: boolean
 
   /**
    * Controls if base64 images are allowed. Enable this if you want to allow
@@ -18,14 +14,14 @@ export interface ImageOptions {
    * @default false
    * @example true
    */
-  allowBase64: boolean,
+  allowBase64: boolean
 
   /**
    * HTML attributes to add to the image element.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -39,7 +35,7 @@ declare module '@tiptap/core' {
        *   .commands
        *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo' })
        */
-      setImage: (options: { src: string, alt?: string, title?: string }) => ReturnType,
+      setImage: (options: { src: string; alt?: string; title?: string }) => ReturnType
     }
   }
 }
@@ -91,9 +87,7 @@ export const Image = Node.create<ImageOptions>({
   parseHTML() {
     return [
       {
-        tag: this.options.allowBase64
-          ? 'img[src]'
-          : 'img[src]:not([src^="data:"])',
+        tag: this.options.allowBase64 ? 'img[src]' : 'img[src]:not([src^="data:"])',
       },
     ]
   },
@@ -104,12 +98,14 @@ export const Image = Node.create<ImageOptions>({
 
   addCommands() {
     return {
-      setImage: options => ({ commands }) => {
-        return commands.insertContent({
-          type: this.name,
-          attrs: options,
-        })
-      },
+      setImage:
+        options =>
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: options,
+          })
+        },
     }
   },
 
@@ -119,7 +115,7 @@ export const Image = Node.create<ImageOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: match => {
-          const [,, alt, src, title] = match
+          const [, , alt, src, title] = match
 
           return { src, alt, title }
         },

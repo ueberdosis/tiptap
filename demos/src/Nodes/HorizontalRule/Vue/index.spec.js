@@ -24,28 +24,22 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
   })
 
   it('the button should add a horizontal rule', () => {
-    cy.get('.tiptap hr')
-      .should('not.exist')
+    cy.get('.tiptap hr').should('not.exist')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap hr')
-      .should('exist')
+    cy.get('.tiptap hr').should('exist')
   })
 
   it('the default markdown shortcut should add a horizontal rule', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap hr')
-        .should('not.exist')
+      cy.get('.tiptap hr').should('not.exist')
 
-      cy.get('.tiptap')
-        .type('---')
+      cy.get('.tiptap').type('---')
 
-      cy.get('.tiptap hr')
-        .should('exist')
+      cy.get('.tiptap hr').should('exist')
     })
   })
 
@@ -53,14 +47,11 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap hr')
-        .should('not.exist')
+      cy.get('.tiptap hr').should('not.exist')
 
-      cy.get('.tiptap')
-        .type('___ ')
+      cy.get('.tiptap').type('___ ')
 
-      cy.get('.tiptap hr')
-        .should('exist')
+      cy.get('.tiptap hr').should('exist')
     })
   })
 
@@ -80,9 +71,7 @@ context('/src/Nodes/HorizontalRule/Vue/', () => {
       editor.commands.setTextSelection({ from: 13, to: 15 })
       editor.commands.setHorizontalRule()
 
-      expect(editor.getHTML()).to.eq(
-        '<p>Example Text</p><hr><p>Example Text</p>',
-      )
+      expect(editor.getHTML()).to.eq('<p>Example Text</p><hr><p>Example Text</p>')
     })
   })
 })

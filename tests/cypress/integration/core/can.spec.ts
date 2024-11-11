@@ -144,12 +144,7 @@ describe('can', () => {
       extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
-    editor
-      .chain()
-      .setContent('<code>test</code>')
-      .setTextSelection({ from: 2, to: 3 })
-      .toggleCode()
-      .run()
+    editor.chain().setContent('<code>test</code>').setTextSelection({ from: 2, to: 3 }).toggleCode().run()
 
     const canSetMarkToBold = editor.can().setMark('bold')
 

@@ -1,14 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
-import {
-  AppContext,
-  ComponentInternalInstance,
-  ComponentPublicInstance,
-  customRef,
-  markRaw,
-  Ref,
-} from 'vue'
+import { AppContext, ComponentInternalInstance, ComponentPublicInstance, customRef, markRaw, Ref } from 'vue'
 
 function useDebouncedRef<T>(value: T) {
   return customRef<T>((track, trigger) => {

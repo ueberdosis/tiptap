@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const exitCode: RawCommands['exitCode'] = () => ({ state, dispatch }) => {
-  return originalExitCode(state, dispatch)
-}
+export const exitCode: RawCommands['exitCode'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalExitCode(state, dispatch)
+  }

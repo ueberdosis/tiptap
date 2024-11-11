@@ -5,31 +5,21 @@ context('/src/Marks/Highlight/Vue/', () => {
 
   beforeEach(() => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor
-        .chain()
-        .setContent('<p>Example Text</p>')
-        .selectAll()
-        .run()
+      editor.chain().setContent('<p>Example Text</p>').selectAll().run()
     })
   })
 
   it('the button should highlight the selected text', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('mark')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('mark').should('contain', 'Example Text')
   })
 
   it('should highlight the text in a specific color', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.toggleHighlight({ color: 'red' })
 
-      cy.get('.tiptap')
-        .find('mark')
-        .should('contain', 'Example Text')
-        .should('have.attr', 'data-color', 'red')
+      cy.get('.tiptap').find('mark').should('contain', 'Example Text').should('have.attr', 'data-color', 'red')
     })
   })
 
@@ -42,9 +32,7 @@ context('/src/Marks/Highlight/Vue/', () => {
         .toggleHighlight({ color: 'rgb(255, 0, 0)' })
         .run()
 
-      cy.get('.tiptap')
-        .find('mark')
-        .should('have.css', 'background-color', 'rgb(255, 0, 0)')
+      cy.get('.tiptap').find('mark').should('have.css', 'background-color', 'rgb(255, 0, 0)')
     })
   })
 
@@ -57,19 +45,13 @@ context('/src/Marks/Highlight/Vue/', () => {
         .toggleHighlight({ color: 'rgb(255, 0, 0)' })
         .run()
 
-      cy.get('.tiptap')
-        .find('mark')
-        .should('not.exist')
+      cy.get('.tiptap').find('mark').should('not.exist')
     })
   })
 
   it('is active for mark with any attributes', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor
-        .chain()
-        .setContent('<p><mark data-color="red">Example Text</mark></p>')
-        .selectAll()
-        .run()
+      editor.chain().setContent('<p><mark data-color="red">Example Text</mark></p>').selectAll().run()
 
       expect(editor.isActive('highlight')).to.eq(true)
     })
@@ -108,18 +90,13 @@ context('/src/Marks/Highlight/Vue/', () => {
   })
 
   it('the button should toggle the selected text highlighted', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('mark')
-      .should('not.exist')
+    cy.get('.tiptap').find('mark').should('not.exist')
   })
 
   it('should highlight the selected text when the keyboard shortcut is pressed', () => {

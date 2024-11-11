@@ -11,14 +11,14 @@ export interface HeadingOptions {
    * @default [1, 2, 3, 4, 5, 6]
    * @example [1, 2, 3]
    */
-  levels: Level[],
+  levels: Level[]
 
   /**
    * The HTML attributes for a heading node.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -29,13 +29,13 @@ declare module '@tiptap/core' {
        * @param attributes The heading attributes
        * @example editor.commands.setHeading({ level: 1 })
        */
-      setHeading: (attributes: { level: Level }) => ReturnType,
+      setHeading: (attributes: { level: Level }) => ReturnType
       /**
        * Toggle a heading node
        * @param attributes The heading attributes
        * @example editor.commands.toggleHeading({ level: 1 })
        */
-      toggleHeading: (attributes: { level: Level }) => ReturnType,
+      toggleHeading: (attributes: { level: Level }) => ReturnType
     }
   }
 }
@@ -70,48 +70,52 @@ export const Heading = Node.create<HeadingOptions>({
   },
 
   parseHTML() {
-    return this.options.levels
-      .map((level: Level) => ({
-        tag: `h${level}`,
-        attrs: { level },
-      }))
+    return this.options.levels.map((level: Level) => ({
+      tag: `h${level}`,
+      attrs: { level },
+    }))
   },
 
   renderHTML({ node, HTMLAttributes }) {
     const hasLevel = this.options.levels.includes(node.attrs.level)
-    const level = hasLevel
-      ? node.attrs.level
-      : this.options.levels[0]
+    const level = hasLevel ? node.attrs.level : this.options.levels[0]
 
     return [`h${level}`, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
   addCommands() {
     return {
-      setHeading: attributes => ({ commands }) => {
-        if (!this.options.levels.includes(attributes.level)) {
-          return false
-        }
+      setHeading:
+        attributes =>
+        ({ commands }) => {
+          if (!this.options.levels.includes(attributes.level)) {
+            return false
+          }
 
-        return commands.setNode(this.name, attributes)
-      },
-      toggleHeading: attributes => ({ commands }) => {
-        if (!this.options.levels.includes(attributes.level)) {
-          return false
-        }
+          return commands.setNode(this.name, attributes)
+        },
+      toggleHeading:
+        attributes =>
+        ({ commands }) => {
+          if (!this.options.levels.includes(attributes.level)) {
+            return false
+          }
 
-        return commands.toggleNode(this.name, 'paragraph', attributes)
-      },
+          return commands.toggleNode(this.name, 'paragraph', attributes)
+        },
     }
   },
 
   addKeyboardShortcuts() {
-    return this.options.levels.reduce((items, level) => ({
-      ...items,
-      ...{
-        [`Mod-Alt-${level}`]: () => this.editor.commands.toggleHeading({ level }),
-      },
-    }), {})
+    return this.options.levels.reduce(
+      (items, level) => ({
+        ...items,
+        ...{
+          [`Mod-Alt-${level}`]: () => this.editor.commands.toggleHeading({ level }),
+        },
+      }),
+      {},
+    )
   },
 
   addInputRules() {

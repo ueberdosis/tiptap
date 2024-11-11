@@ -10,12 +10,7 @@ import { CustomExtension } from './CustomExtension.ts'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-      CustomExtension,
-    ],
+    extensions: [Document, Paragraph, Text, CustomExtension],
     content: `
       <p>
         This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
@@ -29,9 +24,7 @@ export default () => {
   return (
     <>
       <EditorContent editor={editor} />
-      <div className="output-group">
-        Reactive storage: {editor?.storage.custom.foo}
-      </div>
+      <div className="output-group">Reactive storage: {editor?.storage.custom.foo}</div>
     </>
   )
 }

@@ -6,7 +6,7 @@ export interface TableCellOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 /**
@@ -36,9 +36,7 @@ export const TableCell = Node.create<TableCellOptions>({
         default: null,
         parseHTML: element => {
           const colwidth = element.getAttribute('colwidth')
-          const value = colwidth
-            ? colwidth.split(',').map(width => parseInt(width, 10))
-            : null
+          const value = colwidth ? colwidth.split(',').map(width => parseInt(width, 10)) : null
 
           return value
         },
@@ -51,13 +49,10 @@ export const TableCell = Node.create<TableCellOptions>({
   isolating: true,
 
   parseHTML() {
-    return [
-      { tag: 'td' },
-    ]
+    return [{ tag: 'td' }]
   },
 
   renderHTML({ HTMLAttributes }) {
     return ['td', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
-
 })

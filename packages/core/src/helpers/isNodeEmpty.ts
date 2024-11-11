@@ -12,11 +12,11 @@ export function isNodeEmpty(
     /**
      * When true (default), it will also check if all children are empty.
      */
-    checkChildren?: boolean;
+    checkChildren?: boolean
     /**
      * When true, it will ignore whitespace when checking for emptiness.
      */
-    ignoreWhitespace?: boolean;
+    ignoreWhitespace?: boolean
   } = {},
 ): boolean {
   if (ignoreWhitespace) {

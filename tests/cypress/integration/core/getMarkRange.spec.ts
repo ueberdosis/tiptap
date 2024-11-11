@@ -1,9 +1,6 @@
 /// <reference types="cypress" />
 
-import {
-  getMarkRange,
-  getSchemaByResolvedExtensions,
-} from '@tiptap/core'
+import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -25,12 +22,7 @@ describe('getMarkRange', () => {
     ],
   }
 
-  const schema = getSchemaByResolvedExtensions([
-    Document,
-    Paragraph,
-    Text,
-    Link.configure({ openOnClick: false }),
-  ])
+  const schema = getSchemaByResolvedExtensions([Document, Paragraph, Text, Link.configure({ openOnClick: false })])
 
   it('gets the correct range for a position inside the mark', () => {
     const doc = Node.fromJSON(schema, document)
@@ -86,9 +78,7 @@ describe('getMarkRange', () => {
         },
         {
           type: 'paragraph',
-          content: [
-            { type: 'text', text: 'This is a text without a link.' },
-          ],
+          content: [{ type: 'text', text: 'This is a text without a link.' }],
         },
       ],
     }
@@ -113,9 +103,7 @@ describe('getMarkRange', () => {
       content: [
         {
           type: 'paragraph',
-          content: [
-            { type: 'text', text: 'This is a text without a link.' },
-          ],
+          content: [{ type: 'text', text: 'This is a text without a link.' }],
         },
         {
           type: 'paragraph',

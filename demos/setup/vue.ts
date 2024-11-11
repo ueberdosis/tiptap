@@ -12,14 +12,13 @@ export default function init(name: string, source: any) {
 
   const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.vue`)
-    .then(module => {
-      const app = createApp(module.default)
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.vue`).then(module => {
+    const app = createApp(module.default)
 
-      if (typeof module.configureApp === 'function') {
-        module.configureApp(app)
-      }
-      app.mount('#app')
-      debug()
-    })
+    if (typeof module.configureApp === 'function') {
+      module.configureApp(app)
+    }
+    app.mount('#app')
+    debug()
+  })
 }

@@ -41,12 +41,9 @@ context('/src/Marks/Bold/Vue/', () => {
   })
 
   it('the button should make the selected text bold', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('strong')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('strong').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text bold', () => {
@@ -57,35 +54,22 @@ context('/src/Marks/Bold/Vue/', () => {
   })
 
   it('should make the selected text bold when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'b' })
-      .find('strong')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'b' }).find('strong').should('contain', 'Example Text')
   })
 
   it('should toggle the selected text bold when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'b' })
-      .find('strong')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'b' }).find('strong').should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'b' })
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'b' })
 
     cy.get('.tiptap strong').should('not.exist')
   })
 
   it('should make a bold text from the default markdown shortcut', () => {
-    cy.get('.tiptap')
-      .type('**Bold**')
-      .find('strong')
-      .should('contain', 'Bold')
+    cy.get('.tiptap').type('**Bold**').find('strong').should('contain', 'Bold')
   })
 
   it('should make a bold text from the alternative markdown shortcut', () => {
-    cy.get('.tiptap')
-      .type('__Bold__')
-      .find('strong')
-      .should('contain', 'Bold')
+    cy.get('.tiptap').type('__Bold__').find('strong').should('contain', 'Bold')
   })
 })

@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react'
 
 export interface ReactNodeViewContextProps {
-  onDragStart: (event: DragEvent) => void,
-  nodeViewContentRef: (element: HTMLElement | null) => void,
+  onDragStart: (event: DragEvent) => void
+  nodeViewContentRef: (element: HTMLElement | null) => void
 }
 
 export const ReactNodeViewContext = createContext<Partial<ReactNodeViewContextProps>>({

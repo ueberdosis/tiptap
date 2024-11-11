@@ -6,7 +6,6 @@ export const Paste = Extension.create({
   name: 'paste',
 
   addProseMirrorPlugins() {
-
     return [
       new Plugin({
         key: new PluginKey('tiptapPaste'),

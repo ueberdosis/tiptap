@@ -25,15 +25,11 @@ context('/src/Nodes/Blockquote/Vue/', () => {
   })
 
   it('the button should make the selected line a blockquote', () => {
-    cy.get('.tiptap blockquote')
-      .should('not.exist')
+    cy.get('.tiptap blockquote').should('not.exist')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('blockquote')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('blockquote').should('contain', 'Example Text')
   })
 
   it('the button should wrap all nodes in one blockquote', () => {
@@ -42,33 +38,23 @@ context('/src/Nodes/Blockquote/Vue/', () => {
       cy.get('.tiptap').type('{selectall}')
     })
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('blockquote')
-      .should('have.length', 1)
+    cy.get('.tiptap').find('blockquote').should('have.length', 1)
   })
 
   it('the button should toggle the blockquote', () => {
-    cy.get('.tiptap blockquote')
-      .should('not.exist')
+    cy.get('.tiptap blockquote').should('not.exist')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('blockquote')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('blockquote').should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap blockquote')
-      .should('not.exist')
+    cy.get('.tiptap blockquote').should('not.exist')
   })
 
   it('should make the selected line a blockquote when the keyboard shortcut is pressed', () => {
@@ -79,26 +65,19 @@ context('/src/Nodes/Blockquote/Vue/', () => {
   })
 
   it('should toggle the blockquote when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap blockquote')
-      .should('not.exist')
+    cy.get('.tiptap blockquote').should('not.exist')
 
     cy.get('.tiptap')
       .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
       .find('blockquote')
       .should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
+    cy.get('.tiptap').type('{selectall}').trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
 
-    cy.get('.tiptap blockquote')
-      .should('not.exist')
+    cy.get('.tiptap blockquote').should('not.exist')
   })
 
   it('should make a blockquote from markdown shortcuts', () => {
-    cy.get('.tiptap')
-      .type('> Quote')
-      .find('blockquote')
-      .should('contain', 'Quote')
+    cy.get('.tiptap').type('> Quote').find('blockquote').should('contain', 'Quote')
   })
 })

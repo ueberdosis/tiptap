@@ -27,10 +27,7 @@ export const handleDelete = (editor: Editor, name: string) => {
   }
 
   if (nextListIsHigher(name, editor.state)) {
-    return editor.chain()
-      .joinForward()
-      .joinBackward()
-      .run()
+    return editor.chain().joinForward().joinBackward().run()
   }
 
   return editor.commands.joinItemForward()

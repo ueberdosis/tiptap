@@ -1,6 +1,4 @@
-import {
-  callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig,
-} from '@tiptap/core'
+import { callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig } from '@tiptap/core'
 import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
@@ -88,11 +86,7 @@ declare module '@tiptap/core' {
        * @returns True if the command was successful, otherwise false
        * @example editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })
        */
-      insertTable: (options?: {
-        rows?: number
-        cols?: number
-        withHeaderRow?: boolean
-      }) => ReturnType
+      insertTable: (options?: { rows?: number; cols?: number; withHeaderRow?: boolean }) => ReturnType
 
       /**
        * Add a column before the current column
@@ -234,11 +228,11 @@ declare module '@tiptap/core' {
     tableRole?:
       | string
       | ((this: {
-      name: string
-      options: Options
-      storage: Storage
-      parent: ParentConfig<NodeConfig<Options>>['tableRole']
-    }) => string)
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options>>['tableRole']
+        }) => string)
   }
 }
 
@@ -276,17 +270,12 @@ export const Table = Node.create<TableOptions>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    const { colgroup, tableWidth, tableMinWidth } = createColGroup(
-      node,
-      this.options.cellMinWidth,
-    )
+    const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth)
 
     const table: DOMOutputSpec = [
       'table',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        style: tableWidth
-          ? `width: ${tableWidth}`
-          : `min-width: ${tableMinWidth}`,
+        style: tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`,
       }),
       colgroup,
       ['tbody', 0],
@@ -298,7 +287,8 @@ export const Table = Node.create<TableOptions>({
   addCommands() {
     return {
       insertTable:
-        ({ rows = 3, cols = 3, withHeaderRow = true } = {}) => ({ tr, dispatch, editor }) => {
+        ({ rows = 3, cols = 3, withHeaderRow = true } = {}) =>
+        ({ tr, dispatch, editor }) => {
           const node = createTable(editor.schema, rows, cols, withHeaderRow)
 
           if (dispatch) {
@@ -312,55 +302,68 @@ export const Table = Node.create<TableOptions>({
           return true
         },
       addColumnBefore:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return addColumnBefore(state, dispatch)
         },
       addColumnAfter:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return addColumnAfter(state, dispatch)
         },
       deleteColumn:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return deleteColumn(state, dispatch)
         },
       addRowBefore:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return addRowBefore(state, dispatch)
         },
       addRowAfter:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return addRowAfter(state, dispatch)
         },
       deleteRow:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return deleteRow(state, dispatch)
         },
       deleteTable:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return deleteTable(state, dispatch)
         },
       mergeCells:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return mergeCells(state, dispatch)
         },
       splitCell:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return splitCell(state, dispatch)
         },
       toggleHeaderColumn:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return toggleHeader('column')(state, dispatch)
         },
       toggleHeaderRow:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return toggleHeader('row')(state, dispatch)
         },
       toggleHeaderCell:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return toggleHeaderCell(state, dispatch)
         },
       mergeOrSplit:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           if (mergeCells(state, dispatch)) {
             return true
           }
@@ -368,19 +371,23 @@ export const Table = Node.create<TableOptions>({
           return splitCell(state, dispatch)
         },
       setCellAttribute:
-        (name, value) => ({ state, dispatch }) => {
+        (name, value) =>
+        ({ state, dispatch }) => {
           return setCellAttr(name, value)(state, dispatch)
         },
       goToNextCell:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return goToNextCell(1)(state, dispatch)
         },
       goToPreviousCell:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           return goToNextCell(-1)(state, dispatch)
         },
       fixTables:
-        () => ({ state, dispatch }) => {
+        () =>
+        ({ state, dispatch }) => {
           if (dispatch) {
             fixTables(state)
           }
@@ -388,7 +395,8 @@ export const Table = Node.create<TableOptions>({
           return true
         },
       setCellSelection:
-        position => ({ tr, dispatch }) => {
+        position =>
+        ({ tr, dispatch }) => {
           if (dispatch) {
             const selection = CellSelection.create(tr.doc, position.anchorCell, position.headCell)
 
@@ -428,14 +436,14 @@ export const Table = Node.create<TableOptions>({
     return [
       ...(isResizable
         ? [
-          columnResizing({
-            handleWidth: this.options.handleWidth,
-            cellMinWidth: this.options.cellMinWidth,
-            defaultCellMinWidth: this.options.cellMinWidth,
-            View: this.options.View,
-            lastColumnResizable: this.options.lastColumnResizable,
-          }),
-        ]
+            columnResizing({
+              handleWidth: this.options.handleWidth,
+              cellMinWidth: this.options.cellMinWidth,
+              defaultCellMinWidth: this.options.cellMinWidth,
+              View: this.options.View,
+              lastColumnResizable: this.options.lastColumnResizable,
+            }),
+          ]
         : []),
       tableEditing({
         allowTableNodeSelection: this.options.allowTableNodeSelection,

@@ -11,10 +11,7 @@ context('/src/Extensions/Color/React/', () => {
   })
 
   it('should set the color of the selected text', () => {
-    cy.get('[data-testid="setPurple"]')
-      .should('not.have.class', 'is-active')
-      .click()
-      .should('have.class', 'is-active')
+    cy.get('[data-testid="setPurple"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
 
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'color: #958DF1')
   })

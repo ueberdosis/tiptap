@@ -9,45 +9,48 @@ describe(generateText.name, () => {
   it('generates Text from JSON without an editor instance', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [
-          {
-            type: 'custom-node-default-renderer',
-            content: [
-              {
-                type: 'text',
-                text: 'Example One',
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: ' ',
-          },
-          {
-            type: 'custom-node-custom-renderer',
-            content: [
-              {
-                type: 'text',
-                text: 'Example Two',
-              },
-            ],
-          },
-        ],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'custom-node-default-renderer',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Example One',
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+            {
+              type: 'custom-node-custom-renderer',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Example Two',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     }
 
-    const contentfulInlineNode = (name: string, config?: Partial<NodeConfig>) => Node.create({
-      name,
-      group: 'inline',
-      inline: true,
-      content: 'text*',
-      parseHTML() {
-        return [{ tag: name }]
-      },
-      ...config,
-    })
+    const contentfulInlineNode = (name: string, config?: Partial<NodeConfig>) =>
+      Node.create({
+        name,
+        group: 'inline',
+        inline: true,
+        content: 'text*',
+        parseHTML() {
+          return [{ tag: name }]
+        },
+        ...config,
+      })
 
     const text = generateText(json, [
       Document,

@@ -30,7 +30,10 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should insert a Prosemirror Fragment as content', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent(editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.'))).content)
+      editor.commands.setContent(
+        editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
+          .content,
+      )
       cy.get('.tiptap').should('contain.html', '<p>Hello World.</p>')
     })
   })
@@ -57,8 +60,13 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should insert more complex html content', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>')
-      cy.get('.tiptap').should('contain.html', '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>')
+      editor.commands.setContent(
+        '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>',
+      )
+      cy.get('.tiptap').should(
+        'contain.html',
+        '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>',
+      )
     })
   })
 
@@ -94,7 +102,10 @@ context('/src/Commands/SetContent/React/', () => {
   it('should insert mentions', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span></p>')
-      cy.get('.tiptap').should('contain.html', '<span data-type="mention" data-id="1" data-label="John Doe" contenteditable="false">@John Doe</span>')
+      cy.get('.tiptap').should(
+        'contain.html',
+        '<span data-type="mention" data-id="1" data-label="John Doe" contenteditable="false">@John Doe</span>',
+      )
     })
   })
 
@@ -109,7 +120,9 @@ context('/src/Commands/SetContent/React/', () => {
   // This exists in insertContentAt as well
   it('should keep newlines and tabs between html fragments when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', false, {
+        preserveWhitespace: 'full',
+      })
       cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>')
     })
   })
@@ -174,7 +187,9 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should remove newlines and tabs when parseOptions.preserveWhitespace=false', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', false, { preserveWhitespace: false })
+      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', false, {
+        preserveWhitespace: false,
+      })
       cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
     })
   })

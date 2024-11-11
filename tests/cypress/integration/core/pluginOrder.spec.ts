@@ -59,7 +59,8 @@ describe('pluginOrder', () => {
 
       cy.get('.ProseMirror')
         .type('a')
-        .wait(100).then(() => {
+        .wait(100)
+        .then(() => {
           expect(order).to.deep.eq([1, 2, 3])
 
           editor.destroy()

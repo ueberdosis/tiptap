@@ -71,11 +71,7 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       changes.forEach(({ newRange }) => {
         // Now let’s see if we can add new links.
-        const nodesInChangedRanges = findChildrenInRange(
-          newState.doc,
-          newRange,
-          node => node.isTextblock,
-        )
+        const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
 
         let textBlock: NodeWithPos | undefined
         let textBeforeWhitespace: string | undefined
@@ -90,17 +86,12 @@ export function autolink(options: AutolinkOptions): Plugin {
             ' ',
           )
         } else if (
-          nodesInChangedRanges.length
+          nodesInChangedRanges.length &&
           // We want to make sure to include the block seperator argument to treat hard breaks like spaces.
-          && newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
+          newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
         ) {
           textBlock = nodesInChangedRanges[0]
-          textBeforeWhitespace = newState.doc.textBetween(
-            textBlock.pos,
-            newRange.to,
-            undefined,
-            ' ',
-          )
+          textBeforeWhitespace = newState.doc.textBetween(textBlock.pos, newRange.to, undefined, ' ')
         }
 
         if (textBlock && textBeforeWhitespace) {
@@ -137,11 +128,7 @@ export function autolink(options: AutolinkOptions): Plugin {
                 return true
               }
 
-              return !newState.doc.rangeHasMark(
-                link.from,
-                link.to,
-                newState.schema.marks.code,
-              )
+              return !newState.doc.rangeHasMark(link.from, link.to, newState.schema.marks.code)
             })
             // validate link
             .filter(link => options.validate(link.value))

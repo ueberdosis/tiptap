@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+        <button
+          @click="editor.chain().focus().toggleBlockquote().run()"
+          :class="{ 'is-active': editor.isActive('blockquote') }"
+        >
           Toggle blockquote
         </button>
         <button @click="editor.chain().focus().setBlockquote().run()" :disabled="!editor.can().setBlockquote()">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Blockquote,
-      ],
+      extensions: [Document, Paragraph, Text, Blockquote],
       content: `
           <blockquote>
             Nothing is impossible, the word itself says “I’m possible!”

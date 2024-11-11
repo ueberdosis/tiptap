@@ -15,19 +15,14 @@ const MenuBar = () => {
     selector: ctx => {
       return {
         isBold: ctx.editor.isActive('bold'),
-        canBold: ctx.editor.can().chain().focus().toggleBold()
-          .run(),
+        canBold: ctx.editor.can().chain().focus().toggleBold().run(),
         isItalic: ctx.editor.isActive('italic'),
-        canItalic: ctx.editor.can().chain().focus().toggleItalic()
-          .run(),
+        canItalic: ctx.editor.can().chain().focus().toggleItalic().run(),
         isStrike: ctx.editor.isActive('strike'),
-        canStrike: ctx.editor.can().chain().focus().toggleStrike()
-          .run(),
+        canStrike: ctx.editor.can().chain().focus().toggleStrike().run(),
         isCode: ctx.editor.isActive('code'),
-        canCode: ctx.editor.can().chain().focus().toggleCode()
-          .run(),
-        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks()
-          .run(),
+        canCode: ctx.editor.can().chain().focus().toggleCode().run(),
+        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks().run(),
         isParagraph: ctx.editor.isActive('paragraph'),
         isHeading1: ctx.editor.isActive('heading', { level: 1 }),
         isHeading2: ctx.editor.isActive('heading', { level: 2 }),
@@ -39,10 +34,8 @@ const MenuBar = () => {
         isOrderedList: ctx.editor.isActive('orderedList'),
         isCodeBlock: ctx.editor.isActive('codeBlock'),
         isBlockquote: ctx.editor.isActive('blockquote'),
-        canUndo: ctx.editor.can().chain().focus().undo()
-          .run(),
-        canRedo: ctx.editor.can().chain().focus().redo()
-          .run(),
+        canUndo: ctx.editor.can().chain().focus().undo().run(),
+        canRedo: ctx.editor.can().chain().focus().redo().run(),
         isPurple: editor.isActive('textStyle', { color: '#958DF1' }),
       }
     },
@@ -83,12 +76,8 @@ const MenuBar = () => {
         >
           Code
         </button>
-        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-          Clear marks
-        </button>
-        <button onClick={() => editor.chain().focus().clearNodes().run()}>
-          Clear nodes
-        </button>
+        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>Clear marks</button>
+        <button onClick={() => editor.chain().focus().clearNodes().run()}>Clear nodes</button>
         <button
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={editorState.isParagraph ? 'is-active' : ''}
@@ -155,22 +144,12 @@ const MenuBar = () => {
         >
           Blockquote
         </button>
-        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-          Horizontal rule
-        </button>
-        <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-          Hard break
-        </button>
-        <button
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editorState.canUndo}
-        >
+        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Horizontal rule</button>
+        <button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</button>
+        <button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
           Undo
         </button>
-        <button
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editorState.canRedo}
-        >
+        <button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
           Redo
         </button>
         <button
@@ -231,7 +210,5 @@ const content = `
 `
 
 export default () => {
-  return (
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
-  )
+  return <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
 }

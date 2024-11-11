@@ -5,10 +5,7 @@ import { EditorState, Transaction } from '@tiptap/pm/state'
  * @param config The transaction and state to create the chainable state from
  * @returns A chainable Editor state object
  */
-export function createChainableState(config: {
-  transaction: Transaction
-  state: EditorState
-}): EditorState {
+export function createChainableState(config: { transaction: Transaction; state: EditorState }): EditorState {
   const { state, transaction } = config
   let { selection } = transaction
   let { doc } = transaction

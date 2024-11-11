@@ -23,7 +23,7 @@ export default ({ note }: { note: TNote }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <RichTextPlugin
-        contentEditable={<ContentEditable/>}
+        contentEditable={<ContentEditable />}
         placeholder={<p>{note.defaultContent}</p>}
         ErrorBoundary={LexicalErrorBoundary}
       />

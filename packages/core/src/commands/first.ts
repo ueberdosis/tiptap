@@ -8,15 +8,13 @@ declare module '@tiptap/core' {
        * @param commands The commands to run.
        * @example editor.commands.first([command1, command2])
        */
-      first: (commands: Command[] | ((props: CommandProps) => Command[])) => ReturnType,
+      first: (commands: Command[] | ((props: CommandProps) => Command[])) => ReturnType
     }
   }
 }
 
 export const first: RawCommands['first'] = commands => props => {
-  const items = typeof commands === 'function'
-    ? commands(props)
-    : commands
+  const items = typeof commands === 'function' ? commands(props) : commands
 
   for (let i = 0; i < items.length; i += 1) {
     if (items[i](props)) {

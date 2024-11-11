@@ -61,18 +61,29 @@ const MenuBar = ({ editor }) => {
 
   return (
     <div className="control-group">
-        <div className="button-group">
+      <div className="button-group">
         <button onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>
           Insert table
         </button>
-        <button onClick={() => editor.chain().focus().insertContent(tableHTML, {
-          parseOptions: {
-            preserveWhitespace: false,
-          },
-        }).run()}>
+        <button
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertContent(tableHTML, {
+                parseOptions: {
+                  preserveWhitespace: false,
+                },
+              })
+              .run()
+          }
+        >
           Insert HTML table
         </button>
-        <button onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={!editor.can().addColumnBefore()}>
+        <button
+          onClick={() => editor.chain().focus().addColumnBefore().run()}
+          disabled={!editor.can().addColumnBefore()}
+        >
           Add column before
         </button>
         <button onClick={() => editor.chain().focus().addColumnAfter().run()} disabled={!editor.can().addColumnAfter()}>
@@ -99,19 +110,31 @@ const MenuBar = ({ editor }) => {
         <button onClick={() => editor.chain().focus().splitCell().run()} disabled={!editor.can().splitCell()}>
           Split cell
         </button>
-        <button onClick={() => editor.chain().focus().toggleHeaderColumn().run()} disabled={!editor.can().toggleHeaderColumn()}>
+        <button
+          onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+          disabled={!editor.can().toggleHeaderColumn()}
+        >
           ToggleHeaderColumn
         </button>
-        <button onClick={() => editor.chain().focus().toggleHeaderRow().run()} disabled={!editor.can().toggleHeaderRow()}>
+        <button
+          onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+          disabled={!editor.can().toggleHeaderRow()}
+        >
           Toggle header row
         </button>
-        <button onClick={() => editor.chain().focus().toggleHeaderCell().run()} disabled={!editor.can().toggleHeaderCell()}>
+        <button
+          onClick={() => editor.chain().focus().toggleHeaderCell().run()}
+          disabled={!editor.can().toggleHeaderCell()}
+        >
           Toggle header cell
         </button>
         <button onClick={() => editor.chain().focus().mergeOrSplit().run()} disabled={!editor.can().mergeOrSplit()}>
           Merge or split
         </button>
-        <button onClick={() => editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()} disabled={!editor.can().setCellAttribute('backgroundColor', '#FAF594')}>
+        <button
+          onClick={() => editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()}
+          disabled={!editor.can().setCellAttribute('backgroundColor', '#FAF594')}
+        >
           Set cell attribute
         </button>
         <button onClick={() => editor.chain().focus().fixTables().run()} disabled={!editor.can().fixTables()}>
@@ -120,7 +143,10 @@ const MenuBar = ({ editor }) => {
         <button onClick={() => editor.chain().focus().goToNextCell().run()} disabled={!editor.can().goToNextCell()}>
           Go to next cell
         </button>
-        <button onClick={() => editor.chain().focus().goToPreviousCell().run()} disabled={!editor.can().goToPreviousCell()}>
+        <button
+          onClick={() => editor.chain().focus().goToPreviousCell().run()}
+          disabled={!editor.can().goToPreviousCell()}
+        >
           Go to previous cell
         </button>
       </div>

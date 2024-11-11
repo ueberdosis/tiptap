@@ -9,8 +9,8 @@ export type ListKeymapOptions = {
    * @example [{ itemName: 'listItem', wrapperNames: ['bulletList', 'orderedList'] }]
    */
   listTypes: Array<{
-    itemName: string,
-    wrapperNames: string[],
+    itemName: string
+    wrapperNames: string[]
   }>
 }
 

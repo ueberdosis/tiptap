@@ -4,12 +4,23 @@ import {
   type FlipOptions,
   type HideOptions,
   type InlineOptions,
-  type Middleware, type OffsetOptions, type Placement, type ShiftOptions, type SizeOptions, type Strategy, arrow, autoPlacement, computePosition, flip, hide, inline, offset, shift,
+  type Middleware,
+  type OffsetOptions,
+  type Placement,
+  type ShiftOptions,
+  type SizeOptions,
+  type Strategy,
+  arrow,
+  autoPlacement,
+  computePosition,
+  flip,
+  hide,
+  inline,
+  offset,
+  shift,
   size,
 } from '@floating-ui/dom'
-import {
-  Editor, isTextSelection, posToDOMRect,
-} from '@tiptap/core'
+import { Editor, isTextSelection, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
@@ -115,24 +126,19 @@ export class BubbleMenuView {
     hide: HideOptions | boolean
     inline: InlineOptions | boolean
   } = {
-      strategy: 'absolute',
-      placement: 'top',
-      offset: 8,
-      flip: {},
-      shift: {},
-      arrow: false,
-      size: false,
-      autoPlacement: false,
-      hide: false,
-      inline: false,
-    }
+    strategy: 'absolute',
+    placement: 'top',
+    offset: 8,
+    flip: {},
+    shift: {},
+    arrow: false,
+    size: false,
+    autoPlacement: false,
+    hide: false,
+    inline: false,
+  }
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
-    view,
-    state,
-    from,
-    to,
-  }) => {
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state
     const { empty } = selection
 
@@ -163,11 +169,15 @@ export class BubbleMenuView {
     }
 
     if (this.floatingUIOptions.shift) {
-      middlewares.push(shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined))
+      middlewares.push(
+        shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
+      )
     }
 
     if (this.floatingUIOptions.offset) {
-      middlewares.push(offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined))
+      middlewares.push(
+        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
+      )
     }
 
     if (this.floatingUIOptions.arrow) {
@@ -179,7 +189,11 @@ export class BubbleMenuView {
     }
 
     if (this.floatingUIOptions.autoPlacement) {
-      middlewares.push(autoPlacement(typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined))
+      middlewares.push(
+        autoPlacement(
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.hide) {
@@ -187,7 +201,9 @@ export class BubbleMenuView {
     }
 
     if (this.floatingUIOptions.inline) {
-      middlewares.push(inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined))
+      middlewares.push(
+        inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
+      )
     }
 
     return middlewares
@@ -272,7 +288,11 @@ export class BubbleMenuView {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
     }
 
-    computePosition(virtualElement, this.element, { placement: this.floatingUIOptions.placement, strategy: this.floatingUIOptions.strategy, middleware: this.middlewares }).then(({ x, y, strategy }) => {
+    computePosition(virtualElement, this.element, {
+      placement: this.floatingUIOptions.placement,
+      strategy: this.floatingUIOptions.strategy,
+      middleware: this.middlewares,
+    }).then(({ x, y, strategy }) => {
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
@@ -380,8 +400,7 @@ export class BubbleMenuView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key:
-      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }

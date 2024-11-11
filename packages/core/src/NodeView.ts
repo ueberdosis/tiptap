@@ -14,7 +14,8 @@ export class NodeView<
   Component,
   NodeEditor extends CoreEditor = CoreEditor,
   Options extends NodeViewRendererOptions = NodeViewRendererOptions,
-> implements ProseMirrorNodeView {
+> implements ProseMirrorNodeView
+{
   component: Component
 
   editor: NodeEditor
@@ -74,9 +75,8 @@ export class NodeView<
 
     // get the drag handle element
     // `closest` is not available for text nodes so we may have to use its parent
-    const dragHandle = target.nodeType === 3
-      ? target.parentElement?.closest('[data-drag-handle]')
-      : target.closest('[data-drag-handle]')
+    const dragHandle =
+      target.nodeType === 3 ? target.parentElement?.closest('[data-drag-handle]') : target.closest('[data-drag-handle]')
 
     if (!this.dom || this.contentDOM?.contains(target) || !dragHandle) {
       return
@@ -195,14 +195,7 @@ export class NodeView<
     }
 
     // these events are handled by prosemirror
-    if (
-      isDragging
-      || isDropEvent
-      || isCopyEvent
-      || isPasteEvent
-      || isCutEvent
-      || (isClickEvent && isSelectable)
-    ) {
+    if (isDragging || isDropEvent || isCopyEvent || isPasteEvent || isCutEvent || (isClickEvent && isSelectable)) {
       return false
     }
 
@@ -240,15 +233,12 @@ export class NodeView<
     // see: https://github.com/ueberdosis/tiptap/issues/1214
     // see: https://github.com/ueberdosis/tiptap/issues/2534
     if (
-      this.dom.contains(mutation.target)
-      && mutation.type === 'childList'
-      && (isiOS() || isAndroid())
-      && this.editor.isFocused
+      this.dom.contains(mutation.target) &&
+      mutation.type === 'childList' &&
+      (isiOS() || isAndroid()) &&
+      this.editor.isFocused
     ) {
-      const changedNodes = [
-        ...Array.from(mutation.addedNodes),
-        ...Array.from(mutation.removedNodes),
-      ] as HTMLElement[]
+      const changedNodes = [...Array.from(mutation.addedNodes), ...Array.from(mutation.removedNodes)] as HTMLElement[]
 
       // we’ll check if every changed node is contentEditable
       // to make sure it’s probably mutated by ProseMirror

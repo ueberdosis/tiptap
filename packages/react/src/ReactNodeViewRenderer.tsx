@@ -22,23 +22,23 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   update:
     | ((props: {
-        oldNode: ProseMirrorNode;
-        oldDecorations: readonly Decoration[];
-        oldInnerDecorations: DecorationSource;
-        newNode: ProseMirrorNode;
-        newDecorations: readonly Decoration[];
-        innerDecorations: DecorationSource;
-        updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: readonly Decoration[]
+        oldInnerDecorations: DecorationSource
+        newNode: ProseMirrorNode
+        newDecorations: readonly Decoration[]
+        innerDecorations: DecorationSource
+        updateProps: () => void
       }) => boolean)
-    | null;
+    | null
   /**
    * The tag name of the element wrapping the React component.
    */
-  as?: string;
+  as?: string
   /**
    * The class name of the element wrapping the React component.
    */
-  className?: string;
+  className?: string
   /**
    * Attributes that should be applied to the element wrapping the React component.
    * If this is a function, it will be called each time the node view is updated.
@@ -46,10 +46,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   attrs?:
     | Record<string, string>
-    | ((props: {
-        node: ProseMirrorNode;
-        HTMLAttributes: Record<string, any>;
-      }) => Record<string, string>);
+    | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
 
 export class ReactNodeView<
@@ -104,15 +101,13 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: React.FunctionComponent<NodeViewProps> = React.memo(
-      componentProps => {
-        return (
-          <ReactNodeViewContext.Provider value={context}>
-            {React.createElement(Component, componentProps)}
-          </ReactNodeViewContext.Provider>
-        )
-      },
-    )
+    const ReactNodeViewProvider: React.FunctionComponent<NodeViewProps> = React.memo(componentProps => {
+      return (
+        <ReactNodeViewContext.Provider value={context}>
+          {React.createElement(Component, componentProps)}
+        </ReactNodeViewContext.Provider>
+      )
+    })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
@@ -159,8 +154,8 @@ export class ReactNodeView<
    */
   get dom() {
     if (
-      this.renderer.element.firstElementChild
-      && !this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')
+      this.renderer.element.firstElementChild &&
+      !this.renderer.element.firstElementChild?.hasAttribute('data-node-view-wrapper')
     ) {
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
@@ -211,11 +206,7 @@ export class ReactNodeView<
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(
-    node: Node,
-    decorations: readonly Decoration[],
-    innerDecorations: DecorationSource,
-  ): boolean {
+  update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
       if (typeof this.options.attrs === 'function') {
@@ -247,11 +238,7 @@ export class ReactNodeView<
       })
     }
 
-    if (
-      node === this.node
-      && this.decorations === decorations
-      && this.innerDecorations === innerDecorations
-    ) {
+    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
       return true
     }
 

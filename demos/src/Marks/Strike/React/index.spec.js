@@ -33,9 +33,7 @@ context('/src/Marks/Strike/React/', () => {
 
   it('should transform any tag with text decoration line through to s tags', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent(
-        '<p><span style="text-decoration: line-through">Example Text</span></p>',
-      )
+      editor.commands.setContent('<p><span style="text-decoration: line-through">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><s>Example Text</s></p>')
     })
   })

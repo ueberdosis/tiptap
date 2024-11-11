@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
+        <button
+          @click="editor.chain().focus().toggleSubscript().run()"
+          :class="{ 'is-active': editor.isActive('subscript') }"
+        >
           Toggle subscript
         </button>
         <button @click="editor.chain().focus().setSubscript().run()" :disabled="editor.isActive('subscript')">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Subscript,
-      ],
+      extensions: [Document, Paragraph, Text, Subscript],
       content: `
         <p>This is regular text.</p>
         <p><sub>This is subscript.</sub></p>

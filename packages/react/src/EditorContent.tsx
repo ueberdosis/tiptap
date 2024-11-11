@@ -1,22 +1,18 @@
 import { Editor } from '@tiptap/core'
-import React, {
-  ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject,
-} from 'react'
+import React, { ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { ContentComponent, EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 
-const mergeRefs = <T extends HTMLDivElement>(
-  ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
-) => {
+const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
   return (node: T) => {
     refs.forEach(ref => {
       if (typeof ref === 'function') {
         ref(node)
       } else if (ref) {
-        (ref as MutableRefObject<T | null>).current = node
+        ;(ref as MutableRefObject<T | null>).current = node
       }
     })
   }
@@ -25,9 +21,7 @@ const mergeRefs = <T extends HTMLDivElement>(
 /**
  * This component renders all of the editor's node views.
  */
-const Portals: React.FC<{ contentComponent: ContentComponent }> = ({
-  contentComponent,
-}) => {
+const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComponent }) => {
   // For performance reasons, we render the node view portals on state changes only
   const renderers = useSyncExternalStore(
     contentComponent.subscribe,
@@ -36,16 +30,12 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({
   )
 
   // This allows us to directly render the portals without any additional wrapper
-  return (
-    <>
-      {Object.values(renderers)}
-    </>
-  )
+  return <>{Object.values(renderers)}</>
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null;
-  innerRef?: ForwardedRef<HTMLDivElement | null>;
+  editor: Editor | null
+  innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
 function getInstance(): ContentComponent {
@@ -216,7 +206,7 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
       return Math.floor(Math.random() * 0xffffffff).toString()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement

@@ -7,9 +7,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Text from '@tiptap/extension-text'
-import {
-  BubbleMenu, EditorContent, FloatingMenu, useEditor,
-} from '@tiptap/react'
+import { BubbleMenu, EditorContent, FloatingMenu, useEditor } from '@tiptap/react'
 import React from 'react'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
@@ -31,8 +29,7 @@ export default () => {
         document: ydoc,
       }),
       Placeholder.configure({
-        placeholder:
-          'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
   })

@@ -3,8 +3,8 @@ import React from 'react'
 import { useReactNodeView } from './useReactNodeView.js'
 
 export interface NodeViewContentProps {
-  [key: string]: any,
-  as?: React.ElementType,
+  [key: string]: any
+  as?: React.ElementType
 }
 
 export const NodeViewContent: React.FC<NodeViewContentProps> = props => {

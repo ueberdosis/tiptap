@@ -13,9 +13,7 @@ export default props => {
       <label>React Component</label>
 
       <div className="content">
-        <button onClick={increase}>
-          This button has been clicked {props.node.attrs.count} times.
-        </button>
+        <button onClick={increase}>This button has been clicked {props.node.attrs.count} times.</button>
       </div>
     </NodeViewWrapper>
   )

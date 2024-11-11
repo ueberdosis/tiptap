@@ -9,17 +9,7 @@ async function init() {
 
   highlighter = await shiki.createHighlighter({
     themes: ['material-theme-darker'],
-    langs: [
-      'html',
-      'js',
-      'jsx',
-      'ts',
-      'tsx',
-      'css',
-      'vue-html',
-      'vue',
-      'scss',
-    ],
+    langs: ['html', 'js', 'jsx', 'ts', 'tsx', 'css', 'vue-html', 'vue', 'scss'],
   })
 
   return highlighter

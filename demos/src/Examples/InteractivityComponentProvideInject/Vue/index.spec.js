@@ -15,12 +15,7 @@ context('/src/Examples/InteractivityComponentProvideInject/Vue/', () => {
   })
 
   it('should have global and all injected values', () => {
-    const expectedTexts = [
-      'globalValue',
-      'appValue',
-      'indexValue',
-      'editorValue',
-    ]
+    const expectedTexts = ['globalValue', 'appValue', 'indexValue', 'editorValue']
 
     cy.get('.tiptap .vue-component p').each((p, index) => {
       cy.wrap(p).should('have.text', expectedTexts[index])

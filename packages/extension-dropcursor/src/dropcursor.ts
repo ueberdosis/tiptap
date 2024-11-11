@@ -7,21 +7,21 @@ export interface DropcursorOptions {
    * @default 'currentColor'
    * @example 'red'
    */
-  color: string | undefined,
+  color: string | undefined
 
   /**
    * The width of the drop cursor
    * @default 1
    * @example 2
-  */
-  width: number | undefined,
+   */
+  width: number | undefined
 
   /**
    * The class of the drop cursor
    * @default undefined
    * @example 'drop-cursor'
-  */
-  class: string | undefined,
+   */
+  class: string | undefined
 }
 
 /**
@@ -42,8 +42,6 @@ export const Dropcursor = Extension.create<DropcursorOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [
-      dropCursor(this.options),
-    ]
+    return [dropCursor(this.options)]
   },
 })

@@ -1,6 +1,4 @@
-import {
-  Mark, MarkType, Node, NodeType,
-} from '@tiptap/pm/model'
+import { Mark, MarkType, Node, NodeType } from '@tiptap/pm/model'
 import { SelectionRange } from '@tiptap/pm/state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
@@ -32,117 +30,111 @@ declare module '@tiptap/core' {
   }
 }
 
-export const updateAttributes: RawCommands['updateAttributes'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
+export const updateAttributes: RawCommands['updateAttributes'] =
+  (typeOrName, attributes = {}) =>
+  ({ tr, state, dispatch }) => {
+    let nodeType: NodeType | null = null
+    let markType: MarkType | null = null
 
-  let nodeType: NodeType | null = null
-  let markType: MarkType | null = null
+    const schemaType = getSchemaTypeNameByName(
+      typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
+      state.schema,
+    )
 
-  const schemaType = getSchemaTypeNameByName(
-    typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
-    state.schema,
-  )
+    if (!schemaType) {
+      return false
+    }
 
-  if (!schemaType) {
-    return false
-  }
+    if (schemaType === 'node') {
+      nodeType = getNodeType(typeOrName as NodeType, state.schema)
+    }
 
-  if (schemaType === 'node') {
-    nodeType = getNodeType(typeOrName as NodeType, state.schema)
-  }
+    if (schemaType === 'mark') {
+      markType = getMarkType(typeOrName as MarkType, state.schema)
+    }
 
-  if (schemaType === 'mark') {
-    markType = getMarkType(typeOrName as MarkType, state.schema)
-  }
+    if (dispatch) {
+      tr.selection.ranges.forEach((range: SelectionRange) => {
+        const from = range.$from.pos
+        const to = range.$to.pos
 
-  if (dispatch) {
-    tr.selection.ranges.forEach((range: SelectionRange) => {
+        let lastPos: number | undefined
+        let lastNode: Node | undefined
+        let trimmedFrom: number
+        let trimmedTo: number
 
-      const from = range.$from.pos
-      const to = range.$to.pos
-
-      let lastPos: number | undefined
-      let lastNode: Node | undefined
-      let trimmedFrom: number
-      let trimmedTo: number
-
-      if (tr.selection.empty) {
-        state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
-
-          if (nodeType && nodeType === node.type) {
-            trimmedFrom = Math.max(pos, from)
-            trimmedTo = Math.min(pos + node.nodeSize, to)
-            lastPos = pos
-            lastNode = node
-          }
-        })
-      } else {
-        state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
-
-          if (pos < from && nodeType && nodeType === node.type) {
-            trimmedFrom = Math.max(pos, from)
-            trimmedTo = Math.min(pos + node.nodeSize, to)
-            lastPos = pos
-            lastNode = node
-          }
-
-          if (pos >= from && pos <= to) {
-
+        if (tr.selection.empty) {
+          state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
             if (nodeType && nodeType === node.type) {
-              tr.setNodeMarkup(pos, undefined, {
-                ...node.attrs,
-                ...attributes,
-              })
+              trimmedFrom = Math.max(pos, from)
+              trimmedTo = Math.min(pos + node.nodeSize, to)
+              lastPos = pos
+              lastNode = node
             }
-
-            if (markType && node.marks.length) {
-              node.marks.forEach((mark: Mark) => {
-
-                if (markType === mark.type) {
-                  const trimmedFrom2 = Math.max(pos, from)
-                  const trimmedTo2 = Math.min(pos + node.nodeSize, to)
-
-                  tr.addMark(
-                    trimmedFrom2,
-                    trimmedTo2,
-                    markType.create({
-                      ...mark.attrs,
-                      ...attributes,
-                    }),
-                  )
-                }
-              })
-            }
-          }
-        })
-      }
-
-      if (lastNode) {
-
-        if (lastPos !== undefined) {
-          tr.setNodeMarkup(lastPos, undefined, {
-            ...lastNode.attrs,
-            ...attributes,
           })
-        }
+        } else {
+          state.doc.nodesBetween(from, to, (node: Node, pos: number) => {
+            if (pos < from && nodeType && nodeType === node.type) {
+              trimmedFrom = Math.max(pos, from)
+              trimmedTo = Math.min(pos + node.nodeSize, to)
+              lastPos = pos
+              lastNode = node
+            }
 
-        if (markType && lastNode.marks.length) {
-          lastNode.marks.forEach((mark: Mark) => {
-
-            if (markType === mark.type) {
-              tr.addMark(
-                trimmedFrom,
-                trimmedTo,
-                markType.create({
-                  ...mark.attrs,
+            if (pos >= from && pos <= to) {
+              if (nodeType && nodeType === node.type) {
+                tr.setNodeMarkup(pos, undefined, {
+                  ...node.attrs,
                   ...attributes,
-                }),
-              )
+                })
+              }
+
+              if (markType && node.marks.length) {
+                node.marks.forEach((mark: Mark) => {
+                  if (markType === mark.type) {
+                    const trimmedFrom2 = Math.max(pos, from)
+                    const trimmedTo2 = Math.min(pos + node.nodeSize, to)
+
+                    tr.addMark(
+                      trimmedFrom2,
+                      trimmedTo2,
+                      markType.create({
+                        ...mark.attrs,
+                        ...attributes,
+                      }),
+                    )
+                  }
+                })
+              }
             }
           })
         }
-      }
-    })
-  }
 
-  return true
-}
+        if (lastNode) {
+          if (lastPos !== undefined) {
+            tr.setNodeMarkup(lastPos, undefined, {
+              ...lastNode.attrs,
+              ...attributes,
+            })
+          }
+
+          if (markType && lastNode.marks.length) {
+            lastNode.marks.forEach((mark: Mark) => {
+              if (markType === mark.type) {
+                tr.addMark(
+                  trimmedFrom,
+                  trimmedTo,
+                  markType.create({
+                    ...mark.attrs,
+                    ...attributes,
+                  }),
+                )
+              }
+            })
+          }
+        }
+      })
+    }
+
+    return true
+  }

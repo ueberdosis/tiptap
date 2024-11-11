@@ -8,10 +8,7 @@ import { Transform } from '@tiptap/pm/transform'
  * @param transactions The transactions to combine
  * @returns A new `Transform` with all steps of the passed transactions
  */
-export function combineTransactionSteps(
-  oldDoc: ProseMirrorNode,
-  transactions: Transaction[],
-): Transform {
+export function combineTransactionSteps(oldDoc: ProseMirrorNode, transactions: Transaction[]): Transform {
   const transform = new Transform(oldDoc)
 
   transactions.forEach(transaction => {

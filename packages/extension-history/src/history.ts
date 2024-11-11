@@ -7,14 +7,14 @@ export interface HistoryOptions {
    * @default 100
    * @example 50
    */
-  depth: number,
+  depth: number
 
   /**
    * The delay (in milliseconds) between changes after which a new group should be started.
    * @default 500
    * @example 1000
    */
-  newGroupDelay: number,
+  newGroupDelay: number
 }
 
 declare module '@tiptap/core' {
@@ -24,12 +24,12 @@ declare module '@tiptap/core' {
        * Undo recent changes
        * @example editor.commands.undo()
        */
-      undo: () => ReturnType,
+      undo: () => ReturnType
       /**
        * Reapply reverted changes
        * @example editor.commands.redo()
        */
-      redo: () => ReturnType,
+      redo: () => ReturnType
     }
   }
 }
@@ -55,19 +55,21 @@ export const History = Extension.create<HistoryOptions>({
 
   addCommands() {
     return {
-      undo: () => ({ state, dispatch }) => {
-        return undo(state, dispatch)
-      },
-      redo: () => ({ state, dispatch }) => {
-        return redo(state, dispatch)
-      },
+      undo:
+        () =>
+        ({ state, dispatch }) => {
+          return undo(state, dispatch)
+        },
+      redo:
+        () =>
+        ({ state, dispatch }) => {
+          return redo(state, dispatch)
+        },
     }
   },
 
   addProseMirrorPlugins() {
-    return [
-      history(this.options),
-    ]
+    return [history(this.options)]
   },
 
   addKeyboardShortcuts() {

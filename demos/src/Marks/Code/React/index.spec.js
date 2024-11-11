@@ -37,17 +37,11 @@ context('/src/Marks/Code/React/', () => {
   })
 
   it('should make the selected text bold when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'e' })
-      .find('code')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'e' }).find('code').should('contain', 'Example Text')
   })
 
   it('should toggle the selected text bold when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'e' })
-      .find('code')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'e' }).find('code').should('contain', 'Example Text')
 
     cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'e' })
 

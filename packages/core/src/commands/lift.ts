@@ -20,13 +20,15 @@ declare module '@tiptap/core' {
   }
 }
 
-export const lift: RawCommands['lift'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
-  const type = getNodeType(typeOrName, state.schema)
-  const isActive = isNodeActive(state, type, attributes)
+export const lift: RawCommands['lift'] =
+  (typeOrName, attributes = {}) =>
+  ({ state, dispatch }) => {
+    const type = getNodeType(typeOrName, state.schema)
+    const isActive = isNodeActive(state, type, attributes)
 
-  if (!isActive) {
-    return false
+    if (!isActive) {
+      return false
+    }
+
+    return originalLift(state, dispatch)
   }
-
-  return originalLift(state, dispatch)
-}

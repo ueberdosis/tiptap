@@ -11,22 +11,19 @@ export const getTextContentFromNodes = ($from: ResolvedPos, maxMatch = 500) => {
 
   const sliceEndPos = $from.parentOffset
 
-  $from.parent.nodesBetween(
-    Math.max(0, sliceEndPos - maxMatch),
-    sliceEndPos,
-    (node, pos, parent, index) => {
-      const chunk = node.type.spec.toText?.({
+  $from.parent.nodesBetween(Math.max(0, sliceEndPos - maxMatch), sliceEndPos, (node, pos, parent, index) => {
+    const chunk =
+      node.type.spec.toText?.({
         node,
         pos,
         parent,
         index,
-      })
-        || node.textContent
-        || '%leaf%'
+      }) ||
+      node.textContent ||
+      '%leaf%'
 
-      textBefore += node.isAtom && !node.isText ? chunk : chunk.slice(0, Math.max(0, sliceEndPos - pos))
-    },
-  )
+    textBefore += node.isAtom && !node.isText ? chunk : chunk.slice(0, Math.max(0, sliceEndPos - pos))
+  })
 
   return textBefore
 }

@@ -22,24 +22,17 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
  * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function wrappingInputRule(config: {
-  find: InputRuleFinder,
-  type: NodeType,
-  keepMarks?: boolean,
-  keepAttributes?: boolean,
+  find: InputRuleFinder
+  type: NodeType
+  keepMarks?: boolean
+  keepAttributes?: boolean
   editor?: Editor
-  getAttributes?:
-  | Record<string, any>
-  | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-  | false
-  | null
-  ,
-  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean,
+  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
+  joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
 }) {
   return new InputRule({
     find: config.find,
-    handler: ({
-      state, range, match, chain,
-    }) => {
+    handler: ({ state, range, match, chain }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match) || {}
       const tr = state.tr.delete(range.from, range.to)
       const $start = tr.doc.resolve(range.from)
@@ -65,7 +58,8 @@ export function wrappingInputRule(config: {
       }
       if (config.keepAttributes) {
         /** If the nodeType is `bulletList` or `orderedList` set the `nodeType` as `listItem` */
-        const nodeType = config.type.name === 'bulletList' || config.type.name === 'orderedList' ? 'listItem' : 'taskList'
+        const nodeType =
+          config.type.name === 'bulletList' || config.type.name === 'orderedList' ? 'listItem' : 'taskList'
 
         chain().updateAttributes(nodeType, attributes).run()
       }
@@ -73,10 +67,10 @@ export function wrappingInputRule(config: {
       const before = tr.doc.resolve(range.from - 1).nodeBefore
 
       if (
-        before
-        && before.type === config.type
-        && canJoin(tr.doc, range.from - 1)
-        && (!config.joinPredicate || config.joinPredicate(match, before))
+        before &&
+        before.type === config.type &&
+        canJoin(tr.doc, range.from - 1) &&
+        (!config.joinPredicate || config.joinPredicate(match, before))
       ) {
         tr.join(range.from - 1)
       }

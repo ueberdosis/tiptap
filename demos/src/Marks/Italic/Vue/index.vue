@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        <button
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
           Toggle italic
         </button>
         <button @click="editor.chain().focus().setItalic().run()" :disabled="editor.isActive('italic')">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Italic,
-      ],
+      extensions: [Document, Paragraph, Text, Italic],
       content: `
         <p>This isn’t italic.</p>
         <p><em>This is italic.</em></p>

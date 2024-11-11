@@ -2,18 +2,8 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button
-          @click="editor.chain().focus().undo().run()"
-          :disabled="!editor.can().undo()"
-        >
-          Undo
-        </button>
-        <button
-          @click="editor.chain().focus().redo().run()"
-          :disabled="!editor.can().redo()"
-        >
-          Redo
-        </button>
+        <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().undo()">Undo</button>
+        <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().redo()">Redo</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -40,12 +30,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        History,
-      ],
+      extensions: [Document, Paragraph, Text, History],
       content: `
         <p>
           With the History extension the Editor will keep track of your changes. And if you think you made a mistake, you can redo your changes. Try it out, change the content and hit the undo button!

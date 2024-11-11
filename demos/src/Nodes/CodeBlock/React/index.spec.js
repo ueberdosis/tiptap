@@ -55,18 +55,14 @@ context('/src/Nodes/CodeBlock/React/', () => {
       .find('pre')
       .should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
-      .trigger('keydown', { modKey: true, altKey: true, key: 'c' })
+    cy.get('.tiptap').type('{selectall}').trigger('keydown', { modKey: true, altKey: true, key: 'c' })
 
     cy.get('.tiptap pre').should('not.exist')
   })
 
   it('should parse the language from a HTML code block', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent(
-        '<pre><code class="language-css">body { display: none; }</code></pre>',
-      )
+      editor.commands.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
 
       cy.get('.tiptap').find('pre>code.language-css').should('have.length', 1)
     })
@@ -92,10 +88,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('```js Code')
-        .find('pre>code.language-js')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('```js Code').find('pre>code.language-js').should('contain', 'Code')
     })
   })
 
@@ -103,10 +96,7 @@ context('/src/Nodes/CodeBlock/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('~~~js Code')
-        .find('pre>code.language-js')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('~~~js Code').find('pre>code.language-js').should('contain', 'Code')
     })
   })
 

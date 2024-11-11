@@ -23,13 +23,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Image,
-        Gapcursor,
-      ],
+      extensions: [Document, Paragraph, Text, Image, Gapcursor],
       content: `
         <p>Try to move the cursor after the image with your arrow keys! You should see a horizontal blinking cursor below the image. This is the gapcursor.</p>
         <img src="https://placehold.co/800x400" />

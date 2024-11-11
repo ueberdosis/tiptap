@@ -4,9 +4,7 @@
       <div class="control-group">
         <h2>Original Editor</h2>
         <div class="button-group">
-          <button @click="addComment" :disabled="!editor.can().addAnnotation()">
-            Comment
-          </button>
+          <button @click="addComment" :disabled="!editor.can().addAnnotation()">Comment</button>
         </div>
       </div>
       <editor-content class="editor-1" :editor="editor" />
@@ -15,22 +13,16 @@
         {{ comment }}
 
         <div class="button-group">
-          <button @click="updateComment(comment.id)">
-            Update
-          </button>
+          <button @click="updateComment(comment.id)">Update</button>
 
-          <button @click="deleteComment(comment.id)">
-            Remove
-          </button>
+          <button @click="deleteComment(comment.id)">Remove</button>
         </div>
       </div>
 
       <div class="control-group">
         <h2>Another Editor</h2>
         <div class="button-group">
-          <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
-            Comment
-          </button>
+          <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">Comment</button>
         </div>
       </div>
       <editor-content class="editor-2" :editor="anotherEditor" />
@@ -75,7 +67,9 @@ export default {
         Heading,
         CollaborationAnnotation.configure({
           document: ydoc,
-          onUpdate: items => { this.comments = items },
+          onUpdate: items => {
+            this.comments = items
+          },
           instance: 'editor1',
         }),
         Collaboration.configure({
@@ -187,6 +181,6 @@ export default {
 }
 
 .annotation {
-  background: #9DEF8F;
+  background: #9def8f;
 }
 </style>

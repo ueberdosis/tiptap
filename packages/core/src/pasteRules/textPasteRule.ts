@@ -5,10 +5,7 @@ import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
  * matched text is pasted into it.
  * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#paste-rules
  */
-export function textPasteRule(config: {
-  find: PasteRuleFinder,
-  replace: string,
-}) {
+export function textPasteRule(config: { find: PasteRuleFinder; replace: string }) {
   return new PasteRule({
     find: config.find,
     handler: ({ state, range, match }) => {

@@ -18,13 +18,7 @@ const CustomTaskItem = TaskItem.extend({
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      CustomDocument,
-      Paragraph,
-      Text,
-      TaskList,
-      CustomTaskItem,
-    ],
+    extensions: [CustomDocument, Paragraph, Text, TaskList, CustomTaskItem],
     content: `
       <ul data-type="taskList">
         <li data-type="taskItem" data-checked="true">flour</li>
@@ -38,7 +32,5 @@ export default () => {
     `,
   })
 
-  return (
-    <EditorContent editor={editor} />
-  )
+  return <EditorContent editor={editor} />
 }

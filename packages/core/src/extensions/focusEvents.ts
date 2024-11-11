@@ -16,9 +16,7 @@ export const FocusEvents = Extension.create({
             focus: (view, event: Event) => {
               editor.isFocused = true
 
-              const transaction = editor.state.tr
-                .setMeta('focus', { event })
-                .setMeta('addToHistory', false)
+              const transaction = editor.state.tr.setMeta('focus', { event }).setMeta('addToHistory', false)
 
               view.dispatch(transaction)
 
@@ -27,9 +25,7 @@ export const FocusEvents = Extension.create({
             blur: (view, event: Event) => {
               editor.isFocused = false
 
-              const transaction = editor.state.tr
-                .setMeta('blur', { event })
-                .setMeta('addToHistory', false)
+              const transaction = editor.state.tr.setMeta('blur', { event }).setMeta('addToHistory', false)
 
               view.dispatch(transaction)
 

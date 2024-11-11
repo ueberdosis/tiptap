@@ -31,13 +31,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        CustomDocument,
-        Paragraph,
-        Text,
-        TaskList,
-        CustomTaskItem,
-      ],
+      extensions: [CustomDocument, Paragraph, Text, TaskList, CustomTaskItem],
       content: `
         <ul data-type="taskList">
           <li data-type="taskItem" data-checked="true">flour</li>
@@ -78,7 +72,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -98,7 +92,7 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
   }

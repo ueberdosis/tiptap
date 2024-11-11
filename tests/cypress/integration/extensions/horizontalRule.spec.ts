@@ -23,13 +23,7 @@ describe('extension-horizontal-rule', () => {
   it('should be inserted after block leaf nodes correctly', () => {
     editor = new Editor({
       element: createEditorEl(),
-      extensions: [
-        Document,
-        Text,
-        Paragraph,
-        HorizontalRule,
-        Image,
-      ],
+      extensions: [Document, Text, Paragraph, HorizontalRule, Image],
       content: {
         type: 'doc',
         content: [
@@ -55,9 +49,7 @@ describe('extension-horizontal-rule', () => {
     editor.commands.setTextSelection(2)
     editor.commands.setHorizontalRule()
 
-    expect(editor.getHTML()).to.match(
-      /<img(.*?)><hr><p>Example Text<\/p>/,
-    )
+    expect(editor.getHTML()).to.match(/<img(.*?)><hr><p>Example Text<\/p>/)
 
     editor?.destroy()
     getEditorEl()?.remove()

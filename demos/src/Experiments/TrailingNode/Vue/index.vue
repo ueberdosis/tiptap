@@ -23,10 +23,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        TrailingNode,
-      ],
+      extensions: [StarterKit, TrailingNode],
       content: `
         <p>Example text</p>
         <pre><code>console.log('foo')</code></pre>

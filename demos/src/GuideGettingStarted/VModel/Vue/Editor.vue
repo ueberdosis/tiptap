@@ -44,9 +44,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: this.modelValue,
       onUpdate: () => {
         // HTML

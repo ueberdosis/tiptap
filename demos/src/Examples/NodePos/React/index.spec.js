@@ -56,7 +56,9 @@ context('/src/Examples/NodePos/React/', () => {
       cy.get('button[data-testid="find-first-blockquote"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      cy.get('div[data-testid="found-node"]').should('contain', 'Here we have a paragraph inside a blockquote.').should('not.contain', 'Here we have another paragraph inside a blockquote.')
+      cy.get('div[data-testid="found-node"]')
+        .should('contain', 'Here we have a paragraph inside a blockquote.')
+        .should('not.contain', 'Here we have another paragraph inside a blockquote.')
     })
   })
 

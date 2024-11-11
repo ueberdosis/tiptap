@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const deleteSelection: RawCommands['deleteSelection'] = () => ({ state, dispatch }) => {
-  return originalDeleteSelection(state, dispatch)
-}
+export const deleteSelection: RawCommands['deleteSelection'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalDeleteSelection(state, dispatch)
+  }

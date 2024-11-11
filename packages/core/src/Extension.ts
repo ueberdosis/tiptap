@@ -7,14 +7,7 @@ import { InputRule } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { Node } from './Node.js'
 import { PasteRule } from './PasteRule.js'
-import {
-  AnyConfig,
-  Extensions,
-  GlobalAttributes,
-  KeyboardShortcutCommand,
-  ParentConfig,
-  RawCommands,
-} from './types.js'
+import { AnyConfig, Extensions, GlobalAttributes, KeyboardShortcutCommand, ParentConfig, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
@@ -443,12 +436,13 @@ export class Extension<Options = any, Storage = any> {
       )
     }
 
-    this.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
-        name: this.name,
-        options: this.options,
-      }),
-    ) || {}
+    this.storage =
+      callOrReturn(
+        getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
+          name: this.name,
+          options: this.options,
+        }),
+      ) || {}
   }
 
   static create<O = any, S = any>(config: Partial<ExtensionConfig<O, S>> = {}) {

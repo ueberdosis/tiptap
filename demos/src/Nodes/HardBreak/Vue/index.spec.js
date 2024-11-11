@@ -24,35 +24,26 @@ context('/src/Nodes/HardBreak/Vue/', () => {
   })
 
   it('the button should add a line break', () => {
-    cy.get('.tiptap br')
-      .should('not.exist')
+    cy.get('.tiptap br').should('not.exist')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap br')
-      .should('exist')
+    cy.get('.tiptap br').should('exist')
   })
 
   it('the default keyboard shortcut should add a line break', () => {
-    cy.get('.tiptap br')
-      .should('not.exist')
+    cy.get('.tiptap br').should('not.exist')
 
-    cy.get('.tiptap')
-      .trigger('keydown', { shiftKey: true, key: 'Enter' })
+    cy.get('.tiptap').trigger('keydown', { shiftKey: true, key: 'Enter' })
 
-    cy.get('.tiptap br')
-      .should('exist')
+    cy.get('.tiptap br').should('exist')
   })
 
   it('the alternative keyboard shortcut should add a line break', () => {
-    cy.get('.tiptap br')
-      .should('not.exist')
+    cy.get('.tiptap br').should('not.exist')
 
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'Enter' })
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'Enter' })
 
-    cy.get('.tiptap br')
-      .should('exist')
+    cy.get('.tiptap br').should('exist')
   })
 })

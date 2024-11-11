@@ -3,6 +3,6 @@
   "compilerOptions": {
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
-    },
-  },
+    }
+  }
 }

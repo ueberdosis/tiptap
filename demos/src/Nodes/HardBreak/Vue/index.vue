@@ -2,9 +2,7 @@
   <div v-if="editor" class="container">
     <div className="control-group">
       <div className="button-group">
-        <button @click="editor.chain().focus().setHardBreak().run()">
-          Set hard break
-        </button>
+        <button @click="editor.chain().focus().setHardBreak().run()">Set hard break</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -31,12 +29,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        HardBreak,
-      ],
+      extensions: [Document, Paragraph, Text, HardBreak],
       content: `
         <p>
           This<br>

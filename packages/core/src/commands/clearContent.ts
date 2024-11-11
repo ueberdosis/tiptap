@@ -8,11 +8,13 @@ declare module '@tiptap/core' {
        * @param emitUpdate Whether to emit an update event.
        * @example editor.commands.clearContent()
        */
-      clearContent: (emitUpdate?: boolean) => ReturnType,
+      clearContent: (emitUpdate?: boolean) => ReturnType
     }
   }
 }
 
-export const clearContent: RawCommands['clearContent'] = (emitUpdate = false) => ({ commands }) => {
-  return commands.setContent('', emitUpdate)
-}
+export const clearContent: RawCommands['clearContent'] =
+  (emitUpdate = false) =>
+  ({ commands }) => {
+    return commands.setContent('', emitUpdate)
+  }

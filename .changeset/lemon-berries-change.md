@@ -1,5 +1,5 @@
 ---
-"@tiptap/core": patch
+'@tiptap/core': patch
 ---
 
 feat: add `once` to EventEmitters

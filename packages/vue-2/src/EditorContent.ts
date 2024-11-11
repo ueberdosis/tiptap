@@ -3,7 +3,7 @@ import Vue, { Component, CreateElement, PropType } from 'vue'
 import { Editor } from './Editor.js'
 
 export interface EditorContentInterface extends Vue {
-  editor: Editor,
+  editor: Editor
 }
 
 export const EditorContent: Component = {

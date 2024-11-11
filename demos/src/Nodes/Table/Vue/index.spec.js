@@ -87,5 +87,4 @@ context('/src/Nodes/Table/Vue/', () => {
       )
     })
   })
-
 })

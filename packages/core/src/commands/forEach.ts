@@ -11,10 +11,10 @@ declare module '@tiptap/core' {
         fn: (
           item: T,
           props: CommandProps & {
-            index: number,
+            index: number
           },
         ) => boolean,
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }

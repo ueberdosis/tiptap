@@ -1,6 +1,4 @@
-import {
-  KeyboardShortcutCommand, mergeAttributes, Node, wrappingInputRule,
-} from '@tiptap/core'
+import { KeyboardShortcutCommand, mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
@@ -126,9 +124,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
   },
 
   addNodeView() {
-    return ({
-      node, HTMLAttributes, getPos, editor,
-    }) => {
+    return ({ node, HTMLAttributes, getPos, editor }) => {
       const listItem = document.createElement('li')
       const checkboxWrapper = document.createElement('label')
       const checkboxStyler = document.createElement('span')

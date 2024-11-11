@@ -26,21 +26,13 @@ describe('code block highlight', () => {
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   beforeEach(() => {
-    Frontmatter = CodeBlockLowlight
-      .extend({
-        name: 'frontmatter',
-      })
-      .configure({ lowlight })
+    Frontmatter = CodeBlockLowlight.extend({
+      name: 'frontmatter',
+    }).configure({ lowlight })
 
     editor = new Editor({
       element: createEditorEl(),
-      extensions: [
-        Document,
-        Text,
-        Paragraph,
-        CodeBlockLowlight.configure({ lowlight }),
-        Frontmatter,
-      ],
+      extensions: [Document, Text, Paragraph, CodeBlockLowlight.configure({ lowlight }), Frontmatter],
       content: {
         type: 'doc',
         content: [
@@ -49,20 +41,24 @@ describe('code block highlight', () => {
             attrs: {
               language: 'javascript',
             },
-            content: [{
-              type: 'text',
-              text: 'alert("Hello world");',
-            }],
+            content: [
+              {
+                type: 'text',
+                text: 'alert("Hello world");',
+              },
+            ],
           },
           {
             type: 'frontmatter',
             attrs: {
               language: 'yaml',
             },
-            content: [{
-              type: 'text',
-              text: '---\ntitle: Page title\n---',
-            }],
+            content: [
+              {
+                type: 'text',
+                text: '---\ntitle: Page title\n---',
+              },
+            ],
           },
         ],
       },

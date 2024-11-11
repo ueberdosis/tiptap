@@ -6,5 +6,4 @@ export function getColStyleDeclaration(minWidth: number, width: number | undefin
 
   // set the minimum with on the column if it has no stored width
   return ['min-width', `${minWidth}px`]
-
 }

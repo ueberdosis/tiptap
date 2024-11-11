@@ -13,6 +13,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const joinTextblockBackward: RawCommands['joinTextblockBackward'] = () => ({ state, dispatch }) => {
-  return originalCommand(state, dispatch)
-}
+export const joinTextblockBackward: RawCommands['joinTextblockBackward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalCommand(state, dispatch)
+  }

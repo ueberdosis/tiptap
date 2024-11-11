@@ -2,9 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="addImage">
-          Set image
-        </button>
+        <button @click="addImage">Set image</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -42,13 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Image,
-        Dropcursor,
-      ],
+      extensions: [Document, Paragraph, Text, Image, Dropcursor],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
         <img src="https://placehold.co/800x400" />

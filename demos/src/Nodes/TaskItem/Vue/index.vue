@@ -2,16 +2,28 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
+        <button
+          @click="editor.chain().focus().toggleTaskList().run()"
+          :class="{ 'is-active': editor.isActive('taskList') }"
+        >
           Toggle task list
         </button>
-        <button @click="editor.chain().focus().splitListItem('taskItem').run()" :disabled="!editor.can().splitListItem('taskItem')">
+        <button
+          @click="editor.chain().focus().splitListItem('taskItem').run()"
+          :disabled="!editor.can().splitListItem('taskItem')"
+        >
           Split list item
         </button>
-        <button @click="editor.chain().focus().sinkListItem('taskItem').run()" :disabled="!editor.can().sinkListItem('taskItem')">
+        <button
+          @click="editor.chain().focus().sinkListItem('taskItem').run()"
+          :disabled="!editor.can().sinkListItem('taskItem')"
+        >
           Sink list item
         </button>
-        <button @click="editor.chain().focus().liftListItem('taskItem').run()" :disabled="!editor.can().liftListItem('taskItem')">
+        <button
+          @click="editor.chain().focus().liftListItem('taskItem').run()"
+          :disabled="!editor.can().liftListItem('taskItem')"
+        >
           Lift list item
         </button>
       </div>
@@ -85,7 +97,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -105,11 +117,11 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
       margin: 0;
     }
   }

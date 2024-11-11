@@ -4,8 +4,8 @@ import { Range } from '../types.js'
 import { removeDuplicates } from '../utilities/removeDuplicates.js'
 
 export type ChangedRange = {
-  oldRange: Range,
-  newRange: Range,
+  oldRange: Range
+  newRange: Range
 }
 
 /**
@@ -18,15 +18,17 @@ function simplifyChangedRanges(changes: ChangedRange[]): ChangedRange[] {
   return uniqueChanges.length === 1
     ? uniqueChanges
     : uniqueChanges.filter((change, index) => {
-      const rest = uniqueChanges.filter((_, i) => i !== index)
+        const rest = uniqueChanges.filter((_, i) => i !== index)
 
-      return !rest.some(otherChange => {
-        return change.oldRange.from >= otherChange.oldRange.from
-          && change.oldRange.to <= otherChange.oldRange.to
-          && change.newRange.from >= otherChange.newRange.from
-          && change.newRange.to <= otherChange.newRange.to
+        return !rest.some(otherChange => {
+          return (
+            change.oldRange.from >= otherChange.oldRange.from &&
+            change.oldRange.to <= otherChange.oldRange.to &&
+            change.newRange.from >= otherChange.newRange.from &&
+            change.newRange.to <= otherChange.newRange.to
+          )
+        })
       })
-    })
 }
 
 /**
@@ -45,8 +47,8 @@ export function getChangedRanges(transform: Transform): ChangedRange[] {
     // @ts-ignore
     if (!stepMap.ranges.length) {
       const { from, to } = steps[index] as Step & {
-        from?: number,
-        to?: number,
+        from?: number
+        to?: number
       }
 
       if (from === undefined || to === undefined) {

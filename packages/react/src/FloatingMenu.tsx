@@ -1,7 +1,5 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import React, {
-  useEffect, useRef,
-} from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
@@ -9,8 +7,8 @@ import { useCurrentEditor } from './Context.js'
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
-  editor: FloatingMenuPluginProps['editor'] | null;
-  className?: string,
+  editor: FloatingMenuPluginProps['editor'] | null
+  className?: string
   children: React.ReactNode
   options?: FloatingMenuPluginProps['options']
 }
@@ -27,12 +25,7 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
       return
     }
 
-    const {
-      pluginKey = 'floatingMenu',
-      editor,
-      options,
-      shouldShow = null,
-    } = props
+    const { pluginKey = 'floatingMenu', editor, options, shouldShow = null } = props
 
     const menuEditor = editor || currentEditor
 
@@ -58,20 +51,9 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
         }
       })
     }
-  }, [
-    props.editor,
-    currentEditor,
-  ])
+  }, [props.editor, currentEditor])
 
-  const portal = createPortal(
-    (
-    <div className={props.className}>
-      {props.children}
-    </div>
-    ), menuEl.current,
-  )
+  const portal = createPortal(<div className={props.className}>{props.children}</div>, menuEl.current)
 
-  return (
-    <>{portal}</>
-  )
+  return <>{portal}</>
 }

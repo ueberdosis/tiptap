@@ -33,12 +33,7 @@ describe('extension-link', () => {
     validUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
-        extensions: [
-          Document,
-          Text,
-          Paragraph,
-          Link,
-        ],
+        extensions: [Document, Text, Paragraph, Link],
         content: {
           type: 'doc',
           content: [
@@ -75,12 +70,7 @@ describe('extension-link', () => {
     validUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
-        extensions: [
-          Document,
-          Text,
-          Paragraph,
-          Link,
-        ],
+        extensions: [Document, Text, Paragraph, Link],
         content: `<p><a href="${url}">hello world!</a></p>`,
       })
 
@@ -190,12 +180,7 @@ describe('extension-link', () => {
     invalidUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
-        extensions: [
-          Document,
-          Text,
-          Paragraph,
-          Link,
-        ],
+        extensions: [Document, Text, Paragraph, Link],
         content: {
           type: 'doc',
           content: [
@@ -234,12 +219,7 @@ describe('extension-link', () => {
     invalidUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
-        extensions: [
-          Document,
-          Text,
-          Paragraph,
-          Link,
-        ],
+        extensions: [Document, Text, Paragraph, Link],
         content: `<p><a href="${url}">hello world!</a></p>`,
       })
 
@@ -253,7 +233,7 @@ describe('extension-link', () => {
 
   describe('custom protocols', () => {
     it('allows using additional custom protocols', () => {
-      ['custom://test.css', 'another-custom://protocol.html', ...validUrls].forEach(url => {
+      ;['custom://test.css', 'another-custom://protocol.html', ...validUrls].forEach(url => {
         editor = new Editor({
           element: createEditorEl(),
           extensions: [

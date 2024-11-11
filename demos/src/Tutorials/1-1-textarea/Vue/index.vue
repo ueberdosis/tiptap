@@ -8,7 +8,6 @@ const notes: TNote[] = [
   { id: 'note-1', content: 'Some random note text' },
   { id: 'note-2', content: 'Some really random note text' },
 ]
-
 </script>
 
 <template>

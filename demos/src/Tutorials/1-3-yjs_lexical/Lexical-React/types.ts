@@ -1,4 +1,4 @@
 export type TNote = {
-  id: string;
-  defaultContent: string;
-};
+  id: string
+  defaultContent: string
+}

@@ -18,38 +18,40 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch, chain }) => {
-  const type = getNodeType(typeOrName, state.schema)
+export const setNode: RawCommands['setNode'] =
+  (typeOrName, attributes = {}) =>
+  ({ state, dispatch, chain }) => {
+    const type = getNodeType(typeOrName, state.schema)
 
-  let attributesToCopy: Record<string, any> | undefined
+    let attributesToCopy: Record<string, any> | undefined
 
-  if (state.selection.$anchor.sameParent(state.selection.$head)) {
-    // only copy attributes if the selection is pointing to a node of the same type
-    attributesToCopy = state.selection.$anchor.parent.attrs
+    if (state.selection.$anchor.sameParent(state.selection.$head)) {
+      // only copy attributes if the selection is pointing to a node of the same type
+      attributesToCopy = state.selection.$anchor.parent.attrs
+    }
+
+    // TODO: use a fallback like insertContent?
+    if (!type.isTextblock) {
+      console.warn('[tiptap warn]: Currently "setNode()" only supports text block nodes.')
+
+      return false
+    }
+
+    return (
+      chain()
+        // try to convert node to default node if needed
+        .command(({ commands }) => {
+          const canSetBlock = setBlockType(type, { ...attributesToCopy, ...attributes })(state)
+
+          if (canSetBlock) {
+            return true
+          }
+
+          return commands.clearNodes()
+        })
+        .command(({ state: updatedState }) => {
+          return setBlockType(type, { ...attributesToCopy, ...attributes })(updatedState, dispatch)
+        })
+        .run()
+    )
   }
-
-  // TODO: use a fallback like insertContent?
-  if (!type.isTextblock) {
-    console.warn('[tiptap warn]: Currently "setNode()" only supports text block nodes.')
-
-    return false
-  }
-
-  return (
-    chain()
-    // try to convert node to default node if needed
-      .command(({ commands }) => {
-        const canSetBlock = setBlockType(type, { ...attributesToCopy, ...attributes })(state)
-
-        if (canSetBlock) {
-          return true
-        }
-
-        return commands.clearNodes()
-      })
-      .command(({ state: updatedState }) => {
-        return setBlockType(type, { ...attributesToCopy, ...attributes })(updatedState, dispatch)
-      })
-      .run()
-  )
-}

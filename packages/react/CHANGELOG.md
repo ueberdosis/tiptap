@@ -178,7 +178,7 @@
         A highly optimized editor that only re-renders when it’s necessary.
       </p>
       `,
-  });
+  })
 
   /**
    * This hook allows us to select the editor state we want to use in our component.
@@ -193,10 +193,10 @@
      * It is evaluated on every editor transaction and compared to it's previously returned value.
      * You can return any data shape you want.
      */
-    selector: (ctx) => ({
-      isBold: ctx.editor.isActive("bold"),
-      isItalic: ctx.editor.isActive("italic"),
-      isStrike: ctx.editor.isActive("strike"),
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold'),
+      isItalic: ctx.editor.isActive('italic'),
+      isStrike: ctx.editor.isActive('strike'),
     }),
     /**
      * This function allows us to customize the equality check for the selector.
@@ -205,15 +205,11 @@
     equalityFn: (prev, next) => {
       // A deep-equal function would probably be more maintainable here, but, we use a shallow one to show that it can be customized.
       if (!next) {
-        return false;
+        return false
       }
-      return (
-        prev.isBold === next.isBold &&
-        prev.isItalic === next.isItalic &&
-        prev.isStrike === next.isStrike
-      );
+      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
     },
-  });
+  })
   ```
 
 - Updated dependencies [fb45149]
@@ -275,7 +271,7 @@
         A highly optimized editor that only re-renders when it’s necessary.
       </p>
       `,
-  });
+  })
 
   /**
    * This hook allows us to select the editor state we want to use in our component.
@@ -290,10 +286,10 @@
      * It is evaluated on every editor transaction and compared to it's previously returned value.
      * You can return any data shape you want.
      */
-    selector: (ctx) => ({
-      isBold: ctx.editor.isActive("bold"),
-      isItalic: ctx.editor.isActive("italic"),
-      isStrike: ctx.editor.isActive("strike"),
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold'),
+      isItalic: ctx.editor.isActive('italic'),
+      isStrike: ctx.editor.isActive('strike'),
     }),
     /**
      * This function allows us to customize the equality check for the selector.
@@ -302,15 +298,11 @@
     equalityFn: (prev, next) => {
       // A deep-equal function would probably be more maintainable here, but, we use a shallow one to show that it can be customized.
       if (!next) {
-        return false;
+        return false
       }
-      return (
-        prev.isBold === next.isBold &&
-        prev.isItalic === next.isItalic &&
-        prev.isStrike === next.isStrike
-      );
+      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
     },
-  });
+  })
   ```
 
   - @tiptap/core@2.5.0-pre.14

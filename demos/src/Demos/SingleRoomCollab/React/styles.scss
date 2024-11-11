@@ -27,9 +27,9 @@
     background: #0d0d0d;
     border-radius: 0.5rem;
     color: #fff;
-    font-family: "JetBrainsMono", monospace;
+    font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
-    
+
     code {
       background: none;
       color: inherit;
@@ -62,7 +62,7 @@
     margin: 2rem 0;
   }
 
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     padding: 0;
 
@@ -127,7 +127,7 @@
     &::before {
       background: rgba(#0d0d0d, 0.5);
       border-radius: 50%;
-      content: " ";
+      content: ' ';
       display: inline-block;
       flex: 0 0 auto;
       height: 0.5rem;

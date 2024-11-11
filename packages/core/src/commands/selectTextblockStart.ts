@@ -16,6 +16,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectTextblockStart: RawCommands['selectTextblockStart'] = () => ({ state, dispatch }) => {
-  return originalSelectTextblockStart(state, dispatch)
-}
+export const selectTextblockStart: RawCommands['selectTextblockStart'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalSelectTextblockStart(state, dispatch)
+  }

@@ -16,38 +16,39 @@ export interface AnnotationPluginOptions {
   instance: string
 }
 
-export const AnnotationPlugin = (options: AnnotationPluginOptions) => new Plugin({
-  key: AnnotationPluginKey,
+export const AnnotationPlugin = (options: AnnotationPluginOptions) =>
+  new Plugin({
+    key: AnnotationPluginKey,
 
-  state: {
-    init() {
-      return new AnnotationState({
-        HTMLAttributes: options.HTMLAttributes,
-        map: options.map,
-        instance: options.instance,
-      })
+    state: {
+      init() {
+        return new AnnotationState({
+          HTMLAttributes: options.HTMLAttributes,
+          map: options.map,
+          instance: options.instance,
+        })
+      },
+      apply(transaction, pluginState, oldState, newState) {
+        return pluginState.apply(transaction, newState)
+      },
     },
-    apply(transaction, pluginState, oldState, newState) {
-      return pluginState.apply(transaction, newState)
-    },
-  },
 
-  props: {
-    decorations(state) {
-      const decorations = this.getState(state)?.decorations || new DecorationSet()
-      const { selection } = state
+    props: {
+      decorations(state) {
+        const decorations = this.getState(state)?.decorations || new DecorationSet()
+        const { selection } = state
 
-      if (!selection.empty) {
+        if (!selection.empty) {
+          return decorations
+        }
+
+        const annotations = this.getState(state)?.annotationsAt(selection.from)
+
+        if (annotations) {
+          options.onUpdate(annotations)
+        }
+
         return decorations
-      }
-
-      const annotations = this.getState(state)?.annotationsAt(selection.from)
-
-      if (annotations) {
-        options.onUpdate(annotations)
-      }
-
-      return decorations
+      },
     },
-  },
-})
+  })

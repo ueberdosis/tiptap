@@ -64,42 +64,37 @@ declare module '@tiptap/core' {
        * @param name The name of the keyboard shortcut.
        * @example editor.commands.keyboardShortcut('Mod-b')
        */
-      keyboardShortcut: (name: string) => ReturnType,
+      keyboardShortcut: (name: string) => ReturnType
     }
   }
 }
 
-export const keyboardShortcut: RawCommands['keyboardShortcut'] = name => ({
-  editor,
-  view,
-  tr,
-  dispatch,
-}) => {
-  const keys = normalizeKeyName(name).split(/-(?!$)/)
-  const key = keys.find(item => !['Alt', 'Ctrl', 'Meta', 'Shift'].includes(item))
-  const event = new KeyboardEvent('keydown', {
-    key: key === 'Space'
-      ? ' '
-      : key,
-    altKey: keys.includes('Alt'),
-    ctrlKey: keys.includes('Ctrl'),
-    metaKey: keys.includes('Meta'),
-    shiftKey: keys.includes('Shift'),
-    bubbles: true,
-    cancelable: true,
-  })
+export const keyboardShortcut: RawCommands['keyboardShortcut'] =
+  name =>
+  ({ editor, view, tr, dispatch }) => {
+    const keys = normalizeKeyName(name).split(/-(?!$)/)
+    const key = keys.find(item => !['Alt', 'Ctrl', 'Meta', 'Shift'].includes(item))
+    const event = new KeyboardEvent('keydown', {
+      key: key === 'Space' ? ' ' : key,
+      altKey: keys.includes('Alt'),
+      ctrlKey: keys.includes('Ctrl'),
+      metaKey: keys.includes('Meta'),
+      shiftKey: keys.includes('Shift'),
+      bubbles: true,
+      cancelable: true,
+    })
 
-  const capturedTransaction = editor.captureTransaction(() => {
-    view.someProp('handleKeyDown', f => f(view, event))
-  })
+    const capturedTransaction = editor.captureTransaction(() => {
+      view.someProp('handleKeyDown', f => f(view, event))
+    })
 
-  capturedTransaction?.steps.forEach(step => {
-    const newStep = step.map(tr.mapping)
+    capturedTransaction?.steps.forEach(step => {
+      const newStep = step.map(tr.mapping)
 
-    if (newStep && dispatch) {
-      tr.maybeStep(newStep)
-    }
-  })
+      if (newStep && dispatch) {
+        tr.maybeStep(newStep)
+      }
+    })
 
-  return true
-}
+    return true
+  }

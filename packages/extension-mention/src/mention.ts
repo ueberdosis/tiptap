@@ -9,12 +9,12 @@ export interface MentionNodeAttrs {
    * The identifier for the selected item that was mentioned, stored as a `data-id`
    * attribute.
    */
-  id: string | null;
+  id: string | null
   /**
    * The label to be rendered by the editor as the displayed text for this mentioned
    * item, if provided. Stored as a `data-label` attribute. See `renderLabel`.
    */
-  label?: string | null;
+  label?: string | null
 }
 
 export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> = {
@@ -197,18 +197,18 @@ export const Mention = Node.create<MentionOptions>({
     }
     const mergedOptions = { ...this.options }
 
-    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
+    mergedOptions.HTMLAttributes = mergeAttributes(
+      { 'data-type': this.name },
+      this.options.HTMLAttributes,
+      HTMLAttributes,
+    )
     const html = this.options.renderHTML({
       options: mergedOptions,
       node,
     })
 
     if (typeof html === 'string') {
-      return [
-        'span',
-        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
-        html,
-      ]
+      return ['span', mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes), html]
     }
     return html
   },
@@ -229,30 +229,31 @@ export const Mention = Node.create<MentionOptions>({
 
   addKeyboardShortcuts() {
     return {
-      Backspace: () => this.editor.commands.command(({ tr, state }) => {
-        let isMention = false
-        const { selection } = state
-        const { empty, anchor } = selection
+      Backspace: () =>
+        this.editor.commands.command(({ tr, state }) => {
+          let isMention = false
+          const { selection } = state
+          const { empty, anchor } = selection
 
-        if (!empty) {
-          return false
-        }
-
-        state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
-          if (node.type.name === this.name) {
-            isMention = true
-            tr.insertText(
-              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
-              pos,
-              pos + node.nodeSize,
-            )
-
+          if (!empty) {
             return false
           }
-        })
 
-        return isMention
-      }),
+          state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
+            if (node.type.name === this.name) {
+              isMention = true
+              tr.insertText(
+                this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
+                pos,
+                pos + node.nodeSize,
+              )
+
+              return false
+            }
+          })
+
+          return isMention
+        }),
     }
   },
 

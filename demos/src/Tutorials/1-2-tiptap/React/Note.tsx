@@ -17,13 +17,11 @@ export default ({ note }: { note: TNote }) => {
     onUpdate() {
       setModelValue(editor?.getText() ?? '')
     },
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
   })
 
   return (
     // @ts-ignore
-    <EditorContent editor={editor}/>
+    <EditorContent editor={editor} />
   )
 }

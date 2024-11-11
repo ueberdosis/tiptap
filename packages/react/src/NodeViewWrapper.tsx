@@ -3,8 +3,8 @@ import React from 'react'
 import { useReactNodeView } from './useReactNodeView.js'
 
 export interface NodeViewWrapperProps {
-  [key: string]: any,
-  as?: React.ElementType,
+  [key: string]: any
+  as?: React.ElementType
 }
 
 export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef((props, ref) => {

@@ -23,23 +23,25 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleNode: RawCommands['toggleNode'] = (typeOrName, toggleTypeOrName, attributes = {}) => ({ state, commands }) => {
-  const type = getNodeType(typeOrName, state.schema)
-  const toggleType = getNodeType(toggleTypeOrName, state.schema)
-  const isActive = isNodeActive(state, type, attributes)
+export const toggleNode: RawCommands['toggleNode'] =
+  (typeOrName, toggleTypeOrName, attributes = {}) =>
+  ({ state, commands }) => {
+    const type = getNodeType(typeOrName, state.schema)
+    const toggleType = getNodeType(toggleTypeOrName, state.schema)
+    const isActive = isNodeActive(state, type, attributes)
 
-  let attributesToCopy: Record<string, any> | undefined
+    let attributesToCopy: Record<string, any> | undefined
 
-  if (state.selection.$anchor.sameParent(state.selection.$head)) {
-    // only copy attributes if the selection is pointing to a node of the same type
-    attributesToCopy = state.selection.$anchor.parent.attrs
+    if (state.selection.$anchor.sameParent(state.selection.$head)) {
+      // only copy attributes if the selection is pointing to a node of the same type
+      attributesToCopy = state.selection.$anchor.parent.attrs
+    }
+
+    if (isActive) {
+      return commands.setNode(toggleType, attributesToCopy)
+    }
+
+    // If the node is not active, we want to set the new node type with the given attributes
+    // Copying over the attributes from the current node if the selection is pointing to a node of the same type
+    return commands.setNode(type, { ...attributesToCopy, ...attributes })
   }
-
-  if (isActive) {
-    return commands.setNode(toggleType, attributesToCopy)
-  }
-
-  // If the node is not active, we want to set the new node type with the given attributes
-  // Copying over the attributes from the current node if the selection is pointing to a node of the same type
-  return commands.setNode(type, { ...attributesToCopy, ...attributes })
-}
