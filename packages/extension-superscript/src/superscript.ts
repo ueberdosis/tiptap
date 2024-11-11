@@ -7,7 +7,7 @@ export interface SuperscriptExtensionOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Object,
+  HTMLAttributes: Object
 }
 
 declare module '@tiptap/core' {
@@ -17,17 +17,17 @@ declare module '@tiptap/core' {
        * Set a superscript mark
        * @example editor.commands.setSuperscript()
        */
-      setSuperscript: () => ReturnType,
+      setSuperscript: () => ReturnType
       /**
        * Toggle a superscript mark
        * @example editor.commands.toggleSuperscript()
        */
-      toggleSuperscript: () => ReturnType,
+      toggleSuperscript: () => ReturnType
       /**
        * Unset a superscript mark
        *  @example editor.commands.unsetSuperscript()
        */
-      unsetSuperscript: () => ReturnType,
+      unsetSuperscript: () => ReturnType
     }
   }
 }
@@ -71,15 +71,21 @@ export const Superscript = Mark.create<SuperscriptExtensionOptions>({
 
   addCommands() {
     return {
-      setSuperscript: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleSuperscript: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetSuperscript: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setSuperscript:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleSuperscript:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetSuperscript:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

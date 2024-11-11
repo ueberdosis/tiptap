@@ -5,27 +5,21 @@ import { CommandManager } from './CommandManager.js'
 import { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
-import {
-  CanCommands,
-  ChainedCommands,
-  ExtendedRegExpMatchArray,
-  Range,
-  SingleCommands,
-} from './types.js'
+import { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
 import { isNumber } from './utilities/isNumber.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type PasteRuleMatch = {
-  index: number;
-  text: string;
-  replaceWith?: string;
-  match?: RegExpMatchArray;
-  data?: Record<string, any>;
-};
+  index: number
+  text: string
+  replaceWith?: string
+  match?: RegExpMatchArray
+  data?: Record<string, any>
+}
 
 export type PasteRuleFinder =
   | RegExp
-  | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined);
+  | ((text: string, event?: ClipboardEvent | null) => PasteRuleMatch[] | null | undefined)
 
 /**
  * Paste rules are used to react to pasted content.
@@ -35,28 +29,28 @@ export class PasteRule {
   find: PasteRuleFinder
 
   handler: (props: {
-    state: EditorState;
-    range: Range;
-    match: ExtendedRegExpMatchArray;
-    commands: SingleCommands;
-    chain: () => ChainedCommands;
-    can: () => CanCommands;
-    pasteEvent: ClipboardEvent | null;
-    dropEvent: DragEvent | null;
+    state: EditorState
+    range: Range
+    match: ExtendedRegExpMatchArray
+    commands: SingleCommands
+    chain: () => ChainedCommands
+    can: () => CanCommands
+    pasteEvent: ClipboardEvent | null
+    dropEvent: DragEvent | null
   }) => void | null
 
   constructor(config: {
-    find: PasteRuleFinder;
+    find: PasteRuleFinder
     handler: (props: {
-      can: () => CanCommands;
-      chain: () => ChainedCommands;
-      commands: SingleCommands;
-      dropEvent: DragEvent | null;
-      match: ExtendedRegExpMatchArray;
-      pasteEvent: ClipboardEvent | null;
-      range: Range;
-      state: EditorState;
-    }) => void | null;
+      can: () => CanCommands
+      chain: () => ChainedCommands
+      commands: SingleCommands
+      dropEvent: DragEvent | null
+      match: ExtendedRegExpMatchArray
+      pasteEvent: ClipboardEvent | null
+      range: Range
+      state: EditorState
+    }) => void | null
   }) {
     this.find = config.find
     this.handler = config.handler
@@ -87,9 +81,7 @@ const pasteRuleMatcherHandler = (
 
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
-        console.warn(
-          '[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".',
-        )
+        console.warn('[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".')
       }
 
       result.push(pasteRuleMatch.replaceWith)
@@ -100,17 +92,15 @@ const pasteRuleMatcherHandler = (
 }
 
 function run(config: {
-  editor: Editor;
-  state: EditorState;
-  from: number;
-  to: number;
-  rule: PasteRule;
-  pasteEvent: ClipboardEvent | null;
-  dropEvent: DragEvent | null;
+  editor: Editor
+  state: EditorState
+  from: number
+  to: number
+  rule: PasteRule
+  pasteEvent: ClipboardEvent | null
+  dropEvent: DragEvent | null
 }): boolean {
-  const {
-    editor, state, from, to, rule, pasteEvent, dropEvent,
-  } = config
+  const { editor, state, from, to, rule, pasteEvent, dropEvent } = config
 
   const { commands, chain, can } = new CommandManager({
     editor,
@@ -198,11 +188,11 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
     rule,
     pasteEvt,
   }: {
-    state: EditorState;
-    from: number;
-    to: { b: number };
-    rule: PasteRule;
-    pasteEvt: ClipboardEvent | null;
+    state: EditorState
+    from: number
+    to: { b: number }
+    rule: PasteRule
+    pasteEvt: ClipboardEvent | null
   }) => {
     const tr = state.tr
     const chainableState = createChainableState({
@@ -239,9 +229,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       // we register a global drag handler to track the current drag source element
       view(view) {
         const handleDragstart = (event: DragEvent) => {
-          dragSourceElement = view.dom.parentElement?.contains(event.target as Element)
-            ? view.dom.parentElement
-            : null
+          dragSourceElement = view.dom.parentElement?.contains(event.target as Element) ? view.dom.parentElement : null
         }
 
         window.addEventListener('dragstart', handleDragstart)

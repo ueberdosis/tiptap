@@ -17,8 +17,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const sinkListItem: RawCommands['sinkListItem'] = typeOrName => ({ state, dispatch }) => {
-  const type = getNodeType(typeOrName, state.schema)
+export const sinkListItem: RawCommands['sinkListItem'] =
+  typeOrName =>
+  ({ state, dispatch }) => {
+    const type = getNodeType(typeOrName, state.schema)
 
-  return originalSinkListItem(type)(state, dispatch)
-}
+    return originalSinkListItem(type)(state, dispatch)
+  }

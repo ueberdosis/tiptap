@@ -10,11 +10,7 @@ import { EditorWithContentComponent } from './Editor.js'
  * @returns {boolean}
  */
 function isClassComponent(Component: any) {
-  return !!(
-    typeof Component === 'function'
-    && Component.prototype
-    && Component.prototype.isReactComponent
-  )
+  return !!(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent)
 }
 
 /**
@@ -23,10 +19,7 @@ function isClassComponent(Component: any) {
  * @returns {boolean}
  */
 function isForwardRefComponent(Component: any) {
-  return !!(
-    typeof Component === 'object'
-    && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)'
-  )
+  return !!(typeof Component === 'object' && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)')
 }
 
 export interface ReactRendererOptions {
@@ -34,21 +27,21 @@ export interface ReactRendererOptions {
    * The editor instance.
    * @type {Editor}
    */
-  editor: Editor,
+  editor: Editor
 
   /**
    * The props for the component.
    * @type {Record<string, any>}
    * @default {}
    */
-  props?: Record<string, any>,
+  props?: Record<string, any>
 
   /**
    * The tag name of the element.
    * @type {string}
    * @default 'div'
    */
-  as?: string,
+  as?: string
 
   /**
    * The class name of the element.
@@ -56,13 +49,13 @@ export interface ReactRendererOptions {
    * @default ''
    * @example 'foo bar'
    */
-  className?: string,
+  className?: string
 }
 
 type ComponentType<R, P> =
-  React.ComponentClass<P> |
-  React.FunctionComponent<P> |
-  React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>;
+  | React.ComponentClass<P>
+  | React.FunctionComponent<P>
+  | React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>
 
 /**
  * The ReactRenderer class. It's responsible for rendering React components inside the editor.
@@ -74,7 +67,7 @@ type ComponentType<R, P> =
  *   },
  *   as: 'span',
  * })
-*/
+ */
 export class ReactRenderer<R = unknown, P extends Record<string, any> = {}> {
   id: string
 
@@ -93,13 +86,11 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = {}> {
   /**
    * Immediately creates element and renders the provided React component.
    */
-  constructor(component: ComponentType<R, P>, {
-    editor,
-    props = {},
-    as = 'div',
-    className = '',
-  }: ReactRendererOptions) {
-    this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
+  constructor(
+    component: ComponentType<R, P>,
+    { editor, props = {}, as = 'div', className = '' }: ReactRendererOptions,
+  ) {
+    this.id = Math.floor(Math.random() * 0xffffffff).toString()
     this.component = component
     this.editor = editor as EditorWithContentComponent
     this.props = props as P

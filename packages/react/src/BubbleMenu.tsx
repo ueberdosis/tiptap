@@ -4,16 +4,16 @@ import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
-  editor: BubbleMenuPluginProps['editor'] | null;
-  className?: string;
-  children: React.ReactNode;
-  updateDelay?: number;
-  resizeDelay?: number;
-  options?: BubbleMenuPluginProps['options'];
-};
+  editor: BubbleMenuPluginProps['editor'] | null
+  className?: string
+  children: React.ReactNode
+  updateDelay?: number
+  resizeDelay?: number
+  options?: BubbleMenuPluginProps['options']
+}
 
 export const BubbleMenu = (props: BubbleMenuProps) => {
   const menuEl = useRef(document.createElement('div'))
@@ -27,9 +27,7 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
       return
     }
 
-    const {
-      pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null,
-    } = props
+    const { pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null } = props
 
     const menuEditor = editor || currentEditor
 
@@ -60,15 +58,7 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
   }, [props.editor, currentEditor])
 
-  const portal = createPortal(
-    (
-    <div className={props.className}>
-      {props.children}
-    </div>
-    ), menuEl.current,
-  )
+  const portal = createPortal(<div className={props.className}>{props.children}</div>, menuEl.current)
 
-  return (
-    <>{portal}</>
-  )
+  return <>{portal}</>
 }

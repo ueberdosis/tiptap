@@ -1,8 +1,4 @@
-import {
-  getMarkAttributes,
-  Mark,
-  mergeAttributes,
-} from '@tiptap/core'
+import { getMarkAttributes, Mark, mergeAttributes } from '@tiptap/core'
 
 export interface TextStyleOptions {
   /**
@@ -10,7 +6,7 @@ export interface TextStyleOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -20,7 +16,7 @@ declare module '@tiptap/core' {
        * Remove spans without inline style attributes.
        * @example editor.commands.removeEmptyTextStyle()
        */
-      removeEmptyTextStyle: () => ReturnType,
+      removeEmptyTextStyle: () => ReturnType
     }
   }
 }
@@ -64,17 +60,18 @@ export const TextStyle = Mark.create<TextStyleOptions>({
 
   addCommands() {
     return {
-      removeEmptyTextStyle: () => ({ state, commands }) => {
-        const attributes = getMarkAttributes(state, this.type)
-        const hasStyles = Object.entries(attributes).some(([, value]) => !!value)
+      removeEmptyTextStyle:
+        () =>
+        ({ state, commands }) => {
+          const attributes = getMarkAttributes(state, this.type)
+          const hasStyles = Object.entries(attributes).some(([, value]) => !!value)
 
-        if (hasStyles) {
-          return true
-        }
+          if (hasStyles) {
+            return true
+          }
 
-        return commands.unsetMark(this.name)
-      },
+          return commands.unsetMark(this.name)
+        },
     }
   },
-
 })

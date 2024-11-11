@@ -16,9 +16,7 @@ export type SuggestionMatch = {
 } | null
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
-  const {
-    char, allowSpaces, allowedPrefixes, startOfLine, $position,
-  } = config
+  const { char, allowSpaces, allowedPrefixes, startOfLine, $position } = config
 
   const escapedChar = escapeForRegEx(char)
   const suffix = new RegExp(`\\s${escapedChar}$`)

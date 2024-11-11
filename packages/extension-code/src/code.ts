@@ -1,9 +1,4 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface CodeOptions {
   /**
@@ -11,7 +6,7 @@ export interface CodeOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -20,15 +15,15 @@ declare module '@tiptap/core' {
       /**
        * Set a code mark
        */
-      setCode: () => ReturnType,
+      setCode: () => ReturnType
       /**
        * Toggle inline code
        */
-      toggleCode: () => ReturnType,
+      toggleCode: () => ReturnType
       /**
        * Unset a code mark
        */
-      unsetCode: () => ReturnType,
+      unsetCode: () => ReturnType
     }
   }
 }
@@ -63,9 +58,7 @@ export const Code = Mark.create<CodeOptions>({
   exitable: true,
 
   parseHTML() {
-    return [
-      { tag: 'code' },
-    ]
+    return [{ tag: 'code' }]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -74,15 +67,21 @@ export const Code = Mark.create<CodeOptions>({
 
   addCommands() {
     return {
-      setCode: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleCode: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetCode: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setCode:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleCode:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetCode:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

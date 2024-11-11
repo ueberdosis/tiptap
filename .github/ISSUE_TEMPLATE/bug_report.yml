@@ -1,14 +1,14 @@
 name: Bug Report
-title: "[Bug]: "
+title: '[Bug]: '
 description: Found a bug in the editor core or one of the extensions? Report it here to help us improve.
 labels:
-  - "Type: Bug"
-  - "Category: Open Source"
-  - "Status: New"
+  - 'Type: Bug'
+  - 'Category: Open Source'
+  - 'Status: New'
 body:
   - type: markdown
     attributes:
-      value: "### Please provide details to help us diagnose the bug."
+      value: '### Please provide details to help us diagnose the bug.'
   - type: input
     id: packages
     attributes:
@@ -30,7 +30,7 @@ body:
     attributes:
       label: Bug Description
       description: Provide a clear and concise description of what the bug is.
-      placeholder: "The issue occurs when..."
+      placeholder: 'The issue occurs when...'
     validations:
       required: true
   - type: dropdown
@@ -59,7 +59,7 @@ body:
     id: sandbox
     attributes:
       label: Code Example URL
-      description: "Link a CodeSandbox, Stackblitz, GitHub repository, or similar to help us reproduce the issue faster."
+      description: 'Link a CodeSandbox, Stackblitz, GitHub repository, or similar to help us reproduce the issue faster.'
       placeholder: https://codesandbox.io/s/example
     validations:
       required: false
@@ -74,14 +74,14 @@ body:
     id: context
     attributes:
       label: Additional Context (Optional)
-      description: "Add any other context about the problem here, such as screenshots or videos."
+      description: 'Add any other context about the problem here, such as screenshots or videos.'
   - type: checkboxes
     attributes:
       label: Dependency Updates
-      description: "Have you updated your dependencies? This can often resolve issues."
+      description: 'Have you updated your dependencies? This can often resolve issues.'
       options:
         - label: Yes, I've updated all my dependencies.
           required: true
   - type: markdown
     attributes:
-      value: "Thank you for helping us improve our open-source projects by reporting this issue!"
+      value: 'Thank you for helping us improve our open-source projects by reporting this issue!'

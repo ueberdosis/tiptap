@@ -6,14 +6,14 @@ export interface TaskListOptions {
    * @default 'taskItem'
    * @example 'myCustomTaskItem'
    */
-  itemTypeName: string,
+  itemTypeName: string
 
   /**
    * The HTML attributes for a task list node.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -23,7 +23,7 @@ declare module '@tiptap/core' {
        * Toggle a task list
        * @example editor.commands.toggleTaskList()
        */
-      toggleTaskList: () => ReturnType,
+      toggleTaskList: () => ReturnType
     }
   }
 }
@@ -63,9 +63,11 @@ export const TaskList = Node.create<TaskListOptions>({
 
   addCommands() {
     return {
-      toggleTaskList: () => ({ commands }) => {
-        return commands.toggleList(this.name, this.options.itemTypeName)
-      },
+      toggleTaskList:
+        () =>
+        ({ commands }) => {
+          return commands.toggleList(this.name, this.options.itemTypeName)
+        },
     }
   },
 

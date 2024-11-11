@@ -1,6 +1,4 @@
-import {
-  DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType,
-} from '@tiptap/pm/model'
+import { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
 import { Editor } from './Editor.js'
@@ -62,10 +60,7 @@ declare module '@tiptap/core' {
      *    myOtherOption: 10,
      * }
      */
-    addOptions?: (this: {
-      name: string
-      parent: ParentConfig<MarkConfig<Options, Storage>>['addOptions']
-    }) => Options
+    addOptions?: (this: { name: string; parent: ParentConfig<MarkConfig<Options, Storage>>['addOptions'] }) => Options
 
     /**
      * The default storage this extension can save data to.
@@ -575,12 +570,13 @@ export class Mark<Options = any, Storage = any> {
       )
     }
 
-    this.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
-        name: this.name,
-        options: this.options,
-      }),
-    ) || {}
+    this.storage =
+      callOrReturn(
+        getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
+          name: this.name,
+          options: this.options,
+        }),
+      ) || {}
   }
 
   static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> = {}) {

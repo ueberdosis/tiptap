@@ -21,7 +21,7 @@ export function updateColumns(
       const { colspan, colwidth } = row.child(i).attrs
 
       for (let j = 0; j < colspan; j += 1, col += 1) {
-        const hasWidth = overrideCol === col ? overrideValue : (colwidth && colwidth[j]) as number | undefined
+        const hasWidth = overrideCol === col ? overrideValue : ((colwidth && colwidth[j]) as number | undefined)
         const cssWidth = hasWidth ? `${hasWidth}px` : ''
 
         totalWidth += hasWidth || cellMinWidth
@@ -40,9 +40,9 @@ export function updateColumns(
           colgroup.appendChild(colElement)
         } else {
           if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
-            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth);
+            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
 
-            (nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
+            ;(nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
           }
 
           nextDOM = nextDOM.nextSibling
@@ -103,9 +103,6 @@ export class TableView implements NodeView {
   }
 
   ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
-    return (
-      mutation.type === 'attributes'
-      && (mutation.target === this.table || this.colgroup.contains(mutation.target))
-    )
+    return mutation.type === 'attributes' && (mutation.target === this.table || this.colgroup.contains(mutation.target))
   }
 }

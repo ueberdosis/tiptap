@@ -53,48 +53,33 @@ context('/src/Extensions/TextAlign/Vue/', () => {
   })
 
   it('aligns the text left on the 1st button', () => {
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('not.have.css', 'text-align', 'left')
+    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
   })
 
   it('aligns the text center on the 2nd button', () => {
-    cy.get('button:nth-child(2)')
-      .click()
+    cy.get('button:nth-child(2)').click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('have.css', 'text-align', 'center')
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'center')
   })
 
   it('aligns the text right on the 3rd button', () => {
-    cy.get('button:nth-child(3)')
-      .click()
+    cy.get('button:nth-child(3)').click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('have.css', 'text-align', 'right')
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'right')
   })
 
   it('aligns the text justified on the 4th button', () => {
-    cy.get('button:nth-child(4)')
-      .click()
+    cy.get('button:nth-child(4)').click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('have.css', 'text-align', 'justify')
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'justify')
   })
 
   it('aligns the text default on the 5th button', () => {
-    cy.get('button:nth-child(5)')
-      .click()
+    cy.get('button:nth-child(5)').click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('not.have.css', 'text-align', 'left')
+    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
   })
 
   it('aligns the text left when pressing the keyboard shortcut', () => {

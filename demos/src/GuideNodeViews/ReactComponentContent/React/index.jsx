@@ -8,10 +8,7 @@ import ReactComponent from './Extension.js'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      ReactComponent,
-    ],
+    extensions: [StarterKit, ReactComponent],
     content: `
     <p>
       This is still the text editor you’re used to, but enriched with node views.
@@ -25,7 +22,5 @@ export default () => {
     `,
   })
 
-  return (
-    <EditorContent editor={editor} />
-  )
+  return <EditorContent editor={editor} />
 }

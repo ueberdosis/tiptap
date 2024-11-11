@@ -2,10 +2,7 @@
   <div v-if="editor">
     <bubble-menu :editor="editor">
       <div class="bubble-menu">
-        <button
-          @click="editor.chain().focus().toggleBold().run()"
-          :class="{ 'is-active': editor.isActive('bold') }"
-          >
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
         </button>
       </div>
@@ -14,7 +11,7 @@
       <div class="floating-menu">
         <button
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
         >
           H1
         </button>
@@ -32,9 +29,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Text from '@tiptap/extension-text'
-import {
-  BubbleMenu, Editor, EditorContent, FloatingMenu,
-} from '@tiptap/vue-3'
+import { BubbleMenu, Editor, EditorContent, FloatingMenu } from '@tiptap/vue-3'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 

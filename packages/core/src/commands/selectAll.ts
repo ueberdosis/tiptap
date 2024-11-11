@@ -7,14 +7,16 @@ declare module '@tiptap/core' {
        * Select the whole document.
        * @example editor.commands.selectAll()
        */
-      selectAll: () => ReturnType,
+      selectAll: () => ReturnType
     }
   }
 }
 
-export const selectAll: RawCommands['selectAll'] = () => ({ tr, commands }) => {
-  return commands.setTextSelection({
-    from: 0,
-    to: tr.doc.content.size,
-  })
-}
+export const selectAll: RawCommands['selectAll'] =
+  () =>
+  ({ tr, commands }) => {
+    return commands.setTextSelection({
+      from: 0,
+      to: tr.doc.content.size,
+    })
+  }

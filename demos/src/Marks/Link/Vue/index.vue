@@ -2,9 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">
-          Set link
-        </button>
+        <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">Set link</button>
         <button @click="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
           Unset link
         </button>
@@ -68,23 +66,13 @@ export default {
 
       // empty
       if (url === '') {
-        this.editor
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .unsetLink()
-          .run()
+        this.editor.chain().focus().extendMarkRange('link').unsetLink().run()
 
         return
       }
 
       // update link
-      this.editor
-        .chain()
-        .focus()
-        .extendMarkRange('link')
-        .setLink({ href: url })
-        .run()
+      this.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     },
   },
 

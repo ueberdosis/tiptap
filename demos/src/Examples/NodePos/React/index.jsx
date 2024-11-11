@@ -5,14 +5,12 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useState } from 'react'
 
-const mapNodePosToString = nodePos => `[${nodePos.node.type.name} ${nodePos.range.from}-${nodePos.range.to}] ${nodePos.textContent} | ${JSON.stringify(nodePos.node.attrs)}`
+const mapNodePosToString = nodePos =>
+  `[${nodePos.node.type.name} ${nodePos.range.from}-${nodePos.range.to}] ${nodePos.textContent} | ${JSON.stringify(nodePos.node.attrs)}`
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Image,
-    ],
+    extensions: [StarterKit, Image],
     content: `
       <h1>This is an example document to play around with the NodePos implementation of Tiptap.</h1>
       <p>
@@ -262,32 +260,72 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button data-testid="find-paragraphs" onClick={findParagraphs}>Find paragraphs</button>
-          <button data-testid="find-listitems" onClick={findListItems}>Find list items</button>
-          <button data-testid="find-bulletlists" onClick={findBulletList}>Find bullet lists</button>
-          <button data-testid="find-orderedlists" onClick={findOrderedList}>Find ordered lists</button>
-          <button data-testid="find-blockquotes" onClick={findBlockquote}>Find blockquotes</button>
-          <button data-testid="find-images" onClick={findImages}>Find images</button>
+          <button data-testid="find-paragraphs" onClick={findParagraphs}>
+            Find paragraphs
+          </button>
+          <button data-testid="find-listitems" onClick={findListItems}>
+            Find list items
+          </button>
+          <button data-testid="find-bulletlists" onClick={findBulletList}>
+            Find bullet lists
+          </button>
+          <button data-testid="find-orderedlists" onClick={findOrderedList}>
+            Find ordered lists
+          </button>
+          <button data-testid="find-blockquotes" onClick={findBlockquote}>
+            Find blockquotes
+          </button>
+          <button data-testid="find-images" onClick={findImages}>
+            Find images
+          </button>
         </div>
         <div className="button-group">
-          <button data-testid="find-first-blockquote" onClick={findFirstBlockquote}>Find first blockquote</button>
-          <button data-testid="find-squared-image" onClick={findSquaredImage}>Find squared image</button>
-          <button data-testid="find-landscape-image" onClick={findLandscapeImage}>Find landscape image</button>
-          <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>Find all landscape images</button>
-          <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>Find first landscape image with all query</button>
-          <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>Find portrait image in blockquote</button>
+          <button data-testid="find-first-blockquote" onClick={findFirstBlockquote}>
+            Find first blockquote
+          </button>
+          <button data-testid="find-squared-image" onClick={findSquaredImage}>
+            Find squared image
+          </button>
+          <button data-testid="find-landscape-image" onClick={findLandscapeImage}>
+            Find landscape image
+          </button>
+          <button data-testid="find-all-landscape-images" onClick={findAllLandscapeImages}>
+            Find all landscape images
+          </button>
+          <button data-testid="find-first-landscape-image-with-all-query" onClick={findFirstLandscapeImageWithAllQuery}>
+            Find first landscape image with all query
+          </button>
+          <button data-testid="find-portrait-image-inside-blockquote" onClick={findPortraitImageInBlockquote}>
+            Find portrait image in blockquote
+          </button>
         </div>
         <div className="button-group">
-          <button data-testid="find-first-node" onClick={findFirstNode}>Find first node</button>
-          <button data-testid="find-last-node" onClick={findLastNode}>Find last node</button>
-          <button data-testid="find-last-node-of-first-bullet-list" onClick={findLastNodeOfFirstBulletList}>Find last node of first bullet list</button>
-          <button data-testid="find-nonexistent-node" onClick={findNonexistentNode}>Find nonexistent node</button>
+          <button data-testid="find-first-node" onClick={findFirstNode}>
+            Find first node
+          </button>
+          <button data-testid="find-last-node" onClick={findLastNode}>
+            Find last node
+          </button>
+          <button data-testid="find-last-node-of-first-bullet-list" onClick={findLastNodeOfFirstBulletList}>
+            Find last node of first bullet list
+          </button>
+          <button data-testid="find-nonexistent-node" onClick={findNonexistentNode}>
+            Find nonexistent node
+          </button>
         </div>
       </div>
       <EditorContent editor={editor} />
-      {foundNodes ? <div className="output-group" data-testid="found-nodes">{foundNodes.map(n => (
-        <div data-testid="found-node" key={n.pos}>{mapNodePosToString(n)}</div>
-      ))}</div> : ''}
+      {foundNodes ? (
+        <div className="output-group" data-testid="found-nodes">
+          {foundNodes.map(n => (
+            <div data-testid="found-node" key={n.pos}>
+              {mapNodePosToString(n)}
+            </div>
+          ))}
+        </div>
+      ) : (
+        ''
+      )}
     </>
   )
 }

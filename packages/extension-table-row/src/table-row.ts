@@ -6,7 +6,7 @@ export interface TableRowOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 /**
@@ -27,9 +27,7 @@ export const TableRow = Node.create<TableRowOptions>({
   tableRole: 'row',
 
   parseHTML() {
-    return [
-      { tag: 'tr' },
-    ]
+    return [{ tag: 'tr' }]
   },
 
   renderHTML({ HTMLAttributes }) {

@@ -77,11 +77,7 @@ export const Linter = Extension.create<LinterOptions>({
             if (/lint-icon/.test(target.className) && target.issue) {
               const { from, to } = target.issue
 
-              view.dispatch(
-                view.state.tr
-                  .setSelection(TextSelection.create(view.state.doc, from, to))
-                  .scrollIntoView(),
-              )
+              view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)).scrollIntoView())
 
               return true
             }

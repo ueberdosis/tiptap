@@ -1,11 +1,11 @@
 ---
-"@tiptap/extension-floating-menu": major
-"@tiptap/extension-bubble-menu": major
-"@tiptap/extension-mention": major
-"@tiptap/suggestion": major
-"@tiptap/react": major
-"@tiptap/vue-2": major
-"@tiptap/vue-3": major
+'@tiptap/extension-floating-menu': major
+'@tiptap/extension-bubble-menu': major
+'@tiptap/extension-mention': major
+'@tiptap/suggestion': major
+'@tiptap/react': major
+'@tiptap/vue-2': major
+'@tiptap/vue-3': major
 ---
 
 Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.

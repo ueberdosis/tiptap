@@ -1,9 +1,4 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface BoldOptions {
   /**
@@ -11,7 +6,7 @@ export interface BoldOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -20,15 +15,15 @@ declare module '@tiptap/core' {
       /**
        * Set a bold mark
        */
-      setBold: () => ReturnType,
+      setBold: () => ReturnType
       /**
        * Toggle a bold mark
        */
-      toggleBold: () => ReturnType,
+      toggleBold: () => ReturnType
       /**
        * Unset a bold mark
        */
-      unsetBold: () => ReturnType,
+      unsetBold: () => ReturnType
     }
   }
 }
@@ -92,15 +87,21 @@ export const Bold = Mark.create<BoldOptions>({
 
   addCommands() {
     return {
-      setBold: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleBold: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetBold: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setBold:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleBold:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetBold:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

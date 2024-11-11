@@ -8,7 +8,7 @@ export class VueRenderer {
   ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
-    const Component = (typeof component === 'function') ? component : Vue.extend(component)
+    const Component = typeof component === 'function' ? component : Vue.extend(component)
 
     this.ref = new Component(props).$mount()
   }
@@ -29,11 +29,9 @@ export class VueRenderer {
 
     currentVueConstructor.config.silent = true
 
-    Object
-      .entries(props)
-      .forEach(([key, value]) => {
-        this.ref.$props[key] = value
-      })
+    Object.entries(props).forEach(([key, value]) => {
+      this.ref.$props[key] = value
+    })
 
     currentVueConstructor.config.silent = originalSilent
   }

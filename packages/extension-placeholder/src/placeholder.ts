@@ -23,12 +23,7 @@ export interface PlaceholderOptions {
    * @default 'Write something …'
    */
   placeholder:
-    | ((PlaceholderProps: {
-        editor: Editor
-        node: ProsemirrorNode
-        pos: number
-        hasAnchor: boolean
-      }) => string)
+    | ((PlaceholderProps: { editor: Editor; node: ProsemirrorNode; pos: number; hasAnchor: boolean }) => string)
     | string
 
   /**
@@ -110,11 +105,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                   'data-placeholder':
                     typeof this.options.placeholder === 'function'
                       ? this.options.placeholder({
-                        editor: this.editor,
-                        node,
-                        pos,
-                        hasAnchor,
-                      })
+                          editor: this.editor,
+                          node,
+                          pos,
+                          hasAnchor,
+                        })
                       : this.options.placeholder,
                 })
 

@@ -24,15 +24,11 @@ context('/src/Examples/Savvy/Vue/', () => {
 
   tests.forEach(test => {
     it(`should parse ${test[0]} correctly`, () => {
-      cy.get('.tiptap')
-        .type(`${test[0]} `)
-        .should('contain', test[1])
+      cy.get('.tiptap').type(`${test[0]} `).should('contain', test[1])
     })
   })
 
   it('should parse hex colors correctly', () => {
-    cy.get('.tiptap')
-      .type('#FD9170')
-      .find('.color')
+    cy.get('.tiptap').type('#FD9170').find('.color')
   })
 })

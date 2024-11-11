@@ -24,11 +24,7 @@ export function nodeInputRule(config: {
    * A function that returns the attributes for the node
    * can also be an object of attributes
    */
-  getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
+  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
     find: config.find,
@@ -60,10 +56,7 @@ export function nodeInputRule(config: {
       } else if (match[0]) {
         const insertionStart = config.type.isInline ? start : start - 1
 
-        tr.insert(insertionStart, config.type.create(attributes)).delete(
-          tr.mapping.map(start),
-          tr.mapping.map(end),
-        )
+        tr.insert(insertionStart, config.type.create(attributes)).delete(tr.mapping.map(start), tr.mapping.map(end))
       }
 
       tr.scrollIntoView()

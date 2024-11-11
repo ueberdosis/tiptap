@@ -1,21 +1,19 @@
 import { Editor } from '@tiptap/core'
-import {
-  Component, DefineComponent, h, markRaw, reactive, render,
-} from 'vue'
+import { Component, DefineComponent, h, markRaw, reactive, render } from 'vue'
 
 import { Editor as ExtendedEditor } from './Editor.js'
 
 export interface VueRendererOptions {
-  editor: Editor;
-  props?: Record<string, any>;
+  editor: Editor
+  props?: Record<string, any>
 }
 
-type ExtendedVNode = ReturnType<typeof h> | null;
+type ExtendedVNode = ReturnType<typeof h> | null
 
 interface RenderedComponent {
-  vNode: ExtendedVNode;
-  destroy: () => void;
-  el: Element | null;
+  vNode: ExtendedVNode
+  destroy: () => void
+  el: Element | null
 }
 
 /**

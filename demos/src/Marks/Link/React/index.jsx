@@ -74,7 +74,6 @@ export default () => {
             return false
           }
         },
-
       }),
     ],
     content: `
@@ -98,15 +97,13 @@ export default () => {
 
     // empty
     if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink()
-        .run()
+      editor.chain().focus().extendMarkRange('link').unsetLink().run()
 
       return
     }
 
     // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
-      .run()
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }, [editor])
 
   if (!editor) {
@@ -120,10 +117,7 @@ export default () => {
           <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
             Set link
           </button>
-          <button
-            onClick={() => editor.chain().focus().unsetLink().run()}
-            disabled={!editor.isActive('link')}
-          >
+          <button onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
             Unset link
           </button>
         </div>

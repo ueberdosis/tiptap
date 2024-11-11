@@ -9,47 +9,49 @@ declare module '@tiptap/core' {
        * Normalize nodes to a simple paragraph.
        * @example editor.commands.clearNodes()
        */
-      clearNodes: () => ReturnType,
+      clearNodes: () => ReturnType
     }
   }
 }
 
-export const clearNodes: RawCommands['clearNodes'] = () => ({ state, tr, dispatch }) => {
-  const { selection } = tr
-  const { ranges } = selection
+export const clearNodes: RawCommands['clearNodes'] =
+  () =>
+  ({ state, tr, dispatch }) => {
+    const { selection } = tr
+    const { ranges } = selection
 
-  if (!dispatch) {
+    if (!dispatch) {
+      return true
+    }
+
+    ranges.forEach(({ $from, $to }) => {
+      state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
+        if (node.type.isText) {
+          return
+        }
+
+        const { doc, mapping } = tr
+        const $mappedFrom = doc.resolve(mapping.map(pos))
+        const $mappedTo = doc.resolve(mapping.map(pos + node.nodeSize))
+        const nodeRange = $mappedFrom.blockRange($mappedTo)
+
+        if (!nodeRange) {
+          return
+        }
+
+        const targetLiftDepth = liftTarget(nodeRange)
+
+        if (node.type.isTextblock) {
+          const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
+
+          tr.setNodeMarkup(nodeRange.start, defaultType)
+        }
+
+        if (targetLiftDepth || targetLiftDepth === 0) {
+          tr.lift(nodeRange, targetLiftDepth)
+        }
+      })
+    })
+
     return true
   }
-
-  ranges.forEach(({ $from, $to }) => {
-    state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
-      if (node.type.isText) {
-        return
-      }
-
-      const { doc, mapping } = tr
-      const $mappedFrom = doc.resolve(mapping.map(pos))
-      const $mappedTo = doc.resolve(mapping.map(pos + node.nodeSize))
-      const nodeRange = $mappedFrom.blockRange($mappedTo)
-
-      if (!nodeRange) {
-        return
-      }
-
-      const targetLiftDepth = liftTarget(nodeRange)
-
-      if (node.type.isTextblock) {
-        const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
-
-        tr.setNodeMarkup(nodeRange.start, defaultType)
-      }
-
-      if (targetLiftDepth || targetLiftDepth === 0) {
-        tr.lift(nodeRange, targetLiftDepth)
-      }
-    })
-  })
-
-  return true
-}

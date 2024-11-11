@@ -18,8 +18,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const wrapInList: RawCommands['wrapInList'] = (typeOrName, attributes = {}) => ({ state, dispatch }) => {
-  const type = getNodeType(typeOrName, state.schema)
+export const wrapInList: RawCommands['wrapInList'] =
+  (typeOrName, attributes = {}) =>
+  ({ state, dispatch }) => {
+    const type = getNodeType(typeOrName, state.schema)
 
-  return originalWrapInList(type, attributes)(state, dispatch)
-}
+    return originalWrapInList(type, attributes)(state, dispatch)
+  }

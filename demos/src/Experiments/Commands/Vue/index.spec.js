@@ -10,12 +10,7 @@ context('/src/Experiments/Commands/Vue/', () => {
   })
 
   it('should open a popup after typing a slash', () => {
-    const items = [
-      { tag: 'h1' },
-      { tag: 'h2' },
-      { tag: 'strong' },
-      { tag: 'em' },
-    ]
+    const items = [{ tag: 'h1' }, { tag: 'h2' }, { tag: 'strong' }, { tag: 'em' }]
 
     items.forEach((item, i) => {
       cy.get('.tiptap').type('{selectall}{backspace}/')

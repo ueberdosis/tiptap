@@ -17,10 +17,10 @@ export interface CharacterCountOptions {
    */
   mode: 'textSize' | 'nodeSize'
   /**
- * The text counter function to use. Defaults to a simple character count.
- * @default (text) => text.length
- * @example (text) => [...new Intl.Segmenter().segment(text)].length
- */
+   * The text counter function to use. Defaults to a simple character count.
+   * @default (text) => text.length
+   * @example (text) => [...new Intl.Segmenter().segment(text)].length
+   */
   textCounter: (text: string) => number
   /**
    * The word counter function to use. Defaults to a simple word count.

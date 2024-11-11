@@ -21,15 +21,7 @@ export default () => {
       `,
   })
 
-  const {
-    isInter,
-    isComicSans,
-    isSerif,
-    isMonospace,
-    isCursive,
-    isComicSansQuoted,
-    isCssVariable,
-  } = useEditorState({
+  const { isInter, isComicSans, isSerif, isMonospace, isCursive, isComicSansQuoted, isCssVariable } = useEditorState({
     editor,
     selector: ctx => {
       return {
@@ -95,17 +87,13 @@ export default () => {
             CSS variable
           </button>
           <button
-            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()
-            }
+            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
             className={isComicSansQuoted ? 'is-active' : ''}
             data-test-id="comic-sans-quoted"
           >
             Comic Sans quoted
           </button>
-          <button
-            onClick={() => editor.chain().focus().unsetFontFamily().run()}
-            data-test-id="unsetFontFamily"
-          >
+          <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
             Unset font family
           </button>
         </div>

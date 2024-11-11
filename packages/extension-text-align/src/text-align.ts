@@ -6,21 +6,21 @@ export interface TextAlignOptions {
    * @default []
    * @example ['heading', 'paragraph']
    */
-  types: string[],
+  types: string[]
 
   /**
    * The alignments which are allowed.
    * @default ['left', 'center', 'right', 'justify']
    * @example ['left', 'right']
    */
-  alignments: string[],
+  alignments: string[]
 
   /**
    * The default alignment.
    * @default 'left'
    * @example 'center'
    */
-  defaultAlignment: string,
+  defaultAlignment: string
 }
 
 declare module '@tiptap/core' {
@@ -31,12 +31,12 @@ declare module '@tiptap/core' {
        * @param alignment The alignment
        * @example editor.commands.setTextAlign('left')
        */
-      setTextAlign: (alignment: string) => ReturnType,
+      setTextAlign: (alignment: string) => ReturnType
       /**
        * Unset the text align attribute
        * @example editor.commands.unsetTextAlign()
        */
-      unsetTextAlign: () => ReturnType,
+      unsetTextAlign: () => ReturnType
     }
   }
 }
@@ -83,21 +83,23 @@ export const TextAlign = Extension.create<TextAlignOptions>({
 
   addCommands() {
     return {
-      setTextAlign: (alignment: string) => ({ commands }) => {
-        if (!this.options.alignments.includes(alignment)) {
-          return false
-        }
+      setTextAlign:
+        (alignment: string) =>
+        ({ commands }) => {
+          if (!this.options.alignments.includes(alignment)) {
+            return false
+          }
 
-        return this.options.types
-          .map(type => commands.updateAttributes(type, { textAlign: alignment }))
-          .every(response => response)
-      },
+          return this.options.types
+            .map(type => commands.updateAttributes(type, { textAlign: alignment }))
+            .every(response => response)
+        },
 
-      unsetTextAlign: () => ({ commands }) => {
-        return this.options.types
-          .map(type => commands.resetAttributes(type, 'textAlign'))
-          .every(response => response)
-      },
+      unsetTextAlign:
+        () =>
+        ({ commands }) => {
+          return this.options.types.map(type => commands.resetAttributes(type, 'textAlign')).every(response => response)
+        },
     }
   },
 
