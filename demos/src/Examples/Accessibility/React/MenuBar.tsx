@@ -2,7 +2,7 @@ import { Editor } from '@tiptap/core'
 import { useEditorState } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useFocusMenubar } from './useFocusMenubar.js'
+import { useMenubarNav } from './useMenubarNav.js'
 
 /**
  * Handles the heading dropdown
@@ -48,10 +48,24 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
   }, [])
 
   return (
-    <div className="node-type-dropdown__container" ref={menuRef}>
+    <div
+      className="node-type-dropdown__container"
+      ref={menuRef}
+      onKeyDown={e => {
+        // Escape or tab should close the dropdown if it's open
+        if (isOpen && (e.key === 'Escape' || e.key === 'Tab')) {
+          setIsOpen(false)
+          if (e.key === 'Escape') {
+            // Prevent the editor from handling the escape key
+            e.preventDefault()
+          }
+        }
+      }}
+    >
       <button
-        onClick={() => {
+        onClick={e => {
           setIsOpen(open => !open)
+          e.stopPropagation()
         }}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -257,7 +271,7 @@ export function MenuBar({ editor }: { editor: Editor }) {
     },
   })
 
-  useFocusMenubar({
+  useMenubarNav({
     ref: containerRef,
     editor,
     onKeydown: event => {
