@@ -2,7 +2,7 @@ import { Selection } from '@tiptap/pm/state'
 import { BubbleMenu, Editor, useEditorState } from '@tiptap/react'
 import React, { useRef } from 'react'
 
-import { useFocusMenubar } from './useFocusMenubar.js'
+import { useMenubarNav } from './useMenubarNav.js'
 
 /**
  * Handles formatting text with marks like bold, italic, etc.
@@ -33,10 +33,11 @@ export function TextMenu({ editor }: { editor: Editor }) {
   })
 
   // Handle arrow navigation within a menu bar container, and allow to escape to the editor
-  const { focusButton } = useFocusMenubar({
+  const { getFocusableElements } = useMenubarNav({
     editor,
     ref: containerRef,
-    onEscape: () => {
+    onEscape: e => {
+      e.preventDefault()
       // On escape, focus the editor & dismiss the menu by moving the selection to the end of the selection
       editor
         .chain()
@@ -63,7 +64,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
         // The ref we have is to the container, not the menu itself
         if (containerRef.current === e.target?.parentNode) {
           // Focus the first button when the menu bar is focused
-          focusButton(containerRef.current?.querySelector('button'))
+          getFocusableElements()?.[0]?.focus()
         }
       }}
       tabIndex={0}

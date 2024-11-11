@@ -1,7 +1,7 @@
 import { Editor, FloatingMenu, useEditorState } from '@tiptap/react'
 import React, { useRef } from 'react'
 
-import { useFocusMenubar } from './useFocusMenubar.js'
+import { useMenubarNav } from './useMenubarNav.js'
 
 /**
  * A floating menu for inserting new elements like lists, horizontal rules, etc.
@@ -21,10 +21,11 @@ export function InsertMenu({ editor }: { editor: Editor }) {
   })
 
   // Handle arrow navigation within a menu bar container, and allow to escape to the editor
-  const { focusButton } = useFocusMenubar({
+  const { getFocusableElements } = useMenubarNav({
     editor,
     ref: containerRef,
-    onEscape: () => {
+    onEscape: e => {
+      e.preventDefault()
       // On escape, focus the editor
       editor.chain().focus().run()
     },
@@ -43,8 +44,8 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       onFocus={e => {
         // The ref we have is to the container, not the menu itself
         if (containerRef.current === e.target?.parentNode) {
-          // Focus the first button when the menu bar is focused
-          focusButton(containerRef.current?.querySelector('button'))
+          // Focus the first enabled button-like when the menu bar is focused
+          getFocusableElements()?.[0]?.focus()
         }
       }}
       tabIndex={0}
