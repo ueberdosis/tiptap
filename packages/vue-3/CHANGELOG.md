@@ -1,16 +1,5 @@
 # Change Log
 
-## 2.10.0
-
-### Patch Changes
-
-- 94a8d25: Fix editor destruction before transition end if editor is nested
-- f67b217: Fixes an issue where the bubble and flaoting menus on blur would remount
-- Updated dependencies [830e683]
-- Updated dependencies [f67b217]
-  - @tiptap/extension-bubble-menu@2.10.0
-  - @tiptap/extension-floating-menu@2.10.0
-
 ## 2.9.1
 
 ### Patch Changes
