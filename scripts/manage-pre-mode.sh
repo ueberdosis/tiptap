@@ -23,7 +23,7 @@ enter_pre_mode() {
 
   if $is_on_tag && $pre_json_exists && $is_on_pre_mode; then
     echo "You are already in pre mode for '$tag' on '$branch'"
-    exit 1
+    exit 0
   fi
 
   npx changeset pre exit
@@ -42,7 +42,7 @@ exit_pre_mode() {
 
   if ! $needs_exit || ! $pre_json_exists; then
     echo "You are not in pre mode"
-    exit 1
+    exit 0
   fi
 
   npx changeset pre exit
@@ -64,6 +64,6 @@ case "$BRANCH" in
     exit_pre_mode
     ;;
   *)
-    exit 1
+    exit 0
     ;;
 esac
