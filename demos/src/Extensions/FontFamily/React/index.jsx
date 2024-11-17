@@ -18,6 +18,7 @@ export default () => {
         <p><span style="font-family: monospace">The cool kids can apply monospace fonts aswell.</span></p>
         <p><span style="font-family: cursive">But hopefully we all can agree, that cursive fonts are the best.</span></p>
         <p><span style="font-family: var(--title-font-family)">Then there are CSS variables, the new hotness.</span></p>
+        <p><span style="font-family: 'Exo 2'">TipTap even can handle exotic fonts as Exo 2.</span></p>
       `,
   })
 
@@ -27,6 +28,9 @@ export default () => {
 
   return (
     <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"/>
       <div className="control-group">
         <div className="button-group">
           <button
@@ -82,12 +86,20 @@ export default () => {
           >
             Comic Sans quoted
           </button>
-          <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
+          <button
+            onClick={() => editor.chain().focus().setFontFamily('"Exo 2"').run()}
+            className={editor.isActive('textStyle', { fontFamily: '"Exo 2"' }) ? 'is-active' : ''}
+            data-test-id="exo2"
+          >
+            Exo 2
+          </button>
+          <button onClick={() => editor.chain().focus().unsetFontFamily().run()}
+                  data-test-id="unsetFontFamily">
             Unset font family
           </button>
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor}/>
     </>
   )
 }
