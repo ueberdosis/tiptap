@@ -123,6 +123,12 @@ export class FloatingMenuView {
       return
     }
 
+    if (
+      event?.relatedTarget === this.editor.view.dom
+    ) {
+      return
+    }
+
     this.hide()
   }
 
