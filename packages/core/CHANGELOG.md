@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.10.0
+
+### Minor Changes
+
+- 893e44e: Previously, only a json representation of the node could be inserted into the editor. This change allows for the insertion of Prosemirror `Node`s and `Fragment`s directly into the editor through the `insertContentAt`, `setContent` and `insertContent` commands.
+
+### Patch Changes
+
+- 48cba54: preserve existing node attributes when running setNode
+- f323e5b: Addresses a bug with `insertContentAt`'s `simulatedPasteRules` option where it could only accept text and not Prosemirror `Node` and `Content`
+- d2f366d: Updates the types of `addOptions` and `addStorage` to have the parent be possibly undefined which is the most accurate typing
+- 53673fb: feat: add `once` to EventEmitters
+- 2178118: Add Node `linebreakReplacement` support and enable on hard-break nodes
+- c50eb4b: Improve handling of selections with `updateAttributes`. Should no longer modify parent nodes of the same type.
+
 ## 2.9.1
 
 ## 2.9.0

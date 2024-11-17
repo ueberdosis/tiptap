@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.5.1
+
+### Patch Changes
+
+- 444e6e5: The link extension's `validate` option now applies to both auto-linking and XSS mitigation. While, the new `shouldAutoLink` option is used to disable auto linking on an otherwise valid url.
+
 ## 2.5.0
 
 ### Minor Changes
