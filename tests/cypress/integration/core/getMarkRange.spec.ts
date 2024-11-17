@@ -140,4 +140,38 @@ describe('getMarkRange', () => {
       to: 39,
     })
   })
+  it('can distinguish mark boundaries', () => {
+    const testDocument = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'This is a text with a ' },
+            { type: 'text', text: 'link.', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }] },
+            { type: 'text', text: 'another link', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev/invalid' } }] },
+          ],
+        },
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'This is a text without a link.' },
+          ],
+        },
+      ],
+    }
+
+    const doc = Node.fromJSON(schema, testDocument)
+    const $pos = doc.resolve(27)
+    const range = getMarkRange($pos, schema.marks.link, { href: 'https://tiptap.dev' })
+
+    expect(range).to.deep.eq({
+      from: 23,
+      to: 28,
+    })
+
+    const nextRange = getMarkRange(doc.resolve(28), schema.marks.link)
+
+    expect(nextRange).to.deep.eq({ from: 28, to: 40 })
+  })
 })
