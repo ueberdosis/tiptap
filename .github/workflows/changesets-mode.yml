@@ -1,0 +1,38 @@
+name: Manage Changesets Mode
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - next
+
+jobs:
+  manage-pre-mode:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+
+      # Setup Node.js
+      - uses: actions/setup-node@v3
+
+      # Install dependencies
+      - run: npm install
+
+      # Run the script
+      - name: Run pre mode script
+        id: pre-mode
+        run: |
+          BRANCH=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          ./scripts/manage-pre-mode.sh "$BRANCH"
+      
+      # Commit if required
+      - name: Commit changes
+        if: env.needs_commit == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .changeset/pre.json
+          git commit -m "Update Changesets pre-release mode"
+          git push
