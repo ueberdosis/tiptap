@@ -268,11 +268,11 @@ export class BubbleMenuView {
 
             if (node) {
               const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
-              
+
               if (nodeViewWrapper) {
                 node = nodeViewWrapper.firstChild as HTMLElement
               }
-              
+
               if (node) {
                 return node.getBoundingClientRect()
               }
