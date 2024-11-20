@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 38abfdf: Font-family extension: Prevent removal of quotes in parseHTML
+
 ## 2.9.1
 
 ## 2.9.0

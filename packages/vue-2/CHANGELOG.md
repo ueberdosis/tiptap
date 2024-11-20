@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: Pin vue-ts-types to a working version for vue-2
+- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
+- Updated dependencies [7619215]
+- Updated dependencies [7619215]
+- Updated dependencies [1959eb5]
+  - @tiptap/extension-bubble-menu@2.10.0
+  - @tiptap/extension-floating-menu@2.10.0
+
 ## 2.9.1
 
 ### Patch Changes
