@@ -431,6 +431,7 @@ export const Table = Node.create<TableOptions>({
           columnResizing({
             handleWidth: this.options.handleWidth,
             cellMinWidth: this.options.cellMinWidth,
+            defaultCellMinWidth: this.options.cellMinWidth,
             View: this.options.View,
             lastColumnResizable: this.options.lastColumnResizable,
           }),
