@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 5eee480: React 19 changes how refs works, it will double mount them, all that we needed to do though was to use the JSX transform instead of createElement directly #5846
+- 7619215: This changes useEditorState to use the useLayoutEffect hook instead of the useEffect hook, so that state that might render to the page can be committed in one pass instead of two.
+- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
+- 7619215: React 19 is now allowed as a peer dep, we did not have to make any changes for React 19
+- Updated dependencies [7619215]
+- Updated dependencies [7619215]
+- Updated dependencies [1959eb5]
+  - @tiptap/extension-bubble-menu@2.10.0
+  - @tiptap/extension-floating-menu@2.10.0
+
 ## 2.9.1
 
 ### Patch Changes

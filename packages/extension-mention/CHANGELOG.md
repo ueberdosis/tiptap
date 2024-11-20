@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: add zero-width space to resolve cursor selection issue
+
 ## 2.9.1
 
 ## 2.9.0
