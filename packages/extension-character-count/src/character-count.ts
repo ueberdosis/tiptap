@@ -28,6 +28,11 @@ export interface CharacterCountOptions {
    * @example (text) => text.split(/\s+/).filter(word => word !== '').length
    */
   wordCounter: (text: string) => number
+  /**
+   * Whether to trim initial content that exceeds the limit
+   * @default true
+   */
+  trimInitialContent: boolean
 }
 
 export interface CharacterCountStorage {
@@ -60,6 +65,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       mode: 'textSize',
       textCounter: text => text.length,
       wordCounter: text => text.split(' ').filter(word => word !== '').length,
+      trimInitialContent: true,
     }
   },
 
@@ -89,6 +95,32 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       const text = node.textBetween(0, node.content.size, ' ', ' ')
 
       return this.options.wordCounter(text)
+    }
+  },
+
+  onCreate() {
+    const { editor, options } = this
+    const { limit, trimInitialContent } = options
+
+    // Only proceed if a limit is set and trimInitialContent is true
+    if (limit === null || limit === undefined || limit === 0 || !trimInitialContent) { return }
+
+    // Get the current document
+    const doc = editor.state.doc
+
+    // Calculate current character count
+    const currentCharCount = this.storage.characters()
+
+    // If content exceeds limit, trim it
+    if (currentCharCount > limit) {
+      const text = doc.textBetween(0, doc.content.size, undefined, ' ')
+      const trimmedContent = text.slice(0, limit)
+
+      // Replace the entire document content
+      editor.commands.setContent(trimmedContent)
+
+      // Add a console warning
+      console.warn(`[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`)
     }
   },
 
