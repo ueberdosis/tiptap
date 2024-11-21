@@ -29,15 +29,29 @@ export type NodeProps<TNodeType = any, TChildren = any> = {
      * The parent node of the current node
      */
     parent?: TNodeType;
-  })=> TChildren;
+  }) => TChildren;
 };
 
 /**
  * Props for a mark renderer
  */
-export type MarkProps<TMarkType = any, TChildren = any> = {
+export type MarkProps<TMarkType = any, TChildren = any, TNodeType = any> = {
+  /**
+   * The current mark to render
+   */
   mark: TMarkType;
+  /**
+   * The children of the current mark
+   */
   children?: TChildren;
+  /**
+   * The node the current mark is applied to
+   */
+  node: TNodeType;
+  /**
+   * The node the current mark is applied to
+   */
+  parent?: TNodeType;
 };
 
 export type TiptapStaticRendererOptions<
@@ -60,18 +74,14 @@ export type TiptapStaticRendererOptions<
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
    */
-  TNodeRender extends (
-    ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>
-  ) => TReturnType = (
+  TNodeRender extends (ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>) => TReturnType = (
     ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>
   ) => TReturnType,
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (
-    ctx: MarkProps<TMarkType, TReturnType | TReturnType[]>
-  ) => TReturnType = (
-    ctx: MarkProps<TMarkType, TReturnType | TReturnType[]>
+  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>
   ) => TReturnType,
 > = {
   /**
@@ -124,18 +134,14 @@ cb: (node: TNodeType) => void) => void };
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
    */
-  TNodeRender extends (
-    ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>
-  ) => TReturnType = (
+  TNodeRender extends (ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>) => TReturnType = (
     ctx: NodeProps<TNodeType, TReturnType | TReturnType[]>
   ) => TReturnType,
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (
-    ctx: MarkProps<TMarkType, TReturnType | TReturnType[]>
-  ) => TReturnType = (
-    ctx: MarkProps<TMarkType, TReturnType | TReturnType[]>
+  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>
   ) => TReturnType,
 >(
   /**
@@ -149,7 +155,7 @@ cb: (node: TNodeType) => void) => void };
         }
       | {
           component: TMarkRender;
-          props: MarkProps<TMarkType, TReturnType | TReturnType[]>;
+          props: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>;
         }
   ) => TReturnType,
   {
@@ -157,13 +163,7 @@ cb: (node: TNodeType) => void) => void };
     markMapping,
     unhandledNode,
     unhandledMark,
-  }: TiptapStaticRendererOptions<
-    TReturnType,
-    TMarkType,
-    TNodeType,
-    TNodeRender,
-    TMarkRender
-  >,
+  }: TiptapStaticRendererOptions<TReturnType, TMarkType, TNodeType, TNodeRender, TMarkRender>,
 ) {
   /**
    * Render Tiptap JSON and all its children using the provided node and mark mappings.
@@ -181,7 +181,6 @@ cb: (node: TNodeType) => void) => void };
      */
     parent?: TNodeType;
   }): TReturnType {
-
     const nodeType = typeof content.type === 'string' ? content.type : content.type.name
     const NodeHandler = nodeMapping[nodeType] ?? unhandledNode
 
@@ -197,7 +196,7 @@ cb: (node: TNodeType) => void) => void };
         renderElement: renderContent,
         // Lazily compute the children to avoid unnecessary recursion
         get children() {
-        // recursively render child content nodes
+          // recursively render child content nodes
           const children: TReturnType[] = []
 
           if (content.content) {
@@ -231,6 +230,7 @@ cb: (node: TNodeType) => void) => void };
           props: {
             mark,
             parent,
+            node: content,
             children: acc,
           },
         })
