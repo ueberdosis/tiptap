@@ -816,9 +816,9 @@ export class Node<Options = any, Storage = any> {
   }
 
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<NodeConfig<ExtendedOptions, ExtendedStorage>> = {},
+    extendedConfig: Partial<NodeConfig<Partial<ExtendedOptions>, Partial<ExtendedStorage>>> = {},
   ) {
-    const extension = new Node<ExtendedOptions, ExtendedStorage>(extendedConfig)
+    const extension = new Node<ExtendedOptions, ExtendedStorage>(extendedConfig as NodeConfig)
 
     extension.parent = this
 
