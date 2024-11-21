@@ -46,11 +46,19 @@ const renderToMarkdown = ({ content }: { content: JSONContent | Node }) => rende
         return `${new Array(level).fill('#').join('')} ${children}\n`
       },
       codeBlock({ node, children }) {
-        return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(children)}\n\`\`\`\n`
+        return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(
+          children,
+        )}\n\`\`\`\n`
       },
       blockquote({ children }) {
-        return `\n${serializeChildrenToHTMLString(children).trim().split('\n').map(a => `> ${a}`)
+        return `\n${serializeChildrenToHTMLString(children)
+          .trim()
+          .split('\n')
+          .map(a => `> ${a}`)
           .join('\n')}`
+      },
+      image({ node }) {
+        return `![${node.attrs.alt}](${node.attrs.src})`
       },
       hardBreak() {
         return '\n'
@@ -60,8 +68,23 @@ const renderToMarkdown = ({ content }: { content: JSONContent | Node }) => rende
       bold({ children }) {
         return `**${serializeChildrenToHTMLString(children)}**`
       },
-      italic({ children }) {
-        return `*${serializeChildrenToHTMLString(children)}*`
+      italic({ children, node }) {
+        let isBoldToo = false
+
+        // Check if the node being wrapped also has a bold mark, if so, we need to use the bold markdown syntax
+        if (node?.marks.some(m => m.type.name === 'bold')) {
+          isBoldToo = true
+        }
+
+        if (isBoldToo) {
+          // If the content is bold, just wrap the bold content in italic markdown syntax with another set of asterisks
+          return `*${serializeChildrenToHTMLString(children)}*`
+        }
+
+        return `_${serializeChildrenToHTMLString(children)}_`
+      },
+      code({ children }) {
+        return `\`${serializeChildrenToHTMLString(children)}\``
       },
     },
   },
@@ -126,6 +149,9 @@ console.log(
               marks: [
                 {
                   type: 'bold',
+                },
+                {
+                  type: 'italic',
                 },
               ],
               text: 'Tiptap',
