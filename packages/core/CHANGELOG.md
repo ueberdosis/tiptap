@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.1
+
+### Patch Changes
+
+- 87d63d8: Update TypeScript types to allow options to be optional
+
 ## 2.10.0
 
 ### Minor Changes
