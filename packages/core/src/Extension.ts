@@ -61,7 +61,7 @@ declare module '@tiptap/core' {
      */
     addOptions?: (this: {
       name: string
-      parent: ParentConfig<ExtensionConfig<Options, Storage>>['addOptions']
+      parent: Exclude<ParentConfig<ExtensionConfig<Options, Storage>>['addOptions'], undefined>
     }) => Options
 
     /**
@@ -76,7 +76,7 @@ declare module '@tiptap/core' {
     addStorage?: (this: {
       name: string
       options: Options
-      parent: ParentConfig<ExtensionConfig<Options, Storage>>['addStorage']
+      parent: Exclude<ParentConfig<ExtensionConfig<Options, Storage>>['addStorage'], undefined>
     }) => Storage
 
     /**
@@ -474,9 +474,9 @@ export class Extension<Options = any, Storage = any> {
   }
 
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<ExtensionConfig<Partial<ExtendedOptions>, Partial<ExtendedStorage>>> = {},
+    extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedStorage>> = {},
   ) {
-    const extension = new Extension<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig } as ExtensionConfig)
+    const extension = new Extension<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig })
 
     extension.parent = this
 

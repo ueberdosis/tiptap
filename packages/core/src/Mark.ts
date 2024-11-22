@@ -64,7 +64,7 @@ declare module '@tiptap/core' {
      */
     addOptions?: (this: {
       name: string
-      parent: ParentConfig<MarkConfig<Options, Storage>>['addOptions']
+      parent: Exclude<ParentConfig<MarkConfig<Options, Storage>>['addOptions'], undefined>
     }) => Options
 
     /**
@@ -79,7 +79,7 @@ declare module '@tiptap/core' {
     addStorage?: (this: {
       name: string
       options: Options
-      parent: ParentConfig<MarkConfig<Options, Storage>>['addStorage']
+      parent: Exclude<ParentConfig<MarkConfig<Options, Storage>>['addStorage'], undefined>
     }) => Storage
 
     /**
@@ -606,9 +606,9 @@ export class Mark<Options = any, Storage = any> {
   }
 
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<MarkConfig<Partial<ExtendedOptions>, Partial<ExtendedStorage>>> = {},
+    extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedStorage>> = {},
   ) {
-    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig as MarkConfig)
+    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig)
 
     extension.parent = this
 
