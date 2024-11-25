@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import Document from '@tiptap/extension-document'
 import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -28,7 +30,11 @@ export default () => {
 
   return (
     <>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>setHardBreak</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={() => editor.chain().focus().setHardBreak().run()}>Set hard break</button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
     </>
   )

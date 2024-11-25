@@ -1,9 +1,12 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().setHorizontalRule().run()">
-      setHorizontalRule
-    </button>
-
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="editor.chain().focus().setHorizontalRule().run()">
+          Set horizontal rule
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -50,8 +53,21 @@ export default {
 }
 </script>
 
-<style lang="scss">
-hr.ProseMirror-selectednode {
-  border-top: 1px solid #68CEF8;
+<style lang="scss">/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    cursor: pointer;
+    margin: 2rem 0;
+
+    &.ProseMirror-selectednode {
+      border-top: 1px solid var(--purple);
+    }
+  }
 }
 </style>

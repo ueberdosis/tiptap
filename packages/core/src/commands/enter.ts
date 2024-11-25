@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
     enter: {
       /**
        * Trigger enter.
+       * @example editor.commands.enter()
        */
       enter: () => ReturnType,
     }

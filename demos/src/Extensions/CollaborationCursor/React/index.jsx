@@ -14,7 +14,7 @@ import * as Y from 'yjs'
 const ydoc = new Y.Doc()
 const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
 
-export default () => {
+function Component() {
   const editor = useEditor({
     extensions: [
       Document,
@@ -39,3 +39,11 @@ export default () => {
 
   return <EditorContent editor={editor} />
 }
+
+function App() {
+  const useStrictMode = true
+
+  return useStrictMode ? <React.StrictMode><Component /></React.StrictMode> : <Component />
+}
+
+export default App

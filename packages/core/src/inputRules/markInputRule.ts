@@ -8,6 +8,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 /**
  * Build an input rule that adds a mark when the
  * matched text is typed into it.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function markInputRule(config: {
   find: InputRuleFinder

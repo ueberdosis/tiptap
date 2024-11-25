@@ -1,27 +1,31 @@
 <template>
   <node-view-wrapper class="draw">
-    <input type="color" v-model="color">
-    <input
-      type="number"
-      min="1"
-      max="10"
-      v-model="size"
-    >
-    <button @click="clear">
-      clear
-    </button>
-    <svg viewBox="0 0 500 250" ref="canvas">
-      <template v-for="item in node.attrs.lines">
-        <path
-          v-if="item.id !== id"
-          :key="item.id"
-          :d="item.path"
-          :id="`id-${item.id}`"
-          :stroke="item.color"
-          :stroke-width="item.size"
-        />
-      </template>
-    </svg>
+    <div class="control-group">
+      <div class="button-group">
+        <input type="color" v-model="color">
+        <input
+          type="number"
+          min="1"
+          max="10"
+          v-model="size"
+        >
+        <button @click="clear">
+          Clear
+        </button>
+      </div>
+      <svg viewBox="0 0 500 250" ref="canvas">
+        <template v-for="item in node.attrs.lines">
+          <path
+            v-if="item.id !== id"
+            :key="item.id"
+            :d="item.path"
+            :id="`id-${item.id}`"
+            :stroke="item.color"
+            :stroke-width="item.size"
+          />
+        </template>
+      </svg>
+    </div>
   </node-view-wrapper>
 </template>
 

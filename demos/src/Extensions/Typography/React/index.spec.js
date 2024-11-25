@@ -9,6 +9,15 @@ context('/src/Extensions/Typography/React/', () => {
     })
   })
 
+  it('should keep dates as they are', () => {
+    cy.get('.tiptap').type('1/4/2024').should('contain', '1/4/2024')
+  })
+
+  it('should make a fraction only with spaces afterwards', () => {
+    cy.get('.tiptap').type('1/4').should('contain', '1/4')
+    cy.get('.tiptap').type('{selectall}{backspace}1/4 ').should('contain', '¼')
+  })
+
   it('should make an em dash from two dashes', () => {
     cy.get('.tiptap').type('-- emDash').should('contain', '— emDash')
   })
