@@ -148,7 +148,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
 
         return {
           ...fields,
-          ...(extendMarkSchema ? extendMarkSchema(extension) : {}),
+          ...(extendMarkSchema ? extendMarkSchema(extension as any) : {}),
         }
       }, {})
 
