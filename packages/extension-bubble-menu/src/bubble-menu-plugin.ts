@@ -156,6 +156,12 @@ export class BubbleMenuView {
       return
     }
 
+    if (
+      event?.relatedTarget === this.editor.view.dom
+    ) {
+      return
+    }
+
     this.hide()
   }
 
@@ -260,14 +266,16 @@ export class BubbleMenuView {
           if (isNodeSelection(state.selection)) {
             let node = view.nodeDOM(from) as HTMLElement
 
-            const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
-
-            if (nodeViewWrapper) {
-              node = nodeViewWrapper.firstChild as HTMLElement
-            }
-
             if (node) {
-              return node.getBoundingClientRect()
+              const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+              if (nodeViewWrapper) {
+                node = nodeViewWrapper.firstChild as HTMLElement
+              }
+
+              if (node) {
+                return node.getBoundingClientRect()
+              }
             }
           }
 

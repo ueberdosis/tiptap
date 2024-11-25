@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: Add `element: HTMLElement` to `shouldShow` options within the BubbleMenu options.
+- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
+- 1959eb5: Fix a potential null pointer exception
+
 ## 2.9.1
 
 ## 2.9.0

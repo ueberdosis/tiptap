@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-horizontal-rule",
   "description": "horizontal rule extension for tiptap",
-  "version": "2.9.1",
+  "version": "2.10.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,8 +29,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.9.1",
-    "@tiptap/pm": "^2.9.1"
+    "@tiptap/core": "^2.10.0",
+    "@tiptap/pm": "^2.10.0"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.7.0",

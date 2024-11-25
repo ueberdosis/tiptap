@@ -474,9 +474,9 @@ export class Extension<Options = any, Storage = any> {
   }
 
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedStorage>> = {},
+    extendedConfig: Partial<ExtensionConfig<Partial<ExtendedOptions>, Partial<ExtendedStorage>>> = {},
   ) {
-    const extension = new Extension<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig })
+    const extension = new Extension<ExtendedOptions, ExtendedStorage>({ ...this.config, ...extendedConfig } as ExtensionConfig)
 
     extension.parent = this
 

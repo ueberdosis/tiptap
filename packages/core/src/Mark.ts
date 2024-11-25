@@ -606,9 +606,9 @@ export class Mark<Options = any, Storage = any> {
   }
 
   extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedStorage>> = {},
+    extendedConfig: Partial<MarkConfig<Partial<ExtendedOptions>, Partial<ExtendedStorage>>> = {},
   ) {
-    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig)
+    const extension = new Mark<ExtendedOptions, ExtendedStorage>(extendedConfig as MarkConfig)
 
     extension.parent = this
 

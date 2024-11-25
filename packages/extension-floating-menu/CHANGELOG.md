@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
+
 ## 2.9.1
 
 ## 2.9.0

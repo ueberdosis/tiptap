@@ -46,4 +46,12 @@ context('/src/Extensions/FontFamily/React/', () => {
 
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: var(--title-font-family)')
   })
+  it('should allow fonts containing a space and number as a font-family', () => {
+    cy.get('[data-test-id="exo2"]')
+      .should('not.have.class', 'is-active')
+      .click()
+      .should('have.class', 'is-active')
+
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: "Exo 2"')
+  })
 })
