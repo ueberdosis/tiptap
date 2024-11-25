@@ -1,4 +1,4 @@
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin, BubbleMenuPluginProps, BubbleMenuView } from '@tiptap/extension-bubble-menu'
 import React, { useEffect, useState } from 'react'
 
 import { useCurrentEditor } from './Context.js'
@@ -15,6 +15,9 @@ export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>,
 export const BubbleMenu = (props: BubbleMenuProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const { editor: currentEditor } = useCurrentEditor()
+  const latestProps = React.useRef(props)
+
+  latestProps.current = props
 
   useEffect(() => {
     if (!element) {
@@ -25,11 +28,8 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
       return
     }
 
-    const {
-      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
-    } = props
-
-    const menuEditor = editor || currentEditor
+    const menuEditor = props.editor || currentEditor
+    const pluginKey = latestProps.current.pluginKey ?? 'bubbleMenu'
 
     if (!menuEditor) {
       console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
@@ -37,12 +37,14 @@ export const BubbleMenu = (props: BubbleMenuProps) => {
     }
 
     const plugin = BubbleMenuPlugin({
-      updateDelay,
+      updateDelay: latestProps.current.updateDelay,
       editor: menuEditor,
       element,
       pluginKey,
-      shouldShow,
-      tippyOptions,
+      shouldShow: (...args) => {
+        return (latestProps.current.shouldShow ?? BubbleMenuView.shouldShow)?.(...args) ?? false
+      },
+      tippyOptions: latestProps.current.tippyOptions,
     })
 
     menuEditor.registerPlugin(plugin)
