@@ -42,7 +42,6 @@ declare module '@tiptap/core' {
  *  This ensures that any text between backticks is formatted as code,
  *  regardless of the surrounding characters (exception being another backtick).
  */
- */
 export const inputRegex = /(?<!`)`([^`]+)`(?!`)/;
 
 /**
