@@ -42,12 +42,12 @@ declare module '@tiptap/core' {
  *  This ensures that any text between backticks is formatted as code,
  *  regardless of the surrounding characters (exception being another backtick).
  */
-export const inputRegex = /(?<!`)`([^`]+)`(?!`)/;
+export const inputRegex = /(?<!`)`([^`]+)`(?!`)/
 
 /**
  * Matches inline code while pasting.
  */
-export const pasteRegex = /(?<!`)`([^`]+)`(?!`)/g;
+export const pasteRegex = /(?<!`)`([^`]+)`(?!`)/g
 
 /**
  * This extension allows you to mark text as inline code.
