@@ -93,9 +93,39 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
   },
 
   addProseMirrorPlugins() {
+    let initialEvaluationDone = false
+
     return [
       new Plugin({
         key: new PluginKey('characterCount'),
+        appendTransaction: (transactions, oldState, newState) => {
+          if (initialEvaluationDone) {
+            return
+          }
+
+          const limit = this.options.limit
+
+          if (limit === null || limit === undefined || limit === 0) {
+            initialEvaluationDone = true
+            return
+          }
+
+          const initialContentSize = this.storage.characters({ node: newState.doc })
+
+          if (initialContentSize > limit) {
+            const over = initialContentSize - limit
+            const from = 0
+            const to = over
+
+            console.warn(`[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`)
+            const tr = newState.tr.deleteRange(from, to)
+
+            initialEvaluationDone = true
+            return tr
+          }
+
+          initialEvaluationDone = true
+        },
         filterTransaction: (transaction, state) => {
           const limit = this.options.limit
 
