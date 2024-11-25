@@ -197,7 +197,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.setOptions({ editable })
 
     if (emitUpdate) {
-      this.emit('update', { editor: this, transaction: this.state.tr })
+      this.emit('update', { editor: this, transaction: this.state.tr, appendedTransactions: [] })
     }
   }
 
@@ -457,26 +457,29 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
-    const prevState = this.state
-    const state = this.state.apply(transaction)
+    // Apply transaction and get resulting state and transactions
+    const { state, transactions } = this.state.applyTransaction(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
-
-    // The transaction did not change the editor’s state.
-    // It may have been filtered
-    if (prevState === state) {
-      // Skip the update
-      return
-    }
+    const rootTrWasApplied = transactions.includes(transaction)
 
     this.emit('beforeTransaction', {
       editor: this,
       transaction,
       nextState: state,
     })
+
+    // If transaction was filtered out, we can return early
+    if (!rootTrWasApplied) {
+      return
+    }
+
     this.view.updateState(state)
+
+    // Emit transaction event with appended transactions info
     this.emit('transaction', {
       editor: this,
       transaction,
+      appendedTransactions: transactions.slice(1),
     })
 
     if (selectionHasChanged) {
@@ -486,14 +489,17 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
     }
 
-    const focus = transaction.getMeta('focus')
-    const blur = transaction.getMeta('blur')
+    // Only emit the latest between focus and blur events
+    const mostRecentFocusTr = transactions.findLast(tr => tr.getMeta('focus') || tr.getMeta('blur'))
+    const focus = mostRecentFocusTr?.getMeta('focus')
+    const blur = mostRecentFocusTr?.getMeta('blur')
 
     if (focus) {
       this.emit('focus', {
         editor: this,
         event: focus.event,
-        transaction,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
       })
     }
 
@@ -501,17 +507,20 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('blur', {
         editor: this,
         event: blur.event,
-        transaction,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
       })
     }
 
-    if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
+    // Compare states for update event
+    if (transaction.getMeta('preventUpdate') || transactions.every(tr => !tr.docChanged) || this.state.doc.eq(state.doc)) {
       return
     }
 
     this.emit('update', {
       editor: this,
       transaction,
+      appendedTransactions: transactions.slice(1),
     })
   }
 
