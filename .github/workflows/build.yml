@@ -163,3 +163,7 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
+
+      - name: Soft release
+        id: soft-release
+        run: npx pkg-pr-new publish './packages/*'

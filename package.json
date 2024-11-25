@@ -65,6 +65,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.10",
     "minimist": "^1.2.8",
+    "pkg-pr-new": "0.0.32",
     "rollup": "^4.27.3",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
