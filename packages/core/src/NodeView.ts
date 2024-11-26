@@ -1,5 +1,5 @@
 import { NodeSelection } from '@tiptap/pm/state'
-import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor.js'
 import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
@@ -214,7 +214,7 @@ export class NodeView<
    * @return `false` if the editor should re-read the selection or re-parse the range around the mutation
    * @return `true` if it can safely be ignored.
    */
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+  ignoreMutation(mutation: ViewMutationRecord) {
     if (!this.dom || !this.contentDOM) {
       return true
     }
