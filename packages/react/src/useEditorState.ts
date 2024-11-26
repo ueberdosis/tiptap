@@ -1,7 +1,11 @@
 import type { Editor } from '@tiptap/core'
 import deepEqual from 'fast-deep-equal/es6/react'
-import { useDebugValue, useLayoutEffect, useState } from 'react'
+import {
+  useDebugValue, useEffect, useLayoutEffect, useState,
+} from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
   editor: TEditor;
@@ -164,7 +168,7 @@ export function useEditorState<TSelectorResult>(
     options.equalityFn ?? deepEqual,
   )
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     return editorStateManager.watch(options.editor)
   }, [options.editor, editorStateManager])
 
