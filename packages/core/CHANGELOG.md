@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.3
+
+### Patch Changes
+
+- 7c6774e: Updates the typings to be inline with Prosemirror-view #5867
+
 ## 2.10.2
 
 ### Patch Changes

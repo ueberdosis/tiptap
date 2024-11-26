@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.3
+
+### Patch Changes
+
+- c0615b9: Update inline code formatting for text enclosed in backticks
+
 ## 2.10.2
 
 ## 2.10.1
