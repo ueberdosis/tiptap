@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.3
+
+### Patch Changes
+
+- d048f4d: fix: #5851 - While setting `content` directly while using character-count
+
 ## 2.10.2
 
 ## 2.10.1
