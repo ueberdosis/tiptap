@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.10.2
+
+### Patch Changes
+
+- e7f143d: This reverts typings that were causing issues for users #5859
+
+## 2.10.1
+
+### Patch Changes
+
+- 87d63d8: Update TypeScript types to allow options to be optional
+
 ## 2.10.0
 
 ### Minor Changes
