@@ -143,7 +143,7 @@
     "prosemirror-tables": "^1.6.1",
     "prosemirror-trailing-node": "^3.0.0",
     "prosemirror-transform": "^1.10.2",
-    "prosemirror-view": "^1.36.0"
+    "prosemirror-view": "^1.37.0"
   },
   "repository": {
     "type": "git",
