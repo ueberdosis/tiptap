@@ -66,6 +66,6 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h('div', { ref: root, tabindex: -1 }, slots.default?.())
   },
 })
