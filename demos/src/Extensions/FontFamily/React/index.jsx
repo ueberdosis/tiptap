@@ -41,7 +41,7 @@ export default () => {
             Inter
           </button>
           <button
-            onClick={() => editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()}
+            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
             className={
               editor.isActive('textStyle', { fontFamily: '"Comic Sans MS", "Comic Sans"' })
                 ? 'is-active'
