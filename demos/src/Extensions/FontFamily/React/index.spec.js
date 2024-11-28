@@ -29,15 +29,6 @@ context('/src/Extensions/FontFamily/React/', () => {
     cy.get('.tiptap span').should('not.exist')
   })
 
-  it('should work with font-family that have spaces in them', () => {
-    cy.get('[data-test-id="comic-sans"]')
-      .should('not.have.class', 'is-active')
-      .click()
-      .should('have.class', 'is-active')
-
-    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: Comic Sans MS, Comic Sans')
-  })
-
   it('should allow CSS variables as a font-family', () => {
     cy.get('[data-test-id="css-variable"]')
       .should('not.have.class', 'is-active')
@@ -46,6 +37,16 @@ context('/src/Extensions/FontFamily/React/', () => {
 
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: var(--title-font-family)')
   })
+
+  it('should allow fonts containing multiple font families', () => {
+    cy.get('[data-test-id="comic-sans"]')
+      .should('not.have.class', 'is-active')
+      .click()
+      .should('have.class', 'is-active')
+
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-family: "Comic Sans MS", "Comic Sans"')
+  })
+
   it('should allow fonts containing a space and number as a font-family', () => {
     cy.get('[data-test-id="exo2"]')
       .should('not.have.class', 'is-active')
