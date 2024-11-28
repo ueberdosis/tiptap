@@ -299,9 +299,6 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-
-    // console.log('renderHTML: ', HTMLAttributes)
-
     // prevent XSS attacks
     if (
       !this.options.isAllowedUri(HTMLAttributes.href, {
