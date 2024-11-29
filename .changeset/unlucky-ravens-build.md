@@ -2,4 +2,4 @@
 "@tiptap/extension-link": patch
 ---
 
-object replacement character sanitization
+fix: #5679 - perform string sanitization to remove unwanted "object replacement characters" from the before performing link detection
