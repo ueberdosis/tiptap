@@ -20,7 +20,7 @@ export interface TextAlignOptions {
    * @default 'left'
    * @example 'center'
    */
-  defaultAlignment: string,
+  defaultAlignment: string | null,
 }
 
 declare module '@tiptap/core' {
@@ -52,7 +52,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
     return {
       types: [],
       alignments: ['left', 'center', 'right', 'justify'],
-      defaultAlignment: 'left',
+      defaultAlignment: null,
     }
   },
 
@@ -66,9 +66,17 @@ export const TextAlign = Extension.create<TextAlignOptions>({
             parseHTML: element => {
               const alignment = element.style.textAlign || this.options.defaultAlignment
 
+              if (!alignment) {
+                return null
+              }
+
               return this.options.alignments.includes(alignment) ? alignment : this.options.defaultAlignment
             },
             renderHTML: attributes => {
+              if (!attributes.textAlign) {
+                return {}
+              }
+
               return { style: `text-align: ${attributes.textAlign}` }
             },
           },

@@ -17,6 +17,7 @@ export default () => {
       Heading,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
+        defaultAlignment: 'left',
       }),
     ],
     content: `
