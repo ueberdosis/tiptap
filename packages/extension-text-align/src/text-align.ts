@@ -64,11 +64,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
           textAlign: {
             default: this.options.defaultAlignment,
             parseHTML: element => {
-              const alignment = element.style.textAlign || this.options.defaultAlignment
-
-              if (!alignment) {
-                return null
-              }
+              const alignment = element.style.textAlign
 
               return this.options.alignments.includes(alignment) ? alignment : this.options.defaultAlignment
             },
