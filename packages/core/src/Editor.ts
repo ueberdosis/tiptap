@@ -80,6 +80,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enablePasteRules: true,
     enableCoreExtensions: true,
     enableContentCheck: false,
+    addTypeAttributes: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onUpdate: () => null,
@@ -292,6 +293,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
       return true
     }) : []
+
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })

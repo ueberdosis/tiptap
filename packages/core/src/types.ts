@@ -127,6 +127,10 @@ export interface EditorOptions {
    * @default false
    */
   enableContentCheck: boolean;
+  /**
+   * If `true`, all editor nodes will have a `data-tiptap-element` attribute with the node type name.
+   */
+  addTypeAttributes?: boolean;
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void;
   onCreate: (props: EditorEvents['create']) => void;
   /**

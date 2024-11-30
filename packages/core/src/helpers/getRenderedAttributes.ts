@@ -7,7 +7,7 @@ export function getRenderedAttributes(
   nodeOrMark: Node | Mark,
   extensionAttributes: ExtensionAttribute[],
 ): Record<string, any> {
-  return extensionAttributes
+  const attributes = extensionAttributes
     .filter(
       attribute => attribute.type === nodeOrMark.type.name,
     )
@@ -21,5 +21,7 @@ export function getRenderedAttributes(
 
       return item.attribute.renderHTML(nodeOrMark.attrs) || {}
     })
-    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
+    .reduce((currentAttributes, attribute) => mergeAttributes(currentAttributes, attribute), {})
+
+  return attributes
 }

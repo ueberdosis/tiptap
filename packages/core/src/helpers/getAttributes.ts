@@ -22,9 +22,7 @@ export function getAttributes(
 
   if (schemaType === 'node') {
     return getNodeAttributes(state, typeOrName as NodeType)
-  }
-
-  if (schemaType === 'mark') {
+  } if (schemaType === 'mark') {
     return getMarkAttributes(state, typeOrName as MarkType)
   }
 
