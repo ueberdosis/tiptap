@@ -52,11 +52,11 @@ export default forwardRef((props, ref) => {
   }))
 
   return (
-    <div className="items">
+    <div className="dropdown-menu">
       {props.items.length
         ? props.items.map((item, index) => (
           <button
-            className={`item ${index === selectedIndex ? 'is-selected' : ''}`}
+            className={index === selectedIndex ? 'is-selected' : ''}
             key={index}
             onClick={() => selectItem(index)}
           >

@@ -18,14 +18,10 @@ export type SuggestionMatch = {
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
-    char, allowSpaces, allowToIncludeChar, allowedPrefixes, startOfLine, $position,
+    char, allowSpaces: allowSpacesOption, allowToIncludeChar, allowedPrefixes, startOfLine, $position,
   } = config
 
-  if (allowSpaces && allowToIncludeChar) {
-    throw Error(
-      'You cannot use both `allowSpaces` and `allowToIncludeChar` options at the same time for suggestions',
-    )
-  }
+  const allowSpaces = allowSpacesOption && !allowToIncludeChar
 
   const escapedChar = escapeForRegEx(char)
   const suffix = new RegExp(`\\s${escapedChar}$`)

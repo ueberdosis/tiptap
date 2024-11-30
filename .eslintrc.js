@@ -14,6 +14,15 @@ module.exports = {
         './**/*.tsx',
         './**/*.js',
         './**/*.jsx',
+      ],
+      extends: ['plugin:react-hooks/recommended'],
+    },
+    {
+      files: [
+        './**/*.ts',
+        './**/*.tsx',
+        './**/*.js',
+        './**/*.jsx',
         './**/*.vue',
       ],
       plugins: [

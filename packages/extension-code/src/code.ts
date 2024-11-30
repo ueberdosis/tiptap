@@ -6,6 +6,11 @@ import {
 } from '@tiptap/core'
 
 export interface CodeOptions {
+  /**
+   * The HTML attributes applied to the code element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -28,9 +33,26 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))$/
-export const pasteRegex = /(?:^|\s)((?:`)((?:[^`]+))(?:`))/g
+/**
+ * Regular expressions to match inline code blocks enclosed in backticks.
+ *  It matches:
+ *     - An opening backtick, followed by
+ *     - Any text that doesn't include a backtick (captured for marking), followed by
+ *     - A closing backtick.
+ *  This ensures that any text between backticks is formatted as code,
+ *  regardless of the surrounding characters (exception being another backtick).
+ */
+export const inputRegex = /(?<!`)`([^`]+)`(?!`)/
 
+/**
+ * Matches inline code while pasting.
+ */
+export const pasteRegex = /(?<!`)`([^`]+)`(?!`)/g
+
+/**
+ * This extension allows you to mark text as inline code.
+ * @see https://tiptap.dev/api/marks/code
+ */
 export const Code = Mark.create<CodeOptions>({
   name: 'code',
 

@@ -6,6 +6,11 @@ import {
 } from '@tiptap/core'
 
 export interface ItalicOptions {
+  /**
+   * HTML attributes to add to the italic element.
+   * @default {}
+   * @example { class: 'foo' }
+  */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -14,25 +19,47 @@ declare module '@tiptap/core' {
     italic: {
       /**
        * Set an italic mark
+       * @example editor.commands.setItalic()
        */
       setItalic: () => ReturnType,
       /**
        * Toggle an italic mark
+       * @example editor.commands.toggleItalic()
        */
       toggleItalic: () => ReturnType,
       /**
        * Unset an italic mark
+       * @example editor.commands.unsetItalic()
        */
       unsetItalic: () => ReturnType,
     }
   }
 }
 
-export const starInputRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))$/
-export const starPasteRegex = /(?:^|\s)((?:\*)((?:[^*]+))(?:\*))/g
-export const underscoreInputRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))$/
-export const underscorePasteRegex = /(?:^|\s)((?:_)((?:[^_]+))(?:_))/g
+/**
+ * Matches an italic to a *italic* on input.
+ */
+export const starInputRegex = /(?:^|\s)(\*(?!\s+\*)((?:[^*]+))\*(?!\s+\*))$/
 
+/**
+ * Matches an italic to a *italic* on paste.
+ */
+export const starPasteRegex = /(?:^|\s)(\*(?!\s+\*)((?:[^*]+))\*(?!\s+\*))/g
+
+/**
+ * Matches an italic to a _italic_ on input.
+ */
+export const underscoreInputRegex = /(?:^|\s)(_(?!\s+_)((?:[^_]+))_(?!\s+_))$/
+
+/**
+ * Matches an italic to a _italic_ on paste.
+ */
+export const underscorePasteRegex = /(?:^|\s)(_(?!\s+_)((?:[^_]+))_(?!\s+_))/g
+
+/**
+ * This extension allows you to create italic text.
+ * @see https://www.tiptap.dev/api/marks/italic
+ */
 export const Italic = Mark.create<ItalicOptions>({
   name: 'italic',
 
@@ -50,6 +77,10 @@ export const Italic = Mark.create<ItalicOptions>({
       {
         tag: 'i',
         getAttrs: node => (node as HTMLElement).style.fontStyle !== 'normal' && null,
+      },
+      {
+        style: 'font-style=normal',
+        clearMark: mark => mark.type.name === this.name,
       },
       {
         style: 'font-style=italic',

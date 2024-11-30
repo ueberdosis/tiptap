@@ -1,6 +1,6 @@
-context('/src/Examples/CollaborativeEditing/React/', () => {
+context('/src/Demos/SingleRoomCollab/React/', () => {
   beforeEach(() => {
-    cy.visit('/src/Examples/CollaborativeEditing/React/')
+    cy.visit('/src/Demos/SingleRoomCollab/React/')
   })
 
   /* it('should show the current room with participants', () => {

@@ -49,7 +49,7 @@ function getDecorations({
     const language = block.node.attrs.language || defaultLanguage
     const languages = lowlight.listLanguages()
 
-    const nodes = language && (languages.includes(language) || registered(language))
+    const nodes = language && (languages.includes(language) || registered(language) || lowlight.registered?.(language))
       ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
       : getHighlightNodes(lowlight.highlightAuto(block.node.textContent))
 

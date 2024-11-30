@@ -1,0 +1,6 @@
+{
+  "name": "@tiptap-shared/rollup-config",
+  "private": true,
+  "main": "index.js",
+  "type": "module"
+}

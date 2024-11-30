@@ -61,6 +61,8 @@ declare module '@tiptap/core' {
     keyboardShortcut: {
       /**
        * Trigger a keyboard shortcut.
+       * @param name The name of the keyboard shortcut.
+       * @example editor.commands.keyboardShortcut('Mod-b')
        */
       keyboardShortcut: (name: string) => ReturnType,
     }
