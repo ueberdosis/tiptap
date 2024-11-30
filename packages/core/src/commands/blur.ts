@@ -1,10 +1,11 @@
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     blur: {
       /**
        * Removes focus from the editor.
+       * @example editor.commands.blur()
        */
       blur: () => ReturnType,
     }

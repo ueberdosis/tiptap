@@ -1,15 +1,17 @@
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 
   img {
+    display: block;
     height: auto;
+    margin: 1.5rem 0;
     max-width: 100%;
 
     &.ProseMirror-selectednode {
-      outline: 3px solid #68cef8;
+      outline: 3px solid var(--purple);
     }
   }
 }

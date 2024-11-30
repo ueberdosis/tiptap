@@ -1,9 +1,12 @@
 <template>
-  <div v-if="editor">
-    <button @click="addIframe">
-      add iframe
-    </button>
-
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <button @click="addIframe">
+          Add iFrame
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -12,7 +15,7 @@
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import Iframe from './iframe'
+import Iframe from './iframe.ts'
 
 export default {
   components: {
@@ -56,7 +59,7 @@ export default {
 
 <style lang="scss">
 @use "sass:math";
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }

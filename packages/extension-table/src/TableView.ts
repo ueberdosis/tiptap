@@ -1,34 +1,52 @@
-// @ts-nocheck
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { NodeView } from 'prosemirror-view'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
-export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: Element, cellMinWidth: number, overrideCol?: number, overrideValue?: any) {
+import { getColStyleDeclaration } from './utilities/colStyle.js'
+
+export function updateColumns(
+  node: ProseMirrorNode,
+  colgroup: HTMLTableColElement, // <colgroup> has the same prototype as <col>
+  table: HTMLTableElement,
+  cellMinWidth: number,
+  overrideCol?: number,
+  overrideValue?: number,
+) {
   let totalWidth = 0
   let fixedWidth = true
   let nextDOM = colgroup.firstChild
   const row = node.firstChild
 
-  for (let i = 0, col = 0; i < row.childCount; i += 1) {
-    const { colspan, colwidth } = row.child(i).attrs
+  if (row !== null) {
+    for (let i = 0, col = 0; i < row.childCount; i += 1) {
+      const { colspan, colwidth } = row.child(i).attrs
 
-    for (let j = 0; j < colspan; j += 1, col += 1) {
-      const hasWidth = overrideCol === col ? overrideValue : colwidth && colwidth[j]
-      const cssWidth = hasWidth ? `${hasWidth}px` : ''
+      for (let j = 0; j < colspan; j += 1, col += 1) {
+        const hasWidth = overrideCol === col ? overrideValue : (colwidth && colwidth[j]) as number | undefined
+        const cssWidth = hasWidth ? `${hasWidth}px` : ''
 
-      totalWidth += hasWidth || cellMinWidth
+        totalWidth += hasWidth || cellMinWidth
 
-      if (!hasWidth) {
-        fixedWidth = false
-      }
-
-      if (!nextDOM) {
-        colgroup.appendChild(document.createElement('col')).style.width = cssWidth
-      } else {
-        if (nextDOM.style.width !== cssWidth) {
-          nextDOM.style.width = cssWidth
+        if (!hasWidth) {
+          fixedWidth = false
         }
 
-        nextDOM = nextDOM.nextSibling
+        if (!nextDOM) {
+          const colElement = document.createElement('col')
+
+          const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth)
+
+          colElement.style.setProperty(propertyKey, propertyValue)
+
+          colgroup.appendChild(colElement)
+        } else {
+          if ((nextDOM as HTMLTableColElement).style.width !== cssWidth) {
+            const [propertyKey, propertyValue] = getColStyleDeclaration(cellMinWidth, hasWidth);
+
+            (nextDOM as HTMLTableColElement).style.setProperty(propertyKey, propertyValue)
+          }
+
+          nextDOM = nextDOM.nextSibling
+        }
       }
     }
   }
@@ -36,7 +54,7 @@ export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: E
   while (nextDOM) {
     const after = nextDOM.nextSibling
 
-    nextDOM.parentNode.removeChild(nextDOM)
+    nextDOM.parentNode?.removeChild(nextDOM)
     nextDOM = after
   }
 
@@ -50,18 +68,17 @@ export function updateColumns(node: ProseMirrorNode, colgroup: Element, table: E
 }
 
 export class TableView implements NodeView {
-
   node: ProseMirrorNode
 
   cellMinWidth: number
 
-  dom: Element
+  dom: HTMLDivElement
 
-  table: Element
+  table: HTMLTableElement
 
-  colgroup: Element
+  colgroup: HTMLTableColElement
 
-  contentDOM: Element
+  contentDOM: HTMLTableSectionElement
 
   constructor(node: ProseMirrorNode, cellMinWidth: number) {
     this.node = node
@@ -85,7 +102,10 @@ export class TableView implements NodeView {
     return true
   }
 
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
-    return mutation.type === 'attributes' && (mutation.target === this.table || this.colgroup.contains(mutation.target))
+  ignoreMutation(mutation: ViewMutationRecord) {
+    return (
+      mutation.type === 'attributes'
+      && (mutation.target === this.table || this.colgroup.contains(mutation.target))
+    )
   }
 }

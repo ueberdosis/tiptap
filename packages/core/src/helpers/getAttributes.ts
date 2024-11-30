@@ -1,18 +1,22 @@
-import { MarkType, NodeType } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { MarkType, NodeType } from '@tiptap/pm/model'
+import { EditorState } from '@tiptap/pm/state'
 
-import { getMarkAttributes } from './getMarkAttributes'
-import { getNodeAttributes } from './getNodeAttributes'
-import { getSchemaTypeNameByName } from './getSchemaTypeNameByName'
+import { getMarkAttributes } from './getMarkAttributes.js'
+import { getNodeAttributes } from './getNodeAttributes.js'
+import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
 
+/**
+ * Get node or mark attributes by type or name on the current editor state
+ * @param state The current editor state
+ * @param typeOrName The node or mark type or name
+ * @returns The attributes of the node or mark or an empty object
+ */
 export function getAttributes(
   state: EditorState,
   typeOrName: string | NodeType | MarkType,
 ): Record<string, any> {
   const schemaType = getSchemaTypeNameByName(
-    typeof typeOrName === 'string'
-      ? typeOrName
-      : typeOrName.name,
+    typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
     state.schema,
   )
 

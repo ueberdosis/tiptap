@@ -1,5 +1,5 @@
 /* Basic editor styles */
-.ProseMirror {
+.tiptap {
   > * + * {
     margin-top: 0.75em;
   }
@@ -94,7 +94,10 @@
 
   &__header {
     align-items: center;
+    background: #0d0d0d;
     border-bottom: 3px solid #0d0d0d;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
     display: flex;
     flex: 0 0 auto;
     flex-wrap: wrap;

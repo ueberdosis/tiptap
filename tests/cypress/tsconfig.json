@@ -1,13 +1,21 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "strict": false,
     "noEmit": false,
     "sourceMap": false,
-    "types": [
-      "cypress",
-    ],
+    "types": ["cypress", "react", "react-dom"],
+    "paths": {
+      "@tiptap/*": ["packages/*/src", "packages/*/dist"],
+      "@tiptap/pm/*": ["../../pm/*/dist"]
+    },
+    "typeRoots": ["../../node_modules/@types", "../../node_modules/"],
   },
-  "include": [
-    "./*/*.ts"
+  "include": ["./*/*.ts", "../../**/*.ts"],
+  "exclude": [
+    "../../packages/react",
+    "../../packages/vue-2",
+    "../../packages/vue-3",
+    "../../packages/extension-code-block-lowlight"
   ]
 }

@@ -1,10 +1,11 @@
-import { RawCommands } from '../types'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     selectAll: {
       /**
        * Select the whole document.
+       * @example editor.commands.selectAll()
        */
       selectAll: () => ReturnType,
     }

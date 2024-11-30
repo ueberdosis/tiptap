@@ -1,16 +1,19 @@
-import { wrapIn as originalWrapIn } from 'prosemirror-commands'
-import { NodeType } from 'prosemirror-model'
+import { wrapIn as originalWrapIn } from '@tiptap/pm/commands'
+import { NodeType } from '@tiptap/pm/model'
 
-import { getNodeType } from '../helpers/getNodeType'
-import { RawCommands } from '../types'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     wrapIn: {
       /**
        * Wraps nodes in another node.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.wrapIn('blockquote')
        */
-      wrapIn: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType,
+      wrapIn: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }
   }
 }

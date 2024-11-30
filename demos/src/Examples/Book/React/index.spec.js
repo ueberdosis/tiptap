@@ -4,7 +4,7 @@ context('/src/Examples/Book/React/', () => {
   })
 
   it('should have a working tiptap instance', () => {
-    cy.get('.ProseMirror').then(([{ editor }]) => {
+    cy.get('.tiptap').then(([{ editor }]) => {
       // eslint-disable-next-line
       expect(editor).to.not.be.null
     })

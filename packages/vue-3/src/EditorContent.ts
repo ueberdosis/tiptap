@@ -1,5 +1,4 @@
 import {
-  DefineComponent,
   defineComponent,
   getCurrentInstance,
   h,
@@ -8,12 +7,11 @@ import {
   PropType,
   Ref,
   ref,
-  Teleport,
   unref,
   watchEffect,
 } from 'vue'
 
-import { Editor } from './Editor'
+import { Editor } from './Editor.js'
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',
@@ -45,6 +43,16 @@ export const EditorContent = defineComponent({
           // @ts-ignore
           editor.contentComponent = instance.ctx._
 
+          if (instance) {
+            editor.appContext = {
+              ...instance.appContext,
+              // Vue internally uses prototype chain to forward/shadow injects across the entire component chain
+              // so don't use object spread operator or 'Object.assign' and just set `provides` as is on editor's appContext
+              // @ts-expect-error forward instance's 'provides' into appContext
+              provides: instance.provides,
+            }
+          }
+
           editor.setOptions({
             element,
           })
@@ -61,61 +69,19 @@ export const EditorContent = defineComponent({
         return
       }
 
-      // destroy nodeviews before vue removes dom element
-      if (!editor.isDestroyed) {
-        editor.view.setProps({
-          nodeViews: {},
-        })
-      }
-
       editor.contentComponent = null
-
-      if (!editor.options.element.firstChild) {
-        return
-      }
-
-      const newElement = document.createElement('div')
-
-      newElement.append(...editor.options.element.childNodes)
-
-      editor.setOptions({
-        element: newElement,
-      })
+      editor.appContext = null
     })
 
     return { rootEl }
   },
 
   render() {
-    const vueRenderers: any[] = []
-
-    if (this.editor) {
-      this.editor.vueRenderers.forEach(vueRenderer => {
-        const node = h(
-          Teleport,
-          {
-            to: vueRenderer.teleportElement,
-            key: vueRenderer.id,
-          },
-          h(
-            vueRenderer.component as DefineComponent,
-            {
-              ref: vueRenderer.id,
-              ...vueRenderer.props,
-            },
-          ),
-        )
-
-        vueRenderers.push(node)
-      })
-    }
-
     return h(
       'div',
       {
         ref: (el: any) => { this.rootEl = el },
       },
-      ...vueRenderers,
     )
   },
 })

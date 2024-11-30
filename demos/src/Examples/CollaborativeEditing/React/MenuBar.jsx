@@ -2,7 +2,7 @@ import './MenuBar.scss'
 
 import React, { Fragment } from 'react'
 
-import MenuItem from './MenuItem'
+import MenuItem from './MenuItem.jsx'
 
 export default ({ editor }) => {
   const items = [
@@ -59,25 +59,25 @@ export default ({ editor }) => {
     },
     {
       icon: 'list-unordered',
-      title: 'Bullet List',
+      title: 'Bullet list',
       action: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive('bulletList'),
     },
     {
       icon: 'list-ordered',
-      title: 'Ordered List',
+      title: 'Ordered list',
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive('orderedList'),
     },
     {
       icon: 'list-check-2',
-      title: 'Task List',
+      title: 'Task list',
       action: () => editor.chain().focus().toggleTaskList().run(),
       isActive: () => editor.isActive('taskList'),
     },
     {
       icon: 'code-box-line',
-      title: 'Code Block',
+      title: 'Code block',
       action: () => editor.chain().focus().toggleCodeBlock().run(),
       isActive: () => editor.isActive('codeBlock'),
     },
@@ -92,7 +92,7 @@ export default ({ editor }) => {
     },
     {
       icon: 'separator',
-      title: 'Horizontal Rule',
+      title: 'Horizontal rule',
       action: () => editor.chain().focus().setHorizontalRule().run(),
     },
     {
@@ -100,12 +100,12 @@ export default ({ editor }) => {
     },
     {
       icon: 'text-wrap',
-      title: 'Hard Break',
+      title: 'Hard break',
       action: () => editor.chain().focus().setHardBreak().run(),
     },
     {
       icon: 'format-clear',
-      title: 'Clear Format',
+      title: 'Clear format',
       action: () => editor.chain().focus().clearNodes().unsetAllMarks()
         .run(),
     },

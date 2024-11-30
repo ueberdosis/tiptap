@@ -1,15 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import {
+  AppContext,
   ComponentInternalInstance,
   ComponentPublicInstance,
   customRef,
   markRaw,
-  reactive,
   Ref,
 } from 'vue'
-
-import { VueRenderer } from './VueRenderer'
 
 function useDebouncedRef<T>(value: T) {
   return customRef<T>((track, trigger) => {
@@ -34,7 +33,7 @@ function useDebouncedRef<T>(value: T) {
 }
 
 export type ContentComponent = ComponentInternalInstance & {
-  ctx: ComponentPublicInstance,
+  ctx: ComponentPublicInstance
 }
 
 export class Editor extends CoreEditor {
@@ -42,9 +41,9 @@ export class Editor extends CoreEditor {
 
   private reactiveExtensionStorage: Ref<Record<string, any>>
 
-  public vueRenderers = reactive<Map<string, VueRenderer>>(new Map())
-
   public contentComponent: ContentComponent | null = null
+
+  public appContext: AppContext | null = null
 
   constructor(options: Partial<EditorOptions> = {}) {
     super(options)
@@ -52,8 +51,8 @@ export class Editor extends CoreEditor {
     this.reactiveState = useDebouncedRef(this.view.state)
     this.reactiveExtensionStorage = useDebouncedRef(this.extensionStorage)
 
-    this.on('transaction', () => {
-      this.reactiveState.value = this.view.state
+    this.on('beforeTransaction', ({ nextState }) => {
+      this.reactiveState.value = nextState
       this.reactiveExtensionStorage.value = this.extensionStorage
     })
 
@@ -61,30 +60,39 @@ export class Editor extends CoreEditor {
   }
 
   get state() {
-    return this.reactiveState
-      ? this.reactiveState.value
-      : this.view.state
+    return this.reactiveState ? this.reactiveState.value : this.view.state
   }
 
   get storage() {
-    return this.reactiveExtensionStorage
-      ? this.reactiveExtensionStorage.value
-      : super.storage
+    return this.reactiveExtensionStorage ? this.reactiveExtensionStorage.value : super.storage
   }
 
   /**
    * Register a ProseMirror plugin.
    */
-  public registerPlugin(plugin: Plugin, handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]): void {
-    super.registerPlugin(plugin, handlePlugins)
-    this.reactiveState.value = this.view.state
+  public registerPlugin(
+    plugin: Plugin,
+    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  ): EditorState {
+    const nextState = super.registerPlugin(plugin, handlePlugins)
+
+    if (this.reactiveState) {
+      this.reactiveState.value = nextState
+    }
+
+    return nextState
   }
 
   /**
    * Unregister a ProseMirror plugin.
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
-    super.unregisterPlugin(nameOrPluginKey)
-    this.reactiveState.value = this.view.state
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
+    const nextState = super.unregisterPlugin(nameOrPluginKey)
+
+    if (this.reactiveState && nextState) {
+      this.reactiveState.value = nextState
+    }
+
+    return nextState
   }
 }

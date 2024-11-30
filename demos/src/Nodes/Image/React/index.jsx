@@ -13,8 +13,8 @@ export default () => {
     extensions: [Document, Paragraph, Text, Image, Dropcursor],
     content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />
-        <img src="https://source.unsplash.com/K9QHL52rE2k/800x400" />
+        <img src="https://placehold.co/800x400" />
+        <img src="https://placehold.co/800x400/6A00F5/white" />
       `,
   })
 
@@ -31,9 +31,13 @@ export default () => {
   }
 
   return (
-    <div>
-      <button onClick={addImage}>setImage</button>
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button onClick={addImage}>Set image</button>
+        </div>
+      </div>
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }

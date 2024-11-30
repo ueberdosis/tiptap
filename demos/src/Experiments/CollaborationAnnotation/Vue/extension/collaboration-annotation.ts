@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import * as Y from 'yjs'
 
-import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin'
+import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin.js'
 
 export interface AddAnnotationAction {
   type: 'addAnnotation',
@@ -28,7 +28,7 @@ export interface AnnotationOptions {
   /**
    * An event listener which receives annotations for the current selection.
    */
-  onUpdate: (items: [any?]) => {},
+  onUpdate: (items: any[]) => {},
   /**
    * An initialized Y.js document.
    */

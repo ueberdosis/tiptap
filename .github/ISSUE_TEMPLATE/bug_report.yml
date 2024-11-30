@@ -1,69 +1,87 @@
-name: Bug report
-description: Create a report to help us improve tiptap
+name: Bug Report
+title: "[Bug]: "
+description: Found a bug in the editor core or one of the extensions? Report it here to help us improve.
 labels:
-  - bug
+  - "Type: Bug"
+  - "Category: Open Source"
+  - "Status: New"
 body:
+  - type: markdown
+    attributes:
+      value: "### Please provide details to help us diagnose the bug."
+  - type: input
+    id: packages
+    attributes:
+      label: Affected Packages
+      description: List the packages you were using when the bug occurred.
+      placeholder: core, extension-mention, react
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version(s)
+      description: Specify the version(s) of the affected packages.
+      placeholder: 2.0.0
+    validations:
+      required: true
   - type: textarea
     id: problem
     attributes:
-      label: What’s the bug you are facing?
-      description: A clear and concise description of what the bug is.
-      placeholder: "I’m always frustrated when …"
+      label: Bug Description
+      description: Provide a clear and concise description of what the bug is.
+      placeholder: "The issue occurs when..."
     validations:
       required: true
-  - type: textarea
-    id: environment
+  - type: dropdown
+    id: browser
     attributes:
-      label: Which browser was this experienced in? Are any special extensions installed?
-      description: Please give us more information about your browser environment so we can reproduce the bug faster.
-    validations:
-      required: true
-  - type: textarea
-    id: reproduction
-    attributes:
-      label: How can we reproduce the bug on our side?
-      description: Steps to reproduce the behavior
+      label: Browser Used
+      description: Select the browser where the bug was observed.
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
     validations:
       required: true
   - type: markdown
     attributes:
       value: |
-        Chances that we can fix your issue are way higher, if you can provide a CodeSandbox to reproduce the issue.
-
-        * Vue: https://codesandbox.io/s/tiptap-vue-3-issue-template-tnlpv?file=/src/App.vue
-        * React: https://codesandbox.io/s/tiptap-react-issue-template-b4hmi?file=/src/App.js
-  - type: textarea
-    id: codesandbox
+        ### CodeSandbox templates
+        Please use the appropriate template below to provide a code example:
+        * JavaScript: [JS Template](https://codesandbox.io/s/tiptap-js-fv1lyo)
+        * React: [React Template](https://codesandbox.io/s/tiptap-react-qidlsv)
+        * Vue 2: [Vue 2 Template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
+        * Vue 3: [Vue 3 Template](https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h)
+  - type: input
+    id: sandbox
     attributes:
-      label: Can you provide a CodeSandbox?
+      label: Code Example URL
+      description: "Link a CodeSandbox, Stackblitz, GitHub repository, or similar to help us reproduce the issue faster."
+      placeholder: https://codesandbox.io/s/example
     validations:
       required: false
   - type: textarea
     id: expectation
     attributes:
-      label: What did you expect to happen?
-      description: A clear and concise description of what you expected to happen.
+      label: Expected Behavior
+      description: Describe what you expected to happen.
     validations:
       required: true
   - type: textarea
     id: context
     attributes:
-      label: Anything to add? (optional)
-      description: "Add any other context, screenshots, videos or GIFs here."
+      label: Additional Context (Optional)
+      description: "Add any other context about the problem here, such as screenshots or videos."
   - type: checkboxes
     attributes:
-      label: Did you update your dependencies?
-      description: "Use `npm update` to update your dependencies."
+      label: Dependency Updates
+      description: "Have you updated your dependencies? This can often resolve issues."
       options:
-        - label: Yes, I’ve updated my dependencies to use the latest version of all packages.
+        - label: Yes, I've updated all my dependencies.
           required: true
-  - type: checkboxes
-    attributes:
-      label: Are you sponsoring us?
-      options:
-        - label: Yes, I’m a sponsor. 💖
-          required: false
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to send us feedback!
+      value: "Thank you for helping us improve our open-source projects by reporting this issue!"

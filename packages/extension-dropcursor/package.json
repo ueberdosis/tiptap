@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-dropcursor",
   "description": "dropcursor extension for tiptap",
-  "version": "2.0.0-beta.204",
+  "version": "2.10.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,28 +15,34 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-dropcursor/src/index.d.ts",
-      "import": "./dist/tiptap-extension-dropcursor.esm.js",
-      "require": "./dist/tiptap-extension-dropcursor.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-dropcursor.cjs",
-  "umd": "dist/tiptap-extension-dropcursor.umd.js",
-  "module": "dist/tiptap-extension-dropcursor.esm.js",
-  "types": "dist/packages/extension-dropcursor/src/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
+  "devDependencies": {
+    "@tiptap/core": "^2.10.2",
+    "@tiptap/pm": "^2.10.2"
   },
-  "dependencies": {
-    "prosemirror-dropcursor": "1.5.0"
+  "peerDependencies": {
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-dropcursor"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

@@ -1,12 +1,17 @@
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
-}
 
-.mention {
-  border: 1px solid #000;
-  border-radius: 0.4rem;
-  box-decoration-break: clone;
-  padding: 0.1rem 0.3rem;
+  .mention {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: var(--purple);
+    padding: 0.1rem 0.3rem;
+    &::after {
+      content: "\200B";
+    }
+  }
 }

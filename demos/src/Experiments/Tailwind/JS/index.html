@@ -1,6 +1,5 @@
 <!-- load tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography/dist/typography.min.css" />
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 
 <!-- provide element -->
 <div class="element"></div>
@@ -17,7 +16,7 @@ const editor = new Editor({
   ],
   editorProps: {
     attributes: {
-      class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+      class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
     },
   },
   content: `
@@ -25,7 +24,7 @@ const editor = new Editor({
       Hi there,
     </h2>
     <p>
-      this is a basic <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+      this is a basic <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
     </p>
     <ul>
       <li>

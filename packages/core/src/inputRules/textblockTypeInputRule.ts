@@ -1,24 +1,24 @@
-import { NodeType } from 'prosemirror-model'
+import { NodeType } from '@tiptap/pm/model'
 
-import { InputRule, InputRuleFinder } from '../InputRule'
-import { ExtendedRegExpMatchArray } from '../types'
-import { callOrReturn } from '../utilities/callOrReturn'
+import { InputRule, InputRuleFinder } from '../InputRule.js'
+import { ExtendedRegExpMatchArray } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
  * Build an input rule that changes the type of a textblock when the
  * matched text is typed into it. When using a regular expresion you’ll
  * probably want the regexp to start with `^`, so that the pattern can
  * only occur at the start of a textblock.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function textblockTypeInputRule(config: {
-  find: InputRuleFinder,
-  type: NodeType,
+  find: InputRuleFinder
+  type: NodeType
   getAttributes?:
     | Record<string, any>
     | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
     | false
     | null
-  ,
 }) {
   return new InputRule({
     find: config.find,

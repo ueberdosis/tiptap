@@ -1,27 +1,23 @@
 import { escapeForRegEx, Range } from '@tiptap/core'
-import { ResolvedPos } from 'prosemirror-model'
+import { ResolvedPos } from '@tiptap/pm/model'
 
 export interface Trigger {
-  char: string,
-  allowSpaces: boolean,
-  allowedPrefixes: string[] | null,
-  startOfLine: boolean,
-  $position: ResolvedPos,
+  char: string
+  allowSpaces: boolean
+  allowedPrefixes: string[] | null
+  startOfLine: boolean
+  $position: ResolvedPos
 }
 
 export type SuggestionMatch = {
-  range: Range,
-  query: string,
-  text: string,
+  range: Range
+  query: string
+  text: string
 } | null
 
 export function findSuggestionMatch(config: Trigger): SuggestionMatch {
   const {
-    char,
-    allowSpaces,
-    allowedPrefixes,
-    startOfLine,
-    $position,
+    char, allowSpaces, allowedPrefixes, startOfLine, $position,
   } = config
 
   const escapedChar = escapeForRegEx(char)

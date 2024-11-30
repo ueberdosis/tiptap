@@ -4,7 +4,7 @@ context('/src/Examples/AutolinkValidation/React/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').type('{selectall}{backspace}')
+    cy.get('.tiptap').type('{selectall}{backspace}')
   })
 
   const validLinks = [
@@ -24,77 +24,77 @@ context('/src/Examples/AutolinkValidation/React/', () => {
     'https://tiptap.dev',
   ]
 
-  it('valid links should get autolinked', () => {
-    validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
-      cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
-      cy.get('.ProseMirror a').contains(textThatShouldBeLinked)
+  validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
+    it(`should autolink ${rawTextInput}`, () => {
+      cy.get('.tiptap').type(rawTextInput)
+      cy.get('.tiptap a').contains(textThatShouldBeLinked)
     })
   })
 
-  it('invalid links should not get autolinked', () => {
-    invalidLinks.forEach(rawTextInput => {
-      cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
-      cy.get('.ProseMirror a').should('not.exist')
+  invalidLinks.forEach(rawTextInput => {
+    it(`should not autolink ${rawTextInput}`, () => {
+      cy.get('.tiptap').type(`{selectall}{backspace}${rawTextInput}`)
+      cy.get('.tiptap a').should('not.exist')
     })
   })
 
   it('should not relink unset links after entering second link', () => {
-    cy.get('.ProseMirror').type('https://tiptap.dev {home}')
-    cy.get('.ProseMirror').should('have.text', 'https://tiptap.dev ')
+    cy.get('.tiptap').type('https://tiptap.dev {home}')
+    cy.get('.tiptap').should('have.text', 'https://tiptap.dev ')
     cy.get('[data-testid=unsetLink]').click()
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 0)
-    cy.get('.ProseMirror').type('{end}http://www.example.com/ ')
-    cy.get('.ProseMirror')
+    cy.get('.tiptap').type('{end}http://www.example.com/ ')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 1)
       .should('have.attr', 'href', 'http://www.example.com/')
   })
 
   it('should not relink unset links after hitting next paragraph', () => {
-    cy.get('.ProseMirror').type('https://tiptap.dev {home}')
-    cy.get('.ProseMirror').should('have.text', 'https://tiptap.dev ')
+    cy.get('.tiptap').type('https://tiptap.dev {home}')
+    cy.get('.tiptap').should('have.text', 'https://tiptap.dev ')
     cy.get('[data-testid=unsetLink]').click()
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 0)
-    cy.get('.ProseMirror').type('{end}typing other text should prevent the link from relinking when hitting enter{enter}')
-    cy.get('.ProseMirror')
+    cy.get('.tiptap').type('{end}typing other text should prevent the link from relinking when hitting enter{enter}')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 0)
   })
 
   it('should not relink unset links after modifying', () => {
-    cy.get('.ProseMirror').type('https://tiptap.dev {home}')
-    cy.get('.ProseMirror').should('have.text', 'https://tiptap.dev ')
+    cy.get('.tiptap').type('https://tiptap.dev {home}')
+    cy.get('.tiptap').should('have.text', 'https://tiptap.dev ')
     cy.get('[data-testid=unsetLink]').click()
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 0)
-    cy.get('.ProseMirror')
+    cy.get('.tiptap')
       .type('{home}')
       .type('{rightArrow}'.repeat('https://'.length))
       .type('blah')
-    cy.get('.ProseMirror').should('have.text', 'https://blahtiptap.dev ')
-    cy.get('.ProseMirror')
+    cy.get('.tiptap').should('have.text', 'https://blahtiptap.dev ')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 0)
   })
 
   it('should autolink after hitting enter (new paragraph)', () => {
-    cy.get('.ProseMirror').type('https://tiptap.dev{enter}')
-    cy.get('.ProseMirror').should('have.text', 'https://tiptap.dev')
-    cy.get('.ProseMirror')
+    cy.get('.tiptap').type('https://tiptap.dev{enter}')
+    cy.get('.tiptap').should('have.text', 'https://tiptap.dev')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 1)
       .should('have.attr', 'href', 'https://tiptap.dev')
   })
 
   it('should autolink after hitting shift-enter (hardbreak)', () => {
-    cy.get('.ProseMirror').type('https://tiptap.dev{shift+enter}')
-    cy.get('.ProseMirror').should('have.text', 'https://tiptap.dev')
-    cy.get('.ProseMirror')
+    cy.get('.tiptap').type('https://tiptap.dev{shift+enter}')
+    cy.get('.tiptap').should('have.text', 'https://tiptap.dev')
+    cy.get('.tiptap')
       .find('a')
       .should('have.length', 1)
       .should('have.attr', 'href', 'https://tiptap.dev')

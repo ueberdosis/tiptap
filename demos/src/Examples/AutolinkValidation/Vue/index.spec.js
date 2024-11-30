@@ -4,7 +4,7 @@ context('/src/Examples/AutolinkValidation/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.get('.ProseMirror').type('{selectall}{backspace}')
+    cy.get('.tiptap').type('{selectall}{backspace}')
   })
 
   const validLinks = [
@@ -24,17 +24,17 @@ context('/src/Examples/AutolinkValidation/Vue/', () => {
     'https://tiptap.dev',
   ]
 
-  it('valid links should get autolinked', () => {
-    validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
-      cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
-      cy.get('.ProseMirror a').contains(textThatShouldBeLinked)
+  validLinks.forEach(([rawTextInput, textThatShouldBeLinked]) => {
+    it(`should autolink ${rawTextInput}`, () => {
+      cy.get('.tiptap').type(rawTextInput)
+      cy.get('.tiptap a').contains(textThatShouldBeLinked)
     })
   })
 
-  it('invalid links should not get autolinked', () => {
-    invalidLinks.forEach(rawTextInput => {
-      cy.get('.ProseMirror').type(`{selectall}{backspace}${rawTextInput}`)
-      cy.get('.ProseMirror a').should('not.exist')
+  invalidLinks.forEach(rawTextInput => {
+    it(`should not autolink ${rawTextInput}`, () => {
+      cy.get('.tiptap').type(`{selectall}{backspace}${rawTextInput}`)
+      cy.get('.tiptap a').should('not.exist')
     })
   })
 })

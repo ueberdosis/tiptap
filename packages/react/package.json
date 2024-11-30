@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "2.0.0-beta.204",
+  "version": "2.10.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -12,34 +12,51 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "main": "dist/tiptap-react.cjs",
-  "umd": "dist/tiptap-react.umd.js",
-  "module": "dist/tiptap-react.esm.js",
-  "types": "dist/packages/react/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "src",
     "dist"
   ],
+  "dependencies": {
+    "@tiptap/extension-bubble-menu": "^2.10.2",
+    "@tiptap/extension-floating-menu": "^2.10.2",
+    "@types/use-sync-external-store": "^0.0.6",
+    "fast-deep-equal": "^3",
+    "use-sync-external-store": "^1"
+  },
   "devDependencies": {
-    "@types/react": "^18.0.1",
+    "@tiptap/core": "^2.10.2",
+    "@tiptap/pm": "^2.10.2",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
-  },
-  "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.0.0-beta.204",
-    "@tiptap/extension-floating-menu": "^2.0.0-beta.204",
-    "prosemirror-view": "^1.28.2"
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/react"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
 }

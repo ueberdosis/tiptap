@@ -1,26 +1,39 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from 'prosemirror-state'
+import {
+  Plugin,
+  PluginKey,
+  Selection,
+  TextSelection,
+} from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
-   * Defaults to `'language-'`.
+   * @default 'language-'
    */
-  languageClassPrefix: string,
+  languageClassPrefix: string
   /**
    * Define whether the node should be exited on triple enter.
-   * Defaults to `true`.
+   * @default true
    */
-  exitOnTripleEnter: boolean,
+  exitOnTripleEnter: boolean
   /**
    * Define whether the node should be exited on arrow down if there is no node after it.
-   * Defaults to `true`.
+   * @default true
    */
-  exitOnArrowDown: boolean,
+  exitOnArrowDown: boolean
+  /**
+   * The default language.
+   * @default null
+   * @example 'js'
+   */
+  defaultLanguage: string | null | undefined
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
+   * @default {}
+   * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -28,19 +41,34 @@ declare module '@tiptap/core' {
     codeBlock: {
       /**
        * Set a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.setCodeBlock({ language: 'javascript' })
        */
-      setCodeBlock: (attributes?: { language: string }) => ReturnType,
+      setCodeBlock: (attributes?: { language: string }) => ReturnType
       /**
        * Toggle a code block
+       * @param attributes Code block attributes
+       * @example editor.commands.toggleCodeBlock({ language: 'javascript' })
        */
-      toggleCodeBlock: (attributes?: { language: string }) => ReturnType,
+      toggleCodeBlock: (attributes?: { language: string }) => ReturnType
     }
   }
 }
 
+/**
+ * Matches a code block with backticks.
+ */
 export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/
+
+/**
+ * Matches a code block with tildes.
+ */
 export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/
 
+/**
+ * This extension allows you to create code blocks.
+ * @see https://tiptap.dev/api/nodes/code-block
+ */
 export const CodeBlock = Node.create<CodeBlockOptions>({
   name: 'codeBlock',
 
@@ -49,6 +77,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       languageClassPrefix: 'language-',
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
+      defaultLanguage: null,
       HTMLAttributes: {},
     }
   },
@@ -66,10 +95,10 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addAttributes() {
     return {
       language: {
-        default: null,
+        default: this.options.defaultLanguage,
         parseHTML: element => {
           const { languageClassPrefix } = this.options
-          const classNames = [...element.firstElementChild?.classList || []]
+          const classNames = [...(element.firstElementChild?.classList || [])]
           const languages = classNames
             .filter(className => className.startsWith(languageClassPrefix))
             .map(className => className.replace(languageClassPrefix, ''))
@@ -113,12 +142,14 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
   addCommands() {
     return {
-      setCodeBlock: attributes => ({ commands }) => {
-        return commands.setNode(this.name, attributes)
-      },
-      toggleCodeBlock: attributes => ({ commands }) => {
-        return commands.toggleNode(this.name, 'paragraph', attributes)
-      },
+      setCodeBlock:
+        attributes => ({ commands }) => {
+          return commands.setNode(this.name, attributes)
+        },
+      toggleCodeBlock:
+        attributes => ({ commands }) => {
+          return commands.toggleNode(this.name, 'paragraph', attributes)
+        },
     }
   },
 
@@ -203,7 +234,10 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         const nodeAfter = doc.nodeAt(after)
 
         if (nodeAfter) {
-          return false
+          return editor.commands.command(({ tr }) => {
+            tr.setSelection(Selection.near(doc.resolve(after)))
+            return true
+          })
         }
 
         return editor.commands.exitCode()
@@ -249,27 +283,28 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const text = event.clipboardData.getData('text/plain')
             const vscode = event.clipboardData.getData('vscode-editor-data')
-            const vscodeData = vscode
-              ? JSON.parse(vscode)
-              : undefined
+            const vscodeData = vscode ? JSON.parse(vscode) : undefined
             const language = vscodeData?.mode
 
             if (!text || !language) {
               return false
             }
 
-            const { tr } = view.state
+            const { tr, schema } = view.state
 
-            // create an empty code block
-            tr.replaceSelectionWith(this.type.create({ language }))
-
-            // put cursor inside the newly created code block
-            tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
-
-            // add text to code block
+            // prepare a text node
             // strip carriage return chars from text pasted as code
             // see: https://github.com/ProseMirror/prosemirror-view/commit/a50a6bcceb4ce52ac8fcc6162488d8875613aacd
-            tr.insertText(text.replace(/\r\n?/g, '\n'))
+            const textNode = schema.text(text.replace(/\r\n?/g, '\n'))
+
+            // create a code block with the text node
+            // replace selection with the code block
+            tr.replaceSelectionWith(this.type.create({ language }, textNode))
+
+            if (tr.selection.$from.parent.type !== this.type) {
+              // put cursor inside the newly created code block
+              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
+            }
 
             // store meta information
             // this is useful for other plugins that depends on the paste event

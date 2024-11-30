@@ -1,6 +1,10 @@
 <template>
-  reactive storage: {{ editor?.storage.custom.foo }}
-  <editor-content :editor="editor" />
+  <div class="container">
+    <editor-content :editor="editor" />
+    <div class="output-group">
+      Reactive storage: {{ editor?.storage.custom.foo }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -9,7 +13,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { CustomExtension } from './CustomExtension'
+import { CustomExtension } from './CustomExtension.ts'
 
 export default {
   components: {
@@ -32,7 +36,7 @@ export default {
       ],
       content: `
         <p>
-          This is a radically reduced version of tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
+          This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
         </p>
         <p>
           The paragraph extension is not really required, but you need at least one node. Sure, that node can be something different.
@@ -49,9 +53,9 @@ export default {
 
 <style lang="scss">
 /* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
 }
 </style>

@@ -1,18 +1,24 @@
-import { MarkType, NodeType } from 'prosemirror-model'
+import { MarkType, NodeType } from '@tiptap/pm/model'
 
-import { getMarkType } from '../helpers/getMarkType'
-import { getNodeType } from '../helpers/getNodeType'
-import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName'
-import { RawCommands } from '../types'
-import { deleteProps } from '../utilities/deleteProps'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { getNodeType } from '../helpers/getNodeType.js'
+import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
+import { RawCommands } from '../types.js'
+import { deleteProps } from '../utilities/deleteProps.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     resetAttributes: {
       /**
        * Resets some node attributes to the default value.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node to reset.
+       * @example editor.commands.resetAttributes('heading', 'level')
        */
-      resetAttributes: (typeOrName: string | NodeType | MarkType, attributes: string | string[]) => ReturnType,
+      resetAttributes: (
+        typeOrName: string | NodeType | MarkType,
+        attributes: string | string[],
+      ) => ReturnType
     }
   }
 }
@@ -22,9 +28,7 @@ export const resetAttributes: RawCommands['resetAttributes'] = (typeOrName, attr
   let markType: MarkType | null = null
 
   const schemaType = getSchemaTypeNameByName(
-    typeof typeOrName === 'string'
-      ? typeOrName
-      : typeOrName.name,
+    typeof typeOrName === 'string' ? typeOrName : typeOrName.name,
     state.schema,
   )
 
@@ -50,7 +54,11 @@ export const resetAttributes: RawCommands['resetAttributes'] = (typeOrName, attr
         if (markType && node.marks.length) {
           node.marks.forEach(mark => {
             if (markType === mark.type) {
-              tr.addMark(pos, pos + node.nodeSize, markType.create(deleteProps(mark.attrs, attributes)))
+              tr.addMark(
+                pos,
+                pos + node.nodeSize,
+                markType.create(deleteProps(mark.attrs, attributes)),
+              )
             }
           })
         }

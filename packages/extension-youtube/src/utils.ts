@@ -1,5 +1,5 @@
-export const YOUTUBE_REGEX = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/
-export const YOUTUBE_REGEX_GLOBAL = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/g
+export const YOUTUBE_REGEX = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(?!channel\/)(?!@)(.+)?$/
+export const YOUTUBE_REGEX_GLOBAL = /^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)\/(?!channel\/)(?!@)(.+)?$/g
 
 export const isValidYoutubeUrl = (url: string) => {
   return url.match(YOUTUBE_REGEX)
@@ -30,7 +30,7 @@ export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
-export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
+export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   const {
     url,
     allowFullscreen,
@@ -52,6 +52,10 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     startAt,
   } = options
 
+  if (!isValidYoutubeUrl(url)) {
+    return null
+  }
+
   // if is already an embed url, return it
   if (url.includes('/embed/')) {
     return url
@@ -67,7 +71,7 @@ export const getEmbedURLFromYoutubeURL = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /v=([-\w]+)/gm
+  const videoIdRegex = /(?:v=|shorts\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
   if (!matches || !matches[1]) {

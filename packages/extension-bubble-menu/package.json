@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.0.0-beta.204",
+  "version": "2.10.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,25 +15,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-bubble-menu/src/index.d.ts",
-      "import": "./dist/tiptap-extension-bubble-menu.esm.js",
-      "require": "./dist/tiptap-extension-bubble-menu.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/tiptap-extension-bubble-menu.cjs",
-  "umd": "dist/tiptap-extension-bubble-menu.umd.js",
-  "module": "dist/tiptap-extension-bubble-menu.esm.js",
-  "types": "dist/packages/extension-bubble-menu/src/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
-  "peerDependencies": {
-    "@tiptap/core": "^2.0.0-beta.193"
-  },
   "dependencies": {
-    "prosemirror-state": "^1.4.1",
-    "prosemirror-view": "^1.28.2",
     "tippy.js": "^6.3.7"
   },
   "repository": {
@@ -43,7 +38,15 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/lodash": "^4.14.187",
-    "lodash": "^4.17.21"
+    "@tiptap/core": "^2.10.2",
+    "@tiptap/pm": "^2.10.2"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
   }
 }

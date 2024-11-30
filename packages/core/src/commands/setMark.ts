@@ -1,18 +1,20 @@
-import { MarkType, ResolvedPos } from 'prosemirror-model'
-import { EditorState, Transaction } from 'prosemirror-state'
+import { MarkType, ResolvedPos } from '@tiptap/pm/model'
+import { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { isTextSelection } from '../helpers'
-import { getMarkAttributes } from '../helpers/getMarkAttributes'
-import { getMarkType } from '../helpers/getMarkType'
-import { RawCommands } from '../types'
+import { getMarkAttributes } from '../helpers/getMarkAttributes.js'
+import { getMarkType } from '../helpers/getMarkType.js'
+import { isTextSelection } from '../helpers/index.js'
+import { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     setMark: {
       /**
        * Add a mark with new attributes.
+       * @param typeOrName The mark type or name.
+       * @example editor.commands.setMark('bold', { level: 1 })
        */
-      setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType,
+      setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType
     }
   }
 }
@@ -29,13 +31,18 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
     const currentMarks = state.storedMarks ?? cursor.marks()
 
     // There can be no current marks that exclude the new mark
-    return !!newMarkType.isInSet(currentMarks) || !currentMarks.some(mark => mark.type.excludes(newMarkType))
+    return (
+      !!newMarkType.isInSet(currentMarks)
+      || !currentMarks.some(mark => mark.type.excludes(newMarkType))
+    )
   }
 
   const { ranges } = selection
 
   return ranges.some(({ $from, $to }) => {
-    let someNodeSupportsMark = $from.depth === 0 ? state.doc.inlineContent && state.doc.type.allowsMarkType(newMarkType) : false
+    let someNodeSupportsMark = $from.depth === 0
+      ? state.doc.inlineContent && state.doc.type.allowsMarkType(newMarkType)
+      : false
 
     state.doc.nodesBetween($from.pos, $to.pos, (node, _pos, parent) => {
       // If we already found a mark that we can enable, return false to bypass the remaining search
@@ -45,7 +52,8 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
 
       if (node.isInline) {
         const parentAllowsMarkType = !parent || parent.type.allowsMarkType(newMarkType)
-        const currentMarksAllowMarkType = !!newMarkType.isInSet(node.marks) || !node.marks.some(otherMark => otherMark.type.excludes(newMarkType))
+        const currentMarksAllowMarkType = !!newMarkType.isInSet(node.marks)
+          || !node.marks.some(otherMark => otherMark.type.excludes(newMarkType))
 
         someNodeSupportsMark = parentAllowsMarkType && currentMarksAllowMarkType
       }
@@ -54,7 +62,6 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
 
     return someNodeSupportsMark
   })
-
 }
 export const setMark: RawCommands['setMark'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
   const { selection } = tr
@@ -65,10 +72,12 @@ export const setMark: RawCommands['setMark'] = (typeOrName, attributes = {}) => 
     if (empty) {
       const oldAttributes = getMarkAttributes(state, type)
 
-      tr.addStoredMark(type.create({
-        ...oldAttributes,
-        ...attributes,
-      }))
+      tr.addStoredMark(
+        type.create({
+          ...oldAttributes,
+          ...attributes,
+        }),
+      )
     } else {
       ranges.forEach(range => {
         const from = range.$from.pos
@@ -83,13 +92,16 @@ export const setMark: RawCommands['setMark'] = (typeOrName, attributes = {}) => 
           // we know that we have to merge its attributes
           // otherwise we add a fresh new mark
           if (someHasMark) {
-
             node.marks.forEach(mark => {
               if (type === mark.type) {
-                tr.addMark(trimmedFrom, trimmedTo, type.create({
-                  ...mark.attrs,
-                  ...attributes,
-                }))
+                tr.addMark(
+                  trimmedFrom,
+                  trimmedTo,
+                  type.create({
+                    ...mark.attrs,
+                    ...attributes,
+                  }),
+                )
               }
             })
           } else {
