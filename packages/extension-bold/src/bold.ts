@@ -6,6 +6,11 @@ import {
 } from '@tiptap/core'
 
 export interface BoldOptions {
+  /**
+   * HTML attributes to add to the bold element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -28,11 +33,30 @@ declare module '@tiptap/core' {
   }
 }
 
-export const starInputRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))$/
-export const starPasteRegex = /(?:^|\s)((?:\*\*)((?:[^*]+))(?:\*\*))/g
-export const underscoreInputRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))$/
-export const underscorePasteRegex = /(?:^|\s)((?:__)((?:[^__]+))(?:__))/g
+/**
+ * Matches bold text via `**` as input.
+ */
+export const starInputRegex = /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))$/
 
+/**
+ * Matches bold text via `**` while pasting.
+ */
+export const starPasteRegex = /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))/g
+
+/**
+ * Matches bold text via `__` as input.
+ */
+export const underscoreInputRegex = /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))$/
+
+/**
+ * Matches bold text via `__` while pasting.
+ */
+export const underscorePasteRegex = /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))/g
+
+/**
+ * This extension allows you to mark text as bold.
+ * @see https://tiptap.dev/api/marks/bold
+ */
 export const Bold = Mark.create<BoldOptions>({
   name: 'bold',
 
@@ -50,6 +74,10 @@ export const Bold = Mark.create<BoldOptions>({
       {
         tag: 'b',
         getAttrs: node => (node as HTMLElement).style.fontWeight !== 'normal' && null,
+      },
+      {
+        style: 'font-weight=400',
+        clearMark: mark => mark.type.name === this.name,
       },
       {
         style: 'font-weight',

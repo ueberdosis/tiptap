@@ -8,7 +8,7 @@ context('/src/Examples/Formatting/React/', () => {
   })
 
   const marks = [
-    { label: 'highlight', mark: 'mark' },
+    { label: 'Highlight', mark: 'mark' },
   ]
 
   marks.forEach(m => {
@@ -20,10 +20,10 @@ context('/src/Examples/Formatting/React/', () => {
   })
 
   const alignments = [
-    { label: 'left', alignment: 'left' },
-    { label: 'center', alignment: 'center' },
-    { label: 'right', alignment: 'right' },
-    { label: 'justify', alignment: 'justify' },
+    { label: 'Left', alignment: 'left' },
+    { label: 'Center', alignment: 'center' },
+    { label: 'Right', alignment: 'right' },
+    { label: 'Justify', alignment: 'justify' },
   ]
 
   alignments.forEach(a => {

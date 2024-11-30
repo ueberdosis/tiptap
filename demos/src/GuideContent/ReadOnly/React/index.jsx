@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 export default () => {
   const [editable, setEditable] = useState(false)
   const editor = useEditor({
+    shouldRerenderOnTransaction: false,
     editable,
     content: `
         <p>
@@ -33,14 +34,16 @@ export default () => {
 
   return (
     <>
-      <div className="checkbox">
-        <input
-          type="checkbox"
-          id="editable"
-          value={editable}
-          onChange={event => setEditable(event.target.checked)}
-        />
-        <label htmlFor="editable">editable</label>
+      <div className="control-group">
+        <div className="button-group">
+          <input
+            type="checkbox"
+            id="editable"
+            value={editable}
+            onChange={event => setEditable(event.target.checked)}
+          />
+          <label htmlFor="editable">Editable</label>
+        </div>
       </div>
       <EditorContent editor={editor} />
     </>

@@ -7,7 +7,7 @@ export default {
   items: ({ query }) => {
     return [
       {
-        title: 'H1',
+        title: 'Heading 1',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -18,7 +18,7 @@ export default {
         },
       },
       {
-        title: 'H2',
+        title: 'Heading 2',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -29,7 +29,7 @@ export default {
         },
       },
       {
-        title: 'bold',
+        title: 'Bold',
         command: ({ editor, range }) => {
           editor
             .chain()
@@ -40,7 +40,7 @@ export default {
         },
       },
       {
-        title: 'italic',
+        title: 'Italic',
         command: ({ editor, range }) => {
           editor
             .chain()
