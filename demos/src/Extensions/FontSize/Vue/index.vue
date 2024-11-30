@@ -2,13 +2,13 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setFontSize('28px').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontSize: '28px' }) }" data-test-id="'28px'">
+        <button @click="editor.chain().focus().setFontSize('28px').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontSize: '28px' }) }" data-test-id="28px">
           Font size 28px
         </button>
-        <button @click="editor.chain().focus().setFontSize('32px').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontSize: '32px' }) }" data-test-id="'32px'">
+        <button @click="editor.chain().focus().setFontSize('32px').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontSize: '32px' }) }" data-test-id="32px">
           Font size 32px
         </button>
-        <button @click="editor.chain().focus().unsetFontSize().run()">
+        <button @click="editor.chain().focus().unsetFontSize().run()" data-test-id="unsetFontSize">
           Unset font size
         </button>
       </div>

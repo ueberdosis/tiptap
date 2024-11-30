@@ -23,6 +23,6 @@ context('/src/Extensions/FontSize/Vue/', () => {
     cy.get('[data-test-id="28px"]').click()
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-size: 28px')
     cy.get('[data-test-id="unsetFontSize"]').click()
-    cy.get('.tiptap').find('span').should('not.have.attr', 'style', 'font-size: 28px')
+    cy.get('.tiptap').get('span').should('not.exist')
   })
 })

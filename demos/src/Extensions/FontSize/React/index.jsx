@@ -38,6 +38,7 @@ export default () => {
         </button>
         <button
           onClick={() => editor.chain().focus().unsetFontSize().run()}
+          data-test-id="unsetFontSize"
         >
           Unset font size
         </button>
