@@ -75,7 +75,8 @@ export class FloatingMenuView {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
-    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !this.getTextContent($anchor.parent)
+
+    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent && $anchor.parent.childCount === 0 && !this.getTextContent($anchor.parent)
 
     if (
       !view.hasFocus()
