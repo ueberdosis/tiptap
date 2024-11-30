@@ -4,8 +4,18 @@ import { Extension } from '../Extension.js'
 import { getTextBetween } from '../helpers/getTextBetween.js'
 import { getTextSerializersFromSchema } from '../helpers/getTextSerializersFromSchema.js'
 
-export const ClipboardTextSerializer = Extension.create({
+export type ClipboardTextSerializerOptions = {
+  blockSeparator?: string,
+}
+
+export const ClipboardTextSerializer = Extension.create<ClipboardTextSerializerOptions>({
   name: 'clipboardTextSerializer',
+
+  addOptions() {
+    return {
+      blockSeparator: undefined,
+    }
+  },
 
   addProseMirrorPlugins() {
     return [
@@ -23,6 +33,9 @@ export const ClipboardTextSerializer = Extension.create({
             const range = { from, to }
 
             return getTextBetween(doc, range, {
+              ...(this.options.blockSeparator !== undefined
+                ? { blockSeparator: this.options.blockSeparator }
+                : {}),
               textSerializers,
             })
           },

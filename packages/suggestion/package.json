@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "2.2.0-rc.8",
+  "version": "2.10.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -14,7 +14,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/packages/suggestion/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -22,19 +22,19 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/suggestion/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "type": "module",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.2.0-rc.8",
-    "@tiptap/pm": "^2.2.0-rc.8"
+    "@tiptap/core": "^2.10.2",
+    "@tiptap/pm": "^2.10.2"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0",
-    "@tiptap/pm": "^2.0.0"
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0"
   },
   "repository": {
     "type": "git",

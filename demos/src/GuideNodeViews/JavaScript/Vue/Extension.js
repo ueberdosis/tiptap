@@ -48,9 +48,8 @@ export default Node.create({
 
       dom.classList.add('node-view')
 
-      const label = document.createElement('span')
+      const label = document.createElement('label')
 
-      label.classList.add('label')
       label.innerHTML = 'Node view'
 
       const content = document.createElement('div')

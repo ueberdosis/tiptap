@@ -12,7 +12,7 @@ export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode):
       .resolve(from)
       .marks()
       .forEach(mark => {
-        const $pos = doc.resolve(from - 1)
+        const $pos = doc.resolve(from)
         const range = getMarkRange($pos, mark.type)
 
         if (!range) {
@@ -26,7 +26,7 @@ export function getMarksBetween(from: number, to: number, doc: ProseMirrorNode):
       })
   } else {
     doc.nodesBetween(from, to, (node, pos) => {
-      if (!node || node.nodeSize === undefined) {
+      if (!node || node?.nodeSize === undefined) {
         return
       }
 

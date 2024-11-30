@@ -12,6 +12,7 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
   const { nodeViewContentRef } = useReactNodeView()
 
   return (
+    // @ts-ignore
     <Tag
       {...props}
       ref={nodeViewContentRef}
