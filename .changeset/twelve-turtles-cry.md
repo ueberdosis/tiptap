@@ -5,4 +5,4 @@
 "@tiptap/vue-3": patch
 ---
 
-Fix the bug where the bubble menu does not hide
+Added a `focusout` event listener to handle blur events on the bubble menu element, ensuring the menu closes properly when blurred.
