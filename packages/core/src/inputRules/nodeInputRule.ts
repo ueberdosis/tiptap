@@ -7,6 +7,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 /**
  * Build an input rule that adds a node when the
  * matched text is typed into it.
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function nodeInputRule(config: {
   /**
@@ -57,7 +58,9 @@ export function nodeInputRule(config: {
         // insert node from input rule
         tr.replaceWith(matchStart, end, newNode)
       } else if (match[0]) {
-        tr.insert(start - 1, config.type.create(attributes)).delete(
+        const insertionStart = config.type.isInline ? start : start - 1
+
+        tr.insert(insertionStart, config.type.create(attributes)).delete(
           tr.mapping.map(start),
           tr.mapping.map(end),
         )

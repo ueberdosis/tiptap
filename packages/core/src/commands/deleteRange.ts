@@ -5,6 +5,8 @@ declare module '@tiptap/core' {
     deleteRange: {
       /**
        * Delete a given range.
+       * @param range The range to delete.
+       * @example editor.commands.deleteRange({ from: 1, to: 3 })
        */
       deleteRange: (range: Range) => ReturnType,
     }

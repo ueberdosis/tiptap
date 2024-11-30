@@ -7,10 +7,36 @@ import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'
 
 export interface FloatingMenuPluginProps {
+  /**
+   * The plugin key for the floating menu.
+   * @default 'floatingMenu'
+   */
   pluginKey: PluginKey | string
+
+  /**
+   * The editor instance.
+   * @default null
+   */
   editor: Editor
+
+  /**
+   * The DOM element that contains your menu.
+   * @default null
+   */
   element: HTMLElement
+
+  /**
+   * The options for the tippy instance.
+   * @default {}
+   * @see https://atomiks.github.io/tippyjs/v6/all-props/
+   */
   tippyOptions?: Partial<Props>
+
+  /**
+   * A function that determines whether the menu should be shown or not.
+   * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
+   * @default null
+   */
   shouldShow?:
     | ((props: {
         editor: Editor
@@ -22,6 +48,9 @@ export interface FloatingMenuPluginProps {
 }
 
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
+  /**
+   * The editor view.
+   */
   view: EditorView
 }
 
@@ -98,6 +127,12 @@ export class FloatingMenuView {
     }
 
     if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
+      return
+    }
+
+    if (
+      event?.relatedTarget === this.editor.view.dom
+    ) {
       return
     }
 

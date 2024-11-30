@@ -1,24 +1,97 @@
 import { mergeAttributes, Node } from '@tiptap/core'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { PluginKey } from '@tiptap/pm/state'
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion'
 
-export type MentionOptions = {
-  HTMLAttributes: Record<string, any>
-  renderLabel: (props: { options: MentionOptions; node: ProseMirrorNode }) => string
-  suggestion: Omit<SuggestionOptions, 'editor'>
+// See `addAttributes` below
+export interface MentionNodeAttrs {
+  /**
+   * The identifier for the selected item that was mentioned, stored as a `data-id`
+   * attribute.
+   */
+  id: string | null;
+  /**
+   * The label to be rendered by the editor as the displayed text for this mentioned
+   * item, if provided. Stored as a `data-label` attribute. See `renderLabel`.
+   */
+  label?: string | null;
 }
 
+export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> = {
+  /**
+   * The HTML attributes for a mention node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
+  HTMLAttributes: Record<string, any>
+
+  /**
+   * A function to render the label of a mention.
+   * @deprecated use renderText and renderHTML instead
+   * @param props The render props
+   * @returns The label
+   * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+   */
+  renderLabel?: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string
+
+  /**
+   * A function to render the text of a mention.
+   * @param props The render props
+   * @returns The text
+   * @example ({ options, node }) => `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+   */
+  renderText: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => string
+
+  /**
+   * A function to render the HTML of a mention.
+   * @param props The render props
+   * @returns The HTML as a ProseMirror DOM Output Spec
+   * @example ({ options, node }) => ['span', { 'data-type': 'mention' }, `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`]
+   */
+  renderHTML: (props: { options: MentionOptions<SuggestionItem, Attrs>; node: ProseMirrorNode }) => DOMOutputSpec
+
+  /**
+   * Whether to delete the trigger character with backspace.
+   * @default false
+   */
+  deleteTriggerWithBackspace: boolean
+
+  /**
+   * The suggestion options.
+   * @default {}
+   * @example { char: '@', pluginKey: MentionPluginKey, command: ({ editor, range, props }) => { ... } }
+   */
+  suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>
+}
+
+/**
+ * The plugin key for the mention plugin.
+ * @default 'mention'
+ */
 export const MentionPluginKey = new PluginKey('mention')
 
+/**
+ * This extension allows you to insert mentions into the editor.
+ * @see https://www.tiptap.dev/api/extensions/mention
+ */
 export const Mention = Node.create<MentionOptions>({
   name: 'mention',
+
+  priority: 101,
 
   addOptions() {
     return {
       HTMLAttributes: {},
-      renderLabel({ options, node }) {
+      renderText({ options, node }) {
         return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+      },
+      deleteTriggerWithBackspace: false,
+      renderHTML({ options, node }) {
+        return [
+          'span',
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
+          `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+        ]
       },
       suggestion: {
         char: '@',
@@ -48,7 +121,8 @@ export const Mention = Node.create<MentionOptions>({
             ])
             .run()
 
-          window.getSelection()?.collapseToEnd()
+          // get reference to `window` object from editor element, to support cross-frame JS usage
+          editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd()
         },
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from)
@@ -110,18 +184,44 @@ export const Mention = Node.create<MentionOptions>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    return [
-      'span',
-      mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
-      this.options.renderLabel({
-        options: this.options,
-        node,
-      }),
-    ]
+    if (this.options.renderLabel !== undefined) {
+      console.warn('renderLabel is deprecated use renderText and renderHTML instead')
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        this.options.renderLabel({
+          options: this.options,
+          node,
+        }),
+      ]
+    }
+    const mergedOptions = { ...this.options }
+
+    mergedOptions.HTMLAttributes = mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes)
+    const html = this.options.renderHTML({
+      options: mergedOptions,
+      node,
+    })
+
+    if (typeof html === 'string') {
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        html,
+      ]
+    }
+    return html
   },
 
   renderText({ node }) {
-    return this.options.renderLabel({
+    if (this.options.renderLabel !== undefined) {
+      console.warn('renderLabel is deprecated use renderText and renderHTML instead')
+      return this.options.renderLabel({
+        options: this.options,
+        node,
+      })
+    }
+    return this.options.renderText({
       options: this.options,
       node,
     })
@@ -141,7 +241,11 @@ export const Mention = Node.create<MentionOptions>({
         state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
           if (node.type.name === this.name) {
             isMention = true
-            tr.insertText(this.options.suggestion.char || '', pos, pos + node.nodeSize)
+            tr.insertText(
+              this.options.deleteTriggerWithBackspace ? '' : this.options.suggestion.char || '',
+              pos,
+              pos + node.nodeSize,
+            )
 
             return false
           }

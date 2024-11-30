@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "2.2.0-rc.3",
+  "version": "2.10.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -14,7 +14,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/packages/html/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -22,22 +22,22 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "umd": "dist/index.umd.js",
-  "types": "dist/packages/html/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "type": "module",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.2.0-rc.3",
-    "@tiptap/pm": "^2.2.0-rc.3"
+    "@tiptap/core": "^2.10.2",
+    "@tiptap/pm": "^2.10.2"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.0.0",
-    "@tiptap/pm": "^2.0.0"
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0"
   },
   "dependencies": {
-    "zeed-dom": "^0.9.19"
+    "zeed-dom": "^0.15.1"
   },
   "repository": {
     "type": "git",
