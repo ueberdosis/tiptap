@@ -1,5 +1,4 @@
 import {
-  getMarkAttributes,
   Mark,
   mergeAttributes,
 } from '@tiptap/core'
@@ -64,15 +63,32 @@ export const TextStyle = Mark.create<TextStyleOptions>({
 
   addCommands() {
     return {
-      removeEmptyTextStyle: () => ({ state, commands }) => {
-        const attributes = getMarkAttributes(state, this.type)
-        const hasStyles = Object.entries(attributes).some(([, value]) => !!value)
+      removeEmptyTextStyle: () => ({ tr }) => {
 
-        if (hasStyles) {
-          return true
-        }
+        const { selection } = tr
 
-        return commands.unsetMark(this.name)
+        // Gather all of the nodes within the selection range.
+        // We would need to go through each node individually
+        // to check if it has any inline style attributes.
+        // Otherwise, calling commands.unsetMark(this.name)
+        // removes everything from all the nodes
+        // within the selection range.
+        tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+
+          // Check if it's a paragraph element, if so, skip this node as we apply
+          // the text style to inline text nodes only (span).
+          if (node.isTextblock) {
+            return true
+          }
+
+          // Check if the node has no inline style attributes.
+          if (!node.marks.some(mark => Object.values(mark.attrs).some(value => !!value))) {
+            // Proceed with the removal of the `textStyle` mark for this node only
+            tr.removeMark(pos, pos + node.nodeSize, this.type)
+          }
+        })
+
+        return true
       },
     }
   },
