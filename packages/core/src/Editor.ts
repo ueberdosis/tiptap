@@ -542,6 +542,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as text.
    */
   public getText(options?: {
+    allowRepetitiveSeparators?: boolean
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
