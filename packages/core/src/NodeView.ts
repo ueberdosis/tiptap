@@ -151,11 +151,11 @@ export class NodeView<
     // ProseMirror tries to drag selectable nodes
     // even if `draggable` is set to `false`
     // this fix prevents that
-    if (!isDraggable && isSelectable && isDragEvent) {
+    if (!isDraggable && isSelectable && isDragEvent && event.target === this.dom) {
       event.preventDefault()
     }
 
-    if (isDraggable && isDragEvent && !isDragging) {
+    if (isDraggable && isDragEvent && !isDragging && event.target === this.dom) {
       event.preventDefault()
       return false
     }
