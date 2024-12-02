@@ -21,6 +21,10 @@ const getPackageDependencies = () => {
     find: 'yjs',
     replacement: resolve('../node_modules/yjs/src/index.js'),
   })
+  paths.push({
+    find: 'y-prosemirror',
+    replacement: resolve('../node_modules/y-prosemirror/src/y-prosemirror.js'),
+  })
 
   fg.sync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))
@@ -47,6 +51,12 @@ const includeDependencies = fs.readFileSync('./includeDependencies.txt')
   .filter(value => value)
 
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  preview: {
+    port: 3000,
+  },
   optimizeDeps: {
     include: includeDependencies,
   },
@@ -59,13 +69,20 @@ export default defineConfig({
     },
   },
 
+  worker: {
+    format: 'es',
+  },
+
   plugins: [
     // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
+    // @ts-ignore
     vue(),
+    // @ts-ignore
     react(),
+    // @ts-ignore
     svelte(),
 
     {

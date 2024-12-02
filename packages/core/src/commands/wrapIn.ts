@@ -9,6 +9,9 @@ declare module '@tiptap/core' {
     wrapIn: {
       /**
        * Wraps nodes in another node.
+       * @param typeOrName The type or name of the node.
+       * @param attributes The attributes of the node.
+       * @example editor.commands.wrapIn('blockquote')
        */
       wrapIn: (typeOrName: string | NodeType, attributes?: Record<string, any>) => ReturnType
     }

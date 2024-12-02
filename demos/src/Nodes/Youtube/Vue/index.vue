@@ -1,33 +1,37 @@
 <template>
-  <div>
-    <div v-if="editor">
-      <button id="add" @click="addVideo">
-        Add YouTube video
-      </button>
-      <input
-        id="width"
-        type="number"
-        v-model="width"
-        placeholder="width"
-        min="320"
-        max="1024"
-      >
-      <input
-        id="height"
-        type="number"
-        v-model="height"
-        placeholder="height"
-        min="180"
-        max="720"
-      >
-      <editor-content class="editor-1" :editor="editor" />
+  <div v-if="editor" class="container">
+    <div class="control-group">
+      <div class="button-group">
+        <input
+          id="width"
+          type="number"
+          v-model="width"
+          placeholder="width"
+          min="320"
+          max="1024"
+        >
+        <input
+          id="height"
+          type="number"
+          v-model="height"
+          placeholder="height"
+          min="180"
+          max="720"
+        >
+        <button id="add" @click="addVideo">
+          Add YouTube video
+        </button>
+      </div>
     </div>
+    <editor-content :editor="editor" />
   </div>
 </template>
 
 <script>
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
-import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
@@ -46,9 +50,12 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        StarterKit,
+        Document,
+        Paragraph,
+        Text,
         Youtube.configure({
           controls: false,
+          nocookie: true,
         }),
       ],
       content: `
@@ -87,76 +94,27 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-  > * + * {
-    margin-top: 0.75em;
+  :first-child {
+    margin-top: 0;
   }
 
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-  }
-
-  code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
-  }
-
-  pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  hr {
-    margin: 1rem 0;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
-  }
-
-  iframe {
-    border: 8px solid #000;
-    border-radius: 4px;
-    min-width: 200px;
-    min-height: 200px;
-    display: block;
-    outline: 0px solid transparent;
-  }
-
+  /* Youtube embed */
   div[data-youtube-video] {
     cursor: move;
-    padding-right: 24px;
-  }
+    padding-right: 1.5rem;
 
-  .ProseMirror-selectednode iframe {
-    transition: outline 0.15s;
-    outline: 6px solid #ece111;
+    iframe {
+      border: 0.5rem solid var(--black-contrast);
+      display: block;
+      min-height: 200px;
+      min-width: 200px;
+      outline: 0px solid transparent;
+    }
+
+    &.ProseMirror-selectednode iframe {
+      outline: 3px solid var(--purple);
+      transition: outline 0.15s;
+    }
   }
 }
-
 </style>

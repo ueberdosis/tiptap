@@ -3,16 +3,22 @@
 
 name: build
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
       - main
       - develop
+      - next
       - release/*
   pull_request:
     branches:
       - main
       - develop
+      - next
 
 jobs:
   lint:
@@ -20,10 +26,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
@@ -31,11 +37,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.1.2
         id: cache
         with:
           path: |
             **/node_modules
+            **/.turbo
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
@@ -64,7 +71,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
         test-spec:
           - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
           #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
@@ -79,7 +86,7 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
@@ -96,10 +103,10 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.6.0
+        uses: cypress-io/github-action@v6.7.7
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          start: npm run start
+          start: npm run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
@@ -107,7 +114,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.4.3
         if: failure()
         with:
           name: cypress-screenshots
@@ -115,7 +122,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.4.3
         if: failure()
         with:
           name: cypress-videos
@@ -129,10 +136,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
@@ -140,11 +147,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.1.2
         id: cache
         with:
           path: |
             **/node_modules
+            **/.turbo
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
@@ -156,3 +164,7 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
+
+      - name: Soft release
+        id: soft-release
+        run: npx pkg-pr-new publish './packages/*' --compact

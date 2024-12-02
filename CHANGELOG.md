@@ -1,7 +1,88 @@
 # Change Log
 
+> **Important information**
+>
+> As of version 2.4.1 Tiptap uses **Changesets** which don't allow the generation of one generic CHANGELOG file.
+> If you want to check changes of a specific package version, check the **CHANGELOG.md** file in the specific package
+> directory or out [Github Releases](https://github.com/ueberdosis/tiptap/releases)
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
+
+
+### Bug Fixes
+
+* **core:** configure should use the parent of the current instance, to avoid duplication ([#5147](https://github.com/ueberdosis/tiptap/issues/5147)) ([4db463c](https://github.com/ueberdosis/tiptap/commit/4db463c6bbcc3a17ee8eb591bea8e357120ecb35))
+* fix ts error for BubbleMenu and FloatingMenu in @tiptap/react ([#5126](https://github.com/ueberdosis/tiptap/issues/5126)) ([baff4af](https://github.com/ueberdosis/tiptap/commit/baff4af39e2b8970d7cab99859ece41228643f9d))
+
+
+### Features
+
+* added jsdocs ([#4356](https://github.com/ueberdosis/tiptap/issues/4356)) ([b941eea](https://github.com/ueberdosis/tiptap/commit/b941eea6daba09d48a5d18ccc1b9a1d84b2249dd))
+
+
+
+
+
+## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* NodePos querySelectorAll function ([#5094](https://github.com/ueberdosis/tiptap/issues/5094)) ([4900a27](https://github.com/ueberdosis/tiptap/commit/4900a27c5389d9a2d0d69f407ca3db0155304315))
+
+
+
+
+
+## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
+
+**Note:** Version bump only for package tiptap
+
+
+
+
+
+# [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
+
+
+### Bug Fixes
+
+* **core:** fix nodepos child lookup ([#5038](https://github.com/ueberdosis/tiptap/issues/5038)) ([22ced31](https://github.com/ueberdosis/tiptap/commit/22ced318723003365fbfd8f59b8dac79c7563017))
+
+
+### Features
+
+* **core:** apply input and paste rules when using insertContent methods ([#5046](https://github.com/ueberdosis/tiptap/issues/5046)) ([96b6abc](https://github.com/ueberdosis/tiptap/commit/96b6abcf6edbc6cac03a391130d9feebb6de3a04))
+
+
+
+
+
+## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
+
+
+### Bug Fixes
+
+* unexpected renderText() for contentful nodes ([#3410](https://github.com/ueberdosis/tiptap/issues/3410)) ([d6c71a8](https://github.com/ueberdosis/tiptap/commit/d6c71a838d590f78fdff15c805d93f43c8a5a1a5))
+
+
+
+
+
+## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
+
+
+### Bug Fixes
+
+* Disallow only whitespace between markdown shortcuts delimiters ([#4866](https://github.com/ueberdosis/tiptap/issues/4866)) ([aa029fe](https://github.com/ueberdosis/tiptap/commit/aa029fe2242aeadc38555b2832df6ae1614c7d1d))
+* **extension-link:** Avoid auto-linking partial text for invalid TLDs ([#4865](https://github.com/ueberdosis/tiptap/issues/4865)) ([4474d05](https://github.com/ueberdosis/tiptap/commit/4474d056daf9280ebb10b31f98bb000e953132e5))
+
+
+
+
 
 ## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
 

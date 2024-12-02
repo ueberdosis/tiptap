@@ -11,6 +11,8 @@ declare module '@tiptap/core' {
     setMark: {
       /**
        * Add a mark with new attributes.
+       * @param typeOrName The mark type or name.
+       * @example editor.commands.setMark('bold', { level: 1 })
        */
       setMark: (typeOrName: string | MarkType, attributes?: Record<string, any>) => ReturnType
     }

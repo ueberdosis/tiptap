@@ -1,9 +1,12 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().setHardBreak().run()">
-      setHardBreak
-    </button>
-
+  <div v-if="editor" class="container">
+    <div className="control-group">
+      <div className="button-group">
+        <button @click="editor.chain().focus().setHardBreak().run()">
+          Set hard break
+        </button>
+      </div>
+    </div>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -54,3 +57,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+</style>

@@ -5,6 +5,11 @@ import {
 } from '@tiptap/core'
 
 export interface TextStyleOptions {
+  /**
+   * HTML attributes to add to the span element.
+   * @default {}
+   * @example { class: 'foo' }
+   */
   HTMLAttributes: Record<string, any>,
 }
 
@@ -13,14 +18,22 @@ declare module '@tiptap/core' {
     textStyle: {
       /**
        * Remove spans without inline style attributes.
+       * @example editor.commands.removeEmptyTextStyle()
        */
       removeEmptyTextStyle: () => ReturnType,
     }
   }
 }
 
+/**
+ * This extension allows you to create text styles. It is required by default
+ * for the `textColor` and `backgroundColor` extensions.
+ * @see https://www.tiptap.dev/api/marks/text-style
+ */
 export const TextStyle = Mark.create<TextStyleOptions>({
   name: 'textStyle',
+
+  priority: 101,
 
   addOptions() {
     return {
