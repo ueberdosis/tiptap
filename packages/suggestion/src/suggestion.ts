@@ -26,11 +26,17 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   char?: string
 
   /**
-   * Allow spaces in the suggestion query.
+   * Allow spaces in the suggestion query. Not compatible with `allowToIncludeChar`. Will be disabled if `allowToIncludeChar` is set to `true`.
    * @default false
    * @example true
   */
   allowSpaces?: boolean
+
+  /**
+   * Allow the character to be included in the suggestion query. Not compatible with `allowSpaces`.
+   * @default false
+   */
+  allowToIncludeChar?: boolean
 
   /**
    * Allow prefixes in the suggestion query.
@@ -167,6 +173,7 @@ export function Suggestion<I = any, TSelected = any>({
   editor,
   char = '@',
   allowSpaces = false,
+  allowToIncludeChar = false,
   allowedPrefixes = [' '],
   startOfLine = false,
   decorationTag = 'span',
@@ -323,6 +330,7 @@ export function Suggestion<I = any, TSelected = any>({
           const match = findSuggestionMatch({
             char,
             allowSpaces,
+            allowToIncludeChar,
             allowedPrefixes,
             startOfLine,
             $position: selection.$from,

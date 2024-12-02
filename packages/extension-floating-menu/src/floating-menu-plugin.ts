@@ -1,4 +1,7 @@
-import { Editor, posToDOMRect } from '@tiptap/core'
+import {
+  Editor, getText, getTextSerializersFromSchema, posToDOMRect,
+} from '@tiptap/core'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -64,11 +67,16 @@ export class FloatingMenuView {
 
   public tippyOptions?: Partial<Props>
 
+  private getTextContent(node:ProseMirrorNode) {
+    return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
+  }
+
   public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ view, state }) => {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
-    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
+
+    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent && $anchor.parent.childCount === 0 && !this.getTextContent($anchor.parent)
 
     if (
       !view.hasFocus()

@@ -351,7 +351,12 @@ export const Link = Mark.create<LinkOptions>({
 
           if (text) {
             const { protocols, defaultProtocol } = this.options
-            const links = find(text).filter(
+            // Prosemirror replaces zero-width non-joiner characters
+            // with Object Replacement Character from unicode.
+            // Therefore, linkifyjs does not recognize the
+            // link properly. We replace these characters
+            // with regular spaces to fix this issue.
+            const links = find(text.replaceAll('\uFFFC', ' ')).filter(
               item => item.isLink
                 && this.options.isAllowedUri(item.value, {
                   defaultValidate: href => !!isAllowedUri(href, protocols),
