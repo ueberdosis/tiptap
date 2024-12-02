@@ -41,6 +41,10 @@ const getPackageDependencies = () => {
       }
     })
 
+  // Handle the JSX runtime alias
+  paths.unshift({ find: '@tiptap/core/jsx-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
+  paths.unshift({ find: '@tiptap/core/jsx-dev-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
+
   return paths
 }
 
