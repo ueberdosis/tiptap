@@ -17,7 +17,7 @@ export function getText(
   options?: {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
-    repetitiveSeparator?: boolean
+    allowRepetitiveSeparators?: boolean
   },
 ) {
   const range = {

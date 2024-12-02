@@ -20,7 +20,7 @@ export function generateText(
     textSerializers?: Record<string, TextSerializer>
   },
 ): string {
-  const { blockSeparator = '\n\n', textSerializers = {}, repetitiveSeparator = false } = options || {}
+  const { blockSeparator = '\n\n', textSerializers = {}, allowRepetitiveSeparators = false } = options || {}
   const schema = getSchema(extensions)
   const contentNode = Node.fromJSON(schema, doc)
 
@@ -30,6 +30,6 @@ export function generateText(
       ...getTextSerializersFromSchema(schema),
       ...textSerializers,
     },
-    repetitiveSeparator,
+    allowRepetitiveSeparators,
   })
 }
