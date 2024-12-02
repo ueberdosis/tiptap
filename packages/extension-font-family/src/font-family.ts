@@ -72,15 +72,9 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
           .setMark('textStyle', { fontFamily })
           .run()
       },
-      unsetFontFamily: () => ({ chain, tr }) => {
-        const { selection } = tr
-
-        // Retrieve all previous mark attributes applied to the current selection
-        const previousMarkAttributes = selection.$anchor.marks().map(mark => mark.attrs)
-
+      unsetFontFamily: () => ({ chain }) => {
         return chain()
-          // Only remove the font family attribute from the previous mark attributes
-          .setMark('textStyle', { ...previousMarkAttributes, fontFamily: null })
+          .setMark('textStyle', { fontFamily: null })
           .removeEmptyTextStyle()
           .run()
       },
