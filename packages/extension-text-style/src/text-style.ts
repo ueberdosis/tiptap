@@ -11,6 +11,14 @@ export interface TextStyleOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>,
+  /**
+   * When enabled, merges the styles of nested spans into the child span during HTML parsing.
+   * This prioritizes the style of the child span.
+   * Used when parsing content created in other editors.
+   * (Fix for ProseMirror's default behavior.)
+   * @default false
+   */
+  mergeNestedSpanStyles: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -23,6 +31,21 @@ declare module '@tiptap/core' {
       removeEmptyTextStyle: () => ReturnType,
     }
   }
+}
+
+const mergeNestedSpanStyles = (element: HTMLElement) => {
+  if (!element.children.length) { return }
+  const childSpans = element.querySelectorAll('span')
+
+  if (!childSpans) { return }
+
+  childSpans.forEach(childSpan => {
+    const childStyle = childSpan.getAttribute('style')
+    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
+
+    childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
+
+  })
 }
 
 /**
@@ -38,6 +61,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      mergeNestedSpanStyles: false,
     }
   },
 
@@ -51,6 +75,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
           if (!hasStyles) {
             return false
           }
+          if (this.options.mergeNestedSpanStyles) { mergeNestedSpanStyles(element) }
 
           return {}
         },
