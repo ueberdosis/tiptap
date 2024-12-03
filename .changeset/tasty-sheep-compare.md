@@ -2,4 +2,4 @@
 "@tiptap/extension-text-style": minor
 ---
 
-Fixed nested marks with styling are stripped by default #5720
+Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
