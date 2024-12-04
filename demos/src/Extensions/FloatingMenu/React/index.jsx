@@ -72,7 +72,7 @@ export default () => {
         <button data-testid="insert-foo" onClick={() => editor.chain().insertFoo().focus().run()}>Insert Foo</button>
       </div>
       {editor && <FloatingMenu editor={editor}>
-        <div className="floating-menu">
+        <div className="floating-menu" data-testid="floating-menu">
           <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
