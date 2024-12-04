@@ -2,10 +2,10 @@
 import { Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
-import { TiptapStaticRendererOptions } from '../json/renderer.js'
-import { renderJSONContentToString } from '../json/string.js'
-import type { DOMOutputSpecArray } from '../types.js'
-import { renderToElement } from './extensionRenderer.js'
+import { renderJSONContentToString } from '../../json/html-string/string.js'
+import { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import type { DOMOutputSpecArray } from '../../types.js'
+import { renderToElement } from '../extensionRenderer.js'
 
 /**
  * Serialize the attributes of a node or mark to a string

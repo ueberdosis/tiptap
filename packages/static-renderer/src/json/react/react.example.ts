@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { NodeType } from '../types.js'
+import { NodeType } from '../../types.js'
+import { NodeProps } from '../renderer.js'
 import { renderJSONContentToReactElement } from './react.js'
-import { NodeProps } from './renderer.js'
 
 /**
  * This example demonstrates how to render a JSON representation of a node to a React element

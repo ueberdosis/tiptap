@@ -1,7 +1,7 @@
 import { JSONContent } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
-import { renderToHTMLString, serializeChildrenToHTMLString } from './html-string.js'
+import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-string/html-string.js'
 
 /**
  * This code is just to show the flexibility of this renderer. We can potentially render content to any format we want.
