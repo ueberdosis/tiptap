@@ -75,5 +75,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && tsup"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
