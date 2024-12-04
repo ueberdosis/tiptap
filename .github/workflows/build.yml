@@ -14,6 +14,8 @@ on:
       - develop
       - next
       - release/*
+    tags:
+      - '*'
   pull_request:
     branches:
       - main
@@ -103,7 +105,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.7.6
+        uses: cypress-io/github-action@v6.7.7
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run serve
@@ -152,6 +154,7 @@ jobs:
         with:
           path: |
             **/node_modules
+            **/.turbo
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
@@ -163,3 +166,7 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
+
+      - name: Soft release
+        id: soft-release
+        run: npx pkg-pr-new publish './packages/*' --compact

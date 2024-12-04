@@ -136,7 +136,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = {}> {
       }
     }
 
-    this.reactElement = React.createElement(Component, props)
+    this.reactElement = <Component {...props} />
 
     editor?.contentComponent?.setRenderer(this.id, this)
   }

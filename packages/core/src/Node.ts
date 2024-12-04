@@ -65,7 +65,7 @@ declare module '@tiptap/core' {
      */
     addOptions?: (this: {
       name: string
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addOptions']
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addOptions'], undefined>
     }) => Options
 
     /**
@@ -80,7 +80,7 @@ declare module '@tiptap/core' {
     addStorage?: (this: {
       name: string
       options: Options
-      parent: ParentConfig<NodeConfig<Options, Storage>>['addStorage']
+      parent: Exclude<ParentConfig<NodeConfig<Options, Storage>>['addStorage'], undefined>
     }) => Storage
 
     /**

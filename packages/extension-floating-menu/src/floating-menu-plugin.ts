@@ -7,7 +7,10 @@ import {
   type Middleware, type OffsetOptions, type Placement, type ShiftOptions, type SizeOptions, type Strategy, arrow, autoPlacement, computePosition, flip, hide, inline, offset, shift,
   size,
 } from '@floating-ui/dom'
-import { Editor, posToDOMRect } from '@tiptap/core'
+import {
+  Editor, getText, getTextSerializersFromSchema, posToDOMRect,
+} from '@tiptap/core'
+import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
@@ -78,11 +81,16 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  private getTextContent(node: ProsemirrorNode) {
+    return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
+  }
+
   public shouldShow: Exclude<FloatingMenuPluginProps['shouldShow'], null> = ({ view, state }) => {
     const { selection } = state
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
-    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
+
+    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent && $anchor.parent.childCount === 0 && !this.getTextContent($anchor.parent)
 
     if (
       !view.hasFocus()
@@ -244,6 +252,12 @@ export class FloatingMenuView {
     }
 
     if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
+      return
+    }
+
+    if (
+      event?.relatedTarget === this.editor.view.dom
+    ) {
       return
     }
 

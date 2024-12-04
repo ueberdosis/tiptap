@@ -1,5 +1,5 @@
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { NodeView } from '@tiptap/pm/view'
+import { NodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { getColStyleDeclaration } from './utilities/colStyle.js'
 
@@ -102,7 +102,7 @@ export class TableView implements NodeView {
     return true
   }
 
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+  ignoreMutation(mutation: ViewMutationRecord) {
     return (
       mutation.type === 'attributes'
       && (mutation.target === this.table || this.colgroup.contains(mutation.target))

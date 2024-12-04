@@ -264,6 +264,12 @@ export class BubbleMenuView implements PluginView {
       return
     }
 
+    if (
+      event?.relatedTarget === this.editor.view.dom
+    ) {
+      return
+    }
+
     this.hide()
   }
 

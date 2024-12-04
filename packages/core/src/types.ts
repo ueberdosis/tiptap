@@ -13,6 +13,7 @@ import {
   EditorView,
   NodeView,
   NodeViewConstructor,
+  ViewMutationRecord,
 } from '@tiptap/pm/view'
 
 import { Editor } from './Editor.js'
@@ -259,7 +260,7 @@ export interface NodeViewProps extends NodeViewRendererProps {
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null;
   ignoreMutation:
-    | ((props: { mutation: MutationRecord | { type: 'selection'; target: Element } }) => boolean)
+    | ((props: { mutation: ViewMutationRecord }) => boolean)
     | null;
   contentDOMElementTag: string;
 }
