@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- ce91452: Fixed an issue that caused defaultAlignment options not being added as text-styles to elements. defaultAlignment is now nullable to **disable the enforced text-align styles**.
+
 ## 3.0.0-next.1
 
 ### Major Changes

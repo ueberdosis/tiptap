@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- 86250c6: Improve selected text deletion at the end of list items
+
 ## 3.0.0-next.1
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- 01547d5: Fixed a bug causing the levels rule to be ignored if a level of 1 was **not allowed**
+
 ## 3.0.0-next.1
 
 ### Major Changes
