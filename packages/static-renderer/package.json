@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/static-renderer",
   "description": "statically render Tiptap JSON",
-  "version": "2.6.6",
+  "version": "3.0.0-next.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -64,8 +64,8 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "^2.6.6",
-    "@tiptap/pm": "^2.6.6"
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1"
   },
   "repository": {
     "type": "git",
