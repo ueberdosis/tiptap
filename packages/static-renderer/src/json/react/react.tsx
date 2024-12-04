@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { MarkType, NodeType } from '../types.js'
-import { TiptapStaticRenderer, TiptapStaticRendererOptions } from './renderer.js'
+import { MarkType, NodeType } from '../../types.js'
+import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../renderer.js'
 
 export function renderJSONContentToReactElement<
   /**
