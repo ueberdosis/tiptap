@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-link",
   "description": "link extension for tiptap",
-  "version": "3.0.0-next.1",
+  "version": "3.0.0-next.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,8 +31,8 @@
     "linkifyjs": "^4.1.0"
   },
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.1",
-    "@tiptap/pm": "^3.0.0-next.1"
+    "@tiptap/core": "^3.0.0-next.2",
+    "@tiptap/pm": "^3.0.0-next.2"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1",

@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- f79c05e: Update inline code formatting for text enclosed in backticks
+
 ## 3.0.0-next.1
 
 ### Major Changes

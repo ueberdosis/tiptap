@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Major Changes
+
+- 14681a1: fix: #5851 - While setting `content` directly while using character-count
+
 ## 3.0.0-next.1
 
 ### Major Changes
