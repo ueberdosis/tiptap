@@ -3,10 +3,10 @@ import { Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 import React from 'react'
 
-import { renderJSONContentToReactElement } from '../json/react.js'
-import { TiptapStaticRendererOptions } from '../json/renderer.js'
-import type { DOMOutputSpecArray } from '../types.js'
-import { renderToElement } from './extensionRenderer.js'
+import { renderJSONContentToReactElement } from '../../json/react/react.js'
+import { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import type { DOMOutputSpecArray } from '../../types.js'
+import { renderToElement } from '../extensionRenderer.js'
 
 /**
  * This function maps the attributes of a node or mark to HTML attributes
