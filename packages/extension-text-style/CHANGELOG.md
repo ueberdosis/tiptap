@@ -1,5 +1,20 @@
 # Change Log
 
+## 3.0.0
+
+### Minor Changes
+
+- a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
+
+### Patch Changes
+
+- Updated dependencies [283e606]
+- Updated dependencies [ca6269e]
+- Updated dependencies [e0dfecc]
+- Updated dependencies [722ec00]
+- Updated dependencies [b7ef150]
+  - @tiptap/core@3.0.0
+
 ## 2.10.2
 
 ## 2.10.1
