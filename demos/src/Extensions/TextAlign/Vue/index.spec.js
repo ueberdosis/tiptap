@@ -9,10 +9,17 @@ context('/src/Extensions/TextAlign/Vue/', () => {
     })
   })
 
+  it('should parse a null alignment correctly', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+    })
+  })
+
   it('should parse left align text correctly (and not render)', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p style="text-align: left">Example Text</p>')
-      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p style="text-align: left">Example Text</p>')
     })
   })
 
@@ -37,13 +44,28 @@ context('/src/Extensions/TextAlign/Vue/', () => {
     })
   })
 
+  it('should keep the text aligned when toggling headings', () => {
+    const alignments = ['center', 'right', 'justify']
+    const headings = [1, 2]
+
+    cy.get('.tiptap').then(([{ editor }]) => {
+      alignments.forEach(alignment => {
+        headings.forEach(level => {
+          editor.commands.setContent(`<p style="text-align: ${alignment}">Example Text</p>`)
+          editor.commands.toggleHeading({ level })
+          expect(editor.getHTML()).to.eq(`<h${level} style="text-align: ${alignment}">Example Text</h${level}>`)
+        })
+      })
+    })
+  })
+
   it('aligns the text left on the 1st button', () => {
     cy.get('button:nth-child(1)')
       .click()
 
     cy.get('.tiptap')
       .find('p')
-      .should('not.have.css', 'text-align', 'left')
+      .should('have.css', 'text-align', 'left')
   })
 
   it('aligns the text center on the 2nd button', () => {
@@ -86,7 +108,7 @@ context('/src/Extensions/TextAlign/Vue/', () => {
     cy.get('.tiptap')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
       .find('p')
-      .should('not.have.css', 'text-align', 'left')
+      .should('have.css', 'text-align', 'left')
   })
 
   it('aligns the text center when pressing the keyboard shortcut', () => {

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "inputs": [
+        "changeset/**",
+        "collab/**",
+        "commands/**",
+        "dropcursor/**",
+        "gapcursor/**",
+        "history/**",
+        "inputrules/**",
+        "keymap/**",
+        "markdown/**",
+        "menu/**",
+        "model/**",
+        "schema-basic/**",
+        "schema-list/**",
+        "state/**",
+        "tables/**",
+        "trailing-node/**",
+        "transform/**",
+        "view/**"
+      ],
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    }
+  },
+  "extends": ["//"]
+}

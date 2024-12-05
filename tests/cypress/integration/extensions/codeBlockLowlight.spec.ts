@@ -5,7 +5,9 @@ import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
-import { lowlight } from 'lowlight'
+import { all, createLowlight } from 'lowlight'
+
+const lowlight = createLowlight(all)
 
 describe('code block highlight', () => {
   let Frontmatter
