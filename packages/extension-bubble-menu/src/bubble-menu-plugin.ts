@@ -123,6 +123,7 @@ export class BubbleMenuView {
     }
 
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.element.addEventListener('focusout', this.floatingFocusoutHandler)
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
@@ -130,6 +131,10 @@ export class BubbleMenuView {
     // Detaches menu content from its current parent
     this.element.remove()
     this.element.style.visibility = 'visible'
+  }
+
+  floatingFocusoutHandler = (event: FocusEvent) => {
+    this.blurHandler({ event })
   }
 
   mousedownHandler = () => {
@@ -303,6 +308,7 @@ export class BubbleMenuView {
     }
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
+    this.element.removeEventListener('focusout', this.floatingFocusoutHandler)
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
