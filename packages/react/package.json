@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "2.10.2",
+  "version": "3.0.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,23 +29,23 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.10.2",
-    "@tiptap/extension-floating-menu": "^2.10.2",
+    "@tiptap/extension-bubble-menu": "^3.0.0",
+    "@tiptap/extension-floating-menu": "^3.0.0",
     "@types/use-sync-external-store": "^0.0.6",
     "fast-deep-equal": "^3",
     "use-sync-external-store": "^1"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.10.2",
-    "@tiptap/pm": "^2.10.2",
+    "@tiptap/core": "^3.0.0",
+    "@tiptap/pm": "^3.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0",
+    "@tiptap/core": "^3.0.0",
+    "@tiptap/pm": "^3.0.0",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },

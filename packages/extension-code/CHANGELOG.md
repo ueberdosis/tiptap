@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.0
+
+### Patch Changes
+
+- f79c05e: Update inline code formatting for text enclosed in backticks
+- b08c94c: Implement `inputRegex` and `pasteRegex` while avoiding lookbehind for compatibility with safari versions older than 16.4
+- Updated dependencies [283e606]
+- Updated dependencies [ca6269e]
+- Updated dependencies [e0dfecc]
+- Updated dependencies [722ec00]
+- Updated dependencies [b7ef150]
+  - @tiptap/core@3.0.0
+
 ## 2.10.2
 
 ## 2.10.1
