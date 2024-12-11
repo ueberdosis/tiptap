@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bold",
   "description": "bold extension for tiptap",
-  "version": "2.10.2",
+  "version": "3.0.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,10 +29,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.10.2"
+    "@tiptap/core": "^3.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0"
+    "@tiptap/core": "^3.0.0"
   },
   "repository": {
     "type": "git",
