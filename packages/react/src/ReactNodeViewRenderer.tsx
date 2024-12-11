@@ -193,13 +193,13 @@ export class ReactNodeView<
     }
 
     if (from <= pos && to >= pos + this.node.nodeSize) {
-      if (this.renderer.props.selected) {
+      if (this?.renderer?.props?.selected) {
         return
       }
 
       this.selectNode()
     } else {
-      if (!this.renderer.props.selected) {
+      if (!this?.renderer?.props?.selected) {
         return
       }
 
