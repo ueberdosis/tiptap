@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.3
+
+### Patch Changes
+
+- 4d2139b: This fixes a problem with the release files
+
 ## 3.0.0-next.2
 
 ## 3.0.0-next.1
