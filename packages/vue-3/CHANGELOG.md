@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [d9b6ef5]
+  - @tiptap/extension-floating-menu@3.0.0-next.2
+  - @tiptap/extension-bubble-menu@3.0.0-next.2
+
 ## 3.0.0-next.1
 
 ### Major Changes
