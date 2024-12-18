@@ -22,7 +22,7 @@ export function getAttributes(
 
   return extensionAttributes
     .filter(item => {
-      if (item.type !== nodeOrMark.type) {
+      if (item.type !== (typeof nodeOrMark.type === 'string' ? nodeOrMark.type : nodeOrMark.type.name)) {
         return false
       }
       if (onlyRenderedAttributes) {
