@@ -4,7 +4,7 @@
  * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
  */
 export type MarkType<
-  Type extends string = any,
+  Type extends string | { name: string } = any,
   Attributes extends undefined | Record<string, any> = any,
 > = {
   type: Type;
@@ -15,7 +15,7 @@ export type MarkType<
  * A node type is either a JSON representation of a node or a Prosemirror node instance
  */
 export type NodeType<
-  Type extends string = any,
+  Type extends string | { name: string } = any,
   Attributes extends undefined | Record<string, any> = any,
   NodeMarkType extends MarkType = any,
   Content extends NodeType[] = any,
