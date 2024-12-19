@@ -324,8 +324,12 @@ export const Link = Mark.create<LinkOptions>({
         attributes => ({ chain }) => {
           const { href } = attributes
 
-          if (!isAllowedUri(href, this.options.protocols)) {
-            throw new Error('Invalid protocol')
+          if (!this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          })) {
+            return false
           }
 
           return chain().setMark(this.name, attributes).setMeta('preventAutolink', true).run()
@@ -335,8 +339,12 @@ export const Link = Mark.create<LinkOptions>({
         attributes => ({ chain }) => {
           const { href } = attributes
 
-          if (!isAllowedUri(href, this.options.protocols)) {
-            throw new Error('Invalid protocol')
+          if (!this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          })) {
+            return false
           }
 
           return chain()
