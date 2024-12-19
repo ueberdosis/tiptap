@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.4
+
+### Patch Changes
+
+- 1c2fefe: Added checks for allowed protocols in link commands & exported isValidUri helper for manual checks outside of the extension
+
 ## 2.10.3
 
 ## 2.10.2
