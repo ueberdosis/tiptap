@@ -149,7 +149,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
         const { checked } = event.target as any
 
-        if (editor.isEditable && typeof getPos === 'function') {
+        if (typeof getPos === 'function') {
           editor
             .chain()
             .focus(undefined, { scrollIntoView: false })
@@ -161,6 +161,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
               }
               const currentNode = tr.doc.nodeAt(position)
 
+              if (!editor.isEditable && this.options.onReadOnlyChecked) {
+                // Reset state if onReadOnlyChecked returns false
+                if (!this.options.onReadOnlyChecked(currentNode, checked)) {
+                  checkbox.checked = !checkbox.checked
+                  return false
+                }
+              }
+
               tr.setNodeMarkup(position, undefined, {
                 ...currentNode?.attrs,
                 checked,
@@ -169,12 +177,6 @@ export const TaskItem = Node.create<TaskItemOptions>({
               return true
             })
             .run()
-        }
-        if (!editor.isEditable && this.options.onReadOnlyChecked) {
-          // Reset state if onReadOnlyChecked returns false
-          if (!this.options.onReadOnlyChecked(node, checked)) {
-            checkbox.checked = !checkbox.checked
-          }
         }
       })
 
