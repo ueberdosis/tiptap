@@ -163,7 +163,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
               if (!editor.isEditable && this.options.onReadOnlyChecked) {
                 // Reset state if onReadOnlyChecked returns false
-                if (!this.options.onReadOnlyChecked(currentNode, checked)) {
+                if (!currentNode || !this.options.onReadOnlyChecked(currentNode, checked)) {
                   checkbox.checked = !checkbox.checked
                   return false
                 }
