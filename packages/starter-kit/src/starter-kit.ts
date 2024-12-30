@@ -20,6 +20,7 @@ import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
+import { TrailingNode, TrailingNodeOptions } from '@tiptap/extension-utils'
 
 export interface StarterKitOptions {
   /**
@@ -147,6 +148,12 @@ export interface StarterKitOptions {
    * @example underline: false
    */
   underline: Partial<UnderlineOptions> | false,
+
+  /**
+   * If set to false, the trailingNode extension will not be registered
+   * @example trailingNode: false
+   */
+  trailingNode: Partial<TrailingNodeOptions> | false,
 }
 
 /**
@@ -242,6 +249,10 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.underline !== false) {
       extensions.push(Underline.configure(this.options?.underline))
+    }
+
+    if (this.options.trailingNode !== false) {
+      extensions.push(TrailingNode.configure(this.options?.trailingNode))
     }
 
     return extensions
