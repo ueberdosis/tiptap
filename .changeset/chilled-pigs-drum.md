@@ -1,5 +1,5 @@
 ---
-"@tiptap/extension-character-count": major
+"@tiptap/extension-character-count": patch
 ---
 
-fix: #5851 - While setting `content` directly while using character-count
+truncate initial `content`, if limit is set on the character count extension fixes #5851
