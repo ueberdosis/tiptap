@@ -14,7 +14,7 @@ import { renderToElement } from '../extensionRenderer.js'
  */
 export function serializeAttrsToHTMLString(attrs: Record<string, any>): string {
   const output = Object.entries(attrs)
-    .map(([key, value]) => `${key}=${JSON.stringify(value)}`)
+    .map(([key, value]) => `${key.split(' ').at(-1)}=${JSON.stringify(value)}`)
     .join(' ')
 
   return output ? ` ${output}` : ''
@@ -44,7 +44,13 @@ export function domOutputSpecToHTMLString(
     return () => content
   }
   if (typeof content === 'object' && 'length' in content) {
-    const [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
+    const [_tag, attrs, children, ...rest] = content as DOMOutputSpecArray
+    let tag = _tag
+    const parts = tag.split(' ')
+
+    if (parts.length > 1) {
+      tag = `${parts[1]} xmlns="${parts[0]}"`
+    }
 
     if (attrs === undefined) {
       return () => `<${tag}/>`

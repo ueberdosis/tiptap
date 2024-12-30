@@ -42,7 +42,27 @@ export function domOutputSpecToReactElement(
     return () => content
   }
   if (typeof content === 'object' && 'length' in content) {
-    const [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
+    // eslint-disable-next-line prefer-const
+    let [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
+    const parts = tag.split(' ')
+
+    if (parts.length > 1) {
+      tag = parts[1]
+      if (attrs === undefined) {
+        attrs = {
+          xmlns: parts[0],
+        }
+      }
+      if (attrs === 0) {
+        attrs = {
+          xmlns: parts[0],
+        }
+        children = 0
+      }
+      if (typeof attrs === 'object') {
+        attrs = Object.assign(attrs, { xmlns: parts[0] })
+      }
+    }
 
     if (attrs === undefined) {
       return () => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()))
