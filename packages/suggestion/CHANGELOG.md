@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.0
+
+### Patch Changes
+
+- ec8d654: Added a new option `allowToIncludeChar` that allows the usage of the suggestion char inside the query
+
 ## 2.10.4
 
 ## 2.10.3

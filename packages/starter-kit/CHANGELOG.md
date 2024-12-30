@@ -1,5 +1,42 @@
 # Change Log
 
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [f79c05e]
+- Updated dependencies [01547d5]
+- Updated dependencies [d735cf3]
+- Updated dependencies [b08c94c]
+- Updated dependencies [283e606]
+- Updated dependencies [ca6269e]
+- Updated dependencies [e0dfecc]
+- Updated dependencies [722ec00]
+- Updated dependencies [b7ef150]
+- Updated dependencies [a0d2f28]
+- Updated dependencies [8c619c6]
+  - @tiptap/extension-code@2.11.0
+  - @tiptap/extension-heading@2.11.0
+  - @tiptap/extension-text-style@2.11.0
+  - @tiptap/core@2.11.0
+  - @tiptap/extension-blockquote@2.11.0
+  - @tiptap/extension-bold@2.11.0
+  - @tiptap/extension-bullet-list@2.11.0
+  - @tiptap/extension-code-block@2.11.0
+  - @tiptap/extension-document@2.11.0
+  - @tiptap/extension-dropcursor@2.11.0
+  - @tiptap/extension-gapcursor@2.11.0
+  - @tiptap/extension-hard-break@2.11.0
+  - @tiptap/extension-history@2.11.0
+  - @tiptap/extension-horizontal-rule@2.11.0
+  - @tiptap/extension-italic@2.11.0
+  - @tiptap/extension-list-item@2.11.0
+  - @tiptap/extension-ordered-list@2.11.0
+  - @tiptap/extension-paragraph@2.11.0
+  - @tiptap/extension-strike@2.11.0
+  - @tiptap/extension-text@2.11.0
+  - @tiptap/pm@2.11.0
+
 ## 2.10.4
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.11.0
+
+### Patch Changes
+
+- f79c05e: Update inline code formatting for text enclosed in backticks
+- b08c94c: Implement `inputRegex` and `pasteRegex` while avoiding lookbehind for compatibility with safari versions older than 16.4
+
 ## 2.10.4
 
 ## 2.10.3
