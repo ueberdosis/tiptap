@@ -6,6 +6,7 @@
 "@tiptap/extension-collaboration": major
 "@tiptap/extension-floating-menu": major
 "@tiptap/extension-ordered-list": major
+"@tiptap/extension-table-header": major
 "@tiptap/extension-bubble-menu": major
 "@tiptap/extension-bullet-list": major
 "@tiptap/extension-font-family": major
@@ -16,6 +17,7 @@
 "@tiptap/extension-code-block": major
 "@tiptap/extension-dropcursor": major
 "@tiptap/extension-hard-break": major
+"@tiptap/extension-table-cell": major
 "@tiptap/extension-text-align": major
 "@tiptap/extension-text-style": major
 "@tiptap/extension-typography": major
@@ -24,6 +26,7 @@
 "@tiptap/extension-list-item": major
 "@tiptap/extension-paragraph": major
 "@tiptap/extension-subscript": major
+"@tiptap/extension-table-row": major
 "@tiptap/extension-task-item": major
 "@tiptap/extension-task-list": major
 "@tiptap/extension-underline": major
