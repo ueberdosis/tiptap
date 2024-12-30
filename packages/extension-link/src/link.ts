@@ -160,7 +160,7 @@ declare module '@tiptap/core' {
 // eslint-disable-next-line no-control-regex
 const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g
 
-function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
+export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
   const allowedProtocols: string[] = [
     'http',
     'https',
@@ -322,11 +322,31 @@ export const Link = Mark.create<LinkOptions>({
     return {
       setLink:
         attributes => ({ chain }) => {
+          const { href } = attributes
+
+          if (!this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          })) {
+            return false
+          }
+
           return chain().setMark(this.name, attributes).setMeta('preventAutolink', true).run()
         },
 
       toggleLink:
         attributes => ({ chain }) => {
+          const { href } = attributes
+
+          if (!this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          })) {
+            return false
+          }
+
           return chain()
             .toggleMark(this.name, attributes, { extendEmptyMarkRange: true })
             .setMeta('preventAutolink', true)

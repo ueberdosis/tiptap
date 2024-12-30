@@ -1,5 +1,59 @@
 # Change Log
 
+## 2.10.4
+
+### Patch Changes
+
+- @tiptap/core@2.10.4
+- @tiptap/extension-blockquote@2.10.4
+- @tiptap/extension-bold@2.10.4
+- @tiptap/extension-bullet-list@2.10.4
+- @tiptap/extension-code@2.10.4
+- @tiptap/extension-code-block@2.10.4
+- @tiptap/extension-document@2.10.4
+- @tiptap/extension-dropcursor@2.10.4
+- @tiptap/extension-gapcursor@2.10.4
+- @tiptap/extension-hard-break@2.10.4
+- @tiptap/extension-heading@2.10.4
+- @tiptap/extension-history@2.10.4
+- @tiptap/extension-horizontal-rule@2.10.4
+- @tiptap/extension-italic@2.10.4
+- @tiptap/extension-list-item@2.10.4
+- @tiptap/extension-ordered-list@2.10.4
+- @tiptap/extension-paragraph@2.10.4
+- @tiptap/extension-strike@2.10.4
+- @tiptap/extension-text@2.10.4
+- @tiptap/extension-text-style@2.10.4
+- @tiptap/pm@2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- Updated dependencies [c0615b9]
+- Updated dependencies [7c6774e]
+  - @tiptap/extension-code@2.10.3
+  - @tiptap/core@2.10.3
+  - @tiptap/extension-blockquote@2.10.3
+  - @tiptap/extension-bold@2.10.3
+  - @tiptap/extension-bullet-list@2.10.3
+  - @tiptap/extension-code-block@2.10.3
+  - @tiptap/extension-document@2.10.3
+  - @tiptap/extension-dropcursor@2.10.3
+  - @tiptap/extension-gapcursor@2.10.3
+  - @tiptap/extension-hard-break@2.10.3
+  - @tiptap/extension-heading@2.10.3
+  - @tiptap/extension-history@2.10.3
+  - @tiptap/extension-horizontal-rule@2.10.3
+  - @tiptap/extension-italic@2.10.3
+  - @tiptap/extension-list-item@2.10.3
+  - @tiptap/extension-ordered-list@2.10.3
+  - @tiptap/extension-paragraph@2.10.3
+  - @tiptap/extension-strike@2.10.3
+  - @tiptap/extension-text@2.10.3
+  - @tiptap/extension-text-style@2.10.3
+  - @tiptap/pm@2.10.3
+
 ## 2.10.2
 
 ### Patch Changes

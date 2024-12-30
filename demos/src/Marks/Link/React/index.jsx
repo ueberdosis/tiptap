@@ -105,8 +105,12 @@ export default () => {
     }
 
     // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
-      .run()
+    try {
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+        .run()
+    } catch (e) {
+      alert(e.message)
+    }
   }, [editor])
 
   if (!editor) {

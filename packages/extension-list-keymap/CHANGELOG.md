@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- 4fe85b2: Improve selected text deletion at the end of list items
+
 ## 2.10.2
 
 ## 2.10.1
