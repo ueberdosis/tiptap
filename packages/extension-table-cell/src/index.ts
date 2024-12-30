@@ -1,5 +1,5 @@
-import { TableCell } from './table-cell.js'
+import { TableCell } from '@tiptap/extension-table'
 
-export * from './table-cell.js'
+export { TableCell, TableCellOptions } from '@tiptap/extension-table'
 
 export default TableCell
