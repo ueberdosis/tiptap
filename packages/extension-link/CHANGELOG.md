@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.0
+
+### Patch Changes
+
+- 2acf260: fixes #5679 - perform string sanitization to remove unwanted "object replacement characters" from the before performing link detection
+
 ## 2.10.4
 
 ### Patch Changes

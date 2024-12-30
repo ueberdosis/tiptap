@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.11.0
+
+### Minor Changes
+
+- 8c619c6: Add `rewriteUnknownContent` helper, which can strip your editor JSON of content which is invalid within the current editor's schema
+
+### Patch Changes
+
+- 283e606: Fixed an issue on Android where the focus command would cause the keyboard to flash
+- ca6269e: Added support for drag-and-drop between multiple editors
+- e0dfecc: Updates the typings to be inline with prosemirror-view #5867
+- 722ec00: Use an `AllSelection` for the `selectAll` command #5516
+- b7ef150: Fixed an issue with nodeviews preventing any drag events in child nodes of the nodeview wrapper element
+
 ## 2.10.4
 
 ## 2.10.3
