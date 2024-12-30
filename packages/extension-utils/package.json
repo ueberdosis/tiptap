@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/extension-focus",
-  "description": "focus extension for tiptap",
+  "name": "@tiptap/extension-utils",
+  "description": "various utils extension for tiptap",
   "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
@@ -28,15 +28,17 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-utils": "3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/extension-utils": "3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-focus"
+    "directory": "packages/extension-utils"
   },
   "scripts": {
     "build": "tsup"
