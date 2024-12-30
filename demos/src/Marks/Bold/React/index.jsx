@@ -4,12 +4,40 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import {
+  EditorContent, MarkViewContent, ReactMarkViewRenderer, useEditor,
+} from '@tiptap/react'
 import React from 'react'
+
+let called = 100
 
 export default () => {
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text, Bold],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Bold.extend({
+        addMarkView() {
+          return props => {
+            if (!called) {
+              console.log('noooo')
+              return {}
+            }
+            called--
+            const x = ReactMarkViewRenderer(
+              props => {
+                return <span style={{ color: 'red' }}><MarkViewContent /></span>
+              },
+              { as: 'span' },
+            )(props)
+            // console.log("x", x);
+
+            return x
+          }
+        },
+      }),
+    ],
     content: `
         <p>This isn’t bold.</p>
         <p><strong>This is bold.</strong></p>
@@ -19,6 +47,8 @@ export default () => {
         <p style="font-weight: 500">Cool, isn’t it!?</p>
         <p style="font-weight: 999">Up to font weight 999!!!</p>
       `,
+    shouldRerenderOnTransaction: false,
+    immediatelyRender: true,
   })
 
   if (!editor) {
