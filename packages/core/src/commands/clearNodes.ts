@@ -42,7 +42,9 @@ export const clearNodes: RawCommands['clearNodes'] = () => ({ state, tr, dispatc
       if (node.type.isTextblock) {
         const { defaultType } = $mappedFrom.parent.contentMatchAt($mappedFrom.index())
 
-        tr.setNodeMarkup(nodeRange.start, defaultType)
+        if (defaultType && defaultType.isTextblock) {
+          tr.setNodeMarkup(nodeRange.start, defaultType)
+        }
       }
 
       if (targetLiftDepth || targetLiftDepth === 0) {

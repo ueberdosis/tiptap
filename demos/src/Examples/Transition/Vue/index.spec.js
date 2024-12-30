@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 context('/src/Examples/Transition/Vue/', () => {
   beforeEach(() => {
     cy.visit('/src/Examples/Transition/Vue/')
