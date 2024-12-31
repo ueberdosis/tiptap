@@ -8,6 +8,7 @@ export default defineConfig(
     'src/json/html-string/index.ts',
     'src/pm/react/index.ts',
     'src/pm/html-string/index.ts',
+    'src/pm/markdown/index.ts',
   ].map(entry => ({
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
@@ -15,5 +16,6 @@ export default defineConfig(
     dts: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
+    external: [/^[^./]/],
   })),
 )
