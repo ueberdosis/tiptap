@@ -33,7 +33,7 @@ export const joinItemForward: RawCommands['joinItemForward'] = () => ({
     }
 
     return true
-  } catch (e) {
+  } catch {
     return false
   }
 }

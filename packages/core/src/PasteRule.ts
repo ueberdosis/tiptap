@@ -190,7 +190,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
   try {
     dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
-  } catch (e) {
+  } catch {
     dropEvent = null
   }
 
@@ -229,7 +229,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
 
     try {
       dropEvent = typeof DragEvent !== 'undefined' ? new DragEvent('drop') : null
-    } catch (e) {
+    } catch {
       dropEvent = null
     }
     pasteEvent = typeof ClipboardEvent !== 'undefined' ? new ClipboardEvent('paste') : null

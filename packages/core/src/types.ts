@@ -309,7 +309,7 @@ export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView;
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 
 export type UnionCommands<T = Command> = UnionToIntersection<
-  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, {}>>>
+  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, object>>>
 >;
 
 export type RawCommands = {

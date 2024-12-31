@@ -11,7 +11,7 @@ export interface AnnotationPluginOptions {
   HTMLAttributes: {
     [key: string]: any
   }
-  onUpdate: (items: AnnotationItem[]) => {}
+  onUpdate: (items: AnnotationItem[]) => object
   map: Y.Map<any>
   instance: string
 }
