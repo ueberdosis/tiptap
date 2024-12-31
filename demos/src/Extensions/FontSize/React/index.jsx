@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 
 export default () => {
   const editor = useEditor({
+    shouldRerenderOnTransaction: true,
     extensions: [StarterKit, TextStyle, FontSize],
     content: `
         <p>Adjusting font sizes can greatly affect the readability of your text, making it easier for users to engage with your content.</p>
