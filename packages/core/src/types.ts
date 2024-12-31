@@ -58,10 +58,10 @@ export interface EditorEvents {
      */
     disableCollaboration: () => void;
   };
-  update: { editor: Editor; transaction: Transaction };
+  update: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] };
   selectionUpdate: { editor: Editor; transaction: Transaction };
   beforeTransaction: { editor: Editor; transaction: Transaction; nextState: EditorState };
-  transaction: { editor: Editor; transaction: Transaction };
+  transaction: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] };
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction };
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction };
   destroy: void;
