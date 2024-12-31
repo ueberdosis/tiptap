@@ -190,9 +190,7 @@ describe('can', () => {
       })
       .run()
 
-    // eslint-disable-next-line no-unused-expressions
-    expect(capturedOuterDispatch).to.be.undefined
-    // eslint-disable-next-line no-unused-expressions
-    expect(capturedInnerDispatch).to.be.undefined
+    expect(capturedOuterDispatch).to.eq(undefined)
+    expect(capturedInnerDispatch).to.eq(undefined)
   })
 })

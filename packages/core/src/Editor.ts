@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import {
   MarkType,
   Node as ProseMirrorNode,
@@ -415,7 +416,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private capturedTransaction: Transaction | null = null
 
-  public captureTransaction(fn: Function) {
+  public captureTransaction(fn: () => void) {
     this.isCapturingTransaction = true
     fn()
     this.isCapturingTransaction = false

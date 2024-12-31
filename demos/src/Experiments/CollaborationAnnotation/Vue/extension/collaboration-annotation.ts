@@ -28,7 +28,7 @@ export interface AnnotationOptions {
   /**
    * An event listener which receives annotations for the current selection.
    */
-  onUpdate: (items: any[]) => {},
+  onUpdate: (items: any[]) => object,
   /**
    * An initialized Y.js document.
    */

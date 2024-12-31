@@ -7,7 +7,7 @@ export interface SuperscriptExtensionOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Object,
+  HTMLAttributes: Record<string, any>,
 }
 
 declare module '@tiptap/core' {
