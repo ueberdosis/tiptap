@@ -3,7 +3,6 @@ import React, { ComponentProps } from 'react'
 import { useReactNodeView } from './useReactNodeView.js'
 
 export type NodeViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'div'> = {
-  // eslint-disable-next-line no-undef
   as?: NoInfer<T>;
 } & ComponentProps<T>
 

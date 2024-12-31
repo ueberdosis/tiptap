@@ -27,8 +27,8 @@ TNodeType extends {
  * @param attrs The attributes to serialize
  * @returns The serialized attributes as a string
  */
-export function serializeAttrsToHTMLString(attrs: Record<string, any>): string {
-  const output = Object.entries(attrs)
+export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefined | null): string {
+  const output = Object.entries(attrs || {})
     .map(([key, value]) => `${key.split(' ').at(-1)}=${JSON.stringify(value)}`)
     .join(' ')
 
