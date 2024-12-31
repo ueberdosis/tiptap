@@ -24,7 +24,7 @@ use-sync-external-store/shim
 use-sync-external-store/shim/with-selector
 shiki
 simplify-js
-tippy.js
+@floating-ui/dom
 uuid
 y-webrtc
 yjs

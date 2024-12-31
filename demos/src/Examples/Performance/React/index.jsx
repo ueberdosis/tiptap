@@ -67,7 +67,7 @@ function EditorInstance({ shouldOptimizeRendering }) {
         <div>Number of renders: <span id="render-count">{countRenderRef.current}</span></div>
       </div>
       {currentEditorState && (
-        <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+        <BubbleMenu className="bubble-menu" editor={editor}>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={currentEditorState.isBold ? 'is-active' : ''}

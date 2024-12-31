@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "2.10.2",
+  "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,7 +21,6 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
@@ -29,12 +28,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.10.2",
-    "@tiptap/pm": "^2.10.2"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0"
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1"
   },
   "repository": {
     "type": "git",
@@ -42,7 +41,6 @@
     "directory": "packages/suggestion"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup"
   }
 }

@@ -20,10 +20,10 @@ context('/src/Examples/Community/Vue/', () => {
     cy.get('.tiptap').type('{selectall}{backspace}@')
 
     // check if the mention autocomplete is visible
-    cy.get('.tippy-content .dropdown-menu').should('be.visible')
+    cy.get('.dropdown-menu').should('be.visible')
 
     // select the first user
-    cy.get('.tippy-content .dropdown-menu button').first().then($el => {
+    cy.get('.dropdown-menu button').first().then($el => {
       const name = $el.text()
 
       $el.click()

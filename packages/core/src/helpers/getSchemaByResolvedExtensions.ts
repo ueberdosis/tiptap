@@ -2,7 +2,7 @@ import {
   MarkSpec, NodeSpec, Schema, TagParseRule,
 } from '@tiptap/pm/model'
 
-import { Editor, MarkConfig, NodeConfig } from '../index.js'
+import type { Editor, MarkConfig, NodeConfig } from '../index.js'
 import { AnyConfig, Extensions } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 import { isEmptyObject } from '../utilities/isEmptyObject.js'
@@ -16,7 +16,7 @@ function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(
     // @ts-ignore
     Object.entries(data).filter(([key, value]) => {
-      if (key === 'attrs' && isEmptyObject(value as {} | undefined)) {
+      if (key === 'attrs' && isEmptyObject(value as object | undefined)) {
         return false
       }
 

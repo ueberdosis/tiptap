@@ -278,7 +278,7 @@ export interface NodeViewRendererProps {
   /**
    * A function that can be called to get the node's current position in the document.
    */
-  getPos: () => number; // TODO getPos was incorrectly typed before, change to `Parameters<NodeViewConstructor>[2];` in the next major version
+  getPos: Parameters<NodeViewConstructor>[2];
   /**
    * is an array of node or inline decorations that are active around the node.
    * They are automatically drawn in the normal way, and you will usually just want to ignore this, but they can also be used as a way to provide context information to the node view without adding it to the document itself.
@@ -309,7 +309,7 @@ export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView;
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 
 export type UnionCommands<T = Command> = UnionToIntersection<
-  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, {}>>>
+  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, object>>>
 >;
 
 export type RawCommands = {

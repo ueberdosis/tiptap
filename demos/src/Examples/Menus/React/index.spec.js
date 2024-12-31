@@ -10,8 +10,8 @@ context('/src/Examples/Menus/React/', () => {
   })
 
   it('should show menu when the editor is empty', () => {
-    cy.get('#app')
-      .find('[data-tippy-root]')
+    cy.get('body')
+      .find('.floating-menu')
   })
 
   it('should show menu when text is selected', () => {
@@ -19,8 +19,8 @@ context('/src/Examples/Menus/React/', () => {
       .type('Test')
       .type('{selectall}')
 
-    cy.get('#app')
-      .find('[data-tippy-root]')
+    cy.get('body')
+      .find('.bubble-menu')
   })
 
   const marks = [
@@ -44,8 +44,8 @@ context('/src/Examples/Menus/React/', () => {
         .type('Test')
         .type('{selectall}')
 
-      cy.get('#app')
-        .find('[data-tippy-root]')
+      cy.get('body')
+        .find('.bubble-menu')
         .contains(mark.button)
         .click()
 

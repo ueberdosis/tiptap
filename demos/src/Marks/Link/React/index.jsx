@@ -56,7 +56,7 @@ export default () => {
 
             // all checks have passed
             return true
-          } catch (error) {
+          } catch {
             return false
           }
         },
@@ -70,7 +70,7 @@ export default () => {
             const domain = parsedUrl.hostname
 
             return !disallowedDomains.includes(domain)
-          } catch (error) {
+          } catch {
             return false
           }
         },
@@ -105,8 +105,12 @@ export default () => {
     }
 
     // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
-      .run()
+    try {
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+        .run()
+    } catch (e) {
+      alert(e.message)
+    }
   }, [editor])
 
   if (!editor) {

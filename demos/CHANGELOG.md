@@ -1,16 +1,10 @@
 # Change Log
 
-## 2.5.1
+## 3.0.0-next.0
 
-### Patch Changes
+### Major Changes
 
-- 7619215: The link extension's `validate` option now applies to both auto-linking and XSS mitigation. While, the new `shouldAutoLink` option is used to disable auto linking on an otherwise valid url.
-
-## 2.5.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ## 2.4.2
 

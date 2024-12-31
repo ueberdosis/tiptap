@@ -1,57 +1,94 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type BubbleMenuProps = Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element' | 'editor'> & {
+export type BubbleMenuProps = Omit<
+  Optional<BubbleMenuPluginProps, 'pluginKey'>,
+  'element' | 'editor'
+> & {
   editor: BubbleMenuPluginProps['editor'] | null;
-  className?: string;
-  children: React.ReactNode;
   updateDelay?: number;
-};
+  resizeDelay?: number;
+  options?: BubbleMenuPluginProps['options'];
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export const BubbleMenu = (props: BubbleMenuProps) => {
-  const [element, setElement] = useState<HTMLDivElement | null>(null)
-  const { editor: currentEditor } = useCurrentEditor()
-
-  useEffect(() => {
-    if (!element) {
-      return
-    }
-
-    if (props.editor?.isDestroyed || currentEditor?.isDestroyed) {
-      return
-    }
-
-    const {
-      pluginKey = 'bubbleMenu', editor, tippyOptions = {}, updateDelay, shouldShow = null,
-    } = props
-
-    const menuEditor = editor || currentEditor
-
-    if (!menuEditor) {
-      console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
-      return
-    }
-
-    const plugin = BubbleMenuPlugin({
+export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
+  (
+    {
+      pluginKey = 'bubbleMenu',
+      editor,
       updateDelay,
-      editor: menuEditor,
-      element,
-      pluginKey,
-      shouldShow,
-      tippyOptions,
-    })
+      resizeDelay,
+      shouldShow = null,
+      options,
+      children,
+      ...restProps
+    },
+    ref,
+  ) => {
+    const menuEl = useRef(document.createElement('div'))
 
-    menuEditor.registerPlugin(plugin)
-    return () => { menuEditor.unregisterPlugin(pluginKey) }
-  }, [props.editor, currentEditor, element])
+    if (typeof ref === 'function') {
+      ref(menuEl.current)
+    } else if (ref) {
+      ref.current = menuEl.current
+    }
 
-  return (
-    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
-      {props.children}
-    </div>
-  )
-}
+    const { editor: currentEditor } = useCurrentEditor()
+
+    useEffect(() => {
+      const bubbleMenuElement = menuEl.current
+
+      bubbleMenuElement.style.visibility = 'hidden'
+      bubbleMenuElement.style.position = 'absolute'
+
+      if (editor?.isDestroyed || currentEditor?.isDestroyed) {
+        return
+      }
+
+      const attachToEditor = editor || currentEditor
+
+      if (!attachToEditor) {
+        console.warn(
+          'BubbleMenu component is not rendered inside of an editor component or does not have editor prop.',
+        )
+        return
+      }
+
+      const plugin = BubbleMenuPlugin({
+        updateDelay,
+        resizeDelay,
+        editor: attachToEditor,
+        element: bubbleMenuElement,
+        pluginKey,
+        shouldShow,
+        options,
+      })
+
+      attachToEditor.registerPlugin(plugin)
+
+      return () => {
+        attachToEditor.unregisterPlugin(pluginKey)
+        window.requestAnimationFrame(() => {
+          if (bubbleMenuElement.parentNode) {
+            bubbleMenuElement.parentNode.removeChild(bubbleMenuElement)
+          }
+        })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editor, currentEditor])
+
+    return createPortal(
+      <div
+        {...restProps}
+      >
+        {children}
+      </div>,
+      menuEl.current,
+    )
+  },
+)

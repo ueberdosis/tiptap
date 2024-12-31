@@ -91,6 +91,23 @@ context('/src/Commands/InsertContent/React/', () => {
     })
   })
 
+  it('should split content when image is inserted inbetween text', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>HelloWorld</p>')
+      editor.commands.setTextSelection(6)
+      editor.commands.insertContent('<img src="https://example.image/1" alt="This is an example" />')
+      cy.get('.tiptap').should('contain.html', '<p>Hello</p><img src="https://example.image/1" alt="This is an example" contenteditable="false" draggable="true"><p>World</p>')
+    })
+  })
+
+  it('should not split content when image is inserted at beginning of text', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<p>HelloWorld</p>')
+      editor.commands.setTextSelection(1)
+      editor.commands.insertContent('<img src="https://example.image/1" alt="This is an example" />')
+      cy.get('.tiptap').should('contain.html', '<img src="https://example.image/1" alt="This is an example" contenteditable="false" draggable="true"><p>HelloWorld</p>')
+    })
+  })
   it('should respect editor.options.parseOptions if defined to be `false`', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.options.parseOptions = { preserveWhitespace: false }

@@ -29,7 +29,7 @@ export type UseEditorOptions = Partial<EditorOptions> & {
   /**
    * Whether to re-render the editor on each transaction.
    * This is legacy behavior that will be removed in future versions.
-   * @default true
+   * @default false
    */
   shouldRerenderOnTransaction?: boolean;
 };
@@ -100,13 +100,12 @@ class EditorInstanceManager {
   private getInitialEditor() {
     if (this.options.current.immediatelyRender === undefined) {
       if (isSSR || isNext) {
-        // TODO in the next major release, we should throw an error here
         if (isDev) {
           /**
            * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
            * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
            */
-          console.warn(
+          throw new Error(
             'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
           )
         }
@@ -289,9 +288,9 @@ class EditorInstanceManager {
  * @example const editor = useEditor({ extensions: [...] })
  */
 export function useEditor(
-  options: UseEditorOptions & { immediatelyRender: true },
+  options: UseEditorOptions & { immediatelyRender: false },
   deps?: DependencyList
-): Editor;
+): Editor | null;
 
 /**
  * This hook allows you to create an editor instance.
@@ -300,7 +299,7 @@ export function useEditor(
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(options?: UseEditorOptions, deps?: DependencyList): Editor | null;
+export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor;
 
 export function useEditor(
   options: UseEditorOptions = {},
@@ -329,7 +328,7 @@ export function useEditor(
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false) {
+      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
         // This will prevent the editor from re-rendering on each transaction
         return null
       }

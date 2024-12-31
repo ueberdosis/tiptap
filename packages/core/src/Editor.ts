@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import {
   MarkType,
   Node as ProseMirrorNode,
@@ -64,6 +65,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public isInitialized = false
 
   public extensionStorage: Record<string, any> = {}
+
+  /**
+   * A unique ID for this editor instance.
+   */
+  public instanceId = Math.random().toString(36).slice(2, 9)
 
   public options: EditorOptions = {
     element: document.createElement('div'),
@@ -415,7 +421,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private capturedTransaction: Transaction | null = null
 
-  public captureTransaction(fn: Function) {
+  public captureTransaction(fn: () => void) {
     this.isCapturingTransaction = true
     fn()
     this.isCapturingTransaction = false
@@ -561,19 +567,6 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public get isEmpty(): boolean {
     return isNodeEmpty(this.state.doc)
-  }
-
-  /**
-   * Get the number of characters for the current document.
-   *
-   * @deprecated
-   */
-  public getCharacterCount(): number {
-    console.warn(
-      '[tiptap warn]: "editor.getCharacterCount()" is deprecated. Please use "editor.storage.characterCount.characters()" instead.',
-    )
-
-    return this.state.doc.content.size - 2
   }
 
   /**

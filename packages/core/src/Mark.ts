@@ -524,6 +524,7 @@ declare module '@tiptap/core' {
       storage: Storage
       parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
       editor?: Editor
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     }) => Attributes | {}
   }
 }
