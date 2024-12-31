@@ -1,6 +1,6 @@
+import type { NodeType, TextType } from '@tiptap/core'
 import React from 'react'
 
-import { NodeType } from '../../types.js'
 import { NodeProps } from '../renderer.js'
 import { renderJSONContentToReactElement } from './react.js'
 
@@ -17,7 +17,7 @@ import { renderJSONContentToReactElement } from './react.js'
 console.log(renderJSONContentToReactElement({
   nodeMapping: {
     text({ node }) {
-      return node.text ?? null
+      return (node as unknown as TextType).text ?? null
     },
     heading({
       node,

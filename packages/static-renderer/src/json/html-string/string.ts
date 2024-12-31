@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MarkType, NodeType } from '../../types.js'
+import type { MarkType, NodeType } from '@tiptap/core'
+
 import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../renderer.js'
 
 export function renderJSONContentToString<

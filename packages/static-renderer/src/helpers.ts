@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExtensionAttribute, mergeAttributes } from '@tiptap/core'
-
-import type { MarkType, NodeType } from './types'
+import {
+  type ExtensionAttribute, type MarkType, type NodeType,
+  mergeAttributes,
+} from '@tiptap/core'
 
 /**
  * This function returns the attributes of a node or mark that are defined by the given extension attributes.

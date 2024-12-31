@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Extensions, JSONContent } from '@tiptap/core'
+import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
 import { renderJSONContentToString } from '../../json/html-string/string.js'
 import { TiptapStaticRendererOptions } from '../../json/renderer.js'
-import type { DOMOutputSpecArray } from '../../types.js'
 import { renderToElement } from '../extensionRenderer.js'
 
 /**

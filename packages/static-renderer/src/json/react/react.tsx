@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import type { MarkType, NodeType } from '@tiptap/core'
 import React from 'react'
 
-import { MarkType, NodeType } from '../../types.js'
 import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../renderer.js'
 
 export function renderJSONContentToReactElement<

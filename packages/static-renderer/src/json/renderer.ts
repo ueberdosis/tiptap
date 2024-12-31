@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MarkType, NodeType } from '../types'
+import type { MarkType, NodeType } from '@tiptap/core'
 
 /**
  * Props for a node renderer
@@ -87,19 +87,19 @@ export type TiptapStaticRendererOptions<
   /**
    * Mapping of node types to react components
    */
-  nodeMapping: Record<string, TNodeRender>;
+  nodeMapping: Record<string, NoInfer<TNodeRender>>;
   /**
    * Mapping of mark types to react components
    */
-  markMapping: Record<string, TMarkRender>;
+  markMapping: Record<string, NoInfer<TMarkRender>>;
   /**
    * Component to render if a node type is not handled
    */
-  unhandledNode?: TNodeRender;
+  unhandledNode?: NoInfer<TNodeRender>;
   /**
    * Component to render if a mark type is not handled
    */
-  unhandledMark?: TMarkRender;
+  unhandledMark?: NoInfer<TMarkRender>;
 };
 
 /**

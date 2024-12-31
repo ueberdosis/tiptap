@@ -1,3 +1,5 @@
+import type { TextType } from '@tiptap/core'
+
 import { renderJSONContentToString } from './string.js'
 
 /**
@@ -14,8 +16,7 @@ console.log(
   renderJSONContentToString({
     nodeMapping: {
       text({ node }) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return node.text!
+        return (node as unknown as TextType).text
       },
       heading({ node, children }) {
         const level = node.attrs?.level
