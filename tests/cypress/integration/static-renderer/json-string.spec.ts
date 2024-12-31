@@ -5,7 +5,7 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { Mark, Node } from '@tiptap/pm/model'
 import { renderJSONContentToString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/json/html-string'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 
@@ -260,7 +260,7 @@ describe('static render json to string (with prosemirror)', () => {
         markMapping: {
           bold: ({ children, mark }) => {
             expect(mark.type.name).to.eq('bold')
-            expect(mark).to.be.instanceOf(Node)
+            expect(mark).to.be.instanceOf(Mark)
             return `<b>${serializeChildrenToHTMLString(children)}</b>`
           },
         },

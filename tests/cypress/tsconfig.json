@@ -10,6 +10,7 @@
       "@tiptap/*": ["packages/*/src", "packages/*/dist"],
       "@tiptap/pm/*": ["../../pm/*/dist"],
       "@tiptap/static-renderer/pm": ["../../static-renderer/dist/pm/*"],
+      "@tiptap/static-renderer/json": ["../../static-renderer/dist/json/*"],
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"],
   },
