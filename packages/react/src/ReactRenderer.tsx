@@ -75,7 +75,7 @@ type ComponentType<R, P> =
  *   as: 'span',
  * })
 */
-export class ReactRenderer<R = unknown, P extends Record<string, any> = {}> {
+export class ReactRenderer<R = unknown, P extends Record<string, any> = object> {
   id: string
 
   editor: Editor
