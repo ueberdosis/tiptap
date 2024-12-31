@@ -2,34 +2,14 @@
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
-import { renderJSONContentToString } from '../../json/html-string/string.js'
+import { renderJSONContentToString, serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'
 import { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import { renderToElement } from '../extensionRenderer.js'
 
-/**
- * Serialize the attributes of a node or mark to a string
- * @param attrs The attributes to serialize
- * @returns The serialized attributes as a string
- */
-export function serializeAttrsToHTMLString(attrs: Record<string, any>): string {
-  const output = Object.entries(attrs)
-    .map(([key, value]) => `${key.split(' ').at(-1)}=${JSON.stringify(value)}`)
-    .join(' ')
-
-  return output ? ` ${output}` : ''
-}
-
-/**
- * Serialize the children of a node or mark to a string
- * @param children The children to serialize
- * @returns The serialized children as a string
- */
-export function serializeChildrenToHTMLString(children?: string | string[]): string {
-  return ([] as string[])
-    .concat(children || '')
-    .filter(Boolean)
-    .join('')
-}
+export {
+  serializeAttrsToHTMLString,
+  serializeChildrenToHTMLString,
+} from '../../json/html-string/string.js'
 
 /**
  * Take a DOMOutputSpec and return a function that can render it to a string
@@ -87,7 +67,7 @@ export function domOutputSpecToHTMLString(
 
   // TODO support DOM elements? How to handle them?
   throw new Error(
-    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output',
+    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping',
     {
       cause: content,
     },

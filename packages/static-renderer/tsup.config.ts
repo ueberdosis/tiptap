@@ -2,13 +2,13 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig(
   [
-    'src/index.ts',
-    'src/json/renderer.ts',
-    'src/json/react/index.ts',
     'src/json/html-string/index.ts',
+    'src/json/react/index.ts',
+    'src/json/renderer.ts',
     'src/pm/react/index.ts',
     'src/pm/html-string/index.ts',
     'src/pm/markdown/index.ts',
+    'src/index.ts',
   ].map(entry => ({
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',

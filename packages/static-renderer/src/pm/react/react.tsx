@@ -113,7 +113,7 @@ export function domOutputSpecToReactElement(
 
   // TODO support DOM elements? How to handle them?
   throw new Error(
-    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output',
+    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping',
     {
       cause: content,
     },
