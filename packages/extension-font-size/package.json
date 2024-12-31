@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-font-size",
   "description": "font size extension for tiptap",
-  "version": "2.10.2",
+  "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -22,19 +22,18 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.10.2",
-    "@tiptap/extension-text-style": "^2.10.2"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/extension-text-style": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/extension-text-style": "^2.7.0"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/extension-text-style": "^3.0.0-next.3"
   },
   "repository": {
     "type": "git",
@@ -42,7 +41,6 @@
     "directory": "packages/extension-font-size"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup"
   }
 }
