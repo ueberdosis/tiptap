@@ -47,18 +47,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load build cache
-        uses: actions/cache@v4.2.0
-        id: cache
-        with:
-          path: |
-            .turbo
-            ./demos/node_modules/.vite
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ github.sha }}
-          restore-keys: |
-                ${{ runner.os }}-build-
-
       - name: Install dependencies
         id: install-dependencies
         run: pnpm install
@@ -108,9 +96,9 @@ jobs:
             .turbo
             ./demos/node_modules/.vite
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
           restore-keys: |
-                ${{ runner.os }}-build-
+                ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
