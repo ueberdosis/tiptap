@@ -20,7 +20,6 @@
     "test:run": "cypress run --project tests",
     "test": "pnpm run build:pm && pnpm run test:run",
     "build": "turbo build",
-    "build:pm": "turbo build --filter=@tiptap/pm",
     "build:demos": "pnpm  --prefix demos run build:demos",
     "serve": "pnpm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",

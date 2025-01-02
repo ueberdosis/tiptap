@@ -129,7 +129,7 @@ jobs:
 
       - name: Try to build the packages
         id: build-packages
-        run: pnpm run build:pm
+        run: pnpm run build
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
