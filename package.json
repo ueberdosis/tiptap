@@ -1,11 +1,6 @@
 {
   "private": true,
-  "packageManager": "npm@10.9.1",
-  "workspaces": [
-    "demos",
-    "shared/*",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@9.15.2+sha256.022309bb31359142b65bfa889e0406d2eebd5acfffca47e6944acf29d9d6a66b",
   "browserslist": [
     "defaults",
     "not IE 11"
@@ -65,7 +60,7 @@
     "pkg-pr-new": "0.0.32",
     "ts-loader": "9.3.1",
     "tsup": "^8.3.5",
-    "turbo": "2.0.6",
+    "turbo": "2.3.3",
     "typescript": "^5.7.2",
     "webpack": "^5.96.1"
   },
