@@ -70,10 +70,6 @@ jobs:
         id: build-packages
         run: pnpm run build
 
-      - name: Soft release
-        id: soft-release
-        run: npx pkg-pr-new publish './packages/*' --compact
-
   test:
     runs-on: ubuntu-latest
 
