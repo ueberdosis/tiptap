@@ -24,6 +24,13 @@ module.exports = on => {
       alias[`@tiptap/${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/${name}/src/index.ts`)
     })
 
+  // Specifically resolve the pm package
+  globSync('../packages/pm/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/pm', ''))
+    .forEach(name => {
+      alias[`@tiptap/pm${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/pm/${name}/index.ts`)
+    })
+
   const options = {
     webpackOptions: {
       module: {
