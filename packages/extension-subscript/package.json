@@ -41,6 +41,7 @@
     "directory": "packages/extension-subscript"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

@@ -45,6 +45,7 @@
     "@tiptap/pm": "^3.0.0-next.1"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

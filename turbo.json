@@ -16,6 +16,9 @@
     "dev": {
       "persistent": true,
       "cache": false
+    },
+    "lint": {
+      "inputs": ["src/**", "../../.eslintrc.js"]
     }
   }
 }

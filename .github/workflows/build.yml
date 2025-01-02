@@ -53,7 +53,9 @@ jobs:
         with:
           path: |
             .turbo
-            ./demos/node_modules/.vite
+            ./demos/node_modvite
+
+            **/.eslintcache
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
@@ -64,7 +66,7 @@ jobs:
         run: pnpm install
 
       - name: Lint code
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Try to build the packages
         id: build-packages
@@ -101,6 +103,7 @@ jobs:
           path: |
             .turbo
             ./demos/node_modules/.vite
+            **/.eslintcache
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
@@ -184,6 +187,7 @@ jobs:
           path: |
             .turbo
             ./demos/node_modules/.vite
+            **/.eslintcache
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
