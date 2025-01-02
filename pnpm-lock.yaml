@@ -92,6 +92,9 @@ importers:
       pkg-pr-new:
         specifier: 0.0.32
         version: 0.0.32
+      tinyglobby:
+        specifier: 0.2.10
+        version: 0.2.10
       ts-loader:
         specifier: 9.3.1
         version: 9.3.1(typescript@5.7.2)(webpack@5.97.1(esbuild@0.24.2))

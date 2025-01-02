@@ -12,13 +12,13 @@
 // the project's config changing)
 
 const path = require('path')
-const globby = require('globby')
+const { globSync } = require('tinyglobby')
 const webpackPreprocessor = require('@cypress/webpack-preprocessor')
 
 module.exports = on => {
   const alias = {}
 
-  globby.sync('../packages/*', { onlyDirectories: true })
+  globSync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))
     .forEach(name => {
       alias[`@tiptap/${name}$`] = path.resolve(`../packages/${name}/src/index.ts`)
