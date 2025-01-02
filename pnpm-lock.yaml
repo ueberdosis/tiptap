@@ -97,7 +97,7 @@ importers:
         version: 9.3.1(typescript@5.7.2)(webpack@5.97.1(esbuild@0.24.2))
       tsup:
         specifier: ^8.3.5
-        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(typescript@5.7.2)(yaml@2.6.1)
+        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(typescript@5.7.2)(yaml@2.7.0)
       turbo:
         specifier: 2.3.3
         version: 2.3.3
@@ -115,10 +115,10 @@ importers:
         version: 1.6.12
       '@hocuspocus/provider':
         specifier: 2.13.5
-        version: 2.13.5(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
+        version: 2.13.5(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21)
       '@lexical/react':
         specifier: ^0.11.3
-        version: 0.11.3(lexical@0.11.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.18)
+        version: 0.11.3(lexical@0.11.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)
       '@shikijs/core':
         specifier: 1.10.3
         version: 1.10.3
@@ -148,13 +148,13 @@ importers:
         version: 1.2.4
       y-prosemirror:
         specifier: ^1
-        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
+        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21)
       y-webrtc:
         specifier: ^10.3.0
-        version: 10.3.0(yjs@13.6.18)
+        version: 10.3.0(yjs@13.6.21)
       yjs:
         specifier: ^13
-        version: 13.6.18
+        version: 13.6.21
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: 3.1.2
@@ -224,19 +224,19 @@ importers:
     devDependencies:
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-blockquote:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-bold:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-bubble-menu:
     dependencies:
@@ -246,40 +246,40 @@ importers:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-bullet-list:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-character-count:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-code:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-code-block:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-code-block-lowlight:
     dependencies:
@@ -289,13 +289,13 @@ importers:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/extension-code-block':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-code-block
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       lowlight:
         specifier: ^3.3.0
         version: 3.3.0
@@ -304,50 +304,50 @@ importers:
     dependencies:
       yjs:
         specifier: ^13
-        version: 13.6.18
+        version: 13.6.21
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       y-prosemirror:
         specifier: ^1.2.15
-        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
+        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21)
 
   packages/extension-collaboration-cursor:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       y-prosemirror:
         specifier: ^1.2.15
-        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
+        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21)
 
   packages/extension-color:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-text-style
 
   packages/extension-document:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-dropcursor:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-floating-menu:
     devDependencies:
@@ -356,94 +356,94 @@ importers:
         version: 1.6.12
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-focus:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-font-family:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-text-style
 
   packages/extension-font-size:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-text-style
 
   packages/extension-gapcursor:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-hard-break:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-heading:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-highlight:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-history:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-horizontal-rule:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-image:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-italic:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-link:
     dependencies:
@@ -453,160 +453,160 @@ importers:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-list-item:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-list-keymap:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-mention:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       '@tiptap/suggestion':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../suggestion
 
   packages/extension-ordered-list:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-paragraph:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-placeholder:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-strike:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-subscript:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-superscript:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-table:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-table-cell:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-table-header:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-table-row:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-task-item:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/extension-task-list:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-text:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-text-align:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-text-style:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-typography:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-underline:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/extension-youtube:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
 
   packages/html:
     dependencies:
@@ -616,10 +616,10 @@ importers:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/pm:
     dependencies:
@@ -682,10 +682,10 @@ importers:
     dependencies:
       '@tiptap/extension-bubble-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-floating-menu
       '@types/use-sync-external-store':
         specifier: ^0.0.6
         version: 0.0.6
@@ -698,10 +698,10 @@ importers:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       '@types/react':
         specifier: ^18.3.18
         version: 18.3.18
@@ -719,101 +719,101 @@ importers:
     dependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/extension-blockquote':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-blockquote
       '@tiptap/extension-bold':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-bold
       '@tiptap/extension-bullet-list':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-bullet-list
       '@tiptap/extension-code':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-code
       '@tiptap/extension-code-block':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-code-block
       '@tiptap/extension-document':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-document
       '@tiptap/extension-dropcursor':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-dropcursor
       '@tiptap/extension-gapcursor':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-gapcursor
       '@tiptap/extension-hard-break':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-hard-break
       '@tiptap/extension-heading':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-heading
       '@tiptap/extension-history':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-history
       '@tiptap/extension-horizontal-rule':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-horizontal-rule
       '@tiptap/extension-italic':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-italic
       '@tiptap/extension-link':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-link
       '@tiptap/extension-list-item':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-list-item
       '@tiptap/extension-list-keymap':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-list-keymap
       '@tiptap/extension-ordered-list':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-ordered-list
       '@tiptap/extension-paragraph':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-paragraph
       '@tiptap/extension-strike':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-strike
       '@tiptap/extension-text':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-text
       '@tiptap/extension-underline':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))
+        version: link:../extension-underline
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/suggestion:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
 
   packages/vue-2:
     dependencies:
       '@tiptap/extension-bubble-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-floating-menu
       vue-ts-types:
         specifier: 1.6.2
         version: 1.6.2(vue@2.7.16)
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       vue:
         specifier: ^2.7.16
         version: 2.7.16
@@ -825,17 +825,17 @@ importers:
         version: 1.6.12
       '@tiptap/extension-bubble-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)
+        version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
-        version: 3.0.0(@tiptap/pm@3.0.0)
+        version: link:../core
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
-        version: 3.0.0
+        version: link:../pm
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.2)
@@ -2188,12 +2188,6 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@popperjs/core@2.11.8':
-    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
-
-  '@remirror/core-constants@2.0.2':
-    resolution: {integrity: sha512-dyHY+sMF0ihPus3O27ODd4+agdHMEmuRdyiZJ2CCWjPV5UFmn17ZbElvk6WOGVE4rdCJKZQCrPV2BcikOMLUGQ==}
-
   '@remirror/core-constants@3.0.0':
     resolution: {integrity: sha512-42aWfPrimMfDKDi4YegyS7x+/0tlzaqwPQCULLanv3DMIlu96KTJR0fM5isWX2UViOqlGnX6YFgqWepcX+XMNg==}
 
@@ -2337,175 +2331,6 @@ packages:
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0-next.0
       vite: ^5.0.0
-
-  '@tiptap/core@3.0.0':
-    resolution: {integrity: sha512-ulUVq1VpiFYrH/kk0lHEwMJ3bV2NR5zLefJLmzV++lvxO/9BdYbF1XSImGkmsd1cqdqRbqkGUDaxdRTxAksAVQ==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-blockquote@3.0.0':
-    resolution: {integrity: sha512-0yJJ9r2ictMhxWsMUUey0ex8HhoRGZ/N2KREV0YUjtUEj4Hq2mhfP5Mzd3BYRUYdm+ltJdDPXMHe/XYvD2Rulw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-bold@3.0.0':
-    resolution: {integrity: sha512-AUAQ30XRpoi5L2FowQEQBjeMrIoP6zTr8xE0Ca228U/cBTpBZUROhJJtUWZ8SbOEOdMmjcxDj6cwE+I606PwxA==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-bubble-menu@3.0.0':
-    resolution: {integrity: sha512-ETJTkapZhqVGtJmIQwILZKW1eeR/VZQH/H251Dm+07ChBpnOaE0fjGMJhX9KrYm1bLQTJherw+0Qr4z3yAcL1A==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-bullet-list@3.0.0':
-    resolution: {integrity: sha512-dvXAx8WFjhHUouZjlCDHHU2Zk9wrdatUgUwA5BkQkyS2GLpFBu+5IRkUQM6GlnLY34XbnpliYS6C0Lk4sOio1A==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-code-block@3.0.0':
-    resolution: {integrity: sha512-V22W6O0Dj/sWhd7OjfGYY5VgKorsTsyt1Aqrxd3LN6Vbf9WfaWMFNdntGvkAnhUqCkfEDfg7RP+igPArSCJfbw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-code@3.0.0':
-    resolution: {integrity: sha512-UL8M/e7EigLOG+tMdT9/hw4ojeJrbSY8/fImf6FDbe7pbI4QvMUcpcp12cSbe0ORNXdmM34n5KLOBoqYmxv7sA==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-document@3.0.0':
-    resolution: {integrity: sha512-kf6P4NcQGOW40D7B6l8v1ydSl+8lZ4AZPe9MAFfIvJgg1cEuydbPO2ze6SeKD2TzLiAG0SR/mC9I6HYlWEmIdw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-dropcursor@3.0.0':
-    resolution: {integrity: sha512-b/7Aa/M84zLyQELFrSMwk6zhaZKLkZHDpKY4HouCRSYp88uBgq6kmi0sGUAaAhimaQ2vSlM0HG0LzM5tYTjnAg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-floating-menu@3.0.0':
-    resolution: {integrity: sha512-jpO6p1SM+dHEB1ta0IBpdOK0Ki31T5qwmvfpXdcE2sVDoJUpKvuBjOWHyZnXeN/ITQ4ZryZ5B+VAKiyVnNdTzQ==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-gapcursor@3.0.0':
-    resolution: {integrity: sha512-qkvr2/HX+OeNI7kD+GDWkShia0NHc1TZQmQmF/bKnfASr8s7av+BUf4KQMTo3S0ciXdVH/DTB6L5lp/wkwk8wg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-hard-break@3.0.0':
-    resolution: {integrity: sha512-tnCTJXZj7sLkfGQNhTygTS5k3DrZT/pZQGiEHoGuudLlicXcCombTDS0OQHkVju5sU9jXpRQ+EsR2GT3DT7AfQ==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-heading@3.0.0':
-    resolution: {integrity: sha512-iOu5dJMY6+T3n/c+jIspoWnH41Px9+r6kYg1+/msWoDpeCu8RGE4Is2niLKL5ZVxQ7T7PFDyxgDi3rfIGkqcYw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-history@3.0.0':
-    resolution: {integrity: sha512-jeak7kPkiakXR1fTrl/RhIf8MJsVONXiXMB6dN74hNixIYWJTnaUNvrXQPPPRw2xksRQ/m7zVxzlk/StGJAyOg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-horizontal-rule@3.0.0':
-    resolution: {integrity: sha512-jDVz4J+Nq10EkSfZmKwqUzSI39gQCb1Le/phXb3+y7I8pt63UD8tjS3LmA7Gh1nqHqifEKZnDOSjCFJasYG5Mg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-italic@3.0.0':
-    resolution: {integrity: sha512-LH8VsTYsJb2DINzGOX12JXmWXGZbS18cSRwGT7yPhov/3+tIKTJA51B/NTv6zQFEFd4Ymi5l89vqVM33IL87FQ==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-link@3.0.0':
-    resolution: {integrity: sha512-Pik625kdfZdAYW/UkHUP4ycPWfYuwsDLfns18ewWv2P1znJrP1ePUJn43iWg935DIZB5t/snEHbDpWPvbjfkNw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
-
-  '@tiptap/extension-list-item@3.0.0':
-    resolution: {integrity: sha512-5/3ZaEpFWxFig4OKLwmVlmmbdQgvB8FFMdLspTiNtfIjMio+SMy6wtDDi4mREA38sjr1zzbA/li6X/XJNj1+Wg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-list-keymap@3.0.0':
-    resolution: {integrity: sha512-NSYB0jVG0fVTbTxogh+Qkh9ebmjuEsSflzcdMHGD3ZrJlId15mroBM3ukU/k5PsHslRSoqov9NehCo44yy6Sjw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-ordered-list@3.0.0':
-    resolution: {integrity: sha512-CI4XT9DCvVOLrpqGTbdIwzyIxjesalFsnbKa9i44Y9uIFtFC4XEuVdSbXy3OHULpk9325HxOXwzxG0hM2fNT2Q==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-paragraph@3.0.0':
-    resolution: {integrity: sha512-8x5j1iMonwROv5Eb6+Us4b1Col2tHFECNmF35/ctDhYtUbNkD1JdSZ5LfA8cO2YEwXDFe2oQ/2StQBivdDz/Kg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-strike@3.0.0':
-    resolution: {integrity: sha512-jMhPgifTt0uNsN6lziH0gg3sXizrcM3da0IMTSEkTlDTe/xY39ckut0BwwCrilFMTBrfHe70UqlQOnvpH79sHw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-text-style@3.0.0':
-    resolution: {integrity: sha512-K90dNnUSNIaJTXUC5xezE19k+twPWoytqGinckp7Engu9sXWcS0yOejeMHFRa+WyuxESu7Zp9ACqKK9Xisu3mA==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-text@3.0.0':
-    resolution: {integrity: sha512-7C+vD1Co7TqKnab4KMHhltR7FDSEIrHHKl4feGdrI/UuvIarjPsyaShl6UU7PqCv3r8Gt4A/knQ2ANyGhxl7iw==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/extension-underline@3.0.0':
-    resolution: {integrity: sha512-JH1ZUlTVYtabL/4cqPhQS1+k0glGlXR9SyAbzfaYlB7vjaPIcPnleoPKo+zN91FwdmiKqEtenzI6wZf2kVznww==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-
-  '@tiptap/pm@3.0.0':
-    resolution: {integrity: sha512-xurBiydHP0PMPuviXOqWaK5AGbpuiYoSKs+ucZpT4dXaebnVk5u6VHljRAjRRpY652vWF79CMlSWivfQ76wbaQ==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-
-  '@tiptap/suggestion@3.0.0':
-    resolution: {integrity: sha512-aQKVeC28//LvPmliWmMepS4vZ2fjNixR9RJLeso5PASSMmUQ6jAmj1AaLXoaEmuMFhiGP7BtpnFzTYw24be1Mg==}
-    deprecated: There are no breaking changes in this packages, we meant to release 2.5.0
-    peerDependencies:
-      '@tiptap/core': ^3.0.0
-      '@tiptap/pm': ^3.0.0
 
   '@types/conventional-commits-parser@5.0.1':
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
@@ -5086,13 +4911,6 @@ packages:
   prosemirror-tables@1.6.2:
     resolution: {integrity: sha512-97dKocVLrEVTQjZ4GBLdrrMw7Gv3no8H8yMwf5IRM9OoHrzbWpcH5jJxYgNQIRCtdIqwDctT1HdMHrGTiwp1dQ==}
 
-  prosemirror-trailing-node@2.0.9:
-    resolution: {integrity: sha512-YvyIn3/UaLFlFKrlJB6cObvUhmwFNZVhy1Q8OpW/avoTbD/Y7H5EcjK4AZFKhmuS6/N6WkGgt7gWtBWDnmFvHg==}
-    peerDependencies:
-      prosemirror-model: ^1.22.1
-      prosemirror-state: ^1.4.2
-      prosemirror-view: ^1.33.8
-
   prosemirror-trailing-node@3.0.0:
     resolution: {integrity: sha512-xiun5/3q0w5eRnGYfNlW1uU9W6x5MoFKWwq/0TIRgt09lv7Hcser2QYV8t4muXbEr+Fwo0geYn79Xs4GKywrRQ==}
     peerDependencies:
@@ -5613,9 +5431,6 @@ packages:
     resolution: {integrity: sha512-Zc+8eJlFMvgatPZTl6A9L/yht8QqdmUNtURHaKZLmKBE12hNPSrqNkUp2cs3M/UKmNVVAMFQYSjYIVHDjW5zew==}
     engines: {node: '>=12.0.0'}
 
-  tippy.js@6.3.7:
-    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
-
   tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
@@ -6124,6 +5939,11 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
+  yaml@2.7.0:
+    resolution: {integrity: sha512-+hSoy/QHluxmC9kCIJyL/uyFmLmc+e5CFR5Wa+bpIhIj85LVb9ZH2nVnqrHoSvKogwODv0ClqZkmiSSaIH5LTA==}
+    engines: {node: '>= 14'}
+    hasBin: true
+
   yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
@@ -6135,8 +5955,8 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
-  yjs@13.6.18:
-    resolution: {integrity: sha512-GBTjO4QCmv2HFKFkYIJl7U77hIB1o22vSCSQD1Ge8ZxWbIbn8AltI4gyXbtL+g5/GJep67HCMq3Y5AmNwDSyEg==}
+  yjs@13.6.21:
+    resolution: {integrity: sha512-/fzzyeCAfr3Qwx1D71zvumm64x+Q5MEFel6EhWlA1IBFxWPb7tei4J2a8CJyjpYHfVrRij5q3RJTK9W2Iqjouw==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
@@ -7367,14 +7187,14 @@ snapshots:
     dependencies:
       lib0: 0.2.99
 
-  '@hocuspocus/provider@2.13.5(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)':
+  '@hocuspocus/provider@2.13.5(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21)':
     dependencies:
       '@hocuspocus/common': 2.15.0
       '@lifeomic/attempt': 3.1.0
       lib0: 0.2.99
       ws: 8.18.0
-      y-protocols: 1.0.6(yjs@13.6.18)
-      yjs: 13.6.18
+      y-protocols: 1.0.6(yjs@13.6.21)
+      yjs: 13.6.21
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7505,7 +7325,7 @@ snapshots:
       '@lexical/utils': 0.11.3(lexical@0.11.3)
       lexical: 0.11.3
 
-  '@lexical/react@0.11.3(lexical@0.11.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.18)':
+  '@lexical/react@0.11.3(lexical@0.11.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)':
     dependencies:
       '@lexical/clipboard': 0.11.3(lexical@0.11.3)
       '@lexical/code': 0.11.3(lexical@0.11.3)
@@ -7523,7 +7343,7 @@ snapshots:
       '@lexical/table': 0.11.3(lexical@0.11.3)
       '@lexical/text': 0.11.3(lexical@0.11.3)
       '@lexical/utils': 0.11.3(lexical@0.11.3)
-      '@lexical/yjs': 0.11.3(lexical@0.11.3)(yjs@13.6.18)
+      '@lexical/yjs': 0.11.3(lexical@0.11.3)(yjs@13.6.21)
       lexical: 0.11.3
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -7558,11 +7378,11 @@ snapshots:
       '@lexical/table': 0.11.3(lexical@0.11.3)
       lexical: 0.11.3
 
-  '@lexical/yjs@0.11.3(lexical@0.11.3)(yjs@13.6.18)':
+  '@lexical/yjs@0.11.3(lexical@0.11.3)(yjs@13.6.21)':
     dependencies:
       '@lexical/offset': 0.11.3(lexical@0.11.3)
       lexical: 0.11.3
-      yjs: 13.6.18
+      yjs: 13.6.21
 
   '@lifeomic/attempt@3.1.0': {}
 
@@ -7730,10 +7550,6 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@popperjs/core@2.11.8': {}
-
-  '@remirror/core-constants@2.0.2': {}
-
   '@remirror/core-constants@3.0.0': {}
 
   '@rollup/pluginutils@4.2.1':
@@ -7861,143 +7677,6 @@ snapshots:
       vitefu: 0.2.5(vite@5.4.11(@types/node@22.10.3)(sass@1.83.0)(terser@5.37.0))
     transitivePeerDependencies:
       - supports-color
-
-  '@tiptap/core@3.0.0(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-blockquote@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-bold@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-bubble-menu@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-      tippy.js: 6.3.7
-
-  '@tiptap/extension-bullet-list@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-code-block@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-code@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-document@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-dropcursor@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-floating-menu@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-      tippy.js: 6.3.7
-
-  '@tiptap/extension-gapcursor@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-hard-break@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-heading@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-history@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-horizontal-rule@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-
-  '@tiptap/extension-italic@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-link@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
-      linkifyjs: 4.2.0
-
-  '@tiptap/extension-list-item@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-list-keymap@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-ordered-list@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-paragraph@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-strike@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-text-style@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-text@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/extension-underline@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-
-  '@tiptap/pm@3.0.0':
-    dependencies:
-      prosemirror-changeset: 2.2.1
-      prosemirror-collab: 1.3.1
-      prosemirror-commands: 1.6.2
-      prosemirror-dropcursor: 1.8.1
-      prosemirror-gapcursor: 1.3.2
-      prosemirror-history: 1.4.1
-      prosemirror-inputrules: 1.4.0
-      prosemirror-keymap: 1.2.2
-      prosemirror-markdown: 1.13.1
-      prosemirror-menu: 1.2.4
-      prosemirror-model: 1.24.1
-      prosemirror-schema-basic: 1.2.3
-      prosemirror-schema-list: 1.5.0
-      prosemirror-state: 1.4.3
-      prosemirror-tables: 1.6.2
-      prosemirror-trailing-node: 2.0.9(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)
-      prosemirror-transform: 1.10.2
-      prosemirror-view: 1.37.1
-
-  '@tiptap/suggestion@3.0.0(@tiptap/core@3.0.0(@tiptap/pm@3.0.0))(@tiptap/pm@3.0.0)':
-    dependencies:
-      '@tiptap/core': 3.0.0(@tiptap/pm@3.0.0)
-      '@tiptap/pm': 3.0.0
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
@@ -10756,17 +10435,17 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.4.49):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.6.1
+      yaml: 2.7.0
     optionalDependencies:
       postcss: 8.4.49
 
-  postcss-load-config@6.0.1(jiti@2.4.2)(postcss@8.4.49)(yaml@2.6.1):
+  postcss-load-config@6.0.1(jiti@2.4.2)(postcss@8.4.49)(yaml@2.7.0):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 2.4.2
       postcss: 8.4.49
-      yaml: 2.6.1
+      yaml: 2.7.0
 
   postcss-nested@6.2.0(postcss@8.4.49):
     dependencies:
@@ -10879,14 +10558,6 @@ snapshots:
       prosemirror-model: 1.24.1
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.10.2
-      prosemirror-view: 1.37.1
-
-  prosemirror-trailing-node@2.0.9(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1):
-    dependencies:
-      '@remirror/core-constants': 2.0.2
-      escape-string-regexp: 4.0.0
-      prosemirror-model: 1.24.1
-      prosemirror-state: 1.4.3
       prosemirror-view: 1.37.1
 
   prosemirror-trailing-node@3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1):
@@ -11519,10 +11190,6 @@ snapshots:
       fdir: 6.4.2(picomatch@4.0.2)
       picomatch: 4.0.2
 
-  tippy.js@6.3.7:
-    dependencies:
-      '@popperjs/core': 2.11.8
-
   tmp@0.0.33:
     dependencies:
       os-tmpdir: 1.0.2
@@ -11572,7 +11239,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsup@8.3.5(jiti@2.4.2)(postcss@8.4.49)(typescript@5.7.2)(yaml@2.6.1):
+  tsup@8.3.5(jiti@2.4.2)(postcss@8.4.49)(typescript@5.7.2)(yaml@2.7.0):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.24.2)
       cac: 6.7.14
@@ -11582,7 +11249,7 @@ snapshots:
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.4.49)(yaml@2.6.1)
+      postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.4.49)(yaml@2.7.0)
       resolve-from: 5.0.0
       rollup: 4.29.1
       source-map: 0.8.0-beta.0
@@ -12010,26 +11677,26 @@ snapshots:
 
   xml-name-validator@4.0.0: {}
 
-  y-prosemirror@1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18):
+  y-prosemirror@1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.21))(yjs@13.6.21):
     dependencies:
       lib0: 0.2.99
       prosemirror-model: 1.24.1
       prosemirror-state: 1.4.3
       prosemirror-view: 1.37.1
-      y-protocols: 1.0.6(yjs@13.6.18)
-      yjs: 13.6.18
+      y-protocols: 1.0.6(yjs@13.6.21)
+      yjs: 13.6.21
 
-  y-protocols@1.0.6(yjs@13.6.18):
+  y-protocols@1.0.6(yjs@13.6.21):
     dependencies:
       lib0: 0.2.99
-      yjs: 13.6.18
+      yjs: 13.6.21
 
-  y-webrtc@10.3.0(yjs@13.6.18):
+  y-webrtc@10.3.0(yjs@13.6.21):
     dependencies:
       lib0: 0.2.99
       simple-peer: 9.11.1
-      y-protocols: 1.0.6(yjs@13.6.18)
-      yjs: 13.6.18
+      y-protocols: 1.0.6(yjs@13.6.21)
+      yjs: 13.6.21
     optionalDependencies:
       ws: 8.18.0
     transitivePeerDependencies:
@@ -12042,6 +11709,8 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.6.1: {}
+
+  yaml@2.7.0: {}
 
   yargs-parser@21.1.1: {}
 
@@ -12060,7 +11729,7 @@ snapshots:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
 
-  yjs@13.6.18:
+  yjs@13.6.21:
     dependencies:
       lib0: 0.2.99
 

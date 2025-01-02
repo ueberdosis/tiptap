@@ -1,4 +1,4 @@
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -6,15 +6,10 @@ import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type BubbleMenuProps = Omit<
+export type BubbleMenuProps = Optional<Omit<
   Optional<BubbleMenuPluginProps, 'pluginKey'>,
-  'element' | 'editor'
-> & {
-  editor: BubbleMenuPluginProps['editor'] | null;
-  updateDelay?: number;
-  resizeDelay?: number;
-  options?: BubbleMenuPluginProps['options'];
-} & React.HTMLAttributes<HTMLDivElement>;
+  'element'
+>, 'editor'> & React.HTMLAttributes<HTMLDivElement>;
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
