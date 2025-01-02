@@ -461,6 +461,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     const { state, transactions } = this.state.applyTransaction(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
     const rootTrWasApplied = transactions.includes(transaction)
+    const prevState = this.state
 
     this.emit('beforeTransaction', {
       editor: this,
@@ -513,7 +514,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     // Compare states for update event
-    if (transaction.getMeta('preventUpdate') || transactions.every(tr => !tr.docChanged) || this.state.doc.eq(state.doc)) {
+    if (transaction.getMeta('preventUpdate') || !transactions.some(tr => tr.docChanged) || prevState.doc.eq(state.doc)) {
       return
     }
 
