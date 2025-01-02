@@ -197,7 +197,6 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install
 
       - name: Try to build the packages
