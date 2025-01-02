@@ -26,7 +26,7 @@ on:
       - next
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -47,13 +47,32 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
+      - name: Load build cache
+        uses: actions/cache@v4.2.0
+        id: cache
+        with:
+          path: |
+            .turbo
+            ./demos/node_modules/.vite
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+                ${{ runner.os }}-build-
+
       - name: Install dependencies
         id: install-dependencies
         run: pnpm install
 
       - name: Lint code
-        id: lint
         run: npm run lint
+
+      - name: Try to build the packages
+        id: build-packages
+        run: pnpm run build
+
+      - name: Soft release
+        id: soft-release
+        run: npx pkg-pr-new publish './packages/*' --compact
 
   test:
     runs-on: ubuntu-latest
@@ -136,18 +155,18 @@ jobs:
           path: tests/cypress/videos
           retention-days: 7
 
-  build:
+  release:
     runs-on: ubuntu-latest
-
-    needs: lint
 
     strategy:
       matrix:
         node-version: [20]
 
-    steps:
-      - uses: actions/checkout@v4.1.4
+    needs: test
 
+    steps:
+
+      - uses: actions/checkout@v4.1.4
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -170,7 +189,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
-                ${{ runner.os }}-build-
+                ${{ runner.os }}-build-${{ github.sha }}
 
       - name: Install dependencies
         id: install-dependencies
@@ -178,7 +197,7 @@ jobs:
 
       - name: Try to build the packages
         id: build-packages
-        run: pnpm run build:ci
+        run: pnpm run build
 
       - name: Soft release
         id: soft-release
