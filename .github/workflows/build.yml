@@ -59,7 +59,8 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
-                ${{ runner.os }}-build-
+               ${{ runner.os }}-build-${{ github.sha }}
+               ${{ runner.os }}-build-
 
       - name: Install dependencies
         id: install-dependencies
@@ -107,6 +108,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
+               ${{ runner.os }}-build-${{ github.sha }}
                ${{ runner.os }}-build-
 
       - name: Install pnpm
@@ -191,7 +193,8 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
-                ${{ runner.os }}-build-${{ github.sha }}
+               ${{ runner.os }}-build-${{ github.sha }}
+               ${{ runner.os }}-build-
 
       - name: Install dependencies
         id: install-dependencies
