@@ -209,4 +209,4 @@ jobs:
 
       - name: Soft release
         id: soft-release
-        run: npx pkg-pr-new publish './packages/*' --compact
+        run: pnpm exec pkg-pr-new publish './packages/*' --compact
