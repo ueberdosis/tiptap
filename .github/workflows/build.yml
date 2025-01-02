@@ -47,19 +47,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load cached dependencies
+      - name: Load build cache
         uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
-            **/node_modules
-            **/.turbo
+            .turbo
+            ./demos/node_modules/.vite
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+                ${{ runner.os }}-build-
 
       - name: Install dependencies
         id: install-dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install
 
       #    - name: Fix code style linting errors
@@ -99,6 +100,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
 
+      - name: Load build cache
+        uses: actions/cache@v4.2.0
+        id: cache
+        with:
+          path: |
+            .turbo
+            ./demos/node_modules/.vite
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+                ${{ runner.os }}-build-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -171,15 +183,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load cached dependencies
+      - name: Load build cache
         uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
-            **/node_modules
-            **/.turbo
+            .turbo
+            ./demos/node_modules/.vite
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+                ${{ runner.os }}-build-
 
       - name: Install dependencies
         id: install-dependencies

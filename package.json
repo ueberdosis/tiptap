@@ -21,7 +21,7 @@
     "test": "pnpm run build:pm && pnpm run test:run",
     "build": "turbo build",
     "build:pm": "turbo build --filter=@tiptap/pm",
-    "build:demos": "pnpm run build:demos --workspace demos",
+    "build:demos": "pnpm  --prefix demos run build:demos",
     "serve": "pnpm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",
     "publish": "pnpm run build && pnpm run changeset publish",
@@ -74,7 +74,9 @@
   "publishConfig": {
     "provenance": true
   },
-  "lint-staged":{
-    "./**/*.{ts,tsx,js,jsx,vue}": ["eslint --fix --quiet --no-error-on-unmatched-pattern"]
+  "lint-staged": {
+    "./**/*.{ts,tsx,js,jsx,vue}": [
+      "eslint --fix --quiet --no-error-on-unmatched-pattern"
+    ]
   }
 }
