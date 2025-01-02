@@ -77,6 +77,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    needs: build
+
     strategy:
       matrix:
         node-version: [20]
