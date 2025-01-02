@@ -59,6 +59,7 @@
     "eslint-plugin-vue": "^9.32.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.3.0",
+    "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
     "pkg-pr-new": "0.0.32",
     "tinyglobby": "0.2.10",

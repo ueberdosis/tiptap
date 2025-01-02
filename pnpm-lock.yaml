@@ -86,6 +86,9 @@ importers:
       lint-staged:
         specifier: ^15.3.0
         version: 15.3.0
+      lowlight:
+        specifier: ^3.3.0
+        version: 3.3.0
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
