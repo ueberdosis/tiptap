@@ -144,13 +144,13 @@ importers:
         specifier: ^1.2.4
         version: 1.2.4
       y-prosemirror:
-        specifier: 1.2.11
-        version: 1.2.11(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
+        specifier: ^1
+        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
       y-webrtc:
         specifier: ^10.3.0
         version: 10.3.0(yjs@13.6.18)
       yjs:
-        specifier: 13.6.18
+        specifier: ^13
         version: 13.6.18
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
@@ -6214,16 +6214,6 @@ packages:
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
-
-  y-prosemirror@1.2.11:
-    resolution: {integrity: sha512-MUGMYyokOb9DpBRHr4Cadob2KheDCKW2LHceAM2yrWp9dfX+3HZZUNEubEPd4zszq4DF2fGCFhE3N66zOTLoxA==}
-    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
-    peerDependencies:
-      prosemirror-model: ^1.7.1
-      prosemirror-state: ^1.2.3
-      prosemirror-view: ^1.9.10
-      y-protocols: ^1.0.1
-      yjs: ^13.5.38
 
   y-prosemirror@1.2.15:
     resolution: {integrity: sha512-XDdrytq2M5bIy3qusQvfRclLu2eWZYPA+BbGWAb9FFWEhOB5FCrnzez2vsA+gvAd0FJTAcr89mjJ5g45r0j7TQ==}
@@ -12289,15 +12279,6 @@ snapshots:
   ws@8.18.0: {}
 
   xml-name-validator@4.0.0: {}
-
-  y-prosemirror@1.2.11(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18):
-    dependencies:
-      lib0: 0.2.99
-      prosemirror-model: 1.24.1
-      prosemirror-state: 1.4.3
-      prosemirror-view: 1.37.1
-      y-protocols: 1.0.6(yjs@13.6.18)
-      yjs: 13.6.18
 
   y-prosemirror@1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18):
     dependencies:

@@ -3,6 +3,9 @@
 
 name: build
 
+env:
+  PNPM_VERSION: 9.15.2
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -33,10 +36,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Load cached dependencies
         uses: actions/cache@v4.2.0
@@ -46,12 +55,12 @@ jobs:
             **/node_modules
             **/.turbo
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install dependencies
         id: install-dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: pnpm install
 
       #    - name: Fix code style linting errors
       #      id: lint-fix
@@ -90,25 +99,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
 
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:pm
+        run: pnpm run build:pm
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
         uses: cypress-io/github-action@v6.7.8
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          start: npm run serve
+          start: pnpm run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
@@ -143,10 +159,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
 
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Load cached dependencies
         uses: actions/cache@v4.2.0
@@ -156,16 +179,16 @@ jobs:
             **/node_modules
             **/.turbo
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install dependencies
         id: install-dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: pnpm install
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:ci
+        run: pnpm run build:ci
 
       - name: Soft release
         id: soft-release

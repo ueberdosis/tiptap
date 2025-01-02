@@ -11,27 +11,27 @@
   ],
   "scripts": {
     "cz": "cz",
-    "start": "npm --prefix ./demos run start",
-    "dev": "npm run start",
+    "start": "pnpm --prefix ./demos run start",
+    "dev": "pnpm run start",
     "lint": "eslint --cache --quiet --no-error-on-unmatched-pattern ./",
     "lint:fix": "eslint --fix --cache --quiet --no-error-on-unmatched-pattern ./",
     "lint:staged": "lint-staged",
     "test:open": "cypress open --project tests",
     "test:run": "cypress run --project tests",
-    "test": "npm run build:pm && npm run test:run",
+    "test": "pnpm run build:pm && pnpm run test:run",
     "build": "turbo build",
     "build:pm": "turbo build --filter=@tiptap/pm",
-    "build:demos": "npm run build:demos --workspace demos",
-    "serve": "npm run build:demos && npx http-server ./demos/dist -p 3000",
+    "build:demos": "pnpm run build:demos --workspace demos",
+    "serve": "pnpm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",
-    "publish": "npm run build && npm run changeset publish",
+    "publish": "pnpm run build && pnpm run changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz",
-    "reset": "npm run clean:packages && npm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
+    "reset": "pnpm run clean:packages && pnpm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
     "prepare": "husky install",
     "turbo": "turbo",
     "changeset": "changeset",
-    "version": "npm run changeset -- version && npm i"
+    "version": "pnpm run changeset -- version && pnpm i"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -73,5 +73,8 @@
   },
   "publishConfig": {
     "provenance": true
+  },
+  "lint-staged":{
+    "./**/*.{ts,tsx,js,jsx,vue}": ["eslint --fix --quiet --no-error-on-unmatched-pattern"]
   }
 }
