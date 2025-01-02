@@ -106,9 +106,9 @@ jobs:
             .turbo
             ./demos/node_modules/.vite
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
-                ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
+               ${{ runner.os }}-build-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -133,7 +133,7 @@ jobs:
         id: cypress
         uses: cypress-io/github-action@v6.7.8
         with:
-          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           start: pnpm run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
