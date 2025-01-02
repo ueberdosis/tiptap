@@ -47,20 +47,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load build cache
+      - name: Load turbo cache
         uses: actions/cache@v4.2.0
-        id: cache
+        id: turbo-cache
         with:
           path: |
             .turbo
-            ./demos/node_modvite
-
             **/.eslintcache
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
-               ${{ runner.os }}-build-${{ github.sha }}
-               ${{ runner.os }}-build-
+               ${{ runner.os }}-turbo-${{ github.sha }}
+               ${{ runner.os }}-turbo-
 
       - name: Install dependencies
         id: install-dependencies
@@ -96,20 +93,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.1.4
-
+      - name: Load turbo cache
+        uses: actions/cache@v4.2.0
+        id: turbo-cache
+        with:
+          path: |
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+                ${{ runner.os }}-turbo-${{ github.sha }}
+                ${{ runner.os }}-turbo-
       - name: Load build cache
         uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
-            .turbo
             ./demos/node_modules/.vite
-            **/.eslintcache
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
           restore-keys: |
-               ${{ runner.os }}-build-${{ github.sha }}
-               ${{ runner.os }}-build-
+               ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
+               ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -182,19 +187,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load build cache
+      - name: Load turbo cache
         uses: actions/cache@v4.2.0
-        id: cache
+        id: turbo-cache
         with:
           path: |
             .turbo
-            ./demos/node_modules/.vite
             **/.eslintcache
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
-               ${{ runner.os }}-build-${{ github.sha }}
-               ${{ runner.os }}-build-
+                ${{ runner.os }}-turbo-${{ github.sha }}
+                ${{ runner.os }}-turbo-
 
       - name: Install dependencies
         id: install-dependencies
