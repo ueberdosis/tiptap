@@ -1,4 +1,3 @@
-import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import {
   defineComponent,
@@ -27,7 +26,7 @@ export const FloatingMenu = defineComponent({
     },
 
     options: {
-      type: Object as PropType<BubbleMenuPluginProps['options']>,
+      type: Object as PropType<FloatingMenuPluginProps['options']>,
       default: () => ({}),
     },
 

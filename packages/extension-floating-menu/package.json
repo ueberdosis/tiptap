@@ -28,7 +28,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@floating-ui/dom": "^1.0.0",
+    "@floating-ui/dom": "^1.6.12",
     "@tiptap/core": "^3.0.0-next.3",
     "@tiptap/pm": "^3.0.0-next.3"
   },

@@ -1,6 +1,10 @@
 {
+  "name": "tiptap",
   "private": true,
-  "packageManager": "pnpm@9.15.2+sha256.022309bb31359142b65bfa889e0406d2eebd5acfffca47e6944acf29d9d6a66b",
+  "packageManager": "pnpm@9.15.2",
+  "engines": {
+    "node": ">=18"
+  },
   "browserslist": [
     "defaults",
     "not IE 11"
@@ -15,8 +19,8 @@
     "test:open": "cypress open --project tests",
     "test:run": "cypress run --project tests",
     "test": "npm run build:pm && npm run test:run",
-    "build": "turbo run build",
-    "build:pm": "turbo run build --filter=@tiptap/pm",
+    "build": "turbo build",
+    "build:pm": "turbo build --filter=@tiptap/pm",
     "build:demos": "npm run build:demos --workspace demos",
     "serve": "npm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",
@@ -34,13 +38,13 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
-    "@changesets/cli": "^2.27.10",
-    "@commitlint/cli": "^19.6.0",
+    "@babel/preset-react": "^7.26.3",
+    "@changesets/cli": "^2.27.11",
+    "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@cypress/webpack-preprocessor": "^5.17.1",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "babel-loader": "^9.2.1",
@@ -53,22 +57,21 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-vue": "^9.31.0",
+    "eslint-plugin-vue": "^9.32.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.2.10",
+    "lint-staged": "^15.3.0",
     "minimist": "^1.2.8",
     "pkg-pr-new": "0.0.32",
     "ts-loader": "9.3.1",
     "tsup": "^8.3.5",
     "turbo": "2.3.3",
     "typescript": "^5.7.2",
-    "webpack": "^5.96.1"
+    "webpack": "^5.97.1"
   },
   "overrides": {
-    "@rollup/pluginutils": "^5.1.3"
+    "@rollup/pluginutils": "^5.1.4"
   },
   "publishConfig": {
     "provenance": true
-  },
-  "name": "tiptap"
+  }
 }

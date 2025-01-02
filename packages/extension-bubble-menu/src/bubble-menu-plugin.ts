@@ -1,15 +1,16 @@
 import {
-  type ArrowOptions,
-  type AutoPlacementOptions,
-  type FlipOptions,
-  type HideOptions,
-  type InlineOptions,
-  type Middleware, type OffsetOptions, type Placement, type ShiftOptions, type SizeOptions, type Strategy, arrow, autoPlacement, computePosition, flip, hide, inline, offset, shift,
+  type Middleware,
+  arrow,
+  autoPlacement,
+  computePosition,
+  flip,
+  hide,
+  inline,
+  offset,
+  shift,
   size,
 } from '@floating-ui/dom'
-import {
-  Editor, isTextSelection, posToDOMRect,
-} from '@tiptap/core'
+import { Editor, isTextSelection, posToDOMRect } from '@tiptap/core'
 import {
   EditorState, Plugin, PluginKey, PluginView,
 } from '@tiptap/pm/state'
@@ -21,19 +22,19 @@ export interface BubbleMenuPluginProps {
    * @type {PluginKey | string}
    * @default 'bubbleMenu'
    */
-  pluginKey: PluginKey | string
+  pluginKey: PluginKey | string;
 
   /**
    * The editor instance.
    */
-  editor: Editor
+  editor: Editor;
 
   /**
    * The DOM element that contains your menu.
    * @type {HTMLElement}
    * @default null
    */
-  element: HTMLElement
+  element: HTMLElement;
 
   /**
    * The delay in milliseconds before the menu should be updated.
@@ -41,7 +42,7 @@ export interface BubbleMenuPluginProps {
    * @type {number}
    * @default 250
    */
-  updateDelay?: number
+  updateDelay?: number;
 
   /**
    * The delay in milliseconds before the menu position should be updated on window resize.
@@ -49,7 +50,7 @@ export interface BubbleMenuPluginProps {
    * @type {number}
    * @default 60
    */
-  resizeDelay?: number
+  resizeDelay?: number;
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -57,36 +58,48 @@ export interface BubbleMenuPluginProps {
    */
   shouldShow:
     | ((props: {
-        editor: Editor
-        element: HTMLElement
-        view: EditorView
-        state: EditorState
-        oldState?: EditorState
-        from: number
-        to: number
+        editor: Editor;
+        element: HTMLElement;
+        view: EditorView;
+        state: EditorState;
+        oldState?: EditorState;
+        from: number;
+        to: number;
       }) => boolean)
-    | null
+    | null;
 
   /**
    * FloatingUI options.
    */
   options?: {
-    strategy?: Strategy
-    placement?: Placement
-    offset?: OffsetOptions | boolean
-    flip?: FlipOptions | boolean
-    shift?: ShiftOptions | boolean
-    arrow?: ArrowOptions | false
-    size?: SizeOptions | boolean
-    autoPlacement?: AutoPlacementOptions | boolean
-    hide?: HideOptions | boolean
-    inline?: InlineOptions | boolean
-  }
+    strategy?: 'absolute' | 'fixed';
+    placement?:
+      | 'top'
+      | 'right'
+      | 'bottom'
+      | 'left'
+      | 'top-start'
+      | 'top-end'
+      | 'right-start'
+      | 'right-end'
+      | 'bottom-start'
+      | 'bottom-end'
+      | 'left-start'
+      | 'left-end';
+    offset?: Parameters<typeof offset>[0] | boolean;
+    flip?: Parameters<typeof flip>[0] | boolean;
+    shift?: Parameters<typeof shift>[0] | boolean;
+    arrow?: Parameters<typeof arrow>[0] | false;
+    size?: Parameters<typeof size>[0] | boolean;
+    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean;
+    hide?: Parameters<typeof hide>[0] | boolean;
+    inline?: Parameters<typeof inline>[0] | boolean;
+  };
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
-  view: EditorView
-}
+  view: EditorView;
+};
 
 export class BubbleMenuView implements PluginView {
   public editor: Editor
@@ -105,29 +118,18 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
-  private floatingUIOptions: {
-    strategy: Strategy
-    placement: Placement
-    offset: OffsetOptions | boolean
-    flip: FlipOptions | boolean
-    shift: ShiftOptions | boolean
-    arrow: ArrowOptions | false
-    size: SizeOptions | boolean
-    autoPlacement: AutoPlacementOptions | boolean
-    hide: HideOptions | boolean
-    inline: InlineOptions | boolean
-  } = {
-      strategy: 'absolute',
-      placement: 'top',
-      offset: 8,
-      flip: {},
-      shift: {},
-      arrow: false,
-      size: false,
-      autoPlacement: false,
-      hide: false,
-      inline: false,
-    }
+  private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
+    strategy: 'absolute',
+    placement: 'top',
+    offset: 8,
+    flip: {},
+    shift: {},
+    arrow: false,
+    size: false,
+    autoPlacement: false,
+    hide: false,
+    inline: false,
+  }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
@@ -161,15 +163,31 @@ export class BubbleMenuView implements PluginView {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
+      middlewares.push(
+        flip(
+          typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.shift) {
-      middlewares.push(shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined))
+      middlewares.push(
+        shift(
+          typeof this.floatingUIOptions.shift !== 'boolean'
+            ? this.floatingUIOptions.shift
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.offset) {
-      middlewares.push(offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined))
+      middlewares.push(
+        offset(
+          typeof this.floatingUIOptions.offset !== 'boolean'
+            ? this.floatingUIOptions.offset
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.arrow) {
@@ -177,19 +195,39 @@ export class BubbleMenuView implements PluginView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
+      middlewares.push(
+        size(
+          typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.autoPlacement) {
-      middlewares.push(autoPlacement(typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined))
+      middlewares.push(
+        autoPlacement(
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
+            ? this.floatingUIOptions.autoPlacement
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
+      middlewares.push(
+        hide(
+          typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.inline) {
-      middlewares.push(inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined))
+      middlewares.push(
+        inline(
+          typeof this.floatingUIOptions.inline !== 'boolean'
+            ? this.floatingUIOptions.inline
+            : undefined,
+        ),
+      )
     }
 
     return middlewares
@@ -264,9 +302,7 @@ export class BubbleMenuView implements PluginView {
       return
     }
 
-    if (
-      event?.relatedTarget === this.editor.view.dom
-    ) {
+    if (event?.relatedTarget === this.editor.view.dom) {
       return
     }
 
@@ -280,7 +316,11 @@ export class BubbleMenuView implements PluginView {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
     }
 
-    computePosition(virtualElement, this.element, { placement: this.floatingUIOptions.placement, strategy: this.floatingUIOptions.strategy, middleware: this.middlewares }).then(({ x, y, strategy }) => {
+    computePosition(virtualElement, this.element, {
+      placement: this.floatingUIOptions.placement,
+      strategy: this.floatingUIOptions.strategy,
+      middleware: this.middlewares,
+    }).then(({ x, y, strategy }) => {
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
@@ -342,7 +382,12 @@ export class BubbleMenuView implements PluginView {
     return shouldShow
   }
 
-  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
+  updateHandler = (
+    view: EditorView,
+    selectionChanged: boolean,
+    docChanged: boolean,
+    oldState?: EditorState,
+  ) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
