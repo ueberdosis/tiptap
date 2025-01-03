@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.11.1
+
+### Patch Changes
+
+- dac7fd2: Resolves #5870 by re-ordering executation of selectionUpdate handler
+  - @tiptap/extension-bubble-menu@2.11.1
+  - @tiptap/extension-floating-menu@2.11.1
+
 ## 2.11.0
 
 ### Patch Changes
