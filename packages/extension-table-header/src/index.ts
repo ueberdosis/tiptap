@@ -1,5 +1,5 @@
-import { TableHeader } from './table-header.js'
+import { TableHeader } from '@tiptap/extension-table'
 
-export * from './table-header.js'
+export { TableHeader, TableHeaderOptions } from '@tiptap/extension-table'
 
 export default TableHeader
