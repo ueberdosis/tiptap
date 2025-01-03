@@ -101,7 +101,7 @@ jobs:
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:pm
+        run: npm run build
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
