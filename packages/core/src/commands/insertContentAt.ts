@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
         /**
          * The ProseMirror content to insert.
          */
-        value: Content,
+        value: Content | ProseMirrorNode | Fragment,
 
         /**
          * Optional options
@@ -63,7 +63,7 @@ const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment 
 export const insertContentAt: RawCommands['insertContentAt'] = (position, value, options) => ({ tr, dispatch, editor }) => {
   if (dispatch) {
     options = {
-      parseOptions: {},
+      parseOptions: editor.options.parseOptions,
       updateSelection: true,
       applyInputRules: false,
       applyPasteRules: false,
@@ -71,6 +71,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
     }
 
     let content: Fragment | ProseMirrorNode
+    const { selection } = editor.state
 
     try {
       content = createNodeFromContent(value, editor.schema, {
@@ -85,7 +86,9 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
         editor,
         error: e as Error,
         disableCollaboration: () => {
-          console.error('[tiptap error]: Unable to disable collaboration at this point in time')
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isDisabled = true
+          }
         },
       })
       return false
@@ -130,6 +133,16 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       // otherwise if it is an array, we have to join it
       if (Array.isArray(value)) {
         newContent = value.map(v => v.text || '').join('')
+      } else if (value instanceof Fragment) {
+        let text = ''
+
+        value.forEach(node => {
+          if (node.text) {
+            text += node.text
+          }
+        })
+
+        newContent = text
       } else if (typeof value === 'object' && !!value && !!value.text) {
         newContent = value.text
       } else {
@@ -139,6 +152,13 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       tr.insertText(newContent, from, to)
     } else {
       newContent = content
+
+      const fromSelectionAtStart = selection.$from.parentOffset === 0
+      const isTextSelection = selection.$from.node().isText || selection.$from.node().isTextblock
+
+      if (fromSelectionAtStart && isTextSelection) {
+        from = Math.max(0, from - 1)
+      }
 
       tr.replaceWith(from, to, newContent)
     }

@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - next
   # manual trigger for other branches
   workflow_dispatch:
 
@@ -37,7 +38,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
@@ -55,12 +56,14 @@ jobs:
         with:
           createGithubReleases: false
           publish: npm run publish
+          version: npm run version
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-
             ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'

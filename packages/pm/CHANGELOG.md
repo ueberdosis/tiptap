@@ -1,36 +1,20 @@
 # Change Log
 
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
+## 3.0.0-next.3
 
 ### Patch Changes
 
-- bd34793: Bumped prosemirror versions
+- 4d2139b: This fixes a problem with the release files
 
-## 2.7.0-pre.0
+## 3.0.0-next.2
 
-### Patch Changes
+## 3.0.0-next.1
 
-- bd34793: Bumped prosemirror versions
+### Major Changes
 
-## 2.6.6
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
-## 2.6.5
-
-## 2.6.4
-
-## 2.6.3
-
-## 2.6.2
-
-## 2.6.1
-
-## 2.6.0
-
-## 2.5.9
+## 3.0.0-next.0
 
 ## 2.5.8
 

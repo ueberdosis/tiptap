@@ -1,7 +1,28 @@
-import { VueRenderer } from '@tiptap/vue-3'
-import tippy from 'tippy.js'
+import {
+  computePosition,
+  flip,
+  shift,
+} from '@floating-ui/dom'
+import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
 
 import CommandsList from './CommandsList.vue'
+
+const updatePosition = (editor, element) => {
+  const virtualElement = {
+    getBoundingClientRect: () => posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
+  }
+
+  computePosition(virtualElement, element, {
+    placement: 'bottom-start',
+    strategy: 'absolute',
+    middleware: [shift(), flip()],
+  }).then(({ x, y, strategy }) => {
+    element.style.width = 'max-content'
+    element.style.position = strategy
+    element.style.left = `${x}px`
+    element.style.top = `${y}px`
+  })
+}
 
 export default {
   items: ({ query }) => {
@@ -55,7 +76,6 @@ export default {
 
   render: () => {
     let component
-    let popup
 
     return {
       onStart: props => {
@@ -71,15 +91,11 @@ export default {
           return
         }
 
-        popup = tippy('body', {
-          getReferenceClientRect: props.clientRect,
-          appendTo: () => document.body,
-          content: component.element,
-          showOnCreate: true,
-          interactive: true,
-          trigger: 'manual',
-          placement: 'bottom-start',
-        })
+        component.element.style.position = 'absolute'
+
+        document.body.appendChild(component.element)
+
+        updatePosition(props.editor, component.element)
       },
 
       onUpdate(props) {
@@ -89,14 +105,13 @@ export default {
           return
         }
 
-        popup[0].setProps({
-          getReferenceClientRect: props.clientRect,
-        })
+        updatePosition(props.editor, component.element)
       },
 
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
-          popup[0].hide()
+          component.destroy()
+          component.element.remove()
 
           return true
         }
@@ -105,8 +120,8 @@ export default {
       },
 
       onExit() {
-        popup[0].destroy()
         component.destroy()
+        component.element.remove()
       },
     }
   },

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mention",
   "description": "mention extension for tiptap",
-  "version": "2.7.2",
+  "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,28 +15,27 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/packages/extension-mention/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
-  "types": "dist/packages/extension-mention/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.7.2",
-    "@tiptap/pm": "^2.7.2",
-    "@tiptap/suggestion": "^2.7.2"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3",
+    "@tiptap/suggestion": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0",
-    "@tiptap/suggestion": "^2.7.0"
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1",
+    "@tiptap/suggestion": "^3.0.0-next.1"
   },
   "repository": {
     "type": "git",
@@ -44,7 +43,6 @@
     "directory": "packages/extension-mention"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup"
   }
 }

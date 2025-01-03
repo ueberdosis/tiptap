@@ -10,7 +10,7 @@ type CallbackFunction<
 
 export class EventEmitter<T extends Record<string, any>> {
 
-  private callbacks: { [key: string]: Function[] } = {}
+  private callbacks: { [key: string]: Array<(...args: any[])=>void> } = {}
 
   public on<EventName extends StringKeyOf<T>>(event: EventName, fn: CallbackFunction<T, EventName>): this {
     if (!this.callbacks[event]) {
@@ -44,6 +44,15 @@ export class EventEmitter<T extends Record<string, any>> {
     }
 
     return this
+  }
+
+  public once<EventName extends StringKeyOf<T>>(event: EventName, fn: CallbackFunction<T, EventName>): this {
+    const onceFn = (...args: CallbackType<T, EventName>) => {
+      this.off(event, onceFn)
+      fn.apply(this, args)
+    }
+
+    return this.on(event, onceFn)
   }
 
   public removeAllListeners(): void {

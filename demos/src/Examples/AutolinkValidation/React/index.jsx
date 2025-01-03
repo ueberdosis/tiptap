@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import Link from '@tiptap/extension-link'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -20,6 +20,16 @@ export default () => {
       attributes: {
         spellcheck: 'false',
       },
+    },
+    shouldRerenderOnTransaction: true,
+  })
+
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        isLink: ctx.editor.isActive('link'),
+      }
     },
   })
 
@@ -55,14 +65,14 @@ export default () => {
         <div className="button-group">
           <button
             onClick={setLink}
-            className={editor.isActive('link') ? 'is-active' : ''}
+            className={editorState.isLink ? 'is-active' : ''}
             data-testid="setLink"
           >
             Set link
           </button>
           <button
             onClick={() => editor.chain().focus().unsetLink().run()}
-            disabled={!editor.isActive('link')}
+            disabled={!editorState.isLink}
             data-testid="unsetLink"
           >
             Unset link

@@ -26,7 +26,7 @@ export default () => {
 
   return (
     <>
-      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+      {editor && <BubbleMenu className="bubble-menu" editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}
@@ -47,7 +47,7 @@ export default () => {
         </button>
       </BubbleMenu>}
 
-      {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+      {editor && <FloatingMenu className="floating-menu" editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
           className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}

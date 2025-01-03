@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 import suggestion from './suggestion.js'
@@ -35,8 +35,17 @@ export default () => {
     `,
   })
 
+  const { characterCount } = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        characterCount: ctx.editor.storage.characterCount.characters(),
+      }
+    },
+  })
+
   const percentage = editor
-    ? Math.round((100 / limit) * editor.storage.characterCount.characters())
+    ? Math.round((100 / limit) * characterCount)
     : 0
 
   return (

@@ -14,6 +14,8 @@ on:
       - develop
       - next
       - release/*
+    tags:
+      - '*'
   pull_request:
     branches:
       - main
@@ -37,7 +39,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
@@ -103,7 +105,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.7.6
+        uses: cypress-io/github-action@v6.7.8
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           start: npm run serve
@@ -114,7 +116,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         if: failure()
         with:
           name: cypress-screenshots
@@ -122,7 +124,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         if: failure()
         with:
           name: cypress-videos
@@ -147,11 +149,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.0
         id: cache
         with:
           path: |
             **/node_modules
+            **/.turbo
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
@@ -163,3 +166,7 @@ jobs:
       - name: Try to build the packages
         id: build-packages
         run: npm run build:ci
+
+      - name: Soft release
+        id: soft-release
+        run: npx pkg-pr-new publish './packages/*' --compact

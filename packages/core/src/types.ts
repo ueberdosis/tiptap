@@ -1,17 +1,19 @@
 import {
   Mark as ProseMirrorMark,
   Node as ProseMirrorNode,
-  NodeType,
   ParseOptions,
   Slice,
 } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
+import { Mappable } from '@tiptap/pm/transform'
 import {
   Decoration,
+  DecorationAttrs,
   EditorProps,
   EditorView,
   NodeView,
   NodeViewConstructor,
+  ViewMutationRecord,
 } from '@tiptap/pm/view'
 
 import { Editor } from './Editor.js'
@@ -56,13 +58,15 @@ export interface EditorEvents {
      */
     disableCollaboration: () => void;
   };
-  update: { editor: Editor; transaction: Transaction };
+  update: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] };
   selectionUpdate: { editor: Editor; transaction: Transaction };
   beforeTransaction: { editor: Editor; transaction: Transaction; nextState: EditorState };
-  transaction: { editor: Editor; transaction: Transaction };
+  transaction: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] };
   focus: { editor: Editor; event: FocusEvent; transaction: Transaction };
   blur: { editor: Editor; event: FocusEvent; transaction: Transaction };
   destroy: void;
+  paste: { editor: Editor; event: ClipboardEvent; slice: Slice };
+  drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean };
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean;
@@ -101,7 +105,21 @@ export interface EditorOptions {
    *
    * @default true
    */
-  enableCoreExtensions?: boolean | Partial<Record<'editable' | 'clipboardTextSerializer' | 'commands' | 'focusEvents' | 'keymap' | 'tabindex', false>>;
+  enableCoreExtensions?:
+    | boolean
+    | Partial<
+        Record<
+          | 'editable'
+          | 'clipboardTextSerializer'
+          | 'commands'
+          | 'focusEvents'
+          | 'keymap'
+          | 'tabindex'
+          | 'drop'
+          | 'paste',
+          false
+        >
+      >;
   /**
    * If `true`, the editor will check the content for errors on initialization.
    * Emitting the `contentError` event if the content is invalid.
@@ -122,8 +140,8 @@ export interface EditorOptions {
   onFocus: (props: EditorEvents['focus']) => void;
   onBlur: (props: EditorEvents['blur']) => void;
   onDestroy: (props: EditorEvents['destroy']) => void;
-  onPaste: (e: ClipboardEvent, slice: Slice) => void
-  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
+  onPaste: (e: ClipboardEvent, slice: Slice) => void;
+  onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void;
 }
 
 export type HTMLContent = string;
@@ -208,49 +226,90 @@ export type ValuesOf<T> = T[keyof T];
 
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T];
 
-export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & {};
+export type DOMNode = InstanceType<typeof window.Node>
 
+/**
+ * prosemirror-view does not export the `type` property of `Decoration`.
+ * So, this defines the `DecorationType` interface to include the `type` property.
+ */
+export interface DecorationType {
+  spec: any
+  map(mapping: Mappable, span: Decoration, offset: number, oldOffset: number): Decoration | null
+  valid(node: Node, span: Decoration): boolean
+  eq(other: DecorationType): boolean
+  destroy(dom: DOMNode): void
+  readonly attrs: DecorationAttrs
+}
+
+/**
+ * prosemirror-view does not export the `type` property of `Decoration`.
+ * This adds the `type` property to the `Decoration` type.
+ */
 export type DecorationWithType = Decoration & {
-  type: NodeType;
+  type: DecorationType;
 };
 
-export type NodeViewProps = Simplify<
-  Omit<NodeViewRendererProps, 'decorations'> & {
-    // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
-    decorations: readonly DecorationWithType[];
-    selected: boolean;
-    updateAttributes: (attributes: Record<string, any>) => void;
-    deleteNode: () => void;
-  }
->;
+export interface NodeViewProps extends NodeViewRendererProps {
+  // TODO this type is not technically correct, but it's the best we can do for now since prosemirror doesn't expose the type of decorations
+  decorations: readonly DecorationWithType[];
+  selected: boolean;
+  updateAttributes: (attributes: Record<string, any>) => void;
+  deleteNode: () => void;
+}
 
 export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null;
   ignoreMutation:
-    | ((props: { mutation: MutationRecord | { type: 'selection'; target: Element } }) => boolean)
+    | ((props: { mutation: ViewMutationRecord }) => boolean)
     | null;
   contentDOMElementTag: string;
 }
 
-export type NodeViewRendererProps = {
+export interface NodeViewRendererProps {
   // pass-through from prosemirror
+  /**
+   * The node that is being rendered.
+   */
   node: Parameters<NodeViewConstructor>[0];
+  /**
+   * The editor's view.
+   */
   view: Parameters<NodeViewConstructor>[1];
-  getPos: () => number; // TODO getPos was incorrectly typed before, change to `Parameters<NodeViewConstructor>[2];` in the next major version
+  /**
+   * A function that can be called to get the node's current position in the document.
+   */
+  getPos: Parameters<NodeViewConstructor>[2];
+  /**
+   * is an array of node or inline decorations that are active around the node.
+   * They are automatically drawn in the normal way, and you will usually just want to ignore this, but they can also be used as a way to provide context information to the node view without adding it to the document itself.
+   */
   decorations: Parameters<NodeViewConstructor>[3];
+  /**
+   * holds the decorations for the node's content. You can safely ignore this if your view has no content or a contentDOM property, since the editor will draw the decorations on the content.
+   * But if you, for example, want to create a nested editor with the content, it may make sense to provide it with the inner decorations.
+   */
   innerDecorations: Parameters<NodeViewConstructor>[4];
   // tiptap-specific
+  /**
+   * The editor instance.
+   */
   editor: Editor;
+  /**
+   * The extension that is responsible for the node.
+   */
   extension: Node;
+  /**
+   * The HTML attributes that should be added to the node's DOM element.
+   */
   HTMLAttributes: Record<string, any>;
-};
+}
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView;
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>;
 
 export type UnionCommands<T = Command> = UnionToIntersection<
-  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, {}>>>
+  ValuesOf<Pick<Commands<T>, KeysWithTypeOf<Commands<T>, object>>>
 >;
 
 export type RawCommands = {

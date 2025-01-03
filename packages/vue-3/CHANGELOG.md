@@ -1,137 +1,74 @@
 # Change Log
 
-## 2.7.2
+## 3.0.0-next.3
 
 ### Patch Changes
 
-- cbe06d1: Fix registerPlugin() for late-registering plugins
-  - @tiptap/extension-bubble-menu@2.7.2
-  - @tiptap/extension-floating-menu@2.7.2
+- @tiptap/extension-bubble-menu@3.0.0-next.3
+- @tiptap/extension-floating-menu@3.0.0-next.3
 
-## 2.7.1
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.7.1
-- @tiptap/extension-floating-menu@2.7.1
-
-## 2.7.0
-
-### Minor Changes
-
-- 7f24a66: Vue NodeViews now listen for changes to selections and re-render when the selection is actually over the nodeview
+## 3.0.0-next.2
 
 ### Patch Changes
 
-- 9e18d24: Fixed an issue where plugin registration on editor initialization would break Vue3 editors.
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-  - @tiptap/extension-bubble-menu@2.7.0
-  - @tiptap/extension-floating-menu@2.7.0
+- Updated dependencies [d9b6ef5]
+  - @tiptap/extension-floating-menu@3.0.0-next.2
+  - @tiptap/extension-bubble-menu@3.0.0-next.2
 
-## 2.7.0-pre.0
+## 3.0.0-next.1
 
-### Minor Changes
+### Major Changes
 
-- 7f24a66: Vue NodeViews now listen for changes to selections and re-render when the selection is actually over the nodeview
-
-### Patch Changes
-
-- 9e18d24: Fixed an issue where plugin registration on editor initialization would break Vue3 editors.
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-- Updated dependencies [97ea55f]
-- Updated dependencies [bd34793]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-  - @tiptap/pm@2.7.0-pre.0
-  - @tiptap/extension-bubble-menu@2.7.0-pre.0
-  - @tiptap/extension-floating-menu@2.7.0-pre.0
-
-## 2.6.6
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ### Patch Changes
 
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-  - @tiptap/extension-bubble-menu@2.6.6
-  - @tiptap/extension-floating-menu@2.6.6
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-- @tiptap/extension-bubble-menu@2.6.5
-- @tiptap/extension-floating-menu@2.6.5
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-- @tiptap/extension-bubble-menu@2.6.4
-- @tiptap/extension-floating-menu@2.6.4
-- @tiptap/pm@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
+- Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-  - @tiptap/extension-bubble-menu@2.6.3
-  - @tiptap/extension-floating-menu@2.6.3
-  - @tiptap/pm@2.6.3
+  - @tiptap/extension-floating-menu@3.0.0-next.1
+  - @tiptap/extension-bubble-menu@3.0.0-next.1
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
 
-## 2.6.2
+## 3.0.0-next.0
 
-### Patch Changes
+### Major Changes
 
-- @tiptap/core@2.6.2
-- @tiptap/extension-bubble-menu@2.6.2
-- @tiptap/extension-floating-menu@2.6.2
-- @tiptap/pm@2.6.2
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
 
-## 2.6.1
+  This change is breaking existing menu implementations and will require a manual migration.
 
-### Patch Changes
+  **Affected packages:**
 
-- @tiptap/core@2.6.1
-- @tiptap/extension-bubble-menu@2.6.1
-- @tiptap/extension-floating-menu@2.6.1
-- @tiptap/pm@2.6.1
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
 
-## 2.6.0
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
 
-### Patch Changes
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
 
-- be63e59: fix vue3 class components not working as node views
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-  - @tiptap/extension-bubble-menu@2.6.0
-  - @tiptap/extension-floating-menu@2.6.0
-  - @tiptap/pm@2.6.0
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
 
-## 2.5.9
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
 
 ### Patch Changes
 
-- Updated dependencies [84ebd51]
+- Updated dependencies [7eaa34d]
 - Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
-  - @tiptap/extension-bubble-menu@2.5.9
-  - @tiptap/extension-floating-menu@2.5.9
-  - @tiptap/pm@2.5.9
+  - @tiptap/extension-floating-menu@3.0.0-next.0
+  - @tiptap/extension-bubble-menu@3.0.0-next.0
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
 
 ## 2.5.8
 

@@ -1,110 +1,45 @@
 # Change Log
 
-## 2.7.2
+## 3.0.0-next.3
 
-## 2.7.1
+## 3.0.0-next.2
 
-### Patch Changes
+### Major Changes
 
-- 888f574: Fixed Slice import in DropPlugin
+- 37913d5: Fix `getPos` type in `NodeViewRendererProps` to potentially be `undefined`
 
-## 2.7.0
+  Breaking change: Types may flag uses of getPos where an `undefined` possibility isn't handled.
+  Why this change was made: To ensure the type reflects the real functionality of this function.
+  How to update: Ensure that the return value of `getPos` exists before making use of the value.
 
-### Minor Changes
-
-- 97ea55f: Fixes #5490. The `preventClearDocument` meta tag can now be used to prevent the `clearDocument` plugin in the core keymap extension from modifying transactions that appear to clear the document (but might be clearing it for other reasons).
-- 9e18d24: Added `onPaste` and `onDrop` options to the editor allowing for easier event binding for both cases
-- 97ea55f: An object can now be passed to `enableCoreExtensions` to allow disabling only specific core extensions.
+- 12bb31a: `insertContent` and `insertContentAt` commands should not split text nodes like paragraphs into multiple nodes when the inserted content is at the beginning of the text to avoid empty nodes being created
 
 ### Patch Changes
 
-- f805333: fix: check for schema's nesting rules on contentCheck
-- 07fa49d: Copy over node attributes on node toggling (for example to keep text styles while toggling a headline)
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-- a22767e: Merging inline style attributes now can properly merge conflicting style attribute names, resulting in cleaner HTML output and correctness
+- 283e606: Fixed an issue on Android where the focus command would cause the keyboard to flash
+- ca6269e: Added support for drag-and-drop between multiple editors
+- e0dfecc: Updates the typings to be inline with Prosemirror-view #5867
+- 722ec00: Use an AllSelection for the selectAll command #5516
+- b7ef150: Fixed an issue with nodeviews preventing any drag events in child nodes of the nodeview wrapper element
 
-## 2.7.0-pre.0
+## 3.0.0-next.1
 
-### Minor Changes
+### Major Changes
 
-- 97ea55f: Fixes #5490. The `preventClearDocument` meta tag can now be used to prevent the `clearDocument` plugin in the core keymap extension from modifying transactions that appear to clear the document (but might be clearing it for other reasons).
-- 9e18d24: Added `onPaste` and `onDrop` options to the editor allowing for easier event binding for both cases
-- 97ea55f: An object can now be passed to `enableCoreExtensions` to allow disabling only specific core extensions.
-
-### Patch Changes
-
-- f805333: fix: check for schema's nesting rules on contentCheck
-- 07fa49d: Copy over node attributes on node toggling (for example to keep text styles while toggling a headline)
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-- a22767e: Merging inline style attributes now can properly merge conflicting style attribute names, resulting in cleaner HTML output and correctness
-- Updated dependencies [bd34793]
-  - @tiptap/pm@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- 8d8d999: fix: check for schema's nesting rules on contentCheck
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/pm@2.6.4
-
-## 2.6.3
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ### Patch Changes
 
 - da76972: Resolve several selection related bug #2690 #5208
-  - @tiptap/pm@2.6.3
+- Updated dependencies [a92f4a6]
+  - @tiptap/pm@3.0.0-next.1
 
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/pm@2.6.2
-
-## 2.6.1
+## 3.0.0-next.0
 
 ### Patch Changes
 
-- @tiptap/pm@2.6.1
-
-## 2.6.0
-
-### Minor Changes
-
-- 86a8553: Add `getContent` to nodePasteRules to allow specifying inner content to a created node
-- 222f2ac: Add the ability to add new attributes to a splitted list item
-- e31673d: This PR significantly improves the performance of React NodeViews in a couple of ways:
-
-  - It now uses useSyncExternalStore to synchronize changes between React & the editor instance
-  - It dramatically reduces the number of re-renders by re-using instances of React portals that have already been initialized and unaffected by the change made in the editor
-
-  We were seeing performance problems with React NodeViews because a change to one of them would cause a re-render to all instances of node views. For an application that heavily relies on node views in React, this was quite expensive.
-  This should dramatically cut down on the number of instances that have to re-render, and, making each of those re-renders much less costly.
-
-### Patch Changes
-
-- @tiptap/pm@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- 84ebd51: Fix change criteria for isNodeEmpty to resolve #5415
 - 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
-- ae0254d: Add `ignoreWhitespace` option to `isNodeEmpty` to ignore any whitespace and hardbreaks in a node to check for emptiness
-- efb27fa: This fixes a discrepency between `getMarksBetween` and `isActive(markName)` where the position used for getMarksBetween was off by one
-  - @tiptap/pm@2.5.9
+  - @tiptap/pm@3.0.0-next.0
 
 ## 2.5.8
 
