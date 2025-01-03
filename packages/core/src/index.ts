@@ -22,6 +22,9 @@ export interface Commands<ReturnType = any> {}
 export interface ExtensionConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line
+export interface DecorationConfig<Options = any, Storage = any> {}
+
+// eslint-disable-next-line
 export interface NodeConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line

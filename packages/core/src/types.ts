@@ -7,7 +7,7 @@ import {
 import { EditorState, Transaction } from '@tiptap/pm/state'
 import { Mappable } from '@tiptap/pm/transform'
 import {
-  Decoration,
+  Decoration as PMDecoration,
   DecorationAttrs,
   EditorProps,
   EditorView,
@@ -16,16 +16,17 @@ import {
   ViewMutationRecord,
 } from '@tiptap/pm/view'
 
+import { Decoration } from './Decoration.js'
 import { Editor } from './Editor.js'
 import { Extension } from './Extension.js'
 import {
-  Commands, ExtensionConfig, MarkConfig, NodeConfig,
+  Commands, DecorationConfig, ExtensionConfig, MarkConfig, NodeConfig,
 } from './index.js'
 import { Mark } from './Mark.js'
 import { Node } from './Node.js'
 
-export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig;
-export type AnyExtension = Extension | Node | Mark;
+export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig | DecorationConfig;
+export type AnyExtension = Extension | Node | Mark | Decoration;
 export type Extensions = AnyExtension[];
 
 export type ParentConfig<T> = Partial<{
@@ -234,8 +235,8 @@ export type DOMNode = InstanceType<typeof window.Node>
  */
 export interface DecorationType {
   spec: any
-  map(mapping: Mappable, span: Decoration, offset: number, oldOffset: number): Decoration | null
-  valid(node: Node, span: Decoration): boolean
+  map(mapping: Mappable, span: PMDecoration, offset: number, oldOffset: number): PMDecoration | null
+  valid(node: Node, span: PMDecoration): boolean
   eq(other: DecorationType): boolean
   destroy(dom: DOMNode): void
   readonly attrs: DecorationAttrs
@@ -245,7 +246,7 @@ export interface DecorationType {
  * prosemirror-view does not export the `type` property of `Decoration`.
  * This adds the `type` property to the `Decoration` type.
  */
-export type DecorationWithType = Decoration & {
+export type DecorationWithType = PMDecoration & {
   type: DecorationType;
 };
 
