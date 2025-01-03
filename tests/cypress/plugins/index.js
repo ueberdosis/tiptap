@@ -12,16 +12,23 @@
 // the project's config changing)
 
 const path = require('path')
-const globby = require('globby')
+const { globSync } = require('tinyglobby')
 const webpackPreprocessor = require('@cypress/webpack-preprocessor')
 
 module.exports = on => {
   const alias = {}
 
-  globby.sync('../packages/*', { onlyDirectories: true })
+  globSync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))
     .forEach(name => {
-      alias[`@tiptap/${name}$`] = path.resolve(`../packages/${name}/src/index.ts`)
+      alias[`@tiptap/${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/${name}/src/index.ts`)
+    })
+
+  // Specifically resolve the pm package
+  globSync('../packages/pm/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/pm', ''))
+    .forEach(name => {
+      alias[`@tiptap/pm${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/pm/${name}/index.ts`)
     })
 
   const options = {

@@ -6,7 +6,6 @@ node_modules
 dist
 .env
 .env.*
-.npmrc
 .eslintcache
 
 # Log files

@@ -11,6 +11,6 @@ import { findParentNodeClosestToPos } from './findParentNodeClosestToPos.js'
  * findParentNode(node => node.type.name === 'paragraph')
  * ```
  */
-export function findParentNode(predicate: Predicate) {
+export function findParentNode(predicate: Predicate):(selection: Selection) => ReturnType<typeof findParentNodeClosestToPos> {
   return (selection: Selection) => findParentNodeClosestToPos(selection.$from, predicate)
 }

@@ -12,19 +12,8 @@ import {
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
 
-// import checker from 'vite-plugin-checker'
-
 const getPackageDependencies = () => {
   const paths: Array<{ find: string, replacement: any }> = []
-
-  paths.push({
-    find: 'yjs',
-    replacement: resolve('../node_modules/yjs/src/index.js'),
-  })
-  paths.push({
-    find: 'y-prosemirror',
-    replacement: resolve('../node_modules/y-prosemirror/src/y-prosemirror.js'),
-  })
 
   fg.sync('../packages/*', { onlyDirectories: true })
     .map(name => name.replace('../packages/', ''))

@@ -7,7 +7,7 @@
     "types": ["cypress", "react", "react-dom"],
     "paths": {
       "@tiptap/*": ["packages/*/src", "packages/*/dist"],
-      "@tiptap/pm/*": ["../../pm/*/dist"]
+      "@tiptap/pm/*": ["packages/pm/*"]
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"],
   },

@@ -1,10 +1,13 @@
 import {
-  type ArrowOptions,
-  type AutoPlacementOptions,
-  type FlipOptions,
-  type HideOptions,
-  type InlineOptions,
-  type Middleware, type OffsetOptions, type Placement, type ShiftOptions, type SizeOptions, type Strategy, arrow, autoPlacement, computePosition, flip, hide, inline, offset, shift,
+  type Middleware,
+  arrow,
+  autoPlacement,
+  computePosition,
+  flip,
+  hide,
+  inline,
+  offset,
+  shift,
   size,
 } from '@floating-ui/dom'
 import {
@@ -19,19 +22,19 @@ export interface FloatingMenuPluginProps {
    * The plugin key for the floating menu.
    * @default 'floatingMenu'
    */
-  pluginKey: PluginKey | string
+  pluginKey: PluginKey | string;
 
   /**
    * The editor instance.
    * @default null
    */
-  editor: Editor
+  editor: Editor;
 
   /**
    * The DOM element that contains your menu.
    * @default null
    */
-  element: HTMLElement
+  element: HTMLElement;
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -39,38 +42,50 @@ export interface FloatingMenuPluginProps {
    */
   shouldShow:
     | ((props: {
-        editor: Editor
-        view: EditorView
-        state: EditorState
-        oldState?: EditorState
-        from: number
-        to: number
+        editor: Editor;
+        view: EditorView;
+        state: EditorState;
+        oldState?: EditorState;
+        from: number;
+        to: number;
       }) => boolean)
-    | null
+    | null;
 
-    /**
+  /**
    * FloatingUI options.
    */
-    options?: {
-      strategy?: Strategy
-      placement?: Placement
-      offset?: OffsetOptions | boolean
-      flip?: FlipOptions | boolean
-      shift?: ShiftOptions | boolean
-      arrow?: ArrowOptions | false
-      size?: SizeOptions | boolean
-      autoPlacement?: AutoPlacementOptions | boolean
-      hide?: HideOptions | boolean
-      inline?: InlineOptions | boolean
-    }
+  options?: {
+    strategy?: 'absolute' | 'fixed';
+    placement?:
+      | 'top'
+      | 'right'
+      | 'bottom'
+      | 'left'
+      | 'top-start'
+      | 'top-end'
+      | 'right-start'
+      | 'right-end'
+      | 'bottom-start'
+      | 'bottom-end'
+      | 'left-start'
+      | 'left-end';
+    offset?: Parameters<typeof offset>[0] | boolean;
+    flip?: Parameters<typeof flip>[0] | boolean;
+    shift?: Parameters<typeof shift>[0] | boolean;
+    arrow?: Parameters<typeof arrow>[0] | false;
+    size?: Parameters<typeof size>[0] | boolean;
+    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean;
+    hide?: Parameters<typeof hide>[0] | boolean;
+    inline?: Parameters<typeof inline>[0] | boolean;
+  };
 }
 
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
   /**
    * The editor view.
    */
-  view: EditorView
-}
+  view: EditorView;
+};
 
 export class FloatingMenuView {
   public editor: Editor
@@ -90,7 +105,11 @@ export class FloatingMenuView {
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
 
-    const isEmptyTextBlock = $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent && $anchor.parent.childCount === 0 && !this.getTextContent($anchor.parent)
+    const isEmptyTextBlock = $anchor.parent.isTextblock
+      && !$anchor.parent.type.spec.code
+      && !$anchor.parent.textContent
+      && $anchor.parent.childCount === 0
+      && !this.getTextContent($anchor.parent)
 
     if (
       !view.hasFocus()
@@ -105,43 +124,48 @@ export class FloatingMenuView {
     return true
   }
 
-  private floatingUIOptions: {
-    strategy: Strategy
-    placement: Placement
-    offset: OffsetOptions | boolean
-    flip: FlipOptions | boolean
-    shift: ShiftOptions | boolean
-    arrow: ArrowOptions | false
-    size: SizeOptions | boolean
-    autoPlacement: AutoPlacementOptions | boolean
-    hide: HideOptions | boolean
-    inline: InlineOptions | boolean
-  } = {
-      strategy: 'absolute',
-      placement: 'right',
-      offset: 8,
-      flip: {},
-      shift: {},
-      arrow: false,
-      size: false,
-      autoPlacement: false,
-      hide: false,
-      inline: false,
-    }
+  private floatingUIOptions: NonNullable<FloatingMenuPluginProps['options']> = {
+    strategy: 'absolute',
+    placement: 'right',
+    offset: 8,
+    flip: {},
+    shift: {},
+    arrow: false,
+    size: false,
+    autoPlacement: false,
+    hide: false,
+    inline: false,
+  }
 
   get middlewares() {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
+      middlewares.push(
+        flip(
+          typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.shift) {
-      middlewares.push(shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined))
+      middlewares.push(
+        shift(
+          typeof this.floatingUIOptions.shift !== 'boolean'
+            ? this.floatingUIOptions.shift
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.offset) {
-      middlewares.push(offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined))
+      middlewares.push(
+        offset(
+          typeof this.floatingUIOptions.offset !== 'boolean'
+            ? this.floatingUIOptions.offset
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.arrow) {
@@ -149,19 +173,39 @@ export class FloatingMenuView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
+      middlewares.push(
+        size(
+          typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.autoPlacement) {
-      middlewares.push(autoPlacement(typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined))
+      middlewares.push(
+        autoPlacement(
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
+            ? this.floatingUIOptions.autoPlacement
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
+      middlewares.push(
+        hide(
+          typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.inline) {
-      middlewares.push(inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined))
+      middlewares.push(
+        inline(
+          typeof this.floatingUIOptions.inline !== 'boolean'
+            ? this.floatingUIOptions.inline
+            : undefined,
+        ),
+      )
     }
 
     return middlewares
@@ -214,7 +258,12 @@ export class FloatingMenuView {
     return shouldShow
   }
 
-  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
+  updateHandler = (
+    view: EditorView,
+    selectionChanged: boolean,
+    docChanged: boolean,
+    oldState?: EditorState,
+  ) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
@@ -255,9 +304,7 @@ export class FloatingMenuView {
       return
     }
 
-    if (
-      event?.relatedTarget === this.editor.view.dom
-    ) {
+    if (event?.relatedTarget === this.editor.view.dom) {
       return
     }
 
@@ -271,7 +318,11 @@ export class FloatingMenuView {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
     }
 
-    computePosition(virtualElement, this.element, { placement: this.floatingUIOptions.placement, strategy: this.floatingUIOptions.strategy, middleware: this.middlewares }).then(({ x, y, strategy }) => {
+    computePosition(virtualElement, this.element, {
+      placement: this.floatingUIOptions.placement,
+      strategy: this.floatingUIOptions.strategy,
+      middleware: this.middlewares,
+    }).then(({ x, y, strategy }) => {
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`

@@ -11,6 +11,7 @@ import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { useEditorState } from './useEditorState.js'
 
+// @ts-ignore
 const isDev = process.env.NODE_ENV !== 'production'
 const isSSR = typeof window === 'undefined'
 const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any).next)
