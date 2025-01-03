@@ -13,22 +13,24 @@ declare module '@tiptap/core' {
        * @param targetPos The position to insert the content at.
        * @example editor.commands.cut({ from: 1, to: 3 }, 5)
        */
-      cut: ({ from, to }: { from: number, to: number }, targetPos: number) => ReturnType,
+      cut: ({ from, to }: { from: number; to: number }, targetPos: number) => ReturnType
     }
   }
 }
 
-export const cut: RawCommands['cut'] = (originRange, targetPos) => ({ editor, tr }) => {
-  const { state } = editor
+export const cut: RawCommands['cut'] =
+  (originRange, targetPos) =>
+  ({ editor, tr }) => {
+    const { state } = editor
 
-  const contentSlice = state.doc.slice(originRange.from, originRange.to)
+    const contentSlice = state.doc.slice(originRange.from, originRange.to)
 
-  tr.deleteRange(originRange.from, originRange.to)
-  const newPos = tr.mapping.map(targetPos)
+    tr.deleteRange(originRange.from, originRange.to)
+    const newPos = tr.mapping.map(targetPos)
 
-  tr.insert(newPos, contentSlice.content)
+    tr.insert(newPos, contentSlice.content)
 
-  tr.setSelection(new TextSelection(tr.doc.resolve(newPos - 1)))
+    tr.setSelection(new TextSelection(tr.doc.resolve(newPos - 1)))
 
-  return true
-}
+    return true
+  }

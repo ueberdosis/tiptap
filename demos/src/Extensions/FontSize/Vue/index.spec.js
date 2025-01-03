@@ -11,10 +11,7 @@ context('/src/Extensions/FontSize/Vue/', () => {
   })
 
   it('should set the font-size of the selected text', () => {
-    cy.get('[data-test-id="28px"]')
-      .should('not.have.class', 'is-active')
-      .click()
-      .should('have.class', 'is-active')
+    cy.get('[data-test-id="28px"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
 
     cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-size: 28px')
   })

@@ -4,6 +4,6 @@
     "rootDir": "../../",
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
-    },
-  },
+    }
+  }
 }

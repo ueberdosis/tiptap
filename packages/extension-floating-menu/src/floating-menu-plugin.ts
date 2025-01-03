@@ -10,9 +10,7 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import {
-  Editor, getText, getTextSerializersFromSchema, posToDOMRect,
-} from '@tiptap/core'
+import { Editor, getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
@@ -22,19 +20,19 @@ export interface FloatingMenuPluginProps {
    * The plugin key for the floating menu.
    * @default 'floatingMenu'
    */
-  pluginKey: PluginKey | string;
+  pluginKey: PluginKey | string
 
   /**
    * The editor instance.
    * @default null
    */
-  editor: Editor;
+  editor: Editor
 
   /**
    * The DOM element that contains your menu.
    * @default null
    */
-  element: HTMLElement;
+  element: HTMLElement
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -42,20 +40,20 @@ export interface FloatingMenuPluginProps {
    */
   shouldShow:
     | ((props: {
-        editor: Editor;
-        view: EditorView;
-        state: EditorState;
-        oldState?: EditorState;
-        from: number;
-        to: number;
+        editor: Editor
+        view: EditorView
+        state: EditorState
+        oldState?: EditorState
+        from: number
+        to: number
       }) => boolean)
-    | null;
+    | null
 
   /**
    * FloatingUI options.
    */
   options?: {
-    strategy?: 'absolute' | 'fixed';
+    strategy?: 'absolute' | 'fixed'
     placement?:
       | 'top'
       | 'right'
@@ -68,24 +66,24 @@ export interface FloatingMenuPluginProps {
       | 'bottom-start'
       | 'bottom-end'
       | 'left-start'
-      | 'left-end';
-    offset?: Parameters<typeof offset>[0] | boolean;
-    flip?: Parameters<typeof flip>[0] | boolean;
-    shift?: Parameters<typeof shift>[0] | boolean;
-    arrow?: Parameters<typeof arrow>[0] | false;
-    size?: Parameters<typeof size>[0] | boolean;
-    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean;
-    hide?: Parameters<typeof hide>[0] | boolean;
-    inline?: Parameters<typeof inline>[0] | boolean;
-  };
+      | 'left-end'
+    offset?: Parameters<typeof offset>[0] | boolean
+    flip?: Parameters<typeof flip>[0] | boolean
+    shift?: Parameters<typeof shift>[0] | boolean
+    arrow?: Parameters<typeof arrow>[0] | false
+    size?: Parameters<typeof size>[0] | boolean
+    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
+    hide?: Parameters<typeof hide>[0] | boolean
+    inline?: Parameters<typeof inline>[0] | boolean
+  }
 }
 
 export type FloatingMenuViewProps = FloatingMenuPluginProps & {
   /**
    * The editor view.
    */
-  view: EditorView;
-};
+  view: EditorView
+}
 
 export class FloatingMenuView {
   public editor: Editor
@@ -105,19 +103,14 @@ export class FloatingMenuView {
     const { $anchor, empty } = selection
     const isRootDepth = $anchor.depth === 1
 
-    const isEmptyTextBlock = $anchor.parent.isTextblock
-      && !$anchor.parent.type.spec.code
-      && !$anchor.parent.textContent
-      && $anchor.parent.childCount === 0
-      && !this.getTextContent($anchor.parent)
+    const isEmptyTextBlock =
+      $anchor.parent.isTextblock &&
+      !$anchor.parent.type.spec.code &&
+      !$anchor.parent.textContent &&
+      $anchor.parent.childCount === 0 &&
+      !this.getTextContent($anchor.parent)
 
-    if (
-      !view.hasFocus()
-      || !empty
-      || !isRootDepth
-      || !isEmptyTextBlock
-      || !this.editor.isEditable
-    ) {
+    if (!view.hasFocus() || !empty || !isRootDepth || !isEmptyTextBlock || !this.editor.isEditable) {
       return false
     }
 
@@ -141,30 +134,18 @@ export class FloatingMenuView {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(
-        flip(
-          typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined,
-        ),
-      )
+      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
     }
 
     if (this.floatingUIOptions.shift) {
       middlewares.push(
-        shift(
-          typeof this.floatingUIOptions.shift !== 'boolean'
-            ? this.floatingUIOptions.shift
-            : undefined,
-        ),
+        shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
       )
     }
 
     if (this.floatingUIOptions.offset) {
       middlewares.push(
-        offset(
-          typeof this.floatingUIOptions.offset !== 'boolean'
-            ? this.floatingUIOptions.offset
-            : undefined,
-        ),
+        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
       )
     }
 
@@ -173,47 +154,31 @@ export class FloatingMenuView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(
-        size(
-          typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined,
-        ),
-      )
+      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
     }
 
     if (this.floatingUIOptions.autoPlacement) {
       middlewares.push(
         autoPlacement(
-          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
-            ? this.floatingUIOptions.autoPlacement
-            : undefined,
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined,
         ),
       )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(
-        hide(
-          typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined,
-        ),
-      )
+      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
     }
 
     if (this.floatingUIOptions.inline) {
       middlewares.push(
-        inline(
-          typeof this.floatingUIOptions.inline !== 'boolean'
-            ? this.floatingUIOptions.inline
-            : undefined,
-        ),
+        inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
       )
     }
 
     return middlewares
   }
 
-  constructor({
-    editor, element, view, options, shouldShow,
-  }: FloatingMenuViewProps) {
+  constructor({ editor, element, view, options, shouldShow }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
@@ -258,12 +223,7 @@ export class FloatingMenuView {
     return shouldShow
   }
 
-  updateHandler = (
-    view: EditorView,
-    selectionChanged: boolean,
-    docChanged: boolean,
-    oldState?: EditorState,
-  ) => {
+  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
@@ -361,8 +321,7 @@ export class FloatingMenuView {
 
 export const FloatingMenuPlugin = (options: FloatingMenuPluginProps) => {
   return new Plugin({
-    key:
-      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new FloatingMenuView({ view, ...options }),
   })
 }

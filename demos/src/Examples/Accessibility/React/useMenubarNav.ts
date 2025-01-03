@@ -18,26 +18,20 @@ export function useMenubarNav({
   /**
    * Ref to the menu bar container
    */
-  ref: React.RefObject<HTMLElement>;
+  ref: React.RefObject<HTMLElement>
   /**
    * The editor instance
    */
-  editor: Editor;
+  editor: Editor
   /**
    * Callback when the user presses the escape key
    */
-  onEscape?: (
-    event: KeyboardEvent,
-    ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }
-  ) => void;
+  onEscape?: (event: KeyboardEvent, ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }) => void
   /**
    * Callback when a keyboard event occurs
    * @note Call `event.preventDefault()` to prevent the default behavior
    */
-  onKeydown?: (
-    event: KeyboardEvent,
-    ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }
-  ) => void;
+  onKeydown?: (event: KeyboardEvent, ctx: { editor: Editor; ref: React.RefObject<HTMLElement> }) => void
 }) {
   const callbacks = useRef({
     onEscape,
@@ -56,9 +50,7 @@ export function useMenubarNav({
     }
 
     return Array.from(
-      containerRef.current.querySelectorAll<HTMLElement>(
-        'button, [role="button"], [tabindex="0"]',
-      ),
+      containerRef.current.querySelectorAll<HTMLElement>('button, [role="button"], [tabindex="0"]'),
     ).filter(el => !el.hasAttribute('disabled'))
   }, [containerRef])
 

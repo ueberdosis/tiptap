@@ -8,8 +8,14 @@
     * Voiceover would read this as "HeadingParagraph" instead of "Heading Paragraph"
     * So, we add a zero-width space after each block element to fix this.
     */
-  h1::after, h2::after, h3::after, h4::after, h5::after, h6::after, p::after {
-    content: "\200B"
+  h1::after,
+  h2::after,
+  h3::after,
+  h4::after,
+  h5::after,
+  h6::after,
+  p::after {
+    content: '\200B';
   }
 }
 
@@ -44,7 +50,6 @@
     }
   }
 }
-
 
 /* Bubble menu styles */
 .bubble-menu {
@@ -98,7 +103,6 @@
     }
   }
 }
-
 
 /* Basic editor styles */
 .tiptap {

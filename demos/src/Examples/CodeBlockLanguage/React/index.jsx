@@ -33,7 +33,10 @@ const MenuBar = ({ editor }) => {
   return (
     <div className="control-group">
       <div className="button-group">
-        <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
+        <button
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={editor.isActive('codeBlock') ? 'is-active' : ''}
+        >
           Toggle code block
         </button>
       </div>
@@ -47,13 +50,11 @@ export default () => {
       Document,
       Paragraph,
       Text,
-      CodeBlockLowlight
-        .extend({
-          addNodeView() {
-            return ReactNodeViewRenderer(CodeBlockComponent)
-          },
-        })
-        .configure({ lowlight }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent)
+        },
+      }).configure({ lowlight }),
     ],
     content: `
         <p>

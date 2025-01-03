@@ -125,11 +125,7 @@ export default {
         {
           icon: 'format-clear',
           title: 'Clear format',
-          action: () => this.editor.chain()
-            .focus()
-            .clearNodes()
-            .unsetAllMarks()
-            .run(),
+          action: () => this.editor.chain().focus().clearNodes().unsetAllMarks().run(),
         },
         {
           type: 'divider',

@@ -15,19 +15,14 @@ export function TextMenu({ editor }: { editor: Editor }) {
     selector: ctx => {
       return {
         isBold: ctx.editor.isActive('bold'),
-        canBold: ctx.editor.can().chain().focus().toggleBold()
-          .run(),
+        canBold: ctx.editor.can().chain().focus().toggleBold().run(),
         isItalic: ctx.editor.isActive('italic'),
-        canItalic: ctx.editor.can().chain().focus().toggleItalic()
-          .run(),
+        canItalic: ctx.editor.can().chain().focus().toggleItalic().run(),
         isStrike: ctx.editor.isActive('strike'),
-        canStrike: ctx.editor.can().chain().focus().toggleStrike()
-          .run(),
+        canStrike: ctx.editor.can().chain().focus().toggleStrike().run(),
         isCode: ctx.editor.isActive('code'),
-        canCode: ctx.editor.can().chain().focus().toggleCode()
-          .run(),
-        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks()
-          .run(),
+        canCode: ctx.editor.can().chain().focus().toggleCode().run(),
+        canClearMarks: ctx.editor.can().chain().focus().unsetAllMarks().run(),
       }
     },
   })

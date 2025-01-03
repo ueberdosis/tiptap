@@ -23,10 +23,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        DraggableItem,
-      ],
+      extensions: [StarterKit, DraggableItem],
       content: `
         <p>This is a boring paragraph.</p>
         <div data-type="draggable-item">

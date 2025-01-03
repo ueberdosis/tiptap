@@ -7,8 +7,8 @@ export type ColorOptions = {
    * The types where the color can be applied
    * @default ['textStyle']
    * @example ['heading', 'paragraph']
-  */
-  types: string[],
+   */
+  types: string[]
 }
 
 declare module '@tiptap/core' {
@@ -19,13 +19,13 @@ declare module '@tiptap/core' {
        * @param color The color to set
        * @example editor.commands.setColor('red')
        */
-      setColor: (color: string) => ReturnType,
+      setColor: (color: string) => ReturnType
 
       /**
        * Unset the text color
        * @example editor.commands.unsetColor()
        */
-      unsetColor: () => ReturnType,
+      unsetColor: () => ReturnType
     }
   }
 }
@@ -68,17 +68,16 @@ export const Color = Extension.create<ColorOptions>({
 
   addCommands() {
     return {
-      setColor: color => ({ chain }) => {
-        return chain()
-          .setMark('textStyle', { color })
-          .run()
-      },
-      unsetColor: () => ({ chain }) => {
-        return chain()
-          .setMark('textStyle', { color: null })
-          .removeEmptyTextStyle()
-          .run()
-      },
+      setColor:
+        color =>
+        ({ chain }) => {
+          return chain().setMark('textStyle', { color }).run()
+        },
+      unsetColor:
+        () =>
+        ({ chain }) => {
+          return chain().setMark('textStyle', { color: null }).removeEmptyTextStyle().run()
+        },
     }
   },
 })

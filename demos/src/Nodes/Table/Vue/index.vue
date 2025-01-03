@@ -5,57 +5,23 @@
         <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
           Insert table
         </button>
-        <button @click="editor.chain().focus().addColumnBefore().run()">
-          Add column before
-        </button>
-        <button @click="editor.chain().focus().addColumnAfter().run()">
-          Add column after
-        </button>
-        <button @click="editor.chain().focus().deleteColumn().run()">
-          Delete column
-        </button>
-        <button @click="editor.chain().focus().addRowBefore().run()">
-          Add row before
-        </button>
-        <button @click="editor.chain().focus().addRowAfter().run()">
-          Add row after
-        </button>
-        <button @click="editor.chain().focus().deleteRow().run()">
-          Delete row
-        </button>
-        <button @click="editor.chain().focus().deleteTable().run()">
-          Delete table
-        </button>
-        <button @click="editor.chain().focus().mergeCells().run()">
-          Merge cells
-        </button>
-        <button @click="editor.chain().focus().splitCell().run()">
-          Split cell
-        </button>
-        <button @click="editor.chain().focus().toggleHeaderColumn().run()">
-          Toggle header column
-        </button>
-        <button @click="editor.chain().focus().toggleHeaderRow().run()">
-          Toggle header row
-        </button>
-        <button @click="editor.chain().focus().toggleHeaderCell().run()">
-          Toggle header cell
-        </button>
-        <button @click="editor.chain().focus().mergeOrSplit().run()">
-          Merge or split
-        </button>
-        <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">
-          Set cell attribute
-        </button>
-        <button @click="editor.chain().focus().fixTables().run()">
-          Fix tables
-        </button>
-        <button @click="editor.chain().focus().goToNextCell().run()">
-          Go to next cell
-        </button>
-        <button @click="editor.chain().focus().goToPreviousCell().run()">
-          Go to previous cell
-        </button>
+        <button @click="editor.chain().focus().addColumnBefore().run()">Add column before</button>
+        <button @click="editor.chain().focus().addColumnAfter().run()">Add column after</button>
+        <button @click="editor.chain().focus().deleteColumn().run()">Delete column</button>
+        <button @click="editor.chain().focus().addRowBefore().run()">Add row before</button>
+        <button @click="editor.chain().focus().addRowAfter().run()">Add row after</button>
+        <button @click="editor.chain().focus().deleteRow().run()">Delete row</button>
+        <button @click="editor.chain().focus().deleteTable().run()">Delete table</button>
+        <button @click="editor.chain().focus().mergeCells().run()">Merge cells</button>
+        <button @click="editor.chain().focus().splitCell().run()">Split cell</button>
+        <button @click="editor.chain().focus().toggleHeaderColumn().run()">Toggle header column</button>
+        <button @click="editor.chain().focus().toggleHeaderRow().run()">Toggle header row</button>
+        <button @click="editor.chain().focus().toggleHeaderCell().run()">Toggle header cell</button>
+        <button @click="editor.chain().focus().mergeOrSplit().run()">Merge or split</button>
+        <button @click="editor.chain().focus().setCellAttribute('colspan', 2).run()">Set cell attribute</button>
+        <button @click="editor.chain().focus().fixTables().run()">Fix tables</button>
+        <button @click="editor.chain().focus().goToNextCell().run()">Go to next cell</button>
+        <button @click="editor.chain().focus().goToPreviousCell().run()">Go to previous cell</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -160,8 +126,11 @@ export default {
 
     .selectedCell:after {
       background: var(--gray-2);
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       pointer-events: none;
       position: absolute;
       z-index: 2;

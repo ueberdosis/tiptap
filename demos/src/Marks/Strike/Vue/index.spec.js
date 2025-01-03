@@ -39,27 +39,19 @@ context('/src/Marks/Strike/Vue/', () => {
   })
 
   it('the button should strike the selected text', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('s')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('s').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text striked', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('s')
-      .should('not.exist')
+    cy.get('.tiptap').find('s').should('not.exist')
   })
 
   it('should strike the selected text when the keyboard shortcut is pressed', () => {
@@ -78,9 +70,6 @@ context('/src/Marks/Strike/Vue/', () => {
   })
 
   it('should make a striked text from the markdown shortcut', () => {
-    cy.get('.tiptap')
-      .type('~~Strike~~')
-      .find('s')
-      .should('contain', 'Strike')
+    cy.get('.tiptap').type('~~Strike~~').find('s').should('contain', 'Strike')
   })
 })

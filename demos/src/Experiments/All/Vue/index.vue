@@ -5,66 +5,93 @@
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
         </button>
-        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        <button
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
           Italic
         </button>
-        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        <button
+          @click="editor.chain().focus().toggleStrike().run()"
+          :class="{ 'is-active': editor.isActive('strike') }"
+        >
           Strike
         </button>
         <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
           Code
         </button>
-        <button @click="editor.chain().focus().unsetAllMarks().run()">
-          Clear marks
-        </button>
-        <button @click="editor.chain().focus().clearNodes().run()">
-          Clear nodes
-        </button>
-        <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+        <button @click="editor.chain().focus().unsetAllMarks().run()">Clear marks</button>
+        <button @click="editor.chain().focus().clearNodes().run()">Clear nodes</button>
+        <button
+          @click="editor.chain().focus().setParagraph().run()"
+          :class="{ 'is-active': editor.isActive('paragraph') }"
+        >
           Paragraph
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        >
           H1
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
           H2
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+        >
           H3
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+        >
           H4
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+        >
           H5
         </button>
-        <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
+        >
           h6
         </button>
-        <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
+        <button
+          @click="editor.chain().focus().toggleBulletList().run()"
+          :class="{ 'is-active': editor.isActive('bulletList') }"
+        >
           Bullet list
         </button>
-        <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+        <button
+          @click="editor.chain().focus().toggleOrderedList().run()"
+          :class="{ 'is-active': editor.isActive('orderedList') }"
+        >
           Ordered list
         </button>
-        <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
+        <button
+          @click="editor.chain().focus().toggleCodeBlock().run()"
+          :class="{ 'is-active': editor.isActive('codeBlock') }"
+        >
           Code block
         </button>
-        <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
+        <button
+          @click="editor.chain().focus().toggleBlockquote().run()"
+          :class="{ 'is-active': editor.isActive('blockquote') }"
+        >
           Blockquote
         </button>
-        <button @click="editor.chain().focus().setHorizontalRule().run()">
-          Horizontal rule
-        </button>
-        <button @click="editor.chain().focus().setHardBreak().run()">
-          Hard break
-        </button>
-        <button @click="editor.chain().focus().undo().run()">
-          Undo
-        </button>
-        <button @click="editor.chain().focus().redo().run()">
-          Redo
-        </button>
+        <button @click="editor.chain().focus().setHorizontalRule().run()">Horizontal rule</button>
+        <button @click="editor.chain().focus().setHardBreak().run()">Hard break</button>
+        <button @click="editor.chain().focus().undo().run()">Undo</button>
+        <button @click="editor.chain().focus().redo().run()">Redo</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -304,7 +331,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -324,11 +351,11 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
       margin: 0;
     }
   }
@@ -465,7 +492,7 @@ export default {
   }
 
   mark {
-    background-color: #FAF594;
+    background-color: #faf594;
     border-radius: 0.4rem;
     box-decoration-break: clone;
     padding: 0.1rem 0.3rem;
@@ -511,7 +538,7 @@ export default {
       background-color: var(--color);
       border: 1px solid rgba(128, 128, 128, 0.3);
       border-radius: 2px;
-      content: " ";
+      content: ' ';
       display: inline-block;
       height: 1em;
       margin-bottom: 0.15em;
@@ -551,8 +578,11 @@ export default {
 
     .selectedCell:after {
       background: var(--gray-2);
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       pointer-events: none;
       position: absolute;
       z-index: 2;

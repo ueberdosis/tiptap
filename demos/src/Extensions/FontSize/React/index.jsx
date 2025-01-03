@@ -20,32 +20,31 @@ export default () => {
     return null
   }
 
-  return <>
-    <div className="control-group">
-      <div className="button-group">
-        <button
-          onClick={() => editor.chain().focus().setFontSize('28px').run()}
-          className={editor.isActive('textStyle', { fontSize: '28px' }) ? 'is-active' : ''}
-          data-test-id="28px"
-        >
-          Font size 28px
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setFontSize('32px').run()}
-          className={editor.isActive('textStyle', { fontSize: '32px' }) ? 'is-active' : ''}
-          data-test-id="32px"
-        >
-          Font size 32px
-        </button>
-        <button
-          onClick={() => editor.chain().focus().unsetFontSize().run()}
-          data-test-id="unsetFontSize"
-        >
-          Unset font size
-        </button>
+  return (
+    <>
+      <div className="control-group">
+        <div className="button-group">
+          <button
+            onClick={() => editor.chain().focus().setFontSize('28px').run()}
+            className={editor.isActive('textStyle', { fontSize: '28px' }) ? 'is-active' : ''}
+            data-test-id="28px"
+          >
+            Font size 28px
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setFontSize('32px').run()}
+            className={editor.isActive('textStyle', { fontSize: '32px' }) ? 'is-active' : ''}
+            data-test-id="32px"
+          >
+            Font size 32px
+          </button>
+          <button onClick={() => editor.chain().focus().unsetFontSize().run()} data-test-id="unsetFontSize">
+            Unset font size
+          </button>
+        </div>
       </div>
-    </div>
 
-    <EditorContent editor={editor} />
-  </>
+      <EditorContent editor={editor} />
+    </>
+  )
 }

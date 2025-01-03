@@ -36,14 +36,16 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleMark: RawCommands['toggleMark'] = (typeOrName, attributes = {}, options = {}) => ({ state, commands }) => {
-  const { extendEmptyMarkRange = false } = options
-  const type = getMarkType(typeOrName, state.schema)
-  const isActive = isMarkActive(state, type, attributes)
+export const toggleMark: RawCommands['toggleMark'] =
+  (typeOrName, attributes = {}, options = {}) =>
+  ({ state, commands }) => {
+    const { extendEmptyMarkRange = false } = options
+    const type = getMarkType(typeOrName, state.schema)
+    const isActive = isMarkActive(state, type, attributes)
 
-  if (isActive) {
-    return commands.unsetMark(type, { extendEmptyMarkRange })
+    if (isActive) {
+      return commands.unsetMark(type, { extendEmptyMarkRange })
+    }
+
+    return commands.setMark(type, attributes)
   }
-
-  return commands.setMark(type, attributes)
-}

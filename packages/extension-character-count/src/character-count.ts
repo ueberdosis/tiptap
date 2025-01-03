@@ -17,10 +17,10 @@ export interface CharacterCountOptions {
    */
   mode: 'textSize' | 'nodeSize'
   /**
- * The text counter function to use. Defaults to a simple character count.
- * @default (text) => text.length
- * @example (text) => [...new Intl.Segmenter().segment(text)].length
- */
+   * The text counter function to use. Defaults to a simple character count.
+   * @default (text) => text.length
+   * @example (text) => [...new Intl.Segmenter().segment(text)].length
+   */
   textCounter: (text: string) => number
   /**
    * The word counter function to use. Defaults to a simple word count.
@@ -117,7 +117,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
             const from = 0
             const to = over
 
-            console.warn(`[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`)
+            console.warn(
+              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
+            )
             const tr = newState.tr.deleteRange(from, to)
 
             initialEvaluationDone = true

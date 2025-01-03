@@ -1,13 +1,5 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import {
-  defineComponent,
-  h,
-  onBeforeUnmount,
-  onMounted,
-  PropType,
-  ref,
-  Teleport,
-} from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, PropType, ref, Teleport } from 'vue'
 
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
@@ -40,12 +32,7 @@ export const FloatingMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const {
-        pluginKey,
-        editor,
-        options,
-        shouldShow,
-      } = props
+      const { pluginKey, editor, options, shouldShow } = props
 
       if (!root.value) {
         return
@@ -57,13 +44,15 @@ export const FloatingMenu = defineComponent({
       // remove the element from the DOM
       root.value.remove()
 
-      editor.registerPlugin(FloatingMenuPlugin({
-        pluginKey,
-        editor,
-        element: root.value as HTMLElement,
-        options,
-        shouldShow,
-      }))
+      editor.registerPlugin(
+        FloatingMenuPlugin({
+          pluginKey,
+          editor,
+          element: root.value as HTMLElement,
+          options,
+          shouldShow,
+        }),
+      )
     })
 
     onBeforeUnmount(() => {

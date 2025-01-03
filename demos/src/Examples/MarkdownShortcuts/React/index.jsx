@@ -8,11 +8,7 @@ import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Highlight,
-      Typography,
-    ],
+    extensions: [StarterKit, Highlight, Typography],
     content: `
     <p>
       Markdown shortcuts make it easy to format the text while typing.
@@ -32,7 +28,5 @@ export default () => {
     `,
   })
 
-  return (
-    <EditorContent editor={editor} />
-  )
+  return <EditorContent editor={editor} />
 }

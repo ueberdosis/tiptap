@@ -8,7 +8,7 @@ export type FontFamilyOptions = {
    * @default ['textStyle']
    * @example ['heading', 'paragraph']
    */
-  types: string[],
+  types: string[]
 }
 
 declare module '@tiptap/core' {
@@ -19,12 +19,12 @@ declare module '@tiptap/core' {
        * @param fontFamily The font family
        * @example editor.commands.setFontFamily('Arial')
        */
-      setFontFamily: (fontFamily: string) => ReturnType,
+      setFontFamily: (fontFamily: string) => ReturnType
       /**
        * Unset the font family
        * @example editor.commands.unsetFontFamily()
        */
-      unsetFontFamily: () => ReturnType,
+      unsetFontFamily: () => ReturnType
     }
   }
 }
@@ -67,17 +67,16 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
 
   addCommands() {
     return {
-      setFontFamily: fontFamily => ({ chain }) => {
-        return chain()
-          .setMark('textStyle', { fontFamily })
-          .run()
-      },
-      unsetFontFamily: () => ({ chain }) => {
-        return chain()
-          .setMark('textStyle', { fontFamily: null })
-          .removeEmptyTextStyle()
-          .run()
-      },
+      setFontFamily:
+        fontFamily =>
+        ({ chain }) => {
+          return chain().setMark('textStyle', { fontFamily }).run()
+        },
+      unsetFontFamily:
+        () =>
+        ({ chain }) => {
+          return chain().setMark('textStyle', { fontFamily: null }).removeEmptyTextStyle().run()
+        },
     }
   },
 })

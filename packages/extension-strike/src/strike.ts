@@ -1,9 +1,4 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface StrikeOptions {
   /**
@@ -11,7 +6,7 @@ export interface StrikeOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -21,17 +16,17 @@ declare module '@tiptap/core' {
        * Set a strike mark
        * @example editor.commands.setStrike()
        */
-      setStrike: () => ReturnType,
+      setStrike: () => ReturnType
       /**
        * Toggle a strike mark
        * @example editor.commands.toggleStrike()
        */
-      toggleStrike: () => ReturnType,
+      toggleStrike: () => ReturnType
       /**
        * Unset a strike mark
        * @example editor.commands.unsetStrike()
        */
-      unsetStrike: () => ReturnType,
+      unsetStrike: () => ReturnType
     }
   }
 }
@@ -84,15 +79,21 @@ export const Strike = Mark.create<StrikeOptions>({
 
   addCommands() {
     return {
-      setStrike: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleStrike: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetStrike: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setStrike:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleStrike:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetStrike:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

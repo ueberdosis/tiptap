@@ -10,10 +10,7 @@ context('/src/Examples/Minimal/Vue/', () => {
   })
 
   it('text should be wrapped in a paragraph by default', () => {
-    cy.get('.tiptap')
-      .type('Example Text')
-      .find('p')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').type('Example Text').find('p').should('contain', 'Example Text')
   })
 
   it('should parse paragraphs correctly', () => {
@@ -27,21 +24,12 @@ context('/src/Examples/Minimal/Vue/', () => {
   })
 
   it('enter should make a new paragraph', () => {
-    cy.get('.tiptap')
-      .type('First Paragraph{enter}Second Paragraph')
-      .find('p')
-      .should('have.length', 2)
+    cy.get('.tiptap').type('First Paragraph{enter}Second Paragraph').find('p').should('have.length', 2)
   })
 
   it('backspace should remove the last paragraph', () => {
-    cy.get('.tiptap')
-      .type('{enter}')
-      .find('p')
-      .should('have.length', 2)
+    cy.get('.tiptap').type('{enter}').find('p').should('have.length', 2)
 
-    cy.get('.tiptap')
-      .type('{backspace}')
-      .find('p')
-      .should('have.length', 1)
+    cy.get('.tiptap').type('{backspace}').find('p').should('have.length', 1)
   })
 })

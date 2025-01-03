@@ -80,7 +80,8 @@
   },
   "lint-staged": {
     "./**/*.{ts,tsx,js,jsx,vue}": [
-      "prettier --write", "eslint --fix --quiet --no-error-on-unmatched-pattern"
+      "prettier --write",
+      "eslint --fix --quiet --no-error-on-unmatched-pattern"
     ]
   }
 }

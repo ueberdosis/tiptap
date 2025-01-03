@@ -3,13 +3,7 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "inputs": [
-        "src/**",
-        "tsup.config.ts",
-        "../../tsconfig.json",
-        "../../tsconfig.build.json",
-        "package.json"
-      ],
+      "inputs": ["src/**", "tsup.config.ts", "../../tsconfig.json", "../../tsconfig.build.json", "package.json"],
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },

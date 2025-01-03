@@ -2,18 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="addCapturedTable">
-          Add table with caption
-        </button>
-        <button @click="addCapturedImage">
-          Add image with caption
-        </button>
-        <button @click="removeCapturedTable">
-          Remove table with caption
-        </button>
-        <button @click="removeCapturedImage">
-          Remove image with caption
-        </button>
+        <button @click="addCapturedTable">Add table with caption</button>
+        <button @click="addCapturedImage">Add image with caption</button>
+        <button @click="removeCapturedTable">Remove table with caption</button>
+        <button @click="removeCapturedImage">Remove image with caption</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -141,35 +133,17 @@ export default {
     },
 
     removeCapturedTable() {
-      this.editor
-        .chain()
-        .focus()
-        .deleteNode('capturedTable')
-        .run()
+      this.editor.chain().focus().deleteNode('capturedTable').run()
     },
 
     removeCapturedImage() {
-      this.editor
-        .chain()
-        .focus()
-        .deleteNode('capturedImage')
-        .run()
+      this.editor.chain().focus().deleteNode('capturedImage').run()
     },
   },
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        Table,
-        TableRow,
-        TableHeader,
-        TableCell,
-        ImageFigure,
-        TableFigure,
-        Figcaption,
-        Image,
-      ],
+      extensions: [StarterKit, Table, TableRow, TableHeader, TableCell, ImageFigure, TableFigure, Figcaption, Image],
       content: `
         <p>Some text</p>
         <figure data-type="capturedImage">
@@ -379,8 +353,11 @@ export default {
 
     .selectedCell:after {
       background: var(--gray-2);
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       pointer-events: none;
       position: absolute;
       z-index: 2;
@@ -430,7 +407,7 @@ export default {
 
     figcaption {
       border-radius: 0.5rem;
-      border: 2px dashed #0D0D0D20;
+      border: 2px dashed #0d0d0d20;
       padding: 0.5rem;
       text-align: center;
       width: 100%;

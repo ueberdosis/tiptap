@@ -1,4 +1,4 @@
-title: "Community Extension: "
+title: 'Community Extension: '
 body:
   - type: markdown
     attributes:
@@ -9,7 +9,7 @@ body:
     attributes:
       label: Description
       description: Please describe what your project is about
-      placeholder: "My project is about …"
+      placeholder: 'My project is about …'
     validations:
       required: true
   - type: input
@@ -17,7 +17,7 @@ body:
     attributes:
       label: URL
       description: If possible share the URL of your project.
-      placeholder: "https://example.com"
+      placeholder: 'https://example.com'
     validations:
       required: false
   - type: textarea
@@ -25,7 +25,7 @@ body:
     attributes:
       label: About
       description: Feel free to talk about how you used Tiptap in your project, what you liked about it, what you didn't like about it, and what you would like to see in the future.
-      placeholder: "If used Tiptap to …"
+      placeholder: 'If used Tiptap to …'
     validations:
       required: true
   - type: dropdown
@@ -34,12 +34,12 @@ body:
       label: Type
       description: Please select the type of your project.
       options:
-        - "Chat Application"
-        - "Commenting Application"
-        - "Content Management System"
-        - "Document Editor"
-        - "Document Editor with Collaboration"
-        - "Other"
+        - 'Chat Application'
+        - 'Commenting Application'
+        - 'Content Management System'
+        - 'Document Editor'
+        - 'Document Editor with Collaboration'
+        - 'Other'
     validations:
       required: true
   - type: textarea
@@ -47,6 +47,6 @@ body:
     attributes:
       label: Other
       description: Feel free to add any other information about your project.
-      placeholder: "I hope you like …"
+      placeholder: 'I hope you like …'
     validations:
       required: false

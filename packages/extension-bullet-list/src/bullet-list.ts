@@ -9,28 +9,28 @@ export interface BulletListOptions {
    * @default 'listItem'
    * @example 'paragraph'
    */
-  itemTypeName: string,
+  itemTypeName: string
 
   /**
    * HTML attributes to add to the bullet list element
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 
   /**
    * Keep the marks when splitting the list
    * @default false
    * @example true
    */
-  keepMarks: boolean,
+  keepMarks: boolean
 
   /**
    * Keep the attributes when splitting the list
    * @default false
    * @example true
    */
-  keepAttributes: boolean,
+  keepAttributes: boolean
 }
 
 declare module '@tiptap/core' {
@@ -39,7 +39,7 @@ declare module '@tiptap/core' {
       /**
        * Toggle a bullet list
        */
-      toggleBulletList: () => ReturnType,
+      toggleBulletList: () => ReturnType
     }
   }
 }
@@ -74,9 +74,7 @@ export const BulletList = Node.create<BulletListOptions>({
   },
 
   parseHTML() {
-    return [
-      { tag: 'ul' },
-    ]
+    return [{ tag: 'ul' }]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -85,12 +83,17 @@ export const BulletList = Node.create<BulletListOptions>({
 
   addCommands() {
     return {
-      toggleBulletList: () => ({ commands, chain }) => {
-        if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName)).run()
-        }
-        return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
-      },
+      toggleBulletList:
+        () =>
+        ({ commands, chain }) => {
+          if (this.options.keepAttributes) {
+            return chain()
+              .toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
+              .updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName))
+              .run()
+          }
+          return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
+        },
     }
   },
 
@@ -112,12 +115,12 @@ export const BulletList = Node.create<BulletListOptions>({
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,
-        getAttributes: () => { return this.editor.getAttributes(TextStyleName) },
+        getAttributes: () => {
+          return this.editor.getAttributes(TextStyleName)
+        },
         editor: this.editor,
       })
     }
-    return [
-      inputRule,
-    ]
+    return [inputRule]
   },
 })

@@ -8,8 +8,8 @@ export type FontSizeOptions = {
    * @default ['textStyle']
    * @example ['heading', 'paragraph']
    */
-  types: string[];
-};
+  types: string[]
+}
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -19,13 +19,13 @@ declare module '@tiptap/core' {
        * @param fontSize The font size
        * @example editor.commands.setFontSize('Arial')
        */
-      setFontSize: (fontSize: string) => ReturnType;
+      setFontSize: (fontSize: string) => ReturnType
       /**
        * Unset the font size
        * @example editor.commands.unsetFontSize()
        */
-      unsetFontSize: () => ReturnType;
-    };
+      unsetFontSize: () => ReturnType
+    }
   }
 }
 
@@ -68,11 +68,13 @@ export const FontSize = Extension.create<FontSizeOptions>({
   addCommands() {
     return {
       setFontSize:
-        fontSize => ({ chain }) => {
+        fontSize =>
+        ({ chain }) => {
           return chain().setMark('textStyle', { fontSize }).run()
         },
       unsetFontSize:
-        () => ({ chain }) => {
+        () =>
+        ({ chain }) => {
           return chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run()
         },
     }

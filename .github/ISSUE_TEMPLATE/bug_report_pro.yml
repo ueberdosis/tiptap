@@ -1,14 +1,14 @@
 name: Bug Report (Tiptap Pro)
-title: "[PRO]: "
+title: '[PRO]: '
 description: If you've encountered a bug with Tiptap Pro features, please report it here.
 labels:
-  - "Type: Bug"
-  - "Category: Pro"
-  - "Status: New"
+  - 'Type: Bug'
+  - 'Category: Pro'
+  - 'Status: New'
 body:
   - type: markdown
     attributes:
-      value: "### Please ensure this issue is for Tiptap Pro features only. Provide as much detail as possible to help us identify the issue quickly."
+      value: '### Please ensure this issue is for Tiptap Pro features only. Provide as much detail as possible to help us identify the issue quickly.'
   - type: input
     id: packages
     attributes:
@@ -30,7 +30,7 @@ body:
     attributes:
       label: Description of the Bug
       description: Provide a clear and concise description of what the bug is.
-      placeholder: "The issue occurs when..."
+      placeholder: 'The issue occurs when...'
     validations:
       required: true
   - type: dropdown
@@ -48,10 +48,10 @@ body:
       required: true
   - type: markdown
     attributes:
-      value: "### Helpful Code Examples"
+      value: '### Helpful Code Examples'
   - type: markdown
     attributes:
-      value: "Providing a CodeSandbox link is crucial for diagnosing issues faster. Below are templates you might use:"
+      value: 'Providing a CodeSandbox link is crucial for diagnosing issues faster. Below are templates you might use:'
   - type: markdown
     attributes:
       value: |
@@ -63,7 +63,7 @@ body:
     id: sandbox
     attributes:
       label: Code Example (Preferred)
-      description: "Provide a link to a CodeSandbox or other code repository to help us reproduce the issue."
+      description: 'Provide a link to a CodeSandbox or other code repository to help us reproduce the issue.'
       placeholder: https://codesandbox.io/s/example
     validations:
       required: false
@@ -78,14 +78,14 @@ body:
     id: context
     attributes:
       label: Additional Context (Optional)
-      description: "Add any other context about the problem here, like screenshots or videos."
+      description: 'Add any other context about the problem here, like screenshots or videos.'
   - type: checkboxes
     attributes:
       label: Dependency Updates
-      description: "Have you updated your dependencies? It can often resolve issues."
+      description: 'Have you updated your dependencies? It can often resolve issues.'
       options:
         - label: Yes, I've updated all my dependencies.
           required: true
   - type: markdown
     attributes:
-      value: "Thank you for contributing to Tiptap Pro by reporting this issue!"
+      value: 'Thank you for contributing to Tiptap Pro by reporting this issue!'

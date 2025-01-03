@@ -106,8 +106,7 @@ export default ({ editor }) => {
     {
       icon: 'format-clear',
       title: 'Clear format',
-      action: () => editor.chain().focus().clearNodes().unsetAllMarks()
-        .run(),
+      action: () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
     },
     {
       type: 'divider',

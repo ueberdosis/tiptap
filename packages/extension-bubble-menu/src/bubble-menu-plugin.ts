@@ -11,9 +11,7 @@ import {
   size,
 } from '@floating-ui/dom'
 import { Editor, isTextSelection, posToDOMRect } from '@tiptap/core'
-import {
-  EditorState, Plugin, PluginKey, PluginView,
-} from '@tiptap/pm/state'
+import { EditorState, Plugin, PluginKey, PluginView } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 export interface BubbleMenuPluginProps {
@@ -22,19 +20,19 @@ export interface BubbleMenuPluginProps {
    * @type {PluginKey | string}
    * @default 'bubbleMenu'
    */
-  pluginKey: PluginKey | string;
+  pluginKey: PluginKey | string
 
   /**
    * The editor instance.
    */
-  editor: Editor;
+  editor: Editor
 
   /**
    * The DOM element that contains your menu.
    * @type {HTMLElement}
    * @default null
    */
-  element: HTMLElement;
+  element: HTMLElement
 
   /**
    * The delay in milliseconds before the menu should be updated.
@@ -42,7 +40,7 @@ export interface BubbleMenuPluginProps {
    * @type {number}
    * @default 250
    */
-  updateDelay?: number;
+  updateDelay?: number
 
   /**
    * The delay in milliseconds before the menu position should be updated on window resize.
@@ -50,7 +48,7 @@ export interface BubbleMenuPluginProps {
    * @type {number}
    * @default 60
    */
-  resizeDelay?: number;
+  resizeDelay?: number
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -58,21 +56,21 @@ export interface BubbleMenuPluginProps {
    */
   shouldShow:
     | ((props: {
-        editor: Editor;
-        element: HTMLElement;
-        view: EditorView;
-        state: EditorState;
-        oldState?: EditorState;
-        from: number;
-        to: number;
+        editor: Editor
+        element: HTMLElement
+        view: EditorView
+        state: EditorState
+        oldState?: EditorState
+        from: number
+        to: number
       }) => boolean)
-    | null;
+    | null
 
   /**
    * FloatingUI options.
    */
   options?: {
-    strategy?: 'absolute' | 'fixed';
+    strategy?: 'absolute' | 'fixed'
     placement?:
       | 'top'
       | 'right'
@@ -85,21 +83,21 @@ export interface BubbleMenuPluginProps {
       | 'bottom-start'
       | 'bottom-end'
       | 'left-start'
-      | 'left-end';
-    offset?: Parameters<typeof offset>[0] | boolean;
-    flip?: Parameters<typeof flip>[0] | boolean;
-    shift?: Parameters<typeof shift>[0] | boolean;
-    arrow?: Parameters<typeof arrow>[0] | false;
-    size?: Parameters<typeof size>[0] | boolean;
-    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean;
-    hide?: Parameters<typeof hide>[0] | boolean;
-    inline?: Parameters<typeof inline>[0] | boolean;
-  };
+      | 'left-end'
+    offset?: Parameters<typeof offset>[0] | boolean
+    flip?: Parameters<typeof flip>[0] | boolean
+    shift?: Parameters<typeof shift>[0] | boolean
+    arrow?: Parameters<typeof arrow>[0] | false
+    size?: Parameters<typeof size>[0] | boolean
+    autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
+    hide?: Parameters<typeof hide>[0] | boolean
+    inline?: Parameters<typeof inline>[0] | boolean
+  }
 }
 
 export type BubbleMenuViewProps = BubbleMenuPluginProps & {
-  view: EditorView;
-};
+  view: EditorView
+}
 
 export class BubbleMenuView implements PluginView {
   public editor: Editor
@@ -131,12 +129,7 @@ export class BubbleMenuView implements PluginView {
     inline: false,
   }
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
-    view,
-    state,
-    from,
-    to,
-  }) => {
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state
     const { empty } = selection
 
@@ -163,30 +156,18 @@ export class BubbleMenuView implements PluginView {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(
-        flip(
-          typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined,
-        ),
-      )
+      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
     }
 
     if (this.floatingUIOptions.shift) {
       middlewares.push(
-        shift(
-          typeof this.floatingUIOptions.shift !== 'boolean'
-            ? this.floatingUIOptions.shift
-            : undefined,
-        ),
+        shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
       )
     }
 
     if (this.floatingUIOptions.offset) {
       middlewares.push(
-        offset(
-          typeof this.floatingUIOptions.offset !== 'boolean'
-            ? this.floatingUIOptions.offset
-            : undefined,
-        ),
+        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
       )
     }
 
@@ -195,38 +176,24 @@ export class BubbleMenuView implements PluginView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(
-        size(
-          typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined,
-        ),
-      )
+      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
     }
 
     if (this.floatingUIOptions.autoPlacement) {
       middlewares.push(
         autoPlacement(
-          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
-            ? this.floatingUIOptions.autoPlacement
-            : undefined,
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined,
         ),
       )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(
-        hide(
-          typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined,
-        ),
-      )
+      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
     }
 
     if (this.floatingUIOptions.inline) {
       middlewares.push(
-        inline(
-          typeof this.floatingUIOptions.inline !== 'boolean'
-            ? this.floatingUIOptions.inline
-            : undefined,
-        ),
+        inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
       )
     }
 
@@ -382,12 +349,7 @@ export class BubbleMenuView implements PluginView {
     return shouldShow
   }
 
-  updateHandler = (
-    view: EditorView,
-    selectionChanged: boolean,
-    docChanged: boolean,
-    oldState?: EditorState,
-  ) => {
+  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
@@ -433,8 +395,7 @@ export class BubbleMenuView implements PluginView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key:
-      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }

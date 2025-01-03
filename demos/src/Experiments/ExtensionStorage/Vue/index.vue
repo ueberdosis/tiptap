@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <editor-content :editor="editor" />
-    <div class="output-group">
-      Reactive storage: {{ editor?.storage.custom.foo }}
-    </div>
+    <div class="output-group">Reactive storage: {{ editor?.storage.custom.foo }}</div>
   </div>
 </template>
 
@@ -28,12 +26,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CustomExtension,
-      ],
+      extensions: [Document, Paragraph, Text, CustomExtension],
       content: `
         <p>
           This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.

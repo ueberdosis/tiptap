@@ -40,13 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Image,
-        Dropcursor,
-      ],
+      extensions: [Document, Paragraph, Text, Image, Dropcursor],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
         <img src="https://placehold.co/600x400" />

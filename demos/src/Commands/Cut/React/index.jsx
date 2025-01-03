@@ -13,7 +13,13 @@ const MenuBar = ({ editor }) => {
   }, [editor])
 
   const onCutToEnd = useCallback(() => {
-    editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, editor.state.doc.nodeSize - 2).run()
+    editor
+      .chain()
+      .cut(
+        { from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos },
+        editor.state.doc.nodeSize - 2,
+      )
+      .run()
   }, [editor])
 
   if (!editor) {

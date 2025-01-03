@@ -1,5 +1,5 @@
 ---
-"@tiptap/core": major
+'@tiptap/core': major
 ---
 
 Fix `getPos` type in `NodeViewRendererProps` to potentially be `undefined`

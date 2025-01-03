@@ -1,10 +1,5 @@
 <template>
-  <button
-    class="menu-item"
-    :class="{ 'is-active': isActive ? isActive(): null }"
-    @click="action"
-    :title="title"
-  >
+  <button class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
     <svg class="remix">
       <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
     </svg>

@@ -8,8 +8,6 @@ export function removeDuplicates<T>(array: T[], by = JSON.stringify): T[] {
   return array.filter(item => {
     const key = by(item)
 
-    return Object.prototype.hasOwnProperty.call(seen, key)
-      ? false
-      : (seen[key] = true)
+    return Object.prototype.hasOwnProperty.call(seen, key) ? false : (seen[key] = true)
   })
 }

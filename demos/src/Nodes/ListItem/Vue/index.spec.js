@@ -10,28 +10,19 @@ context('/src/Nodes/ListItem/Vue/', () => {
   })
 
   it('should add a new list item on Enter', () => {
-    cy.get('.tiptap')
-      .type('{enter}2nd Item')
+    cy.get('.tiptap').type('{enter}2nd Item')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(1)')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(2)')
-      .should('contain', '2nd Item')
+    cy.get('.tiptap').find('li:nth-child(2)').should('contain', '2nd Item')
   })
 
   it('should sink the list item on Tab', () => {
-    cy.get('.tiptap')
-      .type('{enter}')
-      .trigger('keydown', { key: 'Tab' })
+    cy.get('.tiptap').type('{enter}').trigger('keydown', { key: 'Tab' })
 
     cy.get('.tiptap').type('2nd Level')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(1) li')
-      .should('contain', '2nd Level')
+    cy.get('.tiptap').find('li:nth-child(1) li').should('contain', '2nd Level')
   })
 
   it('should lift the list item on Shift+Tab', () => {
@@ -42,8 +33,6 @@ context('/src/Nodes/ListItem/Vue/', () => {
 
     cy.get('.tiptap').type('1st Level')
 
-    cy.get('.tiptap')
-      .find('li:nth-child(2)')
-      .should('contain', '1st Level')
+    cy.get('.tiptap').find('li:nth-child(2)').should('contain', '1st Level')
   })
 })

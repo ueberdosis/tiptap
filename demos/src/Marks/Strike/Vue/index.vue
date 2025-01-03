@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        <button
+          @click="editor.chain().focus().toggleStrike().run()"
+          :class="{ 'is-active': editor.isActive('strike') }"
+        >
           Toggle strike
         </button>
         <button @click="editor.chain().focus().setStrike().run()" :disabled="editor.isActive('strike')">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Strike,
-      ],
+      extensions: [Document, Paragraph, Text, Strike],
       content: `
           <p>This isn’t striked through.</s></p>
           <p><s>But that’s striked through.</s></p>

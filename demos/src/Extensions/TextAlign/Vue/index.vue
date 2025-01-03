@@ -2,21 +2,31 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
+        <button
+          @click="editor.chain().focus().setTextAlign('left').run()"
+          :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
+        >
           Left
         </button>
-        <button @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
+        <button
+          @click="editor.chain().focus().setTextAlign('center').run()"
+          :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
+        >
           Center
         </button>
-        <button @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
+        <button
+          @click="editor.chain().focus().setTextAlign('right').run()"
+          :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+        >
           Right
         </button>
-        <button @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }">
+        <button
+          @click="editor.chain().focus().setTextAlign('justify').run()"
+          :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
+        >
           Justify
         </button>
-        <button @click="editor.chain().focus().unsetTextAlign().run()">
-          Unset text align
-        </button>
+        <button @click="editor.chain().focus().unsetTextAlign().run()">Unset text align</button>
       </div>
     </div>
     <editor-content :editor="editor" />

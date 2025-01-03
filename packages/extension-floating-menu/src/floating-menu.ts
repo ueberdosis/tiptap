@@ -8,7 +8,7 @@ export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'elem
    * @type {HTMLElement}
    * @default null
    */
-  element: HTMLElement | null,
+  element: HTMLElement | null
 }
 
 /**

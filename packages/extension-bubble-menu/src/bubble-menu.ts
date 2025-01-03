@@ -8,7 +8,7 @@ export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'
    * @type {HTMLElement}
    * @default null
    */
-  element: HTMLElement | null,
+  element: HTMLElement | null
 }
 
 /**

@@ -7,19 +7,19 @@ type RewriteUnknownContentOptions = {
    * If true, unknown nodes will be treated as paragraphs
    * @default true
    */
-  fallbackToParagraph?: boolean;
-};
+  fallbackToParagraph?: boolean
+}
 
 type RewrittenContent = {
   /**
    * The original JSON content that was rewritten
    */
-  original: JSONContent;
+  original: JSONContent
   /**
    * The name of the node or mark that was unsupported
    */
-  unsupported: string;
-}[];
+  unsupported: string
+}[]
 
 /**
  * The actual implementation of the rewriteUnknownContent function
@@ -31,20 +31,20 @@ function rewriteUnknownContentInner({
   options,
   rewrittenContent = [],
 }: {
-  json: JSONContent;
-  validMarks: Set<string>;
-  validNodes: Set<string>;
-  options?: RewriteUnknownContentOptions;
-  rewrittenContent?: RewrittenContent;
+  json: JSONContent
+  validMarks: Set<string>
+  validNodes: Set<string>
+  options?: RewriteUnknownContentOptions
+  rewrittenContent?: RewrittenContent
 }): {
   /**
    * The cleaned JSON content
    */
-  json: JSONContent | null;
+  json: JSONContent | null
   /**
    * The array of nodes and marks that were rewritten
    */
-  rewrittenContent: RewrittenContent;
+  rewrittenContent: RewrittenContent
 } {
   if (json.marks && Array.isArray(json.marks)) {
     json.marks = json.marks.filter(mark => {
@@ -66,13 +66,14 @@ function rewriteUnknownContentInner({
   if (json.content && Array.isArray(json.content)) {
     json.content = json.content
       .map(
-        value => rewriteUnknownContentInner({
-          json: value,
-          validMarks,
-          validNodes,
-          options,
-          rewrittenContent,
-        }).json,
+        value =>
+          rewriteUnknownContentInner({
+            json: value,
+            validMarks,
+            validNodes,
+            options,
+            rewrittenContent,
+          }).json,
       )
       .filter(a => a !== null && a !== undefined)
   }
@@ -83,7 +84,7 @@ function rewriteUnknownContentInner({
       unsupported: json.type,
     })
 
-    if (json.content && Array.isArray(json.content) && (options?.fallbackToParagraph !== false)) {
+    if (json.content && Array.isArray(json.content) && options?.fallbackToParagraph !== false) {
       // Just treat it like a paragraph and hope for the best
       json.type = 'paragraph'
 
@@ -124,7 +125,7 @@ export function rewriteUnknownContent(
   /**
    * The cleaned JSON content
    */
-  json: JSONContent | null;
+  json: JSONContent | null
   /**
    * The array of nodes and marks that were rewritten
    */
@@ -132,12 +133,12 @@ export function rewriteUnknownContent(
     /**
      * The original JSON content that was rewritten
      */
-    original: JSONContent;
+    original: JSONContent
     /**
      * The name of the node or mark that was unsupported
      */
-    unsupported: string;
-  }[];
+    unsupported: string
+  }[]
 } {
   return rewriteUnknownContentInner({
     json,

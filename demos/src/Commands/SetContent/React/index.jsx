@@ -25,7 +25,5 @@ const extensions = [
 const content = ''
 
 export default () => {
-  return (
-    <EditorProvider extensions={extensions} content={content}></EditorProvider>
-  )
+  return <EditorProvider extensions={extensions} content={content}></EditorProvider>
 }

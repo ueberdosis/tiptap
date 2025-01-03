@@ -2,16 +2,15 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button class="button" @click="setContent">
-          Set content
-        </button>
-        <button class="button" @click="clearContent">
-          Clear content
-        </button>
+        <button class="button" @click="setContent">Set content</button>
+        <button class="button" @click="clearContent">Clear content</button>
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
         </button>
-        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        <button
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
           Italic
         </button>
       </div>
@@ -49,9 +48,7 @@ export default {
           Wow, this editor instance exports its content as JSON.
         </p>
       `,
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
     })
 
     // Get the initial content …
@@ -66,29 +63,30 @@ export default {
   methods: {
     setContent() {
       // You can pass a JSON document to the editor.
-      this.editor.commands.setContent({
-        type: 'doc',
-        content: [{
-          type: 'paragraph',
+      this.editor.commands.setContent(
+        {
+          type: 'doc',
           content: [
             {
-              type: 'text',
-              text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
+                },
+              ],
             },
           ],
-        }],
-      }, true)
+        },
+        true,
+      )
 
       // It’s likely that you’d like to focus the Editor after most commands.
       this.editor.commands.focus()
     },
 
     clearContent() {
-      this.editor
-        .chain()
-        .clearContent(true)
-        .focus()
-        .run()
+      this.editor.chain().clearContent(true).focus().run()
     },
   },
 

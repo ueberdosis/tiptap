@@ -27,10 +27,6 @@ const editor = useEditor({
       class: 'textarea',
     },
   },
-  extensions: [
-    StarterKit,
-    VueComponent,
-  ],
+  extensions: [StarterKit, VueComponent],
 })
-
 </script>

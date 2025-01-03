@@ -5,11 +5,11 @@
   }
 
   /* List styles */
-  ul, 
+  ul,
   ol {
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
-    
+
     li p {
       margin-top: 0.25em;
       margin-bottom: 0.25em;
@@ -17,39 +17,39 @@
   }
 
   /* Heading styles */
-  h1, 
-  h2, 
-  h3, 
-  h4, 
-  h5, 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
   h6 {
     line-height: 1.1;
     margin-top: 2.5rem;
     text-wrap: pretty;
   }
 
-  h1, 
+  h1,
   h2 {
     margin-top: 3.5rem;
     margin-bottom: 1.5rem;
   }
 
-  h1 { 
-    font-size: 1.4rem; 
+  h1 {
+    font-size: 1.4rem;
   }
 
-  h2 { 
-    font-size: 1.2rem; 
+  h2 {
+    font-size: 1.2rem;
   }
 
-  h3 { 
-    font-size: 1.1rem; 
+  h3 {
+    font-size: 1.1rem;
   }
 
-  h4, 
-  h5, 
-  h6 { 
-    font-size: 1rem; 
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
   }
 
   /* Code and preformatted text styles */
@@ -91,14 +91,14 @@
 
   /* Highlight specific styles */
   mark {
-    background-color: #FAF594;
+    background-color: #faf594;
     border-radius: 0.4rem;
     box-decoration-break: clone;
     padding: 0.1rem 0.3rem;
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -118,11 +118,11 @@
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
       margin: 0;
     }
   }
@@ -170,7 +170,7 @@
 }
 
 /* Column-half */
-body { 
+body {
   overflow: hidden;
 }
 
@@ -205,11 +205,11 @@ body {
   flex-direction: row;
   font-size: 0.75rem;
   font-weight: 400;
-	gap: 1rem;
-	justify-content: space-between;
+  gap: 1rem;
+  justify-content: space-between;
   padding: 0.375rem 0.5rem 0.375rem 1rem;
   position: sticky;
-	width: 100%;
+  width: 100%;
   z-index: 100;
 
   button {
@@ -230,13 +230,13 @@ body {
     &::before {
       background-color: var(--color);
       border-radius: 0.375rem;
-      content: "";
+      content: '';
       height: 100%;
       left: 0;
       opacity: 0.5;
       position: absolute;
       top: 0;
-      transition: all 0.2s cubic-bezier(0.65,0.05,0.36,1);
+      transition: all 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
       width: 100%;
       z-index: -1;
     }
@@ -256,13 +256,13 @@ body {
 
     &::before {
       border-radius: 50%;
-      content: " ";
+      content: ' ';
       height: 0.35rem;
       width: 0.35rem;
     }
   }
 
-  &[data-state="online"] {
+  &[data-state='online'] {
     label {
       &::before {
         background-color: var(--green);
@@ -270,7 +270,7 @@ body {
     }
   }
 
-  &[data-state="offline"] {
+  &[data-state='offline'] {
     label {
       &::before {
         background-color: var(--red);
