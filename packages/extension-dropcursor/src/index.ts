@@ -1,5 +1,5 @@
-import { Dropcursor } from './dropcursor.js'
+import { Dropcursor } from '@tiptap/extension-utils'
 
-export * from './dropcursor.js'
+export { Dropcursor, DropcursorOptions } from '@tiptap/extension-utils'
 
 export default Dropcursor

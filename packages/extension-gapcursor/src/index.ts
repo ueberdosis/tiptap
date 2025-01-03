@@ -1,5 +1,5 @@
-import { Gapcursor } from './gapcursor.js'
+import { Gapcursor } from '@tiptap/extension-utils'
 
-export * from './gapcursor.js'
+export { Gapcursor } from '@tiptap/extension-utils'
 
 export default Gapcursor
