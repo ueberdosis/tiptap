@@ -68,13 +68,17 @@ export const TextStyle = Mark.create<TextStyleOptions>({
     return [
       {
         tag: 'span',
+        consuming: false,
         getAttrs: element => {
           const hasStyles = (element as HTMLElement).hasAttribute('style')
 
           if (!hasStyles) {
             return false
           }
-          if (this.options.mergeNestedSpanStyles) { mergeNestedSpanStyles(element) }
+
+          if (this.options.mergeNestedSpanStyles) {
+            mergeNestedSpanStyles(element)
+          }
 
           return {}
         },
