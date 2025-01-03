@@ -139,6 +139,49 @@ export const Highlight = Mark.create<HighlightOptions>({
         find: pasteRegex,
         type: this.type,
       }),
+      markPasteRule({
+        find: (_, event) => {
+          const htmlStr = event?.clipboardData?.getData('text/html')
+
+          if (!htmlStr) {
+            return
+          }
+
+          const doc = new DOMParser().parseFromString(htmlStr, 'text/html')
+
+          let indexAcc = 0
+
+          // skip if there are any paragraphs as it will make the character counting a lot harder
+          if (doc.querySelectorAll('p').length > 0) {
+            return
+          }
+
+          return [...doc.querySelectorAll('span')].map(el => {
+            const color = el.style.backgroundColor
+            const text = el.textContent
+            const index = indexAcc
+
+            if (!text) {
+              return
+            }
+
+            // we only want to count text for elements which have the text node as a direct child
+            if (el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+              indexAcc += text.length
+            }
+            if (!color || color === 'rgb(255, 255, 255)' || color === 'transparent') {
+              return
+            }
+
+            return { text, data: { color }, index }
+          }).filter(m => !!m)
+        },
+        type: this.type,
+        getAttributes: match => ({
+          'data-color': match.data?.color,
+          style: `background-color: ${match.data?.color}; color: inherit`,
+        }),
+      }),
     ]
   },
 })
