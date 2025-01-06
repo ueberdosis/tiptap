@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/core'
 import React, { createContext, HTMLAttributes, ReactNode, useContext, useMemo } from 'react'
 
-import { EditorContent } from './EditorContent.js'
-import { useEditor, UseEditorOptions } from './useEditor.js'
+import { EditorContent } from '../EditorContent.js'
+import { useEditor, UseEditorOptions } from '../useEditor.js'
 
 export type EditorContextValue = {
   editor: Editor | null
