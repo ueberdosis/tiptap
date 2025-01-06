@@ -10,7 +10,9 @@ const mapNodePosToString = nodePos => `[${nodePos.node.type.name} ${nodePos.rang
 export default () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        trailingNode: false,
+      }),
       Image,
     ],
     content: `
