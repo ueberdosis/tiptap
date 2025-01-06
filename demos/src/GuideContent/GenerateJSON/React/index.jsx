@@ -19,7 +19,7 @@ export default () => {
       Bold,
       // other extensions …
     ])
-  }, [html])
+  }, [])
 
   return (
     <pre>
