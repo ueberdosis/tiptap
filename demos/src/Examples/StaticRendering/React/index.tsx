@@ -41,6 +41,13 @@ const content = `
 </blockquote>
 `
 
+/**
+ * This example demonstrates how to render a Prosemirror Node (or JSON Content) to a React Element.
+ * It will use your extensions to render the content based on each Node's/Mark's `renderHTML` method.
+ * This can be useful if you want to render content to React without having an actual editor instance.
+ *
+ * You have complete control over the rendering process. And can replace how each Node/Mark is rendered.
+ */
 export default () => {
   const [tab, setTab] = useState<'react' | 'html' | 'html-element' | 'markdown'>('react')
   const [currentJSON, setJSON] = useState<JSONContent | null>(null)
