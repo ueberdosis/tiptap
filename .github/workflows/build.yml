@@ -129,7 +129,7 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: pnpm install
+        run: pnpm install && pnpm exec cypress install
 
       - name: Try to build the packages
         id: build-packages
