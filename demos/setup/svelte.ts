@@ -10,12 +10,11 @@ export default function init(name: string, source: any) {
 
   const [demoCategory, demoName, frameworkName] = splitName(name)
 
-  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`)
-    .then(Module => {
-      const Component = Module.default
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`).then(Module => {
+    const Component = Module.default
 
-      new Component({ target: document.querySelector('#app') }) // eslint-disable-line
+    new Component({ target: document.querySelector('#app') }) // eslint-disable-line
 
-      debug()
-    })
+    debug()
+  })
 }

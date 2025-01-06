@@ -75,11 +75,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       >
         Horizontal rule
       </button>
-      <button
-        onClick={() => editor.chain().focus().setHardBreak().run()}
-        aria-label="Hard break"
-        tabIndex={-1}
-      >
+      <button onClick={() => editor.chain().focus().setHardBreak().run()} aria-label="Hard break" tabIndex={-1}>
         Hard break
       </button>
     </FloatingMenu>

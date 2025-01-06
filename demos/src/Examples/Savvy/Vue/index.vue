@@ -26,15 +26,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Code,
-        Typography,
-        ColorHighlighter,
-        SmilieReplacer,
-      ],
+      extensions: [Document, Paragraph, Text, Code, Typography, ColorHighlighter, SmilieReplacer],
       content: `
         <p>
           → With the Typography extension, Tiptap understands »what you mean« and adds correct characters to your text — it’s like a “typography nerd” on your side.
@@ -85,7 +77,7 @@ export default {
       background-color: var(--color);
       border: 1px solid rgba(128, 128, 128, 0.3);
       border-radius: 2px;
-      content: " ";
+      content: ' ';
       display: inline-block;
       height: 1em;
       margin-bottom: 0.15em;

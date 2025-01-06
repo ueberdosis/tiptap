@@ -2,7 +2,7 @@
   <div class="container">
     <div class="control-group">
       <label>
-        <input type="checkbox" :checked="isEditable" @change="() => isEditable = !isEditable">
+        <input type="checkbox" :checked="isEditable" @change="() => (isEditable = !isEditable)" />
         Editable
       </label>
     </div>
@@ -11,10 +11,16 @@
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
         </button>
-        <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        <button
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
           Italic
         </button>
-        <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        <button
+          @click="editor.chain().focus().toggleStrike().run()"
+          :class="{ 'is-active': editor.isActive('strike') }"
+        >
           Strike
         </button>
       </div>
@@ -48,9 +54,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: `
         <p>
           Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.

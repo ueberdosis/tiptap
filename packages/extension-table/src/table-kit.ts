@@ -10,22 +10,22 @@ export interface TableKitOptions {
    * If set to false, the table extension will not be registered
    * @example table: false
    */
-  table: Partial<TableOptions> | false,
+  table: Partial<TableOptions> | false
   /**
    * If set to false, the table extension will not be registered
    * @example tableCell: false
    */
-  tableCell: Partial<TableCellOptions> | false,
+  tableCell: Partial<TableCellOptions> | false
   /**
    * If set to false, the table extension will not be registered
    * @example tableHeader: false
    */
-  tableHeader: Partial<TableHeaderOptions> | false,
+  tableHeader: Partial<TableHeaderOptions> | false
   /**
    * If set to false, the table extension will not be registered
    * @example tableRow: false
    */
-  tableRow: Partial<TableRowOptions> | false,
+  tableRow: Partial<TableRowOptions> | false
 }
 
 /**

@@ -4,10 +4,7 @@ import { Selection, TextSelection } from '@tiptap/pm/state'
 import { FocusPosition } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
-export function resolveFocusPosition(
-  doc: ProseMirrorNode,
-  position: FocusPosition = null,
-): Selection | null {
+export function resolveFocusPosition(doc: ProseMirrorNode, position: FocusPosition = null): Selection | null {
   if (!position) {
     return null
   }
@@ -27,16 +24,8 @@ export function resolveFocusPosition(
   const maxPos = selectionAtEnd.to
 
   if (position === 'all') {
-    return TextSelection.create(
-      doc,
-      minMax(0, minPos, maxPos),
-      minMax(doc.content.size, minPos, maxPos),
-    )
+    return TextSelection.create(doc, minMax(0, minPos, maxPos), minMax(doc.content.size, minPos, maxPos))
   }
 
-  return TextSelection.create(
-    doc,
-    minMax(position, minPos, maxPos),
-    minMax(position, minPos, maxPos),
-  )
+  return TextSelection.create(doc, minMax(position, minPos, maxPos), minMax(position, minPos, maxPos))
 }

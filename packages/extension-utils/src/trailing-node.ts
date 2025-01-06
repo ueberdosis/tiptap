@@ -19,12 +19,12 @@ export interface TrailingNodeOptions {
    * prevent an infinite loop.
    * @default 'paragraph'
    */
-  node: string;
+  node: string
   /**
    * The node types after which the trailing node should not be inserted.
    * @default ['paragraph']
    */
-  notAfter?: string | string[];
+  notAfter?: string | string[]
 }
 
 /**

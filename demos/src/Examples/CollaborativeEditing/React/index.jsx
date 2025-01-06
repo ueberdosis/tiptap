@@ -9,10 +9,7 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React, {
-  useCallback, useEffect,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
 
 import { variables } from '../../../variables.js'
@@ -67,10 +64,12 @@ const websocketProvider = new TiptapCollabProvider({
 })
 
 const getInitialUser = () => {
-  return JSON.parse(localStorage.getItem('currentUser')) || {
-    name: getRandomName(),
-    color: getRandomColor(),
-  }
+  return (
+    JSON.parse(localStorage.getItem('currentUser')) || {
+      name: getRandomName(),
+      color: getRandomColor(),
+    }
+  )
 }
 
 export default () => {

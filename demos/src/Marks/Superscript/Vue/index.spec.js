@@ -25,12 +25,9 @@ context('/src/Marks/Superscript/Vue/', () => {
   })
 
   it('the button should make the selected text bold', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('sup')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('sup').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text bold', () => {

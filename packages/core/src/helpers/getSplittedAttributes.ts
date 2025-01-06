@@ -12,9 +12,8 @@ export function getSplittedAttributes(
   typeName: string,
   attributes: Record<string, any>,
 ): Record<string, any> {
-  return Object.fromEntries(Object
-    .entries(attributes)
-    .filter(([name]) => {
+  return Object.fromEntries(
+    Object.entries(attributes).filter(([name]) => {
       const extensionAttribute = extensionAttributes.find(item => {
         return item.type === typeName && item.name === name
       })
@@ -24,5 +23,6 @@ export function getSplittedAttributes(
       }
 
       return extensionAttribute.attribute.keepOnSplit
-    }))
+    }),
+  )
 }

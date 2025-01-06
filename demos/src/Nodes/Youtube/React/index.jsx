@@ -48,7 +48,9 @@ const MenuBar = ({ editor }) => {
           value={height}
           onChange={event => setHeight(event.target.value)}
         />
-        <button id="add" onClick={addYoutubeVideo}>Add YouTube video</button>
+        <button id="add" onClick={addYoutubeVideo}>
+          Add YouTube video
+        </button>
       </div>
     </div>
   )

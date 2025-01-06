@@ -6,7 +6,7 @@ export interface ListItemOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 
   /**
    * The node type for bulletList nodes

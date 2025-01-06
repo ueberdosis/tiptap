@@ -1,8 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "../../",
     "paths": {
       "@tiptap/*": ["packages/*/dist", "packages/*/src"]
-    },
-  },
+    }
+  }
 }

@@ -18,21 +18,18 @@ export default function init(name: string, source: any) {
       const root = document.getElementById('app')
 
       if (root) {
-        createRoot(root)
-          .render(React.createElement(module.default))
+        createRoot(root).render(React.createElement(module.default))
       }
       debug()
     })
     .catch(() => {
-      import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.jsx`)
-        .then(module => {
-          const root = document.getElementById('app')
+      import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.jsx`).then(module => {
+        const root = document.getElementById('app')
 
-          if (root) {
-            createRoot(root)
-              .render(React.createElement(module.default))
-          }
-          debug()
-        })
+        if (root) {
+          createRoot(root).render(React.createElement(module.default))
+        }
+        debug()
+      })
     })
 }

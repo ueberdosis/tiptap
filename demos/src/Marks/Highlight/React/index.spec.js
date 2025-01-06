@@ -19,10 +19,7 @@ context('/src/Marks/Highlight/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.toggleHighlight({ color: 'red' })
 
-      cy.get('.tiptap')
-        .find('mark')
-        .should('contain', 'Example Text')
-        .should('have.attr', 'data-color', 'red')
+      cy.get('.tiptap').find('mark').should('contain', 'Example Text').should('have.attr', 'data-color', 'red')
     })
   })
 
@@ -54,11 +51,7 @@ context('/src/Marks/Highlight/React/', () => {
 
   it('is active for mark with any attributes', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor
-        .chain()
-        .setContent('<p><mark data-color="red">Example Text</mark></p>')
-        .selectAll()
-        .run()
+      editor.chain().setContent('<p><mark data-color="red">Example Text</mark></p>').selectAll().run()
 
       expect(editor.isActive('highlight')).to.eq(true)
     })

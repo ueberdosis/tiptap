@@ -134,14 +134,19 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({
-        name: 'collaboration',
-        addStorage() {
-          return {
-            isDisabled: false,
-          }
-        },
-      })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Extension.create({
+          name: 'collaboration',
+          addStorage() {
+            return {
+              isDisabled: false,
+            }
+          },
+        }),
+      ],
       enableContentCheck: true,
       onContentError: args => {
         args.disableCollaboration()
@@ -171,14 +176,19 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({
-        name: 'collaboration',
-        addStorage() {
-          return {
-            isDisabled: false,
-          }
-        },
-      })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Extension.create({
+          name: 'collaboration',
+          addStorage() {
+            return {
+              isDisabled: false,
+            }
+          },
+        }),
+      ],
       enableContentCheck: true,
       onContentError: () => {
         // Should not be called, so we fail the test

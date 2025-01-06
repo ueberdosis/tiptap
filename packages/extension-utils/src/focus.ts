@@ -86,8 +86,9 @@ export const Focus = Extension.create<FocusOptions>({
 
               currentLevel += 1
 
-              const outOfScope = (this.options.mode === 'deepest' && maxLevels - currentLevel > 0)
-                || (this.options.mode === 'shallowest' && currentLevel > 1)
+              const outOfScope =
+                (this.options.mode === 'deepest' && maxLevels - currentLevel > 0) ||
+                (this.options.mode === 'shallowest' && currentLevel > 1)
 
               if (outOfScope) {
                 return this.options.mode === 'deepest'

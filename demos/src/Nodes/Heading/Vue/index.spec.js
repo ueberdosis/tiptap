@@ -10,11 +10,7 @@ context('/src/Nodes/Heading/Vue/', () => {
     })
   })
 
-  const headings = [
-    '<h1>Example Text</h1>',
-    '<h2>Example Text</h2>',
-    '<h3>Example Text</h3>',
-  ]
+  const headings = ['<h1>Example Text</h1>', '<h2>Example Text</h2>', '<h3>Example Text</h3>']
 
   headings.forEach(html => {
     it(`should parse headings correctly (${html})`, () => {
@@ -33,57 +29,39 @@ context('/src/Nodes/Heading/Vue/', () => {
   })
 
   it('the button should make the selected line a h1', () => {
-    cy.get('.tiptap h1')
-      .should('not.exist')
+    cy.get('.tiptap h1').should('not.exist')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap')
-      .find('h1')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('h1').should('contain', 'Example Text')
   })
 
   it('the button should make the selected line a h2', () => {
-    cy.get('.tiptap h2')
-      .should('not.exist')
+    cy.get('.tiptap h2').should('not.exist')
 
-    cy.get('button:nth-child(2)')
-      .click()
+    cy.get('button:nth-child(2)').click()
 
-    cy.get('.tiptap')
-      .find('h2')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('h2').should('contain', 'Example Text')
   })
 
   it('the button should make the selected line a h3', () => {
-    cy.get('.tiptap h3')
-      .should('not.exist')
+    cy.get('.tiptap h3').should('not.exist')
 
-    cy.get('button:nth-child(3)')
-      .click()
+    cy.get('button:nth-child(3)').click()
 
-    cy.get('.tiptap')
-      .find('h3')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('h3').should('contain', 'Example Text')
   })
 
   it('the button should toggle the heading', () => {
-    cy.get('.tiptap h1')
-      .should('not.exist')
+    cy.get('.tiptap h1').should('not.exist')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap')
-      .find('h1')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('h1').should('contain', 'Example Text')
 
-    cy.get('button:nth-child(1)')
-      .click()
+    cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap h1')
-      .should('not.exist')
+    cy.get('.tiptap h1').should('not.exist')
   })
 
   it('should make the paragraph a h1 keyboard shortcut is pressed', () => {
@@ -112,10 +90,7 @@ context('/src/Nodes/Heading/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('# Headline')
-      .find('h1')
-      .should('contain', 'Headline')
+    cy.get('.tiptap').type('# Headline').find('h1').should('contain', 'Headline')
   })
 
   it('should make a h2 from the default markdown shortcut', () => {
@@ -123,10 +98,7 @@ context('/src/Nodes/Heading/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('## Headline')
-      .find('h2')
-      .should('contain', 'Headline')
+    cy.get('.tiptap').type('## Headline').find('h2').should('contain', 'Headline')
   })
 
   it('should make a h3 from the default markdown shortcut', () => {
@@ -134,9 +106,6 @@ context('/src/Nodes/Heading/Vue/', () => {
       editor.commands.clearContent()
     })
 
-    cy.get('.tiptap')
-      .type('### Headline')
-      .find('h3')
-      .should('contain', 'Headline')
+    cy.get('.tiptap').type('### Headline').find('h3').should('contain', 'Headline')
   })
 })

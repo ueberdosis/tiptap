@@ -1,6 +1,6 @@
-title: "Feature Request: "
+title: 'Feature Request: '
 labels:
-  - "Type: Feature Request"
+  - 'Type: Feature Request'
 body:
   - type: markdown
     attributes:
@@ -11,7 +11,7 @@ body:
     attributes:
       label: Description
       description: Please describe the feature you would like to see in Tiptap.
-      placeholder: "I wish there was an extension for …"
+      placeholder: 'I wish there was an extension for …'
     validations:
       required: true
   - type: textarea
@@ -19,7 +19,7 @@ body:
     attributes:
       label: Use Case
       description: Please describe the use case for this feature.
-      placeholder: "I want to use this feature for …"
+      placeholder: 'I want to use this feature for …'
     validations:
       required: true
   - type: dropdown
@@ -28,9 +28,9 @@ body:
       label: Type
       description: Please select the type of this feature.
       options:
-        - "New extension"
-        - "New feature"
-        - "New Tiptap API"
-        - "Other"
+        - 'New extension'
+        - 'New feature'
+        - 'New Tiptap API'
+        - 'Other'
     validations:
       required: true

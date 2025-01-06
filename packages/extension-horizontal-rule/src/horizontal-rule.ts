@@ -1,6 +1,4 @@
-import {
-  isNodeSelection, mergeAttributes, Node, nodeInputRule,
-} from '@tiptap/core'
+import { isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
@@ -50,7 +48,8 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addCommands() {
     return {
       setHorizontalRule:
-        () => ({ chain, state }) => {
+        () =>
+        ({ chain, state }) => {
           const { selection } = state
           const { $to: $originTo } = selection
 

@@ -17,14 +17,22 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
           const valueClasses: string[] = value ? value.split(' ') : []
           const existingClasses: string[] = mergedAttributes[key] ? mergedAttributes[key].split(' ') : []
 
-          const insertClasses = valueClasses.filter(
-            valueClass => !existingClasses.includes(valueClass),
-          )
+          const insertClasses = valueClasses.filter(valueClass => !existingClasses.includes(valueClass))
 
           mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
-          const newStyles: string[] = value ? value.split(';').map((style: string) => style.trim()).filter(Boolean) : []
-          const existingStyles: string[] = mergedAttributes[key] ? mergedAttributes[key].split(';').map((style: string) => style.trim()).filter(Boolean) : []
+          const newStyles: string[] = value
+            ? value
+                .split(';')
+                .map((style: string) => style.trim())
+                .filter(Boolean)
+            : []
+          const existingStyles: string[] = mergedAttributes[key]
+            ? mergedAttributes[key]
+                .split(';')
+                .map((style: string) => style.trim())
+                .filter(Boolean)
+            : []
 
           const styleMap = new Map<string, string>()
 
@@ -40,7 +48,9 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
             styleMap.set(property, val)
           })
 
-          mergedAttributes[key] = Array.from(styleMap.entries()).map(([property, val]) => `${property}: ${val}`).join('; ')
+          mergedAttributes[key] = Array.from(styleMap.entries())
+            .map(([property, val]) => `${property}: ${val}`)
+            .join('; ')
         } else {
           mergedAttributes[key] = value
         }

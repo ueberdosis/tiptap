@@ -25,30 +25,21 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
   })
 
   it('the button should make the selected line a code block', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('pre')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('pre').should('contain', 'Example Text')
   })
 
   it('the button should toggle the code block', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('pre')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('pre').should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap pre')
-      .should('not.exist')
+    cy.get('.tiptap pre').should('not.exist')
   })
 
   it('the keyboard shortcut should make the selected line a code block', () => {
@@ -64,21 +55,16 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
       .find('pre')
       .should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
-      .trigger('keydown', { modKey: true, altKey: true, key: 'c' })
+    cy.get('.tiptap').type('{selectall}').trigger('keydown', { modKey: true, altKey: true, key: 'c' })
 
-    cy.get('.tiptap pre')
-      .should('not.exist')
+    cy.get('.tiptap pre').should('not.exist')
   })
 
   it('should parse the language from a HTML code block', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<pre><code class="language-css">body { display: none; }</code></pre>')
 
-      cy.get('.tiptap')
-        .find('pre>code.language-css')
-        .should('have.length', 1)
+      cy.get('.tiptap').find('pre>code.language-css').should('have.length', 1)
     })
   })
 
@@ -86,10 +72,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('``` Code')
-        .find('pre>code')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('``` Code').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -97,10 +80,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('~~~ Code')
-        .find('pre>code')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('~~~ Code').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -108,10 +88,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('```js Code')
-        .find('pre>code.language-js')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('```js Code').find('pre>code.language-js').should('contain', 'Code')
     })
   })
 
@@ -119,10 +96,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('~~~js Code')
-        .find('pre>code.language-js')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('~~~js Code').find('pre>code.language-js').should('contain', 'Code')
     })
   })
 
@@ -130,10 +104,7 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('```{enter}Code')
-        .find('pre>code')
-        .should('contain', 'Code')
+      cy.get('.tiptap').type('```{enter}Code').find('pre>code').should('contain', 'Code')
     })
   })
 
@@ -141,11 +112,9 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap')
-        .type('``` {backspace}')
+      cy.get('.tiptap').type('``` {backspace}')
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
     })
   })
 
@@ -153,14 +122,11 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap')
-        .type('Paragraph{enter}``` A{backspace}{backspace}')
+      cy.get('.tiptap').type('Paragraph{enter}``` A{backspace}{backspace}')
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
     })
   })
 
@@ -168,14 +134,11 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap')
-        .type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
+      cy.get('.tiptap').type('Paragraph{enter}{enter}``` A{backspace}{backspace}')
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
     })
   })
 
@@ -183,14 +146,11 @@ context('/src/Nodes/CodeBlock/Vue/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.clearContent()
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
 
-      cy.get('.tiptap')
-        .type('``` A{leftArrow}{backspace}')
+      cy.get('.tiptap').type('``` A{leftArrow}{backspace}')
 
-      cy.get('.tiptap pre')
-        .should('not.exist')
+      cy.get('.tiptap pre').should('not.exist')
     })
   })
 })

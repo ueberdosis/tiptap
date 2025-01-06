@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const newlineInCode: RawCommands['newlineInCode'] = () => ({ state, dispatch }) => {
-  return originalNewlineInCode(state, dispatch)
-}
+export const newlineInCode: RawCommands['newlineInCode'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalNewlineInCode(state, dispatch)
+  }

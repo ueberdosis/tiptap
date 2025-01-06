@@ -2,12 +2,12 @@ import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubbl
 import Vue, { Component, CreateElement, PropType } from 'vue'
 
 export interface BubbleMenuInterface extends Vue {
-  pluginKey: BubbleMenuPluginProps['pluginKey'],
-  editor: BubbleMenuPluginProps['editor'],
-  updateDelay: BubbleMenuPluginProps['updateDelay'],
-  resizeDelay: BubbleMenuPluginProps['resizeDelay'],
-  shouldShow: BubbleMenuPluginProps['shouldShow'],
-  options: BubbleMenuPluginProps['options'],
+  pluginKey: BubbleMenuPluginProps['pluginKey']
+  editor: BubbleMenuPluginProps['editor']
+  updateDelay: BubbleMenuPluginProps['updateDelay']
+  resizeDelay: BubbleMenuPluginProps['resizeDelay']
+  shouldShow: BubbleMenuPluginProps['shouldShow']
+  options: BubbleMenuPluginProps['options']
 }
 
 export const BubbleMenu: Component = {
@@ -51,21 +51,23 @@ export const BubbleMenu: Component = {
           return
         }
 
-        (this.$el as HTMLElement).style.visibility = 'hidden';
-        (this.$el as HTMLElement).style.position = 'absolute'
+        ;(this.$el as HTMLElement).style.visibility = 'hidden'
+        ;(this.$el as HTMLElement).style.position = 'absolute'
 
         this.$el.remove()
 
         this.$nextTick(() => {
-          editor.registerPlugin(BubbleMenuPlugin({
-            updateDelay: this.updateDelay,
-            resizeDelay: this.resizeDelay,
-            options: this.options,
-            editor,
-            element: this.$el as HTMLElement,
-            pluginKey: this.pluginKey,
-            shouldShow: this.shouldShow,
-          }))
+          editor.registerPlugin(
+            BubbleMenuPlugin({
+              updateDelay: this.updateDelay,
+              resizeDelay: this.resizeDelay,
+              options: this.options,
+              editor,
+              element: this.$el as HTMLElement,
+              pluginKey: this.pluginKey,
+              shouldShow: this.shouldShow,
+            }),
+          )
         })
       },
     },

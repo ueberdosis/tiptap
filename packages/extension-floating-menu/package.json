@@ -15,7 +15,10 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -28,7 +31,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@floating-ui/dom": "^1.0.0",
+    "@floating-ui/dom": "^1.6.12",
     "@tiptap/core": "^3.0.0-next.3",
     "@tiptap/pm": "^3.0.0-next.3"
   },
@@ -44,6 +47,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }
