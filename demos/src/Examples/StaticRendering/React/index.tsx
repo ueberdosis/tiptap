@@ -5,7 +5,7 @@ import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorProvider, JSONContent, useCurrentEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { renderToHTMLString, renderToReactElement } from '@tiptap/static-renderer'
+import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'
 import React, { useState } from 'react'
 
 const extensions = [StarterKit, Color.configure({ types: [TextStyle.name, ListItem.name] }), TextStyle]
@@ -42,7 +42,7 @@ const content = `
 `
 
 export default () => {
-  const [tab, setTab] = useState<'react' | 'html' | 'html-element'>('react')
+  const [tab, setTab] = useState<'react' | 'html' | 'html-element' | 'markdown'>('react')
   const [currentJSON, setJSON] = useState<JSONContent | null>(null)
   return (
     <div>
@@ -91,6 +91,17 @@ export default () => {
               checked={tab === 'html-element'}
             />
             HTML Element
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="option-switch"
+              onChange={() => {
+                setTab('markdown')
+              }}
+              checked={tab === 'markdown'}
+            />
+            Markdown
           </label>
         </div>
       </div>
@@ -161,6 +172,24 @@ export default () => {
                 : '',
             }}
           ></div>
+        </div>
+      )}
+      {tab === 'markdown' && (
+        <div className="output-group tiptap">
+          <h2>Markdown</h2>
+          <p>
+            This example renders the JSON content into a markdown without using an editor instance, document parser or
+            markdown library.
+          </p>
+          <pre>
+            <code>
+              {currentJSON &&
+                renderToMarkdown({
+                  content: currentJSON,
+                  extensions,
+                })}
+            </code>
+          </pre>
         </div>
       )}
     </div>
