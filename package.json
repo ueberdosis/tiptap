@@ -30,7 +30,7 @@
     "prepare": "husky install",
     "turbo": "turbo",
     "changeset": "changeset",
-    "version": "pnpm run changeset -- version && pnpm i"
+    "version": "pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
