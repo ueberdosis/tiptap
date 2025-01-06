@@ -68,6 +68,7 @@ describe('extension table header', () => {
       content,
     })
 
+    // @ts-expect-error content is not guaranteed to be this shape
     expect(editor.getJSON().content[0].content[0].content[0].attrs.colwidth[0]).to.eq(200)
 
     editor?.destroy()
@@ -94,6 +95,7 @@ describe('extension table header', () => {
       content,
     })
 
+    // @ts-expect-error content is not guaranteed to be this shape
     expect(editor.getJSON().content[0].content[0].content[1].attrs.colwidth).deep.equal([150, 100])
 
     editor?.destroy()

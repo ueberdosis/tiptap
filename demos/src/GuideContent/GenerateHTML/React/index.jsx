@@ -41,7 +41,7 @@ export default () => {
       Bold,
       // other extensions …
     ])
-  }, [json])
+  }, [])
 
   return (
     <pre>

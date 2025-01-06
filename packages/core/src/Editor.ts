@@ -29,11 +29,13 @@ import { style } from './style.js'
 import {
   CanCommands,
   ChainedCommands,
+  DocumentType,
   EditorEvents,
   EditorOptions,
-  JSONContent,
+  NodeType as TNodeType,
   SingleCommands,
   TextSerializer,
+  TextType as TTextType,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -558,7 +560,10 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Get the document as JSON.
    */
-  public getJSON(): JSONContent {
+  public getJSON(): DocumentType<
+    Record<string, any> | undefined,
+    TNodeType<string, undefined | Record<string, any>, any, (TNodeType | TTextType)[]>[]
+  > {
     return this.state.doc.toJSON()
   }
 

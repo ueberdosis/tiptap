@@ -149,6 +149,61 @@ export type JSONContent = {
   [key: string]: any
 }
 
+/**
+ * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
+ */
+export type MarkType<
+  Type extends string | { name: string } = any,
+  Attributes extends undefined | Record<string, any> = any,
+> = {
+  type: Type
+  attrs: Attributes
+}
+
+/**
+ * A node type is either a JSON representation of a node or a Prosemirror node instance
+ */
+export type NodeType<
+  Type extends string | { name: string } = any,
+  Attributes extends undefined | Record<string, any> = any,
+  NodeMarkType extends MarkType = any,
+  Content extends (NodeType | TextType)[] = any,
+> = {
+  type: Type
+  attrs: Attributes
+  content?: Content
+  marks?: NodeMarkType[]
+}
+
+/**
+ * A node type is either a JSON representation of a doc node or a Prosemirror doc node instance
+ */
+export type DocumentType<
+  TDocAttributes extends Record<string, any> | undefined = Record<string, any>,
+  TContentType extends NodeType[] = NodeType[],
+> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & { content: TContentType }
+
+/**
+ * A node type is either a JSON representation of a text node or a Prosemirror text node instance
+ */
+export type TextType<TMarkType extends MarkType = MarkType> = {
+  type: 'text'
+  text: string
+  marks: TMarkType[]
+}
+
+/**
+ * Describes the output of a `renderHTML` function in prosemirror
+ * @see https://prosemirror.net/docs/ref/#model.DOMOutputSpec
+ */
+export type DOMOutputSpecArray =
+  | [string]
+  | [string, Record<string, any>]
+  | [string, 0]
+  | [string, Record<string, any>, 0]
+  | [string, Record<string, any>, DOMOutputSpecArray | 0]
+  | [string, DOMOutputSpecArray]
+
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
 export type CommandProps = {

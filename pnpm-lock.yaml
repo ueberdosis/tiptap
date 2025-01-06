@@ -808,6 +808,28 @@ importers:
         specifier: ^3.0.0-next.3
         version: link:../pm
 
+  packages/static-renderer:
+    optionalDependencies:
+      '@types/react':
+        specifier: ^18.2.14
+        version: 18.3.18
+      '@types/react-dom':
+        specifier: ^18.2.6
+        version: 18.3.5(@types/react@18.3.18)
+      react:
+        specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@tiptap/core':
+        specifier: ^3.0.0-next.1
+        version: link:../core
+      '@tiptap/pm':
+        specifier: ^3.0.0-next.1
+        version: link:../pm
+
   packages/suggestion:
     devDependencies:
       '@tiptap/core':
