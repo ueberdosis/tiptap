@@ -1,19 +1,11 @@
 import { EditorState, Transaction } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import {
-  absolutePositionToRelativePosition,
-  relativePositionToAbsolutePosition,
-  ySyncPluginKey,
-} from 'y-prosemirror'
+import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, ySyncPluginKey } from 'y-prosemirror'
 import * as Y from 'yjs'
 
 import { AnnotationItem } from './AnnotationItem.js'
 import { AnnotationPluginKey } from './AnnotationPlugin.js'
-import {
-  AddAnnotationAction,
-  DeleteAnnotationAction,
-  UpdateAnnotationAction,
-} from './collaboration-annotation.js'
+import { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation.js'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {
@@ -107,13 +99,7 @@ export class AnnotationState {
       })
 
       if (from === to) {
-        console.warn(
-          `[${this.options.instance}] corrupt decoration `,
-          annotation.from,
-          from,
-          annotation.to,
-          to,
-        )
+        console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
       }
 
       decorations.push(

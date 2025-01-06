@@ -1,8 +1,4 @@
-import {
-  computePosition,
-  flip,
-  shift,
-} from '@floating-ui/dom'
+import { computePosition, flip, shift } from '@floating-ui/dom'
 import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
 
 import CommandsList from './CommandsList.vue'
@@ -30,48 +26,30 @@ export default {
       {
         title: 'Heading 1',
         command: ({ editor, range }) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .setNode('heading', { level: 1 })
-            .run()
+          editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
         },
       },
       {
         title: 'Heading 2',
         command: ({ editor, range }) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .setNode('heading', { level: 2 })
-            .run()
+          editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
         },
       },
       {
         title: 'Bold',
         command: ({ editor, range }) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .setMark('bold')
-            .run()
+          editor.chain().focus().deleteRange(range).setMark('bold').run()
         },
       },
       {
         title: 'Italic',
         command: ({ editor, range }) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .setMark('italic')
-            .run()
+          editor.chain().focus().deleteRange(range).setMark('italic').run()
         },
       },
-    ].filter(item => item.title.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10)
+    ]
+      .filter(item => item.title.toLowerCase().startsWith(query.toLowerCase()))
+      .slice(0, 10)
   },
 
   render: () => {

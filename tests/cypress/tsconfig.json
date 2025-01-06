@@ -8,11 +8,11 @@
     "types": ["cypress", "react", "react-dom"],
     "paths": {
       "@tiptap/*": ["packages/*/src", "packages/*/dist"],
-      "@tiptap/pm/*": ["../../pm/*/dist"],
+      "@tiptap/pm/*": ["packages/pm/*"],
       "@tiptap/static-renderer/pm": ["../../static-renderer/dist/pm/*"],
       "@tiptap/static-renderer/json": ["../../static-renderer/dist/json/*"],
     },
-    "typeRoots": ["../../node_modules/@types", "../../node_modules/"],
+    "typeRoots": ["../../node_modules/@types", "../../node_modules/"]
   },
   "include": ["./*/*.ts", "../../**/*.ts"],
   "exclude": [

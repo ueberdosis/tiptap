@@ -6,10 +6,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React, {
-  useCallback, useEffect,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
 
 const room = 'room-1'
@@ -55,10 +52,12 @@ const websocketProvider = new TiptapCollabProvider({
 })
 
 const getInitialUser = () => {
-  return JSON.parse(localStorage.getItem('currentUser')) || {
-    name: getRandomName(),
-    color: getRandomColor(),
-  }
+  return (
+    JSON.parse(localStorage.getItem('currentUser')) || {
+      name: getRandomName(),
+      color: getRandomColor(),
+    }
+  )
 }
 
 export default () => {

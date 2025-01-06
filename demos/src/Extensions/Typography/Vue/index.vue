@@ -22,12 +22,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Typography,
-      ],
+      extensions: [Document, Paragraph, Text, Typography],
       content: `
         <p>“I have been suffering from Typomania all my life, a sickness that is incurable but not lethal.”</p>
         <p>— Erik Spiekermann, December 2008</p>

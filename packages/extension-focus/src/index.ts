@@ -1,5 +1,5 @@
-import { FocusClasses } from './focus.js'
+import { Focus } from '@tiptap/extension-utils'
 
-export * from './focus.js'
+export { Focus, FocusOptions } from '@tiptap/extension-utils'
 
-export default FocusClasses
+export default Focus

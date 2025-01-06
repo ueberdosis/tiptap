@@ -24,10 +24,8 @@ export default () => {
     editor,
     selector: ctx => {
       return {
-        canUndo: ctx.editor.can().chain().focus().undo()
-          .run(),
-        canRedo: ctx.editor.can().chain().focus().redo()
-          .run(),
+        canUndo: ctx.editor.can().chain().focus().undo().run(),
+        canRedo: ctx.editor.can().chain().focus().redo().run(),
       }
     },
   })

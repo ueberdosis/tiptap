@@ -30,20 +30,22 @@ declare module '@tiptap/core' {
   }
 }
 
-export const extendMarkRange: RawCommands['extendMarkRange'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
-  const type = getMarkType(typeOrName, state.schema)
-  const { doc, selection } = tr
-  const { $from, from, to } = selection
+export const extendMarkRange: RawCommands['extendMarkRange'] =
+  (typeOrName, attributes = {}) =>
+  ({ tr, state, dispatch }) => {
+    const type = getMarkType(typeOrName, state.schema)
+    const { doc, selection } = tr
+    const { $from, from, to } = selection
 
-  if (dispatch) {
-    const range = getMarkRange($from, type, attributes)
+    if (dispatch) {
+      const range = getMarkRange($from, type, attributes)
 
-    if (range && range.from <= from && range.to >= to) {
-      const newSelection = TextSelection.create(doc, range.from, range.to)
+      if (range && range.from <= from && range.to >= to) {
+        const newSelection = TextSelection.create(doc, range.from, range.to)
 
-      tr.setSelection(newSelection)
+        tr.setSelection(newSelection)
+      }
     }
-  }
 
-  return true
-}
+    return true
+  }

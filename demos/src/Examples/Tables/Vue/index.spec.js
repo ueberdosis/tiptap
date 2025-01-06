@@ -11,52 +11,35 @@ context('/src/Examples/Tables/Vue/', () => {
   })
 
   it('adds a table with three columns and three rows', () => {
-    cy.get('.tiptap table')
-      .should('exist')
+    cy.get('.tiptap table').should('exist')
 
-    cy.get('.tiptap table tr')
-      .should('exist')
-      .should('have.length', 3)
+    cy.get('.tiptap table tr').should('exist').should('have.length', 3)
 
-    cy.get('.tiptap table th')
-      .should('exist')
-      .should('have.length', 3)
+    cy.get('.tiptap table th').should('exist').should('have.length', 3)
 
-    cy.get('.tiptap table td')
-      .should('exist')
-      .should('have.length', 6)
+    cy.get('.tiptap table td').should('exist').should('have.length', 6)
   })
 
   it('adds & delete columns', () => {
     cy.get('button').contains('Add column before').click()
-    cy.get('.tiptap table th')
-      .should('have.length', 4)
+    cy.get('.tiptap table th').should('have.length', 4)
 
     cy.get('button').contains('Add column after').click()
-    cy.get('.tiptap table th')
-      .should('have.length', 5)
+    cy.get('.tiptap table th').should('have.length', 5)
 
-    cy.get('button').contains('Delete column')
-      .click()
-      .click()
-    cy.get('.tiptap table th')
-      .should('have.length', 3)
+    cy.get('button').contains('Delete column').click().click()
+    cy.get('.tiptap table th').should('have.length', 3)
   })
 
   it('adds & delete rows', () => {
     cy.get('button').contains('Add row before').click()
-    cy.get('.tiptap table tr')
-      .should('have.length', 4)
+    cy.get('.tiptap table tr').should('have.length', 4)
 
     cy.get('button').contains('Add row after').click()
-    cy.get('.tiptap table tr')
-      .should('have.length', 5)
+    cy.get('.tiptap table tr').should('have.length', 5)
 
-    cy.get('button').contains('Delete row')
-      .click()
-      .click()
-    cy.get('.tiptap table tr')
-      .should('have.length', 3)
+    cy.get('button').contains('Delete row').click().click()
+    cy.get('.tiptap table tr').should('have.length', 3)
   })
 
   it('should delete table', () => {
@@ -95,13 +78,9 @@ context('/src/Examples/Tables/Vue/', () => {
   it('should merge split', () => {
     cy.get('.tiptap').type('{shift}{rightArrow}')
     cy.get('button').contains('Merge cells').click()
-    cy.get('.tiptap th[colspan="2"]')
-      .should('exist')
-    cy.get('button')
-      .contains('Merge or split')
-      .click()
-    cy.get('.tiptap th[colspan="2"]')
-      .should('not.exist')
+    cy.get('.tiptap th[colspan="2"]').should('exist')
+    cy.get('button').contains('Merge or split').click()
+    cy.get('.tiptap th[colspan="2"]').should('not.exist')
   })
 
   it('should set cell attribute', () => {

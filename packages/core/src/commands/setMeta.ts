@@ -11,13 +11,15 @@ declare module '@tiptap/core' {
        * @param value The value to store.
        * @example editor.commands.setMeta('foo', 'bar')
        */
-      setMeta: (key: string | Plugin | PluginKey, value: any) => ReturnType,
+      setMeta: (key: string | Plugin | PluginKey, value: any) => ReturnType
     }
   }
 }
 
-export const setMeta: RawCommands['setMeta'] = (key, value) => ({ tr }) => {
-  tr.setMeta(key, value)
+export const setMeta: RawCommands['setMeta'] =
+  (key, value) =>
+  ({ tr }) => {
+    tr.setMeta(key, value)
 
-  return true
-}
+    return true
+  }

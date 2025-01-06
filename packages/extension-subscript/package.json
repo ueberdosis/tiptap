@@ -15,7 +15,10 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -28,10 +31,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^3.0.0-next.1"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "repository": {
     "type": "git",
@@ -39,6 +44,7 @@
     "directory": "packages/extension-subscript"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

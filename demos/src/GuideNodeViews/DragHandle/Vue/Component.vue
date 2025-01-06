@@ -1,11 +1,6 @@
 <template>
   <node-view-wrapper class="draggable-item">
-    <div
-      class="drag-handle"
-      contenteditable="false"
-      draggable="true"
-      data-drag-handle
-    />
+    <div class="drag-handle" contenteditable="false" draggable="true" data-drag-handle />
     <node-view-content class="content" />
   </node-view-wrapper>
 </template>
@@ -32,8 +27,7 @@ export default {
   background: white;
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.05),
-    0px 10px 20px rgba(0, 0, 0, 0.1),
-  ;
+    0px 10px 20px rgba(0, 0, 0, 0.1);
 
   .drag-handle {
     flex: 0 0 auto;

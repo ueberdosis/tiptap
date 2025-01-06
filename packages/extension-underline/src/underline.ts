@@ -6,7 +6,7 @@ export interface UnderlineOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -16,17 +16,17 @@ declare module '@tiptap/core' {
        * Set an underline mark
        * @example editor.commands.setUnderline()
        */
-      setUnderline: () => ReturnType,
+      setUnderline: () => ReturnType
       /**
        * Toggle an underline mark
        * @example editor.commands.toggleUnderline()
        */
-      toggleUnderline: () => ReturnType,
+      toggleUnderline: () => ReturnType
       /**
        * Unset an underline mark
        * @example editor.commands.unsetUnderline()
        */
-      unsetUnderline: () => ReturnType,
+      unsetUnderline: () => ReturnType
     }
   }
 }
@@ -63,15 +63,21 @@ export const Underline = Mark.create<UnderlineOptions>({
 
   addCommands() {
     return {
-      setUnderline: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleUnderline: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetUnderline: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setUnderline:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleUnderline:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetUnderline:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

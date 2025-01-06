@@ -79,8 +79,7 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
         className={`node-type-dropdown__trigger${isOpen ? ' is-active' : ''}`}
         tabIndex={-1}
       >
-        Node Type:{' '}
-        {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
+        Node Type: {editorState.activeNodeType.slice(0, 1).toUpperCase() + editorState.activeNodeType.slice(1)}
       </button>
       {isOpen && (
         <div
@@ -263,10 +262,8 @@ export function MenuBar({ editor }: { editor: Editor }) {
     editor,
     selector: ctx => {
       return {
-        canUndo: ctx.editor.can().chain().focus().undo()
-          .run(),
-        canRedo: ctx.editor.can().chain().focus().redo()
-          .run(),
+        canUndo: ctx.editor.can().chain().focus().undo().run(),
+        canRedo: ctx.editor.can().chain().focus().redo().run(),
       }
     },
   })

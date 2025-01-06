@@ -20,9 +20,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       content: '<p>Hello World! 🌎️</p>',
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
     })
   },
 

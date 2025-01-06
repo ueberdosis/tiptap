@@ -22,15 +22,7 @@ export default () => {
       `,
   })
 
-  const {
-    isInter,
-    isComicSans,
-    isSerif,
-    isMonospace,
-    isCursive,
-    isExo2,
-    isCssVariable,
-  } = useEditorState({
+  const { isInter, isComicSans, isSerif, isMonospace, isCursive, isExo2, isCssVariable } = useEditorState({
     editor,
     selector: ctx => {
       return {
@@ -53,7 +45,8 @@ export default () => {
     <>
       <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet"/>
+        rel="stylesheet"
+      />
       <div className="control-group">
         <div className="button-group">
           <button
@@ -65,11 +58,7 @@ export default () => {
           </button>
           <button
             onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
-            className={
-              isComicSans
-                ? 'is-active'
-                : ''
-            }
+            className={isComicSans ? 'is-active' : ''}
             data-test-id="comic-sans"
           >
             Comic Sans
@@ -109,13 +98,12 @@ export default () => {
           >
             Exo 2
           </button>
-          <button onClick={() => editor.chain().focus().unsetFontFamily().run()}
-                  data-test-id="unsetFontFamily">
+          <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
             Unset font family
           </button>
         </div>
       </div>
-      <EditorContent editor={editor}/>
+      <EditorContent editor={editor} />
     </>
   )
 }

@@ -1,35 +1,30 @@
 import type { Editor } from '@tiptap/core'
 import deepEqual from 'fast-deep-equal/es6/react'
-import {
-  useDebugValue, useEffect, useLayoutEffect, useState,
-} from 'react'
+import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
-  editor: TEditor;
-  transactionNumber: number;
-};
+  editor: TEditor
+  transactionNumber: number
+}
 
-export type UseEditorStateOptions<
-  TSelectorResult,
-  TEditor extends Editor | null = Editor | null,
-> = {
+export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null = Editor | null> = {
   /**
    * The editor instance.
    */
-  editor: TEditor;
+  editor: TEditor
   /**
    * A selector function to determine the value to compare for re-rendering.
    */
-  selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult;
+  selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult
   /**
    * A custom equality function to determine if the editor should re-render.
    * @default `deepEqual` from `fast-deep-equal`
    */
-  equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean;
-};
+  equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean
+}
 
 /**
  * To synchronize the editor instance with the component state,
@@ -126,8 +121,8 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
  * })
  */
 export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor>
-): TSelectorResult;
+  options: UseEditorStateOptions<TSelectorResult, Editor>,
+): TSelectorResult
 /**
  * This hook allows you to watch for changes on the editor instance.
  * It will allow you to select a part of the editor state and re-render the component when it changes.
@@ -140,8 +135,8 @@ export function useEditorState<TSelectorResult>(
  * })
  */
 export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor | null>
-): TSelectorResult | null;
+  options: UseEditorStateOptions<TSelectorResult, Editor | null>,
+): TSelectorResult | null
 
 /**
  * This hook allows you to watch for changes on the editor instance.

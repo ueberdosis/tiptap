@@ -71,9 +71,7 @@ context('/src/Nodes/HorizontalRule/React/', () => {
       editor.commands.setTextSelection({ from: 13, to: 15 })
       editor.commands.setHorizontalRule()
 
-      expect(editor.getHTML()).to.eq(
-        '<p>Example Text</p><hr><p>Example Text</p>',
-      )
+      expect(editor.getHTML()).to.eq('<p>Example Text</p><hr><p>Example Text</p>')
     })
   })
 })

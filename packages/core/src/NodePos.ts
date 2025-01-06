@@ -1,6 +1,4 @@
-import {
-  Fragment, Node, ResolvedPos,
-} from '@tiptap/pm/model'
+import { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
 
 import { Editor } from './Editor.js'
 import { Content, Range } from './types.js'

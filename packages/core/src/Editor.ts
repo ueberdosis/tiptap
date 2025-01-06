@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import {
-  MarkType,
-  Node as ProseMirrorNode,
-  NodeType,
-  Schema,
-} from '@tiptap/pm/model'
-import {
-  EditorState, Plugin, PluginKey, Transaction,
-} from '@tiptap/pm/state'
+import { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import { EditorState, Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
-  ClipboardTextSerializer, Commands, Drop, Editable, FocusEvents, Keymap, Paste,
+  ClipboardTextSerializer,
+  Commands,
+  Drop,
+  Editable,
+  FocusEvents,
+  Keymap,
+  Paste,
   Tabindex,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
@@ -96,7 +95,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     onFocus: () => null,
     onBlur: () => null,
     onDestroy: () => null,
-    onContentError: ({ error }) => { throw error },
+    onContentError: ({ error }) => {
+      throw error
+    },
     onPaste: () => null,
     onDrop: () => null,
   }
@@ -199,7 +200,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.setOptions({ editable })
 
     if (emitUpdate) {
-      this.emit('update', { editor: this, transaction: this.state.tr })
+      this.emit('update', { editor: this, transaction: this.state.tr, appendedTransactions: [] })
     }
   }
 
@@ -248,15 +249,17 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param nameOrPluginKeyToRemove The plugins name
    * @returns The new editor state or undefined if the editor is destroyed
    */
-  public unregisterPlugin(nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]): EditorState | undefined {
+  public unregisterPlugin(
+    nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[],
+  ): EditorState | undefined {
     if (this.isDestroyed) {
       return undefined
     }
 
     const prevPlugins = this.state.plugins
-    let plugins = prevPlugins;
+    let plugins = prevPlugins
 
-    ([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
+    ;([] as (string | PluginKey)[]).concat(nameOrPluginKeyToRemove).forEach(nameOrPluginKey => {
       // @ts-ignore
       const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
 
@@ -282,24 +285,27 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-
-    const coreExtensions = this.options.enableCoreExtensions ? [
-      Editable,
-      ClipboardTextSerializer.configure({
-        blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
-      }),
-      Commands,
-      FocusEvents,
-      Keymap,
-      Tabindex,
-      Drop,
-      Paste,
-    ].filter(ext => {
-      if (typeof this.options.enableCoreExtensions === 'object') {
-        return this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
-      }
-      return true
-    }) : []
+    const coreExtensions = this.options.enableCoreExtensions
+      ? [
+          Editable,
+          ClipboardTextSerializer.configure({
+            blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+          }),
+          Commands,
+          FocusEvents,
+          Keymap,
+          Tabindex,
+          Drop,
+          Paste,
+        ].filter(ext => {
+          if (typeof this.options.enableCoreExtensions === 'object') {
+            return (
+              this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+            )
+          }
+          return true
+        })
+      : []
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
@@ -330,14 +336,14 @@ export class Editor extends EventEmitter<EditorEvents> {
     let doc: ProseMirrorNode
 
     try {
-      doc = createDocument(
-        this.options.content,
-        this.schema,
-        this.options.parseOptions,
-        { errorOnInvalidContent: this.options.enableContentCheck },
-      )
+      doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
+        errorOnInvalidContent: this.options.enableContentCheck,
+      })
     } catch (e) {
-      if (!(e instanceof Error) || !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)) {
+      if (
+        !(e instanceof Error) ||
+        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)
+      ) {
         // Not the content error we were expecting
         throw e
       }
@@ -357,12 +363,9 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
 
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
-      doc = createDocument(
-        this.options.content,
-        this.schema,
-        this.options.parseOptions,
-        { errorOnInvalidContent: false },
-      )
+      doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
+        errorOnInvalidContent: false,
+      })
     }
     const selection = resolveFocusPosition(doc, this.options.autofocus)
 
@@ -459,18 +462,30 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
-    const state = this.state.apply(transaction)
+    // Apply transaction and get resulting state and transactions
+    const { state, transactions } = this.state.applyTransaction(transaction)
     const selectionHasChanged = !this.state.selection.eq(state.selection)
+    const rootTrWasApplied = transactions.includes(transaction)
+    const prevState = this.state
 
     this.emit('beforeTransaction', {
       editor: this,
       transaction,
       nextState: state,
     })
+
+    // If transaction was filtered out, we can return early
+    if (!rootTrWasApplied) {
+      return
+    }
+
     this.view.updateState(state)
+
+    // Emit transaction event with appended transactions info
     this.emit('transaction', {
       editor: this,
       transaction,
+      appendedTransactions: transactions.slice(1),
     })
 
     if (selectionHasChanged) {
@@ -480,14 +495,17 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
     }
 
-    const focus = transaction.getMeta('focus')
-    const blur = transaction.getMeta('blur')
+    // Only emit the latest between focus and blur events
+    const mostRecentFocusTr = transactions.findLast(tr => tr.getMeta('focus') || tr.getMeta('blur'))
+    const focus = mostRecentFocusTr?.getMeta('focus')
+    const blur = mostRecentFocusTr?.getMeta('blur')
 
     if (focus) {
       this.emit('focus', {
         editor: this,
         event: focus.event,
-        transaction,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
       })
     }
 
@@ -495,17 +513,24 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('blur', {
         editor: this,
         event: blur.event,
-        transaction,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
       })
     }
 
-    if (!transaction.docChanged || transaction.getMeta('preventUpdate')) {
+    // Compare states for update event
+    if (
+      transaction.getMeta('preventUpdate') ||
+      !transactions.some(tr => tr.docChanged) ||
+      prevState.doc.eq(state.doc)
+    ) {
       return
     }
 
     this.emit('update', {
       editor: this,
       transaction,
+      appendedTransactions: transactions.slice(1),
     })
   }
 
@@ -536,8 +561,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as JSON.
    */
   public getJSON(): DocumentType<
-  Record<string, any> | undefined,
-  TNodeType<string, undefined | Record<string, any>, any, (TNodeType | TTextType)[]>[]
+    Record<string, any> | undefined,
+    TNodeType<string, undefined | Record<string, any>, any, (TNodeType | TTextType)[]>[]
   > {
     return this.state.doc.toJSON()
   }
@@ -552,10 +577,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Get the document as text.
    */
-  public getText(options?: {
-    blockSeparator?: string
-    textSerializers?: Record<string, TextSerializer>
-  }): string {
+  public getText(options?: { blockSeparator?: string; textSerializers?: Record<string, TextSerializer> }): string {
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
@@ -572,19 +594,6 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public get isEmpty(): boolean {
     return isNodeEmpty(this.state.doc)
-  }
-
-  /**
-   * Get the number of characters for the current document.
-   *
-   * @deprecated
-   */
-  public getCharacterCount(): number {
-    console.warn(
-      '[tiptap warn]: "editor.getCharacterCount()" is deprecated. Please use "editor.storage.characterCount.characters()" instead.',
-    )
-
-    return this.state.doc.content.size - 2
   }
 
   /**

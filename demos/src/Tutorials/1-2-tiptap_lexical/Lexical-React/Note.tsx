@@ -25,12 +25,12 @@ export default ({ note }: { note: TNote }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <RichTextPlugin
-        contentEditable={<ContentEditable/>}
+        contentEditable={<ContentEditable />}
         placeholder={<p>{note.content}</p>}
         ErrorBoundary={LexicalErrorBoundary}
       />
-      <HistoryPlugin/>
-      <OnChangePlugin onChange={editorState => editorStateRef.current = editorState}/>
+      <HistoryPlugin />
+      <OnChangePlugin onChange={editorState => (editorStateRef.current = editorState)} />
     </LexicalComposer>
   )
 }

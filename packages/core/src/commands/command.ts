@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
        *   return true
        * })
        */
-      command: (fn: (props: Parameters<Command>[0]) => boolean) => ReturnType,
+      command: (fn: (props: Parameters<Command>[0]) => boolean) => ReturnType
     }
   }
 }

@@ -20,15 +20,14 @@ describe('extension options', () => {
   })
 
   it('should pass through', () => {
-    const extension = Extension
-      .create({
-        addOptions() {
-          return {
-            foo: 1,
-            bar: 1,
-          }
-        },
-      })
+    const extension = Extension.create({
+      addOptions() {
+        return {
+          foo: 1,
+          bar: 1,
+        }
+      },
+    })
       .extend()
       .configure()
 
@@ -39,18 +38,16 @@ describe('extension options', () => {
   })
 
   it('should be configurable', () => {
-    const extension = Extension
-      .create({
-        addOptions() {
-          return {
-            foo: 1,
-            bar: 1,
-          }
-        },
-      })
-      .configure({
-        bar: 2,
-      })
+    const extension = Extension.create({
+      addOptions() {
+        return {
+          foo: 1,
+          bar: 1,
+        }
+      },
+    }).configure({
+      bar: 2,
+    })
 
     expect(extension.options).to.deep.eq({
       foo: 1,
@@ -119,22 +116,20 @@ describe('extension options', () => {
   })
 
   it('should be overwritable', () => {
-    const extension = Extension
-      .create({
-        addOptions() {
-          return {
-            foo: 1,
-            bar: 1,
-          }
-        },
-      })
-      .extend({
-        addOptions() {
-          return {
-            baz: 1,
-          }
-        },
-      })
+    const extension = Extension.create({
+      addOptions() {
+        return {
+          foo: 1,
+          bar: 1,
+        }
+      },
+    }).extend({
+      addOptions() {
+        return {
+          baz: 1,
+        }
+      },
+    })
 
     expect(extension.options).to.deep.eq({
       baz: 1,
@@ -142,26 +137,24 @@ describe('extension options', () => {
   })
 
   it('should configure nested objects', () => {
-    const extension = Extension
-      .create<{
-        foo: number[],
-        HTMLAttributes: Record<string, any>,
-      }>({
-        addOptions() {
-          return {
-            foo: [1, 2, 3],
-            HTMLAttributes: {
-              class: 'foo',
-            },
-          }
-        },
-      })
-      .configure({
-        foo: [1],
-        HTMLAttributes: {
-          id: 'bar',
-        },
-      })
+    const extension = Extension.create<{
+      foo: number[]
+      HTMLAttributes: Record<string, any>
+    }>({
+      addOptions() {
+        return {
+          foo: [1, 2, 3],
+          HTMLAttributes: {
+            class: 'foo',
+          },
+        }
+      },
+    }).configure({
+      foo: [1],
+      HTMLAttributes: {
+        id: 'bar',
+      },
+    })
 
     expect(extension.options).to.deep.eq({
       foo: [1],
@@ -183,22 +176,20 @@ describe('extension options', () => {
       },
     })
 
-    const newExtension = extension
-      .configure()
+    const newExtension = extension.configure()
 
     expect(newExtension.config.name).to.eq('parent')
   })
 
   it('should create its own instance on configure', () => {
-    const extension = Extension
-      .create({
-        addOptions() {
-          return {
-            foo: 1,
-            bar: 2,
-          }
-        },
-      })
+    const extension = Extension.create({
+      addOptions() {
+        return {
+          foo: 1,
+          bar: 2,
+        }
+      },
+    })
 
     const extension1 = extension.configure({
       foo: 2,

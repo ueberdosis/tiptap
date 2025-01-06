@@ -1,6 +1,4 @@
-import {
-  DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType,
-} from '@tiptap/pm/model'
+import { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
 import { Editor } from './Editor.js'
@@ -524,7 +522,7 @@ declare module '@tiptap/core' {
       storage: Storage
       parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
       editor?: Editor
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     }) => Attributes | {}
   }
 }
@@ -576,12 +574,13 @@ export class Mark<Options = any, Storage = any> {
       )
     }
 
-    this.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
-        name: this.name,
-        options: this.options,
-      }),
-    ) || {}
+    this.storage =
+      callOrReturn(
+        getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
+          name: this.name,
+          options: this.options,
+        }),
+      ) || {}
   }
 
   static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> = {}) {

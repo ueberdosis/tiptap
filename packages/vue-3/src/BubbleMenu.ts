@@ -1,13 +1,5 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import {
-  defineComponent,
-  h,
-  onBeforeUnmount,
-  onMounted,
-  PropType,
-  ref,
-  Teleport,
-} from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, PropType, ref, Teleport } from 'vue'
 
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
@@ -48,14 +40,7 @@ export const BubbleMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const {
-        editor,
-        options,
-        pluginKey,
-        resizeDelay,
-        shouldShow,
-        updateDelay,
-      } = props
+      const { editor, options, pluginKey, resizeDelay, shouldShow, updateDelay } = props
 
       if (!root.value) {
         return
@@ -67,15 +52,17 @@ export const BubbleMenu = defineComponent({
       // remove the element from the DOM
       root.value.remove()
 
-      editor.registerPlugin(BubbleMenuPlugin({
-        editor,
-        element: root.value as HTMLElement,
-        options,
-        pluginKey,
-        resizeDelay,
-        shouldShow,
-        updateDelay,
-      }))
+      editor.registerPlugin(
+        BubbleMenuPlugin({
+          editor,
+          element: root.value as HTMLElement,
+          options,
+          pluginKey,
+          resizeDelay,
+          shouldShow,
+          updateDelay,
+        }),
+      )
     })
 
     onBeforeUnmount(() => {

@@ -17,8 +17,10 @@ declare module '@tiptap/core' {
   }
 }
 
-export const liftListItem: RawCommands['liftListItem'] = typeOrName => ({ state, dispatch }) => {
-  const type = getNodeType(typeOrName, state.schema)
+export const liftListItem: RawCommands['liftListItem'] =
+  typeOrName =>
+  ({ state, dispatch }) => {
+    const type = getNodeType(typeOrName, state.schema)
 
-  return originalLiftListItem(type)(state, dispatch)
-}
+    return originalLiftListItem(type)(state, dispatch)
+  }

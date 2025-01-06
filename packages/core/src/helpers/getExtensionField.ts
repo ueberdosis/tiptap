@@ -12,7 +12,6 @@ export function getExtensionField<T = any>(
   field: string,
   context?: Omit<MaybeThisParameterType<T>, 'parent'>,
 ): RemoveThis<T> {
-
   if (extension.config[field] === undefined && extension.parent) {
     return getExtensionField(extension.parent, field, context)
   }
@@ -20,9 +19,7 @@ export function getExtensionField<T = any>(
   if (typeof extension.config[field] === 'function') {
     const value = extension.config[field].bind({
       ...context,
-      parent: extension.parent
-        ? getExtensionField(extension.parent, field, context)
-        : null,
+      parent: extension.parent ? getExtensionField(extension.parent, field, context) : null,
     })
 
     return value

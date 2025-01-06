@@ -2,16 +2,28 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
+        <button
+          @click="editor.chain().focus().toggleOrderedList().run()"
+          :class="{ 'is-active': editor.isActive('orderedList') }"
+        >
           Toggle ordered list
         </button>
-        <button @click="editor.chain().focus().splitListItem('listItem').run()" :disabled="!editor.can().splitListItem('listItem')">
+        <button
+          @click="editor.chain().focus().splitListItem('listItem').run()"
+          :disabled="!editor.can().splitListItem('listItem')"
+        >
           Split list item
         </button>
-        <button @click="editor.chain().focus().sinkListItem('listItem').run()" :disabled="!editor.can().sinkListItem('listItem')">
+        <button
+          @click="editor.chain().focus().sinkListItem('listItem').run()"
+          :disabled="!editor.can().sinkListItem('listItem')"
+        >
           Sink list item
         </button>
-        <button @click="editor.chain().focus().liftListItem('listItem').run()" :disabled="!editor.can().liftListItem('listItem')">
+        <button
+          @click="editor.chain().focus().liftListItem('listItem').run()"
+          :disabled="!editor.can().liftListItem('listItem')"
+        >
           Lift list item
         </button>
       </div>
@@ -41,13 +53,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        OrderedList,
-        ListItem,
-      ],
+      extensions: [Document, Paragraph, Text, OrderedList, ListItem],
       content: `
         <ol>
           <li>A list item</li>

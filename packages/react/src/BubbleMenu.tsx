@@ -1,33 +1,17 @@
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 import { useCurrentEditor } from './Context.js'
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type BubbleMenuProps = Omit<
-  Optional<BubbleMenuPluginProps, 'pluginKey'>,
-  'element' | 'editor'
-> & {
-  editor: BubbleMenuPluginProps['editor'] | null;
-  updateDelay?: number;
-  resizeDelay?: number;
-  options?: BubbleMenuPluginProps['options'];
-} & React.HTMLAttributes<HTMLDivElement>;
+export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>, 'editor'> &
+  React.HTMLAttributes<HTMLDivElement>
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
-    {
-      pluginKey = 'bubbleMenu',
-      editor,
-      updateDelay,
-      resizeDelay,
-      shouldShow = null,
-      options,
-      children,
-      ...restProps
-    },
+    { pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null, options, children, ...restProps },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
@@ -53,9 +37,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       const attachToEditor = editor || currentEditor
 
       if (!attachToEditor) {
-        console.warn(
-          'BubbleMenu component is not rendered inside of an editor component or does not have editor prop.',
-        )
+        console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
         return
       }
 
@@ -82,13 +64,6 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editor, currentEditor])
 
-    return createPortal(
-      <div
-        {...restProps}
-      >
-        {children}
-      </div>,
-      menuEl.current,
-    )
+    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
   },
 )

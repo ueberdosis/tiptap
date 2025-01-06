@@ -9,28 +9,28 @@ export interface OrderedListOptions {
    * @default 'listItem'
    * @example 'myListItem'
    */
-  itemTypeName: string,
+  itemTypeName: string
 
   /**
    * The HTML attributes for an ordered list node.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 
   /**
    * Keep the marks when splitting a list item.
    * @default false
    * @example true
    */
-  keepMarks: boolean,
+  keepMarks: boolean
 
   /**
    * Keep the attributes when splitting a list item.
    * @default false
    * @example true
    */
-  keepAttributes: boolean,
+  keepAttributes: boolean
 }
 
 declare module '@tiptap/core' {
@@ -40,7 +40,7 @@ declare module '@tiptap/core' {
        * Toggle an ordered list
        * @example editor.commands.toggleOrderedList()
        */
-      toggleOrderedList: () => ReturnType,
+      toggleOrderedList: () => ReturnType
     }
   }
 }
@@ -79,9 +79,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
       start: {
         default: 1,
         parseHTML: element => {
-          return element.hasAttribute('start')
-            ? parseInt(element.getAttribute('start') || '', 10)
-            : 1
+          return element.hasAttribute('start') ? parseInt(element.getAttribute('start') || '', 10) : 1
         },
       },
       type: {
@@ -109,12 +107,17 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addCommands() {
     return {
-      toggleOrderedList: () => ({ commands, chain }) => {
-        if (this.options.keepAttributes) {
-          return chain().toggleList(this.name, this.options.itemTypeName, this.options.keepMarks).updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName)).run()
-        }
-        return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
-      },
+      toggleOrderedList:
+        () =>
+        ({ commands, chain }) => {
+          if (this.options.keepAttributes) {
+            return chain()
+              .toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
+              .updateAttributes(ListItemName, this.editor.getAttributes(TextStyleName))
+              .run()
+          }
+          return commands.toggleList(this.name, this.options.itemTypeName, this.options.keepMarks)
+        },
     }
   },
 
@@ -143,8 +146,6 @@ export const OrderedList = Node.create<OrderedListOptions>({
         editor: this.editor,
       })
     }
-    return [
-      inputRule,
-    ]
+    return [inputRule]
   },
 })

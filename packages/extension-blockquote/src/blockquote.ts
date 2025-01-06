@@ -6,7 +6,7 @@ export interface BlockquoteOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -15,15 +15,15 @@ declare module '@tiptap/core' {
       /**
        * Set a blockquote node
        */
-      setBlockquote: () => ReturnType,
+      setBlockquote: () => ReturnType
       /**
        * Toggle a blockquote node
        */
-      toggleBlockquote: () => ReturnType,
+      toggleBlockquote: () => ReturnType
       /**
        * Unset a blockquote node
        */
-      unsetBlockquote: () => ReturnType,
+      unsetBlockquote: () => ReturnType
     }
   }
 }
@@ -38,7 +38,6 @@ export const inputRegex = /^\s*>\s$/
  * @see https://tiptap.dev/api/nodes/blockquote
  */
 export const Blockquote = Node.create<BlockquoteOptions>({
-
   name: 'blockquote',
 
   addOptions() {
@@ -54,9 +53,7 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   defining: true,
 
   parseHTML() {
-    return [
-      { tag: 'blockquote' },
-    ]
+    return [{ tag: 'blockquote' }]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -65,15 +62,21 @@ export const Blockquote = Node.create<BlockquoteOptions>({
 
   addCommands() {
     return {
-      setBlockquote: () => ({ commands }) => {
-        return commands.wrapIn(this.name)
-      },
-      toggleBlockquote: () => ({ commands }) => {
-        return commands.toggleWrap(this.name)
-      },
-      unsetBlockquote: () => ({ commands }) => {
-        return commands.lift(this.name)
-      },
+      setBlockquote:
+        () =>
+        ({ commands }) => {
+          return commands.wrapIn(this.name)
+        },
+      toggleBlockquote:
+        () =>
+        ({ commands }) => {
+          return commands.toggleWrap(this.name)
+        },
+      unsetBlockquote:
+        () =>
+        ({ commands }) => {
+          return commands.lift(this.name)
+        },
     }
   },
 

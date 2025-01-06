@@ -5,7 +5,8 @@ import { NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
-  flattenExtensions, getAttributesFromExtensions,
+  flattenExtensions,
+  getAttributesFromExtensions,
   getExtensionField,
   getNodeType,
   getRenderedAttributes,
@@ -59,11 +60,7 @@ export class ExtensionManager {
         type: getSchemaTypeByName(extension.name, this.schema),
       }
 
-      const addCommands = getExtensionField<AnyConfig['addCommands']>(
-        extension,
-        'addCommands',
-        context,
-      )
+      const addCommands = getExtensionField<AnyConfig['addCommands']>(extension, 'addCommands', context)
 
       if (!addCommands) {
         return commands
@@ -132,21 +129,13 @@ export class ExtensionManager {
 
         plugins.push(keyMapPlugin)
 
-        const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
-          extension,
-          'addInputRules',
-          context,
-        )
+        const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
 
         if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
           inputRules.push(...addInputRules())
         }
 
-        const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
-          extension,
-          'addPasteRules',
-          context,
-        )
+        const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
 
         if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
           pasteRules.push(...addPasteRules())
@@ -201,9 +190,7 @@ export class ExtensionManager {
       nodeExtensions
         .filter(extension => !!getExtensionField(extension, 'addNodeView'))
         .map(extension => {
-          const extensionAttributes = this.attributes.filter(
-            attribute => attribute.type === extension.name,
-          )
+          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
           const context = {
             name: extension.name,
             options: extension.options,
@@ -211,23 +198,13 @@ export class ExtensionManager {
             editor,
             type: getNodeType(extension.name, this.schema),
           }
-          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
-            extension,
-            'addNodeView',
-            context,
-          )
+          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(extension, 'addNodeView', context)
 
           if (!addNodeView) {
             return []
           }
 
-          const nodeview: NodeViewConstructor = (
-            node,
-            view,
-            getPos,
-            decorations,
-            innerDecorations,
-          ) => {
+          const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
             return addNodeView()({
@@ -274,11 +251,7 @@ export class ExtensionManager {
         }
       }
 
-      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(
-        extension,
-        'onBeforeCreate',
-        context,
-      )
+      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(extension, 'onBeforeCreate', context)
       const onCreate = getExtensionField<AnyConfig['onCreate']>(extension, 'onCreate', context)
       const onUpdate = getExtensionField<AnyConfig['onUpdate']>(extension, 'onUpdate', context)
       const onSelectionUpdate = getExtensionField<AnyConfig['onSelectionUpdate']>(
@@ -286,11 +259,7 @@ export class ExtensionManager {
         'onSelectionUpdate',
         context,
       )
-      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(
-        extension,
-        'onTransaction',
-        context,
-      )
+      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(extension, 'onTransaction', context)
       const onFocus = getExtensionField<AnyConfig['onFocus']>(extension, 'onFocus', context)
       const onBlur = getExtensionField<AnyConfig['onBlur']>(extension, 'onBlur', context)
       const onDestroy = getExtensionField<AnyConfig['onDestroy']>(extension, 'onDestroy', context)

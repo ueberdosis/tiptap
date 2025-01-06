@@ -1,5 +1,5 @@
 ---
-"@tiptap/starter-kit": major
+'@tiptap/starter-kit': major
 ---
 
 We have now added the Link, ListKeymap, and Underline extensions to the starter kit for a smoother onboarding experience

@@ -15,7 +15,10 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -30,12 +33,13 @@
   "devDependencies": {
     "@tiptap/core": "^3.0.0-next.3",
     "@tiptap/pm": "^3.0.0-next.3",
-    "y-prosemirror": "^1.2.12"
+    "y-prosemirror": "^1.2.15"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1",
     "@tiptap/pm": "^3.0.0-next.1",
-    "y-prosemirror": "^1.2.6"
+    "y-prosemirror": "^1.2.6",
+    "yjs": "^13"
   },
   "repository": {
     "type": "git",
@@ -43,6 +47,7 @@
     "directory": "packages/extension-collaboration"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }
