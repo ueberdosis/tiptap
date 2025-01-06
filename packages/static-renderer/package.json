@@ -95,7 +95,7 @@
     "directory": "packages/static-renderer"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && tsup"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }
