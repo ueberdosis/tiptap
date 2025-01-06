@@ -87,7 +87,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         ),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
-            return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
+            return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate }]
           }),
         ),
       })
@@ -167,7 +167,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         code: callOrReturn(getExtensionField<MarkConfig['code']>(extension, 'code', context)),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
-            return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
+            return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate }]
           }),
         ),
       })
