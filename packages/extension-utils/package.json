@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/extension-table-header",
-  "description": "table cell extension for tiptap",
+  "name": "@tiptap/extension-utils",
+  "description": "various utils extension for tiptap",
   "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
@@ -15,10 +15,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": {
-        "import": "./dist/index.d.ts",
-        "require": "./dist/index.d.cts"
-      },
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
@@ -31,18 +28,19 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-table": "^3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/extension-table": "^3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-table-header"
+    "directory": "packages/extension-utils"
   },
   "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "build": "tsup"
   }
 }

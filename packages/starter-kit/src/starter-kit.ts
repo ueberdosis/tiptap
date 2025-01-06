@@ -5,8 +5,6 @@ import { BulletList, BulletListOptions } from '@tiptap/extension-bullet-list'
 import { Code, CodeOptions } from '@tiptap/extension-code'
 import { CodeBlock, CodeBlockOptions } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
-import { Dropcursor, DropcursorOptions } from '@tiptap/extension-dropcursor'
-import { Gapcursor } from '@tiptap/extension-gapcursor'
 import { HardBreak, HardBreakOptions } from '@tiptap/extension-hard-break'
 import { Heading, HeadingOptions } from '@tiptap/extension-heading'
 import { History, HistoryOptions } from '@tiptap/extension-history'
@@ -20,6 +18,7 @@ import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
+import { Dropcursor, DropcursorOptions, Gapcursor, TrailingNode, TrailingNodeOptions } from '@tiptap/extension-utils'
 
 export interface StarterKitOptions {
   /**
@@ -147,6 +146,12 @@ export interface StarterKitOptions {
    * @example underline: false
    */
   underline: Partial<UnderlineOptions> | false
+
+  /**
+   * If set to false, the trailingNode extension will not be registered
+   * @example trailingNode: false
+   */
+  trailingNode: Partial<TrailingNodeOptions> | false
 }
 
 /**
@@ -242,6 +247,10 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.underline !== false) {
       extensions.push(Underline.configure(this.options?.underline))
+    }
+
+    if (this.options.trailingNode !== false) {
+      extensions.push(TrailingNode.configure(this.options?.trailingNode))
     }
 
     return extensions

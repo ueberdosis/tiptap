@@ -14,10 +14,7 @@
 
 <script>
 import Image from '@tiptap/extension-image'
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
+import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
@@ -143,7 +140,18 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit, Table, TableRow, TableHeader, TableCell, ImageFigure, TableFigure, Figcaption, Image],
+      extensions: [
+        StarterKit,
+        TableKit.configure({
+          table: {
+            resizable: true,
+          },
+        }),
+        ImageFigure,
+        TableFigure,
+        Figcaption,
+        Image,
+      ],
       content: `
         <p>Some text</p>
         <figure data-type="capturedImage">

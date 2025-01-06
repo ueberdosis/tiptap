@@ -27,7 +27,7 @@ export interface FocusOptions {
  * This extension allows you to add a class to the focused node.
  * @see https://www.tiptap.dev/api/extensions/focus
  */
-export const FocusClasses = Extension.create<FocusOptions>({
+export const Focus = Extension.create<FocusOptions>({
   name: 'focus',
 
   addOptions() {

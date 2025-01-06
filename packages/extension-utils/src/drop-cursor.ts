@@ -27,7 +27,7 @@ export interface DropcursorOptions {
 /**
  * This extension allows you to add a drop cursor to your editor.
  * A drop cursor is a line that appears when you drag and drop content
- * inbetween nodes.
+ * in-between nodes.
  * @see https://tiptap.dev/api/extensions/dropcursor
  */
 export const Dropcursor = Extension.create<DropcursorOptions>({

@@ -3,10 +3,7 @@ import './styles.scss'
 import Document from '@tiptap/extension-document'
 import Gapcursor from '@tiptap/extension-gapcursor'
 import Paragraph from '@tiptap/extension-paragraph'
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
+import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
@@ -18,12 +15,9 @@ export default () => {
       Paragraph,
       Text,
       Gapcursor,
-      Table.configure({
-        resizable: true,
+      TableKit.configure({
+        table: { resizable: true },
       }),
-      TableRow,
-      TableHeader,
-      TableCell,
     ],
     content: `
         <table>

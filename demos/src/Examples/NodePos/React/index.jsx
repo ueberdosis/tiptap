@@ -10,7 +10,12 @@ const mapNodePosToString = nodePos =>
 
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit, Image],
+    extensions: [
+      StarterKit.configure({
+        trailingNode: false,
+      }),
+      Image,
+    ],
     content: `
       <h1>This is an example document to play around with the NodePos implementation of Tiptap.</h1>
       <p>
