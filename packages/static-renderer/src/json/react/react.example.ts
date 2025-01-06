@@ -14,32 +14,31 @@ import { renderJSONContentToReactElement } from './react.js'
  */
 
 // eslint-disable-next-line no-console
-console.log(renderJSONContentToReactElement({
-  nodeMapping: {
-    text({ node }) {
-      return (node as unknown as TextType).text ?? null
-    },
-    heading({
-      node,
-      children,
-    }: NodeProps<NodeType<'heading', { level: number }>, React.ReactNode>) {
-      const level = node.attrs.level
-      const hTag = `h${level}`
-
-      return React.createElement(hTag, node.attrs, children)
-    },
-  },
-  markMapping: {},
-})({
-  content: {
-    type: 'heading',
-    content: [
-      {
-        type: 'text',
-        text: 'hello world',
-        marks: [],
+console.log(
+  renderJSONContentToReactElement({
+    nodeMapping: {
+      text({ node }) {
+        return (node as unknown as TextType).text ?? null
       },
-    ],
-    attrs: { level: 2 },
-  },
-}))
+      heading({ node, children }: NodeProps<NodeType<'heading', { level: number }>, React.ReactNode>) {
+        const level = node.attrs.level
+        const hTag = `h${level}`
+
+        return React.createElement(hTag, node.attrs, children)
+      },
+    },
+    markMapping: {},
+  })({
+    content: {
+      type: 'heading',
+      content: [
+        {
+          type: 'text',
+          text: 'hello world',
+          marks: [],
+        },
+      ],
+      attrs: { level: 2 },
+    },
+  }),
+)

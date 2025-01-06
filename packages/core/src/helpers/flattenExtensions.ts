@@ -16,11 +16,7 @@ export function flattenExtensions(extensions: Extensions): Extensions {
           storage: extension.storage,
         }
 
-        const addExtensions = getExtensionField<AnyConfig['addExtensions']>(
-          extension,
-          'addExtensions',
-          context,
-        )
+        const addExtensions = getExtensionField<AnyConfig['addExtensions']>(extension, 'addExtensions', context)
 
         if (addExtensions) {
           return [extension, ...flattenExtensions(addExtensions())]

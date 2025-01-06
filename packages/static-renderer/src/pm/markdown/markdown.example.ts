@@ -14,7 +14,18 @@ import { renderToMarkdown } from './markdown.js'
 // eslint-disable-next-line no-console
 console.log(
   renderToMarkdown({
-    extensions: [StarterKit, Subscript, Superscript, TextAlign, TextStyle, Highlight, Table, TableRow, TableCell, TableHeader],
+    extensions: [
+      StarterKit,
+      Subscript,
+      Superscript,
+      TextAlign,
+      TextStyle,
+      Highlight,
+      Table,
+      TableRow,
+      TableCell,
+      TableHeader,
+    ],
     content: {
       type: 'doc',
       from: 0,
@@ -612,9 +623,7 @@ console.log(
                   attrs: {
                     colspan: 1,
                     rowspan: 1,
-                    colwidth: [
-                      200,
-                    ],
+                    colwidth: [200],
                   },
                   content: [
                     {
@@ -639,10 +648,7 @@ console.log(
                   attrs: {
                     colspan: 3,
                     rowspan: 1,
-                    colwidth: [
-                      150,
-                      100,
-                    ],
+                    colwidth: [150, 100],
                   },
                   content: [
                     {

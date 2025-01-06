@@ -13,9 +13,9 @@ export function renderToMarkdown({
   extensions,
   options,
 }: {
-  content: Node | JSONContent;
-  extensions: Extensions;
-  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>;
+  content: Node | JSONContent
+  extensions: Extensions
+  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }) {
   return renderToHTMLString({
     content,
@@ -55,9 +55,7 @@ export function renderToMarkdown({
           return `${new Array(level).fill('#').join('')} ${children}\n`
         },
         codeBlock({ node, children }) {
-          return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(
-            children,
-          )}\n\`\`\`\n`
+          return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(children)}\n\`\`\`\n`
         },
         blockquote({ children }) {
           return `\n${serializeChildrenToHTMLString(children)

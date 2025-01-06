@@ -24,8 +24,7 @@ console.log(
       },
       markMapping: {},
     },
-    content:
-    {
+    content: {
       type: 'doc',
       from: 0,
       to: 574,

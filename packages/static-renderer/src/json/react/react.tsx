@@ -14,22 +14,19 @@ export function renderJSONContentToReactElement<
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
-    content?: { forEach:(cb: (node: TNodeType) => void) => void };
-    marks?: readonly TMarkType[];
-    type: string | { name: string };
+    content?: { forEach: (cb: (node: TNodeType) => void) => void }
+    marks?: readonly TMarkType[]
+    type: string | { name: string }
   } = NodeType,
 >(options: TiptapStaticRendererOptions<React.ReactNode, TMarkType, TNodeType>) {
   let key = 0
 
-  return TiptapStaticRenderer<React.ReactNode, TMarkType, TNodeType>(
-    ({ component, props: { children, ...props } }) => {
-      return React.createElement(
-        component as React.FC<typeof props>,
-        // eslint-disable-next-line no-plusplus
-        Object.assign(props, { key: key++ }),
-        ([] as React.ReactNode[]).concat(children),
-      )
-    },
-    options,
-  )
+  return TiptapStaticRenderer<React.ReactNode, TMarkType, TNodeType>(({ component, props: { children, ...props } }) => {
+    return React.createElement(
+      component as React.FC<typeof props>,
+      // eslint-disable-next-line no-plusplus
+      Object.assign(props, { key: key++ }),
+      ([] as React.ReactNode[]).concat(children),
+    )
+  }, options)
 }

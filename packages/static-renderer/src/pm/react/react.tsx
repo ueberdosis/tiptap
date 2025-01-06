@@ -72,27 +72,28 @@ export function domOutputSpecToReactElement(
     if (typeof attrs === 'object') {
       if (Array.isArray(attrs)) {
         if (children === undefined) {
-          return child => React.createElement(
-            tag,
-            mapAttrsToHTMLAttributes(undefined, key.toString()),
-            domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
-          )
+          return child =>
+            React.createElement(
+              tag,
+              mapAttrsToHTMLAttributes(undefined, key.toString()),
+              domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
+            )
         }
         if (children === 0) {
-          return child => React.createElement(
+          return child =>
+            React.createElement(
+              tag,
+              mapAttrsToHTMLAttributes(undefined, key.toString()),
+              domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
+            )
+        }
+        return child =>
+          React.createElement(
             tag,
             mapAttrsToHTMLAttributes(undefined, key.toString()),
-            domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
+            domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
+            [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
           )
-        }
-        return child => React.createElement(
-          tag,
-          mapAttrsToHTMLAttributes(undefined, key.toString()),
-          domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
-          [children]
-            .concat(rest)
-            .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
-        )
       }
       if (children === undefined) {
         return () => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()))
@@ -101,13 +102,12 @@ export function domOutputSpecToReactElement(
         return child => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child)
       }
 
-      return child => React.createElement(
-        tag,
-        mapAttrsToHTMLAttributes(attrs, key.toString()),
-        [children]
-          .concat(rest)
-          .map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
-      )
+      return child =>
+        React.createElement(
+          tag,
+          mapAttrsToHTMLAttributes(attrs, key.toString()),
+          [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
+        )
     }
   }
 
@@ -132,9 +132,9 @@ export function renderToReactElement({
   extensions,
   options,
 }: {
-  content: Node | JSONContent;
-  extensions: Extensions;
-  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>;
+  content: Node | JSONContent
+  extensions: Extensions
+  options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
     renderer: renderJSONContentToReactElement,

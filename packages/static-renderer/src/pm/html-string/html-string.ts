@@ -2,23 +2,22 @@
 import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
-import { renderJSONContentToString, serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'
-import { TiptapStaticRendererOptions } from '../../json/renderer.js'
-import { renderToElement } from '../extensionRenderer.js'
-
-export {
+import {
+  renderJSONContentToString,
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
 } from '../../json/html-string/string.js'
+import { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import { renderToElement } from '../extensionRenderer.js'
+
+export { serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'
 
 /**
  * Take a DOMOutputSpec and return a function that can render it to a string
  * @param content The DOMOutputSpec to convert to a string
  * @returns A function that can render the DOMOutputSpec to a string
  */
-export function domOutputSpecToHTMLString(
-  content: DOMOutputSpec,
-): (children?: string | string[]) => string {
+export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: string | string[]) => string {
   if (typeof content === 'string') {
     return () => content
   }
@@ -45,23 +44,23 @@ export function domOutputSpecToHTMLString(
         if (children === 0) {
           return child => `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}</${tag}>`
         }
-        return child => `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
-          .concat(rest)
-          .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
+        return child =>
+          `<${tag}>${domOutputSpecToHTMLString(attrs as DOMOutputSpecArray)(child)}${[children]
+            .concat(rest)
+            .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
       }
       if (children === undefined) {
         return () => `<${tag}${serializeAttrsToHTMLString(attrs)}/>`
       }
       if (children === 0) {
-        return child => `<${tag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(
-          child,
-        )}</${tag}>`
+        return child => `<${tag}${serializeAttrsToHTMLString(attrs)}>${serializeChildrenToHTMLString(child)}</${tag}>`
       }
 
-      return child => `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
-        .concat(rest)
-        .map(a => domOutputSpecToHTMLString(a)(child))
-        .join('')}</${tag}>`
+      return child =>
+        `<${tag}${serializeAttrsToHTMLString(attrs)}>${[children]
+          .concat(rest)
+          .map(a => domOutputSpecToHTMLString(a)(child))
+          .join('')}</${tag}>`
     }
   }
 
@@ -86,9 +85,9 @@ export function renderToHTMLString({
   extensions,
   options,
 }: {
-  content: Node | JSONContent;
-  extensions: Extensions;
-  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>;
+  content: Node | JSONContent
+  extensions: Extensions
+  options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }): string {
   return renderToElement<string>({
     renderer: renderJSONContentToString,

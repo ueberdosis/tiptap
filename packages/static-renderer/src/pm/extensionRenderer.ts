@@ -20,7 +20,7 @@ import { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 import { getHTMLAttributes } from '../helpers.js'
 import { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
 
-export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: T | T[]) => T;
+export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: T | T[]) => T
 
 /**
  * This takes a NodeExtension and maps it to a React component
@@ -41,11 +41,7 @@ export function mapNodeExtensionToReactNode<T>(
     parent: extension.parent,
   }
 
-  const renderToHTML = getExtensionField<NodeConfig['renderHTML']>(
-    extension,
-    'renderHTML',
-    context,
-  )
+  const renderToHTML = getExtensionField<NodeConfig['renderHTML']>(extension, 'renderHTML', context)
 
   if (!renderToHTML) {
     if (options?.unhandledNode) {
@@ -102,11 +98,7 @@ export function mapMarkExtensionToReactNode<T>(
     parent: extension.parent,
   }
 
-  const renderToHTML = getExtensionField<MarkConfig['renderHTML']>(
-    extension,
-    'renderHTML',
-    context,
-  )
+  const renderToHTML = getExtensionField<MarkConfig['renderHTML']>(extension, 'renderHTML', context)
 
   if (!renderToHTML) {
     if (options?.unhandledMark) {
@@ -115,9 +107,7 @@ export function mapMarkExtensionToReactNode<T>(
     return [
       extension.name,
       () => {
-        throw new Error(
-          `Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`,
-        )
+        throw new Error(`Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`)
       },
     ]
   }
@@ -162,15 +152,15 @@ export function renderToElement<T>({
   extensions,
   options,
 }: {
-  renderer: (options: TiptapStaticRendererOptions<T, Mark, Node>) => (ctx: { content: Node }) => T;
-  domOutputSpecToElement: DomOutputSpecToElement<T>;
+  renderer: (options: TiptapStaticRendererOptions<T, Mark, Node>) => (ctx: { content: Node }) => T
+  domOutputSpecToElement: DomOutputSpecToElement<T>
   mapDefinedTypes: {
-    doc: (props: NodeProps<Node, T | T[]>) => T;
-    text: (props: NodeProps<Node, T | T[]>) => T;
-  };
-  content: Node | JSONContent;
-  extensions: Extensions;
-  options?: Partial<TiptapStaticRendererOptions<T, Mark, Node>>;
+    doc: (props: NodeProps<Node, T | T[]>) => T
+    text: (props: NodeProps<Node, T | T[]>) => T
+  }
+  content: Node | JSONContent
+  extensions: Extensions
+  options?: Partial<TiptapStaticRendererOptions<T, Mark, Node>>
 }): T {
   // get all extensions in order & split them into nodes and marks
   extensions = resolveExtensions(extensions)
@@ -197,12 +187,9 @@ export function renderToElement<T>({
             }
             return true
           })
-          .map(nodeExtension => mapNodeExtensionToReactNode<T>(
-            domOutputSpecToElement,
-            nodeExtension,
-            extensionAttributes,
-            options,
-          )),
+          .map(nodeExtension =>
+            mapNodeExtensionToReactNode<T>(domOutputSpecToElement, nodeExtension, extensionAttributes, options),
+          ),
       ),
       ...mapDefinedTypes,
       ...options?.nodeMapping,
@@ -217,12 +204,7 @@ export function renderToElement<T>({
             }
             return true
           })
-          .map(mark => mapMarkExtensionToReactNode<T>(
-            domOutputSpecToElement,
-            mark,
-            extensionAttributes,
-            options,
-          )),
+          .map(mark => mapMarkExtensionToReactNode<T>(domOutputSpecToElement, mark, extensionAttributes, options)),
       ),
       ...options?.markMapping,
     },

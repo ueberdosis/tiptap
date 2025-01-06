@@ -13,13 +13,17 @@ describe('static render json to string (no prosemirror)', () => {
   it('generate an HTML string from JSON without an editor instance', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-        }],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+            },
+          ],
+        },
+      ],
       attrs: {},
     }
 
@@ -44,17 +48,23 @@ describe('static render json to string (no prosemirror)', () => {
   it('supports mapping nodes & marks', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-          marks: [{
-            type: 'bold',
-            attrs: {},
-          }],
-        }],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+              marks: [
+                {
+                  type: 'bold',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
+        },
+      ],
       attrs: {},
     }
 
@@ -83,20 +93,26 @@ describe('static render json to string (no prosemirror)', () => {
   it('gives access to the original JSON node or mark', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'heading',
-        attrs: {
-          level: 2,
+      content: [
+        {
+          type: 'heading',
+          attrs: {
+            level: 2,
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+              marks: [
+                {
+                  type: 'bold',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
         },
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-          marks: [{
-            type: 'bold',
-            attrs: {},
-          }],
-        }],
-      }],
+      ],
       attrs: {},
     }
 
@@ -112,14 +128,18 @@ describe('static render json to string (no prosemirror)', () => {
             attrs: {
               level: 2,
             },
-            content: [{
-              type: 'text',
-              text: 'Example Text',
-              marks: [{
-                type: 'bold',
-                attrs: {},
-              }],
-            }],
+            content: [
+              {
+                type: 'text',
+                text: 'Example Text',
+                marks: [
+                  {
+                    type: 'bold',
+                    attrs: {},
+                  },
+                ],
+              },
+            ],
           })
           return `<h${node.attrs.level}>${serializeChildrenToHTMLString(children)}</h${node.attrs.level}>`
         },
@@ -127,10 +147,12 @@ describe('static render json to string (no prosemirror)', () => {
           expect(node).to.deep.eq({
             type: 'text',
             text: 'Example Text',
-            marks: [{
-              type: 'bold',
-              attrs: {},
-            }],
+            marks: [
+              {
+                type: 'bold',
+                attrs: {},
+              },
+            ],
           })
           return (node as unknown as TextType).text
         },
@@ -154,28 +176,29 @@ describe('static render json to string (with prosemirror)', () => {
   it('generates an HTML string from JSON without an editor instance', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-          marks: [{
-            type: 'bold',
-            attrs: {},
-          }],
-        }],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+              marks: [
+                {
+                  type: 'bold',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
+        },
+      ],
       attrs: {},
     }
 
     const html = renderToHTMLString({
       content: json,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, Bold],
     })
 
     expect(html).to.eq('<p><strong>Example Text</strong></p>')
@@ -184,28 +207,29 @@ describe('static render json to string (with prosemirror)', () => {
   it('supports custom mapping for nodes & marks', () => {
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-          marks: [{
-            type: 'bold',
-            attrs: {},
-          }],
-        }],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+              marks: [
+                {
+                  type: 'bold',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
+        },
+      ],
       attrs: {},
     }
 
     const html = renderToHTMLString({
       content: json,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, Bold],
       options: {
         nodeMapping: {
           doc: ({ children }) => {
@@ -224,31 +248,31 @@ describe('static render json to string (with prosemirror)', () => {
   })
 
   it('gives access to a prosemirror node or mark instance', () => {
-
     const json = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [{
-          type: 'text',
-          text: 'Example Text',
-          marks: [{
-            type: 'bold',
-            attrs: {},
-          }],
-        }],
-      }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+              marks: [
+                {
+                  type: 'bold',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
+        },
+      ],
       attrs: {},
     }
 
     const html = renderToHTMLString({
       content: json,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, Bold],
       options: {
         nodeMapping: {
           doc: ({ children, node }) => {
