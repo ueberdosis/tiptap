@@ -1,5 +1,5 @@
-import { TableRow } from './table-row.js'
+import { TableRow } from '@tiptap/extension-table'
 
-export * from './table-row.js'
+export { TableRow, TableRowOptions } from '@tiptap/extension-table'
 
 export default TableRow
