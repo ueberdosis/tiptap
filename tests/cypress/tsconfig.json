@@ -7,10 +7,10 @@
     "sourceMap": false,
     "types": ["cypress", "react", "react-dom"],
     "paths": {
+      "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
+      "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
       "@tiptap/*": ["packages/*/src", "packages/*/dist"],
-      "@tiptap/pm/*": ["packages/pm/*"],
-      "@tiptap/static-renderer/pm": ["../../static-renderer/dist/pm/*"],
-      "@tiptap/static-renderer/json": ["../../static-renderer/dist/json/*"]
+      "@tiptap/pm/*": ["packages/pm/*"]
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"]
   },

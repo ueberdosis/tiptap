@@ -30,6 +30,16 @@ module.exports = on => {
     .forEach(name => {
       alias[`@tiptap/pm${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/pm/${name}/index.ts`)
     })
+  // Specifically resolve the static-renderer package
+  alias['@tiptap/static-renderer/json/html-string$'] = path.resolve(
+    '../packages/static-renderer/src/json/html-string/index.ts',
+  )
+  alias['@tiptap/static-renderer/pm/html-string$'] = path.resolve(
+    '../packages/static-renderer/src/pm/html-string/index.ts',
+  )
+  alias['@tiptap/static-renderer/pm/react$'] = path.resolve('../packages/static-renderer/src/pm/react/index.ts')
+  alias['@tiptap/static-renderer/pm/markdown$'] = path.resolve('../packages/static-renderer/src/pm/markdown/index.ts')
+  alias['@tiptap/static-renderer$'] = path.resolve('../packages/static-renderer/src/index.ts')
 
   const options = {
     webpackOptions: {
