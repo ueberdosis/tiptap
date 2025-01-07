@@ -54,6 +54,14 @@
       "import": "./dist/font-size/index.js",
       "require": "./dist/font-size/index.cjs"
     },
+    "./line-height": {
+      "types": {
+        "import": "./dist/line-height/index.d.ts",
+        "require": "./dist/line-height/index.d.cts"
+      },
+      "import": "./dist/line-height/index.js",
+      "require": "./dist/line-height/index.cjs"
+    },
     "./text-style": {
       "types": {
         "import": "./dist/text-style/index.d.ts",

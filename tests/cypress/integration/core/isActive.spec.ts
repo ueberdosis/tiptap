@@ -1,12 +1,10 @@
 /// <reference types="cypress" />
 
 import { Editor } from '@tiptap/core'
-import Color from '@tiptap/extension-color'
 import Document from '@tiptap/extension-document'
-import FontFamily from '@tiptap/extension-font-family'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import TextStyle from '@tiptap/extension-text-style'
+import { Color, FontFamily , TextStyle } from '@tiptap/extension-text-style'
 
 describe('isActive', () => {
   it('should check the current node', () => {

@@ -1,10 +1,9 @@
 import './styles.scss'
 
-import { BackgroundColor } from '@tiptap/extension-background-color'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import TextStyle from '@tiptap/extension-text-style'
+import { BackgroundColor, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 

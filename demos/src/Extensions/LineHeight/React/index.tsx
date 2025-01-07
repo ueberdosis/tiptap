@@ -1,14 +1,13 @@
 import './styles.scss'
 
-import FontSize from '@tiptap/extension-line-height'
-import TextStyle from '@tiptap/extension-text-style'
+import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit, TextStyle, FontSize],
+    extensions: [StarterKit, TextStyle, LineHeight],
     content: `
         <p>Adjusting line heights can greatly affect the readability of your text, making it easier for users to engage with your content.</p>
         <p>Line height is the vertical distance between lines of text in a paragraph. It's also known as leading, which comes from the days of metal type, when strips of lead were placed between lines of type to add space.</p>

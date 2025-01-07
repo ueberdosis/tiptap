@@ -4,6 +4,7 @@ import { BackgroundColor, BackgroundColorOptions } from '../background-color/ind
 import { Color, ColorOptions } from '../color/index.js'
 import { FontFamily, FontFamilyOptions } from '../font-family/index.js'
 import { FontSize, FontSizeOptions } from '../font-size/index.js'
+import { LineHeight, LineHeightOptions } from '../line-height/index.js'
 import { TextStyle, TextStyleOptions } from '../text-style/index.js'
 
 export interface TextStyleKitOptions {
@@ -27,6 +28,11 @@ export interface TextStyleKitOptions {
    * @example fontSize: false
    */
   fontSize: Partial<FontSizeOptions> | false
+  /**
+   * If set to false, the line height extension will not be registered
+   * @example lineHeight: false
+   */
+  lineHeight: Partial<LineHeightOptions> | false
   /**
    * If set to false, the text style extension will not be registered (required for other text style extensions)
    * @example textStyle: false
@@ -59,6 +65,10 @@ export const TextStyleKit = Extension.create<TextStyleKitOptions>({
 
     if (this.options.fontSize !== false) {
       extensions.push(FontSize.configure(this.options.fontSize))
+    }
+
+    if (this.options.lineHeight !== false) {
+      extensions.push(LineHeight.configure(this.options.lineHeight))
     }
 
     if (this.options.textStyle !== false) {

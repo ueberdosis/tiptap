@@ -6,6 +6,7 @@ export default defineConfig(
     'src/color/index.ts',
     'src/font-family/index.ts',
     'src/font-size/index.ts',
+    'src/line-height/index.ts',
     'src/text-style/index.ts',
     'src/text-style-kit/index.ts',
     'src/index.ts',
