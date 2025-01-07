@@ -31,12 +31,11 @@ const getPackageDependencies = () => {
             replacement: resolve(`../packages/${name}/src/${subPkgName}/index.ts`),
           })
         })
+        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
       } else {
         paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
       }
     })
-
-  console.log(paths)
 
   return paths
 }
