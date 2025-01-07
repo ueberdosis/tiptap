@@ -30,6 +30,12 @@ declare module '@tiptap/core' {
   }
 }
 
+declare module '@tiptap/extension-text-style' {
+  interface TextStyleAttributes {
+    color?: string | null
+  }
+}
+
 /**
  * This extension allows you to color your text.
  * @see https://tiptap.dev/api/extensions/color

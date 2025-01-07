@@ -29,6 +29,12 @@ declare module '@tiptap/core' {
   }
 }
 
+declare module '@tiptap/extension-text-style' {
+  interface TextStyleAttributes {
+    fontFamily?: string | null
+  }
+}
+
 /**
  * This extension allows you to set a font family for text.
  * @see https://www.tiptap.dev/api/extensions/font-family

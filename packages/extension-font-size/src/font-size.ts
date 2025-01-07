@@ -29,6 +29,12 @@ declare module '@tiptap/core' {
   }
 }
 
+declare module '@tiptap/extension-text-style' {
+  interface TextStyleAttributes {
+    fontSize?: string | null
+  }
+}
+
 /**
  * This extension allows you to set a font size for text.
  * @see https://www.tiptap.dev/api/extensions/font-size

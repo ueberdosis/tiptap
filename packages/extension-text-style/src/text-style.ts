@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface TextStyleOptions {
@@ -17,6 +18,11 @@ export interface TextStyleOptions {
   mergeNestedSpanStyles: boolean
 }
 
+/**
+ * The available text style attributes.
+ */
+export interface TextStyleAttributes extends Record<string, any> {}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     textStyle: {
@@ -25,6 +31,12 @@ declare module '@tiptap/core' {
        * @example editor.commands.removeEmptyTextStyle()
        */
       removeEmptyTextStyle: () => ReturnType
+      /**
+       * Toggle a text style
+       * @param attributes The text style attributes
+       * @example editor.commands.toggleTextStyle({ fontWeight: 'bold' })
+       */
+      toggleTextStyle: (attributes?: TextStyleAttributes) => ReturnType
     }
   }
 }
@@ -49,7 +61,7 @@ const mergeNestedSpanStyles = (element: HTMLElement) => {
 
 /**
  * This extension allows you to create text styles. It is required by default
- * for the `textColor` and `backgroundColor` extensions.
+ * for the `text-color` and `font-family` extensions.
  * @see https://www.tiptap.dev/api/marks/text-style
  */
 export const TextStyle = Mark.create<TextStyleOptions>({
@@ -92,6 +104,11 @@ export const TextStyle = Mark.create<TextStyleOptions>({
 
   addCommands() {
     return {
+      toggleTextStyle:
+        attributes =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name, attributes)
+        },
       removeEmptyTextStyle:
         () =>
         ({ tr }) => {
