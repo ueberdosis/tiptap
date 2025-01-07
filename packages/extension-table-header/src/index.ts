@@ -1,5 +1,7 @@
-import { TableHeader } from '@tiptap/extension-table'
+// @ts-ignore
+import { TableHeader } from '@tiptap/extension-table/header'
 
-export { TableHeader, TableHeaderOptions } from '@tiptap/extension-table'
+// @ts-ignore
+export { TableHeader, TableHeaderOptions } from '@tiptap/extension-table/header'
 
 export default TableHeader

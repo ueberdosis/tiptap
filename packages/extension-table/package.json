@@ -21,6 +21,46 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./table": {
+      "types": {
+        "import": "./dist/table/index.d.ts",
+        "require": "./dist/table/index.d.cts"
+      },
+      "import": "./dist/table/index.js",
+      "require": "./dist/table/index.cjs"
+    },
+    "./table-cell": {
+      "types": {
+        "import": "./dist/table-cell/index.d.ts",
+        "require": "./dist/table-cell/index.d.cts"
+      },
+      "import": "./dist/table-cell/index.js",
+      "require": "./dist/table-cell/index.cjs"
+    },
+    "./table-header": {
+      "types": {
+        "import": "./dist/table-header/index.d.ts",
+        "require": "./dist/table-header/index.d.cts"
+      },
+      "import": "./dist/table-header/index.js",
+      "require": "./dist/table-header/index.cjs"
+    },
+    "./table-kit": {
+      "types": {
+        "import": "./dist/table-kit/index.d.ts",
+        "require": "./dist/table-kit/index.d.cts"
+      },
+      "import": "./dist/table-kit/index.js",
+      "require": "./dist/table-kit/index.cjs"
+    },
+    "./table-row": {
+      "types": {
+        "import": "./dist/table-row/index.d.ts",
+        "require": "./dist/table-row/index.d.cts"
+      },
+      "import": "./dist/table-row/index.js",
+      "require": "./dist/table-row/index.cjs"
     }
   },
   "main": "dist/index.cjs",
