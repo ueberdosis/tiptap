@@ -30,7 +30,7 @@ declare module '@tiptap/core' {
   }
 }
 
-// @ts-ignore
+// @ts-ignore because the module is not found during dts build
 declare module '@tiptap/extension-text-style' {
   interface TextStyleAttributes {
     backgroundColor?: string | null
