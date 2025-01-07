@@ -345,9 +345,6 @@ importers:
 
   packages/extension-color:
     devDependencies:
-      '@tiptap/core':
-        specifier: ^3.0.0-next.3
-        version: link:../core
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.3
         version: link:../extension-text-style
@@ -384,18 +381,6 @@ importers:
 
   packages/extension-font-family:
     devDependencies:
-      '@tiptap/core':
-        specifier: ^3.0.0-next.3
-        version: link:../core
-      '@tiptap/extension-text-style':
-        specifier: ^3.0.0-next.3
-        version: link:../extension-text-style
-
-  packages/extension-font-size:
-    devDependencies:
-      '@tiptap/core':
-        specifier: ^3.0.0-next.3
-        version: link:../core
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.3
         version: link:../extension-text-style
@@ -453,6 +438,15 @@ importers:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
         version: link:../core
+
+  packages/extension-line-height:
+    devDependencies:
+      '@tiptap/core':
+        specifier: ^3.0.0-next.3
+        version: link:../core
+      '@tiptap/extension-text-style':
+        specifier: ^3.0.0-next.3
+        version: link:../extension-text-style
 
   packages/extension-link:
     dependencies:

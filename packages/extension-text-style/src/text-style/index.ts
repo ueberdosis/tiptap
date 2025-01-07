@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { Mark, mergeAttributes } from '@tiptap/core'
+
+import type { TextStyleAttributes } from '../index.js'
 
 export interface TextStyleOptions {
   /**
@@ -17,11 +18,6 @@ export interface TextStyleOptions {
    */
   mergeNestedSpanStyles: boolean
 }
-
-/**
- * The available text style attributes.
- */
-export interface TextStyleAttributes extends Record<string, any> {}
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

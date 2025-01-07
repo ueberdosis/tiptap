@@ -1,5 +1,6 @@
-import { Color } from './color.js'
+// @ts-ignore
+import { Color, ColorOptions } from '@tiptap/extension-text-style/color'
 
-export * from './color.js'
+export { Color, ColorOptions }
 
 export default Color

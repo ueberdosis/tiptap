@@ -1,4 +1,4 @@
-import '@tiptap/extension-text-style'
+import '../text-style/index.js'
 
 import { Extension } from '@tiptap/core'
 
@@ -30,6 +30,7 @@ declare module '@tiptap/core' {
   }
 }
 
+// @ts-ignore
 declare module '@tiptap/extension-text-style' {
   interface TextStyleAttributes {
     backgroundColor?: string | null
