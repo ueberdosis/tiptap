@@ -1,6 +1,6 @@
-context('/src/Extensions/FontSize/React/', () => {
+context('/src/Extensions/LineHeight/React/', () => {
   before(() => {
-    cy.visit('/src/Extensions/FontSize/React/')
+    cy.visit('/src/Extensions/LineHeight/React/')
   })
 
   beforeEach(() => {
@@ -10,16 +10,29 @@ context('/src/Extensions/FontSize/React/', () => {
     cy.get('.tiptap').type('{selectall}')
   })
 
-  it('should set the font-size of the selected text', () => {
-    cy.get('[data-test-id="28px"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
+  it('should set line-height 1.5 for the selected text', () => {
+    cy.get('[data-test-id="1.5"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
 
-    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-size: 28px')
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'line-height: 1.5')
   })
 
-  it('should remove the font-size of the selected text', () => {
-    cy.get('[data-test-id="28px"]').click()
-    cy.get('.tiptap').find('span').should('have.attr', 'style', 'font-size: 28px')
-    cy.get('[data-test-id="unsetFontSize"]').click()
-    cy.get('.tiptap').get('span').should('not.exist')
+  it('should set line-height 2.0 for the selected text', () => {
+    cy.get('[data-test-id="2.0"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
+
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'line-height: 2.0')
+  })
+
+  it('should set line-height 4.0 for the selected text', () => {
+    cy.get('[data-test-id="4.0"]').should('not.have.class', 'is-active').click().should('have.class', 'is-active')
+
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'line-height: 4.0')
+  })
+
+  it('should remove the line-height of the selected text', () => {
+    cy.get('[data-test-id="1.5"]').click()
+    cy.get('.tiptap').find('span').should('have.attr', 'style', 'line-height: 1.5')
+
+    cy.get('[data-test-id="unsetLineHeight"]').click()
+    cy.get('.tiptap span').should('not.exist')
   })
 })
