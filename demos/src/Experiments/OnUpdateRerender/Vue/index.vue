@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="control-group">
-      <div class="button-group">
-        <button @click="countUp">INC</button> = {{ count }}
-      </div>
+      <div class="button-group"><button @click="countUp">INC</button> = {{ count }}</div>
     </div>
     <TiptapComponent :count="count" />
   </div>

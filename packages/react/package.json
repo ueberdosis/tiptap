@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "2.11.0",
+  "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -14,14 +14,16 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
@@ -29,23 +31,23 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^2.11.0",
-    "@tiptap/extension-floating-menu": "^2.11.0",
+    "@tiptap/extension-bubble-menu": "^3.0.0-next.3",
+    "@tiptap/extension-floating-menu": "^3.0.0-next.3",
     "@types/use-sync-external-store": "^0.0.6",
-    "fast-deep-equal": "^3",
-    "use-sync-external-store": "^1"
+    "fast-deep-equal": "^3.1.3",
+    "use-sync-external-store": "^1.4.0"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.11.0",
-    "@tiptap/pm": "^2.11.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0",
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
@@ -56,7 +58,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

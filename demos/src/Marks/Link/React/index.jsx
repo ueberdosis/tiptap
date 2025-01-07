@@ -56,7 +56,7 @@ export default () => {
 
             // all checks have passed
             return true
-          } catch (error) {
+          } catch {
             return false
           }
         },
@@ -70,11 +70,10 @@ export default () => {
             const domain = parsedUrl.hostname
 
             return !disallowedDomains.includes(domain)
-          } catch (error) {
+          } catch {
             return false
           }
         },
-
       }),
     ],
     content: `
@@ -98,16 +97,14 @@ export default () => {
 
     // empty
     if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink()
-        .run()
+      editor.chain().focus().extendMarkRange('link').unsetLink().run()
 
       return
     }
 
     // update link
     try {
-      editor.chain().focus().extendMarkRange('link').setLink({ href: url })
-        .run()
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     } catch (e) {
       alert(e.message)
     }
@@ -124,10 +121,7 @@ export default () => {
           <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
             Set link
           </button>
-          <button
-            onClick={() => editor.chain().focus().unsetLink().run()}
-            disabled={!editor.isActive('link')}
-          >
+          <button onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
             Unset link
           </button>
         </div>

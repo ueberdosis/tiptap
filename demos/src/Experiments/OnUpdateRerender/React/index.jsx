@@ -6,15 +6,9 @@ import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
-const TiptapComponent = ({
-  onUpdate,
-}) => {
+const TiptapComponent = ({ onUpdate }) => {
   const editor = useEditor({
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-    ],
+    extensions: [Document, Paragraph, Text],
     content: `
       <p>
         This is a radically reduced version of Tiptap. It has support for a document, with paragraphs and text. That’s it. It’s probably too much for real minimalists though.
@@ -26,9 +20,7 @@ const TiptapComponent = ({
     onUpdate,
   })
 
-  return (
-    <EditorContent editor={editor} />
-  )
+  return <EditorContent editor={editor} />
 }
 
 export default () => {

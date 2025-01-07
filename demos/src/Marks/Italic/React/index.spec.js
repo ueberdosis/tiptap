@@ -48,10 +48,7 @@ context('/src/Marks/Italic/React/', () => {
   })
 
   it('the keyboard shortcut should make the selected text italic', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'i' })
-      .find('em')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'i' }).find('em').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text italic', () => {

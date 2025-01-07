@@ -21,9 +21,7 @@ export function markPasteRule(config: {
 }) {
   return new PasteRule({
     find: config.find,
-    handler: ({
-      state, range, match, pasteEvent,
-    }) => {
+    handler: ({ state, range, match, pasteEvent }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
 
       if (attributes === false || attributes === null) {

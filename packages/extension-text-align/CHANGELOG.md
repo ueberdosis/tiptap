@@ -1,110 +1,31 @@
 # Change Log
 
-## 2.11.0
+## 3.0.0-next.3
+
+## 3.0.0-next.2
 
 ### Patch Changes
 
 - ce91452: Fixed an issue that caused defaultAlignment options not being added as text-styles to elements. defaultAlignment is now nullable to **disable the enforced text-align styles**.
 
-## 2.10.4
+## 3.0.0-next.1
 
-## 2.10.3
+### Major Changes
 
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ### Patch Changes
 
-- Updated dependencies [97ea55f]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
+- Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
+  - @tiptap/core@3.0.0-next.1
 
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-
-## 2.6.1
+## 3.0.0-next.0
 
 ### Patch Changes
 
-- @tiptap/core@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
 - Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
+  - @tiptap/core@3.0.0-next.0
 
 ## 2.5.8
 

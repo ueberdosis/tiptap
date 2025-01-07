@@ -1,125 +1,33 @@
 # Change Log
 
-## 2.11.0
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+### Major Changes
+
+- 14681a1: fix: #5851 - While setting `content` directly while using character-count
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ### Patch Changes
 
-- 14681a1: truncate initial `content`, if limit is set on the character count extension fixes #5851
-
-## 2.10.4
-
-## 2.10.3
-
-### Patch Changes
-
-- d048f4d: fix: #5851 - While setting `content` directly while using character-count
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 93bc933: Make counter function accessible from outside character-count extension
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [97ea55f]
-- Updated dependencies [bd34793]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-  - @tiptap/pm@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-- @tiptap/pm@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
+- Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-  - @tiptap/pm@2.6.3
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
 
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-- @tiptap/pm@2.6.2
-
-## 2.6.1
+## 3.0.0-next.0
 
 ### Patch Changes
 
-- @tiptap/core@2.6.1
-- @tiptap/pm@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-  - @tiptap/pm@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
 - Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
-  - @tiptap/pm@2.5.9
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
 
 ## 2.5.8
 

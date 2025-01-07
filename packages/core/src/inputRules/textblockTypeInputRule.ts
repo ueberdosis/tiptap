@@ -14,11 +14,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 export function textblockTypeInputRule(config: {
   find: InputRuleFinder
   type: NodeType
-  getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
+  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
     find: config.find,
@@ -30,9 +26,7 @@ export function textblockTypeInputRule(config: {
         return null
       }
 
-      state.tr
-        .delete(range.from, range.to)
-        .setBlockType(range.from, range.from, config.type, attributes)
+      state.tr.delete(range.from, range.to).setBlockType(range.from, range.from, config.type, attributes)
     },
   })
 }

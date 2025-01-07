@@ -3,5 +3,9 @@ context('/src/GuideContent/GenerateHTML/React/', () => {
     cy.visit('/src/GuideContent/GenerateHTML/React/')
   })
 
-  // TODO: Write tests
+  it('should render the content as an HTML string', () => {
+    cy.get('pre code').should('exist')
+
+    cy.get('pre code').should('contain', '<p>Example <strong>Text</strong></p>')
+  })
 })

@@ -2,19 +2,11 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="addFigure">
-          Add image with caption
-        </button>
-        <button
-          @click="editor.chain().focus().imageToFigure().run()"
-          :disabled="!editor.can().imageToFigure()"
-        >
+        <button @click="addFigure">Add image with caption</button>
+        <button @click="editor.chain().focus().imageToFigure().run()" :disabled="!editor.can().imageToFigure()">
           Add caption to image
         </button>
-        <button
-          @click="editor.chain().focus().figureToImage().run()"
-          :disabled="!editor.can().figureToImage()"
-        >
+        <button @click="editor.chain().focus().figureToImage().run()" :disabled="!editor.can().figureToImage()">
           Remove caption from image
         </button>
       </div>
@@ -52,22 +44,14 @@ export default {
       const caption = window.prompt('caption')
 
       if (url) {
-        this.editor
-          .chain()
-          .focus()
-          .setFigure({ src: url, caption })
-          .run()
+        this.editor.chain().focus().setFigure({ src: url, caption }).run()
       }
     },
   },
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        Figure,
-        Image,
-      ],
+      extensions: [StarterKit, Figure, Image],
       content: `
         <p>Figure + Figcaption</p>
         <figure>
@@ -216,7 +200,7 @@ export default {
 
     figcaption {
       border-radius: 0.5rem;
-      border: 2px dashed #0D0D0D20;
+      border: 2px dashed #0d0d0d20;
       padding: 0.5rem;
       text-align: center;
       width: 100%;

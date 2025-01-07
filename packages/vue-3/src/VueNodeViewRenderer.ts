@@ -1,16 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  DecorationWithType,
-  NodeView,
-  NodeViewProps,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
-} from '@tiptap/core'
+import { DecorationWithType, NodeView, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import {
-  Component, defineComponent, PropType, provide, Ref, ref,
-} from 'vue'
+import { Component, defineComponent, PropType, provide, Ref, ref } from 'vue'
 
 import { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
@@ -53,15 +45,15 @@ export const nodeViewProps = {
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-        oldNode: ProseMirrorNode;
-        oldDecorations: readonly Decoration[];
-        oldInnerDecorations: DecorationSource;
-        newNode: ProseMirrorNode;
-        newDecorations: readonly Decoration[];
-        innerDecorations: DecorationSource;
-        updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: readonly Decoration[]
+        oldInnerDecorations: DecorationSource
+        newNode: ProseMirrorNode
+        newDecorations: readonly Decoration[]
+        innerDecorations: DecorationSource
+        updateProps: () => void
       }) => boolean)
-    | null;
+    | null
 }
 
 class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions> {
@@ -181,11 +173,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(
-    node: ProseMirrorNode,
-    decorations: readonly Decoration[],
-    innerDecorations: DecorationSource,
-  ): boolean {
+  update(node: ProseMirrorNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)
@@ -282,9 +270,8 @@ export function VueNodeViewRenderer(
       return {} as unknown as ProseMirrorNodeView
     }
     // check for class-component and normalize if neccessary
-    const normalizedComponent = typeof component === 'function' && '__vccOpts' in component
-      ? (component.__vccOpts as Component)
-      : component
+    const normalizedComponent =
+      typeof component === 'function' && '__vccOpts' in component ? (component.__vccOpts as Component) : component
 
     return new VueNodeView(normalizedComponent, props, options)
   }

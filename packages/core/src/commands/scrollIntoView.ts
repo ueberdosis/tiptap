@@ -7,15 +7,17 @@ declare module '@tiptap/core' {
        * Scroll the selection into view.
        * @example editor.commands.scrollIntoView()
        */
-      scrollIntoView: () => ReturnType,
+      scrollIntoView: () => ReturnType
     }
   }
 }
 
-export const scrollIntoView: RawCommands['scrollIntoView'] = () => ({ tr, dispatch }) => {
-  if (dispatch) {
-    tr.scrollIntoView()
-  }
+export const scrollIntoView: RawCommands['scrollIntoView'] =
+  () =>
+  ({ tr, dispatch }) => {
+    if (dispatch) {
+      tr.scrollIntoView()
+    }
 
-  return true
-}
+    return true
+  }

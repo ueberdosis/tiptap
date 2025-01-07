@@ -1,16 +1,13 @@
 type StringKeyOf<T> = Extract<keyof T, string>
-type CallbackType<
-  T extends Record<string, any>,
-  EventName extends StringKeyOf<T>,
-> = T[EventName] extends any[] ? T[EventName] : [T[EventName]]
-type CallbackFunction<
-  T extends Record<string, any>,
-  EventName extends StringKeyOf<T>,
-> = (...props: CallbackType<T, EventName>) => any
+type CallbackType<T extends Record<string, any>, EventName extends StringKeyOf<T>> = T[EventName] extends any[]
+  ? T[EventName]
+  : [T[EventName]]
+type CallbackFunction<T extends Record<string, any>, EventName extends StringKeyOf<T>> = (
+  ...props: CallbackType<T, EventName>
+) => any
 
 export class EventEmitter<T extends Record<string, any>> {
-
-  private callbacks: { [key: string]: Function[] } = {}
+  private callbacks: { [key: string]: Array<(...args: any[]) => void> } = {}
 
   public on<EventName extends StringKeyOf<T>>(event: EventName, fn: CallbackFunction<T, EventName>): this {
     if (!this.callbacks[event]) {

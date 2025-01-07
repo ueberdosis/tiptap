@@ -12,7 +12,6 @@ context('/src/Examples/Default/Vue/', () => {
 
   it('should apply the paragraph style when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap h1').should('exist')
-    cy.get('.tiptap p').should('not.exist')
 
     cy.get('.tiptap')
       .trigger('keydown', { modKey: true, altKey: true, key: '0' })
@@ -53,7 +52,7 @@ context('/src/Examples/Default/Vue/', () => {
     cy.get('.tiptap').type('{enter}A second item{enter}A third item{selectall}')
     cy.get('button').contains('Clear nodes').click()
     cy.get('.tiptap ul').should('not.exist')
-    cy.get('.tiptap p').should('have.length', 3)
+    cy.get('.tiptap p').should('have.length', 4)
   })
 
   const buttonNodes = [
@@ -98,20 +97,20 @@ context('/src/Examples/Default/Vue/', () => {
   it('should add a br', () => {
     cy.get('.tiptap').type('{rightArrow}')
     cy.get('button').contains('Hard break').click()
-    cy.get('.tiptap h1 br').should('exist')
+    cy.get('.tiptap br').should('exist')
   })
 
   it('should undo', () => {
     cy.get('.tiptap').type('{selectall}{backspace}')
     cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
+    cy.get('.tiptap').should('contain', 'Example Text')
   })
 
   it('should redo', () => {
     cy.get('.tiptap').type('{selectall}{backspace}')
     cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
+    cy.get('.tiptap').should('contain', 'Example Text')
     cy.get('button').contains('Redo').click()
-    cy.get('.tiptap').should('not.contain', 'Hello world')
+    cy.get('.tiptap').should('not.contain', 'Example Text')
   })
 })

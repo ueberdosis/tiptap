@@ -25,34 +25,23 @@ context('/src/Marks/Underline/Vue/', () => {
   })
 
   it('the button should underline the selected text', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('u')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('u').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text underline', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('u')
-      .should('not.exist')
+    cy.get('.tiptap').find('u').should('not.exist')
   })
 
   it('should underline the selected text when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'u' })
-      .find('u')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'u' }).find('u').should('contain', 'Example Text')
   })
 
   it('should toggle the selected text underline when the keyboard shortcut is pressed', () => {

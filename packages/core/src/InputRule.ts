@@ -6,57 +6,48 @@ import { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import {
-  CanCommands,
-  ChainedCommands,
-  ExtendedRegExpMatchArray,
-  Range,
-  SingleCommands,
-} from './types.js'
+import { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {
-  index: number;
-  text: string;
-  replaceWith?: string;
-  match?: RegExpMatchArray;
-  data?: Record<string, any>;
-};
+  index: number
+  text: string
+  replaceWith?: string
+  match?: RegExpMatchArray
+  data?: Record<string, any>
+}
 
-export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null);
+export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null)
 
 export class InputRule {
   find: InputRuleFinder
 
   handler: (props: {
-    state: EditorState;
-    range: Range;
-    match: ExtendedRegExpMatchArray;
-    commands: SingleCommands;
-    chain: () => ChainedCommands;
-    can: () => CanCommands;
+    state: EditorState
+    range: Range
+    match: ExtendedRegExpMatchArray
+    commands: SingleCommands
+    chain: () => ChainedCommands
+    can: () => CanCommands
   }) => void | null
 
   constructor(config: {
-    find: InputRuleFinder;
+    find: InputRuleFinder
     handler: (props: {
-      state: EditorState;
-      range: Range;
-      match: ExtendedRegExpMatchArray;
-      commands: SingleCommands;
-      chain: () => ChainedCommands;
-      can: () => CanCommands;
-    }) => void | null;
+      state: EditorState
+      range: Range
+      match: ExtendedRegExpMatchArray
+      commands: SingleCommands
+      chain: () => ChainedCommands
+      can: () => CanCommands
+    }) => void | null
   }) {
     this.find = config.find
     this.handler = config.handler
   }
 }
 
-const inputRuleMatcherHandler = (
-  text: string,
-  find: InputRuleFinder,
-): ExtendedRegExpMatchArray | null => {
+const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
   if (isRegExp(find)) {
     return find.exec(text)
   }
@@ -75,9 +66,7 @@ const inputRuleMatcherHandler = (
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
-      console.warn(
-        '[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".',
-      )
+      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".')
     }
 
     result.push(inputRuleMatch.replaceWith)
@@ -87,16 +76,14 @@ const inputRuleMatcherHandler = (
 }
 
 function run(config: {
-  editor: Editor;
-  from: number;
-  to: number;
-  text: string;
-  rules: InputRule[];
-  plugin: Plugin;
+  editor: Editor
+  from: number
+  to: number
+  text: string
+  rules: InputRule[]
+  plugin: Plugin
 }): boolean {
-  const {
-    editor, from, to, text, rules, plugin,
-  } = config
+  const { editor, from, to, text, rules, plugin } = config
   const { view } = editor
 
   if (view.composing) {
@@ -107,9 +94,9 @@ function run(config: {
 
   if (
     // check for code node
-    $from.parent.type.spec.code
+    $from.parent.type.spec.code ||
     // check for code mark
-    || !!($from.nodeBefore || $from.nodeAfter)?.marks.find(mark => mark.type.spec.code)
+    !!($from.nodeBefore || $from.nodeAfter)?.marks.find(mark => mark.type.spec.code)
   ) {
     return false
   }
@@ -197,8 +184,8 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
         const simulatedInputMeta = tr.getMeta('applyInputRules') as
           | undefined
           | {
-              from: number;
-              text: string | ProseMirrorNode | Fragment;
+              from: number
+              text: string | ProseMirrorNode | Fragment
             }
         const isSimulatedInput = !!simulatedInputMeta
 

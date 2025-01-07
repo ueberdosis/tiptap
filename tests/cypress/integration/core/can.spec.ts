@@ -144,12 +144,7 @@ describe('can', () => {
       extensions: [Document, Paragraph, Text, History, Code, Bold],
     })
 
-    editor
-      .chain()
-      .setContent('<code>test</code>')
-      .setTextSelection({ from: 2, to: 3 })
-      .toggleCode()
-      .run()
+    editor.chain().setContent('<code>test</code>').setTextSelection({ from: 2, to: 3 }).toggleCode().run()
 
     const canSetMarkToBold = editor.can().setMark('bold')
 
@@ -190,9 +185,7 @@ describe('can', () => {
       })
       .run()
 
-    // eslint-disable-next-line no-unused-expressions
-    expect(capturedOuterDispatch).to.be.undefined
-    // eslint-disable-next-line no-unused-expressions
-    expect(capturedInnerDispatch).to.be.undefined
+    expect(capturedOuterDispatch).to.eq(undefined)
+    expect(capturedInnerDispatch).to.eq(undefined)
   })
 })

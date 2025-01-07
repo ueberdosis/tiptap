@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-task-list",
   "description": "task list extension for tiptap",
-  "version": "2.11.0",
+  "version": "3.0.0-next.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,24 +15,26 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.11.0"
+    "@tiptap/core": "^3.0.0-next.3"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0"
+    "@tiptap/core": "^3.0.0-next.1"
   },
   "repository": {
     "type": "git",
@@ -40,7 +42,7 @@
     "directory": "packages/extension-task-list"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

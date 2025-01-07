@@ -21,11 +21,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        Highlight,
-        Typography,
-      ],
+      extensions: [StarterKit, Highlight, Typography],
       content: `
         <p>
           Markdown shortcuts make it easy to format the text while typing.
@@ -133,7 +129,7 @@ export default {
   }
 
   mark {
-    background-color: #FAF594;
+    background-color: #faf594;
     border-radius: 0.4rem;
     box-decoration-break: clone;
     padding: 0.1rem 0.3rem;

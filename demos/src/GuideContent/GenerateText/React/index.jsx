@@ -52,7 +52,7 @@ export default () => {
         blockSeparator: '\n\n',
       },
     )
-  }, [json])
+  }, [])
 
   return (
     <pre>

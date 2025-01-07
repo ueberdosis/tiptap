@@ -1,12 +1,5 @@
 import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import {
-  defineComponent,
-  h,
-  onBeforeUnmount,
-  onMounted,
-  PropType,
-  ref,
-} from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, PropType, ref, Teleport } from 'vue'
 
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
@@ -27,8 +20,13 @@ export const BubbleMenu = defineComponent({
       default: undefined,
     },
 
-    tippyOptions: {
-      type: Object as PropType<BubbleMenuPluginProps['tippyOptions']>,
+    resizeDelay: {
+      type: Number as PropType<BubbleMenuPluginProps['resizeDelay']>,
+      default: undefined,
+    },
+
+    options: {
+      type: Object as PropType<BubbleMenuPluginProps['options']>,
       default: () => ({}),
     },
 
@@ -42,22 +40,29 @@ export const BubbleMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const {
-        updateDelay,
-        editor,
-        pluginKey,
-        shouldShow,
-        tippyOptions,
-      } = props
+      const { editor, options, pluginKey, resizeDelay, shouldShow, updateDelay } = props
 
-      editor.registerPlugin(BubbleMenuPlugin({
-        updateDelay,
-        editor,
-        element: root.value as HTMLElement,
-        pluginKey,
-        shouldShow,
-        tippyOptions,
-      }))
+      if (!root.value) {
+        return
+      }
+
+      root.value.style.visibility = 'hidden'
+      root.value.style.position = 'absolute'
+
+      // remove the element from the DOM
+      root.value.remove()
+
+      editor.registerPlugin(
+        BubbleMenuPlugin({
+          editor,
+          element: root.value as HTMLElement,
+          options,
+          pluginKey,
+          resizeDelay,
+          shouldShow,
+          updateDelay,
+        }),
+      )
     })
 
     onBeforeUnmount(() => {
@@ -66,6 +71,6 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h('div', { ref: root }, slots.default?.())
+    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })

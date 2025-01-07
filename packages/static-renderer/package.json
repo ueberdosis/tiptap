@@ -1,0 +1,101 @@
+{
+  "name": "@tiptap/static-renderer",
+  "description": "statically render Tiptap JSON",
+  "version": "3.0.0-next.1",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap static renderer",
+    "tiptap react renderer"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./json/react": {
+      "types": {
+        "import": "./dist/json/react/index.d.ts",
+        "require": "./dist/json/react/index.d.cts"
+      },
+      "import": "./dist/json/react/index.js",
+      "require": "./dist/json/react/index.cjs"
+    },
+    "./json/html-string": {
+      "types": {
+        "import": "./dist/json/html-string/index.d.ts",
+        "require": "./dist/json/html-string/index.d.cts"
+      },
+      "import": "./dist/json/html-string/index.js",
+      "require": "./dist/json/html-string/index.cjs"
+    },
+    "./pm/react": {
+      "types": {
+        "import": "./dist/pm/react/index.d.ts",
+        "require": "./dist/pm/react/index.d.cts"
+      },
+      "import": "./dist/pm/react/index.js",
+      "require": "./dist/pm/react/index.cjs"
+    },
+    "./pm/html-string": {
+      "types": {
+        "import": "./dist/pm/html-string/index.d.ts",
+        "require": "./dist/pm/html-string/index.d.cts"
+      },
+      "import": "./dist/pm/html-string/index.js",
+      "require": "./dist/pm/html-string/index.cjs"
+    },
+    "./pm/markdown": {
+      "types": {
+        "import": "./dist/pm/markdown/index.d.ts",
+        "require": "./dist/pm/markdown/index.d.cts"
+      },
+      "import": "./dist/pm/markdown/index.js",
+      "require": "./dist/pm/markdown/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^3.0.0-next.1",
+    "@tiptap/pm": "^3.0.0-next.1"
+  },
+  "optionalDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/static-renderer"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

@@ -31,8 +31,7 @@ function Component() {
         },
       }),
       Placeholder.configure({
-        placeholder:
-          'Write something … It’ll be shared with everyone else looking at this example.',
+        placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
   })
@@ -43,7 +42,13 @@ function Component() {
 function App() {
   const useStrictMode = true
 
-  return useStrictMode ? <React.StrictMode><Component /></React.StrictMode> : <Component />
+  return useStrictMode ? (
+    <React.StrictMode>
+      <Component />
+    </React.StrictMode>
+  ) : (
+    <Component />
+  )
 }
 
 export default App

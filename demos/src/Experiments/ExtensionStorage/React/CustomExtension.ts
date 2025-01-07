@@ -1,10 +1,10 @@
 import { Extension } from '@tiptap/core'
 
 type CustomStorage = {
-  foo: number,
+  foo: number
 }
 
-export const CustomExtension = Extension.create<{}, CustomStorage>({
+export const CustomExtension = Extension.create<any, CustomStorage>({
   name: 'custom',
 
   addStorage() {

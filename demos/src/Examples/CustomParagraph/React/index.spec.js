@@ -11,7 +11,9 @@ context('/src/Examples/CustomParagraph/React/', () => {
   })
 
   it('should have a paragraph and text length', () => {
-    cy.get('.tiptap p').should('exist').should('have.text', 'Each line shows the number of characters in the paragraph.')
+    cy.get('.tiptap p')
+      .should('exist')
+      .should('have.text', 'Each line shows the number of characters in the paragraph.')
     cy.get('.tiptap .label').should('exist').should('have.text', '58')
   })
 

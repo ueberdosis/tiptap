@@ -1,6 +1,4 @@
-import {
-  DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType,
-} from '@tiptap/pm/model'
+import { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from '@tiptap/pm/model'
 import { Plugin, Transaction } from '@tiptap/pm/state'
 
 import { Editor } from './Editor.js'
@@ -734,6 +732,7 @@ declare module '@tiptap/core' {
       storage: Storage
       parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
       editor?: Editor
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     }) => Attributes | {}
   }
 }
@@ -785,12 +784,13 @@ export class Node<Options = any, Storage = any> {
       )
     }
 
-    this.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
-        name: this.name,
-        options: this.options,
-      }),
-    ) || {}
+    this.storage =
+      callOrReturn(
+        getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
+          name: this.name,
+          options: this.options,
+        }),
+      ) || {}
   }
 
   static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> = {}) {

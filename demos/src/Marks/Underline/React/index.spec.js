@@ -19,9 +19,7 @@ context('/src/Marks/Underline/React/', () => {
 
   it('should transform any tag with text decoration underline to u tags', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent(
-        '<p><span style="text-decoration: underline">Example Text</span></p>',
-      )
+      editor.commands.setContent('<p><span style="text-decoration: underline">Example Text</span></p>')
       expect(editor.getHTML()).to.eq('<p><u>Example Text</u></p>')
     })
   })
@@ -43,10 +41,7 @@ context('/src/Marks/Underline/React/', () => {
   })
 
   it('should underline the selected text when the keyboard shortcut is pressed', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'u' })
-      .find('u')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'u' }).find('u').should('contain', 'Example Text')
   })
 
   it('should toggle the selected text underline when the keyboard shortcut is pressed', () => {

@@ -32,11 +32,7 @@ export default {
         Heading,
         Text,
         Linter.configure({
-          plugins: [
-            BadWords,
-            Punctuation,
-            HeadingLevel,
-          ],
+          plugins: [BadWords, Punctuation, HeadingLevel],
         }),
       ],
       content: `
@@ -62,7 +58,8 @@ export default {
 }
 </script>
 
-<style lang="scss">/* Basic editor styles */
+<style lang="scss">
+/* Basic editor styles */
 .tiptap {
   padding-right: 1.25rem;
 
@@ -131,7 +128,7 @@ export default {
   }
 
   .lint-icon:before {
-    content: "!";
+    content: '!';
   }
 }
 </style>

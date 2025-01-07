@@ -1,16 +1,10 @@
 import { type EditorOptions, Editor } from '@tiptap/core'
-import {
-  DependencyList,
-  MutableRefObject,
-  useDebugValue,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { DependencyList, MutableRefObject, useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
 import { useEditorState } from './useEditorState.js'
 
+// @ts-ignore
 const isDev = process.env.NODE_ENV !== 'production'
 const isSSR = typeof window === 'undefined'
 const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any).next)
@@ -25,14 +19,14 @@ export type UseEditorOptions = Partial<EditorOptions> & {
    * If server-side rendering, set this to `false`.
    * @default true
    */
-  immediatelyRender?: boolean;
+  immediatelyRender?: boolean
   /**
    * Whether to re-render the editor on each transaction.
    * This is legacy behavior that will be removed in future versions.
-   * @default true
+   * @default false
    */
-  shouldRerenderOnTransaction?: boolean;
-};
+  shouldRerenderOnTransaction?: boolean
+}
 
 /**
  * This class handles the creation, destruction, and re-creation of the editor instance.
@@ -100,13 +94,12 @@ class EditorInstanceManager {
   private getInitialEditor() {
     if (this.options.current.immediatelyRender === undefined) {
       if (isSSR || isNext) {
-        // TODO in the next major release, we should throw an error here
         if (isDev) {
           /**
            * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
            * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
            */
-          console.warn(
+          throw new Error(
             'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
           )
         }
@@ -230,8 +223,8 @@ class EditorInstanceManager {
         this.previousDeps = deps
         return
       }
-      const depsAreEqual = this.previousDeps.length === deps.length
-        && this.previousDeps.every((dep, index) => dep === deps[index])
+      const depsAreEqual =
+        this.previousDeps.length === deps.length && this.previousDeps.every((dep, index) => dep === deps[index])
 
       if (depsAreEqual) {
         // deps exist and are equal, no need to recreate
@@ -289,9 +282,9 @@ class EditorInstanceManager {
  * @example const editor = useEditor({ extensions: [...] })
  */
 export function useEditor(
-  options: UseEditorOptions & { immediatelyRender: true },
-  deps?: DependencyList
-): Editor;
+  options: UseEditorOptions & { immediatelyRender: false },
+  deps?: DependencyList,
+): Editor | null
 
 /**
  * This hook allows you to create an editor instance.
@@ -300,12 +293,9 @@ export function useEditor(
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(options?: UseEditorOptions, deps?: DependencyList): Editor | null;
+export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
 
-export function useEditor(
-  options: UseEditorOptions = {},
-  deps: DependencyList = [],
-): Editor | null {
+export function useEditor(options: UseEditorOptions = {}, deps: DependencyList = []): Editor | null {
   const mostRecentOptions = useRef(options)
 
   mostRecentOptions.current = options
@@ -329,7 +319,7 @@ export function useEditor(
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false) {
+      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
         // This will prevent the editor from re-rendering on each transaction
         return null
       }

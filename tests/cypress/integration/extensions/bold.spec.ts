@@ -1,11 +1,6 @@
 /// <reference types="cypress" />
 
-import {
-  starInputRegex,
-  starPasteRegex,
-  underscoreInputRegex,
-  underscorePasteRegex,
-} from '@tiptap/extension-bold'
+import { starInputRegex, starPasteRegex, underscoreInputRegex, underscorePasteRegex } from '@tiptap/extension-bold'
 
 describe('bold regex test', () => {
   it('star input regex matches', () => {

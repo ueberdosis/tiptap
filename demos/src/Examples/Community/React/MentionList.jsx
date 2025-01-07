@@ -1,11 +1,6 @@
 import './MentionList.scss'
 
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 
 export const MentionList = forwardRef((props, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -19,7 +14,7 @@ export const MentionList = forwardRef((props, ref) => {
   }
 
   const upHandler = () => {
-    setSelectedIndex(((selectedIndex + props.items.length) - 1) % props.items.length)
+    setSelectedIndex((selectedIndex + props.items.length - 1) % props.items.length)
   }
 
   const downHandler = () => {
@@ -55,8 +50,8 @@ export const MentionList = forwardRef((props, ref) => {
 
   return (
     <div className="dropdown-menu">
-      {props.items.length
-        ? props.items.map((item, index) => (
+      {props.items.length ? (
+        props.items.map((item, index) => (
           <button
             className={index === selectedIndex ? 'is-selected' : ''}
             key={index}
@@ -65,8 +60,9 @@ export const MentionList = forwardRef((props, ref) => {
             {item}
           </button>
         ))
-        : <div className="item">No result</div>
-      }
+      ) : (
+        <div className="item">No result</div>
+      )}
     </div>
   )
 })

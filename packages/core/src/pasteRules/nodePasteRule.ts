@@ -17,17 +17,11 @@ export function nodePasteRule(config: {
     | ((match: ExtendedRegExpMatchArray, event: ClipboardEvent) => Record<string, any>)
     | false
     | null
-  getContent?:
-    | JSONContent[]
-    | ((attrs: Record<string, any>) => JSONContent[])
-    | false
-    | null
+  getContent?: JSONContent[] | ((attrs: Record<string, any>) => JSONContent[]) | false | null
 }) {
   return new PasteRule({
     find: config.find,
-    handler({
-      match, chain, range, pasteEvent,
-    }) {
+    handler({ match, chain, range, pasteEvent }) {
       const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
       const content = callOrReturn(config.getContent, undefined, attributes)
 

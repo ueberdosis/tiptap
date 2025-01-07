@@ -9,12 +9,7 @@ import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-      Blockquote,
-    ],
+    extensions: [Document, Paragraph, Text, Blockquote],
     content: `
       <blockquote>
         Nothing is impossible, the word itself says “I’m possible!”
@@ -37,10 +32,7 @@ export default () => {
           >
             Toggle blockquote
           </button>
-          <button
-            onClick={() => editor.chain().focus().setBlockquote().run()}
-            disabled={!editor.can().setBlockquote()}
-          >
+          <button onClick={() => editor.chain().focus().setBlockquote().run()} disabled={!editor.can().setBlockquote()}>
             Set blockquote
           </button>
           <button

@@ -1,29 +1,31 @@
-export const YOUTUBE_REGEX = /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
-export const YOUTUBE_REGEX_GLOBAL = /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g
+export const YOUTUBE_REGEX =
+  /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
+export const YOUTUBE_REGEX_GLOBAL =
+  /^((?:https?:)?\/\/)?((?:www|m|music)\.)?((?:youtube\.com|youtu.be|youtube-nocookie\.com))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g
 
 export const isValidYoutubeUrl = (url: string) => {
   return url.match(YOUTUBE_REGEX)
 }
 
 export interface GetEmbedUrlOptions {
-  url: string;
-  allowFullscreen?: boolean;
-  autoplay?: boolean;
-  ccLanguage?:string;
-  ccLoadPolicy?:boolean;
-  controls?: boolean;
-  disableKBcontrols?: boolean,
-  enableIFrameApi?: boolean;
-  endTime?: number;
-  interfaceLanguage?: string;
-  ivLoadPolicy?: number;
-  loop?: boolean;
-  modestBranding?: boolean;
-  nocookie?: boolean;
-  origin?: string;
-  playlist?: string;
-  progressBarColor?: string;
-  startAt?: number;
+  url: string
+  allowFullscreen?: boolean
+  autoplay?: boolean
+  ccLanguage?: string
+  ccLoadPolicy?: boolean
+  controls?: boolean
+  disableKBcontrols?: boolean
+  enableIFrameApi?: boolean
+  endTime?: number
+  interfaceLanguage?: string
+  ivLoadPolicy?: number
+  loop?: boolean
+  modestBranding?: boolean
+  nocookie?: boolean
+  origin?: string
+  playlist?: string
+  progressBarColor?: string
+  startAt?: number
 }
 
 export const getYoutubeEmbedUrl = (nocookie?: boolean) => {

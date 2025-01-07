@@ -3,7 +3,7 @@ import { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from 'y-prosemirror'
 
 type CollaborationCursorStorage = {
-  users: { clientId: number, [key: string]: any }[],
+  users: { clientId: number; [key: string]: any }[]
 }
 
 export interface CollaborationCursorOptions {
@@ -12,13 +12,13 @@ export interface CollaborationCursorOptions {
    * @type {HocuspocusProvider | TiptapCloudProvider}
    * @example new HocuspocusProvider()
    */
-  provider: any,
+  provider: any
 
   /**
    * The user details object – feel free to add properties to this object as needed
    * @example { name: 'John Doe', color: '#305500' }
    */
-  user: Record<string, any>,
+  user: Record<string, any>
 
   /**
    * A function that returns a DOM element for the cursor.
@@ -38,7 +38,7 @@ export interface CollaborationCursorOptions {
    *  return cursor
    * }
    */
-  render (user: Record<string, any>): HTMLElement,
+  render(user: Record<string, any>): HTMLElement
 
   /**
    * A function that returns a ProseMirror DecorationAttrs object for the selection.
@@ -52,12 +52,12 @@ export interface CollaborationCursorOptions {
    *  'data-user': user.name,
    * }
    */
-  selectionRender (user: Record<string, any>): DecorationAttrs
+  selectionRender(user: Record<string, any>): DecorationAttrs
 
   /**
    * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
    */
-  onUpdate: (users: { clientId: number, [key: string]: any }[]) => null,
+  onUpdate: (users: { clientId: number; [key: string]: any }[]) => null
 }
 
 declare module '@tiptap/core' {
@@ -67,13 +67,13 @@ declare module '@tiptap/core' {
        * Update details of the current user
        * @example editor.commands.updateUser({ name: 'John Doe', color: '#305500' })
        */
-      updateUser: (attributes: Record<string, any>) => ReturnType,
+      updateUser: (attributes: Record<string, any>) => ReturnType
       /**
        * Update details of the current user
        *
        * @deprecated The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
        */
-      user: (attributes: Record<string, any>) => ReturnType,
+      user: (attributes: Record<string, any>) => ReturnType
     }
   }
 }
@@ -127,7 +127,9 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
   onCreate() {
     if (this.options.onUpdate !== defaultOnUpdate) {
-      console.warn('[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor')
+      console.warn(
+        '[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor',
+      )
     }
     if (!this.options.provider) {
       throw new Error('The "provider" option is required for the CollaborationCursor extension')
@@ -149,11 +151,15 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
         return true
       },
-      user: attributes => ({ editor }) => {
-        console.warn('[tiptap warn]: DEPRECATED: The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor')
+      user:
+        attributes =>
+        ({ editor }) => {
+          console.warn(
+            '[tiptap warn]: DEPRECATED: The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor',
+          )
 
-        return editor.commands.updateUser(attributes)
-      },
+          return editor.commands.updateUser(attributes)
+        },
     }
   },
 

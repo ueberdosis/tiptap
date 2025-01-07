@@ -1,66 +1,20 @@
 # Change Log
 
-## 2.11.0
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
+## 3.0.0-next.3
 
 ### Patch Changes
 
-- feea1f6: Update prosemirror-view version
+- 4d2139b: This fixes a problem with the release files
 
-## 2.8.0
+## 3.0.0-next.2
 
-### Minor Changes
+## 3.0.0-next.1
 
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+### Major Changes
 
-## 2.7.4
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-### Patch Changes
-
-- bd34793: Bumped prosemirror versions
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- bd34793: Bumped prosemirror versions
-
-## 2.6.6
-
-## 2.6.5
-
-## 2.6.4
-
-## 2.6.3
-
-## 2.6.2
-
-## 2.6.1
-
-## 2.6.0
-
-## 2.5.9
+## 3.0.0-next.0
 
 ## 2.5.8
 

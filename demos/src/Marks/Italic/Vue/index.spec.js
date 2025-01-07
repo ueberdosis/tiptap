@@ -32,33 +32,23 @@ context('/src/Marks/Italic/Vue/', () => {
   })
 
   it('the button should make the selected text italic', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .find('em')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').find('em').should('contain', 'Example Text')
   })
 
   it('the button should toggle the selected text italic', () => {
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap')
-      .type('{selectall}')
+    cy.get('.tiptap').type('{selectall}')
 
-    cy.get('button:first')
-      .click()
+    cy.get('button:first').click()
 
-    cy.get('.tiptap em')
-      .should('not.exist')
+    cy.get('.tiptap em').should('not.exist')
   })
 
   it('the keyboard shortcut should make the selected text italic', () => {
-    cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, key: 'i' })
-      .find('em')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').trigger('keydown', { modKey: true, key: 'i' }).find('em').should('contain', 'Example Text')
   })
 
   it('the keyboard shortcut should toggle the selected text italic', () => {

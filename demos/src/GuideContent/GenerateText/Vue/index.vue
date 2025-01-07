@@ -43,16 +43,20 @@ const json = {
 export default {
   computed: {
     output() {
-      return generateText(json, [
-        Document,
-        Paragraph,
-        Text,
-        HardBreak,
-        // other extensions …
-      ], {
-        // define a custom block separator if you want to
-        blockSeparator: '\n\n',
-      })
+      return generateText(
+        json,
+        [
+          Document,
+          Paragraph,
+          Text,
+          HardBreak,
+          // other extensions …
+        ],
+        {
+          // define a custom block separator if you want to
+          blockSeparator: '\n\n',
+        },
+      )
     },
   },
 }

@@ -3,5 +3,34 @@ context('/src/GuideContent/GenerateJSON/Vue/', () => {
     cy.visit('/src/GuideContent/GenerateJSON/Vue/')
   })
 
-  // TODO: Write tests
+  it('should render the content as an HTML string', () => {
+    cy.get('pre code').should('exist')
+
+    cy.get('pre code').should(
+      'contain',
+      `{
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Example "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "bold"
+            }
+          ],
+          "text": "Text"
+        }
+      ]
+    }
+  ]
+}`,
+    )
+  })
 })

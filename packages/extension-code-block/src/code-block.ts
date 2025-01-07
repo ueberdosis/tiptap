@@ -1,10 +1,5 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import {
-  Plugin,
-  PluginKey,
-  Selection,
-  TextSelection,
-} from '@tiptap/pm/state'
+import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 export interface CodeBlockOptions {
   /**
@@ -131,9 +126,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       [
         'code',
         {
-          class: node.attrs.language
-            ? this.options.languageClassPrefix + node.attrs.language
-            : null,
+          class: node.attrs.language ? this.options.languageClassPrefix + node.attrs.language : null,
         },
         0,
       ],
@@ -143,11 +136,13 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   addCommands() {
     return {
       setCodeBlock:
-        attributes => ({ commands }) => {
+        attributes =>
+        ({ commands }) => {
           return commands.setNode(this.name, attributes)
         },
       toggleCodeBlock:
-        attributes => ({ commands }) => {
+        attributes =>
+        ({ commands }) => {
           return commands.toggleNode(this.name, 'paragraph', attributes)
         },
     }

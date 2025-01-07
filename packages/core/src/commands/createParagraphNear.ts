@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const createParagraphNear: RawCommands['createParagraphNear'] = () => ({ state, dispatch }) => {
-  return originalCreateParagraphNear(state, dispatch)
-}
+export const createParagraphNear: RawCommands['createParagraphNear'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalCreateParagraphNear(state, dispatch)
+  }

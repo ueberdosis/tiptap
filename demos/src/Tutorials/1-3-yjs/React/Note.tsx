@@ -28,6 +28,6 @@ export default ({ note }: { note: TNote }) => {
 
   return (
     // @ts-ignore
-    <EditorContent editor={editor}/>
+    <EditorContent editor={editor} />
   )
 }
