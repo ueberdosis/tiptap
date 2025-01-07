@@ -4,52 +4,62 @@
       <div class="button-group">
         <input
           type="color"
-          @input="editor.chain().focus().setColor($event.target.value).run()"
-          :value="editor.getAttributes('textStyle').color"
+          @input="editor.chain().focus().setBackgroundColor($event.target.value).run()"
+          :value="editor.getAttributes('textStyle').backgroundColor"
+          data-testid="setBackgroundColor"
         />
         <button
-          @click="editor.chain().focus().setColor('#958DF1').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#958DF1' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#958DF1').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#958DF1' }) }"
+          data-testid="setPurple"
         >
           Purple
         </button>
         <button
-          @click="editor.chain().focus().setColor('#F98181').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#F98181' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#F98181').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#F98181' }) }"
+          data-testid="setRed"
         >
           Red
         </button>
         <button
-          @click="editor.chain().focus().setColor('#FBBC88').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#FBBC88' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#FBBC88').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#FBBC88' }) }"
+          data-testid="setOrange"
         >
           Orange
         </button>
         <button
-          @click="editor.chain().focus().setColor('#FAF594').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#FAF594' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#FAF594').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#FAF594' }) }"
+          data-testid="setYellow"
         >
           Yellow
         </button>
         <button
-          @click="editor.chain().focus().setColor('#70CFF8').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#70CFF8' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#70CFF8').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#70CFF8' }) }"
+          data-testid="setBlue"
         >
           Blue
         </button>
         <button
-          @click="editor.chain().focus().setColor('#94FADB').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#94FADB' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#94FADB').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#94FADB' }) }"
+          data-testid="setTeal"
         >
           Teal
         </button>
         <button
-          @click="editor.chain().focus().setColor('#B9F18D').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { color: '#B9F18D' }) }"
+          @click="editor.chain().focus().setBackgroundColor('#B9F18D').run()"
+          :class="{ 'is-active': editor.isActive('textStyle', { backgroundColor: '#B9F18D' }) }"
+          data-testid="setGreen"
         >
           Green
         </button>
-        <button @click="editor.chain().focus().unsetColor().run()">Unset color</button>
+        <button @click="editor.chain().focus().unsetBackgroundColor().run()" data-testid="unsetBackgroundColor">
+          Unset color
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -57,7 +67,7 @@
 </template>
 
 <script>
-import { Color } from '@tiptap/extension-color'
+import { BackgroundColor } from '@tiptap/extension-background-color'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -77,9 +87,9 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [Document, Paragraph, Text, TextStyle, Color],
+      extensions: [Document, Paragraph, Text, TextStyle, BackgroundColor],
       content: `
-        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <p><span style="background-color: #958DF1">Oh, for some reason that's purple.</span></p>
       `,
     })
   },
