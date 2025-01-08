@@ -1,4 +1,4 @@
-# @tiptap/extension-utils
+# @tiptap/extensions
 
 [![Version](https://img.shields.io/npm/v/@tiptap/extension-focus.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-focus)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-focus.svg)](https://npmcharts.com/compare/tiptap?minimal=true)

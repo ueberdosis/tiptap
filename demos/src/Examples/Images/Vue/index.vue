@@ -11,10 +11,10 @@
 
 <script>
 import Document from '@tiptap/extension-document'
-import Dropcursor from '@tiptap/extension-dropcursor'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Dropcursor } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

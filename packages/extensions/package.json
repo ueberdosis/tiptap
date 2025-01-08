@@ -1,0 +1,90 @@
+{
+  "name": "@tiptap/extensions",
+  "description": "various extensions for tiptap",
+  "version": "3.0.0-next.3",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./drop-cursor": {
+      "types": {
+        "import": "./dist/drop-cursor/index.d.ts",
+        "require": "./dist/drop-cursor/index.d.cts"
+      },
+      "import": "./dist/drop-cursor/index.js",
+      "require": "./dist/drop-cursor/index.cjs"
+    },
+    "./focus": {
+      "types": {
+        "import": "./dist/focus/index.d.ts",
+        "require": "./dist/focus/index.d.cts"
+      },
+      "import": "./dist/focus/index.js",
+      "require": "./dist/focus/index.cjs"
+    },
+    "./gap-cursor": {
+      "types": {
+        "import": "./dist/gap-cursor/index.d.ts",
+        "require": "./dist/gap-cursor/index.d.cts"
+      },
+      "import": "./dist/gap-cursor/index.js",
+      "require": "./dist/gap-cursor/index.cjs"
+    },
+    "./selection": {
+      "types": {
+        "import": "./dist/selection/index.d.ts",
+        "require": "./dist/selection/index.d.cts"
+      },
+      "import": "./dist/selection/index.js",
+      "require": "./dist/selection/index.cjs"
+    },
+    "./trailing-node": {
+      "types": {
+        "import": "./dist/trailing-node/index.d.ts",
+        "require": "./dist/trailing-node/index.d.cts"
+      },
+      "import": "./dist/trailing-node/index.js",
+      "require": "./dist/trailing-node/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^3.0.0-next.3",
+    "@tiptap/pm": "^3.0.0-next.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

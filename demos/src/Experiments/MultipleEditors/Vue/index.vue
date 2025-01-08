@@ -32,12 +32,12 @@
 import Bold from '@tiptap/extension-bold'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
-import DropCursor from '@tiptap/extension-dropcursor'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
+import { Dropcursor } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { yDocToProsemirrorJSON } from 'y-prosemirror'
 import * as Y from 'yjs'
@@ -77,7 +77,7 @@ export default {
         }),
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'title',
@@ -92,7 +92,7 @@ export default {
         Paragraph,
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
@@ -115,7 +115,7 @@ export default {
         Paragraph,
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'description',

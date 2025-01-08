@@ -357,9 +357,9 @@ importers:
 
   packages/extension-dropcursor:
     devDependencies:
-      '@tiptap/extension-utils':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.3
-        version: link:../extension-utils
+        version: link:../extensions
 
   packages/extension-floating-menu:
     devDependencies:
@@ -375,9 +375,9 @@ importers:
 
   packages/extension-focus:
     devDependencies:
-      '@tiptap/extension-utils':
+      '@tiptap/extensions':
         specifier: 3.0.0-next.3
-        version: link:../extension-utils
+        version: link:../extensions
 
   packages/extension-font-family:
     devDependencies:
@@ -387,9 +387,9 @@ importers:
 
   packages/extension-gapcursor:
     devDependencies:
-      '@tiptap/extension-utils':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.3
-        version: link:../extension-utils
+        version: link:../extensions
 
   packages/extension-hard-break:
     devDependencies:
@@ -596,7 +596,13 @@ importers:
         specifier: ^3.0.0-next.3
         version: link:../core
 
-  packages/extension-utils:
+  packages/extension-youtube:
+    devDependencies:
+      '@tiptap/core':
+        specifier: ^3.0.0-next.3
+        version: link:../core
+
+  packages/extensions:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.3
@@ -604,12 +610,6 @@ importers:
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
         version: link:../pm
-
-  packages/extension-youtube:
-    devDependencies:
-      '@tiptap/core':
-        specifier: ^3.0.0-next.3
-        version: link:../core
 
   packages/html:
     dependencies:
@@ -786,9 +786,9 @@ importers:
       '@tiptap/extension-underline':
         specifier: ^3.0.0-next.3
         version: link:../extension-underline
-      '@tiptap/extension-utils':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.3
-        version: link:../extension-utils
+        version: link:../extensions
       '@tiptap/pm':
         specifier: ^3.0.0-next.3
         version: link:../pm

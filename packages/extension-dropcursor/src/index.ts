@@ -1,5 +1,7 @@
-import { Dropcursor } from '@tiptap/extension-utils'
+// @ts-ignore
+import { Dropcursor } from '@tiptap/extensions/drop-cursor'
 
-export { Dropcursor, DropcursorOptions } from '@tiptap/extension-utils'
+// @ts-ignore
+export { Dropcursor, DropcursorOptions } from '@tiptap/extensions/drop-cursor'
 
 export default Dropcursor
