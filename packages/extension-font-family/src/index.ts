@@ -1,5 +1,6 @@
-import { FontFamily } from './font-family.js'
+// @ts-ignore
+import { FontFamily, FontFamilyOptions } from '@tiptap/extension-text-style/font-family'
 
-export * from './font-family.js'
+export { FontFamily, FontFamilyOptions }
 
 export default FontFamily

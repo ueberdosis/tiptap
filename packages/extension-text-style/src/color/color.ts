@@ -1,4 +1,4 @@
-import '@tiptap/extension-text-style'
+import '../text-style/index.js'
 
 import { Extension } from '@tiptap/core'
 
@@ -27,6 +27,13 @@ declare module '@tiptap/core' {
        */
       unsetColor: () => ReturnType
     }
+  }
+}
+
+// @ts-ignore because the module is not found during dts build
+declare module '@tiptap/extension-text-style' {
+  interface TextStyleAttributes {
+    color?: string | null
   }
 }
 

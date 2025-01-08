@@ -21,6 +21,62 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./background-color": {
+      "types": {
+        "import": "./dist/background-color/index.d.ts",
+        "require": "./dist/background-color/index.d.cts"
+      },
+      "import": "./dist/background-color/index.js",
+      "require": "./dist/background-color/index.cjs"
+    },
+    "./color": {
+      "types": {
+        "import": "./dist/color/index.d.ts",
+        "require": "./dist/color/index.d.cts"
+      },
+      "import": "./dist/color/index.js",
+      "require": "./dist/color/index.cjs"
+    },
+    "./font-family": {
+      "types": {
+        "import": "./dist/font-family/index.d.ts",
+        "require": "./dist/font-family/index.d.cts"
+      },
+      "import": "./dist/font-family/index.js",
+      "require": "./dist/font-family/index.cjs"
+    },
+    "./font-size": {
+      "types": {
+        "import": "./dist/font-size/index.d.ts",
+        "require": "./dist/font-size/index.d.cts"
+      },
+      "import": "./dist/font-size/index.js",
+      "require": "./dist/font-size/index.cjs"
+    },
+    "./line-height": {
+      "types": {
+        "import": "./dist/line-height/index.d.ts",
+        "require": "./dist/line-height/index.d.cts"
+      },
+      "import": "./dist/line-height/index.js",
+      "require": "./dist/line-height/index.cjs"
+    },
+    "./text-style": {
+      "types": {
+        "import": "./dist/text-style/index.d.ts",
+        "require": "./dist/text-style/index.d.cts"
+      },
+      "import": "./dist/text-style/index.js",
+      "require": "./dist/text-style/index.cjs"
+    },
+    "./text-style-kit": {
+      "types": {
+        "import": "./dist/text-style-kit/index.d.ts",
+        "require": "./dist/text-style-kit/index.d.cts"
+      },
+      "import": "./dist/text-style-kit/index.js",
+      "require": "./dist/text-style-kit/index.cjs"
     }
   },
   "main": "dist/index.cjs",

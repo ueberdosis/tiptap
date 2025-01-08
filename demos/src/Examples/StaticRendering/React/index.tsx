@@ -1,8 +1,7 @@
 import './styles.scss'
 
-import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
+import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorProvider, JSONContent, useCurrentEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'

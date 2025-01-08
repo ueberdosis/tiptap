@@ -22,6 +22,16 @@ const getPackageDependencies = () => {
             replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`),
           })
         })
+      } else if (name === 'extension-text-style') {
+        fg.sync(`../packages/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+          const subPkgName = subName.replace(`../packages/${name}/src/`, '')
+
+          paths.push({
+            find: `@tiptap/${name}/${subPkgName}`,
+            replacement: resolve(`../packages/${name}/src/${subPkgName}/index.ts`),
+          })
+        })
+        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
       } else {
         paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
       }

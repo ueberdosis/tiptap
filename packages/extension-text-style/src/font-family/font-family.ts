@@ -1,4 +1,4 @@
-import '@tiptap/extension-text-style'
+import '../text-style/index.js'
 
 import { Extension } from '@tiptap/core'
 
@@ -26,6 +26,13 @@ declare module '@tiptap/core' {
        */
       unsetFontFamily: () => ReturnType
     }
+  }
+}
+
+// @ts-ignore because the module is not found during dts build
+declare module '@tiptap/extension-text-style' {
+  interface TextStyleAttributes {
+    fontFamily?: string | null
   }
 }
 
