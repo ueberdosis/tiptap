@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-font-size': patch
+'@tiptap/extension-text-style': minor
 ---
 
-This adds the new @tiptap/extension-font-size extension for changing the font-size of text based on the textStyle extension
+This adds the `font-size` to `text-style` package, which can set the font size of `textStyle`s

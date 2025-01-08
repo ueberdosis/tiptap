@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-background-color': patch
+'@tiptap/extension-text-style': minor
 ---
 
-Adds a new extension, `extension-background-color` which can color the background of `textStyle`s
+This adds the `background-color` to `text-style` package, which can color the background of `textStyle`s
