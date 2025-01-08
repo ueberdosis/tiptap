@@ -39,7 +39,7 @@
     "@tiptap/pm": "^3.0.0-next.1"
   },
   "dependencies": {
-    "zeed-dom": "^0.15.1"
+    "happy-dom-without-node": "^14.12.3"
   },
   "repository": {
     "type": "git",

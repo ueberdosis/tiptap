@@ -1,6 +1,6 @@
-context('/src/GuideContent/GenerateHTML/Vue/', () => {
+context('/src/GuideContent/StaticRenderHTML/Vue/', () => {
   before(() => {
-    cy.visit('/src/GuideContent/GenerateHTML/Vue/')
+    cy.visit('/src/GuideContent/StaticRenderHTML/Vue/')
   })
 
   it('should render the content as an HTML string', () => {
