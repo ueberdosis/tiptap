@@ -30,37 +30,37 @@
       "import": "./dist/table/index.js",
       "require": "./dist/table/index.cjs"
     },
-    "./table-cell": {
+    "./cell": {
       "types": {
-        "import": "./dist/table-cell/index.d.ts",
-        "require": "./dist/table-cell/index.d.cts"
+        "import": "./dist/cell/index.d.ts",
+        "require": "./dist/cell/index.d.cts"
       },
-      "import": "./dist/table-cell/index.js",
-      "require": "./dist/table-cell/index.cjs"
+      "import": "./dist/cell/index.js",
+      "require": "./dist/cell/index.cjs"
     },
-    "./table-header": {
+    "./header": {
       "types": {
-        "import": "./dist/table-header/index.d.ts",
-        "require": "./dist/table-header/index.d.cts"
+        "import": "./dist/header/index.d.ts",
+        "require": "./dist/header/index.d.cts"
       },
-      "import": "./dist/table-header/index.js",
-      "require": "./dist/table-header/index.cjs"
+      "import": "./dist/header/index.js",
+      "require": "./dist/header/index.cjs"
     },
-    "./table-kit": {
+    "./kit": {
       "types": {
-        "import": "./dist/table-kit/index.d.ts",
-        "require": "./dist/table-kit/index.d.cts"
+        "import": "./dist/kit/index.d.ts",
+        "require": "./dist/kit/index.d.cts"
       },
-      "import": "./dist/table-kit/index.js",
-      "require": "./dist/table-kit/index.cjs"
+      "import": "./dist/kit/index.js",
+      "require": "./dist/kit/index.cjs"
     },
-    "./table-row": {
+    "./row": {
       "types": {
-        "import": "./dist/table-row/index.d.ts",
-        "require": "./dist/table-row/index.d.cts"
+        "import": "./dist/row/index.d.ts",
+        "require": "./dist/row/index.d.cts"
       },
-      "import": "./dist/table-row/index.js",
-      "require": "./dist/table-row/index.cjs"
+      "import": "./dist/row/index.js",
+      "require": "./dist/row/index.cjs"
     }
   },
   "main": "dist/index.cjs",
