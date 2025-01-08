@@ -1,7 +1,5 @@
-// @ts-ignore
-import { TableCell } from '@tiptap/extension-table/cell'
+import { TableCell } from '@tiptap/extension-table'
 
-// @ts-ignore
-export { TableCell, TableCellOptions } from '@tiptap/extension-table/cell'
+export { TableCell, TableCellOptions } from '@tiptap/extension-table'
 
 export default TableCell

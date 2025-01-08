@@ -1,5 +1,4 @@
-// @ts-ignore
-import { Color, ColorOptions } from '@tiptap/extension-text-style/color'
+import { Color, ColorOptions } from '@tiptap/extension-text-style'
 
 export { Color, ColorOptions }
 

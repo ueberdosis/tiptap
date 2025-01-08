@@ -1,7 +1,5 @@
-// @ts-ignore
-import { TableRow } from '@tiptap/extension-table/row'
+import { TableRow } from '@tiptap/extension-table'
 
-// @ts-ignore
-export { TableRow, TableRowOptions } from '@tiptap/extension-table/row'
+export { TableRow, TableRowOptions } from '@tiptap/extension-table'
 
 export default TableRow
