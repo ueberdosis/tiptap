@@ -22,7 +22,7 @@ const getPackageDependencies = () => {
             replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`),
           })
         })
-      } else if (name === 'extension-text-style') {
+      } else if (name === 'extension-text-style' || name === 'extension-table') {
         fg.sync(`../packages/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
           const subPkgName = subName.replace(`../packages/${name}/src/`, '')
 
