@@ -1,7 +1,5 @@
-// @ts-ignore
-import { Gapcursor } from '@tiptap/extensions/gap-cursor'
+import { Gapcursor } from '@tiptap/extensions'
 
-// @ts-ignore
-export { Gapcursor } from '@tiptap/extensions/gap-cursor'
+export { Gapcursor } from '@tiptap/extensions'
 
 export default Gapcursor

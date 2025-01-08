@@ -1,7 +1,5 @@
-// @ts-ignore
-import { Focus } from '@tiptap/extensions/focus'
+import { Focus } from '@tiptap/extensions'
 
-// @ts-ignore
-export { Focus, FocusOptions } from '@tiptap/extensions/focus'
+export { Focus, FocusOptions } from '@tiptap/extensions'
 
 export default Focus
