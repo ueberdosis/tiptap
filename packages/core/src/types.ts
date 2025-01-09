@@ -6,6 +6,7 @@ import {
   DecorationAttrs,
   EditorProps,
   EditorView,
+  MarkView,
   MarkViewConstructor,
   NodeView,
   NodeViewConstructor,
@@ -619,7 +620,7 @@ export interface MarkViewRendererProps {
   HTMLAttributes: Record<string, any>
 }
 
-export type MarkViewRenderer = (props: MarkViewRendererProps) => ReturnType<MarkViewConstructor>
+export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>
 
