@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
 import { Schema } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
-import { NodeViewConstructor } from '@tiptap/pm/view'
+import { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
@@ -17,7 +17,7 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import type { NodeConfig } from './index.js'
+import { type MarkConfig, type NodeConfig, getMarkType } from './index.js'
 import { InputRule, inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
@@ -222,6 +222,48 @@ export class ExtensionManager {
           }
 
           return [extension.name, nodeview]
+        }),
+    )
+  }
+
+  get markViews(): Record<string, MarkViewConstructor> {
+    const { editor } = this
+    const { markExtensions } = splitExtensions(this.extensions)
+
+    return Object.fromEntries(
+      markExtensions
+        .filter(extension => !!getExtensionField(extension, 'addMarkView'))
+        .map(extension => {
+          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
+          const context = {
+            name: extension.name,
+            options: extension.options,
+            storage: extension.storage,
+            editor,
+            type: getMarkType(extension.name, this.schema),
+          }
+          const addMarkView = getExtensionField<MarkConfig['addMarkView']>(extension, 'addMarkView', context)
+
+          if (!addMarkView) {
+            return []
+          }
+
+          const markView: MarkViewConstructor = (mark, view, inline) => {
+            const HTMLAttributes = getRenderedAttributes(mark, extensionAttributes)
+
+            return addMarkView()({
+              // pass-through
+              mark,
+              view,
+              inline,
+              // tiptap-specific
+              editor,
+              extension,
+              HTMLAttributes,
+            })
+          }
+
+          return [extension.name, markView]
         }),
     )
   }
