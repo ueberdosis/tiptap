@@ -1,11 +1,12 @@
-import { MarkViewRenderer, MarkViewRendererProps } from '@tiptap/core'
+/* eslint-disable @typescript-eslint/no-shadow */
+import { MarkView, MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import React from 'react'
 
 // import { flushSync } from 'react-dom'
 import { ReactRenderer } from './ReactRenderer.js'
 
 export interface MarkViewContextProps {
-  markViewContentRef:(element: HTMLElement | null) => void,
+  markViewContentRef: (element: HTMLElement | null) => void
 }
 export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
   markViewContentRef: () => {
@@ -13,10 +14,9 @@ export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
   },
 })
 
-export interface MarkViewContentProps {
-  [key: string]: any,
-  as?: React.ElementType,
-}
+export type MarkViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'span'> = {
+  as?: NoInfer<T>
+} & React.ComponentProps<T>
 
 export const MarkViewContent: React.FC<MarkViewContentProps> = props => {
   const Tag = props.as || 'span'
@@ -24,40 +24,40 @@ export const MarkViewContent: React.FC<MarkViewContentProps> = props => {
 
   return (
     // @ts-ignore
-    <Tag
-      {...props}
-      ref={markViewContentRef}
-      data-mark-view-content=""
-    />
+    <Tag {...props} ref={markViewContentRef} data-mark-view-content="" />
   )
 }
 
-export function ReactMarkViewRenderer<
-  Component extends React.ComponentType<MarkViewRendererProps> = React.ComponentType<MarkViewRendererProps>,
->(
-  ComponentToRender: Component,
-  { as = 'span', attrs, className = '' }: {
-    /**
-     * The tag name of the element wrapping the React component.
-     */
-    as?: string;
-    className?: string;
-    attrs?: { [key: string]: string};
-  } = {},
-): MarkViewRenderer {
-  return props => {
+export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
+  /**
+   * The tag name of the element wrapping the React component.
+   */
+  as?: string
+  className?: string
+  attrs?: { [key: string]: string }
+}
 
-    if (!(props.editor as any).contentComponent || !props.editor.isInitialized) {
-      return {} as unknown as any
-    }
+export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, ReactMarkViewRendererOptions> {
+  renderer: ReactRenderer
+  contentDOMElement: HTMLElement | null
+  didMountContentDomElement = false
 
-    // let didMountContentDomElement = false
-    const contentDOMElement = document.createElement('span')
+  constructor(
+    component: React.ComponentType<MarkViewProps>,
+    props: MarkViewProps,
+    options?: Partial<ReactMarkViewRendererOptions>,
+  ) {
+    super(component, props, options)
+
+    const { as = 'span', attrs, className = '' } = options || {}
+    const componentProps = props satisfies MarkViewProps
+
+    this.contentDOMElement = document.createElement('span')
 
     const markViewContentRef: MarkViewContextProps['markViewContentRef'] = el => {
-      if (el && contentDOMElement && el.firstChild !== contentDOMElement) {
-        el.appendChild(contentDOMElement)
-        didMountContentDomElement = true
+      if (el && this.contentDOMElement && el.firstChild !== this.contentDOMElement) {
+        el.appendChild(this.contentDOMElement)
+        this.didMountContentDomElement = true
       }
     }
     const context: MarkViewContextProps = {
@@ -66,40 +66,43 @@ export function ReactMarkViewRenderer<
 
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactMarkViewProvider: React.FunctionComponent<MarkViewRendererProps> = React.memo(
-      componentProps => {
-        return (
-          <ReactMarkViewContext.Provider value={context}>
-            {React.createElement(ComponentToRender, componentProps)}
-          </ReactMarkViewContext.Provider>
-        )
-      },
-    )
+    const ReactMarkViewProvider: React.FunctionComponent<MarkViewProps> = React.memo(componentProps => {
+      return (
+        <ReactMarkViewContext.Provider value={context}>
+          {React.createElement(component, componentProps)}
+        </ReactMarkViewContext.Provider>
+      )
+    })
 
     ReactMarkViewProvider.displayName = 'ReactNodeView'
 
-    const renderer = new ReactRenderer(ReactMarkViewProvider, {
+    this.renderer = new ReactRenderer(ReactMarkViewProvider, {
       editor: props.editor,
-      props,
+      props: componentProps,
       as,
       className: `mark-${props.mark.type.name} ${className}`.trim(),
     })
 
     if (attrs) {
-      renderer.updateAttributes(attrs)
-    }
-
-    return {
-      dom: renderer.element,
-      get contentDOM() {
-        // if (!didMountContentDomElement) {
-        //   return null
-        // }
-        return contentDOMElement
-      },
-      destroy: () => {
-        didMountContentDomElement = false
-      },
+      this.renderer.updateAttributes(attrs)
     }
   }
+
+  get dom() {
+    return this.renderer.element as HTMLElement
+  }
+
+  get contentDOM() {
+    if (!this.didMountContentDomElement) {
+      return null
+    }
+    return this.contentDOMElement as HTMLElement
+  }
+}
+
+export function ReactMarkViewRenderer(
+  component: React.ComponentType<MarkViewProps>,
+  options: Partial<ReactMarkViewRendererOptions> = {},
+): MarkViewRenderer {
+  return props => new ReactMarkView(component, props, options)
 }
