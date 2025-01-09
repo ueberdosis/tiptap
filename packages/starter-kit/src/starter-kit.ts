@@ -18,7 +18,7 @@ import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
-import { Dropcursor, DropcursorOptions, Gapcursor, TrailingNode, TrailingNodeOptions } from '@tiptap/extension-utils'
+import { Dropcursor, DropcursorOptions, Gapcursor, TrailingNode, TrailingNodeOptions } from '@tiptap/extensions'
 
 export interface StarterKitOptions {
   /**

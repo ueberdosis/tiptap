@@ -1,5 +1,5 @@
-import { Focus } from '@tiptap/extension-utils'
+import { Focus } from '@tiptap/extensions'
 
-export { Focus, FocusOptions } from '@tiptap/extension-utils'
+export { Focus, FocusOptions } from '@tiptap/extensions'
 
 export default Focus
