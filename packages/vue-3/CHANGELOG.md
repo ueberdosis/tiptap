@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.11.1
+
+### Patch Changes
+
+- 9787f8b: update node view props to match `NodeViewProps` type
+  - @tiptap/extension-bubble-menu@2.11.1
+  - @tiptap/extension-floating-menu@2.11.1
+
 ## 2.11.0
 
 ### Patch Changes
