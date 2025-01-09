@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-next.4
+
+### Minor Changes
+
+- ff8eed6: Support `validate` options in node and mark attribute definitions.
+
+### Patch Changes
+
+- 20f68f6: Remove editor.getCharacterCount() which was already deprecated and incorrectly implemented
+- d6c7558: If a transaction results in the exact same editor state (either filtered out or failed to apply) then do not attempt to re-apply the same editor state and do not emit any events associated to the transaction
+
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2

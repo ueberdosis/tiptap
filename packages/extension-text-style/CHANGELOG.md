@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.0-next.4
+
+### Minor Changes
+
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds the `font-size` to `text-style` package, which can set the font size of `textStyle`s
+- 0b4981c: This adds the `background-color` to `text-style` package, which can color the background of `textStyle`s
+- 0b4981c: This adds the `line-height` to `text-style` package, which controls the line-height of text like `font-size`, `font-family`, etc.
+
+### Patch Changes
+
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2
