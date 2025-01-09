@@ -225,6 +225,7 @@ export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
 
 export type Attribute = {
   default?: any
+  validate?: string | ((value: any) => void)
   rendered?: boolean
   renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null
   parseHTML?: ((element: HTMLElement) => any | null) | null
@@ -239,7 +240,7 @@ export type Attributes = {
 export type ExtensionAttribute = {
   type: string
   name: string
-  attribute: Required<Attribute>
+  attribute: Required<Omit<Attribute, 'validate'>> & Pick<Attribute, 'validate'>
 }
 
 export type GlobalAttributes = {

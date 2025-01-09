@@ -11,8 +11,9 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
   const extensionAttributes: ExtensionAttribute[] = []
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const nodeAndMarkExtensions = [...nodeExtensions, ...markExtensions]
-  const defaultAttribute: Required<Attribute> = {
+  const defaultAttribute: Required<Omit<Attribute, 'validate'>> & Pick<Attribute, 'validate'> = {
     default: null,
+    validate: undefined,
     rendered: true,
     renderHTML: null,
     parseHTML: null,
