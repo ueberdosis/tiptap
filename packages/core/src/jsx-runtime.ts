@@ -13,17 +13,17 @@ export type DOMOutputSpecArray =
   | [string, Attributes, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    // @ts-ignore - conflict with React typings
-    type Element = [string, ...any[]]
-    interface IntrinsicElements {
-      // @ts-ignore - conflict with React typings
-      [key: string]: any
-    }
-  }
-}
+// declare global {
+//   // eslint-disable-next-line @typescript-eslint/no-namespace
+//   namespace JSX {
+//     // @ts-ignore - conflict with React typings
+//     type Element = [string, ...any[]]
+//     interface IntrinsicElements {
+//       // @ts-ignore - conflict with React typings
+//       [key: string]: any
+//     }
+//   }
+// }
 
 export type JSXRenderer = (
   tag: 'slot' | string | ((props?: Attributes) => DOMOutputSpecArray | DOMOutputSpecElement),
@@ -31,23 +31,11 @@ export type JSXRenderer = (
   ...children: JSXRenderer[]
 ) => DOMOutputSpecArray | DOMOutputSpecElement
 
-/**
- * The JSX pragma function for tiptap
- * It will render JSX to a format that Tiptap's `renderHTML` function can understand
- * @example A simple div element
- * ```tsx
- * renderHTML({ HTMLAttributes }) {
- *  return <div {...HTMLAttributes}></div>;
- * }
- * ```
- * @example A div element that wraps it's children
- * ```tsx
- * renderHTML({ HTMLAttributes }) {
- * return <div {...HTMLAttributes}><slot /></div>;
- * }
- * ```
- */
-export const jsxTiptap: JSXRenderer = (tag, attributes, ...children) => {
+export function Fragment(props: { children: JSXRenderer[] }) {
+  return props.children
+}
+
+export const h: JSXRenderer = (tag, attributes, ...children) => {
   // Treat the slot tag as the Prosemirror hole to render content into
   if (tag === 'slot') {
     return 0
@@ -62,4 +50,8 @@ export const jsxTiptap: JSXRenderer = (tag, attributes, ...children) => {
   return [tag, attributes ?? {}, ...children]
 }
 
-export const children = 0
+// See
+// https://esbuild.github.io/api/#jsx-import-source
+// https://www.typescriptlang.org/tsconfig/#jsxImportSource
+
+export { h as createElement, h as jsx, h as jsxDEV, h as jsxs }
