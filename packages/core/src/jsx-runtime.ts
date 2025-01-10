@@ -48,6 +48,10 @@ export const h: JSXRenderer = (tag, attributes) => {
 
   const { children, ...rest } = attributes ?? {}
 
+  if (tag === 'svg') {
+    throw new Error('SVG elements are not supported in the JSX syntax, use the array syntax instead')
+  }
+
   // Otherwise, return the tag, attributes, and children
   return [tag, rest, children]
 }
