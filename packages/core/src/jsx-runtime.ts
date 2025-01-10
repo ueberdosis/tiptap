@@ -13,17 +13,18 @@ export type DOMOutputSpecArray =
   | [string, Attributes, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
-// declare global {
-//   // eslint-disable-next-line @typescript-eslint/no-namespace
-//   namespace JSX {
-//     // @ts-ignore - conflict with React typings
-//     type Element = DOMOutputSpecArray | DOMOutputSpecElement
-//     interface IntrinsicElements {
-//       // @ts-ignore - conflict with React typings
-//       [key: string]: any
-//     }
-//   }
-// }
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    // @ts-ignore - conflict with React typings
+    type Element = [string, ...any[]]
+    // @ts-ignore - conflict with React typings
+    interface IntrinsicElements {
+      // @ts-ignore - conflict with React typings
+      [key: string]: any
+    }
+  }
+}
 
 export type JSXRenderer = (
   tag: 'slot' | string | ((props?: Attributes) => DOMOutputSpecArray | DOMOutputSpecElement),

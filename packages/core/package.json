@@ -26,16 +26,20 @@
       "require": "./dist/index.cjs"
     },
     "./jsx-runtime": {
-      "types": "./jsx-runtime/index.d.ts",
-      "browser": "./jsx-runtime/index.js",
+      "types": {
+        "import": "./jsx-runtime/index.d.ts",
+        "require": "./jsx-runtime/index.d.cts"
+      },
       "import": "./jsx-runtime/index.js",
       "require": "./jsx-runtime/index.cjs"
     },
     "./jsx-dev-runtime": {
-      "types": "./jsx-runtime/index.d.ts",
-      "browser": "./jsx-runtime/index.js",
-      "import": "./jsx-runtime/index.js",
-      "require": "./jsx-runtime/index.cjs"
+      "types": {
+        "import": "./jsx-dev-runtime/index.d.ts",
+        "require": "./jsx-dev-runtime/index.d.cts"
+      },
+      "import": "./jsx-dev-runtime/index.js",
+      "require": "./jsx-dev-runtime/index.cjs"
     }
   },
   "main": "dist/index.cjs",
