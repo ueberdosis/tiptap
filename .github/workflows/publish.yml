@@ -45,15 +45,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Load cached dependencies
+      - name: Load turbo cache
         uses: actions/cache@v4.2.0
-        id: cache
+        id: turbo-cache
         with:
           path: |
-            **/node_modules
-            **/.turbo
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.sha }}
+            ${{ runner.os }}-turbo-
 
       - name: Install Dependencies
         run: pnpm i
