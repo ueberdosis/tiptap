@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.2
+
+### Patch Changes
+
+- 2abd4df: Re-release
+
 ## 2.11.1
 
 ## 2.11.0
