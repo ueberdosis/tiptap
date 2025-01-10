@@ -1,3 +1,4 @@
+/** @jsxImportSource @tiptap/core */
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface BoldOptions {
@@ -82,7 +83,17 @@ export const Bold = Mark.create<BoldOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['strong', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    console.log(
+      <strong {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
+        <slot />
+      </strong>,
+    )
+    // ok the
+    return (
+      <strong {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
+        <slot />
+      </strong>
+    ) as unknown as Element
   },
 
   addCommands() {
