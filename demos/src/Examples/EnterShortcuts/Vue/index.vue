@@ -37,6 +37,10 @@ const CustomKeyboardShortcutExtension = Extension.create({
   priority: 101,
   addKeyboardShortcuts() {
     return {
+      'Ctrl-Enter': ctx => {
+        // Creates a transaction with this custom meta set
+        return ctx.editor.commands.setMeta('customKeyboardShortcutHandler', 'Ctrl-Enter')
+      },
       'Meta-Enter': ctx => {
         // Creates a transaction with this custom meta set
         return ctx.editor.commands.setMeta('customKeyboardShortcutHandler', 'Meta-Enter')
@@ -67,6 +71,9 @@ export default {
       onTransaction: ({ transaction }) => {
         if (transaction.getMeta('customKeyboardShortcutHandler')) {
           switch (transaction.getMeta('customKeyboardShortcutHandler')) {
+            case 'Ctrl-Enter':
+              this.lastShortcut = 'Ctrl-Enter'
+              break
             case 'Meta-Enter':
               this.lastShortcut = 'Meta-Enter'
               break

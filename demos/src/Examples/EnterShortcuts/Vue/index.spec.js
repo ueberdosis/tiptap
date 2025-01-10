@@ -1,6 +1,6 @@
-context('/src/Examples/Shortcuts/React/', () => {
+context('/src/Examples/EnterShortcuts/Vue/', () => {
   before(() => {
-    cy.visit('/src/Examples/Shortcuts/React/')
+    cy.visit('/src/Examples/EnterShortcuts/Vue/')
   })
 
   beforeEach(() => {
@@ -11,15 +11,22 @@ context('/src/Examples/Shortcuts/React/', () => {
 
   it('should update the hint html when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap')
-      .trigger('keydown', { modKey: true, altKey: true, key: 'Enter' })
+      .trigger('keydown', { metaKey: true, key: 'Enter' })
     cy.get('.hint')
       .should('contain', 'Meta-Enter was the last shortcut')
   })
 
   it('should update the hint html when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap')
-      .trigger('keydown', { shiftKey: true, altKey: true, key: 'Enter' })
+      .trigger('keydown', { shiftKey: true, key: 'Enter' })
     cy.get('.hint')
       .should('contain', 'Shift-Enter was the last shortcut')
+  })
+
+  it('should update the hint html when the keyboard shortcut is pressed', () => {
+    cy.get('.tiptap')
+      .trigger('keydown', { ctrlKey: true, key: 'Enter' })
+    cy.get('.hint')
+      .should('contain', 'Ctrl-Enter was the last shortcut')
   })
 })

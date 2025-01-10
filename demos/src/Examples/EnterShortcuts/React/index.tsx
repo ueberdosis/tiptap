@@ -10,6 +10,10 @@ const CustomKeyboardShortcutExtension = Extension.create({
   priority: 101,
   addKeyboardShortcuts() {
     return {
+      'Ctrl-Enter': ctx => {
+        // Creates a transaction with this custom meta set
+        return ctx.editor.commands.setMeta('customKeyboardShortcutHandler', 'Ctrl-Enter')
+      },
       'Meta-Enter': ctx => {
         // Creates a transaction with this custom meta set
         return ctx.editor.commands.setMeta('customKeyboardShortcutHandler', 'Meta-Enter')
@@ -22,13 +26,16 @@ const CustomKeyboardShortcutExtension = Extension.create({
 })
 
 export default () => {
-  const [lastShortcut, setLastShortcut] = React.useState(null)
+  const [lastShortcut, setLastShortcut] = React.useState<string | null>(null)
   const editor = useEditor({
     extensions: [StarterKit, CustomKeyboardShortcutExtension],
     // Listen for the custom meta set in the transaction
     onTransaction: ({ transaction }) => {
       if (transaction.getMeta('customKeyboardShortcutHandler')) {
         switch (transaction.getMeta('customKeyboardShortcutHandler')) {
+          case 'Ctrl-Enter':
+            setLastShortcut('Ctrl-Enter')
+            break
           case 'Meta-Enter':
             setLastShortcut('Meta-Enter')
             break
@@ -42,7 +49,7 @@ export default () => {
     },
     content: `
       <p>
-        Hey, try to hit Shift+Enter or Meta+Enter. The last shortcut hit will be displayed above.
+        Hey, try to hit Shift+Enter, Ctrl+Enter or Meta+Enter. The last shortcut hit will be displayed above.
       </p>
     `,
   })
