@@ -1,5 +1,5 @@
 <template>
-  <span class="vue-component">
+  <span className="content" data-test-id="mark-view">
     <mark-view-content />
     <label contenteditable="false"
       >Vue Component::
