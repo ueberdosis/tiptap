@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.4
+
+### Major Changes
+
+- bf040b9: Replace `zeed-dom` with `happy-dom-without-node` for broader compatibility of the HTML parser. The only difference you should see is that `happy-dom-without-node` will output `xmlns="http://www.w3.org/1999/xhtml"` on root elements, which makes it compliant with the HTML5 specification.
+
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2

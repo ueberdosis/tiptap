@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "3.0.0-next.3",
+  "version": "3.0.0-next.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,8 +31,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.3",
-    "@tiptap/pm": "^3.0.0-next.3"
+    "@tiptap/core": "^3.0.0-next.4",
+    "@tiptap/pm": "^3.0.0-next.4"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1",

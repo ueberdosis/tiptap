@@ -1,5 +1,38 @@
 # Change Log
 
+## 3.0.0-next.4
+
+### Patch Changes
+
+- Updated dependencies [bfec9b2]
+- Updated dependencies [20f68f6]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [d6c7558]
+  - @tiptap/extensions@3.0.0-next.4
+  - @tiptap/core@3.0.0-next.4
+  - @tiptap/extension-blockquote@3.0.0-next.4
+  - @tiptap/extension-bold@3.0.0-next.4
+  - @tiptap/extension-bullet-list@3.0.0-next.4
+  - @tiptap/extension-code@3.0.0-next.4
+  - @tiptap/extension-code-block@3.0.0-next.4
+  - @tiptap/extension-document@3.0.0-next.4
+  - @tiptap/extension-dropcursor@3.0.0-next.4
+  - @tiptap/extension-gapcursor@3.0.0-next.4
+  - @tiptap/extension-hard-break@3.0.0-next.4
+  - @tiptap/extension-heading@3.0.0-next.4
+  - @tiptap/extension-history@3.0.0-next.4
+  - @tiptap/extension-horizontal-rule@3.0.0-next.4
+  - @tiptap/extension-italic@3.0.0-next.4
+  - @tiptap/extension-link@3.0.0-next.4
+  - @tiptap/extension-list-item@3.0.0-next.4
+  - @tiptap/extension-list-keymap@3.0.0-next.4
+  - @tiptap/extension-ordered-list@3.0.0-next.4
+  - @tiptap/extension-paragraph@3.0.0-next.4
+  - @tiptap/extension-strike@3.0.0-next.4
+  - @tiptap/extension-text@3.0.0-next.4
+  - @tiptap/extension-underline@3.0.0-next.4
+  - @tiptap/pm@3.0.0-next.4
+
 ## 3.0.0-next.3
 
 ### Patch Changes

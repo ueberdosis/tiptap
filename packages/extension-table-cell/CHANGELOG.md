@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.4
+
+### Minor Changes
+
+- 131c7d0: This change repackages all of the table extensions to be within the `@tiptap/extension-table` package (other packages are just a re-export of the `@tiptap/extension-table` package). It also adds the `TableKit` export which will allow configuring the entire table with one extension.
+
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2
