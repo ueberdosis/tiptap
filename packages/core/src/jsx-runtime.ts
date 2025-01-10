@@ -17,7 +17,7 @@ export type DOMOutputSpecArray =
 //   // eslint-disable-next-line @typescript-eslint/no-namespace
 //   namespace JSX {
 //     // @ts-ignore - conflict with React typings
-//     type Element = [string, ...any[]]
+//     type Element = DOMOutputSpecArray | DOMOutputSpecElement
 //     interface IntrinsicElements {
 //       // @ts-ignore - conflict with React typings
 //       [key: string]: any

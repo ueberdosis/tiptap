@@ -1,4 +1,6 @@
+/** @jsxImportSource @tiptap/core */
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import type { DOMOutputSpecArray } from '@tiptap/core/jsx-runtime'
 
 export interface BlockquoteOptions {
   /**
@@ -57,7 +59,11 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['blockquote', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    return (
+      <blockquote {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
+        <slot />
+      </blockquote>
+    ) as unknown as DOMOutputSpecArray
   },
 
   addCommands() {
