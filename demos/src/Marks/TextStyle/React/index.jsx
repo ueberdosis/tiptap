@@ -4,21 +4,13 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Color , FontFamily , TextStyle } from '@tiptap/extension-text-style'
+import { TextStyleKit } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      Document,
-      Paragraph,
-      Text,
-      TextStyle.configure({ mergeNestedSpanStyles: true }),
-      Color,
-      Bold,
-      FontFamily,
-    ],
+    extensions: [Document, Paragraph, Text, TextStyleKit, Bold],
     content: `
         <p><span>This has a &lt;span&gt; tag without a style attribute, so it’s thrown away.</span></p>
         <p><span style="">But this one is wrapped in a &lt;span&gt; tag with an inline style attribute, so it’s kept - even if it’s empty for now.</span></p>

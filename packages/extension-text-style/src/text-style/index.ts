@@ -14,7 +14,7 @@ export interface TextStyleOptions {
    * This prioritizes the style of the child span.
    * Used when parsing content created in other editors.
    * (Fix for ProseMirror's default behavior.)
-   * @default false
+   * @default true
    */
   mergeNestedSpanStyles: boolean
 }
@@ -68,7 +68,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
-      mergeNestedSpanStyles: false,
+      mergeNestedSpanStyles: true,
     }
   },
 
