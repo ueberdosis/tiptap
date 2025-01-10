@@ -6,10 +6,10 @@ export default (props: MarkViewRendererProps) => {
   const [count, setCount] = React.useState(0)
 
   return (
-    <span className="content">
+    <span className="content" data-test-id="mark-view">
       <MarkViewContent />
       <label contentEditable={false}>
-        React component::
+        React component:
         <button
           onClick={() => {
             setCount(count + 1)
