@@ -83,11 +83,6 @@ export const Bold = Mark.create<BoldOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log(
-      <strong {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
-        <slot />
-      </strong>,
-    )
     // ok the
     return (
       <strong {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>

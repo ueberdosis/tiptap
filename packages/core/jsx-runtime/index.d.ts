@@ -1,4 +1,4 @@
-export type * from '../dist/packages/core/src/jsx-runtime.d.ts'
+export type * from '../dist/jsx-runtime/jsx-runtime.d.ts'
 
 declare namespace React {
   namespace JSX {
