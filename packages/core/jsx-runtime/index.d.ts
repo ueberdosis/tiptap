@@ -1,4 +1,4 @@
-export type * from '../dist/jsx-runtime/jsx-runtime.d.ts'
+export type * from '../src/jsx-runtime.ts'
 
 declare global {
   namespace JSX {
