@@ -24,7 +24,7 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
   }
 
   // Use happy-dom for serialization.
-  const browserWindow = window || new Window()
+  const browserWindow = typeof window === 'undefined' ? new Window() : window
 
   const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
     document: browserWindow.document as unknown as Document,

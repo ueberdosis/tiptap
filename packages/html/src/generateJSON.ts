@@ -17,7 +17,8 @@ import { DOMParser as HappyDOMParser, Window as HappyDOMWindow } from 'happy-dom
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   const schema = getSchema(extensions)
 
-  const parseInstance = window ? new window.DOMParser() : new HappyDOMParser(new HappyDOMWindow())
+  const parseInstance =
+    typeof window !== 'undefined' ? new window.DOMParser() : new HappyDOMParser(new HappyDOMWindow())
 
   return DOMParser.fromSchema(schema)
     .parse(parseInstance.parseFromString(html, 'text/html').body as Node, options)
