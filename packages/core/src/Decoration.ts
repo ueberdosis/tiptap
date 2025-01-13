@@ -4,31 +4,19 @@ import { Decoration as PMDecoration, DecorationAttrs } from '@tiptap/pm/view'
 
 import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
-import {
-  DecorationConfig,
-  InlineDecorationConfig,
-  NodeDecorationConfig,
-  WidgetDecorationConfig,
-} from './index.js'
+import { DecorationConfig, InlineDecorationConfig, NodeDecorationConfig, WidgetDecorationConfig } from './index.js'
 import { InputRule } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { Node } from './Node.js'
 import { PasteRule } from './PasteRule.js'
-import {
-  AnyConfig,
-  Extensions,
-  GlobalAttributes,
-  KeyboardShortcutCommand,
-  ParentConfig,
-  RawCommands,
-} from './types.js'
+import { AnyConfig, Extensions, GlobalAttributes, KeyboardShortcutCommand, ParentConfig, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
   interface DecorationConfig<Options = any, Storage = any> {
     // @ts-ignore - this is a dynamic key
-    [key: string]: any;
+    [key: string]: any
 
     /**
      * The extension name - this must be unique.
@@ -36,7 +24,7 @@ declare module '@tiptap/core' {
      *
      * @example 'myDecoration'
      */
-    name: string;
+    name: string
 
     /**
      * The priority of your extension. The higher, the earlier it will be called
@@ -44,17 +32,7 @@ declare module '@tiptap/core' {
      * @default 100
      * @example 101
      */
-    priority?: number;
-
-    /**
-     * The default options for this extension.
-     * @example
-     * defaultOptions: {
-     *   myOption: 'foo',
-     *   myOtherOption: 10,
-     * }
-     */
-    defaultOptions?: Options;
+    priority?: number
 
     /**
      * This method will add options to this extension
@@ -67,9 +45,9 @@ declare module '@tiptap/core' {
      * }
      */
     addOptions?: (this: {
-      name: string;
-      parent: Exclude<ParentConfig<DecorationConfig<Options, Storage>>['addOptions'], undefined>;
-    }) => Options;
+      name: string
+      parent: Exclude<ParentConfig<DecorationConfig<Options, Storage>>['addOptions'], undefined>
+    }) => Options
 
     /**
      * The default storage this extension can save data to.
@@ -81,10 +59,10 @@ declare module '@tiptap/core' {
      * }
      */
     addStorage?: (this: {
-      name: string;
-      options: Options;
-      parent: Exclude<ParentConfig<DecorationConfig<Options, Storage>>['addStorage'], undefined>;
-    }) => Storage;
+      name: string
+      options: Options
+      parent: Exclude<ParentConfig<DecorationConfig<Options, Storage>>['addStorage'], undefined>
+    }) => Storage
 
     /**
      * This function adds globalAttributes to specific nodes.
@@ -113,12 +91,12 @@ declare module '@tiptap/core' {
      * }
      */
     addGlobalAttributes?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      extensions: (Node | Mark)[];
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addGlobalAttributes'];
-    }) => GlobalAttributes;
+      name: string
+      options: Options
+      storage: Storage
+      extensions: (Node | Mark)[]
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addGlobalAttributes']
+    }) => GlobalAttributes
 
     /**
      * This function adds commands to the editor
@@ -131,12 +109,12 @@ declare module '@tiptap/core' {
      * }
      */
     addCommands?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addCommands'];
-    }) => Partial<RawCommands>;
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addCommands']
+    }) => Partial<RawCommands>
 
     /**
      * This function registers keyboard shortcuts.
@@ -149,14 +127,14 @@ declare module '@tiptap/core' {
      * },
      */
     addKeyboardShortcuts?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addKeyboardShortcuts'];
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addKeyboardShortcuts']
     }) => {
-      [key: string]: KeyboardShortcutCommand;
-    };
+      [key: string]: KeyboardShortcutCommand
+    }
 
     /**
      * This function adds input rules to the editor.
@@ -172,12 +150,12 @@ declare module '@tiptap/core' {
      * },
      */
     addInputRules?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addInputRules'];
-    }) => InputRule[];
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addInputRules']
+    }) => InputRule[]
 
     /**
      * This function adds paste rules to the editor.
@@ -193,12 +171,12 @@ declare module '@tiptap/core' {
      * },
      */
     addPasteRules?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addPasteRules'];
-    }) => PasteRule[];
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addPasteRules']
+    }) => PasteRule[]
 
     /**
      * This function adds Prosemirror plugins to the editor
@@ -211,12 +189,12 @@ declare module '@tiptap/core' {
      * }
      */
     addProseMirrorPlugins?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addProseMirrorPlugins'];
-    }) => Plugin[];
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addProseMirrorPlugins']
+    }) => Plugin[]
 
     /**
      * This function adds additional extensions to the editor. This is useful for
@@ -231,63 +209,63 @@ declare module '@tiptap/core' {
      * }
      */
     addExtensions?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addExtensions'];
-    }) => Extensions;
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addExtensions']
+    }) => Extensions
 
     /**
      * The editor is not ready yet.
      */
     onBeforeCreate?:
       | ((this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          parent: ParentConfig<DecorationConfig<Options, Storage>>['onBeforeCreate'];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          parent: ParentConfig<DecorationConfig<Options, Storage>>['onBeforeCreate']
         }) => void)
-      | null;
+      | null
 
     /**
      * The editor is ready.
      */
     onCreate?:
       | ((this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          parent: ParentConfig<DecorationConfig<Options, Storage>>['onCreate'];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          parent: ParentConfig<DecorationConfig<Options, Storage>>['onCreate']
         }) => void)
-      | null;
+      | null
 
     /**
      * The content has changed.
      */
     onUpdate?:
       | ((this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          parent: ParentConfig<DecorationConfig<Options, Storage>>['onUpdate'];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          parent: ParentConfig<DecorationConfig<Options, Storage>>['onUpdate']
         }) => void)
-      | null;
+      | null
 
     /**
      * The selection has changed.
      */
     onSelectionUpdate?:
       | ((this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          parent: ParentConfig<DecorationConfig<Options, Storage>>['onSelectionUpdate'];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          parent: ParentConfig<DecorationConfig<Options, Storage>>['onSelectionUpdate']
         }) => void)
-      | null;
+      | null
 
     // /**
     //  * The editor state has changed.
@@ -314,17 +292,17 @@ declare module '@tiptap/core' {
     onFocus?:
       | ((
           this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            editor: Editor;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['onFocus'];
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<DecorationConfig<Options, Storage>>['onFocus']
           },
           props: {
-            event: FocusEvent;
-          }
+            event: FocusEvent
+          },
         ) => void)
-      | null;
+      | null
 
     /**
      * The editor isn’t focused anymore.
@@ -332,34 +310,33 @@ declare module '@tiptap/core' {
     onBlur?:
       | ((
           this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            editor: Editor;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['onBlur'];
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<DecorationConfig<Options, Storage>>['onBlur']
           },
           props: {
-            event: FocusEvent;
-          }
+            event: FocusEvent
+          },
         ) => void)
-      | null;
+      | null
 
     /**
      * The editor is destroyed.
      */
     onDestroy?:
       | ((this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          parent: ParentConfig<DecorationConfig<Options, Storage>>['onDestroy'];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          parent: ParentConfig<DecorationConfig<Options, Storage>>['onDestroy']
         }) => void)
-      | null;
+      | null
   }
 
-  interface WidgetDecorationConfig<Options = any, Storage = any>
-    extends Decoration<Options, Storage> {
+  interface WidgetDecorationConfig<Options = any, Storage = any> extends Decoration<Options, Storage> {
     // extends Parameters<typeof PMDecoration.widget>['2'] = Parameters<typeof PMDecoration.widget>['2']
 
     /**
@@ -367,108 +344,106 @@ declare module '@tiptap/core' {
      * @example addSpec: () => ({ ctx: 'foo' })
      */
     addSpec?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
-      editor?: Editor;
-    }) => Parameters<typeof PMDecoration.widget>['2'];
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec']
+      editor?: Editor
+    }) => Parameters<typeof PMDecoration.widget>['2']
 
     render: (
       this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<DecorationConfig<Options, Storage>>['render'];
-        editor?: Editor;
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<DecorationConfig<Options, Storage>>['render']
+        editor?: Editor
       },
       ctx: {
-        editor: Editor;
-        getPos: () => number | undefined;
-      }
-    ) => HTMLElement;
+        editor: Editor
+        getPos: () => number | undefined
+      },
+    ) => HTMLElement
   }
 
-  interface InlineDecorationConfig<Options = any, Storage = any>
-    extends Decoration<Options, Storage> {
+  interface InlineDecorationConfig<Options = any, Storage = any> extends Decoration<Options, Storage> {
     /**
      * Add attributes to the node
      * @example addSpec: () => ({ ctx: 'foo' })
      */
     addSpec?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
-      editor?: Editor;
-    }) => Parameters<typeof PMDecoration.inline>['3'];
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec']
+      editor?: Editor
+    }) => Parameters<typeof PMDecoration.inline>['3']
 
     /**
      * Add attributes to the node
      * @example addAttributes: () => ({ nodeName: 'span', class: 'foo', style: 'color: red' })
      */
     addAttributes?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes'];
-      editor?: Editor;
-    }) => Partial<DecorationAttrs>;
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes']
+      editor?: Editor
+    }) => Partial<DecorationAttrs>
 
-      /**
+    /**
      * The editor state has changed.
      */
-  onTransaction?:
-  | ((
-      this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        editor: Editor;
-        parent: ParentConfig<InlineDecorationConfig<Options, Storage>>['onTransaction'];
-        instances: {
-          id: string;
-          spec: {
-            instanceId: string;
-            extension: Decoration<Options, Storage>;
-            name: string;
-          } & ReturnType<Exclude<InlineDecorationConfig<Options, Storage>['addAttributes'], undefined>>,
-          decoration: InlineDecoration<Options, Storage>
-        }[];
-      },
-      props: {
-        editor: Editor;
-        transaction: Transaction;
-      }
-    ) => void)
-  | null
+    onTransaction?:
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<InlineDecorationConfig<Options, Storage>>['onTransaction']
+            instances: {
+              id: string
+              spec: {
+                instanceId: string
+                extension: Decoration<Options, Storage>
+                name: string
+              } & ReturnType<Exclude<InlineDecorationConfig<Options, Storage>['addAttributes'], undefined>>
+              decoration: InlineDecoration<Options, Storage>
+            }[]
+          },
+          props: {
+            editor: Editor
+            transaction: Transaction
+          },
+        ) => void)
+      | null
   }
 
-  interface NodeDecorationConfig<Options = any, Storage = any>
-    extends Decoration<Options, Storage> {
+  interface NodeDecorationConfig<Options = any, Storage = any> extends Decoration<Options, Storage> {
     /**
      * Add attributes to the node
      * @example addSpec: () => ({ ctx: 'foo' })
      */
     addSpec?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
-      editor?: Editor;
-    }) => Parameters<typeof PMDecoration.node>['3'];
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec']
+      editor?: Editor
+    }) => Parameters<typeof PMDecoration.node>['3']
 
     /**
      * Add attributes to the node
      * @example addAttributes: () => ({ nodeName: 'span', class: 'foo', style: 'color: red' })
      */
     addAttributes?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes'];
-      editor?: Editor;
-    }) => Partial<DecorationAttrs>;
+      name: string
+      options: Options
+      storage: Storage
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes']
+      editor?: Editor
+    }) => Partial<DecorationAttrs>
   }
 }
 
@@ -493,7 +468,6 @@ export class Decoration<Options = any, Storage = any> {
 
   config: DecorationConfig = {
     name: this.name,
-    defaultOptions: {},
   }
 
   constructor(config: Partial<DecorationConfig<Options, Storage>> = {}) {
@@ -504,14 +478,7 @@ export class Decoration<Options = any, Storage = any> {
 
     this.name = this.config.name
 
-    if (config.defaultOptions && Object.keys(config.defaultOptions).length > 0) {
-      console.warn(
-        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`,
-      )
-    }
-
-    // TODO: remove `addOptions` fallback
-    this.options = this.config.defaultOptions
+    this.options = {} as Options
 
     if (this.config.addOptions) {
       this.options = callOrReturn(
@@ -521,17 +488,16 @@ export class Decoration<Options = any, Storage = any> {
       )
     }
 
-    this.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
-        name: this.name,
-        options: this.options,
-      }),
-    ) || {}
+    this.storage =
+      callOrReturn(
+        getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
+          name: this.name,
+          options: this.options,
+        }),
+      ) || {}
   }
 
-  static create<TOptions = any, TStorage = any>(
-    config: Partial<DecorationConfig<TOptions, TStorage>> = {},
-  ) {
+  static create<TOptions = any, TStorage = any>(config: Partial<DecorationConfig<TOptions, TStorage>> = {}) {
     return new Decoration<TOptions, TStorage>(config)
   }
 
@@ -567,12 +533,6 @@ export class Decoration<Options = any, Storage = any> {
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
 
-    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
-      console.warn(
-        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
-      )
-    }
-
     extension.options = callOrReturn(
       getExtensionField<AnyConfig['addOptions']>(extension, 'addOptions', {
         name: extension.name,
@@ -603,9 +563,7 @@ export class WidgetDecoration<Options = any, Storage = any> extends Decoration<O
     } as WidgetDecorationConfig<Options, Storage>
   }
 
-  static create<TOptions = any, TStorage = any>(
-    config: Partial<WidgetDecorationConfig<TOptions, TStorage>> = {},
-  ) {
+  static create<TOptions = any, TStorage = any>(config: Partial<WidgetDecorationConfig<TOptions, TStorage>> = {}) {
     return new WidgetDecoration<TOptions, TStorage>(config)
   }
 }
@@ -622,9 +580,7 @@ export class InlineDecoration<Options = any, Storage = any> extends Decoration<O
     } as InlineDecorationConfig<Options, Storage>
   }
 
-  static create<TOptions = any, TStorage = any>(
-    config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {},
-  ) {
+  static create<TOptions = any, TStorage = any>(config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {}) {
     return new InlineDecoration<TOptions, TStorage>(config)
   }
 }
@@ -641,9 +597,7 @@ export class NodeDecoration<Options = any, Storage = any> extends Decoration<Opt
     } as NodeDecorationConfig<Options, Storage>
   }
 
-  static create<TOptions = any, TStorage = any>(
-    config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {},
-  ) {
+  static create<TOptions = any, TStorage = any>(config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {}) {
     return new InlineDecoration<TOptions, TStorage>(config)
   }
 }

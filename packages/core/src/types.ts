@@ -11,7 +11,8 @@ import {
   ViewMutationRecord,
 } from '@tiptap/pm/view'
 
-import { Decoration } from './Decoration.js'
+import type { Decoration } from './Decoration.js'
+import type { AttachToOptions } from './DecorationManager.js'
 import { Editor } from './Editor.js'
 import { Extension } from './Extension.js'
 import { Commands, DecorationConfig, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
@@ -58,6 +59,7 @@ export interface EditorEvents {
   destroy: void
   paste: { editor: Editor; event: ClipboardEvent; slice: Slice }
   drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean }
+  decorationDelete: { editor: Editor; decoration: Decoration; id: string; options: AttachToOptions }
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
