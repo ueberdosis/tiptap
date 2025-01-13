@@ -1,8 +1,15 @@
+// eslint-disable-next-line max-classes-per-file
 import { Plugin, Transaction } from '@tiptap/pm/state'
+import { Decoration as PMDecoration, DecorationAttrs } from '@tiptap/pm/view'
 
 import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
-import { DecorationConfig } from './index.js'
+import {
+  DecorationConfig,
+  InlineDecorationConfig,
+  NodeDecorationConfig,
+  WidgetDecorationConfig,
+} from './index.js'
 import { InputRule } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { Node } from './Node.js'
@@ -19,7 +26,7 @@ import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
 declare module '@tiptap/core' {
-  interface DecorationConfig<Options = any, Storage = any, Attrs = any, Spec = any> {
+  interface DecorationConfig<Options = any, Storage = any> {
     // @ts-ignore - this is a dynamic key
     [key: string]: any;
 
@@ -231,72 +238,6 @@ declare module '@tiptap/core' {
     }) => Extensions;
 
     /**
-     * This function extends the schema of the node.
-     * @example
-     * extendNodeSchema() {
-     *   return {
-     *     group: 'inline',
-     *     selectable: false,
-     *   }
-     * }
-     */
-    extendNodeSchema?:
-      | ((
-          this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['extendNodeSchema'];
-          },
-          extension: Node
-        ) => Record<string, any>)
-      | null;
-
-    /**
-     * This function extends the schema of the mark.
-     * @example
-     * extendMarkSchema() {
-     *   return {
-     *     group: 'inline',
-     *     selectable: false,
-     *   }
-     * }
-     */
-    extendMarkSchema?:
-      | ((
-          this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['extendMarkSchema'];
-          },
-          extension: Mark
-        ) => Record<string, any>)
-      | null;
-
-    /**
-     * This function extends the schema of the decoration.
-     * @example
-     * extendMarkSchema() {
-     *   return {
-     *     group: 'inline',
-     *     selectable: false,
-     *   }
-     * }
-     */
-    extendDecorationSchema?:
-      | ((
-          this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['extendDecorationSchema'];
-          },
-          extension: Decoration
-        ) => Record<string, any>)
-      | null;
-
-    /**
      * The editor is not ready yet.
      */
     onBeforeCreate?:
@@ -348,24 +289,24 @@ declare module '@tiptap/core' {
         }) => void)
       | null;
 
-    /**
-     * The editor state has changed.
-     */
-    onTransaction?:
-      | ((
-          this: {
-            name: string;
-            options: Options;
-            storage: Storage;
-            editor: Editor;
-            parent: ParentConfig<DecorationConfig<Options, Storage>>['onTransaction'];
-          },
-          props: {
-            editor: Editor;
-            transaction: Transaction;
-          }
-        ) => void)
-      | null;
+    // /**
+    //  * The editor state has changed.
+    //  */
+    // onTransaction?:
+    //   | ((
+    //       this: {
+    //         name: string;
+    //         options: Options;
+    //         storage: Storage;
+    //         editor: Editor;
+    //         parent: ParentConfig<DecorationConfig<Options, Storage>>['onTransaction'];
+    //       },
+    //       props: {
+    //         editor: Editor;
+    //         transaction: Transaction;
+    //       }
+    //     ) => void)
+    //   | null;
 
     /**
      * The editor is focused.
@@ -415,18 +356,11 @@ declare module '@tiptap/core' {
           parent: ParentConfig<DecorationConfig<Options, Storage>>['onDestroy'];
         }) => void)
       | null;
+  }
 
-    /**
-     * Add attributes to the node
-     * @example addAttributes: () => ({ class: 'foo' })
-     */
-    addAttributes?: (this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes'];
-      editor?: Editor;
-    }) => Partial<Attrs>;
+  interface WidgetDecorationConfig<Options = any, Storage = any>
+    extends Decoration<Options, Storage> {
+    // extends Parameters<typeof PMDecoration.widget>['2'] = Parameters<typeof PMDecoration.widget>['2']
 
     /**
      * Add attributes to the node
@@ -436,9 +370,105 @@ declare module '@tiptap/core' {
       name: string;
       options: Options;
       storage: Storage;
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
+      editor?: Editor;
+    }) => Parameters<typeof PMDecoration.widget>['2'];
+
+    render: (
+      this: {
+        name: string;
+        options: Options;
+        storage: Storage;
+        parent: ParentConfig<DecorationConfig<Options, Storage>>['render'];
+        editor?: Editor;
+      },
+      ctx: {
+        editor: Editor;
+        getPos: () => number | undefined;
+      }
+    ) => HTMLElement;
+  }
+
+  interface InlineDecorationConfig<Options = any, Storage = any>
+    extends Decoration<Options, Storage> {
+    /**
+     * Add attributes to the node
+     * @example addSpec: () => ({ ctx: 'foo' })
+     */
+    addSpec?: (this: {
+      name: string;
+      options: Options;
+      storage: Storage;
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
+      editor?: Editor;
+    }) => Parameters<typeof PMDecoration.inline>['3'];
+
+    /**
+     * Add attributes to the node
+     * @example addAttributes: () => ({ nodeName: 'span', class: 'foo', style: 'color: red' })
+     */
+    addAttributes?: (this: {
+      name: string;
+      options: Options;
+      storage: Storage;
       parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes'];
       editor?: Editor;
-    }) => Partial<Spec>;
+    }) => Partial<DecorationAttrs>;
+
+      /**
+     * The editor state has changed.
+     */
+  onTransaction?:
+  | ((
+      this: {
+        name: string;
+        options: Options;
+        storage: Storage;
+        editor: Editor;
+        parent: ParentConfig<InlineDecorationConfig<Options, Storage>>['onTransaction'];
+        instances: {
+          id: string;
+          spec: {
+            instanceId: string;
+            extension: Decoration<Options, Storage>;
+            name: string;
+          } & ReturnType<Exclude<InlineDecorationConfig<Options, Storage>['addAttributes'], undefined>>,
+          decoration: InlineDecoration<Options, Storage>
+        }[];
+      },
+      props: {
+        editor: Editor;
+        transaction: Transaction;
+      }
+    ) => void)
+  | null
+  }
+
+  interface NodeDecorationConfig<Options = any, Storage = any>
+    extends Decoration<Options, Storage> {
+    /**
+     * Add attributes to the node
+     * @example addSpec: () => ({ ctx: 'foo' })
+     */
+    addSpec?: (this: {
+      name: string;
+      options: Options;
+      storage: Storage;
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addSpec'];
+      editor?: Editor;
+    }) => Parameters<typeof PMDecoration.node>['3'];
+
+    /**
+     * Add attributes to the node
+     * @example addAttributes: () => ({ nodeName: 'span', class: 'foo', style: 'color: red' })
+     */
+    addAttributes?: (this: {
+      name: string;
+      options: Options;
+      storage: Storage;
+      parent: ParentConfig<DecorationConfig<Options, Storage>>['addAttributes'];
+      editor?: Editor;
+    }) => Partial<DecorationAttrs>;
   }
 }
 
@@ -446,10 +476,12 @@ declare module '@tiptap/core' {
  * The Extension class is the base class for all extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Decoration<Options = any, Storage = any, Attrs = any, Spec = any> {
+export class Decoration<Options = any, Storage = any> {
   type = 'decoration'
 
   name = 'decoration'
+
+  decorationType: 'widget' | 'inline' | 'node' = 'node'
 
   parent: Decoration | null = null
 
@@ -464,7 +496,7 @@ export class Decoration<Options = any, Storage = any, Attrs = any, Spec = any> {
     defaultOptions: {},
   }
 
-  constructor(config: Partial<DecorationConfig<Options, Storage, Attrs, Spec>> = {}) {
+  constructor(config: Partial<DecorationConfig<Options, Storage>> = {}) {
     this.config = {
       ...this.config,
       ...config,
@@ -497,14 +529,16 @@ export class Decoration<Options = any, Storage = any, Attrs = any, Spec = any> {
     ) || {}
   }
 
-  static create<TOptions = any, TStorage = any, TAttrs = any, TSpec = any>(config: Partial<DecorationConfig<TOptions, TStorage, TAttrs, TSpec>> = {}) {
-    return new Decoration<TOptions, TStorage, TAttrs, TSpec>(config)
+  static create<TOptions = any, TStorage = any>(
+    config: Partial<DecorationConfig<TOptions, TStorage>> = {},
+  ) {
+    return new Decoration<TOptions, TStorage>(config)
   }
 
   configure(options: Partial<Options> = {}) {
     // return a new instance so we can use the same extension
     // with different calls of `configure`
-    const extension = this.extend<Options, Storage, Attrs, Spec>({
+    const extension = this.extend<Options, Storage>({
       ...this.config,
       addOptions: () => {
         return mergeDeep(this.options as Record<string, any>, options) as Options
@@ -519,10 +553,10 @@ export class Decoration<Options = any, Storage = any, Attrs = any, Spec = any> {
     return extension
   }
 
-  extend<ExtendedOptions = Options, ExtendedStorage = Storage, ExtendedAttrs = Attrs, ExtendSpec = Spec>(
-    extendedConfig: Partial<DecorationConfig<ExtendedOptions, ExtendedStorage, ExtendedAttrs, ExtendSpec>> = {},
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: Partial<DecorationConfig<ExtendedOptions, ExtendedStorage>> = {},
   ) {
-    const extension = new Decoration<ExtendedOptions, ExtendedStorage, ExtendedAttrs, ExtendSpec>({
+    const extension = new Decoration<ExtendedOptions, ExtendedStorage>({
       ...this.config,
       ...extendedConfig,
     })
@@ -553,5 +587,63 @@ export class Decoration<Options = any, Storage = any, Attrs = any, Spec = any> {
     )
 
     return extension
+  }
+}
+
+export class WidgetDecoration<Options = any, Storage = any> extends Decoration<Options, Storage> {
+  decorationType = 'widget' as const
+
+  config: WidgetDecorationConfig<Options, Storage> = {} as WidgetDecorationConfig<Options, Storage>
+
+  constructor(config: Partial<WidgetDecorationConfig<Options, Storage>> = {}) {
+    super(config)
+    this.config = {
+      ...this.config,
+      ...config,
+    } as WidgetDecorationConfig<Options, Storage>
+  }
+
+  static create<TOptions = any, TStorage = any>(
+    config: Partial<WidgetDecorationConfig<TOptions, TStorage>> = {},
+  ) {
+    return new WidgetDecoration<TOptions, TStorage>(config)
+  }
+}
+export class InlineDecoration<Options = any, Storage = any> extends Decoration<Options, Storage> {
+  decorationType = 'inline' as const
+
+  config: InlineDecorationConfig<Options, Storage> = {} as InlineDecorationConfig<Options, Storage>
+
+  constructor(config: Partial<InlineDecorationConfig<Options, Storage>> = {}) {
+    super(config)
+    this.config = {
+      ...this.config,
+      ...config,
+    } as InlineDecorationConfig<Options, Storage>
+  }
+
+  static create<TOptions = any, TStorage = any>(
+    config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {},
+  ) {
+    return new InlineDecoration<TOptions, TStorage>(config)
+  }
+}
+export class NodeDecoration<Options = any, Storage = any> extends Decoration<Options, Storage> {
+  decorationType = 'node' as const
+
+  config: NodeDecorationConfig<Options, Storage> = {} as NodeDecorationConfig<Options, Storage>
+
+  constructor(config: Partial<NodeDecorationConfig<Options, Storage>> = {}) {
+    super(config)
+    this.config = {
+      ...this.config,
+      ...config,
+    } as NodeDecorationConfig<Options, Storage>
+  }
+
+  static create<TOptions = any, TStorage = any>(
+    config: Partial<InlineDecorationConfig<TOptions, TStorage>> = {},
+  ) {
+    return new InlineDecoration<TOptions, TStorage>(config)
   }
 }
