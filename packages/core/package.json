@@ -24,6 +24,22 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./jsx-runtime": {
+      "types": {
+        "import": "./jsx-runtime/index.d.ts",
+        "require": "./jsx-runtime/index.d.cts"
+      },
+      "import": "./jsx-runtime/index.js",
+      "require": "./jsx-runtime/index.cjs"
+    },
+    "./jsx-dev-runtime": {
+      "types": {
+        "import": "./jsx-dev-runtime/index.d.ts",
+        "require": "./jsx-dev-runtime/index.d.cts"
+      },
+      "import": "./jsx-dev-runtime/index.js",
+      "require": "./jsx-dev-runtime/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -31,7 +47,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "src",
-    "dist"
+    "dist",
+    "jsx-runtime"
   ],
   "devDependencies": {
     "@tiptap/pm": "^3.0.0-next.4"
