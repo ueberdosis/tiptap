@@ -141,7 +141,7 @@ export function renderToReactElement({
     domOutputSpecToElement: domOutputSpecToReactElement,
     mapDefinedTypes: {
       // Map a doc node to concatenated children
-      doc: ({ children }) => <>{children}</>,
+      doc: ({ children }) => React.createElement(React.Fragment, {}, children),
       // Map a text node to its text content
       text: ({ node }) => node.text ?? '',
     },
