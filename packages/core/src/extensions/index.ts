@@ -1,5 +1,6 @@
 export { ClipboardTextSerializer } from './clipboardTextSerializer.js'
 export { Commands } from './commands.js'
+export { DecorationManager } from './decorationManager.js'
 export { Drop } from './drop.js'
 export { Editable } from './editable.js'
 export { FocusEvents } from './focusEvents.js'

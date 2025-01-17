@@ -1,4 +1,5 @@
 export * from './CommandManager.js'
+export * from './Decoration.js'
 export * from './Editor.js'
 export * from './Extension.js'
 export * as extensions from './extensions/index.js'
@@ -20,6 +21,18 @@ export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
 export interface ExtensionConfig<Options = any, Storage = any> {}
+
+// eslint-disable-next-line
+export interface DecorationConfig<Options = any, Storage = any> {}
+
+// eslint-disable-next-line
+export interface WidgetDecorationConfig<Options = any, Storage = any> {}
+
+// eslint-disable-next-line
+export interface InlineDecorationConfig<Options = any, Storage = any> {}
+
+// eslint-disable-next-line
+export interface NodeDecorationConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line
 export interface NodeConfig<Options = any, Storage = any> {}
