@@ -66,6 +66,7 @@
     "minimist": "^1.2.8",
     "pkg-pr-new": "0.0.32",
     "prettier": "3.3.3",
+    "react": "^18.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
     "tsup": "^8.3.5",
