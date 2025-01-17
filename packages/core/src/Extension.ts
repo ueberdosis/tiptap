@@ -1,4 +1,4 @@
-import { Plugin, Transaction } from '@tiptap/pm/state'
+import { Plugin } from '@tiptap/pm/state'
 
 import { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
@@ -7,7 +7,15 @@ import { InputRule } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { Node } from './Node.js'
 import { PasteRule } from './PasteRule.js'
-import { AnyConfig, Extensions, GlobalAttributes, KeyboardShortcutCommand, ParentConfig, RawCommands } from './types.js'
+import {
+  AnyConfig,
+  EditorEvents,
+  Extensions,
+  GlobalAttributes,
+  KeyboardShortcutCommand,
+  ParentConfig,
+  RawCommands,
+} from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
@@ -271,52 +279,64 @@ declare module '@tiptap/core' {
      * The editor is not ready yet.
      */
     onBeforeCreate?:
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          editor: Editor
-          parent: ParentConfig<ExtensionConfig<Options, Storage>>['onBeforeCreate']
-        }) => void)
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<ExtensionConfig<Options, Storage>>['onBeforeCreate']
+          },
+          event: EditorEvents['beforeCreate'],
+        ) => void)
       | null
 
     /**
      * The editor is ready.
      */
     onCreate?:
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          editor: Editor
-          parent: ParentConfig<ExtensionConfig<Options, Storage>>['onCreate']
-        }) => void)
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<ExtensionConfig<Options, Storage>>['onCreate']
+          },
+          event: EditorEvents['create'],
+        ) => void)
       | null
 
     /**
      * The content has changed.
      */
     onUpdate?:
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          editor: Editor
-          parent: ParentConfig<ExtensionConfig<Options, Storage>>['onUpdate']
-        }) => void)
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<ExtensionConfig<Options, Storage>>['onUpdate']
+          },
+          event: EditorEvents['update'],
+        ) => void)
       | null
 
     /**
      * The selection has changed.
      */
     onSelectionUpdate?:
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          editor: Editor
-          parent: ParentConfig<ExtensionConfig<Options, Storage>>['onSelectionUpdate']
-        }) => void)
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<ExtensionConfig<Options, Storage>>['onSelectionUpdate']
+          },
+          event: EditorEvents['selectionUpdate'],
+        ) => void)
       | null
 
     /**
@@ -331,10 +351,7 @@ declare module '@tiptap/core' {
             editor: Editor
             parent: ParentConfig<ExtensionConfig<Options, Storage>>['onTransaction']
           },
-          props: {
-            editor: Editor
-            transaction: Transaction
-          },
+          event: EditorEvents['transaction'],
         ) => void)
       | null
 
@@ -350,9 +367,7 @@ declare module '@tiptap/core' {
             editor: Editor
             parent: ParentConfig<ExtensionConfig<Options, Storage>>['onFocus']
           },
-          props: {
-            event: FocusEvent
-          },
+          event: EditorEvents['focus'],
         ) => void)
       | null
 
@@ -368,9 +383,7 @@ declare module '@tiptap/core' {
             editor: Editor
             parent: ParentConfig<ExtensionConfig<Options, Storage>>['onBlur']
           },
-          props: {
-            event: FocusEvent
-          },
+          event: EditorEvents['blur'],
         ) => void)
       | null
 
@@ -378,13 +391,16 @@ declare module '@tiptap/core' {
      * The editor is destroyed.
      */
     onDestroy?:
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          editor: Editor
-          parent: ParentConfig<ExtensionConfig<Options, Storage>>['onDestroy']
-        }) => void)
+      | ((
+          this: {
+            name: string
+            options: Options
+            storage: Storage
+            editor: Editor
+            parent: ParentConfig<ExtensionConfig<Options, Storage>>['onDestroy']
+          },
+          event: EditorEvents['destroy'],
+        ) => void)
       | null
   }
 }
