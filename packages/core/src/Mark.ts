@@ -13,6 +13,7 @@ import {
   Extensions,
   GlobalAttributes,
   KeyboardShortcutCommand,
+  MarkViewRenderer,
   ParentConfig,
   RawCommands,
 } from './types.js'
@@ -406,6 +407,20 @@ declare module '@tiptap/core' {
           type: MarkType
           parent: ParentConfig<MarkConfig<Options, Storage>>['onDestroy']
         }) => void)
+      | null
+
+    /**
+     * Node View
+     */
+    addMarkView?:
+      | ((this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: MarkType
+          parent: ParentConfig<MarkConfig<Options, Storage>>['addMarkView']
+        }) => MarkViewRenderer)
       | null
 
     /**
