@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-next.5
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@3.0.0-next.5
+- @tiptap/extension-floating-menu@3.0.0-next.5
+
 ## 3.0.0-next.4
 
 ### Patch Changes
