@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.5
+
+### Minor Changes
+
+- f77cbac: Change the default of `mergeNestedSpanStyles` to `true`
+
 ## 3.0.0-next.4
 
 ### Minor Changes
