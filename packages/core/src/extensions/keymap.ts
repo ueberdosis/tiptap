@@ -104,6 +104,10 @@ export const Keymap = Extension.create({
       new Plugin({
         key: new PluginKey('clearDocument'),
         appendTransaction: (transactions, oldState, newState) => {
+          if (transactions.some(tr => tr.getMeta('composition'))) {
+            return
+          }
+
           const docChanges = transactions.some(transaction => transaction.docChanged)
             && !oldState.doc.eq(newState.doc)
 
