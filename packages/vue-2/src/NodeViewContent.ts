@@ -15,7 +15,7 @@ export const NodeViewContent: Component = {
   render(this: NodeViewContentInterface, createElement: CreateElement) {
     return createElement(this.as, {
       style: {
-        whiteSpace: 'pre-wrap',
+        whiteSpace: 'break-spaces',
       },
       attrs: {
         'data-node-view-content': '',
