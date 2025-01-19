@@ -77,11 +77,18 @@ export class BubbleMenuView {
 
   private updateDebounceTimer: number | undefined
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null>
+
+  /**
+   * The default `shouldShow` function.
+   */
+  public static shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
     view,
     state,
     from,
     to,
+    element,
+    editor,
   }) => {
     const { doc, selection } = state
     const { empty } = selection
@@ -94,11 +101,11 @@ export class BubbleMenuView {
     // When clicking on a element inside the bubble menu the editor "blur" event
     // is called and the bubble menu item is focussed. In this case we should
     // consider the menu as part of the editor and keep showing the menu
-    const isChildOfMenu = this.element.contains(document.activeElement)
+    const isChildOfMenu = element.contains(document.activeElement)
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
-    if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
+    if (!hasEditorFocus || empty || isEmptyTextBlock || !editor.isEditable) {
       return false
     }
 
@@ -120,6 +127,8 @@ export class BubbleMenuView {
 
     if (shouldShow) {
       this.shouldShow = shouldShow
+    } else {
+      this.shouldShow = BubbleMenuView.shouldShow
     }
 
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
