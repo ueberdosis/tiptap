@@ -177,7 +177,6 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
 
           return this.options.provider.awareness
         })(),
-        // @ts-ignore
         {
           cursorBuilder: this.options.render,
           selectionBuilder: this.options.selectionRender,

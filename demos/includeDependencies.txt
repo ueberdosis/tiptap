@@ -6,17 +6,6 @@ highlight.js/lib/languages/xml
 highlight.js/lib/core
 linkifyjs
 lowlight
-prosemirror-commands
-prosemirror-dropcursor
-prosemirror-gapcursor
-prosemirror-history
-prosemirror-keymap
-prosemirror-model
-prosemirror-schema-list
-prosemirror-state
-prosemirror-tables
-prosemirror-transform
-prosemirror-view
 react
 react-dom
 react-dom/client
@@ -27,6 +16,7 @@ simplify-js
 @floating-ui/dom
 uuid
 y-webrtc
+y-prosemirror
 yjs
 @hocuspocus/provider
 @lifeomic/attempt

@@ -17,6 +17,10 @@ const getPackageDependencies = () => {
         fg.sync(`../packages/${name}/*`, { onlyDirectories: true }).forEach(subName => {
           const subPkgName = subName.replace(`../packages/${name}/`, '')
 
+          if (subPkgName === 'dist' || subPkgName === 'node_modules') {
+            return
+          }
+
           paths.push({
             find: `@tiptap/${name}/${subPkgName}`,
             replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`),

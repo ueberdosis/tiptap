@@ -10,7 +10,7 @@
     "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.6.12",
+    "@floating-ui/dom": "^1.6.13",
     "@hocuspocus/provider": "2.13.5",
     "@lexical/react": "^0.11.3",
     "@shikijs/core": "1.10.3",
@@ -22,9 +22,9 @@
     "remixicon": "^2.5.0",
     "shiki": "^1.25.1",
     "simplify-js": "^1.2.4",
-    "y-prosemirror": "^1",
+    "y-prosemirror": "^1.2.15",
     "y-webrtc": "^10.3.0",
-    "yjs": "^13"
+    "yjs": "^13.6.23"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "3.1.2",
