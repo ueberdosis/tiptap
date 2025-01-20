@@ -44,8 +44,8 @@ const getPackageDependencies = () => {
   return paths
 }
 
-const includeDependencies = fs
-  .readFileSync('./includeDependencies.txt')
+const dedupeDeps = fs
+  .readFileSync('./dedupeDeps.txt')
   .toString()
   .replace(/\r\n/g, '\n')
   .split('\n')
@@ -57,9 +57,6 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
-  },
-  optimizeDeps: {
-    include: includeDependencies,
   },
 
   build: {
@@ -315,5 +312,6 @@ export default defineConfig({
 
   resolve: {
     alias: getPackageDependencies(),
+    dedupe: dedupeDeps,
   },
 })

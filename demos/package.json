@@ -18,13 +18,12 @@
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",
     "lexical": "^0.11.3",
+    "linkifyjs": "^4.2.0",
     "lowlight": "^3.3.0",
+    "prosemirror-tables": "^1.6.2",
     "remixicon": "^2.5.0",
     "shiki": "^1.25.1",
-    "simplify-js": "^1.2.4",
-    "y-prosemirror": "^1.2.15",
-    "y-webrtc": "^10.3.0",
-    "yjs": "^13.6.23"
+    "simplify-js": "^1.2.4"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "3.1.2",
