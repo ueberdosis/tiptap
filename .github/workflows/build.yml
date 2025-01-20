@@ -4,7 +4,7 @@
 name: build
 
 env:
-  PNPM_VERSION: 9.15.2
+  PNPM_VERSION: 9.15.4
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
