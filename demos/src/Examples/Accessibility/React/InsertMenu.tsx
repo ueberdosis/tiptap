@@ -1,4 +1,5 @@
-import { Editor, FloatingMenu, useEditorState } from '@tiptap/react'
+import { Editor, useEditorState } from '@tiptap/react'
+import { FloatingMenu } from '@tiptap/react/menus'
 import React, { useRef } from 'react'
 
 import { useMenubarNav } from './useMenubarNav.js'

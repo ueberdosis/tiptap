@@ -746,12 +746,6 @@ importers:
 
   packages/react:
     dependencies:
-      '@tiptap/extension-bubble-menu':
-        specifier: ^3.0.0-next.4
-        version: link:../extension-bubble-menu
-      '@tiptap/extension-floating-menu':
-        specifier: ^3.0.0-next.4
-        version: link:../extension-floating-menu
       '@types/use-sync-external-store':
         specifier: ^0.0.6
         version: 0.0.6
@@ -761,6 +755,13 @@ importers:
       use-sync-external-store:
         specifier: ^1.4.0
         version: 1.4.0(react@18.3.1)
+    optionalDependencies:
+      '@tiptap/extension-bubble-menu':
+        specifier: ^3.0.0-next.4
+        version: link:../extension-bubble-menu
+      '@tiptap/extension-floating-menu':
+        specifier: ^3.0.0-next.4
+        version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.4
@@ -889,15 +890,16 @@ importers:
 
   packages/vue-2:
     dependencies:
+      vue-ts-types:
+        specifier: 1.6.2
+        version: 1.6.2(vue@2.7.16)
+    optionalDependencies:
       '@tiptap/extension-bubble-menu':
         specifier: ^3.0.0-next.4
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
         specifier: ^3.0.0-next.4
         version: link:../extension-floating-menu
-      vue-ts-types:
-        specifier: 1.6.2
-        version: 1.6.2(vue@2.7.16)
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.4
@@ -914,6 +916,7 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.0.0
         version: 1.6.13
+    optionalDependencies:
       '@tiptap/extension-bubble-menu':
         specifier: ^3.0.0-next.4
         version: link:../extension-bubble-menu

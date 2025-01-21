@@ -20,6 +20,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./menus": {
+      "types": {
+        "import": "./dist/menus/index.d.ts",
+        "require": "./dist/menus/index.d.cts"
+      },
+      "import": "./dist/menus/index.js",
+      "require": "./dist/menus/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -31,8 +39,6 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/extension-bubble-menu": "^3.0.0-next.4",
-    "@tiptap/extension-floating-menu": "^3.0.0-next.4",
     "vue-ts-types": "1.6.2"
   },
   "devDependencies": {
@@ -40,9 +46,13 @@
     "@tiptap/pm": "^3.0.0-next.4",
     "vue": "^2.7.16"
   },
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "^3.0.0-next.4",
+    "@tiptap/extension-floating-menu": "^3.0.0-next.4"
+  },
   "peerDependencies": {
-    "@tiptap/core": "^3.0.0-next.1",
-    "@tiptap/pm": "^3.0.0-next.1",
+    "@tiptap/core": "^3.0.0-next.4",
+    "@tiptap/pm": "^3.0.0-next.4",
     "vue": "^2.6.0"
   },
   "repository": {

@@ -1,8 +1,7 @@
 import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-
-import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -30,7 +29,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       bubbleMenuElement.style.visibility = 'hidden'
       bubbleMenuElement.style.position = 'absolute'
 
-      if (editor?.isDestroyed || currentEditor?.isDestroyed) {
+      if (editor?.isDestroyed || (currentEditor as any)?.isDestroyed) {
         return
       }
 

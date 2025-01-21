@@ -1,6 +1,7 @@
 import './styles.scss'
 
-import { EditorContent, FloatingMenu, mergeAttributes, Node, useEditor } from '@tiptap/react'
+import { EditorContent, mergeAttributes, Node, useEditor } from '@tiptap/react'
+import { FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 
