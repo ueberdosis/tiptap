@@ -40,7 +40,9 @@
     "prosemirror-view": "^1.37.1",
     "remixicon": "^2.5.0",
     "shiki": "^1.25.1",
-    "simplify-js": "^1.2.4"
+    "y-prosemirror": "^1.2.15",
+    "y-webrtc": "10.3.0",
+    "yjs": "13.6.23"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "3.1.2",
