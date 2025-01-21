@@ -63,6 +63,15 @@ export interface PlaceholderOptions {
    * @default false
    */
   includeChildren: boolean
+  
+  /**
+   * **Controls if the placeholder should be shown for atom nodes.**
+   *
+   * If true, the placeholder will be shown for atom nodes.
+   * If false, the placeholder will not be shown for atom nodes.
+   * @default false
+   */
+  showWhenAtom: boolean;
 }
 
 /**
@@ -81,6 +90,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
       includeChildren: false,
+      showWhenAtom: false,
     }
   },
 
@@ -103,8 +113,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
               const isEmpty = !node.isLeaf && isNodeEmpty(node)
+              const isContentEditable = this.options.showWhenAtom ? !node.type.isAtom : true;
 
-              if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
+              if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty && isContentEditable) {
                 const classes = [this.options.emptyNodeClass]
 
                 if (isEmptyDoc) {
