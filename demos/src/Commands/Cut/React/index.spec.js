@@ -1,9 +1,6 @@
 context('/src/Commands/Cut/React/', () => {
-  before(() => {
-    cy.visit('/src/Commands/Cut/React/')
-  })
-
   beforeEach(() => {
+    cy.visit('/src/Commands/Cut/React/')
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Example Text</h1>')
       cy.get('.tiptap').type('{selectall}')

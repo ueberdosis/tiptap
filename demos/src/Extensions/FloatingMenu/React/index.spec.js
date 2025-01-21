@@ -1,5 +1,5 @@
 context('/src/Extensions/FloatingMenu/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/FloatingMenu/React/')
   })
 

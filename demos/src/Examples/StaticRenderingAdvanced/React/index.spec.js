@@ -1,5 +1,5 @@
 context('/src/Examples/StaticRenderingAdvanced/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/StaticRenderingAdvanced/React/')
   })
 

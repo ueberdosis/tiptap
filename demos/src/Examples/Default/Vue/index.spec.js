@@ -1,5 +1,5 @@
 context('/src/Examples/Default/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Default/Vue/')
   })
 
@@ -101,16 +101,36 @@ context('/src/Examples/Default/Vue/', () => {
   })
 
   it('should undo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Example Text')
+    cy.get('.tiptap')
+      .then(([{ editor }]) => {
+        editor.commands.setContent('<h1>Example Text</h1>')
+
+        cy.get('.tiptap').type('{selectall}{backspace}')
+        return new Promise(resolve => {
+          setTimeout(resolve, 500)
+        })
+      })
+      .then(() => {
+        cy.get('button').contains('Undo').click()
+        cy.get('.tiptap').should('contain', 'Example Text')
+      })
   })
 
   it('should redo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Example Text')
-    cy.get('button').contains('Redo').click()
-    cy.get('.tiptap').should('not.contain', 'Example Text')
+    cy.get('.tiptap')
+      .then(([{ editor }]) => {
+        editor.commands.setContent('<h1>Example Text</h1>')
+
+        return new Promise(resolve => {
+          setTimeout(resolve, 500)
+        })
+      })
+      .then(() => {
+        cy.get('.tiptap').type('{selectall}{backspace}')
+        cy.get('button').contains('Undo').click()
+        cy.get('.tiptap').should('contain', 'Example Text')
+        cy.get('button').contains('Redo').click()
+        cy.get('.tiptap').should('not.contain', 'Example Text')
+      })
   })
 })

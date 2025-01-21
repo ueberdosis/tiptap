@@ -1,5 +1,5 @@
 context('/src/GuideContent/GenerateJSON/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/GuideContent/GenerateJSON/React/')
   })
 

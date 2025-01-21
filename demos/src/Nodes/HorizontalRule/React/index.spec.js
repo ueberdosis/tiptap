@@ -1,5 +1,5 @@
 context('/src/Nodes/HorizontalRule/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/HorizontalRule/React/')
   })
 

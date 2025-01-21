@@ -1,9 +1,6 @@
 context('/src/Commands/InsertContent/React/', () => {
-  before(() => {
-    cy.visit('/src/Commands/InsertContent/React/')
-  })
-
   beforeEach(() => {
+    cy.visit('/src/Commands/InsertContent/React/')
     cy.get('.tiptap').type('{selectall}{backspace}')
   })
 

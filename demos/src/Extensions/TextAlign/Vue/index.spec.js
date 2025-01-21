@@ -1,5 +1,5 @@
 context('/src/Extensions/TextAlign/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/TextAlign/Vue/')
   })
 

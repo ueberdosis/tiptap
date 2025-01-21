@@ -1,5 +1,5 @@
 context('/src/GuideGettingStarted/VModel/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/GuideGettingStarted/VModel/Vue/')
   })
 

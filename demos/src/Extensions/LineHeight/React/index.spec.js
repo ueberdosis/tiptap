@@ -1,5 +1,5 @@
 context('/src/Extensions/LineHeight/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/LineHeight/React/')
   })
 

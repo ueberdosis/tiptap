@@ -1,5 +1,5 @@
 context('/src/Commands/SetContent/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Commands/SetContent/React/')
   })
 

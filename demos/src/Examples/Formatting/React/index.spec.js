@@ -1,5 +1,5 @@
 context('/src/Examples/Formatting/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Formatting/React/')
   })
 

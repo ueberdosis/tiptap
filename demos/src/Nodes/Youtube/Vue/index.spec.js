@@ -1,5 +1,5 @@
 context('/src/Nodes/Youtube/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Youtube/Vue/')
   })
 

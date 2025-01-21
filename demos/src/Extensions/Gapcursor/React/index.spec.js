@@ -1,5 +1,5 @@
 context('/src/Examples/Gapcursor/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Gapcursor/React/')
   })
 
