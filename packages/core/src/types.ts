@@ -154,10 +154,10 @@ export type JSONContent = {
  */
 export type MarkType<
   Type extends string | { name: string } = any,
-  Attributes extends undefined | Record<string, any> = any,
+  TAttributes extends undefined | Record<string, any> = any,
 > = {
   type: Type
-  attrs: Attributes
+  attrs: TAttributes
 }
 
 /**
@@ -165,13 +165,13 @@ export type MarkType<
  */
 export type NodeType<
   Type extends string | { name: string } = any,
-  Attributes extends undefined | Record<string, any> = any,
+  TAttributes extends undefined | Record<string, any> = any,
   NodeMarkType extends MarkType = any,
-  Content extends (NodeType | TextType)[] = any,
+  TContent extends (NodeType | TextType)[] = any,
 > = {
   type: Type
-  attrs: Attributes
-  content?: Content
+  attrs: TAttributes
+  content?: TContent
   marks?: NodeMarkType[]
 }
 
