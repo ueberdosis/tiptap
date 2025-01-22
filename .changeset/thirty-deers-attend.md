@@ -2,4 +2,4 @@
 "@tiptap/core": minor
 ---
 
-Scope view.dom.focus() to iOS and Android
+Focus synchronously only if on iOS or Android
