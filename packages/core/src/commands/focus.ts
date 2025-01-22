@@ -1,8 +1,8 @@
 import { isTextSelection } from '../helpers/isTextSelection.js'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
 import { FocusPosition, RawCommands } from '../types.js'
-import { isiOS } from '../utilities/isiOS.js';
-import { isAndroid } from '../utilities/isAndroid.js';
+import { isAndroid } from '../utilities/isAndroid.js'
+import { isiOS } from '../utilities/isiOS.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
