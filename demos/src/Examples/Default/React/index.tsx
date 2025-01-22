@@ -1,16 +1,16 @@
 import './styles.scss'
 
 import ListItem from '@tiptap/extension-list-item'
-import { Color , TextStyle } from '@tiptap/extension-text-style'
-import { EditorProvider, useCurrentEditor, useEditorState } from '@tiptap/react'
+import { Color, TextStyle } from '@tiptap/extension-text-style'
+import { EditorProvider, InlineDecoration, useCurrentEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
 
   const editorState = useEditorState({
-    editor,
+    editor: editor!,
     selector: ctx => {
       return {
         isBold: ctx.editor.isActive('bold'),
@@ -35,10 +35,36 @@ const MenuBar = () => {
         isBlockquote: ctx.editor.isActive('blockquote'),
         canUndo: ctx.editor.can().chain().focus().undo().run(),
         canRedo: ctx.editor.can().chain().focus().redo().run(),
-        isPurple: editor.isActive('textStyle', { color: '#958DF1' }),
+        isPurple: ctx.editor.isActive('textStyle', { color: '#958DF1' }),
       }
     },
   })
+
+  useEffect(() => {
+    if (!editor) {
+      return
+    }
+    editor.decorationManager.create(
+      InlineDecoration.create({
+        name: 'purple',
+        render: () => {
+          const span = document.createElement('span')
+
+          span.textContent = '🟣'
+          return span
+        },
+        addAttributes: () => {
+          return {
+            style: 'color: #958DF1',
+          }
+        },
+        onChange() {
+          this.create({ from: 0, to: 1 })
+        },
+      }),
+      { target: { from: 2, to: 10 } },
+    )
+  }, [editor])
 
   if (!editor) {
     return null
@@ -164,7 +190,7 @@ const MenuBar = () => {
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
+  TextStyle,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,

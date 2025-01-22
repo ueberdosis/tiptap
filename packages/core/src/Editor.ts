@@ -4,11 +4,13 @@ import { EditorState, Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { DecorationManager } from './DecorationManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
   ClipboardTextSerializer,
   Commands,
+  DecorationManager as DecorationManagerExtension,
   Drop,
   Editable,
   FocusEvents,
@@ -51,6 +53,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   private commandManager!: CommandManager
 
   public extensionManager!: ExtensionManager
+
+  public decorationManager!: DecorationManager
 
   private css!: HTMLStyleElement
 
@@ -105,6 +109,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.setOptions(options)
+    this.createDecorationManager()
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -297,6 +302,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           Tabindex,
           Drop,
           Paste,
+          DecorationManagerExtension,
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
@@ -311,6 +317,12 @@ export class Editor extends EventEmitter<EditorEvents> {
     })
 
     this.extensionManager = new ExtensionManager(allExtensions, this)
+  }
+
+  private createDecorationManager(): void {
+    this.decorationManager = new DecorationManager({
+      editor: this,
+    })
   }
 
   /**
