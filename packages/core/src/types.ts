@@ -221,21 +221,57 @@ export interface EditorEvents {
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
+  /**
+   * The element or selector to bind the editor to
+   */
   element: Element
+  /**
+   * The content of the editor (HTML, JSON, or a JSON array)
+   */
   content: Content
+  /**
+   * The extensions to use
+   */
   extensions: Extensions
+  /**
+   * Whether to inject base CSS styles
+   */
   injectCSS: boolean
+  /**
+   * A nonce to use for CSP while injecting styles
+   */
   injectNonce: string | undefined
+  /**
+   * The editor's initial focus position
+   */
   autofocus: FocusPosition
+  /**
+   * Whether the editor is editable
+   */
   editable: boolean
+  /**
+   * The editor's props
+   */
   editorProps: EditorProps
+  /**
+   * The editor's content parser options
+   */
   parseOptions: ParseOptions
+  /**
+   * The editor's core extension options
+   */
   coreExtensionOptions?: {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
   }
+  /**
+   * Whether to enable input rules behavior
+   */
   enableInputRules: EnableRules
+  /**
+   * Whether to enable paste rules behavior
+   */
   enablePasteRules: EnableRules
   /**
    * Determines whether core extensions are enabled.
@@ -276,26 +312,65 @@ export interface EditorOptions {
    * @default false
    */
   enableContentCheck: boolean
+  /**
+   * Called before the editor is constructed.
+   */
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
+  /**
+   * Called after the editor is constructed.
+   */
   onCreate: (props: EditorEvents['create']) => void
   /**
    * Called when the editor encounters an error while parsing the content.
    * Only enabled if `enableContentCheck` is `true`.
    */
   onContentError: (props: EditorEvents['contentError']) => void
+  /**
+   * Called when the editor's content is updated.
+   */
   onUpdate: (props: EditorEvents['update']) => void
+  /**
+   * Called when the editor's selection is updated.
+   */
   onSelectionUpdate: (props: EditorEvents['selectionUpdate']) => void
+  /**
+   * Called after a transaction is applied to the editor.
+   */
   onTransaction: (props: EditorEvents['transaction']) => void
+  /**
+   * Called on focus events.
+   */
   onFocus: (props: EditorEvents['focus']) => void
+  /**
+   * Called on blur events.
+   */
   onBlur: (props: EditorEvents['blur']) => void
+  /**
+   * Called when the editor is destroyed.
+   */
   onDestroy: (props: EditorEvents['destroy']) => void
+  /**
+   * Called when content is pasted into the editor.
+   */
   onPaste: (e: ClipboardEvent, slice: Slice) => void
+  /**
+   * Called when content is dropped into the editor.
+   */
   onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
+  /**
+   * Called when content is deleted from the editor.
+   */
   onDelete: (props: EditorEvents['delete']) => void
 }
 
+/**
+ * The editor's content as HTML
+ */
 export type HTMLContent = string
 
+/**
+ * Loosely describes a JSON representation of a Prosemirror document or node
+ */
 export type JSONContent = {
   type?: string
   attrs?: Record<string, any>
