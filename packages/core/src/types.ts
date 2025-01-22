@@ -37,10 +37,26 @@ export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
 
 export interface EditorEvents {
-  beforeCreate: { editor: Editor }
-  create: { editor: Editor }
-  contentError: {
+  beforeCreate: {
+    /**
+     * The editor instance
+     */
     editor: Editor
+  }
+  create: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
+  contentError: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The error that occurred while parsing the content
+     */
     error: Error
     /**
      * If called, will re-initialize the editor with the collaboration extension removed.
@@ -48,15 +64,119 @@ export interface EditorEvents {
      */
     disableCollaboration: () => void
   }
-  update: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] }
-  selectionUpdate: { editor: Editor; transaction: Transaction }
-  beforeTransaction: { editor: Editor; transaction: Transaction; nextState: EditorState }
-  transaction: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] }
-  focus: { editor: Editor; event: FocusEvent; transaction: Transaction }
-  blur: { editor: Editor; event: FocusEvent; transaction: Transaction }
+  update: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that caused the update
+     */
+    transaction: Transaction
+    /**
+     * Appended transactions that were added to the initial transaction by plugins
+     */
+    appendedTransactions: Transaction[]
+  }
+  selectionUpdate: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that caused the selection update
+     */
+    transaction: Transaction
+  }
+  beforeTransaction: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that will be applied
+     */
+    transaction: Transaction
+    /**
+     * The next state of the editor after the transaction is applied
+     */
+    nextState: EditorState
+  }
+  transaction: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The initial transaction
+     */
+    transaction: Transaction
+    /**
+     * Appended transactions that were added to the initial transaction by plugins
+     */
+    appendedTransactions: Transaction[]
+  }
+  focus: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The focus event
+     */
+    event: FocusEvent
+    /**
+     * The transaction that caused the focus
+     */
+    transaction: Transaction
+  }
+  blur: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The focus event
+     */
+    event: FocusEvent
+    /**
+     * The transaction that caused the blur
+     */
+    transaction: Transaction
+  }
   destroy: void
-  paste: { editor: Editor; event: ClipboardEvent; slice: Slice }
-  drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean }
+  paste: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The clipboard event
+     */
+    event: ClipboardEvent
+    /**
+     * The slice that was pasted
+     */
+    slice: Slice
+  }
+  drop: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The drag event
+     */
+    event: DragEvent
+    /**
+     * The slice that was dropped
+     */
+    slice: Slice
+    /**
+     * Whether the content was moved (true) or copied (false)
+     */
+    moved: boolean
+  }
   delete: {
     /**
      * The editor instance
