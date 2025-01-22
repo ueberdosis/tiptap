@@ -1,3 +1,5 @@
+import { RemoveMarkStep } from '@tiptap/pm/transform'
+
 import { Extension } from '../Extension.js'
 import { combineTransactionSteps, getChangedRanges } from '../helpers/index.js'
 
@@ -23,13 +25,17 @@ export const Delete = Extension.create({
           nextTransaction.mapping.mapResult(change.oldRange.from).deletedAfter &&
           nextTransaction.mapping.mapResult(change.oldRange.to).deletedBefore
         ) {
-          nextTransaction.before.nodesBetween(change.oldRange.from, change.oldRange.to, (node, pos) => {
-            const isFullyWithinRange = change.oldRange.from <= pos && pos + node.nodeSize - 2 <= change.oldRange.to
+          nextTransaction.before.nodesBetween(change.oldRange.from, change.oldRange.to, (node, from) => {
+            const to = from + node.nodeSize - 2
+            const isFullyWithinRange = change.oldRange.from <= from && to <= change.oldRange.to
 
             this.editor.emit('delete', {
+              type: 'node',
               node,
-              pos,
-              newPos: nextTransaction.mapping.map(pos),
+              from,
+              to,
+              newFrom: nextTransaction.mapping.map(from),
+              newTo: nextTransaction.mapping.map(to),
               deletedRange: change.oldRange,
               newRange: change.newRange,
               partial: !isFullyWithinRange,
@@ -37,6 +43,38 @@ export const Delete = Extension.create({
               transaction,
               combinedTransform: nextTransaction,
             })
+          })
+        }
+      })
+
+      const mapping = nextTransaction.mapping
+      nextTransaction.steps.forEach((step, index) => {
+        if (step instanceof RemoveMarkStep) {
+          const newStart = mapping.slice(index).map(step.from, -1)
+          const newEnd = mapping.slice(index).map(step.to)
+          const oldStart = mapping.invert().map(newStart, -1)
+          const oldEnd = mapping.invert().map(newEnd)
+
+          const foundBeforeMark = nextTransaction.doc.nodeAt(newStart - 1)?.marks.some(mark => mark.eq(step.mark))
+          const foundAfterMark = nextTransaction.doc.nodeAt(newEnd)?.marks.some(mark => mark.eq(step.mark))
+
+          this.editor.emit('delete', {
+            type: 'mark',
+            mark: step.mark,
+            from: step.from,
+            to: step.to,
+            deletedRange: {
+              from: oldStart,
+              to: oldEnd,
+            },
+            newRange: {
+              from: newStart,
+              to: newEnd,
+            },
+            partial: Boolean(foundAfterMark || foundBeforeMark),
+            editor: this.editor,
+            transaction,
+            combinedTransform: nextTransaction,
           })
         }
       })
