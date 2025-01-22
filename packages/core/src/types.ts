@@ -270,6 +270,11 @@ export interface EditorOptions {
        * @default true deletion events are called asynchronously
        */
       async?: boolean
+      /**
+       * Allows filtering the transactions that are processed by the `delete` extension.
+       * If the function returns `true`, the transaction will be ignored.
+       */
+      filterTransaction?: (transaction: Transaction) => boolean
     }
   }
   /**

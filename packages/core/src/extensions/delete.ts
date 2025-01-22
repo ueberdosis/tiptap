@@ -1,28 +1,20 @@
 import { Extension } from '../Extension.js'
 import { combineTransactionSteps, getChangedRanges } from '../helpers/index.js'
 
-export interface OnDeleteOptions {
-  /**
-   * Whether the callback should be called asynchronously to avoid blocking the editor
-   * @default false
-   */
-  async?: boolean
-}
-
 /**
  * This extension allows you to be notified when the user deletes content you are interested in.
  */
-export const Delete = Extension.create<OnDeleteOptions>({
+export const Delete = Extension.create({
   name: 'delete',
-
-  addOptions() {
-    return {
-      async: false,
-    }
-  },
 
   onUpdate({ transaction, appendedTransactions }) {
     const callback = () => {
+      if (
+        this.editor.options.coreExtensionOptions?.delete?.filterTransaction?.(transaction) ??
+        transaction.getMeta('y-sync$')
+      ) {
+        return
+      }
       const nextTransaction = combineTransactionSteps(transaction.before, [transaction, ...appendedTransactions])
       const changes = getChangedRanges(nextTransaction)
 
@@ -50,7 +42,7 @@ export const Delete = Extension.create<OnDeleteOptions>({
       })
     }
 
-    if (this.options.async) {
+    if (this.editor.options.coreExtensionOptions?.delete?.async ?? true) {
       setTimeout(callback, 0)
     } else {
       callback()
