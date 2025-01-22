@@ -300,7 +300,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           Tabindex,
           Drop,
           Paste,
-          Delete,
+          Delete.configure({
+            async: this.options.coreExtensionOptions?.delete?.async,
+          }),
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (

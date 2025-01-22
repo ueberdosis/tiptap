@@ -264,6 +264,13 @@ export interface EditorOptions {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
+    delete?: {
+      /**
+       * Whether the `delete` extension should be called asynchronously to avoid blocking the editor while processing deletions
+       * @default true deletion events are called asynchronously
+       */
+      async?: boolean
+    }
   }
   /**
    * Whether to enable input rules behavior
