@@ -66,6 +66,7 @@ module.exports = on => {
         alias,
         extensionAlias: {
           '.js': ['.js', '.ts'],
+          '.jsx': ['.jsx', '.tsx'],
         },
       },
     },
