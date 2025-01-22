@@ -6,6 +6,8 @@ import {
   DecorationAttrs,
   EditorProps,
   EditorView,
+  MarkView,
+  MarkViewConstructor,
   NodeView,
   NodeViewConstructor,
   ViewMutationRecord,
@@ -593,6 +595,44 @@ export interface NodeViewRendererProps {
 }
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface MarkViewProps extends MarkViewRendererProps {}
+
+export interface MarkViewRendererProps {
+  // pass-through from prosemirror
+  /**
+   * The node that is being rendered.
+   */
+  mark: Parameters<MarkViewConstructor>[0]
+  /**
+   * The editor's view.
+   */
+  view: Parameters<MarkViewConstructor>[1]
+  /**
+   * indicates whether the mark's content is inline
+   */
+  inline: Parameters<MarkViewConstructor>[2]
+  // tiptap-specific
+  /**
+   * The editor instance.
+   */
+  editor: Editor
+  /**
+   * The extension that is responsible for the mark.
+   */
+  extension: Mark
+  /**
+   * The HTML attributes that should be added to the mark's DOM element.
+   */
+  HTMLAttributes: Record<string, any>
+}
+
+export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
+
+export interface MarkViewRendererOptions {
+  ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
+}
 
 export type AnyCommands = Record<string, (...args: any[]) => Command>
 

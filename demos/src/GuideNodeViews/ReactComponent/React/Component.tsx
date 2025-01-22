@@ -1,7 +1,7 @@
-import { NodeViewWrapper } from '@tiptap/react'
+import { NodeViewProps, NodeViewWrapper } from '@tiptap/react'
 import React from 'react'
 
-export default props => {
+export default (props: NodeViewProps) => {
   const increase = () => {
     props.updateAttributes({
       count: props.node.attrs.count + 1,

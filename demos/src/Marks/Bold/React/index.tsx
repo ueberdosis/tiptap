@@ -19,6 +19,8 @@ export default () => {
         <p style="font-weight: 500">Cool, isn’t it!?</p>
         <p style="font-weight: 999">Up to font weight 999!!!</p>
       `,
+    shouldRerenderOnTransaction: true,
+    immediatelyRender: true,
   })
 
   if (!editor) {
