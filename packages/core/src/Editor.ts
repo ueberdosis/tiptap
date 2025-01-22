@@ -9,11 +9,11 @@ import { ExtensionManager } from './ExtensionManager.js'
 import {
   ClipboardTextSerializer,
   Commands,
+  Delete,
   Drop,
   Editable,
   FocusEvents,
   Keymap,
-  OnDelete,
   Paste,
   Tabindex,
 } from './extensions/index.js'
@@ -300,7 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           Tabindex,
           Drop,
           Paste,
-          OnDelete,
+          Delete,
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (

@@ -301,7 +301,8 @@ export interface EditorOptions {
           | 'keymap'
           | 'tabindex'
           | 'drop'
-          | 'paste',
+          | 'paste'
+          | 'delete',
           false
         >
       >

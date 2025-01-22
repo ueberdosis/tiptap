@@ -11,10 +11,9 @@ export interface OnDeleteOptions {
 
 /**
  * This extension allows you to be notified when the user deletes content you are interested in.
- * @see https://www.tiptap.dev/api/extensions/on-delete
  */
-export const OnDelete = Extension.create<OnDeleteOptions>({
-  name: 'onDelete',
+export const Delete = Extension.create<OnDeleteOptions>({
+  name: 'delete',
 
   addOptions() {
     return {
