@@ -1,6 +1,6 @@
 import { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
-import { Mappable } from '@tiptap/pm/transform'
+import { Mappable, Transform } from '@tiptap/pm/transform'
 import {
   Decoration,
   DecorationAttrs,
@@ -37,10 +37,26 @@ export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
 
 export interface EditorEvents {
-  beforeCreate: { editor: Editor }
-  create: { editor: Editor }
-  contentError: {
+  beforeCreate: {
+    /**
+     * The editor instance
+     */
     editor: Editor
+  }
+  create: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
+  contentError: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The error that occurred while parsing the content
+     */
     error: Error
     /**
      * If called, will re-initialize the editor with the collaboration extension removed.
@@ -48,35 +64,221 @@ export interface EditorEvents {
      */
     disableCollaboration: () => void
   }
-  update: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] }
-  selectionUpdate: { editor: Editor; transaction: Transaction }
-  beforeTransaction: { editor: Editor; transaction: Transaction; nextState: EditorState }
-  transaction: { editor: Editor; transaction: Transaction; appendedTransactions: Transaction[] }
-  focus: { editor: Editor; event: FocusEvent; transaction: Transaction }
-  blur: { editor: Editor; event: FocusEvent; transaction: Transaction }
+  update: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that caused the update
+     */
+    transaction: Transaction
+    /**
+     * Appended transactions that were added to the initial transaction by plugins
+     */
+    appendedTransactions: Transaction[]
+  }
+  selectionUpdate: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that caused the selection update
+     */
+    transaction: Transaction
+  }
+  beforeTransaction: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The transaction that will be applied
+     */
+    transaction: Transaction
+    /**
+     * The next state of the editor after the transaction is applied
+     */
+    nextState: EditorState
+  }
+  transaction: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The initial transaction
+     */
+    transaction: Transaction
+    /**
+     * Appended transactions that were added to the initial transaction by plugins
+     */
+    appendedTransactions: Transaction[]
+  }
+  focus: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The focus event
+     */
+    event: FocusEvent
+    /**
+     * The transaction that caused the focus
+     */
+    transaction: Transaction
+  }
+  blur: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The focus event
+     */
+    event: FocusEvent
+    /**
+     * The transaction that caused the blur
+     */
+    transaction: Transaction
+  }
   destroy: void
-  paste: { editor: Editor; event: ClipboardEvent; slice: Slice }
-  drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean }
+  paste: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The clipboard event
+     */
+    event: ClipboardEvent
+    /**
+     * The slice that was pasted
+     */
+    slice: Slice
+  }
+  drop: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The drag event
+     */
+    event: DragEvent
+    /**
+     * The slice that was dropped
+     */
+    slice: Slice
+    /**
+     * Whether the content was moved (true) or copied (false)
+     */
+    moved: boolean
+  }
+  delete: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The node which the deletion occurred in
+     * @note This can be a parent node of the deleted content
+     */
+    node: ProseMirrorNode
+    /**
+     * Whether the deletion was partial (only a part of this node was deleted)
+     */
+    partial: boolean
+    /**
+     * This is the position of the node in the document (before the deletion)
+     */
+    pos: number
+    /**
+     * The new position of the node in the document (after the deletion)
+     */
+    newPos: number
+    /**
+     * The range of the deleted content (before the deletion)
+     */
+    deletedRange: Range
+    /**
+     * The new range of positions of where the deleted content was in the new document (after the deletion)
+     */
+    newRange: Range
+    /**
+     * The transaction that caused the deletion
+     */
+    transaction: Transaction
+    /**
+     * The combined transform (including all appended transactions) that caused the deletion
+     */
+    combinedTransform: Transform
+  }
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
+  /**
+   * The element or selector to bind the editor to
+   */
   element: Element
+  /**
+   * The content of the editor (HTML, JSON, or a JSON array)
+   */
   content: Content
+  /**
+   * The extensions to use
+   */
   extensions: Extensions
+  /**
+   * Whether to inject base CSS styles
+   */
   injectCSS: boolean
+  /**
+   * A nonce to use for CSP while injecting styles
+   */
   injectNonce: string | undefined
+  /**
+   * The editor's initial focus position
+   */
   autofocus: FocusPosition
+  /**
+   * Whether the editor is editable
+   */
   editable: boolean
+  /**
+   * The editor's props
+   */
   editorProps: EditorProps
+  /**
+   * The editor's content parser options
+   */
   parseOptions: ParseOptions
+  /**
+   * The editor's core extension options
+   */
   coreExtensionOptions?: {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
+    delete?: {
+      /**
+       * Whether the `delete` extension should be called asynchronously to avoid blocking the editor while processing deletions
+       * @default true deletion events are called asynchronously
+       */
+      async?: boolean
+    }
   }
+  /**
+   * Whether to enable input rules behavior
+   */
   enableInputRules: EnableRules
+  /**
+   * Whether to enable paste rules behavior
+   */
   enablePasteRules: EnableRules
   /**
    * Determines whether core extensions are enabled.
@@ -106,7 +308,8 @@ export interface EditorOptions {
           | 'keymap'
           | 'tabindex'
           | 'drop'
-          | 'paste',
+          | 'paste'
+          | 'delete',
           false
         >
       >
@@ -117,25 +320,65 @@ export interface EditorOptions {
    * @default false
    */
   enableContentCheck: boolean
+  /**
+   * Called before the editor is constructed.
+   */
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
+  /**
+   * Called after the editor is constructed.
+   */
   onCreate: (props: EditorEvents['create']) => void
   /**
    * Called when the editor encounters an error while parsing the content.
    * Only enabled if `enableContentCheck` is `true`.
    */
   onContentError: (props: EditorEvents['contentError']) => void
+  /**
+   * Called when the editor's content is updated.
+   */
   onUpdate: (props: EditorEvents['update']) => void
+  /**
+   * Called when the editor's selection is updated.
+   */
   onSelectionUpdate: (props: EditorEvents['selectionUpdate']) => void
+  /**
+   * Called after a transaction is applied to the editor.
+   */
   onTransaction: (props: EditorEvents['transaction']) => void
+  /**
+   * Called on focus events.
+   */
   onFocus: (props: EditorEvents['focus']) => void
+  /**
+   * Called on blur events.
+   */
   onBlur: (props: EditorEvents['blur']) => void
+  /**
+   * Called when the editor is destroyed.
+   */
   onDestroy: (props: EditorEvents['destroy']) => void
+  /**
+   * Called when content is pasted into the editor.
+   */
   onPaste: (e: ClipboardEvent, slice: Slice) => void
+  /**
+   * Called when content is dropped into the editor.
+   */
   onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
+  /**
+   * Called when content is deleted from the editor.
+   */
+  onDelete: (props: EditorEvents['delete']) => void
 }
 
+/**
+ * The editor's content as HTML
+ */
 export type HTMLContent = string
 
+/**
+ * Loosely describes a JSON representation of a Prosemirror document or node
+ */
 export type JSONContent = {
   type?: string
   attrs?: Record<string, any>
