@@ -1,6 +1,8 @@
 import { isTextSelection } from '../helpers/isTextSelection.js'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
 import { FocusPosition, RawCommands } from '../types.js'
+import { isAndroid } from '../utilities/isAndroid.js'
+import { isiOS } from '../utilities/isiOS.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -42,7 +44,11 @@ export const focus: RawCommands['focus'] = (position = null, options = {}) => ({
   }
 
   const delayedFocus = () => {
-    (view.dom as HTMLElement).focus()
+    // focus within `requestAnimationFrame` breaks focus on iOS and Android
+    // so we have to call this
+    if (isiOS() || isAndroid()) {
+      (view.dom as HTMLElement).focus()
+    }
 
     // For React we have to focus asynchronously. Otherwise wild things happen.
     // see: https://github.com/ueberdosis/tiptap/issues/1520
