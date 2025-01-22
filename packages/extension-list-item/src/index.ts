@@ -1,5 +1,5 @@
-import { ListItem } from './list-item.js'
+import { ListItem } from '@tiptap/extension-list'
 
-export * from './list-item.js'
+export { ListItem, ListItemOptions } from '@tiptap/extension-list'
 
 export default ListItem

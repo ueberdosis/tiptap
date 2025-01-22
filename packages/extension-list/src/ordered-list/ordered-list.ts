@@ -48,7 +48,7 @@ declare module '@tiptap/core' {
 /**
  * Matches an ordered list to a 1. on input (or any number followed by a dot).
  */
-export const inputRegex = /^(\d+)\.\s$/
+export const orderedListInputRegex = /^(\d+)\.\s$/
 
 /**
  * This extension allows you to create ordered lists.
@@ -129,7 +129,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
   addInputRules() {
     let inputRule = wrappingInputRule({
-      find: inputRegex,
+      find: orderedListInputRegex,
       type: this.type,
       getAttributes: match => ({ start: +match[1] }),
       joinPredicate: (match, node) => node.childCount + node.attrs.start === +match[1],
@@ -137,7 +137,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
 
     if (this.options.keepMarks || this.options.keepAttributes) {
       inputRule = wrappingInputRule({
-        find: inputRegex,
+        find: orderedListInputRegex,
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,

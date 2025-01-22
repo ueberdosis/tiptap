@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.4"
+    "@tiptap/extension-list": "^3.0.0-next.4"
   },
   "peerDependencies": {
-    "@tiptap/core": "^3.0.0-next.1"
+    "@tiptap/extension-list": "^3.0.0-next.4"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
-import { TaskItem } from './task-item.js'
+import { TaskItem } from '@tiptap/extension-list'
 
-export * from './task-item.js'
+export { TaskItem, TaskItemOptions } from '@tiptap/extension-list'
 
 export default TaskItem

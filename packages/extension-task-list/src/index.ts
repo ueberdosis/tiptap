@@ -1,5 +1,5 @@
-import { TaskList } from './task-list.js'
+import { TaskList } from '@tiptap/extension-list'
 
-export * from './task-list.js'
+export { TaskList, TaskListOptions } from '@tiptap/extension-list'
 
 export default TaskList

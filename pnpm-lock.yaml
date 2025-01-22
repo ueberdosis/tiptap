@@ -331,9 +331,9 @@ importers:
 
   packages/extension-bullet-list:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extension-list':
         specifier: ^3.0.0-next.4
-        version: link:../core
+        version: link:../extension-list
 
   packages/extension-character-count:
     devDependencies:
@@ -512,13 +512,7 @@ importers:
         specifier: ^3.0.0-next.4
         version: link:../pm
 
-  packages/extension-list-item:
-    devDependencies:
-      '@tiptap/core':
-        specifier: ^3.0.0-next.4
-        version: link:../core
-
-  packages/extension-list-keymap:
+  packages/extension-list:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.4
@@ -526,6 +520,18 @@ importers:
       '@tiptap/pm':
         specifier: ^3.0.0-next.4
         version: link:../pm
+
+  packages/extension-list-item:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.4
+        version: link:../extension-list
+
+  packages/extension-list-keymap:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.4
+        version: link:../extension-list
 
   packages/extension-mention:
     devDependencies:
@@ -541,9 +547,9 @@ importers:
 
   packages/extension-ordered-list:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extension-list':
         specifier: ^3.0.0-next.4
-        version: link:../core
+        version: link:../extension-list
 
   packages/extension-paragraph:
     devDependencies:
@@ -610,18 +616,15 @@ importers:
 
   packages/extension-task-item:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extension-list':
         specifier: ^3.0.0-next.4
-        version: link:../core
-      '@tiptap/pm':
-        specifier: ^3.0.0-next.4
-        version: link:../pm
+        version: link:../extension-list
 
   packages/extension-task-list:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extension-list':
         specifier: ^3.0.0-next.4
-        version: link:../core
+        version: link:../extension-list
 
   packages/extension-text:
     devDependencies:
