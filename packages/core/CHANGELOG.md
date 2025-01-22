@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.11.3
+
+### Patch Changes
+
+- a44a7c3: fix(core): do not reset marks, or nodes when using IME on mobile devices
+- fa63c47: Focus synchronously only if on iOS or Android #4448
+
 ## 2.11.2
 
 ### Patch Changes
