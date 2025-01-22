@@ -1,63 +1,12 @@
-import { combineTransactionSteps, Editor, Extension, getChangedRanges, Range } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
-import { Transaction } from '@tiptap/pm/state'
-import { Transform } from '@tiptap/pm/transform'
+import { Extension } from '../Extension.js'
+import { combineTransactionSteps, getChangedRanges } from '../helpers/index.js'
 
 export interface OnDeleteOptions {
-  /**
-   * Whether to consider partial deletions as well
-   * @default false
-   */
-  partial?: boolean
-
   /**
    * Whether the callback should be called asynchronously to avoid blocking the editor
    * @default false
    */
   async?: boolean
-
-  /**
-   * The callback which is called when the user deletes a node
-   */
-  onDelete: (ctx: {
-    /**
-     * The node which the deletion occurred in
-     * @note This can be a parent node of the deleted content
-     */
-    node: Node
-    /**
-     * Whether the deletion was partial (only a part of this node was deleted)
-     */
-    partial: boolean
-    /**
-     * This is the position of the node in the document (before the deletion)
-     */
-    pos: number
-    /**
-     * The new position of the node in the document (after the deletion)
-     */
-    newPos: number
-    /**
-     * The range of the deleted content (before the deletion)
-     */
-    deletedRange: Range
-    /**
-     * The new range of positions of where the deleted content was in the new document (after the deletion)
-     */
-    newRange: Range
-    /**
-     * The editor instance
-     */
-    editor: Editor
-    /**
-     * The transaction that caused the deletion
-     */
-    transaction: Transaction
-    /**
-     * The combined transform (including all appended transactions) that caused the deletion
-     */
-    combinedTransform: Transform
-  }) => void
 }
 
 /**
@@ -69,7 +18,6 @@ export const OnDelete = Extension.create<OnDeleteOptions>({
 
   addOptions() {
     return {
-      onDelete: () => {},
       async: false,
     }
   },
@@ -87,7 +35,7 @@ export const OnDelete = Extension.create<OnDeleteOptions>({
           nextTransaction.before.nodesBetween(change.oldRange.from, change.oldRange.to, (node, pos) => {
             const isFullyWithinRange = change.oldRange.from <= pos && pos + node.nodeSize - 2 <= change.oldRange.to
 
-            this.options.onDelete({
+            this.editor.emit('delete', {
               node,
               pos,
               newPos: nextTransaction.mapping.map(pos),

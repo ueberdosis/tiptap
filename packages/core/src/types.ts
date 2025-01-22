@@ -1,6 +1,6 @@
 import { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
 import { EditorState, Transaction } from '@tiptap/pm/state'
-import { Mappable } from '@tiptap/pm/transform'
+import { Mappable, Transform } from '@tiptap/pm/transform'
 import {
   Decoration,
   DecorationAttrs,
@@ -57,6 +57,45 @@ export interface EditorEvents {
   destroy: void
   paste: { editor: Editor; event: ClipboardEvent; slice: Slice }
   drop: { editor: Editor; event: DragEvent; slice: Slice; moved: boolean }
+  delete: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The node which the deletion occurred in
+     * @note This can be a parent node of the deleted content
+     */
+    node: ProseMirrorNode
+    /**
+     * Whether the deletion was partial (only a part of this node was deleted)
+     */
+    partial: boolean
+    /**
+     * This is the position of the node in the document (before the deletion)
+     */
+    pos: number
+    /**
+     * The new position of the node in the document (after the deletion)
+     */
+    newPos: number
+    /**
+     * The range of the deleted content (before the deletion)
+     */
+    deletedRange: Range
+    /**
+     * The new range of positions of where the deleted content was in the new document (after the deletion)
+     */
+    newRange: Range
+    /**
+     * The transaction that caused the deletion
+     */
+    transaction: Transaction
+    /**
+     * The combined transform (including all appended transactions) that caused the deletion
+     */
+    combinedTransform: Transform
+  }
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
@@ -132,6 +171,7 @@ export interface EditorOptions {
   onDestroy: (props: EditorEvents['destroy']) => void
   onPaste: (e: ClipboardEvent, slice: Slice) => void
   onDrop: (e: DragEvent, slice: Slice, moved: boolean) => void
+  onDelete: (props: EditorEvents['delete']) => void
 }
 
 export type HTMLContent = string

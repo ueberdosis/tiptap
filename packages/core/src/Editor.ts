@@ -13,6 +13,7 @@ import {
   Editable,
   FocusEvents,
   Keymap,
+  OnDelete,
   Paste,
   Tabindex,
 } from './extensions/index.js'
@@ -100,6 +101,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     },
     onPaste: () => null,
     onDrop: () => null,
+    onDelete: () => null,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -122,6 +124,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('destroy', this.options.onDestroy)
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
+    this.on('delete', this.options.onDelete)
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -297,6 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           Tabindex,
           Drop,
           Paste,
+          OnDelete,
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
