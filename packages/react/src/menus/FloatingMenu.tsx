@@ -1,8 +1,7 @@
 import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
+import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-
-import { useCurrentEditor } from './Context.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 

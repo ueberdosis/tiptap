@@ -1,6 +1,7 @@
 import './styles.scss'
 
-import { BubbleMenu, EditorContent, FloatingMenu, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
+import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
