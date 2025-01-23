@@ -1,5 +1,5 @@
 context('/src/Extensions/CollaborationCursor/Vue', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/CollaborationCursor/Vue/')
   })
 

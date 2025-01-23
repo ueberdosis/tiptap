@@ -1,14 +1,14 @@
 import './styles.scss'
 
-import ListItem from '@tiptap/extension-list-item'
-import { Color , TextStyle } from '@tiptap/extension-text-style'
-import { EditorProvider, useCurrentEditor, useEditorState } from '@tiptap/react'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+import { Editor, EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-const MenuBar = () => {
-  const { editor } = useCurrentEditor()
+const extensions = [TextStyleKit, StarterKit]
 
+function MenuBar({ editor }: { editor: Editor }) {
+  // Read the current editor's state, and re-render the component when it changes
   const editorState = useEditorState({
     editor,
     selector: ctx => {
@@ -35,14 +35,9 @@ const MenuBar = () => {
         isBlockquote: ctx.editor.isActive('blockquote'),
         canUndo: ctx.editor.can().chain().focus().undo().run(),
         canRedo: ctx.editor.can().chain().focus().redo().run(),
-        isPurple: editor.isActive('textStyle', { color: '#958DF1' }),
       }
     },
   })
-
-  if (!editor) {
-    return null
-  }
 
   return (
     <div className="control-group">
@@ -151,33 +146,15 @@ const MenuBar = () => {
         <button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
           Redo
         </button>
-        <button
-          onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-          className={editorState.isPurple ? 'is-active' : ''}
-        >
-          Purple
-        </button>
       </div>
     </div>
   )
 }
 
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-  }),
-]
-
-const content = `
+export default () => {
+  const editor = useEditor({
+    extensions,
+    content: `
 <h2>
   Hi there,
 </h2>
@@ -206,8 +183,12 @@ const content = `
   <br />
   — Mom
 </blockquote>
-`
-
-export default () => {
-  return <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
+`,
+  })
+  return (
+    <div>
+      <MenuBar editor={editor} />
+      <EditorContent editor={editor} />
+    </div>
+  )
 }

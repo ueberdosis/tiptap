@@ -1,5 +1,5 @@
 context('/src/Examples/Minimal/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Minimal/Vue/')
   })
 

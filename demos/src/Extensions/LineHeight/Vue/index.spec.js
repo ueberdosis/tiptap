@@ -1,5 +1,5 @@
 context('/src/Extensions/LineHeight/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/LineHeight/Vue/')
   })
 

@@ -29,7 +29,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       floatingMenuElement.style.visibility = 'hidden'
       floatingMenuElement.style.position = 'absolute'
 
-      if (editor?.isDestroyed || currentEditor?.isDestroyed) {
+      if (editor?.isDestroyed || (currentEditor as any)?.isDestroyed) {
         return
       }
 

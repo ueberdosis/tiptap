@@ -1,5 +1,5 @@
 context('/src/Nodes/Blockquote/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Blockquote/React/')
   })
 

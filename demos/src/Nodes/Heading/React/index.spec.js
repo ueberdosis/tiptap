@@ -1,5 +1,5 @@
 context('/src/Nodes/Heading/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Heading/React/')
   })
 

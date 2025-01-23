@@ -1,5 +1,5 @@
 context('/src/Nodes/Image/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Image/React/')
   })
 

@@ -1,5 +1,5 @@
 context('/src/Marks/TextStyle/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Marks/TextStyle/React/')
   })
 

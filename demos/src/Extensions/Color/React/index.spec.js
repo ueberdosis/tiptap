@@ -1,5 +1,5 @@
 context('/src/Extensions/Color/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/Color/React/')
   })
 

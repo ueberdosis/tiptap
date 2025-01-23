@@ -1,5 +1,5 @@
 context('/src/Extensions/FontSize/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/FontSize/Vue/')
   })
 
