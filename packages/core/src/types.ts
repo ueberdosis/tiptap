@@ -225,8 +225,10 @@ export type EnableRules = (AnyExtension | string)[] | boolean
 export interface EditorOptions {
   /**
    * The element or selector to bind the editor to
+   * If `null` is passed, the editor will not be mounted automatically
+   * If a function is passed, it will be called with the editor's root element
    */
-  element: Element
+  element: Element | null
   /**
    * The content of the editor (HTML, JSON, or a JSON array)
    */

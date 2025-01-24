@@ -175,10 +175,11 @@ export class PureEditorContent extends React.Component<
 
     editor.contentComponent = null
 
-    if (!editor.options.element.firstChild) {
+    if (!editor.options.element?.firstChild) {
       return
     }
 
+    // TODO using the new editor.mount method might allow us to remove this
     const newElement = document.createElement('div')
 
     newElement.append(...editor.options.element.childNodes)

@@ -57,9 +57,11 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public schema!: Schema
 
-  public view!: EditorView
+  private editorView: EditorView | null = null
 
   public isFocused = false
+
+  private editorState!: EditorState
 
   /**
    * The editor is considered initialized after the `create` event has been emitted.
@@ -74,7 +76,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public instanceId = Math.random().toString(36).slice(2, 9)
 
   public options: EditorOptions = {
-    element: document.createElement('div'),
+    element: typeof document !== 'undefined' ? document.createElement('div') : null,
     content: '',
     injectCSS: true,
     injectNonce: undefined,
@@ -113,8 +115,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
     this.on('contentError', this.options.onContentError)
-    this.createView()
-    this.injectCSS()
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
     this.on('selectionUpdate', this.options.onSelectionUpdate)
@@ -125,6 +125,29 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
+
+    const initialDoc = this.createDoc()
+    const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
+
+    // Set editor state immediately, so that it's available independently from the view
+    this.editorState = EditorState.create({
+      doc: initialDoc,
+      schema: this.schema,
+      selection: selection || undefined,
+    })
+
+    if (this.options.element) {
+      this.mount(this.options.element)
+    }
+  }
+
+  public mount(el: NonNullable<EditorOptions['element']> & {}) {
+    if (typeof document === 'undefined') {
+      throw new Error(
+        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
+      )
+    }
+    this.createView(el)
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -169,7 +192,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Inject CSS styles.
    */
   private injectCSS(): void {
-    if (this.options.injectCSS && document) {
+    if (this.options.injectCSS && typeof document !== 'undefined') {
       this.css = createStyleTag(style, this.options.injectNonce)
     }
   }
@@ -185,7 +208,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       ...options,
     }
 
-    if (!this.view || !this.state || this.isDestroyed) {
+    if (!this.editorView || !this.state || this.isDestroyed) {
       return
     }
 
@@ -220,8 +243,54 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Returns the editor state.
    */
+  public get view(): EditorView {
+    if (this.editorView) {
+      return this.editorView
+    }
+
+    return new Proxy(
+      {
+        state: this.editorState,
+        updateState: (state: EditorState): ReturnType<EditorView['updateState']> => {
+          this.editorState = state
+        },
+        dispatch: (tr: Transaction): ReturnType<EditorView['dispatch']> => {
+          this.editorState = this.state.apply(tr)
+        },
+
+        // Stub some commonly accessed properties to prevent errors
+        composing: false,
+        dragging: null,
+        editable: true,
+      } as EditorView,
+      {
+        get: (obj, key) => {
+          // Specifically always return the most recent editorState
+          if (key === 'state') {
+            return this.editorState
+          }
+          if (key in obj) {
+            return Reflect.get(obj, key)
+          }
+
+          // We throw an error here, because we know the view is not available
+          throw new Error(
+            `[tiptap error]: The editor view is not available. Cannot access view['${key as string}']. The editor may not be mounted yet.`,
+          )
+        },
+      },
+    ) as EditorView
+  }
+
+  /**
+   * Returns the editor state.
+   */
   public get state(): EditorState {
-    return this.view.state
+    if (this.editorView) {
+      this.editorState = this.view.state
+    }
+
+    return this.editorState
   }
 
   /**
@@ -334,9 +403,9 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Creates a ProseMirror view.
+   * Creates the initial document.
    */
-  private createView(): void {
+  private createDoc(): ProseMirrorNode {
     let doc: ProseMirrorNode
 
     try {
@@ -371,9 +440,14 @@ export class Editor extends EventEmitter<EditorEvents> {
         errorOnInvalidContent: false,
       })
     }
-    const selection = resolveFocusPosition(doc, this.options.autofocus)
+    return doc
+  }
 
-    this.view = new EditorView(this.options.element, {
+  /**
+   * Creates a ProseMirror view.
+   */
+  private createView(element: NonNullable<EditorOptions['element']> & {}): void {
+    this.editorView = new EditorView(element, {
       ...this.options.editorProps,
       attributes: {
         // add `role="textbox"` to the editor element
@@ -381,10 +455,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         ...this.options.editorProps?.attributes,
       },
       dispatchTransaction: this.dispatchTransaction.bind(this),
-      state: EditorState.create({
-        doc,
-        selection: selection || undefined,
-      }),
+      state: this.editorState,
     })
 
     // `editor.view` is not yet available at this time.
@@ -397,6 +468,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.createNodeViews()
     this.prependClass()
+    this.injectCSS()
 
     // Let’s store the editor instance in the DOM element.
     // So we’ll have access to it for tests.
@@ -607,15 +679,15 @@ export class Editor extends EventEmitter<EditorEvents> {
   public destroy(): void {
     this.emit('destroy')
 
-    if (this.view) {
+    if (this.editorView) {
       // Cleanup our reference to prevent circular references which caused memory leaks
       // @ts-ignore
-      const dom = this.view.dom as TiptapEditorHTMLElement
+      const dom = this.editorView.dom as TiptapEditorHTMLElement
 
       if (dom && dom.editor) {
         delete dom.editor
       }
-      this.view.destroy()
+      this.editorView.destroy()
     }
 
     this.removeAllListeners()

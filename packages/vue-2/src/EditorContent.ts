@@ -24,7 +24,7 @@ export const EditorContent: Component = {
           this.$nextTick(() => {
             const element = this.$el
 
-            if (!element || !editor.options.element.firstChild) {
+            if (!element || !editor.options.element?.firstChild) {
               return
             }
 
@@ -61,10 +61,11 @@ export const EditorContent: Component = {
 
     editor.contentComponent = null
 
-    if (!editor.options.element.firstChild) {
+    if (!editor.options.element?.firstChild) {
       return
     }
 
+    // TODO using the new editor.mount method might allow us to remove this
     const newElement = document.createElement('div')
 
     newElement.append(...editor.options.element.childNodes)
