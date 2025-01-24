@@ -185,23 +185,6 @@ export interface EditorEvents {
      */
     editor: Editor
     /**
-     * The node which the deletion occurred in
-     * @note This can be a parent node of the deleted content
-     */
-    node: ProseMirrorNode
-    /**
-     * Whether the deletion was partial (only a part of this node was deleted)
-     */
-    partial: boolean
-    /**
-     * This is the position of the node in the document (before the deletion)
-     */
-    pos: number
-    /**
-     * The new position of the node in the document (after the deletion)
-     */
-    newPos: number
-    /**
      * The range of the deleted content (before the deletion)
      */
     deletedRange: Range
@@ -217,7 +200,49 @@ export interface EditorEvents {
      * The combined transform (including all appended transactions) that caused the deletion
      */
     combinedTransform: Transform
-  }
+    /**
+     * Whether the deletion was partial (only a part of this content was deleted)
+     */
+    partial: boolean
+    /**
+     * This is the start position of the mark in the document (before the deletion)
+     */
+    from: number
+    /**
+     * This is the end position of the mark in the document (before the deletion)
+     */
+    to: number
+  } & (
+    | {
+        /**
+         * The content that was deleted
+         */
+        type: 'node'
+        /**
+         * The node which the deletion occurred in
+         * @note This can be a parent node of the deleted content
+         */
+        node: ProseMirrorNode
+        /**
+         * The new start position of the node in the document (after the deletion)
+         */
+        newFrom: number
+        /**
+         * The new end position of the node in the document (after the deletion)
+         */
+        newTo: number
+      }
+    | {
+        /**
+         * The content that was deleted
+         */
+        type: 'mark'
+        /**
+         * The mark that was deleted
+         */
+        mark: ProseMirrorMark
+      }
+  )
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
