@@ -12,8 +12,8 @@ context('/src/Extensions/CollaborationWithMenus/React/', () => {
   })
 
   it('should have menu plugins initiated', () => {
+    cy.wait(700)
     cy.get('.tiptap').then(async ([{ editor }]) => {
-      await cy.wait(100)
       const bubbleMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'bubbleMenu$')
       const floatingMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'floatingMenu$')
       const hasBothMenuPluginsLoaded = !!bubbleMenuPlugin && !!floatingMenuPlugin
