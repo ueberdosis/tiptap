@@ -264,7 +264,11 @@ export class Editor extends EventEmitter<EditorEvents> {
         editable: true,
       } as EditorView,
       {
-        get(obj, key) {
+        get: (obj, key) => {
+          // Specifically always return the most recent editorState
+          if (key === 'state') {
+            return this.editorState
+          }
           if (key in obj) {
             return Reflect.get(obj, key)
           }
