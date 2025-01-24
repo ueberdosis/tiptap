@@ -142,6 +142,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   public mount(el: NonNullable<EditorOptions['element']> & {}) {
+    if (typeof document === 'undefined') {
+      throw new Error(
+        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
+      )
+    }
     this.createView(el)
 
     window.setTimeout(() => {
@@ -266,7 +271,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
           // We throw an error here, because we know the view is not available
           throw new Error(
-            `[Tiptap Editor]: The editor view is not available. Cannot access view['${key as string}']. The editor may not be mounted yet.`,
+            `[tiptap error]: The editor view is not available. Cannot access view['${key as string}']. The editor may not be mounted yet.`,
           )
         },
       },
