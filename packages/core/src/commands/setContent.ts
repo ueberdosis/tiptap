@@ -20,24 +20,25 @@ declare module '@tiptap/core' {
         content: Content | Fragment | ProseMirrorNode,
 
         /**
-         * Whether to emit an update event.
-         * @default false
-         */
-        emitUpdate?: boolean,
-
-        /**
-         * Options for parsing the content.
-         * @default {}
-         */
-        parseOptions?: ParseOptions,
-        /**
          * Options for `setContent`.
          */
         options?: {
           /**
+           * Options for parsing the content.
+           * @default {}
+           */
+          parseOptions?: ParseOptions
+
+          /**
            * Whether to throw an error if the content is invalid.
            */
           errorOnInvalidContent?: boolean
+
+          /**
+           * Whether to emit an update event.
+           * @default true
+           */
+          emitUpdate?: boolean
         },
       ) => ReturnType
     }
@@ -45,7 +46,7 @@ declare module '@tiptap/core' {
 }
 
 export const setContent: RawCommands['setContent'] =
-  (content, emitUpdate = false, parseOptions = {}, options = {}) =>
+  (content, { errorOnInvalidContent, emitUpdate = true, parseOptions = {} } = {}) =>
   ({ editor, tr, dispatch, commands }) => {
     const { doc } = tr
 
@@ -53,7 +54,7 @@ export const setContent: RawCommands['setContent'] =
     // TODO remove this in the next major version
     if (parseOptions.preserveWhitespace !== 'full') {
       const document = createDocument(content, editor.schema, parseOptions, {
-        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+        errorOnInvalidContent: errorOnInvalidContent ?? editor.options.enableContentCheck,
       })
 
       if (dispatch) {
@@ -68,6 +69,6 @@ export const setContent: RawCommands['setContent'] =
 
     return commands.insertContentAt({ from: 0, to: doc.content.size }, content, {
       parseOptions,
-      errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+      errorOnInvalidContent: errorOnInvalidContent ?? editor.options.enableContentCheck,
     })
   }

@@ -5,16 +5,21 @@ declare module '@tiptap/core' {
     clearContent: {
       /**
        * Clear the whole document.
-       * @param emitUpdate Whether to emit an update event.
        * @example editor.commands.clearContent()
        */
-      clearContent: (emitUpdate?: boolean) => ReturnType
+      clearContent: (
+        /**
+         * Whether to emit an update event.
+         * @default true
+         */
+        emitUpdate?: boolean,
+      ) => ReturnType
     }
   }
 }
 
 export const clearContent: RawCommands['clearContent'] =
-  (emitUpdate = false) =>
+  (emitUpdate = true) =>
   ({ commands }) => {
-    return commands.setContent('', emitUpdate)
+    return commands.setContent('', { emitUpdate })
   }

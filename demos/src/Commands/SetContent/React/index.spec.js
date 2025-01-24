@@ -47,12 +47,12 @@ context('/src/Commands/SetContent/React/', () => {
 
       editor.on('update', callback)
       // emit an update
-      editor.commands.setContent('Hello World.', true)
+      editor.commands.setContent('Hello World.', { emitUpdate: true })
       expect(updateCount).to.equal(1)
 
       updateCount = 0
       // do not emit an update
-      editor.commands.setContent('Hello World again.', false)
+      editor.commands.setContent('Hello World again.', { emitUpdate: false })
       expect(updateCount).to.equal(0)
       editor.off('update', callback)
     })
@@ -79,7 +79,9 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should keep newlines and tabs when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>', {
+        parseOptions: { preserveWhitespace: 'full' },
+      })
       cy.get('.tiptap').should('contain.html', '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
     })
   })
@@ -120,8 +122,10 @@ context('/src/Commands/SetContent/React/', () => {
   // This exists in insertContentAt as well
   it('should keep newlines and tabs between html fragments when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', false, {
-        preserveWhitespace: 'full',
+      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', {
+        parseOptions: {
+          preserveWhitespace: 'full',
+        },
       })
       cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>')
     })
@@ -136,7 +140,7 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should allow inserting nothing when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('', { parseOptions: { preserveWhitespace: 'full' } })
       cy.get('.tiptap').should('contain.html', '')
     })
   })
@@ -150,7 +154,7 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should allow inserting a partial HTML tag when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p>foo', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('<p>foo', { parseOptions: { preserveWhitespace: 'full' } })
       cy.get('.tiptap').should('contain.html', '<p>foo</p>')
     })
   })
@@ -166,7 +170,7 @@ context('/src/Commands/SetContent/React/', () => {
   // This exists in insertContentAt as well
   it('should allow inserting an incomplete HTML tag when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('foo<p', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('foo<p', { parseOptions: { preserveWhitespace: 'full' } })
       cy.get('.tiptap').should('contain.html', '<p>foo&lt;p</p>')
     })
   })
@@ -180,15 +184,17 @@ context('/src/Commands/SetContent/React/', () => {
 
   it('should allow inserting a list when preserveWhitespace = full', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>', false, { preserveWhitespace: 'full' })
+      editor.commands.setContent('<ul><li>ABC</li><li>123</li></ul>', { parseOptions: { preserveWhitespace: 'full' } })
       cy.get('.tiptap').should('contain.html', '<ul><li><p>ABC</p></li><li><p>123</p></li></ul>')
     })
   })
 
   it('should remove newlines and tabs when parseOptions.preserveWhitespace=false', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', false, {
-        preserveWhitespace: false,
+      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', {
+        parseOptions: {
+          preserveWhitespace: false,
+        },
       })
       cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
     })

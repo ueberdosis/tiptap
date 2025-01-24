@@ -63,23 +63,20 @@ export default {
   methods: {
     setContent() {
       // You can pass a JSON document to the editor.
-      this.editor.commands.setContent(
-        {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-              content: [
-                {
-                  type: 'text',
-                  text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
-                },
-              ],
-            },
-          ],
-        },
-        true,
-      )
+      this.editor.commands.setContent({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.',
+              },
+            ],
+          },
+        ],
+      })
 
       // It’s likely that you’d like to focus the Editor after most commands.
       this.editor.commands.focus()

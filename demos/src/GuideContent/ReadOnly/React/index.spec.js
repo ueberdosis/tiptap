@@ -21,8 +21,8 @@ context('/src/GuideContent/ReadOnly/React/', () => {
   })
 
   it('should be editable', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.setEditable(true)
+    cy.get('#editable').click()
+    cy.get('.tiptap').then(() => {
       cy.get('.tiptap').type('Edited: ')
 
       cy.get('.tiptap p:first').should('contain', 'Edited: ')

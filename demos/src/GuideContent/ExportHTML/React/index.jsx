@@ -37,7 +37,6 @@ export default () => {
           It’s 19871. You can’t turn on a radio, or go to a mall without hearing Olivia Newton-John’s hit song, Physical.
         </p>
       `,
-      true,
     )
 
     // It’s likely that you’d like to focus the Editor after most commands.
