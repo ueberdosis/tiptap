@@ -28,8 +28,8 @@ import { Editor, EditorContent, Extension } from '@tiptap/vue-3'
 
 const CustomKeyboardShortcutExtension = Extension.create({
   name: 'customKeyboardShortcuts',
-  // Set a higher priority to make sure this extension is executed first before the default keyboard shortcuts
-  priority: 101,
+  // Set a higher priority to make sure this extension is executed first before the default keyboard shortcuts (paragraph has 1000)
+  priority: 1001,
   addKeyboardShortcuts() {
     return {
       'Ctrl-Enter': ctx => {
