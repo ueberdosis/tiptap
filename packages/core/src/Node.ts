@@ -43,16 +43,6 @@ declare module '@tiptap/core' {
     priority?: number
 
     /**
-     * The default options for this extension.
-     * @example
-     * defaultOptions: {
-     *   myOption: 'foo',
-     *   myOtherOption: 10,
-     * }
-     */
-    defaultOptions?: Options
-
-    /**
      * This method will add options to this extension
      * @see https://tiptap.dev/guide/custom-extensions#settings
      * @example
@@ -759,11 +749,8 @@ export class Node<Options = any, Storage = any> {
 
   child: Node | null = null
 
-  options: Options
-
   config: NodeConfig = {
     name: this.name,
-    defaultOptions: {},
   }
 
   constructor(config: Partial<NodeConfig<Options, Storage>> = {}) {
@@ -773,22 +760,16 @@ export class Node<Options = any, Storage = any> {
     }
 
     this.name = this.config.name
+  }
 
-    if (config.defaultOptions && Object.keys(config.defaultOptions).length > 0) {
-      console.warn(
-        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${this.name}".`,
-      )
-    }
-
-    // TODO: remove `addOptions` fallback
-    this.options = this.config.defaultOptions
-
-    if (this.config.addOptions) {
-      this.options = callOrReturn(
+  get options(): Options {
+    return {
+      ...(this.parent?.options ?? {}),
+      ...(callOrReturn(
         getExtensionField<AnyConfig['addOptions']>(this, 'addOptions', {
           name: this.name,
         }),
-      )
+      ) || {}),
     }
   }
 
@@ -836,18 +817,6 @@ export class Node<Options = any, Storage = any> {
     this.child = extension
 
     extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
-
-    if (extendedConfig.defaultOptions && Object.keys(extendedConfig.defaultOptions).length > 0) {
-      console.warn(
-        `[tiptap warn]: BREAKING CHANGE: "defaultOptions" is deprecated. Please use "addOptions" instead. Found in extension: "${extension.name}".`,
-      )
-    }
-
-    extension.options = callOrReturn(
-      getExtensionField<AnyConfig['addOptions']>(extension, 'addOptions', {
-        name: extension.name,
-      }),
-    )
 
     return extension
   }
