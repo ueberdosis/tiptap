@@ -1,9 +1,6 @@
 context('/src/Examples/EnterShortcuts/Vue/', () => {
-  before(() => {
-    cy.visit('/src/Examples/EnterShortcuts/Vue/')
-  })
-
   beforeEach(() => {
+    cy.visit('/src/Examples/EnterShortcuts/Vue/')
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
     })

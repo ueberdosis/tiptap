@@ -1,11 +1,8 @@
 /// <reference types="cypress" />
 
 context('/src/Examples/EnterShortcuts/React/', () => {
-  before(() => {
-    cy.visit('/src/Examples/EnterShortcuts/React/')
-  })
-
   beforeEach(() => {
+    cy.visit('/src/Examples/EnterShortcuts/React/')
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
     })
