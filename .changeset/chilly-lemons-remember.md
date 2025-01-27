@@ -2,7 +2,24 @@
 '@tiptap/extensions': major
 ---
 
-Adds the new `@tiptap/extensions` package which packages multiple utility extensions like `History`, `Placeholder`, `DropCursor`, `GapCursor`, `TrailingNode`, `Focus`, and `Selection`.
+Adds the new `@tiptap/extensions` package which packages multiple utility extensions like `History`, `Placeholder`, `CharacterCount`, `DropCursor`, `GapCursor`, `TrailingNode`, `Focus`, and `Selection`.
+
+## CharacterCount
+
+This extension adds a cursor that indicates where a new node will be inserted when dragging and dropping.
+
+Migrate from `@tiptap/extension-character-count` to `@tiptap/extensions`:
+
+```diff
+- import CharacterCount from '@tiptap/extension-character-count'
++ import { CharacterCount } from '@tiptap/extensions'
+```
+
+Usage:
+
+```ts
+import { CharacterCount, CharacterCountOptions } from '@tiptap/extensions'
+```
 
 ## DropCursor
 

@@ -1,3 +1,4 @@
+export * from './character-count/index.js'
 export * from './drop-cursor/index.js'
 export * from './focus/index.js'
 export * from './gap-cursor/index.js'

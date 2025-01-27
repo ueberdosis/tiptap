@@ -22,6 +22,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./character-count": {
+      "types": {
+        "import": "./dist/character-count/index.d.ts",
+        "require": "./dist/character-count/index.d.cts"
+      },
+      "import": "./dist/character-count/index.js",
+      "require": "./dist/character-count/index.cjs"
+    },
     "./drop-cursor": {
       "types": {
         "import": "./dist/drop-cursor/index.d.ts",
