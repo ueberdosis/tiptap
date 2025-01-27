@@ -423,7 +423,6 @@ export class Extension<Options = any, Storage = any> {
 
   get options(): Options {
     return {
-      ...(this.parent?.options ?? {}),
       ...(callOrReturn(
         getExtensionField<AnyConfig['addOptions']>(this, 'addOptions', {
           name: this.name,
@@ -434,7 +433,6 @@ export class Extension<Options = any, Storage = any> {
 
   get storage(): Readonly<Storage> {
     return {
-      ...(this.parent?.storage ?? {}),
       ...(callOrReturn(
         getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
           name: this.name,

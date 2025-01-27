@@ -6,13 +6,13 @@ describe('extension storage', () => {
   ;[Extension, Node, Mark].forEach(Extendable => {
     describe(Extendable.create().type, () => {
       it('should be an empty object if not defined', () => {
-        const extension = Extension.create({})
+        const extension = Extendable.create({})
 
         expect(extension.storage).to.deep.eq({})
       })
 
       it('should be be the return of `addStorage` if defined', () => {
-        const extension = Extension.create({
+        const extension = Extendable.create({
           addStorage() {
             return { a: 1 }
           },
@@ -22,7 +22,7 @@ describe('extension storage', () => {
       })
 
       it('should be able to be extended', () => {
-        const extension = Extension.create({
+        const extension = Extendable.create({
           addStorage() {
             return { a: 1 }
           },
@@ -32,7 +32,7 @@ describe('extension storage', () => {
       })
 
       it('should be able to be configured', () => {
-        const extension = Extension.create({
+        const extension = Extendable.create({
           addStorage() {
             return { a: 1 }
           },
@@ -44,7 +44,7 @@ describe('extension storage', () => {
       })
 
       it('should be able to be extended and configured', () => {
-        const extension = Extension.create({
+        const extension = Extendable.create({
           addStorage() {
             return { a: 1 }
           },
@@ -57,56 +57,45 @@ describe('extension storage', () => {
         expect(extension.storage).to.deep.eq({ a: 1 })
       })
 
-      it('should be overwritten with multiple addStorage calls', () => {
-        const extension = Extension.create({
+      it('should be overwrite parents addStorage', () => {
+        const extension = Extendable.create({
           addStorage() {
+            expect(false, 'This should not be called').to.eq(true)
             return { a: 1 }
           },
         }).extend({
           addStorage() {
-            return { a: 1 }
+            return { b: 1 }
           },
         })
 
-        expect(extension.storage).to.deep.eq({ a: 1 })
+        expect(extension.storage).to.deep.eq({ b: 1 })
       })
 
-      it('should be merged with a parents addStorage', () => {
-        const extension = Extension.create({
+      it('grandchild should overwrite grandparent & parents addStorage', () => {
+        const extension = Extendable.create({
           addStorage() {
-            return { a: 1 }
-          },
-        }).extend({
-          addStorage() {
-            return { b: 2 }
-          },
-        })
-
-        expect(extension.storage).to.deep.eq({ a: 1, b: 2 })
-      })
-
-      it('should be merged with a grandparents addStorage', () => {
-        const extension = Extension.create({
-          addStorage() {
+            expect(false, 'This should not be called').to.eq(true)
             return { a: 1 }
           },
         })
           .extend({
             addStorage() {
-              return { b: 2 }
+              expect(false, 'This should not be called').to.eq(true)
+              return { b: 1 }
             },
           })
           .extend({
             addStorage() {
-              return { c: 3 }
+              return { c: 1 }
             },
           })
 
-        expect(extension.storage).to.deep.eq({ a: 1, b: 2, c: 3 })
+        expect(extension.storage).to.deep.eq({ c: 1 })
       })
 
       it('should return a new object on each access', () => {
-        const extension = Extension.create({
+        const extension = Extendable.create({
           addStorage() {
             return { a: 1 }
           },
