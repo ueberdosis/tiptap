@@ -7,6 +7,14 @@ import { Doc, UndoManager, XmlFragment } from 'yjs'
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
 
+export interface CollaborationStorage {
+  /**
+   * Whether collaboration is currently disabled.
+   * Disabling collaboration will prevent any changes from being synced with other users.
+   */
+  isDisabled: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     collaboration: {
@@ -22,14 +30,10 @@ declare module '@tiptap/core' {
       redo: () => ReturnType
     }
   }
-}
 
-export interface CollaborationStorage {
-  /**
-   * Whether collaboration is currently disabled.
-   * Disabling collaboration will prevent any changes from being synced with other users.
-   */
-  isDisabled: boolean
+  interface Storage {
+    collaboration: CollaborationStorage
+  }
 }
 
 export interface CollaborationOptions {

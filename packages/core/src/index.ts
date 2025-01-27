@@ -21,6 +21,9 @@ export * from './utilities/index.js'
 export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
+export interface Storage {}
+
+// eslint-disable-next-line
 export interface ExtensionConfig<Options = any, Storage = any> {}
 
 // eslint-disable-next-line

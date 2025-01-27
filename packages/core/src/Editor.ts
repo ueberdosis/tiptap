@@ -25,6 +25,7 @@ import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSc
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import {
@@ -68,7 +69,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public isInitialized = false
 
-  public extensionStorage: Record<string, any> = {}
+  public extensionStorage: Storage = {} as Storage
 
   /**
    * A unique ID for this editor instance.
@@ -163,7 +164,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Returns the editor storage.
    */
-  public get storage(): Record<string, any> {
+  public get storage(): Storage {
     return this.extensionStorage
   }
 
@@ -424,8 +425,12 @@ export class Editor extends EventEmitter<EditorEvents> {
         editor: this,
         error: e as Error,
         disableCollaboration: () => {
-          if (this.storage.collaboration) {
-            this.storage.collaboration.isDisabled = true
+          if (
+            'collaboration' in this.storage &&
+            typeof this.storage.collaboration === 'object' &&
+            this.storage.collaboration
+          ) {
+            ;(this.storage.collaboration as any).isDisabled = true
           }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
           this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')

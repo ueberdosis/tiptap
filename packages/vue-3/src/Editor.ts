@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Editor as CoreEditor, EditorOptions } from '@tiptap/core'
+import { Editor as CoreEditor, EditorOptions, Storage } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { AppContext, ComponentInternalInstance, ComponentPublicInstance, customRef, markRaw, Ref } from 'vue'
 
@@ -32,7 +32,7 @@ export type ContentComponent = ComponentInternalInstance & {
 export class Editor extends CoreEditor {
   private reactiveState: Ref<EditorState>
 
-  private reactiveExtensionStorage: Ref<Record<string, any>>
+  private reactiveExtensionStorage: Ref<Storage>
 
   public contentComponent: ContentComponent | null = null
 

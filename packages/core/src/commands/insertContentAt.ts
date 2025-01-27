@@ -88,8 +88,12 @@ export const insertContentAt: RawCommands['insertContentAt'] =
           editor,
           error: e as Error,
           disableCollaboration: () => {
-            if (editor.storage.collaboration) {
-              editor.storage.collaboration.isDisabled = true
+            if (
+              'collaboration' in editor.storage &&
+              typeof editor.storage.collaboration === 'object' &&
+              editor.storage.collaboration
+            ) {
+              ;(editor.storage.collaboration as any).isDisabled = true
             }
           },
         })
