@@ -236,12 +236,13 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
           key: new PluginKey('filterInvalidContent'),
           filterTransaction: () => {
             // When collaboration is disabled, prevent any sync transactions from being applied
-            if (this.storage.isDisabled) {
+            if (this.storage.isDisabled !== false) {
               // Destroy the Yjs document to prevent any further sync transactions
               fragment.doc?.destroy()
 
               return true
             }
+            // TODO should we be returning false when the transaction is a collaboration transaction?
 
             return true
           },
