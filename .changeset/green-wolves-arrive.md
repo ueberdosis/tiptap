@@ -1,9 +1,20 @@
 ---
 '@tiptap/core': major
 ---
+`getPos` in `NodeViewRendererProps` type now includes `undefined` as possible return value
 
-Fix `getPos` type in `NodeViewRendererProps` to potentially be `undefined`
+Before
 
-Breaking change: Types may flag uses of getPos where an `undefined` possibility isn't handled.
-Why this change was made: To ensure the type reflects the real functionality of this function.
-How to update: Ensure that the return value of `getPos` exists before making use of the value.
+```ts
+const pos = nodeViewProps.getPos() // Type was () => number
+```
+
+After
+
+```ts
+const pos = nodeViewProps.getPos() // Type is () => number | undefined
+
+if (pos !== undefined) {
+  // Safe to use pos here
+}
+```

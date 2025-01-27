@@ -2,4 +2,4 @@
 '@tiptap/extension-placeholder': major
 ---
 
-Officially remove the `considerAnyAsEmpty` which has not been used since version 2.5
+Remove the `considerAnyAsEmpty` option from placeholder, which has been unused since version 2.5

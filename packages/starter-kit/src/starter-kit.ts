@@ -7,7 +7,6 @@ import { CodeBlock, CodeBlockOptions } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak, HardBreakOptions } from '@tiptap/extension-hard-break'
 import { Heading, HeadingOptions } from '@tiptap/extension-heading'
-import { History, HistoryOptions } from '@tiptap/extension-history'
 import { HorizontalRule, HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
 import { Italic, ItalicOptions } from '@tiptap/extension-italic'
 import { Link, LinkOptions } from '@tiptap/extension-link'
@@ -18,7 +17,15 @@ import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
-import { Dropcursor, DropcursorOptions, Gapcursor, TrailingNode, TrailingNodeOptions } from '@tiptap/extensions'
+import {
+  Dropcursor,
+  DropcursorOptions,
+  Gapcursor,
+  History,
+  HistoryOptions,
+  TrailingNode,
+  TrailingNodeOptions,
+} from '@tiptap/extensions'
 
 export interface StarterKitOptions {
   /**

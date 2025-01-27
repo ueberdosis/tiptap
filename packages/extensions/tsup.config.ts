@@ -2,8 +2,11 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig(
   [
+    'src/drop-cursor/index.ts',
     'src/focus/index.ts',
     'src/gap-cursor/index.ts',
+    'src/history/index.ts',
+    'src/placeholder/index.ts',
     'src/selection/index.ts',
     'src/trailing-node/index.ts',
     'src/index.ts',

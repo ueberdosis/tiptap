@@ -46,6 +46,22 @@
       "import": "./dist/gap-cursor/index.js",
       "require": "./dist/gap-cursor/index.cjs"
     },
+    "./history": {
+      "types": {
+        "import": "./dist/history/index.d.ts",
+        "require": "./dist/history/index.d.cts"
+      },
+      "import": "./dist/history/index.js",
+      "require": "./dist/history/index.cjs"
+    },
+    "./placeholder": {
+      "types": {
+        "import": "./dist/placeholder/index.d.ts",
+        "require": "./dist/placeholder/index.d.cts"
+      },
+      "import": "./dist/placeholder/index.js",
+      "require": "./dist/placeholder/index.cjs"
+    },
     "./selection": {
       "types": {
         "import": "./dist/selection/index.d.ts",

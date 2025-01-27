@@ -474,12 +474,9 @@ importers:
 
   packages/extension-history:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.4
-        version: link:../core
-      '@tiptap/pm':
-        specifier: ^3.0.0-next.4
-        version: link:../pm
+        version: link:../extensions
 
   packages/extension-horizontal-rule:
     devDependencies:
@@ -556,12 +553,9 @@ importers:
 
   packages/extension-placeholder:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.4
-        version: link:../core
-      '@tiptap/pm':
-        specifier: ^3.0.0-next.4
-        version: link:../pm
+        version: link:../extensions
 
   packages/extension-strike:
     devDependencies:

@@ -2,4 +2,4 @@
 "@tiptap/core": minor
 ---
 
-Support `validate` options in node and mark attribute definitions.
+Support [`validate` option](https://prosemirror.net/docs/ref/#model.AttributeSpec.validate) in node and mark attribute definitions.
