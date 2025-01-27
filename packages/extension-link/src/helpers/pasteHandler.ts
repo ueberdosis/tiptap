@@ -36,11 +36,9 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           return false
         }
 
-        options.editor.commands.setMark(options.type, {
+        return options.editor.commands.setMark(options.type, {
           href: link.href,
         })
-
-        return true
       },
     },
   })

@@ -136,7 +136,6 @@ export class ReactNodeView<
     const { className = '' } = this.options
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
 
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
@@ -145,6 +144,7 @@ export class ReactNodeView<
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
 
+    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     this.updateElementAttributes()
   }
 
