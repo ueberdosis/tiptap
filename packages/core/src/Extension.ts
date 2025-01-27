@@ -420,8 +420,6 @@ export class Extension<Options = any, Storage = any> {
 
   options: Options
 
-  storage: Storage
-
   config: ExtensionConfig = {
     name: this.name,
     defaultOptions: {},
@@ -451,14 +449,18 @@ export class Extension<Options = any, Storage = any> {
         }),
       )
     }
+  }
 
-    this.storage =
-      callOrReturn(
+  get storage(): Readonly<Storage> {
+    return {
+      ...(this.parent?.storage ?? {}),
+      ...(callOrReturn(
         getExtensionField<AnyConfig['addStorage']>(this, 'addStorage', {
           name: this.name,
           options: this.options,
         }),
-      ) || {}
+      ) || {}),
+    }
   }
 
   static create<O = any, S = any>(config: Partial<ExtensionConfig<O, S>> = {}) {
@@ -503,13 +505,6 @@ export class Extension<Options = any, Storage = any> {
     extension.options = callOrReturn(
       getExtensionField<AnyConfig['addOptions']>(extension, 'addOptions', {
         name: extension.name,
-      }),
-    )
-
-    extension.storage = callOrReturn(
-      getExtensionField<AnyConfig['addStorage']>(extension, 'addStorage', {
-        name: extension.name,
-        options: extension.options,
       }),
     )
 
