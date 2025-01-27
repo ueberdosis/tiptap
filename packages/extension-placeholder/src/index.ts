@@ -1,5 +1,5 @@
-import { Placeholder } from './placeholder.js'
+import { Placeholder } from '@tiptap/extensions'
 
-export * from './placeholder.js'
+export { Placeholder, PlaceholderOptions } from '@tiptap/extensions'
 
 export default Placeholder

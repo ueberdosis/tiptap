@@ -1,5 +1,5 @@
-import { History } from './history.js'
+import { History } from '@tiptap/extensions'
 
-export * from './history.js'
+export { History, HistoryOptions } from '@tiptap/extensions'
 
 export default History
