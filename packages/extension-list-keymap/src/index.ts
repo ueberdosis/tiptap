@@ -1,6 +1,5 @@
-import { ListKeymap } from './list-keymap.js'
+import { ListKeymap } from '@tiptap/extension-list'
 
-export * from './list-keymap.js'
-export * as listHelpers from './listHelpers/index.js'
+export { listHelpers, ListKeymap, ListKeymapOptions } from '@tiptap/extension-list'
 
 export default ListKeymap

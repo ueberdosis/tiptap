@@ -45,7 +45,7 @@ new Editor({
 
 ## Table repackaging
 
-Since we've moved the code of the table extensions to the `@tiptap/extension-table` package, you can remove the following packages from your project:
+Since we've moved the code out of the table extensions to the `@tiptap/extension-table` package, you can remove the following packages from your project:
 
 ```bash
 npm uninstall @tiptap/extension-table-header @tiptap/extension-table-cell @tiptap/extension-table-row

@@ -47,7 +47,7 @@ declare module '@tiptap/core' {
 /**
  * Matches a bullet list to a dash or asterisk.
  */
-export const inputRegex = /^\s*([-+*])\s$/
+export const bulletListInputRegex = /^\s*([-+*])\s$/
 
 /**
  * This extension allows you to create bullet lists.
@@ -105,13 +105,13 @@ export const BulletList = Node.create<BulletListOptions>({
 
   addInputRules() {
     let inputRule = wrappingInputRule({
-      find: inputRegex,
+      find: bulletListInputRegex,
       type: this.type,
     })
 
     if (this.options.keepMarks || this.options.keepAttributes) {
       inputRule = wrappingInputRule({
-        find: inputRegex,
+        find: bulletListInputRegex,
         type: this.type,
         keepMarks: this.options.keepMarks,
         keepAttributes: this.options.keepAttributes,

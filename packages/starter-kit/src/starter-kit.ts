@@ -1,7 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { Blockquote, BlockquoteOptions } from '@tiptap/extension-blockquote'
 import { Bold, BoldOptions } from '@tiptap/extension-bold'
-import { BulletList, BulletListOptions } from '@tiptap/extension-bullet-list'
 import { Code, CodeOptions } from '@tiptap/extension-code'
 import { CodeBlock, CodeBlockOptions } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
@@ -10,9 +9,16 @@ import { Heading, HeadingOptions } from '@tiptap/extension-heading'
 import { HorizontalRule, HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
 import { Italic, ItalicOptions } from '@tiptap/extension-italic'
 import { Link, LinkOptions } from '@tiptap/extension-link'
-import { ListItem, ListItemOptions } from '@tiptap/extension-list-item'
-import { ListKeymap, ListKeymapOptions } from '@tiptap/extension-list-keymap'
-import { OrderedList, OrderedListOptions } from '@tiptap/extension-ordered-list'
+import {
+  BulletList,
+  BulletListOptions,
+  ListItem,
+  ListItemOptions,
+  ListKeymap,
+  ListKeymapOptions,
+  OrderedList,
+  OrderedListOptions,
+} from '@tiptap/extension-list'
 import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
 import { Strike, StrikeOptions } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'

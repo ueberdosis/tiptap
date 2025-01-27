@@ -1,13 +1,11 @@
 import './styles.scss'
 
-import ListItem from '@tiptap/extension-list-item'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorProvider, JSONContent, useCurrentEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'
 import React, { useState } from 'react'
 
-const extensions = [StarterKit, Color.configure({ types: [TextStyle.name, ListItem.name] }), TextStyle]
+const extensions = [StarterKit]
 
 const content = `
 <h2>
@@ -231,7 +229,6 @@ function MenuBar() {
         isBlockquote: ctx.editor.isActive('blockquote'),
         canUndo: ctx.editor.can().chain().focus().undo().run(),
         canRedo: ctx.editor.can().chain().focus().redo().run(),
-        isPurple: ctx.editor.isActive('textStyle', { color: '#958DF1' }),
       }
     },
   })
@@ -346,12 +343,6 @@ function MenuBar() {
         </button>
         <button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
           Redo
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-          className={editorState.isPurple ? 'is-active' : ''}
-        >
-          Purple
         </button>
       </div>
     </div>

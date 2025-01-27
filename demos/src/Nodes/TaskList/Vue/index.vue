@@ -34,9 +34,8 @@
 
 <script>
 import Document from '@tiptap/extension-document'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

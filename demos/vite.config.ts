@@ -30,6 +30,7 @@ const getPackageDependencies = () => {
         name === 'extension-text-style' ||
         name === 'extension-table' ||
         name === 'extensions' ||
+        name === 'extension-list' ||
         name === 'react' ||
         name === 'vue-2' ||
         name === 'vue-3'

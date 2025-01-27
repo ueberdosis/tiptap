@@ -2,7 +2,7 @@
   import "./styles.scss";
 
   import { Color } from '@tiptap/extension-text-style'
-  import ListItem from '@tiptap/extension-list-item'
+  import { ListItem } from '@tiptap/extension-list'
   import { TextStyle } from '@tiptap/extension-text-style'
   import StarterKit from "@tiptap/starter-kit";
   import { Editor } from "@tiptap/core";
