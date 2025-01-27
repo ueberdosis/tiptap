@@ -337,12 +337,9 @@ importers:
 
   packages/extension-character-count:
     devDependencies:
-      '@tiptap/core':
+      '@tiptap/extensions':
         specifier: ^3.0.0-next.4
-        version: link:../core
-      '@tiptap/pm':
-        specifier: ^3.0.0-next.4
-        version: link:../pm
+        version: link:../extensions
 
   packages/extension-code:
     devDependencies:

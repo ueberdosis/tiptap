@@ -1,5 +1,5 @@
-import { CharacterCount } from './character-count.js'
+import { CharacterCount } from '@tiptap/extensions'
 
-export * from './character-count.js'
+export { CharacterCount, CharacterCountOptions } from '@tiptap/extensions'
 
 export default CharacterCount
