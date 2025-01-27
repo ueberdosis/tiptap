@@ -65,6 +65,13 @@ For more control, you can also use the extensions separately.
 
 This extension adds a table to the editor.
 
+Migrate from default export to named export:
+
+```diff
+- import Table from '@tiptap/extension-table'
++ import { Table } from '@tiptap/extension-table'
+```
+
 Usage:
 
 ```ts
@@ -74,6 +81,13 @@ import { Table } from '@tiptap/extension-table'
 ### TableCell
 
 This extension adds a table cell to the editor.
+
+Migrate from `@tiptap/extension-table-cell` to `@tiptap/extension-table`:
+
+```diff
+- import TableCell from '@tiptap/extension-table-cell'
++ import { TableCell } from '@tiptap/extension-table'
+```
 
 Usage:
 
@@ -85,6 +99,13 @@ import { TableCell } from '@tiptap/extension-table'
 
 This extension adds a table header to the editor.
 
+Migrate from `@tiptap/extension-table-header` to `@tiptap/extension-table`:
+
+```diff
+- import TableHeader from '@tiptap/extension-table-header'
++ import { TableHeader } from '@tiptap/extension-table'
+```
+
 Usage:
 
 ```ts
@@ -94,6 +115,13 @@ import { TableHeader } from '@tiptap/extension-table'
 ### TableRow
 
 This extension adds a table row to the editor.
+
+Migrate from `@tiptap/extension-table-row` to `@tiptap/extension-table`:
+
+```diff
+- import TableRow from '@tiptap/extension-table-row'
++ import { TableRow } from '@tiptap/extension-table'
+```
 
 Usage:
 

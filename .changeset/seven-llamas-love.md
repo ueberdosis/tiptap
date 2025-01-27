@@ -61,6 +61,13 @@ For more control, you can also use the extensions separately.
 
 This extension adds a bullet list to the editor.
 
+Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+
+```diff
+- import BulletList from '@tiptap/extension-bullet-list'
++ import { BulletList } from '@tiptap/extension-list'
+```
+
 Usage:
 
 ```ts
@@ -70,6 +77,13 @@ import { BulletList } from '@tiptap/extension-list'
 ### OrderedList
 
 This extension adds an ordered list to the editor.
+
+Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+
+```diff
+- import OrderedList from '@tiptap/extension-ordered-list'
++ import { OrderedList } from '@tiptap/extension-list'
+```
 
 Usage:
 
@@ -81,6 +95,13 @@ import { OrderedList } from '@tiptap/extension-list'
 
 This extension adds a list item to the editor.
 
+Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+
+```diff
+- import ListItem from '@tiptap/extension-list-item'
++ import { ListItem } from '@tiptap/extension-list'
+```
+
 Usage:
 
 ```ts
@@ -90,6 +111,13 @@ import { ListItem } from '@tiptap/extension-list'
 ### TaskList
 
 This extension adds a task list to the editor.
+
+Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+
+```diff
+- import TaskList from '@tiptap/extension-task-list'
++ import { TaskList } from '@tiptap/extension-list'
+```
 
 Usage:
 
@@ -101,6 +129,13 @@ import { TaskList } from '@tiptap/extension-list'
 
 This extension adds a task item to the editor.
 
+Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+
+```diff
+- import TaskItem from '@tiptap/extension-task-item'
++ import { TaskItem } from '@tiptap/extension-list'
+```
+
 Usage:
 
 ```ts
@@ -110,6 +145,13 @@ import { TaskItem } from '@tiptap/extension-list'
 ### ListKeymap
 
 This extension adds better default keybindings for lists to the editor.
+
+Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+
+```diff
+- import ListKeymap from '@tiptap/extension-list-keymap'
++ import { ListKeymap } from '@tiptap/extension-list'
+```
 
 Usage:
 
