@@ -2,6 +2,7 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig(
   [
+    'src/character-count/index.ts',
     'src/drop-cursor/index.ts',
     'src/focus/index.ts',
     'src/gap-cursor/index.ts',
