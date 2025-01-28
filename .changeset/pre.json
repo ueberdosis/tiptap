@@ -58,7 +58,8 @@
     "@tiptap/vue-2": "2.5.6",
     "@tiptap/vue-3": "2.5.6",
     "@tiptap/extensions": "3.0.0-next.3",
-    "@tiptap/static-renderer": "3.0.0-next.1"
+    "@tiptap/static-renderer": "3.0.0-next.1",
+    "@tiptap/extension-list": "3.0.0-next.4"
   },
   "changesets": [
     "big-wolves-design",
@@ -66,17 +67,29 @@
     "chilled-trees-agree",
     "chilly-lemons-remember",
     "cool-bananas-breathe",
+    "curly-adults-move",
     "dirty-bats-look",
     "dirty-colts-shave",
+    "eighty-gifts-matter",
     "fair-jars-shout",
+    "gold-ads-own",
     "green-wolves-arrive",
+    "healthy-pigs-work",
+    "large-kangaroos-battle",
     "lazy-needles-train",
+    "moody-geckos-sort",
     "nervous-hairs-walk",
     "orange-spoons-rescue",
     "perfect-rice-vanish",
     "quick-days-matter",
+    "red-ants-wonder",
     "red-rivers-exist",
+    "seven-llamas-love",
+    "sixty-news-ring",
     "tame-worms-applaud",
-    "weak-books-eat"
+    "tidy-fireants-hang",
+    "twenty-moose-invent",
+    "weak-books-eat",
+    "witty-eels-cheer"
   ]
 }
