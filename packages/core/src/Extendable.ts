@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
-/* eslint-disable max-classes-per-file */
-
 import type { Plugin } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
@@ -23,14 +20,14 @@ import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
 export interface ExtendableConfig<
-  Options extends any = any,
-  Storage extends any = any,
+  Options = any,
+  Storage = any,
   Config extends
     | ExtensionConfig<Options, Storage>
     | NodeConfig<Options, Storage>
     | MarkConfig<Options, Storage>
     | ExtendableConfig<Options, Storage> = ExtendableConfig<Options, Storage, any, any>,
-  PMType extends any = any,
+  PMType = any,
 > {
   /**
    * The extension name - this must be unique.
