@@ -5,7 +5,6 @@ import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
 import type { Attributes, NodeViewRenderer, ParentConfig } from './types.js'
 
-// eslint-disable-next-line
 export interface NodeConfig<Options = any, Storage = any>
   extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, NodeType> {
   /**

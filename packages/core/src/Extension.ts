@@ -1,6 +1,6 @@
 import { type ExtendableConfig, Extendable } from './Extendable.js'
 
-// eslint-disable-next-line
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ExtensionConfig<Options = any, Storage = any>
   extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
 

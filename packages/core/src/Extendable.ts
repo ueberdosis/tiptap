@@ -30,7 +30,7 @@ export interface ExtendableConfig<
     | NodeConfig<Options, Storage>
     | MarkConfig<Options, Storage>
     | ExtendableConfig<Options, Storage> = ExtendableConfig<Options, Storage, any, any>,
-  Type extends any = any,
+  PMType extends any = any,
 > {
   /**
    * The extension name - this must be unique.
@@ -120,7 +120,7 @@ export interface ExtendableConfig<
     options: Options
     storage: Storage
     editor: Editor
-    type: Type
+    type: PMType
     parent: ParentConfig<Config>['addCommands']
   }) => Partial<RawCommands>
 
@@ -139,7 +139,7 @@ export interface ExtendableConfig<
     options: Options
     storage: Storage
     editor: Editor
-    type: Type
+    type: PMType
     parent: ParentConfig<Config>['addKeyboardShortcuts']
   }) => {
     [key: string]: KeyboardShortcutCommand
@@ -163,7 +163,7 @@ export interface ExtendableConfig<
     options: Options
     storage: Storage
     editor: Editor
-    type: Type
+    type: PMType
     parent: ParentConfig<Config>['addInputRules']
   }) => InputRule[]
 
@@ -185,7 +185,7 @@ export interface ExtendableConfig<
     options: Options
     storage: Storage
     editor: Editor
-    type: Type
+    type: PMType
     parent: ParentConfig<Config>['addPasteRules']
   }) => PasteRule[]
 
@@ -204,7 +204,7 @@ export interface ExtendableConfig<
     options: Options
     storage: Storage
     editor: Editor
-    type: Type
+    type: PMType
     parent: ParentConfig<Config>['addProseMirrorPlugins']
   }) => Plugin[]
 
@@ -281,7 +281,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onBeforeCreate']
         },
         event: EditorEvents['beforeCreate'],
@@ -298,7 +298,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onCreate']
         },
         event: EditorEvents['create'],
@@ -315,7 +315,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onUpdate']
         },
         event: EditorEvents['update'],
@@ -332,7 +332,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onSelectionUpdate']
         },
         event: EditorEvents['selectionUpdate'],
@@ -349,7 +349,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onTransaction']
         },
         event: EditorEvents['transaction'],
@@ -366,7 +366,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onFocus']
         },
         event: EditorEvents['focus'],
@@ -383,7 +383,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onBlur']
         },
         event: EditorEvents['blur'],
@@ -400,7 +400,7 @@ export interface ExtendableConfig<
           options: Options
           storage: Storage
           editor: Editor
-          type: Type
+          type: PMType
           parent: ParentConfig<Config>['onDestroy']
         },
         event: EditorEvents['destroy'],
