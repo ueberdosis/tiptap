@@ -76,6 +76,10 @@ declare module '@tiptap/core' {
       user: (attributes: Record<string, any>) => ReturnType
     }
   }
+
+  interface Storage {
+    collaborationCursor: CollaborationCursorStorage
+  }
 }
 
 const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {

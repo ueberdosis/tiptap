@@ -7,6 +7,14 @@ import { Doc, UndoManager, XmlFragment } from 'yjs'
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
 
+export interface CollaborationStorage {
+  /**
+   * Whether collaboration is currently disabled.
+   * Disabling collaboration will prevent any changes from being synced with other users.
+   */
+  isDisabled: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     collaboration: {
@@ -22,14 +30,10 @@ declare module '@tiptap/core' {
       redo: () => ReturnType
     }
   }
-}
 
-export interface CollaborationStorage {
-  /**
-   * Whether collaboration is currently disabled.
-   * Disabling collaboration will prevent any changes from being synced with other users.
-   */
-  isDisabled: boolean
+  interface Storage {
+    collaboration: CollaborationStorage
+  }
 }
 
 export interface CollaborationOptions {
@@ -232,12 +236,13 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
           key: new PluginKey('filterInvalidContent'),
           filterTransaction: () => {
             // When collaboration is disabled, prevent any sync transactions from being applied
-            if (this.storage.isDisabled) {
+            if (this.storage.isDisabled !== false) {
               // Destroy the Yjs document to prevent any further sync transactions
               fragment.doc?.destroy()
 
               return true
             }
+            // TODO should we be returning false when the transaction is a collaboration transaction?
 
             return true
           },
