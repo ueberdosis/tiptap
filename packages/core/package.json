@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "3.0.0-next.4",
+  "version": "3.0.0-next.5",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -51,7 +51,7 @@
     "jsx-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "^3.0.0-next.4"
+    "@tiptap/pm": "^3.0.0-next.5"
   },
   "peerDependencies": {
     "@tiptap/pm": "^3.0.0-next.1"
