@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { DecorationAttrs } from '@tiptap/pm/view'
-import { defaultSelectionBuilder, yCursorPlugin } from 'y-prosemirror'
+import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
 type CollaborationCursorStorage = {
   users: { clientId: number; [key: string]: any }[]
