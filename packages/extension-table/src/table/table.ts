@@ -1,4 +1,6 @@
-import { callOrReturn, getExtensionField, mergeAttributes, Node, ParentConfig } from '@tiptap/core'
+import '../types.js'
+
+import { callOrReturn, getExtensionField, mergeAttributes, Node } from '@tiptap/core'
 import { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
@@ -217,22 +219,6 @@ declare module '@tiptap/core' {
        */
       setCellSelection: (position: { anchorCell: number; headCell?: number }) => ReturnType
     }
-  }
-
-  interface NodeConfig<Options, Storage> {
-    /**
-     * A string or function to determine the role of the table.
-     * @default 'table'
-     * @example () => 'table'
-     */
-    tableRole?:
-      | string
-      | ((this: {
-          name: string
-          options: Options
-          storage: Storage
-          parent: ParentConfig<NodeConfig<Options>>['tableRole']
-        }) => string)
   }
 }
 
