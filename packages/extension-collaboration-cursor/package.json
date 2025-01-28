@@ -33,12 +33,12 @@
   "devDependencies": {
     "@tiptap/core": "^3.0.0-next.4",
     "@tiptap/pm": "^3.0.0-next.4",
-    "y-prosemirror": "^1.2.15"
+    "@tiptap/y-tiptap": "^1.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.3",
     "@tiptap/pm": "^3.0.0-next.3",
-    "y-prosemirror": "^1.2.6"
+    "@tiptap/y-tiptap": "^1.0.0"
   },
   "repository": {
     "type": "git",

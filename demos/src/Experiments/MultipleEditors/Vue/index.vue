@@ -38,7 +38,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Dropcursor } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { yDocToProsemirrorJSON } from 'y-prosemirror'
+import { yDocToProsemirrorJSON } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 
 const HeadingDocument = Document.extend({
