@@ -191,7 +191,7 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
       .match(
         new RegExp(
           // eslint-disable-next-line no-useless-escape
-          `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))`,
+          `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
           'i',
         ),
       )
