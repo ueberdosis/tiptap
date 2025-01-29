@@ -1,0 +1,1 @@
+import { History, Placeholder } from "@tiptap/extensions";
