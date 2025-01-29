@@ -94,6 +94,48 @@ export default function transform(file: any, api: any) {
     }
   });
 
+  // Find all import declarations from '@tiptap/react'
+  root
+    .find(
+      j.ImportDeclaration,
+      ({ source: { value } }) => value === "@tiptap/react" || value === "@tiptap/vue-3" || value === "@tiptap/vue-2",
+    )
+    .forEach(path => {
+      const specifiers = path.node.specifiers;
+      const newSpecifiers: any[] = [];
+      const menusSpecifiers: any[] = [];
+
+      if (!specifiers) {
+        return;
+      }
+
+      // Separate specifiers into those that stay and those that move to '@tiptap/react/menus'
+      specifiers.forEach(specifier => {
+        if (
+          j.ImportSpecifier.check(specifier) &&
+          (specifier.imported.name === "FloatingMenu" || specifier.imported.name === "BubbleMenu")
+        ) {
+          menusSpecifiers.push(specifier);
+        } else {
+          newSpecifiers.push(specifier);
+        }
+      });
+
+      // If there are specifiers to move, create a new import declaration
+      if (menusSpecifiers.length > 0) {
+        dirtyFlag = true;
+        const menusImport = j.importDeclaration(menusSpecifiers, j.literal(`${path.value.source.value}/menus`));
+        j(path).insertAfter(menusImport);
+      }
+
+      // Update the original import declaration or remove it if empty
+      if (newSpecifiers.length > 0) {
+        path.node.specifiers = newSpecifiers;
+      } else {
+        j(path).remove();
+      }
+    });
+
   return dirtyFlag ? root.toSource() : undefined;
 }
 

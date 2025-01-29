@@ -5,5 +5,10 @@
   "engine": "jscodeshift",
   "private": false,
   "arguments": [],
-  "meta": {}
+  "meta": {
+    "tags": [
+      "tiptap"
+    ],
+    "git": "https://github.com/ueberdosis/tiptap.git"
+  }
 }

@@ -115,4 +115,51 @@ describe("tiptap/2/consolidate-extensions", () => {
 
     assert.deepEqual(actualOutput?.replace(/W/gm, ""), OUTPUT.replace(/W/gm, ""));
   });
+
+  it("test #7", async () => {
+    const INPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture7.input"), "utf-8");
+    const OUTPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture7.output"), "utf-8");
+
+    const actualOutput = transform(
+      {
+        path: "index.js",
+        source: INPUT,
+      },
+      buildApi("tsx"), // @ts-expect-error
+      {},
+    );
+
+    assert.deepEqual(actualOutput?.replace(/W/gm, ""), OUTPUT.replace(/W/gm, ""));
+  });
+
+  it("test #8", async () => {
+    const INPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture8.input"), "utf-8");
+    const OUTPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture8.output"), "utf-8");
+
+    const actualOutput = transform(
+      {
+        path: "index.js",
+        source: INPUT,
+      },
+      buildApi("tsx"), // @ts-expect-error
+      {},
+    );
+
+    assert.deepEqual(actualOutput?.replace(/W/gm, ""), OUTPUT.replace(/W/gm, ""));
+  });
+  it("test #9", async () => {
+    const INPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture9.input"), "utf-8");
+    const OUTPUT = await readFile(join(__dirname, "..", "__testfixtures__/fixture9.output"), "utf-8");
+
+    const actualOutput = transform(
+      {
+        path: "index.js",
+        source: INPUT,
+      },
+      buildApi("tsx"), // @ts-expect-error
+      {},
+    );
+
+    assert.deepEqual(actualOutput?.replace(/W/gm, ""), OUTPUT.replace(/W/gm, ""));
+  });
 });
