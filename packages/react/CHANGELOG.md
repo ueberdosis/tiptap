@@ -1,5 +1,188 @@
 # Change Log
 
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Minor Changes
+
+- 0e3207f: Add support for [markviews](https://prosemirror.net/docs/ref/#view.MarkView), which allow you to render custom views for marks within the editor. This is useful for rendering custom UI for marks, like a color picker for a text color mark or a link editor for a link mark.
+
+  Here is a plain JS markview example:
+
+  ```ts
+  Mark.create({
+    // Other options...
+    addMarkView() {
+      return ({ mark, HTMLAttributes }) => {
+        const dom = document.createElement('b')
+        const contentDOM = document.createElement('span')
+
+        dom.appendChild(contentDOM)
+
+        return {
+          dom,
+          contentDOM,
+        }
+      }
+    },
+  })
+  ```
+
+  ## React binding
+
+  To use a React component for a markview, you can use the `@tiptap/react` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { ReactMarkViewRenderer } from '@tiptap/react'
+
+  import Component from './Component.jsx'
+
+  export default Mark.create({
+    name: 'reactComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'react-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['react-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return ReactMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a React component:
+
+  ```tsx
+  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+  import React from 'react'
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export default (props: MarkViewRendererProps) => {
+    const [count, setCount] = React.useState(0)
+
+    return (
+      <span className="content" data-test-id="mark-view">
+        <MarkViewContent />
+        <label contentEditable={false}>
+          React component:
+          <button
+            onClick={() => {
+              setCount(count + 1)
+            }}
+          >
+            This button has been clicked {count} times.
+          </button>
+        </label>
+      </span>
+    )
+  }
+  ```
+
+  ## Vue 3 binding
+
+  To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+
+  import Component from './Component.vue'
+
+  export default Mark.create({
+    name: 'vueComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'vue-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['vue-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return VueMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a Vue 3 component:
+
+  ```vue
+  <template>
+    <span className="content" data-test-id="mark-view">
+      <mark-view-content />
+      <label contenteditable="false"
+        >Vue Component::
+        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      </label>
+    </span>
+  </template>
+
+  <script>
+  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  export default {
+    components: {
+      MarkViewContent,
+    },
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    props: markViewProps,
+    methods: {
+      increase() {
+        this.count += 1
+      },
+    },
+  }
+  </script>
+  ```
+
+- 08593a2: Throw an error in development mode if `immediatelyRender` is not set in SSR mode
+
 ## 3.0.0-next.5
 
 ### Minor Changes

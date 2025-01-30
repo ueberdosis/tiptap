@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block",
   "description": "code block extension for tiptap",
-  "version": "3.0.0-next.5",
+  "version": "3.0.0-next.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,8 +31,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.5",
-    "@tiptap/pm": "^3.0.0-next.5"
+    "@tiptap/core": "^3.0.0-next.6",
+    "@tiptap/pm": "^3.0.0-next.6"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1",

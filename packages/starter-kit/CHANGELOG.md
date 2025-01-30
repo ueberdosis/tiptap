@@ -1,5 +1,65 @@
 # Change Log
 
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 64a74f6: We have now added the `Link`, `ListKeymap`, and `Underline` extensions to the starter kit for a smoother onboarding experience
+
+  If you have theses extensions in your project, you can remove them from your project and use the ones from the starter kit instead.
+
+  ```diff
+  - import Link from '@tiptap/extension-link'
+  - import ListKeymap from '@tiptap/extension-list-keymap'
+  - import Underline from '@tiptap/extension-underline'
+  + import { StarterKit } from '@tiptap/starter-kit'
+  ```
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [bfec9b2]
+- Updated dependencies [20f68f6]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [2c911d2]
+- Updated dependencies [32958d6]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [32958d6]
+- Updated dependencies [32958d6]
+  - @tiptap/extension-horizontal-rule@3.0.0-next.6
+  - @tiptap/extension-ordered-list@3.0.0-next.6
+  - @tiptap/extension-bullet-list@3.0.0-next.6
+  - @tiptap/extension-list-keymap@3.0.0-next.6
+  - @tiptap/extension-blockquote@3.0.0-next.6
+  - @tiptap/extension-code-block@3.0.0-next.6
+  - @tiptap/extension-dropcursor@3.0.0-next.6
+  - @tiptap/extension-hard-break@3.0.0-next.6
+  - @tiptap/extension-gapcursor@3.0.0-next.6
+  - @tiptap/extension-list-item@3.0.0-next.6
+  - @tiptap/extension-paragraph@3.0.0-next.6
+  - @tiptap/extension-underline@3.0.0-next.6
+  - @tiptap/extension-document@3.0.0-next.6
+  - @tiptap/extension-heading@3.0.0-next.6
+  - @tiptap/extension-history@3.0.0-next.6
+  - @tiptap/extension-italic@3.0.0-next.6
+  - @tiptap/extension-strike@3.0.0-next.6
+  - @tiptap/extension-bold@3.0.0-next.6
+  - @tiptap/extension-code@3.0.0-next.6
+  - @tiptap/extension-link@3.0.0-next.6
+  - @tiptap/extension-text@3.0.0-next.6
+  - @tiptap/core@3.0.0-next.6
+  - @tiptap/pm@3.0.0-next.6
+  - @tiptap/extensions@3.0.0-next.6
+
 ## 3.0.0-next.5
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- bf040b9: Replace `zeed-dom` with `happy-dom-without-node` for broader compatibility of the HTML parser. The only difference you should see is that `happy-dom-without-node` will output `xmlns="http://www.w3.org/1999/xhtml"` on root elements, which makes it compliant with the HTML5 specification.
+
 ## 3.0.0-next.5
 
 ## 3.0.0-next.4
