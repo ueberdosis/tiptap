@@ -60,7 +60,7 @@
     "@tiptap-shared/rollup-config": "1.0.0"
   },
   "changesets": [
-    "three-crabs-beg.md",
-    "yellow-hairs-search.md"
+    "three-crabs-beg",
+    "yellow-hairs-search"
   ]
 }
