@@ -15,6 +15,7 @@
     "@lexical/react": "^0.11.3",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
+    "@tiptap/y-tiptap": "^1.0.0",
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",
@@ -41,7 +42,6 @@
     "prosemirror-view": "^1.37.1",
     "remixicon": "^2.5.0",
     "shiki": "^1.25.1",
-    "y-prosemirror": "^1.2.15",
     "y-webrtc": "10.3.0",
     "yjs": "13.6.23"
   },

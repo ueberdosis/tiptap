@@ -17,7 +17,7 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import { type MarkConfig, type NodeConfig, getMarkType } from './index.js'
+import { type MarkConfig, type NodeConfig, type Storage, getMarkType } from './index.js'
 import { InputRule, inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
@@ -55,7 +55,7 @@ export class ExtensionManager {
       const context = {
         name: extension.name,
         options: extension.options,
-        storage: extension.storage,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
@@ -95,7 +95,7 @@ export class ExtensionManager {
         const context = {
           name: extension.name,
           options: extension.options,
-          storage: extension.storage,
+          storage: this.editor.extensionStorage[extension.name as keyof Storage],
           editor,
           type: getSchemaTypeByName(extension.name, this.schema),
         }
@@ -111,7 +111,7 @@ export class ExtensionManager {
         let defaultBindings: Record<string, () => boolean> = {}
 
         // bind exit handling
-        if (extension.type === 'mark' && getExtensionField<AnyConfig['exitable']>(extension, 'exitable', context)) {
+        if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
           defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
         }
 
@@ -194,7 +194,7 @@ export class ExtensionManager {
           const context = {
             name: extension.name,
             options: extension.options,
-            storage: extension.storage,
+            storage: this.editor.extensionStorage[extension.name as keyof Storage],
             editor,
             type: getNodeType(extension.name, this.schema),
           }
@@ -238,7 +238,7 @@ export class ExtensionManager {
           const context = {
             name: extension.name,
             options: extension.options,
-            storage: extension.storage,
+            storage: this.editor.extensionStorage[extension.name as keyof Storage],
             editor,
             type: getMarkType(extension.name, this.schema),
           }
@@ -273,14 +273,17 @@ export class ExtensionManager {
    * & bind editor event listener.
    */
   private setupExtensions() {
-    this.extensions.forEach(extension => {
-      // store extension storage in editor
-      this.editor.extensionStorage[extension.name] = extension.storage
+    const extensions = this.extensions
+    // re-initialize the extension storage object instance
+    this.editor.extensionStorage = Object.fromEntries(
+      extensions.map(extension => [extension.name, extension.storage]),
+    ) as unknown as Storage
 
+    extensions.forEach(extension => {
       const context = {
         name: extension.name,
         options: extension.options,
-        storage: extension.storage,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }

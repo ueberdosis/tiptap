@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.5
+
+### Major Changes
+
+- a33d20c: Replaced y-prosemirror with @tiptap/y-tiptap
+
 ## 3.0.0-next.4
 
 ## 2.11.4

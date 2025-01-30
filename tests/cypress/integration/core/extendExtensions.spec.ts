@@ -2,6 +2,14 @@
 
 import { Extension, getExtensionField, Mark, Node } from '@tiptap/core'
 
+declare module '@tiptap/core' {
+  // Extension does not have a addAttributes defined, but we just want to test it anyway
+  interface ExtensionConfig {
+    // @ts-ignore - this is a dynamic key
+    [key: string]: any
+  }
+}
+
 describe('extend extensions', () => {
   ;[Extension, Node, Mark].forEach(Extendable => {
     describe(Extendable.create().type, () => {

@@ -1,6 +1,6 @@
 {
   "mode": "pre",
-  "tag": "pre",
+  "tag": "next",
   "initialVersions": {
     "tiptap-demos": "2.5.1",
     "@tiptap/core": "2.11.4",
