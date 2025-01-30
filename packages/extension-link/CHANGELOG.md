@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.4
+
+### Patch Changes
+
+- bce96a6: Added support for numbers in email addresses.
+
 ## 2.11.3
 
 ## 2.11.2
