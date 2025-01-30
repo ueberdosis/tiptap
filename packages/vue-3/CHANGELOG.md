@@ -2,6 +2,15 @@
 
 ## 3.0.0-next.4
 
+## 2.11.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.4
+- @tiptap/extension-floating-menu@2.11.4
+
+## 2.11.3
+
 ### Patch Changes
 
 - @tiptap/extension-bubble-menu@3.0.0-next.4

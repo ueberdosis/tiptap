@@ -17,6 +17,16 @@
 
 ## 3.0.0-next.2
 
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
 ### Minor Changes
 
 - a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720

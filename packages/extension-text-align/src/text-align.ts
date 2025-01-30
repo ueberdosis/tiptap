@@ -17,7 +17,7 @@ export interface TextAlignOptions {
 
   /**
    * The default alignment.
-   * @default 'left'
+   * @default null
    * @example 'center'
    */
   defaultAlignment: string | null

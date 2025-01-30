@@ -2,6 +2,14 @@
 
 ## 3.0.0-next.4
 
+## 2.11.4
+
+### Patch Changes
+
+- bce96a6: Added support for numbers in email addresses.
+
+## 2.11.3
+
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2

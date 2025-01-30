@@ -2,6 +2,25 @@
 
 ## 3.0.0-next.4
 
+## 2.11.4
+
+## 2.11.3
+
+### Patch Changes
+
+- a44a7c3: fix(core): do not reset marks, or nodes when using IME on mobile devices
+- fa63c47: Focus synchronously only if on iOS or Android #4448
+
+## 2.11.2
+
+### Patch Changes
+
+- 2abd4df: Re-release
+
+## 2.11.1
+
+## 2.11.0
+
 ### Minor Changes
 
 - ff8eed6: Support `validate` options in node and mark attribute definitions.
