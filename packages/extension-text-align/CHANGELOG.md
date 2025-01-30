@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.4
+
+### Patch Changes
+
+- 49402f6: Modify the documentation of the default value of defaultAlignment so that it matches the code
+
 ## 2.11.3
 
 ## 2.11.2

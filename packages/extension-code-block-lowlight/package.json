@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
   "description": "code block extension for tiptap",
-  "version": "2.11.3",
+  "version": "2.11.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -29,9 +29,9 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.11.3",
-    "@tiptap/extension-code-block": "^2.11.3",
-    "@tiptap/pm": "^2.11.3",
+    "@tiptap/core": "^2.11.4",
+    "@tiptap/extension-code-block": "^2.11.4",
+    "@tiptap/pm": "^2.11.4",
     "lowlight": "^2 || ^3"
   },
   "peerDependencies": {
