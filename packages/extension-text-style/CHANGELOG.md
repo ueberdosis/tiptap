@@ -1,5 +1,122 @@
 # Change Log
 
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- f77cbac: This updates the default value of the option `mergeNestedSpanStyles` to `true`, this will attempt to merge the styles of nested spans into the child span during HTML parsing. This prioritizes the style of the child span. This is used when parsing content created in other editors. (Fix for ProseMirror's default behavior.)
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds several extensions to the `text-style` package, which can be used to style text in the editor.
+
+  ## TextStyleKit
+
+  This extension adds a group of text style extensions to the editor, and is the recommended way of using the text style extensions. For easy configuration, you can pass an object with the following keys:
+
+  `backgroundColor`, `color`, `fontFamily`, `fontSize`, `lineHeight`, `textStyle`
+
+  Usage:
+
+  ```ts
+  import { TextStyleKit } from '@tiptap/extension-text-style'
+
+  new Editor({
+    extensions: [
+      TextStyleKit.configure({
+        backgroundColor: {
+          types: ['textStyle'],
+        },
+        color: {
+          types: ['textStyle'],
+        },
+        fontFamily: {
+          types: ['textStyle'],
+        },
+        fontSize: {
+          types: ['textStyle'],
+        },
+        lineHeight: {
+          types: ['textStyle'],
+        },
+        textStyle: {
+          types: ['textStyle'],
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BackgroundColor
+
+  This extension controls the background-color of a range of text in the editor.
+
+  Usage:
+
+  ```ts
+  import { BackgroundColor } from '@tiptap/extension-text-style'
+  ```
+
+  ### Color
+
+  This extension controls the color of a range of text in the editor.
+
+  Migrate from `@tiptap/extension-color` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import Color from '@tiptap/extension-color'
+  + import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontFamily
+
+  This extension controls the font-family of a range of text in the editor.
+
+  Migration from `@tiptap/extension-font-family` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import FontFamily from '@tiptap/extension-font-family'
+  + import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontSize
+
+  This extension controls the font-size of a range of text in the editor.
+
+  ```ts
+  import { FontSize } from '@tiptap/extension-text-style'
+  ```
+
+  ### LineHeight
+
+  This extension controls the line-height of a range of text in the editor.
+
+  ```ts
+  import { LineHeight } from '@tiptap/extension-text-style'
+  ```
+
+### Patch Changes
+
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+
 ## 3.0.0-next.5
 
 ### Minor Changes

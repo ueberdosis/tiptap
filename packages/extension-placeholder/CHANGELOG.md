@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-next.6
+
+### Major Changes
+
+- 96601f7: Remove the `considerAnyAsEmpty` option from placeholder, which has been unused since version 2.5
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
 ## 3.0.0-next.5
 
 ## 3.0.0-next.4
