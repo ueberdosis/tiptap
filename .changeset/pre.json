@@ -59,8 +59,5 @@
     "@tiptap/vue-3": "2.11.3",
     "@tiptap-shared/rollup-config": "1.0.0"
   },
-  "changesets": [
-    "three-crabs-beg",
-    "yellow-hairs-search"
-  ]
+  "changesets": []
 }
