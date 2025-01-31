@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- 98fffbb: Upgraded prosemirror-tables to 1.6.3 to fix cells being resizable while the editor is uneditable
+
 ## 2.5.1
 
 ### Patch Changes
