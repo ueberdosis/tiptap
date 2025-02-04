@@ -24,6 +24,7 @@ export interface GetEmbedUrlOptions {
   playlist?: string;
   progressBarColor?: string;
   startAt?: number;
+  sameChannelRel?: boolean;
 }
 
 export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
@@ -50,6 +51,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     playlist,
     progressBarColor,
     startAt,
+    sameChannelRel,
   } = options
 
   if (!isValidYoutubeUrl(url)) {
@@ -144,6 +146,10 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
 
   if (progressBarColor) {
     params.push(`color=${progressBarColor}`)
+  }
+
+  if(sameChannelRel) {
+    params.push("rel=0")
   }
 
   if (params.length) {
