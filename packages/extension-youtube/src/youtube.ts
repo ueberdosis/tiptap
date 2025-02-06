@@ -152,10 +152,10 @@ export interface YoutubeOptions {
 
   /**
    * Controls if the related youtube videos at the end are from the same channel.
-   * @default false
-   * @example true
+   * @default 1
+   * @example 0
    */
-  sameChannelRel: boolean;
+  rel: number;
 }
 
 /**
@@ -206,7 +206,7 @@ export const Youtube = Node.create<YoutubeOptions>({
       playlist: '',
       progressBarColor: undefined,
       width: 640,
-      sameChannelRel: false,
+      rel: 1,
     }
   },
 
@@ -296,7 +296,7 @@ export const Youtube = Node.create<YoutubeOptions>({
       playlist: this.options.playlist,
       progressBarColor: this.options.progressBarColor,
       startAt: HTMLAttributes.start || 0,
-      sameChannelRel: this.options.sameChannelRel,
+      rel: this.options.rel,
     })
 
     HTMLAttributes.src = embedUrl
@@ -325,7 +325,7 @@ export const Youtube = Node.create<YoutubeOptions>({
             origin: this.options.origin,
             playlist: this.options.playlist,
             progressBarColor: this.options.progressBarColor,
-            sameChannelRel: this.options.sameChannelRel,
+            rel: this.options.rel,
           },
           HTMLAttributes,
         ),
