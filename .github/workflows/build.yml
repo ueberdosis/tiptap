@@ -148,6 +148,10 @@ jobs:
         id: install-dependencies
         run: npm install
 
+      - name: Try to build the packages
+        id: build-packages
+        run: npm run build:pm
+
       - name: Run unit tests
         id: run-unit-tests
         run: npm run test:unit
