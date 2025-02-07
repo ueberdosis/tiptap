@@ -131,6 +131,27 @@ jobs:
           path: tests/cypress/videos
           retention-days: 7
 
+  unit-test:
+    runs-on: ubuntu-latest
+
+    needs: lint
+
+    steps:
+      - uses: actions/checkout@v4.1.4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        id: install-dependencies
+        run: npm install
+
+      - name: Run unit tests
+        id: run-unit-tests
+        run: npm run test:unit
+
   build:
     runs-on: ubuntu-latest
 
