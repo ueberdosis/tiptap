@@ -14,6 +14,6 @@ export default defineConfig({
       '@tiptap/extension-paragraph': path.join(__dirname, 'packages/extension-paragraph/src'),
       '@tiptap/extension-text': path.join(__dirname, 'packages/extension-text/src'),
     },
-    preserveSymlinks: true,
+
   },
 }) satisfies UserConfig
