@@ -132,6 +132,7 @@ jobs:
           retention-days: 7
 
   unit-test:
+    name: 'Unit Tests'
     runs-on: ubuntu-latest
 
     needs: lint
@@ -154,7 +155,7 @@ jobs:
 
       - name: Run unit tests
         id: run-unit-tests
-        run: npm run test:unit
+        run: test:unit
 
   build:
     runs-on: ubuntu-latest
