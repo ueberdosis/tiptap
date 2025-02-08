@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.11.6-pre.0
+
+### Patch Changes
+
+- Updated dependencies [f3258d9]
+  - @tiptap/pm@2.11.6-pre.0
+  - @tiptap/core@2.11.6-pre.0
+  - @tiptap/suggestion@2.11.6-pre.0
+
 ## 2.11.5
 
 ## 2.11.4
