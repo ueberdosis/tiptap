@@ -29,7 +29,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.11.5"
+    "@tiptap/core": "^2.11.5",
+    "@types/jsdom": "^21.1.7",
+    "jsdom": "^26.0.0",
+    "vitest": "^3.0.5"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.7.0"
@@ -41,6 +44,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "npm run clean && rollup -c",
+    "test": "vitest run",
+    "test:watch": "vitest"
   }
 }
