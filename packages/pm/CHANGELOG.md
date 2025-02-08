@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.6-pre.0
+
+### Patch Changes
+
+- f3258d9: Upgraded prosemirror-tables to 1.6.4. Fixes a bug with broken tables appearing when dropping text.
+
 ## 2.11.5
 
 ### Patch Changes
