@@ -148,7 +148,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     params.push(`color=${progressBarColor}`)
   }
 
-  if(rel !== undefined) {
+  if (rel !== undefined) {
     params.push(`rel=${rel}`)
   }
 
