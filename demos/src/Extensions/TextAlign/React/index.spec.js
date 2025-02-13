@@ -89,6 +89,14 @@ context('/src/Extensions/TextAlign/React/', () => {
     cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
   })
 
+  it('toggle the text to right on the 6rd button', () => {
+    cy.get('button:nth-child(6)').click()
+    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'right')
+
+    cy.get('button:nth-child(6)').click()
+    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
+  })
+
   it('aligns the text left when pressing the keyboard shortcut', () => {
     cy.get('.tiptap')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })

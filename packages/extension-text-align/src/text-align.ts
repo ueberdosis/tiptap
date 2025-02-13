@@ -37,6 +37,12 @@ declare module '@tiptap/core' {
        * @example editor.commands.unsetTextAlign()
        */
       unsetTextAlign: () => ReturnType,
+      /**
+       * Toggle the text align attribute
+       * @param alignment The alignment
+       * @example editor.commands.toggleTextAlign('right')
+       */
+      toggleTextAlign: (alignment: string) => ReturnType,
     }
   }
 }
@@ -97,6 +103,17 @@ export const TextAlign = Extension.create<TextAlignOptions>({
         return this.options.types
           .map(type => commands.resetAttributes(type, 'textAlign'))
           .every(response => response)
+      },
+
+      toggleTextAlign: alignment => ({ editor, commands }) => {
+        if (!this.options.alignments.includes(alignment)) {
+          return false
+        }
+
+        if (editor.isActive({ textAlign: alignment })) {
+          return commands.unsetTextAlign()
+        }
+        return commands.setTextAlign(alignment)
       },
     }
   },
