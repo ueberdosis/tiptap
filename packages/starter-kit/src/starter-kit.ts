@@ -140,75 +140,75 @@ export const StarterKit = Extension.create<StarterKitOptions>({
     const extensions = []
 
     if (this.options.bold !== false) {
-      extensions.push(Bold.configure(this.options?.bold))
+      extensions.push(Bold.configure(this.options.bold))
     }
 
     if (this.options.blockquote !== false) {
-      extensions.push(Blockquote.configure(this.options?.blockquote))
+      extensions.push(Blockquote.configure(this.options.blockquote))
     }
 
     if (this.options.bulletList !== false) {
-      extensions.push(BulletList.configure(this.options?.bulletList))
+      extensions.push(BulletList.configure(this.options.bulletList))
     }
 
     if (this.options.code !== false) {
-      extensions.push(Code.configure(this.options?.code))
+      extensions.push(Code.configure(this.options.code))
     }
 
     if (this.options.codeBlock !== false) {
-      extensions.push(CodeBlock.configure(this.options?.codeBlock))
+      extensions.push(CodeBlock.configure(this.options.codeBlock))
     }
 
     if (this.options.document !== false) {
-      extensions.push(Document.configure(this.options?.document))
+      extensions.push(Document.configure(this.options.document))
     }
 
     if (this.options.dropcursor !== false) {
-      extensions.push(Dropcursor.configure(this.options?.dropcursor))
+      extensions.push(Dropcursor.configure(this.options.dropcursor))
     }
 
     if (this.options.gapcursor !== false) {
-      extensions.push(Gapcursor.configure(this.options?.gapcursor))
+      extensions.push(Gapcursor.configure(this.options.gapcursor))
     }
 
     if (this.options.hardBreak !== false) {
-      extensions.push(HardBreak.configure(this.options?.hardBreak))
+      extensions.push(HardBreak.configure(this.options.hardBreak))
     }
 
     if (this.options.heading !== false) {
-      extensions.push(Heading.configure(this.options?.heading))
+      extensions.push(Heading.configure(this.options.heading))
     }
 
     if (this.options.history !== false) {
-      extensions.push(History.configure(this.options?.history))
+      extensions.push(History.configure(this.options.history))
     }
 
     if (this.options.horizontalRule !== false) {
-      extensions.push(HorizontalRule.configure(this.options?.horizontalRule))
+      extensions.push(HorizontalRule.configure(this.options.horizontalRule))
     }
 
     if (this.options.italic !== false) {
-      extensions.push(Italic.configure(this.options?.italic))
+      extensions.push(Italic.configure(this.options.italic))
     }
 
     if (this.options.listItem !== false) {
-      extensions.push(ListItem.configure(this.options?.listItem))
+      extensions.push(ListItem.configure(this.options.listItem))
     }
 
     if (this.options.orderedList !== false) {
-      extensions.push(OrderedList.configure(this.options?.orderedList))
+      extensions.push(OrderedList.configure(this.options.orderedList))
     }
 
     if (this.options.paragraph !== false) {
-      extensions.push(Paragraph.configure(this.options?.paragraph))
+      extensions.push(Paragraph.configure(this.options.paragraph))
     }
 
     if (this.options.strike !== false) {
-      extensions.push(Strike.configure(this.options?.strike))
+      extensions.push(Strike.configure(this.options.strike))
     }
 
     if (this.options.text !== false) {
-      extensions.push(Text.configure(this.options?.text))
+      extensions.push(Text.configure(this.options.text))
     }
 
     return extensions
