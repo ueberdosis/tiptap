@@ -26,7 +26,10 @@ export interface GetEmbedUrlOptions {
   startAt?: number;
 }
 
-export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
+export const getYoutubeEmbedUrl = (nocookie?: boolean, withV?:boolean) => {
+  if (!withV) {
+    return 'https://www.youtube-nocookie.com/embed/videoseries?list='
+  }
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
@@ -71,14 +74,14 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /(?:v=|shorts\/)([-\w]+)/gm
+  const videoIdRegex = /(?:(v|list)=|shorts\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
-  if (!matches || !matches[1]) {
+  if (!matches || !matches[2]) {
     return null
   }
 
-  let outputUrl = `${getYoutubeEmbedUrl(nocookie)}${matches[1]}`
+  let outputUrl = `${getYoutubeEmbedUrl(nocookie, matches[1] === 'v')}${matches[2]}`
 
   const params = []
 
@@ -147,7 +150,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   }
 
   if (params.length) {
-    outputUrl += `?${params.join('&')}`
+    outputUrl += `${matches[1] === 'v' ? '?' : '&'}${params.join('&')}`
   }
 
   return outputUrl
