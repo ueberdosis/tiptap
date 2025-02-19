@@ -47,6 +47,12 @@ export interface CharacterCountStorage {
   words: (options?: { node?: ProseMirrorNode }) => number
 }
 
+declare module '@tiptap/core' {
+  interface ExtensionStorage {
+    characterCount: CharacterCountStorage;
+  }
+}
+
 /**
  * This extension allows you to count the characters and words of your document.
  * @see https://tiptap.dev/api/extensions/character-count

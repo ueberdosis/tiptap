@@ -29,6 +29,10 @@ declare module '@tiptap/core' {
       redo: () => ReturnType;
     };
   }
+
+  interface ExtensionStorage {
+    collaboration: CollaborationStorage;
+  }
 }
 
 export interface CollaborationStorage {

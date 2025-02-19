@@ -25,6 +25,7 @@ import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSc
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
+import { ExtensionStorage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import {
@@ -64,7 +65,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public isInitialized = false
 
-  public extensionStorage: Record<string, any> = {}
+  public extensionStorage: ExtensionStorage | Record<string, any> = {}
 
   public options: EditorOptions = {
     element: document.createElement('div'),
@@ -129,7 +130,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Returns the editor storage.
    */
-  public get storage(): Record<string, any> {
+  public get storage(): ExtensionStorage | Record<string, any> {
     return this.extensionStorage
   }
 
