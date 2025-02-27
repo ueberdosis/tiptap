@@ -1,17 +1,7 @@
-import {
-  defineComponent,
-  getCurrentInstance,
-  h,
-  nextTick,
-  onBeforeUnmount,
-  PropType,
-  Ref,
-  ref,
-  unref,
-  watchEffect,
-} from 'vue'
+import type { PropType, Ref } from 'vue'
+import { defineComponent, getCurrentInstance, h, nextTick, onBeforeUnmount, ref, unref, watchEffect } from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',

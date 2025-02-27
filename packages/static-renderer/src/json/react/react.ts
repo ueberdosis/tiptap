@@ -3,7 +3,8 @@
 import type { MarkType, NodeType } from '@tiptap/core'
 import React from 'react'
 
-import { TiptapStaticRenderer, TiptapStaticRendererOptions } from '../renderer.js'
+import type { TiptapStaticRendererOptions } from '../renderer.js'
+import { TiptapStaticRenderer } from '../renderer.js'
 
 export function renderJSONContentToReactElement<
   /**

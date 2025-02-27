@@ -1,10 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import { DecorationWithType, NodeView, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import { Component, defineComponent, PropType, provide, Ref, ref } from 'vue'
+import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
+import { NodeView } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { Component, PropType, Ref } from 'vue'
+import { defineComponent, provide, ref } from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {

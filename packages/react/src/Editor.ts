@@ -1,7 +1,7 @@
-import { Editor } from '@tiptap/core'
-import { ReactPortal } from 'react'
+import type { Editor } from '@tiptap/core'
+import type { ReactPortal } from 'react'
 
-import { ReactRenderer } from './ReactRenderer.js'
+import type { ReactRenderer } from './ReactRenderer.js'
 
 export type EditorWithContentComponent = Editor & { contentComponent?: ContentComponent | null }
 export type ContentComponent = {

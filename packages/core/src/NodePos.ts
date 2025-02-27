@@ -1,7 +1,7 @@
-import { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
 
-import { Editor } from './Editor.js'
-import { Content, Range } from './types.js'
+import type { Editor } from './Editor.js'
+import type { Content, Range } from './types.js'
 
 export class NodePos {
   private resolvedPos: ResolvedPos

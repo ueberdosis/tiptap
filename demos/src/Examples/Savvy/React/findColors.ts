@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/pm/model'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 export default function (doc: Node): DecorationSet {

@@ -1,4 +1,5 @@
-import { createContext, createElement, ReactNode, useContext } from 'react'
+import type { ReactNode } from 'react'
+import { createContext, createElement, useContext } from 'react'
 
 export interface ReactNodeViewContextProps {
   onDragStart?: (event: DragEvent) => void

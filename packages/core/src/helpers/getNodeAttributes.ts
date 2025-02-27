@@ -1,5 +1,5 @@
-import { Node, NodeType } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import type { Node, NodeType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
 
 import { getNodeType } from './getNodeType.js'
 

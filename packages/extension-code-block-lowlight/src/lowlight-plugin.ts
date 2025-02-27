@@ -1,5 +1,5 @@
 import { findChildren } from '@tiptap/core'
-import { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 // @ts-ignore

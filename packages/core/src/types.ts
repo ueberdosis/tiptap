@@ -1,7 +1,7 @@
-import { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
-import { EditorState, Transaction } from '@tiptap/pm/state'
-import { Mappable, Transform } from '@tiptap/pm/transform'
-import {
+import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { Mappable, Transform } from '@tiptap/pm/transform'
+import type {
   Decoration,
   DecorationAttrs,
   EditorProps,
@@ -13,11 +13,11 @@ import {
   ViewMutationRecord,
 } from '@tiptap/pm/view'
 
-import { Editor } from './Editor.js'
-import { Extension } from './Extension.js'
-import { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
-import { Mark } from './Mark.js'
-import { Node } from './Node.js'
+import type { Editor } from './Editor.js'
+import type { Extension } from './Extension.js'
+import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type { Mark } from './Mark.js'
+import type { Node } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extension | Node | Mark

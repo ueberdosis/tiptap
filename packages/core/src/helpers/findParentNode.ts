@@ -1,6 +1,6 @@
-import { Selection } from '@tiptap/pm/state'
+import type { Selection } from '@tiptap/pm/state'
 
-import { Predicate } from '../types.js'
+import type { Predicate } from '../types.js'
 import { findParentNodeClosestToPos } from './findParentNodeClosestToPos.js'
 
 /**

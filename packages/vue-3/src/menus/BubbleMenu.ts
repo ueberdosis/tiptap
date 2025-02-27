@@ -1,5 +1,7 @@
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import { defineComponent, h, onBeforeUnmount, onMounted, PropType, ref, Teleport } from 'vue'
+import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import type { PropType } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'vue'
 
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',

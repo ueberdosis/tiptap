@@ -1,7 +1,7 @@
-import { Extensions, JSONContent } from '@tiptap/core'
+import type { Extensions, JSONContent } from '@tiptap/core'
 import type { Mark, Node } from '@tiptap/pm/model'
 
-import { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-string/html-string.js'
 
 /**

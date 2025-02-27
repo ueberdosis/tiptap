@@ -1,4 +1,4 @@
-import { MarkType, NodeType, Schema } from '@tiptap/pm/model'
+import type { MarkType, NodeType, Schema } from '@tiptap/pm/model'
 
 /**
  * Tries to get a node or mark type by its name.

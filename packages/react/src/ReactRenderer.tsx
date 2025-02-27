@@ -1,8 +1,8 @@
-import { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import React from 'react'
 import { flushSync } from 'react-dom'
 
-import { EditorWithContentComponent } from './Editor.js'
+import type { EditorWithContentComponent } from './Editor.js'
 
 /**
  * Check if a component is a class component.

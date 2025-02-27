@@ -1,4 +1,5 @@
-import { DOMSerializer, Node, Schema } from '@tiptap/pm/model'
+import type { Node, Schema } from '@tiptap/pm/model'
+import { DOMSerializer } from '@tiptap/pm/model'
 import { Window } from 'happy-dom-without-node'
 
 /**

@@ -1,7 +1,7 @@
-import { Schema } from '@tiptap/pm/model'
+import type { Schema } from '@tiptap/pm/model'
 
-import { Editor } from '../Editor.js'
-import { Extensions } from '../types.js'
+import type { Editor } from '../Editor.js'
+import type { Extensions } from '../types.js'
 import { getSchemaByResolvedExtensions } from './getSchemaByResolvedExtensions.js'
 import { resolveExtensions } from './resolveExtensions.js'
 

@@ -1,4 +1,4 @@
-import { Extensions } from '../types.js'
+import type { Extensions } from '../types.js'
 import { findDuplicates } from '../utilities/findDuplicates.js'
 import { flattenExtensions } from './flattenExtensions.js'
 import { sortExtensions } from './sortExtensions.js'

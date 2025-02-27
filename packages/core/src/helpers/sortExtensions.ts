@@ -1,4 +1,4 @@
-import { AnyConfig, Extensions } from '../types.js'
+import type { AnyConfig, Extensions } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 
 /**

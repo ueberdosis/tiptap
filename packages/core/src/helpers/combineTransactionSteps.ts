@@ -1,5 +1,5 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Transaction } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Transaction } from '@tiptap/pm/state'
 import { Transform } from '@tiptap/pm/transform'
 
 /**

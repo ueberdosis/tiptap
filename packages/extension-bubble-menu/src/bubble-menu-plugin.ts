@@ -10,9 +10,11 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import { Editor, isTextSelection, posToDOMRect } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey, PluginView } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@tiptap/core'
+import { isTextSelection, posToDOMRect } from '@tiptap/core'
+import type { EditorState, PluginView } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorView } from '@tiptap/pm/view'
 
 export interface BubbleMenuPluginProps {
   /**

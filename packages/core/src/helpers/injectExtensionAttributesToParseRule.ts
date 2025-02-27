@@ -1,6 +1,6 @@
-import { ParseRule } from '@tiptap/pm/model'
+import type { ParseRule } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types.js'
+import type { ExtensionAttribute } from '../types.js'
 import { fromString } from '../utilities/fromString.js'
 
 /**

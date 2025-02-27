@@ -5,7 +5,7 @@ import {
   joinUp as originalJoinUp,
 } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

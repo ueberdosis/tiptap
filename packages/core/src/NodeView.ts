@@ -1,8 +1,8 @@
 import { NodeSelection } from '@tiptap/pm/state'
-import { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
+import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
-import { Editor as CoreEditor } from './Editor.js'
-import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
+import type { Editor as CoreEditor } from './Editor.js'
+import type { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
 import { isAndroid } from './utilities/isAndroid.js'
 import { isiOS } from './utilities/isiOS.js'
 

@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
-import { Schema } from '@tiptap/pm/model'
-import { Plugin } from '@tiptap/pm/state'
-import { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import type { Schema } from '@tiptap/pm/model'
+import type { Plugin } from '@tiptap/pm/state'
+import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
@@ -18,10 +18,12 @@ import {
   splitExtensions,
 } from './helpers/index.js'
 import { type MarkConfig, type NodeConfig, type Storage, getMarkType } from './index.js'
-import { InputRule, inputRulesPlugin } from './InputRule.js'
+import type { InputRule } from './InputRule.js'
+import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
-import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
-import { AnyConfig, Extensions, RawCommands } from './types.js'
+import type { PasteRule } from './PasteRule.js'
+import { pasteRulesPlugin } from './PasteRule.js'
+import type { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 
 export class ExtensionManager {

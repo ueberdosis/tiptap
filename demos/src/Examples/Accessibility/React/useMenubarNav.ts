@@ -1,5 +1,6 @@
-import { Editor } from '@tiptap/core'
-import React, { useCallback, useEffect, useRef } from 'react'
+import type { Editor } from '@tiptap/core'
+import type React from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 /**
  * Handle arrow navigation within a menu bar container, and allow to escape to the editor

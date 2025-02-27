@@ -1,9 +1,10 @@
-import { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
 import { canJoin, findWrapping } from '@tiptap/pm/transform'
 
-import { Editor } from '../Editor.js'
-import { InputRule, InputRuleFinder } from '../InputRule.js'
-import { ExtendedRegExpMatchArray } from '../types.js'
+import type { Editor } from '../Editor.js'
+import type { InputRuleFinder } from '../InputRule.js'
+import { InputRule } from '../InputRule.js'
+import type { ExtendedRegExpMatchArray } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**

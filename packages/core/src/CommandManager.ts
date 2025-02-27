@@ -1,8 +1,8 @@
-import { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
-import { AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands } from './types.js'
+import type { AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands } from './types.js'
 
 export class CommandManager {
   editor: Editor

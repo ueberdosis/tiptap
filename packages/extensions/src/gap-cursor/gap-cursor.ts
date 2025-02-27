@@ -1,4 +1,5 @@
-import { callOrReturn, Extension, getExtensionField, ParentConfig } from '@tiptap/core'
+import type { ParentConfig } from '@tiptap/core'
+import { callOrReturn, Extension, getExtensionField } from '@tiptap/core'
 import { gapCursor } from '@tiptap/pm/gapcursor'
 
 declare module '@tiptap/core' {

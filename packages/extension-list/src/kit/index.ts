@@ -1,11 +1,17 @@
 import { Extension } from '@tiptap/core'
 
-import { BulletList, BulletListOptions } from '../bullet-list/index.js'
-import { ListItem, ListItemOptions } from '../item/index.js'
-import { ListKeymap, ListKeymapOptions } from '../keymap/index.js'
-import { OrderedList, OrderedListOptions } from '../ordered-list/index.js'
-import { TaskItem, TaskItemOptions } from '../task-item/index.js'
-import { TaskList, TaskListOptions } from '../task-list/index.js'
+import type { BulletListOptions } from '../bullet-list/index.js'
+import { BulletList } from '../bullet-list/index.js'
+import type { ListItemOptions } from '../item/index.js'
+import { ListItem } from '../item/index.js'
+import type { ListKeymapOptions } from '../keymap/index.js'
+import { ListKeymap } from '../keymap/index.js'
+import type { OrderedListOptions } from '../ordered-list/index.js'
+import { OrderedList } from '../ordered-list/index.js'
+import type { TaskItemOptions } from '../task-item/index.js'
+import { TaskItem } from '../task-item/index.js'
+import type { TaskListOptions } from '../task-list/index.js'
+import { TaskList } from '../task-list/index.js'
 
 export interface ListKitOptions {
   /**

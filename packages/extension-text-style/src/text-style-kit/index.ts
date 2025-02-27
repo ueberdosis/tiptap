@@ -1,11 +1,17 @@
 import { Extension } from '@tiptap/core'
 
-import { BackgroundColor, BackgroundColorOptions } from '../background-color/index.js'
-import { Color, ColorOptions } from '../color/index.js'
-import { FontFamily, FontFamilyOptions } from '../font-family/index.js'
-import { FontSize, FontSizeOptions } from '../font-size/index.js'
-import { LineHeight, LineHeightOptions } from '../line-height/index.js'
-import { TextStyle, TextStyleOptions } from '../text-style/index.js'
+import type { BackgroundColorOptions } from '../background-color/index.js'
+import { BackgroundColor } from '../background-color/index.js'
+import type { ColorOptions } from '../color/index.js'
+import { Color } from '../color/index.js'
+import type { FontFamilyOptions } from '../font-family/index.js'
+import { FontFamily } from '../font-family/index.js'
+import type { FontSizeOptions } from '../font-size/index.js'
+import { FontSize } from '../font-size/index.js'
+import type { LineHeightOptions } from '../line-height/index.js'
+import { LineHeight } from '../line-height/index.js'
+import type { TextStyleOptions } from '../text-style/index.js'
+import { TextStyle } from '../text-style/index.js'
 
 export interface TextStyleKitOptions {
   /**

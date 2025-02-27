@@ -1,6 +1,7 @@
-import { DOMParser, Fragment, Node as ProseMirrorNode, ParseOptions, Schema } from '@tiptap/pm/model'
+import type { ParseOptions } from '@tiptap/pm/model'
+import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
 
-import { Content } from '../types.js'
+import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {

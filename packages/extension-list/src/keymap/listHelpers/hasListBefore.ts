@@ -1,4 +1,4 @@
-import { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/pm/state'
 
 export const hasListBefore = (editorState: EditorState, name: string, parentListTypes: string[]) => {
   const { $anchor } = editorState.selection

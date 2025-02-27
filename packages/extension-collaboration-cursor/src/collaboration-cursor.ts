@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { DecorationAttrs } from '@tiptap/pm/view'
+import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
 type CollaborationCursorStorage = {
