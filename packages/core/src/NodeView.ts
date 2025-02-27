@@ -1,9 +1,7 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
-import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor.js'
-import { Node } from './Node.js'
 import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
 import { isAndroid } from './utilities/isAndroid.js'
 import { isiOS } from './utilities/isiOS.js'
@@ -23,13 +21,19 @@ export class NodeView<
 
   options: Options
 
-  extension: Node
+  extension: NodeViewRendererProps['extension']
 
-  node: ProseMirrorNode
+  node: NodeViewRendererProps['node']
 
-  decorations: DecorationWithType[]
+  decorations: NodeViewRendererProps['decorations']
 
-  getPos: any
+  innerDecorations: NodeViewRendererProps['innerDecorations']
+
+  view: NodeViewRendererProps['view']
+
+  getPos: NodeViewRendererProps['getPos']
+
+  HTMLAttributes: NodeViewRendererProps['HTMLAttributes']
 
   isDragging = false
 
@@ -44,6 +48,9 @@ export class NodeView<
     this.extension = props.extension
     this.node = props.node
     this.decorations = props.decorations as DecorationWithType[]
+    this.innerDecorations = props.innerDecorations
+    this.view = props.view
+    this.HTMLAttributes = props.HTMLAttributes
     this.getPos = props.getPos
     this.mount()
   }
@@ -93,9 +100,14 @@ export class NodeView<
 
     event.dataTransfer?.setDragImage(this.dom, x, y)
 
+    const pos = this.getPos()
+
+    if (typeof pos !== 'number') {
+      return
+    }
     // we need to tell ProseMirror that we want to move the whole node
     // so we create a NodeSelection
-    const selection = NodeSelection.create(view.state.doc, this.getPos())
+    const selection = NodeSelection.create(view.state.doc, pos)
     const transaction = view.state.tr.setSelection(selection)
 
     view.dispatch(transaction)
@@ -139,11 +151,11 @@ export class NodeView<
     // ProseMirror tries to drag selectable nodes
     // even if `draggable` is set to `false`
     // this fix prevents that
-    if (!isDraggable && isSelectable && isDragEvent) {
+    if (!isDraggable && isSelectable && isDragEvent && event.target === this.dom) {
       event.preventDefault()
     }
 
-    if (isDraggable && isDragEvent && !isDragging) {
+    if (isDraggable && isDragEvent && !isDragging && event.target === this.dom) {
       event.preventDefault()
       return false
     }
@@ -197,7 +209,12 @@ export class NodeView<
     return true
   }
 
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+  /**
+   * Called when a DOM [mutation](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) or a selection change happens within the view.
+   * @return `false` if the editor should re-read the selection or re-parse the range around the mutation
+   * @return `true` if it can safely be ignored.
+   */
+  ignoreMutation(mutation: ViewMutationRecord) {
     if (!this.dom || !this.contentDOM) {
       return true
     }
@@ -254,9 +271,16 @@ export class NodeView<
     return true
   }
 
-  updateAttributes(attributes: {}) {
+  /**
+   * Update the attributes of the prosemirror node.
+   */
+  updateAttributes(attributes: Record<string, any>): void {
     this.editor.commands.command(({ tr }) => {
       const pos = this.getPos()
+
+      if (typeof pos !== 'number') {
+        return false
+      }
 
       tr.setNodeMarkup(pos, undefined, {
         ...this.node.attrs,
@@ -267,8 +291,15 @@ export class NodeView<
     })
   }
 
+  /**
+   * Delete the node.
+   */
   deleteNode(): void {
     const from = this.getPos()
+
+    if (typeof from !== 'number') {
+      return
+    }
     const to = from + this.node.nodeSize
 
     this.editor.commands.deleteRange({ from, to })

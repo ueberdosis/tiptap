@@ -1,5 +1,23 @@
 # Change Log
 
+## 2.5.2
+
+### Patch Changes
+
+- 98fffbb: Upgraded prosemirror-tables to 1.6.3 to fix cells being resizable while the editor is uneditable
+
+## 2.5.1
+
+### Patch Changes
+
+- 7619215: The link extension's `validate` option now applies to both auto-linking and XSS mitigation. While, the new `shouldAutoLink` option is used to disable auto linking on an otherwise valid url.
+
+## 2.5.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
 ## 2.4.2
 
 ### Patch Changes

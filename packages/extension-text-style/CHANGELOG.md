@@ -1,5 +1,91 @@
 # Change Log
 
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- d735cf3: fixes #4311 - update the logic of `removeEmptyTextStyle` to manually handle the selection of all of the nodes within the selection to check for their marks independently to fix an issue where unsetting the font family on a selection would remove all applied text style marks from the selection as well
+- a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- Updated dependencies [97ea55f]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- @tiptap/core@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/core@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes

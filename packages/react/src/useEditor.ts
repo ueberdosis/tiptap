@@ -78,6 +78,7 @@ class EditorInstanceManager {
     this.options = options
     this.subscriptions = new Set<() => void>()
     this.setEditor(this.getInitialEditor())
+    this.scheduleDestroy()
 
     this.getEditor = this.getEditor.bind(this)
     this.getServerSnapshot = this.getServerSnapshot.bind(this)
@@ -148,6 +149,8 @@ class EditorInstanceManager {
       onTransaction: (...args) => this.options.current.onTransaction?.(...args),
       onUpdate: (...args) => this.options.current.onUpdate?.(...args),
       onContentError: (...args) => this.options.current.onContentError?.(...args),
+      onDrop: (...args) => this.options.current.onDrop?.(...args),
+      onPaste: (...args) => this.options.current.onPaste?.(...args),
     }
     const editor = new Editor(optionsToApply)
 
@@ -181,6 +184,33 @@ class EditorInstanceManager {
     }
   }
 
+  static compareOptions(a: UseEditorOptions, b: UseEditorOptions) {
+    return (Object.keys(a) as (keyof UseEditorOptions)[]).every(key => {
+      if (['onCreate', 'onBeforeCreate', 'onDestroy', 'onUpdate', 'onTransaction', 'onFocus', 'onBlur', 'onSelectionUpdate', 'onContentError', 'onDrop', 'onPaste'].includes(key)) {
+        // we don't want to compare callbacks, they are always different and only registered once
+        return true
+      }
+
+      // We often encourage putting extensions inlined in the options object, so we will do a slightly deeper comparison here
+      if (key === 'extensions' && a.extensions && b.extensions) {
+        if (a.extensions.length !== b.extensions.length) {
+          return false
+        }
+        return a.extensions.every((extension, index) => {
+          if (extension !== b.extensions?.[index]) {
+            return false
+          }
+          return true
+        })
+      }
+      if (a[key] !== b[key]) {
+        // if any of the options have changed, we should update the editor options
+        return false
+      }
+      return true
+    })
+  }
+
   /**
    * On each render, we will create, update, or destroy the editor instance.
    * @param deps The dependencies to watch for changes
@@ -194,9 +224,15 @@ class EditorInstanceManager {
       clearTimeout(this.scheduledDestructionTimeout)
 
       if (this.editor && !this.editor.isDestroyed && deps.length === 0) {
-        // if the editor does exist & deps are empty, we don't need to re-initialize the editor
-        // we can fast-path to update the editor options on the existing instance
-        this.editor.setOptions(this.options.current)
+        // if the editor does exist & deps are empty, we don't need to re-initialize the editor generally
+        if (!EditorInstanceManager.compareOptions(this.options.current, this.editor.options)) {
+          // But, the options are different, so we need to update the editor options
+          // Still, this is faster than re-creating the editor
+          this.editor.setOptions({
+            ...this.options.current,
+            editable: this.editor.isEditable,
+          })
+        }
       } else {
         // When the editor:
         // - does not yet exist
@@ -253,10 +289,10 @@ class EditorInstanceManager {
     const currentInstanceId = this.instanceId
     const currentEditor = this.editor
 
-    // Wait a tick to see if the component is still mounted
+    // Wait two ticks to see if the component is still mounted
     this.scheduledDestructionTimeout = setTimeout(() => {
       if (this.isComponentMounted && this.instanceId === currentInstanceId) {
-        // If still mounted on the next tick, with the same instanceId, do not destroy the editor
+        // If still mounted on the following tick, with the same instanceId, do not destroy the editor
         if (currentEditor) {
           // just re-apply options as they might have changed
           currentEditor.setOptions(this.options.current)
@@ -269,7 +305,9 @@ class EditorInstanceManager {
           this.setEditor(null)
         }
       }
-    }, 0)
+      // This allows the effect to run again between ticks
+      // which may save us from having to re-create the editor
+    }, 1)
   }
 }
 

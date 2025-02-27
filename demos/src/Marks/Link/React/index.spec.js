@@ -12,27 +12,27 @@ context('/src/Marks/Link/React/', () => {
 
   it('should parse a tags correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#">Example Text1</a></p>')
+      editor.commands.setContent('<p><a href="https://example.com">Example Text1</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
+        '<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://example.com">Example Text1</a></p>',
       )
     })
   })
 
   it('should parse a tags with target attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
+      editor.commands.setContent('<p><a href="https://example.com" target="_self">Example Text2</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text2</a></p>',
+        '<p><a target="_self" rel="noopener noreferrer nofollow" href="https://example.com">Example Text2</a></p>',
       )
     })
   })
 
   it('should parse a tags with rel attribute correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" rel="follow">Example Text3</a></p>')
+      editor.commands.setContent('<p><a href="https://example.com" rel="follow">Example Text3</a></p>')
       expect(editor.getHTML()).to.eq(
-        '<p><a target="_blank" rel="follow" href="#">Example Text3</a></p>',
+        '<p><a target="_blank" rel="follow" href="https://example.com">Example Text3</a></p>',
       )
     })
   })
@@ -54,7 +54,7 @@ context('/src/Marks/Link/React/', () => {
 
   it('should allow exiting the link once set', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<p><a href="#" target="_self">Example Text2</a></p>')
+      editor.commands.setContent('<p><a href="https://example.com" target="_self">Example Text2</a></p>')
       cy.get('.tiptap').type('{rightArrow}')
 
       cy.get('button:first').should('not.have.class', 'is-active')
@@ -128,5 +128,33 @@ context('/src/Marks/Link/React/', () => {
     cy.get('.tiptap')
       .find('a[href="http://example3.com/foobar"]')
       .should('contain', 'http://example3.com/foobar')
+  })
+
+  it('should not allow links with disallowed protocols', () => {
+    const disallowedProtocols = ['ftp://example.com', 'file:///example.txt', 'mailto:test@example.com']
+
+    disallowedProtocols.forEach(url => {
+      cy.get('.tiptap').then(([{ editor }]) => {
+        editor.commands.setContent(`<p><a href="${url}">Example Text</a></p>`)
+        expect(editor.getHTML()).to.not.include(url)
+      })
+    })
+  })
+
+  it('should not allow links with disallowed domains', () => {
+    const disallowedDomains = ['https://example-phishing.com', 'https://malicious-site.net']
+
+    disallowedDomains.forEach(url => {
+      cy.get('.tiptap').then(([{ editor }]) => {
+        editor.commands.setContent(`<p><a href="${url}">Example Text</a></p>`)
+        expect(editor.getHTML()).to.not.include(url)
+      })
+    })
+  })
+
+  it('should not auto-link a URL from a disallowed domain', () => {
+    cy.get('.tiptap').type('https://example-phishing.com ') // disallowed domain
+    cy.get('.tiptap').should('not.have.descendants', 'a')
+    cy.get('.tiptap').should('contain.text', 'https://example-phishing.com')
   })
 })

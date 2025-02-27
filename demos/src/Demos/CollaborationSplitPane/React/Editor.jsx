@@ -72,19 +72,23 @@ const getRandomColor = () => getRandomElement(colors)
 const getRandomName = () => getRandomElement(names)
 
 const getInitialUser = () => {
-  return (
-    {
-      name: getRandomName(),
-      color: getRandomColor(),
-    }
-  )
+  return {
+    name: getRandomName(),
+    color: getRandomColor(),
+  }
 }
 
-const Editor = ({ ydoc, provider, room }) => {
+const Editor = ({
+  ydoc, provider, room,
+}) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
   const editor = useEditor({
+    enableContentCheck: true,
+    onContentError: ({ disableCollaboration }) => {
+      disableCollaboration()
+    },
     onCreate: ({ editor: currentEditor }) => {
       provider.on('synced', () => {
         if (currentEditor.isEmpty) {
@@ -99,13 +103,13 @@ const Editor = ({ ydoc, provider, room }) => {
       Highlight,
       TaskList,
       TaskItem,
-      CharacterCount.configure({
+      CharacterCount.extend().configure({
         limit: 10000,
       }),
-      Collaboration.configure({
+      Collaboration.extend().configure({
         document: ydoc,
       }),
-      CollaborationCursor.configure({
+      CollaborationCursor.extend().configure({
         provider,
       }),
     ],
@@ -183,7 +187,10 @@ const Editor = ({ ydoc, provider, room }) => {
 
       <EditorContent editor={editor} className="main-group" />
 
-      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
+      <div
+        className="collab-status-group"
+        data-state={status === 'connected' ? 'online' : 'offline'}
+      >
         <label>
           {status === 'connected'
             ? `${editor.storage.collaborationCursor.users.length} user${
@@ -191,7 +198,9 @@ const Editor = ({ ydoc, provider, room }) => {
             } online in ${room}`
             : 'offline'}
         </label>
-        <button style={{ '--color': currentUser.color }} onClick={setName}>✎ {currentUser.name}</button>
+        <button style={{ '--color': currentUser.color }} onClick={setName}>
+          ✎ {currentUser.name}
+        </button>
       </div>
     </div>
   )

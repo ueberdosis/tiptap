@@ -137,6 +137,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
+      checkbox.addEventListener('mousedown', event => event.preventDefault())
       checkbox.addEventListener('change', event => {
         // if the editor isn’t editable and we don't have a handler for
         // readonly checks we have to undo the latest change
@@ -154,6 +155,10 @@ export const TaskItem = Node.create<TaskItemOptions>({
             .focus(undefined, { scrollIntoView: false })
             .command(({ tr }) => {
               const position = getPos()
+
+              if (typeof position !== 'number') {
+                return false
+              }
               const currentNode = tr.doc.nodeAt(position)
 
               tr.setNodeMarkup(position, undefined, {
@@ -178,9 +183,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       })
 
       listItem.dataset.checked = node.attrs.checked
-      if (node.attrs.checked) {
-        checkbox.setAttribute('checked', 'checked')
-      }
+      checkbox.checked = node.attrs.checked
 
       checkboxWrapper.append(checkbox, checkboxStyler)
       listItem.append(checkboxWrapper, content)
@@ -198,11 +201,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
           }
 
           listItem.dataset.checked = updatedNode.attrs.checked
-          if (updatedNode.attrs.checked) {
-            checkbox.setAttribute('checked', 'checked')
-          } else {
-            checkbox.removeAttribute('checked')
-          }
+          checkbox.checked = updatedNode.attrs.checked
 
           return true
         },

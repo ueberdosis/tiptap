@@ -1,5 +1,73 @@
 # Change Log
 
+## 2.11.5
+
+### Patch Changes
+
+- 98fffbb: Upgraded prosemirror-tables to 1.6.3 to fix cells being resizable while the editor is uneditable
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- feea1f6: Update prosemirror-view version
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- bd34793: Bumped prosemirror versions
+
+## 2.6.6
+
+## 2.6.5
+
+## 2.6.4
+
+## 2.6.3
+
 ## 2.6.2
 
 ## 2.6.1

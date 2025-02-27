@@ -1,5 +1,220 @@
 # Change Log
 
+## 2.11.5
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.5
+- @tiptap/extension-floating-menu@2.11.5
+
+## 2.11.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.4
+- @tiptap/extension-floating-menu@2.11.4
+
+## 2.11.3
+
+### Patch Changes
+
+- 40b7d47: This does a shallow diff between the current options and the incoming ones to determine whether we should try to write the new options and incur a state update within the editor.
+
+  It purposefully is not doing a full diff as several options are known to be problematic (callback handlers, extensions array, the content itself), so we rely on referential equality only to do this diffing which should be fairly fast since there are only about 10-15 options, and this diffs only the ones the user has actually attempted to set. Some options (e.g. editorProps, parseOptions, coreExtensionOptions) are an object that may need to be memoized by the user if they want to avoid unnecessary state updates.
+
+  - @tiptap/extension-bubble-menu@2.11.3
+  - @tiptap/extension-floating-menu@2.11.3
+
+## 2.11.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.2
+- @tiptap/extension-floating-menu@2.11.2
+
+## 2.11.1
+
+### Patch Changes
+
+- dac7fd2: Resolves #5870 by re-ordering executation of selectionUpdate handler
+  - @tiptap/extension-bubble-menu@2.11.1
+  - @tiptap/extension-floating-menu@2.11.1
+
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [d9b6ef5]
+  - @tiptap/extension-floating-menu@2.11.0
+  - @tiptap/extension-bubble-menu@2.11.0
+
+## 2.10.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.10.4
+- @tiptap/extension-floating-menu@2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.10.3
+- @tiptap/extension-floating-menu@2.10.3
+
+## 2.10.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.10.2
+- @tiptap/extension-floating-menu@2.10.2
+
+## 2.10.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.10.1
+- @tiptap/extension-floating-menu@2.10.1
+
+## 2.10.0
+
+### Patch Changes
+
+- 5eee480: React 19 changes how refs works, it will double mount them, all that we needed to do though was to use the JSX transform instead of createElement directly #5846
+- 7619215: This changes useEditorState to use the useLayoutEffect hook instead of the useEffect hook, so that state that might render to the page can be committed in one pass instead of two.
+- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
+- 7619215: React 19 is now allowed as a peer dep, we did not have to make any changes for React 19
+- Updated dependencies [7619215]
+- Updated dependencies [7619215]
+- Updated dependencies [1959eb5]
+  - @tiptap/extension-bubble-menu@2.10.0
+  - @tiptap/extension-floating-menu@2.10.0
+
+## 2.9.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.9.1
+- @tiptap/extension-floating-menu@2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- 304eedb: preserve editable option across re-renders #5547
+  - @tiptap/extension-bubble-menu@2.9.0
+  - @tiptap/extension-floating-menu@2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- Updated dependencies [6834a7f]
+  - @tiptap/extension-floating-menu@2.8.0
+  - @tiptap/extension-bubble-menu@2.8.0
+
+## 2.7.4
+
+### Patch Changes
+
+- 26056aa: Add editorContainerProps to EditorProvider. This allows for any HTML attributes to be added to the EditorContent when using EditorProvider
+  - @tiptap/extension-bubble-menu@2.7.4
+  - @tiptap/extension-floating-menu@2.7.4
+
+## 2.7.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.3
+- @tiptap/extension-floating-menu@2.7.3
+
+## 2.7.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.2
+- @tiptap/extension-floating-menu@2.7.2
+
+## 2.7.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.7.1
+- @tiptap/extension-floating-menu@2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- c99627d: `useEditorState` now defaults to using a deep equal comparison for it's `equalityFn` option, which makes it more convenient to use
+- 4ff2a4e: ReactNodeViewRenderer now accepts a callback for attrs of the wrapping element to be updated on each node view update
+  - @tiptap/extension-bubble-menu@2.7.0
+  - @tiptap/extension-floating-menu@2.7.0
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- c99627d: `useEditorState` now defaults to using a deep equal comparison for it's `equalityFn` option, which makes it more convenient to use
+- 4ff2a4e: ReactNodeViewRenderer now accepts a callback for attrs of the wrapping element to be updated on each node view update
+- Updated dependencies [97ea55f]
+- Updated dependencies [bd34793]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+  - @tiptap/pm@2.7.0-pre.0
+  - @tiptap/extension-bubble-menu@2.7.0-pre.0
+  - @tiptap/extension-floating-menu@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+  - @tiptap/extension-bubble-menu@2.6.6
+  - @tiptap/extension-floating-menu@2.6.6
+  - @tiptap/pm@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- @tiptap/core@2.6.5
+- @tiptap/extension-bubble-menu@2.6.5
+- @tiptap/extension-floating-menu@2.6.5
+- @tiptap/pm@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- 6a0f4f3: Resolves a bug where `useEditor` may not properly cleanup an instance created when in React's StrictMode #5492
+  - @tiptap/core@2.6.4
+  - @tiptap/extension-bubble-menu@2.6.4
+  - @tiptap/extension-floating-menu@2.6.4
+  - @tiptap/pm@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+  - @tiptap/extension-bubble-menu@2.6.3
+  - @tiptap/extension-floating-menu@2.6.3
+  - @tiptap/pm@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes

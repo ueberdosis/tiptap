@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
-import { Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
+import { Schema } from '@tiptap/pm/model'
 import { Plugin } from '@tiptap/pm/state'
-import { Decoration, EditorView } from '@tiptap/pm/view'
+import { NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import { getAttributesFromExtensions } from './helpers/getAttributesFromExtensions.js'
@@ -12,8 +12,9 @@ import { getSchemaByResolvedExtensions } from './helpers/getSchemaByResolvedExte
 import { getSchemaTypeByName } from './helpers/getSchemaTypeByName.js'
 import { isExtensionRulesEnabled } from './helpers/isExtensionRulesEnabled.js'
 import { splitExtensions } from './helpers/splitExtensions.js'
-import { Mark, NodeConfig } from './index.js'
+import type { NodeConfig } from './index.js'
 import { InputRule, inputRulesPlugin } from './InputRule.js'
+import { Mark } from './Mark.js'
 import { PasteRule, pasteRulesPlugin } from './PasteRule.js'
 import { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
@@ -260,7 +261,7 @@ export class ExtensionManager {
    * Get all node views from the extensions.
    * @returns An object with all node views where the key is the node name and the value is the node view function
    */
-  get nodeViews() {
+  get nodeViews(): Record<string, NodeViewConstructor> {
     const { editor } = this
     const { nodeExtensions } = splitExtensions(this.extensions)
 
@@ -288,21 +289,26 @@ export class ExtensionManager {
             return []
           }
 
-          const nodeview = (
-            node: ProsemirrorNode,
-            view: EditorView,
-            getPos: (() => number) | boolean,
-            decorations: Decoration[],
+          const nodeview: NodeViewConstructor = (
+            node,
+            view,
+            getPos,
+            decorations,
+            innerDecorations,
           ) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
             return addNodeView()({
-              editor,
+              // pass-through
               node,
-              getPos,
+              view,
+              getPos: getPos as () => number,
               decorations,
-              HTMLAttributes,
+              innerDecorations,
+              // tiptap-specific
+              editor,
               extension,
+              HTMLAttributes,
             })
           }
 

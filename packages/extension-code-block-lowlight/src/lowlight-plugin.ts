@@ -49,7 +49,7 @@ function getDecorations({
     const language = block.node.attrs.language || defaultLanguage
     const languages = lowlight.listLanguages()
 
-    const nodes = language && (languages.includes(language) || registered(language))
+    const nodes = language && (languages.includes(language) || registered(language) || lowlight.registered?.(language))
       ? getHighlightNodes(lowlight.highlight(language, block.node.textContent))
       : getHighlightNodes(lowlight.highlightAuto(block.node.textContent))
 
@@ -71,7 +71,8 @@ function getDecorations({
   return DecorationSet.create(doc, decorations)
 }
 
-function isFunction(param: Function) {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+function isFunction(param: any): param is Function {
   return typeof param === 'function'
 }
 

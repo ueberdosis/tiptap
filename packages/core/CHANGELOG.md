@@ -1,5 +1,177 @@
 # Change Log
 
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+### Patch Changes
+
+- a44a7c3: fix(core): do not reset marks, or nodes when using IME on mobile devices
+- fa63c47: Focus synchronously only if on iOS or Android #4448
+
+## 2.11.2
+
+### Patch Changes
+
+- 2abd4df: Re-release
+
+## 2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- 8c619c6: Add `rewriteUnknownContent` helper, which can strip your editor JSON of content which is invalid within the current editor's schema
+
+### Patch Changes
+
+- 283e606: Fixed an issue on Android where the focus command would cause the keyboard to flash
+- ca6269e: Added support for drag-and-drop between multiple editors
+- e0dfecc: Updates the typings to be inline with prosemirror-view #5867
+- 722ec00: Use an `AllSelection` for the `selectAll` command #5516
+- b7ef150: Fixed an issue with nodeviews preventing any drag events in child nodes of the nodeview wrapper element
+
+## 2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- 7c6774e: Updates the typings to be inline with Prosemirror-view #5867
+
+## 2.10.2
+
+### Patch Changes
+
+- e7f143d: This reverts typings that were causing issues for users #5859
+
+## 2.10.1
+
+### Patch Changes
+
+- 87d63d8: Update TypeScript types to allow options to be optional
+
+## 2.10.0
+
+### Minor Changes
+
+- 7619215: Previously, only a json representation of the node could be inserted into the editor. This change allows for the insertion of Prosemirror `Node`s and `Fragment`s directly into the editor through the `insertContentAt`, `setContent` and `insertContent` commands.
+
+### Patch Changes
+
+- 7619215: preserve existing node attributes when running setNode
+- 7619215: Addresses a bug with `insertContentAt`'s `simulatedPasteRules` option where it could only accept text and not Prosemirror `Node` and `Content`
+- 7619215: Updates the types of `addOptions` and `addStorage` to have the parent be possibly undefined which is the most accurate typing
+- 7619215: feat: add `once` to EventEmitters
+- 7619215: Add Node `linebreakReplacement` support and enable on hard-break nodes
+- 7619215: Improve handling of selections with `updateAttributes`. Should no longer modify parent nodes of the same type.
+- 2ea807d: getMarkRange would greedily match more content than it should have if it was the same type of mark, now it will match only the mark at the position #3872
+
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- ffb51d3: insertContentAt, setContent, and insertContent commands now respect the editor's pre-defined parseOptions configuration if the command does not specify it's own parseOptions
+- 873a67c: This allows the Editor isntance to unregister multiple plugins in a single editor state replacement
+- d96f679: Fixed an issue while updating attributes on a NodePos that was not a text
+- e606c06: Updates the typings of `DecorationsWithTypes` to be more accurate to the prosemirror implementation even though it is not completely exposed as an API
+- a2eea24: Added role and aria-label attributes to the contenteditable field for better screenreader support and mouseless controls
+- d96f679: Fixed issues with NodePos child positions causing wrong positions when used on non-text atoms
+- 4efd227: Fixed an issue with getMarkRange not returning the correct range when cursor is at the start of the specified mark
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+### Patch Changes
+
+- 8ee534d: This refactors the `onDrop` and `onPaste` event callbacks to be Tiptap extensions rather than separate Prosemirror plugins which was forcing the editor to recreate the view on initialization.
+
+## 2.7.4
+
+### Patch Changes
+
+- 7ef401d: This plugs a memory leak where there is a circular reference between the view's DOM node and the editor instance, to resolve this, before destroying the view we need to delete the reference to the editor instance on the DOM node #5654
+
+## 2.7.3
+
+### Patch Changes
+
+- f76515a: Update the typing for NodeViewProps to be an interface rather than a concrete type #5632
+- d57ee51: filter rendered extensionAttributes (#5588)
+
+## 2.7.2
+
+## 2.7.1
+
+### Patch Changes
+
+- 888f574: Fixed Slice import in DropPlugin
+
+## 2.7.0
+
+### Minor Changes
+
+- 97ea55f: Fixes #5490. The `preventClearDocument` meta tag can now be used to prevent the `clearDocument` plugin in the core keymap extension from modifying transactions that appear to clear the document (but might be clearing it for other reasons).
+- 9e18d24: Added `onPaste` and `onDrop` options to the editor allowing for easier event binding for both cases
+- 97ea55f: An object can now be passed to `enableCoreExtensions` to allow disabling only specific core extensions.
+
+### Patch Changes
+
+- f805333: fix: check for schema's nesting rules on contentCheck
+- 07fa49d: Copy over node attributes on node toggling (for example to keep text styles while toggling a headline)
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- a22767e: Merging inline style attributes now can properly merge conflicting style attribute names, resulting in cleaner HTML output and correctness
+
+## 2.7.0-pre.0
+
+### Minor Changes
+
+- 97ea55f: Fixes #5490. The `preventClearDocument` meta tag can now be used to prevent the `clearDocument` plugin in the core keymap extension from modifying transactions that appear to clear the document (but might be clearing it for other reasons).
+- 9e18d24: Added `onPaste` and `onDrop` options to the editor allowing for easier event binding for both cases
+- 97ea55f: An object can now be passed to `enableCoreExtensions` to allow disabling only specific core extensions.
+
+### Patch Changes
+
+- f805333: fix: check for schema's nesting rules on contentCheck
+- 07fa49d: Copy over node attributes on node toggling (for example to keep text styles while toggling a headline)
+- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
+- a22767e: Merging inline style attributes now can properly merge conflicting style attribute names, resulting in cleaner HTML output and correctness
+- Updated dependencies [bd34793]
+  - @tiptap/pm@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- 8d8d999: fix: check for schema's nesting rules on contentCheck
+  - @tiptap/pm@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- @tiptap/pm@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/pm@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- da76972: Resolve several selection related bug #2690 #5208
+  - @tiptap/pm@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes

@@ -1,5 +1,95 @@
 # Change Log
 
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Patch Changes
+
+- f79c05e: Update inline code formatting for text enclosed in backticks
+- b08c94c: Implement `inputRegex` and `pasteRegex` while avoiding lookbehind for compatibility with safari versions older than 16.4
+
+## 2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- c0615b9: Update inline code formatting for text enclosed in backticks
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+## 2.7.0-pre.0
+
+### Patch Changes
+
+- Updated dependencies [97ea55f]
+- Updated dependencies [9e18d24]
+- Updated dependencies [f805333]
+- Updated dependencies [07fa49d]
+- Updated dependencies [7f24a66]
+- Updated dependencies [97ea55f]
+- Updated dependencies [a22767e]
+  - @tiptap/core@2.7.0-pre.0
+
+## 2.6.6
+
+### Patch Changes
+
+- Updated dependencies [8d8d999]
+  - @tiptap/core@2.6.6
+
+## 2.6.5
+
+### Patch Changes
+
+- @tiptap/core@2.6.5
+
+## 2.6.4
+
+### Patch Changes
+
+- @tiptap/core@2.6.4
+
+## 2.6.3
+
+### Patch Changes
+
+- Updated dependencies [da76972]
+  - @tiptap/core@2.6.3
+
 ## 2.6.2
 
 ### Patch Changes

@@ -11,7 +11,7 @@ context('/src/Commands/InsertContent/React/', () => {
     cy.get('button[data-test-id="html-content"]').click()
 
     // check if the content html is correct
-    cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
+    cy.get('.tiptap').should('contain.html', '<h1><a target="_blank" rel="noopener noreferrer nofollow" href="https://tiptap.dev/">Tiptap</a></h1><p><strong>Hello World</strong></p><p>This is a paragraph<br>with a break.</p><p>And this is some additional string content.</p>')
   })
 
   it('should keep spaces inbetween tags in html content', () => {
@@ -88,6 +88,30 @@ context('/src/Commands/InsertContent/React/', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', { parseOptions: { preserveWhitespace: false } })
       cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
+  it('should respect editor.options.parseOptions if defined to be `false`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: false }
+      editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello World</strong></p>')
+    })
+  })
+
+  it('should respect editor.options.parseOptions if defined to be `full`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: 'full' }
+      editor.commands.insertContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello\n World</strong></p>')
+    })
+  })
+
+  it('should respect editor.options.parseOptions if defined to be `true`', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.options.parseOptions = { preserveWhitespace: true }
+      editor.commands.insertContent('<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>')
+      cy.get('.tiptap').should('contain.html', '<h1>Tiptap</h1><p><strong>Hello  World</strong></p>')
     })
   })
 
