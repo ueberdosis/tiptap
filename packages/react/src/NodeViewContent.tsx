@@ -15,7 +15,11 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
     // @ts-ignore
     <Tag
       {...props}
-      ref={nodeViewContentRef}
+      ref={(el: HTMLElement) => {
+        nodeViewContentRef?.(el)
+        // props.ref is not accessible in React: https://reactjs.org/link/special-props
+        props.getRef?.(el)
+      }}
       data-node-view-content=""
       style={{
         whiteSpace: 'pre-wrap',
