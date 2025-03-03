@@ -1,5 +1,5 @@
-import { Node, NodeType } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import type { Node, NodeType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
 
 /**
  * Finds the first node of a given type or name in the current selection.

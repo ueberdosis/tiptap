@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { TextType } from '@tiptap/core'
+import type { TextType } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'

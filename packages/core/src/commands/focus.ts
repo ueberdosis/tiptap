@@ -1,6 +1,6 @@
 import { isTextSelection } from '../helpers/isTextSelection.js'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
-import { FocusPosition, RawCommands } from '../types.js'
+import type { FocusPosition, RawCommands } from '../types.js'
 import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
 

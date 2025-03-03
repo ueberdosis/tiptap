@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
-import { EditorState, Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
+import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
+import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
+import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
@@ -28,7 +29,7 @@ import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
-import {
+import type {
   CanCommands,
   ChainedCommands,
   DocumentType,

@@ -1,6 +1,6 @@
-import { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
 
-import { Predicate } from '../types.js'
+import type { Predicate } from '../types.js'
 
 /**
  * Finds the closest parent node to a resolved position that matches a predicate.

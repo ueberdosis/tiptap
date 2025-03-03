@@ -1,37 +1,34 @@
 import { Extension } from '@tiptap/core'
-import { Blockquote, BlockquoteOptions } from '@tiptap/extension-blockquote'
-import { Bold, BoldOptions } from '@tiptap/extension-bold'
-import { Code, CodeOptions } from '@tiptap/extension-code'
-import { CodeBlock, CodeBlockOptions } from '@tiptap/extension-code-block'
+import type { BlockquoteOptions } from '@tiptap/extension-blockquote'
+import { Blockquote } from '@tiptap/extension-blockquote'
+import type { BoldOptions } from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/extension-bold'
+import type { CodeOptions } from '@tiptap/extension-code'
+import { Code } from '@tiptap/extension-code'
+import type { CodeBlockOptions } from '@tiptap/extension-code-block'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
-import { HardBreak, HardBreakOptions } from '@tiptap/extension-hard-break'
-import { Heading, HeadingOptions } from '@tiptap/extension-heading'
-import { HorizontalRule, HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
-import { Italic, ItalicOptions } from '@tiptap/extension-italic'
-import { Link, LinkOptions } from '@tiptap/extension-link'
-import {
-  BulletList,
-  BulletListOptions,
-  ListItem,
-  ListItemOptions,
-  ListKeymap,
-  ListKeymapOptions,
-  OrderedList,
-  OrderedListOptions,
-} from '@tiptap/extension-list'
-import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
-import { Strike, StrikeOptions } from '@tiptap/extension-strike'
+import type { HardBreakOptions } from '@tiptap/extension-hard-break'
+import { HardBreak } from '@tiptap/extension-hard-break'
+import type { HeadingOptions } from '@tiptap/extension-heading'
+import { Heading } from '@tiptap/extension-heading'
+import type { HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule'
+import type { ItalicOptions } from '@tiptap/extension-italic'
+import { Italic } from '@tiptap/extension-italic'
+import type { LinkOptions } from '@tiptap/extension-link'
+import { Link } from '@tiptap/extension-link'
+import type { BulletListOptions, ListItemOptions, ListKeymapOptions, OrderedListOptions } from '@tiptap/extension-list'
+import { BulletList, ListItem, ListKeymap, OrderedList } from '@tiptap/extension-list'
+import type { ParagraphOptions } from '@tiptap/extension-paragraph'
+import { Paragraph } from '@tiptap/extension-paragraph'
+import type { StrikeOptions } from '@tiptap/extension-strike'
+import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
-import { Underline, UnderlineOptions } from '@tiptap/extension-underline'
-import {
-  Dropcursor,
-  DropcursorOptions,
-  Gapcursor,
-  History,
-  HistoryOptions,
-  TrailingNode,
-  TrailingNodeOptions,
-} from '@tiptap/extensions'
+import type { UnderlineOptions } from '@tiptap/extension-underline'
+import { Underline } from '@tiptap/extension-underline'
+import type { DropcursorOptions, HistoryOptions, TrailingNodeOptions } from '@tiptap/extensions'
+import { Dropcursor, Gapcursor, History, TrailingNode } from '@tiptap/extensions'
 
 export interface StarterKitOptions {
   /**

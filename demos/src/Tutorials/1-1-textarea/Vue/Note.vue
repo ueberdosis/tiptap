@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 const props = defineProps<{ note: TNote }>()
 

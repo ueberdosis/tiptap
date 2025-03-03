@@ -1,5 +1,7 @@
-import { Extensions, getSchema } from '@tiptap/core'
-import { DOMParser, ParseOptions } from '@tiptap/pm/model'
+import type { Extensions } from '@tiptap/core'
+import { getSchema } from '@tiptap/core'
+import type { ParseOptions } from '@tiptap/pm/model'
+import { DOMParser } from '@tiptap/pm/model'
 import { DOMParser as HappyDOMParser, Window as HappyDOMWindow } from 'happy-dom-without-node'
 
 /**

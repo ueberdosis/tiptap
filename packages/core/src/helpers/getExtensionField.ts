@@ -1,7 +1,7 @@
-import { ExtensionConfig } from '../Extension.js'
-import { MarkConfig } from '../Mark.js'
-import { NodeConfig } from '../Node.js'
-import { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types.js'
+import type { ExtensionConfig } from '../Extension.js'
+import type { MarkConfig } from '../Mark.js'
+import type { NodeConfig } from '../Node.js'
+import type { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types.js'
 
 /**
  * Returns a field from an extension

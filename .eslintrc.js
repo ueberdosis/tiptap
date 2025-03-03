@@ -90,6 +90,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
       },

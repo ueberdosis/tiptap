@@ -1,4 +1,4 @@
-import { ExtensionAttribute } from '../types.js'
+import type { ExtensionAttribute } from '../types.js'
 
 /**
  * Return attributes of an extension that should be splitted by keepOnSplit flag

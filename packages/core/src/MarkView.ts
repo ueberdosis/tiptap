@@ -1,7 +1,7 @@
-import { ViewMutationRecord } from '@tiptap/pm/view'
+import type { ViewMutationRecord } from '@tiptap/pm/view'
 
-import { Editor } from './Editor.js'
-import { MarkViewProps, MarkViewRendererOptions } from './types.js'
+import type { Editor } from './Editor.js'
+import type { MarkViewProps, MarkViewRendererOptions } from './types.js'
 import { isAndroid, isiOS } from './utilities/index.js'
 
 export class MarkView<Component, Options extends MarkViewRendererOptions = MarkViewRendererOptions> {

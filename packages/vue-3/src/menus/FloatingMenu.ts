@@ -1,5 +1,7 @@
-import { FloatingMenuPlugin, FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import { defineComponent, h, onBeforeUnmount, onMounted, PropType, ref, Teleport } from 'vue'
+import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
+import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
+import type { PropType } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'vue'
 
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',

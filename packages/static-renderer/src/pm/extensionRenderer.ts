@@ -1,24 +1,27 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
+import type {
   ExtensionAttribute,
   Extensions,
-  getAttributesFromExtensions,
-  getExtensionField,
-  getSchemaByResolvedExtensions,
   JSONContent,
   Mark as MarkExtension,
   MarkConfig,
   Node as NodeExtension,
   NodeConfig,
+} from '@tiptap/core'
+import {
+  getAttributesFromExtensions,
+  getExtensionField,
+  getSchemaByResolvedExtensions,
   resolveExtensions,
   splitExtensions,
 } from '@tiptap/core'
-import { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
+import { Node } from '@tiptap/pm/model'
 
 import { getHTMLAttributes } from '../helpers.js'
-import { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
+import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
 
 export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: T | T[]) => T
 

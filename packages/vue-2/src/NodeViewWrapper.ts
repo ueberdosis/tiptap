@@ -1,4 +1,5 @@
-import Vue, { Component, CreateElement } from 'vue'
+import type { Component, CreateElement } from 'vue'
+import type Vue from 'vue'
 
 export interface NodeViewWrapperInterface extends Vue {
   as: string

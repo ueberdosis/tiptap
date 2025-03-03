@@ -1,15 +1,16 @@
 import './styles.css'
 
-import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer'
+import type { InitialConfigType } from '@lexical/react/LexicalComposer'
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
-import { EditorState } from 'lexical/LexicalEditorState'
+import type { EditorState } from 'lexical/LexicalEditorState'
 import React, { useRef } from 'react'
 
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const editorStateRef = useRef<EditorState>()

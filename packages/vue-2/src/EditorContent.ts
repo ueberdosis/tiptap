@@ -1,6 +1,7 @@
-import Vue, { Component, CreateElement, PropType } from 'vue'
+import type { Component, CreateElement, PropType } from 'vue'
+import type Vue from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 
 export interface EditorContentInterface extends Vue {
   editor: Editor

@@ -1,4 +1,5 @@
-import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
+import type { PasteRuleFinder } from '../PasteRule.js'
+import { PasteRule } from '../PasteRule.js'
 
 /**
  * Build an paste rule that replaces text when the

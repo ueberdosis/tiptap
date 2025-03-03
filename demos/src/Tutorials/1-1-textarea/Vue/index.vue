@@ -2,7 +2,7 @@
 import './styles.scss'
 
 import Note from './Note.vue'
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 const notes: TNote[] = [
   { id: 'note-1', content: 'Some random note text' },

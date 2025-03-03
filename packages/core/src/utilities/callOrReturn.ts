@@ -1,4 +1,4 @@
-import { MaybeReturnType } from '../types.js'
+import type { MaybeReturnType } from '../types.js'
 import { isFunction } from './isFunction.js'
 
 /**

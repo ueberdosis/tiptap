@@ -7,7 +7,7 @@ import {
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
 } from '../../json/html-string/string.js'
-import { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
 import { renderToElement } from '../extensionRenderer.js'
 
 export { serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'

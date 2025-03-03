@@ -1,5 +1,7 @@
-import { BubbleMenuPlugin, BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
-import Vue, { Component, CreateElement, PropType } from 'vue'
+import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
+import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import type { Component, CreateElement, PropType } from 'vue'
+import type Vue from 'vue'
 
 export interface BubbleMenuInterface extends Vue {
   pluginKey: BubbleMenuPluginProps['pluginKey']

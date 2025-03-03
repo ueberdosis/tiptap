@@ -1,12 +1,14 @@
-import { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { EditorState, Plugin, TextSelection } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Fragment } from '@tiptap/pm/model'
+import type { EditorState, TextSelection } from '@tiptap/pm/state'
+import { Plugin } from '@tiptap/pm/state'
 
 import { CommandManager } from './CommandManager.js'
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
+import type { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
 import { isRegExp } from './utilities/isRegExp.js'
 
 export type InputRuleMatch = {

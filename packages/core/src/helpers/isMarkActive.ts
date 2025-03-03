@@ -1,7 +1,7 @@
-import { MarkType } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import type { MarkType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
 
-import { MarkRange } from '../types.js'
+import type { MarkRange } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'
 import { getMarkType } from './getMarkType.js'
 

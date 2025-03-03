@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core'
 
-import { FloatingMenuPlugin, FloatingMenuPluginProps } from './floating-menu-plugin.js'
+import type { FloatingMenuPluginProps } from './floating-menu-plugin.js'
+import { FloatingMenuPlugin } from './floating-menu-plugin.js'
 
 export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'element'> & {
   /**

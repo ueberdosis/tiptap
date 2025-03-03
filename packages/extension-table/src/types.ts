@@ -1,4 +1,4 @@
-import { ParentConfig } from '@tiptap/core'
+import type { ParentConfig } from '@tiptap/core'
 
 declare module '@tiptap/core' {
   interface NodeConfig<Options, Storage> {

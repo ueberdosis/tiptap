@@ -1,4 +1,4 @@
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isMacOS } from '../utilities/isMacOS.js'
 

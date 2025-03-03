@@ -1,15 +1,15 @@
-import { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
 } from '@tiptap/y-tiptap'
-import * as Y from 'yjs'
+import type * as Y from 'yjs'
 
 import { AnnotationItem } from './AnnotationItem.js'
 import { AnnotationPluginKey } from './AnnotationPlugin.js'
-import { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation.js'
+import type { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation.js'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {

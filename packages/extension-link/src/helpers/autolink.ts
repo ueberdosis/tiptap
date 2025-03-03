@@ -1,13 +1,9 @@
-import {
-  combineTransactionSteps,
-  findChildrenInRange,
-  getChangedRanges,
-  getMarksBetween,
-  NodeWithPos,
-} from '@tiptap/core'
-import { MarkType } from '@tiptap/pm/model'
+import type { NodeWithPos } from '@tiptap/core'
+import { combineTransactionSteps, findChildrenInRange, getChangedRanges, getMarksBetween } from '@tiptap/core'
+import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { MultiToken, tokenize } from 'linkifyjs'
+import type { MultiToken } from 'linkifyjs'
+import { tokenize } from 'linkifyjs'
 
 /**
  * Check if the provided tokens form a valid link structure, which can either be a single link token

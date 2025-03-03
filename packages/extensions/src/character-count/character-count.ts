@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export interface CharacterCountOptions {

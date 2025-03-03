@@ -1,5 +1,5 @@
 import type { MarkConfig, NodeConfig } from '../index.js'
-import { AnyConfig, Attribute, Attributes, ExtensionAttribute, Extensions } from '../types.js'
+import type { AnyConfig, Attribute, Attributes, ExtensionAttribute, Extensions } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 import { splitExtensions } from './splitExtensions.js'
 

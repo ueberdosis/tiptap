@@ -1,19 +1,14 @@
-import {
-  DecorationWithType,
-  Editor,
-  getRenderedAttributes,
-  NodeView,
-  NodeViewProps,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
-} from '@tiptap/core'
-import { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import React, { ComponentType } from 'react'
+import type { DecorationWithType, Editor, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
+import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { ComponentType } from 'react'
+import React from 'react'
 
-import { EditorWithContentComponent } from './Editor.js'
+import type { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
-import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
+import type { ReactNodeViewContextProps } from './useReactNodeView.js'
+import { ReactNodeViewContext } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**

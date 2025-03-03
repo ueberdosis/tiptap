@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import { MarkView, MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
-import { Component, defineComponent, h, PropType } from 'vue'
+import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
+import { MarkView } from '@tiptap/core'
+import type { Component, PropType } from 'vue'
+import { defineComponent, h } from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
 
 export interface VueMarkViewRendererOptions extends MarkViewRendererOptions {

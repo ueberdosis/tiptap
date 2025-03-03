@@ -1,10 +1,11 @@
-import { Editor } from '@tiptap/core'
-import React, { ForwardedRef, forwardRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
+import type { Editor } from '@tiptap/core'
+import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
+import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim'
 
-import { ContentComponent, EditorWithContentComponent } from './Editor.js'
-import { ReactRenderer } from './ReactRenderer.js'
+import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import type { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
   return (node: T) => {

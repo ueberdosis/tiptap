@@ -1,9 +1,13 @@
 import { Extension } from '@tiptap/core'
 
-import { TableCell, TableCellOptions } from '../cell/index.js'
-import { TableHeader, TableHeaderOptions } from '../header/index.js'
-import { TableRow, TableRowOptions } from '../row/index.js'
-import { Table, TableOptions } from '../table/index.js'
+import type { TableCellOptions } from '../cell/index.js'
+import { TableCell } from '../cell/index.js'
+import type { TableHeaderOptions } from '../header/index.js'
+import { TableHeader } from '../header/index.js'
+import type { TableRowOptions } from '../row/index.js'
+import { TableRow } from '../row/index.js'
+import type { TableOptions } from '../table/index.js'
+import { Table } from '../table/index.js'
 
 export interface TableKitOptions {
   /**

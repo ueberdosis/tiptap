@@ -1,6 +1,6 @@
-import { Step, Transform } from '@tiptap/pm/transform'
+import type { Step, Transform } from '@tiptap/pm/transform'
 
-import { Range } from '../types.js'
+import type { Range } from '../types.js'
 import { removeDuplicates } from '../utilities/removeDuplicates.js'
 
 export type ChangedRange = {

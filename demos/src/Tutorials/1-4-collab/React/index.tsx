@@ -3,7 +3,7 @@ import './styles.scss'
 import React from 'react'
 
 import Note from './Note.jsx'
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 const notes: TNote[] = [
   {

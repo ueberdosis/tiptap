@@ -1,8 +1,8 @@
 import { setBlockType } from '@tiptap/pm/commands'
-import { NodeType } from '@tiptap/pm/model'
+import type { NodeType } from '@tiptap/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
