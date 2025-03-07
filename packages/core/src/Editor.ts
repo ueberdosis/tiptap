@@ -364,6 +364,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       attributes: {
         // add `role="textbox"` to the editor element
         role: 'textbox',
+        'aria-label': 'Rich-Text Editor',
         ...this.options.editorProps?.attributes,
       },
       dispatchTransaction: this.dispatchTransaction.bind(this),
