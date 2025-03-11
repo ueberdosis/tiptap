@@ -1,28 +1,12 @@
 import type { Editor } from '@tiptap/core'
-import React from 'react'
-import { flushSync } from 'react-dom'
+import { type Component, createRoot } from 'solid-js'
+import { type SetStoreFunction, type Store, createStore } from 'solid-js/store'
+import type { CustomPartial } from 'solid-js/store/types/store.js'
+import { Dynamic, insert } from 'solid-js/web'
 
-import type { EditorWithContentComponent } from './Editor.js'
+import { getTiptapSolidReactiveOwner } from './ReactiveOwner.js'
 
-/**
- * Check if a component is a class component.
- * @param Component
- * @returns {boolean}
- */
-function isClassComponent(Component: any) {
-  return !!(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent)
-}
-
-/**
- * Check if a component is a forward ref component.
- * @param Component
- * @returns {boolean}
- */
-function isForwardRefComponent(Component: any) {
-  return !!(typeof Component === 'object' && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)')
-}
-
-export interface ReactRendererOptions {
+export interface SolidRendererOptions<P extends Record<string, any> = Record<string, any>> {
   /**
    * The editor instance.
    * @type {Editor}
@@ -34,7 +18,7 @@ export interface ReactRendererOptions {
    * @type {Record<string, any>}
    * @default {}
    */
-  props?: Record<string, any>
+  props?: P
 
   /**
    * The tag name of the element.
@@ -52,15 +36,10 @@ export interface ReactRendererOptions {
   className?: string
 }
 
-type ComponentType<R, P> =
-  | React.ComponentClass<P>
-  | React.FunctionComponent<P>
-  | React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>
-
 /**
- * The ReactRenderer class. It's responsible for rendering React components inside the editor.
+ * The SolidRenderer class. It's responsible for rendering Solid components inside the editor.
  * @example
- * new ReactRenderer(MyComponent, {
+ * new SolidRenderer(MyComponent, {
  *   editor,
  *   props: {
  *     foo: 'bar',
@@ -68,97 +47,65 @@ type ComponentType<R, P> =
  *   as: 'span',
  * })
  */
-export class ReactRenderer<R = unknown, P extends Record<string, any> = object> {
+export class SolidRenderer<P extends Record<string, any> = Record<string, any>> {
   id: string
 
   editor: Editor
 
-  component: any
-
   element: Element
 
-  props: P
+  #dispose!: () => void
 
-  reactElement: React.ReactNode
+  #setProps!: SetStoreFunction<P>
 
-  ref: R | null = null
+  props!: Store<P>
 
   /**
-   * Immediately creates element and renders the provided React component.
+   * Immediately creates element and renders the provided Solid component.
    */
   constructor(
-    component: ComponentType<R, P>,
-    { editor, props = {}, as = 'div', className = '' }: ReactRendererOptions,
+    component: Component<P>,
+    { editor, props = {} as P, as = 'div', className = '' }: SolidRendererOptions<P>,
   ) {
     this.id = Math.floor(Math.random() * 0xffffffff).toString()
-    this.component = component
-    this.editor = editor as EditorWithContentComponent
-    this.props = props as P
+    this.editor = editor
     this.element = document.createElement(as)
-    this.element.classList.add('react-renderer')
+    this.element.classList.add('solid-renderer')
 
     if (className) {
       this.element.classList.add(...className.split(' '))
     }
 
-    if (this.editor.isInitialized) {
-      // On first render, we need to flush the render synchronously
-      // Renders afterwards can be async, but this fixes a cursor positioning issue
-      flushSync(() => {
-        this.render()
-      })
-    } else {
-      this.render()
-    }
+    createRoot(dispose => {
+      const [reactiveProps, setProps] = createStore(props)
+      this.props = reactiveProps
+      this.#setProps = setProps
+      this.#dispose = dispose
+      insert(this.element, <Dynamic component={component} {...reactiveProps} />)
+    }, getTiptapSolidReactiveOwner(this.editor))
   }
 
   /**
-   * Render the React component.
+   * Re-renders the Solid component with new props.
    */
-  render(): void {
-    const Component = this.component
-    const props = this.props
-    const editor = this.editor as EditorWithContentComponent
-
-    if (isClassComponent(Component) || isForwardRefComponent(Component)) {
-      // @ts-ignore This is a hack to make the ref work
-      props.ref = (ref: R) => {
-        this.ref = ref
-      }
-    }
-
-    this.reactElement = <Component {...props} />
-
-    editor?.contentComponent?.setRenderer(this.id, this)
+  updateProps(props: CustomPartial<P>): void {
+    this.#setProps(() => props)
   }
 
   /**
-   * Re-renders the React component with new props.
-   */
-  updateProps(props: Record<string, any> = {}): void {
-    this.props = {
-      ...this.props,
-      ...props,
-    }
-
-    this.render()
-  }
-
-  /**
-   * Destroy the React component.
+   * Destroy the Solid component.
    */
   destroy(): void {
-    const editor = this.editor as EditorWithContentComponent
-
-    editor?.contentComponent?.removeRenderer(this.id)
+    this.#dispose()
+    this.element.remove()
   }
 
   /**
-   * Update the attributes of the element that holds the React component.
+   * Update the attributes of the element that holds the Solid component.
    */
   updateAttributes(attributes: Record<string, string>): void {
     Object.keys(attributes).forEach(key => {
-      this.element.setAttribute(key, attributes[key])
+      this.element.setAttribute(key, attributes[key] as string)
     })
   }
 }

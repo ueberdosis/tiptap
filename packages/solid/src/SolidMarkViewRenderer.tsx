@@ -1,52 +1,50 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
-import React from 'react'
+import type { Component, ComponentProps, JSX } from 'solid-js'
+import { createContext, useContext } from 'solid-js'
+import { Dynamic } from 'solid-js/web'
 
-// import { flushSync } from 'react-dom'
-import { ReactRenderer } from './ReactRenderer.js'
+import { SolidRenderer } from './SolidRenderer.js'
 
 export interface MarkViewContextProps {
   markViewContentRef: (element: HTMLElement | null) => void
 }
-export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
+export const SolidMarkViewContext = createContext<MarkViewContextProps>({
   markViewContentRef: () => {
     // do nothing
   },
 })
 
-export type MarkViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'span'> = {
+export type MarkViewContentProps<T extends keyof JSX.IntrinsicElements = 'span'> = {
   as?: NoInfer<T>
-} & React.ComponentProps<T>
+} & ComponentProps<T>
 
-export const MarkViewContent: React.FC<MarkViewContentProps> = props => {
+export const MarkViewContent: Component<MarkViewContentProps> = props => {
   const Tag = props.as || 'span'
-  const { markViewContentRef } = React.useContext(ReactMarkViewContext)
+  const { markViewContentRef } = useContext(SolidMarkViewContext)
 
-  return (
-    // @ts-ignore
-    <Tag {...props} ref={markViewContentRef} data-mark-view-content="" />
-  )
+  return <Tag {...props} ref={markViewContentRef} data-mark-view-content="" />
 }
 
-export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
+export interface SolidMarkViewRendererOptions extends MarkViewRendererOptions {
   /**
-   * The tag name of the element wrapping the React component.
+   * The tag name of the element wrapping the Solid component.
    */
   as?: string
   className?: string
   attrs?: { [key: string]: string }
 }
 
-export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, ReactMarkViewRendererOptions> {
-  renderer: ReactRenderer
+export class SolidMarkView extends MarkView<Component<MarkViewProps>, SolidMarkViewRendererOptions> {
+  renderer: SolidRenderer
   contentDOMElement: HTMLElement | null
   didMountContentDomElement = false
 
   constructor(
-    component: React.ComponentType<MarkViewProps>,
+    component: Component<MarkViewProps>,
     props: MarkViewProps,
-    options?: Partial<ReactMarkViewRendererOptions>,
+    options?: Partial<SolidMarkViewRendererOptions>,
   ) {
     super(component, props, options)
 
@@ -67,17 +65,15 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
 
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactMarkViewProvider: React.FunctionComponent<MarkViewProps> = React.memo(componentProps => {
+    const SolidMarkViewProvider: Component<MarkViewProps> = componentProps => {
       return (
-        <ReactMarkViewContext.Provider value={context}>
-          {React.createElement(component, componentProps)}
-        </ReactMarkViewContext.Provider>
+        <SolidMarkViewContext.Provider value={context}>
+          <Dynamic component={component} {...componentProps} />
+        </SolidMarkViewContext.Provider>
       )
-    })
+    }
 
-    ReactMarkViewProvider.displayName = 'ReactNodeView'
-
-    this.renderer = new ReactRenderer(ReactMarkViewProvider, {
+    this.renderer = new SolidRenderer(SolidMarkViewProvider, {
       editor: props.editor,
       props: componentProps,
       as,
@@ -101,9 +97,9 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
   }
 }
 
-export function ReactMarkViewRenderer(
-  component: React.ComponentType<MarkViewProps>,
-  options: Partial<ReactMarkViewRendererOptions> = {},
+export function SolidMarkViewRenderer(
+  component: Component<MarkViewProps>,
+  options: Partial<SolidMarkViewRendererOptions> = {},
 ): MarkViewRenderer {
-  return props => new ReactMarkView(component, props, options)
+  return props => new SolidMarkView(component, props, options)
 }

@@ -1,16 +1,15 @@
 import type { DecorationWithType, Editor, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
 import { getRenderedAttributes, NodeView } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import type { ComponentType } from 'react'
-import React from 'react'
+import type { Decoration, DecorationSource } from '@tiptap/pm/view'
+import type { Component } from 'solid-js'
+import type { CustomPartial } from 'solid-js/store/types/store.js'
 
-import type { EditorWithContentComponent } from './Editor.js'
-import { ReactRenderer } from './ReactRenderer.js'
-import type { ReactNodeViewContextProps } from './useReactNodeView.js'
-import { ReactNodeViewContext } from './useReactNodeView.js'
+import { SolidRenderer } from './SolidRenderer.jsx'
+import type { SolidNodeViewContextProps } from './useSolidNodeView.js'
+import { SolidNodeViewContext } from './useSolidNodeView.js'
 
-export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
+export interface SolidNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
    * This function is called when the node view is updated.
    * It allows you to compare the old node with the new node and decide if the component should update.
@@ -27,15 +26,15 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
       }) => boolean)
     | null
   /**
-   * The tag name of the element wrapping the React component.
+   * The tag name of the element wrapping the Solid component.
    */
   as?: string
   /**
-   * The class name of the element wrapping the React component.
+   * The class name of the element wrapping the Solid component.
    */
   className?: string
   /**
-   * Attributes that should be applied to the element wrapping the React component.
+   * Attributes that should be applied to the element wrapping the Solid component.
    * If this is a function, it will be called each time the node view is updated.
    * If this is an object, it will be applied once when the node view is mounted.
    */
@@ -44,15 +43,15 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
     | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
 
-export class ReactNodeView<
-  Component extends ComponentType<NodeViewProps> = ComponentType<NodeViewProps>,
+export class SolidNodeView<
+  TComponent extends Component<NodeViewProps> = Component<NodeViewProps>,
   NodeEditor extends Editor = Editor,
-  Options extends ReactNodeViewRendererOptions = ReactNodeViewRendererOptions,
-> extends NodeView<Component, NodeEditor, Options> {
+  Options extends SolidNodeViewRendererOptions = SolidNodeViewRendererOptions,
+> extends NodeView<TComponent, NodeEditor, Options> {
   /**
    * The renderer instance.
    */
-  renderer!: ReactRenderer<unknown, NodeViewProps>
+  renderer!: SolidRenderer<NodeViewProps>
 
   /**
    * The element that holds the rich-text content of the node.
@@ -60,12 +59,14 @@ export class ReactNodeView<
   contentDOMElement!: HTMLElement | null
 
   /**
-   * Setup the React component.
+   * Setup the Solid component.
    * Called on initialization.
    */
   mount() {
     const props = {
-      editor: this.editor,
+      get editor() {
+        return this.editor
+      },
       node: this.node,
       decorations: this.decorations as DecorationWithType[],
       innerDecorations: this.innerDecorations,
@@ -78,16 +79,8 @@ export class ReactNodeView<
       deleteNode: () => this.deleteNode(),
     } satisfies NodeViewProps
 
-    if (!(this.component as any).displayName) {
-      const capitalizeFirstChar = (string: string): string => {
-        return string.charAt(0).toUpperCase() + string.substring(1)
-      }
-
-      this.component.displayName = capitalizeFirstChar(this.extension.name)
-    }
-
     const onDragStart = this.onDragStart.bind(this)
-    const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
+    const nodeViewContentRef: SolidNodeViewContextProps['nodeViewContentRef'] = element => {
       if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
         element.appendChild(this.contentDOMElement)
       }
@@ -96,15 +89,13 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: React.FunctionComponent<NodeViewProps> = React.memo(componentProps => {
+    const SolidNodeViewProvider: Component<NodeViewProps> = componentProps => {
       return (
-        <ReactNodeViewContext.Provider value={context}>
-          {React.createElement(Component, componentProps)}
-        </ReactNodeViewContext.Provider>
+        <SolidNodeViewContext.Provider value={context}>
+          <Component {...componentProps} />
+        </SolidNodeViewContext.Provider>
       )
-    })
-
-    ReactNodeViewProvider.displayName = 'ReactNodeView'
+    }
 
     if (this.node.isLeaf) {
       this.contentDOMElement = null
@@ -115,7 +106,7 @@ export class ReactNodeView<
     }
 
     if (this.contentDOMElement) {
-      this.contentDOMElement.dataset.nodeViewContentReact = ''
+      this.contentDOMElement.dataset.nodeViewContentSolid = ''
       // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
       // With this fix it seems to work fine
       // See: https://github.com/ueberdosis/tiptap/issues/1197
@@ -132,7 +123,7 @@ export class ReactNodeView<
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
 
-    this.renderer = new ReactRenderer(ReactNodeViewProvider, {
+    this.renderer = new SolidRenderer<NodeViewProps>(SolidNodeViewProvider, {
       editor: this.editor,
       props,
       as,
@@ -198,11 +189,11 @@ export class ReactNodeView<
   }
 
   /**
-   * On update, update the React component.
+   * On update, update the Solid component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
   update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
-    const rerenderComponent = (props?: Record<string, any>) => {
+    const rerenderComponent = (props: CustomPartial<NodeViewProps>) => {
       this.renderer.updateProps(props)
       if (typeof this.options.attrs === 'function') {
         this.updateElementAttributes()
@@ -229,7 +220,8 @@ export class ReactNodeView<
         newDecorations: decorations,
         oldInnerDecorations,
         innerDecorations,
-        updateProps: () => rerenderComponent({ node, decorations, innerDecorations }),
+        updateProps: () =>
+          rerenderComponent({ node, decorations: decorations as DecorationWithType[], innerDecorations }),
       })
     }
 
@@ -241,7 +233,7 @@ export class ReactNodeView<
     this.decorations = decorations
     this.innerDecorations = innerDecorations
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    rerenderComponent({ node, decorations: decorations as DecorationWithType[], innerDecorations })
 
     return true
   }
@@ -269,7 +261,7 @@ export class ReactNodeView<
   }
 
   /**
-   * Destroy the React component instance.
+   * Destroy the Solid component instance.
    */
   destroy() {
     this.renderer.destroy()
@@ -278,7 +270,7 @@ export class ReactNodeView<
   }
 
   /**
-   * Update the attributes of the top-level element that holds the React component.
+   * Update the attributes of the top-level element that holds the Solid component.
    * Applying the attributes defined in the `attrs` option.
    */
   updateElementAttributes() {
@@ -300,20 +292,13 @@ export class ReactNodeView<
 }
 
 /**
- * Create a React node view renderer.
+ * Create a Solid node view renderer.
  */
-export function ReactNodeViewRenderer(
-  component: ComponentType<NodeViewProps>,
-  options?: Partial<ReactNodeViewRendererOptions>,
+export function SolidNodeViewRenderer(
+  component: Component<NodeViewProps>,
+  options?: Partial<SolidNodeViewRendererOptions>,
 ): NodeViewRenderer {
   return props => {
-    // try to get the parent component
-    // this is important for vue devtools to show the component hierarchy correctly
-    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
-    if (!(props.editor as EditorWithContentComponent).contentComponent) {
-      return {} as unknown as ProseMirrorNodeView
-    }
-
-    return new ReactNodeView(component, props, options)
+    return new SolidNodeView(component, props, options)
   }
 }

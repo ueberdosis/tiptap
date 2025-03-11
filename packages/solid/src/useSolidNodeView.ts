@@ -1,17 +1,16 @@
-import type { ReactNode } from 'react'
-import { createContext, createElement, useContext } from 'react'
+import { type JSX, createComponent, createContext, createMemo, useContext } from 'solid-js'
 
-export interface ReactNodeViewContextProps {
+export interface SolidNodeViewContextProps {
   onDragStart?: (event: DragEvent) => void
   nodeViewContentRef?: (element: HTMLElement | null) => void
   /**
    * This allows you to add children into the NodeViewContent component.
    * This is useful when statically rendering the content of a node view.
    */
-  nodeViewContentChildren?: ReactNode
+  nodeViewContentChildren?: JSX.Element
 }
 
-export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({
+export const SolidNodeViewContext = createContext<SolidNodeViewContextProps>({
   onDragStart: () => {
     // no-op
   },
@@ -21,8 +20,18 @@ export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({
   },
 })
 
-export const ReactNodeViewContentProvider = ({ children, content }: { children: ReactNode; content: ReactNode }) => {
-  return createElement(ReactNodeViewContext.Provider, { value: { nodeViewContentChildren: content } }, children)
+export const SolidNodeViewContentProvider = (props: { children: JSX.Element; content: JSX.Element }) => {
+  const content = createMemo(() => props.content)
+  return createComponent(SolidNodeViewContext.Provider, {
+    value: {
+      get nodeViewContentChildren() {
+        return content()
+      },
+    },
+    get children() {
+      return props.children
+    },
+  })
 }
 
-export const useReactNodeView = () => useContext(ReactNodeViewContext)
+export const useSolidNodeView = () => useContext(SolidNodeViewContext)

@@ -1,27 +1,26 @@
-import React from 'react'
+import type { Ref } from 'solid-js'
+import { Dynamic } from 'solid-js/web'
 
-import { useReactNodeView } from './useReactNodeView.js'
+import { useSolidNodeView } from './useSolidNodeView.js'
+import type { DomElement, DomElementAsProps, DomElementRef } from './utils/types.js'
 
-export interface NodeViewWrapperProps {
-  [key: string]: any
-  as?: React.ElementType
-}
+export type NodeViewWrapperProps<E extends DomElement = 'div'> = DomElementAsProps<E, {
+  ref?: Ref<DomElementRef<E>>
+}>
 
-export const NodeViewWrapper: React.FC<NodeViewWrapperProps> = React.forwardRef((props, ref) => {
-  const { onDragStart } = useReactNodeView()
-  const Tag = props.as || 'div'
-
+export function NodeViewWrapper<E extends DomElement = 'div'>(props: NodeViewWrapperProps<E>) {
+  const context = useSolidNodeView()
   return (
-    // @ts-ignore
-    <Tag
+    <Dynamic
+      component={props.as || ('div' as any)}
       {...props}
-      ref={ref}
+      ref={props.ref}
       data-node-view-wrapper=""
-      onDragStart={onDragStart}
+      onDragStart={context.onDragStart}
       style={{
         whiteSpace: 'normal',
         ...props.style,
       }}
     />
   )
-})
+}

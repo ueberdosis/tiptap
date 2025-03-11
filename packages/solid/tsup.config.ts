@@ -1,13 +1,15 @@
-import { defineConfig } from 'tsup'
+import { solidPlugin } from 'esbuild-plugin-solid'
+import { type Format, defineConfig } from 'tsup'
 
 export default defineConfig(
   ['src/index.ts', 'src/menus/index.ts'].map(entry => ({
     entry: [entry],
-    tsconfig: '../../tsconfig.build.json',
+    tsconfig: './tsconfig.build.json',
     outDir: `dist${entry.replace('src', '').split('/').slice(0, -1).join('/')}`,
     dts: true,
     sourcemap: true,
-    format: ['esm', 'cjs'],
+    format: ['esm', 'cjs'] as Format[],
     external: [/^[^./]/],
+    esbuildPlugins: [solidPlugin()],
   })),
 )

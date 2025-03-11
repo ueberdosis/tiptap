@@ -1,30 +1,24 @@
-import type { ComponentProps } from 'react'
-import React from 'react'
+import { Dynamic } from 'solid-js/web'
 
-import { useReactNodeView } from './useReactNodeView.js'
+import { useSolidNodeView } from './useSolidNodeView.js'
+import type { DomElement, DomElementAsProps } from './utils/types.js'
 
-export type NodeViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'div'> = {
-  as?: NoInfer<T>
-} & ComponentProps<T>
+export type NodeViewContentProps<E extends DomElement = 'div'> = DomElementAsProps<E>
 
-export function NodeViewContent<T extends keyof React.JSX.IntrinsicElements = 'div'>({
-  as: Tag = 'div' as T,
-  ...props
-}: NodeViewContentProps<T>) {
-  const { nodeViewContentRef, nodeViewContentChildren } = useReactNodeView()
-
+export function NodeViewContent<E extends DomElement = 'div'>(props: NodeViewContentProps<E>) {
+  const context = useSolidNodeView()
   return (
-    // @ts-ignore
-    <Tag
+    <Dynamic
+      component={props.as || ('div' as any)}
       {...props}
-      ref={nodeViewContentRef}
+      ref={context.nodeViewContentRef}
       data-node-view-content=""
       style={{
         whiteSpace: 'pre-wrap',
         ...props.style,
       }}
     >
-      {nodeViewContentChildren}
-    </Tag>
+      {context.nodeViewContentChildren}
+    </Dynamic>
   )
 }

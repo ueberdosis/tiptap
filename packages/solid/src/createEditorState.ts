@@ -1,173 +1,79 @@
 import type { Editor } from '@tiptap/core'
-import deepEqual from 'fast-deep-equal/es6/react'
-import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector'
+import { type Accessor, createComputed, on, onCleanup } from 'solid-js'
+import type { Store } from 'solid-js/store'
+import { createStore, unwrap } from 'solid-js/store'
 
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
-
-export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
-  editor: TEditor
-  transactionNumber: number
-}
-
-export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null = Editor | null> = {
-  /**
-   * The editor instance.
-   */
-  editor: TEditor
-  /**
-   * A selector function to determine the value to compare for re-rendering.
-   */
-  selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult
-  /**
-   * A custom equality function to determine if the editor should re-render.
-   * @default `deepEqual` from `fast-deep-equal`
-   */
-  equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean
-}
+type EditorSelector<TEditor, T> = (editor: TEditor) => T
 
 /**
- * To synchronize the editor instance with the component state,
- * we need to create a separate instance that is not affected by the component re-renders.
+ * Creates a solid store like signal out of the selected state object.
+ *
+ * @param editor - An accessor returning the current `Editor` instance.
+ * @param selector - A function that picks part of the editor’s state or creates a state object to track.
+ * @returns A SolidJS store for the selected value.
+ *
+ * @example
+ * ```tsx
+ * import { createEditor } from '@tiptap/solid';
+ *
+ * const MyComponent = () => {
+ *   const editor = createEditor({ /* Tiptap Editor options *\/ });
+ *
+ *   // Listen for changes in the editor's current selection
+ *   const currentSelection = createEditorState(
+ *     editor,
+ *     editor => editor.state.selection
+ *   );
+ *
+ *   // Or, create and track a state object
+ *    const editorState = createEditorState(
+ *     editor,
+ *     editor => {
+ *       return {
+ *         isBold: editor.isActive('bold'),
+ *         canBold: editor.can().chain().focus().toggleBold().run(),
+ *         isItalic: editor.isActive('italic'),
+ *         canItalic: editor.can().chain().focus().toggleItalic().run(),
+ *         isStrike: editor.isActive('strike'),
+ *       }
+ *     }
+ *   )
+ *
+ *   return (
+ *     <div>
+ *       <p>The current selection is: {JSON.stringify(currentSelection())}</p>
+ *       <p>Can Bold: {editorState().isBold)}</p>
+ *     </div>
+ *   );
+ * };
+ * ```
  */
-class EditorStateManager<TEditor extends Editor | null = Editor | null> {
-  private transactionNumber = 0
+export function createEditorState<
+  TEditor extends Editor | undefined,
+  TSelector extends EditorSelector<TEditor, any> = EditorSelector<TEditor, TEditor>,
+  TSelectorResult = TSelector extends EditorSelector<TEditor, infer T> ? T : never,
+>(editor: Accessor<TEditor>, selector?: TSelector): Accessor<Store<TSelectorResult>> {
+  const selectorFn = selector ?? (x => x)
 
-  private lastTransactionNumber = 0
+  const [selection, setSelection] = createStore<{ value: TSelectorResult }>({ value: selectorFn(unwrap(editor())) })
 
-  private lastSnapshot: EditorStateSnapshot<TEditor>
+  createComputed(
+    on(editor, currentEditor => {
+      if (currentEditor) {
+        const handleTransaction = () => {
+          setSelection('value', () => selectorFn(unwrap(currentEditor)))
+        }
 
-  private editor: TEditor
+        handleTransaction()
 
-  private subscribers = new Set<() => void>()
+        currentEditor.on('transaction', handleTransaction)
 
-  constructor(initialEditor: TEditor) {
-    this.editor = initialEditor
-    this.lastSnapshot = { editor: initialEditor, transactionNumber: 0 }
-
-    this.getSnapshot = this.getSnapshot.bind(this)
-    this.getServerSnapshot = this.getServerSnapshot.bind(this)
-    this.watch = this.watch.bind(this)
-    this.subscribe = this.subscribe.bind(this)
-  }
-
-  /**
-   * Get the current editor instance.
-   */
-  getSnapshot(): EditorStateSnapshot<TEditor> {
-    if (this.transactionNumber === this.lastTransactionNumber) {
-      return this.lastSnapshot
-    }
-    this.lastTransactionNumber = this.transactionNumber
-    this.lastSnapshot = { editor: this.editor, transactionNumber: this.transactionNumber }
-    return this.lastSnapshot
-  }
-
-  /**
-   * Always disable the editor on the server-side.
-   */
-  getServerSnapshot(): EditorStateSnapshot<null> {
-    return { editor: null, transactionNumber: 0 }
-  }
-
-  /**
-   * Subscribe to the editor instance's changes.
-   */
-  subscribe(callback: () => void): () => void {
-    this.subscribers.add(callback)
-    return () => {
-      this.subscribers.delete(callback)
-    }
-  }
-
-  /**
-   * Watch the editor instance for changes.
-   */
-  watch(nextEditor: Editor | null): undefined | (() => void) {
-    this.editor = nextEditor as TEditor
-
-    if (this.editor) {
-      /**
-       * This will force a re-render when the editor state changes.
-       * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
-       * This could be more efficient, but it's a good trade-off for now.
-       */
-      const fn = () => {
-        this.transactionNumber += 1
-        this.subscribers.forEach(callback => callback())
+        onCleanup(() => {
+          currentEditor.off('transaction', handleTransaction)
+        })
       }
-
-      const currentEditor = this.editor
-
-      currentEditor.on('transaction', fn)
-      return () => {
-        currentEditor.off('transaction', fn)
-      }
-    }
-
-    return undefined
-  }
-}
-
-/**
- * This hook allows you to watch for changes on the editor instance.
- * It will allow you to select a part of the editor state and re-render the component when it changes.
- * @example
- * ```tsx
- * const editor = useEditor({...options})
- * const { currentSelection } = useEditorState({
- *  editor,
- *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
- * })
- */
-export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor>,
-): TSelectorResult
-/**
- * This hook allows you to watch for changes on the editor instance.
- * It will allow you to select a part of the editor state and re-render the component when it changes.
- * @example
- * ```tsx
- * const editor = useEditor({...options})
- * const { currentSelection } = useEditorState({
- *  editor,
- *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
- * })
- */
-export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor | null>,
-): TSelectorResult | null
-
-/**
- * This hook allows you to watch for changes on the editor instance.
- * It will allow you to select a part of the editor state and re-render the component when it changes.
- * @example
- * ```tsx
- * const editor = useEditor({...options})
- * const { currentSelection } = useEditorState({
- *  editor,
- *  selector: snapshot => ({ currentSelection: snapshot.editor.state.selection }),
- * })
- */
-export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
-): TSelectorResult | null {
-  const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
-
-  // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
-  const selectedState = useSyncExternalStoreWithSelector(
-    editorStateManager.subscribe,
-    editorStateManager.getSnapshot,
-    editorStateManager.getServerSnapshot,
-    options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
-    options.equalityFn ?? deepEqual,
+    }),
   )
 
-  useIsomorphicLayoutEffect(() => {
-    return editorStateManager.watch(options.editor)
-  }, [options.editor, editorStateManager])
-
-  useDebugValue(selectedState)
-
-  return selectedState
+  return () => selection.value
 }
