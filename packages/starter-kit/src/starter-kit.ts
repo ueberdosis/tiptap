@@ -27,8 +27,8 @@ import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import type { UnderlineOptions } from '@tiptap/extension-underline'
 import { Underline } from '@tiptap/extension-underline'
-import type { DropcursorOptions, HistoryOptions, TrailingNodeOptions } from '@tiptap/extensions'
-import { Dropcursor, Gapcursor, History, TrailingNode } from '@tiptap/extensions'
+import type { DropcursorOptions, TrailingNodeOptions, UndoRedoOptions } from '@tiptap/extensions'
+import { Dropcursor, Gapcursor, TrailingNode, UndoRedo } from '@tiptap/extensions'
 
 export interface StarterKitOptions {
   /**
@@ -92,10 +92,10 @@ export interface StarterKitOptions {
   heading: Partial<HeadingOptions> | false
 
   /**
-   * If set to false, the history extension will not be registered
-   * @example history: false
+   * If set to false, the undo-redo extension will not be registered
+   * @example undoRedo: false
    */
-  history: Partial<HistoryOptions> | false
+  undoRedo: Partial<UndoRedoOptions> | false
 
   /**
    * If set to false, the horizontalRule extension will not be registered
@@ -215,8 +215,8 @@ export const StarterKit = Extension.create<StarterKitOptions>({
       extensions.push(Heading.configure(this.options?.heading))
     }
 
-    if (this.options.history !== false) {
-      extensions.push(History.configure(this.options?.history))
+    if (this.options.undoRedo !== false) {
+      extensions.push(UndoRedo.configure(this.options?.undoRedo))
     }
 
     if (this.options.horizontalRule !== false) {

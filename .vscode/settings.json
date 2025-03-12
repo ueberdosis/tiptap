@@ -27,7 +27,7 @@
     "extension/hard-break",
     "extension/heading",
     "extension/highlight",
-    "extension/history",
+    "extension/undo-redo",
     "extension/horizontal-rule",
     "extension/image",
     "extension/italic",

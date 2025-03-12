@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import { history, redo, undo } from '@tiptap/pm/history'
 
-export interface HistoryOptions {
+export interface UndoRedoOptions {
   /**
    * The amount of history events that are collected before the oldest events are discarded.
    * @default 100
@@ -19,7 +19,7 @@ export interface HistoryOptions {
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    history: {
+    undoRedo: {
       /**
        * Undo recent changes
        * @example editor.commands.undo()
@@ -36,15 +36,15 @@ declare module '@tiptap/core' {
 
 /**
  * This extension allows you to undo and redo recent changes.
- * @see https://www.tiptap.dev/api/extensions/history
+ * @see https://www.tiptap.dev/api/extensions/undo-redo
  *
  * **Important**: If the `@tiptap/extension-collaboration` package is used, make sure to remove
- * the `history` extension, as it is not compatible with the `collaboration` extension.
+ * the `undo-redo` extension, as it is not compatible with the `collaboration` extension.
  *
  * `@tiptap/extension-collaboration` uses its own history implementation.
  */
-export const History = Extension.create<HistoryOptions>({
-  name: 'history',
+export const UndoRedo = Extension.create<UndoRedoOptions>({
+  name: 'undoRedo',
 
   addOptions() {
     return {

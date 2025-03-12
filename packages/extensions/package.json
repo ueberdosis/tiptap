@@ -54,13 +54,13 @@
       "import": "./dist/gap-cursor/index.js",
       "require": "./dist/gap-cursor/index.cjs"
     },
-    "./history": {
+    "./undo-redo": {
       "types": {
-        "import": "./dist/history/index.d.ts",
-        "require": "./dist/history/index.d.cts"
+        "import": "./dist/undo-redo/index.d.ts",
+        "require": "./dist/undo-redo/index.d.cts"
       },
-      "import": "./dist/history/index.js",
-      "require": "./dist/history/index.cjs"
+      "import": "./dist/undo-redo/index.js",
+      "require": "./dist/undo-redo/index.cjs"
     },
     "./placeholder": {
       "types": {
