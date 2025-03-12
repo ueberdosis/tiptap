@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -75,7 +75,7 @@ export default () => {
       Collaboration.configure({
         document: ydoc,
       }),
-      CollaborationCursor.configure({
+      CollaborationCaret.configure({
         provider: websocketProvider,
       }),
     ],
@@ -115,7 +115,7 @@ export default () => {
         <div className="editor__users">
           <div className={`editor__status editor__status--${status}`}>
             {status === 'connected'
-              ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
+              ? `${editor.storage.collaborationCaret.users.length} user${editor.storage.collaborationCaret.users.length === 1 ? '' : 's'} online in ${room}`
               : 'offline'}
           </div>
           <div className="editor__name">

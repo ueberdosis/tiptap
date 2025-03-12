@@ -1,6 +1,6 @@
-context('/src/Extensions/CollaborationCursor/Vue', () => {
+context('/src/Extensions/CollaborationCaret/Vue', () => {
   beforeEach(() => {
-    cy.visit('/src/Extensions/CollaborationCursor/Vue/')
+    cy.visit('/src/Extensions/CollaborationCaret/Vue/')
   })
 
   it('should have a working tiptap instance', () => {

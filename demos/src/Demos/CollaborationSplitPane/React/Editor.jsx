@@ -1,5 +1,5 @@
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
@@ -106,7 +106,7 @@ const Editor = ({ ydoc, provider, room }) => {
       Collaboration.extend().configure({
         document: ydoc,
       }),
-      CollaborationCursor.extend().configure({
+      CollaborationCaret.extend().configure({
         provider,
       }),
     ],
@@ -187,8 +187,8 @@ const Editor = ({ ydoc, provider, room }) => {
       <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
         <label>
           {status === 'connected'
-            ? `${editor.storage.collaborationCursor.users.length} user${
-                editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
+            ? `${editor.storage.collaborationCaret.users.length} user${
+                editor.storage.collaborationCaret.users.length === 1 ? '' : 's'
               } online in ${room}`
             : 'offline'}
         </label>

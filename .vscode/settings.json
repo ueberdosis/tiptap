@@ -15,7 +15,7 @@
     "extension/code-block",
     "extension/code-block-lowlight",
     "extension/collaboration",
-    "extension/collaboration-cursor",
+    "extension/collaboration-caret",
     "extension/color",
     "extension/document",
     "extension/dropcursor",

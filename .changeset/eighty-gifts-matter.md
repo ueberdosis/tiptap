@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-collaboration-cursor': major
+'@tiptap/extension-collaboration-caret': major
 '@tiptap/extension-collaboration': major
 ---
 
