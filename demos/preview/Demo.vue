@@ -97,7 +97,7 @@ export default {
       sources: {},
       currentTab: null,
       currentFile: null,
-      tabOrder: ['React', 'Vue', 'Svelte', 'JS'],
+      tabOrder: ['React', 'Vue', 'Svelte', 'Solid', 'JS'],
       debugJSON: null,
       showDebug: false,
     }

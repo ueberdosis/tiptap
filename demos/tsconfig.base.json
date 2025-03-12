@@ -12,6 +12,7 @@
   ],
   "exclude": [
     "../packages/react",
+    "../packages/solid",
     "../packages/vue-2",
     "../packages/vue-3",
     "../packages/extension-code-block-lowlight"

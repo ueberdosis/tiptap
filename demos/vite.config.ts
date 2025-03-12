@@ -6,6 +6,7 @@ import fs from 'fs'
 import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
+import solid from 'vite-plugin-solid'
 
 const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
@@ -32,6 +33,7 @@ const getPackageDependencies = () => {
         name === 'extensions' ||
         name === 'extension-list' ||
         name === 'react' ||
+        name === 'solid' ||
         name === 'vue-2' ||
         name === 'vue-3'
       ) {
@@ -88,11 +90,10 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
-    // @ts-ignore
+
     vue(),
-    // @ts-ignore
     react(),
-    // @ts-ignore
+    solid({ include: /\/Solid\//i }),
     svelte(),
 
     {
@@ -189,6 +190,29 @@ export default defineConfig({
                     <div id="app"></div>
                     <script type="module">
                       import setup from '../../../../setup/react.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+
+          if (dir.endsWith('/Solid') || dir.endsWith('-Solid')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    <div id="app"></div>
+                    <script type="module">
+                      import setup from '../../../../setup/solid.ts'
                       import source from '@source'
                       setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>

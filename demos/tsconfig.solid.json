@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "types": ["node"],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
+  },
+  "include": [
+    "../packages/solid/src/*.d.ts",
+    "../packages/solid/src/*.ts",
+    "../packages/solid/src/*.tsx",
+    "../packages/solid/src/*.vue"
+  ]
+}

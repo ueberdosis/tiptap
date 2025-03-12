@@ -12,6 +12,7 @@ react-dom/client
 use-sync-external-store/shim
 use-sync-external-store/shim/with-selector
 shiki
+solid-js
 @floating-ui/dom
 uuid
 y-webrtc
