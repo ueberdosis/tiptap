@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0-next.7
+
+### Major Changes
+
+- d8a3d93: Rename history extension to undo-redo to clarify it's functionality and separate itself from other history-related extensions.
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
 ## 3.0.0-next.6
 
 ### Major Changes

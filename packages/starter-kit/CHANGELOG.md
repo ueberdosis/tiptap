@@ -1,5 +1,37 @@
 # Change Log
 
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d8a3d93]
+  - @tiptap/core@3.0.0-next.7
+  - @tiptap/extension-blockquote@3.0.0-next.7
+  - @tiptap/extension-bold@3.0.0-next.7
+  - @tiptap/extension-bullet-list@3.0.0-next.7
+  - @tiptap/extension-code@3.0.0-next.7
+  - @tiptap/extension-code-block@3.0.0-next.7
+  - @tiptap/extension-document@3.0.0-next.7
+  - @tiptap/extension-dropcursor@3.0.0-next.7
+  - @tiptap/extension-gapcursor@3.0.0-next.7
+  - @tiptap/extension-hard-break@3.0.0-next.7
+  - @tiptap/extension-heading@3.0.0-next.7
+  - @tiptap/extension-undo-redo@3.0.0-next.7
+  - @tiptap/extension-horizontal-rule@3.0.0-next.7
+  - @tiptap/extension-italic@3.0.0-next.7
+  - @tiptap/extension-link@3.0.0-next.7
+  - @tiptap/extension-list-item@3.0.0-next.7
+  - @tiptap/extension-list-keymap@3.0.0-next.7
+  - @tiptap/extension-ordered-list@3.0.0-next.7
+  - @tiptap/extension-paragraph@3.0.0-next.7
+  - @tiptap/extension-strike@3.0.0-next.7
+  - @tiptap/extension-text@3.0.0-next.7
+  - @tiptap/extension-underline@3.0.0-next.7
+  - @tiptap/extensions@3.0.0-next.7
+  - @tiptap/pm@3.0.0-next.7
+
 ## 3.0.0-next.6
 
 ### Major Changes
