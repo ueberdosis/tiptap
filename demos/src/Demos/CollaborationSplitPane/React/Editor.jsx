@@ -95,7 +95,7 @@ const Editor = ({ ydoc, provider, room }) => {
     },
     extensions: [
       StarterKit.configure({
-        history: false,
+        undoRedo: false,
       }),
       Highlight,
       TaskList,

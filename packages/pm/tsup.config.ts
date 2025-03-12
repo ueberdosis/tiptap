@@ -7,7 +7,7 @@ export default defineConfig({
     'commands/index.ts',
     'dropcursor/index.ts',
     'gapcursor/index.ts',
-    'history/index.ts',
+    'undo-redo/index.ts',
     'inputrules/index.ts',
     'keymap/index.ts',
     'markdown/index.ts',

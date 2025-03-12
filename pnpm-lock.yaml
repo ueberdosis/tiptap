@@ -490,12 +490,6 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../core
 
-  packages/extension-history:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
-
   packages/extension-horizontal-rule:
     devDependencies:
       '@tiptap/core':
@@ -674,6 +668,12 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../core
 
+  packages/extension-undo-redo:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../extensions
+
   packages/extension-youtube:
     devDependencies:
       '@tiptap/core':
@@ -832,9 +832,6 @@ importers:
       '@tiptap/extension-heading':
         specifier: ^3.0.0-next.6
         version: link:../extension-heading
-      '@tiptap/extension-history':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-history
       '@tiptap/extension-horizontal-rule':
         specifier: ^3.0.0-next.6
         version: link:../extension-horizontal-rule
@@ -865,6 +862,9 @@ importers:
       '@tiptap/extension-underline':
         specifier: ^3.0.0-next.6
         version: link:../extension-underline
+      '@tiptap/extension-undo-redo':
+        specifier: ^3.0.0-next.6
+        version: link:../extension-undo-redo
       '@tiptap/extensions':
         specifier: ^3.0.0-next.6
         version: link:../extensions

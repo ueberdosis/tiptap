@@ -59,17 +59,17 @@ import { GapCursor } from '@tiptap/extensions'
 
 This extension adds undo and redo functionality to the editor.
 
-Migrate from `@tiptap/extension-history` to `@tiptap/extensions`:
+Migrate from `@tiptap/extension-undo-redo` to `@tiptap/extensions`:
 
 ```diff
-- import History from '@tiptap/extension-history'
+- import History from '@tiptap/extension-undo-redo'
 + import { History } from '@tiptap/extensions'
 ```
 
 Usage:
 
 ```ts
-import { History, HistoryOptions } from '@tiptap/extensions'
+import { UndoRedo, UndoRedoOptions } from '@tiptap/extensions'
 ```
 
 ## Placeholder

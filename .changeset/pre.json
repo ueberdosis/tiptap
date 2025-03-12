@@ -24,7 +24,7 @@
     "@tiptap/extension-hard-break": "2.11.4",
     "@tiptap/extension-heading": "2.11.4",
     "@tiptap/extension-highlight": "2.11.4",
-    "@tiptap/extension-history": "2.11.4",
+    "@tiptap/extension-undo-redo": "2.11.4",
     "@tiptap/extension-horizontal-rule": "2.11.4",
     "@tiptap/extension-image": "2.11.4",
     "@tiptap/extension-italic": "2.11.4",

@@ -1,6 +1,6 @@
-context('/src/Extensions/History/Vue/', () => {
+context('/src/Extensions/UndoRedo/React/', () => {
   beforeEach(() => {
-    cy.visit('/src/Extensions/History/Vue/')
+    cy.visit('/src/Extensions/UndoRedo/React/')
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p>Mistake</p>')
     })

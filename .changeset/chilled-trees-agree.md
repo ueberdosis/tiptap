@@ -32,7 +32,7 @@
 '@tiptap/extension-underline': major
 '@tiptap/extension-document': major
 '@tiptap/extension-heading': major
-'@tiptap/extension-history': major
+'@tiptap/extension-undo-redo': major
 '@tiptap/extension-mention': major
 '@tiptap/extension-youtube': major
 '@tiptap/extension-italic': major

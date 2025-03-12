@@ -67,7 +67,7 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        history: false,
+        undoRedo: false,
       }),
       CharacterCount.configure({
         limit: 10000,

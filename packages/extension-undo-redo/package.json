@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-history",
+  "name": "@tiptap/extension-undo-redo",
   "description": "history extension for tiptap",
   "version": "3.0.0-next.6",
   "homepage": "https://tiptap.dev",
@@ -39,7 +39,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-history"
+    "directory": "packages/extension-undo-redo"
   },
   "scripts": {
     "build": "tsup",
