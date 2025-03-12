@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-collaboration-cursor': major
+'@tiptap/extension-collaboration-caret': major
 '@tiptap/extension-code-block-lowlight': major
 '@tiptap/extension-character-count': major
 '@tiptap/extension-horizontal-rule': major

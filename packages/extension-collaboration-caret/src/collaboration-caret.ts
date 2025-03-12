@@ -2,11 +2,11 @@ import { Extension } from '@tiptap/core'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
-type CollaborationCursorStorage = {
+type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
 }
 
-export interface CollaborationCursorOptions {
+export interface CollaborationCaretOptions {
   /**
    * The Hocuspocus provider instance. This can also be a TiptapCloudProvider instance.
    * @type {HocuspocusProvider | TiptapCloudProvider}
@@ -26,11 +26,11 @@ export interface CollaborationCursorOptions {
    * @example
    * render: user => {
    *  const cursor = document.createElement('span')
-   *  cursor.classList.add('collaboration-cursor__caret')
+   *  cursor.classList.add('collaboration-carets__caret')
    *  cursor.setAttribute('style', `border-color: ${user.color}`)
    *
    *  const label = document.createElement('div')
-   *  label.classList.add('collaboration-cursor__label')
+   *  label.classList.add('collaboration-carets__label')
    *  label.setAttribute('style', `background-color: ${user.color}`)
    *  label.insertBefore(document.createTextNode(user.name), null)
    *
@@ -47,7 +47,7 @@ export interface CollaborationCursorOptions {
    * selectionRender: user => {
    * return {
    *  nodeName: 'span',
-   *  class: 'collaboration-cursor__selection',
+   *  class: 'collaboration-carets__selection',
    *  style: `background-color: ${user.color}`,
    *  'data-user': user.name,
    * }
@@ -55,14 +55,14 @@ export interface CollaborationCursorOptions {
   selectionRender(user: Record<string, any>): DecorationAttrs
 
   /**
-   * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
+   * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCaret.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-caret
    */
   onUpdate: (users: { clientId: number; [key: string]: any }[]) => null
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    collaborationCursor: {
+    collaborationCaret: {
       /**
        * Update details of the current user
        * @example editor.commands.updateUser({ name: 'John Doe', color: '#305500' })
@@ -71,14 +71,14 @@ declare module '@tiptap/core' {
       /**
        * Update details of the current user
        *
-       * @deprecated The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor
+       * @deprecated The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-caret
        */
       user: (attributes: Record<string, any>) => ReturnType
     }
   }
 
   interface Storage {
-    collaborationCursor: CollaborationCursorStorage
+    collaborationCaret: CollaborationCaretStorage
   }
 }
 
@@ -94,11 +94,11 @@ const awarenessStatesToArray = (states: Map<number, Record<string, any>>) => {
 const defaultOnUpdate = () => null
 
 /**
- * This extension allows you to add collaboration cursors to your editor.
- * @see https://tiptap.dev/api/extensions/collaboration-cursor
+ * This extension allows you to add collaboration carets to your editor.
+ * @see https://tiptap.dev/api/extensions/collaboration-caret
  */
-export const CollaborationCursor = Extension.create<CollaborationCursorOptions, CollaborationCursorStorage>({
-  name: 'collaborationCursor',
+export const CollaborationCaret = Extension.create<CollaborationCaretOptions, CollaborationCaretStorage>({
+  name: 'collaborationCaret',
 
   priority: 999,
 
@@ -112,12 +112,12 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
       render: user => {
         const cursor = document.createElement('span')
 
-        cursor.classList.add('collaboration-cursor__caret')
+        cursor.classList.add('collaboration-carets__caret')
         cursor.setAttribute('style', `border-color: ${user.color}`)
 
         const label = document.createElement('div')
 
-        label.classList.add('collaboration-cursor__label')
+        label.classList.add('collaboration-carets__label')
         label.setAttribute('style', `background-color: ${user.color}`)
         label.insertBefore(document.createTextNode(user.name), null)
         cursor.insertBefore(label, null)
@@ -132,11 +132,11 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
   onCreate() {
     if (this.options.onUpdate !== defaultOnUpdate) {
       console.warn(
-        '[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCursor.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor',
+        '[tiptap warn]: DEPRECATED: The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCaret.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-caret',
       )
     }
     if (!this.options.provider) {
-      throw new Error('The "provider" option is required for the CollaborationCursor extension')
+      throw new Error('The "provider" option is required for the CollaborationCaret extension')
     }
   },
 
@@ -159,7 +159,7 @@ export const CollaborationCursor = Extension.create<CollaborationCursorOptions, 
         attributes =>
         ({ editor }) => {
           console.warn(
-            '[tiptap warn]: DEPRECATED: The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-cursor',
+            '[tiptap warn]: DEPRECATED: The "user" command is deprecated. Please use "updateUser" instead. Read more: https://tiptap.dev/api/extensions/collaboration-caret',
           )
 
           return editor.commands.updateUser(attributes)

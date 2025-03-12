@@ -412,7 +412,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(@tiptap/pm@packages+pm)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
 
-  packages/extension-collaboration-cursor:
+  packages/extension-collaboration-caret:
     devDependencies:
       '@tiptap/core':
         specifier: ^3.0.0-next.6

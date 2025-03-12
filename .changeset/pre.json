@@ -13,7 +13,7 @@
     "@tiptap/extension-code-block": "2.11.4",
     "@tiptap/extension-code-block-lowlight": "2.11.4",
     "@tiptap/extension-collaboration": "2.11.4",
-    "@tiptap/extension-collaboration-cursor": "2.11.4",
+    "@tiptap/extension-collaboration-caret": "2.11.4",
     "@tiptap/extension-color": "2.11.4",
     "@tiptap/extension-document": "2.11.4",
     "@tiptap/extension-dropcursor": "2.11.4",

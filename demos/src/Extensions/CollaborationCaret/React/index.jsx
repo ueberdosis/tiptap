@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -12,7 +12,7 @@ import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 
 const ydoc = new Y.Doc()
-const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
+const provider = new WebrtcProvider('tiptap-collaboration-caret-extension', ydoc)
 
 function Component() {
   const editor = useEditor({
@@ -23,7 +23,7 @@ function Component() {
       Collaboration.configure({
         document: ydoc,
       }),
-      CollaborationCursor.configure({
+      CollaborationCaret.configure({
         provider,
         user: {
           name: 'Cyndi Lauper',

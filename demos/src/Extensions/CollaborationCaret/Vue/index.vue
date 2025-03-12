@@ -4,7 +4,7 @@
 
 <script>
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -28,7 +28,7 @@ export default {
   mounted() {
     const ydoc = new Y.Doc()
 
-    this.provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
+    this.provider = new WebrtcProvider('tiptap-collaboration-caret-extension', ydoc)
 
     this.editor = new Editor({
       extensions: [
@@ -38,7 +38,7 @@ export default {
         Collaboration.configure({
           document: ydoc,
         }),
-        CollaborationCursor.configure({
+        CollaborationCaret.configure({
           provider: this.provider,
           user: {
             name: 'Cyndi Lauper',
@@ -80,7 +80,7 @@ export default {
   }
 
   /* Give a remote user a caret */
-  .collaboration-cursor__caret {
+  .collaboration-carets__caret {
     border-left: 1px solid #0d0d0d;
     border-right: 1px solid #0d0d0d;
     margin-left: -1px;
@@ -91,7 +91,7 @@ export default {
   }
 
   /* Render the username above the caret */
-  .collaboration-cursor__label {
+  .collaboration-carets__label {
     border-radius: 3px 3px 3px 0;
     color: #0d0d0d;
     font-size: 12px;

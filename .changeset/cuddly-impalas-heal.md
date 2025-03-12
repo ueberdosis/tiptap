@@ -11,7 +11,7 @@
 '@tiptap/extension-code-block': patch
 '@tiptap/extension-code-block-lowlight': patch
 '@tiptap/extension-collaboration': patch
-'@tiptap/extension-collaboration-cursor': patch
+'@tiptap/extension-collaboration-caret': patch
 '@tiptap/extension-color': patch
 '@tiptap/extension-document': patch
 '@tiptap/extension-dropcursor': patch
