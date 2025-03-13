@@ -92,8 +92,8 @@ export default defineConfig({
     // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
 
     vue(),
+    solid({ include: /\/Solid\//i }), // Solid must come before react!
     react(),
-    solid({ include: /\/Solid\//i }),
     svelte(),
 
     {
