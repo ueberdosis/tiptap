@@ -4,6 +4,7 @@ import { type EditorOptions, Editor } from '@tiptap/core'
 import {
   type Accessor,
   $PROXY,
+  createComputed,
   createEffect,
   createMemo,
   createSignal,
@@ -16,7 +17,6 @@ import type { Store } from 'solid-js/store'
 import { $RAW } from 'solid-js/store'
 import { isServer } from 'solid-js/web'
 
-import { createEditorState } from './createEditorState.js'
 import { setTiptapSolidReactiveOwner } from './ReactiveOwner.js'
 
 // @ts-ignore
@@ -170,7 +170,18 @@ export function createEditor(options: CreateEditorOptions = {}): Accessor<Editor
  * ```
  */
 function createReactiveEditor(editor: Accessor<Editor | undefined>) {
-  const state = createEditorState(editor)
+  const [state, setState] = createSignal(editor(), { equals: false })
+
+  createComputed(
+    on(editor, currentEditor => {
+      if (currentEditor) {
+        const handleTransaction = () => setState(() => currentEditor)
+        handleTransaction()
+        currentEditor.on('transaction', handleTransaction)
+        onCleanup(() => currentEditor.off('transaction', handleTransaction))
+      }
+    }),
+  )
 
   let lastProxy: Store<Editor & { [$RAW]?: Editor }> | undefined
   const reactiveEditor = createMemo(
@@ -224,6 +235,7 @@ function createReactiveEditor(editor: Accessor<Editor | undefined>) {
  */
 function createProxyHandler(state: Accessor<Editor>): ProxyHandler<Editor> {
   const reactiveProps: Array<string | symbol> = [
+    'state',
     'can',
     'isActive',
     'isFocused',
