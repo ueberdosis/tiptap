@@ -14,13 +14,13 @@ import type {
 } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
-import type { Extension } from './Extension.js'
+import type { Extendable } from './Extendable.js'
 import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
-export type AnyExtension = Extension | Node | Mark
+export type AnyExtension = Extendable
 export type Extensions = AnyExtension[]
 
 export type ParentConfig<T> = Partial<{
