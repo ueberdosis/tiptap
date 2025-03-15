@@ -343,4 +343,16 @@ export class Node<Options = any, Storage = any> extends Extendable<Options, Stor
   static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> = {}) {
     return new Node<O, S>(config)
   }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Node<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = NodeConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Node<ExtendedOptions, ExtendedStorage>
+  }
 }

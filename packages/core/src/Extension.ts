@@ -18,4 +18,16 @@ export class Extension<Options = any, Storage = any> extends Extendable<
   static create<O = any, S = any>(config: Partial<ExtensionConfig<O, S>> = {}) {
     return new Extension<O, S>(config)
   }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Extension<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = ExtensionConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Extension<ExtendedOptions, ExtendedStorage>
+  }
 }

@@ -177,4 +177,16 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
 
     return false
   }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Mark<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Mark<ExtendedOptions, ExtendedStorage>
+  }
 }
