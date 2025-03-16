@@ -27,7 +27,7 @@ export default function transform(file: any, api: any) {
     "@tiptap/extension-dropcursor": "Dropcursor",
     "@tiptap/extension-gapcursor": "Gapcursor",
     "@tiptap/extension-focus": "Focus",
-    "@tiptap/extension-undo-redo": "UndoRedo",
+    "@tiptap/extension-history": "History",
     "@tiptap/extension-placeholder": "Placeholder",
   };
 
@@ -53,7 +53,7 @@ export default function transform(file: any, api: any) {
     "@tiptap/extension-dropcursor": "@tiptap/extensions",
     "@tiptap/extension-gapcursor": "@tiptap/extensions",
     "@tiptap/extension-focus": "@tiptap/extensions",
-    "@tiptap/extension-undo-redo": "@tiptap/extensions",
+    "@tiptap/extension-history": "@tiptap/extensions",
     "@tiptap/extension-placeholder": "@tiptap/extensions",
   };
 
