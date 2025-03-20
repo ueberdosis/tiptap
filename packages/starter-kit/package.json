@@ -42,7 +42,6 @@
     "@tiptap/extension-gapcursor": "^3.0.0-next.6",
     "@tiptap/extension-hard-break": "^3.0.0-next.6",
     "@tiptap/extension-heading": "^3.0.0-next.6",
-    "@tiptap/extension-undo-redo": "^3.0.0-next.6",
     "@tiptap/extension-horizontal-rule": "^3.0.0-next.6",
     "@tiptap/extension-italic": "^3.0.0-next.6",
     "@tiptap/extension-link": "^3.0.0-next.6",

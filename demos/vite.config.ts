@@ -10,44 +10,51 @@ import { defineConfig } from 'vite'
 const getPackageDependencies = () => {
   const paths: Array<{ find: string; replacement: any }> = []
 
-  fg.sync('../packages/*', { onlyDirectories: true })
-    .map(name => name.replace('../packages/', ''))
-    .forEach(name => {
-      if (name === 'pm') {
-        fg.sync(`../packages/${name}/*`, { onlyDirectories: true }).forEach(subName => {
-          const subPkgName = subName.replace(`../packages/${name}/`, '')
+  function collectPackageInformation(path: string) {
+    fg.sync(`../${path}/*`, { onlyDirectories: true })
+      .map(name => name.replace(`../${path}/`, ''))
+      .forEach(name => {
+        if (name === 'pm') {
+          fg.sync(`../${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/`, '')
 
-          if (subPkgName === 'dist' || subPkgName === 'node_modules') {
-            return
-          }
+            if (subPkgName === 'dist' || subPkgName === 'node_modules') {
+              return
+            }
 
-          paths.push({
-            find: `@tiptap/${name}/${subPkgName}`,
-            replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`),
+            paths.push({
+              find: `@tiptap/${name}/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/${subPkgName}/index.ts`),
+            })
           })
-        })
-      } else if (
-        name === 'extension-text-style' ||
-        name === 'extension-table' ||
-        name === 'extensions' ||
-        name === 'extension-list' ||
-        name === 'react' ||
-        name === 'vue-2' ||
-        name === 'vue-3'
-      ) {
-        fg.sync(`../packages/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-          const subPkgName = subName.replace(`../packages/${name}/src/`, '')
+        } else if (
+          name === 'extension-text-style' ||
+          name === 'extension-table' ||
+          name === 'extensions' ||
+          name === 'extension-list' ||
+          name === 'react' ||
+          name === 'vue-2' ||
+          name === 'vue-3'
+        ) {
+          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
 
-          paths.push({
-            find: `@tiptap/${name}/${subPkgName}`,
-            replacement: resolve(`../packages/${name}/src/${subPkgName}/index.ts`),
+            paths.push({
+              find: `@tiptap/${name}/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
+            })
           })
-        })
-        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
-      } else {
-        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
-      }
-    })
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+        } else {
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+        }
+      })
+  }
+
+  collectPackageInformation('packages')
+  collectPackageInformation('packages-deprecated')
+
+  console.log(paths)
 
   // Handle the JSX runtime alias
   paths.unshift({ find: '@tiptap/core/jsx-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })

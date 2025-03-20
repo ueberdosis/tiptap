@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-undo-redo': major
+'@tiptap/extension-history': major
 ---
 
-Rename history extension to undo-redo to clarify it's functionality and separate itself from other history-related extensions.
+Rename history extension to history to clarify it's functionality and separate itself from other history-related extensions.

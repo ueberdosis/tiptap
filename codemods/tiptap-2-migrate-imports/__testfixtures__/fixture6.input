@@ -1,2 +1,2 @@
-import UndoRedo from "@tiptap/extension-undo-redo";
+import UndoRedo from "@tiptap/extension-history";
 import { Placeholder } from "@tiptap/extension-placeholder";

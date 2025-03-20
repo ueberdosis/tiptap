@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/extension-gapcursor",
-  "description": "gapcursor extension for tiptap",
+  "name": "@tiptap/extension-character-count",
+  "description": "font family extension for tiptap",
   "version": "3.0.0-next.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
@@ -39,7 +39,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-gapcursor"
+    "directory": "packages-deprecated/extension-character-count"
   },
   "scripts": {
     "build": "tsup",

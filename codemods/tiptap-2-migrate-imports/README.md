@@ -99,7 +99,7 @@ import { TextStyle, Color } from "@tiptap/extension-text-style";
 
 ```ts
 import { PlaceHolder } from "@tiptap/extension-placeholder";
-import UndoRedo from "@tiptap/extension-undo-redo";
+import UndoRedo from "@tiptap/extension-history";
 ```
 
 ### After
