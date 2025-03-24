@@ -94,14 +94,22 @@
     background-color: var(--purple-light);
     border: 2px solid var(--purple);
     border-radius: 0.5rem;
-    display: flex;
     margin: 2rem 0;
+    padding: 2.5rem 1rem 1rem;
     position: relative;
 
+    .synced-node-content {
+      margin-bottom: 1rem;
+
+      @media (min-width: 800px) {
+        display: flex;
+      }
+    }
+
     img {
-      align-self: center;
+      align-self: flex-start;
       border-radius: 0.5rem;
-      margin: 2.5rem 0 1rem 1rem;
+      margin: 0 1rem 0 0;
       max-width: 15rem;
     }
 
@@ -111,20 +119,17 @@
       color: var(--white);
       font-size: 0.75rem;
       font-weight: bold;
+      left: 0;
       padding: 0.25rem 0.5rem;
       position: absolute;
       top: 0;
     }
 
-    .content {
+    [data-node-view-content] {
+      border: 2px dashed var(--gray-3);
+      border-radius: 0.5rem;
       flex: 1;
-
-      &.is-editable {
-        border: 2px dashed var(--gray-3);
-        border-radius: 0.5rem;
-        margin: 2.5rem 1rem 1rem;
-        padding: 0.5rem;
-      }
+      padding: 0.5rem;
 
       [data-node-view-content-react] :last-child {
         margin-bottom: 0;
@@ -182,24 +187,7 @@
   top: 1rem;
 }
 
-.option-group {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
-  width: 100%;
-
-  form {
-    width: 100%;
-
-    input {
-      width: 100%;
-    }
-  }
-}
-
 .versions-group {
-  // border-bottom: 1px solid var(--gray-3);
   display: flex;
   flex-direction: column;
   flex: 1 1 0;

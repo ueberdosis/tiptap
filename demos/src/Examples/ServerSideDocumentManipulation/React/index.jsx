@@ -103,7 +103,7 @@ export default () => {
           <div className="label-large">Documents</div>
           <div className="versions-group">
             <button>Document 1<span>Synced ✓</span></button>
-            <button>Document 2<span>Synced ✓</span></button>
+            <button>Document 2</button>
             <button className="is-active">Document 3<span>Synced ✓</span></button>
             <button>Document 4<span>Synced ✓</span></button>
           </div>
