@@ -23,10 +23,13 @@ export interface FocusOptions {
   mode: 'all' | 'deepest' | 'shallowest'
 }
 
+export const focusPluginKey = new PluginKey('focus')
+
 /**
  * This extension allows you to add a class to the focused node.
  * @see https://www.tiptap.dev/api/extensions/focus
  */
+
 export const FocusClasses = Extension.create<FocusOptions>({
   name: 'focus',
 
@@ -40,7 +43,7 @@ export const FocusClasses = Extension.create<FocusOptions>({
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey('focus'),
+        key: focusPluginKey,
         props: {
           decorations: ({ doc, selection }) => {
             const { isEditable, isFocused } = this.editor
