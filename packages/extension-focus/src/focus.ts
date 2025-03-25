@@ -29,7 +29,6 @@ export const focusPluginKey = new PluginKey('focus')
  * This extension allows you to add a class to the focused node.
  * @see https://www.tiptap.dev/api/extensions/focus
  */
-
 export const FocusClasses = Extension.create<FocusOptions>({
   name: 'focus',
 
