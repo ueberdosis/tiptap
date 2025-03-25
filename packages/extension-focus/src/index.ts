@@ -1,5 +1,5 @@
-import { FocusClasses } from './focus.js'
+import { Focus } from './focus.js'
 
 export * from './focus.js'
 
-export default FocusClasses
+export default Focus
