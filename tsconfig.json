@@ -17,7 +17,7 @@
     "allowJs": true,
     "checkJs": false,
     "paths": {
-      "@tiptap/*": ["packages/*/src", "packages/*/dist"]
+      "@tiptap/*": ["packages/*/src", "packages/*/dist", "packages-deprecated/*/src", "packages-deprecated/*/dist"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

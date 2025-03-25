@@ -319,6 +319,84 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.7.3))
 
+  packages-deprecated/extension-character-count:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-dropcursor:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-focus:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: 3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-gapcursor:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-history:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-list-item:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-list
+
+  packages-deprecated/extension-list-keymap:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-list
+
+  packages-deprecated/extension-placeholder:
+    devDependencies:
+      '@tiptap/extensions':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extensions
+
+  packages-deprecated/extension-table-cell:
+    devDependencies:
+      '@tiptap/extension-table':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-table
+
+  packages-deprecated/extension-table-header:
+    devDependencies:
+      '@tiptap/extension-table':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-table
+
+  packages-deprecated/extension-table-row:
+    devDependencies:
+      '@tiptap/extension-table':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-table
+
+  packages-deprecated/extension-task-item:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-list
+
+  packages-deprecated/extension-task-list:
+    devDependencies:
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.6
+        version: link:../../packages/extension-list
+
   packages/core:
     devDependencies:
       '@tiptap/pm':
@@ -355,12 +433,6 @@ importers:
       '@tiptap/extension-list':
         specifier: ^3.0.0-next.6
         version: link:../extension-list
-
-  packages/extension-character-count:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
 
   packages/extension-code:
     devDependencies:
@@ -436,12 +508,6 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../core
 
-  packages/extension-dropcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
-
   packages/extension-floating-menu:
     devDependencies:
       '@floating-ui/dom':
@@ -454,23 +520,11 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../pm
 
-  packages/extension-focus:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: 3.0.0-next.6
-        version: link:../extensions
-
   packages/extension-font-family:
     devDependencies:
       '@tiptap/extension-text-style':
         specifier: ^3.0.0-next.6
         version: link:../extension-text-style
-
-  packages/extension-gapcursor:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
 
   packages/extension-hard-break:
     devDependencies:
@@ -533,18 +587,6 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../pm
 
-  packages/extension-list-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-list
-
-  packages/extension-list-keymap:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-list
-
   packages/extension-mention:
     devDependencies:
       '@tiptap/core':
@@ -568,12 +610,6 @@ importers:
       '@tiptap/core':
         specifier: ^3.0.0-next.6
         version: link:../core
-
-  packages/extension-placeholder:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
 
   packages/extension-strike:
     devDependencies:
@@ -608,36 +644,6 @@ importers:
         specifier: ^3.0.0-next.6
         version: link:../pm
 
-  packages/extension-table-cell:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-table
-
-  packages/extension-table-header:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-table
-
-  packages/extension-table-row:
-    devDependencies:
-      '@tiptap/extension-table':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-table
-
-  packages/extension-task-item:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-list
-
-  packages/extension-task-list:
-    devDependencies:
-      '@tiptap/extension-list':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-list
-
   packages/extension-text:
     devDependencies:
       '@tiptap/core':
@@ -667,12 +673,6 @@ importers:
       '@tiptap/core':
         specifier: ^3.0.0-next.6
         version: link:../core
-
-  packages/extension-undo-redo:
-    devDependencies:
-      '@tiptap/extensions':
-        specifier: ^3.0.0-next.6
-        version: link:../extensions
 
   packages/extension-youtube:
     devDependencies:
@@ -822,10 +822,10 @@ importers:
         version: link:../extension-document
       '@tiptap/extension-dropcursor':
         specifier: ^3.0.0-next.6
-        version: link:../extension-dropcursor
+        version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
         specifier: ^3.0.0-next.6
-        version: link:../extension-gapcursor
+        version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
         specifier: ^3.0.0-next.6
         version: link:../extension-hard-break
@@ -843,10 +843,10 @@ importers:
         version: link:../extension-link
       '@tiptap/extension-list-item':
         specifier: ^3.0.0-next.6
-        version: link:../extension-list-item
+        version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
         specifier: ^3.0.0-next.6
-        version: link:../extension-list-keymap
+        version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
         specifier: ^3.0.0-next.6
         version: link:../extension-ordered-list
@@ -862,9 +862,6 @@ importers:
       '@tiptap/extension-underline':
         specifier: ^3.0.0-next.6
         version: link:../extension-underline
-      '@tiptap/extension-undo-redo':
-        specifier: ^3.0.0-next.6
-        version: link:../extension-undo-redo
       '@tiptap/extensions':
         specifier: ^3.0.0-next.6
         version: link:../extensions

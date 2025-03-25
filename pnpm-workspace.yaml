@@ -1,4 +1,5 @@
 packages:
-  - "packages/*"
-  - "demos"
-  - "codemods/*"
+  - 'packages/*'
+  - 'packages-deprecated/*'
+  - 'demos'
+  - 'codemods/*'

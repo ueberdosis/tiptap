@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "../../",
     "paths": {
-      "@tiptap/*": ["packages/*/dist", "packages/*/src"]
+      "@tiptap/*": ["packages/*/dist", "packages/*/src", "packages-deprecated/*/dist", "packages-deprecated/*/src"]
     }
   }
 }

@@ -22,7 +22,7 @@
 '@tiptap/extension-hard-break': patch
 '@tiptap/extension-heading': patch
 '@tiptap/extension-highlight': patch
-'@tiptap/extension-undo-redo': patch
+'@tiptap/extension-history': patch
 '@tiptap/extension-horizontal-rule': patch
 '@tiptap/extension-image': patch
 '@tiptap/extension-italic': patch

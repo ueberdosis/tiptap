@@ -32,6 +32,7 @@ tests/cypress/videos
 
 # packaged files
 packages/**/*.tgz
+packages-deprecated/**/*.tgz
 demos/*.tgz
 
 # demo directories
