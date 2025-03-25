@@ -5,7 +5,7 @@ export default ({ node }) => {
   return (
     <NodeViewWrapper className="synced-node">
       <div className="synced-node-content">
-        <label contentEditable={false}>Synced Node (ID: {node.attrs.id})</label>
+        <label contentEditable={false}>Synced Node (ID: {node.attrs.syncedNodeId})</label>
         {node.attrs.imageSrc && <img src={node.attrs.imageSrc} alt="" contentEditable={false} />}
 
         <NodeViewContent />

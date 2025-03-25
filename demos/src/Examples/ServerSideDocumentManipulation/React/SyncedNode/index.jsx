@@ -12,7 +12,7 @@ export default Node.create({
 
   addAttributes() {
     return {
-      id: {},
+      syncedNodeId: {},
       imageSrc: {},
     }
   },

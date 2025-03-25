@@ -82,5 +82,8 @@
   "publishConfig": {
     "provenance": true
   },
-  "name": "tiptap"
+  "name": "tiptap",
+  "dependencies": {
+    "@hocuspocus/transformer": "^2.15.2"
+  }
 }
