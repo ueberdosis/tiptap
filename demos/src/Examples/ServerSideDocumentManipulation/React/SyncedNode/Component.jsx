@@ -10,7 +10,7 @@ export default ({ node }) => {
 
         <NodeViewContent />
       </div>
-      <div class="hint"><b>Note:</b> Changes in this node sync to other documents.</div>
+      <div class="hint" contentEditable={false}><b>Note:</b> Changes in this node sync to other documents.</div>
     </NodeViewWrapper>
   )
 }

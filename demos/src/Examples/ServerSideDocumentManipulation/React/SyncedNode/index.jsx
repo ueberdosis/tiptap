@@ -26,7 +26,7 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['synced-node', mergeAttributes(HTMLAttributes)]
+    return ['synced-node', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {
