@@ -165,16 +165,16 @@ export default () => {
           <div className="versions-group">
             <button onClick={() => setName('document1')}
                     className={`${name === 'document1' ? 'is-active' : ''}`}
-            >Document 1<span>Synced ✓</span></button>
+            >Document 1</button>
             <button onClick={() => setName('document2')}
                     className={`${name === 'document2' ? 'is-active' : ''}`}
-            >Document 2<span>Synced ✓</span></button>
+            >Document 2</button>
             <button onClick={() => setName('document3')}
                     className={`${name === 'document3' ? 'is-active' : ''}`}
-            >Document 3<span>Synced ✓</span></button>
+            >Document 3</button>
             <button onClick={() => setName('document4')}
                     className={`${name === 'document4' ? 'is-active' : ''}`}
-            >Document 4<span>Synced ✓</span></button>
+            >Document 4</button>
           </div>
         </div>
       </div>
