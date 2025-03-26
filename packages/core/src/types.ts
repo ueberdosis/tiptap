@@ -722,3 +722,15 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
 }
 
 export type Dispatch = ((args?: any) => any) | undefined
+
+export interface DecorationOptions {
+  create?: (props: { state: EditorState; view?: EditorView }) => DecorationItem[] | null
+}
+
+export interface DecorationItem {
+  type: 'node' | 'inline' | 'widget'
+  from: number
+  to: number
+  attributes?: Record<string, string>
+  widget?: (view: EditorView, getPos: () => number | undefined) => HTMLElement
+}

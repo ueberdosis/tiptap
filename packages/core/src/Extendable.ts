@@ -9,6 +9,7 @@ import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
+  DecorationOptions,
   EditorEvents,
   Extensions,
   GlobalAttributes,
@@ -223,6 +224,28 @@ export interface ExtendableConfig<
     storage: Storage
     parent: ParentConfig<Config>['addExtensions']
   }) => Extensions
+
+  /**
+   * This function allows developers to render decorations in the editor.
+   * @example
+   * decorations: {
+   *   create({ state }) {
+   *     return [
+   *       type: 'node', // or `inline` or `mark`
+   *       from: 10,
+   *       to: 20,
+   *       attributes: { class: 'my-decoration' },
+   *       // for widgets
+   *       widget: (view, pos) => {
+   *         const element = document.createElement('span')
+   *         element.textContent = '🎉'
+   *         return element
+   *       }
+   *     ]
+   *   },
+   * }
+   */
+  decorations?: DecorationOptions
 
   /**
    * This function extends the schema of the node.
