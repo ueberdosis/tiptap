@@ -45,6 +45,7 @@
     "@tiptap/extension-horizontal-rule": "^3.0.0-next.6",
     "@tiptap/extension-italic": "^3.0.0-next.6",
     "@tiptap/extension-link": "^3.0.0-next.6",
+    "@tiptap/extension-list": "^3.0.0-next.6",
     "@tiptap/extension-list-item": "^3.0.0-next.6",
     "@tiptap/extension-list-keymap": "^3.0.0-next.6",
     "@tiptap/extension-ordered-list": "^3.0.0-next.6",
