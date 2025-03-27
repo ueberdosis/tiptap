@@ -841,6 +841,9 @@ importers:
       '@tiptap/extension-link':
         specifier: ^3.0.0-next.6
         version: link:../extension-link
+      '@tiptap/extension-list':
+        specifier: ^3.0.0-next.6
+        version: link:../extension-list
       '@tiptap/extension-list-item':
         specifier: ^3.0.0-next.6
         version: link:../../packages-deprecated/extension-list-item

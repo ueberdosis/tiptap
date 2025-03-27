@@ -3,10 +3,7 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
-import { Table } from '@tiptap/extension-table'
-import { TableCell } from '@tiptap/extension-table-cell'
-import { TableHeader } from '@tiptap/extension-table-header'
-import { TableRow } from '@tiptap/extension-table-row'
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 
 describe('extension table header', () => {
