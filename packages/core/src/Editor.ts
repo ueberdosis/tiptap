@@ -174,18 +174,15 @@ export class Editor extends EventEmitter<EditorEvents> {
       // @ts-ignore
       const dom = this.editorView.dom as TiptapEditorHTMLElement
 
-      if (dom && dom.editor) {
+      if (dom?.editor) {
         delete dom.editor
       }
       this.editorView.destroy()
     }
     this.editorView = null
     this.isInitialized = false
-
-    if (this.css) {
-      this.css.remove()
-      this.css = null
-    }
+    this.css?.remove()
+    this.css = null
   }
 
   /**
