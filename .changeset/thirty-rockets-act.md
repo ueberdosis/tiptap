@@ -2,4 +2,4 @@
 '@tiptap/extension-history': major
 ---
 
-Rename history extension to history to clarify it's functionality and separate itself from other history-related extensions.
+Pointed old `extension-history` extension as a fallback extension to the new `@tiptap/extensions` package where the old history extension is now exported from as `UndoRedo` to clarify what kind of history this extension is implementing.
