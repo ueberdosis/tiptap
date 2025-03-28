@@ -32,7 +32,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
             a = a.parentNode as HTMLElement
           }
           link = els.find(
-            (value) => value.nodeName === 'A',
+            value => value.nodeName === 'A',
           ) as HTMLAnchorElement
         }
 
