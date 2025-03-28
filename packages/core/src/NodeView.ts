@@ -98,7 +98,9 @@ export class NodeView<
       y = handleBox.y - domBox.y + offsetY
     }
 
-    event.dataTransfer?.setDragImage(this.dom, x, y)
+    const clonedNode = this.dom.cloneNode(true) as HTMLElement
+
+    event.dataTransfer?.setDragImage(clonedNode, x, y)
 
     const pos = this.getPos()
 
