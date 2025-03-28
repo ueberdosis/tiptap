@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0-next.7
+
+### Minor Changes
+
+- 8de8e13: The editor instance now supports an `unmount` method which allows for mounting and unmounting the editor to the DOM. This encourages re-use of editor instances by preserving all the same options between instances. This is different from the `destroy` method, which will unmount, emit the `destroy` event, and remove all event listeners.
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
 ## 3.0.0-next.6
 
 ### Major Changes
