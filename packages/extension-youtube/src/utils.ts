@@ -26,8 +26,8 @@ export interface GetEmbedUrlOptions {
   startAt?: number;
 }
 
-export const getYoutubeEmbedUrl = (nocookie?: boolean, withV?:boolean) => {
-  if (!withV) {
+export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?:boolean) => {
+  if (isPlaylist) {
     return 'https://www.youtube-nocookie.com/embed/videoseries?list='
   }
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
@@ -81,7 +81,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return null
   }
 
-  let outputUrl = `${getYoutubeEmbedUrl(nocookie, matches[1] === 'v')}${matches[2]}`
+  let outputUrl = `${getYoutubeEmbedUrl(nocookie, matches[1] === 'list')}${matches[2]}`
 
   const params = []
 
