@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.6
+
+### Patch Changes
+
+- 9abb019: Use null in ordered list's default type value for better schema extension support
+
 ## 2.11.5
 
 ## 2.11.4

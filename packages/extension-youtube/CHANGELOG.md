@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.11.6
+
+### Patch Changes
+
+- 151de93: `extension-youtube`: enhance embed URL generation to support video lists
+- 81009d2: This change adds option to set rel parameter on youtube embed link
+
 ## 2.11.5
 
 ## 2.11.4
