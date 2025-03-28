@@ -122,7 +122,11 @@ export const Mention = Node.create<MentionOptions>({
             .run()
 
           // get reference to `window` object from editor element, to support cross-frame JS usage
-          editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd()
+          const selection = editor.view.dom.ownerDocument.defaultView?.getSelection()
+
+          if (selection && selection.rangeCount > 0) {
+            selection.collapseToEnd()
+          }
         },
         allow: ({ state, range }) => {
           const $from = state.doc.resolve(range.from)
