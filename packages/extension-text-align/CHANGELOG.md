@@ -10,14 +10,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-### Patch Changes
-
-- 49402f6: Modify the documentation of the default value of defaultAlignment so that it matches the code
-
-## 2.11.3
-
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2
@@ -44,6 +36,18 @@
 
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+### Patch Changes
+
+- 49402f6: Modify the documentation of the default value of defaultAlignment so that it matches the code
+
+## 2.11.3
 
 ## 2.5.8
 

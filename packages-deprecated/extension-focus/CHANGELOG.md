@@ -19,6 +19,40 @@
 
 ## 3.0.0-next.4
 
+### Patch Changes
+
+- Updated dependencies [bfec9b2]
+  - @tiptap/extensions@3.0.0-next.4
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
+
+## 2.11.6
+
+## 2.11.5
+
 ## 2.11.4
 
 ## 2.11.3
@@ -60,36 +94,6 @@
 ## 2.7.0
 
 ## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [bfec9b2]
-  - @tiptap/extensions@3.0.0-next.4
-
-## 3.0.0-next.3
-
-## 3.0.0-next.2
-
-## 3.0.0-next.1
-
-### Major Changes
-
-- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
-
-### Patch Changes
-
-- Updated dependencies [a92f4a6]
-- Updated dependencies [da76972]
-  - @tiptap/core@3.0.0-next.1
-  - @tiptap/pm@3.0.0-next.1
-
-## 3.0.0-next.0
-
-### Patch Changes
-
-- Updated dependencies [0ec0af6]
-  - @tiptap/core@3.0.0-next.0
-  - @tiptap/pm@3.0.0-next.0
 
 ## 2.5.8
 

@@ -83,7 +83,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
         },
       },
       type: {
-        default: undefined,
+        default: null,
         parseHTML: element => element.getAttribute('type'),
       },
     }

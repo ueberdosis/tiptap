@@ -10,10 +10,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-## 2.11.3
-
 ## 3.0.0-next.3
 
 ### Patch Changes
@@ -29,6 +25,22 @@
 - a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ## 3.0.0-next.0
+
+## 2.11.6
+
+### Patch Changes
+
+- f3258d9: Upgraded prosemirror-tables to 1.6.4. Fixes a bug with broken tables appearing when dropping text.
+
+## 2.11.5
+
+### Patch Changes
+
+- 98fffbb: Upgraded prosemirror-tables to 1.6.3 to fix cells being resizable while the editor is uneditable
+
+## 2.11.4
+
+## 2.11.3
 
 ## 2.5.8
 

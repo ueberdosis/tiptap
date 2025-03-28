@@ -10,10 +10,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-## 2.11.3
-
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2
@@ -36,6 +32,19 @@
 
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
+
+## 2.11.6
+
+### Patch Changes
+
+- 151de93: `extension-youtube`: enhance embed URL generation to support video lists
+- 81009d2: This change adds option to set rel parameter on youtube embed link
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
 
 ## 2.5.8
 

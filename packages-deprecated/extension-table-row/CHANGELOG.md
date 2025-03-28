@@ -135,32 +135,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-## 2.11.3
-
-## 2.11.2
-
-## 2.11.1
-
-## 2.11.0
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
-
-## 2.8.0
-
 ### Minor Changes
 
 - 131c7d0: This change repackages all of the table extensions to be within the `@tiptap/extension-table` package (other packages are just a re-export of the `@tiptap/extension-table` package). It also adds the `TableKit` export which will allow configuring the entire table with one extension.
@@ -187,6 +161,36 @@
 
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
 
 ## 2.5.8
 

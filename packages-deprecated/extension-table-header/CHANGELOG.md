@@ -135,6 +135,37 @@
 
 ## 3.0.0-next.4
 
+### Minor Changes
+
+- 131c7d0: This change repackages all of the table extensions to be within the `@tiptap/extension-table` package (other packages are just a re-export of the `@tiptap/extension-table` package). It also adds the `TableKit` export which will allow configuring the entire table with one extension.
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+
+## 2.11.6
+
+## 2.11.5
+
 ## 2.11.4
 
 ## 2.11.3
@@ -164,33 +195,6 @@
 - 21df331: Tables now properly respect colwidths with multiple values, fixing resizeable columns when the first row has a colspan
 
 ## 2.8.0
-
-### Minor Changes
-
-- 131c7d0: This change repackages all of the table extensions to be within the `@tiptap/extension-table` package (other packages are just a re-export of the `@tiptap/extension-table` package). It also adds the `TableKit` export which will allow configuring the entire table with one extension.
-
-## 3.0.0-next.3
-
-## 3.0.0-next.2
-
-## 3.0.0-next.1
-
-### Major Changes
-
-- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
-
-### Patch Changes
-
-- Updated dependencies [a92f4a6]
-- Updated dependencies [da76972]
-  - @tiptap/core@3.0.0-next.1
-
-## 3.0.0-next.0
-
-### Patch Changes
-
-- Updated dependencies [0ec0af6]
-  - @tiptap/core@3.0.0-next.0
 
 ## 2.5.8
 

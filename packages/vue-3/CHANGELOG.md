@@ -334,15 +334,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.11.4
-- @tiptap/extension-floating-menu@2.11.4
-
-## 2.11.3
-
 ### Patch Changes
 
 - @tiptap/extension-bubble-menu@3.0.0-next.4
@@ -417,6 +408,32 @@
   - @tiptap/extension-bubble-menu@3.0.0-next.0
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
+
+## 2.11.6
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.6
+- @tiptap/extension-floating-menu@2.11.6
+
+## 2.11.5
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.5
+- @tiptap/extension-floating-menu@2.11.5
+
+## 2.11.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.4
+- @tiptap/extension-floating-menu@2.11.4
+
+## 2.11.3
+
+- @tiptap/extension-bubble-menu@2.11.3
+- @tiptap/extension-floating-menu@2.11.3
 
 ## 2.5.8
 
