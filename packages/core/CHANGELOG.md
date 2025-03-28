@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.6
+
+### Patch Changes
+
+- 826cfe7: Export focusEvents plugin key
+
 ## 2.11.5
 
 ## 2.11.4
