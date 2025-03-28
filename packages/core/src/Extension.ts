@@ -8,10 +8,26 @@ export interface ExtensionConfig<Options = any, Storage = any>
  * The Extension class is the base class for all extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Extension<Options = any, Storage = any> extends Extendable<Options, Storage> {
+export class Extension<Options = any, Storage = any> extends Extendable<
+  Options,
+  Storage,
+  ExtensionConfig<Options, Storage>
+> {
   type = 'extension'
 
   static create<O = any, S = any>(config: Partial<ExtensionConfig<O, S>> = {}) {
     return new Extension<O, S>(config)
+  }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Extension<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = ExtensionConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Extension<ExtendedOptions, ExtendedStorage>
   }
 }
