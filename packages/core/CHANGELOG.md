@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- 826cfe7: Export focusEvents plugin key
+- Updated dependencies [f3258d9]
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.11.5
 
 ## 2.11.4

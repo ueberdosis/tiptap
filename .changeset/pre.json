@@ -59,5 +59,12 @@
     "@tiptap/vue-3": "2.11.4",
     "@tiptap-shared/rollup-config": "1.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "eighty-hotels-listen",
+    "empty-pillows-cover",
+    "healthy-badgers-agree",
+    "shiny-goats-poke",
+    "shiny-rabbits-invite",
+    "thirty-forks-share"
+  ]
 }

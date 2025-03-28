@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- Updated dependencies [826cfe7]
+- Updated dependencies [f3258d9]
+  - @tiptap/core@3.0.0-pre.0
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.11.5
 
 ## 2.11.4

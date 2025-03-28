@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Minor Changes
+
+- 151de93: feat(youtube): enhance embed URL generation to support video lists
+
+### Patch Changes
+
+- 81009d2: This change adds option to set rel parameter on youtube embed link
+- Updated dependencies [826cfe7]
+  - @tiptap/core@3.0.0-pre.0
+
 ## 2.11.5
 
 ## 2.11.4
