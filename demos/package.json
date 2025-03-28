@@ -39,7 +39,7 @@
     "prosemirror-tables": "^1.6.2",
     "prosemirror-trailing-node": "^3.0.0",
     "prosemirror-transform": "^1.10.2",
-    "prosemirror-view": "^1.37.1",
+    "prosemirror-view": "^1.38.1",
     "remixicon": "^2.5.0",
     "shiki": "^1.25.1",
     "y-webrtc": "10.3.0",
