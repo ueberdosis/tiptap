@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.7
+
+### Patch Changes
+
+- e23882d: Clone dragged node before dragging to get correct drag preview image
+
 ## 2.11.6
 
 ### Patch Changes

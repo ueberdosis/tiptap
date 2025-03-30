@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.7
+
+### Patch Changes
+
+- a44a311: Added new export for TableView class
+
 ## 2.11.6
 
 ## 2.11.5
