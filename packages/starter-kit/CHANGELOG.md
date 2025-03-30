@@ -1,5 +1,35 @@
 # Change Log
 
+## 2.11.6
+
+### Patch Changes
+
+- 3826872: Remove redundant optional chaining in options object
+- Updated dependencies [826cfe7]
+- Updated dependencies [f3258d9]
+- Updated dependencies [9abb019]
+  - @tiptap/core@2.11.6
+  - @tiptap/pm@2.11.6
+  - @tiptap/extension-ordered-list@2.11.6
+  - @tiptap/extension-blockquote@2.11.6
+  - @tiptap/extension-bold@2.11.6
+  - @tiptap/extension-bullet-list@2.11.6
+  - @tiptap/extension-code@2.11.6
+  - @tiptap/extension-code-block@2.11.6
+  - @tiptap/extension-document@2.11.6
+  - @tiptap/extension-dropcursor@2.11.6
+  - @tiptap/extension-gapcursor@2.11.6
+  - @tiptap/extension-hard-break@2.11.6
+  - @tiptap/extension-heading@2.11.6
+  - @tiptap/extension-history@2.11.6
+  - @tiptap/extension-horizontal-rule@2.11.6
+  - @tiptap/extension-italic@2.11.6
+  - @tiptap/extension-list-item@2.11.6
+  - @tiptap/extension-paragraph@2.11.6
+  - @tiptap/extension-strike@2.11.6
+  - @tiptap/extension-text@2.11.6
+  - @tiptap/extension-text-style@2.11.6
+
 ## 2.11.5
 
 ### Patch Changes
