@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.8
+
+### Patch Changes
+
+- 1e91f9b: Fix prosemirror history build
+
 ## 3.0.0-next.7
 
 ### Patch Changes
