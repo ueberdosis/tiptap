@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-text-style",
   "description": "text style extension for tiptap",
-  "version": "3.0.0-next.7",
+  "version": "3.0.0-next.8",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -87,7 +87,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-next.7"
+    "@tiptap/core": "^3.0.0-next.8"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.0.0-next.1"

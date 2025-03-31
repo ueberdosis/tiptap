@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-next.8
+
 ## 3.0.0-next.7
 
 ### Patch Changes
