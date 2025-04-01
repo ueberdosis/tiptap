@@ -10,7 +10,7 @@ export interface ImageOptions {
    * @default false
    * @example true
    */
-  inline: boolean,
+  inline: boolean;
 
   /**
    * Controls if base64 images are allowed. Enable this if you want to allow
@@ -18,14 +18,22 @@ export interface ImageOptions {
    * @default false
    * @example true
    */
-  allowBase64: boolean,
+  allowBase64: boolean;
 
   /**
    * HTML attributes to add to the image element.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>;
+}
+
+export interface SetImageOptions {
+  src: string;
+  alt?: string;
+  title?: string;
+  width?: string;
+  height?: string;
 }
 
 declare module '@tiptap/core' {
@@ -39,8 +47,8 @@ declare module '@tiptap/core' {
        *   .commands
        *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo' })
        */
-      setImage: (options: { src: string, alt?: string, title?: string }) => ReturnType,
-    }
+      setImage: (options: SetImageOptions) => ReturnType;
+    };
   }
 }
 
@@ -83,6 +91,12 @@ export const Image = Node.create<ImageOptions>({
         default: null,
       },
       title: {
+        default: null,
+      },
+      width: {
+        default: null,
+      },
+      height: {
         default: null,
       },
     }
