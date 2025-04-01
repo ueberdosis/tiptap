@@ -32,8 +32,8 @@ export interface SetImageOptions {
   src: string;
   alt?: string;
   title?: string;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
 }
 
 declare module '@tiptap/core' {
