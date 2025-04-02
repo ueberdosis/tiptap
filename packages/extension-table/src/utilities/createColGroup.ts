@@ -59,6 +59,7 @@ export function createColGroup(
       cols.push([
         'col',
         { style: `${property}: ${value}` },
+        0,
       ])
     }
   }
