@@ -41,7 +41,11 @@ const getYoutubeVideoOrPlaylistId = (
     return { id: url.searchParams.get('v')! }
   }
 
-  if (url.hostname === 'youtu.be' || url.pathname.includes('shorts')) {
+  if (
+    url.hostname === 'youtu.be'
+    || url.pathname.includes('shorts')
+    || url.pathname.includes('live')
+  ) {
     return { id: url.pathname.split('/').pop()! }
   }
 
