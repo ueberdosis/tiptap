@@ -91,6 +91,10 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
 
   const embedUrl = new URL(`${getYoutubeEmbedUrl(nocookie, isPlaylist)}${id}`)
 
+  if (urlObject.searchParams.has('t')) {
+    embedUrl.searchParams.set('start', urlObject.searchParams.get('t')!.replaceAll('s', ''))
+  }
+
   if (allowFullscreen === false) {
     embedUrl.searchParams.set('fs', '0')
   }
