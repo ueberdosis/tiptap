@@ -24,9 +24,13 @@ export interface GetEmbedUrlOptions {
   playlist?: string;
   progressBarColor?: string;
   startAt?: number;
+  rel?: number;
 }
 
-export const getYoutubeEmbedUrl = (nocookie?: boolean) => {
+export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?:boolean) => {
+  if (isPlaylist) {
+    return 'https://www.youtube-nocookie.com/embed/videoseries?list='
+  }
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
@@ -50,6 +54,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     playlist,
     progressBarColor,
     startAt,
+    rel,
   } = options
 
   if (!isValidYoutubeUrl(url)) {
@@ -71,14 +76,14 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return `${getYoutubeEmbedUrl(nocookie)}${id}`
   }
 
-  const videoIdRegex = /(?:v=|shorts\/)([-\w]+)/gm
+  const videoIdRegex = /(?:(v|list)=|shorts\/)([-\w]+)/gm
   const matches = videoIdRegex.exec(url)
 
-  if (!matches || !matches[1]) {
+  if (!matches || !matches[2]) {
     return null
   }
 
-  let outputUrl = `${getYoutubeEmbedUrl(nocookie)}${matches[1]}`
+  let outputUrl = `${getYoutubeEmbedUrl(nocookie, matches[1] === 'list')}${matches[2]}`
 
   const params = []
 
@@ -146,8 +151,12 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     params.push(`color=${progressBarColor}`)
   }
 
+  if (rel !== undefined) {
+    params.push(`rel=${rel}`)
+  }
+
   if (params.length) {
-    outputUrl += `?${params.join('&')}`
+    outputUrl += `${matches[1] === 'v' ? '?' : '&'}${params.join('&')}`
   }
 
   return outputUrl
