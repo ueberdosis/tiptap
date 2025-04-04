@@ -3,6 +3,7 @@ import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor'
 import type { Extension } from './Extension'
+import type { DecorationItem } from './types'
 
 export const decorationPluginKey = new PluginKey('__tiptap_decorations')
 
@@ -20,22 +21,6 @@ export class DecorationManager {
     return new Plugin({
       key: decorationPluginKey,
 
-      state: {
-        init: () => {
-          return this.createDecorations(this.editor.state, this.editor.view)
-        },
-        apply: (tr, oldSet) => {
-          const newSet = oldSet.map(tr.mapping, tr.doc)
-
-          // If this transaction specifically requested decorations to be recalculated
-          if (tr.getMeta(decorationPluginKey) === 'update') {
-            return this.createDecorations(this.editor.state, this.editor.view)
-          }
-
-          return newSet
-        },
-      },
-
       props: {
         decorations: state => {
           return this.createDecorations(state, this.editor.view)
@@ -45,37 +30,40 @@ export class DecorationManager {
   }
 
   createDecorations(state: EditorState, view: EditorView) {
-    const decorations: Decoration[] = []
+    let items: DecorationItem[] = []
 
     this.extensions.forEach(extension => {
       if (!extension.config.decorations?.create) {
         return
       }
 
-      const items = extension.config.decorations.create({
+      const decos = extension.config.decorations.create({
         state,
         view,
       })
 
-      if (!items || !items.length) {
+      if (!decos) {
         return
       }
 
-      items.forEach(item => {
-        let decoration
+      items = items ? [...items, ...decos] : decos
+    })
 
-        if (item.type === 'node') {
-          decoration = Decoration.node(item.from, item.to, item.attributes || {})
-        } else if (item.type === 'inline') {
-          decoration = Decoration.inline(item.from, item.to, item.attributes || {})
-        } else if (item.type === 'widget' && item.widget) {
-          decoration = Decoration.widget(item.from, item.widget)
-        }
+    const decorations = items.map(item => {
+      switch (item.type) {
+        case 'node':
+          return Decoration.node(item.from, item.to, item.attributes || {})
+        case 'inline':
+          return Decoration.inline(item.from, item.to, item.attributes || {})
+        case 'widget':
+          if (!item.widget) {
+            throw new Error('Widget decoration requires a widget property')
+          }
 
-        if (decoration) {
-          decorations.push(decoration)
-        }
-      })
+          return Decoration.widget(item.from, item.widget)
+        default:
+          throw new Error(`Unknown decoration type: ${item.type}`)
+      }
     })
 
     return DecorationSet.create(state.doc, decorations)

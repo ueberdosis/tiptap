@@ -3,4 +3,14 @@
   :first-child {
     margin-top: 0;
   }
+
+  .selected-text {
+    box-shadow: 0 0 0 4px #00ff00ff;
+  }
+
+  .selected-node {
+    background-color: #00ff0060;
+    box-shadow: 0 0 0 0.5rem #00ff0060;
+    border-radius: 0.25rem;
+  }
 }
