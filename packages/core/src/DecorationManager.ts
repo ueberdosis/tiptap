@@ -1,4 +1,4 @@
-import { type EditorState, type Transaction,Plugin, PluginKey } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor'
