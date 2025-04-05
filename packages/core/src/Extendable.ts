@@ -245,7 +245,7 @@ export interface ExtendableConfig<
    *   },
    * }
    */
-  decorations?: DecorationOptions
+  decorations?: (props: { editor: Editor }) => DecorationOptions
 
   /**
    * This function extends the schema of the node.

@@ -52,7 +52,7 @@ export interface ReactRendererOptions {
   className?: string
 }
 
-type ComponentType<R, P> =
+export type ComponentType<R, P> =
   | React.ComponentClass<P>
   | React.FunctionComponent<P>
   | React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>

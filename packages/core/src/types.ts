@@ -723,8 +723,24 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
 
 export type Dispatch = ((args?: any) => any) | undefined
 
+/**
+ * The options for the Extension Decoration API.
+ * This is used to create decorations for the editor.
+ */
 export interface DecorationOptions {
-  create?: (props: { state: EditorState; view?: EditorView }) => DecorationItem[] | null
+  /**
+   * This function creates the decorations for this extension. It should return an array of decoration items.
+   * @param props Context related props like the editor state, view, the editor itself
+   * @returns An array of decoration items or null if no decorations should be created
+   */
+  create?: (props: { state: EditorState; view?: EditorView; editor: Editor }) => DecorationItem[] | null
+
+  /**
+   * This function is called on each transaction to check if the decorations need to be updated or not.
+   * @param props Context related props like the editor state, view, the editor itself
+   * @returns true if the decorations need to be updated, false otherwise
+   */
+  requiresUpdate?: (props: { tr: Transaction; oldState: EditorState; newState: EditorState }) => boolean
 }
 
 export interface DecorationItem {

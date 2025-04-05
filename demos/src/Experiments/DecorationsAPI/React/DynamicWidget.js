@@ -1,12 +1,14 @@
-import { Extension } from '@tiptap/react'
+import { Extension, WidgetRenderer } from '@tiptap/react'
 
 import { findWordPositions } from '../findWordPositions.js'
+import { DynamicWidget as DynamicWidgetComponent } from './DynamicWidget.jsx'
 
-export const StarDecoration = Extension.create({
-  name: 'exampleDecorations',
+export const DynamicWidget = Extension.create({
+  name: 'dynamicWidget',
 
-  decorations: () => {
+  decorations: ({ editor }) => {
     let positions = []
+
     return {
       create({ state }) {
         positions = findWordPositions('fancy', state)
@@ -15,20 +17,22 @@ export const StarDecoration = Extension.create({
 
         positions.forEach(pos => {
           decorationItems.push({
-            from: pos.to,
-            to: pos.to,
+            from: pos.from,
+            to: pos.from,
             type: 'widget',
             widget: () => {
-              const el = document.createElement('span')
-              el.textContent = '⭐️'
-              return el
+              return WidgetRenderer.create(DynamicWidgetComponent, {
+                editor,
+                as: 'span',
+                pos,
+              })
             },
           })
         })
 
         return decorationItems
       },
-      equiresUpdate: ({ newState }) => {
+      requiresUpdate: ({ newState }) => {
         const newPositions = findWordPositions('fancy', newState)
 
         if (newPositions.length !== positions.length) {
