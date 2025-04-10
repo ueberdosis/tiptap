@@ -3,7 +3,8 @@ import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor'
 import type { Extension } from './Extension'
-import type { DecorationItem, DecorationOptions } from './types'
+import type { DecorationItemWithExtension, DecorationOptions } from './types'
+import { findDecoUpdates } from './utilities/decorations.js'
 
 export const decorationPluginKey = new PluginKey('__tiptap_decorations')
 
@@ -41,21 +42,7 @@ export class DecorationManager {
 
           const newDecorations = this.createDecorations(newState, this.editor.view)
 
-          // check if new decorations are the same as old decorations
-          if (decorationSet.find().length === newDecorations.find().length) {
-            const oldDecorations = decorationSet.find()
-            const newDecorationsArray = newDecorations.find()
-            const isSame = oldDecorations.every((oldDec, index) => {
-              const newDec = newDecorationsArray[index]
-              return oldDec.from === newDec.from && oldDec.to === newDec.to && oldDec.spec === newDec.spec
-            })
-            if (isSame) {
-              return decorationSet
-            }
-          }
-
-          // if not recreate the decoration set
-          return this.createDecorations(newState, this.editor.view)
+          return findDecoUpdates(tr, decorationSet, newDecorations)
         },
       },
 
@@ -69,7 +56,7 @@ export class DecorationManager {
   }
 
   createDecorations(state: EditorState, view: EditorView) {
-    let items: DecorationItem[] = []
+    let items: DecorationItemWithExtension[] = []
 
     const extNames = Object.keys(this.decorationConfigs)
 
@@ -80,11 +67,16 @@ export class DecorationManager {
         return
       }
 
-      const decos = config.create({
-        state,
-        view,
-        editor: this.editor,
-      })
+      const decos = config
+        .create({
+          state,
+          view,
+          editor: this.editor,
+        })
+        ?.map(item => ({
+          ...item,
+          extension: name,
+        }))
 
       if (!decos) {
         return
@@ -96,15 +88,21 @@ export class DecorationManager {
     const decorations = items.map(item => {
       switch (item.type) {
         case 'node':
-          return Decoration.node(item.from, item.to, item.attributes || {})
+          return Decoration.node(item.from, item.to, item.attributes || {}, {
+            extension: item.extension,
+          })
         case 'inline':
-          return Decoration.inline(item.from, item.to, item.attributes || {})
+          return Decoration.inline(item.from, item.to, item.attributes || {}, {
+            extension: item.extension,
+          })
         case 'widget':
           if (!item.widget) {
             throw new Error('Widget decoration requires a widget property')
           }
 
-          return Decoration.widget(item.from, item.widget)
+          return Decoration.widget(item.from, item.widget, {
+            extension: item.extension,
+          })
         default:
           throw new Error(`Unknown decoration type: ${item.type}`)
       }

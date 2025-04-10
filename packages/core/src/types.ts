@@ -750,3 +750,7 @@ export interface DecorationItem {
   attributes?: Record<string, string>
   widget?: (view: EditorView, getPos: () => number | undefined) => HTMLElement
 }
+
+export interface DecorationItemWithExtension extends DecorationItem {
+  extension: string
+}
