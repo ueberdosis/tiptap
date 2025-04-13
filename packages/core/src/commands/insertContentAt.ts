@@ -74,6 +74,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     try {
       content = createNodeFromContent(value, editor.schema, {
+        slice: false,
         parseOptions: {
           preserveWhitespace: 'full',
           ...options.parseOptions,
