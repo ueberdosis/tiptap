@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+### Patch Changes
+
+- Updated dependencies [52b6644]
+  - @tiptap/extensions@3.0.0-beta.0
+
 ## 3.0.0-next.8
 
 ### Patch Changes

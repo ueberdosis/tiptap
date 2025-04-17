@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+### Minor Changes
+
+- 52b6644: skip decorations for node selection and non editable editor
+
 ## 3.0.0-next.8
 
 ## 3.0.0-next.7
