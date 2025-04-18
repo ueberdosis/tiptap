@@ -1,17 +1,12 @@
-import {
-  DecorationWithType,
-  NodeView,
-  NodeViewProps,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
-} from '@tiptap/core'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
+import { NodeView } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import Vue from 'vue'
-import { VueConstructor } from 'vue/types/umd'
+import type { VueConstructor } from 'vue/types/umd'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
@@ -28,22 +23,22 @@ export const nodeViewProps = {
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-      oldNode: ProseMirrorNode;
-      oldDecorations: readonly Decoration[];
-      oldInnerDecorations: DecorationSource;
-      newNode: ProseMirrorNode;
-      newDecorations: readonly Decoration[];
-      innerDecorations: DecorationSource;
-      updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: readonly Decoration[]
+        oldInnerDecorations: DecorationSource
+        newNode: ProseMirrorNode
+        newDecorations: readonly Decoration[]
+        innerDecorations: DecorationSource
+        updateProps: () => void
       }) => boolean)
-    | null;
+    | null
 }
 
 class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
   decorationClasses!: {
-    value: string;
+    value: string
   }
 
   mount() {
@@ -68,7 +63,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     })
 
     // @ts-ignore
-    const vue = this.editor.contentComponent?.$options._base ?? Vue; // eslint-disable-line
+    const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
 
     const Component = vue.extend(this.component).extend({
       props: Object.keys(props),
@@ -144,11 +139,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(
-    node: ProseMirrorNode,
-    decorations: readonly Decoration[],
-    innerDecorations: DecorationSource,
-  ): boolean {
+  update(node: ProseMirrorNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)

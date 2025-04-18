@@ -1,5 +1,6 @@
-import { BulletList } from './bullet-list.js'
+import { BulletList } from '@tiptap/extension-list'
 
-export * from './bullet-list.js'
+export type { BulletListOptions } from '@tiptap/extension-list'
+export { BulletList } from '@tiptap/extension-list'
 
 export default BulletList

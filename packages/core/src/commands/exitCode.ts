@@ -1,6 +1,6 @@
 import { exitCode as originalExitCode } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const exitCode: RawCommands['exitCode'] = () => ({ state, dispatch }) => {
-  return originalExitCode(state, dispatch)
-}
+export const exitCode: RawCommands['exitCode'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalExitCode(state, dispatch)
+  }

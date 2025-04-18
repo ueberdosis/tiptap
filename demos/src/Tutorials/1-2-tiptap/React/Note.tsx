@@ -2,7 +2,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const [modelValue, setModelValue] = useState(note.content)
@@ -17,13 +17,11 @@ export default ({ note }: { note: TNote }) => {
     onUpdate() {
       setModelValue(editor?.getText() ?? '')
     },
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
   })
 
   return (
     // @ts-ignore
-    <EditorContent editor={editor}/>
+    <EditorContent editor={editor} />
   )
 }

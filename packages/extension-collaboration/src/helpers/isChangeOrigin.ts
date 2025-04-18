@@ -1,5 +1,5 @@
-import { Transaction } from '@tiptap/pm/state'
-import { ySyncPluginKey } from 'y-prosemirror'
+import type { Transaction } from '@tiptap/pm/state'
+import { ySyncPluginKey } from '@tiptap/y-tiptap'
 
 /**
  * Checks if a transaction was originated from a Yjs change.

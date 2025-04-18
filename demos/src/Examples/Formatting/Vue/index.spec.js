@@ -1,5 +1,5 @@
 context('/src/Examples/Formatting/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Formatting/Vue/')
   })
 
@@ -7,9 +7,7 @@ context('/src/Examples/Formatting/Vue/', () => {
     cy.get('.tiptap').type('{selectall}{backspace}')
   })
 
-  const marks = [
-    { label: 'Highlight', mark: 'mark' },
-  ]
+  const marks = [{ label: 'Highlight', mark: 'mark' }]
 
   marks.forEach(m => {
     it(`sets ${m.label}`, () => {

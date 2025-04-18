@@ -1,5 +1,109 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+## 3.0.0-next.5
+
+## 3.0.0-next.4
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+### Patch Changes
+
+- d9b6ef5: Fixed an issue that cause the floating menu empty-node check to not respect leaf nodes that didn't count into a nodes text content
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Major Changes
+
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
+
 ## 2.11.6
 
 ## 2.11.5
@@ -7,130 +111,6 @@
 ## 2.11.4
 
 ## 2.11.3
-
-## 2.11.2
-
-## 2.11.1
-
-## 2.11.0
-
-### Patch Changes
-
-- d9b6ef5: Fixed an issue that cause the floating menu empty-node check to not respect leaf nodes that didn't count into a nodes text content
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-### Patch Changes
-
-- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
-
-## 2.9.1
-
-## 2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [97ea55f]
-- Updated dependencies [bd34793]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-  - @tiptap/pm@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-- @tiptap/pm@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
-- Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-  - @tiptap/pm@2.6.3
-
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-- @tiptap/pm@2.6.2
-
-## 2.6.1
-
-### Patch Changes
-
-- @tiptap/core@2.6.1
-- @tiptap/pm@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-  - @tiptap/pm@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
-- Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
-  - @tiptap/pm@2.5.9
 
 ## 2.5.8
 

@@ -1,9 +1,7 @@
-context('/src/Examples/Default/React/', () => {
-  before(() => {
-    cy.visit('/src/Examples/Default/React/')
-  })
-
+context('/src/Examples/Default/Svelte/', () => {
   beforeEach(() => {
+    cy.visit('/src/Examples/Default/Svelte/')
+
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<h1>Example Text</h1>')
       cy.get('.tiptap').type('{selectall}')
@@ -12,7 +10,6 @@ context('/src/Examples/Default/React/', () => {
 
   it('should apply the paragraph style when the keyboard shortcut is pressed', () => {
     cy.get('.tiptap h1').should('exist')
-    cy.get('.tiptap p').should('not.exist')
 
     cy.get('.tiptap')
       .trigger('keydown', { modKey: true, altKey: true, key: '0' })
@@ -26,11 +23,46 @@ context('/src/Examples/Default/React/', () => {
     { label: 'Strike', tag: 's' },
   ]
 
-  buttonMarks.forEach(m => {
-    it(`should apply ${m.label} when the button is pressed`, () => {
+  it(`should disable bold, italic, strike when the code tag is enabled for cursor`, () => {
+    buttonMarks.forEach(m => {
       cy.get('.tiptap').type('{selectall}Hello world')
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains(m.label).should('be.disabled')
+    })
+  })
+
+  it(`should enable bold, italic, strike when the code tag is disabled for cursor`, () => {
+    buttonMarks.forEach(m => {
+      cy.get('.tiptap').type('{selectall}Hello world')
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains(m.label).should('not.be.disabled')
+    })
+  })
+
+  it(`should disable bold, italic, strike when the code tag is enabled for selection`, () => {
+    buttonMarks.forEach(m => {
+      cy.get('.tiptap').type('{selectall}{backspace}')
+      cy.get('.tiptap').type('{selectall}Hello world{selectall}')
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains(m.label).should('be.disabled')
+    })
+  })
+
+  it(`should enable bold, italic, strike when the code tag is disabled for selection`, () => {
+    buttonMarks.forEach(m => {
+      cy.get('.tiptap').type('{selectall}Hello world{selectall}')
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains('Code').click()
+      cy.get('button').contains(m.label).should('not.be.disabled')
+    })
+  })
+
+  it(`should apply bold, italic, strike when the button is pressed`, () => {
+    buttonMarks.forEach(m => {
+      cy.get('.tiptap').type('{selectall}{backspace}')
+      cy.get('.tiptap').type('{selectall}Hello world{selectall}')
       cy.get('button').contains('Paragraph').click()
-      cy.get('.tiptap').type('{selectall}')
       cy.get('button').contains(m.label).click()
       cy.get(`.tiptap ${m.tag}`).should('exist').should('have.text', 'Hello world')
     })
@@ -53,7 +85,7 @@ context('/src/Examples/Default/React/', () => {
     cy.get('.tiptap').type('{enter}A second item{enter}A third item{selectall}')
     cy.get('button').contains('Clear nodes').click()
     cy.get('.tiptap ul').should('not.exist')
-    cy.get('.tiptap p').should('have.length', 3)
+    cy.get('.tiptap p').should('have.length', 4)
   })
 
   const buttonNodes = [
@@ -69,8 +101,8 @@ context('/src/Examples/Default/React/', () => {
     { label: 'Blockquote', tag: 'blockquote' },
   ]
 
-  buttonNodes.forEach(n => {
-    it(`should set ${n.label} when the button is pressed`, () => {
+  it(`should set the correct type when the button is pressed`, () => {
+    buttonNodes.forEach(n => {
       cy.get('button').contains('Paragraph').click()
       cy.get('.tiptap').type('{selectall}Hello world{selectall}')
 
@@ -98,20 +130,40 @@ context('/src/Examples/Default/React/', () => {
   it('should add a br', () => {
     cy.get('.tiptap').type('{rightArrow}')
     cy.get('button').contains('Hard break').click()
-    cy.get('.tiptap h1 br').should('exist')
+    cy.get('.tiptap br').should('exist')
   })
 
   it('should undo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
+    cy.get('.tiptap')
+      .then(([{ editor }]) => {
+        editor.commands.setContent('<h1>Example Text</h1>')
+
+        cy.get('.tiptap').type('{selectall}{backspace}')
+        return new Promise(resolve => {
+          setTimeout(resolve, 500)
+        })
+      })
+      .then(() => {
+        cy.get('button').contains('Undo').click()
+        cy.get('.tiptap').should('contain', 'Example Text')
+      })
   })
 
   it('should redo', () => {
-    cy.get('.tiptap').type('{selectall}{backspace}')
-    cy.get('button').contains('Undo').click()
-    cy.get('.tiptap').should('contain', 'Hello world')
-    cy.get('button').contains('Redo').click()
-    cy.get('.tiptap').should('not.contain', 'Hello world')
+    cy.get('.tiptap')
+      .then(([{ editor }]) => {
+        editor.commands.setContent('<h1>Example Text</h1>')
+
+        return new Promise(resolve => {
+          setTimeout(resolve, 500)
+        })
+      })
+      .then(() => {
+        cy.get('.tiptap').type('{selectall}{backspace}')
+        cy.get('button').contains('Undo').click()
+        cy.get('.tiptap').should('contain', 'Example Text')
+        cy.get('button').contains('Redo').click()
+        cy.get('.tiptap').should('not.contain', 'Example Text')
+      })
   })
 })

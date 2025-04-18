@@ -1,18 +1,14 @@
 import './styles.scss'
 
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
+import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React, {
-  useCallback, useEffect,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
 
 import { variables } from '../../../variables.js'
@@ -67,10 +63,12 @@ const websocketProvider = new TiptapCollabProvider({
 })
 
 const getInitialUser = () => {
-  return JSON.parse(localStorage.getItem('currentUser')) || {
-    name: getRandomName(),
-    color: getRandomColor(),
-  }
+  return (
+    JSON.parse(localStorage.getItem('currentUser')) || {
+      name: getRandomName(),
+      color: getRandomColor(),
+    }
+  )
 }
 
 export default () => {
@@ -80,7 +78,7 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        history: false,
+        undoRedo: false,
       }),
       Highlight,
       TaskList,
@@ -91,7 +89,7 @@ export default () => {
       Collaboration.configure({
         document: ydoc,
       }),
-      CollaborationCursor.configure({
+      CollaborationCaret.configure({
         provider: websocketProvider,
       }),
     ],
@@ -127,7 +125,7 @@ export default () => {
       <div className="editor__footer">
         <div className={`editor__status editor__status--${status}`}>
           {status === 'connected'
-            ? `${editor.storage.collaborationCursor.users.length} user${editor.storage.collaborationCursor.users.length === 1 ? '' : 's'} online in ${room}`
+            ? `${editor.storage.collaborationCaret.users.length} user${editor.storage.collaborationCaret.users.length === 1 ? '' : 's'} online in ${room}`
             : 'offline'}
         </div>
         <div className="editor__name">

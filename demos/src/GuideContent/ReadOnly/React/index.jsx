@@ -36,12 +36,7 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <input
-            type="checkbox"
-            id="editable"
-            value={editable}
-            onChange={event => setEditable(event.target.checked)}
-          />
+          <input type="checkbox" id="editable" value={editable} onChange={event => setEditable(event.target.checked)} />
           <label htmlFor="editable">Editable</label>
         </div>
       </div>

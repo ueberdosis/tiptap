@@ -1,0 +1,106 @@
+{
+  "name": "@tiptap/extension-list",
+  "description": "List extension for tiptap",
+  "version": "3.0.0-beta.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./bullet-list": {
+      "types": {
+        "import": "./dist/bullet-list/index.d.ts",
+        "require": "./dist/bullet-list/index.d.cts"
+      },
+      "import": "./dist/bullet-list/index.js",
+      "require": "./dist/bullet-list/index.cjs"
+    },
+    "./item": {
+      "types": {
+        "import": "./dist/item/index.d.ts",
+        "require": "./dist/item/index.d.cts"
+      },
+      "import": "./dist/item/index.js",
+      "require": "./dist/item/index.cjs"
+    },
+    "./keymap": {
+      "types": {
+        "import": "./dist/keymap/index.d.ts",
+        "require": "./dist/keymap/index.d.cts"
+      },
+      "import": "./dist/keymap/index.js",
+      "require": "./dist/keymap/index.cjs"
+    },
+    "./kit": {
+      "types": {
+        "import": "./dist/kit/index.d.ts",
+        "require": "./dist/kit/index.d.cts"
+      },
+      "import": "./dist/kit/index.js",
+      "require": "./dist/kit/index.cjs"
+    },
+    "./ordered-list": {
+      "types": {
+        "import": "./dist/ordered-list/index.d.ts",
+        "require": "./dist/ordered-list/index.d.cts"
+      },
+      "import": "./dist/ordered-list/index.js",
+      "require": "./dist/ordered-list/index.cjs"
+    },
+    "./task-item": {
+      "types": {
+        "import": "./dist/task-item/index.d.ts",
+        "require": "./dist/task-item/index.d.cts"
+      },
+      "import": "./dist/task-item/index.js",
+      "require": "./dist/task-item/index.cjs"
+    },
+    "./task-list": {
+      "types": {
+        "import": "./dist/task-list/index.d.ts",
+        "require": "./dist/task-list/index.d.cts"
+      },
+      "import": "./dist/task-list/index.js",
+      "require": "./dist/task-list/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-list"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

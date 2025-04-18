@@ -2,16 +2,9 @@
   <node-view-wrapper class="draw">
     <div class="control-group">
       <div class="button-group">
-        <input type="color" v-model="color">
-        <input
-          type="number"
-          min="1"
-          max="10"
-          v-model="size"
-        >
-        <button @click="clear">
-          Clear
-        </button>
+        <input type="color" v-model="color" />
+        <input type="number" min="1" max="10" v-model="size" />
+        <button @click="clear">Clear</button>
       </div>
       <svg viewBox="0 0 500 250" ref="canvas">
         <template v-for="item in node.attrs.lines">
@@ -49,15 +42,7 @@ export default {
 
   data() {
     return {
-      color: getRandomElement([
-        '#A975FF',
-        '#FB5151',
-        '#FD9170',
-        '#FFCB6B',
-        '#68CEF8',
-        '#80CBC4',
-        '#9DEF8F',
-      ]),
+      color: getRandomElement(['#A975FF', '#FB5151', '#FD9170', '#FFCB6B', '#68CEF8', '#80CBC4', '#9DEF8F']),
       size: Math.ceil(Math.random() * Math.floor(10)),
       svg: null,
       path: null,
@@ -78,9 +63,7 @@ export default {
         .attr('stroke', this.color)
         .attr('stroke-width', this.size)
 
-      const moveEvent = event.type === 'mousedown'
-        ? 'mousemove'
-        : 'touchmove'
+      const moveEvent = event.type === 'mousedown' ? 'mousemove' : 'touchmove'
 
       this.svg.on(moveEvent, this.onMove)
     },

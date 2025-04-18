@@ -1,5 +1,5 @@
 context('/src/Nodes/Blockquote/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Blockquote/React/')
   })
 
@@ -72,9 +72,7 @@ context('/src/Nodes/Blockquote/React/', () => {
       .find('blockquote')
       .should('contain', 'Example Text')
 
-    cy.get('.tiptap')
-      .type('{selectall}')
-      .trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
+    cy.get('.tiptap').type('{selectall}').trigger('keydown', { shiftKey: true, modKey: true, key: 'b' })
 
     cy.get('.tiptap blockquote').should('not.exist')
   })

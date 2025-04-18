@@ -1,6 +1,6 @@
-import { Mark, Node } from '@tiptap/pm/model'
+import type { Mark, Node } from '@tiptap/pm/model'
 
-import { ExtensionAttribute } from '../types.js'
+import type { ExtensionAttribute } from '../types.js'
 import { mergeAttributes } from '../utilities/mergeAttributes.js'
 
 export function getRenderedAttributes(
@@ -8,9 +8,7 @@ export function getRenderedAttributes(
   extensionAttributes: ExtensionAttribute[],
 ): Record<string, any> {
   return extensionAttributes
-    .filter(
-      attribute => attribute.type === nodeOrMark.type.name,
-    )
+    .filter(attribute => attribute.type === nodeOrMark.type.name)
     .filter(item => item.attribute.rendered)
     .map(item => {
       if (!item.attribute.renderHTML) {

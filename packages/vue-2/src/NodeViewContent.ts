@@ -1,7 +1,8 @@
-import Vue, { Component, CreateElement } from 'vue'
+import type { Component, CreateElement } from 'vue'
+import type Vue from 'vue'
 
 export interface NodeViewContentInterface extends Vue {
-  as: string,
+  as: string
 }
 
 export const NodeViewContent: Component = {

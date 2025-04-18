@@ -1,6 +1,6 @@
 import { deleteSelection as originalDeleteSelection } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const deleteSelection: RawCommands['deleteSelection'] = () => ({ state, dispatch }) => {
-  return originalDeleteSelection(state, dispatch)
-}
+export const deleteSelection: RawCommands['deleteSelection'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalDeleteSelection(state, dispatch)
+  }

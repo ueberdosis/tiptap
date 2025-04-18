@@ -9,28 +9,12 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        './**/*.ts',
-        './**/*.tsx',
-        './**/*.js',
-        './**/*.jsx',
-      ],
+      files: ['./**/*.ts', './**/*.tsx', './**/*.js', './**/*.jsx'],
       extends: ['plugin:react-hooks/recommended'],
     },
     {
-      files: [
-        './**/*.ts',
-        './**/*.tsx',
-        './**/*.js',
-        './**/*.jsx',
-        './**/*.vue',
-      ],
-      plugins: [
-        'html',
-        'cypress',
-        '@typescript-eslint',
-        'simple-import-sort',
-      ],
+      files: ['./**/*.ts', './**/*.tsx', './**/*.js', './**/*.jsx', './**/*.vue'],
+      plugins: ['html', 'cypress', '@typescript-eslint', 'simple-import-sort'],
       env: {
         'cypress/globals': true,
       },
@@ -43,17 +27,18 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:vue/vue3-strongly-recommended',
         'airbnb-base',
+        'prettier',
       ],
       rules: {
         curly: ['error', 'all'],
-        'newline-after-var': ['error', 'always'],
         'no-continue': 'off',
         'no-alert': 'off',
         'no-console': ['warn', { allow: ['warn', 'error'] }],
         semi: ['error', 'never'],
         'import/order': 'off',
         'import/extensions': ['error', 'ignorePackages'],
-        'no-restricted-imports': ['error',
+        'no-restricted-imports': [
+          'error',
           {
             paths: [
               {
@@ -81,14 +66,6 @@ module.exports = {
         'vue/one-component-per-file': 'off',
         'vue/this-in-template': ['error', 'never'],
         'vue/multi-word-component-names': 'off',
-        'vue/max-attributes-per-line': ['error', {
-          singleline: {
-            max: 3,
-          },
-          multiline: {
-            max: 1,
-          },
-        }],
         'vue/singleline-html-element-content-newline': 'off',
         'no-param-reassign': 'off',
         'import/prefer-default-export': 'off',
@@ -113,6 +90,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
       },

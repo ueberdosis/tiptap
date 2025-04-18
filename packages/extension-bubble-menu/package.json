@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "2.11.6",
+  "version": "3.0.0-beta.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,22 +15,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
-  "dependencies": {
-    "tippy.js": "^6.3.7"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
@@ -38,15 +37,18 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/core": "^2.11.6",
-    "@tiptap/pm": "^2.11.6"
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0"
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

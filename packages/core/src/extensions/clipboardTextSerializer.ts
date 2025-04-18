@@ -5,7 +5,7 @@ import { getTextBetween } from '../helpers/getTextBetween.js'
 import { getTextSerializersFromSchema } from '../helpers/getTextSerializersFromSchema.js'
 
 export type ClipboardTextSerializerOptions = {
-  blockSeparator?: string,
+  blockSeparator?: string
 }
 
 export const ClipboardTextSerializer = Extension.create<ClipboardTextSerializerOptions>({
@@ -33,9 +33,7 @@ export const ClipboardTextSerializer = Extension.create<ClipboardTextSerializerO
             const range = { from, to }
 
             return getTextBetween(doc, range, {
-              ...(this.options.blockSeparator !== undefined
-                ? { blockSeparator: this.options.blockSeparator }
-                : {}),
+              ...(this.options.blockSeparator !== undefined ? { blockSeparator: this.options.blockSeparator } : {}),
               textSerializers,
             })
           },

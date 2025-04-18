@@ -1,5 +1,5 @@
 context('/src/Nodes/Youtube/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Youtube/React/')
   })
 
@@ -31,7 +31,8 @@ context('/src/Nodes/Youtube/React/', () => {
       cy.get('#width').type('{selectall}{backspace}320')
       cy.get('#height').type('{selectall}{backspace}240')
       cy.get('#add').eq(0).click()
-      cy.get('.tiptap div[data-youtube-video] iframe').should('have.length', 1)
+      cy.get('.tiptap div[data-youtube-video] iframe')
+        .should('have.length', 1)
         .should('have.css', 'width', '320px')
         .should('have.css', 'height', '240px')
         .invoke('attr', 'src')
@@ -71,8 +72,7 @@ context('/src/Nodes/Youtube/React/', () => {
           expect(url.searchParams.get('rel')).to.eq('1')
         })
 
-      cy.get('.tiptap div[data-youtube-video] iframe')
-        .click()
+      cy.get('.tiptap div[data-youtube-video] iframe').click()
 
       cy.get('#add').eq(0).click()
 

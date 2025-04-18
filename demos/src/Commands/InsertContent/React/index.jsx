@@ -1,12 +1,11 @@
 import './styles.scss'
 
-import { Color } from '@tiptap/extension-color'
+import { Image } from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
-import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
+import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 const htmlContent = `
   <h1><a href="https://tiptap.dev/">Tiptap</a></h1>
@@ -25,6 +24,12 @@ And more lines`
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
 
+  const insertImage = useCallback(() => {
+    const url = prompt('Enter an image URL')
+
+    editor.chain().insertContent(`<img src="${url}" alt="Example image" />`).focus().run()
+  }, [editor])
+
   if (!editor) {
     return null
   }
@@ -35,35 +40,27 @@ const MenuBar = () => {
         <button data-test-id="html-content" onClick={() => editor.chain().insertContent(htmlContent).focus().run()}>
           Insert HTML content
         </button>
-        <button data-test-id="html-content-spans" onClick={() => editor.chain().insertContent('<p><b>Hello</b> <i>World</i></p>').focus().run()}>
+        <button
+          data-test-id="html-content-spans"
+          onClick={() => editor.chain().insertContent('<p><b>Hello</b> <i>World</i></p>').focus().run()}
+        >
           Insert HTML with span tags content
         </button>
         <button data-test-id="text-content" onClick={() => editor.chain().insertContent(textContent).focus().run()}>
           Insert text content
+        </button>
+        <button data-test-id="image-content" onClick={insertImage}>
+          Insert image
         </button>
       </div>
     </div>
   )
 }
 
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  Link,
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-    },
-    orderedList: {
-      keepMarks: true,
-    },
-  }),
-]
+const extensions = [Image, Color, TextStyle, Link, StarterKit]
 
 const content = ''
 
 export default () => {
-  return (
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
-  )
+  return <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
 }

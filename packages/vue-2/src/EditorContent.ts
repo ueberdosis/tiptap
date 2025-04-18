@@ -1,9 +1,10 @@
-import Vue, { Component, CreateElement, PropType } from 'vue'
+import type { Component, CreateElement, PropType } from 'vue'
+import type Vue from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 
 export interface EditorContentInterface extends Vue {
-  editor: Editor,
+  editor: Editor
 }
 
 export const EditorContent: Component = {
@@ -24,7 +25,7 @@ export const EditorContent: Component = {
           this.$nextTick(() => {
             const element = this.$el
 
-            if (!element || !editor.options.element.firstChild) {
+            if (!element || !editor.options.element?.firstChild) {
               return
             }
 
@@ -61,10 +62,11 @@ export const EditorContent: Component = {
 
     editor.contentComponent = null
 
-    if (!editor.options.element.firstChild) {
+    if (!editor.options.element?.firstChild) {
       return
     }
 
+    // TODO using the new editor.mount method might allow us to remove this
     const newElement = document.createElement('div')
 
     newElement.append(...editor.options.element.childNodes)

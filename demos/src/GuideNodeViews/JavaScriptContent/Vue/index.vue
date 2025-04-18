@@ -21,10 +21,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        NodeView,
-      ],
+      extensions: [StarterKit, NodeView],
       content: `
         <p>
           This is still the text editor you’re used to, but enriched with node views.

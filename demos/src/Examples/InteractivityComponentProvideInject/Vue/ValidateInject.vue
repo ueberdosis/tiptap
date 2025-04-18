@@ -1,7 +1,7 @@
 <template>
   <div class="validate-inject">
     <p>{{ globalValue }}</p>
-    <p>{{ appValue }}  </p>
+    <p>{{ appValue }}</p>
     <p>{{ indexValue }}</p>
     <p>{{ editorValue }}</p>
   </div>

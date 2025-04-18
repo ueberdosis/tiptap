@@ -1,5 +1,355 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 2c911d2: This adds all of the list packages to the `@tiptap/extension-list` package.
+
+  ## ListKit
+
+  The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
+
+  ```ts
+  import { ListKit } from '@tiptap/extension-list'
+
+  new Editor({
+    extensions: [
+      ListKit.configure({
+        bulletList: {
+          HTMLAttributes: 'bullet-list',
+        },
+        orderedList: {
+          HTMLAttributes: 'ordered-list',
+        },
+        listItem: {
+          HTMLAttributes: 'list-item',
+        },
+        taskList: {
+          HTMLAttributes: 'task-list',
+        },
+        taskItem: {
+          HTMLAttributes: 'task-item',
+        },
+        listKeymap: {},
+      }),
+    ],
+  })
+  ```
+
+  ## List repackaging
+
+  Since we've moved the code out of the list extensions to the `@tiptap/extension-list` package, you can remove the following packages from your project:
+
+  ```bash
+  npm uninstall @tiptap/extension-ordered-list @tiptap/extension-bullet-list @tiptap/extension-list-keymap @tiptap/extension-list-item @tiptap/extension-task-list
+  ```
+
+  And replace them with the new `@tiptap/extension-list` package:
+
+  ```bash
+  npm install @tiptap/extension-list
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BulletList
+
+  This extension adds a bullet list to the editor.
+
+  Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import BulletList from '@tiptap/extension-bullet-list'
+  + import { BulletList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { BulletList } from '@tiptap/extension-list'
+  ```
+
+  ### OrderedList
+
+  This extension adds an ordered list to the editor.
+
+  Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import OrderedList from '@tiptap/extension-ordered-list'
+  + import { OrderedList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { OrderedList } from '@tiptap/extension-list'
+  ```
+
+  ### ListItem
+
+  This extension adds a list item to the editor.
+
+  Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+
+  ```diff
+  - import ListItem from '@tiptap/extension-list-item'
+  + import { ListItem } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { ListItem } from '@tiptap/extension-list'
+  ```
+
+  ### TaskList
+
+  This extension adds a task list to the editor.
+
+  Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import TaskList from '@tiptap/extension-task-list'
+  + import { TaskList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TaskList } from '@tiptap/extension-list'
+  ```
+
+  ### TaskItem
+
+  This extension adds a task item to the editor.
+
+  Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+
+  ```diff
+  - import TaskItem from '@tiptap/extension-task-item'
+  + import { TaskItem } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TaskItem } from '@tiptap/extension-list'
+  ```
+
+  ### ListKeymap
+
+  This extension adds better default keybindings for lists to the editor.
+
+  Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+
+  ```diff
+  - import ListKeymap from '@tiptap/extension-list-keymap'
+  + import { ListKeymap } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { ListKeymap } from '@tiptap/extension-list'
+  ```
+
+## 3.0.0-next.5
+
+### Major Changes
+
+- 2c911d2: This adds all of the list packages to the `@tiptap/extension-list` package.
+
+  ## ListKit
+
+  The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
+
+  ```ts
+  import { ListKit } from '@tiptap/extension-list'
+
+  new Editor({
+    extensions: [
+      ListKit.configure({
+        bulletList: {
+          HTMLAttributes: 'bullet-list',
+        },
+        orderedList: {
+          HTMLAttributes: 'ordered-list',
+        },
+        listItem: {
+          HTMLAttributes: 'list-item',
+        },
+        taskList: {
+          HTMLAttributes: 'task-list',
+        },
+        taskItem: {
+          HTMLAttributes: 'task-item',
+        },
+        listKeymap: {},
+      }),
+    ],
+  })
+  ```
+
+  ## List repackaging
+
+  Since we've moved the code out of the list extensions to the `@tiptap/extension-list` package, you can remove the following packages from your project:
+
+  ```bash
+  npm uninstall @tiptap/extension-ordered-list @tiptap/extension-bullet-list @tiptap/extension-list-keymap @tiptap/extension-list-item @tiptap/extension-task-list
+  ```
+
+  And replace them with the new `@tiptap/extension-list` package:
+
+  ```bash
+  npm install @tiptap/extension-list
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BulletList
+
+  This extension adds a bullet list to the editor.
+
+  Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import BulletList from '@tiptap/extension-bullet-list'
+  + import { BulletList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { BulletList } from '@tiptap/extension-list'
+  ```
+
+  ### OrderedList
+
+  This extension adds an ordered list to the editor.
+
+  Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import OrderedList from '@tiptap/extension-ordered-list'
+  + import { OrderedList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { OrderedList } from '@tiptap/extension-list'
+  ```
+
+  ### ListItem
+
+  This extension adds a list item to the editor.
+
+  Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+
+  ```diff
+  - import ListItem from '@tiptap/extension-list-item'
+  + import { ListItem } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { ListItem } from '@tiptap/extension-list'
+  ```
+
+  ### TaskList
+
+  This extension adds a task list to the editor.
+
+  Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+
+  ```diff
+  - import TaskList from '@tiptap/extension-task-list'
+  + import { TaskList } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TaskList } from '@tiptap/extension-list'
+  ```
+
+  ### TaskItem
+
+  This extension adds a task item to the editor.
+
+  Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+
+  ```diff
+  - import TaskItem from '@tiptap/extension-task-item'
+  + import { TaskItem } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TaskItem } from '@tiptap/extension-list'
+  ```
+
+  ### ListKeymap
+
+  This extension adds better default keybindings for lists to the editor.
+
+  Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+
+  ```diff
+  - import ListKeymap from '@tiptap/extension-list-keymap'
+  + import { ListKeymap } from '@tiptap/extension-list'
+  ```
+
+  Usage:
+
+  ```ts
+  import { ListKeymap } from '@tiptap/extension-list'
+  ```
+
+## 3.0.0-next.4
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+
 ## 2.11.6
 
 ### Patch Changes
@@ -11,121 +361,6 @@
 ## 2.11.4
 
 ## 2.11.3
-
-## 2.11.2
-
-## 2.11.1
-
-## 2.11.0
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-### Patch Changes
-
-- 0c9004f: This resolves an issue where the bullet-list and ordered-list extensions were depending on the list-item and text-style extensions unneccesarily. They are no longer imported and constants are used instead.
-
-## 2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [97ea55f]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
-- c36e4c3: fix: Use undefined for type attribute default
-- Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-
-## 2.6.1
-
-### Patch Changes
-
-- @tiptap/core@2.6.1
-
-## 2.6.0
-
-### Minor Changes
-
-- da7b337: Support the `type` attribute for ordered lists
-
-### Patch Changes
-
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
-- Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
 
 ## 2.5.8
 

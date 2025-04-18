@@ -1,9 +1,8 @@
-import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
+import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -78,9 +77,7 @@ const getInitialUser = () => {
   }
 }
 
-const Editor = ({
-  ydoc, provider, room,
-}) => {
+const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
 
@@ -98,7 +95,7 @@ const Editor = ({
     },
     extensions: [
       StarterKit.configure({
-        history: false,
+        undoRedo: false,
       }),
       Highlight,
       TaskList,
@@ -109,7 +106,7 @@ const Editor = ({
       Collaboration.extend().configure({
         document: ydoc,
       }),
-      CollaborationCursor.extend().configure({
+      CollaborationCaret.extend().configure({
         provider,
       }),
     ],
@@ -187,15 +184,12 @@ const Editor = ({
 
       <EditorContent editor={editor} className="main-group" />
 
-      <div
-        className="collab-status-group"
-        data-state={status === 'connected' ? 'online' : 'offline'}
-      >
+      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
         <label>
           {status === 'connected'
-            ? `${editor.storage.collaborationCursor.users.length} user${
-              editor.storage.collaborationCursor.users.length === 1 ? '' : 's'
-            } online in ${room}`
+            ? `${editor.storage.collaborationCaret.users.length} user${
+                editor.storage.collaborationCaret.users.length === 1 ? '' : 's'
+              } online in ${room}`
             : 'offline'}
         </label>
         <button style={{ '--color': currentUser.color }} onClick={setName}>

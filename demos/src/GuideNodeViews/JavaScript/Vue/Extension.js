@@ -61,9 +61,11 @@ export default Node.create({
       button.innerHTML = `This button has been clicked ${node.attrs.count} times.`
       button.addEventListener('click', () => {
         if (typeof getPos === 'function') {
-          view.dispatch(view.state.tr.setNodeMarkup(getPos(), undefined, {
-            count: node.attrs.count + 1,
-          }))
+          view.dispatch(
+            view.state.tr.setNodeMarkup(getPos(), undefined, {
+              count: node.attrs.count + 1,
+            }),
+          )
 
           editor.commands.focus()
         }

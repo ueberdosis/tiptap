@@ -1,5 +1,5 @@
 context('/src/Marks/TextStyle/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Marks/TextStyle/Vue/')
   })
 
@@ -64,7 +64,7 @@ context('/src/Marks/TextStyle/Vue/', () => {
         .should('exist')
       cy.get('.tiptap > p:nth-child(9) > span:nth-child(3)')
         .should('have.text', 'strong blue serif ')
-        .and('have.attr', 'style', 'color: rgb(0, 0, 255); font-family: serif')
+        .and('have.attr', 'style', 'color: rgb(0, 0, 255); font-family: serif; font-size: 24px')
         .find('strong')
         .should('exist')
       cy.get('.tiptap > p:nth-child(9) > span:nth-child(4)')

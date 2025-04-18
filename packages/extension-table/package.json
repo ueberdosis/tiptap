@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table",
   "description": "table extension for tiptap",
-  "version": "2.11.6",
+  "version": "3.0.0-beta.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -15,26 +15,68 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./table": {
+      "types": {
+        "import": "./dist/table/index.d.ts",
+        "require": "./dist/table/index.d.cts"
+      },
+      "import": "./dist/table/index.js",
+      "require": "./dist/table/index.cjs"
+    },
+    "./cell": {
+      "types": {
+        "import": "./dist/cell/index.d.ts",
+        "require": "./dist/cell/index.d.cts"
+      },
+      "import": "./dist/cell/index.js",
+      "require": "./dist/cell/index.cjs"
+    },
+    "./header": {
+      "types": {
+        "import": "./dist/header/index.d.ts",
+        "require": "./dist/header/index.d.cts"
+      },
+      "import": "./dist/header/index.js",
+      "require": "./dist/header/index.cjs"
+    },
+    "./kit": {
+      "types": {
+        "import": "./dist/kit/index.d.ts",
+        "require": "./dist/kit/index.d.cts"
+      },
+      "import": "./dist/kit/index.js",
+      "require": "./dist/kit/index.cjs"
+    },
+    "./row": {
+      "types": {
+        "import": "./dist/row/index.d.ts",
+        "require": "./dist/row/index.d.cts"
+      },
+      "import": "./dist/row/index.js",
+      "require": "./dist/row/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^2.11.6",
-    "@tiptap/pm": "^2.11.6"
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "^2.7.0",
-    "@tiptap/pm": "^2.7.0"
+    "@tiptap/core": "^3.0.0-beta.0",
+    "@tiptap/pm": "^3.0.0-beta.0"
   },
   "repository": {
     "type": "git",
@@ -42,7 +84,7 @@
     "directory": "packages/extension-table"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

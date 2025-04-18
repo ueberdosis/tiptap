@@ -1,5 +1,5 @@
 context('/src/Nodes/Text/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Text/Vue/')
   })
 
@@ -10,9 +10,6 @@ context('/src/Nodes/Text/Vue/', () => {
   })
 
   it('text should be wrapped in a paragraph by default', () => {
-    cy.get('.tiptap')
-      .type('Example Text')
-      .find('p')
-      .should('contain', 'Example Text')
+    cy.get('.tiptap').type('Example Text').find('p').should('contain', 'Example Text')
   })
 })

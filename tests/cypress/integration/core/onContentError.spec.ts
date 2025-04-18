@@ -134,23 +134,28 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({
-        name: 'collaboration',
-        addStorage() {
-          return {
-            isDisabled: false,
-          }
-        },
-      })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Extension.create({
+          name: 'collaboration',
+          addStorage() {
+            return {
+              isDisabled: false,
+            }
+          },
+        }),
+      ],
       enableContentCheck: true,
       onContentError: args => {
         args.disableCollaboration()
-        expect(args.editor.storage.collaboration.isDisabled).to.eq(true)
+        expect(args.editor.storage.collaboration).to.eq(undefined)
       },
     })
 
     expect(editor.getText()).to.eq('')
-    expect(editor.storage.collaboration.isDisabled).to.eq(true)
+    expect(editor.storage.collaboration).to.eq(undefined)
   })
 
   it('does not remove the collaboration extension when has valid content (when enableContentCheck = true)', () => {
@@ -171,14 +176,19 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({
-        name: 'collaboration',
-        addStorage() {
-          return {
-            isDisabled: false,
-          }
-        },
-      })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Extension.create({
+          name: 'collaboration',
+          addStorage() {
+            return {
+              isDisabled: false,
+            }
+          },
+        }),
+      ],
       enableContentCheck: true,
       onContentError: () => {
         // Should not be called, so we fail the test

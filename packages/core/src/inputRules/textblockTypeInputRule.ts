@@ -1,7 +1,8 @@
-import { NodeType } from '@tiptap/pm/model'
+import type { NodeType } from '@tiptap/pm/model'
 
-import { InputRule, InputRuleFinder } from '../InputRule.js'
-import { ExtendedRegExpMatchArray } from '../types.js'
+import type { InputRuleFinder } from '../InputRule.js'
+import { InputRule } from '../InputRule.js'
+import type { ExtendedRegExpMatchArray } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
@@ -14,11 +15,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 export function textblockTypeInputRule(config: {
   find: InputRuleFinder
   type: NodeType
-  getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
+  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
     find: config.find,
@@ -30,9 +27,7 @@ export function textblockTypeInputRule(config: {
         return null
       }
 
-      state.tr
-        .delete(range.from, range.to)
-        .setBlockType(range.from, range.from, config.type, attributes)
+      state.tr.delete(range.from, range.to).setBlockType(range.from, range.from, config.type, attributes)
     },
   })
 }

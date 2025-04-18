@@ -1,4 +1,4 @@
-import { EditorOptions } from '@tiptap/core'
+import type { EditorOptions } from '@tiptap/core'
 import { onBeforeUnmount, onMounted, shallowRef } from 'vue'
 
 import { Editor } from './Editor.js'

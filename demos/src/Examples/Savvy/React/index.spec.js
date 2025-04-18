@@ -1,5 +1,5 @@
 context('/src/Examples/Savvy/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Savvy/React/')
   })
 

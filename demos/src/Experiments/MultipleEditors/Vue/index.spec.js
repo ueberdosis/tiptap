@@ -1,5 +1,5 @@
 context('/src/Examples/MultipleEditors/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/MultipleEditors/Vue/')
   })
 

@@ -1,5 +1,5 @@
 context('/src/GuideContent/ReadOnly/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/GuideContent/ReadOnly/React/')
   })
 
@@ -16,24 +16,18 @@ context('/src/GuideContent/ReadOnly/React/', () => {
 
       cy.get('.tiptap p:first').should('not.contain', 'Edited: ')
 
-      cy
-        .get('.tiptap')
-        .invoke('attr', 'tabindex')
-        .should('not.exist')
+      cy.get('.tiptap').invoke('attr', 'tabindex').should('not.exist')
     })
   })
 
   it('should be editable', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.setEditable(true)
+    cy.get('#editable').click()
+    cy.get('.tiptap').then(() => {
       cy.get('.tiptap').type('Edited: ')
 
       cy.get('.tiptap p:first').should('contain', 'Edited: ')
 
-      cy
-        .get('.tiptap')
-        .invoke('attr', 'tabindex')
-        .should('eq', '0')
+      cy.get('.tiptap').invoke('attr', 'tabindex').should('eq', '0')
     })
   })
 })

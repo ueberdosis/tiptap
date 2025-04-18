@@ -27,10 +27,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-        VueComponent,
-      ],
+      extensions: [StarterKit, VueComponent],
       content: `
         <p>
           This is still the text editor you’re used to, but enriched with node views.

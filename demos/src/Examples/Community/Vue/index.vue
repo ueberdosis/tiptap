@@ -1,18 +1,15 @@
 <template>
   <editor-content :editor="editor" />
 
-  <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === limit}">
-    <svg
-      height="20"
-      width="20"
-      viewBox="0 0 20 20"
-    >
-      <circle
-        r="10"
-        cx="10"
-        cy="10"
-        fill="#e9ecef"
-      />
+  <div
+    v-if="editor"
+    :class="{
+      'character-count': true,
+      'character-count--warning': editor.storage.characterCount.characters() === limit,
+    }"
+  >
+    <svg height="20" width="20" viewBox="0 0 20 20">
+      <circle r="10" cx="10" cy="10" fill="#e9ecef" />
       <circle
         r="5"
         cx="10"
@@ -23,12 +20,7 @@
         :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
         transform="rotate(-90) translate(-20)"
       />
-      <circle
-        r="6"
-        cx="10"
-        cy="10"
-        fill="white"
-      />
+      <circle r="6" cx="10" cy="10" fill="white" />
     </svg>
 
     {{ editor.storage.characterCount.characters() }} / {{ limit }} characters
@@ -36,11 +28,11 @@
 </template>
 
 <script>
-import CharacterCount from '@tiptap/extension-character-count'
 import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { CharacterCount } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import suggestion from './suggestion.js'
@@ -115,7 +107,7 @@ export default {
   color: var(--gray-5);
   display: flex;
   font-size: 0.75rem;
-  gap: .5rem;
+  gap: 0.5rem;
   margin: 1.5rem;
 
   svg {

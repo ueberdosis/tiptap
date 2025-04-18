@@ -5,7 +5,9 @@ export * as extensions from './extensions/index.js'
 export * from './helpers/index.js'
 export * from './InputRule.js'
 export * from './inputRules/index.js'
+export { createElement, Fragment, createElement as h } from './jsx-runtime.js'
 export * from './Mark.js'
+export * from './MarkView.js'
 export * from './Node.js'
 export * from './NodePos.js'
 export * from './NodeView.js'
@@ -19,10 +21,4 @@ export * from './utilities/index.js'
 export interface Commands<ReturnType = any> {}
 
 // eslint-disable-next-line
-export interface ExtensionConfig<Options = any, Storage = any> {}
-
-// eslint-disable-next-line
-export interface NodeConfig<Options = any, Storage = any> {}
-
-// eslint-disable-next-line
-export interface MarkConfig<Options = any, Storage = any> {}
+export interface Storage {}

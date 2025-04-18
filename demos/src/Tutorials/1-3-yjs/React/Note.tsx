@@ -4,7 +4,7 @@ import { StarterKit } from '@tiptap/starter-kit'
 import React from 'react'
 import * as Y from 'yjs'
 
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const doc = new Y.Doc()
@@ -28,6 +28,6 @@ export default ({ note }: { note: TNote }) => {
 
   return (
     // @ts-ignore
-    <EditorContent editor={editor}/>
+    <EditorContent editor={editor} />
   )
 }

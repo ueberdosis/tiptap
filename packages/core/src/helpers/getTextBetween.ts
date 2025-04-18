@@ -1,6 +1,6 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { Range, TextSerializer } from '../types.js'
+import type { Range, TextSerializer } from '../types.js'
 
 /**
  * Gets the text between two positions in a Prosemirror node

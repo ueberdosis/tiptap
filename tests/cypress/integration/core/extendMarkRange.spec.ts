@@ -11,64 +11,57 @@ describe('extendMarkRange', () => {
   it('should extend full mark', () => {
     const content = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [
-          {
-            type: 'text',
-            text: 'text',
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'foo',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text',
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'foo',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'bar',
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'bar',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-          },
-        ],
-      }],
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+            },
+          ],
+        },
+      ],
     }
 
     const editor = new Editor({
       content,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Link,
-      ],
+      extensions: [Document, Paragraph, Text, Link],
     })
 
     // debug
     // console.log(getDebugJSON(editor.state.doc))
 
     // set cursor in middle of first mark
-    editor
-      .chain()
-      .setTextSelection({ from: 7, to: 7 })
-      .extendMarkRange('link')
-      .run()
+    editor.chain().setTextSelection({ from: 7, to: 7 }).extendMarkRange('link').run()
 
     const { from, to } = editor.state.selection
 
@@ -83,53 +76,50 @@ describe('extendMarkRange', () => {
   it('should extend to mark with specific attributes', () => {
     const content = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [
-          {
-            type: 'text',
-            text: 'text',
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'foo',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text',
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'foo',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'bar',
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'bar',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-          },
-        ],
-      }],
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+            },
+          ],
+        },
+      ],
     }
 
     const editor = new Editor({
       content,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Link,
-      ],
+      extensions: [Document, Paragraph, Text, Link],
     })
 
     // debug
@@ -157,64 +147,57 @@ describe('extendMarkRange', () => {
   it('should not extend at all if selection contains no mark', () => {
     const content = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [
-          {
-            type: 'text',
-            text: 'text',
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'foo',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text',
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'foo',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'bar',
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'bar',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-          },
-        ],
-      }],
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+            },
+          ],
+        },
+      ],
     }
 
     const editor = new Editor({
       content,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Link,
-      ],
+      extensions: [Document, Paragraph, Text, Link],
     })
 
     // debug
     // console.log(getDebugJSON(editor.state.doc))
 
     // set cursor before any mark
-    editor
-      .chain()
-      .setTextSelection({ from: 2, to: 2 })
-      .extendMarkRange('link')
-      .run()
+    editor.chain().setTextSelection({ from: 2, to: 2 }).extendMarkRange('link').run()
 
     const { from, to } = editor.state.selection
 
@@ -229,53 +212,50 @@ describe('extendMarkRange', () => {
   it('should not extend at all if selection contains any non-matching mark', () => {
     const content = {
       type: 'doc',
-      content: [{
-        type: 'paragraph',
-        content: [
-          {
-            type: 'text',
-            text: 'text',
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'foo',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text',
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'foo',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-            marks: [
-              {
-                type: 'link',
-                attrs: {
-                  href: 'bar',
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'bar',
+                  },
                 },
-              },
-            ],
-          },
-          {
-            type: 'text',
-            text: 'text',
-          },
-        ],
-      }],
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+            },
+          ],
+        },
+      ],
     }
 
     const editor = new Editor({
       content,
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Link,
-      ],
+      extensions: [Document, Paragraph, Text, Link],
     })
 
     // debug

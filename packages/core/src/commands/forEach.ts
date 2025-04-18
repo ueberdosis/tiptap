@@ -1,4 +1,4 @@
-import { CommandProps, RawCommands } from '../types.js'
+import type { CommandProps, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -11,10 +11,10 @@ declare module '@tiptap/core' {
         fn: (
           item: T,
           props: CommandProps & {
-            index: number,
+            index: number
           },
         ) => boolean,
-      ) => ReturnType,
+      ) => ReturnType
     }
   }
 }

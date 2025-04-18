@@ -2,10 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button
-          @click="editor.chain().focus().toggleBold().run()"
-          :class="{ 'is-active': editor.isActive('bold') }"
-        >
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
         </button>
         <button
@@ -18,9 +15,7 @@
       <div className="hint" v-if="lastShortcut">
         {{ lastShortcut }} was the last shortcut hit, and was handled by Vue
       </div>
-      <div className="hint" v-else>
-        No shortcut has been hit yet, use Shift+Enter to trigger a shortcut handler
-      </div>
+      <div className="hint" v-else>No shortcut has been hit yet, use Shift+Enter to trigger a shortcut handler</div>
     </div>
 
     <editor-content :editor="editor" />
@@ -33,8 +28,8 @@ import { Editor, EditorContent, Extension } from '@tiptap/vue-3'
 
 const CustomKeyboardShortcutExtension = Extension.create({
   name: 'customKeyboardShortcuts',
-  // Set a higher priority to make sure this extension is executed first before the default keyboard shortcuts
-  priority: 101,
+  // Set a higher priority to make sure this extension is executed first before the default keyboard shortcuts (paragraph has 1000)
+  priority: 1001,
   addKeyboardShortcuts() {
     return {
       'Ctrl-Enter': ctx => {
@@ -169,7 +164,7 @@ export default {
     background: var(--black);
     border-radius: 0.5rem;
     color: var(--white);
-    font-family: "JetBrainsMono", monospace;
+    font-family: 'JetBrainsMono', monospace;
     margin: 1.5rem 0;
     padding: 0.75rem 1rem;
 

@@ -1,4 +1,4 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 /**
  * Returns true if the given prosemirror node is empty.
@@ -12,11 +12,11 @@ export function isNodeEmpty(
     /**
      * When true (default), it will also check if all children are empty.
      */
-    checkChildren?: boolean;
+    checkChildren?: boolean
     /**
      * When true, it will ignore whitespace when checking for emptiness.
      */
-    ignoreWhitespace?: boolean;
+    ignoreWhitespace?: boolean
   } = {},
 ): boolean {
   if (ignoreWhitespace) {

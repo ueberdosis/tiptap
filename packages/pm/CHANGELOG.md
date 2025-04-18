@@ -1,5 +1,45 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+### Patch Changes
+
+- 1e91f9b: Fix prosemirror history build
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+## 3.0.0-next.5
+
+## 3.0.0-next.4
+
+## 3.0.0-next.3
+
+### Patch Changes
+
+- 4d2139b: This fixes a problem with the release files
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+## 3.0.0-next.0
+
 ## 2.11.6
 
 ### Patch Changes
@@ -15,72 +55,6 @@
 ## 2.11.4
 
 ## 2.11.3
-
-## 2.11.2
-
-## 2.11.1
-
-## 2.11.0
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
-
-### Patch Changes
-
-- feea1f6: Update prosemirror-view version
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-### Patch Changes
-
-- bd34793: Bumped prosemirror versions
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- bd34793: Bumped prosemirror versions
-
-## 2.6.6
-
-## 2.6.5
-
-## 2.6.4
-
-## 2.6.3
-
-## 2.6.2
-
-## 2.6.1
-
-## 2.6.0
-
-## 2.5.9
 
 ## 2.5.8
 

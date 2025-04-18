@@ -1,8 +1,6 @@
-import {
-  Fragment, Node as ProseMirrorNode, ParseOptions, Schema,
-} from '@tiptap/pm/model'
+import type { Fragment, Node as ProseMirrorNode, ParseOptions, Schema } from '@tiptap/pm/model'
 
-import { Content } from '../types.js'
+import type { Content } from '../types.js'
 import { createNodeFromContent } from './createNodeFromContent.js'
 
 /**

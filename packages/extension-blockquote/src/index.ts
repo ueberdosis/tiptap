@@ -1,5 +1,5 @@
-import { Blockquote } from './blockquote.js'
+import { Blockquote } from './blockquote.jsx'
 
-export * from './blockquote.js'
+export * from './blockquote.jsx'
 
 export default Blockquote

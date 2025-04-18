@@ -2,7 +2,7 @@
 // TODO: add types to @types/prosemirror-commands
 import { selectTextblockStart as originalSelectTextblockStart } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -16,6 +16,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectTextblockStart: RawCommands['selectTextblockStart'] = () => ({ state, dispatch }) => {
-  return originalSelectTextblockStart(state, dispatch)
-}
+export const selectTextblockStart: RawCommands['selectTextblockStart'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalSelectTextblockStart(state, dispatch)
+  }

@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
+        <button
+          @click="editor.chain().focus().toggleUnderline().run()"
+          :class="{ 'is-active': editor.isActive('underline') }"
+        >
           Toggle underline
         </button>
         <button @click="editor.chain().focus().setUnderline().run()" :disabled="editor.isActive('underline')">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Underline,
-      ],
+      extensions: [Document, Paragraph, Text, Underline],
       content: `
         <p>There is no underline here.</p>
         <p><u>This is underlined though.</u></p>

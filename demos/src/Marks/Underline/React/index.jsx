@@ -31,10 +31,7 @@ export default () => {
           >
             Toggle underline
           </button>
-          <button
-            onClick={() => editor.chain().focus().setUnderline().run()}
-            disabled={editor.isActive('underline')}
-          >
+          <button onClick={() => editor.chain().focus().setUnderline().run()} disabled={editor.isActive('underline')}>
             Set underline
           </button>
           <button

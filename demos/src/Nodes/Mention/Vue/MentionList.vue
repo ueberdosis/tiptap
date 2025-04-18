@@ -10,9 +10,7 @@
         {{ item }}
       </button>
     </template>
-    <div class="item" v-else>
-      No result
-    </div>
+    <div class="item" v-else>No result</div>
   </div>
 </template>
 
@@ -63,7 +61,7 @@ export default {
     },
 
     upHandler() {
-      this.selectedIndex = ((this.selectedIndex + this.items.length) - 1) % this.items.length
+      this.selectedIndex = (this.selectedIndex + this.items.length - 1) % this.items.length
     },
 
     downHandler() {

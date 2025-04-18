@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "2.11.6",
+  "version": "3.0.0-beta.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -18,24 +18,43 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./jsx-runtime": {
+      "types": {
+        "import": "./jsx-runtime/index.d.ts",
+        "require": "./jsx-runtime/index.d.cts"
+      },
+      "import": "./jsx-runtime/index.js",
+      "require": "./jsx-runtime/index.cjs"
+    },
+    "./jsx-dev-runtime": {
+      "types": {
+        "import": "./jsx-dev-runtime/index.d.ts",
+        "require": "./jsx-dev-runtime/index.d.cts"
+      },
+      "import": "./jsx-dev-runtime/index.js",
+      "require": "./jsx-dev-runtime/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "src",
-    "dist"
+    "dist",
+    "jsx-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "^2.11.6"
+    "@tiptap/pm": "^3.0.0-beta.0"
   },
   "peerDependencies": {
-    "@tiptap/pm": "^2.7.0"
+    "@tiptap/pm": "^3.0.0-beta.0"
   },
   "repository": {
     "type": "git",
@@ -44,7 +63,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

@@ -1,5 +1,175 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- 131c7d0: This adds all of the table packages to the `@tiptap/extension-table` package.
+
+  ## TableKit
+
+  The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
+
+  ```ts
+  import { TableKit } from '@tiptap/extension-table'
+
+  new Editor({
+    extensions: [
+      TableKit.configure({
+        table: {
+          HTMLAttributes: {
+            class: 'table',
+          },
+        },
+        tableCell: {
+          HTMLAttributes: {
+            class: 'table-cell',
+          },
+        },
+        tableHeader: {
+          HTMLAttributes: {
+            class: 'table-header',
+          },
+        },
+        tableRow: {
+          HTMLAttributes: {
+            class: 'table-row',
+          },
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Table repackaging
+
+  Since we've moved the code out of the table extensions to the `@tiptap/extension-table` package, you can remove the following packages from your project:
+
+  ```bash
+  npm uninstall @tiptap/extension-table-header @tiptap/extension-table-cell @tiptap/extension-table-row
+  ```
+
+  And replace them with the new `@tiptap/extension-table` package:
+
+  ```bash
+  npm install @tiptap/extension-table
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### Table
+
+  This extension adds a table to the editor.
+
+  Migrate from default export to named export:
+
+  ```diff
+  - import Table from '@tiptap/extension-table'
+  + import { Table } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Table } from '@tiptap/extension-table'
+  ```
+
+  ### TableCell
+
+  This extension adds a table cell to the editor.
+
+  Migrate from `@tiptap/extension-table-cell` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableCell from '@tiptap/extension-table-cell'
+  + import { TableCell } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableCell } from '@tiptap/extension-table'
+  ```
+
+  ### TableHeader
+
+  This extension adds a table header to the editor.
+
+  Migrate from `@tiptap/extension-table-header` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableHeader from '@tiptap/extension-table-header'
+  + import { TableHeader } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableHeader } from '@tiptap/extension-table'
+  ```
+
+  ### TableRow
+
+  This extension adds a table row to the editor.
+
+  Migrate from `@tiptap/extension-table-row` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableRow from '@tiptap/extension-table-row'
+  + import { TableRow } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableRow } from '@tiptap/extension-table'
+  ```
+
+## 3.0.0-next.5
+
+## 3.0.0-next.4
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
+
 ## 2.11.6
 
 ## 2.11.5
@@ -36,97 +206,7 @@
 
 ### Minor Changes
 
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [97ea55f]
-- Updated dependencies [bd34793]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-  - @tiptap/pm@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-- @tiptap/pm@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
-- Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-  - @tiptap/pm@2.6.3
-
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-- @tiptap/pm@2.6.2
-
-## 2.6.1
-
-### Patch Changes
-
-- @tiptap/core@2.6.1
-- @tiptap/pm@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-  - @tiptap/pm@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
-- Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
-  - @tiptap/pm@2.5.9
+- 131c7d0: This change repackages all of the table extensions to be within the `@tiptap/extension-table` package (other packages are just a re-export of the `@tiptap/extension-table` package). It also adds the `TableKit` export which will allow configuring the entire table with one extension.
 
 ## 2.5.8
 

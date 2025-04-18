@@ -68,8 +68,4 @@ img.ProseMirror-separator {
 
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
-}
-
-.tippy-box[data-animation=fade][data-state=hidden] {
-  opacity: 0
 }`

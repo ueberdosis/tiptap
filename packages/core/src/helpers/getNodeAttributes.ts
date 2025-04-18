@@ -1,12 +1,9 @@
-import { Node, NodeType } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import type { Node, NodeType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
 
 import { getNodeType } from './getNodeType.js'
 
-export function getNodeAttributes(
-  state: EditorState,
-  typeOrName: string | NodeType,
-): Record<string, any> {
+export function getNodeAttributes(state: EditorState, typeOrName: string | NodeType): Record<string, any> {
   const type = getNodeType(typeOrName, state.schema)
   const { from, to } = state.selection
   const nodes: Node[] = []

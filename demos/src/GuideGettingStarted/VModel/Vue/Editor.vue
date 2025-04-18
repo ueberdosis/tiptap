@@ -38,15 +38,13 @@ export default {
         return
       }
 
-      this.editor.commands.setContent(value, false)
+      this.editor.commands.setContent(value)
     },
   },
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: this.modelValue,
       onUpdate: () => {
         // HTML

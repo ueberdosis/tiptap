@@ -1,9 +1,4 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface HighlightOptions {
   /**
@@ -11,14 +6,14 @@ export interface HighlightOptions {
    * @default false
    * @example true
    */
-  multicolor: boolean,
+  multicolor: boolean
 
   /**
    * HTML attributes to add to the highlight element.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -29,18 +24,18 @@ declare module '@tiptap/core' {
        * @param attributes The highlight attributes
        * @example editor.commands.setHighlight({ color: 'red' })
        */
-      setHighlight: (attributes?: { color: string }) => ReturnType,
+      setHighlight: (attributes?: { color: string }) => ReturnType
       /**
        * Toggle a highlight mark
        * @param attributes The highlight attributes
        * @example editor.commands.toggleHighlight({ color: 'red' })
        */
-      toggleHighlight: (attributes?: { color: string }) => ReturnType,
+      toggleHighlight: (attributes?: { color: string }) => ReturnType
       /**
        * Unset a highlight mark
        * @example editor.commands.unsetHighlight()
        */
-      unsetHighlight: () => ReturnType,
+      unsetHighlight: () => ReturnType
     }
   }
 }
@@ -106,15 +101,21 @@ export const Highlight = Mark.create<HighlightOptions>({
 
   addCommands() {
     return {
-      setHighlight: attributes => ({ commands }) => {
-        return commands.setMark(this.name, attributes)
-      },
-      toggleHighlight: attributes => ({ commands }) => {
-        return commands.toggleMark(this.name, attributes)
-      },
-      unsetHighlight: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setHighlight:
+        attributes =>
+        ({ commands }) => {
+          return commands.setMark(this.name, attributes)
+        },
+      toggleHighlight:
+        attributes =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name, attributes)
+        },
+      unsetHighlight:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

@@ -1,6 +1,6 @@
 import { NodeSelection } from '@tiptap/pm/state'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
 declare module '@tiptap/core' {
@@ -16,14 +16,16 @@ declare module '@tiptap/core' {
   }
 }
 
-export const setNodeSelection: RawCommands['setNodeSelection'] = position => ({ tr, dispatch }) => {
-  if (dispatch) {
-    const { doc } = tr
-    const from = minMax(position, 0, doc.content.size)
-    const selection = NodeSelection.create(doc, from)
+export const setNodeSelection: RawCommands['setNodeSelection'] =
+  position =>
+  ({ tr, dispatch }) => {
+    if (dispatch) {
+      const { doc } = tr
+      const from = minMax(position, 0, doc.content.size)
+      const selection = NodeSelection.create(doc, from)
 
-    tr.setSelection(selection)
+      tr.setSelection(selection)
+    }
+
+    return true
   }
-
-  return true
-}

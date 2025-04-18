@@ -1,5 +1,5 @@
 context('/src/Extensions/Focus/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/Focus/React/')
   })
 

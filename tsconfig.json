@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "es2019",
     "module": "esnext",
     "strict": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "importHelpers": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -15,28 +16,12 @@
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
-    "noEmit": true,
     "paths": {
-      "@tiptap/*": ["packages/*/src", "packages/*/dist"]
+      "@tiptap/*": ["packages/*/src", "packages/*/dist", "packages-deprecated/*/src", "packages-deprecated/*/dist"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "files": [
-    "./env.d.ts"
-  ],
-  "include": [
-    "**/*.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.vue"
-  ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist"
-  ]
+  "files": ["./env.d.ts"],
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": ["**/node_modules", "**/dist"]
 }

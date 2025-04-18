@@ -1,5 +1,424 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Minor Changes
+
+- 0e3207f: Add support for [markviews](https://prosemirror.net/docs/ref/#view.MarkView), which allow you to render custom views for marks within the editor. This is useful for rendering custom UI for marks, like a color picker for a text color mark or a link editor for a link mark.
+
+  Here is a plain JS markview example:
+
+  ```ts
+  Mark.create({
+    // Other options...
+    addMarkView() {
+      return ({ mark, HTMLAttributes }) => {
+        const dom = document.createElement('b')
+        const contentDOM = document.createElement('span')
+
+        dom.appendChild(contentDOM)
+
+        return {
+          dom,
+          contentDOM,
+        }
+      }
+    },
+  })
+  ```
+
+  ## React binding
+
+  To use a React component for a markview, you can use the `@tiptap/react` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { ReactMarkViewRenderer } from '@tiptap/react'
+
+  import Component from './Component.jsx'
+
+  export default Mark.create({
+    name: 'reactComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'react-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['react-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return ReactMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a React component:
+
+  ```tsx
+  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+  import React from 'react'
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export default (props: MarkViewRendererProps) => {
+    const [count, setCount] = React.useState(0)
+
+    return (
+      <span className="content" data-test-id="mark-view">
+        <MarkViewContent />
+        <label contentEditable={false}>
+          React component:
+          <button
+            onClick={() => {
+              setCount(count + 1)
+            }}
+          >
+            This button has been clicked {count} times.
+          </button>
+        </label>
+      </span>
+    )
+  }
+  ```
+
+  ## Vue 3 binding
+
+  To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+
+  import Component from './Component.vue'
+
+  export default Mark.create({
+    name: 'vueComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'vue-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['vue-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return VueMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a Vue 3 component:
+
+  ```vue
+  <template>
+    <span className="content" data-test-id="mark-view">
+      <mark-view-content />
+      <label contenteditable="false"
+        >Vue Component::
+        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      </label>
+    </span>
+  </template>
+
+  <script>
+  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  export default {
+    components: {
+      MarkViewContent,
+    },
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    props: markViewProps,
+    methods: {
+      increase() {
+        this.count += 1
+      },
+    },
+  }
+  </script>
+  ```
+
+## 3.0.0-next.5
+
+### Minor Changes
+
+- 0e3207f: Add support for [markviews](https://prosemirror.net/docs/ref/#view.MarkView), which allow you to render custom views for marks within the editor. This is useful for rendering custom UI for marks, like a color picker for a text color mark or a link editor for a link mark.
+
+  Here is a plain JS markview example:
+
+  ```ts
+  Mark.create({
+    // Other options...
+    addMarkView() {
+      return ({ mark, HTMLAttributes }) => {
+        const dom = document.createElement('b')
+        const contentDOM = document.createElement('span')
+
+        dom.appendChild(contentDOM)
+
+        return {
+          dom,
+          contentDOM,
+        }
+      }
+    },
+  })
+  ```
+
+  ## React binding
+
+  To use a React component for a markview, you can use the `@tiptap/react` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { ReactMarkViewRenderer } from '@tiptap/react'
+
+  import Component from './Component.jsx'
+
+  export default Mark.create({
+    name: 'reactComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'react-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['react-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return ReactMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a React component:
+
+  ```tsx
+  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+  import React from 'react'
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export default (props: MarkViewRendererProps) => {
+    const [count, setCount] = React.useState(0)
+
+    return (
+      <span className="content" data-test-id="mark-view">
+        <MarkViewContent />
+        <label contentEditable={false}>
+          React component:
+          <button
+            onClick={() => {
+              setCount(count + 1)
+            }}
+          >
+            This button has been clicked {count} times.
+          </button>
+        </label>
+      </span>
+    )
+  }
+  ```
+
+  ## Vue 3 binding
+
+  To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+
+  import Component from './Component.vue'
+
+  export default Mark.create({
+    name: 'vueComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'vue-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['vue-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return VueMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a Vue 3 component:
+
+  ```vue
+  <template>
+    <span className="content" data-test-id="mark-view">
+      <mark-view-content />
+      <label contenteditable="false"
+        >Vue Component::
+        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      </label>
+    </span>
+  </template>
+
+  <script>
+  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  export default {
+    components: {
+      MarkViewContent,
+    },
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    props: markViewProps,
+    methods: {
+      increase() {
+        this.count += 1
+      },
+    },
+  }
+  </script>
+  ```
+
+## 3.0.0-next.4
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@3.0.0-next.4
+- @tiptap/extension-floating-menu@3.0.0-next.4
+
+## 3.0.0-next.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@3.0.0-next.3
+- @tiptap/extension-floating-menu@3.0.0-next.3
+
+## 3.0.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [d9b6ef5]
+  - @tiptap/extension-floating-menu@3.0.0-next.2
+  - @tiptap/extension-bubble-menu@3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/extension-floating-menu@3.0.0-next.1
+  - @tiptap/extension-bubble-menu@3.0.0-next.1
+  - @tiptap/core@3.0.0-next.1
+  - @tiptap/pm@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Major Changes
+
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Patch Changes
+
+- Updated dependencies [7eaa34d]
+- Updated dependencies [0ec0af6]
+  - @tiptap/extension-floating-menu@3.0.0-next.0
+  - @tiptap/extension-bubble-menu@3.0.0-next.0
+  - @tiptap/core@3.0.0-next.0
+  - @tiptap/pm@3.0.0-next.0
+
 ## 2.11.6
 
 ### Patch Changes
@@ -23,247 +442,8 @@
 
 ## 2.11.3
 
-### Patch Changes
-
 - @tiptap/extension-bubble-menu@2.11.3
 - @tiptap/extension-floating-menu@2.11.3
-
-## 2.11.2
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.11.2
-- @tiptap/extension-floating-menu@2.11.2
-
-## 2.11.1
-
-### Patch Changes
-
-- 9787f8b: update node view props to match `NodeViewProps` type
-  - @tiptap/extension-bubble-menu@2.11.1
-  - @tiptap/extension-floating-menu@2.11.1
-
-## 2.11.0
-
-### Patch Changes
-
-- Updated dependencies [d9b6ef5]
-  - @tiptap/extension-floating-menu@2.11.0
-  - @tiptap/extension-bubble-menu@2.11.0
-
-## 2.10.4
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.10.4
-- @tiptap/extension-floating-menu@2.10.4
-
-## 2.10.3
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.10.3
-- @tiptap/extension-floating-menu@2.10.3
-
-## 2.10.2
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.10.2
-- @tiptap/extension-floating-menu@2.10.2
-
-## 2.10.1
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.10.1
-- @tiptap/extension-floating-menu@2.10.1
-
-## 2.10.0
-
-### Patch Changes
-
-- 7619215: Fix editor destruction before transition end if editor is nested
-- 7619215: Fixes an issue where the bubble and flaoting menus on blur would remount
-- Updated dependencies [7619215]
-- Updated dependencies [7619215]
-- Updated dependencies [1959eb5]
-  - @tiptap/extension-bubble-menu@2.10.0
-  - @tiptap/extension-floating-menu@2.10.0
-
-## 2.9.1
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.9.1
-- @tiptap/extension-floating-menu@2.9.1
-
-## 2.9.0
-
-### Patch Changes
-
-- 364231a: Fix editor content being destroyed before transition end
-  - @tiptap/extension-bubble-menu@2.9.0
-  - @tiptap/extension-floating-menu@2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-### Patch Changes
-
-- Updated dependencies [6834a7f]
-  - @tiptap/extension-floating-menu@2.8.0
-  - @tiptap/extension-bubble-menu@2.8.0
-
-## 2.7.4
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.7.4
-- @tiptap/extension-floating-menu@2.7.4
-
-## 2.7.3
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.7.3
-- @tiptap/extension-floating-menu@2.7.3
-
-## 2.7.2
-
-### Patch Changes
-
-- cbe06d1: Fix registerPlugin() for late-registering plugins
-  - @tiptap/extension-bubble-menu@2.7.2
-  - @tiptap/extension-floating-menu@2.7.2
-
-## 2.7.1
-
-### Patch Changes
-
-- @tiptap/extension-bubble-menu@2.7.1
-- @tiptap/extension-floating-menu@2.7.1
-
-## 2.7.0
-
-### Minor Changes
-
-- 7f24a66: Vue NodeViews now listen for changes to selections and re-render when the selection is actually over the nodeview
-
-### Patch Changes
-
-- 9e18d24: Fixed an issue where plugin registration on editor initialization would break Vue3 editors.
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-  - @tiptap/extension-bubble-menu@2.7.0
-  - @tiptap/extension-floating-menu@2.7.0
-
-## 2.7.0-pre.0
-
-### Minor Changes
-
-- 7f24a66: Vue NodeViews now listen for changes to selections and re-render when the selection is actually over the nodeview
-
-### Patch Changes
-
-- 9e18d24: Fixed an issue where plugin registration on editor initialization would break Vue3 editors.
-- 7f24a66: Update the Typescript types for NodeViews, bringing them inline with there actual implementation
-- Updated dependencies [97ea55f]
-- Updated dependencies [bd34793]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-  - @tiptap/pm@2.7.0-pre.0
-  - @tiptap/extension-bubble-menu@2.7.0-pre.0
-  - @tiptap/extension-floating-menu@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-  - @tiptap/extension-bubble-menu@2.6.6
-  - @tiptap/extension-floating-menu@2.6.6
-  - @tiptap/pm@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-- @tiptap/extension-bubble-menu@2.6.5
-- @tiptap/extension-floating-menu@2.6.5
-- @tiptap/pm@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-- @tiptap/extension-bubble-menu@2.6.4
-- @tiptap/extension-floating-menu@2.6.4
-- @tiptap/pm@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
-- Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-  - @tiptap/extension-bubble-menu@2.6.3
-  - @tiptap/extension-floating-menu@2.6.3
-  - @tiptap/pm@2.6.3
-
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-- @tiptap/extension-bubble-menu@2.6.2
-- @tiptap/extension-floating-menu@2.6.2
-- @tiptap/pm@2.6.2
-
-## 2.6.1
-
-### Patch Changes
-
-- @tiptap/core@2.6.1
-- @tiptap/extension-bubble-menu@2.6.1
-- @tiptap/extension-floating-menu@2.6.1
-- @tiptap/pm@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- be63e59: fix vue3 class components not working as node views
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-  - @tiptap/extension-bubble-menu@2.6.0
-  - @tiptap/extension-floating-menu@2.6.0
-  - @tiptap/pm@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
-- Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
-  - @tiptap/extension-bubble-menu@2.5.9
-  - @tiptap/extension-floating-menu@2.5.9
-  - @tiptap/pm@2.5.9
 
 ## 2.5.8
 

@@ -1,131 +1,167 @@
 import { Extension } from '@tiptap/core'
-import { Blockquote, BlockquoteOptions } from '@tiptap/extension-blockquote'
-import { Bold, BoldOptions } from '@tiptap/extension-bold'
-import { BulletList, BulletListOptions } from '@tiptap/extension-bullet-list'
-import { Code, CodeOptions } from '@tiptap/extension-code'
-import { CodeBlock, CodeBlockOptions } from '@tiptap/extension-code-block'
+import type { BlockquoteOptions } from '@tiptap/extension-blockquote'
+import { Blockquote } from '@tiptap/extension-blockquote'
+import type { BoldOptions } from '@tiptap/extension-bold'
+import { Bold } from '@tiptap/extension-bold'
+import type { CodeOptions } from '@tiptap/extension-code'
+import { Code } from '@tiptap/extension-code'
+import type { CodeBlockOptions } from '@tiptap/extension-code-block'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
-import { Dropcursor, DropcursorOptions } from '@tiptap/extension-dropcursor'
-import { Gapcursor } from '@tiptap/extension-gapcursor'
-import { HardBreak, HardBreakOptions } from '@tiptap/extension-hard-break'
-import { Heading, HeadingOptions } from '@tiptap/extension-heading'
-import { History, HistoryOptions } from '@tiptap/extension-history'
-import { HorizontalRule, HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
-import { Italic, ItalicOptions } from '@tiptap/extension-italic'
-import { ListItem, ListItemOptions } from '@tiptap/extension-list-item'
-import { OrderedList, OrderedListOptions } from '@tiptap/extension-ordered-list'
-import { Paragraph, ParagraphOptions } from '@tiptap/extension-paragraph'
-import { Strike, StrikeOptions } from '@tiptap/extension-strike'
+import type { HardBreakOptions } from '@tiptap/extension-hard-break'
+import { HardBreak } from '@tiptap/extension-hard-break'
+import type { HeadingOptions } from '@tiptap/extension-heading'
+import { Heading } from '@tiptap/extension-heading'
+import type { HorizontalRuleOptions } from '@tiptap/extension-horizontal-rule'
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule'
+import type { ItalicOptions } from '@tiptap/extension-italic'
+import { Italic } from '@tiptap/extension-italic'
+import type { LinkOptions } from '@tiptap/extension-link'
+import { Link } from '@tiptap/extension-link'
+import type { BulletListOptions, ListItemOptions, ListKeymapOptions, OrderedListOptions } from '@tiptap/extension-list'
+import { BulletList, ListItem, ListKeymap, OrderedList } from '@tiptap/extension-list'
+import type { ParagraphOptions } from '@tiptap/extension-paragraph'
+import { Paragraph } from '@tiptap/extension-paragraph'
+import type { StrikeOptions } from '@tiptap/extension-strike'
+import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
+import type { UnderlineOptions } from '@tiptap/extension-underline'
+import { Underline } from '@tiptap/extension-underline'
+import type { DropcursorOptions, TrailingNodeOptions, UndoRedoOptions } from '@tiptap/extensions'
+import { Dropcursor, Gapcursor, TrailingNode, UndoRedo } from '@tiptap/extensions'
 
 export interface StarterKitOptions {
   /**
    * If set to false, the blockquote extension will not be registered
    * @example blockquote: false
    */
-  blockquote: Partial<BlockquoteOptions> | false,
+  blockquote: Partial<BlockquoteOptions> | false
 
   /**
    * If set to false, the bold extension will not be registered
    * @example bold: false
    */
-  bold: Partial<BoldOptions> | false,
+  bold: Partial<BoldOptions> | false
 
   /**
    * If set to false, the bulletList extension will not be registered
    * @example bulletList: false
    */
-  bulletList: Partial<BulletListOptions> | false,
+  bulletList: Partial<BulletListOptions> | false
 
   /**
    * If set to false, the code extension will not be registered
    * @example code: false
    */
-  code: Partial<CodeOptions> | false,
+  code: Partial<CodeOptions> | false
 
   /**
    * If set to false, the codeBlock extension will not be registered
    * @example codeBlock: false
    */
-  codeBlock: Partial<CodeBlockOptions> | false,
+  codeBlock: Partial<CodeBlockOptions> | false
 
   /**
    * If set to false, the document extension will not be registered
    * @example document: false
    */
-  document: false,
+  document: false
 
   /**
    * If set to false, the dropcursor extension will not be registered
    * @example dropcursor: false
    */
-  dropcursor: Partial<DropcursorOptions> | false,
+  dropcursor: Partial<DropcursorOptions> | false
 
   /**
    * If set to false, the gapcursor extension will not be registered
    * @example gapcursor: false
    */
-  gapcursor: false,
+  gapcursor: false
 
   /**
    * If set to false, the hardBreak extension will not be registered
    * @example hardBreak: false
    */
-  hardBreak: Partial<HardBreakOptions> | false,
+  hardBreak: Partial<HardBreakOptions> | false
 
   /**
    * If set to false, the heading extension will not be registered
    * @example heading: false
    */
-  heading: Partial<HeadingOptions> | false,
+  heading: Partial<HeadingOptions> | false
 
   /**
-   * If set to false, the history extension will not be registered
-   * @example history: false
+   * If set to false, the undo-redo extension will not be registered
+   * @example undoRedo: false
    */
-  history: Partial<HistoryOptions> | false,
+  undoRedo: Partial<UndoRedoOptions> | false
 
   /**
    * If set to false, the horizontalRule extension will not be registered
    * @example horizontalRule: false
    */
-  horizontalRule: Partial<HorizontalRuleOptions> | false,
+  horizontalRule: Partial<HorizontalRuleOptions> | false
 
   /**
    * If set to false, the italic extension will not be registered
    * @example italic: false
    */
-  italic: Partial<ItalicOptions> | false,
+  italic: Partial<ItalicOptions> | false
 
   /**
    * If set to false, the listItem extension will not be registered
    * @example listItem: false
    */
-  listItem: Partial<ListItemOptions> | false,
+  listItem: Partial<ListItemOptions> | false
+
+  /**
+   * If set to false, the listItemKeymap extension will not be registered
+   * @example listKeymap: false
+   */
+  listKeymap: Partial<ListKeymapOptions> | false
+
+  /**
+   * If set to false, the link extension will not be registered
+   * @example link: false
+   */
+  link: Partial<LinkOptions> | false
 
   /**
    * If set to false, the orderedList extension will not be registered
    * @example orderedList: false
    */
-  orderedList: Partial<OrderedListOptions> | false,
+  orderedList: Partial<OrderedListOptions> | false
 
   /**
    * If set to false, the paragraph extension will not be registered
    * @example paragraph: false
    */
-  paragraph: Partial<ParagraphOptions> | false,
+  paragraph: Partial<ParagraphOptions> | false
 
   /**
    * If set to false, the strike extension will not be registered
    * @example strike: false
    */
-  strike: Partial<StrikeOptions> | false,
+  strike: Partial<StrikeOptions> | false
 
   /**
    * If set to false, the text extension will not be registered
    * @example text: false
    */
-  text: false,
+  text: false
+
+  /**
+   * If set to false, the underline extension will not be registered
+   * @example underline: false
+   */
+  underline: Partial<UnderlineOptions> | false
+
+  /**
+   * If set to false, the trailingNode extension will not be registered
+   * @example trailingNode: false
+   */
+  trailingNode: Partial<TrailingNodeOptions> | false
 }
 
 /**
@@ -179,8 +215,8 @@ export const StarterKit = Extension.create<StarterKitOptions>({
       extensions.push(Heading.configure(this.options.heading))
     }
 
-    if (this.options.history !== false) {
-      extensions.push(History.configure(this.options.history))
+    if (this.options.undoRedo !== false) {
+      extensions.push(UndoRedo.configure(this.options.undoRedo))
     }
 
     if (this.options.horizontalRule !== false) {
@@ -193,6 +229,14 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.listItem !== false) {
       extensions.push(ListItem.configure(this.options.listItem))
+    }
+
+    if (this.options.listKeymap !== false) {
+      extensions.push(ListKeymap.configure(this.options?.listKeymap))
+    }
+
+    if (this.options.link !== false) {
+      extensions.push(Link.configure(this.options?.link))
     }
 
     if (this.options.orderedList !== false) {
@@ -209,6 +253,14 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.text !== false) {
       extensions.push(Text.configure(this.options.text))
+    }
+
+    if (this.options.underline !== false) {
+      extensions.push(Underline.configure(this.options?.underline))
+    }
+
+    if (this.options.trailingNode !== false) {
+      extensions.push(TrailingNode.configure(this.options?.trailingNode))
     }
 
     return extensions

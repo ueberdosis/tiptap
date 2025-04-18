@@ -5,11 +5,12 @@
     <div class="editor__footer">
       <div :class="`editor__status editor__status--${status}`">
         <template v-if="status === 'connected'">
-          {{ editor.storage.collaborationCursor.users.length }} user{{ editor.storage.collaborationCursor.users.length === 1 ? '' : 's' }} online in {{ room }}
+          {{ editor.storage.collaborationCaret.users.length }} user{{
+            editor.storage.collaborationCaret.users.length === 1 ? '' : 's'
+          }}
+          online in {{ room }}
         </template>
-        <template v-else>
-          offline
-        </template>
+        <template v-else> offline </template>
       </div>
       <div class="editor__name">
         <button @click="setName">
@@ -22,12 +23,11 @@
 
 <script>
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
+import { CharacterCount } from '@tiptap/extensions'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import * as Y from 'yjs'
@@ -88,7 +88,7 @@ export default {
         Collaboration.configure({
           document: ydoc,
         }),
-        CollaborationCursor.configure({
+        CollaborationCaret.configure({
           provider: this.provider,
           user: this.currentUser,
         }),
@@ -103,9 +103,7 @@ export default {
 
   methods: {
     setName() {
-      const name = (window.prompt('Name') || '')
-        .trim()
-        .substring(0, 32)
+      const name = (window.prompt('Name') || '').trim().substring(0, 32)
 
       if (name) {
         return this.updateCurrentUser({
@@ -122,20 +120,36 @@ export default {
     },
 
     getRandomColor() {
-      return getRandomElement([
-        '#958DF1',
-        '#F98181',
-        '#FBBC88',
-        '#FAF594',
-        '#70CFF8',
-        '#94FADB',
-        '#B9F18D',
-      ])
+      return getRandomElement(['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D'])
     },
 
     getRandomName() {
       return getRandomElement([
-        'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
+        'Lea Thompson',
+        'Cyndi Lauper',
+        'Tom Cruise',
+        'Madonna',
+        'Jerry Hall',
+        'Joan Collins',
+        'Winona Ryder',
+        'Christina Applegate',
+        'Alyssa Milano',
+        'Molly Ringwald',
+        'Ally Sheedy',
+        'Debbie Harry',
+        'Olivia Newton-John',
+        'Elton John',
+        'Michael J. Fox',
+        'Axl Rose',
+        'Emilio Estevez',
+        'Ralph Macchio',
+        'Rob Lowe',
+        'Jennifer Grey',
+        'Mickey Rourke',
+        'John Cusack',
+        'Matthew Broderick',
+        'Justine Bateman',
+        'Lisa Bonet',
       ])
     },
   },
@@ -149,10 +163,10 @@ export default {
 
 <style lang="scss">
 .editor {
-  background-color: #FFF;
-  border: 3px solid #0D0D0D;
+  background-color: #fff;
+  border: 3px solid #0d0d0d;
   border-radius: 0.75rem;
-  color: #0D0D0D;
+  color: #0d0d0d;
   display: flex;
   flex-direction: column;
   max-height: 26rem;
@@ -179,8 +193,8 @@ export default {
 
   &__footer {
     align-items: center;
-    border-top: 3px solid #0D0D0D;
-    color: #0D0D0D;
+    border-top: 3px solid #0d0d0d;
+    color: #0d0d0d;
     display: flex;
     flex: 0 0 auto;
     flex-wrap: wrap;
@@ -198,7 +212,7 @@ export default {
     display: flex;
 
     &::before {
-      background: rgba(#0D0D0D, 0.5);
+      background: rgba(#0d0d0d, 0.5);
       border-radius: 50%;
       content: ' ';
       display: inline-block;
@@ -213,7 +227,7 @@ export default {
     }
 
     &--connected::before {
-      background: #B9F18D;
+      background: #b9f18d;
     }
   }
 
@@ -222,24 +236,24 @@ export default {
       background: none;
       border: none;
       border-radius: 0.4rem;
-      color: #0D0D0D;
+      color: #0d0d0d;
       font: inherit;
       font-size: 12px;
       font-weight: 600;
       padding: 0.25rem 0.5rem;
 
       &:hover {
-        background-color: #0D0D0D;
-        color: #FFF;
+        background-color: #0d0d0d;
+        color: #fff;
       }
     }
   }
 }
 
 /* Give a remote user a caret */
-.collaboration-cursor__caret {
-  border-left: 1px solid #0D0D0D;
-  border-right: 1px solid #0D0D0D;
+.collaboration-carets__caret {
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
   margin-left: -1px;
   margin-right: -1px;
   pointer-events: none;
@@ -248,9 +262,9 @@ export default {
 }
 
 /* Render the username above the caret */
-.collaboration-cursor__label {
+.collaboration-carets__label {
   border-radius: 3px 3px 3px 0;
-  color: #0D0D0D;
+  color: #0d0d0d;
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -289,9 +303,9 @@ export default {
   }
 
   pre {
-    background: #0D0D0D;
+    background: #0d0d0d;
     border-radius: 0.5rem;
-    color: #FFF;
+    color: #fff;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
 
@@ -304,7 +318,7 @@ export default {
   }
 
   mark {
-    background-color: #FAF594;
+    background-color: #faf594;
   }
 
   img {
@@ -317,17 +331,17 @@ export default {
   }
 
   blockquote {
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
     padding-left: 1rem;
   }
 
   hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
 
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     padding: 0;
 

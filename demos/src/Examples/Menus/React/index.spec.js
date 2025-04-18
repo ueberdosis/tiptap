@@ -1,5 +1,5 @@
 context('/src/Examples/Menus/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Menus/React/')
   })
 
@@ -10,17 +10,13 @@ context('/src/Examples/Menus/React/', () => {
   })
 
   it('should show menu when the editor is empty', () => {
-    cy.get('#app')
-      .find('[data-tippy-root]')
+    cy.get('body').find('.floating-menu')
   })
 
   it('should show menu when text is selected', () => {
-    cy.get('.tiptap')
-      .type('Test')
-      .type('{selectall}')
+    cy.get('.tiptap').type('Test').type('{selectall}')
 
-    cy.get('#app')
-      .find('[data-tippy-root]')
+    cy.get('body').find('.bubble-menu')
   })
 
   const marks = [
@@ -40,17 +36,11 @@ context('/src/Examples/Menus/React/', () => {
 
   marks.forEach(mark => {
     it(`should apply ${mark.button} correctly`, () => {
-      cy.get('.tiptap')
-        .type('Test')
-        .type('{selectall}')
+      cy.get('.tiptap').type('Test').type('{selectall}')
 
-      cy.get('#app')
-        .find('[data-tippy-root]')
-        .contains(mark.button)
-        .click()
+      cy.get('body').find('.bubble-menu').contains(mark.button).click()
 
-      cy.get('.tiptap')
-        .find(`p ${mark.tag}`)
+      cy.get('.tiptap').find(`p ${mark.tag}`)
     })
   })
 })

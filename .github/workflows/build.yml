@@ -3,6 +3,9 @@
 
 name: build
 
+env:
+  PNPM_VERSION: 9.15.4
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -23,7 +26,7 @@ on:
       - next
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -33,82 +36,111 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-      - name: Load cached dependencies
+      - name: Load turbo cache
         uses: actions/cache@v4.2.3
-        id: cache
+        id: turbo-cache
         with:
           path: |
-            **/node_modules
-            **/.turbo
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.sha }}
+            ${{ runner.os }}-turbo-
 
       - name: Install dependencies
         id: install-dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
-
-      #    - name: Fix code style linting errors
-      #      id: lint-fix
-      #      run: npm run lint:fix
-      #      continue-on-error: true
-      #
-      #    - name: Commit fixed linting errors
-      #      id: commit
-      #      uses: stefanzweifel/git-auto-commit-action@v4
-      #      with:
-      #        commit_message: "ci: fix code style linting errors"
+        run: pnpm install
 
       - name: Lint code
-        id: lint
-        run: npm run lint
+        run: pnpm run lint
+
+      - name: Try to build the packages
+        id: build-packages
+        run: pnpm run build
 
   test:
     runs-on: ubuntu-latest
+
+    needs: build
 
     strategy:
       matrix:
         node-version: [20]
         test-spec:
-          - { name: "Integration", spec: "./tests/cypress/integration/**/*.spec.{js,ts}" }
-          #- { name: "Demos/Commands", spec: "./demos/src/Commands/**/*.spec.{js,ts}" }
-          - { name: "Demos/Examples", spec: "./demos/src/Examples/**/*.spec.{js,ts}" }
-          - { name: "Demos/Experiments", spec: "./demos/src/Experiments/**/*.spec.{js,ts}" }
-          - { name: "Demos/Extensions", spec: "./demos/src/Extensions/**/*.spec.{js,ts}" }
-          - { name: "Demos/GuideContent", spec: "./demos/src/GuideContent/**/*.spec.{js,ts}" }
-          - { name: "Demos/GuideGettingStarted", spec: "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" }
+          - { name: 'Integration', spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
+          - { name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
+          - { name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
+          - { name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
+          - { name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
+          - { name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
+          - { name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
           #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
-          - { name: "Demos/Marks", spec: "./demos/src/Marks/**/*.spec.{js,ts}" }
-          - { name: "Demos/Nodes", spec: "./demos/src/Nodes/**/*.spec.{js,ts}" }
+          - { name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
+          - { name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
       - uses: actions/checkout@v4.1.4
+      - name: Load turbo cache
+        uses: actions/cache@v4.2.0
+        id: turbo-cache
+        with:
+          path: |
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.sha }}
+            ${{ runner.os }}-turbo-
+      - name: Load build cache
+        uses: actions/cache@v4.2.0
+        id: cache
+        with:
+          path: |
+            ./demos/node_modules/.vite
+            /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
+            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: pnpm install && pnpm exec cypress install
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:pm
+        run: pnpm run build
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
         uses: cypress-io/github-action@v6.7.16
         with:
-          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-          start: npm run serve
+          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          start: pnpm run serve
           wait-on: 'http://localhost:3000'
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
@@ -131,42 +163,53 @@ jobs:
           path: tests/cypress/videos
           retention-days: 7
 
-  build:
+  release:
     runs-on: ubuntu-latest
-
-    needs: lint
 
     strategy:
       matrix:
         node-version: [20]
 
+    needs: test
+
     steps:
       - uses: actions/checkout@v4.1.4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-      - name: Load cached dependencies
+      - name: Load turbo cache
         uses: actions/cache@v4.2.3
-        id: cache
+        id: turbo-cache
         with:
           path: |
-            **/node_modules
-            **/.turbo
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.sha }}
+            ${{ runner.os }}-turbo-
 
       - name: Install dependencies
         id: install-dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: pnpm install
 
       - name: Try to build the packages
         id: build-packages
-        run: npm run build:ci
+        run: pnpm run build
 
       - name: Soft release
         id: soft-release
-        run: npx pkg-pr-new publish './packages/*' --compact
+        run: pnpm exec pkg-pr-new publish './packages/*' --compact
+
+      - name: Soft release legacy packages
+        id: soft-release-deprecated
+        run: pnpm exec pkg-pr-new publish './packages-deprecated/*' --compact

@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import CharacterCount from '@tiptap/extension-character-count'
 import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { CharacterCount } from '@tiptap/extensions'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 import suggestion from './suggestion.js'
@@ -35,26 +35,26 @@ export default () => {
     `,
   })
 
-  const percentage = editor
-    ? Math.round((100 / limit) * editor.storage.characterCount.characters())
-    : 0
+  const { characterCount } = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        characterCount: ctx.editor.storage.characterCount.characters(),
+      }
+    },
+  })
+
+  const percentage = editor ? Math.round((100 / limit) * characterCount) : 0
 
   return (
     <>
       <EditorContent editor={editor} />
-      {editor
-        && <div className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}>
-          <svg
-            height="20"
-            width="20"
-            viewBox="0 0 20 20"
-          >
-            <circle
-              r="10"
-              cx="10"
-              cy="10"
-              fill="#e9ecef"
-            />
+      {editor && (
+        <div
+          className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}
+        >
+          <svg height="20" width="20" viewBox="0 0 20 20">
+            <circle r="10" cx="10" cy="10" fill="#e9ecef" />
             <circle
               r="5"
               cx="10"
@@ -65,17 +65,11 @@ export default () => {
               strokeDasharray={`calc(${percentage} * 31.4 / 100) 31.4`}
               transform="rotate(-90) translate(-20)"
             />
-            <circle
-              r="6"
-              cx="10"
-              cy="10"
-              fill="white"
-            />
+            <circle r="6" cx="10" cy="10" fill="white" />
           </svg>
-
           {editor.storage.characterCount.characters()} / {limit} characters
         </div>
-      }
+      )}
     </>
   )
 }

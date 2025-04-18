@@ -1,5 +1,174 @@
 # Change Log
 
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
+## 3.0.0-next.6
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- f77cbac: This updates the default value of the option `mergeNestedSpanStyles` to `true`, this will attempt to merge the styles of nested spans into the child span during HTML parsing. This prioritizes the style of the child span. This is used when parsing content created in other editors. (Fix for ProseMirror's default behavior.)
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds several extensions to the `text-style` package, which can be used to style text in the editor.
+
+  ## TextStyleKit
+
+  This extension adds a group of text style extensions to the editor, and is the recommended way of using the text style extensions. For easy configuration, you can pass an object with the following keys:
+
+  `backgroundColor`, `color`, `fontFamily`, `fontSize`, `lineHeight`, `textStyle`
+
+  Usage:
+
+  ```ts
+  import { TextStyleKit } from '@tiptap/extension-text-style'
+
+  new Editor({
+    extensions: [
+      TextStyleKit.configure({
+        backgroundColor: {
+          types: ['textStyle'],
+        },
+        color: {
+          types: ['textStyle'],
+        },
+        fontFamily: {
+          types: ['textStyle'],
+        },
+        fontSize: {
+          types: ['textStyle'],
+        },
+        lineHeight: {
+          types: ['textStyle'],
+        },
+        textStyle: {
+          types: ['textStyle'],
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BackgroundColor
+
+  This extension controls the background-color of a range of text in the editor.
+
+  Usage:
+
+  ```ts
+  import { BackgroundColor } from '@tiptap/extension-text-style'
+  ```
+
+  ### Color
+
+  This extension controls the color of a range of text in the editor.
+
+  Migrate from `@tiptap/extension-color` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import Color from '@tiptap/extension-color'
+  + import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontFamily
+
+  This extension controls the font-family of a range of text in the editor.
+
+  Migration from `@tiptap/extension-font-family` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import FontFamily from '@tiptap/extension-font-family'
+  + import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontSize
+
+  This extension controls the font-size of a range of text in the editor.
+
+  ```ts
+  import { FontSize } from '@tiptap/extension-text-style'
+  ```
+
+  ### LineHeight
+
+  This extension controls the line-height of a range of text in the editor.
+
+  ```ts
+  import { LineHeight } from '@tiptap/extension-text-style'
+  ```
+
+### Patch Changes
+
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+
+## 3.0.0-next.5
+
+### Minor Changes
+
+- f77cbac: This updates the default value of the option `mergeNestedSpanStyles` to `true`, this will attempt to merge the styles of nested spans into the child span during HTML parsing. This prioritizes the style of the child span. This is used when parsing content created in other editors. (Fix for ProseMirror's default behavior.)
+
+## 3.0.0-next.4
+
+### Minor Changes
+
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds the `font-size` to `text-style` package, which can set the font size of `textStyle`s
+- 0b4981c: This adds the `background-color` to `text-style` package, which can color the background of `textStyle`s
+- 0b4981c: This adds the `line-height` to `text-style` package, which controls the line-height of text like `font-size`, `font-family`, etc.
+
+### Patch Changes
+
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+
+## 3.0.0-next.3
+
+## 3.0.0-next.2
+
+## 3.0.0-next.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- Updated dependencies [a92f4a6]
+- Updated dependencies [da76972]
+  - @tiptap/core@3.0.0-next.1
+
+## 3.0.0-next.0
+
+### Patch Changes
+
+- Updated dependencies [0ec0af6]
+  - @tiptap/core@3.0.0-next.0
+
 ## 2.11.6
 
 ## 2.11.5
@@ -16,109 +185,7 @@
 
 ### Minor Changes
 
-- d735cf3: fixes #4311 - update the logic of `removeEmptyTextStyle` to manually handle the selection of all of the nodes within the selection to check for their marks independently to fix an issue where unsetting the font family on a selection would remove all applied text style marks from the selection as well
 - a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
-
-## 2.10.4
-
-## 2.10.3
-
-## 2.10.2
-
-## 2.10.1
-
-## 2.10.0
-
-## 2.9.1
-
-## 2.9.0
-
-## 2.8.0
-
-### Minor Changes
-
-- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
-
-## 2.7.4
-
-## 2.7.3
-
-## 2.7.2
-
-## 2.7.1
-
-## 2.7.0
-
-## 2.7.0-pre.0
-
-### Patch Changes
-
-- Updated dependencies [97ea55f]
-- Updated dependencies [9e18d24]
-- Updated dependencies [f805333]
-- Updated dependencies [07fa49d]
-- Updated dependencies [7f24a66]
-- Updated dependencies [97ea55f]
-- Updated dependencies [a22767e]
-  - @tiptap/core@2.7.0-pre.0
-
-## 2.6.6
-
-### Patch Changes
-
-- Updated dependencies [8d8d999]
-  - @tiptap/core@2.6.6
-
-## 2.6.5
-
-### Patch Changes
-
-- @tiptap/core@2.6.5
-
-## 2.6.4
-
-### Patch Changes
-
-- @tiptap/core@2.6.4
-
-## 2.6.3
-
-### Patch Changes
-
-- Updated dependencies [da76972]
-  - @tiptap/core@2.6.3
-
-## 2.6.2
-
-### Patch Changes
-
-- @tiptap/core@2.6.2
-
-## 2.6.1
-
-### Patch Changes
-
-- @tiptap/core@2.6.1
-
-## 2.6.0
-
-### Patch Changes
-
-- c0e631f: Give text-style extension a higher priority to have colors apply to things like underlines and strikethroughs
-- Updated dependencies [86a8553]
-- Updated dependencies [222f2ac]
-- Updated dependencies [e31673d]
-  - @tiptap/core@2.6.0
-
-## 2.5.9
-
-### Patch Changes
-
-- Updated dependencies [84ebd51]
-- Updated dependencies [0ec0af6]
-- Updated dependencies [ae0254d]
-- Updated dependencies [efb27fa]
-  - @tiptap/core@2.5.9
 
 ## 2.5.8
 
