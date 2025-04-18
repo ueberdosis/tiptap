@@ -63,7 +63,7 @@ describe('generateHTML', () => {
     })
 
     expect(generateHTML(json, extensions)).to.equal(
-      '<p xmlns="http://www.w3.org/1999/xhtml">Tiptap now supports YouTube embeds! Awesome!</p><div xmlns="http://www.w3.org/1999/xhtml" data-youtube-video=""><iframe width="640" height="480" allowfullscreen="true" autoplay="false" disablekbcontrols="false" enableiframeapi="false" endtime="0" ivloadpolicy="0" loop="false" modestbranding="false" origin="" playlist="" src="https://www.youtube.com/embed/cqHqLQgVCgY" start="0"></iframe></div>',
+      '<p xmlns="http://www.w3.org/1999/xhtml">Tiptap now supports YouTube embeds! Awesome!</p><div xmlns="http://www.w3.org/1999/xhtml" data-youtube-video=""><iframe width="640" height="480" allowfullscreen="true" autoplay="false" disablekbcontrols="false" enableiframeapi="false" endtime="0" ivloadpolicy="0" loop="false" modestbranding="false" origin="" playlist="" rel="1" src="https://www.youtube.com/embed/cqHqLQgVCgY?rel=1" start="0"></iframe></div>',
     )
   })
 
