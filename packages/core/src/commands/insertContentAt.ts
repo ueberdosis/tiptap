@@ -50,6 +50,12 @@ declare module '@tiptap/core' {
            * Whether to throw an error if the content is invalid.
            */
           errorOnInvalidContent?: boolean
+
+          /**
+           * Whether to use parseSlice function to parse the content.
+           * @default true
+           */
+          slice?: boolean
         },
       ) => ReturnType
     }
@@ -67,6 +73,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
       updateSelection: true,
       applyInputRules: false,
       applyPasteRules: false,
+      slice: true,
       ...options,
     }
 
@@ -74,7 +81,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     try {
       content = createNodeFromContent(value, editor.schema, {
-        slice: false,
+        slice: options.slice,
         parseOptions: {
           preserveWhitespace: 'full',
           ...options.parseOptions,
