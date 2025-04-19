@@ -81,4 +81,49 @@ describe('mergeAttributes', () => {
       style: 'color: green; background-color: red; margin-left: 30px',
     })
   })
+
+  it('should handle malformed inline styles with key-only attributes', () => {
+    const value = mergeAttributes(
+      { style: 'color: blue; margin;' },
+      { style: 'padding; color: red' },
+    )
+
+    expect(value).to.deep.eq({
+      style: 'color: red',
+    })
+  })
+
+  it('should handle malformed inline styles with value-only attributes', () => {
+    const value = mergeAttributes(
+      { style: ': blue; color: red; : 5px;' },
+      { style: 'margin: 10px' },
+    )
+
+    expect(value).to.deep.eq({
+      style: 'color: red; margin: 10px',
+    })
+  })
+
+  it('should handle complex font-family declarations', () => {
+    const value = mergeAttributes(
+      { style: 'font-family: Arial, "Helvetica Neue", sans-serif' },
+      { style: 'color: blue' },
+    )
+
+    expect(value).to.deep.eq({
+      style: 'font-family: Arial, "Helvetica Neue", sans-serif; color: blue',
+    })
+  })
+
+  it('should handle background-image with URL', () => {
+    const value = mergeAttributes(
+      { style: 'background: url(https://example.com/image.jpg) center center no-repeat #fff !important;background-size: cover !important;' },
+      { style: 'color: red' },
+    )
+
+    expect(value).to.deep.eq({
+      style: 'background: url(https://example.com/image.jpg) center center no-repeat #fff !important; background-size: cover !important; color: red',
+    })
+  })
+
 })
