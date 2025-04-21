@@ -6,12 +6,27 @@
 
   img {
     display: block;
-    height: auto;
-    margin: 1.5rem 0;
-    max-width: 100%;
 
     &.ProseMirror-selectednode {
       outline: 3px solid var(--purple);
+    }
+  }
+
+  [data-resize-container][data-node='image'] {
+    margin: 1.5rem 0;
+    max-width: 100%;
+  }
+
+  [data-resize-handle] {
+    background-color: var(--purple);
+    opacity: 0.5;
+
+    &[data-orientation='horizontal'] {
+      width: 8px;
+    }
+
+    &[data-orientation='vertical'] {
+      height: 8px;
     }
   }
 }
