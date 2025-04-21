@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import { createResizableNodeView, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -108,6 +108,42 @@ export const Image = Node.create<ImageOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
+  },
+
+  addNodeView() {
+    return ({ node, getPos, HTMLAttributes }) => {
+      const el = document.createElement('img')
+
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        if (value) {
+          switch (key) {
+            case 'width':
+              el.style.width = `${value}px`
+              break
+            case 'height':
+              el.style.height = `${value}px`
+              break
+            default:
+              el.setAttribute(key, value)
+              break
+          }
+        }
+      })
+
+      el.src = HTMLAttributes.src
+
+      const resizable = createResizableNodeView({
+        // directions: { left: true, right: true, bottom: true, top: true },
+        dom: el,
+        editor: this.editor,
+        getPos,
+        node,
+      })
+
+      return {
+        dom: resizable,
+      }
+    }
   },
 
   addCommands() {
