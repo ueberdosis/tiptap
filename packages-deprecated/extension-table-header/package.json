@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-table": "^3.0.0-beta.2"
+    "@tiptap/extension-table": "workspace:*"
   },
   "peerDependencies": {
-    "@tiptap/extension-table": "^3.0.0-beta.0"
+    "@tiptap/extension-table": "workspace:*"
   },
   "repository": {
     "type": "git",

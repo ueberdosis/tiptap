@@ -31,14 +31,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-beta.2",
-    "@tiptap/pm": "^3.0.0-beta.2",
-    "@tiptap/suggestion": "^3.0.0-beta.2"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/suggestion": "workspace:*"
   },
   "peerDependencies": {
-    "@tiptap/core": "^3.0.0-beta.0",
-    "@tiptap/pm": "^3.0.0-beta.0",
-    "@tiptap/suggestion": "^3.0.0-beta.0"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/suggestion": "workspace:*"
   },
   "repository": {
     "type": "git",

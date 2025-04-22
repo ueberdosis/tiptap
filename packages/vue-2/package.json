@@ -42,17 +42,17 @@
     "vue-ts-types": "1.6.2"
   },
   "devDependencies": {
-    "@tiptap/core": "^3.0.0-beta.2",
-    "@tiptap/pm": "^3.0.0-beta.2",
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
     "vue": "^2.7.16"
   },
   "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "^3.0.0-beta.2",
-    "@tiptap/extension-floating-menu": "^3.0.0-beta.2"
+    "@tiptap/extension-bubble-menu": "workspace:*",
+    "@tiptap/extension-floating-menu": "workspace:*"
   },
   "peerDependencies": {
-    "@tiptap/core": "^3.0.0-beta.0",
-    "@tiptap/pm": "^3.0.0-beta.0",
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
     "vue": "^2.6.0"
   },
   "repository": {
