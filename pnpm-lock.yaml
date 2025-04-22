@@ -322,97 +322,97 @@ importers:
   packages-deprecated/extension-character-count:
     devDependencies:
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-dropcursor:
     devDependencies:
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-focus:
     devDependencies:
       '@tiptap/extensions':
-        specifier: 3.0.0-beta.1
+        specifier: 3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-gapcursor:
     devDependencies:
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-history:
     devDependencies:
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-list-item:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-list-keymap:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-placeholder:
     devDependencies:
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extensions
 
   packages-deprecated/extension-table-cell:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-table-header:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-table-row:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-task-item:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-task-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages/extension-list
 
   packages/core:
     devDependencies:
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-blockquote:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-bold:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-bubble-menu:
@@ -422,31 +422,31 @@ importers:
         version: 1.6.13
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-bullet-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-list
 
   packages/extension-code:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-code-block:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-code-block-lowlight:
@@ -456,13 +456,13 @@ importers:
         version: 11.11.1
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/extension-code-block':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-code-block
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       lowlight:
         specifier: ^3.3.0
@@ -475,10 +475,10 @@ importers:
         version: 13.6.23
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^2.0.0
@@ -487,10 +487,10 @@ importers:
   packages/extension-collaboration-caret:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^2.0.0
@@ -499,13 +499,13 @@ importers:
   packages/extension-color:
     devDependencies:
       '@tiptap/extension-text-style':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-text-style
 
   packages/extension-document:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-floating-menu:
@@ -514,55 +514,55 @@ importers:
         specifier: ^1.6.12
         version: 1.6.13
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-font-family:
     devDependencies:
       '@tiptap/extension-text-style':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-text-style
 
   packages/extension-hard-break:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-heading:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-highlight:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-horizontal-rule:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-image:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-italic:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-link:
@@ -572,121 +572,121 @@ importers:
         version: 4.2.0
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-list:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-mention:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       '@tiptap/suggestion':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../suggestion
 
   packages/extension-ordered-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-list
 
   packages/extension-paragraph:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-strike:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-subscript:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-superscript:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-table:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/extension-text:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-text-align:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-text-style:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-typography:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-underline:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extension-youtube:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
 
   packages/extensions:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/html:
@@ -696,10 +696,10 @@ importers:
         version: 14.12.3
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/pm:
@@ -772,17 +772,17 @@ importers:
         version: 1.4.0(react@18.3.1)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       '@types/react':
         specifier: ^18.3.18
@@ -800,76 +800,76 @@ importers:
   packages/starter-kit:
     dependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/extension-blockquote':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-blockquote
       '@tiptap/extension-bold':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-bold
       '@tiptap/extension-bullet-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-bullet-list
       '@tiptap/extension-code':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-code
       '@tiptap/extension-code-block':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-code-block
       '@tiptap/extension-document':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-document
       '@tiptap/extension-dropcursor':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-hard-break
       '@tiptap/extension-heading':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-heading
       '@tiptap/extension-horizontal-rule':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-horizontal-rule
       '@tiptap/extension-italic':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-italic
       '@tiptap/extension-link':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-link
       '@tiptap/extension-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-list
       '@tiptap/extension-list-item':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-ordered-list
       '@tiptap/extension-paragraph':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-paragraph
       '@tiptap/extension-strike':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-strike
       '@tiptap/extension-text':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-text
       '@tiptap/extension-underline':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-underline
       '@tiptap/extensions':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extensions
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/static-renderer:
@@ -888,19 +888,19 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/suggestion:
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
 
   packages/vue-2:
@@ -910,17 +910,17 @@ importers:
         version: 1.6.2(vue@2.7.16)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       vue:
         specifier: ^2.7.16
@@ -933,17 +933,17 @@ importers:
         version: 1.6.13
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../core
       '@tiptap/pm':
-        specifier: ^3.0.0-beta.1
+        specifier: ^3.0.0-beta.2
         version: link:../pm
       vue:
         specifier: ^3.5.13
