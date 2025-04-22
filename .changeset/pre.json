@@ -63,6 +63,7 @@
     "@tiptap/vue-3": "3.0.0-beta.0"
   },
   "changesets": [
+    "beige-llamas-shout",
     "big-wolves-design",
     "blue-shrimps-rush",
     "chilled-candles-design",
