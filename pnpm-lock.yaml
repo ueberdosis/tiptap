@@ -168,8 +168,8 @@ importers:
         specifier: 1.10.3
         version: 1.10.3
       '@tiptap/y-tiptap':
-        specifier: ^1.0.0
-        version: 1.0.0(@tiptap/pm@packages+pm)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
+        specifier: ^2.0.0
+        version: 2.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
       d3:
         specifier: ^7.9.0
         version: 7.9.0
@@ -481,8 +481,8 @@ importers:
         specifier: ^3.0.0-beta.0
         version: link:../pm
       '@tiptap/y-tiptap':
-        specifier: ^1.0.0
-        version: 1.0.0(@tiptap/pm@packages+pm)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
+        specifier: ^2.0.0
+        version: 2.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
 
   packages/extension-collaboration-caret:
     devDependencies:
@@ -493,8 +493,8 @@ importers:
         specifier: ^3.0.0-beta.0
         version: link:../pm
       '@tiptap/y-tiptap':
-        specifier: ^1.0.0
-        version: 1.0.0(@tiptap/pm@packages+pm)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
+        specifier: ^2.0.0
+        version: 2.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
 
   packages/extension-color:
     devDependencies:
@@ -2662,11 +2662,13 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@tiptap/y-tiptap@1.0.0':
-    resolution: {integrity: sha512-Gr4zBSZAOqUAbWSQ/4AfTWX9rXuAkPmM5406vg6X4rB0hToVbmCHXvbxzh7uLMW0Rlwpe+Eo6jMam2ZC3p1BgA==}
+  '@tiptap/y-tiptap@2.0.0':
+    resolution: {integrity: sha512-s/b2Xfz7CHjQgr4T0EPutHuFbKUyzJV1n7NVIkAW6/BseFfe0RgVWyPghan6ivdGYWVAHIiCocJYHQN2nedNNg==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     peerDependencies:
-      '@tiptap/pm': ^2.11.3
+      prosemirror-model: ^1.7.1
+      prosemirror-state: ^1.2.3
+      prosemirror-view: ^1.9.10
       y-protocols: ^1.0.1
       yjs: ^13.5.38
 
@@ -4801,6 +4803,11 @@ packages:
 
   lexical@0.11.3:
     resolution: {integrity: sha512-xsMKgx/Fa+QHg/nweemU04lCy7TnEr8LyeDtsKUC7fIDN9wH3GqbnQ0+e3Hbg4FmxlhDCiPPt0GcZAROq3R8uw==}
+
+  lib0@0.2.104:
+    resolution: {integrity: sha512-1tqKRANSPTcjs/yjPoKh52oRM2u5AYdd8jie8sDiN8/5kpWWiQSHUGgtB4VEXLw1chVL3QPSPp8q9RWqzSn2FA==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   lib0@0.2.99:
     resolution: {integrity: sha512-vwztYuUf1uf/1zQxfzRfO5yzfNKhTtgOByCruuiQQxWQXnPb8Itaube5ylofcV0oM0aKal9Mv+S1s1Ky0UYP1w==}
@@ -8587,10 +8594,12 @@ snapshots:
       '@types/react': 18.3.18
       '@types/react-dom': 18.3.5(@types/react@18.3.18)
 
-  '@tiptap/y-tiptap@1.0.0(@tiptap/pm@packages+pm)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)':
+  '@tiptap/y-tiptap@2.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)':
     dependencies:
-      '@tiptap/pm': link:packages/pm
-      lib0: 0.2.99
+      lib0: 0.2.104
+      prosemirror-model: 1.24.1
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.38.1
       y-protocols: 1.0.6(yjs@13.6.23)
       yjs: 13.6.23
 
@@ -11110,6 +11119,10 @@ snapshots:
       type-check: 0.4.0
 
   lexical@0.11.3: {}
+
+  lib0@0.2.104:
+    dependencies:
+      isomorphic.js: 0.2.5
 
   lib0@0.2.99:
     dependencies:
