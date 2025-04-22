@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- 991f43c: Added new export for TableView class
+
 ## 3.0.0-beta.0
 
 ## 3.0.0-next.8

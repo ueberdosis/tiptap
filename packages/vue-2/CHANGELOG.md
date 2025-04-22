@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.1
+
+### Major Changes
+
+- 3d67595: VueNodeViewRenderer should return `null` for `contentDOM` for a non-leaf node with no `NodeViewContent`
+
 ## 3.0.0-beta.0
 
 ## 3.0.0-next.8

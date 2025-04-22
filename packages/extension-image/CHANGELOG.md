@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.1
+
+### Minor Changes
+
+- d230f7e: Add width and height attributes to Image node
+
 ## 3.0.0-beta.0
 
 ## 3.0.0-next.8
