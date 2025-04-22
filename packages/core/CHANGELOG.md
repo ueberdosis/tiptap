@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- 664834f: Clone dragged node before dragging to get correct drag preview image
+
 ## 3.0.0-beta.0
 
 ## 3.0.0-next.8
