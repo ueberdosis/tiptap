@@ -718,7 +718,6 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    console.log(this.editorView?.isDestroyed)
     return this.editorView?.isDestroyed ?? true
   }
 
