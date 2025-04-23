@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.3
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+
+## 3.0.0-beta.2
+
+## 3.0.0-beta.1
+
+## 3.0.0-beta.0
+
 ## 3.0.0-next.8
 
 ### Patch Changes

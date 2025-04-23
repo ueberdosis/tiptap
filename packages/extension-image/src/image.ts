@@ -24,6 +24,14 @@ export interface ImageOptions {
   HTMLAttributes: Record<string, any>
 }
 
+export interface SetImageOptions {
+  src: string
+  alt?: string
+  title?: string
+  width?: number
+  height?: number
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     image: {
@@ -35,7 +43,7 @@ declare module '@tiptap/core' {
        *   .commands
        *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo' })
        */
-      setImage: (options: { src: string; alt?: string; title?: string }) => ReturnType
+      setImage: (options: SetImageOptions) => ReturnType
     }
   }
 }
@@ -79,6 +87,12 @@ export const Image = Node.create<ImageOptions>({
         default: null,
       },
       title: {
+        default: null,
+      },
+      width: {
+        default: null,
+      },
+      height: {
         default: null,
       },
     }

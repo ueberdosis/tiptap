@@ -1,5 +1,24 @@
 # Change Log
 
+## 3.0.0-beta.3
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- Updated dependencies [1b4c82b]
+  - @tiptap/core@3.0.0-beta.3
+  - @tiptap/pm@3.0.0-beta.3
+
+## 3.0.0-beta.2
+
+### Patch Changes
+
+- 3aa670a: Fixed a bug in the EditorContent component that caused a crash in Firefox based browsers because of the editor view not being available when an uninitialized editor is unmounted (for example via Strict mode)
+
+## 3.0.0-beta.1
+
+## 3.0.0-beta.0
+
 ## 3.0.0-next.8
 
 ## 3.0.0-next.7
