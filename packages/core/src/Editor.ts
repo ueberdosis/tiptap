@@ -287,6 +287,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
+        isDestroyed: false,
       } as EditorView,
       {
         get: (obj, key) => {
@@ -717,8 +718,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    // @ts-ignore
-    return !this.view?.docView
+    return !this.editorView?.isDestroyed
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {
