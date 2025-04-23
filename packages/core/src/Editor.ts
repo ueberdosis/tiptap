@@ -718,7 +718,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    return !this.editorView?.isDestroyed
+    return this.editorView?.isDestroyed || false
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {
