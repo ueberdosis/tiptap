@@ -2,4 +2,4 @@
 "@tiptap/core": minor
 ---
 
-fix parsing of empty html table in insertContentAt func
+add slice option to insertContentAt and insertContent function
