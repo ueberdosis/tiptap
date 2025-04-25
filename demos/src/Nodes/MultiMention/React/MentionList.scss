@@ -1,0 +1,31 @@
+/* Dropdown menu */
+.dropdown-menu {
+  background: var(--white);
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  overflow: auto;
+  padding: 0.4rem;
+  position: relative;
+
+  button {
+    align-items: center;
+    background-color: transparent;
+    display: flex;
+    gap: 0.25rem;
+    text-align: left;
+    width: 100%;
+
+    &:hover,
+    &:hover.is-selected {
+      background-color: var(--gray-3);
+    }
+
+    &.is-selected {
+      background-color: var(--gray-2);
+    }
+  }
+}
