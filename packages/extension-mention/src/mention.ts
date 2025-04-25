@@ -1,8 +1,9 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { PluginKey } from '@tiptap/pm/state'
 import type { SuggestionOptions } from '@tiptap/suggestion'
 import Suggestion from '@tiptap/suggestion'
+
+import { getSuggestionOptions } from './utils/get-default-suggestion-attributes.js'
 
 // See `addAttributes` below
 export interface MentionNodeAttrs {
@@ -17,18 +18,13 @@ export interface MentionNodeAttrs {
    */
   label?: string | null
   /**
-   * The type of the mention, stored as a `data-type` attribute.
-   * This is useful when using multiple suggestion configurations.
+   * The character that triggers the suggestion, stored as
+   * `data-mention-suggestion-char` attribute.
    */
-  type?: string | null
-  /**
-   * The index of the suggestion configuration used for this mention, stored as a
-   * `data-mention-suggestion-index` attribute.
-   */
-  mentionSuggestionIndex?: number
+  mentionSuggestionChar?: string
 }
 
-export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> = {
+export interface MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> {
   /**
    * The HTML attributes for a mention node.
    * @default {}
@@ -46,7 +42,7 @@ export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, an
   renderLabel?: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
     node: ProseMirrorNode
-    suggestion?: SuggestionOptions
+    suggestion: SuggestionOptions | null
   }) => string
 
   /**
@@ -58,7 +54,7 @@ export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, an
   renderText: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
     node: ProseMirrorNode
-    suggestion?: SuggestionOptions
+    suggestion: SuggestionOptions | null
   }) => string
 
   /**
@@ -70,7 +66,7 @@ export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, an
   renderHTML: (props: {
     options: MentionOptions<SuggestionItem, Attrs>
     node: ProseMirrorNode
-    suggestion?: SuggestionOptions
+    suggestion: SuggestionOptions | null
   }) => DOMOutputSpec
 
   /**
@@ -94,54 +90,25 @@ export type MentionOptions<SuggestionItem = any, Attrs extends Record<string, an
   suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>
 }
 
-interface MentionStorage {
-  suggestions: Array<SuggestionOptions>
+/**
+ * Storage properties or the Mention extension
+ */
+export interface MentionStorage<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> {
+  /**
+   * The list of suggestions that will trigger the mention.
+   */
+  suggestions: Array<SuggestionOptions<SuggestionItem, Attrs>>
+
+  /**
+   * Returns the suggestion options of the mention that has a given character trigger. If not
+   * found, it returns the first suggestion.
+   *
+   * @param char The character that triggers the mention
+   * @returns The suggestion options
+   */
+  getSuggestionFromChar: (char: string) => SuggestionOptions<SuggestionItem, Attrs> | null
 }
 
-function getDefaultSuggestionAttributes(extensionName: string, index: number) {
-  const MentionPluginKey = new PluginKey()
-
-  const defaultSuggestion = {
-    char: '@',
-    pluginKey: MentionPluginKey,
-    command: ({ editor, range, props }: { editor: any; range: any; props: any }) => {
-      // increase range.to by one when the next node is of type "text"
-      // and starts with a space character
-      const nodeAfter = editor.view.state.selection.$to.nodeAfter
-      const overrideSpace = nodeAfter?.text?.startsWith(' ')
-
-      if (overrideSpace) {
-        range.to += 1
-      }
-
-      editor
-        .chain()
-        .focus()
-        .insertContentAt(range, [
-          {
-            type: extensionName,
-            attrs: { ...props, mentionSuggestionIndex: index },
-          },
-          {
-            type: 'text',
-            text: ' ',
-          },
-        ])
-        .run()
-
-      // get reference to `window` object from editor element, to support cross-frame JS usage
-      editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd()
-    },
-    allow: ({ state, range }: { state: any; range: any }) => {
-      const $from = state.doc.resolve(range.from)
-      const type = state.schema.nodes[extensionName]
-      const allow = !!$from.parent.type.contentMatch.matchType(type)
-
-      return allow
-    },
-  }
-  return defaultSuggestion
-}
 /**
  * This extension allows you to insert mentions into the editor.
  * @see https://www.tiptap.dev/api/extensions/mention
@@ -154,6 +121,7 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
   addStorage() {
     return {
       suggestions: [],
+      getSuggestionFromChar: () => null,
     }
   },
 
@@ -214,30 +182,12 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
         },
       },
 
-      type: {
-        default: null,
-        parseHTML: element => element.getAttribute('data-type-name'),
-        renderHTML: attributes => {
-          if (!attributes.type) {
-            return {}
-          }
-
-          return {
-            'data-type-name': attributes.type,
-            'data-type': attributes.type,
-          }
-        },
-      },
-
-      mentionSuggestionIndex: {
-        default: 0,
-        parseHTML: element => {
-          const index = element.getAttribute('data-mention-suggestion-index')
-          return index ? parseInt(index, 10) : 0
-        },
+      mentionSuggestionChar: {
+        default: '@',
+        parseHTML: element => element.getAttribute('data-mention-suggestion-char'),
         renderHTML: attributes => {
           return {
-            'data-mention-suggestion-index': attributes.mentionSuggestionIndex,
+            'data-mention-suggestion-char': attributes.mentionSuggestionChar,
           }
         },
       },
@@ -253,10 +203,9 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    // Get the suggestion index from the node attributes
-    const suggestionIndex = node.attrs.mentionSuggestionIndex || 0
-
-    const suggestion = (this.editor?.extensionStorage as Record<string, any>)[this.name]?.suggestions[suggestionIndex]
+    const suggestion = (this.editor?.extensionStorage as Record<string, any>)[this.name]?.getSuggestionFromChar(
+      node.attrs.mentionSuggestionChar,
+    )
 
     if (this.options.renderLabel !== undefined) {
       console.warn('renderLabel is deprecated use renderText and renderHTML instead')
@@ -291,11 +240,10 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
   },
 
   renderText({ node }) {
-    const suggestionIndex = node.attrs.mentionSuggestionIndex || 0
     const args = {
       options: this.options,
       node,
-      suggestion: this.storage.suggestions[suggestionIndex],
+      suggestion: this.storage.getSuggestionFromChar(node.attrs.mentionSuggestionChar),
     }
     if (this.options.renderLabel !== undefined) {
       console.warn('renderLabel is deprecated use renderText and renderHTML instead')
@@ -331,15 +279,8 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
           })
 
           if (isMention) {
-            // Get the suggestion index from the node attributes
-            const suggestionIndex: number = mentionNode.attrs.mentionSuggestionIndex || 0
-
-            // Get the correct suggestion configuration based on the index
-            const suggestion = this.storage.suggestions[suggestionIndex]
-            const suggestionChar = suggestion.char || ''
-
             tr.insertText(
-              this.options.deleteTriggerWithBackspace ? '' : suggestionChar,
+              this.options.deleteTriggerWithBackspace ? '' : mentionNode.attrs.mentionSuggestionChar,
               mentionPos,
               mentionPos + mentionNode.nodeSize,
             )
@@ -362,12 +303,25 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
   onBeforeCreate() {
     this.storage.suggestions = (
       this.options.suggestions.length ? this.options.suggestions : [this.options.suggestion]
-    ).map((suggestion, index) => {
-      return {
+    ).map(suggestion => {
+      return getSuggestionOptions({
         editor: this.editor,
-        ...getDefaultSuggestionAttributes(this.name, index),
-        ...suggestion,
-      }
+        overrideSuggestionOptions: suggestion,
+        extensionName: this.name,
+        char: suggestion.char,
+      })
     })
+
+    this.storage.getSuggestionFromChar = char => {
+      const suggestion = this.storage.suggestions.find(s => s.char === char)
+      if (suggestion) {
+        return suggestion
+      }
+      if (this.storage.suggestions.length) {
+        return this.storage.suggestions[0]
+      }
+
+      return null
+    }
   },
 })
