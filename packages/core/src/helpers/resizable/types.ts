@@ -1,4 +1,4 @@
-import type { Node } from 'packages/pm/model'
+import type { Node } from '@tiptap/pm/model'
 
 import type { Editor } from '../../Editor.js'
 
