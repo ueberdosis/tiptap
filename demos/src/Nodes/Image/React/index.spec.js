@@ -22,25 +22,40 @@ context('/src/Nodes/Image/React/', () => {
     })
   })
 
-  it('should have the resize handles on the image', () => {
-    const editor = cy.get('.tiptap')
+  it('should verify resize handlers on the image node', () => {
+    // Insert a pre-defined image content to ensure consistent testing
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<img src="test-image.jpg" alt="Test image" />')
 
-    // we are going to look for the first image container
-    const firstImg = editor.find('[data-node="image"]').first()
+      // Wait for the image to be properly rendered with its nodeview
+      cy.wait(500)
 
-    const handles = {
-      left: firstImg.find('.resize-handle-left'),
-      right: firstImg.find('.resize-handle-right'),
-      top: firstImg.find('.resize-handle-top'),
-      bottom: firstImg.find('.resize-handle-bottom'),
-      topLeft: firstImg.find('.resize-handle-top-left'),
-      topRight: firstImg.find('.resize-handle-top-right'),
-      bottomLeft: firstImg.find('.resize-handle-bottom-left'),
-      bottomRight: firstImg.find('.resize-handle-bottom-right'),
-    }
+      // Find the image container with data-node="image" attribute
+      cy.get('.tiptap [data-node="image"]')
+        .should('exist')
+        .and('have.length', 1)
+        .then($imageNode => {
+          // Check for all resize handles
+          const resizeHandles = [
+            'left',
+            'right',
+            'top',
+            'bottom',
+            'top-left',
+            'top-right',
+            'bottom-left',
+            'bottom-right',
+          ]
 
-    Object.values(handles).forEach(handle => {
-      handle.should('exist')
+          // Verify each resize handle exists with the correct position attribute
+          resizeHandles.forEach(position => {
+            cy.wrap($imageNode)
+              .find(`.resize-handle-${position}`)
+              .should('exist')
+              .should('have.attr', 'data-position', position)
+              .should('be.visible')
+          })
+        })
     })
   })
 })
