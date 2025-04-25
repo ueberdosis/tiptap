@@ -1,4 +1,10 @@
-import { createResizableNodeView, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import {
+  type ResizableNodeViewDirections,
+  createResizableNodeView,
+  mergeAttributes,
+  Node,
+  nodeInputRule,
+} from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -22,6 +28,19 @@ export interface ImageOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * Controls if the image should be resizable and how the resize is configured.
+   * @default false
+   * @example { directions: { top: true, right: true, bottom: true, left: true, topLeft: true, topRight: true, bottomLeft: true, bottomRight: true }, minWidth: 100, minHeight: 100 }
+   */
+  resize:
+    | {
+        directions?: ResizableNodeViewDirections
+        minWidth?: number
+        minHeight?: number
+      }
+    | false
 }
 
 export interface SetImageOptions {
@@ -65,6 +84,7 @@ export const Image = Node.create<ImageOptions>({
       inline: false,
       allowBase64: false,
       HTMLAttributes: {},
+      resize: false,
     }
   },
 
@@ -111,6 +131,12 @@ export const Image = Node.create<ImageOptions>({
   },
 
   addNodeView() {
+    if (!this.options.resize) {
+      return null
+    }
+
+    const { directions, minWidth, minHeight } = this.options.resize
+
     return ({ node, getPos, HTMLAttributes }) => {
       const el = document.createElement('img')
 
@@ -133,7 +159,9 @@ export const Image = Node.create<ImageOptions>({
       el.src = HTMLAttributes.src
 
       const resizable = createResizableNodeView({
-        // directions: { left: true, right: true, bottom: true, top: true },
+        directions,
+        minWidth,
+        minHeight,
         dom: el,
         editor: this.editor,
         getPos,
