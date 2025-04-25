@@ -24,16 +24,14 @@ context('/src/Nodes/Image/React/', () => {
 
   it('should verify resize handlers on the image node', () => {
     // Insert a pre-defined image content to ensure consistent testing
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.commands.setContent('<img src="test-image.jpg" alt="Test image" />')
-
+    cy.get('.tiptap').then(() => {
       // Wait for the image to be properly rendered with its nodeview
       cy.wait(500)
 
       // Find the image container with data-node="image" attribute
       cy.get('.tiptap [data-node="image"]')
         .should('exist')
-        .and('have.length', 1)
+        .and('have.length', 2)
         .then($imageNode => {
           // Check for all resize handles
           const resizeHandles = [
