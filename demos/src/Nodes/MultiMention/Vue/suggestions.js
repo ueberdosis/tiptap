@@ -1,7 +1,7 @@
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, ReactRenderer } from '@tiptap/react'
+import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
 
-import MentionList from './MentionList.jsx'
+import MentionList from './MentionList.vue'
 
 const updatePosition = (editor, element) => {
   const virtualElement = {
@@ -22,6 +22,7 @@ const updatePosition = (editor, element) => {
 
 export default [
   {
+    char: '@',
     items: ({ query }) => {
       return [
         'Lea Thompson',
@@ -59,7 +60,11 @@ export default [
 
       return {
         onStart: props => {
-          component = new ReactRenderer(MentionList, {
+          component = new VueRenderer(MentionList, {
+            // using vue 2:
+            // parent: this,
+            // propsData: props,
+            // using vue 3:
             props,
             editor: props.editor,
           })
@@ -104,7 +109,7 @@ export default [
   {
     char: '#',
     items: ({ query }) => {
-      return ['Apple', 'Orange', 'Pear', 'Banana']
+      return ['Dirty Dancing', 'Pirates of the Caribbean', 'The Matrix']
         .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
         .slice(0, 5)
     },
@@ -114,7 +119,11 @@ export default [
 
       return {
         onStart: props => {
-          component = new ReactRenderer(MentionList, {
+          component = new VueRenderer(MentionList, {
+            // using vue 2:
+            // parent: this,
+            // propsData: props,
+            // using vue 3:
             props,
             editor: props.editor,
           })

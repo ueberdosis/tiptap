@@ -104,7 +104,7 @@ export default [
   {
     char: '#',
     items: ({ query }) => {
-      return ['Apple', 'Orange', 'Pear', 'Banana']
+      return ['Dirty Dancing', 'Pirates of the Caribbean', 'The Matrix']
         .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
         .slice(0, 5)
     },
