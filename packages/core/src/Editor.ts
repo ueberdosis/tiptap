@@ -254,7 +254,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
 
       // @ts-ignore
-      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+      plugins = plugins.filter(plugin => !plugin.key.startsWith(name))
     })
 
     if (prevPlugins.length === plugins.length) {
