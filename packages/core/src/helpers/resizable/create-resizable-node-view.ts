@@ -45,6 +45,11 @@ export function createResizableNodeView({
       resizeContainer: '',
       node: node.type.name,
     },
+    styles: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+    },
   })
 
   // Add the wrapper (which contains the original DOM) to the container

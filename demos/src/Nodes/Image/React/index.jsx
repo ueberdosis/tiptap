@@ -13,8 +13,8 @@ export default () => {
     extensions: [Document, Paragraph, Text, Image.configure({ resize: { minWidth: 100, minHeight: 100 } }), Dropcursor],
     content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://placehold.co/800x400" />
-        <img src="https://placehold.co/800x400/6A00F5/white" />
+        <img src="https://unsplash.it/seed/tiptap/800/400" />
+        <img src="https://unsplash.it/seed/tiptap-2/800/400" />
       `,
   })
 
