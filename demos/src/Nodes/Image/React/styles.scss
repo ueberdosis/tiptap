@@ -6,9 +6,11 @@
 
   img {
     display: block;
+  }
 
+  [data-resize-container] {
     &.ProseMirror-selectednode {
-      outline: 3px solid var(--purple);
+      background-color: var(--purple-light);
     }
   }
 

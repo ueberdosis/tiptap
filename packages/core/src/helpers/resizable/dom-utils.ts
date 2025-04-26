@@ -74,7 +74,7 @@ export function createWrapper(): HTMLElement {
   return createDOMElement('div', {
     styles: {
       position: 'relative',
-      display: 'inline-block',
+      display: 'block',
     },
     dataset: {
       resizeWrapper: '',
