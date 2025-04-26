@@ -25,7 +25,7 @@ export function createResizableNodeView({
   dom.style.zIndex = '0'
 
   // Create wrapper structure
-  const wrapper = createWrapper(node.type.name)
+  const wrapper = createWrapper()
   wrapper.appendChild(dom)
 
   // Add resize handles for each enabled direction (including corners)

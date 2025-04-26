@@ -70,14 +70,14 @@ export function createDOMElement(
 /**
  * Creates the wrapper element that contains the node and resize handles
  */
-export function createWrapper(nodeName: string): HTMLElement {
+export function createWrapper(): HTMLElement {
   return createDOMElement('div', {
     styles: {
       position: 'relative',
       display: 'inline-block',
     },
     dataset: {
-      node: nodeName,
+      resizeWrapper: '',
     },
   })
 }
