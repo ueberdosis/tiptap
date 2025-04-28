@@ -253,7 +253,9 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
     const args = {
       options: this.options,
       node,
-      suggestion: this.storage.getSuggestionFromChar(node.attrs.mentionSuggestionChar),
+      suggestion: (this.editor?.extensionStorage as unknown as Record<string, MentionStorage>)?.[
+        this.name
+      ]?.getSuggestionFromChar(node.attrs.mentionSuggestionChar),
     }
     if (this.options.renderLabel !== undefined) {
       console.warn('renderLabel is deprecated use renderText and renderHTML instead')
