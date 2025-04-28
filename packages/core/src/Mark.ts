@@ -143,7 +143,7 @@ export interface MarkConfig<Options = any, Storage = any>
  * The Mark class is used to create custom mark extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Mark<Options = any, Storage = any> extends Extendable<Options, Storage> {
+export class Mark<Options = any, Storage = any> extends Extendable<Options, Storage, MarkConfig<Options, Storage>> {
   type = 'mark'
 
   static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> = {}) {
@@ -176,5 +176,17 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
     }
 
     return false
+  }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Mark<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Mark<ExtendedOptions, ExtendedStorage>
   }
 }

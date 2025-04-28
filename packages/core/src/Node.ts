@@ -337,10 +337,22 @@ export interface NodeConfig<Options = any, Storage = any>
  * The Node class is used to create custom node extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Node<Options = any, Storage = any> extends Extendable<Options, Storage> {
+export class Node<Options = any, Storage = any> extends Extendable<Options, Storage, NodeConfig<Options, Storage>> {
   type = 'node'
 
   static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> = {}) {
     return new Node<O, S>(config)
+  }
+
+  configure(options?: Partial<Options>) {
+    return super.configure(options) as Node<Options, Storage>
+  }
+
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig = NodeConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig?: Partial<ExtendedConfig>) {
+    return super.extend(extendedConfig) as Node<ExtendedOptions, ExtendedStorage>
   }
 }

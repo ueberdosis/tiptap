@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/pm",
   "description": "prosemirror wrapper package for tiptap",
-  "version": "3.0.0-next.6",
+  "version": "3.0.0-beta.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -195,10 +195,10 @@
     "prosemirror-schema-basic": "^1.2.3",
     "prosemirror-schema-list": "^1.5.0",
     "prosemirror-state": "^1.4.3",
-    "prosemirror-tables": "^1.6.2",
+    "prosemirror-tables": "^1.6.4",
     "prosemirror-trailing-node": "^3.0.0",
     "prosemirror-transform": "^1.10.2",
-    "prosemirror-view": "^1.37.1"
+    "prosemirror-view": "^1.38.1"
   },
   "repository": {
     "type": "git",

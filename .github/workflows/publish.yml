@@ -46,7 +46,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.3
         id: turbo-cache
         with:
           path: |
@@ -76,6 +76,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+          NPM_CONFIG_ACCESS: public
 
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'

@@ -58,7 +58,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public extensionManager!: ExtensionManager
 
-  private css!: HTMLStyleElement
+  private css: HTMLStyleElement | null = null
 
   public schema!: Schema
 
@@ -147,6 +147,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
   }
 
+  /**
+   * Attach the editor to the DOM, creating a new editor view.
+   */
   public mount(el: NonNullable<EditorOptions['element']> & {}) {
     if (typeof document === 'undefined') {
       throw new Error(
@@ -164,6 +167,26 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('create', { editor: this })
       this.isInitialized = true
     }, 0)
+  }
+
+  /**
+   * Remove the editor from the DOM, but still allow remounting at a different point in time
+   */
+  public unmount() {
+    if (this.editorView) {
+      // Cleanup our reference to prevent circular references which caused memory leaks
+      // @ts-ignore
+      const dom = this.editorView.dom as TiptapEditorHTMLElement
+
+      if (dom?.editor) {
+        delete dom.editor
+      }
+      this.editorView.destroy()
+    }
+    this.editorView = null
+    this.isInitialized = false
+    this.css?.remove()
+    this.css = null
   }
 
   /**
@@ -268,6 +291,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
+        isDestroyed: false,
       } as EditorView,
       {
         get: (obj, key) => {
@@ -496,7 +520,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Creates all node views.
+   * Creates all node and mark views.
    */
   public createNodeViews(): void {
     if (this.view.isDestroyed) {
@@ -696,16 +720,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public destroy(): void {
     this.emit('destroy')
 
-    if (this.editorView) {
-      // Cleanup our reference to prevent circular references which caused memory leaks
-      // @ts-ignore
-      const dom = this.editorView.dom as TiptapEditorHTMLElement
-
-      if (dom && dom.editor) {
-        delete dom.editor
-      }
-      this.editorView.destroy()
-    }
+    this.unmount()
 
     this.removeAllListeners()
   }
@@ -714,8 +729,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    // @ts-ignore
-    return !this.view?.docView
+    return this.editorView?.isDestroyed ?? true
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {

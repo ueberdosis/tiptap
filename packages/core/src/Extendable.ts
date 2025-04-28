@@ -475,7 +475,7 @@ export class Extendable<
   }
 
   configure(options: Partial<Options> = {}) {
-    const extension = this.extend<Options, Storage>({
+    const extension = this.extend<Options, Storage, Config>({
       ...this.config,
       addOptions: () => {
         return mergeDeep(this.options as Record<string, any>, options) as Options
@@ -488,18 +488,19 @@ export class Extendable<
     return extension
   }
 
-  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
-    extendedConfig: Partial<
+  extend<
+    ExtendedOptions = Options,
+    ExtendedStorage = Storage,
+    ExtendedConfig =
       | ExtensionConfig<ExtendedOptions, ExtendedStorage>
       | NodeConfig<ExtendedOptions, ExtendedStorage>
-      | MarkConfig<ExtendedOptions, ExtendedStorage>
-    > = {},
-  ): Extendable<ExtendedOptions, ExtendedStorage> {
+      | MarkConfig<ExtendedOptions, ExtendedStorage>,
+  >(extendedConfig: Partial<ExtendedConfig> = {}): Extendable<ExtendedOptions, ExtendedStorage> {
     const extension = new (this.constructor as any)({ ...this.config, ...extendedConfig })
 
     extension.parent = this
     this.child = extension
-    extension.name = extendedConfig.name ? extendedConfig.name : extension.parent.name
+    extension.name = 'name' in extendedConfig ? extendedConfig.name : extension.parent.name
 
     return extension
   }

@@ -1,5 +1,35 @@
 # Change Log
 
+## 3.0.0-beta.3
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- Updated dependencies [1b4c82b]
+  - @tiptap/pm@3.0.0-beta.3
+
+## 3.0.0-beta.2
+
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- 664834f: Clone dragged node before dragging to get correct drag preview image
+
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Minor Changes
+
+- 8de8e13: The editor instance now supports an `unmount` method which allows for mounting and unmounting the editor to the DOM. This encourages re-use of editor instances by preserving all the same options between instances. This is different from the `destroy` method, which will unmount, emit the `destroy` event, and remove all event listeners.
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
 ## 3.0.0-next.6
 
 ### Major Changes
@@ -556,34 +586,6 @@
 
 ## 3.0.0-next.4
 
-## 2.11.4
-
-## 2.11.3
-
-### Patch Changes
-
-- a44a7c3: fix(core): do not reset marks, or nodes when using IME on mobile devices
-- fa63c47: Focus synchronously only if on iOS or Android #4448
-
-## 2.11.2
-
-### Patch Changes
-
-- 2abd4df: Re-release
-
-## 2.11.1
-
-## 2.11.0
-
-### Minor Changes
-
-- ff8eed6: Support `validate` options in node and mark attribute definitions.
-
-### Patch Changes
-
-- 20f68f6: Remove editor.getCharacterCount() which was already deprecated and incorrectly implemented
-- d6c7558: If a transaction results in the exact same editor state (either filtered out or failed to apply) then do not attempt to re-apply the same editor state and do not emit any events associated to the transaction
-
 ## 3.0.0-next.3
 
 ## 3.0.0-next.2
@@ -624,6 +626,42 @@
 
 - 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
   - @tiptap/pm@3.0.0-next.0
+
+## 2.11.6
+
+### Patch Changes
+
+- 826cfe7: Export focusEvents plugin key
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+### Patch Changes
+
+- a44a7c3: fix(core): do not reset marks, or nodes when using IME on mobile devices
+- fa63c47: Focus synchronously only if on iOS or Android #4448
+
+## 2.11.2
+
+### Patch Changes
+
+- 2abd4df: Re-release
+
+## 2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- ff8eed6: Support `validate` options in node and mark attribute definitions.
+
+### Patch Changes
+
+- 20f68f6: Remove editor.getCharacterCount() which was already deprecated and incorrectly implemented
+- d6c7558: If a transaction results in the exact same editor state (either filtered out or failed to apply) then do not attempt to re-apply the same editor state and do not emit any events associated to the transaction
 
 ## 2.5.8
 

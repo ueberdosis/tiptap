@@ -1,5 +1,27 @@
 # Change Log
 
+## 3.0.0-beta.3
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- Updated dependencies [1b4c82b]
+  - @tiptap/core@3.0.0-beta.3
+
+## 3.0.0-beta.2
+
+## 3.0.0-beta.1
+
+## 3.0.0-beta.0
+
+## 3.0.0-next.8
+
+## 3.0.0-next.7
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+
 ## 3.0.0-next.6
 
 ### Major Changes
@@ -140,20 +162,6 @@
 
 ## 3.0.0-next.2
 
-## 2.11.4
-
-## 2.11.3
-
-## 2.11.2
-
-## 2.11.1
-
-## 2.11.0
-
-### Minor Changes
-
-- a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
-
 ## 3.0.0-next.1
 
 ### Major Changes
@@ -172,6 +180,24 @@
 
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- a0d2f28: Added `mergeNestedSpanStyles` option to the `TextStyle` extension to address issue #5720
 
 ## 2.5.8
 

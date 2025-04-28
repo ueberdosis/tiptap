@@ -105,9 +105,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return null
     }
 
-    const contentElement = this.dom.querySelector('[data-node-view-content]')
-
-    return (contentElement || this.dom) as HTMLElement | null
+    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
   }
 
   /**

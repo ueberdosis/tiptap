@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension, isNodeSelection } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
@@ -32,7 +32,7 @@ export const Selection = Extension.create({
         key: new PluginKey('selection'),
         props: {
           decorations(state) {
-            if (state.selection.empty || editor.isFocused) {
+            if (state.selection.empty || editor.isFocused || !editor.isEditable || isNodeSelection(state.selection)) {
               return null
             }
 
