@@ -2,4 +2,4 @@
 "@tiptap/extension-text-align": major
 ---
 
-Add command `toggleTextAlign`
+Added new `toggleTextAlign` command to TextAlign extension to make toggling text alignments easier to handle
