@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.4
+
+### Major Changes
+
+- 5e957e5: This resolves in issue with SSR where the isDestroyed property could not be read while in SSR
+
+### Patch Changes
+
+- 9f207a6: Fixes a bug where you could not unregister multiple plugins.
+  - @tiptap/pm@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
