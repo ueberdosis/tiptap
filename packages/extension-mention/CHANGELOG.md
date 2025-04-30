@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.0.0-beta.4
+
+### Minor Changes
+
+- 68034ab: Support multiple triggers in Mention extension
+
+### Patch Changes
+
+- Updated dependencies [5e957e5]
+- Updated dependencies [9f207a6]
+  - @tiptap/core@3.0.0-beta.4
+  - @tiptap/suggestion@3.0.0-beta.4
+  - @tiptap/pm@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes

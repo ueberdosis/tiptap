@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- f43b2e5: Use newer y-prosemirror version to resolve dependency chaos
+- Updated dependencies [5e957e5]
+- Updated dependencies [9f207a6]
+  - @tiptap/core@3.0.0-beta.4
+  - @tiptap/pm@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
