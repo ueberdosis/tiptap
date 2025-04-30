@@ -1,5 +1,5 @@
 context('/src/Extensions/TextAlign/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/TextAlign/React/')
   })
 

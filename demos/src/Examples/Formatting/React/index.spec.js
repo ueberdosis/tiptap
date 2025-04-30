@@ -1,5 +1,5 @@
 context('/src/Examples/Formatting/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/Formatting/React/')
   })
 
@@ -7,9 +7,7 @@ context('/src/Examples/Formatting/React/', () => {
     cy.get('.tiptap').type('{selectall}{backspace}')
   })
 
-  const marks = [
-    { label: 'Highlight', mark: 'mark' },
-  ]
+  const marks = [{ label: 'Highlight', mark: 'mark' }]
 
   marks.forEach(m => {
     it(`sets ${m.label}`, () => {

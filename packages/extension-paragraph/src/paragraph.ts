@@ -6,7 +6,7 @@ export interface ParagraphOptions {
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -16,7 +16,7 @@ declare module '@tiptap/core' {
        * Toggle a paragraph
        * @example editor.commands.toggleParagraph()
        */
-      setParagraph: () => ReturnType,
+      setParagraph: () => ReturnType
     }
   }
 }
@@ -41,9 +41,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
   content: 'inline*',
 
   parseHTML() {
-    return [
-      { tag: 'p' },
-    ]
+    return [{ tag: 'p' }]
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -52,9 +50,11 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
   addCommands() {
     return {
-      setParagraph: () => ({ commands }) => {
-        return commands.setNode(this.name)
-      },
+      setParagraph:
+        () =>
+        ({ commands }) => {
+          return commands.setNode(this.name)
+        },
     }
   },
 

@@ -1,8 +1,7 @@
 import LinterPlugin from '../LinterPlugin.js'
 
 export class BadWords extends LinterPlugin {
-
-  public regex = /\b(obviously|clearly|evidently|simply)\b/ig
+  public regex = /\b(obviously|clearly|evidently|simply)\b/gi
 
   scan() {
     this.doc.descendants((node: any, position: number) => {

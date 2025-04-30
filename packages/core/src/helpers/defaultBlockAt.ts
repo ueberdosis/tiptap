@@ -1,4 +1,4 @@
-import { ContentMatch, NodeType } from '@tiptap/pm/model'
+import type { ContentMatch, NodeType } from '@tiptap/pm/model'
 
 /**
  * Gets the default block type at a given match

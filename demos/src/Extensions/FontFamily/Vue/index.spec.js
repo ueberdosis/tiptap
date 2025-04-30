@@ -1,5 +1,5 @@
 context('/src/Extensions/FontFamily/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/FontFamily/Vue/')
   })
 

@@ -1,9 +1,10 @@
 import { Extension } from '@tiptap/core'
-import { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
-import LinterPlugin, { Result as Issue } from './LinterPlugin.js'
+import type { Result as Issue } from './LinterPlugin.js'
+import type LinterPlugin from './LinterPlugin.js'
 
 interface IconDivElement extends HTMLDivElement {
   issue?: Issue
@@ -77,11 +78,7 @@ export const Linter = Extension.create<LinterOptions>({
             if (/lint-icon/.test(target.className) && target.issue) {
               const { from, to } = target.issue
 
-              view.dispatch(
-                view.state.tr
-                  .setSelection(TextSelection.create(view.state.doc, from, to))
-                  .scrollIntoView(),
-              )
+              view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)).scrollIntoView())
 
               return true
             }

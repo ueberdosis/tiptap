@@ -4,9 +4,8 @@
 
 <script>
 import Document from '@tiptap/extension-document'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
@@ -31,13 +30,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        CustomDocument,
-        Paragraph,
-        Text,
-        TaskList,
-        CustomTaskItem,
-      ],
+      extensions: [CustomDocument, Paragraph, Text, TaskList, CustomTaskItem],
       content: `
         <ul data-type="taskList">
           <li data-type="taskItem" data-checked="true">flour</li>
@@ -78,7 +71,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -98,7 +91,7 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
   }

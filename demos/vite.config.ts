@@ -3,48 +3,68 @@ import react from '@vitejs/plugin-react'
 import vue from '@vitejs/plugin-vue'
 import fg from 'fast-glob'
 import fs from 'fs'
-import {
-  basename,
-  dirname,
-  join,
-  resolve,
-} from 'path'
+import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
 
-// import checker from 'vite-plugin-checker'
-
 const getPackageDependencies = () => {
-  const paths: Array<{ find: string, replacement: any }> = []
+  const paths: Array<{ find: string; replacement: any }> = []
 
-  paths.push({
-    find: 'yjs',
-    replacement: resolve('../node_modules/yjs/src/index.js'),
-  })
-  paths.push({
-    find: 'y-prosemirror',
-    replacement: resolve('../node_modules/y-prosemirror/src/y-prosemirror.js'),
-  })
+  function collectPackageInformation(path: string) {
+    fg.sync(`../${path}/*`, { onlyDirectories: true })
+      .map(name => name.replace(`../${path}/`, ''))
+      .forEach(name => {
+        if (name === 'pm') {
+          fg.sync(`../${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/`, '')
 
-  fg.sync('../packages/*', { onlyDirectories: true })
-    .map(name => name.replace('../packages/', ''))
-    .forEach(name => {
-      if (name === 'pm') {
-        fg.sync(`../packages/${name}/*`, { onlyDirectories: true })
-          .forEach(subName => {
-            const subPkgName = subName.replace(`../packages/${name}/`, '')
+            if (subPkgName === 'dist' || subPkgName === 'node_modules') {
+              return
+            }
 
-            paths.push({ find: `@tiptap/${name}/${subPkgName}`, replacement: resolve(`../packages/${name}/${subPkgName}/index.ts`) })
+            paths.push({
+              find: `@tiptap/${name}/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/${subPkgName}/index.ts`),
+            })
           })
-      } else {
-        paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../packages/${name}/src/index.ts`) })
-      }
-    })
+        } else if (
+          name === 'extension-text-style' ||
+          name === 'extension-table' ||
+          name === 'extensions' ||
+          name === 'extension-list' ||
+          name === 'react' ||
+          name === 'vue-2' ||
+          name === 'vue-3'
+        ) {
+          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
+
+            paths.push({
+              find: `@tiptap/${name}/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
+            })
+          })
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+        } else {
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+        }
+      })
+  }
+
+  collectPackageInformation('packages')
+  collectPackageInformation('packages-deprecated')
+
+  console.log(paths)
+
+  // Handle the JSX runtime alias
+  paths.unshift({ find: '@tiptap/core/jsx-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
+  paths.unshift({ find: '@tiptap/core/jsx-dev-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
 
   return paths
 }
 
-const includeDependencies = fs.readFileSync('./includeDependencies.txt')
+const dedupeDeps = fs
+  .readFileSync('./dedupeDeps.txt')
   .toString()
   .replace(/\r\n/g, '\n')
   .split('\n')
@@ -56,9 +76,6 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
-  },
-  optimizeDeps: {
-    include: includeDependencies,
   },
 
   build: {
@@ -221,19 +238,17 @@ export default defineConfig({
       },
       load(id) {
         if (id === '@demos') {
-          const demos = fg.sync('./src/*/*', { onlyDirectories: true })
-            .map(demoPath => {
-              const name = demoPath.replace('./src/', '')
-              const tabs = fg.sync(`./src/${name}/*`, { onlyDirectories: true })
-                .map(tabPath => ({
-                  name: basename(tabPath),
-                }))
+          const demos = fg.sync('./src/*/*', { onlyDirectories: true }).map(demoPath => {
+            const name = demoPath.replace('./src/', '')
+            const tabs = fg.sync(`./src/${name}/*`, { onlyDirectories: true }).map(tabPath => ({
+              name: basename(tabPath),
+            }))
 
-              return {
-                name,
-                tabs,
-              }
-            })
+            return {
+              name,
+              tabs,
+            }
+          })
 
           return `export const demos = ${JSON.stringify(demos)}`
         }
@@ -250,16 +265,14 @@ export default defineConfig({
       load(id) {
         if (id.startsWith('source!')) {
           const path = id.split('!!')[0].replace('source!', '')
-          const ignore = [
-            '**/*.spec.js',
-            '**/*.spec.ts',
-          ]
+          const ignore = ['**/*.spec.js', '**/*.spec.ts']
 
           if (!path.endsWith('/JS')) {
             ignore.push('**/index.html')
           }
 
-          const files = fg.sync(`${path}/**/*`, { ignore })
+          const files = fg
+            .sync(`${path}/**/*`, { ignore })
             .map(filePath => {
               const name = filePath.replace(`${path}/`, '')
 
@@ -318,5 +331,6 @@ export default defineConfig({
 
   resolve: {
     alias: getPackageDependencies(),
+    dedupe: dedupeDeps,
   },
 })

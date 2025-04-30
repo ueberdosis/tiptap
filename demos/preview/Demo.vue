@@ -6,23 +6,18 @@
         :key="index"
         @click="setTab(language.name)"
         class="px-3 py-2 text-sm text-white leading-[125%] font-semibold rounded-[0.625rem] transition-all"
-        :class="[currentTab === language.name
-          ? 'opacity-100 bg-[#1C1917]'
-          : 'opacity-50 bg-transparent hover:opacity-100 hover:bg-[#1C1917]'
+        :class="[
+          currentTab === language.name
+            ? 'opacity-100 bg-[#1C1917]'
+            : 'opacity-50 bg-transparent hover:opacity-100 hover:bg-[#1C1917]',
         ]"
       >
         {{ language.name }}
       </button>
     </div>
     <div class="overflow-hidden">
-      <div
-        class="bg-white"
-        :class="[hidePreview ? 'hidden' : '']"
-      >
-        <demo-frame
-          :src="currentIframeUrl"
-          :key="currentIframeUrl"
-        />
+      <div class="bg-white" :class="[hidePreview ? 'hidden' : '']">
+        <demo-frame :src="currentIframeUrl" :key="currentIframeUrl" />
       </div>
 
       <div class="text-white bg-black" v-if="!hideSource && currentFile">
@@ -30,9 +25,10 @@
           <div class="flex flex-auto px-4 border-b-2 border-gray-800">
             <button
               class="inline-flex relative mr-4 py-2 pb-[calc(0.3rem + 2px)] mb-[-2px] border-b-2 border-transparent font-mono text-sm whitespace-nowrap"
-              :class="[!showDebug && currentFile.content === file.content
-                ? 'text-white border-white font-bold'
-                : 'text-gray-400'
+              :class="[
+                !showDebug && currentFile.content === file.content
+                  ? 'text-white border-white font-bold'
+                  : 'text-gray-400',
               ]"
               v-for="(file, index) in source"
               :key="index"
@@ -44,10 +40,7 @@
             <button
               v-if="debugJSON"
               class="inline-flex relative py-2 pb-[calc(0.3rem + 2px)] mb-[-2px] border-b-2 border-transparent font-mono text-sm ml-auto"
-              :class="[showDebug
-                ? 'text-white border-white font-bold'
-                : 'text-gray-400'
-              ]"
+              :class="[showDebug ? 'text-white border-white font-bold' : 'text-gray-400']"
               @click="showDebug = !showDebug"
             >
               Inspect
@@ -67,9 +60,7 @@
           <a class="flex-shrink min-w-0 overflow-hidden overflow-ellipsis whitespace-nowrap" :href="currentIframeUrl">
             {{ name }}/{{ currentTab }}
           </a>
-          <a class="pl-4 whitespace-nowrap" :href="githubUrl" target="_blank">
-            Edit on GitHub →
-          </a>
+          <a class="pl-4 whitespace-nowrap" :href="githubUrl" target="_blank"> Edit on GitHub → </a>
         </div>
       </div>
     </div>
@@ -128,9 +119,7 @@ export default {
     },
 
     query() {
-      return Object.fromEntries(Object
-        .entries(this.$route.query)
-        .map(([key, value]) => [key, this.fromString(value)]))
+      return Object.fromEntries(Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]))
     },
 
     inline() {
@@ -220,9 +209,10 @@ export default {
 
   mounted() {
     // TODO: load language from url params
-    const intitialTab = localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab)
-      ? localStorage.tab
-      : this.sortedTabs[0]?.name
+    const intitialTab =
+      localStorage.tab && this.tabs.some(tab => tab.name === localStorage.tab)
+        ? localStorage.tab
+        : this.sortedTabs[0]?.name
 
     this.setTab(intitialTab, false)
 

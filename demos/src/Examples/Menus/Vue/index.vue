@@ -1,35 +1,46 @@
 <template>
   <div v-if="editor">
-    <bubble-menu
-      class="bubble-menu"
-      :tippy-options="{ duration: 100 }"
-      :editor="editor"
-    >
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        Bold
-      </button>
-      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        Italic
-      </button>
-      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        Strike
-      </button>
+    <bubble-menu :editor="editor">
+      <div class="bubble-menu">
+        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+          Bold
+        </button>
+        <button
+          @click="editor.chain().focus().toggleItalic().run()"
+          :class="{ 'is-active': editor.isActive('italic') }"
+        >
+          Italic
+        </button>
+        <button
+          @click="editor.chain().focus().toggleStrike().run()"
+          :class="{ 'is-active': editor.isActive('strike') }"
+        >
+          Strike
+        </button>
+      </div>
     </bubble-menu>
 
-    <floating-menu
-      class="floating-menu"
-      :tippy-options="{ duration: 100 }"
-      :editor="editor"
-    >
-      <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        H1
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        H2
-      </button>
-      <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        Bullet list
-      </button>
+    <floating-menu :editor="editor">
+      <div class="floating-menu">
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        >
+          H1
+        </button>
+        <button
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
+          H2
+        </button>
+        <button
+          @click="editor.chain().focus().toggleBulletList().run()"
+          :class="{ 'is-active': editor.isActive('bulletList') }"
+        >
+          Bullet list
+        </button>
+      </div>
     </floating-menu>
   </div>
 
@@ -38,12 +49,8 @@
 
 <script>
 import StarterKit from '@tiptap/starter-kit'
-import {
-  BubbleMenu,
-  Editor,
-  EditorContent,
-  FloatingMenu,
-} from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import { BubbleMenu, FloatingMenu } from '@tiptap/vue-3/menus'
 
 export default {
   components: {
@@ -60,9 +67,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: `
         <p>
           Try to select <em>this text</em> to see what we call the bubble menu.

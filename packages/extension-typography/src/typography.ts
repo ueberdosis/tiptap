@@ -5,244 +5,266 @@ export interface TypographyOptions {
    * The em dash character.
    * @default '—'
    */
-  emDash: false | string,
+  emDash: false | string
 
   /**
    * The ellipsis character.
    * @default '…'
    */
-  ellipsis: false | string,
+  ellipsis: false | string
 
   /**
    * The open double quote character.
    * @default '“'
    */
-  openDoubleQuote: false | string,
+  openDoubleQuote: false | string
 
   /**
    * The close double quote character.
    * @default '”'
    */
-  closeDoubleQuote: false | string,
+  closeDoubleQuote: false | string
 
   /**
    * The open single quote character.
    * @default '‘'
    */
-  openSingleQuote: false | string,
+  openSingleQuote: false | string
 
   /**
    * The close single quote character.
    * @default '’'
    */
-  closeSingleQuote: false | string,
+  closeSingleQuote: false | string
 
   /**
    * The left arrow character.
    * @default '←'
    */
-  leftArrow: false | string,
+  leftArrow: false | string
 
   /**
    * The right arrow character.
    * @default '→'
    */
-  rightArrow: false | string,
+  rightArrow: false | string
 
   /**
    * The copyright character.
    * @default '©'
    */
-  copyright: false | string,
+  copyright: false | string
 
   /**
    * The trademark character.
    * @default '™'
    */
-  trademark: false | string,
+  trademark: false | string
 
   /**
    * The servicemark character.
    * @default '℠'
    */
-  servicemark: false | string,
+  servicemark: false | string
 
   /**
    * The registered trademark character.
    * @default '®'
    */
-  registeredTrademark: false | string,
+  registeredTrademark: false | string
 
   /**
    * The one half character.
    * @default '½'
    */
-  oneHalf: false | string,
+  oneHalf: false | string
 
   /**
    * The plus minus character.
    * @default '±'
    */
-  plusMinus: false | string,
+  plusMinus: false | string
 
   /**
    * The not equal character.
    * @default '≠'
    */
-  notEqual: false | string,
+  notEqual: false | string
 
   /**
    * The laquo character.
    * @default '«'
    */
-  laquo: false | string,
+  laquo: false | string
 
   /**
    * The raquo character.
    * @default '»'
    */
-  raquo: false | string,
+  raquo: false | string
 
   /**
    * The multiplication character.
    * @default '×'
    */
-  multiplication: false | string,
+  multiplication: false | string
 
   /**
    * The superscript two character.
    * @default '²'
    */
-  superscriptTwo: false | string,
+  superscriptTwo: false | string
 
   /**
    * The superscript three character.
    * @default '³'
    */
-  superscriptThree: false | string,
+  superscriptThree: false | string
 
   /**
    * The one quarter character.
    * @default '¼'
    */
-  oneQuarter: false | string,
+  oneQuarter: false | string
 
   /**
    * The three quarters character.
    * @default '¾'
    */
-  threeQuarters: false | string,
+  threeQuarters: false | string
 }
 
-export const emDash = (override?: string) => textInputRule({
-  find: /--$/,
-  replace: override ?? '—',
-})
+export const emDash = (override?: string) =>
+  textInputRule({
+    find: /--$/,
+    replace: override ?? '—',
+  })
 
-export const ellipsis = (override?: string) => textInputRule({
-  find: /\.\.\.$/,
-  replace: override ?? '…',
-})
+export const ellipsis = (override?: string) =>
+  textInputRule({
+    find: /\.\.\.$/,
+    replace: override ?? '…',
+  })
 
-export const openDoubleQuote = (override?: string) => textInputRule({
-  find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
-  replace: override ?? '“',
-})
+export const openDoubleQuote = (override?: string) =>
+  textInputRule({
+    find: /(?:^|[\s{[(<'"\u2018\u201C])(")$/,
+    replace: override ?? '“',
+  })
 
-export const closeDoubleQuote = (override?: string) => textInputRule({
-  find: /"$/,
-  replace: override ?? '”',
-})
+export const closeDoubleQuote = (override?: string) =>
+  textInputRule({
+    find: /"$/,
+    replace: override ?? '”',
+  })
 
-export const openSingleQuote = (override?: string) => textInputRule({
-  find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
-  replace: override ?? '‘',
-})
+export const openSingleQuote = (override?: string) =>
+  textInputRule({
+    find: /(?:^|[\s{[(<'"\u2018\u201C])(')$/,
+    replace: override ?? '‘',
+  })
 
-export const closeSingleQuote = (override?: string) => textInputRule({
-  find: /'$/,
-  replace: override ?? '’',
-})
+export const closeSingleQuote = (override?: string) =>
+  textInputRule({
+    find: /'$/,
+    replace: override ?? '’',
+  })
 
-export const leftArrow = (override?: string) => textInputRule({
-  find: /<-$/,
-  replace: override ?? '←',
-})
+export const leftArrow = (override?: string) =>
+  textInputRule({
+    find: /<-$/,
+    replace: override ?? '←',
+  })
 
-export const rightArrow = (override?: string) => textInputRule({
-  find: /->$/,
-  replace: override ?? '→',
-})
+export const rightArrow = (override?: string) =>
+  textInputRule({
+    find: /->$/,
+    replace: override ?? '→',
+  })
 
-export const copyright = (override?: string) => textInputRule({
-  find: /\(c\)$/,
-  replace: override ?? '©',
-})
+export const copyright = (override?: string) =>
+  textInputRule({
+    find: /\(c\)$/,
+    replace: override ?? '©',
+  })
 
-export const trademark = (override?: string) => textInputRule({
-  find: /\(tm\)$/,
-  replace: override ?? '™',
-})
+export const trademark = (override?: string) =>
+  textInputRule({
+    find: /\(tm\)$/,
+    replace: override ?? '™',
+  })
 
-export const servicemark = (override?: string) => textInputRule({
-  find: /\(sm\)$/,
-  replace: override ?? '℠',
-})
+export const servicemark = (override?: string) =>
+  textInputRule({
+    find: /\(sm\)$/,
+    replace: override ?? '℠',
+  })
 
-export const registeredTrademark = (override?: string) => textInputRule({
-  find: /\(r\)$/,
-  replace: override ?? '®',
-})
+export const registeredTrademark = (override?: string) =>
+  textInputRule({
+    find: /\(r\)$/,
+    replace: override ?? '®',
+  })
 
-export const oneHalf = (override?: string) => textInputRule({
-  find: /(?:^|\s)(1\/2)\s$/,
-  replace: override ?? '½',
-})
+export const oneHalf = (override?: string) =>
+  textInputRule({
+    find: /(?:^|\s)(1\/2)\s$/,
+    replace: override ?? '½',
+  })
 
-export const plusMinus = (override?: string) => textInputRule({
-  find: /\+\/-$/,
-  replace: override ?? '±',
-})
+export const plusMinus = (override?: string) =>
+  textInputRule({
+    find: /\+\/-$/,
+    replace: override ?? '±',
+  })
 
-export const notEqual = (override?: string) => textInputRule({
-  find: /!=$/,
-  replace: override ?? '≠',
-})
+export const notEqual = (override?: string) =>
+  textInputRule({
+    find: /!=$/,
+    replace: override ?? '≠',
+  })
 
-export const laquo = (override?: string) => textInputRule({
-  find: /<<$/,
-  replace: override ?? '«',
-})
+export const laquo = (override?: string) =>
+  textInputRule({
+    find: /<<$/,
+    replace: override ?? '«',
+  })
 
-export const raquo = (override?: string) => textInputRule({
-  find: />>$/,
-  replace: override ?? '»',
-})
+export const raquo = (override?: string) =>
+  textInputRule({
+    find: />>$/,
+    replace: override ?? '»',
+  })
 
-export const multiplication = (override?: string) => textInputRule({
-  find: /\d+\s?([*x])\s?\d+$/,
-  replace: override ?? '×',
-})
+export const multiplication = (override?: string) =>
+  textInputRule({
+    find: /\d+\s?([*x])\s?\d+$/,
+    replace: override ?? '×',
+  })
 
-export const superscriptTwo = (override?: string) => textInputRule({
-  find: /\^2$/,
-  replace: override ?? '²',
-})
+export const superscriptTwo = (override?: string) =>
+  textInputRule({
+    find: /\^2$/,
+    replace: override ?? '²',
+  })
 
-export const superscriptThree = (override?: string) => textInputRule({
-  find: /\^3$/,
-  replace: override ?? '³',
-})
+export const superscriptThree = (override?: string) =>
+  textInputRule({
+    find: /\^3$/,
+    replace: override ?? '³',
+  })
 
-export const oneQuarter = (override?: string) => textInputRule({
-  find: /(?:^|\s)(1\/4)\s$/,
-  replace: override ?? '¼',
-})
+export const oneQuarter = (override?: string) =>
+  textInputRule({
+    find: /(?:^|\s)(1\/4)\s$/,
+    replace: override ?? '¼',
+  })
 
-export const threeQuarters = (override?: string) => textInputRule({
-  find: /(?:^|\s)(3\/4)\s$/,
-  replace: override ?? '¾',
-})
+export const threeQuarters = (override?: string) =>
+  textInputRule({
+    find: /(?:^|\s)(3\/4)\s$/,
+    replace: override ?? '¾',
+  })
 
 /**
  * This extension allows you to add typography replacements for specific characters.

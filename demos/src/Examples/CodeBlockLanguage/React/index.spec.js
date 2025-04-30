@@ -1,5 +1,5 @@
 context('/src/Examples/CodeBlockLanguage/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/CodeBlockLanguage/React/')
   })
 

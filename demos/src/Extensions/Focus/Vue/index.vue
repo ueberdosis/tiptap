@@ -3,13 +3,12 @@
 </template>
 
 <script>
-import BulletList from '@tiptap/extension-bullet-list'
 import Code from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
-import Focus from '@tiptap/extension-focus'
-import ListItem from '@tiptap/extension-list-item'
+import { BulletList, ListItem } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Focus } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

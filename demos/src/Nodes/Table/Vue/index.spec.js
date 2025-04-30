@@ -1,5 +1,5 @@
 context('/src/Nodes/Table/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/Table/Vue/')
   })
 
@@ -87,5 +87,4 @@ context('/src/Nodes/Table/Vue/', () => {
       )
     })
   })
-
 })

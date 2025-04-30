@@ -1,15 +1,17 @@
+import type { ComponentProps } from 'react'
 import React from 'react'
 
 import { useReactNodeView } from './useReactNodeView.js'
 
-export interface NodeViewContentProps {
-  [key: string]: any,
-  as?: React.ElementType,
-}
+export type NodeViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'div'> = {
+  as?: NoInfer<T>
+} & ComponentProps<T>
 
-export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
-  const Tag = props.as || 'div'
-  const { nodeViewContentRef } = useReactNodeView()
+export function NodeViewContent<T extends keyof React.JSX.IntrinsicElements = 'div'>({
+  as: Tag = 'div' as T,
+  ...props
+}: NodeViewContentProps<T>) {
+  const { nodeViewContentRef, nodeViewContentChildren } = useReactNodeView()
 
   return (
     // @ts-ignore
@@ -21,6 +23,8 @@ export const NodeViewContent: React.FC<NodeViewContentProps> = props => {
         whiteSpace: 'pre-wrap',
         ...props.style,
       }}
-    />
+    >
+      {nodeViewContentChildren}
+    </Tag>
   )
 }

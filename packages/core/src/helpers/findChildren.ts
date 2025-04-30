@@ -1,6 +1,6 @@
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { NodeWithPos, Predicate } from '../types.js'
+import type { NodeWithPos, Predicate } from '../types.js'
 
 /**
  * Find children inside a Prosemirror node that match a predicate.

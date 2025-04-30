@@ -1,5 +1,6 @@
-import { DOMSerializer, Node, Schema } from '@tiptap/pm/model'
-import { createHTMLDocument, VHTMLDocument } from 'zeed-dom'
+import type { Node, Schema } from '@tiptap/pm/model'
+import { DOMSerializer } from '@tiptap/pm/model'
+import { Window } from 'happy-dom-without-node'
 
 /**
  * Returns the HTML string representation of a given document node.
@@ -23,10 +24,14 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
     return wrap.innerHTML
   }
 
-  // Use zeed-dom for serialization.
-  const zeedDocument = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-    document: createHTMLDocument() as unknown as Document,
-  }) as unknown as VHTMLDocument
+  // Use happy-dom for serialization.
+  const browserWindow = typeof window === 'undefined' ? new Window() : window
 
-  return zeedDocument.render()
+  const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
+    document: browserWindow.document as unknown as Document,
+  })
+
+  const serializer = new browserWindow.XMLSerializer()
+
+  return serializer.serializeToString(fragment as any)
 }

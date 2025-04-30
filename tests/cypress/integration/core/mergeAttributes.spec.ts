@@ -47,10 +47,7 @@ describe('mergeAttributes', () => {
   })
 
   it('should merge classes and styles', () => {
-    const value = mergeAttributes(
-      { class: 'foo', style: 'color: red' },
-      { class: 'bar', style: 'background: green' },
-    )
+    const value = mergeAttributes({ class: 'foo', style: 'color: red' }, { class: 'bar', style: 'background: green' })
 
     expect(value).to.deep.eq({
       class: 'foo bar',
@@ -75,7 +72,10 @@ describe('mergeAttributes', () => {
   })
 
   it('should merge several styles', () => {
-    const value = mergeAttributes({ style: 'color: red; background-color: red' }, { style: 'color: green;  background-color: red; margin-left: 30px' })
+    const value = mergeAttributes(
+      { style: 'color: red; background-color: red' },
+      { style: 'color: green;  background-color: red; margin-left: 30px' },
+    )
 
     expect(value).to.deep.eq({
       style: 'color: green; background-color: red; margin-left: 30px',

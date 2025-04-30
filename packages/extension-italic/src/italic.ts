@@ -1,17 +1,12 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface ItalicOptions {
   /**
    * HTML attributes to add to the italic element.
    * @default {}
    * @example { class: 'foo' }
-  */
-  HTMLAttributes: Record<string, any>,
+   */
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -21,17 +16,17 @@ declare module '@tiptap/core' {
        * Set an italic mark
        * @example editor.commands.setItalic()
        */
-      setItalic: () => ReturnType,
+      setItalic: () => ReturnType
       /**
        * Toggle an italic mark
        * @example editor.commands.toggleItalic()
        */
-      toggleItalic: () => ReturnType,
+      toggleItalic: () => ReturnType
       /**
        * Unset an italic mark
        * @example editor.commands.unsetItalic()
        */
-      unsetItalic: () => ReturnType,
+      unsetItalic: () => ReturnType
     }
   }
 }
@@ -94,15 +89,21 @@ export const Italic = Mark.create<ItalicOptions>({
 
   addCommands() {
     return {
-      setItalic: () => ({ commands }) => {
-        return commands.setMark(this.name)
-      },
-      toggleItalic: () => ({ commands }) => {
-        return commands.toggleMark(this.name)
-      },
-      unsetItalic: () => ({ commands }) => {
-        return commands.unsetMark(this.name)
-      },
+      setItalic:
+        () =>
+        ({ commands }) => {
+          return commands.setMark(this.name)
+        },
+      toggleItalic:
+        () =>
+        ({ commands }) => {
+          return commands.toggleMark(this.name)
+        },
+      unsetItalic:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name)
+        },
     }
   },
 

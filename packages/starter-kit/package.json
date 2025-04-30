@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/starter-kit",
   "description": "starter kit for tiptap",
-  "version": "2.11.6",
+  "version": "3.0.0-beta.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -14,14 +14,16 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
-  "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
@@ -29,27 +31,30 @@
     "dist"
   ],
   "dependencies": {
-    "@tiptap/core": "^2.11.6",
-    "@tiptap/extension-blockquote": "^2.11.6",
-    "@tiptap/extension-bold": "^2.11.6",
-    "@tiptap/extension-bullet-list": "^2.11.6",
-    "@tiptap/extension-code": "^2.11.6",
-    "@tiptap/extension-code-block": "^2.11.6",
-    "@tiptap/extension-document": "^2.11.6",
-    "@tiptap/extension-dropcursor": "^2.11.6",
-    "@tiptap/extension-gapcursor": "^2.11.6",
-    "@tiptap/extension-hard-break": "^2.11.6",
-    "@tiptap/extension-heading": "^2.11.6",
-    "@tiptap/extension-history": "^2.11.6",
-    "@tiptap/extension-horizontal-rule": "^2.11.6",
-    "@tiptap/extension-italic": "^2.11.6",
-    "@tiptap/extension-list-item": "^2.11.6",
-    "@tiptap/extension-ordered-list": "^2.11.6",
-    "@tiptap/extension-paragraph": "^2.11.6",
-    "@tiptap/extension-strike": "^2.11.6",
-    "@tiptap/extension-text": "^2.11.6",
-    "@tiptap/extension-text-style": "^2.11.6",
-    "@tiptap/pm": "^2.11.6"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/extension-blockquote": "workspace:*",
+    "@tiptap/extension-bold": "workspace:*",
+    "@tiptap/extension-bullet-list": "workspace:*",
+    "@tiptap/extension-code": "workspace:*",
+    "@tiptap/extension-code-block": "workspace:*",
+    "@tiptap/extension-document": "workspace:*",
+    "@tiptap/extension-dropcursor": "workspace:*",
+    "@tiptap/extension-gapcursor": "workspace:*",
+    "@tiptap/extension-hard-break": "workspace:*",
+    "@tiptap/extension-heading": "workspace:*",
+    "@tiptap/extension-horizontal-rule": "workspace:*",
+    "@tiptap/extension-italic": "workspace:*",
+    "@tiptap/extension-link": "workspace:*",
+    "@tiptap/extension-list": "workspace:*",
+    "@tiptap/extension-list-item": "workspace:*",
+    "@tiptap/extension-list-keymap": "workspace:*",
+    "@tiptap/extension-ordered-list": "workspace:*",
+    "@tiptap/extension-paragraph": "workspace:*",
+    "@tiptap/extension-strike": "workspace:*",
+    "@tiptap/extension-text": "workspace:*",
+    "@tiptap/extension-underline": "workspace:*",
+    "@tiptap/extensions": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "repository": {
     "type": "git",
@@ -57,7 +62,7 @@
     "directory": "packages/starter-kit"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c"
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

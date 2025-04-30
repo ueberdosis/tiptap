@@ -1,5 +1,5 @@
 context('/src/Examples/AutolinkValidation/Vue/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Examples/AutolinkValidation/Vue/')
   })
 

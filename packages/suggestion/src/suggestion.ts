@@ -1,6 +1,8 @@
-import { Editor, Range } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
+import type { Editor, Range } from '@tiptap/core'
+import type { EditorState } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorView } from '@tiptap/pm/view'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
@@ -29,7 +31,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * Allow spaces in the suggestion query. Not compatible with `allowToIncludeChar`. Will be disabled if `allowToIncludeChar` is set to `true`.
    * @default false
    * @example true
-  */
+   */
   allowSpaces?: boolean
 
   /**
@@ -92,12 +94,12 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @returns An object with render functions.
    */
   render?: () => {
-    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void;
-    onStart?: (props: SuggestionProps<I, TSelected>) => void;
-    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void;
-    onUpdate?: (props: SuggestionProps<I, TSelected>) => void;
-    onExit?: (props: SuggestionProps<I, TSelected>) => void;
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean;
+    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void
+    onStart?: (props: SuggestionProps<I, TSelected>) => void
+    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void
+    onUpdate?: (props: SuggestionProps<I, TSelected>) => void
+    onExit?: (props: SuggestionProps<I, TSelected>) => void
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
   }
 
   /**
@@ -105,7 +107,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props The props object.
    * @returns {boolean}
    */
-  allow?: (props: { editor: Editor; state: EditorState; range: Range, isActive?: boolean }) => boolean
+  allow?: (props: { editor: Editor; state: EditorState; range: Range; isActive?: boolean }) => boolean
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
@@ -212,9 +214,7 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           const state = handleExit && !handleStart ? prev : next
-          const decorationNode = view.dom.querySelector(
-            `[data-decoration-id="${state.decorationId}"]`,
-          )
+          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
 
           props = {
             editor,
@@ -230,18 +230,16 @@ export function Suggestion<I = any, TSelected = any>({
               })
             },
             decorationNode,
-            // virtual node for popper.js or tippy.js
+            // virtual node for positioning
             // this can be used for building popups without a DOM node
             clientRect: decorationNode
               ? () => {
-                // because of `items` can be asynchrounous we’ll search for the current decoration node
+                  // because of `items` can be asynchrounous we’ll search for the current decoration node
                   const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
-                const currentDecorationNode = view.dom.querySelector(
-                  `[data-decoration-id="${decorationId}"]`,
-                )
+                  const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
 
-                return currentDecorationNode?.getBoundingClientRect() || null
-              }
+                  return currentDecorationNode?.getBoundingClientRect() || null
+                }
               : null,
           }
 
@@ -338,9 +336,15 @@ export function Suggestion<I = any, TSelected = any>({
           const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
           // If we found a match, update the current state to show it
-          if (match && allow({
-            editor, state, range: match.range, isActive: prev.active,
-          })) {
+          if (
+            match &&
+            allow({
+              editor,
+              state,
+              range: match.range,
+              isActive: prev.active,
+            })
+          ) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
             next.range = match.range

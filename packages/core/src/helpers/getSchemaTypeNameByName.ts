@@ -1,4 +1,4 @@
-import { Schema } from '@tiptap/pm/model'
+import type { Schema } from '@tiptap/pm/model'
 
 /**
  * Get the type of a schema item by its name.

@@ -5,7 +5,7 @@ import {
   joinUp as originalJoinUp,
 } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -44,18 +44,26 @@ declare module '@tiptap/core' {
   }
 }
 
-export const joinUp: RawCommands['joinUp'] = () => ({ state, dispatch }) => {
-  return originalJoinUp(state, dispatch)
-}
+export const joinUp: RawCommands['joinUp'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalJoinUp(state, dispatch)
+  }
 
-export const joinDown: RawCommands['joinDown'] = () => ({ state, dispatch }) => {
-  return originalJoinDown(state, dispatch)
-}
+export const joinDown: RawCommands['joinDown'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalJoinDown(state, dispatch)
+  }
 
-export const joinBackward: RawCommands['joinBackward'] = () => ({ state, dispatch }) => {
-  return originalJoinBackward(state, dispatch)
-}
+export const joinBackward: RawCommands['joinBackward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalJoinBackward(state, dispatch)
+  }
 
-export const joinForward: RawCommands['joinForward'] = () => ({ state, dispatch }) => {
-  return originalJoinForward(state, dispatch)
-}
+export const joinForward: RawCommands['joinForward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalJoinForward(state, dispatch)
+  }

@@ -1,6 +1,7 @@
-import { EditorView } from '@tiptap/pm/view'
+import type { EditorView } from '@tiptap/pm/view'
 
-import LinterPlugin, { Result as Issue } from '../LinterPlugin.js'
+import type { Result as Issue } from '../LinterPlugin.js'
+import LinterPlugin from '../LinterPlugin.js'
 
 export class HeadingLevel extends LinterPlugin {
   fixHeader(level: number) {

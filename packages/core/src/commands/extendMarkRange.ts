@@ -1,9 +1,9 @@
-import { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 
 import { getMarkRange } from '../helpers/getMarkRange.js'
 import { getMarkType } from '../helpers/getMarkType.js'
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -30,20 +30,22 @@ declare module '@tiptap/core' {
   }
 }
 
-export const extendMarkRange: RawCommands['extendMarkRange'] = (typeOrName, attributes = {}) => ({ tr, state, dispatch }) => {
-  const type = getMarkType(typeOrName, state.schema)
-  const { doc, selection } = tr
-  const { $from, from, to } = selection
+export const extendMarkRange: RawCommands['extendMarkRange'] =
+  (typeOrName, attributes = {}) =>
+  ({ tr, state, dispatch }) => {
+    const type = getMarkType(typeOrName, state.schema)
+    const { doc, selection } = tr
+    const { $from, from, to } = selection
 
-  if (dispatch) {
-    const range = getMarkRange($from, type, attributes)
+    if (dispatch) {
+      const range = getMarkRange($from, type, attributes)
 
-    if (range && range.from <= from && range.to >= to) {
-      const newSelection = TextSelection.create(doc, range.from, range.to)
+      if (range && range.from <= from && range.to >= to) {
+        const newSelection = TextSelection.create(doc, range.from, range.to)
 
-      tr.setSelection(newSelection)
+        tr.setSelection(newSelection)
+      }
     }
-  }
 
-  return true
-}
+    return true
+  }

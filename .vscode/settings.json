@@ -15,13 +15,14 @@
     "extension/code-block",
     "extension/code-block-lowlight",
     "extension/collaboration",
-    "extension/collaboration-cursor",
+    "extension/collaboration-caret",
     "extension/color",
     "extension/document",
     "extension/dropcursor",
     "extension/floating-menu",
     "extension/focus",
     "extension/font-family",
+    "extension/font-size",
     "extension/gapcursor",
     "extension/hard-break",
     "extension/heading",
@@ -57,14 +58,17 @@
     "vue-2",
     "vue-3"
   ],
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

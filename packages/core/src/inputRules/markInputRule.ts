@@ -1,8 +1,9 @@
-import { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from '@tiptap/pm/model'
 
 import { getMarksBetween } from '../helpers/getMarksBetween.js'
-import { InputRule, InputRuleFinder } from '../InputRule.js'
-import { ExtendedRegExpMatchArray } from '../types.js'
+import type { InputRuleFinder } from '../InputRule.js'
+import { InputRule } from '../InputRule.js'
+import type { ExtendedRegExpMatchArray } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
@@ -13,11 +14,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 export function markInputRule(config: {
   find: InputRuleFinder
   type: MarkType
-  getAttributes?:
-    | Record<string, any>
-    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
-    | false
-    | null
+  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
     find: config.find,

@@ -5,9 +5,7 @@
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Toggle bold
         </button>
-        <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">
-          Set bold
-        </button>
+        <button @click="editor.chain().focus().setBold().run()" :disabled="editor.isActive('bold')">Set bold</button>
         <button @click="editor.chain().focus().unsetBold().run()" :disabled="!editor.isActive('bold')">
           Unset bold
         </button>
@@ -37,12 +35,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Bold,
-      ],
+      extensions: [Document, Paragraph, Text, Bold],
       content: `
         <p>This isn’t bold.</p>
         <p><strong>This is bold.</strong></p>

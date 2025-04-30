@@ -1,5 +1,5 @@
 context('/src/Nodes/TaskList/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Nodes/TaskList/React/')
   })
 

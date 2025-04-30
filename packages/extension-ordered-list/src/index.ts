@@ -1,5 +1,6 @@
-import { OrderedList } from './ordered-list.js'
+import { OrderedList } from '@tiptap/extension-list'
 
-export * from './ordered-list.js'
+export type { OrderedListOptions } from '@tiptap/extension-list'
+export { OrderedList } from '@tiptap/extension-list'
 
 export default OrderedList

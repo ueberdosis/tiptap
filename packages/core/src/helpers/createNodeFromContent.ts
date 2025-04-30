@@ -1,12 +1,7 @@
-import {
-  DOMParser,
-  Fragment,
-  Node as ProseMirrorNode,
-  ParseOptions,
-  Schema,
-} from '@tiptap/pm/model'
+import type { ParseOptions } from '@tiptap/pm/model'
+import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
 
-import { Content } from '../types.js'
+import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
 export type CreateNodeFromContentOptions = {
@@ -67,7 +62,6 @@ export function createNodeFromContent(
   }
 
   if (isTextContent) {
-
     // Check for invalid content
     if (options.errorOnInvalidContent) {
       let hasInvalidContent = false
@@ -106,7 +100,9 @@ export function createNodeFromContent(
       }
 
       if (options.errorOnInvalidContent && hasInvalidContent) {
-        throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
+        throw new Error('[tiptap error]: Invalid HTML content', {
+          cause: new Error(`Invalid element found: ${invalidContent}`),
+        })
       }
     }
 
@@ -117,7 +113,6 @@ export function createNodeFromContent(
     }
 
     return parser.parse(elementFromString(content), options.parseOptions)
-
   }
 
   return createNodeFromContent('', schema, options)

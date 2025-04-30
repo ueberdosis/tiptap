@@ -21,7 +21,11 @@ export default Node.create({
   addKeyboardShortcuts() {
     return {
       'Mod-Enter': () => {
-        return this.editor.chain().insertContentAt(this.editor.state.selection.head, { type: this.type.name }).focus().run()
+        return this.editor
+          .chain()
+          .insertContentAt(this.editor.state.selection.head, { type: this.type.name })
+          .focus()
+          .run()
       },
     }
   },

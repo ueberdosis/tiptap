@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import CharacterCount from '@tiptap/extension-character-count'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 
@@ -30,26 +30,17 @@ export default () => {
     return null
   }
 
-  const percentage = editor
-    ? Math.round((100 / limit) * editor.storage.characterCount.characters())
-    : 0
+  const percentage = editor ? Math.round((100 / limit) * editor.storage.characterCount.characters()) : 0
 
   return (
     <>
       <EditorContent editor={editor} />
 
-      <div className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}>
-        <svg
-          height="20"
-          width="20"
-          viewBox="0 0 20 20"
-        >
-          <circle
-            r="10"
-            cx="10"
-            cy="10"
-            fill="#e9ecef"
-          />
+      <div
+        className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}
+      >
+        <svg height="20" width="20" viewBox="0 0 20 20">
+          <circle r="10" cx="10" cy="10" fill="#e9ecef" />
           <circle
             r="5"
             cx="10"
@@ -60,14 +51,8 @@ export default () => {
             strokeDasharray={`calc(${percentage} * 31.4 / 100) 31.4`}
             transform="rotate(-90) translate(-20)"
           />
-          <circle
-            r="6"
-            cx="10"
-            cy="10"
-            fill="white"
-          />
+          <circle r="6" cx="10" cy="10" fill="white" />
         </svg>
-
         {editor.storage.characterCount.characters()} / {limit} characters
         <br />
         {editor.storage.characterCount.words()} words

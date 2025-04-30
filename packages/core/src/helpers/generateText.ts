@@ -1,6 +1,6 @@
 import { Node } from '@tiptap/pm/model'
 
-import { Extensions, JSONContent, TextSerializer } from '../types.js'
+import type { Extensions, JSONContent, TextSerializer } from '../types.js'
 import { getSchema } from './getSchema.js'
 import { getText } from './getText.js'
 import { getTextSerializersFromSchema } from './getTextSerializersFromSchema.js'

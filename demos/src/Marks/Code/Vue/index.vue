@@ -5,9 +5,7 @@
         <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
           Toggle code
         </button>
-        <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">
-          Set code
-        </button>
+        <button @click="editor.chain().focus().setCode().run()" :disabled="editor.isActive('code')">Set code</button>
         <button @click="editor.chain().focus().unsetCode().run()" :disabled="!editor.isActive('code')">
           Unset code
         </button>
@@ -37,12 +35,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Code,
-      ],
+      extensions: [Document, Paragraph, Text, Code],
       content: `
         <p>This isn’t code.</p>
         <p><code>This is code.</code></p>

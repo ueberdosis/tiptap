@@ -32,12 +32,7 @@ describe('extension-youtube', () => {
     it(`does not output html for javascript schema or non-youtube links for url ${url}`, () => {
       editor = new Editor({
         element: createEditorEl(),
-        extensions: [
-          Document,
-          Text,
-          Paragraph,
-          Youtube,
-        ],
+        extensions: [Document, Text, Paragraph, Youtube],
         content: {
           type: 'doc',
           content: [
@@ -61,12 +56,7 @@ describe('extension-youtube', () => {
   it('when nocookie youtube url is passed, still outputs html with iframe with the url', () => {
     editor = new Editor({
       element: createEditorEl(),
-      extensions: [
-        Document,
-        Text,
-        Paragraph,
-        Youtube,
-      ],
+      extensions: [Document, Text, Paragraph, Youtube],
       content: {
         type: 'doc',
         content: [

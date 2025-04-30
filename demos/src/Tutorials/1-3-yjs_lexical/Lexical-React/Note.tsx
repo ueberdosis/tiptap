@@ -2,14 +2,15 @@ import './styles.css'
 
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
-import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer'
+import type { InitialConfigType } from '@lexical/react/LexicalComposer'
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import React from 'react'
 import * as Y from 'yjs'
 
-import { TNote } from './types.js'
+import type { TNote } from './types.js'
 
 export default ({ note }: { note: TNote }) => {
   const initialConfig: InitialConfigType = {
@@ -23,7 +24,7 @@ export default ({ note }: { note: TNote }) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <RichTextPlugin
-        contentEditable={<ContentEditable/>}
+        contentEditable={<ContentEditable />}
         placeholder={<p>{note.defaultContent}</p>}
         ErrorBoundary={LexicalErrorBoundary}
       />

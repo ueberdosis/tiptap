@@ -38,12 +38,8 @@ const MenuBar = ({ editor }) => {
         >
           Code
         </button>
-        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-          Clear marks
-        </button>
-        <button onClick={() => editor.chain().focus().clearNodes().run()}>
-          Clear nodes
-        </button>
+        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>Clear marks</button>
+        <button onClick={() => editor.chain().focus().clearNodes().run()}>Clear nodes</button>
         <button
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={editor.isActive('paragraph') ? 'is-active' : ''}
@@ -110,18 +106,10 @@ const MenuBar = ({ editor }) => {
         >
           Blockquote
         </button>
-        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-          Horizontal rule
-        </button>
-        <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-          Hard break
-        </button>
-        <button onClick={() => editor.chain().focus().undo().run()}>
-          Undo
-        </button>
-        <button onClick={() => editor.chain().focus().redo().run()}>
-          Redo
-        </button>
+        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Horizontal rule</button>
+        <button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</button>
+        <button onClick={() => editor.chain().focus().undo().run()}>Undo</button>
+        <button onClick={() => editor.chain().focus().redo().run()}>Redo</button>
       </div>
     </div>
   )
@@ -129,9 +117,7 @@ const MenuBar = ({ editor }) => {
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
     content,
     editorProps: {
       attributes: {

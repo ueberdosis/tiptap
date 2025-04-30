@@ -1,4 +1,4 @@
-import { Transaction } from '@tiptap/pm/state'
+import type { Transaction } from '@tiptap/pm/state'
 
 export interface TrackerResult {
   position: number
@@ -18,17 +18,15 @@ export class Tracker {
   map(position: number): TrackerResult {
     let deleted = false
 
-    const mappedPosition = this.transaction.steps
-      .slice(this.currentStep)
-      .reduce((newPosition, step) => {
-        const mapResult = step.getMap().mapResult(newPosition)
+    const mappedPosition = this.transaction.steps.slice(this.currentStep).reduce((newPosition, step) => {
+      const mapResult = step.getMap().mapResult(newPosition)
 
-        if (mapResult.deleted) {
-          deleted = true
-        }
+      if (mapResult.deleted) {
+        deleted = true
+      }
 
-        return mapResult.pos
-      }, position)
+      return mapResult.pos
+    }, position)
 
     return {
       position: mappedPosition,

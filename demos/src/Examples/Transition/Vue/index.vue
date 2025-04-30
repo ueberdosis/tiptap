@@ -28,12 +28,8 @@ const editor = useEditor({
       class: 'textarea',
     },
   },
-  extensions: [
-    StarterKit,
-    VueComponent,
-  ],
+  extensions: [StarterKit, VueComponent],
 })
-
 </script>
 
 <template>
@@ -42,7 +38,7 @@ const editor = useEditor({
     <button
       id="toggle-direct-editor"
       type="button"
-      style="margin-bottom: 1rem;"
+      style="margin-bottom: 1rem"
       @click="showDirectEditor = !showDirectEditor"
     >
       {{ showDirectEditor ? 'Hide direct editor' : 'Show direct editor' }}
@@ -55,14 +51,14 @@ const editor = useEditor({
     </transition>
   </div>
 
-  <hr>
+  <hr />
 
   <!-- Transition with editor in a child component -->
   <div>
     <button
       id="toggle-nested-editor"
       type="button"
-      style="margin-bottom: 1rem;"
+      style="margin-bottom: 1rem"
       @click="showNestedEditor = !showNestedEditor"
     >
       {{ showNestedEditor ? 'Hide nested editor' : 'Show nested editor' }}

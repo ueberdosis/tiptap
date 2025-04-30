@@ -6,20 +6,18 @@
 
 <!-- create editor -->
 <script type="module">
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+  import { Editor } from '@tiptap/core'
+  import StarterKit from '@tiptap/starter-kit'
 
-const editor = new Editor({
-  element: document.querySelector('.element'),
-  extensions: [
-    StarterKit,
-  ],
-  editorProps: {
-    attributes: {
-      class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+  const editor = new Editor({
+    element: document.querySelector('.element'),
+    extensions: [StarterKit],
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+      },
     },
-  },
-  content: `
+    content: `
     <h2>
       Hi there,
     </h2>
@@ -49,5 +47,5 @@ const editor = new Editor({
       — Mom
     </blockquote>
   `,
-})
+  })
 </script>

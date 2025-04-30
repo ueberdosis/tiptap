@@ -11,8 +11,7 @@ context('/src/Examples/InteractivityComponentContent/Vue/', () => {
   })
 
   it('should render a custom node', () => {
-    cy.get('.tiptap .vue-component')
-      .should('have.length', 1)
+    cy.get('.tiptap .vue-component').should('have.length', 1)
   })
 
   it('should allow text editing inside component', () => {
@@ -30,18 +29,14 @@ context('/src/Examples/InteractivityComponentContent/Vue/', () => {
       .type('Hello World! This is **bold**.')
       .should('have.text', 'Hello World! This is bold.')
 
-    cy.get('.tiptap .vue-component .content strong')
-      .should('exist')
+    cy.get('.tiptap .vue-component .content strong').should('exist')
   })
 
   it('should remove node via selectall', () => {
-    cy.get('.tiptap .vue-component')
-      .should('have.length', 1)
+    cy.get('.tiptap .vue-component').should('have.length', 1)
 
-    cy.get('.tiptap')
-      .type('{selectall}{backspace}')
+    cy.get('.tiptap').type('{selectall}{backspace}')
 
-    cy.get('.tiptap .vue-component')
-      .should('have.length', 0)
+    cy.get('.tiptap .vue-component').should('have.length', 0)
   })
 })

@@ -1,5 +1,5 @@
 context('/src/Commands/InsertContentApplyingRules/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Commands/InsertContentApplyingRules/React/')
   })
 

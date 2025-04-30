@@ -1,8 +1,6 @@
-import { Table } from './table.js'
-
-export * from './table.js'
-export * from './TableView.js'
-export * from './utilities/createColGroup.js'
-export * from './utilities/createTable.js'
-
-export default Table
+export * from './cell/index.js'
+export * from './header/index.js'
+export * from './kit/index.js'
+export * from './row/index.js'
+export * from './table/index.js'
+export * from './table/TableView.js'

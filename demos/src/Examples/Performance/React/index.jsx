@@ -1,8 +1,7 @@
 import './styles.scss'
 
-import {
-  BubbleMenu, EditorContent, useEditor, useEditorState,
-} from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -53,21 +52,19 @@ function EditorInstance({ shouldOptimizeRendering }) {
       if (!next) {
         return false
       }
-      return (
-        prev.isBold === next.isBold
-        && prev.isItalic === next.isItalic
-        && prev.isStrike === next.isStrike
-      )
+      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
     },
   })
 
   return (
     <div>
       <div className="control-group">
-        <div>Number of renders: <span id="render-count">{countRenderRef.current}</span></div>
+        <div>
+          Number of renders: <span id="render-count">{countRenderRef.current}</span>
+        </div>
       </div>
       {currentEditorState && (
-        <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+        <BubbleMenu className="bubble-menu" editor={editor}>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={currentEditorState.isBold ? 'is-active' : ''}

@@ -1,6 +1,6 @@
 import { DOMParser } from '@tiptap/pm/model'
 
-import { Extensions } from '../types.js'
+import type { Extensions } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 import { getSchema } from './getSchema.js'
 

@@ -1,10 +1,10 @@
 import './styles.scss'
 
 import Document from '@tiptap/extension-document'
-import Dropcursor from '@tiptap/extension-dropcursor'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Dropcursor } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React, { useCallback } from 'react'
 

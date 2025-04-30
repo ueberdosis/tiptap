@@ -32,14 +32,13 @@
 import Bold from '@tiptap/extension-bold'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
-import DropCursor from '@tiptap/extension-dropcursor'
 import Heading from '@tiptap/extension-heading'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
-import TaskItem from '@tiptap/extension-task-item'
-import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
+import { Dropcursor } from '@tiptap/extensions'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { yDocToProsemirrorJSON } from 'y-prosemirror'
+import { yDocToProsemirrorJSON } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 
 const HeadingDocument = Document.extend({
@@ -77,7 +76,7 @@ export default {
         }),
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'title',
@@ -92,7 +91,7 @@ export default {
         Paragraph,
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         TaskList,
         CustomTaskItem,
         Collaboration.configure({
@@ -115,7 +114,7 @@ export default {
         Paragraph,
         Text,
         Bold,
-        DropCursor,
+        Dropcursor,
         Collaboration.configure({
           document: this.ydoc,
           field: 'description',
@@ -152,7 +151,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 /* Basic editor styles */
 .tiptap {
   :first-child {
@@ -179,7 +177,7 @@ export default {
   }
 
   /* Task list specific styles */
-  ul[data-type="taskList"] {
+  ul[data-type='taskList'] {
     list-style: none;
     margin-left: 0;
     padding: 0;
@@ -199,11 +197,11 @@ export default {
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       cursor: pointer;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
       margin: 0;
     }
   }
@@ -224,7 +222,7 @@ export default {
     .form__item {
       border-radius: 5px;
       border: 1px solid var(--gray-3);
-      transition: .1s all ease-in-out;
+      transition: 0.1s all ease-in-out;
 
       &:hover {
         border-color: var(--purple);

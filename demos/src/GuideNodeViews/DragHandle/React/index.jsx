@@ -6,10 +6,7 @@ import React from 'react'
 
 import DraggableItem from './DraggableItem.js'
 
-const extensions = [
-  StarterKit,
-  DraggableItem,
-]
+const extensions = [StarterKit, DraggableItem]
 
 const content = `
         <p>This is a boring paragraph.</p>

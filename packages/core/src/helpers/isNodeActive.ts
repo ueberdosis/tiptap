@@ -1,7 +1,7 @@
-import { NodeType } from '@tiptap/pm/model'
-import { EditorState } from '@tiptap/pm/state'
+import type { NodeType } from '@tiptap/pm/model'
+import type { EditorState } from '@tiptap/pm/state'
 
-import { NodeRange } from '../types.js'
+import type { NodeRange } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'
 import { getNodeType } from './getNodeType.js'
 

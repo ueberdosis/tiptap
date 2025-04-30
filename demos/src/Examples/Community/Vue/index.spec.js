@@ -20,18 +20,19 @@ context('/src/Examples/Community/Vue/', () => {
     cy.get('.tiptap').type('{selectall}{backspace}@')
 
     // check if the mention autocomplete is visible
-    cy.get('.tippy-content .dropdown-menu').should('be.visible')
+    cy.get('.dropdown-menu').should('be.visible')
 
     // select the first user
-    cy.get('.tippy-content .dropdown-menu button').first().then($el => {
-      const name = $el.text()
+    cy.get('.dropdown-menu button')
+      .first()
+      .then($el => {
+        const name = $el.text()
 
-      $el.click()
+        $el.click()
 
-      // check if the user is mentioned
-      cy.get('.tiptap').should('have.text', `@${name} `)
-      cy.get('.character-count').should('contain', '2 / 280 characters')
-    })
-
+        // check if the user is mentioned
+        cy.get('.tiptap').should('have.text', `@${name} `)
+        cy.get('.character-count').should('contain', '2 / 280 characters')
+      })
   })
 })

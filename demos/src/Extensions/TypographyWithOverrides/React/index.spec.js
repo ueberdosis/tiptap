@@ -1,5 +1,5 @@
 context('/src/Extensions/TypographyWithOverrides/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/TypographyWithOverrides/React/')
   })
 

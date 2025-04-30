@@ -1,8 +1,9 @@
-import { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from '@tiptap/pm/model'
 
 import { getMarksBetween } from '../helpers/getMarksBetween.js'
-import { PasteRule, PasteRuleFinder } from '../PasteRule.js'
-import { ExtendedRegExpMatchArray } from '../types.js'
+import type { PasteRuleFinder } from '../PasteRule.js'
+import { PasteRule } from '../PasteRule.js'
+import type { ExtendedRegExpMatchArray } from '../types.js'
 import { callOrReturn } from '../utilities/callOrReturn.js'
 
 /**
@@ -21,9 +22,7 @@ export function markPasteRule(config: {
 }) {
   return new PasteRule({
     find: config.find,
-    handler: ({
-      state, range, match, pasteEvent,
-    }) => {
+    handler: ({ state, range, match, pasteEvent }) => {
       const attributes = callOrReturn(config.getAttributes, undefined, match, pasteEvent)
 
       if (attributes === false || attributes === null) {

@@ -1,9 +1,7 @@
 import './styles.scss'
 
-import {
-  EditorContent, FloatingMenu, mergeAttributes,
-  Node, useEditor,
-} from '@tiptap/react'
+import { EditorContent, mergeAttributes, Node, useEditor } from '@tiptap/react'
+import { FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 
@@ -33,19 +31,18 @@ const Foo = Node.create({
 
   addCommands() {
     return {
-      insertFoo: () => ({ commands }) => {
-        return commands.insertContent({ type: this.name })
-      },
+      insertFoo:
+        () =>
+        ({ commands }) => {
+          return commands.insertContent({ type: this.name })
+        },
     }
   },
 })
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Foo,
-    ],
+    extensions: [StarterKit, Foo],
     content: `
       <p>
         This is an example of a Medium-like editor. Enter a new line and some buttons will appear.
@@ -69,30 +66,34 @@ export default () => {
           <input type="checkbox" checked={isEditable} onChange={() => setIsEditable(!isEditable)} />
           Editable
         </label>
-        <button data-testid="insert-foo" onClick={() => editor.chain().insertFoo().focus().run()}>Insert Foo</button>
+        <button data-testid="insert-foo" onClick={() => editor.chain().insertFoo().focus().run()}>
+          Insert Foo
+        </button>
       </div>
-      {editor && <FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
-        <div data-testid="floating-menu" className="floating-menu">
-          <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-          >
-            H1
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
-          >
-            H2
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive('bulletList') ? 'is-active' : ''}
-          >
-            Bullet list
-          </button>
-        </div>
-      </FloatingMenu>}
+      {editor && (
+        <FloatingMenu editor={editor}>
+          <div className="floating-menu" data-testid="floating-menu">
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+            >
+              H1
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+              className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+            >
+              H2
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              className={editor.isActive('bulletList') ? 'is-active' : ''}
+            >
+              Bullet list
+            </button>
+          </div>
+        </FloatingMenu>
+      )}
       <EditorContent editor={editor} />
     </>
   )

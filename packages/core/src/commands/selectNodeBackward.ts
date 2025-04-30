@@ -1,6 +1,6 @@
 import { selectNodeBackward as originalSelectNodeBackward } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -14,6 +14,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const selectNodeBackward: RawCommands['selectNodeBackward'] = () => ({ state, dispatch }) => {
-  return originalSelectNodeBackward(state, dispatch)
-}
+export const selectNodeBackward: RawCommands['selectNodeBackward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalSelectNodeBackward(state, dispatch)
+  }

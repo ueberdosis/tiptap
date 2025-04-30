@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core'
 
-import { FloatingMenuPlugin, FloatingMenuPluginProps } from './floating-menu-plugin.js'
+import type { FloatingMenuPluginProps } from './floating-menu-plugin.js'
+import { FloatingMenuPlugin } from './floating-menu-plugin.js'
 
 export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'element'> & {
   /**
@@ -8,7 +9,7 @@ export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'elem
    * @type {HTMLElement}
    * @default null
    */
-  element: HTMLElement | null,
+  element: HTMLElement | null
 }
 
 /**
@@ -21,7 +22,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
   addOptions() {
     return {
       element: null,
-      tippyOptions: {},
+      options: {},
       pluginKey: 'floatingMenu',
       shouldShow: null,
     }
@@ -37,7 +38,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
         pluginKey: this.options.pluginKey,
         editor: this.editor,
         element: this.options.element,
-        tippyOptions: this.options.tippyOptions,
+        options: this.options.options,
         shouldShow: this.options.shouldShow,
       }),
     ]

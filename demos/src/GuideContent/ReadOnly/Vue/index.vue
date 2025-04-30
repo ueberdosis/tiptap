@@ -2,7 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <input type="checkbox" id="editable" v-model="editable">
+        <input type="checkbox" id="editable" v-model="editable" />
         <label for="editable">Editable</label>
       </div>
     </div>
@@ -37,9 +37,7 @@ export default {
           If you want to check the state, you can call <code>editor.isEditable()</code>.
         </p>
       `,
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
     })
   },
 
@@ -147,7 +145,7 @@ export default {
     margin: 2rem 0;
   }
 
-  &[contenteditable="false"] {
+  &[contenteditable='false'] {
     color: #999;
     opacity: 0.6;
   }

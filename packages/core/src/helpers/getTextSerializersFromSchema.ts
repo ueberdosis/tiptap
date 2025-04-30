@@ -1,6 +1,6 @@
-import { Schema } from '@tiptap/pm/model'
+import type { Schema } from '@tiptap/pm/model'
 
-import { TextSerializer } from '../types.js'
+import type { TextSerializer } from '../types.js'
 
 /**
  * Find text serializers `toText` in a Prosemirror schema

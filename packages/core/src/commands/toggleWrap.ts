@@ -1,8 +1,8 @@
-import { NodeType } from '@tiptap/pm/model'
+import type { NodeType } from '@tiptap/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isNodeActive } from '../helpers/isNodeActive.js'
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -18,13 +18,15 @@ declare module '@tiptap/core' {
   }
 }
 
-export const toggleWrap: RawCommands['toggleWrap'] = (typeOrName, attributes = {}) => ({ state, commands }) => {
-  const type = getNodeType(typeOrName, state.schema)
-  const isActive = isNodeActive(state, type, attributes)
+export const toggleWrap: RawCommands['toggleWrap'] =
+  (typeOrName, attributes = {}) =>
+  ({ state, commands }) => {
+    const type = getNodeType(typeOrName, state.schema)
+    const isActive = isNodeActive(state, type, attributes)
 
-  if (isActive) {
-    return commands.lift(type)
+    if (isActive) {
+      return commands.lift(type)
+    }
+
+    return commands.wrapIn(type, attributes)
   }
-
-  return commands.wrapIn(type, attributes)
-}

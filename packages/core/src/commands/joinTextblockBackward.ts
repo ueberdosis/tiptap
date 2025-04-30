@@ -1,6 +1,6 @@
 import { joinTextblockBackward as originalCommand } from '@tiptap/pm/commands'
 
-import { RawCommands } from '../types.js'
+import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -13,6 +13,8 @@ declare module '@tiptap/core' {
   }
 }
 
-export const joinTextblockBackward: RawCommands['joinTextblockBackward'] = () => ({ state, dispatch }) => {
-  return originalCommand(state, dispatch)
-}
+export const joinTextblockBackward: RawCommands['joinTextblockBackward'] =
+  () =>
+  ({ state, dispatch }) => {
+    return originalCommand(state, dispatch)
+  }

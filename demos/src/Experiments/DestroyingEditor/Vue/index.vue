@@ -27,9 +27,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
+      extensions: [StarterKit],
       content: `
         <p>Try destroying the editor</p>
       `,

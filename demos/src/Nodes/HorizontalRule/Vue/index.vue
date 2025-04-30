@@ -2,9 +2,7 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setHorizontalRule().run()">
-          Set horizontal rule
-        </button>
+        <button @click="editor.chain().focus().setHorizontalRule().run()">Set horizontal rule</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -31,12 +29,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        HorizontalRule,
-      ],
+      extensions: [Document, Paragraph, Text, HorizontalRule],
       content: `
         <p>This is a paragraph.</p>
         <hr>
@@ -53,7 +46,8 @@ export default {
 }
 </script>
 
-<style lang="scss">/* Basic editor styles */
+<style lang="scss">
+/* Basic editor styles */
 .tiptap {
   :first-child {
     margin-top: 0;

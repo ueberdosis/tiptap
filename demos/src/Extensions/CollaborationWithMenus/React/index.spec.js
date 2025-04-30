@@ -1,5 +1,6 @@
+/// <reference types="cypress" />
 context('/src/Extensions/CollaborationWithMenus/React/', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/src/Extensions/CollaborationWithMenus/React/')
   })
 
@@ -11,7 +12,8 @@ context('/src/Extensions/CollaborationWithMenus/React/', () => {
   })
 
   it('should have menu plugins initiated', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
+    cy.wait(700)
+    cy.get('.tiptap').then(async ([{ editor }]) => {
       const bubbleMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'bubbleMenu$')
       const floatingMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'floatingMenu$')
       const hasBothMenuPluginsLoaded = !!bubbleMenuPlugin && !!floatingMenuPlugin

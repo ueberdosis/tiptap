@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
+        <button
+          @click="editor.chain().focus().toggleSuperscript().run()"
+          :class="{ 'is-active': editor.isActive('superscript') }"
+        >
           Toggle superscript
         </button>
         <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
@@ -37,12 +40,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Superscript,
-      ],
+      extensions: [Document, Paragraph, Text, Superscript],
       content: `
         <p>This is regular text.</p>
         <p><sup>This is superscript.</sup></p>

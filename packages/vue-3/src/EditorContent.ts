@@ -1,17 +1,7 @@
-import {
-  defineComponent,
-  getCurrentInstance,
-  h,
-  nextTick,
-  onBeforeUnmount,
-  PropType,
-  Ref,
-  ref,
-  unref,
-  watchEffect,
-} from 'vue'
+import type { PropType, Ref } from 'vue'
+import { defineComponent, getCurrentInstance, h, nextTick, onBeforeUnmount, ref, unref, watchEffect } from 'vue'
 
-import { Editor } from './Editor.js'
+import type { Editor } from './Editor.js'
 
 export const EditorContent = defineComponent({
   name: 'EditorContent',
@@ -32,10 +22,11 @@ export const EditorContent = defineComponent({
 
       if (editor && editor.options.element && rootEl.value) {
         nextTick(() => {
-          if (!rootEl.value || !editor.options.element.firstChild) {
+          if (!rootEl.value || !editor.options.element?.firstChild) {
             return
           }
 
+          // TODO using the new editor.mount method might allow us to remove this
           const element = unref(rootEl.value)
 
           rootEl.value.append(...editor.options.element.childNodes)
@@ -77,11 +68,10 @@ export const EditorContent = defineComponent({
   },
 
   render() {
-    return h(
-      'div',
-      {
-        ref: (el: any) => { this.rootEl = el },
+    return h('div', {
+      ref: (el: any) => {
+        this.rootEl = el
       },
-    )
+    })
   },
 })
