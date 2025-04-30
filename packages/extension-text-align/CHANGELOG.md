@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.9
+
+### Patch Changes
+
+- ab7a2ae: Added new `toggleTextAlign` command to TextAlign extension to make toggling text alignments easier to handle
+
 ## 2.11.8
 
 ## 2.11.7

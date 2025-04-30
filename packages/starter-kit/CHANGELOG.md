@@ -1,5 +1,31 @@
 # Change Log
 
+## 2.11.9
+
+### Patch Changes
+
+- @tiptap/core@2.11.9
+- @tiptap/extension-blockquote@2.11.9
+- @tiptap/extension-bold@2.11.9
+- @tiptap/extension-bullet-list@2.11.9
+- @tiptap/extension-code@2.11.9
+- @tiptap/extension-code-block@2.11.9
+- @tiptap/extension-document@2.11.9
+- @tiptap/extension-dropcursor@2.11.9
+- @tiptap/extension-gapcursor@2.11.9
+- @tiptap/extension-hard-break@2.11.9
+- @tiptap/extension-heading@2.11.9
+- @tiptap/extension-history@2.11.9
+- @tiptap/extension-horizontal-rule@2.11.9
+- @tiptap/extension-italic@2.11.9
+- @tiptap/extension-list-item@2.11.9
+- @tiptap/extension-ordered-list@2.11.9
+- @tiptap/extension-paragraph@2.11.9
+- @tiptap/extension-strike@2.11.9
+- @tiptap/extension-text@2.11.9
+- @tiptap/extension-text-style@2.11.9
+- @tiptap/pm@2.11.9
+
 ## 2.11.8
 
 ### Patch Changes
