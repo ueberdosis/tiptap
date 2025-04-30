@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.11.8
+
+### Patch Changes
+
+- 8147cc7: Fixes a bug where you could not unregister multiple plugins.
+
 ## 2.11.7
 
 ### Patch Changes
