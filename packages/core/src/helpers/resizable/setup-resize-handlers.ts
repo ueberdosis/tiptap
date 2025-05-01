@@ -55,11 +55,14 @@ export function setupResizeHandlers(
       return
     }
 
+    const hasUpdatedWidth = dom.clientWidth !== initialDimensions.width
+    const hasUpdatedHeight = dom.clientHeight !== initialDimensions.height
+
     editor.commands.command(({ tr }) => {
       tr.setNodeMarkup(pos, undefined, {
         ...node.attrs,
-        width: updateWidth ? dom.clientWidth : node.attrs.width,
-        height: updateHeight ? dom.clientHeight : node.attrs.height,
+        width: hasUpdatedWidth ? dom.clientWidth : node.attrs.width,
+        height: hasUpdatedHeight ? dom.clientHeight : node.attrs.height,
       })
 
       return true
@@ -70,6 +73,8 @@ export function setupResizeHandlers(
     if (!isResizing || !currentPosition) {
       return
     }
+
+    const isAspectLocked = e.shiftKey
 
     e.preventDefault()
     e.stopPropagation()
@@ -84,20 +89,32 @@ export function setupResizeHandlers(
 
     // Calculate new dimensions based on direction and delta
     let newWidth = updateWidth ? dom.clientWidth + (affectsLeft ? -deltaX : deltaX) : dom.clientWidth
-
     let newHeight = updateHeight ? dom.clientHeight + (affectsTop ? -deltaY : deltaY) : dom.clientHeight
 
     // Apply size clamping
     newWidth = Math.max(minWidth, newWidth)
     newHeight = Math.max(minHeight, newHeight)
 
+    // If aspect ratio is locked, adjust the other dimension accordingly
+    if (isAspectLocked) {
+      const aspectRatio = initialDimensions.width / initialDimensions.height
+      if (updateWidth) {
+        newHeight = Math.round(newWidth / aspectRatio)
+      } else if (updateHeight) {
+        newWidth = Math.round(newHeight * aspectRatio)
+      }
+    }
+
+    const hasUpdatedWidth = newWidth !== dom.clientWidth
+    const hasUpdatedHeight = newHeight !== dom.clientHeight
+
     // Only update width if it's being modified and is above minimum size
-    if (updateWidth) {
+    if (hasUpdatedWidth) {
       dom.style.width = `${newWidth}px`
     }
 
     // Only update height if it's being modified and is above minimum size
-    if (updateHeight) {
+    if (hasUpdatedHeight) {
       dom.style.height = `${newHeight}px`
     }
 
@@ -112,6 +129,8 @@ export function setupResizeHandlers(
     e.preventDefault()
     e.stopPropagation()
 
+    updateNodeSize()
+
     isResizing = false
     currentPosition = null
 
@@ -119,8 +138,6 @@ export function setupResizeHandlers(
     document.removeEventListener('touchmove', handleMove)
     document.removeEventListener('mouseup', handleEnd)
     document.removeEventListener('touchend', handleEnd)
-
-    updateNodeSize()
   }
 
   const handleKeydown = (e: KeyboardEvent): void => {
