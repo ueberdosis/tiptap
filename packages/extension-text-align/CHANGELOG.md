@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- 55c78d6: Added new `toggleTextAlign` command to TextAlign extension to make toggling text alignments easier to handle
+- Updated dependencies [5e957e5]
+- Updated dependencies [9f207a6]
+  - @tiptap/core@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes

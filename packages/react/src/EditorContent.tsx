@@ -164,14 +164,10 @@ export class PureEditorContent extends React.Component<
 
     this.initialized = false
 
-    try {
-      if (!editor.isDestroyed) {
-        editor.view.setProps({
-          nodeViews: {},
-        })
-      }
-    } catch {
-      // ignore error as we can't set props on a non-existing view
+    if (!editor.isDestroyed) {
+      editor.view.setProps({
+        nodeViews: {},
+      })
     }
 
     if (this.unsubscribeToContentComponent) {

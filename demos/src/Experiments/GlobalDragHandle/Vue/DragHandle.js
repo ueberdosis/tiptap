@@ -1,6 +1,5 @@
 import { Extension } from '@tiptap/core'
 import { NodeSelection, Plugin } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
 
 function removeNode(node) {
   node.parentNode.removeChild(node)
@@ -63,7 +62,7 @@ export default Extension.create({
         //   from: view.nodeDOM(view.state.selection.from),
         //   to: view.nodeDOM(view.state.selection.to),
         // })
-        const { dom, text } = EditorView.serializeForClipboard(view, slice)
+        const { dom, text } = view.serializeForClipboard(slice)
 
         e.dataTransfer.clearData()
         e.dataTransfer.setData('text/html', dom.innerHTML)

@@ -287,6 +287,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
+        isDestroyed: false,
       } as EditorView,
       {
         get: (obj, key) => {
@@ -361,7 +362,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       const name = typeof nameOrPluginKey === 'string' ? `${nameOrPluginKey}$` : nameOrPluginKey.key
 
       // @ts-ignore
-      plugins = prevPlugins.filter(plugin => !plugin.key.startsWith(name))
+      plugins = plugins.filter(plugin => !plugin.key.startsWith(name))
     })
 
     if (prevPlugins.length === plugins.length) {
@@ -717,8 +718,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    // @ts-ignore
-    return !this.view?.docView
+    return this.editorView?.isDestroyed ?? true
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {
