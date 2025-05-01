@@ -23,6 +23,11 @@ export function setupResizeHandlers(
   let isResizing = false
   let currentPosition: { x: number; y: number } | null = null
 
+  let initialDimensions = {
+    width: dom.clientWidth,
+    height: dom.clientHeight,
+  }
+
   // Determine which dimensions to update based on direction
   const updateWidth =
     direction === 'left' ||
@@ -43,6 +48,23 @@ export function setupResizeHandlers(
   // Determine which side of the element we're affecting
   const affectsLeft = direction === 'left' || direction === 'top-left' || direction === 'bottom-left'
   const affectsTop = direction === 'top' || direction === 'top-left' || direction === 'top-right'
+
+  function updateNodeSize() {
+    const pos = getPos()
+    if (pos === undefined) {
+      return
+    }
+
+    editor.commands.command(({ tr }) => {
+      tr.setNodeMarkup(pos, undefined, {
+        ...node.attrs,
+        width: updateWidth ? dom.clientWidth : node.attrs.width,
+        height: updateHeight ? dom.clientHeight : node.attrs.height,
+      })
+
+      return true
+    })
+  }
 
   const handleMove = (e: MouseEvent | TouchEvent): void => {
     if (!isResizing || !currentPosition) {
@@ -98,25 +120,47 @@ export function setupResizeHandlers(
     document.removeEventListener('mouseup', handleEnd)
     document.removeEventListener('touchend', handleEnd)
 
-    const pos = getPos()
-    if (pos === undefined) {
-      return
+    updateNodeSize()
+  }
+
+  const handleKeydown = (e: KeyboardEvent): void => {
+    // if we press escape, we stop resizing and stop all event handlers
+    // and also reset the initial dimensions
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation()
+
+      isResizing = false
+      currentPosition = null
+
+      document.removeEventListener('mousemove', handleMove)
+      document.removeEventListener('touchmove', handleMove)
+      document.removeEventListener('mouseup', handleEnd)
+      document.removeEventListener('touchend', handleEnd)
+      document.removeEventListener('keydown', handleKeydown)
+
+      dom.style.width = `${initialDimensions.width}px`
+      dom.style.height = `${initialDimensions.height}px`
+
+      updateNodeSize()
+
+      initialDimensions = {
+        width: dom.clientWidth,
+        height: dom.clientHeight,
+      }
+
+      document.removeEventListener('keydown', handleKeydown)
     }
-
-    editor.commands.command(({ tr }) => {
-      tr.setNodeMarkup(pos, undefined, {
-        ...node.attrs,
-        width: updateWidth ? dom.clientWidth : node.attrs.width,
-        height: updateHeight ? dom.clientHeight : node.attrs.height,
-      })
-
-      return true
-    })
   }
 
   const handleStart = (e: MouseEvent | TouchEvent): void => {
     e.preventDefault()
     e.stopPropagation()
+
+    initialDimensions = {
+      width: dom.clientWidth,
+      height: dom.clientHeight,
+    }
 
     isResizing = true
     currentPosition = {
@@ -128,6 +172,7 @@ export function setupResizeHandlers(
     document.addEventListener('touchmove', handleMove)
     document.addEventListener('mouseup', handleEnd)
     document.addEventListener('touchend', handleEnd)
+    document.addEventListener('keydown', handleKeydown)
   }
 
   element.addEventListener('mousedown', handleStart)
