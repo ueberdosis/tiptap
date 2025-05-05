@@ -117,7 +117,7 @@ context('/src/Extensions/TextAlign/Vue/', () => {
 
     cy.get('.tiptap')
       .find('p')
-      .should('have.css', 'text-align', 'left')
+      .should('have.css', 'text-align', 'start')
   })
 
   it('aligns the text left when pressing the keyboard shortcut', () => {
