@@ -104,9 +104,8 @@ context('/src/Extensions/TextAlign/Vue/', () => {
       .should('not.have.css', 'text-align', 'left')
   })
 
-  it('toggle the text to right on the 6rd button', () => {
-    cy.get('button:nth-child(6)')
-      .click()
+  it('toggle the text to right on the 6th button', () => {
+    cy.get('button:nth-child(6)').click()
 
     cy.get('.tiptap')
       .find('p')
@@ -115,9 +114,7 @@ context('/src/Extensions/TextAlign/Vue/', () => {
     cy.get('button:nth-child(6)')
       .click()
 
-    cy.get('.tiptap')
-      .find('p')
-      .should('have.css', 'text-align', 'left')
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'start')
   })
 
   it('aligns the text left when pressing the keyboard shortcut', () => {
