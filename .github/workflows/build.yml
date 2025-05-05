@@ -208,8 +208,4 @@ jobs:
 
       - name: Soft release
         id: soft-release
-        run: pnpm exec pkg-pr-new publish './packages/*' --compact
-
-      - name: Soft release legacy packages
-        id: soft-release-deprecated
-        run: pnpm exec pkg-pr-new publish './packages-deprecated/*' --compact
+        run: pnpm exec pkg-pr-new publish './packages/*' './packages-deprecated/*' --compact
