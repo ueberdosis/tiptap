@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.12.0
+
+### Minor Changes
+
+- 896f767: Update prosemirror-changeset library to support token encoders
+
 ## 2.11.9
 
 ## 2.11.8
