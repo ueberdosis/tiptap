@@ -1,5 +1,7 @@
 # Change Log
 
+## 3.0.0-pre.0
+
 ## 2.12.0
 
 ### Minor Changes

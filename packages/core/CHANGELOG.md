@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- 5de17c5: Fixes a bug where you could not unregister multiple plugins.
+- d88244d: Clone dragged node before dragging to get correct drag preview image
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.12.0
 
 ## 2.11.9
