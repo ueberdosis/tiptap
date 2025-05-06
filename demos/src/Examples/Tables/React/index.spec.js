@@ -121,4 +121,20 @@ context('/src/Examples/Tables/React/', () => {
       expect(elements[1].innerText).to.equal('Column 2')
     })
   })
+
+  it('should use parse function', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContentAt(0, '<table><tr><td></td></tr></table>', {
+        applyInputRules: true,
+        slice: false, // to use parse function
+      })
+
+      cy.get('.tiptap table').should('exist').within(() => {
+        cy.get('colgroup').should('exist')
+        cy.get('tbody').should('exist')
+        cy.get('tr').should('exist')
+        cy.get('td').should('exist')
+      })
+    })
+  })
 })
