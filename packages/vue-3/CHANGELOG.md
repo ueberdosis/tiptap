@@ -441,6 +441,34 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
 
+## 2.12.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.12.0
+- @tiptap/extension-floating-menu@2.12.0
+
+## 2.11.9
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.9
+- @tiptap/extension-floating-menu@2.11.9
+
+## 2.11.8
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.8
+- @tiptap/extension-floating-menu@2.11.8
+
+## 2.11.7
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.11.7
+- @tiptap/extension-floating-menu@2.11.7
+
 ## 2.11.6
 
 ### Patch Changes

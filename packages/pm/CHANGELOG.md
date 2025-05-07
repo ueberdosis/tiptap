@@ -52,6 +52,18 @@
 
 ## 3.0.0-next.0
 
+## 2.12.0
+
+### Minor Changes
+
+- 896f767: Update prosemirror-changeset library to support token encoders
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
+
 ## 2.11.6
 
 ### Patch Changes

@@ -68,6 +68,18 @@
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
 
+## 2.12.0
+
+## 2.11.9
+
+### Patch Changes
+
+- ab7a2ae: Added new `toggleTextAlign` command to TextAlign extension to make toggling text alignments easier to handle
+
+## 2.11.8
+
+## 2.11.7
+
 ## 2.11.6
 
 ## 2.11.5
