@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+  - @tiptap/extension-table@3.0.0-beta.5
+
 ## 3.0.0-beta.4
 
 ### Patch Changes

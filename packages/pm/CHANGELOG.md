@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0-beta.5
+
+### Minor Changes
+
+- 62b0877: Update prosemirror changeset to support token encoders
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+
 ## 3.0.0-beta.4
 
 ## 3.0.0-beta.3

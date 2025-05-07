@@ -1,6 +1,6 @@
 {
   "name": "tiptap-2-migrate-imports",
-  "version": "1.0.1-beta.1",
+  "version": "1.0.1-beta.2",
   "private": true,
   "devDependencies": {
     "@types/node": "20.9.0",
