@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+- Updated dependencies [62b0877]
+  - @tiptap/pm@3.0.0-beta.5
+
 ## 3.0.0-beta.4
 
 ### Major Changes
