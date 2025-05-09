@@ -137,7 +137,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.7.16
+        uses: cypress-io/github-action@v6.9.0
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           start: pnpm run serve
