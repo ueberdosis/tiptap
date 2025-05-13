@@ -16,16 +16,18 @@ export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
 })
 
 export type MarkViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'span'> = {
-  as?: NoInfer<T>
-} & React.ComponentProps<T>
+  as?: T
+} & Omit<React.ComponentProps<T>, 'as'>
 
-export const MarkViewContent: React.FC<MarkViewContentProps> = props => {
-  const Tag = props.as || 'span'
+export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 'span'>(
+  props: MarkViewContentProps<T>,
+) => {
+  const { as: Tag = 'span', ...rest } = props
   const { markViewContentRef } = React.useContext(ReactMarkViewContext)
 
   return (
     // @ts-ignore
-    <Tag {...props} ref={markViewContentRef} data-mark-view-content="" />
+    <Tag {...rest} ref={markViewContentRef} data-mark-view-content="" />
   )
 }
 
