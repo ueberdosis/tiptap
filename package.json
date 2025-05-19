@@ -14,7 +14,7 @@
     "start": "pnpm --prefix ./demos run start",
     "dev": "pnpm run start",
     "lint": "turbo run lint",
-    "lint:fix": "prettier . --write && eslint --fix --cache --quiet --no-error-on-unmatched-pattern ./",
+    "lint:fix": "prettier -w --log-level warn . && eslint --fix --cache --quiet --no-error-on-unmatched-pattern .",
     "lint:staged": "lint-staged",
     "test:open": "cypress open --project tests",
     "test:run": "cypress run --project tests",
