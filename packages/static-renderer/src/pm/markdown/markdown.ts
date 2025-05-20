@@ -17,6 +17,7 @@ export function renderToMarkdown({
   extensions: Extensions
   options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }) {
+  const { nodeMapping, markMapping, ...rest } = options ?? {}
   return renderToHTMLString({
     content,
     extensions,
@@ -92,7 +93,7 @@ export function renderToMarkdown({
         tableCell({ children }) {
           return serializeChildrenToHTMLString(children).trim()
         },
-        ...options?.nodeMapping,
+        ...nodeMapping,
       },
       markMapping: {
         bold({ children }) {
@@ -134,9 +135,9 @@ export function renderToMarkdown({
         highlight({ children }) {
           return `==${serializeChildrenToHTMLString(children)}==`
         },
-        ...options?.markMapping,
+        ...markMapping,
       },
-      ...options,
+      ...rest,
     },
   })
 }
