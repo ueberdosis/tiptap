@@ -3,10 +3,7 @@
     "module": "NodeNext",
     "target": "ESNext",
     "moduleResolution": "NodeNext",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -25,12 +22,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "allowJs": true
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.js",
-    "./test/**/*.ts",
-    "./test/**/*.js"
-  ],
+  "include": ["./src/**/*.ts", "./src/**/*.js", "./test/**/*.ts", "./test/**/*.js"],
   "exclude": ["node_modules", "./dist/**/*"],
   "ts-node": {
     "transpileOnly": true

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { FontSize , TextStyle } from '@tiptap/extension-text-style'
+import { FontSize, TextStyle } from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
