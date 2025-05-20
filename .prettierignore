@@ -1,0 +1,12 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+.turbo
+.changeset
+.github/**/*
+
+demos/dist/**/*
+demos/node_modules/**/*
+pnpm-lock.yaml
