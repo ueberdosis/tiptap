@@ -7,7 +7,7 @@ export function preserveAndRestoreNodeInternals<T>(operation: () => T): T {
   // Store the original process object
   // see https://github.com/ueberdosis/tiptap/issues/6368
   // eslint-disable-next-line
-  const originalProcess = globalThis?.process
+  const originalProcess = globalThis.process
 
   try {
     return operation()
