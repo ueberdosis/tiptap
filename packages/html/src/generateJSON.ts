@@ -2,6 +2,7 @@ import type { Extensions } from '@tiptap/core'
 import { getSchema } from '@tiptap/core'
 import type { ParseOptions } from '@tiptap/pm/model'
 import { DOMParser } from '@tiptap/pm/model'
+import type { Document as HappyDOMDocument } from 'happy-dom-without-node'
 
 import { createSafeParser } from './createSafeParser.js'
 import { createSafeWindow } from './createSafeWindow.js'
@@ -20,7 +21,7 @@ import { createSafeWindow } from './createSafeWindow.js'
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   const schema = getSchema(extensions)
-  let doc: any = null
+  let doc: Document | HappyDOMDocument | null = null
 
   if (typeof window === 'undefined') {
     const window = createSafeWindow()
@@ -29,6 +30,10 @@ export function generateJSON(html: string, extensions: Extensions, options?: Par
     doc = parser.parseFromString(html, 'text/html')
   } else {
     doc = new window.DOMParser().parseFromString(html, 'text/html')
+  }
+
+  if (!doc) {
+    throw new Error('Failed to parse HTML string')
   }
 
   return DOMParser.fromSchema(schema)
