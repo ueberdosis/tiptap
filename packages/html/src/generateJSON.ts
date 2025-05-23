@@ -2,7 +2,9 @@ import type { Extensions } from '@tiptap/core'
 import { getSchema } from '@tiptap/core'
 import type { ParseOptions } from '@tiptap/pm/model'
 import { DOMParser } from '@tiptap/pm/model'
-import { DOMParser as HappyDOMParser, Window as HappyDOMWindow } from 'happy-dom-without-node'
+
+import { createSafeParser } from './createSafeParser.js'
+import { createSafeWindow } from './createSafeWindow.js'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
@@ -18,11 +20,18 @@ import { DOMParser as HappyDOMParser, Window as HappyDOMWindow } from 'happy-dom
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   const schema = getSchema(extensions)
+  let doc: any = null
 
-  const parseInstance =
-    typeof window !== 'undefined' ? new window.DOMParser() : new HappyDOMParser(new HappyDOMWindow())
+  if (typeof window === 'undefined') {
+    const window = createSafeWindow()
+    const parser = createSafeParser(window)
+
+    doc = parser.parseFromString(html, 'text/html')
+  } else {
+    doc = new window.DOMParser().parseFromString(html, 'text/html')
+  }
 
   return DOMParser.fromSchema(schema)
-    .parse(parseInstance.parseFromString(html, 'text/html').body as Node, options)
+    .parse(doc.body as Node, options)
     .toJSON()
 }
