@@ -24,10 +24,10 @@ export function generateJSON(html: string, extensions: Extensions, options?: Par
   let doc: Document | HappyDOMDocument | null = null
 
   if (typeof window === 'undefined') {
-    const window = createSafeWindow()
-    const parser = createSafeParser(window)
+    const localWindow = createSafeWindow()
+    const localDOMParser = createSafeParser(localWindow)
 
-    doc = parser.parseFromString(html, 'text/html')
+    doc = localDOMParser.parseFromString(html, 'text/html')
   } else {
     doc = new window.DOMParser().parseFromString(html, 'text/html')
   }
