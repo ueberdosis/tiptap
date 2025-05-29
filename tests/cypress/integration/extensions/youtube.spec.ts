@@ -134,4 +134,60 @@ describe('extension-youtube', () => {
       })
     })
   })
+
+  it('parses live url', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Youtube,
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'youtube',
+            attrs: {
+              src: 'https://www.youtube.com/live/testvideoid',
+            },
+          },
+        ],
+      },
+    })
+
+    expect(editor.getHTML()).to.include('https://www.youtube.com/embed/testvideoid')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('parses shorts url', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Youtube,
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'youtube',
+            attrs: {
+              src: 'https://www.youtube.com/shorts/testvideoid',
+            },
+          },
+        ],
+      },
+    })
+
+    expect(editor.getHTML()).to.include('https://www.youtube.com/embed/testvideoid')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })
