@@ -29,6 +29,21 @@ function isForwardRefComponent(Component: any) {
   )
 }
 
+/**
+ * Check if a component is a lazy loaded
+ * @param Component
+ * @returns {boolean}
+ */
+function isLazyComponent(Component: any) {
+  const isLazy = typeof Component === 'object'
+    && Component.$$typeof?.toString() === 'Symbol(react.lazy)'
+
+  const isNextDynamic = typeof Component === 'function'
+    && Component.prototype.constructor.displayName === 'LoadableComponent'
+
+  return isLazy || isNextDynamic
+}
+
 export interface ReactRendererOptions {
   /**
    * The editor instance.
@@ -136,7 +151,13 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       }
     }
 
-    this.reactElement = <Component {...props} />
+    this.reactElement = isLazyComponent(Component) ? (
+      <React.Suspense>
+        <Component {...props} />
+      </React.Suspense>
+    ) : (
+      <Component {...props} />
+    )
 
     editor?.contentComponent?.setRenderer(this.id, this)
   }
