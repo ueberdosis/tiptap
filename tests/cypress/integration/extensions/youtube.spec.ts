@@ -85,4 +85,53 @@ describe('extension-youtube', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  describe('start timestamp', () => {
+    const timestamp = 60
+
+    const urls = [
+      {
+        url: `https://www.youtube.com/watch?v=testvideoid&t=${timestamp}s`,
+        expected: `https://www.youtube.com/embed/testvideoid?start=${timestamp}`,
+      },
+      {
+        url: `https://youtu.be/testvideoid?t=${timestamp}`,
+        expected: `https://www.youtube.com/embed/testvideoid?start=${timestamp}`,
+      },
+      {
+        url: `https://www.youtube.com/embed/testvideoid?start=${timestamp}`,
+        expected: `https://www.youtube.com/embed/testvideoid?start=${timestamp}`,
+      },
+    ]
+
+    urls.forEach(({ url, expected }) => {
+      it(`parses the start timestamp for url ${url}`, () => {
+        editor = new Editor({
+          element: createEditorEl(),
+          extensions: [
+            Document,
+            Text,
+            Paragraph,
+            Youtube,
+          ],
+          content: {
+            type: 'doc',
+            content: [
+              {
+                type: 'youtube',
+                attrs: {
+                  src: url,
+                },
+              },
+            ],
+          },
+        })
+
+        expect(editor.getHTML()).to.include(expected)
+
+        editor?.destroy()
+        getEditorEl()?.remove()
+      })
+    })
+  })
 })
