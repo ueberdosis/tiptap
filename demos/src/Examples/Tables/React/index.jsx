@@ -1,31 +1,86 @@
 import './styles.scss'
 
-import { TableCell, TableKit } from '@tiptap/extension-table'
+import { Table as TableExtension, TableCell as DefaultTableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { Plugin } from 'prosemirror-state'
+import { CellSelection } from 'prosemirror-tables'
 import React from 'react'
 
-const CustomTableCell = TableCell.extend({
+/**
+ * CustomTableCell
+ *
+ * 1) Extends the default TableCell so we can add a `backgroundColor` attribute.
+ * 2) Installs a tiny ProseMirror plugin that intercepts right-clicks (button === 2)
+ *    inside any cell that is already part of a multi-cell selection, and prevents
+ *    ProseMirror from collapsing that selection down to one cell.
+ */
+const CustomTableCell = DefaultTableCell.extend({
   addAttributes() {
     return {
-      // extend the existing attributes …
+      // Preserve any attributes that DefaultTableCell already had
       ...this.parent?.(),
 
-      // and add a new one …
+      // Add our custom backgroundColor attribute
       backgroundColor: {
         default: null,
         parseHTML: element => element.getAttribute('data-background-color'),
-        renderHTML: attributes => {
-          return {
-            'data-background-color': attributes.backgroundColor,
-            style: `background-color: ${attributes.backgroundColor}`,
-          }
-        },
+        renderHTML: attributes => ({
+          'data-background-color': attributes.backgroundColor,
+          style: `background-color: ${attributes.backgroundColor}`,
+        }),
       },
     }
   },
+
+  addProseMirrorPlugins() {
+    // Grab any plugins the base TableCell already registers
+    const parentPlugins = this.parent?.() || []
+
+    // This plugin’s sole job is to watch for event.button === 2 (right-click)
+    // inside a CellSelection range, and call preventDefault() if we’re already
+    // multi-selecting cells so ProseMirror does NOT collapse the selection.
+    const preventRightClickClearing = new Plugin({
+      props: {
+        handleDOMEvents: {
+          mousedown: (view, event) => {
+            // Only intercept “right-click”
+            if (event.button !== 2) {
+              return false
+            }
+
+            // Find the document position under the mouse
+            const { clientX, clientY } = event
+            const result = view.posAtCoords({ left: clientX, top: clientY })
+            if (!result) {
+              return false
+            }
+
+            const { pos } = result
+            const { selection } = view.state
+
+            // If we already have a CellSelection, check if pos is within it
+            if (selection instanceof CellSelection) {
+              const isInSelectedRange = selection.ranges.some(({ $from, $to }) => pos >= $from.pos && pos <= $to.pos)
+
+              if (isInSelectedRange) {
+                // Prevent ProseMirror’s default “collapse to one cell” behavior
+                event.preventDefault()
+                return true
+              }
+            }
+
+            return false
+          },
+        },
+      },
+    })
+
+    return [...parentPlugins, preventRightClickClearing]
+  },
 })
 
+/** Some example HTML we can insert via “Insert HTML table” */
 export const tableHTML = `
   <table style="width:100%">
     <tr>
@@ -51,6 +106,7 @@ export const tableHTML = `
   </table>
 `
 
+/** MenuBar component with all your table‐related buttons */
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null
@@ -67,11 +123,7 @@ const MenuBar = ({ editor }) => {
             editor
               .chain()
               .focus()
-              .insertContent(tableHTML, {
-                parseOptions: {
-                  preserveWhitespace: false,
-                },
-              })
+              .insertContent(tableHTML, { parseOptions: { preserveWhitespace: false } })
               .run()
           }
         >
@@ -111,7 +163,7 @@ const MenuBar = ({ editor }) => {
           onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
           disabled={!editor.can().toggleHeaderColumn()}
         >
-          ToggleHeaderColumn
+          Toggle header column
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeaderRow().run()}
@@ -151,31 +203,32 @@ const MenuBar = ({ editor }) => {
   )
 }
 
-export default () => {
+/** Main Editor component */
+export default function EditorWithTables() {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      TableKit.configure({
-        table: { resizable: true },
-        tableCell: false,
-      }),
-      // Default TableCell
-      // TableCell,
-      // Custom TableCell with backgroundColor attribute
+
+      // 1) Register the Table node itself, with resize enabled
+      TableExtension.configure({ resizable: true }),
+
+      // 2) Register the TableRow node
+      TableRow,
+
+      // 3) Register the TableHeader node (this also pulls in TableBody under the hood)
+      TableHeader,
+
+      // 4) Replace TableCell with our custom version (backgroundColor + right-click plugin)
       CustomTableCell,
     ],
     content: `
-      <h3>
-        Have you seen our tables? They are amazing!
-      </h3>
+      <h3>Have you seen our tables? They are amazing!</h3>
       <ul>
         <li>Tables with rows, cells and headers (optional)</li>
         <li>Support for <code>colgroup</code> and <code>rowspan</code></li>
         <li>And even resizable columns (optional)</li>
       </ul>
-      <p>
-        Here is an example:
-      </p>
+      <p>Here is an example:</p>
       <table>
         <tbody>
           <tr>

@@ -80,28 +80,70 @@
 </template>
 
 <script>
-import { TableCell, TableKit } from '@tiptap/extension-table'
+import './styles.scss'
+
+import { Table as TableExtension, TableCell as DefaultTableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Plugin } from 'prosemirror-state'
+import { CellSelection } from 'prosemirror-tables'
 
-const CustomTableCell = TableCell.extend({
+// Extend DefaultTableCell to add backgroundColor attribute and right-click preservation
+const CustomTableCell = DefaultTableCell.extend({
   addAttributes() {
     return {
-      // extend the existing attributes …
+      // Preserve existing attributes
       ...this.parent?.(),
 
-      // and add a new one …
+      // Add backgroundColor attribute
       backgroundColor: {
         default: null,
         parseHTML: element => element.getAttribute('data-background-color'),
-        renderHTML: attributes => {
-          return {
-            'data-background-color': attributes.backgroundColor,
-            style: `background-color: ${attributes.backgroundColor}`,
-          }
-        },
+        renderHTML: attributes => ({
+          'data-background-color': attributes.backgroundColor,
+          style: `background-color: ${attributes.backgroundColor}`,
+        }),
       },
     }
+  },
+
+  addProseMirrorPlugins() {
+    const parentPlugins = this.parent?.() || []
+
+    const preventRightClickClearing = new Plugin({
+      props: {
+        handleDOMEvents: {
+          mousedown: (view, event) => {
+            // Only intercept right-click
+            if (event.button !== 2) {
+              return false
+            }
+
+            const { clientX, clientY } = event
+            const result = view.posAtCoords({ left: clientX, top: clientY })
+            if (!result) {
+              return false
+            }
+
+            const { pos } = result
+            const { selection } = view.state
+
+            if (selection instanceof CellSelection) {
+              const isInSelectedRange = selection.ranges.some(({ $from, $to }) => pos >= $from.pos && pos <= $to.pos)
+
+              if (isInSelectedRange) {
+                event.preventDefault()
+                return true
+              }
+            }
+
+            return false
+          },
+        },
+      },
+    })
+
+    return [...parentPlugins, preventRightClickClearing]
   },
 })
 
@@ -114,28 +156,28 @@ export default {
     return {
       editor: null,
       tableHTML: `
-  <table style="width:100%">
-    <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Age</th>
-    </tr>
-    <tr>
-      <td>Jill</td>
-      <td>Smith</td>
-      <td>50</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td>
-      <td>94</td>
-    </tr>
-    <tr>
-      <td>John</td>
-      <td>Doe</td>
-      <td>80</td>
-    </tr>
-  </table>`,
+        <table style="width:100%">
+          <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+          </tr>
+          <tr>
+            <td>Jill</td>
+            <td>Smith</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>Eve</td>
+            <td>Jackson</td>
+            <td>94</td>
+          </tr>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>80</td>
+          </tr>
+        </table>`,
     }
   },
 
@@ -143,29 +185,22 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        TableKit.configure({
-          table: {
-            resizable: true,
-          },
-          tableCell: false,
-        }),
-        // Default TableCell
-        // TableCell,
-        // Custom TableCell with backgroundColor attribute
+        // Register Table node with resizable columns
+        TableExtension.configure({ resizable: true }),
+        // Register TableRow and TableHeader
+        TableRow,
+        TableHeader,
+        // Use our CustomTableCell (backgroundColor + right-click plugin)
         CustomTableCell,
       ],
       content: `
-        <h3>
-          Have you seen our tables? They are amazing!
-        </h3>
+        <h3>Have you seen our tables? They are amazing!</h3>
         <ul>
           <li>Tables with rows, cells and headers (optional)</li>
           <li>Support for <code>colgroup</code> and <code>rowspan</code></li>
           <li>And even resizable columns (optional)</li>
         </ul>
-        <p>
-          Here is an example:
-        </p>
+        <p>Here is an example:</p>
         <table>
           <tbody>
             <tr>
