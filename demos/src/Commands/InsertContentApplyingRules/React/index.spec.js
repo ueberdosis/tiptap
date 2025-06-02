@@ -4,7 +4,9 @@ context('/src/Commands/InsertContentApplyingRules/React/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should apply list InputRule', () => {

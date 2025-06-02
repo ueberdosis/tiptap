@@ -37,7 +37,7 @@ export const TableHeader = Node.create<TableHeaderOptions>({
         parseHTML: element => {
           const colwidth = element.getAttribute('colwidth')
           const value = colwidth
-            ? [parseInt(colwidth, 10)]
+            ? colwidth.split(',').map(width => parseInt(width, 10))
             : null
 
           return value

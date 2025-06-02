@@ -5,7 +5,7 @@ export interface NodeViewWrapperInterface extends Vue {
   decorationClasses: {
     value: string,
   },
-  onDragStart: Function,
+  onDragStart: () => void,
 }
 
 export const NodeViewWrapper: Component = {

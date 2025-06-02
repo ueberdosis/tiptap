@@ -1,5 +1,5 @@
 import { NodeSelection } from '@tiptap/pm/state'
-import { NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { Editor as CoreEditor } from './Editor.js'
 import { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'
@@ -98,7 +98,9 @@ export class NodeView<
       y = handleBox.y - domBox.y + offsetY
     }
 
-    event.dataTransfer?.setDragImage(this.dom, x, y)
+    const clonedNode = this.dom.cloneNode(true) as HTMLElement
+
+    event.dataTransfer?.setDragImage(clonedNode, x, y)
 
     const pos = this.getPos()
 
@@ -154,11 +156,11 @@ export class NodeView<
     // ProseMirror tries to drag selectable nodes
     // even if `draggable` is set to `false`
     // this fix prevents that
-    if (!isDraggable && isSelectable && isDragEvent) {
+    if (!isDraggable && isSelectable && isDragEvent && event.target === this.dom) {
       event.preventDefault()
     }
 
-    if (isDraggable && isDragEvent && !isDragging) {
+    if (isDraggable && isDragEvent && !isDragging && event.target === this.dom) {
       event.preventDefault()
       return false
     }
@@ -217,7 +219,7 @@ export class NodeView<
    * @return `false` if the editor should re-read the selection or re-parse the range around the mutation
    * @return `true` if it can safely be ignored.
    */
-  ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+  ignoreMutation(mutation: ViewMutationRecord) {
     if (!this.dom || !this.contentDOM) {
       return true
     }

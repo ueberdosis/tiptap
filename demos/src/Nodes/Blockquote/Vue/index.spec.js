@@ -97,8 +97,7 @@ context('/src/Nodes/Blockquote/Vue/', () => {
 
   it('should make a blockquote from markdown shortcuts', () => {
     cy.get('.tiptap')
-      .realType('> Quote')
-    cy.get('.tiptap')
+      .type('> Quote')
       .find('blockquote')
       .should('contain', 'Quote')
   })

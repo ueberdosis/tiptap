@@ -4,7 +4,9 @@ context('/src/Examples/Tasks/React/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should always use task items', () => {

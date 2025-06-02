@@ -33,7 +33,7 @@ export const joinItemBackward: RawCommands['joinItemBackward'] = () => ({
     }
 
     return true
-  } catch (e) {
+  } catch {
     return false
   }
 }

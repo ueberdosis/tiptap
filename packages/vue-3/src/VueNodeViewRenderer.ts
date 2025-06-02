@@ -48,6 +48,18 @@ export const nodeViewProps = {
     type: Function as PropType<NodeViewProps['deleteNode']>,
     required: true as const,
   },
+  view: {
+    type: Object as PropType<NodeViewProps['view']>,
+    required: true as const,
+  },
+  innerDecorations: {
+    type: Object as PropType<NodeViewProps['innerDecorations']>,
+    required: true as const,
+  },
+  HTMLAttributes: {
+    type: Object as PropType<NodeViewProps['HTMLAttributes']>,
+    required: true as const,
+  },
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {

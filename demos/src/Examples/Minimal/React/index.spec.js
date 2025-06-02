@@ -4,7 +4,9 @@ context('/src/Examples/Minimal/React/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('text should be wrapped in a paragraph by default', () => {

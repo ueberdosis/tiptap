@@ -9,10 +9,17 @@ context('/src/Extensions/TextAlign/React/', () => {
     })
   })
 
-  it('should parse left align text correctly (and not render)', () => {
+  it('should parse a null alignment correctly', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+    })
+  })
+
+  it('should parse left align text correctly', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p style="text-align: left">Example Text</p>')
-      expect(editor.getHTML()).to.eq('<p>Example Text</p>')
+      expect(editor.getHTML()).to.eq('<p style="text-align: left">Example Text</p>')
     })
   })
 
@@ -55,7 +62,7 @@ context('/src/Extensions/TextAlign/React/', () => {
   it('aligns the text left on the 1st button', () => {
     cy.get('button:nth-child(1)').click()
 
-    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'left')
   })
 
   it('aligns the text center on the 2nd button', () => {
@@ -82,11 +89,19 @@ context('/src/Extensions/TextAlign/React/', () => {
     cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'left')
   })
 
+  it('toggle the text to right on the 6th button', () => {
+    cy.get('button:nth-child(6)').click()
+    cy.get('.tiptap').find('p').should('have.css', 'text-align', 'right')
+
+    cy.get('button:nth-child(6)').click()
+    cy.get('.tiptap').find('p').should('not.have.css', 'text-align', 'right')
+  })
+
   it('aligns the text left when pressing the keyboard shortcut', () => {
     cy.get('.tiptap')
       .trigger('keydown', { modKey: true, shiftKey: true, key: 'l' })
       .find('p')
-      .should('not.have.css', 'text-align', 'left')
+      .should('have.css', 'text-align', 'left')
   })
 
   it('aligns the text center when pressing the keyboard shortcut', () => {

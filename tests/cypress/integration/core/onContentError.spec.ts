@@ -134,16 +134,23 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({ name: 'collaboration' })],
+      extensions: [Document, Paragraph, Text, Extension.create({
+        name: 'collaboration',
+        addStorage() {
+          return {
+            isDisabled: false,
+          }
+        },
+      })],
       enableContentCheck: true,
       onContentError: args => {
         args.disableCollaboration()
-        expect(args.editor.extensionManager.extensions.find(extension => extension.name === 'collaboration')).to.eq(undefined)
+        expect(args.editor.storage.collaboration.isDisabled).to.eq(true)
       },
     })
 
     expect(editor.getText()).to.eq('')
-    expect(editor.extensionManager.extensions.find(extension => extension.name === 'collaboration')).to.eq(undefined)
+    expect(editor.storage.collaboration.isDisabled).to.eq(true)
   })
 
   it('does not remove the collaboration extension when has valid content (when enableContentCheck = true)', () => {
@@ -164,14 +171,22 @@ describe('onContentError', () => {
 
     const editor = new Editor({
       content: json,
-      extensions: [Document, Paragraph, Text, Extension.create({ name: 'collaboration' })],
+      extensions: [Document, Paragraph, Text, Extension.create({
+        name: 'collaboration',
+        addStorage() {
+          return {
+            isDisabled: false,
+          }
+        },
+      })],
       enableContentCheck: true,
       onContentError: () => {
+        // Should not be called, so we fail the test
         expect(true).to.eq(false)
       },
     })
 
     expect(editor.getText()).to.eq('Example Text')
-    expect(editor.extensionManager.extensions.find(extension => extension.name === 'collaboration')).to.not.eq(undefined)
+    expect(editor.storage.collaboration.isDisabled).to.eq(false)
   })
 })

@@ -69,10 +69,12 @@ context('/src/Nodes/OrderedList/Vue/', () => {
   })
 
   it('should leave the list with double enter', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('1. List Item 1{enter}{enter}Paragraph')
+      .type('1. List Item 1{enter}{enter}Paragraph')
 
     cy.get('.tiptap')
       .find('li')
@@ -85,10 +87,12 @@ context('/src/Nodes/OrderedList/Vue/', () => {
   })
 
   it('should make a ordered list from a number', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('1. List Item 1{enter}List Item 2')
+      .type('1. List Item 1{enter}List Item 2')
 
     cy.get('.tiptap')
       .find('li:nth-child(1)')
@@ -100,20 +104,24 @@ context('/src/Nodes/OrderedList/Vue/', () => {
   })
 
   it('should make a ordered list from a number other than number one', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('2. List Item 1{enter}List Item 2')
+      .type('2. List Item 1{enter}List Item 2')
 
     cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
     cy.get('.tiptap').find('li:nth-child(2)').should('contain', 'List Item 2')
   })
 
   it('should remove the ordered list after pressing backspace', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('1. {backspace}Example')
+      .type('1. {backspace}Example')
 
     cy.get('.tiptap')
       .find('p')

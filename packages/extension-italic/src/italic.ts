@@ -79,6 +79,10 @@ export const Italic = Mark.create<ItalicOptions>({
         getAttrs: node => (node as HTMLElement).style.fontStyle !== 'normal' && null,
       },
       {
+        style: 'font-style=normal',
+        clearMark: mark => mark.type.name === this.name,
+      },
+      {
         style: 'font-style=italic',
       },
     ]

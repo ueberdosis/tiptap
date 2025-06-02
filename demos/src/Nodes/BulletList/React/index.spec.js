@@ -49,7 +49,9 @@ context('/src/Nodes/BulletList/React/', () => {
   })
 
   it('should leave the list with double enter', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap').type('- List Item 1{enter}{enter}Paragraph')
 
@@ -66,9 +68,11 @@ context('/src/Nodes/BulletList/React/', () => {
   })
 
   it('should make a bullet list from an asterisk', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('* List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('* List Item 1{enter}List Item 2')
 
     cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
 
@@ -76,9 +80,11 @@ context('/src/Nodes/BulletList/React/', () => {
   })
 
   it('should make a bullet list from a dash', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('- List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('- List Item 1{enter}List Item 2')
 
     cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
 
@@ -86,9 +92,11 @@ context('/src/Nodes/BulletList/React/', () => {
   })
 
   it('should make a bullet list from a plus', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('+ List Item 1{enter}List Item 2')
+    cy.get('.tiptap').type('+ List Item 1{enter}List Item 2')
 
     cy.get('.tiptap').find('li:nth-child(1)').should('contain', 'List Item 1')
 
@@ -96,9 +104,11 @@ context('/src/Nodes/BulletList/React/', () => {
   })
 
   it('should remove the bullet list after pressing backspace', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
-    cy.get('.tiptap').realType('* {backspace}Example')
+    cy.get('.tiptap').type('* {backspace}Example')
 
     cy.get('.tiptap').find('p').should('contain', '* Example')
   })

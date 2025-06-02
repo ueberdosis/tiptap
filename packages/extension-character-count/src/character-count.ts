@@ -16,6 +16,18 @@ export interface CharacterCountOptions {
    * @example 'textSize'
    */
   mode: 'textSize' | 'nodeSize'
+  /**
+ * The text counter function to use. Defaults to a simple character count.
+ * @default (text) => text.length
+ * @example (text) => [...new Intl.Segmenter().segment(text)].length
+ */
+  textCounter: (text: string) => number
+  /**
+   * The word counter function to use. Defaults to a simple word count.
+   * @default (text) => text.split(' ').filter(word => word !== '').length
+   * @example (text) => text.split(/\s+/).filter(word => word !== '').length
+   */
+  wordCounter: (text: string) => number
 }
 
 export interface CharacterCountStorage {
@@ -46,6 +58,8 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     return {
       limit: null,
       mode: 'textSize',
+      textCounter: text => text.length,
+      wordCounter: text => text.split(' ').filter(word => word !== '').length,
     }
   },
 
@@ -64,7 +78,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
       if (mode === 'textSize') {
         const text = node.textBetween(0, node.content.size, undefined, ' ')
 
-        return text.length
+        return this.options.textCounter(text)
       }
 
       return node.nodeSize
@@ -73,16 +87,45 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     this.storage.words = options => {
       const node = options?.node || this.editor.state.doc
       const text = node.textBetween(0, node.content.size, ' ', ' ')
-      const words = text.split(' ').filter(word => word !== '')
 
-      return words.length
+      return this.options.wordCounter(text)
     }
   },
 
   addProseMirrorPlugins() {
+    let initialEvaluationDone = false
+
     return [
       new Plugin({
         key: new PluginKey('characterCount'),
+        appendTransaction: (transactions, oldState, newState) => {
+          if (initialEvaluationDone) {
+            return
+          }
+
+          const limit = this.options.limit
+
+          if (limit === null || limit === undefined || limit === 0) {
+            initialEvaluationDone = true
+            return
+          }
+
+          const initialContentSize = this.storage.characters({ node: newState.doc })
+
+          if (initialContentSize > limit) {
+            const over = initialContentSize - limit
+            const from = 0
+            const to = over
+
+            console.warn(`[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`)
+            const tr = newState.tr.deleteRange(from, to)
+
+            initialEvaluationDone = true
+            return tr
+          }
+
+          initialEvaluationDone = true
+        },
         filterTransaction: (transaction, state) => {
           const limit = this.options.limit
 

@@ -21,6 +21,13 @@ declare module '@tiptap/core' {
 export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => ({ state, dispatch, chain }) => {
   const type = getNodeType(typeOrName, state.schema)
 
+  let attributesToCopy: Record<string, any> | undefined
+
+  if (state.selection.$anchor.sameParent(state.selection.$head)) {
+    // only copy attributes if the selection is pointing to a node of the same type
+    attributesToCopy = state.selection.$anchor.parent.attrs
+  }
+
   // TODO: use a fallback like insertContent?
   if (!type.isTextblock) {
     console.warn('[tiptap warn]: Currently "setNode()" only supports text block nodes.')
@@ -32,7 +39,7 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
     chain()
     // try to convert node to default node if needed
       .command(({ commands }) => {
-        const canSetBlock = setBlockType(type, attributes)(state)
+        const canSetBlock = setBlockType(type, { ...attributesToCopy, ...attributes })(state)
 
         if (canSetBlock) {
           return true
@@ -41,7 +48,7 @@ export const setNode: RawCommands['setNode'] = (typeOrName, attributes = {}) => 
         return commands.clearNodes()
       })
       .command(({ state: updatedState }) => {
-        return setBlockType(type, attributes)(updatedState, dispatch)
+        return setBlockType(type, { ...attributesToCopy, ...attributes })(updatedState, dispatch)
       })
       .run()
   )

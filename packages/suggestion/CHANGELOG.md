@@ -1,5 +1,65 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Patch Changes
+
+- ec8d654: Added a new option `allowToIncludeChar` that allows the usage of the suggestion char inside the query
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- daad533: Dropdowns from the suggestion utility couldn't be closed with the `Esc` key
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

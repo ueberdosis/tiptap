@@ -16,6 +16,15 @@ export const handleDelete = (editor: Editor, name: string) => {
     return false
   }
 
+  // if the selection is not collapsed, or not within a single node
+  // do nothing and proceed
+  const { selection } = editor.state
+  const { $from, $to } = selection
+
+  if (!selection.empty && $from.sameParent($to)) {
+    return false
+  }
+
   // check if the next node is a list with a deeper depth
   if (nextListIsDeeper(name, editor.state)) {
     return editor

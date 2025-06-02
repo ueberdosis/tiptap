@@ -14,6 +14,27 @@ context('/src/Commands/SetContent/React/', () => {
     })
   })
 
+  it('should insert raw JSON content', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent({ type: 'paragraph', content: [{ type: 'text', text: 'Hello World.' }] })
+      cy.get('.tiptap').should('contain.html', '<p>Hello World.</p>')
+    })
+  })
+
+  it('should insert a Prosemirror Node as content', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent(editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
+      cy.get('.tiptap').should('contain.html', '<p>Hello World.</p>')
+    })
+  })
+
+  it('should insert a Prosemirror Fragment as content', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.setContent(editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.'))).content)
+      cy.get('.tiptap').should('contain.html', '<p>Hello World.</p>')
+    })
+  })
+
   it('should emit updates', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       let updateCount = 0

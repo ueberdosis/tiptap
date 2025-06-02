@@ -1,5 +1,70 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: add zero-width space to resolve cursor selection issue
+
+## 2.9.1
+
+## 2.9.0
+
+### Patch Changes
+
+- ae711ab: Increase mention extension priority to allow mentions to be inserted in lists using the Enter key
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
+### Patch Changes
+
+- da8fcf3: Add support for cross-window institation with mentions
+- 8a55cdd: Mentions would sometimes not show up if one was declined and a new one followed afterward. Was introduced by PR (#4380)
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

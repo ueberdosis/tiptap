@@ -49,7 +49,7 @@ export const FloatingMenu = (props: FloatingMenuProps) => {
     })
 
     menuEditor.registerPlugin(plugin)
-    return () => menuEditor.unregisterPlugin(pluginKey)
+    return () => { menuEditor.unregisterPlugin(pluginKey) }
   }, [
     props.editor,
     currentEditor,

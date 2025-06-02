@@ -27,10 +27,7 @@ context('/src/Examples/InteractivityComponentContent/Vue/', () => {
     cy.get('.tiptap .vue-component .content')
       .invoke('attr', 'contentEditable', true)
       .invoke('text', '')
-      .click()
-    cy.get('.tiptap .vue-component .content')
-      .realType('Hello World! This is **bold**.')
-    cy.get('.tiptap .vue-component .content')
+      .type('Hello World! This is **bold**.')
       .should('have.text', 'Hello World! This is bold.')
 
     cy.get('.tiptap .vue-component .content strong')

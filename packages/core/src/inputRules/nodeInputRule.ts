@@ -7,7 +7,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 /**
  * Build an input rule that adds a node when the
  * matched text is typed into it.
- * @see https://tiptap.dev/guide/custom-extensions/#input-rules
+ * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
 export function nodeInputRule(config: {
   /**

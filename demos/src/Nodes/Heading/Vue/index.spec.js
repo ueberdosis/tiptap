@@ -108,29 +108,35 @@ context('/src/Nodes/Heading/Vue/', () => {
   })
 
   it('should make a h1 from the default markdown shortcut', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('# Headline')
-    cy.get('.tiptap').find('h1')
+      .type('# Headline')
+      .find('h1')
       .should('contain', 'Headline')
   })
 
   it('should make a h2 from the default markdown shortcut', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('## Headline')
-    cy.get('.tiptap').find('h2')
+      .type('## Headline')
+      .find('h2')
       .should('contain', 'Headline')
   })
 
   it('should make a h3 from the default markdown shortcut', () => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
 
     cy.get('.tiptap')
-      .realType('### Headline')
-    cy.get('.tiptap').find('h3')
+      .type('### Headline')
+      .find('h3')
       .should('contain', 'Headline')
   })
 })

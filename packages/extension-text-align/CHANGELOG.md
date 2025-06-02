@@ -1,5 +1,69 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+### Patch Changes
+
+- ab7a2ae: Added new `toggleTextAlign` command to TextAlign extension to make toggling text alignments easier to handle
+
+## 2.11.8
+
+## 2.11.7
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+### Patch Changes
+
+- 49402f6: Modify the documentation of the default value of defaultAlignment so that it matches the code
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Patch Changes
+
+- ce91452: Fixed an issue that caused defaultAlignment options not being added as text-styles to elements. defaultAlignment is now nullable to **disable the enforced text-align styles**.
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

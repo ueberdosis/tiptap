@@ -73,20 +73,26 @@ export class Editor extends CoreEditor {
   public registerPlugin(
     plugin: Plugin,
     handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
-  ): void {
-    super.registerPlugin(plugin, handlePlugins)
+  ): EditorState {
+    const nextState = super.registerPlugin(plugin, handlePlugins)
+
     if (this.reactiveState) {
-      this.reactiveState.value = this.view.state
+      this.reactiveState.value = nextState
     }
+
+    return nextState
   }
 
   /**
    * Unregister a ProseMirror plugin.
    */
-  public unregisterPlugin(nameOrPluginKey: string | PluginKey): void {
-    super.unregisterPlugin(nameOrPluginKey)
-    if (this.reactiveState) {
-      this.reactiveState.value = this.view.state
+  public unregisterPlugin(nameOrPluginKey: string | PluginKey): EditorState | undefined {
+    const nextState = super.unregisterPlugin(nameOrPluginKey)
+
+    if (this.reactiveState && nextState) {
+      this.reactiveState.value = nextState
     }
+
+    return nextState
   }
 }

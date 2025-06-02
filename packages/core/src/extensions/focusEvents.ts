@@ -2,6 +2,8 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { Extension } from '../Extension.js'
 
+export const focusEventsPluginKey = new PluginKey('focusEvents')
+
 export const FocusEvents = Extension.create({
   name: 'focusEvents',
 
@@ -10,7 +12,7 @@ export const FocusEvents = Extension.create({
 
     return [
       new Plugin({
-        key: new PluginKey('focusEvents'),
+        key: focusEventsPluginKey,
         props: {
           handleDOMEvents: {
             focus: (view, event: Event) => {

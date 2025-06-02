@@ -1,5 +1,69 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+### Patch Changes
+
+- 86250c6: Improve selected text deletion at the end of list items
+
+## 2.10.4
+
+## 2.10.3
+
+### Patch Changes
+
+- 4fe85b2: Improve selected text deletion at the end of list items
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+### Patch Changes
+
+- 7619215: Fix backspace behavior when selection is not collapsed
+
+## 2.9.1
+
+## 2.9.0
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

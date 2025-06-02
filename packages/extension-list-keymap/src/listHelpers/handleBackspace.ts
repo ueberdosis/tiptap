@@ -12,6 +12,12 @@ export const handleBackspace = (editor: Editor, name: string, parentListTypes: s
     return true
   }
 
+  // if the selection is not collapsed
+  // we can rely on the default backspace behavior
+  if (editor.state.selection.from !== editor.state.selection.to) {
+    return false
+  }
+
   // if the current item is NOT inside a list item &
   // the previous item is a list (orderedList or bulletList)
   // move the cursor into the list and delete the current item

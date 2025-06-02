@@ -117,7 +117,7 @@ export const Heading = Node.create<HeadingOptions>({
   addInputRules() {
     return this.options.levels.map(level => {
       return textblockTypeInputRule({
-        find: new RegExp(`^(#{1,${level}})\\s$`),
+        find: new RegExp(`^(#{${Math.min(...this.options.levels)},${level}})\\s$`),
         type: this.type,
         getAttributes: {
           level,

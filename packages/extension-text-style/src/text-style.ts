@@ -1,5 +1,4 @@
 import {
-  getMarkAttributes,
   Mark,
   mergeAttributes,
 } from '@tiptap/core'
@@ -11,6 +10,14 @@ export interface TextStyleOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>,
+  /**
+   * When enabled, merges the styles of nested spans into the child span during HTML parsing.
+   * This prioritizes the style of the child span.
+   * Used when parsing content created in other editors.
+   * (Fix for ProseMirror's default behavior.)
+   * @default false
+   */
+  mergeNestedSpanStyles: boolean,
 }
 
 declare module '@tiptap/core' {
@@ -23,6 +30,21 @@ declare module '@tiptap/core' {
       removeEmptyTextStyle: () => ReturnType,
     }
   }
+}
+
+const mergeNestedSpanStyles = (element: HTMLElement) => {
+  if (!element.children.length) { return }
+  const childSpans = element.querySelectorAll('span')
+
+  if (!childSpans) { return }
+
+  childSpans.forEach(childSpan => {
+    const childStyle = childSpan.getAttribute('style')
+    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
+
+    childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
+
+  })
 }
 
 /**
@@ -38,6 +60,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      mergeNestedSpanStyles: false,
     }
   },
 
@@ -51,6 +74,7 @@ export const TextStyle = Mark.create<TextStyleOptions>({
           if (!hasStyles) {
             return false
           }
+          if (this.options.mergeNestedSpanStyles) { mergeNestedSpanStyles(element) }
 
           return {}
         },
@@ -64,15 +88,34 @@ export const TextStyle = Mark.create<TextStyleOptions>({
 
   addCommands() {
     return {
-      removeEmptyTextStyle: () => ({ state, commands }) => {
-        const attributes = getMarkAttributes(state, this.type)
-        const hasStyles = Object.entries(attributes).some(([, value]) => !!value)
+      removeEmptyTextStyle: () => ({ tr }) => {
 
-        if (hasStyles) {
-          return true
-        }
+        const { selection } = tr
 
-        return commands.unsetMark(this.name)
+        // Gather all of the nodes within the selection range.
+        // We would need to go through each node individually
+        // to check if it has any inline style attributes.
+        // Otherwise, calling commands.unsetMark(this.name)
+        // removes everything from all the nodes
+        // within the selection range.
+        tr.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+
+          // Check if it's a paragraph element, if so, skip this node as we apply
+          // the text style to inline text nodes only (span).
+          if (node.isTextblock) {
+            return true
+          }
+
+          // Check if the node has no inline style attributes.
+          // Filter out non-`textStyle` marks.
+          if (
+            !node.marks.filter(mark => mark.type === this.type).some(mark => Object.values(mark.attrs).some(value => !!value))) {
+            // Proceed with the removal of the `textStyle` mark for this node only
+            tr.removeMark(pos, pos + node.nodeSize, this.type)
+          }
+        })
+
+        return true
       },
     }
   },

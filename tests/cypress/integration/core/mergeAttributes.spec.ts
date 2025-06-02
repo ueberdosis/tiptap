@@ -59,7 +59,7 @@ describe('mergeAttributes', () => {
   })
 
   it('should ignore falsy values', () => {
-    const value = mergeAttributes(undefined, { class: 'foo' })
+    const value = mergeAttributes(undefined as any, { class: 'foo' })
 
     expect(value).to.deep.eq({
       class: 'foo',

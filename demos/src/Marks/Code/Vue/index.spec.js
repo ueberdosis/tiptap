@@ -64,8 +64,7 @@ context('/src/Marks/Code/Vue/', () => {
 
   it('should make inline code from the markdown shortcut', () => {
     cy.get('.tiptap')
-      .realType('`Example`')
-    cy.get('.tiptap')
+      .type('`Example`')
       .find('code')
       .should('contain', 'Example')
   })

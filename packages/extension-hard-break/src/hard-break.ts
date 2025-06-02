@@ -48,6 +48,8 @@ export const HardBreak = Node.create<HardBreakOptions>({
 
   selectable: false,
 
+  linebreakReplacement: true,
+
   parseHTML() {
     return [
       { tag: 'br' },

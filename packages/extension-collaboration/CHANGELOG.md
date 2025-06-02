@@ -1,5 +1,61 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
+
+## 2.11.6
+
+## 2.11.5
+
+## 2.11.4
+
+## 2.11.3
+
+## 2.11.2
+
+## 2.11.1
+
+## 2.11.0
+
+## 2.10.4
+
+## 2.10.3
+
+## 2.10.2
+
+## 2.10.1
+
+## 2.10.0
+
+## 2.9.1
+
+## 2.9.0
+
+### Minor Changes
+
+- 873a67c: When collaborating on a document, a client may send changes which are invalid to the current client. This change makes it so that the client can be disabled from synchronizing any further changes to avoid the default behavior of stripping unknown content. This would allow the other client to continue editing on the document while still synchronizing any known changes.
+
+## 2.8.0
+
+### Minor Changes
+
+- 6834a7f: Bundling of packages no longer includes tiptap dependency type definitions
+
+## 2.7.4
+
+## 2.7.3
+
+## 2.7.2
+
+## 2.7.1
+
+## 2.7.0
+
 ## 2.7.0-pre.0
 
 ### Patch Changes

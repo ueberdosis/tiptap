@@ -4,7 +4,9 @@ context('/src/Nodes/Paragraph/Vue/', () => {
   })
 
   beforeEach(() => {
-    cy.resetEditor()
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.clearContent()
+    })
   })
 
   it('should parse paragraphs correctly', () => {

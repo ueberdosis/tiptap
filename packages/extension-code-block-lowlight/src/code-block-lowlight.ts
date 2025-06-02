@@ -18,6 +18,11 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
     return {
       ...this.parent?.(),
       lowlight: {},
+      languageClassPrefix: 'language-',
+      exitOnTripleEnter: true,
+      exitOnArrowDown: true,
+      defaultLanguage: null,
+      HTMLAttributes: {},
     }
   },
 
