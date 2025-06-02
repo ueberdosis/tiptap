@@ -119,7 +119,7 @@ export class NodeView<
     }
 
     if (typeof this.options.stopEvent === 'function') {
-      const shouldStopEvent = return this.options.stopEvent({ event })
+      const shouldStopEvent = this.options.stopEvent({ event })
       if (shouldStopEvent !== null) {
         return shouldStopEvent;
       }
