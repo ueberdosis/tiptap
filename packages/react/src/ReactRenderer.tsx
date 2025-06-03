@@ -120,7 +120,8 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     const props = this.props
     const editor = this.editor as EditorWithContentComponent
 
-    if (isClassComponent(Component) || isForwardRefComponent(Component)) {
+    // If this is a class component OR we don't run React 19, we have to manually set the ref on the component
+    if (!isClassComponent(Component) || (isForwardRefComponent(Component) && !props.ref)) {
       // @ts-ignore This is a hack to make the ref work
       props.ref = (ref: R) => {
         this.ref = ref
