@@ -2,8 +2,8 @@ import type { DecorationWithType, Editor, NodeViewRenderer, NodeViewRendererOpti
 import { getRenderedAttributes, NodeView } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import type { ComponentType } from 'react'
-import React from 'react'
+import type { ComponentType, FunctionComponent } from 'react'
+import { createElement, createRef, memo } from 'react'
 
 import type { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
@@ -78,7 +78,7 @@ export class ReactNodeView<
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-      ref: React.createRef<HTMLElement>(),
+      ref: createRef<HTMLElement>(),
     } satisfies ReactNodeViewProps
 
     if (!(this.component as any).displayName) {
@@ -99,10 +99,10 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: React.FunctionComponent<ReactNodeViewProps<T>> = React.memo(componentProps => {
+    const ReactNodeViewProvider: FunctionComponent<ReactNodeViewProps<T>> = memo(componentProps => {
       return (
         <ReactNodeViewContext.Provider value={context}>
-          {React.createElement(Component, componentProps)}
+          {createElement(Component, componentProps)}
         </ReactNodeViewContext.Provider>
       )
     })
