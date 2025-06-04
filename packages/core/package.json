@@ -48,7 +48,8 @@
   "files": [
     "src",
     "dist",
-    "jsx-runtime"
+    "jsx-runtime",
+    "jsx-dev-runtime"
   ],
   "devDependencies": {
     "@tiptap/pm": "workspace:*"
