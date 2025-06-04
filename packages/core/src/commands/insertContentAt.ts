@@ -72,6 +72,18 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     let content: Fragment | ProseMirrorNode
 
+    const emitContentError = (error: Error) => {
+      editor.emit('contentError', {
+        editor,
+        error,
+        disableCollaboration: () => {
+          if (editor.storage.collaboration) {
+            editor.storage.collaboration.isDisabled = true
+          }
+        },
+      })
+    }
+
     try {
       content = createNodeFromContent(value, editor.schema, {
         parseOptions: {
@@ -79,17 +91,10 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
           ...options.parseOptions,
         },
         errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+        onIgnoredError: editor.options.emitContentError ? emitContentError : undefined,
       })
     } catch (e) {
-      editor.emit('contentError', {
-        editor,
-        error: e as Error,
-        disableCollaboration: () => {
-          if (editor.storage.collaboration) {
-            editor.storage.collaboration.isDisabled = true
-          }
-        },
-      })
+      emitContentError(e as Error)
       return false
     }
 
