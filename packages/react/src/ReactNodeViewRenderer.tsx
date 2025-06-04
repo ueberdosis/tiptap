@@ -2,7 +2,7 @@ import type { DecorationWithType, Editor, NodeViewRenderer, NodeViewRendererOpti
 import { getRenderedAttributes, NodeView } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import type { ComponentType, FunctionComponent } from 'react'
+import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
 import type { EditorWithContentComponent } from './Editor.js'
@@ -99,7 +99,7 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: FunctionComponent<ReactNodeViewProps<T>> = memo(componentProps => {
+    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(componentProps => {
       return (
         <ReactNodeViewContext.Provider value={context}>
           {createElement(Component, componentProps)}
