@@ -81,11 +81,7 @@
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
-  },
-  "optionalDependencies": {
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
+    "@tiptap/pm": "workspace:*",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },

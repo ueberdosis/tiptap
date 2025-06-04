@@ -873,19 +873,6 @@ importers:
         version: link:../pm
 
   packages/static-renderer:
-    optionalDependencies:
-      '@types/react':
-        specifier: ^18.2.14
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: ^18.2.6
-        version: 18.3.5(@types/react@18.3.18)
-      react:
-        specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
-        version: 18.3.1(react@18.3.1)
     devDependencies:
       '@tiptap/core':
         specifier: workspace:*
@@ -893,6 +880,18 @@ importers:
       '@tiptap/pm':
         specifier: workspace:*
         version: link:../pm
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.1.6
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.1.5(@types/react@19.1.6)
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.1.0(react@19.1.0)
 
   packages/suggestion:
     devDependencies:
@@ -4942,10 +4941,6 @@ packages:
     resolution: {integrity: sha512-Ajzxb8CM6WAnFjgiloPsI3bF+WCxcvhdIG3KNA2KN962+tdBsHcuQ4k4qX/EcS/2CRkcc0iAkR956Nib6aXU/Q==}
     engines: {node: '>=0.10.0'}
 
-  loose-envify@1.4.0:
-    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
-    hasBin: true
-
   loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
 
@@ -5571,11 +5566,6 @@ packages:
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
 
-  react-dom@18.3.1:
-    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
-    peerDependencies:
-      react: ^18.3.1
-
   react-dom@19.1.0:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
@@ -5595,10 +5585,6 @@ packages:
 
   react-refresh@0.13.0:
     resolution: {integrity: sha512-XP8A9BT0CpRBD+NYLLeIhld/RqG9+gktUjW1FkE+Vm7OCinbG1SshcK5tb9ls4kzvjZr9mOQc7HYgBngEyPAXg==}
-    engines: {node: '>=0.10.0'}
-
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
   react@19.1.0:
@@ -5781,9 +5767,6 @@ packages:
     resolution: {integrity: sha512-B1bozCeNQiOgDcLd33e2Cs2U60wZwjUUXzh900ZyQF5qUasvMdDZYbQ566LJu7cqR+sAHlAfO6RMkaID5s6qpA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
-
-  scheduler@0.23.2:
-    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
 
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
@@ -11281,11 +11264,6 @@ snapshots:
 
   longest@2.0.1: {}
 
-  loose-envify@1.4.0:
-    dependencies:
-      js-tokens: 4.0.0
-    optional: true
-
   loupe@2.3.7:
     dependencies:
       get-func-name: 2.0.2
@@ -11924,13 +11902,6 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  react-dom@18.3.1(react@18.3.1):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 18.3.1
-      scheduler: 0.23.2
-    optional: true
-
   react-dom@19.1.0(react@19.1.0):
     dependencies:
       react: 19.1.0
@@ -11946,11 +11917,6 @@ snapshots:
   react-is@18.3.1: {}
 
   react-refresh@0.13.0: {}
-
-  react@18.3.1:
-    dependencies:
-      loose-envify: 1.4.0
-    optional: true
 
   react@19.1.0: {}
 
@@ -12172,11 +12138,6 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.0
-
-  scheduler@0.23.2:
-    dependencies:
-      loose-envify: 1.4.0
-    optional: true
 
   scheduler@0.26.0: {}
 
