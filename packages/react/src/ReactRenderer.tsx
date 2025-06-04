@@ -1,5 +1,13 @@
 import type { Editor } from '@tiptap/core'
-import React from 'react'
+import type {
+  ComponentClass,
+  ForwardRefExoticComponent,
+  FunctionComponent,
+  PropsWithoutRef,
+  ReactNode,
+  RefAttributes,
+} from 'react'
+import { version as reactVersion } from 'react'
 import { flushSync } from 'react-dom'
 
 import type { EditorWithContentComponent } from './Editor.js'
@@ -20,6 +28,26 @@ function isClassComponent(Component: any) {
  */
 function isForwardRefComponent(Component: any) {
   return !!(typeof Component === 'object' && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)')
+}
+
+/**
+ * Check if we're running React 19+ by detecting if function components support ref props
+ * @returns {boolean}
+ */
+function isReact19Plus(): boolean {
+  // React 19 is detected by checking React version if available
+  // In practice, we'll use a more conservative approach and assume React 18 behavior
+  // unless we can definitively detect React 19
+  try {
+    // @ts-ignore
+    if (reactVersion) {
+      const majorVersion = parseInt(reactVersion.split('.')[0], 10)
+      return majorVersion >= 19
+    }
+  } catch {
+    // Fallback to React 18 behavior if we can't determine version
+  }
+  return false
 }
 
 export interface ReactRendererOptions {
@@ -53,9 +81,9 @@ export interface ReactRendererOptions {
 }
 
 type ComponentType<R, P> =
-  | React.ComponentClass<P>
-  | React.FunctionComponent<P>
-  | React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<R>>
+  | ComponentClass<P>
+  | FunctionComponent<P>
+  | ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<R>>
 
 /**
  * The ReactRenderer class. It's responsible for rendering React components inside the editor.
@@ -79,7 +107,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   props: P
 
-  reactElement: React.ReactNode
+  reactElement: ReactNode
 
   ref: R | null = null
 
@@ -120,14 +148,32 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     const props = this.props
     const editor = this.editor as EditorWithContentComponent
 
-    if (isClassComponent(Component) || isForwardRefComponent(Component)) {
-      // @ts-ignore This is a hack to make the ref work
-      props.ref = (ref: R) => {
-        this.ref = ref
+    // Handle ref forwarding with React 18/19 compatibility
+    const isReact19 = isReact19Plus()
+    const isClassComp = isClassComponent(Component)
+    const isForwardRefComp = isForwardRefComponent(Component)
+
+    const elementProps = { ...props }
+
+    if (!elementProps.ref) {
+      if (isReact19) {
+        // React 19: ref is a standard prop for all components
+        // @ts-ignore - Setting ref prop for React 19 compatibility
+        elementProps.ref = (ref: R) => {
+          this.ref = ref
+        }
+      } else if (isClassComp || isForwardRefComp) {
+        // React 18 and prior: only set ref for class components and forwardRef components
+        // @ts-ignore - Setting ref prop for React 18 class/forwardRef components
+        elementProps.ref = (ref: R) => {
+          this.ref = ref
+        }
       }
+      // For function components in React 18, we can't use ref - the component won't receive it
+      // This is a limitation we have to accept for React 18 function components without forwardRef
     }
 
-    this.reactElement = <Component {...props} />
+    this.reactElement = <Component {...elementProps} />
 
     editor?.contentComponent?.setRenderer(this.id, this)
   }
