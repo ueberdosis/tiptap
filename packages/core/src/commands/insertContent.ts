@@ -31,6 +31,12 @@ declare module '@tiptap/core' {
           updateSelection?: boolean;
           applyInputRules?: boolean;
           applyPasteRules?: boolean;
+
+          /**
+           * Whether to use parseSlice function to parse the content.
+           * @default true
+           */
+          slice?: boolean
         }
       ) => ReturnType;
     };
