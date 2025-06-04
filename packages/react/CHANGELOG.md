@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.6
+
+### Minor Changes
+
+- ef12b32: Added support for React 19 ref in props
+
+### Patch Changes
+
+- 2ea0475: Allow setting HTML tags other than <span> for "as" in MarkViewContent
+  - @tiptap/core@3.0.0-beta.6
+  - @tiptap/pm@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes
