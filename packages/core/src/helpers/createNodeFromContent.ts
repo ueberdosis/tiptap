@@ -13,13 +13,6 @@ export type CreateNodeFromContentOptions = {
   slice?: boolean
   parseOptions?: ParseOptions
   errorOnInvalidContent?: boolean
-  /**
-   * Runs if a content is invalid and an error would have been thrown, but
-   * `errorOnInvalidContent` is `false` so the invalid content is ignored.
-   *
-   * @param error The error that was not thrown
-   */
-  onIgnoredError?: (error: Error) => void
 }
 
 /**
@@ -63,16 +56,11 @@ export function createNodeFromContent(
 
       return node
     } catch (error) {
-      const thrownError = new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
-
       if (options.errorOnInvalidContent) {
-        throw thrownError
+        throw new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
       }
-      if (options.onIgnoredError) {
-        options.onIgnoredError(thrownError)
-      } else {
-        console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
-      }
+
+      console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
 
       return createNodeFromContent('', schema, options)
     }
@@ -117,15 +105,8 @@ export function createNodeFromContent(
         DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
       }
 
-      if (hasInvalidContent) {
-        const thrownError = new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
-
-        if (options.errorOnInvalidContent) {
-          throw thrownError
-        } else if (options.onIgnoredError) {
-          options.onIgnoredError(thrownError)
-        }
-
+      if (options.errorOnInvalidContent && hasInvalidContent) {
+        throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
       }
     }
 
