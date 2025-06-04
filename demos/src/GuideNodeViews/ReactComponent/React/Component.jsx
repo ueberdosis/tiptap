@@ -10,7 +10,7 @@ export default props => {
 
   return (
     <NodeViewWrapper className="react-component">
-      <label>React Component</label>
+      <label ref={props.ref}>React Component</label>
 
       <div className="content">
         <button onClick={increase}>
