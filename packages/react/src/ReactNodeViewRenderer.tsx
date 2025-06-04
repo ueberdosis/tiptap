@@ -78,8 +78,8 @@ export class ReactNodeView<
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-      ref: createRef<HTMLElement>(),
-    } satisfies ReactNodeViewProps
+      ref: createRef<T>(),
+    } satisfies ReactNodeViewProps<T>
 
     if (!(this.component as any).displayName) {
       const capitalizeFirstChar = (string: string): string => {
