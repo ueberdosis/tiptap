@@ -91,7 +91,7 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     // If `emitContentError` is enabled, we want to check the content for errors
     // but ignore them (do not remove the invalid content from the document)
-    if (!options.errorOnInvalidContent && editor.options.enableContentCheck && editor.options.emitContentError) {
+    if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
       try {
         createNodeFromContent(value, editor.schema, {
           parseOptions,
