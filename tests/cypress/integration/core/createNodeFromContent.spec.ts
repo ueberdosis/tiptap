@@ -263,4 +263,121 @@ describe('createNodeFromContent', () => {
       ]), { errorOnInvalidContent: true })
     }).to.throw('[tiptap error]: Invalid JSON content')
   })
+
+  it('calls onIgnoredError when a schema does not have matching node types for JSON content', () => {
+    const content = {
+      type: 'non-existing-node-type',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+      }],
+    }
+
+    let errorCalled = false
+    let errorMessage = ''
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), {
+      errorOnInvalidContent: false,
+      onIgnoredError: error => {
+        errorCalled = true
+        errorMessage = error.message
+      },
+    })
+
+    expect(errorCalled).to.eq(true)
+    expect(errorMessage).to.eq('[tiptap error]: Invalid JSON content')
+    expect(fragment.toJSON()).to.deep.eq(null)
+  })
+
+  it('calls onIgnoredError when a schema does not have matching node types for HTML content', () => {
+    const content = '<non-existing-node-type>Example Text</non-existing-node-type>'
+
+    let errorCalled = false
+    let errorMessage = ''
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), {
+      errorOnInvalidContent: false,
+      onIgnoredError: error => {
+        errorCalled = true
+        errorMessage = error.message
+      },
+    })
+
+    expect(errorCalled).to.eq(true)
+    expect(errorMessage).to.eq('[tiptap error]: Invalid HTML content')
+    expect(fragment.toJSON()).to.deep.eq([{ type: 'text', text: 'Example Text' }])
+  })
+
+  it('calls onIgnoredError when a schema does not have matching mark types for JSON content', () => {
+    const content = {
+      type: 'paragraph',
+      content: [{
+        type: 'text',
+        text: 'Example Text',
+        marks: [{
+          type: 'non-existing-mark-type',
+        }],
+      }],
+    }
+
+    let errorCalled = false
+    let errorMessage = ''
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), {
+      errorOnInvalidContent: false,
+      onIgnoredError: error => {
+        errorCalled = true
+        errorMessage = error.message
+      },
+    })
+
+    expect(errorCalled).to.eq(true)
+    expect(errorMessage).to.eq('[tiptap error]: Invalid JSON content')
+    expect(fragment.toJSON()).to.deep.eq(null)
+  })
+
+  it('calls onIgnoredError when the JSON content does not follow the nesting rules of the schema', () => {
+    const content = {
+      type: 'paragraph',
+      content: [{
+        type: 'paragraph',
+        content: [{
+          type: 'text',
+          text: 'Example Text',
+        }],
+      }],
+    }
+
+    let errorCalled = false
+    let errorMessage = ''
+
+    const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+    ]), {
+      errorOnInvalidContent: false,
+      onIgnoredError: error => {
+        errorCalled = true
+        errorMessage = error.message
+      },
+    })
+
+    expect(errorCalled).to.eq(true)
+    expect(errorMessage).to.eq('[tiptap error]: Invalid JSON content')
+    expect(fragment.toJSON()).to.deep.eq(null)
+  })
+
 })
