@@ -153,17 +153,19 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     const isClassComp = isClassComponent(Component)
     const isForwardRefComp = isForwardRefComponent(Component)
 
-    if (!props.ref) {
+    const elementProps = { ...props }
+
+    if (!elementProps.ref) {
       if (isReact19) {
         // React 19: ref is a standard prop for all components
         // @ts-ignore - Setting ref prop for React 19 compatibility
-        props.ref = (ref: R) => {
+        elementProps.ref = (ref: R) => {
           this.ref = ref
         }
       } else if (isClassComp || isForwardRefComp) {
         // React 18 and prior: only set ref for class components and forwardRef components
         // @ts-ignore - Setting ref prop for React 18 class/forwardRef components
-        props.ref = (ref: R) => {
+        elementProps.ref = (ref: R) => {
           this.ref = ref
         }
       }
@@ -171,7 +173,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       // This is a limitation we have to accept for React 18 function components without forwardRef
     }
 
-    this.reactElement = <Component {...props} />
+    this.reactElement = <Component {...elementProps} />
 
     editor?.contentComponent?.setRenderer(this.id, this)
   }
