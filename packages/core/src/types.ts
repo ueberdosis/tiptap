@@ -267,9 +267,9 @@ export interface NodeViewProps extends NodeViewRendererProps {
 }
 
 export interface NodeViewRendererOptions {
-  stopEvent: ((props: { event: Event }) => boolean) | null;
+  stopEvent: ((props: { event: Event }) => boolean | null) | null;
   ignoreMutation:
-    | ((props: { mutation: ViewMutationRecord }) => boolean)
+    | ((props: { mutation: ViewMutationRecord }) => boolean | null)
     | null;
   contentDOMElementTag: string;
 }
