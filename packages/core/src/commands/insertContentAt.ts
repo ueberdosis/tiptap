@@ -72,24 +72,43 @@ export const insertContentAt: RawCommands['insertContentAt'] = (position, value,
 
     let content: Fragment | ProseMirrorNode
 
-    try {
-      content = createNodeFromContent(value, editor.schema, {
-        parseOptions: {
-          preserveWhitespace: 'full',
-          ...options.parseOptions,
-        },
-        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
-      })
-    } catch (e) {
+    const emitContentError = (error: Error) => {
       editor.emit('contentError', {
         editor,
-        error: e as Error,
+        error,
         disableCollaboration: () => {
           if (editor.storage.collaboration) {
             editor.storage.collaboration.isDisabled = true
           }
         },
       })
+    }
+
+    const parseOptions: ParseOptions = {
+      preserveWhitespace: 'full',
+      ...options.parseOptions,
+    }
+
+    // If `emitContentError` is enabled, we want to check the content for errors
+    // but ignore them (do not remove the invalid content from the document)
+    if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
+      try {
+        createNodeFromContent(value, editor.schema, {
+          parseOptions,
+          errorOnInvalidContent: true,
+        })
+      } catch (e) {
+        emitContentError(e as Error)
+      }
+    }
+
+    try {
+      content = createNodeFromContent(value, editor.schema, {
+        parseOptions,
+        errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+      })
+    } catch (e) {
+      emitContentError(e as Error)
       return false
     }
 
