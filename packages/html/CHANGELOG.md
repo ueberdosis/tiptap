@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- 4f49894: Wrap happy-dom Window and DOMParser creation to avoid setting global process to null. See https://github.com/ueberdosis/tiptap/issues/6368
+  - @tiptap/core@3.0.0-beta.6
+  - @tiptap/pm@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes
