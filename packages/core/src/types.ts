@@ -355,6 +355,15 @@ export interface EditorOptions {
    */
   enableContentCheck: boolean
   /**
+   * If `true`, the editor will emit the `contentError` event if invalid content is
+   * encountered but `enableContentCheck` is `false`. This lets you preserve the
+   * invalid editor content while still showing a warning or error message to
+   * the user.
+   *
+   * @default false
+   */
+  emitContentError: boolean
+  /**
    * Called before the editor is constructed.
    */
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
