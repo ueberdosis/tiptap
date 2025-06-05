@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- 6e33c93: Added new export for TableView class
+- Updated dependencies [f878879]
+- Updated dependencies [5de17c5]
+- Updated dependencies [d88244d]
+  - @tiptap/core@3.0.0-pre.0
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.12.0
 
 ## 2.11.9

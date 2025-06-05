@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- 9a0af5d: Fixed links with marks not registering click events correctly
+- Updated dependencies [f878879]
+- Updated dependencies [5de17c5]
+- Updated dependencies [d88244d]
+  - @tiptap/core@3.0.0-pre.0
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.12.0
 
 ## 2.11.9

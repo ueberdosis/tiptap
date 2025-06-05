@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- Updated dependencies [f878879]
+- Updated dependencies [5de17c5]
+- Updated dependencies [d88244d]
+  - @tiptap/core@3.0.0-pre.0
+  - @tiptap/extension-bubble-menu@3.0.0-pre.0
+  - @tiptap/extension-floating-menu@3.0.0-pre.0
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.12.0
 
 ### Patch Changes
