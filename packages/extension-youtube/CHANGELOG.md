@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.13.0
+
+### Minor Changes
+
+- 8e99fd2: Improve YouTube embed URL creation, support start timestamps, fix Shorts & Live embeds
+
 ## 2.12.0
 
 ## 2.11.9
