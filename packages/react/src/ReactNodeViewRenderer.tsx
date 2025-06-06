@@ -1,19 +1,17 @@
-import {
-  DecorationWithType,
-  Editor,
-  getRenderedAttributes,
-  NodeView,
-  NodeViewProps,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
+import type {
+  DecorationWithType, Editor, NodeViewRenderer, NodeViewRendererOptions,
 } from '@tiptap/core'
-import { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import React, { ComponentType } from 'react'
+import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { ComponentType, NamedExoticComponent } from 'react'
+import React, { createElement, createRef, memo } from 'react'
 
 import { EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
-import { ReactNodeViewContext, ReactNodeViewContextProps } from './useReactNodeView.js'
+import type { ReactNodeViewProps } from './types.js'
+import type { ReactNodeViewContextProps } from './useReactNodeView.js'
+import { ReactNodeViewContext } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
@@ -53,14 +51,15 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
 }
 
 export class ReactNodeView<
-  Component extends ComponentType<NodeViewProps> = ComponentType<NodeViewProps>,
+  T = HTMLElement,
+  Component extends ComponentType<ReactNodeViewProps<T>> = ComponentType<ReactNodeViewProps<T>>,
   NodeEditor extends Editor = Editor,
   Options extends ReactNodeViewRendererOptions = ReactNodeViewRendererOptions,
 > extends NodeView<Component, NodeEditor, Options> {
   /**
    * The renderer instance.
    */
-  renderer!: ReactRenderer<unknown, NodeViewProps>
+  renderer!: ReactRenderer<unknown, ReactNodeViewProps<T>>
 
   /**
    * The element that holds the rich-text content of the node.
@@ -84,7 +83,8 @@ export class ReactNodeView<
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-    } satisfies NodeViewProps
+      ref: createRef<T>(),
+    } satisfies ReactNodeViewProps<T>
 
     if (!(this.component as any).displayName) {
       const capitalizeFirstChar = (string: string): string => {
@@ -104,15 +104,13 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: React.FunctionComponent<NodeViewProps> = React.memo(
-      componentProps => {
-        return (
-          <ReactNodeViewContext.Provider value={context}>
-            {React.createElement(Component, componentProps)}
-          </ReactNodeViewContext.Provider>
-        )
-      },
-    )
+    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(componentProps => {
+      return (
+        <ReactNodeViewContext.Provider value={context}>
+          {createElement(Component, componentProps)}
+        </ReactNodeViewContext.Provider>
+      )
+    })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
@@ -320,8 +318,8 @@ export class ReactNodeView<
 /**
  * Create a React node view renderer.
  */
-export function ReactNodeViewRenderer(
-  component: ComponentType<NodeViewProps>,
+export function ReactNodeViewRenderer<T = HTMLElement>(
+  component: ComponentType<ReactNodeViewProps<T>>,
   options?: Partial<ReactNodeViewRendererOptions>,
 ): NodeViewRenderer {
   return props => {
@@ -332,6 +330,6 @@ export function ReactNodeViewRenderer(
       return {} as unknown as ProseMirrorNodeView
     }
 
-    return new ReactNodeView(component, props, options)
+    return new ReactNodeView<T>(component, props, options)
   }
 }

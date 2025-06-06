@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+### Patch Changes
+
+- 8147cc7: Fixes a bug where you could not unregister multiple plugins.
+
+## 2.11.7
+
+### Patch Changes
+
+- e23882d: Clone dragged node before dragging to get correct drag preview image
+
 ## 2.11.6
 
 ### Patch Changes
