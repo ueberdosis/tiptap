@@ -412,6 +412,12 @@ export interface EditorOptions {
    * Called when content is deleted from the editor.
    */
   onDelete: (props: EditorEvents['delete']) => void
+  /**
+   * Browser environment configuration for headless mode support.
+   * When provided, these APIs will be used instead of global browser APIs.
+   * This allows Tiptap to run in server-side environments like Node.js with jsdom.
+   */
+  environment?: BrowserEnvironment
 }
 
 /**
@@ -555,6 +561,17 @@ export type ValuesOf<T> = T[keyof T]
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T]
 
 export type DOMNode = InstanceType<typeof window.Node>
+
+/**
+ * Browser environment abstraction interface for headless mode support
+ */
+export interface BrowserEnvironment {
+  /**
+   * Window object (can be jsdom window or browser window)
+   * All other browser APIs (document, navigator, DOMParser, etc.) are derived from this
+   */
+  window?: Window | any
+}
 
 /**
  * prosemirror-view does not export the `type` property of `Decoration`.

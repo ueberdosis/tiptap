@@ -43,13 +43,14 @@ export const focus: RawCommands['focus'] =
     const delayedFocus = () => {
       // focus within `requestAnimationFrame` breaks focus on iOS and Android
       // so we have to call this
-      if (isiOS() || isAndroid()) {
-        ;(view.dom as HTMLElement).focus()
+      if (isiOS(editor.browserEnv) || isAndroid(editor.browserEnv)) {
+        editor.browserEnv.focus(view.dom)
       }
 
       // For React we have to focus asynchronously. Otherwise wild things happen.
       // see: https://github.com/ueberdosis/tiptap/issues/1520
-      requestAnimationFrame(() => {
+      const requestAnimationFrameFn = editor.browserEnv.requestAnimationFrame || ((fn: () => void) => fn())
+      requestAnimationFrameFn(() => {
         if (!editor.isDestroyed) {
           view.focus()
 
