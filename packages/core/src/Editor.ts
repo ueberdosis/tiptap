@@ -40,6 +40,7 @@ import type {
   TextSerializer,
   TextType as TTextType,
 } from './types.js'
+import { BrowserEnvironmentManager } from './BrowserEnvironment.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
 
@@ -77,6 +78,11 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
 
+  /**
+   * Browser environment manager for headless mode support
+   */
+  public browserEnv: BrowserEnvironmentManager
+
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
     content: '',
@@ -112,6 +118,10 @@ export class Editor extends EventEmitter<EditorEvents> {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
     this.setOptions(options)
+
+    // Initialize browser environment manager early
+    this.browserEnv = new BrowserEnvironmentManager(this.options.environment)
+
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -148,14 +158,16 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Attach the editor to the DOM, creating a new editor view.
    */
   public mount(el: NonNullable<EditorOptions['element']> & {}) {
-    if (typeof document === 'undefined') {
+    if (!this.browserEnv.document) {
       throw new Error(
-        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
+        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment. ` +
+          `For server-side usage, provide a document implementation via the 'environment' option.`,
       )
     }
     this.createView(el)
 
-    window.setTimeout(() => {
+    const timeoutFn = this.browserEnv.setTimeout || ((fn: () => void) => fn())
+    timeoutFn(() => {
       if (this.isDestroyed) {
         return
       }
@@ -218,8 +230,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Inject CSS styles.
    */
   private injectCSS(): void {
-    if (this.options.injectCSS && typeof document !== 'undefined') {
-      this.css = createStyleTag(style, this.options.injectNonce)
+    if (this.options.injectCSS && this.browserEnv.document) {
+      this.css = createStyleTag(style, this.options.injectNonce, undefined, this.browserEnv)
     }
   }
 
@@ -438,6 +450,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
+        browserEnv: this.browserEnv,
       })
     } catch (e) {
       if (
@@ -469,6 +482,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: false,
+        browserEnv: this.browserEnv,
       })
     }
     return doc
@@ -679,7 +693,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    return getHTMLFromFragment(this.state.doc.content, this.schema)
+    return getHTMLFromFragment(this.state.doc.content, this.schema, this.browserEnv)
   }
 
   /**

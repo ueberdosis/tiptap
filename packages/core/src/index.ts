@@ -1,3 +1,4 @@
+export * from './BrowserEnvironment.js'
 export * from './CommandManager.js'
 export * from './Editor.js'
 export * from './Extension.js'

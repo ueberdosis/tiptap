@@ -1,6 +1,7 @@
 import type { ParseOptions } from '@tiptap/pm/model'
 import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
 
+import type { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
 import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 
@@ -8,6 +9,7 @@ export type CreateNodeFromContentOptions = {
   slice?: boolean
   parseOptions?: ParseOptions
   errorOnInvalidContent?: boolean
+  browserEnv?: BrowserEnvironmentManager
 }
 
 /**
@@ -94,9 +96,15 @@ export function createNodeFromContent(
       })
 
       if (options.slice) {
-        DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parseSlice(
+          elementFromString(content, options.browserEnv),
+          options.parseOptions,
+        )
       } else {
-        DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parse(
+          elementFromString(content, options.browserEnv),
+          options.parseOptions,
+        )
       }
 
       if (options.errorOnInvalidContent && hasInvalidContent) {
@@ -109,10 +117,10 @@ export function createNodeFromContent(
     const parser = DOMParser.fromSchema(schema)
 
     if (options.slice) {
-      return parser.parseSlice(elementFromString(content), options.parseOptions).content
+      return parser.parseSlice(elementFromString(content, options.browserEnv), options.parseOptions).content
     }
 
-    return parser.parse(elementFromString(content), options.parseOptions)
+    return parser.parse(elementFromString(content, options.browserEnv), options.parseOptions)
   }
 
   return createNodeFromContent('', schema, options)
