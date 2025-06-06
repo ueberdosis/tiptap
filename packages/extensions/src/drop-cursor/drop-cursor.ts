@@ -3,11 +3,11 @@ import { dropCursor } from '@tiptap/pm/dropcursor'
 
 export interface DropcursorOptions {
   /**
-   * The color of the drop cursor
+   * The color of the drop cursor. Use `false` to apply no color and rely only on class.
    * @default 'currentColor'
    * @example 'red'
    */
-  color: string | undefined
+  color?: string | false
 
   /**
    * The width of the drop cursor
