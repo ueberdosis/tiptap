@@ -1,3 +1,6 @@
+import { mergeMaps } from './mergeMaps.js'
+import { parseInlineStyles } from './parseInlineStyles.js'
+
 export function mergeAttributes(...objects: Record<string, any>[]): Record<string, any> {
   return objects
     .filter(item => !!item)
@@ -23,24 +26,12 @@ export function mergeAttributes(...objects: Record<string, any>[]): Record<strin
 
           mergedAttributes[key] = [...existingClasses, ...insertClasses].join(' ')
         } else if (key === 'style') {
-          const newStyles: string[] = value ? value.split(';').map((style: string) => style.trim()).filter(Boolean) : []
-          const existingStyles: string[] = mergedAttributes[key] ? mergedAttributes[key].split(';').map((style: string) => style.trim()).filter(Boolean) : []
+          const existingStyles = parseInlineStyles(mergedAttributes[key] || '')
+          const newStyles = parseInlineStyles(value || '')
 
-          const styleMap = new Map<string, string>()
+          const mergedStyles = mergeMaps(existingStyles, newStyles)
 
-          existingStyles.forEach(style => {
-            const [property, val] = style.split(':').map(part => part.trim())
-
-            styleMap.set(property, val)
-          })
-
-          newStyles.forEach(style => {
-            const [property, val] = style.split(':').map(part => part.trim())
-
-            styleMap.set(property, val)
-          })
-
-          mergedAttributes[key] = Array.from(styleMap.entries()).map(([property, val]) => `${property}: ${val}`).join('; ')
+          mergedAttributes[key] = Array.from(mergedStyles.entries()).map(([property, val]) => `${property}: ${val}`).join('; ')
         } else {
           mergedAttributes[key] = value
         }
