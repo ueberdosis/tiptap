@@ -413,9 +413,8 @@ export interface EditorOptions {
    */
   onDelete: (props: EditorEvents['delete']) => void
   /**
-   * Browser environment configuration for headless mode support.
-   * When provided, these APIs will be used instead of global browser APIs.
-   * This allows Tiptap to run in server-side environments like Node.js with jsdom.
+   * Overrides browser APIs like `window` with a custom implementation. Used to
+   * run Tiptap in a non-browser environment like a Node server.
    */
   environment?: BrowserEnvironment
 }
@@ -563,16 +562,16 @@ export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : 
 export type DOMNode = InstanceType<typeof window.Node>
 
 /**
- * Browser environment abstraction interface for headless mode support
+ * Overrides browser APIs like `window` with a custom implementation.
  */
 export interface BrowserEnvironment {
   /**
-   * Window object (can be jsdom window or browser window)
+   * Custom implementation of the `window` object
    */
   window?: Window
 
   /**
-   * DOMParser constructor (can be jsdom DOMParser or browser DOMParser)
+   * Custom implementation of the `DOMParser` class constructor
    */
   domParser?: typeof DOMParser
 }
