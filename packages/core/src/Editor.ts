@@ -166,8 +166,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
     this.createView(el)
 
-    const timeoutFn = this.browserEnv.setTimeout || ((fn: () => void) => fn())
-    timeoutFn(() => {
+    this.browserEnv.window?.setTimeout(() => {
       if (this.isDestroyed) {
         return
       }

@@ -568,9 +568,13 @@ export type DOMNode = InstanceType<typeof window.Node>
 export interface BrowserEnvironment {
   /**
    * Window object (can be jsdom window or browser window)
-   * All other browser APIs (document, navigator, DOMParser, etc.) are derived from this
    */
-  window?: Window | any
+  window?: Window
+
+  /**
+   * DOMParser constructor (can be jsdom DOMParser or browser DOMParser)
+   */
+  domParser?: typeof DOMParser
 }
 
 /**

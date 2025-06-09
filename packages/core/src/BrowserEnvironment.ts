@@ -14,60 +14,51 @@ export class BrowserEnvironmentManager {
   /**
    * Get the window object (browser window or injected window)
    */
-  get window(): Window | any {
-    return this.environment.window ?? (typeof window !== 'undefined' ? window : undefined)
+  get window(): Window | undefined {
+    return (this.environment.window ?? typeof window !== 'undefined') ? window : undefined
   }
 
   /**
    * Get the document object (browser document or injected document)
    */
-  get document(): Document | any {
-    return this.window?.document ?? (typeof document !== 'undefined' ? document : undefined)
+  get document(): Document | undefined {
+    return (this.window?.document ?? typeof document !== 'undefined') ? document : undefined
   }
 
   /**
    * Get the navigator object (browser navigator or injected navigator)
    */
-  get navigator(): Navigator | any {
+  get navigator(): Navigator | undefined {
     return this.window?.navigator ?? (typeof navigator !== 'undefined' ? navigator : undefined)
   }
 
   /**
    * Get the DOMParser constructor (browser DOMParser or injected DOMParser)
    */
-  get DOMParser(): typeof DOMParser | any {
-    return this.window?.DOMParser ?? (typeof DOMParser !== 'undefined' ? DOMParser : undefined)
+  get DOMParser(): typeof DOMParser | undefined {
+    return this.environment.domParser ?? (typeof DOMParser !== 'undefined' ? DOMParser : undefined)
   }
 
   /**
    * Get requestAnimationFrame function
    */
-  get requestAnimationFrame(): typeof requestAnimationFrame | any {
-    return (
-      this.window?.requestAnimationFrame ??
-      (typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : undefined)
-    )
-  }
-
-  /**
-   * Get setTimeout function (available in both browser and Node.js)
-   */
-  get setTimeout(): typeof setTimeout | any {
-    return this.window?.setTimeout ?? (typeof setTimeout !== 'undefined' ? setTimeout : undefined)
+  // TODO delete
+  get requestAnimationFrame(): typeof requestAnimationFrame {
+    return this.window?.requestAnimationFrame ?? requestAnimationFrame
   }
 
   /**
    * Check if we're in a browser environment
    */
   get isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof document !== 'undefined'
+    return typeof window === 'object' && typeof document === 'object'
   }
 
   /**
    * Check if we're in a server environment with injected APIs
    */
   get isServerWithAPIs(): boolean {
-    return !this.isBrowser && !!this.environment.window
+    return !this.isBrowser && Boolean(this.environment.window)
   }
 
   /**
@@ -95,71 +86,12 @@ export class BrowserEnvironmentManager {
   }
 
   /**
-   * Create a style element if document is available
-   */
-  createElement(tagName: string): Element | undefined {
-    return this.safeExecute(() => this.document?.createElement(tagName))
-  }
-
-  /**
-   * Query selector if document is available
-   */
-  querySelector(selector: string): Element | null | undefined {
-    return this.safeExecute(() => this.document?.querySelector(selector))
-  }
-
-  /**
    * Add event listener if element supports it
    */
   addEventListener(element: any, event: string, handler: any, options?: boolean | any): void {
     this.safeExecute(() => {
       if (element && typeof element.addEventListener === 'function') {
         element.addEventListener(event, handler, options)
-      }
-    })
-  }
-
-  /**
-   * Remove event listener if element supports it
-   */
-  removeEventListener(element: any, event: string, handler: any, options?: boolean | any): void {
-    this.safeExecute(() => {
-      if (element && typeof element.removeEventListener === 'function') {
-        element.removeEventListener(event, handler, options)
-      }
-    })
-  }
-
-  /**
-   * Get bounding client rect if element supports it
-   */
-  getBoundingClientRect(element: any): DOMRect | undefined {
-    return this.safeExecute(() => {
-      if (element && typeof element.getBoundingClientRect === 'function') {
-        return element.getBoundingClientRect()
-      }
-      return undefined
-    })
-  }
-
-  /**
-   * Focus an element if it supports focus
-   */
-  focus(element: any): void {
-    this.safeExecute(() => {
-      if (element && typeof element.focus === 'function') {
-        element.focus()
-      }
-    })
-  }
-
-  /**
-   * Blur an element if it supports blur
-   */
-  blur(element: any): void {
-    this.safeExecute(() => {
-      if (element && typeof element.blur === 'function') {
-        element.blur()
       }
     })
   }
