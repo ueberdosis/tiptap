@@ -49,8 +49,7 @@ export const focus: RawCommands['focus'] =
 
       // For React we have to focus asynchronously. Otherwise wild things happen.
       // see: https://github.com/ueberdosis/tiptap/issues/1520
-      const requestAnimationFrameFn = editor.browserEnv.requestAnimationFrame || ((fn: () => void) => fn())
-      requestAnimationFrameFn(() => {
+      editor.browserEnv.window?.requestAnimationFrame(() => {
         if (!editor.isDestroyed) {
           view.focus()
 

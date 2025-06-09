@@ -15,18 +15,13 @@ declare module '@tiptap/core' {
 export const blur: RawCommands['blur'] =
   () =>
   ({ editor, view }) => {
-    const requestAnimationFrameFn = editor.browserEnv.requestAnimationFrame || ((fn: () => void) => fn())
-
-    requestAnimationFrameFn(() => {
+    editor.browserEnv.window?.requestAnimationFrame(() => {
       if (!editor.isDestroyed) {
         ;(view.dom as HTMLElement).blur()
 
         // Browsers should remove the caret on blur but safari does not.
         // See: https://github.com/ueberdosis/tiptap/issues/2405
-        const selection = editor.browserEnv.window?.getSelection?.()
-        if (selection && typeof selection.removeAllRanges === 'function') {
-          selection.removeAllRanges()
-        }
+        editor.browserEnv.window?.getSelection()?.removeAllRanges()
       }
     })
 

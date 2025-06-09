@@ -170,8 +170,7 @@ export class NodeView<
       if (isValidDragHandle) {
         this.isDragging = true
 
-        this.editor.browserEnv.addEventListener(
-          this.editor.browserEnv.document,
+        this.editor.browserEnv.document?.addEventListener(
           'dragend',
           () => {
             this.isDragging = false
@@ -179,8 +178,7 @@ export class NodeView<
           { once: true },
         )
 
-        this.editor.browserEnv.addEventListener(
-          this.editor.browserEnv.document,
+        this.editor.browserEnv.document?.addEventListener(
           'drop',
           () => {
             this.isDragging = false
@@ -188,8 +186,7 @@ export class NodeView<
           { once: true },
         )
 
-        this.editor.browserEnv.addEventListener(
-          this.editor.browserEnv.document,
+        this.editor.browserEnv.document?.addEventListener(
           'mouseup',
           () => {
             this.isDragging = false
