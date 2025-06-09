@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.0.0-beta.7
+
+### Minor Changes
+
+- d0fda30: Add config option to emit content error when content check is disabled
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes

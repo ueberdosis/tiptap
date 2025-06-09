@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes
