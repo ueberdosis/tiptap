@@ -1,16 +1,15 @@
-import type { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
 
 export function createStyleTag(
   style: string,
   nonce?: string,
   suffix?: string,
-  browserEnv?: BrowserEnvironmentManager,
+  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): HTMLStyleElement {
-  // Use provided browser environment or fall back to global document
-  const doc = browserEnv?.document ?? (typeof document !== 'undefined' ? document : undefined)
+  const doc = browserEnv?.document
 
   if (!doc) {
-    throw new Error('[tiptap error]: No document available for style injection')
+    throw new Error('[tiptap error]: No document available')
   }
 
   const tiptapStyleTag = <HTMLStyleElement>doc.querySelector(`style[data-tiptap-style${suffix ? `-${suffix}` : ''}]`)

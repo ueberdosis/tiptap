@@ -17,7 +17,7 @@ const removeWhitespaces = (node: HTMLElement) => {
 }
 
 export function elementFromString(value: string, browserEnv?: BrowserEnvironmentManager): HTMLElement {
-  const DOMParserClass = browserEnv?.DOMParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
+  const DOMParserClass = browserEnv?.DOMParser
 
   if (!DOMParserClass) {
     throw new Error(
