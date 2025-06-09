@@ -79,7 +79,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public instanceId = Math.random().toString(36).slice(2, 9)
 
   /**
-   * Browser environment manager for headless mode support
+   * Browser environment manager for running Tiptap in non-browser environments.
    */
   public browserEnv: BrowserEnvironmentManager
 
