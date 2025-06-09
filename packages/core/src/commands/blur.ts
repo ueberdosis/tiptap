@@ -19,7 +19,7 @@ export const blur: RawCommands['blur'] =
 
     requestAnimationFrameFn(() => {
       if (!editor.isDestroyed) {
-        editor.browserEnv.blur(view.dom)
+        ;(view.dom as HTMLElement).blur()
 
         // Browsers should remove the caret on blur but safari does not.
         // See: https://github.com/ueberdosis/tiptap/issues/2405

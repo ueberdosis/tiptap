@@ -44,7 +44,7 @@ export const focus: RawCommands['focus'] =
       // focus within `requestAnimationFrame` breaks focus on iOS and Android
       // so we have to call this
       if (isiOS(editor.browserEnv) || isAndroid(editor.browserEnv)) {
-        editor.browserEnv.focus(view.dom)
+        ;(view.dom as HTMLElement).focus()
       }
 
       // For React we have to focus asynchronously. Otherwise wild things happen.
