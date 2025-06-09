@@ -189,7 +189,7 @@ export class NodeView<
         )
 
         this.editor.browserEnv.addEventListener(
-          this.editor.browserEnv.documet,
+          this.editor.browserEnv.document,
           'mouseup',
           () => {
             this.isDragging = false

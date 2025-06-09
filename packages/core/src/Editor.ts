@@ -4,6 +4,7 @@ import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
+import { BrowserEnvironmentManager } from './BrowserEnvironment.js'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
@@ -40,7 +41,6 @@ import type {
   TextSerializer,
   TextType as TTextType,
 } from './types.js'
-import { BrowserEnvironmentManager } from './BrowserEnvironment.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
 

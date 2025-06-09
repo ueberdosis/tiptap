@@ -111,12 +111,7 @@ export class BrowserEnvironmentManager {
   /**
    * Add event listener if element supports it
    */
-  addEventListener(
-    element: any,
-    event: string,
-    handler: EventListener,
-    options?: boolean | AddEventListenerOptions,
-  ): void {
+  addEventListener(element: any, event: string, handler: any, options?: boolean | any): void {
     this.safeExecute(() => {
       if (element && typeof element.addEventListener === 'function') {
         element.addEventListener(event, handler, options)
@@ -127,12 +122,7 @@ export class BrowserEnvironmentManager {
   /**
    * Remove event listener if element supports it
    */
-  removeEventListener(
-    element: any,
-    event: string,
-    handler: EventListener,
-    options?: boolean | EventListenerOptions,
-  ): void {
+  removeEventListener(element: any, event: string, handler: any, options?: boolean | any): void {
     this.safeExecute(() => {
       if (element && typeof element.removeEventListener === 'function') {
         element.removeEventListener(event, handler, options)
