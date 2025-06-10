@@ -15,14 +15,14 @@ export class BrowserEnvironmentManager {
    * Get the window object (browser window or injected window)
    */
   get window(): Window | undefined {
-    return (this.environment.window ?? typeof window !== 'undefined') ? window : undefined
+    return this.environment.window ?? (typeof window !== 'undefined' ? window : undefined)
   }
 
   /**
    * Get the document object (browser document or injected document)
    */
   get document(): Document | undefined {
-    return (this.window?.document ?? typeof document !== 'undefined') ? document : undefined
+    return this.window?.document ?? (typeof document !== 'undefined' ? document : undefined)
   }
 
   /**
