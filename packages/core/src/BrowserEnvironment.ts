@@ -36,6 +36,6 @@ export class BrowserEnvironmentManager {
    * Get the DOMParser constructor (browser DOMParser or injected DOMParser)
    */
   get DOMParser(): typeof DOMParser | undefined {
-    return this.environment.domParser ?? (typeof DOMParser !== 'undefined' ? DOMParser : undefined)
+    return this.environment.domParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
   }
 }
