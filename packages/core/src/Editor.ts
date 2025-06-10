@@ -84,7 +84,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public browserEnv: BrowserEnvironmentManager
 
   public options: EditorOptions = {
-    element: typeof document !== 'undefined' ? document.createElement('div') : null,
+    element: null,
     content: '',
     injectCSS: true,
     injectNonce: undefined,
@@ -113,14 +113,19 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
+    environment: {},
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
-    this.setOptions(options)
 
-    // Initialize browser environment manager early
     this.browserEnv = new BrowserEnvironmentManager(this.options.environment)
+
+    if (!options.element && this.browserEnv.document) {
+      options.element = this.browserEnv.document.createElement('div')
+    }
+
+    this.setOptions(options)
 
     this.createExtensionManager()
     this.createCommandManager()
