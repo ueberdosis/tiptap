@@ -1,10 +1,14 @@
 import type { BrowserEnvironment } from './types.js'
 
 /**
- * Browser environment manager that provides access to browser APIs
- * with fallbacks for server-side environments
+ * Browser environment manager that provides access to browser APIs or virtual
+ * DOM implementations for server-side usage.
  */
 export class BrowserEnvironmentManager {
+  /**
+   * Initial configuration for the browser environment, provided in the editor
+   * options.
+   */
   private browserEnvironment: BrowserEnvironment
 
   constructor(browserEnvironment: BrowserEnvironment = {}) {
