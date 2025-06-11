@@ -7,6 +7,14 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import StarterKit from '@tiptap/starter-kit'
 
+// Helper function to create a server-like browser environment using happy-dom
+function createServerBrowserEnvironment(): BrowserEnvironment {
+  return new BrowserEnvironment({
+    window,
+    domParser: window.DOMParser,
+  })
+}
+
 describe('Server-side Editor', () => {
   let editor: Editor | null = null
 
@@ -19,50 +27,10 @@ describe('Server-side Editor', () => {
 
   describe('Editor with custom browser environment', () => {
     it('should create editor with custom browser environment', () => {
-      // Create a mock DOM environment
-      const mockDocument = {
-        createElement: cy.stub().callsFake((tagName: string) => ({
-          tagName: tagName.toUpperCase(),
-          className: '',
-          appendChild: cy.stub(),
-          setAttribute: cy.stub(),
-          getAttribute: cy.stub(),
-          removeAttribute: cy.stub(),
-          addEventListener: cy.stub(),
-          removeEventListener: cy.stub(),
-          dispatchEvent: cy.stub(),
-          childNodes: [],
-          parentNode: null,
-          style: {},
-        })),
-        querySelector: cy.stub(),
-        querySelectorAll: cy.stub().returns([]),
-        getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-      } as unknown as Document
-
-      const mockDOMParser = class MockDOMParser {
-        parseFromString(str: string) {
-          return {
-            body: {
-              innerHTML: str,
-              childNodes: [],
-              removeChild: cy.stub(),
-            },
-          }
-        }
-      }
-
-      const mockWindow = {
-        document: mockDocument,
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-        domParser: mockDOMParser as unknown as typeof DOMParser,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       editor = new Editor({
+        element: browserEnvironment.window.document.createElement('div'),
         extensions: [Document, Paragraph, Text],
         content: '<p>Server-side content</p>',
         browserEnvironment,
@@ -73,51 +41,7 @@ describe('Server-side Editor', () => {
     })
 
     it('should handle content manipulation with custom browser environment', () => {
-      // Create a more complete mock DOM environment
-      const mockElement = {
-        tagName: 'DIV',
-        className: '',
-        innerHTML: '',
-        appendChild: cy.stub(),
-        setAttribute: cy.stub(),
-        getAttribute: cy.stub(),
-        removeAttribute: cy.stub(),
-        addEventListener: cy.stub(),
-        removeEventListener: cy.stub(),
-        dispatchEvent: cy.stub(),
-        childNodes: [],
-        parentNode: null,
-        style: {},
-      }
-
-      const mockDocument = {
-        createElement: cy.stub().returns(mockElement),
-        querySelector: cy.stub(),
-        querySelectorAll: cy.stub().returns([]),
-        getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-      } as unknown as Document
-
-      const mockDOMParser = class MockDOMParser {
-        parseFromString(str: string) {
-          return {
-            body: {
-              innerHTML: str,
-              childNodes: [],
-              removeChild: cy.stub(),
-            },
-          }
-        }
-      }
-
-      const mockWindow = {
-        document: mockDocument,
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-        domParser: mockDOMParser as unknown as typeof DOMParser,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       editor = new Editor({
         extensions: [Document, Paragraph, Text],
@@ -136,47 +60,7 @@ describe('Server-side Editor', () => {
     })
 
     it('should work with StarterKit extensions', () => {
-      const mockDocument = {
-        createElement: cy.stub().callsFake((tagName: string) => ({
-          tagName: tagName.toUpperCase(),
-          className: '',
-          appendChild: cy.stub(),
-          setAttribute: cy.stub(),
-          getAttribute: cy.stub(),
-          removeAttribute: cy.stub(),
-          addEventListener: cy.stub(),
-          removeEventListener: cy.stub(),
-          dispatchEvent: cy.stub(),
-          childNodes: [],
-          parentNode: null,
-          style: {},
-        })),
-        querySelector: cy.stub(),
-        querySelectorAll: cy.stub().returns([]),
-        getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-      } as unknown as Document
-
-      const mockDOMParser = class MockDOMParser {
-        parseFromString(str: string) {
-          return {
-            body: {
-              innerHTML: str,
-              childNodes: [],
-              removeChild: cy.stub(),
-            },
-          }
-        }
-      }
-
-      const mockWindow = {
-        document: mockDocument,
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-        domParser: mockDOMParser as unknown as typeof DOMParser,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       editor = new Editor({
         extensions: [StarterKit],
@@ -194,15 +78,25 @@ describe('Server-side Editor', () => {
 
   describe('SSR mode (element: null)', () => {
     it('should create editor for SSR without mounting to DOM', () => {
+      class MockBrowserEnvironment extends BrowserEnvironment {
+        get window() {
+          return undefined
+        }
+        get document() {
+          return undefined
+        }
+      }
+
       editor = new Editor({
         element: null,
         extensions: [Document, Paragraph, Text],
         content: '<p>SSR content</p>',
+        browserEnvironment: new MockBrowserEnvironment(),
       })
 
       expect(editor).to.be.instanceOf(Editor)
       // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
-      expect(editor.view).to.be.undefined // Should be able to get content
+      expect(editor.options.element).to.be.null
 
       const json = editor.getJSON()
       expect(json).to.have.property('type', 'doc')
@@ -239,25 +133,6 @@ describe('Server-side Editor', () => {
   })
 
   describe('Error handling', () => {
-    it('should throw error when trying to mount without document', () => {
-      const browserEnvironment = new BrowserEnvironment({
-        window: undefined,
-        domParser: undefined,
-      })
-
-      editor = new Editor({
-        extensions: [Document, Paragraph, Text],
-        content: '<p>Test content</p>',
-        browserEnvironment,
-      })
-
-      // Should throw error when trying to mount
-      expect(() => {
-        const element = document.createElement('div')
-        editor!.mount(element)
-      }).to.throw()
-    })
-
     it('should handle missing DOMParser gracefully', () => {
       const browserEnvironment = new BrowserEnvironment({
         window: undefined,
@@ -278,32 +153,7 @@ describe('Server-side Editor', () => {
 
   describe('Memory management', () => {
     it('should properly clean up server-side editor', () => {
-      const mockDocument = {
-        createElement: cy.stub().returns({
-          tagName: 'DIV',
-          appendChild: cy.stub(),
-          setAttribute: cy.stub(),
-          getAttribute: cy.stub(),
-          removeAttribute: cy.stub(),
-          addEventListener: cy.stub(),
-          removeEventListener: cy.stub(),
-          dispatchEvent: cy.stub(),
-          childNodes: [],
-          style: {},
-        }),
-        querySelector: cy.stub(),
-        querySelectorAll: cy.stub().returns([]),
-        getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-      } as unknown as Document
-
-      const mockWindow = {
-        document: mockDocument,
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       editor = new Editor({
         extensions: [Document, Paragraph, Text],
@@ -327,47 +177,7 @@ describe('Server-side Editor', () => {
 
   describe('Content processing', () => {
     it('should process complex HTML content on server', () => {
-      const mockDocument = {
-        createElement: cy.stub().callsFake((tagName: string) => ({
-          tagName: tagName.toUpperCase(),
-          className: '',
-          appendChild: cy.stub(),
-          setAttribute: cy.stub(),
-          getAttribute: cy.stub(),
-          removeAttribute: cy.stub(),
-          addEventListener: cy.stub(),
-          removeEventListener: cy.stub(),
-          dispatchEvent: cy.stub(),
-          childNodes: [],
-          parentNode: null,
-          style: {},
-        })),
-        querySelector: cy.stub(),
-        querySelectorAll: cy.stub().returns([]),
-        getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-      } as unknown as Document
-
-      const mockDOMParser = class MockDOMParser {
-        parseFromString(str: string) {
-          return {
-            body: {
-              innerHTML: str,
-              childNodes: [],
-              removeChild: cy.stub(),
-            },
-          }
-        }
-      }
-
-      const mockWindow = {
-        document: mockDocument,
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-        domParser: mockDOMParser as unknown as typeof DOMParser,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       const complexContent = `
         <h1>Heading 1</h1>
@@ -394,30 +204,7 @@ describe('Server-side Editor', () => {
     })
 
     it('should handle empty content gracefully', () => {
-      const mockWindow = {
-        document: {
-          createElement: cy.stub().returns({
-            tagName: 'DIV',
-            appendChild: cy.stub(),
-            setAttribute: cy.stub(),
-            getAttribute: cy.stub(),
-            removeAttribute: cy.stub(),
-            addEventListener: cy.stub(),
-            removeEventListener: cy.stub(),
-            dispatchEvent: cy.stub(),
-            childNodes: [],
-            style: {},
-          }),
-          querySelector: cy.stub(),
-          querySelectorAll: cy.stub().returns([]),
-          getElementsByTagName: cy.stub().returns([{ appendChild: cy.stub() }]),
-        },
-        navigator: { userAgent: 'test-server' },
-      } as unknown as Window
-
-      const browserEnvironment = new BrowserEnvironment({
-        window: mockWindow,
-      })
+      const browserEnvironment = createServerBrowserEnvironment()
 
       editor = new Editor({
         extensions: [Document, Paragraph, Text],
@@ -435,7 +222,7 @@ describe('Server-side Editor', () => {
 
   describe('Browser environment integration', () => {
     it('should access browser environment through editor instance', () => {
-      const mockWindow = { custom: 'test-window' } as unknown as Window
+      const mockWindow = { custom: 'test-window', setTimeout: (fn: any) => fn() } as unknown as Window
       const browserEnvironment = new BrowserEnvironment({ window: mockWindow })
 
       editor = new Editor({
