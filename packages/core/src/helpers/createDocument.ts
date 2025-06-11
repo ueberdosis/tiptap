@@ -16,12 +16,12 @@ export function createDocument(
   content: Content | ProseMirrorNode | Fragment,
   schema: Schema,
   parseOptions: ParseOptions = {},
-  options: { errorOnInvalidContent?: boolean; browserEnv?: BrowserEnvironmentManager } = {},
+  options: { errorOnInvalidContent?: boolean; browserEnvironment?: BrowserEnvironmentManager } = {},
 ): ProseMirrorNode {
   return createNodeFromContent(content, schema, {
     slice: false,
     parseOptions,
     errorOnInvalidContent: options.errorOnInvalidContent,
-    browserEnv: options.browserEnv,
+    browserEnvironment: options.browserEnvironment,
   }) as ProseMirrorNode
 }

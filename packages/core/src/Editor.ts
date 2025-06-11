@@ -81,7 +81,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Browser environment manager for running Tiptap in non-browser environments.
    */
-  public browserEnv: BrowserEnvironmentManager
+  public browserEnvironment: BrowserEnvironmentManager
 
   public options: EditorOptions = {
     element: null,
@@ -113,16 +113,16 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
-    environment: {},
+    browserEnvironment: {},
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
 
-    this.browserEnv = new BrowserEnvironmentManager(this.options.environment)
+    this.browserEnvironment = new BrowserEnvironmentManager(this.options.browserEnvironment)
 
-    if (!options.element && this.browserEnv.document) {
-      options.element = this.browserEnv.document.createElement('div')
+    if (!options.element && this.browserEnvironment.document) {
+      options.element = this.browserEnvironment.document.createElement('div')
     }
 
     this.setOptions(options)
@@ -163,15 +163,15 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Attach the editor to the DOM, creating a new editor view.
    */
   public mount(el: NonNullable<EditorOptions['element']> & {}) {
-    if (!this.browserEnv.document) {
+    if (!this.browserEnvironment.document) {
       throw new Error(
         `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment. ` +
-          `For server-side usage, provide a document implementation via the 'environment' option.`,
+          `For server-side usage, provide a document implementation via the \`browserEnvironment\` option.`,
       )
     }
     this.createView(el)
 
-    this.browserEnv.window?.setTimeout(() => {
+    this.browserEnvironment.window?.setTimeout(() => {
       if (this.isDestroyed) {
         return
       }
@@ -234,8 +234,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Inject CSS styles.
    */
   private injectCSS(): void {
-    if (this.options.injectCSS && this.browserEnv.document) {
-      this.css = createStyleTag(style, this.options.injectNonce, undefined, this.browserEnv)
+    if (this.options.injectCSS && this.browserEnvironment.document) {
+      this.css = createStyleTag(style, this.options.injectNonce, undefined, this.browserEnvironment)
     }
   }
 
@@ -454,7 +454,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
-        browserEnv: this.browserEnv,
+        browserEnvironment: this.browserEnvironment,
       })
     } catch (e) {
       if (
@@ -486,7 +486,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: false,
-        browserEnv: this.browserEnv,
+        browserEnvironment: this.browserEnvironment,
       })
     }
     return doc
@@ -697,7 +697,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    return getHTMLFromFragment(this.state.doc.content, this.schema, this.browserEnv)
+    return getHTMLFromFragment(this.state.doc.content, this.schema, this.browserEnvironment)
   }
 
   /**

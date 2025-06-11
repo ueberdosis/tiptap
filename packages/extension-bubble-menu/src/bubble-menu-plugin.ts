@@ -143,7 +143,7 @@ export class BubbleMenuView implements PluginView {
     // When clicking on a element inside the bubble menu the editor "blur" event
     // is called and the bubble menu item is focussed. In this case we should
     // consider the menu as part of the editor and keep showing the menu
-    const isChildOfMenu = this.element.contains(this.editor.browserEnv.document?.activeElement || null)
+    const isChildOfMenu = this.element.contains(this.editor.browserEnvironment.document?.activeElement || null)
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
@@ -230,12 +230,12 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    this.editor.browserEnv.window?.addEventListener('resize', () => {
+    this.editor.browserEnvironment.window?.addEventListener('resize', () => {
       if (this.resizeDebounceTimer) {
         clearTimeout(this.resizeDebounceTimer)
       }
 
-      this.resizeDebounceTimer = this.editor.browserEnv.window?.setTimeout(() => {
+      this.resizeDebounceTimer = this.editor.browserEnvironment.window?.setTimeout(() => {
         this.updatePosition()
       }, this.resizeDelay)
     })
@@ -324,7 +324,7 @@ export class BubbleMenuView implements PluginView {
       clearTimeout(this.updateDebounceTimer)
     }
 
-    this.updateDebounceTimer = this.editor.browserEnv.window?.setTimeout(() => {
+    this.updateDebounceTimer = this.editor.browserEnvironment.window?.setTimeout(() => {
       this.updateHandler(view, selectionChanged, docChanged, oldState)
     }, this.updateDelay)
   }

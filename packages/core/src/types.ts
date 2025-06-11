@@ -416,7 +416,7 @@ export interface EditorOptions {
    * Overrides browser APIs like `window` with a custom implementation. Used to
    * run Tiptap in a non-browser environment like a Node server.
    */
-  environment: BrowserEnvironment
+  browserEnvironment: BrowserEnvironment
 }
 
 /**

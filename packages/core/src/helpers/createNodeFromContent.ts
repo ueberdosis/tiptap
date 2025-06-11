@@ -9,7 +9,7 @@ export type CreateNodeFromContentOptions = {
   slice?: boolean
   parseOptions?: ParseOptions
   errorOnInvalidContent?: boolean
-  browserEnv?: BrowserEnvironmentManager
+  browserEnvironment?: BrowserEnvironmentManager
 }
 
 /**
@@ -97,12 +97,12 @@ export function createNodeFromContent(
 
       if (options.slice) {
         DOMParser.fromSchema(contentCheckSchema).parseSlice(
-          elementFromString(content, options.browserEnv),
+          elementFromString(content, options.browserEnvironment),
           options.parseOptions,
         )
       } else {
         DOMParser.fromSchema(contentCheckSchema).parse(
-          elementFromString(content, options.browserEnv),
+          elementFromString(content, options.browserEnvironment),
           options.parseOptions,
         )
       }
@@ -117,10 +117,10 @@ export function createNodeFromContent(
     const parser = DOMParser.fromSchema(schema)
 
     if (options.slice) {
-      return parser.parseSlice(elementFromString(content, options.browserEnv), options.parseOptions).content
+      return parser.parseSlice(elementFromString(content, options.browserEnvironment), options.parseOptions).content
     }
 
-    return parser.parse(elementFromString(content, options.browserEnv), options.parseOptions)
+    return parser.parse(elementFromString(content, options.browserEnvironment), options.parseOptions)
   }
 
   return createNodeFromContent('', schema, options)

@@ -6,13 +6,13 @@ import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
 export function getHTMLFromFragment(
   fragment: Fragment,
   schema: Schema,
-  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): string {
   const documentFragment = DOMSerializer.fromSchema(schema).serializeFragment(fragment, {
-    document: browserEnv.document,
+    document: browserEnvironment.document,
   })
 
-  const temporaryDocument = browserEnv.document?.implementation?.createHTMLDocument?.() ?? document
+  const temporaryDocument = browserEnvironment.document?.implementation?.createHTMLDocument?.() ?? document
   const container = temporaryDocument.createElement('div')
 
   container.appendChild(documentFragment)

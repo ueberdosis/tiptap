@@ -9,16 +9,16 @@ import { getSchema } from './getSchema.js'
  * Generate JSONContent from HTML
  * @param html The HTML to generate JSONContent from
  * @param extensions The extensions to use for the schema
- * @param browserEnv Optional browser environment for server-side usage
+ * @param browserEnvironment Optional browser environment for server-side usage
  * @returns The generated JSONContent
  */
 export function generateJSON(
   html: string,
   extensions: Extensions,
-  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): Record<string, any> {
   const schema = getSchema(extensions)
-  const dom = elementFromString(html, browserEnv)
+  const dom = elementFromString(html, browserEnvironment)
 
   return DOMParser.fromSchema(schema).parse(dom).toJSON()
 }

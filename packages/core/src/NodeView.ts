@@ -170,7 +170,7 @@ export class NodeView<
       if (isValidDragHandle) {
         this.isDragging = true
 
-        this.editor.browserEnv.document?.addEventListener(
+        this.editor.browserEnvironment.document?.addEventListener(
           'dragend',
           () => {
             this.isDragging = false
@@ -178,7 +178,7 @@ export class NodeView<
           { once: true },
         )
 
-        this.editor.browserEnv.document?.addEventListener(
+        this.editor.browserEnvironment.document?.addEventListener(
           'drop',
           () => {
             this.isDragging = false
@@ -186,7 +186,7 @@ export class NodeView<
           { once: true },
         )
 
-        this.editor.browserEnv.document?.addEventListener(
+        this.editor.browserEnvironment.document?.addEventListener(
           'mouseup',
           () => {
             this.isDragging = false
@@ -237,7 +237,7 @@ export class NodeView<
     if (
       this.dom.contains(mutation.target) &&
       mutation.type === 'childList' &&
-      (isiOS(this.editor.browserEnv) || isAndroid(this.editor.browserEnv)) &&
+      (isiOS(this.editor.browserEnvironment) || isAndroid(this.editor.browserEnvironment)) &&
       this.editor.isFocused
     ) {
       const changedNodes = [...Array.from(mutation.addedNodes), ...Array.from(mutation.removedNodes)] as HTMLElement[]

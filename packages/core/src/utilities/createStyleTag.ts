@@ -4,9 +4,9 @@ export function createStyleTag(
   style: string,
   nonce?: string,
   suffix?: string,
-  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): HTMLStyleElement {
-  const doc = browserEnv?.document
+  const doc = browserEnvironment?.document
 
   if (!doc) {
     throw new Error('[tiptap error]: No document available')

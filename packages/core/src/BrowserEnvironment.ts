@@ -5,17 +5,17 @@ import type { BrowserEnvironment } from './types.js'
  * with fallbacks for server-side environments
  */
 export class BrowserEnvironmentManager {
-  private environment: BrowserEnvironment
+  private browserEnvironment: BrowserEnvironment
 
-  constructor(environment: BrowserEnvironment = {}) {
-    this.environment = environment
+  constructor(browserEnvironment: BrowserEnvironment = {}) {
+    this.browserEnvironment = browserEnvironment
   }
 
   /**
    * Get the window object (browser window or injected window)
    */
   get window(): Window | undefined {
-    return this.environment.window ?? (typeof window !== 'undefined' ? window : undefined)
+    return this.browserEnvironment.window ?? (typeof window !== 'undefined' ? window : undefined)
   }
 
   /**
@@ -36,6 +36,6 @@ export class BrowserEnvironmentManager {
    * Get the DOMParser constructor (browser DOMParser or injected DOMParser)
    */
   get DOMParser(): typeof DOMParser | undefined {
-    return this.environment.domParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
+    return this.browserEnvironment.domParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
   }
 }

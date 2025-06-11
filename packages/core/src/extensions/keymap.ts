@@ -92,7 +92,7 @@ export const Keymap = Extension.create({
       'Ctrl-e': () => this.editor.commands.selectTextblockEnd(),
     }
 
-    if (isiOS(this.editor.browserEnv) || isMacOS(this.editor.browserEnv)) {
+    if (isiOS(this.editor.browserEnvironment) || isMacOS(this.editor.browserEnvironment)) {
       return macKeymap
     }
 

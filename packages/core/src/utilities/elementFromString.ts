@@ -18,12 +18,12 @@ const removeWhitespaces = (node: HTMLElement) => {
 
 export function elementFromString(
   value: string,
-  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): HTMLElement {
-  const DOMParserClass = browserEnv.DOMParser
+  const DOMParserClass = browserEnvironment.DOMParser
   if (!DOMParserClass) {
     throw new Error(
-      '[tiptap error]: No DOMParser available. For server-side usage, provide a DOMParser implementation via the environment option.',
+      '[tiptap error]: No DOMParser available. For server-side usage, provide a DOMParser implementation via the `browserEnvironment` option.',
     )
   }
 
