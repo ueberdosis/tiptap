@@ -25,7 +25,7 @@ export function isNodeEmpty(
       return true
     }
     if (node.isText) {
-      return /^\s*$/m.test(node.text ?? '')
+      return /^\s*$/.test(node.text ?? '')
     }
   }
 
