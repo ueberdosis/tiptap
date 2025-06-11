@@ -4,7 +4,7 @@ import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
-import { BrowserEnvironmentManager } from './BrowserEnvironment.js'
+import { BrowserEnvironment } from './BrowserEnvironment.js'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
@@ -81,7 +81,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Browser environment manager for running Tiptap in non-browser environments.
    */
-  public browserEnvironment: BrowserEnvironmentManager
+  public browserEnvironment: BrowserEnvironment
 
   public options: EditorOptions = {
     element: null,
@@ -113,13 +113,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
-    browserEnvironment: {},
+    browserEnvironment: new BrowserEnvironment(),
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
 
-    this.browserEnvironment = new BrowserEnvironmentManager(this.options.browserEnvironment)
+    this.browserEnvironment = this.options.browserEnvironment
 
     if (!options.element && this.browserEnvironment.document) {
       options.element = this.browserEnvironment.document.createElement('div')

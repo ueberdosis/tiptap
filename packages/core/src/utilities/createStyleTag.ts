@@ -1,10 +1,10 @@
-import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
 
 export function createStyleTag(
   style: string,
   nonce?: string,
   suffix?: string,
-  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironment = new BrowserEnvironment(),
 ): HTMLStyleElement {
   const doc = browserEnvironment?.document
 

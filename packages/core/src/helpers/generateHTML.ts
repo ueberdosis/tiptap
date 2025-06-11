@@ -1,6 +1,6 @@
 import { Node } from '@tiptap/pm/model'
 
-import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
 import type { Extensions, JSONContent } from '../types.js'
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 import { getSchema } from './getSchema.js'
@@ -15,7 +15,7 @@ import { getSchema } from './getSchema.js'
 export function generateHTML(
   doc: JSONContent,
   extensions: Extensions,
-  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironment = new BrowserEnvironment(),
 ): string {
   const schema = getSchema(extensions)
   const contentNode = Node.fromJSON(schema, doc)

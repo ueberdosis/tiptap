@@ -1,12 +1,12 @@
 import type { Fragment, Schema } from '@tiptap/pm/model'
 import { DOMSerializer } from '@tiptap/pm/model'
 
-import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
 
 export function getHTMLFromFragment(
   fragment: Fragment,
   schema: Schema,
-  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironment = new BrowserEnvironment(),
 ): string {
   const documentFragment = DOMSerializer.fromSchema(schema).serializeFragment(fragment, {
     document: browserEnvironment.document,

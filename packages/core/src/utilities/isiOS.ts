@@ -1,6 +1,6 @@
-import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
 
-export function isiOS(browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager()): boolean {
+export function isiOS(browserEnvironment: BrowserEnvironment = new BrowserEnvironment()): boolean {
   const { navigator, document } = browserEnvironment
 
   if (!navigator) {

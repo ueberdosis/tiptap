@@ -1,4 +1,4 @@
-import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
 
 const removeWhitespaces = (node: HTMLElement) => {
   const children = node.childNodes
@@ -18,7 +18,7 @@ const removeWhitespaces = (node: HTMLElement) => {
 
 export function elementFromString(
   value: string,
-  browserEnvironment: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
+  browserEnvironment: BrowserEnvironment = new BrowserEnvironment(),
 ): HTMLElement {
   const DOMParserClass = browserEnvironment.DOMParser
   if (!DOMParserClass) {

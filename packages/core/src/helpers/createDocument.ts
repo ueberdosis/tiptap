@@ -1,6 +1,6 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions, Schema } from '@tiptap/pm/model'
 
-import type { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import type { BrowserEnvironment } from '../BrowserEnvironment.js'
 import type { Content } from '../types.js'
 import { createNodeFromContent } from './createNodeFromContent.js'
 
@@ -16,7 +16,7 @@ export function createDocument(
   content: Content | ProseMirrorNode | Fragment,
   schema: Schema,
   parseOptions: ParseOptions = {},
-  options: { errorOnInvalidContent?: boolean; browserEnvironment?: BrowserEnvironmentManager } = {},
+  options: { errorOnInvalidContent?: boolean; browserEnvironment?: BrowserEnvironment } = {},
 ): ProseMirrorNode {
   return createNodeFromContent(content, schema, {
     slice: false,

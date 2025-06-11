@@ -15,7 +15,7 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type { BrowserEnvironment, Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -560,21 +560,6 @@ export type ValuesOf<T> = T[keyof T]
 export type KeysWithTypeOf<T, Type> = { [P in keyof T]: T[P] extends Type ? P : never }[keyof T]
 
 export type DOMNode = InstanceType<typeof window.Node>
-
-/**
- * Overrides browser APIs like `window` with a custom implementation.
- */
-export interface BrowserEnvironment {
-  /**
-   * Custom implementation of the `window` object
-   */
-  window?: Window
-
-  /**
-   * Custom implementation of the `DOMParser` class constructor
-   */
-  domParser?: typeof DOMParser
-}
 
 /**
  * prosemirror-view does not export the `type` property of `Decoration`.

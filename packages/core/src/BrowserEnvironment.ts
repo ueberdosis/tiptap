@@ -1,25 +1,39 @@
-import type { BrowserEnvironment } from './types.js'
+/**
+ * Configuration options for the browser environment. Overrides browser APIs
+ * like `window` with a custom implementation.
+ */
+export interface BrowserEnvironmentOptions {
+  /**
+   * Custom implementation of the `window` object
+   */
+  window?: Window
+
+  /**
+   * Custom implementation of the `DOMParser` class constructor
+   */
+  domParser?: typeof DOMParser
+}
 
 /**
- * Browser environment manager that provides access to browser APIs or virtual
- * DOM implementations for server-side usage.
+ * Provides access to browser APIs or virtual DOM implementations for
+ * server-side usage.
  */
-export class BrowserEnvironmentManager {
+export class BrowserEnvironment {
   /**
    * Initial configuration for the browser environment, provided in the editor
    * options.
    */
-  private browserEnvironment: BrowserEnvironment
+  private options: BrowserEnvironmentOptions
 
-  constructor(browserEnvironment: BrowserEnvironment = {}) {
-    this.browserEnvironment = browserEnvironment
+  constructor(options: BrowserEnvironmentOptions = {}) {
+    this.options = options
   }
 
   /**
    * Get the window object (browser window or injected window)
    */
   get window(): Window | undefined {
-    return this.browserEnvironment.window ?? (typeof window !== 'undefined' ? window : undefined)
+    return this.options.window ?? (typeof window !== 'undefined' ? window : undefined)
   }
 
   /**
@@ -40,6 +54,6 @@ export class BrowserEnvironmentManager {
    * Get the DOMParser constructor (browser DOMParser or injected DOMParser)
    */
   get DOMParser(): typeof DOMParser | undefined {
-    return this.browserEnvironment.domParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
+    return this.options.domParser ?? (typeof window !== 'undefined' ? window.DOMParser : undefined)
   }
 }
