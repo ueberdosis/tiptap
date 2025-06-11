@@ -1,6 +1,6 @@
 import { DOMParser } from '@tiptap/pm/model'
 
-import type { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
+import { BrowserEnvironmentManager } from '../BrowserEnvironment.js'
 import type { Extensions } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'
 import { getSchema } from './getSchema.js'
@@ -15,7 +15,7 @@ import { getSchema } from './getSchema.js'
 export function generateJSON(
   html: string,
   extensions: Extensions,
-  browserEnv?: BrowserEnvironmentManager,
+  browserEnv: BrowserEnvironmentManager = new BrowserEnvironmentManager(),
 ): Record<string, any> {
   const schema = getSchema(extensions)
   const dom = elementFromString(html, browserEnv)
