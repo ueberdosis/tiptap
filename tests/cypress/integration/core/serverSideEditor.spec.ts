@@ -7,7 +7,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import StarterKit from '@tiptap/starter-kit'
 
-// Helper function to create a server-like browser environment using happy-dom
+// Helper function to create a browser environment
 function createServerBrowserEnvironment(): BrowserEnvironment {
   return new BrowserEnvironment({
     window,
