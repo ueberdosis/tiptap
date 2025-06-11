@@ -41,12 +41,12 @@ const getPackageDependencies = () => {
 
             paths.push({
               find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
+              replacement: resolve(`../${path}/${name}/src/${subPkgName}`),
             })
           })
-          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src`) })
         } else {
-          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src/index.ts`) })
+          paths.push({ find: `@tiptap/${name}`, replacement: resolve(`../${path}/${name}/src`) })
         }
       })
   }
