@@ -1,3 +1,5 @@
+import { BrowserEnvironment } from '../BrowserEnvironment.js'
+
 const removeWhitespaces = (node: HTMLElement) => {
   const children = node.childNodes
 
@@ -14,14 +16,21 @@ const removeWhitespaces = (node: HTMLElement) => {
   return node
 }
 
-export function elementFromString(value: string): HTMLElement {
-  if (typeof window === 'undefined') {
-    throw new Error('[tiptap error]: there is no window object available, so this function cannot be used')
+export function elementFromString(
+  value: string,
+  browserEnvironment: BrowserEnvironment = new BrowserEnvironment(),
+): HTMLElement {
+  const DOMParserClass = browserEnvironment.DOMParser
+  if (!DOMParserClass) {
+    throw new Error(
+      '[tiptap error]: No DOMParser available. For server-side usage, provide a DOMParser implementation via the `browserEnvironment` option.',
+    )
   }
+
   // add a wrapper to preserve leading and trailing whitespace
   const wrappedValue = `<body>${value}</body>`
 
-  const html = new window.DOMParser().parseFromString(wrappedValue, 'text/html').body
+  const html = new DOMParserClass().parseFromString(wrappedValue, 'text/html').body
 
   return removeWhitespaces(html)
 }

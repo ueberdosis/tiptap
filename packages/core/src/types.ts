@@ -15,7 +15,7 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type { BrowserEnvironment, Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -412,6 +412,11 @@ export interface EditorOptions {
    * Called when content is deleted from the editor.
    */
   onDelete: (props: EditorEvents['delete']) => void
+  /**
+   * Overrides browser APIs like `window` with a custom implementation. Used to
+   * run Tiptap in a non-browser environment like a Node server.
+   */
+  browserEnvironment: BrowserEnvironment
 }
 
 /**

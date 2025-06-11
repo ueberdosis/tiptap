@@ -4,6 +4,7 @@ import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
+import { BrowserEnvironment } from './BrowserEnvironment.js'
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
@@ -78,7 +79,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public instanceId = Math.random().toString(36).slice(2, 9)
 
   public options: EditorOptions = {
-    element: typeof document !== 'undefined' ? document.createElement('div') : null,
+    element: null,
     content: '',
     injectCSS: true,
     injectNonce: undefined,
@@ -107,11 +108,20 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
+    browserEnvironment: new BrowserEnvironment(),
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
+
+    const browserEnvironment = options.browserEnvironment ?? this.options.browserEnvironment
+
+    if (!options.element && browserEnvironment.document) {
+      options.element = browserEnvironment.document.createElement('div')
+    }
+
     this.setOptions(options)
+
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -148,14 +158,15 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Attach the editor to the DOM, creating a new editor view.
    */
   public mount(el: NonNullable<EditorOptions['element']> & {}) {
-    if (typeof document === 'undefined') {
+    if (!this.browserEnvironment.document) {
       throw new Error(
-        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`,
+        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment. ` +
+          `For server-side usage, provide a document implementation via the \`browserEnvironment\` option.`,
       )
     }
     this.createView(el)
 
-    window.setTimeout(() => {
+    this.browserEnvironment.window?.setTimeout(() => {
       if (this.isDestroyed) {
         return
       }
@@ -218,8 +229,8 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Inject CSS styles.
    */
   private injectCSS(): void {
-    if (this.options.injectCSS && typeof document !== 'undefined') {
-      this.css = createStyleTag(style, this.options.injectNonce)
+    if (this.options.injectCSS && this.browserEnvironment.document) {
+      this.css = createStyleTag(style, this.options.injectNonce, undefined, this.browserEnvironment)
     }
   }
 
@@ -438,6 +449,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
+        browserEnvironment: this.browserEnvironment,
       })
     } catch (e) {
       if (
@@ -469,6 +481,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: false,
+        browserEnvironment: this.browserEnvironment,
       })
     }
     return doc
@@ -679,7 +692,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Get the document as HTML.
    */
   public getHTML(): string {
-    return getHTMLFromFragment(this.state.doc.content, this.schema)
+    return getHTMLFromFragment(this.state.doc.content, this.schema, this.browserEnvironment)
   }
 
   /**
@@ -738,5 +751,9 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  get browserEnvironment() {
+    return this.options.browserEnvironment
   }
 }
