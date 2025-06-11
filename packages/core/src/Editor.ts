@@ -78,11 +78,6 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
 
-  /**
-   * Browser environment manager for running Tiptap in non-browser environments.
-   */
-  public browserEnvironment: BrowserEnvironment
-
   public options: EditorOptions = {
     element: null,
     content: '',
@@ -119,10 +114,10 @@ export class Editor extends EventEmitter<EditorEvents> {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
 
-    this.browserEnvironment = this.options.browserEnvironment ?? new BrowserEnvironment()
+    const browserEnvironment = options.browserEnvironment ?? this.options.browserEnvironment
 
-    if (!options.element && this.browserEnvironment.document) {
-      options.element = this.browserEnvironment.document.createElement('div')
+    if (!options.element && browserEnvironment.document) {
+      options.element = browserEnvironment.document.createElement('div')
     }
 
     this.setOptions(options)
@@ -756,5 +751,9 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  get browserEnvironment() {
+    return this.options.browserEnvironment
   }
 }
