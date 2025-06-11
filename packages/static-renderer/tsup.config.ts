@@ -9,7 +9,6 @@ export default defineConfig(
     'src/pm/html-string/index.ts',
     'src/pm/markdown/index.ts',
     'src/index.ts',
-    'src/react.ts',
   ].map(entry => ({
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
