@@ -133,6 +133,39 @@ describe('Server-side Editor', () => {
   })
 
   describe('Error handling', () => {
+    it('should throw error when trying to mount without document', () => {
+      class MockBrowserEnvironment extends BrowserEnvironment {
+        get window() {
+          return undefined
+        }
+        get document() {
+          return undefined
+        }
+        get DOMParser() {
+          return undefined
+        }
+      }
+
+      // Should throw error creating editor
+      expect(() => {
+        editor = new Editor({
+          extensions: [Document, Paragraph, Text],
+          content: '<p>Test content</p>',
+          browserEnvironment: new MockBrowserEnvironment(),
+        })
+      }).to.throw()
+      // Should throw error when trying to mount
+      expect(() => {
+        editor = new Editor({
+          element: null,
+          extensions: [Document, Paragraph, Text],
+          content: '<p>Test content</p>',
+          browserEnvironment: new MockBrowserEnvironment(),
+        })
+        editor.commands.setContent('<p>Test content</p>')
+      }).to.throw()
+    })
+
     it('should handle missing DOMParser gracefully', () => {
       const browserEnvironment = new BrowserEnvironment({
         window: undefined,
