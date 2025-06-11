@@ -119,7 +119,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   constructor(options: Partial<EditorOptions> = {}) {
     super()
 
-    this.browserEnvironment = this.options.browserEnvironment
+    this.browserEnvironment = this.options.browserEnvironment ?? new BrowserEnvironment()
 
     if (!options.element && this.browserEnvironment.document) {
       options.element = this.browserEnvironment.document.createElement('div')
