@@ -129,9 +129,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       __file: this.component.__file,
     })
 
-    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
-
     this.renderer = new VueRenderer(extendedComponent, {
       editor: this.editor,
       props,
@@ -160,33 +157,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     }
 
     return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
-  }
-
-  /**
-   * On editor selection update, check if the node is selected.
-   * If it is, call `selectNode`, otherwise call `deselectNode`.
-   */
-  handleSelectionUpdate() {
-    const { from, to } = this.editor.state.selection
-    const pos = this.getPos()
-
-    if (typeof pos !== 'number') {
-      return
-    }
-
-    if (from <= pos && to >= pos + this.node.nodeSize) {
-      if (this.renderer.props.selected) {
-        return
-      }
-
-      this.selectNode()
-    } else {
-      if (!this.renderer.props.selected) {
-        return
-      }
-
-      this.deselectNode()
-    }
   }
 
   /**
@@ -278,7 +248,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
   destroy() {
     this.renderer.destroy()
-    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
   }
 }
 
