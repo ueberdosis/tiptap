@@ -261,7 +261,6 @@ export const Link = Mark.create<LinkOptions>({
 
           // prevent XSS attacks
           if (
-            !href ||
             !this.options.isAllowedUri(href, {
               defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
               protocols: this.options.protocols,
