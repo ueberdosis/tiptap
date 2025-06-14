@@ -21,10 +21,13 @@ describe('extension-link', () => {
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   const validUrls = [
+    '',
     'https://example.com',
     'http://example.com',
     '/same-site/index.html',
     '../relative.html',
+    'relative.html',
+    'relative/index.html',
     'mailto:info@example.com',
     'ftp://info@example.com',
   ]
@@ -249,6 +252,29 @@ describe('extension-link', () => {
 
         expect(editor.getHTML()).to.include(url)
         expect(JSON.stringify(editor.getJSON())).to.include(url)
+
+        editor?.destroy()
+        getEditorEl()?.remove()
+      })
+    })
+
+    it('prevents regex injection in custom protocols', () => {
+      invalidUrls.forEach(url => {
+        editor = new Editor({
+          element: createEditorEl(),
+          extensions: [
+            Document,
+            Text,
+            Paragraph,
+            Link.configure({
+              protocols: ['foo)|.*|(bar'],
+            }),
+          ],
+          content: `<p><a href="${url}">hello world!</a></p>`,
+        })
+
+        expect(editor.getHTML()).to.not.include(url)
+        expect(JSON.stringify(editor.getJSON())).to.not.include(url)
 
         editor?.destroy()
         getEditorEl()?.remove()

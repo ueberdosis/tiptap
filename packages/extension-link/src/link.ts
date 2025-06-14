@@ -168,21 +168,14 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
       const nextProtocol = typeof protocol === 'string' ? protocol : protocol.scheme
 
       if (nextProtocol) {
-        allowedProtocols.push(nextProtocol)
+        allowedProtocols.push(nextProtocol.toLowerCase())
       }
     })
   }
 
-  return (
-    !uri ||
-    uri.replace(ATTR_WHITESPACE, '').match(
-      new RegExp(
-        // eslint-disable-next-line no-useless-escape
-        `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
-        'i',
-      ),
-    )
-  )
+  const protocol = (uri ?? '').replace(ATTR_WHITESPACE, '').match(/^[a-z]+[a-z0-9+.-]*:/i)
+
+  return !protocol || allowedProtocols.includes(protocol[0].toLowerCase().slice(0, -1))
 }
 
 /**
