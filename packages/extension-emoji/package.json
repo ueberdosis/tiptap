@@ -1,0 +1,53 @@
+{
+  "name": "@tiptap/extension-emoji",
+  "description": "emoji extension for tiptap",
+  "version": "2.21.4",
+  "homepage": "https://tiptap.dev/api/nodes/emoji",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
+    "@tiptap/suggestion": "^2.7.0"
+  },
+  "dependencies": {
+    "emoji-regex": "^10.4.0",
+    "emojibase-data": "^15",
+    "is-emoji-supported": "^0.0.5"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.14.0",
+    "@tiptap/pm": "^2.14.0",
+    "@tiptap/suggestion": "^2.14.0",
+    "emoji-datasource": "^7.0.2",
+    "json5": "^2.2.3",
+    "tsm": "^2.3.0"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
+}
