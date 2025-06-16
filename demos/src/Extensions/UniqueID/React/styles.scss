@@ -1,0 +1,28 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Unique data id */
+  [data-id] {
+    border: 2px solid var(--black);
+    border-radius: 0.5rem;
+    padding: 2.5rem 1rem 1rem;
+    position: relative;
+
+    &::before {
+      background-color: var(--black);
+      border-radius: 0 0 0.5rem 0;
+      color: var(--white);
+      content: attr(data-id);
+      font-size: 0.75rem;
+      font-weight: bold;
+      left: 0;
+      line-height: 1.5;
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      top: 0;
+    }
+  }
+}
