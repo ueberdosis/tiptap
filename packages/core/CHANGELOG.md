@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.14.0
+
+### Minor Changes
+
+- 3f8efb9: Add config option to emit content error when content check is disabled
+
+## 2.13.0
+
 ## 2.12.0
 
 ## 2.11.9
