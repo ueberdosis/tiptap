@@ -18,14 +18,14 @@ import { createSafeWindow } from './createSafeWindow.js'
 export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { document?: Document }): string {
   if (options?.document) {
     // The caller is relying on their own document implementation. Use this
-    // instead of the default zeed-dom.
+    // instead of the default happy-dom-without-node library
     const wrap = options.document.createElement('div')
 
     DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)
     return wrap.innerHTML
   }
 
-  // Use happy-dom for serialization.
+  // Use happy-dom-without-node for serialization.
   const localWindow = typeof window === 'undefined' ? createSafeWindow() : window
 
   const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
