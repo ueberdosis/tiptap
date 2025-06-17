@@ -1,19 +1,24 @@
-import type { Editor } from '@tiptap/core'
-import { Extension } from '@tiptap/core'
+import type { ComputePositionConfig } from '@floating-ui/dom'
+import { type Editor, Extension } from '@tiptap/core'
 import type { Node } from '@tiptap/pm/model'
-import type { Props } from 'tippy.js'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
 
+export const defaultComputePositionConfig: ComputePositionConfig = {
+  placement: 'left-start',
+  strategy: 'absolute',
+}
+
 export interface DragHandleOptions {
   /**
-   * Renders an element that is positioned with tippy.js
+   * Renders an element that is positioned with the floating-ui/dom package
    */
   render(): HTMLElement
   /**
-   * Options for tippy.js
+   * Configuration for position computation of the drag handle
+   * using the floating-ui/dom package
    */
-  tippyOptions?: Partial<Props>
+  computePositionConfig?: ComputePositionConfig
   /**
    * Locks the draghandle in place and visibility
    */
@@ -55,7 +60,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
         return element
       },
-      tippyOptions: {},
+      computePositionConfig: {},
       locked: false,
       onNodeChange: () => {
         return null
@@ -91,11 +96,11 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
     return [
       DragHandlePlugin({
-        tippyOptions: this.options.tippyOptions,
+        computePositionConfig: { ...defaultComputePositionConfig, ...this.options.computePositionConfig },
         element,
         editor: this.editor,
         onNodeChange: this.options.onNodeChange,
-      }),
+      }).plugin,
     ]
   },
 })

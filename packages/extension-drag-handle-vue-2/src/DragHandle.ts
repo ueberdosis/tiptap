@@ -1,8 +1,11 @@
 import type { Editor } from '@tiptap/core'
-import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
-import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@tiptap/extension-drag-handle'
-import type { PropType } from 'vue'
-import Vue from 'vue'
+import {
+  type DragHandlePluginProps,
+  defaultComputePositionConfig,
+  DragHandlePlugin,
+  dragHandlePluginDefaultKey,
+} from '@tiptap/extension-drag-handle'
+import Vue, { type PropType } from 'vue'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -25,8 +28,8 @@ export const DragHandle = Vue.extend({
       required: true,
     },
 
-    tippyOptions: {
-      type: Object as PropType<DragHandleProps['tippyOptions']>,
+    computePositionConfig: {
+      type: Object as PropType<DragHandleProps['computePositionConfig']>,
       default: () => ({}),
     },
 
@@ -42,16 +45,16 @@ export const DragHandle = Vue.extend({
   },
 
   mounted() {
-    const { editor, pluginKey, onNodeChange, tippyOptions } = this.$props
+    const { editor, pluginKey, onNodeChange } = this.$props
 
     editor.registerPlugin(
       DragHandlePlugin({
         editor,
         element: this.$el as HTMLElement,
         pluginKey,
-        tippyOptions,
+        computePositionConfig: { ...defaultComputePositionConfig, ...this.computePositionConfig },
         onNodeChange,
-      }),
+      }).plugin,
     )
   },
 

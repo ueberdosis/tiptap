@@ -1,5 +1,9 @@
 import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
-import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@tiptap/extension-drag-handle'
+import {
+  defaultComputePositionConfig,
+  DragHandlePlugin,
+  dragHandlePluginDefaultKey,
+} from '@tiptap/extension-drag-handle'
 import type { Editor } from '@tiptap/vue-3'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
@@ -25,8 +29,8 @@ export const DragHandle = defineComponent({
       required: true,
     },
 
-    tippyOptions: {
-      type: Object as PropType<DragHandleProps['tippyOptions']>,
+    computePositionConfig: {
+      type: Object as PropType<DragHandleProps['computePositionConfig']>,
       default: () => ({}),
     },
 
@@ -45,16 +49,16 @@ export const DragHandle = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, pluginKey, onNodeChange, tippyOptions } = props
+      const { editor, pluginKey, onNodeChange, computePositionConfig } = props
 
       editor.registerPlugin(
         DragHandlePlugin({
           editor,
           element: root.value as HTMLElement,
           pluginKey,
-          tippyOptions,
+          computePositionConfig: { ...defaultComputePositionConfig, ...computePositionConfig },
           onNodeChange,
-        }),
+        }).plugin,
       )
     })
 

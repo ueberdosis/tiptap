@@ -12,6 +12,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.6.13",
     "@hocuspocus/provider": "^2.15.0",
+    "@hocuspocus/transformer": "^2.15.0",
     "@lexical/react": "^0.11.3",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",

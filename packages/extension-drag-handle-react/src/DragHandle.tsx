@@ -1,10 +1,13 @@
-import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
-import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@tiptap/extension-drag-handle'
+import {
+  type DragHandlePluginProps,
+  defaultComputePositionConfig,
+  DragHandlePlugin,
+  dragHandlePluginDefaultKey,
+} from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
 import type { Plugin } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/react'
-import type { ReactNode } from 'react'
-import React, { useEffect, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -21,12 +24,17 @@ export const DragHandle = (props: DragHandleProps) => {
     editor,
     pluginKey = dragHandlePluginDefaultKey,
     onNodeChange,
-    tippyOptions = {},
+    computePositionConfig = defaultComputePositionConfig,
   } = props
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const plugin = useRef<Plugin | null>(null)
 
   useEffect(() => {
+    let initPlugin: {
+      plugin: Plugin
+      unbind: () => void
+    } | null = null
+
     if (!element) {
       return () => {
         plugin.current = null
@@ -40,13 +48,14 @@ export const DragHandle = (props: DragHandleProps) => {
     }
 
     if (!plugin.current) {
-      plugin.current = DragHandlePlugin({
+      initPlugin = DragHandlePlugin({
         editor,
         element,
         pluginKey,
-        tippyOptions,
+        computePositionConfig: { ...defaultComputePositionConfig, ...computePositionConfig },
         onNodeChange,
       })
+      plugin.current = initPlugin.plugin
 
       editor.registerPlugin(plugin.current)
     }
@@ -54,11 +63,15 @@ export const DragHandle = (props: DragHandleProps) => {
     return () => {
       editor.unregisterPlugin(pluginKey)
       plugin.current = null
+      if (initPlugin) {
+        initPlugin.unbind()
+        initPlugin = null
+      }
     }
-  }, [element, editor, onNodeChange, pluginKey, tippyOptions])
+  }, [element, editor, onNodeChange, pluginKey, computePositionConfig])
 
   return (
-    <div className={className} ref={setElement}>
+    <div className={className} style={{ visibility: 'hidden', position: 'absolute' }} ref={setElement}>
       {children}
     </div>
   )

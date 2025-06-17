@@ -1,5 +1,5 @@
+import { computePosition } from '@floating-ui/dom'
 import { ReactRenderer } from '@tiptap/react'
-import tippy from 'tippy.js'
 
 import { EmojiList } from './EmojiList.jsx'
 
@@ -19,7 +19,28 @@ export default {
 
   render: () => {
     let component
-    let popup
+
+    function repositionComponent(clientRect) {
+      if (!component || !component.element) {
+        return
+      }
+
+      const virtualElement = {
+        getBoundingClientRect() {
+          return clientRect
+        },
+      }
+
+      computePosition(virtualElement, component.element, {
+        placement: 'bottom-start',
+      }).then(pos => {
+        Object.assign(component.element.style, {
+          left: `${pos.x}px`,
+          top: `${pos.y}px`,
+          position: pos.strategy === 'fixed' ? 'fixed' : 'absolute',
+        })
+      })
+    }
 
     return {
       onStart: props => {
@@ -28,28 +49,18 @@ export default {
           editor: props.editor,
         })
 
-        popup = tippy('body', {
-          getReferenceClientRect: props.clientRect,
-          appendTo: () => document.body,
-          content: component.element,
-          showOnCreate: true,
-          interactive: true,
-          trigger: 'manual',
-          placement: 'bottom-start',
-        })
+        document.body.appendChild(component.element)
+        repositionComponent(props.clientRect())
       },
 
       onUpdate(props) {
         component.updateProps(props)
-
-        popup[0].setProps({
-          getReferenceClientRect: props.clientRect,
-        })
+        repositionComponent(props.clientRect())
       },
 
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
-          popup[0].hide()
+          document.body.removeChild(component.element)
           component.destroy()
 
           return true
@@ -59,7 +70,9 @@ export default {
       },
 
       onExit() {
-        popup[0].destroy()
+        if (document.body.contains(component.element)) {
+          document.body.removeChild(component.element)
+        }
         component.destroy()
       },
     }

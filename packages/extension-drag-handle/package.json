@@ -35,18 +35,18 @@
     "@tiptap/core": "workspace:*",
     "@tiptap/extension-collaboration": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "y-prosemirror": "^1.2.5"
+    "@tiptap/y-tiptap": "^3.0.0-beta.3"
   },
   "dependencies": {
-    "tippy.js": "^6.3.7"
+    "@floating-ui/dom": "^1.6.13"
   },
   "devDependencies": {
+    "@floating-ui/dom": "^1.6.13",
     "@tiptap/extension-node-range": "workspace:*",
     "@tiptap/core": "workspace:*",
     "@tiptap/extension-collaboration": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "tippy.js": "^6.3.7",
-    "y-prosemirror": "^1.2.12"
+    "@tiptap/y-tiptap": "^3.0.0-beta.3"
   },
   "scripts": {
     "build": "tsup",
