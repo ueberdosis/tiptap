@@ -1,6 +1,6 @@
-import { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/pm/model'
 
-import { Position } from '../../types.js'
+import type { Position } from '../../types.js'
 
 export const textBetween = (from: number, to: number, doc: Node) => {
   const positions: Position[] = []

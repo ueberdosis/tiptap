@@ -1,4 +1,4 @@
-import type { Editor} from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import { findChildren, findParentNode } from '@tiptap/core'
 import { GapCursor } from '@tiptap/pm/gapcursor'
 import type { ResolvedPos } from '@tiptap/pm/model'

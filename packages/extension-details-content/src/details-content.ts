@@ -1,9 +1,4 @@
-import {
-  defaultBlockAt,
-  findParentNode,
-  mergeAttributes,
-  Node,
-} from '@tiptap/core'
+import { defaultBlockAt, findParentNode, mergeAttributes, Node } from '@tiptap/core'
 import { Selection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -13,7 +8,7 @@ export interface DetailsContentOptions {
    */
   HTMLAttributes: {
     [key: string]: any
-  },
+  }
 }
 
 export const DetailsContent = Node.create<DetailsContentOptions>({
@@ -40,24 +35,16 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'div',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }),
-      0,
-    ]
+    return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }), 0]
   },
 
   addNodeView() {
     return ({ HTMLAttributes }) => {
       const dom = document.createElement('div')
-      const attributes = mergeAttributes(
-        this.options.HTMLAttributes,
-        HTMLAttributes,
-        {
-          'data-type': this.name,
-          hidden: 'hidden',
-        },
-      )
+      const attributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        'data-type': this.name,
+        hidden: 'hidden',
+      })
 
       Object.entries(attributes).forEach(([key, value]) => dom.setAttribute(key, value))
 

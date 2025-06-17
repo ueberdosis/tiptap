@@ -6,7 +6,7 @@ export interface DetailsSummaryOptions {
    */
   HTMLAttributes: {
     [key: string]: any
-  },
+  }
 }
 
 export const DetailsSummary = Node.create<DetailsSummaryOptions>({
@@ -35,10 +35,6 @@ export const DetailsSummary = Node.create<DetailsSummaryOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      'summary',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ]
+    return ['summary', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 })

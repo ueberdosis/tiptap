@@ -1,9 +1,8 @@
-import {
-  AllSelection, EditorState, Plugin, PluginKey,
-} from '@tiptap/pm/state'
+import type { EditorState } from '@tiptap/pm/state'
+import { AllSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { DecorationSet } from '@tiptap/pm/view'
 
-import { InvisibleCharactersOptions, PluginState } from '../types.js'
+import type { InvisibleCharactersOptions, PluginState } from '../types.js'
 import { stateReducer } from './reducers.js'
 import { style } from './style.js'
 import { createStyleTag } from './utils/create-style-tag.js'
@@ -21,15 +20,17 @@ export const InvisibleCharactersPlugin = (state: EditorState, options: Invisible
     editorState: EditorState,
     decorations: DecorationSet,
   ) => {
-    return options.builders.sort((builderA, builderB) => {
-      if (builderA.priority > builderB.priority) {
-        return 1
-      }
+    return options.builders
+      .sort((builderA, builderB) => {
+        if (builderA.priority > builderB.priority) {
+          return 1
+        }
 
-      return -1
-    }).reduce((newDecos, builder) => {
-      return builder.createDecoration(from, to, editorState.doc, newDecos)
-    }, decorations)
+        return -1
+      })
+      .reduce((newDecos, builder) => {
+        return builder.createDecoration(from, to, editorState.doc, newDecos)
+      }, decorations)
   }
 
   return new Plugin({
@@ -51,9 +52,12 @@ export const InvisibleCharactersPlugin = (state: EditorState, options: Invisible
       apply: (tr, pluginState, _, currentState) => {
         const newPluginState = stateReducer(pluginState, tr.getMeta('setInvisibleCharactersVisible'))
 
-        const decorations = getUpdatedRanges(tr).reduce((nextDecorations, [from, to]) => {
-          return addDecorationsBetweenPositions(from, to, currentState, nextDecorations)
-        }, newPluginState.decorations.map(tr.mapping, tr.doc))
+        const decorations = getUpdatedRanges(tr).reduce(
+          (nextDecorations, [from, to]) => {
+            return addDecorationsBetweenPositions(from, to, currentState, nextDecorations)
+          },
+          newPluginState.decorations.map(tr.mapping, tr.doc),
+        )
 
         return {
           ...newPluginState,
@@ -72,7 +76,6 @@ export const InvisibleCharactersPlugin = (state: EditorState, options: Invisible
         return visible ? decorations : emptyDecorationSet
       },
     },
-
   })
 }
 

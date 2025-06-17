@@ -1,11 +1,11 @@
-import { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/pm/model'
+import type { DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 import { textBetween } from './utils/text-between.js'
 
 export interface InvisibleCharacterOptions {
-  type: string;
+  type: string
   predicate: (value: string) => boolean
   priority?: number
   content?: string

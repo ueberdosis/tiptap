@@ -1,5 +1,7 @@
 export const createStyleTag = (style: string, nonce?: string): HTMLStyleElement => {
-  const tiptapStyleTag = (<HTMLStyleElement>document.querySelector('style[data-tiptap-extension-invisible-characters-style]'))
+  const tiptapStyleTag = <HTMLStyleElement>(
+    document.querySelector('style[data-tiptap-extension-invisible-characters-style]')
+  )
 
   if (tiptapStyleTag !== null) {
     return tiptapStyleTag

@@ -3,7 +3,7 @@ import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@tiptap/extension-
 import type { Node } from '@tiptap/pm/model'
 import type { Plugin } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/react'
-import type { ReactNode} from 'react'
+import type { ReactNode } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>

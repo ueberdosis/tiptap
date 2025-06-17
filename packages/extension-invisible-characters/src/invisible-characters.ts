@@ -4,30 +4,26 @@ import { InvisibleCharactersPlugin, InvisibleCharactersPluginKey } from './plugi
 import { HardBreakNode } from './plugin/invisible-characters/hardBreak.js'
 import { ParagraphNode } from './plugin/invisible-characters/paragraph.js'
 import { SpaceCharacter } from './plugin/invisible-characters/space.js'
-import { InvisibleCharactersOptions } from './types.js'
+import type { InvisibleCharactersOptions } from './types.js'
 
-export {
-  HardBreakNode,
-  ParagraphNode,
-  SpaceCharacter,
-}
+export { HardBreakNode, ParagraphNode, SpaceCharacter }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     invisibleCharacters: {
       /**
-      * Show invisible characters
-      */
+       * Show invisible characters
+       */
       showInvisibleCharacters: (show?: boolean) => ReturnType
 
       /**
-      * Hide invisible characters
-      */
+       * Hide invisible characters
+       */
       hideInvisibleCharacters: () => ReturnType
 
       /**
-      * Toggle invisible characters
-      */
+       * Toggle invisible characters
+       */
       toggleInvisibleCharacters: () => ReturnType
     }
   }
@@ -39,20 +35,14 @@ export const InvisibleCharacters = Extension.create<InvisibleCharactersOptions>(
   addOptions() {
     return {
       visible: true,
-      builders: [
-        new SpaceCharacter(),
-        new ParagraphNode(),
-        new HardBreakNode(),
-      ],
+      builders: [new SpaceCharacter(), new ParagraphNode(), new HardBreakNode()],
       injectCSS: true,
       injectNonce: undefined,
     }
   },
 
   addProseMirrorPlugins() {
-    return [
-      InvisibleCharactersPlugin(this.editor.state, this.options),
-    ]
+    return [InvisibleCharactersPlugin(this.editor.state, this.options)]
   },
 
   addStorage() {
@@ -69,29 +59,35 @@ export const InvisibleCharacters = Extension.create<InvisibleCharactersOptions>(
 
   addCommands() {
     return {
-      showInvisibleCharacters: (visibility = true) => ({ dispatch, tr }) => {
-        if (dispatch) {
-          tr.setMeta('setInvisibleCharactersVisible', visibility)
-        }
+      showInvisibleCharacters:
+        (visibility = true) =>
+        ({ dispatch, tr }) => {
+          if (dispatch) {
+            tr.setMeta('setInvisibleCharactersVisible', visibility)
+          }
 
-        return true
-      },
-      hideInvisibleCharacters: () => ({ dispatch, tr }) => {
-        if (dispatch) {
-          tr.setMeta('setInvisibleCharactersVisible', false)
-        }
+          return true
+        },
+      hideInvisibleCharacters:
+        () =>
+        ({ dispatch, tr }) => {
+          if (dispatch) {
+            tr.setMeta('setInvisibleCharactersVisible', false)
+          }
 
-        return true
-      },
-      toggleInvisibleCharacters: () => ({ dispatch, tr, state }) => {
-        const visibility = !InvisibleCharactersPluginKey.getState(state)?.visible
+          return true
+        },
+      toggleInvisibleCharacters:
+        () =>
+        ({ dispatch, tr, state }) => {
+          const visibility = !InvisibleCharactersPluginKey.getState(state)?.visible
 
-        if (dispatch) {
-          tr.setMeta('setInvisibleCharactersVisible', visibility)
-        }
+          if (dispatch) {
+            tr.setMeta('setInvisibleCharactersVisible', visibility)
+          }
 
-        return true
-      },
+          return true
+        },
     }
   },
 })

@@ -1,4 +1,4 @@
-import type { Editor} from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import type { Node as TiptapNode } from '@tiptap/pm/model'
 import { v4 as uuidv4 } from 'uuid'

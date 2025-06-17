@@ -1,7 +1,7 @@
 import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
 import { DragHandlePlugin, dragHandlePluginDefaultKey } from '@tiptap/extension-drag-handle'
 import type { Editor } from '@tiptap/vue-3'
-import type { PropType} from 'vue'
+import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>

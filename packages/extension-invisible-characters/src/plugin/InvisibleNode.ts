@@ -1,14 +1,14 @@
-import { Node } from '@tiptap/pm/model'
-import { DecorationSet } from '@tiptap/pm/view'
+import type { Node } from '@tiptap/pm/model'
+import type { DecorationSet } from '@tiptap/pm/view'
 
 import { createDecorationWidget } from './utils/create-decoration-widget.js'
 
 export interface InvisibleNodeOptions {
   content?: string
-  position?: (node: Node, pos: number) => number;
+  position?: (node: Node, pos: number) => number
   predicate: (value: Node) => boolean
   priority?: number
-  type: string;
+  type: string
 }
 
 /** Default position for nodes is always at the end of the node */
@@ -19,7 +19,7 @@ export class InvisibleNode {
 
   position: (node: Node, pos: number) => number
 
-  content ?: string
+  content?: string
 
   type: string
 
