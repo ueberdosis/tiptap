@@ -31,11 +31,13 @@
   ],
   "devDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/extension-text-style": "workspace:*"
+    "@tiptap/extension-text-style": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/extension-text-style": "workspace:*"
+    "@tiptap/extension-text-style": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "repository": {
     "type": "git",

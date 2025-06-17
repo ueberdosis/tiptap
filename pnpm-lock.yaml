@@ -510,6 +510,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:*
         version: link:../extension-text-style
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-details-content:
     devDependencies:
@@ -519,6 +522,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:*
         version: link:../extension-text-style
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-details-summary:
     devDependencies:
@@ -528,6 +534,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:*
         version: link:../extension-text-style
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-document:
     devDependencies:
@@ -653,6 +662,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:*
         version: link:../extension-text-style
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-floating-menu:
     devDependencies:
@@ -713,6 +725,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: workspace:*
         version: link:../extension-text-style
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-italic:
     devDependencies:
