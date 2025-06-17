@@ -27,7 +27,55 @@ function isClassComponent(Component: any) {
  * @returns {boolean}
  */
 function isForwardRefComponent(Component: any) {
-  return !!(typeof Component === 'object' && Component.$$typeof?.toString() === 'Symbol(react.forward_ref)')
+  return !!(
+    typeof Component === 'object' &&
+    Component.$$typeof &&
+    (Component.$$typeof.toString() === 'Symbol(react.forward_ref)' ||
+      Component.$$typeof.description === 'react.forward_ref')
+  )
+}
+
+/**
+ * Check if a component is a memoized component.
+ * @param Component
+ * @returns {boolean}
+ */
+function isMemoComponent(Component: any) {
+  return !!(
+    typeof Component === 'object' &&
+    Component.$$typeof &&
+    (Component.$$typeof.toString() === 'Symbol(react.memo)' || Component.$$typeof.description === 'react.memo')
+  )
+}
+
+/**
+ * Check if a component can safely receive a ref prop.
+ * This includes class components, forwardRef components, and memoized components
+ * that wrap forwardRef or class components.
+ * @param Component
+ * @returns {boolean}
+ */
+function canReceiveRef(Component: any) {
+  // Check if it's a class component
+  if (isClassComponent(Component)) {
+    return true
+  }
+
+  // Check if it's a forwardRef component
+  if (isForwardRefComponent(Component)) {
+    return true
+  }
+
+  // Check if it's a memoized component
+  if (isMemoComponent(Component)) {
+    // For memoized components, check the wrapped component
+    const wrappedComponent = Component.type
+    if (wrappedComponent) {
+      return isClassComponent(wrappedComponent) || isForwardRefComponent(wrappedComponent)
+    }
+  }
+
+  return false
 }
 
 /**
@@ -150,27 +198,28 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
     // Handle ref forwarding with React 18/19 compatibility
     const isReact19 = isReact19Plus()
-    const isClassComp = isClassComponent(Component)
-    const isForwardRefComp = isForwardRefComponent(Component)
+    const componentCanReceiveRef = canReceiveRef(Component)
 
     const elementProps = { ...props }
 
-    if (!elementProps.ref) {
-      if (isReact19) {
-        // React 19: ref is a standard prop for all components
-        // @ts-ignore - Setting ref prop for React 19 compatibility
-        elementProps.ref = (ref: R) => {
-          this.ref = ref
-        }
-      } else if (isClassComp || isForwardRefComp) {
-        // React 18 and prior: only set ref for class components and forwardRef components
-        // @ts-ignore - Setting ref prop for React 18 class/forwardRef components
+    // Handle ref prop based on React version and component type
+    if (elementProps.ref) {
+      // If there's already a ref but the component can't receive it, remove it
+      if (!isReact19 && !componentCanReceiveRef) {
+        delete elementProps.ref
+      }
+    } else {
+      // Only assign ref if:
+      // 1. React 19+ (all components support ref)
+      // 2. React 18 and the component can safely receive a ref
+      const shouldAssignRef = isReact19 || componentCanReceiveRef
+
+      if (shouldAssignRef) {
+        // @ts-ignore - Setting ref prop for compatible components
         elementProps.ref = (ref: R) => {
           this.ref = ref
         }
       }
-      // For function components in React 18, we can't use ref - the component won't receive it
-      // This is a limitation we have to accept for React 18 function components without forwardRef
     }
 
     this.reactElement = <Component {...elementProps} />
