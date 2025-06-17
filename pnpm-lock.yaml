@@ -179,6 +179,9 @@ importers:
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
+      katex:
+        specifier: ^0.16.4
+        version: 0.16.22
       lexical:
         specifier: ^0.11.3
         version: 0.11.3
