@@ -1,7 +1,6 @@
 context('/src/Nodes/Details/Vue/', () => {
   beforeEach(() => {
     cy.visit('/src/Nodes/Details/Vue/')
-
     cy.get('.ProseMirror').then(([{ editor }]) => {
       editor.commands.setContent('<p>Example Text</p>')
       cy.get('.ProseMirror').type('{selectall}')
