@@ -210,23 +210,16 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
     const elementProps = { ...props }
 
-    // Handle ref prop based on React version and component type
-    if (elementProps.ref) {
-      // If there's already a ref but the component can't receive it, remove it
-      if (!isReact19 && !componentCanReceiveRef) {
-        delete elementProps.ref
-      }
-    } else {
-      // Only assign ref if:
-      // 1. React 19+ (all components support ref)
-      // 2. React 18 and the component can safely receive a ref
-      const shouldAssignRef = isReact19 || componentCanReceiveRef
+    // Always remove ref if the component cannot receive it (unless React 19+)
+    if (elementProps.ref && !(isReact19 || componentCanReceiveRef)) {
+      delete elementProps.ref
+    }
 
-      if (shouldAssignRef) {
-        // @ts-ignore - Setting ref prop for compatible components
-        elementProps.ref = (ref: R) => {
-          this.ref = ref
-        }
+    // Only assign our own ref if allowed
+    if (!elementProps.ref && (isReact19 || componentCanReceiveRef)) {
+      // @ts-ignore - Setting ref prop for compatible components
+      elementProps.ref = (ref: R) => {
+        this.ref = ref
       }
     }
 
