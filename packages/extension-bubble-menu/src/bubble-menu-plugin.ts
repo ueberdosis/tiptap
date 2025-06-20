@@ -14,7 +14,20 @@ import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
+
+function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
+  const top = Math.min(rect1.top, rect2.top)
+  const bottom = Math.max(rect1.bottom, rect2.bottom)
+  const left = Math.min(rect1.left, rect2.left)
+  const right = Math.max(rect1.right, rect2.right)
+  const width = right - left
+  const height = bottom - top
+  const x = left
+  const y = top
+  return new DOMRect(x, y, width, height)
+}
 
 export interface BubbleMenuPluginProps {
   /**
@@ -291,9 +304,35 @@ export class BubbleMenuView implements PluginView {
 
   updatePosition() {
     const { selection } = this.editor.state
-
-    const virtualElement = {
+    let virtualElement = {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+    }
+
+    // this is a special case for cell selections
+    if (selection instanceof CellSelection) {
+      const { $anchorCell, $headCell } = selection
+
+      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
+      const to = $headCell ? $headCell.pos : $anchorCell!.pos
+
+      const fromDOM = this.view.nodeDOM(from)
+      const toDOM = this.view.nodeDOM(to)
+
+      if (!fromDOM || !toDOM) {
+        return
+      }
+
+      const clientRect =
+        fromDOM === toDOM
+          ? (fromDOM as HTMLElement).getBoundingClientRect()
+          : combineDOMRects(
+              (fromDOM as HTMLElement).getBoundingClientRect(),
+              (toDOM as HTMLElement).getBoundingClientRect(),
+            )
+
+      virtualElement = {
+        getBoundingClientRect: () => clientRect,
+      }
     }
 
     computePosition(virtualElement, this.element, {
