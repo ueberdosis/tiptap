@@ -26,20 +26,7 @@ function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
   const height = bottom - top
   const x = left
   const y = top
-  const data = {
-    top,
-    bottom,
-    left,
-    right,
-    width,
-    height,
-    x,
-    y,
-  }
-  return {
-    ...data,
-    toJSON: () => data,
-  }
+  return new DOMRect(x, y, width, height)
 }
 
 export interface BubbleMenuPluginProps {
