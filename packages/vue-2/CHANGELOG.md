@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- 00693b8: Fixed a bug where table cell selections would not position the bubble menu accordingly
+  - @tiptap/core@3.0.0-beta.12
+  - @tiptap/pm@3.0.0-beta.12
+
 ## 3.0.0-beta.11
 
 ### Patch Changes

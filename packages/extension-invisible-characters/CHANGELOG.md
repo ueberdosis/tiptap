@@ -1,5 +1,13 @@
 # @tiptap/extension-invisible-characters
 
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.12
+- @tiptap/extension-text-style@3.0.0-beta.12
+- @tiptap/pm@3.0.0-beta.12
+
 ## 3.0.0-beta.11
 
 ### Patch Changes
