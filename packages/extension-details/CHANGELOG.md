@@ -1,5 +1,14 @@
 # @tiptap/extension-details
 
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- da7ccd9: Removed details summary and details content and include it in details
+  - @tiptap/core@3.0.0-beta.12
+  - @tiptap/extension-text-style@3.0.0-beta.12
+  - @tiptap/pm@3.0.0-beta.12
+
 ## 3.0.0-beta.11
 
 ### Patch Changes
