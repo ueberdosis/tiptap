@@ -94,6 +94,11 @@ export interface BubbleMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
+
+    onShow?: () => void
+    onHide?: () => void
+    onUpdate?: () => void
+    onDestroy?: () => void
   }
 }
 
@@ -118,6 +123,8 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
+  private isVisible = false
+
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
     placement: 'top',
@@ -129,6 +136,8 @@ export class BubbleMenuView implements PluginView {
     autoPlacement: false,
     hide: false,
     inline: false,
+    onShow: undefined,
+    onHide: undefined,
   }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
@@ -294,6 +303,10 @@ export class BubbleMenuView implements PluginView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      if (this.isVisible && this.floatingUIOptions.onUpdate) {
+        this.floatingUIOptions.onUpdate()
+      }
     })
   }
 
@@ -373,17 +386,37 @@ export class BubbleMenuView implements PluginView {
   }
 
   show() {
+    if (this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
     // attach to editor's parent element
     this.view.dom.parentElement?.appendChild(this.element)
+
+    if (this.floatingUIOptions.onShow) {
+      this.floatingUIOptions.onShow()
+    }
+
+    this.isVisible = true
   }
 
   hide() {
+    if (!this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'hidden'
     this.element.style.opacity = '0'
     // remove from the parent element
     this.element.remove()
+
+    if (this.floatingUIOptions.onHide) {
+      this.floatingUIOptions.onHide()
+    }
+
+    this.isVisible = false
   }
 
   destroy() {
@@ -392,6 +425,10 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+
+    if (this.floatingUIOptions.onDestroy) {
+      this.floatingUIOptions.onDestroy()
+    }
   }
 }
 
