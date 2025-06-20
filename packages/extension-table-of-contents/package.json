@@ -12,6 +12,11 @@
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-table-of-contents"
+  },
   "type": "module",
   "exports": {
     ".": {
