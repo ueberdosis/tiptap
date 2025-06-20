@@ -6,8 +6,27 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
-import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
+import { mapAttrsToHTMLAttributes,renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
+
+describe('static renderer: react', () => {
+  it('mapAttrsToHTMLAttributes maps attributes to React attributes', () => {
+    const attrs = {
+      class: 'my-class',
+      style: 'color: red; font-size: 16px; transform: translateX(15px) translateY(10px);',
+      id: 'my-id',
+    }
+
+    const result = mapAttrsToHTMLAttributes(attrs, 'test-key')
+
+    expect(result).to.deep.equal({
+      className: 'my-class',
+      style: { color: 'red', fontSize: '16px', transform: 'translateX(15px) translateY(10px)' },
+      id: 'my-id',
+      key: 'test-key',
+    })
+  })
+})
 
 describe('static render json to react elements (with prosemirror)', () => {
   it('generates a React element from JSON without an editor instance', () => {
