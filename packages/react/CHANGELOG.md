@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- ecb0dee: Fixes an issue where ref props will be kept on non-supported react components
+  - @tiptap/core@3.0.0-beta.9
+  - @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- f9a33ae: Fixed a bug that incorrectly added ref props when a component can't accept them (for example when React 19 is not used)
+  - @tiptap/core@3.0.0-beta.8
+  - @tiptap/pm@3.0.0-beta.8
+
 ## 3.0.0-beta.7
 
 ### Patch Changes
