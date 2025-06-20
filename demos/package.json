@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hocuspocus/provider": "2.13.5",
+    "@hocuspocus/transformer": "^2.13.7",
     "@lexical/react": "^0.11.3",
     "@shikijs/core": "1.10.3",
     "d3": "^7.9.0",
