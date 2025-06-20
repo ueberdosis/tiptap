@@ -100,6 +100,7 @@ export default {
 
       onExit() {
         component.destroy()
+        component.element.remove()
       },
     }
   },
