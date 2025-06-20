@@ -45,7 +45,7 @@ export const setGapCursor = (editor: Editor, direction: 'down' | 'right') => {
   }
 
   const $position = state.doc.resolve(details.pos + details.node.nodeSize)
-  const $validPosition = GapCursor.findFrom($position, 1, false) as (null | ResolvedPos)
+  const $validPosition = GapCursor.findFrom($position, 1, false) as unknown as (null | ResolvedPos)
 
   if (!$validPosition) {
     return false
