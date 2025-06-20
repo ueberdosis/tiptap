@@ -16,6 +16,8 @@ shiki
 uuid
 y-webrtc
 yjs
+emoji-regex
+is-emoji-supported
 prosemirror-changeset
 prosemirror-collab
 prosemirror-commands
