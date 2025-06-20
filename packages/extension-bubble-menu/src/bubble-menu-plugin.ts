@@ -36,10 +36,7 @@ function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
     x,
     y,
   }
-  return {
-    ...data,
-    toJSON: () => data,
-  }
+  return new DOMRect(x, y, width, height)
 }
 
 export interface BubbleMenuPluginProps {
