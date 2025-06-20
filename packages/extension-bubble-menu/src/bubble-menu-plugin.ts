@@ -12,9 +12,35 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
+import type { ResolvedPos } from '@tiptap/pm/model'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
+
+function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
+  const top = Math.min(rect1.top, rect2.top)
+  const bottom = Math.max(rect1.bottom, rect2.bottom)
+  const left = Math.min(rect1.left, rect2.left)
+  const right = Math.max(rect1.right, rect2.right)
+  const width = right - left
+  const height = bottom - top
+  const x = left
+  const y = top
+  const data = {
+    top,
+    bottom,
+    left,
+    right,
+    width,
+    height,
+    x,
+    y,
+  }
+  return {
+    ...data,
+    toJSON: () => data,
+  }
+}
 
 export interface BubbleMenuPluginProps {
   /**
@@ -291,9 +317,34 @@ export class BubbleMenuView implements PluginView {
 
   updatePosition() {
     const { selection } = this.editor.state
-
-    const virtualElement = {
+    let virtualElement = {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+    }
+
+    // this is a special case for cell selections
+    const { $anchorCell, $headCell } = selection as unknown as {
+      $anchorCell?: ResolvedPos
+      $headCell?: ResolvedPos
+    }
+
+    if ($anchorCell || $headCell) {
+      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
+      const to = $headCell ? $headCell.pos : $anchorCell!.pos
+
+      const fromDOM = this.view.nodeDOM(from)
+      const toDOM = this.view.nodeDOM(to)
+
+      const clientRect =
+        fromDOM === toDOM
+          ? (fromDOM as HTMLElement).getBoundingClientRect()
+          : combineDOMRects(
+              (fromDOM as HTMLElement).getBoundingClientRect(),
+              (toDOM as HTMLElement).getBoundingClientRect(),
+            )
+
+      virtualElement = {
+        getBoundingClientRect: () => clientRect,
+      }
     }
 
     computePosition(virtualElement, this.element, {
