@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { NodeSelection, Plugin } from '@tiptap/pm/state'
-import { __serializeForClipboard as serializeForClipboard } from '@tiptap/pm/view'
+import { serializeForClipboard } from '@tiptap/pm/view'
 
 function removeNode(node) {
   node.parentNode.removeChild(node)
