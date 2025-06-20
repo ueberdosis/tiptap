@@ -12,9 +12,9 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
-import type { ResolvedPos } from '@tiptap/pm/model'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
 
 function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
@@ -322,12 +322,9 @@ export class BubbleMenuView implements PluginView {
     }
 
     // this is a special case for cell selections
-    const { $anchorCell, $headCell } = selection as unknown as {
-      $anchorCell?: ResolvedPos
-      $headCell?: ResolvedPos
-    }
+    if (selection instanceof CellSelection) {
+      const { $anchorCell, $headCell } = selection
 
-    if ($anchorCell || $headCell) {
       const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
       const to = $headCell ? $headCell.pos : $anchorCell!.pos
 
