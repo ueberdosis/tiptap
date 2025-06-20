@@ -1,0 +1,52 @@
+{
+  "name": "@tiptap/extension-mathematics",
+  "description": "latex math extension for tiptap",
+  "version": "3.0.0-beta.10",
+  "homepage": "https://tiptap.dev/api/extensions/mathematics",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-mathematics"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@types/katex": "^0.16.7"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "katex": "^0.16.4"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

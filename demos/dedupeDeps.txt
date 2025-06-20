@@ -15,8 +15,9 @@ shiki
 @floating-ui/dom
 uuid
 y-webrtc
-y-prosemirror
 yjs
+emoji-regex
+is-emoji-supported
 prosemirror-changeset
 prosemirror-collab
 prosemirror-commands
@@ -37,3 +38,4 @@ prosemirror-transform
 prosemirror-view
 @hocuspocus/provider
 @lifeomic/attempt
+@tiptap/y-tiptap
