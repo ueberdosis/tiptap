@@ -138,6 +138,8 @@ export class BubbleMenuView implements PluginView {
     inline: false,
     onShow: undefined,
     onHide: undefined,
+    onUpdate: undefined,
+    onDestroy: undefined,
   }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
