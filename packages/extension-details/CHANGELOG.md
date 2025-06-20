@@ -1,5 +1,13 @@
 # @tiptap/extension-details
 
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.11
+- @tiptap/extension-text-style@3.0.0-beta.11
+- @tiptap/pm@3.0.0-beta.11
+
 ## 3.0.0-beta.10
 
 ### Minor Changes

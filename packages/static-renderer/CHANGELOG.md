@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- 81bb134: Fixed a bug causing inline-styles to be parsed as strings for React
+  - @tiptap/core@3.0.0-beta.11
+  - @tiptap/pm@3.0.0-beta.11
+
 ## 3.0.0-beta.10
 
 ### Patch Changes
