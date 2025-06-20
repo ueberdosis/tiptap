@@ -1,6 +1,6 @@
 context('/src/Extensions/UniqueID/Vue/', () => {
-  before(() => {
-    cy.visit('/src/Extensions/UniqueID/Vue/')
+  beforeEach(() => {
+    cy.visit('/src/Extensions/UniqueID/React/')
   })
 
   it('has a heading with an unique ID', () => {
