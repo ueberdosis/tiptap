@@ -1,0 +1,14 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  // Emoji extension styles
+  [data-type="emoji"] {
+    img {
+      height: 1em;
+      width: 1em;
+    }
+  }
+}

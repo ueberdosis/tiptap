@@ -1,0 +1,53 @@
+{
+  "name": "@tiptap/extension-drag-handle",
+  "description": "drag handle extension for tiptap",
+  "version": "2.14.0",
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/drag-handle",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/extension-node-range": "^2.14.0",
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/extension-collaboration": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
+    "y-prosemirror": "^1.2.5"
+  },
+  "dependencies": {
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "@tiptap/extension-node-range": "^2.14.0",
+    "@tiptap/core": "^2.14.0",
+    "@tiptap/extension-collaboration": "^2.14.0",
+    "@tiptap/pm": "^2.14.0",
+    "tippy.js": "^6.3.7",
+    "y-prosemirror": "^1.2.12"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
+}
