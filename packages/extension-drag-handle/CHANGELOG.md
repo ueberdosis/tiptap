@@ -22,8 +22,6 @@
   - `@tiptap/extension-drag-handle-vue-2`
   - `@tiptap/extension-drag-handle-vue-3`
   - `@tiptap/extension-emoji`
-  - `@tiptap/extension-details-content`
-  - `@tiptap/extension-details-summary`
   - `@tiptap/extension-details`
   - `@tiptap/extension-file-handler`
   - `@tiptap/extension-invisible-characters`
