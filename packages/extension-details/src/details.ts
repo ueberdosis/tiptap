@@ -49,7 +49,7 @@ export const Details = Node.create<DetailsOptions>({
 
   isolating: true,
 
-  // @ts-ignore: allowGapCursor is not a valid option by default, dts on build doesnt pick this up
+  // @ts-ignore reason: `allowGapCursor` is not a valid property by default, but the `GapCursor` extension adds it to the Nodeconfig type
   allowGapCursor: false,
 
   addOptions() {
@@ -154,7 +154,8 @@ export const Details = Node.create<DetailsOptions>({
             .chain()
             .command(({ tr }) => {
               const pos = getPos()
-              if (pos === undefined) {
+
+              if (!pos) {
                 return false
               }
 
