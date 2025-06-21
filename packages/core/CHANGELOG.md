@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.22.3
+
+### Patch Changes
+
+- 030bd22: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+
 ## 2.22.2
 
 ### Patch Changes
