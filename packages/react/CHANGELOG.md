@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.22.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.0
+- @tiptap/extension-floating-menu@2.22.0
+
+## 2.14.1
+
+### Patch Changes
+
+- 9711ab5: Fixed a bug that incorrectly added ref props when a component can't accept them (for example when React 19 is not used)
+- 2f032b1: Fixes an issue where ref props will be kept on non-supported react components
+  - @tiptap/extension-bubble-menu@2.14.1
+  - @tiptap/extension-floating-menu@2.14.1
+
 ## 2.14.0
 
 ### Patch Changes
