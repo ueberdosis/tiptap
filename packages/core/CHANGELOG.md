@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.22.2
+
+### Patch Changes
+
+- 6457ab3: Add validation for target position within document range when trying to access children of a `NodePos` instance
+
 ## 2.22.1
 
 ## 2.22.0
