@@ -1,4 +1,4 @@
-import { isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
@@ -50,6 +50,11 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
       setHorizontalRule:
         () =>
         ({ chain, state }) => {
+          // Check if we can insert the node at the current selection
+          if (!canInsertNode(state, state.schema.nodes[this.name])) {
+            return false
+          }
+
           const { selection } = state
           const { $to: $originTo } = selection
 
