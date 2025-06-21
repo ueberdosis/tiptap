@@ -153,7 +153,7 @@ type ComponentType<R, P> =
 export class ReactRenderer<R = unknown, P extends Record<string, any> = object> {
   id: string
 
-  editor: Editor
+  editor: EditorWithContentComponent
 
   component: any
 
@@ -176,7 +176,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   }: ReactRendererOptions) {
     this.id = Math.floor(Math.random() * 0xFFFFFFFF).toString()
     this.component = component
-    this.editor = editor as EditorWithContentComponent
+    this.editor = editor
     this.props = props as P
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
@@ -185,7 +185,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       this.element.classList.add(...className.split(' '))
     }
 
-    if (this.editor.isInitialized) {
+    if (this.editor.isEditorContentInitialized) {
       // On first render, we need to flush the render synchronously
       // Renders afterwards can be async, but this fixes a cursor positioning issue
       flushSync(() => {
