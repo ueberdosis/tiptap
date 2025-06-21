@@ -11,14 +11,7 @@ import React from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [
-      Document,
-      Paragraph,
-      Heading,
-      Text,
-      InvisibleCharacters,
-      HardBreak,
-    ],
+    extensions: [Document, Paragraph, Heading, Text, InvisibleCharacters, HardBreak],
     content: `
       <h1>
         This is a heading.
@@ -47,11 +40,16 @@ export default () => {
           <button onClick={() => editor.commands.toggleInvisibleCharacters()}>Toggle invisible characters</button>
         </div>
         <div>
-          <input type="checkbox" id="show-invisible-characters" checked={editor.storage.invisibleCharacters.visibility()} onChange={event => {
-            const value = event.currentTarget.checked
+          <input
+            type="checkbox"
+            id="show-invisible-characters"
+            checked={editor.storage.invisibleCharacters.visibility()}
+            onChange={event => {
+              const value = event.currentTarget.checked
 
-            editor.commands.showInvisibleCharacters(value)
-          }} />
+              editor.commands.showInvisibleCharacters(value)
+            }}
+          />
           <label htmlFor="show-invisible-characters">Show invisibles</label>
         </div>
       </div>

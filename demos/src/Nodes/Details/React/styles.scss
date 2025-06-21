@@ -37,7 +37,6 @@
       &::before {
         content: '\25B6';
       }
-
     }
 
     &.is-open > button::before {
@@ -50,7 +49,7 @@
       gap: 1rem;
       width: 100%;
 
-      > [data-type="detailsContent"] > :last-child {
+      > [data-type='detailsContent'] > :last-child {
         margin-bottom: 0.5rem;
       }
     }
