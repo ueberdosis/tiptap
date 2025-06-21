@@ -138,6 +138,12 @@ export class NodePos {
       const isNonTextAtom = node.isAtom && !node.isText
 
       const targetPos = this.pos + offset + (isNonTextAtom ? 0 : 1)
+
+      // Check if targetPos is within valid document range
+      if (targetPos < 0 || targetPos > this.resolvedPos.doc.nodeSize - 2) {
+        return
+      }
+
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
       if (!isBlock && $pos.depth <= this.depth) {
