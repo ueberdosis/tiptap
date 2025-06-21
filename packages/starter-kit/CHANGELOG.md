@@ -1,5 +1,34 @@
 # Change Log
 
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/extension-dropcursor@3.0.0-beta.13
+- @tiptap/extension-gapcursor@3.0.0-beta.13
+- @tiptap/extension-list-item@3.0.0-beta.13
+- @tiptap/extension-list-keymap@3.0.0-beta.13
+- @tiptap/core@3.0.0-beta.13
+- @tiptap/extension-blockquote@3.0.0-beta.13
+- @tiptap/extension-bold@3.0.0-beta.13
+- @tiptap/extension-bullet-list@3.0.0-beta.13
+- @tiptap/extension-code@3.0.0-beta.13
+- @tiptap/extension-code-block@3.0.0-beta.13
+- @tiptap/extension-document@3.0.0-beta.13
+- @tiptap/extension-hard-break@3.0.0-beta.13
+- @tiptap/extension-heading@3.0.0-beta.13
+- @tiptap/extension-horizontal-rule@3.0.0-beta.13
+- @tiptap/extension-italic@3.0.0-beta.13
+- @tiptap/extension-link@3.0.0-beta.13
+- @tiptap/extension-list@3.0.0-beta.13
+- @tiptap/extension-ordered-list@3.0.0-beta.13
+- @tiptap/extension-paragraph@3.0.0-beta.13
+- @tiptap/extension-strike@3.0.0-beta.13
+- @tiptap/extension-text@3.0.0-beta.13
+- @tiptap/extension-underline@3.0.0-beta.13
+- @tiptap/extensions@3.0.0-beta.13
+- @tiptap/pm@3.0.0-beta.13
+
 ## 3.0.0-beta.12
 
 ### Patch Changes
