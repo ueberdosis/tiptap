@@ -1,5 +1,4 @@
-import { isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
-import { canInsertNode } from '@tiptap/core/src/utilities/canInsertNode'
+import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
