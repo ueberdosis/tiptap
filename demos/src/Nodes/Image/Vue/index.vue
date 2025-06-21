@@ -40,11 +40,17 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [Document, Paragraph, Text, Image, Dropcursor],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Image.configure({ resize: { minWidth: 100, minHeight: 100 } }),
+        Dropcursor,
+      ],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://placehold.co/800x400" />
-        <img src="https://placehold.co/800x400/6A00F5/white" />
+        <img src="https://unsplash.it/seed/tiptap/800/400" />
+        <img src="https://unsplash.it/seed/tiptap-2/800/400" />
       `,
     })
   },
@@ -64,13 +70,62 @@ export default {
 
   img {
     display: block;
-    height: auto;
+  }
+
+  [data-resize-container] {
+    &.ProseMirror-selectednode {
+      background-color: var(--purple-light);
+    }
+  }
+
+  [data-resize-container] img {
+    max-width: 100%;
+  }
+
+  [data-resize-container][data-node='image'] {
     margin: 1.5rem 0;
     max-width: 100%;
+  }
 
-    &.ProseMirror-selectednode {
-      outline: 3px solid var(--purple);
+  [data-resize-handle][data-edge] {
+    background-color: var(--purple);
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 1;
     }
+
+    &[data-orientation='horizontal'] {
+      width: 4px;
+    }
+
+    &[data-orientation='vertical'] {
+      height: 4px;
+    }
+  }
+
+  [data-resize-handle][data-corner] {
+    background-color: var(--white);
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--purple);
+  }
+
+  [data-corner='top-left'] {
+    transform: translate(-50%, -50%);
+  }
+
+  [data-corner='top-right'] {
+    transform: translate(50%, -50%);
+  }
+
+  [data-corner='bottom-left'] {
+    transform: translate(-50%, 50%);
+  }
+
+  [data-corner='bottom-right'] {
+    transform: translate(50%, 50%);
   }
 }
 </style>
