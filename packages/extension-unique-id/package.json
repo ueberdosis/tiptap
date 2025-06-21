@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-unique-id",
   "description": "unique id extension for tiptap",
-  "version": "2.22.2",
+  "version": "2.22.3",
   "homepage": "https://tiptap.dev/api/extensions/unique-id",
   "keywords": [
     "tiptap",
@@ -36,8 +36,8 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.22.2",
-    "@tiptap/pm": "^2.22.2",
+    "@tiptap/core": "^2.22.3",
+    "@tiptap/pm": "^2.22.3",
     "@types/uuid": "^10.0.0"
   },
   "repository": {

@@ -1,5 +1,33 @@
 # Change Log
 
+## 2.22.3
+
+### Patch Changes
+
+- Updated dependencies [030bd22]
+- Updated dependencies [030bd22]
+  - @tiptap/extension-horizontal-rule@2.22.3
+  - @tiptap/core@2.22.3
+  - @tiptap/extension-blockquote@2.22.3
+  - @tiptap/extension-bold@2.22.3
+  - @tiptap/extension-bullet-list@2.22.3
+  - @tiptap/extension-code@2.22.3
+  - @tiptap/extension-code-block@2.22.3
+  - @tiptap/extension-document@2.22.3
+  - @tiptap/extension-dropcursor@2.22.3
+  - @tiptap/extension-gapcursor@2.22.3
+  - @tiptap/extension-hard-break@2.22.3
+  - @tiptap/extension-heading@2.22.3
+  - @tiptap/extension-history@2.22.3
+  - @tiptap/extension-italic@2.22.3
+  - @tiptap/extension-list-item@2.22.3
+  - @tiptap/extension-ordered-list@2.22.3
+  - @tiptap/extension-paragraph@2.22.3
+  - @tiptap/extension-strike@2.22.3
+  - @tiptap/extension-text@2.22.3
+  - @tiptap/extension-text-style@2.22.3
+  - @tiptap/pm@2.22.3
+
 ## 2.22.2
 
 ### Patch Changes
