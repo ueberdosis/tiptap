@@ -146,8 +146,14 @@ export interface MarkConfig<Options = any, Storage = any>
 export class Mark<Options = any, Storage = any> extends Extendable<Options, Storage, MarkConfig<Options, Storage>> {
   type = 'mark'
 
-  static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> = {}) {
-    return new Mark<O, S>(config)
+  /**
+   * Create a new Mark instance
+   * @param config - Mark configuration object or a function that returns a configuration object
+   */
+  static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>) = {}) {
+    // If the config is a function, execute it to get the configuration object
+    const resolvedConfig = typeof config === 'function' ? config() : config
+    return new Mark<O, S>(resolvedConfig)
   }
 
   static handleExit({ editor, mark }: { editor: Editor; mark: Mark }) {
@@ -186,7 +192,9 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig>) {
-    return super.extend(extendedConfig) as Mark<ExtendedOptions, ExtendedStorage>
+  >(extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>)) {
+    // If the extended config is a function, execute it to get the configuration object
+    const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
+    return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>
   }
 }
