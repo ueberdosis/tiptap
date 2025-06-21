@@ -94,7 +94,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.4
       - name: Load turbo cache
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.3
         id: turbo-cache
         with:
           path: |
@@ -105,7 +105,7 @@ jobs:
             ${{ runner.os }}-turbo-${{ github.sha }}
             ${{ runner.os }}-turbo-
       - name: Load build cache
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.3
         id: cache
         with:
           path: |
