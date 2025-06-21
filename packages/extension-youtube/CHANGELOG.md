@@ -1,5 +1,31 @@
 # Change Log
 
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- 1992430: Update YouTube URL regex pattern
+  - @tiptap/core@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.11
+
 ## 3.0.0-beta.10
 
 ### Patch Changes

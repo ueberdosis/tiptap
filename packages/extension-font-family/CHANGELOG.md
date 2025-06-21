@@ -1,5 +1,29 @@
 # Change Log
 
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.0.0-beta.11
+
 ## 3.0.0-beta.10
 
 ### Patch Changes

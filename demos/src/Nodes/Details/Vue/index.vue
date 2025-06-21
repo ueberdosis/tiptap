@@ -15,9 +15,7 @@
 </template>
 
 <script>
-import Details from '@tiptap/extension-details'
-import DetailsContent from '@tiptap/extension-details-content'
-import DetailsSummary from '@tiptap/extension-details-summary'
+import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import { Placeholder } from '@tiptap/extensions'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'

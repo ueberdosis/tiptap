@@ -14,7 +14,7 @@
           id="show-invisible-characters"
           :checked="editor.storage.invisibleCharacters.visibility()"
           @change="event => editor.commands.showInvisibleCharacters(event.currentTarget.checked)"
-        >
+        />
         <label for="show-invisible-characters">Show invisibles</label>
       </div>
     </div>
@@ -44,14 +44,7 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Heading,
-        InvisibleCharacters,
-        HardBreak,
-      ],
+      extensions: [Document, Paragraph, Text, Heading, InvisibleCharacters, HardBreak],
       content: `
         <h1>
           This is a heading.

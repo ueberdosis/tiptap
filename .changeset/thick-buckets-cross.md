@@ -5,8 +5,6 @@
 "@tiptap/extension-drag-handle-vue-2": minor
 "@tiptap/extension-drag-handle-vue-3": minor
 "@tiptap/extension-table-of-contents": minor
-"@tiptap/extension-details-content": minor
-"@tiptap/extension-details-summary": minor
 "@tiptap/extension-details": minor
 "@tiptap/extension-file-handler": minor
 "@tiptap/extension-mathematics": minor
@@ -23,8 +21,6 @@ This release includes the following extensions that were previously only availab
 - `@tiptap/extension-drag-handle-vue-2`
 - `@tiptap/extension-drag-handle-vue-3`
 - `@tiptap/extension-emoji`
-- `@tiptap/extension-details-content`
-- `@tiptap/extension-details-summary`
 - `@tiptap/extension-details`
 - `@tiptap/extension-file-handler`
 - `@tiptap/extension-invisible-characters`

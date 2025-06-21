@@ -340,7 +340,7 @@ importers:
   packages-deprecated/extension-focus:
     devDependencies:
       '@tiptap/extensions':
-        specifier: 3.0.0-beta.10
+        specifier: 3.0.0-beta.14
         version: link:../../packages/extensions
 
   packages-deprecated/extension-gapcursor:
@@ -509,30 +509,6 @@ importers:
         version: link:../extension-text-style
 
   packages/extension-details:
-    devDependencies:
-      '@tiptap/core':
-        specifier: workspace:*
-        version: link:../core
-      '@tiptap/extension-text-style':
-        specifier: workspace:*
-        version: link:../extension-text-style
-      '@tiptap/pm':
-        specifier: workspace:*
-        version: link:../pm
-
-  packages/extension-details-content:
-    devDependencies:
-      '@tiptap/core':
-        specifier: workspace:*
-        version: link:../core
-      '@tiptap/extension-text-style':
-        specifier: workspace:*
-        version: link:../extension-text-style
-      '@tiptap/pm':
-        specifier: workspace:*
-        version: link:../pm
-
-  packages/extension-details-summary:
     devDependencies:
       '@tiptap/core':
         specifier: workspace:*

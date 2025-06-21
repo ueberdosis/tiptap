@@ -6,7 +6,7 @@
   }
 
   [data-id] {
-    border: 3px solid #0D0D0D;
+    border: 3px solid #0d0d0d;
     border-radius: 0.5rem;
     margin: 1rem 0;
     position: relative;
@@ -15,7 +15,7 @@
 
     &::before {
       content: attr(data-id);
-      background-color: #0D0D0D;
+      background-color: #0d0d0d;
       font-size: 0.6rem;
       letter-spacing: 1px;
       font-weight: bold;
@@ -32,7 +32,7 @@
 .drag-handle {
   align-items: center;
   background: #f0f0f0;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   cursor: grab;
   display: flex;

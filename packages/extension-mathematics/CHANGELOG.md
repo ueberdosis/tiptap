@@ -1,5 +1,34 @@
 # @tiptap/extension-mathematics
 
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.13
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.12
+- @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.11
+- @tiptap/pm@3.0.0-beta.11
+
 ## 3.0.0-beta.10
 
 ### Minor Changes
@@ -13,8 +42,6 @@
   - `@tiptap/extension-drag-handle-vue-2`
   - `@tiptap/extension-drag-handle-vue-3`
   - `@tiptap/extension-emoji`
-  - `@tiptap/extension-details-content`
-  - `@tiptap/extension-details-summary`
   - `@tiptap/extension-details`
   - `@tiptap/extension-file-handler`
   - `@tiptap/extension-invisible-characters`
