@@ -271,6 +271,11 @@ export class BubbleMenuView implements PluginView {
     this.hide()
   }
 
+  /**
+   * Handles the window resize event to update the position of the bubble menu.
+   * It uses a debounce mechanism to prevent excessive updates.
+   * The delay is defined by the `resizeDelay` property.
+   */
   resizeHandler = () => {
     if (this.resizeDebounceTimer) {
       clearTimeout(this.resizeDebounceTimer)
