@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.16
+
 ## 3.0.0-beta.15
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- Updated dependencies [ac897e7]
+- Updated dependencies [bf835b0]
+  - @tiptap/core@3.0.0-beta.16
+
 ## 3.0.0-beta.15
 
 ### Patch Changes
