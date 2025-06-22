@@ -254,15 +254,7 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    window.addEventListener('resize', () => {
-      if (this.resizeDebounceTimer) {
-        clearTimeout(this.resizeDebounceTimer)
-      }
-
-      this.resizeDebounceTimer = window.setTimeout(() => {
-        this.updatePosition()
-      }, this.resizeDelay)
-    })
+    window.addEventListener('resize', this.resizeHandler)
 
     this.update(view, view.state)
 
@@ -277,6 +269,21 @@ export class BubbleMenuView implements PluginView {
 
   dragstartHandler = () => {
     this.hide()
+  }
+
+  /**
+   * Handles the window resize event to update the position of the bubble menu.
+   * It uses a debounce mechanism to prevent excessive updates.
+   * The delay is defined by the `resizeDelay` property.
+   */
+  resizeHandler = () => {
+    if (this.resizeDebounceTimer) {
+      clearTimeout(this.resizeDebounceTimer)
+    }
+
+    this.resizeDebounceTimer = window.setTimeout(() => {
+      this.updatePosition()
+    }, this.resizeDelay)
   }
 
   focusHandler = () => {
@@ -464,6 +471,7 @@ export class BubbleMenuView implements PluginView {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
+    window.removeEventListener('resize', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
 
