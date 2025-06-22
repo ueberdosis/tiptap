@@ -38,3 +38,9 @@ demos/*.tgz
 # demo directories
 demos/src/Dev/**
 !demos/src/Dev/.gitkeep
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
