@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.16
+
+### Minor Changes
+
+- ac897e7: Added the option to create extensions with a callback function instead of a flat configuration object
+
+### Patch Changes
+
+- bf835b0: Fixed an issue where images placed into an empty paragraph right after an existing image would replace the existing image instead
+  - @tiptap/pm@3.0.0-beta.16
+
 ## 3.0.0-beta.15
 
 ### Patch Changes
