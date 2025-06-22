@@ -15,7 +15,6 @@ shiki
 @floating-ui/dom
 uuid
 y-webrtc
-y-prosemirror
 yjs
 prosemirror-changeset
 prosemirror-collab
@@ -37,3 +36,4 @@ prosemirror-transform
 prosemirror-view
 @hocuspocus/provider
 @lifeomic/attempt
+@tiptap/y-tiptap

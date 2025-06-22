@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+
 ## 3.0.0-next.2
 
 ### Patch Changes

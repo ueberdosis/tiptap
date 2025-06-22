@@ -137,7 +137,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.7.16
+        uses: cypress-io/github-action@v6.10.0
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           start: pnpm run serve
@@ -208,8 +208,4 @@ jobs:
 
       - name: Soft release
         id: soft-release
-        run: pnpm exec pkg-pr-new publish './packages/*' --compact
-
-      - name: Soft release legacy packages
-        id: soft-release-deprecated
-        run: pnpm exec pkg-pr-new publish './packages-deprecated/*' --compact
+        run: pnpm exec pkg-pr-new publish './packages/*' './packages-deprecated/*' --compact

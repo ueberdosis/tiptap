@@ -6,9 +6,7 @@
   "private": false,
   "arguments": [],
   "meta": {
-    "tags": [
-      "tiptap"
-    ],
+    "tags": ["tiptap"],
     "git": "https://github.com/ueberdosis/tiptap.git"
   }
 }

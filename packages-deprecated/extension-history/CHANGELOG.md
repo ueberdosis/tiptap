@@ -1,5 +1,79 @@
 # Change Log
 
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+  - @tiptap/extensions@3.0.0-beta.5
+
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -60,6 +134,14 @@
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
+
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
 
 ## 2.11.6
 

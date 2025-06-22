@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/static-renderer",
   "description": "statically render Tiptap JSON",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.15",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -74,18 +74,14 @@
   "devDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
-    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
-  },
-  "optionalDependencies": {
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
+    "@tiptap/pm": "workspace:*",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },

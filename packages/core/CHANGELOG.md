@@ -1,5 +1,91 @@
 # Change Log
 
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- 087d114: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- 95b8c71: Add validation for target position within document range when trying to access children of a `NodePos` instance
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Minor Changes
+
+- d0fda30: Add config option to emit content error when content check is disabled
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+- Updated dependencies [62b0877]
+  - @tiptap/pm@3.0.0-beta.5
+
+## 3.0.0-beta.4
+
+### Major Changes
+
+- 5e957e5: This resolves in issue with SSR where the isDestroyed property could not be read while in SSR
+
+### Patch Changes
+
+- 9f207a6: Fixes a bug where you could not unregister multiple plugins.
+  - @tiptap/pm@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -626,6 +712,22 @@
 
 - 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
   - @tiptap/pm@3.0.0-next.0
+
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+### Patch Changes
+
+- 8147cc7: Fixes a bug where you could not unregister multiple plugins.
+
+## 2.11.7
+
+### Patch Changes
+
+- e23882d: Clone dragged node before dragging to get correct drag preview image
 
 ## 2.11.6
 

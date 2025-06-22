@@ -1,5 +1,37 @@
 # Change Log
 
+## 3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Minor Changes
+
+- 62b0877: Update prosemirror changeset to support token encoders
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+
+## 3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -49,6 +81,18 @@
 - a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ## 3.0.0-next.0
+
+## 2.12.0
+
+### Minor Changes
+
+- 896f767: Update prosemirror-changeset library to support token encoders
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
 
 ## 2.11.6
 

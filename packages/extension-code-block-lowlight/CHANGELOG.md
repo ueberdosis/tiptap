@@ -1,5 +1,109 @@
 # Change Log
 
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- Updated dependencies [087d114]
+  - @tiptap/core@3.0.0-beta.15
+  - @tiptap/extension-code-block@3.0.0-beta.15
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+  - @tiptap/extension-code-block@3.0.0-beta.14
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.13
+- @tiptap/extension-code-block@3.0.0-beta.13
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.12
+- @tiptap/extension-code-block@3.0.0-beta.12
+- @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.11
+- @tiptap/extension-code-block@3.0.0-beta.11
+- @tiptap/pm@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.10
+- @tiptap/extension-code-block@3.0.0-beta.10
+- @tiptap/pm@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.9
+- @tiptap/extension-code-block@3.0.0-beta.9
+- @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.8
+- @tiptap/extension-code-block@3.0.0-beta.8
+- @tiptap/pm@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- Updated dependencies [d0fda30]
+  - @tiptap/core@3.0.0-beta.7
+  - @tiptap/extension-code-block@3.0.0-beta.7
+  - @tiptap/pm@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.6
+- @tiptap/extension-code-block@3.0.0-beta.6
+- @tiptap/pm@3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+- Updated dependencies [62b0877]
+  - @tiptap/extension-code-block@3.0.0-beta.5
+  - @tiptap/core@3.0.0-beta.5
+  - @tiptap/pm@3.0.0-beta.5
+
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- Updated dependencies [5e957e5]
+- Updated dependencies [9f207a6]
+  - @tiptap/core@3.0.0-beta.4
+  - @tiptap/extension-code-block@3.0.0-beta.4
+  - @tiptap/pm@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -60,6 +164,14 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/extension-code-block@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
+
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
 
 ## 2.11.6
 
