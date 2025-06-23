@@ -55,6 +55,7 @@ context('/src/Nodes/Mention/React/', () => {
   it('should close the dropdown menu when I move the cursor outside the editor', () => {
     cy.get('.tiptap').type('{selectall}{backspace}@')
     cy.get('.dropdown-menu').should('exist')
+    cy.get('.tiptap').type('{selectAll}')
     cy.get('.tiptap').type('{moveToStart}')
     cy.get('.dropdown-menu').should('not.exist')
   })
