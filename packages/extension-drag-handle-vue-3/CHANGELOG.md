@@ -1,5 +1,22 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- Updated dependencies [73d1888]
+  - @tiptap/vue-3@3.0.0-beta.16
+  - @tiptap/extension-drag-handle@3.0.0-beta.16
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.0.0-beta.15
+- @tiptap/vue-3@3.0.0-beta.15
+- @tiptap/pm@3.0.0-beta.15
+
 ## 3.0.0-beta.14
 
 ### Patch Changes

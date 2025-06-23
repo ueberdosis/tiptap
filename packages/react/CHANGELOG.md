@@ -1,5 +1,23 @@
 # Change Log
 
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- 73d1888: Fixed a bug where the global resize handler of the BubbleMenu plugin would not be unregistered on destroy
+- Updated dependencies [ac897e7]
+- Updated dependencies [bf835b0]
+  - @tiptap/core@3.0.0-beta.16
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- Updated dependencies [087d114]
+  - @tiptap/core@3.0.0-beta.15
+  - @tiptap/pm@3.0.0-beta.15
+
 ## 3.0.0-beta.14
 
 ### Patch Changes

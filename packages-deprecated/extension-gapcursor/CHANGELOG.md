@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.15
+
 ## 3.0.0-beta.14
 
 ### Patch Changes
