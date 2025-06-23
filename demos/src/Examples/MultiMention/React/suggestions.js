@@ -1,24 +1,7 @@
-import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, ReactRenderer } from '@tiptap/react'
+import { ReactRenderer } from '@tiptap/react'
+import tippy from 'tippy.js'
 
 import MentionList from './MentionList.jsx'
-
-const updatePosition = (editor, element) => {
-  const virtualElement = {
-    getBoundingClientRect: () => posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to),
-  }
-
-  computePosition(virtualElement, element, {
-    placement: 'bottom-start',
-    strategy: 'absolute',
-    middleware: [shift(), flip()],
-  }).then(({ x, y, strategy }) => {
-    element.style.width = 'max-content'
-    element.style.position = strategy
-    element.style.left = `${x}px`
-    element.style.top = `${y}px`
-  })
-}
 
 export default [
   {
@@ -56,6 +39,7 @@ export default [
 
     render: () => {
       let component
+      let popup
 
       return {
         onStart: props => {
@@ -68,11 +52,15 @@ export default [
             return
           }
 
-          component.element.style.position = 'absolute'
-
-          document.body.appendChild(component.element)
-
-          updatePosition(props.editor, component.element)
+          popup = tippy('body', {
+            getReferenceClientRect: props.clientRect,
+            appendTo: () => document.body,
+            content: component.element,
+            showOnCreate: true,
+            interactive: true,
+            trigger: 'manual',
+            placement: 'bottom-start',
+          })
         },
 
         onUpdate(props) {
@@ -82,12 +70,14 @@ export default [
             return
           }
 
-          updatePosition(props.editor, component.element)
+          popup[0].setProps({
+            getReferenceClientRect: props.clientRect,
+          })
         },
 
         onKeyDown(props) {
           if (props.event.key === 'Escape') {
-            component.destroy()
+            popup[0].hide()
 
             return true
           }
@@ -96,6 +86,7 @@ export default [
         },
 
         onExit() {
+          popup[0].destroy()
           component.destroy()
         },
       }
@@ -111,6 +102,7 @@ export default [
 
     render: () => {
       let component
+      let popup
 
       return {
         onStart: props => {
@@ -123,11 +115,15 @@ export default [
             return
           }
 
-          component.element.style.position = 'absolute'
-
-          document.body.appendChild(component.element)
-
-          updatePosition(props.editor, component.element)
+          popup = tippy('body', {
+            getReferenceClientRect: props.clientRect,
+            appendTo: () => document.body,
+            content: component.element,
+            showOnCreate: true,
+            interactive: true,
+            trigger: 'manual',
+            placement: 'bottom-start',
+          })
         },
 
         onUpdate(props) {
@@ -137,12 +133,14 @@ export default [
             return
           }
 
-          updatePosition(props.editor, component.element)
+          popup[0].setProps({
+            getReferenceClientRect: props.clientRect,
+          })
         },
 
         onKeyDown(props) {
           if (props.event.key === 'Escape') {
-            component.destroy()
+            popup[0].hide()
 
             return true
           }
@@ -151,6 +149,7 @@ export default [
         },
 
         onExit() {
+          popup[0].destroy()
           component.destroy()
         },
       }
