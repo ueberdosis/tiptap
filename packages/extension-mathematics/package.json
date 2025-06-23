@@ -1,0 +1,50 @@
+{
+  "name": "@tiptap/extension-mathematics",
+  "description": "latex math extension for tiptap",
+  "version": "2.22.3",
+  "homepage": "https://tiptap.dev/api/extensions/mathematics",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-mathematics"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "^2.22.3",
+    "@tiptap/pm": "^2.22.3",
+    "@types/katex": "^0.16.7"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^2.7.0",
+    "@tiptap/pm": "^2.7.0",
+    "katex": "^0.16.4"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
+}

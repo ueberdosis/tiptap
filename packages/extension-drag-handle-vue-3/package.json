@@ -1,0 +1,52 @@
+{
+  "name": "@tiptap/extension-drag-handle-vue-3",
+  "description": "drag handle extension for tiptap with vue 3",
+  "version": "2.22.3",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-drag-handle-vue-3"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "umd": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/extension-drag-handle": "^2.14.0",
+    "@tiptap/pm": "^2.7.0",
+    "@tiptap/vue-3": "^2.7.0",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tiptap/extension-drag-handle": "^2.22.3",
+    "@tiptap/pm": "^2.22.3",
+    "@tiptap/vue-3": "^2.22.3",
+    "vue": "^3.0.0"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
+}

@@ -26,6 +26,7 @@ describe('extension-youtube', () => {
     'javascript:alert(window.origin)//embed/',
     'https://youtube.google.com/embed/fdsafsdf',
     'https://youtube.com.bad/embed',
+    'https://www.youtu0be/embed',
   ]
 
   invalidUrls.forEach(url => {
