@@ -184,7 +184,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
         event.stopPropagation()
         const pos = getPos()
 
-        if (!pos) {
+        if (pos == null) {
           return
         }
 
