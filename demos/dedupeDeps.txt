@@ -11,6 +11,8 @@ react-dom
 react-dom/client
 use-sync-external-store/shim
 use-sync-external-store/shim/with-selector
+emoji-regex
+is-emoji-supported
 shiki
 @floating-ui/dom
 uuid

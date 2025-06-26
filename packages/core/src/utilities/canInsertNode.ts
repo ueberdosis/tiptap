@@ -21,6 +21,7 @@ export function canInsertNode(state: EditorState, nodeType: NodeType): boolean {
     const index = $from.index(depth)
     const parent = $from.node(depth)
     const match = parent.contentMatchAt(index)
+
     if (match.matchType(nodeType)) {
       return true
     }

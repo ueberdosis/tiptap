@@ -58,6 +58,18 @@
 
 - 7ac01ef: We open sourced our basic pro extensions
 
+## 2.22.3
+
+## 2.22.2
+
+## 2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- f6f6158: We open sourced our basic pro extensions
+
   This release includes the following extensions that were previously only available in our Pro version:
 
   - `@tiptap/extension-drag-handle`
@@ -65,6 +77,11 @@
   - `@tiptap/extension-drag-handle-vue-2`
   - `@tiptap/extension-drag-handle-vue-3`
   - `@tiptap/extension-emoji`
+    <<<<<<< HEAD
+    =======
+  - `@tiptap/extension-details-content`
+  - `@tiptap/extension-details-summary`
+    > > > > > > > e7a5a164f7325a3b08c688fb49cae62ab7ac2358
   - `@tiptap/extension-details`
   - `@tiptap/extension-file-handler`
   - `@tiptap/extension-invisible-characters`
@@ -72,9 +89,11 @@
   - `@tiptap/extension-node-range`
   - `@tiptap/extension-table-of-contents`
   - `@tiptap/extension-unique-id`
+    <<<<<<< HEAD
 
 ### Patch Changes
 
 - @tiptap/core@3.0.0-beta.10
 - @tiptap/extension-text-style@3.0.0-beta.10
-- @tiptap/pm@3.0.0-beta.10
+- # @tiptap/pm@3.0.0-beta.10
+  > > > > > > > e7a5a164f7325a3b08c688fb49cae62ab7ac2358

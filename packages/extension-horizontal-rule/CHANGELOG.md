@@ -160,6 +160,24 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
 
+## 2.22.3
+
+### Patch Changes
+
+- 030bd22: Fixed a bug that caused the horizontal rule's `setHorizontalRule` command to always return true when checked via `can()`
+
+## 2.22.2
+
+## 2.22.1
+
+## 2.22.0
+
+## 2.14.1
+
+## 2.14.0
+
+## 2.13.0
+
 ## 2.12.0
 
 ## 2.11.9

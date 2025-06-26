@@ -36,6 +36,22 @@ export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?: boolean) => 
   return nocookie ? 'https://www.youtube-nocookie.com/embed/' : 'https://www.youtube.com/embed/'
 }
 
+const getYoutubeVideoOrPlaylistId = (url: URL): { id: string; isPlaylist?: boolean } | null => {
+  if (url.searchParams.has('v')) {
+    return { id: url.searchParams.get('v')! }
+  }
+
+  if (url.hostname === 'youtu.be' || url.pathname.includes('shorts') || url.pathname.includes('live')) {
+    return { id: url.pathname.split('/').pop()! }
+  }
+
+  if (url.searchParams.has('list')) {
+    return { id: url.searchParams.get('list')!, isPlaylist: true }
+  }
+
+  return null
+}
+
 export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   const {
     url,
@@ -68,98 +84,86 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
     return url
   }
 
-  // if is a youtu.be url, get the id after the /
-  if (url.includes('youtu.be')) {
-    const id = url.split('/').pop()
+  const urlObject = new URL(url)
+  const { id, isPlaylist } = getYoutubeVideoOrPlaylistId(urlObject) ?? {}
 
-    if (!id) {
-      return null
-    }
-    return `${getYoutubeEmbedUrl(nocookie)}${id}`
-  }
-
-  const videoIdRegex = /(?:(v|list)=|shorts\/)([-\w]+)/gm
-  const matches = videoIdRegex.exec(url)
-
-  if (!matches || !matches[2]) {
+  if (!id) {
     return null
   }
 
-  let outputUrl = `${getYoutubeEmbedUrl(nocookie, matches[1] === 'list')}${matches[2]}`
+  const embedUrl = new URL(`${getYoutubeEmbedUrl(nocookie, isPlaylist)}${id}`)
 
-  const params = []
+  if (urlObject.searchParams.has('t')) {
+    embedUrl.searchParams.set('start', urlObject.searchParams.get('t')!.replaceAll('s', ''))
+  }
 
   if (allowFullscreen === false) {
-    params.push('fs=0')
+    embedUrl.searchParams.set('fs', '0')
   }
 
   if (autoplay) {
-    params.push('autoplay=1')
+    embedUrl.searchParams.set('autoplay', '1')
   }
 
   if (ccLanguage) {
-    params.push(`cc_lang_pref=${ccLanguage}`)
+    embedUrl.searchParams.set('cc_lang_pref', ccLanguage)
   }
 
   if (ccLoadPolicy) {
-    params.push('cc_load_policy=1')
+    embedUrl.searchParams.set('cc_load_policy', '1')
   }
 
   if (!controls) {
-    params.push('controls=0')
+    embedUrl.searchParams.set('controls', '0')
   }
 
   if (disableKBcontrols) {
-    params.push('disablekb=1')
+    embedUrl.searchParams.set('disablekb', '1')
   }
 
   if (enableIFrameApi) {
-    params.push('enablejsapi=1')
+    embedUrl.searchParams.set('enablejsapi', '1')
   }
 
   if (endTime) {
-    params.push(`end=${endTime}`)
+    embedUrl.searchParams.set('end', endTime.toString())
   }
 
   if (interfaceLanguage) {
-    params.push(`hl=${interfaceLanguage}`)
+    embedUrl.searchParams.set('hl', interfaceLanguage)
   }
 
   if (ivLoadPolicy) {
-    params.push(`iv_load_policy=${ivLoadPolicy}`)
+    embedUrl.searchParams.set('iv_load_policy', ivLoadPolicy.toString())
   }
 
   if (loop) {
-    params.push('loop=1')
+    embedUrl.searchParams.set('loop', '1')
   }
 
   if (modestBranding) {
-    params.push('modestbranding=1')
+    embedUrl.searchParams.set('modestbranding', '1')
   }
 
   if (origin) {
-    params.push(`origin=${origin}`)
+    embedUrl.searchParams.set('origin', origin)
   }
 
   if (playlist) {
-    params.push(`playlist=${playlist}`)
+    embedUrl.searchParams.set('playlist', playlist)
   }
 
   if (startAt) {
-    params.push(`start=${startAt}`)
+    embedUrl.searchParams.set('start', startAt.toString())
   }
 
   if (progressBarColor) {
-    params.push(`color=${progressBarColor}`)
+    embedUrl.searchParams.set('color', progressBarColor)
   }
 
   if (rel !== undefined) {
-    params.push(`rel=${rel}`)
+    embedUrl.searchParams.set('rel', rel.toString())
   }
 
-  if (params.length) {
-    outputUrl += `${matches[1] === 'v' ? '?' : '&'}${params.join('&')}`
-  }
-
-  return outputUrl
+  return embedUrl.toString()
 }

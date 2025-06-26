@@ -548,6 +548,61 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
 
+## 2.22.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.3
+- @tiptap/extension-floating-menu@2.22.3
+
+## 2.22.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.2
+- @tiptap/extension-floating-menu@2.22.2
+
+## 2.22.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.1
+- @tiptap/extension-floating-menu@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.0
+- @tiptap/extension-floating-menu@2.22.0
+
+## 2.14.1
+
+### Patch Changes
+
+- 9711ab5: Fixed a bug that incorrectly added ref props when a component can't accept them (for example when React 19 is not used)
+- 2f032b1: Fixes an issue where ref props will be kept on non-supported react components
+  - @tiptap/extension-bubble-menu@2.14.1
+  - @tiptap/extension-floating-menu@2.14.1
+
+## 2.14.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.14.0
+- @tiptap/extension-floating-menu@2.14.0
+
+## 2.13.0
+
+### Minor Changes
+
+- e3c5c7c: Added support for React 19 ref in props
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.13.0
+- @tiptap/extension-floating-menu@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

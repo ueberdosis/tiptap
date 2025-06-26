@@ -724,6 +724,32 @@
 - 0ec0af6: fix(core): findDuplicates - use Array.from when converting Set
   - @tiptap/pm@3.0.0-next.0
 
+## 2.22.3
+
+### Patch Changes
+
+- 030bd22: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+
+## 2.22.2
+
+### Patch Changes
+
+- 6457ab3: Add validation for target position within document range when trying to access children of a `NodePos` instance
+
+## 2.22.1
+
+## 2.22.0
+
+## 2.14.1
+
+## 2.14.0
+
+### Minor Changes
+
+- 3f8efb9: Add config option to emit content error when content check is disabled
+
+## 2.13.0
+
 ## 2.12.0
 
 ## 2.11.9

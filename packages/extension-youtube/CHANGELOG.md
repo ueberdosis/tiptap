@@ -143,6 +143,28 @@
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
 
+## 2.22.3
+
+## 2.22.2
+
+## 2.22.1
+
+### Patch Changes
+
+- e465825: Update YouTube URL regex pattern
+
+## 2.22.0
+
+## 2.14.1
+
+## 2.14.0
+
+## 2.13.0
+
+### Minor Changes
+
+- 8e99fd2: Improve YouTube embed URL creation, support start timestamps, fix Shorts & Live embeds
+
 ## 2.12.0
 
 ## 2.11.9
