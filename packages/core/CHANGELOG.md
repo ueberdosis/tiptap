@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.23.0
+
+### Patch Changes
+
+- dfeaad4: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+
 ## 2.22.3
 
 ### Patch Changes
