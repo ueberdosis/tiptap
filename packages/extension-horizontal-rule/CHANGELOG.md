@@ -168,6 +168,8 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
 
+## 2.23.0
+
 ## 2.22.3
 
 ### Patch Changes

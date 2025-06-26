@@ -89,6 +89,8 @@
 - @tiptap/extension-text-style@3.0.0-beta.10
 - @tiptap/pm@3.0.0-beta.10
 
+## 2.23.0
+
 ## 2.22.3
 
 ## 2.22.2
