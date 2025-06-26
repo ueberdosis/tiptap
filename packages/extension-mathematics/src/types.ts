@@ -1,12 +1,12 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
 import type { KatexOptions } from 'katex'
 
+import type { BlockMathOptions, InlineMathOptions } from './extensions'
+
 export type MathematicsOptions = {
-  regex: RegExp
+  inlineOptions?: InlineMathOptions
+  blockOptions?: BlockMathOptions
   katexOptions?: KatexOptions
-  shouldRender: (state: EditorState, pos: number, node: Node) => boolean
 }
 
 export type MathematicsOptionsWithEditor = MathematicsOptions & { editor: Editor }

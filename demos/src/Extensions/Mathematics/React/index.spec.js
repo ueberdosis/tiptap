@@ -3,19 +3,13 @@ context('/src/Extensions/Mathematics/React/', () => {
     cy.visit('/src/Extensions/Mathematics/React/')
   })
 
-  // TODO: Write tests
-  it('should render latex tags when no focus', () => {
+  it('should include katex-rendered inline and block nodes', () => {
     cy.get('.ProseMirror').then(() => {
-      // find latex tags by class .katex
-      cy.get('.katex').should('exist')
-      cy.get('.katex').should('have.length', 18)
-      cy.get('.katex').should('be.visible')
-    })
-  })
+      cy.get('.ProseMirror span[data-type="inline-math"]').should('have.length', 18)
+      cy.get('.ProseMirror div[data-type="block-math"]').should('have.length', 1)
 
-  it('should not render latex tags in codeBlock', () => {
-    cy.get('.ProseMirror').then(() => {
-      cy.get('.ProseMirror pre code .katex').should('not.exist')
+      cy.get('.ProseMirror span[data-type="inline-math"] .katex').should('have.length', 18)
+      cy.get('.ProseMirror div[data-type="block-math"] .katex').should('have.length', 1)
     })
   })
 })
