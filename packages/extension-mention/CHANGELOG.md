@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.23.0
+
+### Minor Changes
+
+- c168e6d: Support multiple triggers in Mention extension
+
 ## 2.22.3
 
 ## 2.22.2

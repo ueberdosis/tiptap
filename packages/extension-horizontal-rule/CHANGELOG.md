@@ -1,5 +1,7 @@
 # Change Log
 
+## 2.23.0
+
 ## 2.22.3
 
 ### Patch Changes
