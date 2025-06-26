@@ -5,13 +5,6 @@
   }
 
   // Mathematics extension styles
-  .Tiptap-mathematics-editor {
-    background: #202020;
-    color: #fff;
-    font-family: monospace;
-    padding: 0.2rem 0.5rem;
-  }
-
   .Tiptap-mathematics-render {
     padding: 0 0.25rem;
 
@@ -25,9 +18,27 @@
     }
   }
 
-  .Tiptap-mathematics-editor,
   .Tiptap-mathematics-render {
     border-radius: 0.25rem;
-    display: inline-block;
+
+    &[data-type='inline-math'] {
+      display: inline-block;
+    }
+
+    &[data-type='block-math'] {
+      display: block;
+      margin: 1rem 0;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    &.inline-math-error,
+    &.block-math-error {
+      background: var(--red-light);
+      color: var(--red);
+      border: 1px solid var(--red-dark);
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+    }
   }
 }

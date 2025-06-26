@@ -1,7 +1,7 @@
-import { Mathematics } from './mathematics.js'
+import { Math } from './mathematics.js'
 
+export * from './extensions/index.js'
 export * from './mathematics.js'
-export * from './MathematicsPlugin.js'
 export * from './types.js'
 
-export default Mathematics
+export default Math

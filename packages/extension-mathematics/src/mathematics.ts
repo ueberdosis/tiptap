@@ -1,31 +1,24 @@
 import { Extension } from '@tiptap/core'
-import type { EditorState } from '@tiptap/pm/state'
 
-import { MathematicsPlugin } from './MathematicsPlugin.js'
+import { BlockMath, InlineMath } from './extensions/index.js'
 import type { MathematicsOptions } from './types.js'
 
-export const defaultShouldRender = (state: EditorState, pos: number) => {
-  const $pos = state.doc.resolve(pos)
-  const isInCodeBlock = $pos.parent.type.name === 'codeBlock'
-
-  return !isInCodeBlock
-}
-
-export const Mathematics = Extension.create<MathematicsOptions>({
+export const Math = Extension.create<MathematicsOptions>({
   name: 'Mathematics',
 
   addOptions() {
     return {
-      // eslint-disable-next-line no-useless-escape
-      regex: /\$([^\$]*)\$/gi,
+      inlineOptions: undefined,
+      blockOptions: undefined,
       katexOptions: undefined,
-      shouldRender: defaultShouldRender,
     }
   },
 
-  addProseMirrorPlugins() {
-    return [MathematicsPlugin({ ...this.options, editor: this.editor })]
+  addExtensions() {
+    return [BlockMath.configure(this.options.blockOptions), InlineMath.configure(this.options.inlineOptions)]
   },
 })
 
-export default Mathematics
+export const Mathematics = Math
+
+export default Math
