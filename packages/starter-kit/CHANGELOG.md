@@ -1,5 +1,35 @@
 # Change Log
 
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- Updated dependencies [e20006b]
+  - @tiptap/core@3.0.0-beta.17
+  - @tiptap/extension-blockquote@3.0.0-beta.17
+  - @tiptap/extension-bold@3.0.0-beta.17
+  - @tiptap/extension-code@3.0.0-beta.17
+  - @tiptap/extension-code-block@3.0.0-beta.17
+  - @tiptap/extension-document@3.0.0-beta.17
+  - @tiptap/extension-hard-break@3.0.0-beta.17
+  - @tiptap/extension-heading@3.0.0-beta.17
+  - @tiptap/extension-horizontal-rule@3.0.0-beta.17
+  - @tiptap/extension-italic@3.0.0-beta.17
+  - @tiptap/extension-link@3.0.0-beta.17
+  - @tiptap/extension-list@3.0.0-beta.17
+  - @tiptap/extension-paragraph@3.0.0-beta.17
+  - @tiptap/extension-strike@3.0.0-beta.17
+  - @tiptap/extension-text@3.0.0-beta.17
+  - @tiptap/extension-underline@3.0.0-beta.17
+  - @tiptap/extensions@3.0.0-beta.17
+  - @tiptap/extension-list-item@3.0.0-beta.17
+  - @tiptap/extension-list-keymap@3.0.0-beta.17
+  - @tiptap/extension-bullet-list@3.0.0-beta.17
+  - @tiptap/extension-ordered-list@3.0.0-beta.17
+  - @tiptap/extension-dropcursor@3.0.0-beta.17
+  - @tiptap/extension-gapcursor@3.0.0-beta.17
+  - @tiptap/pm@3.0.0-beta.17
+
 ## 3.0.0-beta.16
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- Updated dependencies [e20006b]
+  - @tiptap/core@3.0.0-beta.17
+  - @tiptap/extension-code-block@3.0.0-beta.17
+  - @tiptap/pm@3.0.0-beta.17
+
 ## 3.0.0-beta.16
 
 ### Patch Changes

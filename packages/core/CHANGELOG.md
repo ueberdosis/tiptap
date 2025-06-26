@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- e20006b: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+  - @tiptap/pm@3.0.0-beta.17
+
 ## 3.0.0-beta.16
 
 ### Minor Changes
