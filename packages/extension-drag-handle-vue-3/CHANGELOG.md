@@ -57,6 +57,28 @@
 
 - 7ac01ef: We open sourced our basic pro extensions
 
+  This release includes the following extensions that were previously only available in our Pro version:
+
+  - `@tiptap/extension-drag-handle`
+  - `@tiptap/extension-drag-handle-react`
+  - `@tiptap/extension-drag-handle-vue-2`
+  - `@tiptap/extension-drag-handle-vue-3`
+  - `@tiptap/extension-emoji`
+  - `@tiptap/extension-details`
+  - `@tiptap/extension-file-handler`
+  - `@tiptap/extension-invisible-characters`
+  - `@tiptap/extension-mathematics`
+  - `@tiptap/extension-node-range`
+  - `@tiptap/extension-table-of-contents`
+  - `@tiptap/extension-unique-id`
+
+### Patch Changes
+
+- Updated dependencies [7ac01ef]
+  - @tiptap/extension-drag-handle@3.0.0-beta.10
+  - @tiptap/pm@3.0.0-beta.10
+  - # @tiptap/vue-3@3.0.0-beta.10
+
 ## 2.22.3
 
 ## 2.22.2
@@ -76,11 +98,6 @@
   - `@tiptap/extension-drag-handle-vue-2`
   - `@tiptap/extension-drag-handle-vue-3`
   - `@tiptap/extension-emoji`
-    <<<<<<< HEAD
-    =======
-  - `@tiptap/extension-details-content`
-  - `@tiptap/extension-details-summary`
-    > > > > > > > e7a5a164f7325a3b08c688fb49cae62ab7ac2358
   - `@tiptap/extension-details`
   - `@tiptap/extension-file-handler`
   - `@tiptap/extension-invisible-characters`
@@ -88,12 +105,3 @@
   - `@tiptap/extension-node-range`
   - `@tiptap/extension-table-of-contents`
   - `@tiptap/extension-unique-id`
-    <<<<<<< HEAD
-
-### Patch Changes
-
-- Updated dependencies [7ac01ef]
-  - @tiptap/extension-drag-handle@3.0.0-beta.10
-  - @tiptap/pm@3.0.0-beta.10
-  - # @tiptap/vue-3@3.0.0-beta.10
-    > > > > > > > e7a5a164f7325a3b08c688fb49cae62ab7ac2358
