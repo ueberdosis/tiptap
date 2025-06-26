@@ -1,10 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 // @ts-nocheck
 const showDemoList = process.env.NODE_ENV === 'development'
 
-const searchValue = ref('')
+const searchQuery = new URLSearchParams(window.location.search)
+
+const searchValue = ref(searchQuery.get('search') || '')
+
+// Update the window search param when the searchValue changes
+// this allows the user to bookmark / return to a specific search
+// and also allows the browser to handle back/forward navigation
+// without losing the search state
+watch(searchValue, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    searchQuery.set('search', newValue)
+    window.history.replaceState({}, '', `?${searchQuery.toString()}`)
+  }
+})
 </script>
 
 <template>
