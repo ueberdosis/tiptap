@@ -1,9 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
 
-// @ts-nocheck
-const showDemoList = process.env.NODE_ENV === 'development'
-
 const searchQuery = new URLSearchParams(window.location.search)
 
 const searchValue = ref(searchQuery.get('search') || '')
@@ -29,7 +26,7 @@ watch(searchValue, (newValue, oldValue) => {
       autofocus
       v-model="searchValue"
     />
-    <ul v-if="showDemoList || listing">
+    <ul>
       <li
         class="p-5 border-b-2 border-black"
         v-for="route in $router.options.routes.filter(route =>
@@ -53,7 +50,6 @@ watch(searchValue, (newValue, oldValue) => {
         </div>
       </li>
     </ul>
-    <div v-else>Nothing to see here :-)</div>
   </template>
   <router-view v-else />
 </template>
@@ -89,10 +85,6 @@ export default {
   computed: {
     query() {
       return Object.fromEntries(Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]))
-    },
-
-    listing() {
-      return this.query.listing || false
     },
   },
 }
