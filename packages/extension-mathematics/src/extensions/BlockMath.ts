@@ -95,7 +95,7 @@ export const BlockMath = Node.create({
         options =>
         ({ editor, tr }) => {
           const pos = options?.pos ?? editor.state.selection.$from.pos
-          const node = this.editor.state.doc.nodeAt(pos)
+          const node = editor.state.doc.nodeAt(pos)
 
           if (!node || node.type.name !== this.name) {
             return false
