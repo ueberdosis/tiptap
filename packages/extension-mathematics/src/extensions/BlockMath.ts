@@ -184,7 +184,7 @@ export const BlockMath = Node.create({
         event.stopPropagation()
         const pos = getPos()
 
-        if (!pos) {
+        if (pos == null) {
           return
         }
 
