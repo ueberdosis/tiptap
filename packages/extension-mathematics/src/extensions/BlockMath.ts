@@ -140,7 +140,7 @@ export const BlockMath = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'math' })]
+    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'block-math' })]
   },
 
   addInputRules() {
