@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.23.1
+
+### Patch Changes
+
+- 63c9453: Show mention indicator when converting document to HTML
+
 ## 2.23.0
 
 ### Minor Changes
