@@ -114,7 +114,7 @@ function getSuggestions(options: GetSuggestionsOptions) {
   return (options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]).map(
     suggestion =>
       getSuggestionOptions({
-        // @ts-expect-error `editor` can be `undefined` when converting the document to HTML with the HTML utility
+        // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
         editor: options.editor,
         overrideSuggestionOptions: suggestion,
         extensionName: options.name,
