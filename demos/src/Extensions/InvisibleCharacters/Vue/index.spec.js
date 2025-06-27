@@ -4,6 +4,6 @@ context('/src/Extensions/InvisibleCharacters/Vue/', () => {
   })
 
   it('should have invisible characters', () => {
-    cy.get('[class*="Tiptap-invisible-character"]').should('exist')
+    cy.get('[class*="tiptap-invisible-character"]').should('exist')
   })
 })

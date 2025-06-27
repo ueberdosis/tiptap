@@ -21,7 +21,7 @@
 <script>
 import 'katex/dist/katex.min.css'
 
-import { Math } from '@tiptap/extension-mathematics'
+import { Mathematics, migrateMathStrings } from '@tiptap/extension-mathematics'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { defineComponent } from 'vue'
@@ -42,7 +42,7 @@ export default defineComponent({
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Math.configure({
+        Mathematics.configure({
           blockOptions: {
             onClick: node => {
               const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
@@ -93,6 +93,9 @@ export default defineComponent({
         <p>The math extension also supports block level math nodes:</p>
         <div data-type="block-math" data-latex="\\int_a^b x^2 dx"></div>
       `,
+      onCreate: ({ editor }) => {
+        migrateMathStrings(editor)
+      },
     })
   },
 
@@ -109,22 +112,28 @@ export default defineComponent({
       }
     },
     onInsertInlineMath() {
-      const latex = prompt('Enter inline math expression:', '')
-      if (latex) {
-        this.editor.chain().setInlineMath({ latex }).focus().run()
+      const hasSelection = !this.editor.state.selection.empty
+      if (hasSelection) {
+        return this.editor.chain().setInlineMath().focus().run()
       }
+
+      const latex = prompt('Enter inline math expression:', '')
+      return this.editor.chain().insertInlineMath({ latex }).focus().run()
     },
     onRemoveInlineMath() {
-      this.editor.chain().unsetInlineMath().focus().run()
+      this.editor.chain().deleteInlineMath().focus().run()
     },
     onInsertBlockMath() {
-      const latex = prompt('Enter block math expression:', '')
-      if (latex) {
-        this.editor.chain().setBlockMath({ latex }).focus().run()
+      const hasSelection = !this.editor.state.selection.empty
+      if (hasSelection) {
+        return this.editor.chain().setBlockMath().focus().run()
       }
+
+      const latex = prompt('Enter block math expression:', '')
+      return this.editor.chain().insertBlockMath({ latex }).focus().run()
     },
     onRemoveBlockMath() {
-      this.editor.chain().unsetBlockMath().focus().run()
+      this.editor.chain().deleteBlockMath().focus().run()
     },
   },
 })
@@ -138,14 +147,14 @@ export default defineComponent({
   }
 
   // Mathematics extension styles
-  .Tiptap-mathematics-editor {
+  .tiptap-mathematics-editor {
     background: #202020;
     color: #fff;
     font-family: monospace;
     padding: 0.2rem 0.5rem;
   }
 
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-render {
     padding: 0 0.25rem;
 
     &--editable {
@@ -158,8 +167,8 @@ export default defineComponent({
     }
   }
 
-  .Tiptap-mathematics-editor,
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-editor,
+  .tiptap-mathematics-render {
     border-radius: 0.25rem;
     display: inline-block;
   }

@@ -32,8 +32,9 @@ export default () => {
     ],
     content: `
       <h1>
-        This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions.
+        This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions. And I think it even supports converting $old \\sub(3*5=15)$ calculations.
       </h1>
+      <p>This is a old $\\LaTeX$ calculation string with $3*5=15$ calculations.</p>
       <p>
         Did you know that <span data-type="inline-math" data-latex="3 * 3 = 9"></span>? Isn't that crazy? Also Pythagoras' theorem is <span data-type="inline-math" data-latex="a^2 + b^2 = c^2"></span>.<br />
         Also the square root of 2 is <span data-type="inline-math" data-latex="\\sqrt{2}"></span>. If you want to know more about <span data-type="inline-math" data-latex="\\LaTeX"></span> visit <a href="https://katex.org/docs/supported.html" target="_blank">katex.org</a>.
@@ -79,25 +80,33 @@ export default () => {
   )
 
   const onInsertInlineMath = useCallback(() => {
-    const latex = prompt('Enter inline math expression:', '')
-    if (latex) {
-      editor.chain().setInlineMath({ latex }).focus().run()
+    const hasSelection = !editor.state.selection.empty
+
+    if (hasSelection) {
+      return editor.chain().setInlineMath().focus().run()
     }
+
+    const latex = prompt('Enter inline math expression:', '')
+    return editor.chain().insertInlineMath({ latex }).focus().run()
   }, [editor])
 
   const onRemoveInlineMath = useCallback(() => {
-    editor.chain().unsetInlineMath().focus().run()
+    editor.chain().deleteInlineMath().focus().run()
   }, [editor])
 
   const onInsertBlockMath = useCallback(() => {
-    const latex = prompt('Enter block math expression:', '')
-    if (latex) {
-      editor.chain().setBlockMath({ latex }).focus().run()
+    const hasSelection = !editor.state.selection.empty
+
+    if (hasSelection) {
+      return editor.chain().setBlockMath().focus().run()
     }
+
+    const latex = prompt('Enter block math expression:', '')
+    return editor.chain().insertBlockMath({ latex }).focus().run()
   }, [editor])
 
   const onRemoveBlockMath = useCallback(() => {
-    editor.chain().unsetBlockMath().focus().run()
+    editor.chain().deleteBlockMath().focus().run()
   }, [editor])
 
   if (!editor) {

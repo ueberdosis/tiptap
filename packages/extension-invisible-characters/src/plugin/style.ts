@@ -1,4 +1,4 @@
-export const style = `.Tiptap-invisible-character {
+export const style = `.tiptap-invisible-character {
   height: 0;
   padding: 0;
   pointer-events: none;
@@ -6,7 +6,7 @@ export const style = `.Tiptap-invisible-character {
   width: 0;
 }
 
-.Tiptap-invisible-character::before {
+.tiptap-invisible-character::before {
   caret-color: inherit;
   color: #aaa;
   display: inline-block;
@@ -16,26 +16,26 @@ export const style = `.Tiptap-invisible-character {
   width: 0;
 }
 
-.Tiptap-invisible-character--space::before {
+.tiptap-invisible-character--space::before {
   content: '·'
 }
 
-.Tiptap-invisible-character--break::before {
+.tiptap-invisible-character--break::before {
   content: '¬'
 }
 
-.Tiptap-invisible-character--paragraph::before {
+.tiptap-invisible-character--paragraph::before {
   content: '¶'
 }
 
-.Tiptap-invisible-character + img.ProseMirror-separator {
+.tiptap-invisible-character + img.ProseMirror-separator {
   height: 0 !important;
   pointer-events: none;
   user-select: none;
   width: 0 !important;
 }
 
-.is-empty[data-placeholder].has-focus > .Tiptap-invisible-character {
+.is-empty[data-placeholder].has-focus > .tiptap-invisible-character {
   display: none;
 }
 `

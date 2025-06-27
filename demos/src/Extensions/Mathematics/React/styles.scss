@@ -5,7 +5,7 @@
   }
 
   // Mathematics extension styles
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-render {
     padding: 0 0.25rem;
 
     &--editable {
@@ -18,7 +18,7 @@
     }
   }
 
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-render {
     border-radius: 0.25rem;
 
     &[data-type='inline-math'] {

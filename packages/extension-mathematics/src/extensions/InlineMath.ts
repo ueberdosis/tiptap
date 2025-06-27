@@ -2,7 +2,23 @@ import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
 import katex from 'katex'
 
+/**
+ * Configuration options for the InlineMath extension.
+ */
 export type InlineMathOptions = {
+  /**
+   * Optional click handler for inline math nodes.
+   * Called when a user clicks on an inline math expression in the editor.
+   *
+   * @param node - The ProseMirror node representing the inline math element
+   * @param pos - The position of the node within the document
+   * @example
+   * ```ts
+   * onClick: (node, pos) => {
+   *   console.log('Inline math clicked:', node.attrs.latex, 'at position:', pos)
+   * }
+   * ```
+   */
   onClick?: (node: PMNode, pos: number) => void
 }
 
@@ -10,17 +26,23 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     inlineMath: {
       /**
-       * Set inline math node with LaTeX string.
-       * @param options - Options for setting inline math.
+       * Insert a inline math node with LaTeX string.
+       * @param options - Options for inserting inline math.
        * @returns ReturnType
        */
-      setInlineMath: (options: { latex: string; pos?: number }) => ReturnType
+      insertInlineMath: (options: { latex: string; pos?: number }) => ReturnType
 
       /**
-       * Unset inline math node.
+       * Turns the current selection into a inline math node.
        * @returns ReturnType
        */
-      unsetInlineMath: (options?: { pos?: number }) => ReturnType
+      setInlineMath: () => ReturnType
+
+      /**
+       * Delete an inline math node.
+       * @returns ReturnType
+       */
+      deleteInlineMath: (options?: { pos?: number }) => ReturnType
 
       /**
        * Update inline math node with optional LaTeX string.
@@ -39,7 +61,7 @@ declare module '@tiptap/core' {
  *
  * @example
  * ```javascript
- * import { InlineMath } from 'your-extension-path'
+ * import { InlineMath } from '@tiptap/extension-mathematics'
  * import { Editor } from '@tiptap/core'
  *
  * const editor = new Editor({
@@ -83,21 +105,42 @@ export const InlineMath = Node.create<InlineMathOptions>({
 
   addCommands() {
     return {
-      setInlineMath:
+      insertInlineMath:
         options =>
         ({ editor, tr }) => {
-          const latex = options?.latex
-          const pos = options?.pos ?? editor.state.selection.$from.pos
+          const latex = options.latex
+
+          const from = options?.pos ?? editor.state.selection.from
 
           if (!latex) {
             return false
           }
 
-          tr.replaceWith(pos, pos, this.type.create({ latex }))
+          tr.replaceWith(from, from, this.type.create({ latex }))
           return true
         },
 
-      unsetInlineMath:
+      setInlineMath:
+        () =>
+        ({ tr, editor }) => {
+          const { from, to } = editor.state.selection
+
+          if (from === to) {
+            return false
+          }
+
+          const latex = editor.state.doc.textBetween(from, to, ' ', ' ')
+
+          if (!latex) {
+            return false
+          }
+
+          tr.replaceWith(from, to, this.type.create({ latex }))
+
+          return true
+        },
+
+      deleteInlineMath:
         options =>
         ({ editor, tr }) => {
           const pos = options?.pos ?? editor.state.selection.$from.pos
@@ -165,7 +208,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addNodeView() {
     return ({ node, getPos }) => {
       const wrapper = document.createElement('span')
-      wrapper.className = 'Tiptap-mathematics-render Tiptap-mathematics-render--editable'
+      wrapper.className = 'tiptap-mathematics-render tiptap-mathematics-render--editable'
       wrapper.dataset.type = 'inline-math'
       wrapper.setAttribute('data-latex', node.attrs.latex)
 
