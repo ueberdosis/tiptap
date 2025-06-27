@@ -21,7 +21,7 @@
 <script>
 import 'katex/dist/katex.min.css'
 
-import { Math } from '@tiptap/extension-mathematics'
+import { Mathematics, migrateMathStrings } from '@tiptap/extension-mathematics'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { defineComponent } from 'vue'
@@ -42,7 +42,7 @@ export default defineComponent({
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Math.configure({
+        Mathematics.configure({
           blockOptions: {
             onClick: node => {
               const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
@@ -93,6 +93,9 @@ export default defineComponent({
         <p>The math extension also supports block level math nodes:</p>
         <div data-type="block-math" data-latex="\\int_a^b x^2 dx"></div>
       `,
+      onCreate: ({ editor }) => {
+        migrateMathStrings(editor)
+      },
     })
   },
 
