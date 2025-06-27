@@ -10,11 +10,17 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     inlineMath: {
       /**
-       * Insert a inline math node with LaTeX string. If no latex string is given, the current selection will be transformed into a inline math node
+       * Insert a inline math node with LaTeX string.
        * @param options - Options for inserting inline math.
        * @returns ReturnType
        */
-      insertInlineMath: (options: { latex?: string; pos?: number }) => ReturnType
+      insertInlineMath: (options: { latex: string; pos?: number }) => ReturnType
+
+      /**
+       * Turns the current selection into a inline math node.
+       * @returns ReturnType
+       */
+      setInlineMath: () => ReturnType
 
       /**
        * Delete an inline math node.
@@ -86,18 +92,35 @@ export const InlineMath = Node.create<InlineMathOptions>({
       insertInlineMath:
         options =>
         ({ editor, tr }) => {
-          const latex = options?.latex
+          const latex = options.latex
 
           const from = options?.pos ?? editor.state.selection.from
-          const to = options?.pos ?? editor.state.selection.to
 
-          if (!latex && editor.state.selection.empty) {
+          if (!latex) {
             return false
           }
 
-          const selectedText = editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to)
+          tr.replaceWith(from, from, this.type.create({ latex }))
+          return true
+        },
 
-          tr.replaceWith(from, to, this.type.create({ latex: latex && latex.length > 0 ? latex : selectedText.trim() }))
+      setInlineMath:
+        () =>
+        ({ tr, editor }) => {
+          const { from, to } = editor.state.selection
+
+          if (from === to) {
+            return false
+          }
+
+          const latex = editor.state.doc.textBetween(from, to, ' ', ' ')
+
+          if (!latex) {
+            return false
+          }
+
+          tr.replaceWith(from, to, this.type.create({ latex }))
+
           return true
         },
 

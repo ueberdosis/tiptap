@@ -80,8 +80,13 @@ export default () => {
 
   const onInsertInlineMath = useCallback(() => {
     const hasSelection = !editor.state.selection.empty
-    const latex = hasSelection ? '' : prompt('Enter inline math expression:', '')
-    editor.chain().insertInlineMath({ latex }).focus().run()
+
+    if (hasSelection) {
+      return editor.chain().setInlineMath().focus().run()
+    }
+
+    const latex = prompt('Enter inline math expression:', '')
+    return editor.chain().insertInlineMath({ latex }).focus().run()
   }, [editor])
 
   const onRemoveInlineMath = useCallback(() => {
@@ -90,8 +95,13 @@ export default () => {
 
   const onInsertBlockMath = useCallback(() => {
     const hasSelection = !editor.state.selection.empty
-    const latex = hasSelection ? '' : prompt('Enter block math expression:', '')
-    editor.chain().insertBlockMath({ latex }).focus().run()
+
+    if (hasSelection) {
+      return editor.chain().setBlockMath().focus().run()
+    }
+
+    const latex = prompt('Enter block math expression:', '')
+    return editor.chain().insertBlockMath({ latex }).focus().run()
   }, [editor])
 
   const onRemoveBlockMath = useCallback(() => {
