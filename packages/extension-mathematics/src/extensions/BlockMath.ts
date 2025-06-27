@@ -2,7 +2,23 @@ import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
 import katex from 'katex'
 
+/**
+ * Configuration options for the BlockMath extension.
+ */
 export type BlockMathOptions = {
+  /**
+   * Optional click handler for block math nodes.
+   * Called when a user clicks on a block math expression in the editor.
+   *
+   * @param node - The ProseMirror node representing the block math element
+   * @param pos - The position of the node within the document
+   * @example
+   * ```ts
+   * onClick: (node, pos) => {
+   *   console.log('Block math clicked:', node.attrs.latex, 'at position:', pos)
+   * }
+   * ```
+   */
   onClick?: (node: PMNode, pos: number) => void
 }
 
