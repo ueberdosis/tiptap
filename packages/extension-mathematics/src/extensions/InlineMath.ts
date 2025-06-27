@@ -10,17 +10,17 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     inlineMath: {
       /**
-       * Set inline math node with LaTeX string.
-       * @param options - Options for setting inline math.
+       * Insert a inline math node with LaTeX string. If no latex string is given, the current selection will be transformed into a inline math node
+       * @param options - Options for inserting inline math.
        * @returns ReturnType
        */
-      setInlineMath: (options: { latex: string; pos?: number }) => ReturnType
+      insertInlineMath: (options: { latex?: string; pos?: number }) => ReturnType
 
       /**
-       * Unset inline math node.
+       * Delete an inline math node.
        * @returns ReturnType
        */
-      unsetInlineMath: (options?: { pos?: number }) => ReturnType
+      deleteInlineMath: (options?: { pos?: number }) => ReturnType
 
       /**
        * Update inline math node with optional LaTeX string.
@@ -83,21 +83,25 @@ export const InlineMath = Node.create<InlineMathOptions>({
 
   addCommands() {
     return {
-      setInlineMath:
+      insertInlineMath:
         options =>
         ({ editor, tr }) => {
           const latex = options?.latex
-          const pos = options?.pos ?? editor.state.selection.$from.pos
 
-          if (!latex) {
+          const from = options?.pos ?? editor.state.selection.from
+          const to = options?.pos ?? editor.state.selection.to
+
+          if (!latex && editor.state.selection.empty) {
             return false
           }
 
-          tr.replaceWith(pos, pos, this.type.create({ latex }))
+          const selectedText = editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to)
+
+          tr.replaceWith(from, to, this.type.create({ latex: latex && latex.length > 0 ? latex : selectedText.trim() }))
           return true
         },
 
-      unsetInlineMath:
+      deleteInlineMath:
         options =>
         ({ editor, tr }) => {
           const pos = options?.pos ?? editor.state.selection.$from.pos

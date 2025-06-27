@@ -8,19 +8,19 @@ export type BlockMathOptions = {
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    blockMath: {
+    insertBlockMath: {
       /**
-       * Set block math node with LaTeX string.
-       * @param options - Options for setting block math.
+       * Inserts a math block node with LaTeX string. If no latex string is given, the current selection will be transformed into a math block
+       * @param options - Options for inserting block math.
        * @returns ReturnType
        */
-      setBlockMath: (options: { latex: string; pos?: number }) => ReturnType
+      insertBlockMath: (options: { latex?: string; pos?: number }) => ReturnType
 
       /**
-       * Unset block math node.
+       * Deletes a block math node.
        * @returns ReturnType
        */
-      unsetBlockMath: (options?: { pos?: number }) => ReturnType
+      deleteBlockMath: (options?: { pos?: number }) => ReturnType
 
       /**
        * Update block math node with optional LaTeX string.
@@ -81,17 +81,36 @@ export const BlockMath = Node.create({
 
   addCommands() {
     return {
-      setBlockMath:
+      insertBlockMath:
         options =>
-        ({ commands, editor }) => {
+        ({ commands, chain, editor }) => {
           const { latex, pos } = options
-          return commands.insertContentAt(pos ?? editor.state.selection.from, {
-            type: this.name,
-            attrs: { latex },
-          })
+
+          if (!latex && editor.state.selection.empty) {
+            return false
+          }
+
+          if (editor.state.selection.empty) {
+            return commands.insertContentAt(pos ?? editor.state.selection.from, {
+              type: this.name,
+              attrs: { latex },
+            })
+          }
+
+          const from = pos ?? editor.state.selection.from
+          const to = pos ?? editor.state.selection.to
+          const selectedText = editor.state.doc.textBetween(from, to)
+
+          return chain()
+            .deleteRange({ from, to })
+            .insertContentAt(from, {
+              type: this.name,
+              attrs: { latex: selectedText.trim() },
+            })
+            .run()
         },
 
-      unsetBlockMath:
+      deleteBlockMath:
         options =>
         ({ editor, tr }) => {
           const pos = options?.pos ?? editor.state.selection.$from.pos
