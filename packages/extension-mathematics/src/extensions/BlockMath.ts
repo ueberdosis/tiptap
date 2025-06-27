@@ -105,7 +105,7 @@ export const BlockMath = Node.create({
             .deleteRange({ from, to })
             .insertContentAt(from, {
               type: this.name,
-              attrs: { latex: selectedText.trim() },
+              attrs: { latex: latex?.trim() || selectedText.trim() },
             })
             .run()
         },
