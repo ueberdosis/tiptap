@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     inlineMath: {
       /**
-       * Insert a inline math node with LaTeX string. If no latex string is given, the current selection will be transformed into a inline math node
+       * Insert an inline math node with LaTeX string. If no latex string is given, the current selection will be transformed into an inline math node
        * @param options - Options for inserting inline math.
        * @returns ReturnType
        */
