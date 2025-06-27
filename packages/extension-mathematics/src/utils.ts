@@ -7,6 +7,11 @@ import type { Transaction } from 'packages/pm/state'
  * like those used for currency or other purposes.
  * It ensures that the dollar signs are not preceded or followed by digits,
  * allowing for proper identification of inline math expressions.
+ *
+ * - `$x^2 + y^2 = z^2$` will match
+ * - `This is $inline math$ in text.` will match
+ * - `This is $100$ dollars.` will not match (as it is not a math expression)
+ * - `This is $x^2 + y^2 = z^2$ and $100$ dollars.` will match both math expressions
  */
 const mathRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
 
