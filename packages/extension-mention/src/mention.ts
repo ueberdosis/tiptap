@@ -158,14 +158,14 @@ export const Mention = Node.create<MentionOptions>({
     return {
       HTMLAttributes: {},
       renderText({ node, suggestion }) {
-        return `${suggestion?.char}${node.attrs.label ?? node.attrs.id}`
+        return `${suggestion?.char ?? '@'}${node.attrs.label ?? node.attrs.id}`
       },
       deleteTriggerWithBackspace: false,
       renderHTML({ options, node, suggestion }) {
         return [
           'span',
           mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
-          `${suggestion?.char}${node.attrs.label ?? node.attrs.id}`,
+          `${suggestion?.char ?? '@'}${node.attrs.label ?? node.attrs.id}`,
         ]
       },
       suggestions: [],
