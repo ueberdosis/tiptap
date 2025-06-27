@@ -72,6 +72,12 @@ export default () => {
             Toggle Right
           </button>
           <button
+            onClick={() => editor.chain().focus().toggleTextAlign('right').run()}
+            className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+          >
+            Toggle Right
+          </button>
+          <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             className={editor.isActive({ level: 1 }) ? 'is-active' : ''}
           >

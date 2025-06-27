@@ -39,6 +39,12 @@
         >
           Toggle Right
         </button>
+        <button
+          @click="editor.chain().focus().toggleTextAlign('right').run()"
+          :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
+        >
+          Toggle Right
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />

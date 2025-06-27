@@ -244,6 +244,26 @@
   - @tiptap/core@3.0.0-next.0
   - @tiptap/pm@3.0.0-next.0
 
+## 2.23.0
+
+### Minor Changes
+
+- c168e6d: Support multiple triggers in Mention extension
+
+## 2.22.3
+
+## 2.22.2
+
+## 2.22.1
+
+## 2.22.0
+
+## 2.14.1
+
+## 2.14.0
+
+## 2.13.0
+
 ## 2.12.0
 
 ## 2.11.9
