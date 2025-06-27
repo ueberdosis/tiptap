@@ -165,7 +165,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addNodeView() {
     return ({ node, getPos }) => {
       const wrapper = document.createElement('span')
-      wrapper.className = 'Tiptap-mathematics-render Tiptap-mathematics-render--editable'
+      wrapper.className = 'tiptap-mathematics-render tiptap-mathematics-render--editable'
       wrapper.dataset.type = 'inline-math'
       wrapper.setAttribute('data-latex', node.attrs.latex)
 

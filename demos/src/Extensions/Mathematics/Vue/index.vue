@@ -138,14 +138,14 @@ export default defineComponent({
   }
 
   // Mathematics extension styles
-  .Tiptap-mathematics-editor {
+  .tiptap-mathematics-editor {
     background: #202020;
     color: #fff;
     font-family: monospace;
     padding: 0.2rem 0.5rem;
   }
 
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-render {
     padding: 0 0.25rem;
 
     &--editable {
@@ -158,8 +158,8 @@ export default defineComponent({
     }
   }
 
-  .Tiptap-mathematics-editor,
-  .Tiptap-mathematics-render {
+  .tiptap-mathematics-editor,
+  .tiptap-mathematics-render {
     border-radius: 0.25rem;
     display: inline-block;
   }

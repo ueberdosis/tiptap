@@ -4,8 +4,8 @@ export const createDecorationWidget = (pos: number, type: string, content?: stri
   const createElement = () => {
     const newElement = document.createElement('span')
 
-    newElement.classList.add('Tiptap-invisible-character')
-    newElement.classList.add(`Tiptap-invisible-character--${type}`)
+    newElement.classList.add('tiptap-invisible-character')
+    newElement.classList.add(`tiptap-invisible-character--${type}`)
 
     if (content) {
       newElement.textContent = content
@@ -13,10 +13,6 @@ export const createDecorationWidget = (pos: number, type: string, content?: stri
 
     return newElement
   }
-
-  // return Decoration.inline(pos - 1, pos, {
-  //   class: `Tiptap-invisible-character Tiptap-invisible-character--${type}`,
-  // })
 
   return Decoration.widget(pos, createElement, {
     key: type,
