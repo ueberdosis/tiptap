@@ -63,7 +63,7 @@ export function createMathMigrateTransaction(editor: Editor, tr: Transaction) {
  * @example
  * ```typescript
  * const editor = new Editor({
- *   extensions: [Mathematics, MathMigration],
+ *   extensions: [Mathematics],
  *   content: 'This is inline math: $x^2 + y^2 = z^2$ in text.'
  * })
  *
