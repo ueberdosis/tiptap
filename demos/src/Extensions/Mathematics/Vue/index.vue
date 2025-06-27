@@ -110,16 +110,24 @@ export default defineComponent({
     },
     onInsertInlineMath() {
       const hasSelection = !this.editor.state.selection.empty
-      const latex = hasSelection ? '' : prompt('Enter inline math expression:', '')
-      this.editor.chain().insertInlineMath({ latex }).focus().run()
+      if (hasSelection) {
+        return this.editor.chain().setInlineMath().focus().run()
+      }
+
+      const latex = prompt('Enter inline math expression:', '')
+      return this.editor.chain().insertInlineMath({ latex }).focus().run()
     },
     onRemoveInlineMath() {
       this.editor.chain().deleteInlineMath().focus().run()
     },
     onInsertBlockMath() {
       const hasSelection = !this.editor.state.selection.empty
-      const latex = hasSelection ? '' : prompt('Enter block math expression:', '')
-      this.editor.chain().insertBlockMath({ latex }).focus().run()
+      if (hasSelection) {
+        return this.editor.chain().setBlockMath().focus().run()
+      }
+
+      const latex = prompt('Enter block math expression:', '')
+      return this.editor.chain().insertBlockMath({ latex }).focus().run()
     },
     onRemoveBlockMath() {
       this.editor.chain().deleteBlockMath().focus().run()
