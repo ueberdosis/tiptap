@@ -3,7 +3,7 @@ import { Extension } from '@tiptap/core'
 import { BlockMath, InlineMath } from './extensions/index.js'
 import type { MathematicsOptions } from './types.js'
 
-export const Math = Extension.create<MathematicsOptions>({
+export const Mathematics = Extension.create<MathematicsOptions>({
   name: 'Mathematics',
 
   addOptions() {
@@ -19,6 +19,4 @@ export const Math = Extension.create<MathematicsOptions>({
   },
 })
 
-export const Mathematics = Math
-
-export default Math
+export default Mathematics
