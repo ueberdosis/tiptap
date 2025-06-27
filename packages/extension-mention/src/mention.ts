@@ -1,3 +1,4 @@
+import type { Editor } from '@tiptap/core'
 import { mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
@@ -97,53 +98,75 @@ export interface MentionOptions<SuggestionItem = any, Attrs extends Record<strin
   suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>
 }
 
-/**
- * Storage properties or the Mention extension
- */
-export interface MentionStorage<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> {
-  /**
-   * The list of suggestions that will trigger the mention.
-   */
-  suggestions: Array<SuggestionOptions<SuggestionItem, Attrs>>
+interface GetSuggestionsOptions {
+  editor?: Editor
+  options: MentionOptions
+  name: string
+}
 
-  /**
-   * Returns the suggestion options of the mention that has a given character trigger. If not
-   * found, it returns the first suggestion.
-   *
-   * @param char The character that triggers the mention
-   * @returns The suggestion options
-   */
-  getSuggestionFromChar: (char: string) => SuggestionOptions<SuggestionItem, Attrs> | null
+/**
+ * Returns the suggestions for the mention extension.
+ *
+ * @param options The extension options
+ * @returns the suggestions
+ */
+function getSuggestions(options: GetSuggestionsOptions) {
+  return (options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]).map(
+    suggestion => getSuggestionOptions({
+      // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
+      editor: options.editor,
+      overrideSuggestionOptions: suggestion,
+      extensionName: options.name,
+      char: suggestion.char,
+    }),
+  )
+}
+
+/**
+ * Returns the suggestion options of the mention that has a given character trigger. If not
+ * found, it returns the first suggestion.
+ *
+ * @param options The extension options
+ * @param char The character that triggers the mention
+ * @returns The suggestion options
+ */
+function getSuggestionFromChar(options: GetSuggestionsOptions, char: string) {
+  const suggestions = getSuggestions(options)
+
+  const suggestion = suggestions.find(s => s.char === char)
+
+  if (suggestion) {
+    return suggestion
+  }
+
+  if (suggestions.length) {
+    return suggestions[0]
+  }
+
+  return null
 }
 
 /**
  * This extension allows you to insert mentions into the editor.
  * @see https://www.tiptap.dev/api/extensions/mention
  */
-export const Mention = Node.create<MentionOptions, MentionStorage>({
+export const Mention = Node.create<MentionOptions>({
   name: 'mention',
 
   priority: 101,
-
-  addStorage() {
-    return {
-      suggestions: [],
-      getSuggestionFromChar: () => null,
-    }
-  },
 
   addOptions() {
     return {
       HTMLAttributes: {},
       renderText({ node, suggestion }) {
-        return `${suggestion?.char}${node.attrs.label ?? node.attrs.id}`
+        return `${suggestion?.char ?? '@'}${node.attrs.label ?? node.attrs.id}`
       },
       deleteTriggerWithBackspace: false,
       renderHTML({ options, node, suggestion }) {
         return [
           'span',
           mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
-          `${suggestion?.char}${node.attrs.label ?? node.attrs.id}`,
+          `${suggestion?.char ?? '@'}${node.attrs.label ?? node.attrs.id}`,
         ]
       },
       suggestions: [],
@@ -211,11 +234,7 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
   },
 
   renderHTML({ node, HTMLAttributes }) {
-    // We cannot use the `this.storage` property here because, when accessed this method,
-    // it returns the initial value of the extension storage
-    const suggestion = (this.editor?.extensionStorage as unknown as Record<string, MentionStorage>)?.[
-      this.name
-    ]?.getSuggestionFromChar(node.attrs.mentionSuggestionChar)
+    const suggestion = getSuggestionFromChar(this, node.attrs.mentionSuggestionChar)
 
     if (this.options.renderLabel !== undefined) {
       console.warn('renderLabel is deprecated use renderText and renderHTML instead')
@@ -257,9 +276,7 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
     const args = {
       options: this.options,
       node,
-      suggestion: (this.editor?.extensionStorage as unknown as Record<string, MentionStorage>)?.[
-        this.name
-      ]?.getSuggestionFromChar(node.attrs.mentionSuggestionChar),
+      suggestion: getSuggestionFromChar(this, node.attrs.mentionSuggestionChar),
     }
 
     if (this.options.renderLabel !== undefined) {
@@ -322,30 +339,6 @@ export const Mention = Node.create<MentionOptions, MentionStorage>({
 
   addProseMirrorPlugins() {
     // Create a plugin for each suggestion configuration
-    return this.storage.suggestions.map(Suggestion)
-  },
-
-  onBeforeCreate() {
-    this.storage.suggestions = (
-      this.options.suggestions.length ? this.options.suggestions : [this.options.suggestion]
-    ).map(suggestion => getSuggestionOptions({
-      editor: this.editor,
-      overrideSuggestionOptions: suggestion,
-      extensionName: this.name,
-      char: suggestion.char,
-    }))
-
-    this.storage.getSuggestionFromChar = char => {
-      const suggestion = this.storage.suggestions.find(s => s.char === char)
-
-      if (suggestion) {
-        return suggestion
-      }
-      if (this.storage.suggestions.length) {
-        return this.storage.suggestions[0]
-      }
-
-      return null
-    }
+    return getSuggestions(this).map(Suggestion)
   },
 })
