@@ -1,6 +1,13 @@
 import type { Editor } from '@tiptap/core'
 import type { Transaction } from 'packages/pm/state'
 
+/**
+ * Regular expression to match LaTeX math strings wrapped in single dollar signs.
+ * This should not catch dollar signs which are not part of a math expression,
+ * like those used for currency or other purposes.
+ * It ensures that the dollar signs are not preceded or followed by digits,
+ * allowing for proper identification of inline math expressions.
+ */
 const mathRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
 
 /**
