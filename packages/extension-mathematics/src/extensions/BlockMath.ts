@@ -39,7 +39,7 @@ declare module '@tiptap/core' {
  *
  * @example
  * ```javascript
- * import { BlockMath } from 'your-extension-path'
+ * import { BlockMath } from '@tiptap/extension-mathematics'
  * import { Editor } from '@tiptap/core'
  *
  * const editor = new Editor({
