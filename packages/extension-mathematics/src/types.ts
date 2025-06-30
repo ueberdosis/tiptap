@@ -9,9 +9,9 @@ import type { BlockMathOptions, InlineMathOptions } from './extensions'
  */
 export type MathematicsOptions = {
   /** Configuration options specific to inline math nodes */
-  inlineOptions?: InlineMathOptions
+  inlineOptions?: Omit<InlineMathOptions, 'katexOptions'>
   /** Configuration options specific to block math nodes */
-  blockOptions?: BlockMathOptions
+  blockOptions?: Omit<BlockMathOptions, 'katexOptions'>
   /** KaTeX-specific rendering options passed to the KaTeX library */
   katexOptions?: KatexOptions
 }

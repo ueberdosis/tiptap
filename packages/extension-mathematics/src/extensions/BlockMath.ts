@@ -1,11 +1,17 @@
 import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
-import katex from 'katex'
+import katex, { type KatexOptions } from 'katex'
 
 /**
  * Configuration options for the BlockMath extension.
  */
 export type BlockMathOptions = {
+  /**
+   * KaTeX specific options
+   * @see https://katex.org/docs/options.html
+   */
+  katexOptions?: KatexOptions
+
   /**
    * Optional click handler for block math nodes.
    * Called when a user clicks on a block math expression in the editor.
@@ -16,6 +22,14 @@ export type BlockMathOptions = {
    * ```ts
    * onClick: (node, pos) => {
    *   console.log('Block math clicked:', node.attrs.latex, 'at position:', pos)
+   * },
+   * katexOptions: {
+   *   displayMode: false,
+   *   throwOnError: false,
+   *   macros: {
+   *     '\\RR': '\\mathbb{R}',
+   *     '\\ZZ': '\\mathbb{Z}'
+   *   }
    * }
    * ```
    */
@@ -74,7 +88,7 @@ declare module '@tiptap/core' {
  *   ],
  * })
  */
-export const BlockMath = Node.create({
+export const BlockMath = Node.create<BlockMathOptions>({
   name: 'blockMath',
 
   group: 'block',
@@ -84,6 +98,7 @@ export const BlockMath = Node.create({
   addOptions() {
     return {
       onClick: undefined,
+      katexOptions: undefined,
     }
   },
 
@@ -210,6 +225,8 @@ export const BlockMath = Node.create({
   },
 
   addNodeView() {
+    const { katexOptions } = this.options
+
     return ({ node, getPos }) => {
       const wrapper = document.createElement('div')
       const innerWrapper = document.createElement('div')
@@ -221,7 +238,7 @@ export const BlockMath = Node.create({
 
       function renderMath() {
         try {
-          katex.render(node.attrs.latex, innerWrapper)
+          katex.render(node.attrs.latex, innerWrapper, katexOptions)
           wrapper.classList.remove('block-math-error')
         } catch {
           wrapper.textContent = node.attrs.latex

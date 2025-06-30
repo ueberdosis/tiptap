@@ -1,11 +1,17 @@
 import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
-import katex from 'katex'
+import katex, { type KatexOptions } from 'katex'
 
 /**
  * Configuration options for the InlineMath extension.
  */
 export type InlineMathOptions = {
+  /**
+   * KaTeX specific options
+   * @see https://katex.org/docs/options.html
+   */
+  katexOptions?: KatexOptions
+
   /**
    * Optional click handler for inline math nodes.
    * Called when a user clicks on an inline math expression in the editor.
@@ -18,6 +24,14 @@ export type InlineMathOptions = {
    *   console.log('Inline math clicked:', node.attrs.latex, 'at position:', pos)
    * }
    * ```
+   * katexOptions: {
+   *   displayMode: false,
+   *   throwOnError: false,
+   *   macros: {
+   *     '\\RR': '\\mathbb{R}',
+   *     '\\ZZ': '\\mathbb{Z}'
+   *   }
+   * }
    */
   onClick?: (node: PMNode, pos: number) => void
 }
@@ -86,6 +100,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addOptions() {
     return {
       onClick: undefined,
+      katexOptions: undefined,
     }
   },
 
@@ -206,6 +221,8 @@ export const InlineMath = Node.create<InlineMathOptions>({
   },
 
   addNodeView() {
+    const { katexOptions } = this.options
+
     return ({ node, getPos }) => {
       const wrapper = document.createElement('span')
       wrapper.className = 'tiptap-mathematics-render tiptap-mathematics-render--editable'
@@ -214,7 +231,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
 
       function renderMath() {
         try {
-          katex.render(node.attrs.latex, wrapper)
+          katex.render(node.attrs.latex, wrapper, katexOptions)
           wrapper.classList.remove('inline-math-error')
         } catch {
           wrapper.textContent = node.attrs.latex
