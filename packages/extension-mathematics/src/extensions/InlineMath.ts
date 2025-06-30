@@ -9,6 +9,17 @@ export type InlineMathOptions = {
   /**
    * KaTeX specific options
    * @see https://katex.org/docs/options.html
+   * @example
+   * ```ts
+   * katexOptions: {
+   *   displayMode: false,
+   *   throwOnError: false,
+   *   macros: {
+   *     '\\RR': '\\mathbb{R}',
+   *     '\\ZZ': '\\mathbb{Z}'
+   *   }
+   * }
+   * ```
    */
   katexOptions?: KatexOptions
 
@@ -24,14 +35,6 @@ export type InlineMathOptions = {
    *   console.log('Inline math clicked:', node.attrs.latex, 'at position:', pos)
    * }
    * ```
-   * katexOptions: {
-   *   displayMode: false,
-   *   throwOnError: false,
-   *   macros: {
-   *     '\\RR': '\\mathbb{R}',
-   *     '\\ZZ': '\\mathbb{Z}'
-   *   }
-   * }
    */
   onClick?: (node: PMNode, pos: number) => void
 }

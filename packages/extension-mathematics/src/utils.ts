@@ -13,7 +13,7 @@ import type { Transaction } from 'packages/pm/state'
  * - `This is $100$ dollars.` will not match (as it is not a math expression)
  * - `This is $x^2 + y^2 = z^2$ and $100$ dollars.` will match both math expressions
  */
-const mathRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
+export const mathMigrationRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
 
 /**
  * Creates a transaction that migrates existing math strings in the document to new math nodes.
@@ -32,7 +32,7 @@ const mathRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
  * editor.view.dispatch(updatedTr)
  * ```
  */
-export function createMathMigrateTransaction(editor: Editor, tr: Transaction) {
+export function createMathMigrateTransaction(editor: Editor, tr: Transaction, regex: RegExp = mathMigrationRegex) {
   // we traverse the document and replace all math nodes with the new math nodes
   tr.doc.descendants((node, pos) => {
     if (!node.isText || !node.text || !node.text.includes('$')) {
@@ -41,7 +41,7 @@ export function createMathMigrateTransaction(editor: Editor, tr: Transaction) {
 
     const { text } = node
 
-    const match = node.text.match(mathRegex)
+    const match = node.text.match(regex)
     if (!match) {
       return
     }
@@ -83,7 +83,7 @@ export function createMathMigrateTransaction(editor: Editor, tr: Transaction) {
  * migrateMathStrings(editor)
  * ```
  */
-export function migrateMathStrings(editor: Editor) {
-  const tr = createMathMigrateTransaction(editor, editor.state.tr)
+export function migrateMathStrings(editor: Editor, regex: RegExp = mathMigrationRegex) {
+  const tr = createMathMigrateTransaction(editor, editor.state.tr, regex)
   editor.view.dispatch(tr)
 }

@@ -9,6 +9,12 @@ export type BlockMathOptions = {
   /**
    * KaTeX specific options
    * @see https://katex.org/docs/options.html
+   * @example
+   * ```ts
+   * katexOptions: {
+   *   displayMode: true,
+   *   throwOnError: false,
+   * },
    */
   katexOptions?: KatexOptions
 
@@ -23,14 +29,6 @@ export type BlockMathOptions = {
    * onClick: (node, pos) => {
    *   console.log('Block math clicked:', node.attrs.latex, 'at position:', pos)
    * },
-   * katexOptions: {
-   *   displayMode: false,
-   *   throwOnError: false,
-   *   macros: {
-   *     '\\RR': '\\mathbb{R}',
-   *     '\\ZZ': '\\mathbb{Z}'
-   *   }
-   * }
    * ```
    */
   onClick?: (node: PMNode, pos: number) => void

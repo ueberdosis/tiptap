@@ -1,7 +1,7 @@
 import 'katex/dist/katex.min.css'
 import './styles.scss'
 
-import Math from '@tiptap/extension-mathematics'
+import Math, { migrateMathStrings } from '@tiptap/extension-mathematics'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'
@@ -13,10 +13,10 @@ export default () => {
       StarterKit,
       Math.configure({
         blockOptions: {
-          onClick: node => {
+          onClick: (node, pos) => {
             const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
             if (newCalculation) {
-              editor.chain().updateBlockMath({ latex: newCalculation }).run()
+              editor.chain().setNodeSelection(pos).updateBlockMath({ latex: newCalculation }).focus().run()
             }
           },
         },
@@ -24,15 +24,18 @@ export default () => {
           onClick: node => {
             const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
             if (newCalculation) {
-              editor.chain().updateInlineMath({ latex: newCalculation }).run()
+              editor.chain().setNodeSelection(node.pos).updateInlineMath({ latex: newCalculation }).focus().run()
             }
           },
         },
       }),
     ],
+    onCreate: ({ editor: currentEditor }) => {
+      migrateMathStrings(currentEditor)
+    },
     content: `
       <h1>
-        This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions. And I think it even supports converting $old \\sub(3*5=15)$ calculations.
+        This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions. And it even supports converting old $\\sub(3*5=15)$ calculations.
       </h1>
       <p>This is a old $\\LaTeX$ calculation string with $3*5=15$ calculations.</p>
       <p>

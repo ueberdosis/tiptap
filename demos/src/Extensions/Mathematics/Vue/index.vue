@@ -44,26 +44,29 @@ export default defineComponent({
         StarterKit,
         Mathematics.configure({
           blockOptions: {
-            onClick: node => {
+            onClick: (node, pos) => {
               const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
               if (newCalculation) {
-                this.editor.chain().updateBlockMath({ latex: newCalculation }).run()
+                this.editor.chain().setNodeSelection(pos).updateBlockMath({ latex: newCalculation }).focus().run()
               }
             },
           },
           inlineOptions: {
-            onClick: node => {
+            onClick: (node, pos) => {
               const newCalculation = prompt('Enter new calculation:', node.attrs.latex)
               if (newCalculation) {
-                this.editor.chain().updateInlineMath({ latex: newCalculation }).run()
+                this.editor.chain().setNodeSelection(pos).updateInlineMath({ latex: newCalculation }).focus().run()
               }
             },
           },
         }),
       ],
+      onCreate: ({ editor: currentEditor }) => {
+        migrateMathStrings(currentEditor)
+      },
       content: `
         <h1>
-          This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions.
+          This editor supports <span data-type="inline-math" data-latex="\\LaTeX"></span> math expressions. And it even supports converting old $\\sub(3*5=15)$ calculations.
         </h1>
         <p>
           Did you know that <span data-type="inline-math" data-latex="3 * 3 = 9"></span>? Isn't that crazy? Also Pythagoras' theorem is <span data-type="inline-math" data-latex="a^2 + b^2 = c^2"></span>.<br />
@@ -93,9 +96,6 @@ export default defineComponent({
         <p>The math extension also supports block level math nodes:</p>
         <div data-type="block-math" data-latex="\\int_a^b x^2 dx"></div>
       `,
-      onCreate: ({ editor }) => {
-        migrateMathStrings(editor)
-      },
     })
   },
 
