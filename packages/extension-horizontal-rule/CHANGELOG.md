@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Patch Changes
+
+- 080c51f: Fixed a bug that caused the horizontal rule's `setHorizontalRule` command to always return true when checked via `can()`
+- Updated dependencies [f878879]
+- Updated dependencies [5de17c5]
+- Updated dependencies [9390e02]
+- Updated dependencies [d88244d]
+- Updated dependencies [080c51f]
+  - @tiptap/core@3.0.0-pre.0
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.23.1
 
 ## 2.23.0

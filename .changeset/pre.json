@@ -57,7 +57,35 @@
     "@tiptap/suggestion": "2.11.6",
     "@tiptap/vue-2": "2.11.6",
     "@tiptap/vue-3": "2.11.6",
-    "@tiptap-shared/rollup-config": "1.0.0"
+    "@tiptap-shared/rollup-config": "1.0.0",
+    "@tiptap/extension-details": "2.23.1",
+    "@tiptap/extension-details-content": "2.23.1",
+    "@tiptap/extension-details-summary": "2.23.1",
+    "@tiptap/extension-drag-handle": "2.23.1",
+    "@tiptap/extension-drag-handle-react": "2.23.1",
+    "@tiptap/extension-drag-handle-vue-2": "2.23.1",
+    "@tiptap/extension-drag-handle-vue-3": "2.23.1",
+    "@tiptap/extension-emoji": "2.23.1",
+    "@tiptap/extension-file-handler": "2.23.1",
+    "@tiptap/extension-invisible-characters": "2.23.1",
+    "@tiptap/extension-mathematics": "2.23.1",
+    "@tiptap/extension-node-range": "2.23.1",
+    "@tiptap/extension-table-of-contents": "2.23.1",
+    "@tiptap/extension-unique-id": "2.23.1"
   },
-  "changesets": []
+  "changesets": [
+    "clever-hats-count",
+    "fast-foxes-mate",
+    "fresh-ads-nail",
+    "lucky-bears-exercise",
+    "modern-kangaroos-teach",
+    "popular-geckos-pay",
+    "rich-jeans-check",
+    "shiny-days-rhyme",
+    "shiny-impalas-remember",
+    "silver-roses-joke",
+    "spotty-cobras-shake",
+    "wicked-terms-attack",
+    "wise-carpets-unite"
+  ]
 }

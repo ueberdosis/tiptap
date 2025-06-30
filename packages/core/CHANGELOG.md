@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.0.0-pre.0
+
+### Minor Changes
+
+- f878879: Add config option to emit content error when content check is disabled
+
+### Patch Changes
+
+- 5de17c5: Fixes a bug where you could not unregister multiple plugins.
+- 9390e02: Add validation for target position within document range when trying to access children of a `NodePos` instance
+- d88244d: Clone dragged node before dragging to get correct drag preview image
+- 080c51f: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+  - @tiptap/pm@3.0.0-pre.0
+
 ## 2.23.1
 
 ## 2.23.0
