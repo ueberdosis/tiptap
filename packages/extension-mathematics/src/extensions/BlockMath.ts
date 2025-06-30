@@ -47,12 +47,6 @@ declare module '@tiptap/core' {
       insertBlockMath: (options: { latex: string; pos?: number }) => ReturnType
 
       /**
-       * Turns the current selection into a block math node.
-       * @param returns ReturnType
-       */
-      setBlockMath: () => ReturnType
-
-      /**
        * Deletes a block math node.
        * @returns ReturnType
        */
@@ -131,29 +125,6 @@ export const BlockMath = Node.create<BlockMathOptions>({
             type: this.name,
             attrs: { latex },
           })
-        },
-
-      setBlockMath:
-        () =>
-        ({ chain, editor }) => {
-          if (editor.state.selection.empty) {
-            return false
-          }
-
-          const { from, to } = editor.state.selection
-          const selectedText = editor.state.doc.textBetween(from, to).trim()
-
-          if (!selectedText) {
-            return false
-          }
-
-          return chain()
-            .deleteRange({ from, to })
-            .insertContentAt(from, {
-              type: this.name,
-              attrs: { latex: selectedText },
-            })
-            .run()
         },
 
       deleteBlockMath:

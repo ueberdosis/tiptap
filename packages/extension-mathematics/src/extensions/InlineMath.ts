@@ -47,12 +47,6 @@ declare module '@tiptap/core' {
       insertInlineMath: (options: { latex: string; pos?: number }) => ReturnType
 
       /**
-       * Turns the current selection into a inline math node.
-       * @returns ReturnType
-       */
-      setInlineMath: () => ReturnType
-
-      /**
        * Delete an inline math node.
        * @returns ReturnType
        */
@@ -132,26 +126,6 @@ export const InlineMath = Node.create<InlineMathOptions>({
           }
 
           tr.replaceWith(from, from, this.type.create({ latex }))
-          return true
-        },
-
-      setInlineMath:
-        () =>
-        ({ tr, editor }) => {
-          const { from, to } = editor.state.selection
-
-          if (from === to) {
-            return false
-          }
-
-          const latex = editor.state.doc.textBetween(from, to, ' ', ' ')
-
-          if (!latex) {
-            return false
-          }
-
-          tr.replaceWith(from, to, this.type.create({ latex }))
-
           return true
         },
 
