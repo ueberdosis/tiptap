@@ -365,7 +365,7 @@ export interface EditorOptions {
   emitContentError: boolean
   /**
    * Enable a lazy-loaded Prosemirror DevTools integration.
-   * @type {boolean | ((props: { editor: Editor }) => void)}
+   * @type boolean
    * @example
    * ```js
    * enableDevTools: true
