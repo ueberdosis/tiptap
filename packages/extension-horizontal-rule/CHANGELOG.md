@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.23.1
+
+## 2.23.0
+
+## 2.22.3
+
+### Patch Changes
+
+- 030bd22: Fixed a bug that caused the horizontal rule's `setHorizontalRule` command to always return true when checked via `can()`
+
+## 2.22.2
+
+## 2.22.1
+
 ## 2.22.0
 
 ## 2.14.1

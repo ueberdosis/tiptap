@@ -94,7 +94,10 @@ context('/src/Commands/SetContent/React/', () => {
   it('should insert mentions', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.setContent('<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span></p>')
-      cy.get('.tiptap').should('contain.html', '<span data-type="mention" data-id="1" data-label="John Doe" contenteditable="false">@John Doe</span>')
+      cy.get('.tiptap').should(
+        'contain.html',
+        '<span data-type="mention" data-id="1" data-label="John Doe" data-mention-suggestion-char="@" contenteditable="false">@John Doe</span>',
+      )
     })
   })
 

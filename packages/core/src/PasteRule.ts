@@ -277,7 +277,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             if (!isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
-              if (dragFromOtherEditor) {
+              if (dragFromOtherEditor?.isEditable) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {
                   const selection = dragFromOtherEditor.state.selection

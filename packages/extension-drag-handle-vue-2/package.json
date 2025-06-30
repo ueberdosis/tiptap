@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-drag-handle-vue-2",
   "description": "drag handle extension for tiptap with vue 2",
-  "version": "2.22.0",
+  "version": "2.23.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -40,9 +40,9 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "^2.22.0",
-    "@tiptap/pm": "^2.22.0",
-    "@tiptap/vue-2": "^2.22.0",
+    "@tiptap/extension-drag-handle": "^2.23.1",
+    "@tiptap/pm": "^2.23.1",
+    "@tiptap/vue-2": "^2.23.1",
     "vue": "^2.0.0",
     "vue-ts-types": "1.6.2"
   },

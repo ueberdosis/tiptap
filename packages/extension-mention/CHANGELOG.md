@@ -1,5 +1,23 @@
 # Change Log
 
+## 2.23.1
+
+### Patch Changes
+
+- 63c9453: Show mention indicator when converting document to HTML
+
+## 2.23.0
+
+### Minor Changes
+
+- c168e6d: Support multiple triggers in Mention extension
+
+## 2.22.3
+
+## 2.22.2
+
+## 2.22.1
+
 ## 2.22.0
 
 ## 2.14.1
