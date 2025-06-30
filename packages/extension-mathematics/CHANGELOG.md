@@ -1,5 +1,22 @@
 # @tiptap/extension-mathematics
 
+## 3.0.0-beta.18
+
+### Major Changes
+
+- 4a421bf: Change the way inserting math nodes work – now if no LaTeX string is used for both inline and block math nodes, the current text selection will be used and replaced. This should bring the extension more in line with how other extensions work.
+- 4a421bf: Updated the default class names of the invisible and mathematics plugins
+
+### Minor Changes
+
+- 4a421bf: Added a new `migrateMathStrings` utility that can be used to migrate existing LaTeX math strings on an existing document into the inline math nodes`
+
+### Patch Changes
+
+- 4a421bf: Improved JSDoc documentation and comments
+  - @tiptap/core@3.0.0-beta.18
+  - @tiptap/pm@3.0.0-beta.18
+
 ## 3.0.0-beta.17
 
 ### Major Changes
