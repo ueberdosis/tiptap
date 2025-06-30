@@ -1,5 +1,17 @@
 # @tiptap/extension-invisible-characters
 
+## 3.0.0-beta.18
+
+### Major Changes
+
+- 4a421bf: Updated the default class names of the invisible and mathematics plugins
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.18
+- @tiptap/extension-text-style@3.0.0-beta.18
+- @tiptap/pm@3.0.0-beta.18
+
 ## 3.0.0-beta.17
 
 ### Patch Changes

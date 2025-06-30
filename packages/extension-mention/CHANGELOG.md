@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- b3afd1e: Show mention indicator when converting document to HTML
+  - @tiptap/core@3.0.0-beta.18
+  - @tiptap/pm@3.0.0-beta.18
+  - @tiptap/suggestion@3.0.0-beta.18
+
 ## 3.0.0-beta.17
 
 ### Patch Changes
