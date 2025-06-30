@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Transaction } from 'packages/pm/state'
+import type { Transaction } from '@tiptap/pm/state'
 
 /**
  * Regular expression to match LaTeX math strings wrapped in single dollar signs.
@@ -50,11 +50,23 @@ export function createMathMigrateTransaction(editor: Editor, tr: Transaction, re
       const start = text.indexOf(mathMatch)
       const end = start + mathMatch.length
 
+      const from = tr.mapping.map(pos + start)
+
+      const $from = tr.doc.resolve(from)
+      const parent = $from.parent
+      const index = $from.index()
+
+      const { inlineMath } = editor.schema.nodes
+
+      if (!parent.canReplaceWith(index, index + 1, inlineMath)) {
+        return
+      }
+
       // Replace the math syntax with a new math node
       tr.replaceWith(
         tr.mapping.map(pos + start),
         tr.mapping.map(pos + end),
-        editor.schema.nodes.inlineMath.create({ latex: mathMatch.slice(1, -1) }),
+        inlineMath.create({ latex: mathMatch.slice(1, -1) }),
       )
     })
   })
