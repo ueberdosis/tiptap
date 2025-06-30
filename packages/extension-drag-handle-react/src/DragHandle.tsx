@@ -20,7 +20,7 @@ export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>,
   /**
    * Tippy.js options for the drag handle tooltip.
    *
-   * **IMPORTANT**: Make sure to memorize this object - otherwise the object
+   * **IMPORTANT**: Make sure to memoize this object - otherwise the object
    * will cause the drag handle to be re-initialized on every render breaking it.
    */
   tippyOptions?: DragHandlePluginProps['tippyOptions'];
