@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-drag-handle-react",
   "description": "drag handle extension for tiptap with react",
-  "version": "2.23.1",
+  "version": "3.0.0-pre.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -34,16 +34,16 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "^2.14.0",
-    "@tiptap/pm": "^2.7.0",
-    "@tiptap/react": "^2.7.0",
+    "@tiptap/extension-drag-handle": "^3.0.0-pre.0",
+    "@tiptap/pm": "^3.0.0-pre.0",
+    "@tiptap/react": "^3.0.0-pre.0",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "^2.23.1",
-    "@tiptap/pm": "^2.23.1",
-    "@tiptap/react": "^2.23.1",
+    "@tiptap/extension-drag-handle": "^3.0.0-pre.0",
+    "@tiptap/pm": "^3.0.0-pre.0",
+    "@tiptap/react": "^3.0.0-pre.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",
