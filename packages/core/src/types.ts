@@ -364,6 +364,15 @@ export interface EditorOptions {
    */
   emitContentError: boolean
   /**
+   * Enable a lazy-loaded Prosemirror DevTools integration.
+   * @type {boolean | ((props: { editor: Editor }) => void)}
+   * @example
+   * ```js
+   * enableDevTools: true
+   * ```
+   */
+  enableDevTools: boolean
+  /**
    * Called before the editor is constructed.
    */
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void

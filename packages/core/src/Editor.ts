@@ -92,6 +92,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enablePasteRules: true,
     enableCoreExtensions: true,
     enableContentCheck: false,
+    enableDevTools: false,
     emitContentError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
@@ -184,6 +185,21 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.isInitialized = false
     this.css?.remove()
     this.css = null
+  }
+
+  private applyDevTools(): void {
+    import('prosemirror-dev-tools')
+      .then(({ default: apply }) => {
+        if (!this.editorView) {
+          return
+        }
+
+        apply(this.editorView)
+      })
+      .catch(() => {
+        console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-tools` is not installed.')
+        console.warn("Install 'prosemirror-dev-tools' as a dev dependency to use the dev tools.")
+      })
   }
 
   /**
@@ -488,6 +504,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: this.editorState,
     })
+
+    // Apply dev tools if enabled
+    if (this.options.enableDevTools) {
+      this.applyDevTools()
+    }
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
