@@ -230,7 +230,12 @@ export const BlockMath = Node.create<BlockMathOptions>({
     return ({ node, getPos }) => {
       const wrapper = document.createElement('div')
       const innerWrapper = document.createElement('div')
-      wrapper.className = 'tiptap-mathematics-render tiptap-mathematics-render--editable'
+      wrapper.className = 'tiptap-mathematics-render'
+
+      if (this.editor.isEditable) {
+        wrapper.classList.add('tiptap-mathematics-render--editable')
+      }
+
       innerWrapper.className = 'block-math-inner'
       wrapper.dataset.type = 'block-math'
       wrapper.setAttribute('data-latex', node.attrs.latex)
