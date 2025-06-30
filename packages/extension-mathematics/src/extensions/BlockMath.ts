@@ -1,33 +1,61 @@
 import { InputRule, mergeAttributes, Node } from '@tiptap/core'
 import type { Node as PMNode } from '@tiptap/pm/model'
-import katex from 'katex'
+import katex, { type KatexOptions } from 'katex'
 
+/**
+ * Configuration options for the BlockMath extension.
+ */
 export type BlockMathOptions = {
+  /**
+   * KaTeX specific options
+   * @see https://katex.org/docs/options.html
+   * @example
+   * ```ts
+   * katexOptions: {
+   *   displayMode: true,
+   *   throwOnError: false,
+   * },
+   */
+  katexOptions?: KatexOptions
+
+  /**
+   * Optional click handler for block math nodes.
+   * Called when a user clicks on a block math expression in the editor.
+   *
+   * @param node - The ProseMirror node representing the block math element
+   * @param pos - The position of the node within the document
+   * @example
+   * ```ts
+   * onClick: (node, pos) => {
+   *   console.log('Block math clicked:', node.attrs.latex, 'at position:', pos)
+   * },
+   * ```
+   */
   onClick?: (node: PMNode, pos: number) => void
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    blockMath: {
+    insertBlockMath: {
       /**
-       * Set block math node with LaTeX string.
-       * @param options - Options for setting block math.
+       * Inserts a math block node with LaTeX string.
+       * @param options - Options for inserting block math.
        * @returns ReturnType
        */
-      setBlockMath: (options: { latex: string; pos?: number }) => ReturnType
+      insertBlockMath: (options: { latex: string; pos?: number }) => ReturnType
 
       /**
-       * Unset block math node.
+       * Deletes a block math node.
        * @returns ReturnType
        */
-      unsetBlockMath: (options?: { pos?: number }) => ReturnType
+      deleteBlockMath: (options?: { pos?: number }) => ReturnType
 
       /**
        * Update block math node with optional LaTeX string.
        * @param options - Options for updating block math.
        * @returns ReturnType
        */
-      updateBlockMath: (options?: { latex?: string; pos?: number }) => ReturnType
+      updateBlockMath: (options?: { latex: string; pos?: number }) => ReturnType
     }
   }
 }
@@ -39,7 +67,7 @@ declare module '@tiptap/core' {
  *
  * @example
  * ```javascript
- * import { BlockMath } from 'your-extension-path'
+ * import { BlockMath } from '@tiptap/extension-mathematics'
  * import { Editor } from '@tiptap/core'
  *
  * const editor = new Editor({
@@ -52,7 +80,7 @@ declare module '@tiptap/core' {
  *   ],
  * })
  */
-export const BlockMath = Node.create({
+export const BlockMath = Node.create<BlockMathOptions>({
   name: 'blockMath',
 
   group: 'block',
@@ -62,6 +90,7 @@ export const BlockMath = Node.create({
   addOptions() {
     return {
       onClick: undefined,
+      katexOptions: undefined,
     }
   },
 
@@ -81,17 +110,22 @@ export const BlockMath = Node.create({
 
   addCommands() {
     return {
-      setBlockMath:
+      insertBlockMath:
         options =>
         ({ commands, editor }) => {
           const { latex, pos } = options
+
+          if (!latex) {
+            return false
+          }
+
           return commands.insertContentAt(pos ?? editor.state.selection.from, {
             type: this.name,
             attrs: { latex },
           })
         },
 
-      unsetBlockMath:
+      deleteBlockMath:
         options =>
         ({ editor, tr }) => {
           const pos = options?.pos ?? editor.state.selection.$from.pos
@@ -160,10 +194,17 @@ export const BlockMath = Node.create({
   },
 
   addNodeView() {
+    const { katexOptions } = this.options
+
     return ({ node, getPos }) => {
       const wrapper = document.createElement('div')
       const innerWrapper = document.createElement('div')
-      wrapper.className = 'Tiptap-mathematics-render Tiptap-mathematics-render--editable'
+      wrapper.className = 'tiptap-mathematics-render'
+
+      if (this.editor.isEditable) {
+        wrapper.classList.add('tiptap-mathematics-render--editable')
+      }
+
       innerWrapper.className = 'block-math-inner'
       wrapper.dataset.type = 'block-math'
       wrapper.setAttribute('data-latex', node.attrs.latex)
@@ -171,7 +212,7 @@ export const BlockMath = Node.create({
 
       function renderMath() {
         try {
-          katex.render(node.attrs.latex, innerWrapper)
+          katex.render(node.attrs.latex, innerWrapper, katexOptions)
           wrapper.classList.remove('block-math-error')
         } catch {
           wrapper.textContent = node.attrs.latex
