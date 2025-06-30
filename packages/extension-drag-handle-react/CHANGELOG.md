@@ -1,5 +1,11 @@
 # @tiptap/extension-drag-handle-react
 
+## 2.23.1
+
+### Patch Changes
+
+- 5b3d723: Fix a bug that causes rerenders on the react drag handle breaking its tippy connection
+
 ## 2.23.0
 
 ## 2.22.3

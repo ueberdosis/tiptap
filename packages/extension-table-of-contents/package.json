@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-of-contents",
   "description": "table of contents extension for Tiptap",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
   "keywords": [
     "tiptap",
@@ -37,8 +37,8 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.23.0",
-    "@tiptap/pm": "^2.23.0",
+    "@tiptap/core": "^2.23.1",
+    "@tiptap/pm": "^2.23.1",
     "@types/uuid": "^10.0.0"
   },
   "peerDependencies": {
