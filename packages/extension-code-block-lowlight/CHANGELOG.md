@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- Updated dependencies [9ceeab4]
+  - @tiptap/core@3.0.0-beta.19
+  - @tiptap/extension-code-block@3.0.0-beta.19
+  - @tiptap/pm@3.0.0-beta.19
+
 ## 3.0.0-beta.18
 
 ### Patch Changes
