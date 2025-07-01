@@ -1,4 +1,6 @@
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import {
+  findWrappingUntil, isNodeActive, mergeAttributes, Node, wrappingInputRule,
+} from '@tiptap/core'
 
 export interface BlockquoteOptions {
   /**
@@ -65,11 +67,22 @@ export const Blockquote = Node.create<BlockquoteOptions>({
 
   addCommands() {
     return {
-      setBlockquote: () => ({ commands }) => {
-        return commands.wrapIn(this.name)
+      setBlockquote: () => ({ tr }) => {
+        const wrapping = findWrappingUntil(tr, this.type)
+
+        if (wrapping) {
+          tr.wrap(wrapping.range, wrapping.wrap)
+          return true
+        }
+
+        return false
       },
-      toggleBlockquote: () => ({ commands }) => {
-        return commands.toggleWrap(this.name)
+      toggleBlockquote: () => ({ commands, state }) => {
+        if (isNodeActive(state, this.type)) {
+          return commands.unsetBlockquote()
+        }
+
+        return commands.setBlockquote()
       },
       unsetBlockquote: () => ({ commands }) => {
         return commands.lift(this.name)
