@@ -365,7 +365,10 @@ export interface EditorOptions {
   emitContentError: boolean
   /**
    * Enable a lazy-loaded Prosemirror DevTools integration.
+   * 
+   * Requires having the `prosemirror-dev-tools` npm package installed.
    * @type boolean
+   * @default false
    * @example
    * ```js
    * enableDevTools: true
