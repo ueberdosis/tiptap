@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- 9ceeab4: Fixed a bug where jsx-runtime cjs files would break Jest runners because of ESM syntax
+  - @tiptap/pm@3.0.0-beta.19
+
 ## 3.0.0-beta.18
 
 ### Patch Changes
