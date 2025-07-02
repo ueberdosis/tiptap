@@ -140,7 +140,7 @@ declare module '@tiptap/core' {
        * @param attributes The link attributes
        * @example editor.commands.toggleLink({ href: 'https://tiptap.dev' })
        */
-      toggleLink: (attributes: {
+      toggleLink: (attributes?: {
         href: string
         target?: string | null
         rel?: string | null
@@ -322,9 +322,10 @@ export const Link = Mark.create<LinkOptions>({
       toggleLink:
         attributes =>
         ({ chain }) => {
-          const { href } = attributes
+          const { href } = attributes || {}
 
           if (
+            href &&
             !this.options.isAllowedUri(href, {
               defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
               protocols: this.options.protocols,
