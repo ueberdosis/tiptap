@@ -1,5 +1,7 @@
 # @tiptap/extension-table-of-contents
 
+## 2.24.0
+
 ## 2.23.1
 
 ## 2.23.0
