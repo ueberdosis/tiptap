@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- c11c89e: Fix autolink option in shadow dom by extending the whitespace detection to more unicode characters
+- Updated dependencies [813674c]
+- Updated dependencies [fc17b21]
+  - @tiptap/core@3.0.0-beta.21
+  - @tiptap/pm@3.0.0-beta.21
+
 ## 3.0.0-beta.20
 
 ### Patch Changes
