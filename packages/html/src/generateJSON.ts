@@ -16,6 +16,12 @@ import { DOMParser } from '@tiptap/pm/model'
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
+  if (typeof window === 'undefined') {
+    throw new Error(
+      'generateJSON can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@tiptap/html/server` import instead.',
+    )
+  }
+
   const schema = getSchema(extensions)
   const doc: Document = new window.DOMParser().parseFromString(html, 'text/html')
 
