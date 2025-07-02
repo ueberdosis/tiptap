@@ -7,7 +7,7 @@ import type {
   ReactNode,
   RefAttributes,
 } from 'react'
-import { version as reactVersion } from 'react'
+import React, { version as reactVersion } from 'react'
 
 import { EditorWithContentComponent } from './Editor.js'
 
