@@ -52,7 +52,9 @@
     "jsx-dev-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/pm": "workspace:*",
+    "@types/prosemirror-dev-tools": "^3.0.6",
+    "prosemirror-dev-tools": "^4.2.0"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
