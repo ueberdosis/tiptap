@@ -1,5 +1,9 @@
 import type {
-  DecorationWithType, Editor, NodeViewRenderer, NodeViewRendererOptions,
+  DecorationWithType,
+  Editor,
+  NodeViewRenderer,
+  NodeViewRendererOptions,
+  NodeViewRendererProps,
 } from '@tiptap/core'
 import { getRenderedAttributes, NodeView } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
@@ -66,6 +70,28 @@ export class ReactNodeView<
    */
   contentDOMElement!: HTMLElement | null
 
+  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
+    super(component, props, options)
+
+    if (!this.node.isLeaf) {
+      if (this.options.contentDOMElementTag) {
+        this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+      } else {
+        this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      }
+
+      this.contentDOMElement.dataset.nodeViewContentReact = ''
+      this.contentDOMElement.dataset.nodeViewWrapper = ''
+
+      // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
+      // With this fix it seems to work fine
+      // See: https://github.com/ueberdosis/tiptap/issues/1197
+      this.contentDOMElement.style.whiteSpace = 'inherit'
+
+      this.dom.appendChild(this.contentDOMElement)
+    }
+  }
+
   /**
    * Setup the React component.
    * Called on initialization.
@@ -97,6 +123,10 @@ export class ReactNodeView<
     const onDragStart = this.onDragStart.bind(this)
     const nodeViewContentRef: ReactNodeViewContextProps['nodeViewContentRef'] = element => {
       if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
+        // remove the nodeViewWrapper attribute from the element
+        if (element.hasAttribute('data-node-view-wrapper')) {
+          element.removeAttribute('data-node-view-wrapper')
+        }
         element.appendChild(this.contentDOMElement)
       }
     }
@@ -113,22 +143,6 @@ export class ReactNodeView<
     })
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
-
-    if (this.node.isLeaf) {
-      this.contentDOMElement = null
-    } else if (this.options.contentDOMElementTag) {
-      this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
-    } else {
-      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
-    }
-
-    if (this.contentDOMElement) {
-      this.contentDOMElement.dataset.nodeViewContentReact = ''
-      // For some reason the whiteSpace prop is not inherited properly in Chrome and Safari
-      // With this fix it seems to work fine
-      // See: https://github.com/ueberdosis/tiptap/issues/1197
-      this.contentDOMElement.style.whiteSpace = 'inherit'
-    }
 
     let as = this.node.isInline ? 'span' : 'div'
 
