@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.24.0
+
+### Minor Changes
+
+- 45bba95: Removed flushSync on NodeView render which caused performance regressions, bugs with unused NodeViews still being reconciled for PMViewDesc checks and more
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.24.0
+- @tiptap/extension-floating-menu@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

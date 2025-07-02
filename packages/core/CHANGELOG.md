@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.24.0
+
+### Patch Changes
+
+- 71e1427: Fix RangeException in cut command when targetPos is zero
+
 ## 2.23.1
 
 ## 2.23.0
