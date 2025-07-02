@@ -340,7 +340,7 @@ importers:
   packages-deprecated/extension-focus:
     devDependencies:
       '@tiptap/extensions':
-        specifier: 3.0.0-beta.20
+        specifier: 3.0.0-beta.21
         version: link:../../packages/extensions
 
   packages-deprecated/extension-gapcursor:
@@ -5351,6 +5351,7 @@ packages:
     resolution: {integrity: sha512-t0etAxTUk1w5MYdNOkZBZ8rvYYN5iL+2dHCCx/DpkFm/bW28M6y5nUS83D4XdZiHy35Fpaw6LBb+F88fHZnVCw==}
     engines: {node: '>=8.17.0'}
     hasBin: true
+    bundledDependencies: []
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}

@@ -1,5 +1,14 @@
 # @tiptap/extension-table-of-contents
 
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- Updated dependencies [813674c]
+- Updated dependencies [fc17b21]
+  - @tiptap/core@3.0.0-beta.21
+  - @tiptap/pm@3.0.0-beta.21
+
 ## 3.0.0-beta.20
 
 ### Patch Changes

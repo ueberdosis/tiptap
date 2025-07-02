@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.21
+
+### Minor Changes
+
+- 813674c: Added lazy-loaded ProseMirror Devtools integration which can be enabled via the new editor option `enableDevTools: true`
+
+### Patch Changes
+
+- fc17b21: Fix RangeException in cut command when targetPos is zero
+  - @tiptap/pm@3.0.0-beta.21
+
 ## 3.0.0-beta.20
 
 ### Patch Changes
