@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.20
+
+### Minor Changes
+
+- 8719e13: Removed flushSync on NodeView render which caused performance regressions, bugs with unused NodeViews still being reconciled for PMViewDesc checks and more
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.20
+- @tiptap/pm@3.0.0-beta.20
+
 ## 3.0.0-beta.19
 
 ### Patch Changes

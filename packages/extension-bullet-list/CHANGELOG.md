@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.20
+
 ## 3.0.0-beta.19
 
 ### Patch Changes
