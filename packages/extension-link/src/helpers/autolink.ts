@@ -9,6 +9,8 @@ import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { MultiToken, tokenize } from 'linkifyjs'
 
+import { UNICODE_WHITESPACE_REGEX, UNICODE_WHITESPACE_REGEX_END } from './whitespace.js'
+
 /**
  * Check if the provided tokens form a valid link structure, which can either be a single link token
  * or a link token surrounded by parentheses or square brackets.
@@ -89,11 +91,12 @@ export function autolink(options: AutolinkOptions): Plugin {
             undefined,
             ' ',
           )
-        } else if (
-          nodesInChangedRanges.length
-          // We want to make sure to include the block seperator argument to treat hard breaks like spaces.
-          && newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ').endsWith(' ')
-        ) {
+        } else if (nodesInChangedRanges.length) {
+          const endText = newState.doc.textBetween(newRange.from, newRange.to, ' ', ' ')
+
+          if (!UNICODE_WHITESPACE_REGEX_END.test(endText)) {
+            return
+          }
           textBlock = nodesInChangedRanges[0]
           textBeforeWhitespace = newState.doc.textBetween(
             textBlock.pos,
@@ -104,7 +107,7 @@ export function autolink(options: AutolinkOptions): Plugin {
         }
 
         if (textBlock && textBeforeWhitespace) {
-          const wordsBeforeWhitespace = textBeforeWhitespace.split(' ').filter(s => s !== '')
+          const wordsBeforeWhitespace = textBeforeWhitespace.split(UNICODE_WHITESPACE_REGEX).filter(Boolean)
 
           if (wordsBeforeWhitespace.length <= 0) {
             return false
