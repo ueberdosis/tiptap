@@ -1,5 +1,7 @@
 # @tiptap/extension-invisible-characters
 
+## 2.24.1
+
 ## 2.24.0
 
 ## 2.23.1
