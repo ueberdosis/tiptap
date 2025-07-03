@@ -1,10 +1,10 @@
 name: Bug Report (Tiptap Pro)
-title: '[PRO]: '
+title: ''
 description: If you've encountered a bug with Tiptap Pro features, please report it here.
-labels:
-  - 'Type: Bug'
-  - 'Category: Pro'
-  - 'Status: New'
+
+labels: ['Category: Pro']
+type: "Bug"
+
 body:
   - type: markdown
     attributes:
