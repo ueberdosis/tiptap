@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.24.0
+
+## 2.23.1
+
+## 2.23.0
+
+## 2.22.3
+
+## 2.22.2
+
+## 2.22.1
+
+### Patch Changes
+
+- e465825: Update YouTube URL regex pattern
+
 ## 2.22.0
 
 ## 2.14.1

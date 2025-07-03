@@ -1,5 +1,33 @@
 # Change Log
 
+## 2.24.0
+
+### Patch Changes
+
+- 71e1427: Fix RangeException in cut command when targetPos is zero
+
+## 2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- dfeaad4: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+
+## 2.22.3
+
+### Patch Changes
+
+- 030bd22: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+
+## 2.22.2
+
+### Patch Changes
+
+- 6457ab3: Add validation for target position within document range when trying to access children of a `NodePos` instance
+
+## 2.22.1
+
 ## 2.22.0
 
 ## 2.14.1

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-emoji",
   "description": "emoji extension for tiptap",
-  "version": "2.22.0",
+  "version": "2.24.0",
   "homepage": "https://tiptap.dev/api/nodes/emoji",
   "keywords": [
     "tiptap",
@@ -11,6 +11,11 @@
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-emoji"
   },
   "type": "module",
   "exports": {
@@ -39,9 +44,9 @@
     "is-emoji-supported": "^0.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.22.0",
-    "@tiptap/pm": "^2.22.0",
-    "@tiptap/suggestion": "^2.22.0",
+    "@tiptap/core": "^2.24.0",
+    "@tiptap/pm": "^2.24.0",
+    "@tiptap/suggestion": "^2.24.0",
     "emoji-datasource": "^7.0.2",
     "json5": "^2.2.3",
     "tsm": "^2.3.0"

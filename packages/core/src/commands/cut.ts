@@ -28,7 +28,7 @@ export const cut: RawCommands['cut'] = (originRange, targetPos) => ({ editor, tr
 
   tr.insert(newPos, contentSlice.content)
 
-  tr.setSelection(new TextSelection(tr.doc.resolve(newPos - 1)))
+  tr.setSelection(new TextSelection(tr.doc.resolve(Math.max(newPos - 1, 0))))
 
   return true
 }

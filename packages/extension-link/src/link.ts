@@ -7,6 +7,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
+import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
 export interface LinkProtocolOptions {
   /**
@@ -155,11 +156,6 @@ declare module '@tiptap/core' {
   }
 }
 
-// From DOMPurify
-// https://github.com/cure53/DOMPurify/blob/main/src/regexp.js
-// eslint-disable-next-line no-control-regex
-const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g
-
 export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
   const allowedProtocols: string[] = [
     'http',
@@ -186,15 +182,13 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
   return (
     !uri
-    || uri
-      .replace(ATTR_WHITESPACE, '')
-      .match(
-        new RegExp(
-          // eslint-disable-next-line no-useless-escape
-          `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
-          'i',
-        ),
-      )
+    || uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
+      new RegExp(
+        // eslint-disable-next-line no-useless-escape
+        `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
+        'i',
+      ),
+    )
   )
 }
 

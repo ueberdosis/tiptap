@@ -1,5 +1,47 @@
 # Change Log
 
+## 2.24.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.24.0
+- @tiptap/extension-floating-menu@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.23.1
+- @tiptap/extension-floating-menu@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.23.0
+- @tiptap/extension-floating-menu@2.23.0
+
+## 2.22.3
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.3
+- @tiptap/extension-floating-menu@2.22.3
+
+## 2.22.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.2
+- @tiptap/extension-floating-menu@2.22.2
+
+## 2.22.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.22.1
+- @tiptap/extension-floating-menu@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes
