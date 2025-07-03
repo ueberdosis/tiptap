@@ -20,6 +20,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./server": {
+      "types": {
+        "import": "./dist/server/index.d.ts",
+        "require": "./dist/server/index.d.cts"
+      },
+      "import": "./dist/server/index.js",
+      "require": "./dist/server/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -32,14 +40,12 @@
   ],
   "devDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/pm": "workspace:*",
+    "happy-dom": "^18.0.1"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*"
-  },
-  "dependencies": {
-    "happy-dom-without-node": "^14.12.3"
   },
   "repository": {
     "type": "git",
