@@ -1,8 +1,6 @@
 import type { Node, Schema } from '@tiptap/pm/model'
 import { DOMSerializer } from '@tiptap/pm/model'
 
-import { createSafeWindow } from './createSafeWindow.js'
-
 /**
  * Returns the HTML string representation of a given document node.
  *
@@ -16,23 +14,24 @@ import { createSafeWindow } from './createSafeWindow.js'
  * ```
  */
 export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { document?: Document }): string {
+  if (typeof window === 'undefined') {
+    throw new Error(
+      'getHTMLFromFragment can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@tiptap/html/server` import instead.',
+    )
+  }
+
   if (options?.document) {
-    // The caller is relying on their own document implementation. Use this
-    // instead of the default happy-dom-without-node library.
     const wrap = options.document.createElement('div')
 
     DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)
     return wrap.innerHTML
   }
 
-  // Use happy-dom-without-node for serialization.
-  const localWindow = typeof window === 'undefined' ? createSafeWindow() : window
-
   const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-    document: localWindow.document as unknown as Document,
+    document: window.document as unknown as Document,
   })
 
-  const serializer = new localWindow.XMLSerializer()
+  const serializer = new XMLSerializer()
 
   return serializer.serializeToString(fragment as any)
 }
