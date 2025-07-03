@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- 1d4d928: Added `tab-index="0"` to menu wrappers
+  - @tiptap/core@3.0.0-beta.22
+  - @tiptap/pm@3.0.0-beta.22
+
 ## 3.0.0-beta.21
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.22
+
+### Major Changes
+
+- d0e0adb: Created a new server-only export for the html package that will handle conversions with happy-dom while the client version relies on the browser DOM implementation separating concerns.
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.22
+- @tiptap/pm@3.0.0-beta.22
+
 ## 3.0.0-beta.21
 
 ### Patch Changes

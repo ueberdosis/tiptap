@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.22
+
 ## 3.0.0-beta.21
 
 ### Minor Changes
