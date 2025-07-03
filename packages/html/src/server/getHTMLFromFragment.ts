@@ -4,6 +4,7 @@ import { DOMSerializer } from '@tiptap/pm/model'
 /**
  * Returns the HTML string representation of a given document node.
  *
+ * @remarks **Important**: This function requires `happy-dom` to be installed in your project.
  * @param doc - The document node to serialize.
  * @param schema - The Prosemirror schema to use for serialization.
  * @returns A promise containing the HTML string representation of the document fragment.
@@ -22,8 +23,6 @@ export async function getHTMLFromFragment(
     const { Window } = await import('happy-dom')
 
     if (options?.document) {
-      // The caller is relying on their own document implementation. Use this
-      // instead of the default happy-dom-without-node library.
       const wrap = options.document.createElement('div')
 
       DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)

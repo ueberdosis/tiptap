@@ -4,6 +4,7 @@ import { type ParseOptions, DOMParser as PMDOMParser } from '@tiptap/pm/model'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
+ * @remarks **Important**: This function requires `happy-dom` to be installed in your project.
  * @param {string} html - The HTML string to be converted into a Prosemirror node.
  * @param {Extensions} extensions - The extensions to be used for generating the schema.
  * @param {ParseOptions} options - The options to be supplied to the parser.
