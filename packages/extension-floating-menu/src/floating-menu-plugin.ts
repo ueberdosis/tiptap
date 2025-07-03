@@ -197,6 +197,8 @@ export class FloatingMenuView {
       ...options,
     }
 
+    this.element.tabIndex = 0
+
     if (shouldShow) {
       this.shouldShow = shouldShow
     }
