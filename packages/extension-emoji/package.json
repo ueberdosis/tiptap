@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-emoji",
   "description": "emoji extension for tiptap",
-  "version": "2.24.0",
+  "version": "2.24.1",
   "homepage": "https://tiptap.dev/api/nodes/emoji",
   "keywords": [
     "tiptap",
@@ -44,9 +44,9 @@
     "is-emoji-supported": "^0.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.24.0",
-    "@tiptap/pm": "^2.24.0",
-    "@tiptap/suggestion": "^2.24.0",
+    "@tiptap/core": "^2.24.1",
+    "@tiptap/pm": "^2.24.1",
+    "@tiptap/suggestion": "^2.24.1",
     "emoji-datasource": "^7.0.2",
     "json5": "^2.2.3",
     "tsm": "^2.3.0"
