@@ -1,7 +1,7 @@
 name: Bug Report
 description: Found a bug in the editor core or one of the extensions? Report it here to help us improve.
 
-labels: ["Category: Open Source"]
+labels: ["Open Source", "Needs Triage"]
 type: "Bug"
 
 body:

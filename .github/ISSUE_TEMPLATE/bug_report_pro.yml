@@ -1,7 +1,7 @@
 name: Bug Report (Tiptap Pro)
 description: If you've encountered a bug with Tiptap Pro features, please report it here.
 
-labels: ['Category: Pro']
+labels: ["Pro", "Needs Triage"]
 type: "Bug"
 
 body:
