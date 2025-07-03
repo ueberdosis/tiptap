@@ -22,6 +22,14 @@ export type DragHandleProps = Omit<
     pos: number
   }) => void
   children: ReactNode
+
+  /**
+   * Tippy.js options for the drag handle tooltip.
+   *
+   * **IMPORTANT**: Make sure to memoize this object - otherwise the object
+   * will cause the drag handle to be re-initialized on every render breaking it.
+   */
+  tippyOptions?: DragHandlePluginProps['tippyOptions']
 }
 
 export const DragHandle = (props: DragHandleProps) => {
@@ -31,7 +39,7 @@ export const DragHandle = (props: DragHandleProps) => {
     editor,
     pluginKey = dragHandlePluginDefaultKey,
     onNodeChange,
-    tippyOptions = {},
+    tippyOptions,
   } = props
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const plugin = useRef<Plugin | null>(null)
