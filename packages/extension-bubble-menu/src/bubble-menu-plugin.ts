@@ -173,6 +173,8 @@ export class BubbleMenuView {
     const { element: editorElement } = this.editor.options
     const editorIsAttached = !!editorElement.parentElement
 
+    this.element.tabIndex = 0
+
     if (this.tippy || !editorIsAttached) {
       return
     }
