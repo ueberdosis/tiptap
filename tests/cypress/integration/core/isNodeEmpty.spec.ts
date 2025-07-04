@@ -48,6 +48,15 @@ describe('isNodeEmpty', () => {
 
       expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
     })
+
+    it('should return false when a paragraph contains blank lines', () => {
+      const node = schema.nodeFromJSON({
+        type: 'paragraph',
+        content: [{ type: 'text', text: 'abc\n\n123' }],
+      })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(false)
+    })
   })
 
   describe('with default schema', () => {
