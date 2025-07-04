@@ -1,5 +1,14 @@
 # @tiptap/extension-emoji
 
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- 18c8717: Added alt tag to emoji extension
+  - @tiptap/core@3.0.0-beta.23
+  - @tiptap/pm@3.0.0-beta.23
+  - @tiptap/suggestion@3.0.0-beta.23
+
 ## 3.0.0-beta.22
 
 ### Patch Changes
