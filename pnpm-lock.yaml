@@ -340,7 +340,7 @@ importers:
   packages-deprecated/extension-focus:
     devDependencies:
       '@tiptap/extensions':
-        specifier: 3.0.0-beta.22
+        specifier: 3.0.0-beta.23
         version: link:../../packages/extensions
 
   packages-deprecated/extension-gapcursor:
