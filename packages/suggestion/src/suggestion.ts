@@ -62,6 +62,20 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   decorationTag?: string
 
   /**
+   * The content of the decoration node.
+   * @default null
+   * @example 'Type to search...'
+   */
+  decorationContent?: string
+
+  /**
+   * The class name of the decoration node when it is empty.
+   * @default 'is-empty'
+   * @example 'is-empty'
+   */
+  decorationEmptyClass?: string
+
+  /**
    * The class name of the decoration node.
    * @default 'suggestion'
    * @example 'mention'
@@ -180,6 +194,8 @@ export function Suggestion<I = any, TSelected = any>({
   startOfLine = false,
   decorationTag = 'span',
   decorationClass = 'suggestion',
+  decorationContent = '',
+  decorationEmptyClass = 'is-empty',
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -383,17 +399,24 @@ export function Suggestion<I = any, TSelected = any>({
 
       // Setup decorator on the currently active suggestion.
       decorations(state) {
-        const { active, range, decorationId } = plugin.getState(state)
+        const { active, range, decorationId, query } = plugin.getState(state)
 
         if (!active) {
           return null
         }
 
+        const isEmpty = !query?.length
+        const classNames = [decorationClass]
+        if (isEmpty) {
+          classNames.push(decorationEmptyClass)
+        }
+
         return DecorationSet.create(state.doc, [
           Decoration.inline(range.from, range.to, {
             nodeName: decorationTag,
-            class: decorationClass,
+            class: classNames.join(' '),
             'data-decoration-id': decorationId,
+            'data-decoration-content': decorationContent,
           }),
         ])
       },
