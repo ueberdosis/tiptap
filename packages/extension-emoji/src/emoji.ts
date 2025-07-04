@@ -218,6 +218,7 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
               draggable: 'false',
               loading: 'lazy',
               align: 'absmiddle',
+              alt: `${emojiItem.name} emoji`,
             },
           ]
         : emojiItem.emoji || `:${emojiItem.shortcodes[0]}:`,
