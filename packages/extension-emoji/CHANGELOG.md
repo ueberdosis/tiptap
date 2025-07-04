@@ -1,5 +1,11 @@
 # @tiptap/extension-emoji
 
+## 2.24.2
+
+### Patch Changes
+
+- bd142ba: Added alt tag to emoji extension
+
 ## 2.24.1
 
 ## 2.24.0

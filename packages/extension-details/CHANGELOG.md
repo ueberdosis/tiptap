@@ -1,5 +1,7 @@
 # @tiptap/extension-details
 
+## 2.24.2
+
 ## 2.24.1
 
 ## 2.24.0
