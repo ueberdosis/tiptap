@@ -15,19 +15,42 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   ) => {
     const menuEl = useRef(document.createElement('div'))
 
-    if (typeof ref === 'function') {
-      ref(menuEl.current)
-    } else if (ref) {
-      ref.current = menuEl.current
-    }
-
     const { editor: currentEditor } = useCurrentEditor()
 
     useEffect(() => {
       const bubbleMenuElement = menuEl.current
 
-      bubbleMenuElement.style.visibility = 'hidden'
-      bubbleMenuElement.style.position = 'absolute'
+      // Apply user-provided styles, merging with required positioning styles
+      const { style, className, ...otherAttrs } = restProps
+
+      // Apply required positioning styles and merge user styles
+      Object.assign(
+        bubbleMenuElement.style,
+        {
+          visibility: 'hidden',
+          position: 'absolute',
+        },
+        style || {},
+      )
+
+      // Apply className
+      if (className) {
+        bubbleMenuElement.className = className
+      }
+
+      // Apply other HTML attributes like data-*, aria-*, etc.
+      Object.entries(otherAttrs).forEach(([key, value]) => {
+        if (value !== undefined) {
+          bubbleMenuElement.setAttribute(key, String(value))
+        }
+      })
+
+      // Handle ref forwarding
+      if (typeof ref === 'function') {
+        ref(bubbleMenuElement)
+      } else if (ref) {
+        ref.current = bubbleMenuElement
+      }
 
       if (editor?.isDestroyed || (currentEditor as any)?.isDestroyed) {
         return
@@ -61,8 +84,8 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editor, currentEditor])
+    }, [editor, currentEditor, restProps, ref])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(<div>{children}</div>, menuEl.current)
   },
 )

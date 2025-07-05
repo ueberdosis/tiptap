@@ -15,19 +15,42 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
   ({ pluginKey = 'floatingMenu', editor, shouldShow = null, options, children, ...restProps }, ref) => {
     const menuEl = useRef(document.createElement('div'))
 
-    if (typeof ref === 'function') {
-      ref(menuEl.current)
-    } else if (ref) {
-      ref.current = menuEl.current
-    }
-
     const { editor: currentEditor } = useCurrentEditor()
 
     useEffect(() => {
       const floatingMenuElement = menuEl.current
 
-      floatingMenuElement.style.visibility = 'hidden'
-      floatingMenuElement.style.position = 'absolute'
+      // Apply user-provided styles, merging with required positioning styles
+      const { style, className, ...otherAttrs } = restProps
+
+      // Apply required positioning styles and merge user styles
+      Object.assign(
+        floatingMenuElement.style,
+        {
+          visibility: 'hidden',
+          position: 'absolute',
+        },
+        style || {},
+      )
+
+      // Apply className
+      if (className) {
+        floatingMenuElement.className = className
+      }
+
+      // Apply other HTML attributes like data-*, aria-*, etc.
+      Object.entries(otherAttrs).forEach(([key, value]) => {
+        if (value !== undefined) {
+          floatingMenuElement.setAttribute(key, String(value))
+        }
+      })
+
+      // Handle ref forwarding
+      if (typeof ref === 'function') {
+        ref(floatingMenuElement)
+      } else if (ref) {
+        ref.current = floatingMenuElement
+      }
 
       if (editor?.isDestroyed || (currentEditor as any)?.isDestroyed) {
         return
@@ -61,8 +84,8 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editor, currentEditor])
+    }, [editor, currentEditor, restProps, ref])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(<div>{children}</div>, menuEl.current)
   },
 )
