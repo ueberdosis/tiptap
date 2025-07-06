@@ -1,5 +1,7 @@
 # @tiptap/extension-emoji
 
+## 2.25.0
+
 ## 2.24.2
 
 ### Patch Changes
