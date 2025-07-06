@@ -7,7 +7,8 @@ import type {
   ReactNode,
   RefAttributes,
 } from 'react'
-import React, { version as reactVersion } from 'react'
+import { version as reactVersion } from 'react'
+import { flushSync } from 'react-dom'
 
 import { EditorWithContentComponent } from './Editor.js'
 
@@ -184,9 +185,18 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       this.element.classList.add(...className.split(' '))
     }
 
-    queueMicrotask(() => {
-      this.render()
-    })
+    // If the editor is already initialized, we will need to
+    // synchronously render the component to ensure it renders
+    // together with Prosemirror's rendering.
+    if (this.editor.isInitialized) {
+      flushSync(() => {
+        this.render()
+      })
+    } else {
+      queueMicrotask(() => {
+        this.render()
+      })
+    }
   }
 
   /**
