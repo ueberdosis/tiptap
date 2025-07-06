@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.24
+
+### Minor Changes
+
+- cce6497: Reintroduce flushSync to sync rendering of React and ProseMirror
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.24
+- @tiptap/pm@3.0.0-beta.24
+
 ## 3.0.0-beta.23
 
 ### Patch Changes
