@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.25.0
+
+### Minor Changes
+
+- 6114489: Reintroduce flushSync to sync rendering of React and ProseMirror
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.25.0
+- @tiptap/extension-floating-menu@2.25.0
+
 ## 2.24.2
 
 ### Patch Changes

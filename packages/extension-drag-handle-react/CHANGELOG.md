@@ -1,5 +1,7 @@
 # @tiptap/extension-drag-handle-react
 
+## 2.25.0
+
 ## 2.24.2
 
 ## 2.24.1
