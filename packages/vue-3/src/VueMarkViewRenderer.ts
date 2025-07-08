@@ -70,7 +70,7 @@ export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions>
   constructor(component: Component, props: MarkViewProps, options?: Partial<VueMarkViewRendererOptions>) {
     super(component, props, options)
 
-    const componentProps = { ...props, updateAttributes: this.updateAttributes } satisfies MarkViewProps
+    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
 
     // Create extended component with provide
     const extendedComponent = defineComponent({
