@@ -366,7 +366,7 @@ export interface EditorOptions {
   /**
    * Enable a lazy-loaded Prosemirror DevTools integration.
    *
-   * Requires having the `prosemirror-dev-tools` npm package installed.
+   * Requires having the `prosemirror-dev-toolkit` npm package installed.
    * @type boolean
    * @default false
    * @example
