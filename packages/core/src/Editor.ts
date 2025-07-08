@@ -194,14 +194,14 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Applies ProseMirror dev tools to the editor instance if enabled and running in a browser environment.
    *
-   * This method dynamically imports the `prosemirror-dev-tools` package and applies it to the current
+   * This method dynamically imports the `prosemirror-dev-toolkit` package and applies it to the current
    * editor view. If the dev tools are not installed, a warning is logged to the console.
    *
    * @private
    * @remarks
    * - Dev tools are only applied if `this.options.enableDevTools` is `true` and the code is running in a browser.
    * - If the editor view is not available, the dev tools are not applied.
-   * - If the `prosemirror-dev-tools` package is missing, a warning is shown in the console.
+   * - If the `prosemirror-dev-toolkit` package is missing, a warning is shown in the console.
    *
    * @returns {void}
    */
@@ -210,17 +210,17 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
-    import('prosemirror-dev-tools')
-      .then(({ default: apply }) => {
+    import('prosemirror-dev-toolkit')
+      .then(({ applyDevTools }) => {
         if (!this.editorView) {
           return
         }
 
-        apply(this.editorView)
+        applyDevTools(this.editorView)
       })
       .catch(() => {
-        console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-tools` is not installed.')
-        console.warn("Install 'prosemirror-dev-tools' as a dev dependency to use the dev tools.")
+        console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-toolkit` is not installed.')
+        console.warn("Install 'prosemirror-dev-toolkit' as a dev dependency to use the dev tools.")
       })
   }
 

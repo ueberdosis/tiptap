@@ -53,8 +53,7 @@
   ],
   "devDependencies": {
     "@tiptap/pm": "workspace:*",
-    "@types/prosemirror-dev-tools": "^3.0.6",
-    "prosemirror-dev-tools": "^4.2.0"
+    "prosemirror-dev-toolkit": "^1.1.8"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
