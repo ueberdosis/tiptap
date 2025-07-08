@@ -1,5 +1,27 @@
 # Change Log
 
+## 2.25.0
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.25.0
+- @tiptap/extension-floating-menu@2.25.0
+
+## 2.24.2
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.24.2
+- @tiptap/extension-floating-menu@2.24.2
+
+## 2.24.1
+
+### Patch Changes
+
+- Updated dependencies [4b123bc]
+  - @tiptap/extension-floating-menu@2.24.1
+  - @tiptap/extension-bubble-menu@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes

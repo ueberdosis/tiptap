@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.25.0
+
+## 2.24.2
+
+## 2.24.1
+
+### Patch Changes
+
+- 4b123bc: Added a new `a11y` option to task list items to set the checkbox aria-label
+
 ## 2.24.0
 
 ## 2.23.1

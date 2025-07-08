@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.25.0
+
+## 2.24.2
+
+## 2.24.1
+
+### Patch Changes
+
+- 4b123bc: Added `tab-index="0"` to bubble and floating menu wrappers"
+
 ## 2.24.0
 
 ## 2.23.1
