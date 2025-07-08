@@ -28,7 +28,7 @@ export function updateMarkViewAttributes(checkMark: Mark, editor: Editor, attrs:
       return
     }
 
-    // now lets check if we need to update given the attributes
+    // check if we need to update given the attributes
     let needsUpdate = false
     Object.keys(attrs).forEach(k => {
       if (attrs[k] !== foundMark!.attrs[k]) {
