@@ -1,7 +1,7 @@
 import { type EditorOptions, Editor } from '@tiptap/core'
 import type { DependencyList, MutableRefObject } from 'react'
 import { useDebugValue, useEffect, useRef, useState } from 'react'
-import { useSyncExternalStore } from 'use-sync-external-store/shim'
+import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import { useEditorState } from './useEditorState.js'
 
