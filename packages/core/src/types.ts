@@ -645,9 +645,7 @@ export interface NodeViewRendererProps {
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface MarkViewProps extends MarkViewRendererProps {
-  updateAttributes: (attrs: Record<string, any>) => void
-}
+export interface MarkViewProps extends MarkViewRendererProps {}
 
 export interface MarkViewRendererProps {
   // pass-through from prosemirror
