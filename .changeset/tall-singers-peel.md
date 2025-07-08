@@ -4,4 +4,4 @@
 '@tiptap/core': patch
 ---
 
-Added `updateAttributes` to MarkView and it's renderers to allow updating markview attributes
+Added `updateAttributes` to MarkView and its renderers to allow updating MarkView attributes
