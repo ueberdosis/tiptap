@@ -445,6 +445,9 @@ export class BubbleMenuView implements PluginView {
     // attach to editor's parent element
     this.view.dom.parentElement?.appendChild(this.element)
 
+    // Update position immediately after showing to ensure shift works on first apparition
+    this.updatePosition()
+
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()
     }
