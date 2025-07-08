@@ -1,6 +1,8 @@
-import { Editor, Range } from '@tiptap/core'
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
+import type { Editor, Range } from '@tiptap/core'
+import type { EditorState } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorView } from '@tiptap/pm/view'
+import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
@@ -29,7 +31,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * Allow spaces in the suggestion query. Not compatible with `allowToIncludeChar`. Will be disabled if `allowToIncludeChar` is set to `true`.
    * @default false
    * @example true
-  */
+   */
   allowSpaces?: boolean
 
   /**
@@ -67,6 +69,20 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   decorationClass?: string
 
   /**
+   * The content of the decoration node.
+   * @default null
+   * @example 'Type to search...'
+   */
+  decorationContent?: string
+
+  /**
+   * The class name of the decoration node when it is empty.
+   * @default 'is-empty'
+   * @example 'is-empty'
+   */
+  decorationEmptyClass?: string
+
+  /**
    * A function that is called when a suggestion is selected.
    * @param props The props object.
    * @param props.editor The editor instance.
@@ -92,12 +108,12 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @returns An object with render functions.
    */
   render?: () => {
-    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void;
-    onStart?: (props: SuggestionProps<I, TSelected>) => void;
-    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void;
-    onUpdate?: (props: SuggestionProps<I, TSelected>) => void;
-    onExit?: (props: SuggestionProps<I, TSelected>) => void;
-    onKeyDown?: (props: SuggestionKeyDownProps) => boolean;
+    onBeforeStart?: (props: SuggestionProps<I, TSelected>) => void
+    onStart?: (props: SuggestionProps<I, TSelected>) => void
+    onBeforeUpdate?: (props: SuggestionProps<I, TSelected>) => void
+    onUpdate?: (props: SuggestionProps<I, TSelected>) => void
+    onExit?: (props: SuggestionProps<I, TSelected>) => void
+    onKeyDown?: (props: SuggestionKeyDownProps) => boolean
   }
 
   /**
@@ -105,7 +121,12 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props The props object.
    * @returns {boolean}
    */
-  allow?: (props: { editor: Editor; state: EditorState; range: Range, isActive?: boolean }) => boolean
+  allow?: (props: {
+    editor: Editor
+    state: EditorState
+    range: Range
+    isActive?: boolean
+  }) => boolean
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
@@ -178,6 +199,8 @@ export function Suggestion<I = any, TSelected = any>({
   startOfLine = false,
   decorationTag = 'span',
   decorationClass = 'suggestion',
+  decorationContent = '',
+  decorationEmptyClass = 'is-empty',
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -322,7 +345,11 @@ export function Suggestion<I = any, TSelected = any>({
         //   * a composition is active (see: https://github.com/ueberdosis/tiptap/issues/1449)
         if (isEditable && (empty || editor.view.composing)) {
           // Reset active state if we just left the previous suggestion range
-          if ((from < prev.range.from || from > prev.range.to) && !composing && !prev.composing) {
+          if (
+            (from < prev.range.from || from > prev.range.to)
+            && !composing
+            && !prev.composing
+          ) {
             next.active = false
           }
 
@@ -338,11 +365,19 @@ export function Suggestion<I = any, TSelected = any>({
           const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
           // If we found a match, update the current state to show it
-          if (match && allow({
-            editor, state, range: match.range, isActive: prev.active,
-          })) {
+          if (
+            match
+            && allow({
+              editor,
+              state,
+              range: match.range,
+              isActive: prev.active,
+            })
+          ) {
             next.active = true
-            next.decorationId = prev.decorationId ? prev.decorationId : decorationId
+            next.decorationId = prev.decorationId
+              ? prev.decorationId
+              : decorationId
             next.range = match.range
             next.query = match.query
             next.text = match.text
@@ -379,17 +414,27 @@ export function Suggestion<I = any, TSelected = any>({
 
       // Setup decorator on the currently active suggestion.
       decorations(state) {
-        const { active, range, decorationId } = plugin.getState(state)
+        const {
+          active, range, decorationId, query,
+        } = plugin.getState(state)
 
         if (!active) {
           return null
         }
 
+        const isEmpty = !query?.length
+        const classNames = [decorationClass]
+
+        if (isEmpty) {
+          classNames.push(decorationEmptyClass)
+        }
+
         return DecorationSet.create(state.doc, [
           Decoration.inline(range.from, range.to, {
             nodeName: decorationTag,
-            class: decorationClass,
+            class: classNames.join(' '),
             'data-decoration-id': decorationId,
+            'data-decoration-content': decorationContent,
           }),
         ])
       },
