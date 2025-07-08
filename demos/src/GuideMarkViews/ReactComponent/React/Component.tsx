@@ -12,13 +12,16 @@ export default (props: MarkViewRendererProps) => {
       <label contentEditable={false}>
         React component:
         <button
+          data-test-id="count-button"
           onClick={() => {
             setCount(count + 1)
           }}
         >
           This button has been clicked {count} times.
         </button>
-        <button onClick={() => props.updateAttributes({ 'data-count': count })}>Update attributes</button>
+        <button data-test-id="update-attributes-button" onClick={() => props.updateAttributes({ 'data-count': count })}>
+          Update attributes
+        </button>
       </label>
     </span>
   )

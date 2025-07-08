@@ -17,7 +17,7 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import { type MarkConfig, type NodeConfig, type Storage, getMarkType } from './index.js'
+import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
 import type { InputRule } from './InputRule.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
@@ -262,6 +262,9 @@ export class ExtensionManager {
               editor,
               extension,
               HTMLAttributes,
+              updateAttributes: (attrs: Record<string, any>) => {
+                updateMarkViewAttributes(mark, editor, attrs)
+              },
             })
           }
 

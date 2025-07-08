@@ -5,6 +5,53 @@ import type { Editor } from './Editor.js'
 import type { MarkViewProps, MarkViewRendererOptions } from './types.js'
 import { isAndroid, isiOS } from './utilities/index.js'
 
+export function updateMarkViewAttributes(checkMark: Mark, editor: Editor, attrs: Record<string, any> = {}): void {
+  const { state } = editor
+  const { doc, tr } = state
+  const thisMark = checkMark
+
+  doc.descendants((node, pos) => {
+    const from = tr.mapping.map(pos)
+    const to = tr.mapping.map(pos) + node.nodeSize
+    let foundMark: Mark | null = null
+
+    // find the mark on the current node
+    node.marks.forEach(mark => {
+      if (mark !== thisMark) {
+        return false
+      }
+
+      foundMark = mark
+    })
+
+    if (!foundMark) {
+      return
+    }
+
+    // now lets check if we need to update given the attributes
+    let needsUpdate = false
+    Object.keys(attrs).forEach(k => {
+      if (attrs[k] !== foundMark!.attrs[k]) {
+        needsUpdate = true
+      }
+    })
+
+    if (needsUpdate) {
+      const updatedMark = checkMark.type.create({
+        ...checkMark.attrs,
+        ...attrs,
+      })
+
+      tr.removeMark(from, to, checkMark.type)
+      tr.addMark(from, to, updatedMark)
+    }
+  })
+
+  if (tr.docChanged) {
+    editor.view.dispatch(tr)
+  }
+}
+
 export class MarkView<Component, Options extends MarkViewRendererOptions = MarkViewRendererOptions> {
   component: Component
   editor: Editor
@@ -33,50 +80,7 @@ export class MarkView<Component, Options extends MarkViewRendererOptions = MarkV
    * @param attrs The attributes to update.
    */
   updateAttributes(attrs: Record<string, any>, checkMark?: Mark): void {
-    const { state } = this.editor
-    const { doc, tr } = state
-    const thisMark = checkMark || this.mark
-
-    doc.descendants((node, pos) => {
-      const from = tr.mapping.map(pos)
-      const to = tr.mapping.map(pos) + node.nodeSize
-      let foundMark: Mark | null = null
-
-      // find the mark on the current node
-      node.marks.forEach(mark => {
-        if (mark !== thisMark) {
-          return false
-        }
-
-        foundMark = mark
-      })
-
-      if (!foundMark) {
-        return
-      }
-
-      // now lets check if we need to update given the attributes
-      let needsUpdate = false
-      Object.keys(attrs).forEach(k => {
-        if (attrs[k] !== foundMark!.attrs[k]) {
-          needsUpdate = true
-        }
-      })
-
-      if (needsUpdate) {
-        const updatedMark = this.mark.type.create({
-          ...this.mark.attrs,
-          ...attrs,
-        })
-
-        tr.removeMark(from, to, this.mark.type)
-        tr.addMark(from, to, updatedMark)
-      }
-    })
-
-    if (tr.docChanged) {
-      this.editor.view.dispatch(tr)
-    }
+    updateMarkViewAttributes(checkMark || this.mark, this.editor, attrs)
   }
 
   ignoreMutation(mutation: ViewMutationRecord): boolean {

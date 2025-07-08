@@ -680,7 +680,7 @@ export interface MarkViewRendererProps {
   updateAttributes: (attrs: Record<string, any>) => void
 }
 
-export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
+export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 
 export interface MarkViewRendererOptions {
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
