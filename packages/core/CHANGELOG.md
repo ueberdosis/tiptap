@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- 4e2f6d8: migration from prosemirror-dev-tools to prosemirror-dev-toolkit
+  - @tiptap/pm@3.0.0-beta.25
+
 ## 3.0.0-beta.24
 
 ### Patch Changes
