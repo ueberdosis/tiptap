@@ -53,7 +53,7 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     super(component, props, options)
 
     const { as = 'span', attrs, className = '' } = options || {}
-    const componentProps = props satisfies MarkViewProps
+    const componentProps = { ...props, updateAttributes: this.updateAttributes } satisfies MarkViewProps
 
     this.contentDOMElement = document.createElement('span')
 

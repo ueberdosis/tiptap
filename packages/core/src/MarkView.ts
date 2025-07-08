@@ -1,3 +1,4 @@
+import type { Mark } from '@tiptap/pm/model'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
@@ -25,6 +26,57 @@ export class MarkView<Component, Options extends MarkViewRendererOptions = MarkV
 
   get contentDOM(): HTMLElement | null {
     return null
+  }
+
+  /**
+   * Update the attributes of the mark in the document.
+   * @param attrs The attributes to update.
+   */
+  updateAttributes(attrs: Record<string, any>, checkMark?: Mark): void {
+    const { state } = this.editor
+    const { doc, tr } = state
+    const thisMark = checkMark || this.mark
+
+    doc.descendants((node, pos) => {
+      const from = tr.mapping.map(pos)
+      const to = tr.mapping.map(pos) + node.nodeSize
+      let foundMark: Mark | null = null
+
+      // find the mark on the current node
+      node.marks.forEach(mark => {
+        if (mark !== thisMark) {
+          return false
+        }
+
+        foundMark = mark
+      })
+
+      if (!foundMark) {
+        return
+      }
+
+      // now lets check if we need to update given the attributes
+      let needsUpdate = false
+      Object.keys(attrs).forEach(k => {
+        if (attrs[k] !== foundMark!.attrs[k]) {
+          needsUpdate = true
+        }
+      })
+
+      if (needsUpdate) {
+        const updatedMark = this.mark.type.create({
+          ...this.mark.attrs,
+          ...attrs,
+        })
+
+        tr.removeMark(from, to, this.mark.type)
+        tr.addMark(from, to, updatedMark)
+      }
+    })
+
+    if (tr.docChanged) {
+      this.editor.view.dispatch(tr)
+    }
   }
 
   ignoreMutation(mutation: ViewMutationRecord): boolean {
