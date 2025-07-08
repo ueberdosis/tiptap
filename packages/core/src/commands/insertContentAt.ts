@@ -76,18 +76,10 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       let content: Fragment | ProseMirrorNode
       const { selection } = editor.state
 
-      try {
-        content = createNodeFromContent(value, editor.schema, {
-          parseOptions: {
-            preserveWhitespace: 'full',
-            ...options.parseOptions,
-          },
-          errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
-        })
-      } catch (e) {
+      const emitContentError = (error: Error) => {
         editor.emit('contentError', {
           editor,
-          error: e as Error,
+          error,
           disableCollaboration: () => {
             if (
               'collaboration' in editor.storage &&
@@ -98,6 +90,33 @@ export const insertContentAt: RawCommands['insertContentAt'] =
             }
           },
         })
+      }
+
+      const parseOptions: ParseOptions = {
+        preserveWhitespace: 'full',
+        ...options.parseOptions,
+      }
+
+      // If `emitContentError` is enabled, we want to check the content for errors
+      // but ignore them (do not remove the invalid content from the document)
+      if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
+        try {
+          createNodeFromContent(value, editor.schema, {
+            parseOptions,
+            errorOnInvalidContent: true,
+          })
+        } catch (e) {
+          emitContentError(e as Error)
+        }
+      }
+
+      try {
+        content = createNodeFromContent(value, editor.schema, {
+          parseOptions,
+          errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
+        })
+      } catch (e) {
+        emitContentError(e as Error)
         return false
       }
 
@@ -163,8 +182,9 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
         const fromSelectionAtStart = selection.$from.parentOffset === 0
         const isTextSelection = selection.$from.node().isText || selection.$from.node().isTextblock
+        const hasContent = selection.$from.node().content.size > 0
 
-        if (fromSelectionAtStart && isTextSelection) {
+        if (fromSelectionAtStart && isTextSelection && hasContent) {
           from = Math.max(0, from - 1)
         }
 

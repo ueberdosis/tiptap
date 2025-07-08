@@ -1,0 +1,54 @@
+{
+  "name": "@tiptap/extension-table-of-contents",
+  "description": "table of contents extension for Tiptap",
+  "version": "3.0.0-beta.25",
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-table-of-contents"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@types/uuid": "^10.0.0"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

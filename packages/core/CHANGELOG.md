@@ -1,5 +1,144 @@
 # Change Log
 
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- 4e2f6d8: migration from prosemirror-dev-tools to prosemirror-dev-toolkit
+  - @tiptap/pm@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Minor Changes
+
+- 813674c: Added lazy-loaded ProseMirror Devtools integration which can be enabled via the new editor option `enableDevTools: true`
+
+### Patch Changes
+
+- fc17b21: Fix RangeException in cut command when targetPos is zero
+  - @tiptap/pm@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- 9ceeab4: Fixed a bug where jsx-runtime cjs files would break Jest runners because of ESM syntax
+  - @tiptap/pm@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- e20006b: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+  - @tiptap/pm@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Minor Changes
+
+- ac897e7: Added the option to create extensions with a callback function instead of a flat configuration object
+
+### Patch Changes
+
+- bf835b0: Fixed an issue where images placed into an empty paragraph right after an existing image would replace the existing image instead
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- 087d114: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- 95b8c71: Add validation for target position within document range when trying to access children of a `NodePos` instance
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Minor Changes
+
+- d0fda30: Add config option to emit content error when content check is disabled
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes

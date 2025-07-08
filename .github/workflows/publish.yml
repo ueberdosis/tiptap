@@ -68,7 +68,7 @@ jobs:
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          publish: pnpm run publish --tag ${{ github.ref_name == 'next' && 'next'  || 'latest' }}
+          publish: pnpm run publish
           version: pnpm run version
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-

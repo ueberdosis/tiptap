@@ -1,9 +1,12 @@
 <template>
-  <span className="content" data-test-id="mark-view">
+  <span className="content" data-test-id="mark-view" :data-count="HTMLAttributes['data-count']">
     <mark-view-content />
     <label contenteditable="false"
       >Vue Component::
-      <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      <button data-test-id="count-button" @click="increase" class="primary">
+        This button has been clicked {{ count }} times.
+      </button>
+      <button data-test-id="update-attributes-button" @click="updateCountAttr">Update attributes</button>
     </label>
   </span>
 </template>
@@ -18,7 +21,7 @@ export default {
 
   data() {
     return {
-      count: 0,
+      count: this.$props.HTMLAttributes['data-count'] ?? 0,
     }
   },
 
@@ -27,6 +30,11 @@ export default {
   methods: {
     increase() {
       this.count += 1
+    },
+    updateCountAttr() {
+      this.updateAttributes({
+        'data-count': this.count,
+      })
     },
   },
 }

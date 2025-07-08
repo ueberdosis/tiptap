@@ -1,5 +1,159 @@
 # Change Log
 
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- Updated dependencies [4e2f6d8]
+  - @tiptap/core@3.0.0-beta.25
+  - @tiptap/pm@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.24
+- @tiptap/pm@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.23
+- @tiptap/pm@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- 1d4d928: Added `tab-index="0"` to menu wrappers
+  - @tiptap/core@3.0.0-beta.22
+  - @tiptap/pm@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- Updated dependencies [813674c]
+- Updated dependencies [fc17b21]
+  - @tiptap/core@3.0.0-beta.21
+  - @tiptap/pm@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.20
+- @tiptap/pm@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- Updated dependencies [9ceeab4]
+  - @tiptap/core@3.0.0-beta.19
+  - @tiptap/pm@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.18
+- @tiptap/pm@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- Updated dependencies [e20006b]
+  - @tiptap/core@3.0.0-beta.17
+  - @tiptap/pm@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- 73d1888: Fixed a bug where the global resize handler of the BubbleMenu plugin would not be unregistered on destroy
+- Updated dependencies [ac897e7]
+- Updated dependencies [bf835b0]
+  - @tiptap/core@3.0.0-beta.16
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- Updated dependencies [087d114]
+  - @tiptap/core@3.0.0-beta.15
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.13
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- 00693b8: Fixed a bug where table cell selections would not position the bubble menu accordingly
+  - @tiptap/core@3.0.0-beta.12
+  - @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- 0f14cc5: Added missing `onShow`, `onUpdate`, `onHide` and `onDestroy` options
+  - @tiptap/core@3.0.0-beta.11
+  - @tiptap/pm@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.10
+- @tiptap/pm@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.9
+- @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.8
+- @tiptap/pm@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- Updated dependencies [d0fda30]
+  - @tiptap/core@3.0.0-beta.7
+  - @tiptap/pm@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.6
+- @tiptap/pm@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes

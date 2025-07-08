@@ -14,7 +14,20 @@ import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
+
+function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
+  const top = Math.min(rect1.top, rect2.top)
+  const bottom = Math.max(rect1.bottom, rect2.bottom)
+  const left = Math.min(rect1.left, rect2.left)
+  const right = Math.max(rect1.right, rect2.right)
+  const width = right - left
+  const height = bottom - top
+  const x = left
+  const y = top
+  return new DOMRect(x, y, width, height)
+}
 
 export interface BubbleMenuPluginProps {
   /**
@@ -94,6 +107,11 @@ export interface BubbleMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
+
+    onShow?: () => void
+    onHide?: () => void
+    onUpdate?: () => void
+    onDestroy?: () => void
   }
 }
 
@@ -118,6 +136,8 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
+  private isVisible = false
+
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
     placement: 'top',
@@ -129,6 +149,10 @@ export class BubbleMenuView implements PluginView {
     autoPlacement: false,
     hide: false,
     inline: false,
+    onShow: undefined,
+    onHide: undefined,
+    onUpdate: undefined,
+    onDestroy: undefined,
   }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
@@ -222,6 +246,8 @@ export class BubbleMenuView implements PluginView {
       ...options,
     }
 
+    this.element.tabIndex = 0
+
     if (shouldShow) {
       this.shouldShow = shouldShow
     }
@@ -230,15 +256,7 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    window.addEventListener('resize', () => {
-      if (this.resizeDebounceTimer) {
-        clearTimeout(this.resizeDebounceTimer)
-      }
-
-      this.resizeDebounceTimer = window.setTimeout(() => {
-        this.updatePosition()
-      }, this.resizeDelay)
-    })
+    window.addEventListener('resize', this.resizeHandler)
 
     this.update(view, view.state)
 
@@ -253,6 +271,21 @@ export class BubbleMenuView implements PluginView {
 
   dragstartHandler = () => {
     this.hide()
+  }
+
+  /**
+   * Handles the window resize event to update the position of the bubble menu.
+   * It uses a debounce mechanism to prevent excessive updates.
+   * The delay is defined by the `resizeDelay` property.
+   */
+  resizeHandler = () => {
+    if (this.resizeDebounceTimer) {
+      clearTimeout(this.resizeDebounceTimer)
+    }
+
+    this.resizeDebounceTimer = window.setTimeout(() => {
+      this.updatePosition()
+    }, this.resizeDelay)
   }
 
   focusHandler = () => {
@@ -280,9 +313,35 @@ export class BubbleMenuView implements PluginView {
 
   updatePosition() {
     const { selection } = this.editor.state
-
-    const virtualElement = {
+    let virtualElement = {
       getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+    }
+
+    // this is a special case for cell selections
+    if (selection instanceof CellSelection) {
+      const { $anchorCell, $headCell } = selection
+
+      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
+      const to = $headCell ? $headCell.pos : $anchorCell!.pos
+
+      const fromDOM = this.view.nodeDOM(from)
+      const toDOM = this.view.nodeDOM(to)
+
+      if (!fromDOM || !toDOM) {
+        return
+      }
+
+      const clientRect =
+        fromDOM === toDOM
+          ? (fromDOM as HTMLElement).getBoundingClientRect()
+          : combineDOMRects(
+              (fromDOM as HTMLElement).getBoundingClientRect(),
+              (toDOM as HTMLElement).getBoundingClientRect(),
+            )
+
+      virtualElement = {
+        getBoundingClientRect: () => clientRect,
+      }
     }
 
     computePosition(virtualElement, this.element, {
@@ -294,6 +353,10 @@ export class BubbleMenuView implements PluginView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      if (this.isVisible && this.floatingUIOptions.onUpdate) {
+        this.floatingUIOptions.onUpdate()
+      }
     })
   }
 
@@ -373,25 +436,50 @@ export class BubbleMenuView implements PluginView {
   }
 
   show() {
+    if (this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
     // attach to editor's parent element
     this.view.dom.parentElement?.appendChild(this.element)
+
+    if (this.floatingUIOptions.onShow) {
+      this.floatingUIOptions.onShow()
+    }
+
+    this.isVisible = true
   }
 
   hide() {
+    if (!this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'hidden'
     this.element.style.opacity = '0'
     // remove from the parent element
     this.element.remove()
+
+    if (this.floatingUIOptions.onHide) {
+      this.floatingUIOptions.onHide()
+    }
+
+    this.isVisible = false
   }
 
   destroy() {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
+    window.removeEventListener('resize', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+
+    if (this.floatingUIOptions.onDestroy) {
+      this.floatingUIOptions.onDestroy()
+    }
   }
 }
 

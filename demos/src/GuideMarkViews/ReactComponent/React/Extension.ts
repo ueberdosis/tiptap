@@ -6,6 +6,12 @@ import Component from './Component.js'
 export default Mark.create({
   name: 'reactComponent',
 
+  addAttributes() {
+    return {
+      'data-count': { default: 0 },
+    }
+  },
+
   parseHTML() {
     return [
       {

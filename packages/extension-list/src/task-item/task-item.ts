@@ -31,6 +31,19 @@ export interface TaskItemOptions {
    * @example 'myCustomTaskList'
    */
   taskListTypeName: string
+
+  /**
+   * Accessibility options for the task item.
+   * @default {}
+   * @example
+   * ```js
+   * {
+   *   checkboxLabel: (node) => `Task item: ${node.textContent || 'empty task item'}`
+   * }
+   */
+  a11y?: {
+    checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
+  }
 }
 
 /**
@@ -50,6 +63,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       nested: false,
       HTMLAttributes: {},
       taskListTypeName: 'taskList',
+      a11y: undefined,
     }
   },
 
@@ -132,6 +146,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
+      const updateA11Y = () => {
+        checkbox.ariaLabel =
+          this.options.a11y?.checkboxLabel?.(node, checkbox.checked) ||
+          `Task item checkbox for ${node.textContent || 'empty task item'}`
+      }
+
+      updateA11Y()
+
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
       checkbox.addEventListener('mousedown', event => event.preventDefault())
@@ -199,6 +221,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
           listItem.dataset.checked = updatedNode.attrs.checked
           checkbox.checked = updatedNode.attrs.checked
+          updateA11Y()
 
           return true
         },

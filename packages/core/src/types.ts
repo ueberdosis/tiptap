@@ -355,6 +355,27 @@ export interface EditorOptions {
    */
   enableContentCheck: boolean
   /**
+   * If `true`, the editor will emit the `contentError` event if invalid content is
+   * encountered but `enableContentCheck` is `false`. This lets you preserve the
+   * invalid editor content while still showing a warning or error message to
+   * the user.
+   *
+   * @default false
+   */
+  emitContentError: boolean
+  /**
+   * Enable a lazy-loaded Prosemirror DevTools integration.
+   *
+   * Requires having the `prosemirror-dev-toolkit` npm package installed.
+   * @type boolean
+   * @default false
+   * @example
+   * ```js
+   * enableDevTools: true
+   * ```
+   */
+  enableDevTools: boolean
+  /**
    * Called before the editor is constructed.
    */
   onBeforeCreate: (props: EditorEvents['beforeCreate']) => void
@@ -653,9 +674,11 @@ export interface MarkViewRendererProps {
    * The HTML attributes that should be added to the mark's DOM element.
    */
   HTMLAttributes: Record<string, any>
+
+  updateAttributes: (attrs: Record<string, any>) => void
 }
 
-export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
+export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 
 export interface MarkViewRendererOptions {
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null

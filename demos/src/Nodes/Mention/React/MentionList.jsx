@@ -1,8 +1,8 @@
 import './MentionList.scss'
 
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import React, { useEffect, useImperativeHandle, useState } from 'react'
 
-export default forwardRef((props, ref) => {
+export default props => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const selectItem = index => {
@@ -27,7 +27,7 @@ export default forwardRef((props, ref) => {
 
   useEffect(() => setSelectedIndex(0), [props.items])
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(props.ref, () => ({
     onKeyDown: ({ event }) => {
       if (event.key === 'ArrowUp') {
         upHandler()
@@ -65,4 +65,4 @@ export default forwardRef((props, ref) => {
       )}
     </div>
   )
-})
+}

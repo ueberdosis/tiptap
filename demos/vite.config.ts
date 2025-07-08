@@ -81,7 +81,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: fg.sync('./**/index.html', {
-        ignore: ['dist'],
+        ignore: ['dist', 'node_modules'],
       }),
     },
   },
@@ -265,7 +265,7 @@ export default defineConfig({
       load(id) {
         if (id.startsWith('source!')) {
           const path = id.split('!!')[0].replace('source!', '')
-          const ignore = ['**/*.spec.js', '**/*.spec.ts']
+          const ignore = ['**/*.spec.js', '**/*.spec.ts', 'node_modules/**']
 
           if (!path.endsWith('/JS')) {
             ignore.push('**/index.html')

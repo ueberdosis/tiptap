@@ -1,5 +1,125 @@
 # Change Log
 
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.6
+
 ## 3.0.0-beta.5
 
 ### Patch Changes
