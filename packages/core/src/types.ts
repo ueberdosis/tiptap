@@ -39,6 +39,18 @@ export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
 
 export interface EditorEvents {
+  mount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
+  unmount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
   beforeCreate: {
     /**
      * The editor instance
