@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- 5ba480b: Added `updateAttributes` to MarkView and its renderers to allow updating MarkView attributes
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
 ## 3.0.0-beta.25
 
 ### Patch Changes
