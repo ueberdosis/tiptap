@@ -45,7 +45,8 @@
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/pm": "workspace:*",
+    "happy-dom": "^18.0.1"
   },
   "repository": {
     "type": "git",
