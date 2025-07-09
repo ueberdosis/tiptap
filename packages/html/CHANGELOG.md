@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.26
+
+### Major Changes
+
+- 1a88826: The server-import for `@tiptap/html` will now require `happy-dom` to be installed so it can avoid asynchronous behavior
+
+### Patch Changes
+
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
 ## 3.0.0-beta.25
 
 ### Patch Changes

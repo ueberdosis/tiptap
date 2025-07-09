@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- 27dd14b: Made attributes for `toggleLink` optional
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
 ## 3.0.0-beta.25
 
 ### Patch Changes
