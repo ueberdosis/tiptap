@@ -246,6 +246,8 @@ export class BubbleMenuView implements PluginView {
       ...options,
     }
 
+    this.element.tabIndex = 0
+
     if (shouldShow) {
       this.shouldShow = shouldShow
     }

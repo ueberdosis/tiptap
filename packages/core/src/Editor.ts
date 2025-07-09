@@ -92,6 +92,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enablePasteRules: true,
     enableCoreExtensions: true,
     enableContentCheck: false,
+    enableDevTools: false,
     emitContentError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
@@ -184,6 +185,43 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.isInitialized = false
     this.css?.remove()
     this.css = null
+  }
+
+  /**
+   *
+   * @returns
+   */
+  /**
+   * Applies ProseMirror dev tools to the editor instance if enabled and running in a browser environment.
+   *
+   * This method dynamically imports the `prosemirror-dev-toolkit` package and applies it to the current
+   * editor view. If the dev tools are not installed, a warning is logged to the console.
+   *
+   * @private
+   * @remarks
+   * - Dev tools are only applied if `this.options.enableDevTools` is `true` and the code is running in a browser.
+   * - If the editor view is not available, the dev tools are not applied.
+   * - If the `prosemirror-dev-toolkit` package is missing, a warning is shown in the console.
+   *
+   * @returns {void}
+   */
+  private applyDevTools(): void {
+    if (typeof window === 'undefined' || !this.options.enableDevTools) {
+      return
+    }
+
+    import('prosemirror-dev-toolkit')
+      .then(({ applyDevTools }) => {
+        if (!this.editorView) {
+          return
+        }
+
+        applyDevTools(this.editorView)
+      })
+      .catch(() => {
+        console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-toolkit` is not installed.')
+        console.warn("Install 'prosemirror-dev-toolkit' as a dev dependency to use the dev tools.")
+      })
   }
 
   /**
@@ -488,6 +526,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: this.editorState,
     })
+
+    // Apply dev tools if enabled
+    if (this.options.enableDevTools) {
+      this.applyDevTools()
+    }
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
