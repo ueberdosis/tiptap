@@ -23,7 +23,6 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
     return wrap.innerHTML
   }
 
-  // Use happy-dom-without-node for serialization.
   const localWindow = new Window()
 
   const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
