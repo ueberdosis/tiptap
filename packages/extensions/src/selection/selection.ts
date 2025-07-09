@@ -32,7 +32,13 @@ export const Selection = Extension.create({
         key: new PluginKey('selection'),
         props: {
           decorations(state) {
-            if (state.selection.empty || editor.isFocused || !editor.isEditable || isNodeSelection(state.selection)) {
+            if (
+              state.selection.empty ||
+              editor.isFocused ||
+              !editor.isEditable ||
+              isNodeSelection(state.selection) ||
+              editor.view.dragging
+            ) {
               return null
             }
 
