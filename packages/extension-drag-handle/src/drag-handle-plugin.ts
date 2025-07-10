@@ -307,7 +307,10 @@ export const DragHandlePlugin = ({
         keydown() {
           if (popup && popup.state.isVisible) {
             popup.hide()
+            return true
           }
+
+          return false
         },
 
         mouseleave(_view, e) {
