@@ -304,8 +304,8 @@ export const DragHandlePlugin = ({
 
     props: {
       handleDOMEvents: {
-        keydown() {
-          if (popup && popup.state.isVisible) {
+        keydown(view) {
+          if (popup && popup.state.isVisible && view.hasFocus()) {
             popup.hide()
             return true
           }
