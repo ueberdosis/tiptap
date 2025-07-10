@@ -2,4 +2,4 @@
 '@tiptap/extension-emoji': major
 ---
 
-Add missing emoji storage type
+add `emoji` field to Tiptap storage interface

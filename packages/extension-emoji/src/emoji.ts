@@ -30,6 +30,7 @@ declare module '@tiptap/core' {
       setEmoji: (shortcode: string) => ReturnType
     }
   }
+
   interface Storage {
     emoji: EmojiStorage
   }
