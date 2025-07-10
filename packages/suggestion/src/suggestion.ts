@@ -70,7 +70,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
 
   /**
    * The content of the decoration node.
-   * @default null
+   * @default ''
    * @example 'Type to search...'
    */
   decorationContent?: string
