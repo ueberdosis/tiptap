@@ -2,4 +2,4 @@
 "@tiptap/extension-drag-handle": major
 ---
 
-Dismissable popup on keydown
+Dismissable popup on keydown, when the popup is visible and the editor has focus, typing should hide the popup.
