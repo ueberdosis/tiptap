@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.25.1
+
+### Patch Changes
+
+- @tiptap/extension-bubble-menu@2.25.1
+- @tiptap/extension-floating-menu@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes
