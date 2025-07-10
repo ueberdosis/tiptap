@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-emoji': major
+'@tiptap/extension-emoji': patch
 ---
 
-add `emoji` field to Tiptap storage interface
+Added `emoji` field to Tiptap storage interface
