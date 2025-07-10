@@ -9,7 +9,6 @@ export default defineConfig([
     clean: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
-    external: ['prosemirror-dev-toolkit'],
   },
   {
     entry: ['src/jsx-runtime.ts'],
