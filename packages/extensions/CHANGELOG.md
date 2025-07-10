@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.0-beta.27
+
+### Major Changes
+
+- ce47182: Remove selection decoration when editor is on dragging mode
+
+### Patch Changes
+
+- Updated dependencies [412e1bd]
+  - @tiptap/core@3.0.0-beta.27
+  - @tiptap/pm@3.0.0-beta.27
+
 ## 3.0.0-beta.26
 
 ### Patch Changes
