@@ -5,6 +5,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { keydownHandler } from './helpers/keydownHandler.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
@@ -59,6 +60,12 @@ export interface LinkOptions {
    * @example false
    */
   openOnClick: boolean | DeprecatedOpenWhenNotEditable
+  /**
+   * If enabled, the link will be selected when clicked.
+   * @default false
+   * @example true
+   */
+  enableClickSelection: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -220,6 +227,7 @@ export const Link = Mark.create<LinkOptions>({
   addOptions() {
     return {
       openOnClick: true,
+      enableClickSelection: false,
       linkOnPaste: true,
       autolink: true,
       protocols: [],
@@ -412,8 +420,13 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          enableClickSelection: this.options.enableClickSelection,
         }),
       )
+    }
+
+    if (this.options.enableClickSelection === true) {
+      plugins.push(keydownHandler())
     }
 
     if (this.options.linkOnPaste) {
