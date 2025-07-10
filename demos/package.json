@@ -56,6 +56,7 @@
     "autoprefixer": "^10.4.20",
     "esbuild": "0.25.0",
     "iframe-resizer": "^4.4.5",
+    "prosemirror-dev-toolkit": "^1.0.0",
     "postcss": "^8.4.49",
     "postcss-import": "^15.1.0",
     "react": "^19.0.0",

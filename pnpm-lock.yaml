@@ -291,6 +291,9 @@ importers:
       postcss-import:
         specifier: ^15.1.0
         version: 15.1.0(postcss@8.5.1)
+      prosemirror-dev-toolkit:
+        specifier: ^1.0.0
+        version: 1.1.8(svelte@4.2.19)
       react:
         specifier: ^19.0.0
         version: 19.1.0

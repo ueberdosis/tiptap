@@ -205,23 +205,27 @@ export class Editor extends EventEmitter<EditorEvents> {
    *
    * @returns {void}
    */
-  private applyDevTools(): void {
+  private async applyDevTools(): Promise<void> {
     if (typeof window === 'undefined' || !this.options.enableDevTools) {
       return
     }
 
-    import('prosemirror-dev-toolkit')
-      .then(({ applyDevTools }) => {
-        if (!this.editorView) {
-          return
-        }
+    try {
+      // this is a hack to avoid buildtime dependency checking
+      // via webpack or other bundlers
+      // eslint-disable-next-line
+      const { applyDevTools } = await import('prosemirror' + '-dev-toolkit')
 
-        applyDevTools(this.editorView)
-      })
-      .catch(() => {
-        console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-toolkit` is not installed.')
-        console.warn("Install 'prosemirror-dev-toolkit' as a dev dependency to use the dev tools.")
-      })
+      if (!this.editorView) {
+        return
+      }
+
+      applyDevTools(this.editorView)
+    } catch (e) {
+      console.warn('[Tiptap warning]: Devtools are enabled but `prosemirror-dev-toolkit` is not installed.')
+      console.warn("Install 'prosemirror-dev-toolkit' as a dev dependency to use the dev tools.")
+      console.error(e)
+    }
   }
 
   /**

@@ -155,6 +155,7 @@ function MenuBar({ editor }: { editor: Editor }) {
 export default () => {
   const editor = useEditor({
     extensions,
+    enableDevTools: true,
     content: `
 <h2>
   Hi there,
