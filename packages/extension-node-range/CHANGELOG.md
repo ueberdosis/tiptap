@@ -1,5 +1,7 @@
 # @tiptap/extension-node-range
 
+## 2.25.1
+
 ## 2.25.0
 
 ## 2.24.2
