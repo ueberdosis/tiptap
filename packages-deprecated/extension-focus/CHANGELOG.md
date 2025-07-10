@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies [ce47182]
+  - @tiptap/extensions@3.0.0-beta.27
+
 ## 3.0.0-beta.26
 
 ### Patch Changes
