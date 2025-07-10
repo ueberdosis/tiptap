@@ -2,4 +2,4 @@
 '@tiptap/extensions': major
 ---
 
-Remove decoration when editor is on dragging mode
+Remove selection decoration when editor is on dragging mode
