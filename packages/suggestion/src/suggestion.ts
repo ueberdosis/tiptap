@@ -69,9 +69,9 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   decorationClass?: string
 
   /**
-   * The content of the decoration node.
-   * @default ''
-   * @example 'Type to search...'
+   * Creates a decoration with the provided content.
+   * @param decorationContent - The content to display in the decoration
+   * @default "" - Creates an empty decoration if no content provided
    */
   decorationContent?: string
 

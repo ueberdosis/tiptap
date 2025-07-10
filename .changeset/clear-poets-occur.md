@@ -1,5 +1,5 @@
 ---
-'@tiptap/suggestion': major
+'@tiptap/suggestion': minor
 ---
 
-Support empty query class and content in decoration
+Added support for empty query messages via decorations
