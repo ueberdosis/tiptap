@@ -52,8 +52,7 @@
     "jsx-dev-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "workspace:*",
-    "prosemirror-dev-toolkit": "^1.1.8"
+    "@tiptap/pm": "workspace:*"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
