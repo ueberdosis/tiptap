@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/extension-code-block@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
 ## 3.0.0-beta.25
 
 ### Patch Changes
