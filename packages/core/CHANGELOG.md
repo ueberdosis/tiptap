@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Minor Changes
+
+- 412e1bd: Remove enableDevTools option
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.27
+
 ## 3.0.0-beta.26
 
 ### Patch Changes
