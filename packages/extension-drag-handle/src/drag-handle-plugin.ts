@@ -287,6 +287,18 @@ export const DragHandlePlugin = ({
 
       props: {
         handleDOMEvents: {
+          keydown() {
+            if (!element || locked) {
+              return false
+            }
+
+            hideHandle()
+            currentNode = null
+            currentNodePos = -1
+            onNodeChange?.({ editor, node: null, pos: -1 })
+
+            return true
+          },
           mouseleave(_view, e) {
             // Do not hide open popup on mouseleave.
             if (locked) {
