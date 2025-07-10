@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.25.1
+
+### Patch Changes
+
+- f85bf45: attach the contentDOM to the correct position inside a react node view
+  - @tiptap/extension-bubble-menu@2.25.1
+  - @tiptap/extension-floating-menu@2.25.1
+
 ## 2.25.0
 
 ### Minor Changes
