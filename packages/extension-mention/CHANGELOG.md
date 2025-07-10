@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.28
+- @tiptap/pm@3.0.0-beta.28
+- @tiptap/suggestion@3.0.0-beta.28
+
 ## 3.0.0-beta.27
 
 ### Patch Changes
