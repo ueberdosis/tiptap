@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-drag-handle': major
+'@tiptap/extension-drag-handle': minor
 ---
 
-Typing should hide the drag handle
+Added logic to hide drag handle during typing to reduce visual clutter
