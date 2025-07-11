@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.29
+
+### Minor Changes
+
+- a80e62f: Added support for empty query messages via decorations
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
 ## 3.0.0-beta.28
 
 ### Patch Changes

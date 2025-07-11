@@ -1,5 +1,18 @@
 # @tiptap/extension-drag-handle
 
+## 3.0.0-beta.29
+
+### Minor Changes
+
+- 952623f: Added logic to hide drag handle during typing to reduce visual clutter
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/extension-collaboration@3.0.0-beta.29
+- @tiptap/extension-node-range@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
 ## 3.0.0-beta.28
 
 ### Patch Changes
