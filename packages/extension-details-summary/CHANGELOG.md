@@ -1,5 +1,7 @@
 # @tiptap/extension-details-summary
 
+## 2.26.1
+
 ## 2.26.0
 
 ## 2.25.1
