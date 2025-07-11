@@ -298,7 +298,7 @@ export const DragHandlePlugin = ({
               currentNodePos = -1
               onNodeChange?.({ editor, node: null, pos: -1 })
 
-              return true
+              return false
             }
 
             return false
