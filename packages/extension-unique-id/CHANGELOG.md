@@ -1,5 +1,12 @@
 # @tiptap/extension-unique-id
 
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
 ## 3.0.0-beta.28
 
 ### Patch Changes
