@@ -1,2 +1,0 @@
-import { useEditor } from "@tiptap/react";
-import { FloatingMenu, BubbleMenu } from "@tiptap/react/menus";

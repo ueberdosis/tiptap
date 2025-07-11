@@ -1,6 +1,0 @@
-import {
-  Table as Table1,
-  TableCell as TableCel,
-  TableHeader as TableHead,
-  TableRow as TableR,
-} from "@tiptap/extension-table";
