@@ -1,5 +1,11 @@
 # @tiptap/extension-drag-handle
 
+## 2.26.0
+
+### Minor Changes
+
+- 51f3528: Dismissable popup on keydown, when the popup is visible and the editor has focus, typing should hide the popup.
+
 ## 2.25.1
 
 ## 2.25.0

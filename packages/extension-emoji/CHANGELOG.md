@@ -1,5 +1,7 @@
 # @tiptap/extension-emoji
 
+## 2.26.0
+
 ## 2.25.1
 
 ## 2.25.0

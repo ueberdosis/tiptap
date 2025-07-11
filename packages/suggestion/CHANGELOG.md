@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.26.0
+
+### Minor Changes
+
+- ec82433: Added support for empty query messages via decorations
+
 ## 2.25.1
 
 ## 2.25.0
