@@ -298,7 +298,8 @@ export const DragHandlePlugin = ({
               currentNodePos = -1
               onNodeChange?.({ editor, node: null, pos: -1 })
 
-              return true
+              // We want to still continue with other keydown events.
+              return false
             }
 
             return false
