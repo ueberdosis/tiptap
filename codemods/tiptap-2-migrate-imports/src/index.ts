@@ -27,7 +27,7 @@ export default function transform(file: any, api: any) {
     "@tiptap/extension-dropcursor": "Dropcursor",
     "@tiptap/extension-gapcursor": "Gapcursor",
     "@tiptap/extension-focus": "Focus",
-    "@tiptap/extension-history": "History",
+    "@tiptap/extension-history": "UndoRedo",
     "@tiptap/extension-placeholder": "Placeholder",
   };
 

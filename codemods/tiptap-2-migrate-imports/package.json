@@ -1,6 +1,6 @@
 {
-  "name": "tiptap-2-migrate-imports",
-  "version": "1.0.1-beta.2",
+  "name": "@tiptap/v2-migrate-imports",
+  "version": "1.0.1-beta.1",
   "private": true,
   "devDependencies": {
     "@types/node": "20.9.0",
@@ -19,5 +19,6 @@
     ".codemodrc.json",
     "/dist/index.cjs"
   ],
-  "type": "module"
+  "type": "module",
+  "author": "bdbch"
 }
