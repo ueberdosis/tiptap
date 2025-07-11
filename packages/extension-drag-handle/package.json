@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-drag-handle",
   "description": "drag handle extension for tiptap",
-  "version": "2.26.0",
+  "version": "2.26.1",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/drag-handle",
   "keywords": [
     "tiptap",
@@ -44,10 +44,10 @@
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
-    "@tiptap/extension-node-range": "^2.26.0",
-    "@tiptap/core": "^2.26.0",
-    "@tiptap/extension-collaboration": "^2.26.0",
-    "@tiptap/pm": "^2.26.0",
+    "@tiptap/extension-node-range": "^2.26.1",
+    "@tiptap/core": "^2.26.1",
+    "@tiptap/extension-collaboration": "^2.26.1",
+    "@tiptap/pm": "^2.26.1",
     "tippy.js": "^6.3.7",
     "y-prosemirror": "^1.2.12"
   },

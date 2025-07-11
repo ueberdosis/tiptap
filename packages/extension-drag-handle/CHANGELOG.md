@@ -1,5 +1,11 @@
 # @tiptap/extension-drag-handle
 
+## 2.26.1
+
+### Patch Changes
+
+- 0fff08e: Fixed a problem where keydown events would be blocked by drag handle extension
+
 ## 2.26.0
 
 ### Minor Changes
