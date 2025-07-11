@@ -1,13 +1,16 @@
-import { Editor } from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import { Node } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/pm/model'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorView } from '@tiptap/pm/view'
+import type { Instance, Props as TippyProps } from 'tippy.js'
+import tippy from 'tippy.js'
 import {
-  EditorState, Plugin, PluginKey,
-  Transaction,
-} from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
-import tippy, { Instance, Props as TippyProps } from 'tippy.js'
-import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition, ySyncPluginKey } from 'y-prosemirror'
+  absolutePositionToRelativePosition,
+  relativePositionToAbsolutePosition,
+  ySyncPluginKey,
+} from 'y-prosemirror'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
@@ -15,8 +18,8 @@ import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
 
 type PluginState = {
-  locked: boolean;
-};
+  locked: boolean
+}
 
 const getRelativePos = (state: EditorState, absolutePos: number) => {
   const ystate = ySyncPluginKey.getState(state)
@@ -25,7 +28,11 @@ const getRelativePos = (state: EditorState, absolutePos: number) => {
     return null
   }
 
-  return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
+  return absolutePositionToRelativePosition(
+    absolutePos,
+    ystate.type,
+    ystate.binding.mapping,
+  )
 }
 
 const getAbsolutePos = (state: EditorState, relativePos: any) => {
@@ -35,7 +42,14 @@ const getAbsolutePos = (state: EditorState, relativePos: any) => {
     return -1
   }
 
-  return relativePositionToAbsolutePosition(ystate.doc, ystate.type, relativePos, ystate.binding.mapping) || 0
+  return (
+    relativePositionToAbsolutePosition(
+      ystate.doc,
+      ystate.type,
+      relativePos,
+      ystate.binding.mapping,
+    ) || 0
+  )
 }
 
 const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
@@ -54,11 +68,15 @@ const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
 }
 
 export interface DragHandlePluginProps {
-  pluginKey?: PluginKey | string;
-  editor: Editor;
-  element: HTMLElement;
-  onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void;
-  tippyOptions?: Partial<TippyProps>;
+  pluginKey?: PluginKey | string
+  editor: Editor
+  element: HTMLElement
+  onNodeChange?: (data: {
+    editor: Editor
+    node: Node | null
+    pos: number
+  }) => void
+  tippyOptions?: Partial<TippyProps>
 }
 
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
@@ -103,7 +121,12 @@ export const DragHandlePlugin = ({
       init() {
         return { locked: false }
       },
-      apply(tr: Transaction, value: PluginState, oldState: EditorState, state: EditorState) {
+      apply(
+        tr: Transaction,
+        value: PluginState,
+        oldState: EditorState,
+        state: EditorState,
+      ) {
         const isLocked = tr.getMeta('lockDragHandle')
         const hideDragHandle = tr.getMeta('hideDragHandle')
 
@@ -281,6 +304,15 @@ export const DragHandlePlugin = ({
 
     props: {
       handleDOMEvents: {
+        keydown(view) {
+          if (popup && popup.state.isVisible && view.hasFocus()) {
+            popup.hide()
+            return true
+          }
+
+          return false
+        },
+
         mouseleave(_view, e) {
           // Do not hide open popup on mouseleave.
           if (locked) {
