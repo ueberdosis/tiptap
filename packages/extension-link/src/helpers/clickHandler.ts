@@ -1,9 +1,11 @@
-import { getAttributes, getMarkRange } from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
+import { getAttributes } from '@tiptap/core'
 import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType
+  editor: Editor
   enableClickSelection?: boolean
 }
 
@@ -44,15 +46,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const target = link?.target ?? attrs.target
 
         if (options.enableClickSelection) {
-          const { doc, tr } = view.state
-          const range = getMarkRange(doc.resolve(pos), options.type)
-          if (range) {
-            const { from, to } = range
-            const $from = doc.resolve(from)
-            const $to = doc.resolve(to)
-            const transaction = tr.setSelection(new TextSelection($from, $to))
-            view.dispatch(transaction)
-          }
+          options.editor.commands.extendMarkRange(options.type.name)
         }
 
         if (link && href) {

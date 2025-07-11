@@ -5,7 +5,6 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
-import { keydownHandler } from './helpers/keydownHandler.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
@@ -420,13 +419,10 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          editor: this.editor,
           enableClickSelection: this.options.enableClickSelection,
         }),
       )
-    }
-
-    if (this.options.enableClickSelection === true) {
-      plugins.push(keydownHandler())
     }
 
     if (this.options.linkOnPaste) {
