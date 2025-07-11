@@ -1,1 +1,0 @@
-import { FloatingMenu, BubbleMenu, useEditor } from "@tiptap/vue-2";

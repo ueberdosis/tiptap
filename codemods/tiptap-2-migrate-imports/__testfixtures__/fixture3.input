@@ -1,4 +1,0 @@
-import Table1 from "@tiptap/extension-table";
-import TableCel from "@tiptap/extension-table-cell";
-import TableHead from "@tiptap/extension-table-header";
-import TableR from "@tiptap/extension-table-row";
