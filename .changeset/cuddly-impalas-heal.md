@@ -1,5 +1,4 @@
 ---
-'tiptap-2-migrate-imports': patch
 'tiptap-demos': patch
 '@tiptap/core': patch
 '@tiptap/extension-blockquote': patch

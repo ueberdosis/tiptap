@@ -2,7 +2,6 @@
   "mode": "pre",
   "tag": "beta",
   "initialVersions": {
-    "tiptap-2-migrate-imports": "1.0.1-beta.0",
     "tiptap-demos": "3.0.0-beta.0",
     "@tiptap/extension-character-count": "3.0.0-beta.0",
     "@tiptap/extension-dropcursor": "3.0.0-beta.0",

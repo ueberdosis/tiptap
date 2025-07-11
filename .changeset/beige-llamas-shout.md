@@ -15,7 +15,6 @@
 '@tiptap/extension-history': patch
 '@tiptap/extension-focus': patch
 '@tiptap/extension-horizontal-rule': patch
-'tiptap-2-migrate-imports': patch
 '@tiptap/extension-collaboration': patch
 '@tiptap/extension-floating-menu': patch
 '@tiptap/extension-ordered-list': patch
