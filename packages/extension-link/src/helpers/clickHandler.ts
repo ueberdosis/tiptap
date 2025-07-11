@@ -1,9 +1,12 @@
+import type { Editor } from '@tiptap/core'
 import { getAttributes } from '@tiptap/core'
 import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType
+  editor: Editor
+  enableClickSelection?: boolean
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -41,6 +44,10 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         const attrs = getAttributes(view.state, options.type.name)
         const href = link?.href ?? attrs.href
         const target = link?.target ?? attrs.target
+
+        if (options.enableClickSelection) {
+          options.editor.commands.extendMarkRange(options.type.name)
+        }
 
         if (link && href) {
           window.open(href, target)

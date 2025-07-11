@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.0-beta.29
+
+### Minor Changes
+
+- ced913d: Add enableClickSelection option to clickHandler plugin to support selection link on click. Also add optional Escape key behaviour to clear selection and move the cursor to the end of the link.
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
 ## 3.0.0-beta.28
 
 ### Patch Changes
