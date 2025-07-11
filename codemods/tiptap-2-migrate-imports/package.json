@@ -19,6 +19,5 @@
     ".codemodrc.json",
     "/dist/index.cjs"
   ],
-  "type": "module",
-  "author": "nperez0111"
+  "type": "module"
 }
