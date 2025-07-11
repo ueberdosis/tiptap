@@ -1,5 +1,13 @@
 # @tiptap/extension-file-handler
 
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.30
+- @tiptap/extension-text-style@3.0.0-beta.30
+- @tiptap/pm@3.0.0-beta.30
+
 ## 3.0.0-beta.29
 
 ### Patch Changes

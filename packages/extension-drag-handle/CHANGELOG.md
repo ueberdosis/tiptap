@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle
 
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- 6137cdc: Fix a bug where new keydown event handling would prevent other events
+  - @tiptap/core@3.0.0-beta.30
+  - @tiptap/extension-collaboration@3.0.0-beta.30
+  - @tiptap/extension-node-range@3.0.0-beta.30
+  - @tiptap/pm@3.0.0-beta.30
+
 ## 3.0.0-beta.29
 
 ### Minor Changes
