@@ -60,6 +60,12 @@ export interface LinkOptions {
    */
   openOnClick: boolean | DeprecatedOpenWhenNotEditable
   /**
+   * If enabled, the link will be selected when clicked.
+   * @default false
+   * @example true
+   */
+  enableClickSelection: boolean
+  /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
    * @example false
@@ -220,6 +226,7 @@ export const Link = Mark.create<LinkOptions>({
   addOptions() {
     return {
       openOnClick: true,
+      enableClickSelection: false,
       linkOnPaste: true,
       autolink: true,
       protocols: [],
@@ -412,6 +419,8 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          editor: this.editor,
+          enableClickSelection: this.options.enableClickSelection,
         }),
       )
     }
