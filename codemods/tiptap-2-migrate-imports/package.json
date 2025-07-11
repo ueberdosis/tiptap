@@ -1,5 +1,5 @@
 {
-  "name": "tiptap-2-migrate-imports",
+  "name": "tiptap-2-migrate-import",
   "version": "1.0.1-beta.1",
   "private": true,
   "devDependencies": {

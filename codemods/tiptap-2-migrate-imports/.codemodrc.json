@@ -1,6 +1,6 @@
 {
   "$schema": "https://codemod-utils.s3.us-west-1.amazonaws.com/configuration_schema.json",
-  "name": "tiptap-2-migrate-imports",
+  "name": "tiptap-2-migrate-import",
   "version": "1.0.1",
   "engine": "jscodeshift",
   "private": false,
