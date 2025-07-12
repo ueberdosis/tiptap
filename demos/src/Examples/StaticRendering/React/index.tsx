@@ -3,7 +3,8 @@ import './styles.scss'
 import type { JSONContent } from '@tiptap/react'
 import { EditorProvider, useCurrentEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'
+import { renderToHTMLString, renderToMarkdown } from '@tiptap/static-renderer'
+import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React, { useState } from 'react'
 
 const extensions = [StarterKit]
