@@ -36,16 +36,16 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/react": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/react": "workspace:^",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/react": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/react": "workspace:^",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",

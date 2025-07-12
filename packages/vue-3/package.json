@@ -39,17 +39,17 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "vue": "^3.5.13"
   },
   "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:*",
-    "@tiptap/extension-floating-menu": "workspace:*"
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "vue": "^3.0.0",
     "@floating-ui/dom": "^1.0.0"
   },

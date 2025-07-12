@@ -44,20 +44,20 @@
     "use-sync-external-store": "^1.4.0"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:*",
-    "@tiptap/extension-floating-menu": "workspace:*"
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },

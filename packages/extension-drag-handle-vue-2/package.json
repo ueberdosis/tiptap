@@ -36,15 +36,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/vue-2": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/vue-2": "workspace:^",
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/vue-2": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/vue-2": "workspace:^",
     "vue": "^2.0.0",
     "vue-ts-types": "1.6.2"
   },

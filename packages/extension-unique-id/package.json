@@ -31,15 +31,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "dependencies": {
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "@types/uuid": "^10.0.0"
   },
   "repository": {

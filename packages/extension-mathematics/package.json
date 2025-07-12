@@ -36,13 +36,13 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "@types/katex": "^0.16.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "katex": "^0.16.4"
   },
   "scripts": {

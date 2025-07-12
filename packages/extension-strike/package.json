@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:^"
   },
   "repository": {
     "type": "git",
