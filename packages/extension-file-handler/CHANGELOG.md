@@ -1,6 +1,6 @@
 # @tiptap/extension-file-handler
 
-## 3.0.0
+## 3.0.1
 
 ### Minor Changes
 

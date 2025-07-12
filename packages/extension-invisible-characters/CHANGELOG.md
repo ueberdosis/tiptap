@@ -1,6 +1,6 @@
 # @tiptap/extension-invisible-characters
 
-## 3.0.0
+## 3.0.1
 
 ### Major Changes
 

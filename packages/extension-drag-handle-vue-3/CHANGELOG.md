@@ -1,6 +1,6 @@
 # @tiptap/extension-drag-handle-vue-3
 
-## 3.0.0
+## 3.0.1
 
 ### Minor Changes
 

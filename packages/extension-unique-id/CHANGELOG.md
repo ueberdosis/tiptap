@@ -1,6 +1,6 @@
 # @tiptap/extension-unique-id
 
-## 3.0.0
+## 3.0.1
 
 ### Minor Changes
 
