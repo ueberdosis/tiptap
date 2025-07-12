@@ -1,5 +1,96 @@
 # Change Log
 
+## 3.0.0
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 64a74f6: We have now added the `Link`, `ListKeymap`, and `Underline` extensions to the starter kit for a smoother onboarding experience
+
+  If you have theses extensions in your project, you can remove them from your project and use the ones from the starter kit instead.
+
+  ```diff
+  - import Link from '@tiptap/extension-link'
+  - import ListKeymap from '@tiptap/extension-list-keymap'
+  - import Underline from '@tiptap/extension-underline'
+  + import { StarterKit } from '@tiptap/starter-kit'
+  ```
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [bfec9b2]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [ce47182]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [c11c89e]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [087d114]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [d0557ef]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [2c911d2]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [52b6644]
+- Updated dependencies [ced913d]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [1d4d928]
+- Updated dependencies [32958d6]
+- Updated dependencies [27dd14b]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/extension-list-keymap@3.0.0
+  - @tiptap/extension-dropcursor@3.0.0
+  - @tiptap/extension-gapcursor@3.0.0
+  - @tiptap/extension-list-item@3.0.0
+  - @tiptap/extension-horizontal-rule@3.0.0
+  - @tiptap/extension-ordered-list@3.0.0
+  - @tiptap/extension-bullet-list@3.0.0
+  - @tiptap/extension-blockquote@3.0.0
+  - @tiptap/extension-code-block@3.0.0
+  - @tiptap/extension-hard-break@3.0.0
+  - @tiptap/extension-paragraph@3.0.0
+  - @tiptap/extension-underline@3.0.0
+  - @tiptap/extension-document@3.0.0
+  - @tiptap/extension-heading@3.0.0
+  - @tiptap/extension-italic@3.0.0
+  - @tiptap/extension-strike@3.0.0
+  - @tiptap/extension-bold@3.0.0
+  - @tiptap/extension-code@3.0.0
+  - @tiptap/extension-link@3.0.0
+  - @tiptap/extension-list@3.0.0
+  - @tiptap/extension-text@3.0.0
+  - @tiptap/extensions@3.0.0
+  - @tiptap/core@3.0.0
+  - @tiptap/pm@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

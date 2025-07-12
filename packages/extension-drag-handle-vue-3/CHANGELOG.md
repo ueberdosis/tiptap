@@ -1,5 +1,47 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.0.0
+
+### Minor Changes
+
+- 7ac01ef: We open sourced our basic pro extensions
+
+  This release includes the following extensions that were previously only available in our Pro version:
+
+  - `@tiptap/extension-drag-handle`
+  - `@tiptap/extension-drag-handle-react`
+  - `@tiptap/extension-drag-handle-vue-2`
+  - `@tiptap/extension-drag-handle-vue-3`
+  - `@tiptap/extension-emoji`
+  - `@tiptap/extension-details`
+  - `@tiptap/extension-file-handler`
+  - `@tiptap/extension-invisible-characters`
+  - `@tiptap/extension-mathematics`
+  - `@tiptap/extension-node-range`
+  - `@tiptap/extension-table-of-contents`
+  - `@tiptap/extension-unique-id`
+
+### Patch Changes
+
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [7eaa34d]
+- Updated dependencies [00693b8]
+- Updated dependencies [0e3207f]
+- Updated dependencies [73d1888]
+- Updated dependencies [8c69002]
+- Updated dependencies [0f14cc5]
+- Updated dependencies [62b0877]
+- Updated dependencies [952623f]
+- Updated dependencies [5ba480b]
+- Updated dependencies [7ac01ef]
+- Updated dependencies [6137cdc]
+  - @tiptap/vue-3@3.0.0
+  - @tiptap/pm@3.0.0
+  - @tiptap/extension-drag-handle@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

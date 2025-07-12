@@ -1,5 +1,55 @@
 # Change Log
 
+## 3.0.0
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 087d114: Fixed a bug that caused the horizontal rule's `setHorizontalRule` command to always return true when checked via `can()`
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.0
+  - @tiptap/pm@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

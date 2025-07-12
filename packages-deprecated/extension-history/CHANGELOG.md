@@ -1,5 +1,25 @@
 # Change Log
 
+## 3.0.0
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- d8a3d93: Pointed old `extension-history` extension as a fallback extension to the new `@tiptap/extensions` package where the old history extension is now exported from as `UndoRedo` to clarify what kind of history this extension is implementing.
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [bfec9b2]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [ce47182]
+- Updated dependencies [8c69002]
+- Updated dependencies [52b6644]
+  - @tiptap/extensions@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

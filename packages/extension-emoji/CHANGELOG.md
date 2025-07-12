@@ -1,5 +1,71 @@
 # @tiptap/extension-emoji
 
+## 3.0.0
+
+### Minor Changes
+
+- 7ac01ef: We open sourced our basic pro extensions
+
+  This release includes the following extensions that were previously only available in our Pro version:
+
+  - `@tiptap/extension-drag-handle`
+  - `@tiptap/extension-drag-handle-react`
+  - `@tiptap/extension-drag-handle-vue-2`
+  - `@tiptap/extension-drag-handle-vue-3`
+  - `@tiptap/extension-emoji`
+  - `@tiptap/extension-details`
+  - `@tiptap/extension-file-handler`
+  - `@tiptap/extension-invisible-characters`
+  - `@tiptap/extension-mathematics`
+  - `@tiptap/extension-node-range`
+  - `@tiptap/extension-table-of-contents`
+  - `@tiptap/extension-unique-id`
+
+### Patch Changes
+
+- 18c8717: Added alt tag to emoji extension
+- 746ed3a: Added `emoji` field to Tiptap storage interface
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [a80e62f]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [7eaa34d]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/suggestion@3.0.0
+  - @tiptap/core@3.0.0
+  - @tiptap/pm@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

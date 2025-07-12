@@ -1,5 +1,159 @@
 # Change Log
 
+## 3.0.0
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- f77cbac: This updates the default value of the option `mergeNestedSpanStyles` to `true`, this will attempt to merge the styles of nested spans into the child span during HTML parsing. This prioritizes the style of the child span. This is used when parsing content created in other editors. (Fix for ProseMirror's default behavior.)
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds several extensions to the `text-style` package, which can be used to style text in the editor.
+
+  ## TextStyleKit
+
+  This extension adds a group of text style extensions to the editor, and is the recommended way of using the text style extensions. For easy configuration, you can pass an object with the following keys:
+
+  `backgroundColor`, `color`, `fontFamily`, `fontSize`, `lineHeight`, `textStyle`
+
+  Usage:
+
+  ```ts
+  import { TextStyleKit } from '@tiptap/extension-text-style'
+
+  new Editor({
+    extensions: [
+      TextStyleKit.configure({
+        backgroundColor: {
+          types: ['textStyle'],
+        },
+        color: {
+          types: ['textStyle'],
+        },
+        fontFamily: {
+          types: ['textStyle'],
+        },
+        fontSize: {
+          types: ['textStyle'],
+        },
+        lineHeight: {
+          types: ['textStyle'],
+        },
+        textStyle: {
+          types: ['textStyle'],
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BackgroundColor
+
+  This extension controls the background-color of a range of text in the editor.
+
+  Usage:
+
+  ```ts
+  import { BackgroundColor } from '@tiptap/extension-text-style'
+  ```
+
+  ### Color
+
+  This extension controls the color of a range of text in the editor.
+
+  Migrate from `@tiptap/extension-color` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import Color from '@tiptap/extension-color'
+  + import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontFamily
+
+  This extension controls the font-family of a range of text in the editor.
+
+  Migration from `@tiptap/extension-font-family` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import FontFamily from '@tiptap/extension-font-family'
+  + import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontSize
+
+  This extension controls the font-size of a range of text in the editor.
+
+  ```ts
+  import { FontSize } from '@tiptap/extension-text-style'
+  ```
+
+  ### LineHeight
+
+  This extension controls the line-height of a range of text in the editor.
+
+  ```ts
+  import { LineHeight } from '@tiptap/extension-text-style'
+  ```
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.0
+
 ## 3.0.0-beta.30
 
 ### Patch Changes
