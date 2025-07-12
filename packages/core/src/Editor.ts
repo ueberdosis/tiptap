@@ -154,6 +154,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       )
     }
     this.createView(el)
+    this.emit('mount', { editor: this })
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -184,6 +185,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.isInitialized = false
     this.css?.remove()
     this.css = null
+    this.emit('unmount', { editor: this })
   }
 
   /**
