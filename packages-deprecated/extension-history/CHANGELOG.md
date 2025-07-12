@@ -18,7 +18,7 @@
 - Updated dependencies [ce47182]
 - Updated dependencies [8c69002]
 - Updated dependencies [52b6644]
-  - @tiptap/extensions@3.0.0
+  - @tiptap/extensions@3.0.1
 
 ## 3.0.0-beta.30
 

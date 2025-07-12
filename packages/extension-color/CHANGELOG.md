@@ -19,7 +19,7 @@
 - Updated dependencies [0b4981c]
 - Updated dependencies [3b4e06c]
 - Updated dependencies [8c69002]
-  - @tiptap/extension-text-style@3.0.0
+  - @tiptap/extension-text-style@3.0.1
 
 ## 3.0.0-beta.30
 

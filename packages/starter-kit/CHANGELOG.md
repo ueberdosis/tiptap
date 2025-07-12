@@ -66,30 +66,30 @@
 - Updated dependencies [bf835b0]
 - Updated dependencies [4e2f6d8]
 - Updated dependencies [32958d6]
-  - @tiptap/extension-list-keymap@3.0.0
-  - @tiptap/extension-dropcursor@3.0.0
-  - @tiptap/extension-gapcursor@3.0.0
-  - @tiptap/extension-list-item@3.0.0
-  - @tiptap/extension-horizontal-rule@3.0.0
-  - @tiptap/extension-ordered-list@3.0.0
-  - @tiptap/extension-bullet-list@3.0.0
-  - @tiptap/extension-blockquote@3.0.0
-  - @tiptap/extension-code-block@3.0.0
-  - @tiptap/extension-hard-break@3.0.0
-  - @tiptap/extension-paragraph@3.0.0
-  - @tiptap/extension-underline@3.0.0
-  - @tiptap/extension-document@3.0.0
-  - @tiptap/extension-heading@3.0.0
-  - @tiptap/extension-italic@3.0.0
-  - @tiptap/extension-strike@3.0.0
-  - @tiptap/extension-bold@3.0.0
-  - @tiptap/extension-code@3.0.0
-  - @tiptap/extension-link@3.0.0
-  - @tiptap/extension-list@3.0.0
-  - @tiptap/extension-text@3.0.0
-  - @tiptap/extensions@3.0.0
-  - @tiptap/core@3.0.0
-  - @tiptap/pm@3.0.0
+  - @tiptap/extension-list-keymap@3.0.1
+  - @tiptap/extension-dropcursor@3.0.1
+  - @tiptap/extension-gapcursor@3.0.1
+  - @tiptap/extension-list-item@3.0.1
+  - @tiptap/extension-horizontal-rule@3.0.1
+  - @tiptap/extension-ordered-list@3.0.1
+  - @tiptap/extension-bullet-list@3.0.1
+  - @tiptap/extension-blockquote@3.0.1
+  - @tiptap/extension-code-block@3.0.1
+  - @tiptap/extension-hard-break@3.0.1
+  - @tiptap/extension-paragraph@3.0.1
+  - @tiptap/extension-underline@3.0.1
+  - @tiptap/extension-document@3.0.1
+  - @tiptap/extension-heading@3.0.1
+  - @tiptap/extension-italic@3.0.1
+  - @tiptap/extension-strike@3.0.1
+  - @tiptap/extension-bold@3.0.1
+  - @tiptap/extension-code@3.0.1
+  - @tiptap/extension-link@3.0.1
+  - @tiptap/extension-list@3.0.1
+  - @tiptap/extension-text@3.0.1
+  - @tiptap/extensions@3.0.1
+  - @tiptap/core@3.0.1
+  - @tiptap/pm@3.0.1
 
 ## 3.0.0-beta.30
 

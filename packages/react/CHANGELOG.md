@@ -234,8 +234,8 @@
 - Updated dependencies [bf835b0]
 - Updated dependencies [4e2f6d8]
 - Updated dependencies [32958d6]
-  - @tiptap/core@3.0.0
-  - @tiptap/pm@3.0.0
+  - @tiptap/core@3.0.1
+  - @tiptap/pm@3.0.1
 
 ## 3.0.0-beta.30
 

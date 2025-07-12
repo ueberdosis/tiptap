@@ -142,7 +142,7 @@
 - Updated dependencies [131c7d0]
 - Updated dependencies [991f43c]
 - Updated dependencies [8c69002]
-  - @tiptap/extension-table@3.0.0
+  - @tiptap/extension-table@3.0.1
 
 ## 3.0.0-beta.30
 

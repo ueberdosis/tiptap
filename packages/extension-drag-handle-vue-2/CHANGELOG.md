@@ -37,9 +37,9 @@
 - Updated dependencies [952623f]
 - Updated dependencies [7ac01ef]
 - Updated dependencies [6137cdc]
-  - @tiptap/vue-2@3.0.0
-  - @tiptap/pm@3.0.0
-  - @tiptap/extension-drag-handle@3.0.0
+  - @tiptap/vue-2@3.0.1
+  - @tiptap/pm@3.0.1
+  - @tiptap/extension-drag-handle@3.0.1
 
 ## 3.0.0-beta.30
 

@@ -313,7 +313,7 @@
 - Updated dependencies [89bd9c7]
 - Updated dependencies [8c69002]
 - Updated dependencies [62b0877]
-  - @tiptap/pm@3.0.0
+  - @tiptap/pm@3.0.1
 
 ## 3.0.0-beta.30
 
