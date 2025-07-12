@@ -136,6 +136,8 @@ export class BubbleMenuView implements PluginView {
 
   private resizeDebounceTimer: number | undefined
 
+  private positionUpdateFrameId: number | undefined
+
   private isVisible = false
 
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
@@ -445,9 +447,14 @@ export class BubbleMenuView implements PluginView {
     // attach to editor's parent element
     this.view.dom.parentElement?.appendChild(this.element)
 
-    if (this.floatingUIOptions.onShow) {
-      this.floatingUIOptions.onShow()
-    }
+    // Use requestAnimationFrame to ensure position is calculated after DOM update
+    this.positionUpdateFrameId = requestAnimationFrame(() => {
+      this.updatePosition()
+
+      if (this.floatingUIOptions.onShow) {
+        this.floatingUIOptions.onShow()
+      }
+    })
 
     this.isVisible = true
   }
@@ -471,6 +478,11 @@ export class BubbleMenuView implements PluginView {
 
   destroy() {
     this.hide()
+
+    if (this.positionUpdateFrameId) {
+      cancelAnimationFrame(this.positionUpdateFrameId)
+    }
+
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     window.removeEventListener('resize', this.resizeHandler)
