@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mention",
   "description": "mention extension for tiptap",
-  "version": "3.0.0-beta.30",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,14 +31,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/suggestion": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/suggestion": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/suggestion": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/suggestion": "workspace:^"
   },
   "repository": {
     "type": "git",

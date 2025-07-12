@@ -1,5 +1,233 @@
 # Change Log
 
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Minor Changes
+
+- 0e3207f: Add support for [markviews](https://prosemirror.net/docs/ref/#view.MarkView), which allow you to render custom views for marks within the editor. This is useful for rendering custom UI for marks, like a color picker for a text color mark or a link editor for a link mark.
+
+  Here is a plain JS markview example:
+
+  ```ts
+  Mark.create({
+    // Other options...
+    addMarkView() {
+      return ({ mark, HTMLAttributes }) => {
+        const dom = document.createElement('b')
+        const contentDOM = document.createElement('span')
+
+        dom.appendChild(contentDOM)
+
+        return {
+          dom,
+          contentDOM,
+        }
+      }
+    },
+  })
+  ```
+
+  ## React binding
+
+  To use a React component for a markview, you can use the `@tiptap/react` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { ReactMarkViewRenderer } from '@tiptap/react'
+
+  import Component from './Component.jsx'
+
+  export default Mark.create({
+    name: 'reactComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'react-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['react-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return ReactMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a React component:
+
+  ```tsx
+  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+  import React from 'react'
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export default (props: MarkViewRendererProps) => {
+    const [count, setCount] = React.useState(0)
+
+    return (
+      <span className="content" data-test-id="mark-view">
+        <MarkViewContent />
+        <label contentEditable={false}>
+          React component:
+          <button
+            onClick={() => {
+              setCount(count + 1)
+            }}
+          >
+            This button has been clicked {count} times.
+          </button>
+        </label>
+      </span>
+    )
+  }
+  ```
+
+  ## Vue 3 binding
+
+  To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+
+  import Component from './Component.vue'
+
+  export default Mark.create({
+    name: 'vueComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'vue-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['vue-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return VueMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a Vue 3 component:
+
+  ```vue
+  <template>
+    <span className="content" data-test-id="mark-view">
+      <mark-view-content />
+      <label contenteditable="false"
+        >Vue Component::
+        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      </label>
+    </span>
+  </template>
+
+  <script>
+  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  export default {
+    components: {
+      MarkViewContent,
+    },
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    props: markViewProps,
+    methods: {
+      increase() {
+        this.count += 1
+      },
+    },
+  }
+  </script>
+  ```
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 00693b8: Fixed a bug where table cell selections would not position the bubble menu accordingly
+- 73d1888: Fixed a bug where the global resize handler of the BubbleMenu plugin would not be unregistered on destroy
+- 8c69002: Synced beta with stable features
+- 0f14cc5: Added missing `onShow`, `onUpdate`, `onHide` and `onDestroy` options
+- 5ba480b: Added `updateAttributes` to MarkView and its renderers to allow updating MarkView attributes
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.1
+  - @tiptap/pm@3.0.1
+
 ## 3.0.0-beta.30
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-emoji",
   "description": "emoji extension for tiptap",
-  "version": "3.0.0-beta.30",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev/api/nodes/emoji",
   "keywords": [
     "tiptap",
@@ -36,9 +36,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/suggestion": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/suggestion": "workspace:^"
   },
   "dependencies": {
     "emoji-regex": "^10.4.0",
@@ -46,9 +46,9 @@
     "is-emoji-supported": "^0.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/suggestion": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/suggestion": "workspace:^",
     "emoji-datasource": "^7.0.2",
     "json5": "^2.2.3",
     "tsm": "^2.3.0"

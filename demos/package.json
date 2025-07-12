@@ -1,6 +1,6 @@
 {
   "name": "tiptap-demos",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
     "@lexical/react": "^0.11.3",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3",
+    "@tiptap/y-tiptap": "^3.0.0",
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",

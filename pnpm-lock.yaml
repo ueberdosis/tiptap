@@ -150,8 +150,8 @@ importers:
         specifier: 1.10.3
         version: 1.10.3
       '@tiptap/y-tiptap':
-        specifier: ^3.0.0-beta.3
-        version: 3.0.0-beta.3(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
+        specifier: ^3.0.0
+        version: 3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
       d3:
         specifier: ^7.9.0
         version: 7.9.0
@@ -307,97 +307,97 @@ importers:
   packages-deprecated/extension-character-count:
     devDependencies:
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-dropcursor:
     devDependencies:
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-focus:
     devDependencies:
       '@tiptap/extensions':
-        specifier: 3.0.0-beta.30
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-gapcursor:
     devDependencies:
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-history:
     devDependencies:
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-list-item:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-list-keymap:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-placeholder:
     devDependencies:
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extensions
 
   packages-deprecated/extension-table-cell:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-table-header:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-table-row:
     devDependencies:
       '@tiptap/extension-table':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-table
 
   packages-deprecated/extension-task-item:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-list
 
   packages-deprecated/extension-task-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/extension-list
 
   packages/core:
     devDependencies:
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-blockquote:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-bold:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-bubble-menu:
@@ -407,31 +407,31 @@ importers:
         version: 1.6.13
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-bullet-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-list
 
   packages/extension-code:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-code-block:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-code-block-lowlight:
@@ -441,13 +441,13 @@ importers:
         version: 11.11.1
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-code-block':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-code-block
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       lowlight:
         specifier: ^3.3.0
@@ -460,10 +460,10 @@ importers:
         version: 13.6.23
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.0-beta.3
@@ -472,10 +472,10 @@ importers:
   packages/extension-collaboration-caret:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.0-beta.3
@@ -484,25 +484,25 @@ importers:
   packages/extension-color:
     devDependencies:
       '@tiptap/extension-text-style':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text-style
 
   packages/extension-details:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-text-style':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text-style
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-document:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-drag-handle:
@@ -512,16 +512,16 @@ importers:
         version: 1.6.13
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-collaboration':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-collaboration
       '@tiptap/extension-node-range':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-node-range
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/y-tiptap':
         specifier: ^3.0.0-beta.3
@@ -530,13 +530,13 @@ importers:
   packages/extension-drag-handle-react:
     devDependencies:
       '@tiptap/extension-drag-handle':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-drag-handle
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/react':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../react
       '@types/react':
         specifier: ^18.0.0
@@ -554,13 +554,13 @@ importers:
   packages/extension-drag-handle-vue-2:
     devDependencies:
       '@tiptap/extension-drag-handle':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-drag-handle
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/vue-2':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../vue-2
       vue:
         specifier: ^2.0.0
@@ -572,13 +572,13 @@ importers:
   packages/extension-drag-handle-vue-3:
     devDependencies:
       '@tiptap/extension-drag-handle':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-drag-handle
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/vue-3':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../vue-3
       vue:
         specifier: ^3.0.0
@@ -597,13 +597,13 @@ importers:
         version: 0.0.5
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/suggestion':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../suggestion
       emoji-datasource:
         specifier: ^7.0.2
@@ -618,13 +618,13 @@ importers:
   packages/extension-file-handler:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-text-style':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text-style
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-floating-menu:
@@ -633,67 +633,67 @@ importers:
         specifier: ^1.6.12
         version: 1.6.13
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-font-family:
     devDependencies:
       '@tiptap/extension-text-style':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text-style
 
   packages/extension-hard-break:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-heading:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-highlight:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-horizontal-rule:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-image:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-invisible-characters:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-text-style':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text-style
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-italic:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-link:
@@ -703,19 +703,19 @@ importers:
         version: 4.2.0
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-list:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-mathematics:
@@ -725,10 +725,10 @@ importers:
         version: 0.16.22
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@types/katex':
         specifier: ^0.16.7
@@ -737,67 +737,67 @@ importers:
   packages/extension-mention:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@tiptap/suggestion':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../suggestion
 
   packages/extension-node-range:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-ordered-list:
     devDependencies:
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-list
 
   packages/extension-paragraph:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-strike:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-subscript:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-superscript:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-table:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/extension-table-of-contents:
@@ -807,10 +807,10 @@ importers:
         version: 10.0.0
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@types/uuid':
         specifier: ^10.0.0
@@ -819,31 +819,31 @@ importers:
   packages/extension-text:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-text-align:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-text-style:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-typography:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-underline:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extension-unique-id:
@@ -853,10 +853,10 @@ importers:
         version: 10.0.0
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@types/uuid':
         specifier: ^10.0.0
@@ -865,25 +865,25 @@ importers:
   packages/extension-youtube:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
 
   packages/extensions:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/html:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       happy-dom:
         specifier: ^18.0.1
@@ -959,17 +959,17 @@ importers:
         version: 1.4.0(react@19.1.0)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@types/react':
         specifier: ^18.3.18
@@ -987,85 +987,85 @@ importers:
   packages/starter-kit:
     dependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/extension-blockquote':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-blockquote
       '@tiptap/extension-bold':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-bold
       '@tiptap/extension-bullet-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-bullet-list
       '@tiptap/extension-code':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-code
       '@tiptap/extension-code-block':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-code-block
       '@tiptap/extension-document':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-document
       '@tiptap/extension-dropcursor':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages-deprecated/extension-dropcursor
       '@tiptap/extension-gapcursor':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages-deprecated/extension-gapcursor
       '@tiptap/extension-hard-break':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-hard-break
       '@tiptap/extension-heading':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-heading
       '@tiptap/extension-horizontal-rule':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-horizontal-rule
       '@tiptap/extension-italic':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-italic
       '@tiptap/extension-link':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-link
       '@tiptap/extension-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-list
       '@tiptap/extension-list-item':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages-deprecated/extension-list-item
       '@tiptap/extension-list-keymap':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages-deprecated/extension-list-keymap
       '@tiptap/extension-ordered-list':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-ordered-list
       '@tiptap/extension-paragraph':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-paragraph
       '@tiptap/extension-strike':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-strike
       '@tiptap/extension-text':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-text
       '@tiptap/extension-underline':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-underline
       '@tiptap/extensions':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extensions
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/static-renderer:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       '@types/react':
         specifier: ^19.0.0
@@ -1083,10 +1083,10 @@ importers:
   packages/suggestion:
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
 
   packages/vue-2:
@@ -1096,17 +1096,17 @@ importers:
         version: 1.6.2(vue@2.7.16)
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       vue:
         specifier: ^2.7.16
@@ -1119,17 +1119,17 @@ importers:
         version: 1.6.13
     optionalDependencies:
       '@tiptap/extension-bubble-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-bubble-menu
       '@tiptap/extension-floating-menu':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../extension-floating-menu
     devDependencies:
       '@tiptap/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@tiptap/pm':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pm
       vue:
         specifier: ^3.5.13
@@ -2926,6 +2926,16 @@ packages:
 
   '@tiptap/starter-kit@2.14.0':
     resolution: {integrity: sha512-Z1bKAfHl14quRI3McmdU+bs675jp6/iexEQTI9M9oHa6l3McFF38g9N3xRpPPX02MX83DghsUPupndUW/yJvEQ==}
+
+  '@tiptap/y-tiptap@3.0.0':
+    resolution: {integrity: sha512-HIeJZCj+KYJde2x6fONzo4o6kd7gW7eonwhQsv2p2VQnUgwNXMVhN+D6Z3AH/2i541Sq33y1PO4U/1ThCPjqbA==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      prosemirror-model: ^1.7.1
+      prosemirror-state: ^1.2.3
+      prosemirror-view: ^1.9.10
+      y-protocols: ^1.0.1
+      yjs: ^13.5.38
 
   '@tiptap/y-tiptap@3.0.0-beta.3':
     resolution: {integrity: sha512-1U/MTG7mpkc2VEIRzVueXqpHpawflF0DUuqkPwTezmBst6HPZ+NnZuDbJGay8dh//KSXcrS1Vtu1Wqa2Z/1HTw==}
@@ -8832,6 +8842,15 @@ snapshots:
       '@tiptap/extension-text': 2.14.0(@tiptap/core@2.14.0(@tiptap/pm@2.14.0))
       '@tiptap/extension-text-style': 2.14.0(@tiptap/core@2.14.0(@tiptap/pm@2.14.0))
       '@tiptap/pm': 2.14.0
+
+  '@tiptap/y-tiptap@3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)':
+    dependencies:
+      lib0: 0.2.104
+      prosemirror-model: 1.24.1
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.38.1
+      y-protocols: 1.0.6(yjs@13.6.23)
+      yjs: 13.6.23
 
   '@tiptap/y-tiptap@3.0.0-beta.3(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)':
     dependencies:

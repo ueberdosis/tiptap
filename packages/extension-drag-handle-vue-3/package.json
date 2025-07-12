@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-drag-handle-vue-3",
   "description": "drag handle extension for tiptap with vue 3",
-  "version": "3.0.0-beta.30",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -36,15 +36,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/vue-3": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/vue-3": "workspace:*",
+    "@tiptap/extension-drag-handle": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "scripts": {
