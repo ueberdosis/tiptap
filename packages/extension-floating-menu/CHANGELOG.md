@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.2-beta.0
+
+### Patch Changes
+
+- 082af03: Improvement: Added better JSDocs for the options object
+  - @tiptap/core@3.0.2-beta.0
+  - @tiptap/pm@3.0.2-beta.0
+
 ## 3.0.1
 
 ### Major Changes
