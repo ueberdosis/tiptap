@@ -1,5 +1,12 @@
 # @tiptap/extension-unique-id
 
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/core@3.0.2
+- @tiptap/pm@3.0.2
+
 ## 3.0.1
 
 ### Minor Changes
