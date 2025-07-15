@@ -31,11 +31,19 @@ export class Extension<Options = any, Storage = any> extends Extendable<
     return super.configure(options) as Extension<Options, Storage>
   }
 
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: () => Partial<ExtensionConfig<ExtendedOptions, ExtendedStorage>>,
+  ): Extension<ExtendedOptions, ExtendedStorage>
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: Partial<ExtensionConfig<ExtendedOptions, ExtendedStorage>>,
+  ): Extension<ExtendedOptions, ExtendedStorage>
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = ExtensionConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>)) {
+  >(
+    extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>),
+  ): Extension<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
     return super.extend(resolvedConfig) as Extension<ExtendedOptions, ExtendedStorage>
