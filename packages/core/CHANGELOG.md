@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.6
+
+### Patch Changes
+
+- 2e71d05: Fix: Fix broken types for function chaining when calling extend
+  - @tiptap/pm@3.0.6
+
 ## 3.0.5
 
 ### Patch Changes
