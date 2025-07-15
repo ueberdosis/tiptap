@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.3
+
+### Patch Changes
+
+- 75cabde: Fix: Avoid the JSX Runtime to globally overwrite React's Element types when `/** @jsxImportSource @tiptap/core */` is not used
+  - @tiptap/pm@3.0.3
+
 ## 3.0.2
 
 ### Patch Changes
