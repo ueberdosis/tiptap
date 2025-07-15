@@ -23,12 +23,18 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       // Apply user-provided styles, merging with required positioning styles
       const { style, className, ...otherAttrs } = restProps
 
-      // Apply required positioning styles and merge user styles
+      const effectiveZIndex = style?.zIndex || '99999'
+
       Object.assign(
         floatingMenuElement.style,
         {
           visibility: 'hidden',
           position: 'absolute',
+          zIndex: effectiveZIndex,
+          pointerEvents: 'auto',
+          maxWidth: 'calc(100vw - 20px)',
+          wordWrap: 'break-word',
+          isolation: 'isolate',
         },
         style || {},
       )
@@ -70,7 +76,34 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
         element: floatingMenuElement,
         pluginKey,
         shouldShow,
-        options,
+        options: {
+          // Default options to prevent overlaps and improve positioning
+          strategy: 'fixed', // Use fixed positioning for better viewport handling
+          placement: 'left',
+          offset: 8,
+          flip: {
+            fallbackPlacements: ['right', 'left-start', 'left-end', 'right-start', 'right-end'],
+          },
+          shift: {
+            padding: 10, // Keep menu away from viewport edges
+            crossAxis: true, // Allow shifting on cross-axis to avoid collisions
+          },
+          size: {
+            apply({ availableWidth, availableHeight, elements }) {
+              // Dynamically adjust size to fit within available space
+              Object.assign(elements.floating.style, {
+                maxWidth: `${Math.max(200, availableWidth - 20)}px`,
+                maxHeight: `${Math.max(100, availableHeight - 20)}px`,
+                overflow: 'auto',
+              })
+            },
+          },
+          hide: {
+            strategy: 'escaped', // Hide when menu would be completely outside viewport
+          },
+          // Merge with user-provided options
+          ...options,
+        },
       })
 
       attachToEditor.registerPlugin(plugin)

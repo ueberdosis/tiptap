@@ -20,15 +20,20 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
     useEffect(() => {
       const bubbleMenuElement = menuEl.current
 
-      // Apply user-provided styles, merging with required positioning styles
       const { style, className, ...otherAttrs } = restProps
 
-      // Apply required positioning styles and merge user styles
+      const effectiveZIndex = style?.zIndex || '99999'
+
       Object.assign(
         bubbleMenuElement.style,
         {
           visibility: 'hidden',
           position: 'absolute',
+          zIndex: effectiveZIndex,
+          pointerEvents: 'auto',
+          maxWidth: 'calc(100vw - 20px)',
+          wordWrap: 'break-word',
+          isolation: 'isolate',
         },
         style || {},
       )
@@ -70,7 +75,34 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         element: bubbleMenuElement,
         pluginKey,
         shouldShow,
-        options,
+        options: {
+          // Default options to prevent overlaps and improve positioning
+          strategy: 'fixed', // Use fixed positioning for better viewport handling
+          placement: 'top',
+          offset: 8,
+          flip: {
+            fallbackPlacements: ['bottom', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
+          },
+          shift: {
+            padding: 10, // Keep menu away from viewport edges
+            crossAxis: true, // Allow shifting on cross-axis to avoid collisions
+          },
+          size: {
+            apply({ availableWidth, availableHeight, elements }) {
+              // Dynamically adjust size to fit within available space
+              Object.assign(elements.floating.style, {
+                maxWidth: `${Math.max(200, availableWidth - 20)}px`,
+                maxHeight: `${Math.max(100, availableHeight - 20)}px`,
+                overflow: 'auto',
+              })
+            },
+          },
+          hide: {
+            strategy: 'escaped', // Hide when menu would be completely outside viewport
+          },
+          // Merge with user-provided options
+          ...options,
+        },
       })
 
       attachToEditor.registerPlugin(plugin)
