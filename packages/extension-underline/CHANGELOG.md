@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [2e71d05]
+  - @tiptap/core@3.0.6
+
 ## 3.0.5
 
 ### Patch Changes
