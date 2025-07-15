@@ -188,11 +188,19 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
     return super.configure(options) as Mark<Options, Storage>
   }
 
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: () => Partial<MarkConfig<ExtendedOptions, ExtendedStorage>>,
+  ): Mark<ExtendedOptions, ExtendedStorage>
+  extend<ExtendedOptions = Options, ExtendedStorage = Storage>(
+    extendedConfig: Partial<MarkConfig<ExtendedOptions, ExtendedStorage>>,
+  ): Mark<ExtendedOptions, ExtendedStorage>
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>)) {
+  >(
+    extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>),
+  ): Mark<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
     return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>
