@@ -69,7 +69,7 @@ export interface BubbleMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         element: HTMLElement
