@@ -13,16 +13,17 @@ export type DOMOutputSpecArray =
   | [string, Attributes, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace JSX {
-    // @ts-ignore - conflict with React typings
-    type Element = [string, ...any[]]
-    // @ts-ignore - conflict with React typings
-    interface IntrinsicElements {
-      // @ts-ignore - conflict with React typings
-      [key: string]: any
-    }
+// JSX types for Tiptap's JSX runtime
+// These types only apply when using @jsxImportSource @tiptap/core
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace JSX {
+  export type Element = DOMOutputSpecArray
+  export interface IntrinsicElements {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any
+  }
+  export interface ElementChildrenAttribute {
+    children: unknown
   }
 }
 
