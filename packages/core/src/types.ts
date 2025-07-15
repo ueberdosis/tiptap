@@ -384,6 +384,14 @@ export interface EditorOptions {
    */
   onCreate: (props: EditorEvents['create']) => void
   /**
+   * Called when the editor is mounted.
+   */
+  onMount: (props: EditorEvents['mount']) => void
+  /**
+   * Called when the editor is unmounted.
+   */
+  onUnmount: (props: EditorEvents['unmount']) => void
+  /**
    * Called when the editor encounters an error while parsing the content.
    * Only enabled if `enableContentCheck` is `true`.
    */
