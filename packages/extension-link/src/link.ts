@@ -60,6 +60,12 @@ export interface LinkOptions {
    */
   openOnClick: boolean | DeprecatedOpenWhenNotEditable
   /**
+   * If enabled, the link will be selected when clicked.
+   * @default false
+   * @example true
+   */
+  enableClickSelection: boolean
+  /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
    * @example false
@@ -141,7 +147,7 @@ declare module '@tiptap/core' {
        * @param attributes The link attributes
        * @example editor.commands.toggleLink({ href: 'https://tiptap.dev' })
        */
-      toggleLink: (attributes: {
+      toggleLink: (attributes?: {
         href: string
         target?: string | null
         rel?: string | null
@@ -220,6 +226,7 @@ export const Link = Mark.create<LinkOptions>({
   addOptions() {
     return {
       openOnClick: true,
+      enableClickSelection: false,
       linkOnPaste: true,
       autolink: true,
       protocols: [],
@@ -318,9 +325,10 @@ export const Link = Mark.create<LinkOptions>({
       toggleLink:
         attributes =>
         ({ chain }) => {
-          const { href } = attributes
+          const { href } = attributes || {}
 
           if (
+            href &&
             !this.options.isAllowedUri(href, {
               defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
               protocols: this.options.protocols,
@@ -411,6 +419,8 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          editor: this.editor,
+          enableClickSelection: this.options.enableClickSelection,
         }),
       )
     }

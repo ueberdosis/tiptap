@@ -2,7 +2,7 @@
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
 import type { Component, PropType } from 'vue'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, toRaw } from 'vue'
 
 import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
@@ -34,6 +34,14 @@ export const markViewProps = {
     type: Object as PropType<MarkViewProps['view']>,
     required: true as const,
   },
+  updateAttributes: {
+    type: Function as PropType<MarkViewProps['updateAttributes']>,
+    required: true as const,
+  },
+  HTMLAttributes: {
+    type: Object as PropType<MarkViewProps['HTMLAttributes']>,
+    required: true as const,
+  },
 }
 
 export const MarkViewContent = defineComponent({
@@ -62,10 +70,12 @@ export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions>
   constructor(component: Component, props: MarkViewProps, options?: Partial<VueMarkViewRendererOptions>) {
     super(component, props, options)
 
+    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
+
     // Create extended component with provide
     const extendedComponent = defineComponent({
       extends: { ...component },
-      props: Object.keys(props),
+      props: Object.keys(componentProps),
       template: (this.component as any).template,
       setup: reactiveProps => {
         return (component as any).setup?.(reactiveProps, {
@@ -80,7 +90,7 @@ export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions>
     })
     this.renderer = new VueRenderer(extendedComponent, {
       editor: this.editor,
-      props,
+      props: componentProps,
     })
   }
 
@@ -90,6 +100,12 @@ export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions>
 
   get contentDOM() {
     return this.dom.querySelector('[data-mark-view-content]') as HTMLElement | null
+  }
+
+  updateAttributes(attrs: Record<string, any>): void {
+    // since this.mark is now an proxy, we need to get the actual mark from it
+    const unproxiedMark = toRaw(this.mark)
+    super.updateAttributes(attrs, unproxiedMark)
   }
 
   destroy() {

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-of-contents",
   "description": "table of contents extension for Tiptap",
-  "version": "3.0.0-beta.23",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
   "keywords": [
     "tiptap",
@@ -39,13 +39,13 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "@types/uuid": "^10.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "scripts": {
     "build": "tsup",

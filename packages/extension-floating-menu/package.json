@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-floating-menu",
   "description": "floating-menu extension for tiptap",
-  "version": "3.0.0-beta.23",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -32,13 +32,13 @@
   ],
   "devDependencies": {
     "@floating-ui/dom": "^1.6.12",
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "repository": {
     "type": "git",

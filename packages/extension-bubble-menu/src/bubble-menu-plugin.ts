@@ -82,7 +82,10 @@ export interface BubbleMenuPluginProps {
     | null
 
   /**
-   * FloatingUI options.
+   * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
+   * hide, and inline middlewares.
+   * @default {}
+   * @see https://floating-ui.com/docs/computePosition#options
    */
   options?: {
     strategy?: 'absolute' | 'fixed'

@@ -3,4 +3,4 @@
 '@tiptap/extension-bubble-menu': patch
 ---
 
-Added `tab-index="0"` to menu wrappers
+Improvement: Added better JSDocs for the options object

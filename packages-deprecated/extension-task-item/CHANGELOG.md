@@ -1,5 +1,64 @@
 # Change Log
 
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [8c69002]
+- Updated dependencies [1d4d928]
+  - @tiptap/extension-list@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.0-beta.24
+
 ## 3.0.0-beta.23
 
 ### Patch Changes

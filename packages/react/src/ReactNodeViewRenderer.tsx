@@ -85,7 +85,13 @@ export class ReactNodeView<
       // See: https://github.com/ueberdosis/tiptap/issues/1197
       this.contentDOMElement.style.whiteSpace = 'inherit'
 
-      this.dom.appendChild(this.contentDOMElement)
+      const contentTarget = this.dom.querySelector('[data-node-view-content]')
+
+      if (!contentTarget) {
+        return
+      }
+
+      contentTarget.appendChild(this.contentDOMElement)
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
   "description": "code block extension for tiptap",
-  "version": "3.0.0-beta.23",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,15 +31,15 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/extension-code-block": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/extension-code-block": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "lowlight": "^3.3.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/extension-code-block": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/extension-code-block": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "lowlight": "^2 || ^3",
     "highlight.js": "^11"
   },

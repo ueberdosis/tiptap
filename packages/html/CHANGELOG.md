@@ -1,5 +1,115 @@
 # Change Log
 
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 1a88826: The server-import for `@tiptap/html` will now require `happy-dom` to be installed so it can avoid asynchronous behavior
+- bf040b9: Replace `zeed-dom` with `happy-dom-without-node` for broader compatibility of the HTML parser. The only difference you should see is that `happy-dom-without-node` will output `xmlns="http://www.w3.org/1999/xhtml"` on root elements, which makes it compliant with the HTML5 specification.
+- d0e0adb: Created a new server-only export for the html package that will handle conversions with happy-dom while the client version relies on the browser DOM implementation separating concerns.
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- a974ebc: Update comments with correct library names
+- 4f49894: Wrap happy-dom Window and DOMParser creation to avoid setting global process to null. See https://github.com/ueberdosis/tiptap/issues/6368
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.1
+  - @tiptap/pm@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.30
+- @tiptap/pm@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.28
+- @tiptap/pm@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies [412e1bd]
+  - @tiptap/core@3.0.0-beta.27
+  - @tiptap/pm@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Major Changes
+
+- 1a88826: The server-import for `@tiptap/html` will now require `happy-dom` to be installed so it can avoid asynchronous behavior
+
+### Patch Changes
+
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- Updated dependencies [4e2f6d8]
+  - @tiptap/core@3.0.0-beta.25
+  - @tiptap/pm@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.24
+- @tiptap/pm@3.0.0-beta.24
+
 ## 3.0.0-beta.23
 
 ### Patch Changes

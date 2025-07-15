@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-mathematics",
   "description": "latex math extension for tiptap",
-  "version": "3.0.0-beta.23",
+  "version": "3.0.1",
   "homepage": "https://tiptap.dev/api/extensions/mathematics",
   "keywords": [
     "tiptap",
@@ -36,13 +36,13 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "@types/katex": "^0.16.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
     "katex": "^0.16.4"
   },
   "scripts": {
