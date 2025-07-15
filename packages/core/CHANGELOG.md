@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.4
+
+### Patch Changes
+
+- 7ed03fa: Fix: Add correct overload for extension extend types"
+  - @tiptap/pm@3.0.4
+
 ## 3.0.3
 
 ### Patch Changes
