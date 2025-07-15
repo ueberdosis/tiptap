@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.5
+
+### Patch Changes
+
+- f8a4e3e: Refactor: Make shouldShow optional on bubbleMenu and floatingMenu options
+  - @tiptap/core@3.0.5
+  - @tiptap/pm@3.0.5
+
 ## 3.0.4
 
 ### Patch Changes
