@@ -43,7 +43,7 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, inline: true }}>
+        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8 }}>
           <div className="bubble-menu">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
