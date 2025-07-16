@@ -346,6 +346,7 @@ export class BubbleMenuView implements PluginView {
 
       virtualElement = {
         getBoundingClientRect: () => clientRect,
+        getClientRects: () => [clientRect],
       }
     }
 
