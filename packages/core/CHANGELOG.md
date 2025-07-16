@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.0.2-beta.1
+
+### Patch Changes
+
+- 860a8fa: Fix: Fix broken types for function chaining when calling extend
+- ab0b5b2: Fix: Avoid the JSX Runtime to globally overwrite React's Element types when `/** @jsxImportSource @tiptap/core */` is not used
+- bd90090: Fix: Add correct overload for extension extend types"
+  - @tiptap/pm@3.0.2-beta.1
+
 ## 3.0.2-beta.0
 
 ### Patch Changes

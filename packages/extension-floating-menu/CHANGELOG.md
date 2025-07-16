@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.2-beta.1
+
+### Patch Changes
+
+- 5ab9510: Fix: Fix a problem with the inline option and virtual elements missing getClientRects
+- 0f5ce7d: Refactor: Make shouldShow optional on bubbleMenu and floatingMenu options
+- Updated dependencies [860a8fa]
+- Updated dependencies [ab0b5b2]
+- Updated dependencies [bd90090]
+  - @tiptap/core@3.0.2-beta.1
+  - @tiptap/pm@3.0.2-beta.1
+
 ## 3.0.2-beta.0
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.0.2-beta.1
+
+### Patch Changes
+
+- ab0b5b2: Chore: Removed type overwrites for renderHTML
+- Updated dependencies [860a8fa]
+- Updated dependencies [ab0b5b2]
+- Updated dependencies [bd90090]
+  - @tiptap/core@3.0.2-beta.1
+
 ## 3.0.2-beta.0
 
 ### Patch Changes

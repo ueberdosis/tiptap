@@ -74,7 +74,13 @@
     "@tiptap/vue-3": "3.0.1"
   },
   "changesets": [
+    "afraid-oranges-smell",
+    "brave-zoos-cheat",
     "fresh-spoons-mate",
-    "sixty-lizards-flow"
+    "grumpy-seals-shake",
+    "rude-students-drive",
+    "sixty-lizards-flow",
+    "two-chefs-lie",
+    "two-geese-work"
   ]
 }
