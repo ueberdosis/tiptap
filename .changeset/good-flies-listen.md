@@ -1,5 +1,5 @@
 ---
-'@tiptap/static-renderer': major
+'@tiptap/static-renderer': patch
 ---
 
 fixed markdown table columns
