@@ -1,3 +1,4 @@
+import type { Editor } from './Editor.js'
 import { type ExtendableConfig, Extendable } from './Extendable.js'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -35,7 +36,18 @@ export class Extension<Options = any, Storage = any> extends Extendable<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = ExtensionConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>)) {
+  >(
+    extendedConfig?:
+      | (() => Partial<ExtendedConfig>)
+      | (Partial<ExtendedConfig> &
+          ThisType<{
+            name: string
+            options: ExtendedOptions
+            storage: ExtendedStorage
+            editor: Editor
+            type: null
+          }>),
+  ): Extension<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
     return super.extend(resolvedConfig) as Extension<ExtendedOptions, ExtendedStorage>
