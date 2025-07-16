@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.7
+
+### Patch Changes
+
+- 6b42853: Fix: Fix a problem with the inline option and virtual elements missing getClientRects
+  - @tiptap/core@3.0.7
+  - @tiptap/pm@3.0.7
+
 ## 3.0.6
 
 ### Patch Changes
