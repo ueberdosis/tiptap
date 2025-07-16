@@ -77,9 +77,9 @@ export function renderToMarkdown({
           if (!Array.isArray(children)) {
             return `\n${serializeChildrenToHTMLString(children)}\n`
           }
-          
-          const columnCount = node.children[0].childCount;
-          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(columnCount).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`;
+
+          const columnCount = node.children[0].childCount
+          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(columnCount).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
         },
         tableRow({ children }) {
           if (Array.isArray(children)) {
