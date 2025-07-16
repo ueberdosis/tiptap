@@ -27,6 +27,7 @@ export default () => {
   return (
     <>
       <button
+        type="button"
         onClick={() => {
           setShowMenu(old => !old)
           editor.commands.focus()
@@ -42,23 +43,26 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8 }}>
+        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, inline: true }}>
           <div className="bubble-menu">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
               className={editor.isActive('bold') ? 'is-active' : ''}
+              type="button"
             >
               Bold
             </button>
             <button
               onClick={() => editor.chain().focus().toggleItalic().run()}
               className={editor.isActive('italic') ? 'is-active' : ''}
+              type="button"
             >
               Italic
             </button>
             <button
               onClick={() => editor.chain().focus().toggleStrike().run()}
               className={editor.isActive('strike') ? 'is-active' : ''}
+              type="button"
             >
               Strike
             </button>
