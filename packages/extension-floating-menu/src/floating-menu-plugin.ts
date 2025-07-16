@@ -288,8 +288,11 @@ export class FloatingMenuView {
   updatePosition() {
     const { selection } = this.editor.state
 
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+
     const virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
     }
 
     computePosition(virtualElement, this.element, {
