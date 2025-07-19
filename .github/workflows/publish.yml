@@ -7,8 +7,7 @@ on:
   push:
     branches:
       - main
-      - develop
-      - next
+      - release/*
   # manual trigger for other branches
   workflow_dispatch:
 
