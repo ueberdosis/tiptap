@@ -6,6 +6,12 @@ import Component from './Component.vue'
 export default Mark.create({
   name: 'vueComponent',
 
+  addAttributes() {
+    return {
+      'data-count': { default: 0 },
+    }
+  },
+
   parseHTML() {
     return [
       {

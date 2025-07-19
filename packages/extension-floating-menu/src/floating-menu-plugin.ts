@@ -40,7 +40,7 @@ export interface FloatingMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         view: EditorView
@@ -52,7 +52,10 @@ export interface FloatingMenuPluginProps {
     | null
 
   /**
-   * FloatingUI options.
+   * The options for the floating menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
+   * hide, and inline middlewares.
+   * @default {}
+   * @see https://floating-ui.com/docs/computePosition#options
    */
   options?: {
     strategy?: 'absolute' | 'fixed'
@@ -77,6 +80,11 @@ export interface FloatingMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
+
+    onShow?: () => void
+    onHide?: () => void
+    onUpdate?: () => void
+    onDestroy?: () => void
   }
 }
 
@@ -95,6 +103,8 @@ export class FloatingMenuView {
   public view: EditorView
 
   public preventHide = false
+
+  private isVisible = false
 
   private getTextContent(node: ProsemirrorNode) {
     return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
@@ -190,6 +200,8 @@ export class FloatingMenuView {
       ...options,
     }
 
+    this.element.tabIndex = 0
+
     if (shouldShow) {
       this.shouldShow = shouldShow
     }
@@ -276,8 +288,11 @@ export class FloatingMenuView {
   updatePosition() {
     const { selection } = this.editor.state
 
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+
     const virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
     }
 
     computePosition(virtualElement, this.element, {
@@ -289,6 +304,10 @@ export class FloatingMenuView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      if (this.isVisible && this.floatingUIOptions.onUpdate) {
+        this.floatingUIOptions.onUpdate()
+      }
     })
   }
 
@@ -300,17 +319,37 @@ export class FloatingMenuView {
   }
 
   show() {
+    if (this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
     // attach to editor's parent element
     this.view.dom.parentElement?.appendChild(this.element)
+
+    if (this.floatingUIOptions.onShow) {
+      this.floatingUIOptions.onShow()
+    }
+
+    this.isVisible = true
   }
 
   hide() {
+    if (!this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'hidden'
     this.element.style.opacity = '0'
     // remove from the parent element
     this.element.remove()
+
+    if (this.floatingUIOptions.onHide) {
+      this.floatingUIOptions.onHide()
+    }
+
+    this.isVisible = false
   }
 
   destroy() {
@@ -318,6 +357,10 @@ export class FloatingMenuView {
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+
+    if (this.floatingUIOptions.onDestroy) {
+      this.floatingUIOptions.onDestroy()
+    }
   }
 }
 

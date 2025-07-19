@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-list-keymap",
   "description": "list keymap extension for tiptap",
-  "version": "3.0.0-beta.7",
+  "version": "3.0.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-list": "workspace:*"
+    "@tiptap/extension-list": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-list": "workspace:*"
+    "@tiptap/extension-list": "workspace:^"
   },
   "repository": {
     "type": "git",

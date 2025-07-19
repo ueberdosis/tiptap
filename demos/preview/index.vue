@@ -1,10 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-// @ts-nocheck
-const showDemoList = process.env.NODE_ENV === 'development'
+const searchQuery = new URLSearchParams(window.location.search)
 
-const searchValue = ref('')
+const searchValue = ref(searchQuery.get('search') || '')
+
+// Update the window search param when the searchValue changes
+// this allows the user to bookmark / return to a specific search
+// and also allows the browser to handle back/forward navigation
+// without losing the search state
+watch(searchValue, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    searchQuery.set('search', newValue)
+    window.history.replaceState({}, '', `?${searchQuery.toString()}`)
+  }
+})
 </script>
 
 <template>
@@ -16,7 +26,7 @@ const searchValue = ref('')
       autofocus
       v-model="searchValue"
     />
-    <ul v-if="showDemoList || listing">
+    <ul>
       <li
         class="p-5 border-b-2 border-black"
         v-for="route in $router.options.routes.filter(route =>
@@ -40,7 +50,6 @@ const searchValue = ref('')
         </div>
       </li>
     </ul>
-    <div v-else>Nothing to see here :-)</div>
   </template>
   <router-view v-else />
 </template>
@@ -76,10 +85,6 @@ export default {
   computed: {
     query() {
       return Object.fromEntries(Object.entries(this.$route.query).map(([key, value]) => [key, this.fromString(value)]))
-    },
-
-    listing() {
-      return this.query.listing || false
     },
   },
 }

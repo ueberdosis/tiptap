@@ -95,6 +95,7 @@ export default {
       },
 
       onExit() {
+        component.element.remove()
         component.destroy()
       },
     }

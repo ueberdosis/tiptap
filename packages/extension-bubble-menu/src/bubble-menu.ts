@@ -39,6 +39,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         editor: this.editor,
         element: this.options.element,
         updateDelay: this.options.updateDelay,
+        options: this.options.options,
         shouldShow: this.options.shouldShow,
       }),
     ]

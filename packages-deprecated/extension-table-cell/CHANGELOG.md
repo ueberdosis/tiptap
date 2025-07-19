@@ -1,5 +1,323 @@
 # Change Log
 
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- 131c7d0: This adds all of the table packages to the `@tiptap/extension-table` package.
+
+  ## TableKit
+
+  The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
+
+  ```ts
+  import { TableKit } from '@tiptap/extension-table'
+
+  new Editor({
+    extensions: [
+      TableKit.configure({
+        table: {
+          HTMLAttributes: {
+            class: 'table',
+          },
+        },
+        tableCell: {
+          HTMLAttributes: {
+            class: 'table-cell',
+          },
+        },
+        tableHeader: {
+          HTMLAttributes: {
+            class: 'table-header',
+          },
+        },
+        tableRow: {
+          HTMLAttributes: {
+            class: 'table-row',
+          },
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Table repackaging
+
+  Since we've moved the code out of the table extensions to the `@tiptap/extension-table` package, you can remove the following packages from your project:
+
+  ```bash
+  npm uninstall @tiptap/extension-table-header @tiptap/extension-table-cell @tiptap/extension-table-row
+  ```
+
+  And replace them with the new `@tiptap/extension-table` package:
+
+  ```bash
+  npm install @tiptap/extension-table
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### Table
+
+  This extension adds a table to the editor.
+
+  Migrate from default export to named export:
+
+  ```diff
+  - import Table from '@tiptap/extension-table'
+  + import { Table } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Table } from '@tiptap/extension-table'
+  ```
+
+  ### TableCell
+
+  This extension adds a table cell to the editor.
+
+  Migrate from `@tiptap/extension-table-cell` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableCell from '@tiptap/extension-table-cell'
+  + import { TableCell } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableCell } from '@tiptap/extension-table'
+  ```
+
+  ### TableHeader
+
+  This extension adds a table header to the editor.
+
+  Migrate from `@tiptap/extension-table-header` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableHeader from '@tiptap/extension-table-header'
+  + import { TableHeader } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableHeader } from '@tiptap/extension-table'
+  ```
+
+  ### TableRow
+
+  This extension adds a table row to the editor.
+
+  Migrate from `@tiptap/extension-table-row` to `@tiptap/extension-table`:
+
+  ```diff
+  - import TableRow from '@tiptap/extension-table-row'
+  + import { TableRow } from '@tiptap/extension-table'
+  ```
+
+  Usage:
+
+  ```ts
+  import { TableRow } from '@tiptap/extension-table'
+  ```
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [131c7d0]
+- Updated dependencies [991f43c]
+- Updated dependencies [8c69002]
+  - @tiptap/extension-table@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/extension-table@3.0.0-beta.8
+
 ## 3.0.0-beta.7
 
 ### Patch Changes

@@ -1,5 +1,517 @@
 # Change Log
 
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/pm@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- 2e71d05: Fix: Fix broken types for function chaining when calling extend
+  - @tiptap/pm@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/pm@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- 7ed03fa: Fix: Add correct overload for extension extend types"
+  - @tiptap/pm@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- 75cabde: Fix: Avoid the JSX Runtime to globally overwrite React's Element types when `/** @jsxImportSource @tiptap/core */` is not used
+  - @tiptap/pm@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/pm@3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 5e957e5: This resolves in issue with SSR where the isDestroyed property could not be read while in SSR
+- 37913d5: `getPos` in `NodeViewRendererProps` type now includes `undefined` as possible return value
+
+  Before
+
+  ```ts
+  const pos = nodeViewProps.getPos() // Type was () => number
+  ```
+
+  After
+
+  ```ts
+  const pos = nodeViewProps.getPos() // Type is () => number | undefined
+
+  if (pos !== undefined) {
+    // Safe to use pos here
+  }
+  ```
+
+- 32958d6: `Node`, `Mark` and `Extension` config options now are strongly typed and do not allow arbitrary keys on the options object.
+
+  To add keys, like when using `extendNodeSchema` or `extendMarkSchema`, you can do this:
+
+  ```ts
+  declare module '@tiptap/core' {
+    interface NodeConfig {
+      /**
+       * This key will be added to all NodeConfig objects in your project
+       */
+      newKey?: string
+    }
+    interface MarkConfig {
+      /**
+       * This key will be added to all MarkConfig objects in your project
+       */
+      newKey?: string
+    }
+    interface ExtensionConfig {
+      /**
+       * This key will be added to all ExtensionConfig objects in your project
+       */
+      newKey?: string
+    }
+  }
+  ```
+
+- 12bb31a: `insertContent` and `insertContentAt` commands should not split text nodes like paragraphs into multiple nodes when the inserted content is at the beginning of the text to avoid empty nodes being created
+- 062afaf: `clearContent` command defaults to emitting updates now
+- 062afaf: Change signature of `setContent` command to `(content, options)` and default to emitting updates
+- 32958d6: `editor.storage` is now strongly typed `Storage` instances, using a similar pattern as commands, where you can define the type of the storage value using namespaces like:
+
+  ```ts
+  declare module '@tiptap/core' {
+    interface Storage {
+      extensionName: StorageValue
+    }
+  }
+  ```
+
+- 32958d6: `editor.storage` is instantiated per editor rather than per extension.
+
+  Previously, the storage value was a singleton per extension instance, this caused strange bugs when using multiple editor instances on a single page.
+
+  Now, storage instances are _per editor instance_, so changing the value on one `editor.storage` instance will not affect another editor's value.
+
+### Minor Changes
+
+- 8de8e13: The editor instance now supports an `unmount` method which allows for mounting and unmounting the editor to the DOM. This encourages re-use of editor instances by preserving all the same options between instances. This is different from the `destroy` method, which will unmount, emit the `destroy` event, and remove all event listeners.
+- d0fda30: Add config option to emit content error when content check is disabled
+- 0e3207f: Add support for [markviews](https://prosemirror.net/docs/ref/#view.MarkView), which allow you to render custom views for marks within the editor. This is useful for rendering custom UI for marks, like a color picker for a text color mark or a link editor for a link mark.
+
+  Here is a plain JS markview example:
+
+  ```ts
+  Mark.create({
+    // Other options...
+    addMarkView() {
+      return ({ mark, HTMLAttributes }) => {
+        const dom = document.createElement('b')
+        const contentDOM = document.createElement('span')
+
+        dom.appendChild(contentDOM)
+
+        return {
+          dom,
+          contentDOM,
+        }
+      }
+    },
+  })
+  ```
+
+  ## React binding
+
+  To use a React component for a markview, you can use the `@tiptap/react` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { ReactMarkViewRenderer } from '@tiptap/react'
+
+  import Component from './Component.jsx'
+
+  export default Mark.create({
+    name: 'reactComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'react-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['react-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return ReactMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a React component:
+
+  ```tsx
+  import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+  import React from 'react'
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export default (props: MarkViewRendererProps) => {
+    const [count, setCount] = React.useState(0)
+
+    return (
+      <span className="content" data-test-id="mark-view">
+        <MarkViewContent />
+        <label contentEditable={false}>
+          React component:
+          <button
+            onClick={() => {
+              setCount(count + 1)
+            }}
+          >
+            This button has been clicked {count} times.
+          </button>
+        </label>
+      </span>
+    )
+  }
+  ```
+
+  ## Vue 3 binding
+
+  To use a Vue 3 component for a markview, you can use the `@tiptap/vue-3` package:
+
+  ```ts
+  import { Mark } from '@tiptap/core'
+  import { VueMarkViewRenderer } from '@tiptap/vue-3'
+
+  import Component from './Component.vue'
+
+  export default Mark.create({
+    name: 'vueComponent',
+
+    parseHTML() {
+      return [
+        {
+          tag: 'vue-component',
+        },
+      ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+      return ['vue-component', HTMLAttributes]
+    },
+
+    addMarkView() {
+      return VueMarkViewRenderer(Component)
+    },
+  })
+  ```
+
+  And here is an example of a Vue 3 component:
+
+  ```vue
+  <template>
+    <span className="content" data-test-id="mark-view">
+      <mark-view-content />
+      <label contenteditable="false"
+        >Vue Component::
+        <button @click="increase" class="primary">This button has been clicked {{ count }} times.</button>
+      </label>
+    </span>
+  </template>
+
+  <script>
+  import { MarkViewContent, markViewProps } from '@tiptap/vue-3'
+  export default {
+    components: {
+      MarkViewContent,
+    },
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    props: markViewProps,
+    methods: {
+      increase() {
+        this.count += 1
+      },
+    },
+  }
+  </script>
+  ```
+
+- 28c5418: Adds a new `delete` event which can detect content which has been deleted by the editor as a core extension
+- 412e1bd: Remove enableDevTools option
+- ff8eed6: Support [`validate` option](https://prosemirror.net/docs/ref/#model.AttributeSpec.validate) in node and mark attribute definitions.
+- 704f462: This introduces a new behavior for the editor, the ability to be safely run on the server-side (without rendering).
+
+  `prosemirror-view` encapsulates all view (& DOM) related code, and cannot safely be SSR'd, but, the majority of the editor instance itself is in plain JS that does not require DOM APIs (unless your content is specified in HTML).
+
+  But, we have so many convenient methods available for manipulating content. So, it is a shame that they could not be used on the server side too. With this change, the editor can be rendered on the server-side and will use a stub for select prosemirror-view methods. If accessing unsupported methods or values on the `editor.view`, you will encounter runtime errors, so it is important for you to test to see if the methods you call actually work.
+
+  This is a step towards being able to server-side render content, but, it is not completely supported yet. This does not mean that you can render an editor instance on the server and expect it to just output any HTML.
+
+  ## Usage
+
+  If you pass `element: null` to your editor options:
+
+  - the `editor.view` will not be initialized
+  - the editor will not emit it's `'create'` event
+  - the focus will not be initialized to it's first position
+
+  You can however, later use the new `mount` function on the instance, which will mount the editor view to a DOM element. This obviously will not be allowed on the server which has no document object.
+
+  Therefore, this will work on the server:
+
+  ```ts
+  import { Editor } from '@tiptap/core'
+  import StarterKit from '@tiptap/starter-kit'
+
+  const editor = new Editor({
+    element: null,
+    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    extensions: [StarterKit],
+  })
+
+  editor
+    .chain()
+    .selectAll()
+    .setContent({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'XYZ' }] }] })
+    .run()
+
+  console.log(editor.state.doc.toJSON())
+  // { type: 'doc', content: [ { type: 'paragraph', content: [ { type: 'text', text: 'XYZ' } ] } ] }
+  ```
+
+  Any of these things will not work on the server, and result in a runtime error:
+
+  ```ts
+  import { Editor } from '@tiptap/core'
+  import StarterKit from '@tiptap/starter-kit'
+
+  const editor = new Editor({
+    // document will not be defined in a server environment
+    element: document.createElement('div'),
+    content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, World!' }] }] },
+    extensions: [StarterKit],
+  })
+
+  editor
+    .chain()
+    // focus is a command which depends on the editor-view, so it will not work in a server environment
+    .focus()
+    .run()
+
+  console.log(editor.getHTML())
+  // getHTML relies on the editor-view, so it will not work in a server environment
+  ```
+
+- ac897e7: Added the option to create extensions with a callback function instead of a flat configuration object
+- 32958d6: Extensions, Nodes and Marks no longer respect the deprecated `defaultOptions` config value
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 20f68f6: Remove `editor.getCharacterCount()` which was already deprecated and incorrectly implemented
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 9f207a6: Fixes a bug where you could not unregister multiple plugins.
+- 95b8c71: Add validation for target position within document range when trying to access children of a `NodePos` instance
+- 8c69002: Synced beta with stable features
+- 664834f: Clone dragged node before dragging to get correct drag preview image
+- 087d114: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+- fc17b21: Fix RangeException in cut command when targetPos is zero
+- e20006b: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+- 5ba480b: Added `updateAttributes` to MarkView and its renderers to allow updating MarkView attributes
+- d6c7558: For performance, if a transaction results in the exact same editor state (either filtered out or failed to apply), then do not attempt to re-apply the same editor state and do not emit any events associated to the transaction.
+- 9ceeab4: Fixed a bug where jsx-runtime cjs files would break Jest runners because of ESM syntax
+- bf835b0: Fixed an issue where images placed into an empty paragraph right after an existing image would replace the existing image instead
+- 4e2f6d8: migration from prosemirror-dev-tools to prosemirror-dev-toolkit
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [8c69002]
+- Updated dependencies [62b0877]
+  - @tiptap/pm@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Minor Changes
+
+- 412e1bd: Remove enableDevTools option
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- 5ba480b: Added `updateAttributes` to MarkView and its renderers to allow updating MarkView attributes
+  - @tiptap/pm@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- 4e2f6d8: migration from prosemirror-dev-tools to prosemirror-dev-toolkit
+  - @tiptap/pm@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Minor Changes
+
+- 813674c: Added lazy-loaded ProseMirror Devtools integration which can be enabled via the new editor option `enableDevTools: true`
+
+### Patch Changes
+
+- fc17b21: Fix RangeException in cut command when targetPos is zero
+  - @tiptap/pm@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- 9ceeab4: Fixed a bug where jsx-runtime cjs files would break Jest runners because of ESM syntax
+  - @tiptap/pm@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- e20006b: Fix: Prevent content deletion from non-editable Tiptap source editors during drag and drop.
+  - @tiptap/pm@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Minor Changes
+
+- ac897e7: Added the option to create extensions with a callback function instead of a flat configuration object
+
+### Patch Changes
+
+- bf835b0: Fixed an issue where images placed into an empty paragraph right after an existing image would replace the existing image instead
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- 087d114: Added new `canInsertNode` utility that checks if a node can be inserted into a specific position
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- 95b8c71: Add validation for target position within document range when trying to access children of a `NodePos` instance
+  - @tiptap/pm@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/pm@3.0.0-beta.8
+
 ## 3.0.0-beta.7
 
 ### Minor Changes

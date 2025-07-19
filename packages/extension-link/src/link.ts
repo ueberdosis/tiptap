@@ -6,6 +6,7 @@ import { find, registerCustomProtocol, reset } from 'linkifyjs'
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
+import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
 export interface LinkProtocolOptions {
   /**
@@ -58,6 +59,12 @@ export interface LinkOptions {
    * @example false
    */
   openOnClick: boolean | DeprecatedOpenWhenNotEditable
+  /**
+   * If enabled, the link will be selected when clicked.
+   * @default false
+   * @example true
+   */
+  enableClickSelection: boolean
   /**
    * Adds a link to the current selection if the pasted content only contains an url.
    * @default true
@@ -140,7 +147,7 @@ declare module '@tiptap/core' {
        * @param attributes The link attributes
        * @example editor.commands.toggleLink({ href: 'https://tiptap.dev' })
        */
-      toggleLink: (attributes: {
+      toggleLink: (attributes?: {
         href: string
         target?: string | null
         rel?: string | null
@@ -154,11 +161,6 @@ declare module '@tiptap/core' {
     }
   }
 }
-
-// From DOMPurify
-// https://github.com/cure53/DOMPurify/blob/main/src/regexp.js
-// eslint-disable-next-line no-control-regex
-const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g
 
 export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
   const allowedProtocols: string[] = ['http', 'https', 'ftp', 'ftps', 'mailto', 'tel', 'callto', 'sms', 'cid', 'xmpp']
@@ -175,7 +177,7 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
   return (
     !uri ||
-    uri.replace(ATTR_WHITESPACE, '').match(
+    uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
       new RegExp(
         // eslint-disable-next-line no-useless-escape
         `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
@@ -224,6 +226,7 @@ export const Link = Mark.create<LinkOptions>({
   addOptions() {
     return {
       openOnClick: true,
+      enableClickSelection: false,
       linkOnPaste: true,
       autolink: true,
       protocols: [],
@@ -322,9 +325,10 @@ export const Link = Mark.create<LinkOptions>({
       toggleLink:
         attributes =>
         ({ chain }) => {
-          const { href } = attributes
+          const { href } = attributes || {}
 
           if (
+            href &&
             !this.options.isAllowedUri(href, {
               defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
               protocols: this.options.protocols,
@@ -415,6 +419,8 @@ export const Link = Mark.create<LinkOptions>({
       plugins.push(
         clickHandler({
           type: this.type,
+          editor: this.editor,
+          enableClickSelection: this.options.enableClickSelection,
         }),
       )
     }

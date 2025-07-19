@@ -662,9 +662,11 @@ export interface MarkViewRendererProps {
    * The HTML attributes that should be added to the mark's DOM element.
    */
   HTMLAttributes: Record<string, any>
+
+  updateAttributes: (attrs: Record<string, any>) => void
 }
 
-export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
+export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 
 export interface MarkViewRendererOptions {
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bubble-menu",
   "description": "bubble-menu extension for tiptap",
-  "version": "3.0.0-beta.7",
+  "version": "3.0.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -37,15 +37,15 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "scripts": {
     "build": "tsup",
