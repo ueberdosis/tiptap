@@ -31,5 +31,9 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
 
   const serializer = new localWindow.XMLSerializer()
 
+  // clean up happy-dom to avoid memory leaks
+  localWindow.happyDOM.abort()
+  localWindow.happyDOM.close()
+
   return serializer.serializeToString(fragment as any)
 }

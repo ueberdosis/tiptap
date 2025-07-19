@@ -36,6 +36,10 @@ export function generateJSON(html: string, extensions: Extensions, options?: Par
     throw new Error('Failed to parse HTML string')
   }
 
+  // clean up happy-dom to avoid memory leaks
+  localWindow.happyDOM.abort()
+  localWindow.happyDOM.close()
+
   return PMDOMParser.fromSchema(schema)
     .parse(doc.body as unknown as Node, options)
     .toJSON()
