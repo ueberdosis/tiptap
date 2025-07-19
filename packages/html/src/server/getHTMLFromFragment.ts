@@ -24,16 +24,20 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
   }
 
   const localWindow = new Window()
+  let result: string
 
-  const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-    document: localWindow.document as unknown as Document,
-  })
+  try {
+    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
+      document: localWindow.document as unknown as Document,
+    })
 
-  const serializer = new localWindow.XMLSerializer()
+    const serializer = new localWindow.XMLSerializer()
+    result = serializer.serializeToString(fragment as any)
+  } finally {
+    // clean up happy-dom to avoid memory leaks
+    localWindow.happyDOM.abort()
+    localWindow.happyDOM.close()
+  }
 
-  // clean up happy-dom to avoid memory leaks
-  localWindow.happyDOM.abort()
-  localWindow.happyDOM.close()
-
-  return serializer.serializeToString(fragment as any)
+  return result
 }

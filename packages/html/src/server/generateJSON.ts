@@ -25,22 +25,27 @@ export function generateJSON(html: string, extensions: Extensions, options?: Par
 
   const localWindow = new Window()
   const localDOMParser = new localWindow.DOMParser()
+  let result: Record<string, any>
 
-  const schema = getSchema(extensions)
-  let doc: ReturnType<typeof localDOMParser.parseFromString> | null = null
+  try {
+    const schema = getSchema(extensions)
+    let doc: ReturnType<typeof localDOMParser.parseFromString> | null = null
 
-  const htmlString = `<!DOCTYPE html><html><body>${html}</body></html>`
-  doc = localDOMParser.parseFromString(htmlString, 'text/html')
+    const htmlString = `<!DOCTYPE html><html><body>${html}</body></html>`
+    doc = localDOMParser.parseFromString(htmlString, 'text/html')
 
-  if (!doc) {
-    throw new Error('Failed to parse HTML string')
+    if (!doc) {
+      throw new Error('Failed to parse HTML string')
+    }
+
+    result = PMDOMParser.fromSchema(schema)
+      .parse(doc.body as unknown as Node, options)
+      .toJSON()
+  } finally {
+    // clean up happy-dom to avoid memory leaks
+    localWindow.happyDOM.abort()
+    localWindow.happyDOM.close()
   }
 
-  // clean up happy-dom to avoid memory leaks
-  localWindow.happyDOM.abort()
-  localWindow.happyDOM.close()
-
-  return PMDOMParser.fromSchema(schema)
-    .parse(doc.body as unknown as Node, options)
-    .toJSON()
+  return result
 }
