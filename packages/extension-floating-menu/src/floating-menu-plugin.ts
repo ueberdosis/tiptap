@@ -40,7 +40,7 @@ export interface FloatingMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         view: EditorView
@@ -288,8 +288,11 @@ export class FloatingMenuView {
   updatePosition() {
     const { selection } = this.editor.state
 
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+
     const virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
     }
 
     computePosition(virtualElement, this.element, {

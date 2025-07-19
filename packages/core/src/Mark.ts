@@ -192,7 +192,18 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig> | (() => Partial<ExtendedConfig>)) {
+  >(
+    extendedConfig?:
+      | (() => Partial<ExtendedConfig>)
+      | (Partial<ExtendedConfig> &
+          ThisType<{
+            name: string
+            options: ExtendedOptions
+            storage: ExtendedStorage
+            editor: Editor
+            type: MarkType
+          }>),
+  ): Mark<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
     return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>

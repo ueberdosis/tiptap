@@ -45,6 +45,7 @@ export default () => {
   return (
     <>
       <button
+        type="button"
         onClick={() => {
           setShowMenu(old => !old)
           editor.commands.focus()
@@ -76,18 +77,21 @@ export default () => {
           data-testid="styled-bubble-menu"
         >
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor.isActive('bold') ? 'is-active' : ''}
           >
             Bold
           </button>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={editor.isActive('italic') ? 'is-active' : ''}
           >
             Italic
           </button>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={editor.isActive('strike') ? 'is-active' : ''}
           >
