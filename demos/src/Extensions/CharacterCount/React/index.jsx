@@ -5,11 +5,19 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
 import { EditorContent, useEditor } from '@tiptap/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const limit = 280
 
 export default () => {
+  const [charactersCount, setCharactersCount] = useState(0)
+  const [wordsCount, setWordsCount] = useState(0)
+
+  const handleUpdate = e => {
+    setCharactersCount(e.storage.characterCount.characters())
+    setWordsCount(e.storage.characterCount.words())
+  }
+
   const editor = useEditor({
     extensions: [
       Document,
@@ -24,21 +32,21 @@ export default () => {
           Let‘s make sure people can’t write more than 280 characters. I bet you could build one of the biggest social networks on that idea.
         </p>
       `,
+    onUpdate: event => handleUpdate(event.editor),
+    onCreate: event => handleUpdate(event.editor),
   })
 
   if (!editor) {
     return null
   }
 
-  const percentage = editor ? Math.round((100 / limit) * editor.storage.characterCount.characters()) : 0
+  const percentage = editor ? Math.round((100 / limit) * charactersCount) : 0
 
   return (
     <>
       <EditorContent editor={editor} />
 
-      <div
-        className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}
-      >
+      <div className={`character-count ${charactersCount === limit ? 'character-count--warning' : ''}`}>
         <svg height="20" width="20" viewBox="0 0 20 20">
           <circle r="10" cx="10" cy="10" fill="#e9ecef" />
           <circle
@@ -53,9 +61,9 @@ export default () => {
           />
           <circle r="6" cx="10" cy="10" fill="white" />
         </svg>
-        {editor.storage.characterCount.characters()} / {limit} characters
+        {charactersCount} / {limit} characters
         <br />
-        {editor.storage.characterCount.words()} words
+        {wordsCount} words
       </div>
     </>
   )
