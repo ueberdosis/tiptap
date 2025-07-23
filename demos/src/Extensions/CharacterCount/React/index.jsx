@@ -4,20 +4,11 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
-import React, { useState } from 'react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 
 const limit = 280
 
 export default () => {
-  const [charactersCount, setCharactersCount] = useState(0)
-  const [wordsCount, setWordsCount] = useState(0)
-
-  const handleUpdate = e => {
-    setCharactersCount(e.storage.characterCount.characters())
-    setWordsCount(e.storage.characterCount.words())
-  }
-
   const editor = useEditor({
     extensions: [
       Document,
@@ -32,8 +23,14 @@ export default () => {
           Let‘s make sure people can’t write more than 280 characters. I bet you could build one of the biggest social networks on that idea.
         </p>
       `,
-    onUpdate: event => handleUpdate(event.editor),
-    onCreate: event => handleUpdate(event.editor),
+  })
+
+  const { charactersCount, wordsCount } = useEditorState({
+    editor,
+    selector: context => ({
+      charactersCount: context.editor.storage.characterCount.characters(),
+      wordsCount: context.editor.storage.characterCount.words(),
+    }),
   })
 
   if (!editor) {
