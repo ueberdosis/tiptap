@@ -54,8 +54,6 @@ const getPackageDependencies = () => {
   collectPackageInformation('packages')
   collectPackageInformation('packages-deprecated')
 
-  console.log(paths)
-
   // Handle the JSX runtime alias
   paths.unshift({ find: '@tiptap/core/jsx-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
   paths.unshift({ find: '@tiptap/core/jsx-dev-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
