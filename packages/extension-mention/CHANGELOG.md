@@ -1,5 +1,56 @@
 # Change Log
 
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/core@3.0.7
+- @tiptap/pm@3.0.7
+- @tiptap/suggestion@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [2e71d05]
+  - @tiptap/core@3.0.6
+  - @tiptap/suggestion@3.0.6
+  - @tiptap/pm@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/core@3.0.5
+- @tiptap/pm@3.0.5
+- @tiptap/suggestion@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies [7ed03fa]
+  - @tiptap/core@3.0.4
+  - @tiptap/suggestion@3.0.4
+  - @tiptap/pm@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [75cabde]
+  - @tiptap/core@3.0.3
+  - @tiptap/suggestion@3.0.3
+  - @tiptap/pm@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/core@3.0.2
+- @tiptap/pm@3.0.2
+- @tiptap/suggestion@3.0.2
+
 ## 3.0.1
 
 ### Major Changes

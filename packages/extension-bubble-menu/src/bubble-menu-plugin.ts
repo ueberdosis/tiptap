@@ -69,7 +69,7 @@ export interface BubbleMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         element: HTMLElement
@@ -82,7 +82,10 @@ export interface BubbleMenuPluginProps {
     | null
 
   /**
-   * FloatingUI options.
+   * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
+   * hide, and inline middlewares.
+   * @default {}
+   * @see https://floating-ui.com/docs/computePosition#options
    */
   options?: {
     strategy?: 'absolute' | 'fixed'
@@ -313,8 +316,10 @@ export class BubbleMenuView implements PluginView {
 
   updatePosition() {
     const { selection } = this.editor.state
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
     let virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
     }
 
     // this is a special case for cell selections
@@ -341,6 +346,7 @@ export class BubbleMenuView implements PluginView {
 
       virtualElement = {
         getBoundingClientRect: () => clientRect,
+        getClientRects: () => [clientRect],
       }
     }
 
