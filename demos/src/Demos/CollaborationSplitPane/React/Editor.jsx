@@ -3,7 +3,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -129,7 +129,8 @@ const Editor = ({ ydoc, provider, room }) => {
   useEffect(() => {
     if (editor && currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
-      editor.chain().focus().updateUser(currentUser).run()
+      console.log('currentUser', currentUser)
+      editor.chain().updateUser(currentUser).run()
     }
   }, [editor, currentUser])
 
@@ -141,6 +142,20 @@ const Editor = ({ ydoc, provider, room }) => {
     }
   }, [currentUser])
 
+  // Read the current editor's state, and re-render the component when it changes
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        isBold: ctx.editor.isActive('bold') ?? false,
+        isItalic: ctx.editor.isActive('italic') ?? false,
+        isStrike: ctx.editor.isActive('strike') ?? false,
+        isCode: ctx.editor.isActive('code') ?? false,
+        isBulletList: ctx.editor.isActive('bulletList') ?? false,
+      }
+    },
+  })
+
   if (!editor) {
     return null
   }
@@ -151,31 +166,31 @@ const Editor = ({ ydoc, provider, room }) => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
+            className={editorState.isBold ? 'is-active' : ''}
           >
             Bold
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive('italic') ? 'is-active' : ''}
+            className={editorState.isItalic ? 'is-active' : ''}
           >
             Italic
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={editor.isActive('strike') ? 'is-active' : ''}
+            className={editorState.isStrike ? 'is-active' : ''}
           >
             Strike
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive('bulletList') ? 'is-active' : ''}
+            className={editorState.isBulletList ? 'is-active' : ''}
           >
             Bullet list
           </button>
           <button
             onClick={() => editor.chain().focus().toggleCode().run()}
-            className={editor.isActive('code') ? 'is-active' : ''}
+            className={editorState.isCode ? 'is-active' : ''}
           >
             Code
           </button>
