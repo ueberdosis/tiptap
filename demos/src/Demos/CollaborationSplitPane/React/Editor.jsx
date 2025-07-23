@@ -129,7 +129,6 @@ const Editor = ({ ydoc, provider, room }) => {
   useEffect(() => {
     if (editor && currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser))
-      console.log('currentUser', currentUser)
       editor.chain().updateUser(currentUser).run()
     }
   }, [editor, currentUser])
