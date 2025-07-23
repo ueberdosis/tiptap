@@ -1,11 +1,5 @@
 # @tiptap/extension-drag-handle-vue-3
 
-## 3.0.8
-
-### Patch Changes
-
-- Fixed https://github.com/ueberdosis/tiptap/issues/6693 where the Drag Handle always appear when the tiptap editor first loads. Modified to mirror the behaviour of the React version where it only appears when the editor is interacted with.
-
 ## 3.0.7
 
 ### Patch Changes
