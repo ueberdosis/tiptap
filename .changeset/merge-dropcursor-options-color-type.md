@@ -2,4 +2,4 @@
 '@tiptap/extension-dropcursor': patch
 ---
 
-merge `DropcursorOptions.color` type defined from `prosemirror-dropcursor`.
+Updated `DropcursorOptions.color` types to use types defined in `prosemirror-dropcursor`
