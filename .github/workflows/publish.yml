@@ -57,7 +57,7 @@ jobs:
             ${{ runner.os }}-turbo-
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm install --strict-peer-dependencies
 
       - name: Setup npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
