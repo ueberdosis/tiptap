@@ -5,15 +5,15 @@ import type { Transaction } from '@tiptap/pm/state'
  * Regular expression to match LaTeX math strings wrapped in single dollar signs.
  * This should not catch dollar signs which are not part of a math expression,
  * like those used for currency or other purposes.
- * It ensures that the dollar signs are not preceded or followed by digits,
- * allowing for proper identification of inline math expressions.
+ * WebKit-compatible version that avoids lookbehind assertions.
+ * Uses a more complex pattern to avoid false positives with currency.
  *
  * - `$x^2 + y^2 = z^2$` will match
  * - `This is $inline math$ in text.` will match
  * - `This is $100$ dollars.` will not match (as it is not a math expression)
  * - `This is $x^2 + y^2 = z^2$ and $100$ dollars.` will match both math expressions
  */
-export const mathMigrationRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
+export const mathMigrationRegex = /\$(?!\$)(?:[a-zA-Z_\\]|[^$\n\d])[^$\n]*?\$(?!\d)/g
 
 /**
  * Creates a transaction that migrates existing math strings in the document to new math nodes.
