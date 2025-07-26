@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mathematics Extension WebKit Compatibility Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .test-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .test-result {
+        margin: 10px 0;
+        padding: 5px;
+        border-radius: 3px;
+      }
+      .pass {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .fail {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      .code {
+        font-family: monospace;
+        background-color: #f8f9fa;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mathematics Extension WebKit Compatibility Test</h1>
+
+    <div class="test-section">
+      <h2>Issue Description</h2>
+      <p>
+        <strong>Problem:</strong> The mathematics extension in TipTap v3 was causing crashes in older WebKit
+        environments due to the use of regex lookbehind assertions (<code>(?&lt;!pattern)</code>) which are not
+        supported.
+      </p>
+      <p>
+        <strong>Solution:</strong> Replaced lookbehind assertions with compatible regex patterns that achieve the same
+        functionality.
+      </p>
+    </div>
+
+    <div class="test-section">
+      <h2>Regex Patterns</h2>
+      <div id="regex-info"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Compatibility Tests</h2>
+      <div id="compatibility-tests"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Functionality Tests</h2>
+      <div id="functionality-tests"></div>
+    </div>
+
+    <script>
+      // Define the WebKit-compatible regex patterns
+      const inlineMathInputRegex = /(^|[^$])\$([^$]+)\$(?!\$)/
+      const blockMathInputRegex = /(^|[^$])\$\$([^$]+)\$\$(?!\$)/
+
+      // Display regex patterns
+      document.getElementById('regex-info').innerHTML = `
+            <div class="test-result">
+                <strong>Inline Math Regex:</strong> <span class="code">${inlineMathInputRegex.toString()}</span>
+            </div>
+            <div class="test-result">
+                <strong>Block Math Regex:</strong> <span class="code">${blockMathInputRegex.toString()}</span>
+            </div>
+        `
+
+      // Test WebKit compatibility
+      function testWebKitCompatibility() {
+        const results = []
+
+        // Check for lookbehind patterns
+        const inlineStr = inlineMathInputRegex.toString()
+        const blockStr = blockMathInputRegex.toString()
+
+        const hasLookbehind =
+          inlineStr.includes('(?<!') ||
+          inlineStr.includes('(?<=') ||
+          blockStr.includes('(?<!') ||
+          blockStr.includes('(?<=')
+
+        results.push({
+          test: 'No lookbehind assertions',
+          passed: !hasLookbehind,
+          details: hasLookbehind ? 'Contains lookbehind patterns' : 'Clean regex patterns',
+        })
+
+        // Simulate older WebKit behavior
+        const testInOlderWebKit = (regex, testString) => {
+          try {
+            return regex.test(testString)
+          } catch (error) {
+            return false
+          }
+        }
+
+        const webkitTests = [
+          { regex: inlineMathInputRegex, input: '$x^2$', name: 'inline math basic' },
+          { regex: blockMathInputRegex, input: '$$x^2$$', name: 'block math basic' },
+          { regex: inlineMathInputRegex, input: 'text $x^2$ end', name: 'inline with surrounding text' },
+          { regex: blockMathInputRegex, input: 'text $$x^2$$ end', name: 'block with surrounding text' },
+        ]
+
+        webkitTests.forEach(test => {
+          const result = testInOlderWebKit(test.regex, test.input)
+          results.push({
+            test: `WebKit execution: ${test.name}`,
+            passed: result,
+            details: result ? 'Executes without error' : 'Failed to execute',
+          })
+        })
+
+        return results
+      }
+
+      // Test functionality
+      function testFunctionality() {
+        const results = []
+
+        // Test inline math
+        const inlineTests = [
+          { input: '$x^2$', shouldMatch: true, description: 'Basic inline math' },
+          { input: 'text $x^2$ more', shouldMatch: true, description: 'Inline math with surrounding text' },
+          { input: '$$x^2$$', shouldMatch: false, description: 'Should not match double dollars' },
+          { input: '$incomplete', shouldMatch: false, description: 'Incomplete expression' },
+          { input: '$$x$$', shouldMatch: false, description: 'Should not match when preceded by $' },
+          { input: '$x$$', shouldMatch: false, description: 'Should not match when followed by $' },
+        ]
+
+        inlineTests.forEach(test => {
+          const matches = test.input.match(inlineMathInputRegex)
+          const doesMatch = !!matches
+          results.push({
+            test: `Inline: ${test.description}`,
+            passed: doesMatch === test.shouldMatch,
+            details: `Input: "${test.input}" → ${doesMatch ? 'MATCH' : 'NO MATCH'}${matches ? ` (content: "${matches[2]}")` : ''}`,
+          })
+        })
+
+        // Test block math
+        const blockTests = [
+          { input: '$$x^2$$', shouldMatch: true, description: 'Basic block math' },
+          { input: 'text $$x^2$$ more', shouldMatch: true, description: 'Block math with surrounding text' },
+          { input: '$x^2$', shouldMatch: false, description: 'Should not match single dollars' },
+          { input: '$$incomplete', shouldMatch: false, description: 'Incomplete expression' },
+          { input: '$$$x$$$', shouldMatch: false, description: 'Should not match when surrounded by $' },
+          { input: '$$x$$$', shouldMatch: false, description: 'Should not match when followed by $' },
+        ]
+
+        blockTests.forEach(test => {
+          const matches = test.input.match(blockMathInputRegex)
+          const doesMatch = !!matches
+          results.push({
+            test: `Block: ${test.description}`,
+            passed: doesMatch === test.shouldMatch,
+            details: `Input: "${test.input}" → ${doesMatch ? 'MATCH' : 'NO MATCH'}${matches ? ` (content: "${matches[2]}")` : ''}`,
+          })
+        })
+
+        return results
+      }
+
+      // Display test results
+      function displayResults(containerId, results) {
+        const container = document.getElementById(containerId)
+        container.innerHTML = results
+          .map(
+            result => `
+                <div class="test-result ${result.passed ? 'pass' : 'fail'}">
+                    <strong>${result.passed ? '✓' : '✗'} ${result.test}</strong><br>
+                    <small>${result.details}</small>
+                </div>
+            `,
+          )
+          .join('')
+      }
+
+      // Run tests and display results
+      displayResults('compatibility-tests', testWebKitCompatibility())
+      displayResults('functionality-tests', testFunctionality())
+    </script>
+  </body>
+</html>

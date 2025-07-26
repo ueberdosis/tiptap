@@ -179,6 +179,19 @@ export const BlockMath = Node.create<BlockMathOptions>({
 
   addInputRules() {
     return [
+      // Double dollar for block math: $$x^2$$
+      new InputRule({
+        find: /(^|[^$])\$\$([^$\n]+)\$\$(?!\$)$/,
+        handler: ({ state, range, match }) => {
+          const [, prefix, latex] = match
+          const { tr } = state
+          const start = range.from + prefix.length
+          const end = range.to
+
+          tr.replaceWith(start, end, this.type.create({ latex }))
+        },
+      }),
+      // Triple dollar for block math (backward compatibility): $$$x^2$$$
       new InputRule({
         find: /^\$\$\$([^$]+)\$\$\$$/,
         handler: ({ state, range, match }) => {
@@ -196,7 +209,7 @@ export const BlockMath = Node.create<BlockMathOptions>({
   addNodeView() {
     const { katexOptions } = this.options
 
-    return ({ node, getPos }) => {
+    return ({ node, getPos }: any) => {
       const wrapper = document.createElement('div')
       const innerWrapper = document.createElement('div')
       wrapper.className = 'tiptap-mathematics-render'

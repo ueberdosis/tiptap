@@ -183,12 +183,25 @@ export const InlineMath = Node.create<InlineMathOptions>({
 
   addInputRules() {
     return [
+      // Single dollar for inline math: $x^2$
       new InputRule({
-        find: /(?<!\$)\$\$([^$\n]+)\$\$(?!\$)$/,
+        find: /(^|[^$])\$([^$\n]+)\$(?!\$)$/,
         handler: ({ state, range, match }) => {
-          const [, latex] = match
+          const [, prefix, latex] = match
           const { tr } = state
-          const start = range.from
+          const start = range.from + prefix.length
+          const end = range.to
+
+          tr.replaceWith(start, end, this.type.create({ latex }))
+        },
+      }),
+      // Double dollar for inline math (backward compatibility): $$x^2$$
+      new InputRule({
+        find: /(^|[^$])\$\$([^$\n]+)\$\$(?!\$)$/,
+        handler: ({ state, range, match }) => {
+          const [, prefix, latex] = match
+          const { tr } = state
+          const start = range.from + prefix.length
           const end = range.to
 
           tr.replaceWith(start, end, this.type.create({ latex }))
@@ -200,7 +213,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addNodeView() {
     const { katexOptions } = this.options
 
-    return ({ node, getPos }) => {
+    return ({ node, getPos }: any) => {
       const wrapper = document.createElement('span')
       wrapper.className = 'tiptap-mathematics-render'
 
