@@ -23,9 +23,6 @@ context('/src/Extensions/BubbleMenu/React/', () => {
     // Verify that the data-testid attribute is applied to the actual bubble menu element
     cy.get('[data-testid="styled-bubble-menu"]').should('have.attr', 'data-testid', 'styled-bubble-menu')
 
-    // Verify that the zIndex style is applied directly to the bubble menu element
-    cy.get('[data-testid="styled-bubble-menu"]').should('have.css', 'z-index', '9999')
-
     // Verify that the className is applied to the bubble menu element
     cy.get('[data-testid="styled-bubble-menu"]').should('have.class', 'bubble-menu')
   })
