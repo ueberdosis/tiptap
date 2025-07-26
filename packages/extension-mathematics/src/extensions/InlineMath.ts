@@ -184,11 +184,11 @@ export const InlineMath = Node.create<InlineMathOptions>({
   addInputRules() {
     return [
       new InputRule({
-        find: /(?<!\$)\$\$([^$\n]+)\$\$(?!\$)$/,
+        find: /(^|[^$])\$([^$\n]+)\$(?!\$)$/,
         handler: ({ state, range, match }) => {
-          const [, latex] = match
+          const [, prefix, latex] = match
           const { tr } = state
-          const start = range.from
+          const start = range.from + prefix.length
           const end = range.to
 
           tr.replaceWith(start, end, this.type.create({ latex }))
