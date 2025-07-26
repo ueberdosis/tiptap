@@ -13,7 +13,7 @@ export interface HorizontalRuleOptions {
    * @default "paragraph"
    * @example "heading"
    */
-  defaultType: string,
+  nextNodeType: string,
 }
 
 declare module '@tiptap/core' {
@@ -38,7 +38,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
-      defaultType: "paragraph",
+      nextNodeType: "paragraph",
     }
   },
 
@@ -93,7 +93,8 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                     }
                   } else {
                     // add node after horizontal rule if it’s the end of the document
-                    const node = state.schema.nodes[this.options.defaultType].create()
+                    const nodeType = state.schema.nodes[this.options.nextNodeType] || $to.parent.type.contentMatch.nextNodeType
+                    const node = nodeType?.create()
 
                     if (node) {
                       tr.insert(posAfter, node)
