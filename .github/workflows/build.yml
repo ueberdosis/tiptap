@@ -127,7 +127,7 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: pnpm install && pnpm exec cypress install
+        run: pnpm install --strict-peer-dependencies && pnpm exec cypress install
 
       - name: Try to build the packages
         id: build-packages
