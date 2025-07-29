@@ -22,7 +22,7 @@
     "highlight.js": "^11.11.1",
     "katex": "^0.16.4",
     "lexical": "^0.11.3",
-    "linkifyjs": "^4.2.0",
+    "linkifyjs": "^4.3.2",
     "lowlight": "^3.3.0",
     "prosemirror-changeset": "^2.3.0",
     "prosemirror-collab": "^1.3.1",
