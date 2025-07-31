@@ -20,7 +20,7 @@ Tiptap Editor is complemented by the collaboration open-source backend [Hocuspoc
 
 ### Editor Pro Extensions
 
-The **Pro Extensions** are a set of advanced functionalities that enhance the capabilities of the Tiptap Editor. They are additional features that can be integrated into the base editor to provide more sophisticated editing options
+The **Pro Extensions** are a set of advanced functionalities that enhance the capabilities of the Tiptap Editor. They are additional features that can be integrated into the base editor to provide more sophisticated editing options.
 
 Key functionalities include collaborative editing, commenting, versioning, document conversion and AI related features.
 Review the docs right [here](https://tiptap.dev/docs/editor/extensions).
