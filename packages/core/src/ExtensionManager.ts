@@ -206,10 +206,16 @@ export class ExtensionManager {
             return []
           }
 
+          const nodeViewResult = addNodeView()
+
+          if (!nodeViewResult) {
+            return []
+          }
+
           const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
-            return addNodeView()({
+            return nodeViewResult({
               // pass-through
               node,
               view,
