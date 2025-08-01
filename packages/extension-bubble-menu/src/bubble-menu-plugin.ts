@@ -82,6 +82,16 @@ export interface BubbleMenuPluginProps {
     | null
 
   /**
+   * The DOM element to append your menu to. Default is the editor's parent element.
+   *
+   * Sometimes the menu needs to be appended to a different DOM context due to accessibility, clipping, or z-index issues.
+   *
+   * @type {HTMLElement}
+   * @default null
+   */
+  appendTo?: HTMLElement
+
+  /**
    * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
    * hide, and inline middlewares.
    * @default {}
@@ -134,6 +144,8 @@ export class BubbleMenuView implements PluginView {
   public updateDelay: number
 
   public resizeDelay: number
+
+  public appendTo: HTMLElement | undefined
 
   private updateDebounceTimer: number | undefined
 
@@ -236,6 +248,7 @@ export class BubbleMenuView implements PluginView {
     updateDelay = 250,
     resizeDelay = 60,
     shouldShow,
+    appendTo,
     options,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -243,6 +256,7 @@ export class BubbleMenuView implements PluginView {
     this.view = view
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
+    this.appendTo = appendTo
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -448,8 +462,8 @@ export class BubbleMenuView implements PluginView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach to editor's parent element
-    this.view.dom.parentElement?.appendChild(this.element)
+    // attach to appendTo or editor's parent element
+    ;(this.appendTo ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()

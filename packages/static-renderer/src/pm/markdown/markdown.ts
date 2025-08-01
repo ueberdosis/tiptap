@@ -128,8 +128,8 @@ export function renderToMarkdown({
         superscript({ children }) {
           return `<sup>${serializeChildrenToHTMLString(children)}</sup>`
         },
-        link({ node, children }) {
-          return `[${serializeChildrenToHTMLString(children)}](${node.attrs.href})`
+        link({ mark, children }) {
+          return `[${serializeChildrenToHTMLString(children)}](${mark.attrs.href})`
         },
         highlight({ children }) {
           return `==${serializeChildrenToHTMLString(children)}==`
