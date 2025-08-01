@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.9
+
+### Patch Changes
+
+- 22d6050: fix renderToMarkdown rendering a link href's as undefined
+  - @tiptap/core@3.0.9
+  - @tiptap/pm@3.0.9
+
 ## 3.0.8
 
 ### Patch Changes

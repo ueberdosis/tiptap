@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.9
+
+### Patch Changes
+
+- e011d5d: Add appendTo option
+  - @tiptap/core@3.0.9
+  - @tiptap/pm@3.0.9
+
 ## 3.0.8
 
 ### Patch Changes
