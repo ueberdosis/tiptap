@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.0.9
+
+### Patch Changes
+
+- 22fcc31: Update TaskItem aria-label when node changes
+  - @tiptap/core@3.0.9
+  - @tiptap/pm@3.0.9
+
 ## 3.0.8
 
 ### Patch Changes
