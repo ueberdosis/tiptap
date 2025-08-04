@@ -972,11 +972,11 @@ importers:
         specifier: workspace:^
         version: link:../pm
       '@types/react':
-        specifier: ^18.3.18
-        version: 18.3.18
+        specifier: ^19.0.0
+        version: 19.1.6
       '@types/react-dom':
-        specifier: ^18.3.5
-        version: 18.3.5(@types/react@18.3.18)
+        specifier: ^19.0.0
+        version: 19.1.5(@types/react@19.1.6)
       react:
         specifier: ^19.0.0
         version: 19.1.0
