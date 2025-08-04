@@ -55,7 +55,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
   // check initial content for missing ids
   onCreate() {
-    const collab = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
+    const collab = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
     const provider = collab?.options ? collab.options.provider : undefined
 
     const createIds = () => {
