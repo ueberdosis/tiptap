@@ -146,13 +146,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
-      const updateA11Y = () => {
+      const updateA11Y = (currentNode: ProseMirrorNode) => {
         checkbox.ariaLabel =
-          this.options.a11y?.checkboxLabel?.(node, checkbox.checked) ||
-          `Task item checkbox for ${node.textContent || 'empty task item'}`
+          this.options.a11y?.checkboxLabel?.(currentNode, checkbox.checked) ||
+          `Task item checkbox for ${currentNode.textContent || 'empty task item'}`
       }
 
-      updateA11Y()
+      updateA11Y(node)
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
@@ -221,7 +221,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
           listItem.dataset.checked = updatedNode.attrs.checked
           checkbox.checked = updatedNode.attrs.checked
-          updateA11Y()
+          updateA11Y(updatedNode)
 
           return true
         },

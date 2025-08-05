@@ -1,5 +1,22 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.0.9
+
+### Patch Changes
+
+- 072b110: Fixed the Vue 3 Drag Handle so it only appears when the user starts interacting with the text editor.
+  - @tiptap/vue-3@3.0.9
+  - @tiptap/extension-drag-handle@3.0.9
+  - @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.0.8
+- @tiptap/pm@3.0.8
+- @tiptap/vue-3@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

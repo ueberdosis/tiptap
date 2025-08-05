@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.0.9
+
+### Patch Changes
+
+- Updated dependencies [22fcc31]
+  - @tiptap/extension-list@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extension-list@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes
