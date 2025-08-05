@@ -13,7 +13,7 @@ import {
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
 
@@ -334,6 +334,23 @@ export class BubbleMenuView implements PluginView {
     let virtualElement = {
       getBoundingClientRect: () => domRect,
       getClientRects: () => [domRect],
+    }
+
+    if (selection instanceof NodeSelection) {
+      let node = this.view.nodeDOM(selection.from) as HTMLElement
+
+      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+      if (nodeViewWrapper) {
+        node = nodeViewWrapper as HTMLElement
+      }
+
+      if (node) {
+        virtualElement = {
+          getBoundingClientRect: () => node.getBoundingClientRect(),
+          getClientRects: () => [node.getBoundingClientRect()],
+        }
+      }
     }
 
     // this is a special case for cell selections
