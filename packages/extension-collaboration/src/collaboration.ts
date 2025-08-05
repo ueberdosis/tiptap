@@ -57,6 +57,12 @@ export interface CollaborationOptions {
   fragment?: XmlFragment | null
 
   /**
+   * The collaboration provider.
+   * @default null
+   */
+  provider?: any | null
+
+  /**
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void
@@ -86,6 +92,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       document: null,
       field: 'default',
       fragment: null,
+      provider: null,
     }
   },
 
