@@ -182,7 +182,20 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
     this.editorView = null
     this.isInitialized = false
-    this.css?.remove()
+
+    // Safely remove CSS element with fallback for test environments
+    if (this.css) {
+      try {
+        if (typeof this.css.remove === 'function') {
+          this.css.remove()
+        } else if (this.css.parentNode) {
+          this.css.parentNode.removeChild(this.css)
+        }
+      } catch (error) {
+        // Silently handle any unexpected DOM removal errors in test environments
+        console.warn('Failed to remove CSS element:', error)
+      }
+    }
     this.css = null
   }
 
