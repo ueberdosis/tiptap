@@ -182,7 +182,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
     this.editorView = null
     this.isInitialized = false
-    this.css?.remove()
+    if (this.css && typeof this.css.remove === 'function') {
+      this.css.remove()
+    }
     this.css = null
   }
 
