@@ -10,7 +10,7 @@ export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'plu
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
-    { pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null, options, children, ...restProps },
+    { pluginKey = 'bubbleMenu', appendTo, editor, updateDelay, resizeDelay, shouldShow = null, options, children, ...restProps },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
@@ -41,6 +41,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       }
 
       const plugin = BubbleMenuPlugin({
+        appendTo,
         updateDelay,
         resizeDelay,
         editor: attachToEditor,
