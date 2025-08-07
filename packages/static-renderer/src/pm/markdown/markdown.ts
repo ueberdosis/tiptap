@@ -78,7 +78,8 @@ export function renderToMarkdown({
             return `\n${serializeChildrenToHTMLString(children)}\n`
           }
 
-          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(node.childCount - 2).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
+          const columnCount = node.content.content[0].content.childCount
+          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(columnCount).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
         },
         tableRow({ children }) {
           if (Array.isArray(children)) {
