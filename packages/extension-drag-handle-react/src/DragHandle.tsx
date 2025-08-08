@@ -24,6 +24,8 @@ export const DragHandle = (props: DragHandleProps) => {
     editor,
     pluginKey = dragHandlePluginDefaultKey,
     onNodeChange,
+    onElementDragStart,
+    onElementDragEnd,
     computePositionConfig = defaultComputePositionConfig,
   } = props
   const [element, setElement] = useState<HTMLDivElement | null>(null)
@@ -52,7 +54,12 @@ export const DragHandle = (props: DragHandleProps) => {
         editor,
         element,
         pluginKey,
-        computePositionConfig: { ...defaultComputePositionConfig, ...computePositionConfig },
+        computePositionConfig: {
+          ...defaultComputePositionConfig,
+          ...computePositionConfig,
+        },
+        onElementDragStart,
+        onElementDragEnd,
         onNodeChange,
       })
       plugin.current = initPlugin.plugin
@@ -68,7 +75,7 @@ export const DragHandle = (props: DragHandleProps) => {
         initPlugin = null
       }
     }
-  }, [element, editor, onNodeChange, pluginKey, computePositionConfig])
+  }, [element, editor, onNodeChange, pluginKey, computePositionConfig, onElementDragStart, onElementDragEnd])
 
   return (
     <div className={className} style={{ visibility: 'hidden', position: 'absolute' }} ref={setElement}>
