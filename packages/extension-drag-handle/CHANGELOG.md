@@ -1,5 +1,18 @@
 # @tiptap/extension-drag-handle
 
+## 4.0.0
+
+### Minor Changes
+
+- 978c548: Expose `onDragStart` and `onDragEnd` callbacks to improve custom drag behavior. This allows better UI control compared to relying on `editor.view.dragging`, especially when using absolute-positioned drag handles.
+
+### Patch Changes
+
+- @tiptap/core@4.0.0
+- @tiptap/extension-collaboration@4.0.0
+- @tiptap/extension-node-range@4.0.0
+- @tiptap/pm@4.0.0
+
 ## 3.0.9
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @tiptap/extension-emoji
 
+## 4.0.0
+
+### Patch Changes
+
+- 43747ce: Fixed a problem where the emoji extension would interfer with editor's in composing mode (for example in IME conversion)
+  - @tiptap/core@4.0.0
+  - @tiptap/pm@4.0.0
+  - @tiptap/suggestion@4.0.0
+
 ## 3.0.9
 
 ### Patch Changes

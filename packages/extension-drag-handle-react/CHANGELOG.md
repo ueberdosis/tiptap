@@ -1,5 +1,18 @@
 # @tiptap/extension-drag-handle-react
 
+## 4.0.0
+
+### Minor Changes
+
+- 978c548: Expose `onDragStart` and `onDragEnd` callbacks to improve custom drag behavior. This allows better UI control compared to relying on `editor.view.dragging`, especially when using absolute-positioned drag handles.
+
+### Patch Changes
+
+- Updated dependencies [978c548]
+  - @tiptap/extension-drag-handle@4.0.0
+  - @tiptap/react@4.0.0
+  - @tiptap/pm@4.0.0
+
 ## 3.0.9
 
 ### Patch Changes
