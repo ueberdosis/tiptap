@@ -1,5 +1,13 @@
 # @tiptap/extension-mathematics
 
+## 3.1.0
+
+### Patch Changes
+
+- c868252: Fixed an issue with the mathematics regex using modern negative lookups causing crashes in older Safari versions.
+  - @tiptap/core@3.1.0
+  - @tiptap/pm@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes

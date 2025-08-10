@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.1.0
+
+### Patch Changes
+
+- c0d33fd: Fixed a bug causing invalid number of columns being created while converting tables to Markdown
+- 0943a52: Fixed an issue preventing overriding the default options of the static renderer's `renderToMarkdown` function.
+  - @tiptap/core@3.1.0
+  - @tiptap/pm@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes
