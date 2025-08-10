@@ -21,6 +21,7 @@ export function renderToMarkdown({
     content,
     extensions,
     options: {
+      ...options,
       nodeMapping: {
         bulletList({ children }) {
           return `\n${serializeChildrenToHTMLString(children)}`
@@ -137,7 +138,6 @@ export function renderToMarkdown({
         },
         ...options?.markMapping,
       },
-      ...options,
     },
   })
 }
