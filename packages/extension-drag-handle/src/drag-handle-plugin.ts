@@ -60,6 +60,8 @@ export interface DragHandlePluginProps {
   editor: Editor
   element: HTMLElement
   onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void
+  onElementDragStart?: (e: DragEvent) => void
+  onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
 }
 
@@ -71,6 +73,8 @@ export const DragHandlePlugin = ({
   editor,
   computePositionConfig,
   onNodeChange,
+  onElementDragStart,
+  onElementDragEnd,
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
@@ -117,6 +121,7 @@ export const DragHandlePlugin = ({
   }
 
   function onDragStart(e: DragEvent) {
+    onElementDragStart?.(e)
     // Push this to the end of the event cue
     // Fixes bug where incorrect drag pos is returned if drag handle has position: absolute
     // @ts-ignore
@@ -129,7 +134,8 @@ export const DragHandlePlugin = ({
     }, 0)
   }
 
-  function onDragEnd() {
+  function onDragEnd(e: DragEvent) {
+    onElementDragEnd?.(e)
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
