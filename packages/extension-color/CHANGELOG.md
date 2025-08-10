@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes

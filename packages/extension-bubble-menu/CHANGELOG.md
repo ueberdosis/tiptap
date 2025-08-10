@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.1.0
+
+### Patch Changes
+
+- 2718eea: Fixed bubble menus having invalid positions on node selections
+  - @tiptap/core@3.1.0
+  - @tiptap/pm@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes
