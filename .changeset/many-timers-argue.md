@@ -2,4 +2,4 @@
 "@tiptap/extension-emoji": patch
 ---
 
-🩹 fix: skip processing when emojis are present during IME conversion
+Fixed a problem where the emoji extension would interfer with editor's in composing mode (for example in IME conversion)
