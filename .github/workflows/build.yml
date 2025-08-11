@@ -32,7 +32,7 @@ jobs:
         node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -90,7 +90,7 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
       - name: Load turbo cache
         uses: actions/cache@v4.2.0
         id: turbo-cache
@@ -171,7 +171,7 @@ jobs:
     needs: test
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
