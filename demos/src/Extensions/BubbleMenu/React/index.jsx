@@ -12,6 +12,24 @@ export default () => {
       <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
       </p>
+      <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
+      <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
+      <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
+      <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
+      <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
+       <p>
+        Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
+      </p>
     `,
   })
 
@@ -43,7 +61,14 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8 }}>
+        <BubbleMenu
+          editor={editor}
+          options={{
+            placement: 'bottom',
+            offset: 8,
+            autoUpdate: {},
+          }}
+        >
           <div className="bubble-menu">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
