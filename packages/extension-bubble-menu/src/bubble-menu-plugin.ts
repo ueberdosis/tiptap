@@ -340,9 +340,10 @@ export class BubbleMenuView implements PluginView {
   private get virtualElement(): VirtualElement {
     const { selection } = this.editor.state
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
-    let virtualElement = {
+    let virtualElement: VirtualElement = {
       getBoundingClientRect: () => domRect,
       getClientRects: () => [domRect],
+      contextElement: this.view.dom,
     }
 
     if (selection instanceof NodeSelection) {
