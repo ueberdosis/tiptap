@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.2.0
+
+### Minor Changes
+
+- 5056e3e: Fix Editor.unmount() failing in test environments due to missing DOM remove() method
+
+### Patch Changes
+
+- @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes
