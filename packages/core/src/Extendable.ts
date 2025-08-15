@@ -1,10 +1,11 @@
-/* eslint-disable simple-import-sort/imports */
 import type { Plugin } from '@tiptap/pm/state'
+
 import type { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
+import type { MarkdownParseResult, MarkdownToken } from './markdown/types.js'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
@@ -16,7 +17,6 @@ import type {
   ParentConfig,
   RawCommands,
 } from './types.js'
-import type { MarkdownToken, MarkdownParseResult } from './markdown/types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
