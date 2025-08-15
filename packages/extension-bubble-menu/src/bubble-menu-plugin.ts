@@ -122,7 +122,7 @@ export interface BubbleMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
-    autoUpdate?: Parameters<typeof autoUpdate>[3]
+    autoUpdate?: Parameters<typeof autoUpdate>[3] | boolean
 
     onShow?: () => void
     onHide?: () => void
@@ -176,7 +176,7 @@ export class BubbleMenuView implements PluginView {
     autoPlacement: false,
     hide: false,
     inline: false,
-    autoUpdate: undefined,
+    autoUpdate: false,
     onShow: undefined,
     onHide: undefined,
     onUpdate: undefined,
@@ -414,7 +414,12 @@ export class BubbleMenuView implements PluginView {
     }
     if (this.floatingUIOptions.autoUpdate) {
       // if autoUpdate is enabled, we use it to update the position of the bubble menu
-      this.autoUpdateCleanup = autoUpdate(this.virtualElement, this.element, update, this.floatingUIOptions.autoUpdate)
+      this.autoUpdateCleanup = autoUpdate(
+        this.virtualElement,
+        this.element,
+        update,
+        typeof this.floatingUIOptions.autoUpdate !== 'boolean' ? this.floatingUIOptions.autoUpdate : {},
+      )
     } else {
       update()
     }
