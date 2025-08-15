@@ -1,8 +1,3 @@
-// Minimal tokenizer builder stub for Core Markdown support.
-// This module will compose the baseline tokenizer with tokenizer rules
-// automatically generated from registered Tiptap extensions that expose
-// `parseMarkdown` / `renderMarkdown`.
-
 /**
  * Optional override for the markdown parser/tokenizer builder.
  *

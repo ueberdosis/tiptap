@@ -1,7 +1,3 @@
-// Minimal markdown -> ProseMirror JSON parser stub.
-// Will use the tokenizer built by `buildTokenizerForExtensions` and call
-// extension `parseMarkdown` handlers for token -> node conversion.
-
 import type { Extension } from '../Extension.js'
 import { buildTokenizerForExtensions } from './tokenizer.js'
 import type { MarkdownParseResult } from './types.js'
