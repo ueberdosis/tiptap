@@ -57,6 +57,9 @@
   "peerDependencies": {
     "@tiptap/pm": "workspace:^"
   },
+  "dependencies": {
+    "marked": "^16.1.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",

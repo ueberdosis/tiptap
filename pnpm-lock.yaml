@@ -383,6 +383,10 @@ importers:
         version: link:../../packages/extension-list
 
   packages/core:
+    dependencies:
+      marked:
+        specifier: ^16.1.2
+        version: 16.1.2
     devDependencies:
       '@tiptap/pm':
         specifier: workspace:^
@@ -5279,6 +5283,11 @@ packages:
 
   markdown-it@14.1.0:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
+    hasBin: true
+
+  marked@16.1.2:
+    resolution: {integrity: sha512-rNQt5EvRinalby7zJZu/mB+BvaAY2oz3wCuCjt1RDrWNpS1Pdf9xqMOeC9Hm5adBdcV/3XZPJpG58eT+WBc0XQ==}
+    engines: {node: '>= 20'}
     hasBin: true
 
   math-intrinsics@1.1.0:
@@ -11491,6 +11500,8 @@ snapshots:
       mdurl: 2.0.0
       punycode.js: 2.3.1
       uc.micro: 2.1.0
+
+  marked@16.1.2: {}
 
   math-intrinsics@1.1.0: {}
 

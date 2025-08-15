@@ -1,5 +1,5 @@
+/* eslint-disable simple-import-sort/imports */
 import type { Plugin } from '@tiptap/pm/state'
-
 import type { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
@@ -16,6 +16,7 @@ import type {
   ParentConfig,
   RawCommands,
 } from './types.js'
+import type { MarkdownToken, MarkdownParseResult } from './markdown/types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
 
@@ -223,6 +224,43 @@ export interface ExtendableConfig<
     storage: Storage
     parent: ParentConfig<Config>['addExtensions']
   }) => Extensions
+
+  /**
+   * Markdown integration hooks for this extension.
+   *
+   * Extensions can provide optional helpers to parse or render markdown.
+   */
+  markdown?: {
+    /**
+     * Optional unique name to identify the markdown tokenizer / parser for this extension.
+     * If omitted, the extension `name` will be used.
+     */
+    name?: string
+    /**
+     * A RegExp used by the tokenizer to detect custom markdown constructs.
+     */
+    match?: RegExp
+    /**
+     * Parse helper used by the markdown subsystem. There are two valid
+     * contracts for this function depending on how the extension intends
+     * to participate:
+     *
+     * - Tokenizer-level parse: called with a RegExpExecArray when the
+     *   extension provides `match` to build a custom tokenizer. Should
+     *   return a small token payload (e.g. { type, raw, text }).
+     * - Parser-level parse: called with a token object emitted by the
+     *   baseline lexer (after post-processing). Should convert the token
+     *   to ProseMirror JSON (node(s) or `{ mark, content }`).
+     *
+     * The function signature therefore accepts `any` and implementers
+     * should document which contract they implement.
+     */
+    parse?: (token: MarkdownToken) => MarkdownParseResult | any
+    /**
+     * Render a node (ProseMirror JSON) to a markdown string.
+     */
+    render?: (node: any) => string
+  }
 
   /**
    * This function extends the schema of the node.
