@@ -1,5 +1,14 @@
 # @tiptap/extension-unique-id
 
+## 3.2.0
+
+### Patch Changes
+
+- 0dc17f4: Fix UniqueID extension creating unwanted nodes on page refresh by looking for collaboration provider in the correct extension (collaborationCaret instead of collaboration)
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes
