@@ -15,7 +15,11 @@
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/index.d.ts",
+        "import": {
+          "browser": "./dist/index.js",
+          "node": "./dist/server/index.js",
+          "default": "./dist/index.js"
+        },
         "require": "./dist/index.d.cts"
       },
       "import": "./dist/index.js",
