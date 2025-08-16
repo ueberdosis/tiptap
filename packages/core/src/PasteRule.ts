@@ -112,12 +112,28 @@ function run(config: {
   const handlers: (void | null)[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.isTextblock || node.type.spec.code) {
+    // Skip code blocks entirely.
+    // Be defensive: node may be a Fragment without a `type`.
+    if (node.type && node.type.spec && node.type.spec.code) {
       return
     }
 
+    // For textblock and inline/text nodes, compute the range relative to the node.
+    // Prefer `node.nodeSize` when available (some Node shapes expose this),
+    // otherwise fall back to `node.content?.size`. Default to 0 if neither exists.
+    const contentSize = node.nodeSize ?? node.content?.size ?? 0
     const resolvedFrom = Math.max(from, pos)
-    const resolvedTo = Math.min(to, pos + node.content.size)
+    const resolvedTo = Math.min(to, pos + contentSize)
+
+    // If the resolved range is empty or invalid for this node, skip it. This
+    // avoids calling `textBetween` with start > end which can cause internal
+    // Fragment/Node traversal to access undefined `nodeSize` values.
+    if (resolvedFrom >= resolvedTo) {
+      return
+    }
+
+    // Use textBetween to retrieve the text for matching. For text nodes, this will
+    // return the node's text; for other nodes it returns concatenated child text.
     const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find, pasteEvent)
