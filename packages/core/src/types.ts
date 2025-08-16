@@ -39,6 +39,18 @@ export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
 
 export interface EditorEvents {
+  mount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
+  unmount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
   beforeCreate: {
     /**
      * The editor instance
@@ -371,6 +383,14 @@ export interface EditorOptions {
    * Called after the editor is constructed.
    */
   onCreate: (props: EditorEvents['create']) => void
+  /**
+   * Called when the editor is mounted.
+   */
+  onMount: (props: EditorEvents['mount']) => void
+  /**
+   * Called when the editor is unmounted.
+   */
+  onUnmount: (props: EditorEvents['unmount']) => void
   /**
    * Called when the editor encounters an error while parsing the content.
    * Only enabled if `enableContentCheck` is `true`.
