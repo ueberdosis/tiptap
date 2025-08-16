@@ -20,7 +20,12 @@ describe('static render json to string (no prosemirror)', () => {
   it('should render empty paragraph', () => {
     const json = {
       type: 'doc',
-      content: [],
+      content: [
+        {
+          type: 'paragraph',
+          content: [],
+        },
+      ],
     }
     const md = renderToMarkdown({
       content: json,
