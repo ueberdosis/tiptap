@@ -114,7 +114,7 @@ function run(config: {
   state.doc.nodesBetween(from, to, (node, pos) => {
     // Skip code blocks entirely.
     // Be defensive: node may be a Fragment without a `type`.
-    if (node.type && node.type.spec && node.type.spec.code) {
+    if (node.type?.spec?.code) {
       return
     }
 
