@@ -132,12 +132,14 @@ export class ExtensionManager {
           const rules = addInputRules()
 
           if (rules && rules.length) {
-            plugins.push(
-              inputRulesPlugin({
-                editor,
-                rules,
-              }),
-            )
+            const inputResult = inputRulesPlugin({
+              editor,
+              rules,
+            })
+
+            const inputPlugins = Array.isArray(inputResult) ? inputResult : [inputResult]
+
+            plugins.push(...inputPlugins)
           }
         }
 
@@ -147,7 +149,9 @@ export class ExtensionManager {
           const rules = addPasteRules()
 
           if (rules && rules.length) {
-            plugins.push(...pasteRulesPlugin({ editor, rules }))
+            const pasteRules = pasteRulesPlugin({ editor, rules })
+
+            plugins.push(...pasteRules)
           }
         }
 
