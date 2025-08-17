@@ -112,9 +112,10 @@ function run(config: {
   const handlers: (void | null)[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    // Skip code blocks entirely.
-    // Be defensive: node may be a Fragment without a `type`.
-    if (node.type?.spec?.code) {
+    // Skip code blocks and non-textual nodes.
+    // Be defensive: `node` may be a Fragment without a `type`. Only text,
+    // inline, or textblock nodes are processed by paste rules.
+    if (node.type?.spec?.code || !(node.isText || node.isTextblock || node.isInline)) {
       return
     }
 
