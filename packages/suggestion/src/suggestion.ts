@@ -206,6 +206,42 @@ export function Suggestion<I = any, TSelected = any>({
   const renderer = render?.()
   // small helper used internally by the view to dispatch an exit
   function dispatchExit(view: EditorView, pluginKeyRef: PluginKey) {
+    try {
+      // Try to call renderer.onExit so consumer renderers (for example the
+      // demos' ReactRenderer) can clean up and unmount immediately. This
+      // covers paths where we only dispatch a metadata transaction (like
+      // click-outside) and ensures we don't leak DOM nodes / React roots.
+      const state = pluginKey.getState(view.state)
+      const decorationNode = state?.decorationId
+        ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+        : null
+
+      const exitProps: SuggestionProps = {
+        // @ts-ignore editor is available in closure
+        editor,
+        range: state?.range || { from: 0, to: 0 },
+        query: state?.query || null,
+        text: state?.text || null,
+        items: [],
+        command: commandProps => {
+          return command({ editor, range: state?.range || { from: 0, to: 0 }, props: commandProps as any })
+        },
+        decorationNode,
+        clientRect: decorationNode
+          ? () => {
+              const { decorationId } = plugin.getState(editor.state) // eslint-disable-line
+              const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
+
+              return currentDecorationNode?.getBoundingClientRect() || null
+            }
+          : null,
+      }
+
+      renderer?.onExit?.(exitProps)
+    } catch {
+      // ignore errors from consumer renderers
+    }
+
     const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
     // Dispatch a metadata-only transaction to signal the plugin to exit
     view.dispatch(tr)
