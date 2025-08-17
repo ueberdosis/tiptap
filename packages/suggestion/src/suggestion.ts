@@ -204,11 +204,59 @@ export function Suggestion<I = any, TSelected = any>({
 }: SuggestionOptions<I, TSelected>) {
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
+  // small helper used internally by the view to dispatch an exit
+  function dispatchExit(view: EditorView, pluginKeyRef: PluginKey) {
+    const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
+    // Dispatch a metadata-only transaction to signal the plugin to exit
+    view.dispatch(tr)
+  }
 
   const plugin: Plugin<any> = new Plugin({
     key: pluginKey,
 
     view() {
+      let clickHandler: ((event: MouseEvent) => void) | null = null
+
+      const ensureClickHandler = (view: EditorView) => {
+        if (clickHandler) {
+          return
+        }
+
+        clickHandler = (event: MouseEvent) => {
+          if (!props) {
+            return
+          }
+
+          const decorationNode = props.decorationNode
+          const target = event.target as Node | null
+
+          if (!decorationNode) {
+            return
+          }
+
+          if (decorationNode.contains(target)) {
+            return
+          }
+
+          if (view.dom.contains(target)) {
+            return
+          }
+
+          dispatchExit(view, pluginKey)
+        }
+
+        document.addEventListener('mousedown', clickHandler, true)
+      }
+
+      const removeClickHandler = () => {
+        if (!clickHandler) {
+          return
+        }
+
+        document.removeEventListener('mousedown', clickHandler, true)
+        clickHandler = null
+      }
+
       return {
         update: async (view, prevState) => {
           const prev = this.key?.getState(prevState)
@@ -246,11 +294,8 @@ export function Suggestion<I = any, TSelected = any>({
               })
             },
             decorationNode,
-            // virtual node for positioning
-            // this can be used for building popups without a DOM node
             clientRect: decorationNode
               ? () => {
-                  // because of `items` can be asynchrounous we’ll search for the current decoration node
                   const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
                   const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
 
@@ -285,9 +330,18 @@ export function Suggestion<I = any, TSelected = any>({
           if (handleStart) {
             renderer?.onStart?.(props)
           }
+
+          // Install / remove click handler depending on suggestion active state
+          if (next.active) {
+            ensureClickHandler(view)
+          } else {
+            removeClickHandler()
+          }
         },
 
         destroy: () => {
+          removeClickHandler()
+
           if (!props) {
             return
           }
@@ -328,6 +382,21 @@ export function Suggestion<I = any, TSelected = any>({
         const { selection } = transaction
         const { empty, from } = selection
         const next = { ...prev }
+
+        // If a transaction carries the exit meta for this plugin, immediately
+        // deactivate the suggestion. This allows metadata-only transactions
+        // (dispatched by escape or programmatic exit) to deterministically
+        // clear decorations without changing the document.
+        const meta = transaction.getMeta(pluginKey)
+        if (meta && meta.exit) {
+          next.active = false
+          next.decorationId = null
+          next.range = { from: 0, to: 0 }
+          next.query = null
+          next.text = null
+
+          return next
+        }
 
         next.composing = composing
 
@@ -394,7 +463,45 @@ export function Suggestion<I = any, TSelected = any>({
           return false
         }
 
-        return renderer?.onKeyDown?.({ view, event, range }) || false
+        // If Escape is pressed, call onExit and dispatch a metadata-only
+        // transaction to unset the suggestion state. This provides a safe
+        // and deterministic way to exit the suggestion without altering the
+        // document (avoids transaction mapping/mismatch issues).
+        if (event.key === 'Escape' || event.key === 'Esc') {
+          // Build temporary props for renderer.exit
+          const state = plugin.getState(view.state)
+          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+
+          const exitProps: SuggestionProps = {
+            editor,
+            range: state.range,
+            query: state.query,
+            text: state.text,
+            items: [],
+            command: commandProps => {
+              return command({ editor, range: state.range, props: commandProps as any })
+            },
+            decorationNode,
+            clientRect: decorationNode
+              ? () => {
+                  const { decorationId } = plugin.getState(editor.state) // eslint-disable-line
+                  const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
+
+                  return currentDecorationNode?.getBoundingClientRect() || null
+                }
+              : null,
+          }
+
+          renderer?.onExit?.(exitProps)
+
+          // dispatch metadata-only transaction to unset the plugin state
+          dispatchExit(view, pluginKey)
+
+          return true
+        }
+
+        const handled = renderer?.onKeyDown?.({ view, event, range }) || false
+        return handled
       },
 
       // Setup decorator on the currently active suggestion.
@@ -425,4 +532,14 @@ export function Suggestion<I = any, TSelected = any>({
   })
 
   return plugin
+}
+
+/**
+ * Programmatically exit a suggestion plugin by dispatching a metadata-only
+ * transaction. This is the safe, recommended API to remove suggestion
+ * decorations without touching the document or causing mapping errors.
+ */
+export function exitSuggestion(view: EditorView, pluginKeyRef: PluginKey = SuggestionPluginKey) {
+  const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
+  view.dispatch(tr)
 }
