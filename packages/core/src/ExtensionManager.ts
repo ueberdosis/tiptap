@@ -18,10 +18,8 @@ import {
   splitExtensions,
 } from './helpers/index.js'
 import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
-import type { InputRule } from './InputRule.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
-import type { PasteRule } from './PasteRule.js'
 import { pasteRulesPlugin } from './PasteRule.js'
 import type { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
@@ -89,9 +87,6 @@ export class ExtensionManager {
     // based on the `priority` option.
     const extensions = sortExtensions([...this.extensions].reverse())
 
-    const inputRules: InputRule[] = []
-    const pasteRules: PasteRule[] = []
-
     const allPlugins = extensions
       .map(extension => {
         const context = {
@@ -134,13 +129,26 @@ export class ExtensionManager {
         const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
 
         if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
-          inputRules.push(...addInputRules())
+          const rules = addInputRules()
+
+          if (rules && rules.length) {
+            plugins.push(
+              inputRulesPlugin({
+                editor,
+                rules,
+              }),
+            )
+          }
         }
 
         const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
 
         if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
-          pasteRules.push(...addPasteRules())
+          const rules = addPasteRules()
+
+          if (rules && rules.length) {
+            plugins.push(...pasteRulesPlugin({ editor, rules }))
+          }
         }
 
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
@@ -159,17 +167,7 @@ export class ExtensionManager {
       })
       .flat()
 
-    return [
-      inputRulesPlugin({
-        editor,
-        rules: inputRules,
-      }),
-      ...pasteRulesPlugin({
-        editor,
-        rules: pasteRules,
-      }),
-      ...allPlugins,
-    ]
+    return allPlugins
   }
 
   /**
