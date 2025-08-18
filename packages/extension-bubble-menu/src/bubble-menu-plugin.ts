@@ -199,7 +199,7 @@ export class BubbleMenuView implements PluginView {
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
-    return !(!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable)
+    return hasEditorFocus && !empty && !isEmptyTextBlock && this.editor.isEditable
   }
 
   get middlewares() {
