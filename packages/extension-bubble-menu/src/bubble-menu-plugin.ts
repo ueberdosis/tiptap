@@ -343,6 +343,9 @@ export class BubbleMenuView implements PluginView {
     let virtualElement: VirtualElement = {
       getBoundingClientRect: () => domRect,
       getClientRects: () => [domRect],
+      /**
+       * Since virtualElement cannot respond to autoUpdate's scroll event, its contextElement must be added
+       * */
       contextElement: this.view.dom,
     }
 
@@ -392,6 +395,7 @@ export class BubbleMenuView implements PluginView {
     }
     return virtualElement
   }
+
   updatePosition() {
     // clear the previous autoUpdate cleanup function
     this.autoUpdateCleanup?.()
