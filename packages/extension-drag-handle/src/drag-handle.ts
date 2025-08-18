@@ -57,6 +57,10 @@ export const DragHandle = Extension.create<DragHandleOptions>({
         const element = document.createElement('div')
 
         element.classList.add('drag-handle')
+        // in @tiptap/extension-drag-handle-react, @tiptap/extension-drag-handle-vue-2,3, the element is hidden by default
+        // Add a default style to avoid the element being visible when only @tiptap/extension-drag-handle is added
+        element.style.visibility = 'hidden'
+        element.style.position = 'absolute'
 
         return element
       },
