@@ -27,7 +27,7 @@ export default () => {
       <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
       </p>
-       <p>
+      <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
       </p>
     `,
