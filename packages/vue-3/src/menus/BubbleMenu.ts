@@ -32,6 +32,11 @@ export const BubbleMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -42,7 +47,7 @@ export const BubbleMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, shouldShow, updateDelay } = props
+      const { editor, options, pluginKey, resizeDelay, appendTo, shouldShow, updateDelay } = props
 
       if (!root.value) {
         return
@@ -61,6 +66,7 @@ export const BubbleMenu = defineComponent({
           options,
           pluginKey,
           resizeDelay,
+          appendTo,
           shouldShow,
           updateDelay,
         }),
