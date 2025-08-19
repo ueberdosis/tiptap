@@ -24,6 +24,11 @@ export const FloatingMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<FloatingMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -34,7 +39,7 @@ export const FloatingMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { pluginKey, editor, options, shouldShow } = props
+      const { pluginKey, editor, options, appendTo, shouldShow } = props
 
       if (!root.value) {
         return
@@ -52,6 +57,7 @@ export const FloatingMenu = defineComponent({
           editor,
           element: root.value as HTMLElement,
           options,
+          appendTo,
           shouldShow,
         }),
       )
