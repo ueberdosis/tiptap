@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.2.1
+
+### Patch Changes
+
+- 6a2873f: Ensure drag previews for node views work correctly in Safari by attaching
+  an offscreen clone of the node to the DOM while calling
+  `setDragImage`, and by preserving the original element's pixel
+  `width`/`height` so the preview matches the original. This prevents
+  Safari from immediately cancelling the drag when a detached element is
+  used as the drag image.
+  - @tiptap/pm@3.2.1
+
 ## 3.2.0
 
 ### Minor Changes
