@@ -27,6 +27,7 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
+import MarkdownManager from './markdown/MarkdownManager.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import type {
@@ -71,6 +72,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public isInitialized = false
 
   public extensionStorage: Storage = {} as Storage
+
+  /**
+   * Markdown manager for parsing/serializing markdown.
+   */
+  public markdown?: MarkdownManager
 
   /**
    * A unique ID for this editor instance.
@@ -422,6 +428,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
+
+    // Create MarkdownManager so extensions can register markdown handlers
+    this.markdown = new MarkdownManager()
 
     this.extensionManager = new ExtensionManager(allExtensions, this)
   }

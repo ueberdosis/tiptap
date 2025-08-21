@@ -49,26 +49,16 @@ export const Paragraph = Node.create<ParagraphOptions>({
   },
 
   markdown: {
-    // Minimal token shape passed to parser-level handlers. Note the
-    // difference between tokenizer-level `parse(match: RegExpExecArray)`
-    // (used to produce tokens) and parser-level `parse(token)` (this
-    // handler), which receives a token object.
-    //
-    // Handler contract: (token: { type?, raw?, text?, tokens? }) => JSONContent | JSONContent[] | { mark, content }
-    parse: token => {
-      const children = Array.isArray(token.tokens)
-        ? token.tokens.map((t: any) => ({ type: 'text', text: t.text ?? t.raw ?? '' }))
-        : [{ type: 'text', text: token.text ?? token.raw ?? '' }]
-
+    parse: (token, h) => {
+      const children = Array.isArray(token.tokens) ? h.parseInline(token.tokens) : [h.text(token)]
       return { type: 'paragraph', content: children }
     },
 
-    render: (node: any) => {
+    render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
         return `\n\n`
       }
-      const inner = node.content.map((n: any) => (n && typeof n.text === 'string' ? n.text : '')).join('')
-      return `${inner}\n\n`
+      return `${h.renderChildren(node.content)}\n\n`
     },
   },
 

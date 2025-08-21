@@ -1,51 +1,43 @@
-// Types used by the Core markdown subsystem.
-import type { JSONContent, MarkType } from '../types.js'
-
-/**
- * A small hint used by extensions to declare tokenizer behavior.
- */
-export interface MarkdownTokenizerHint {
-  /** Optional explicit tokenizer name used to tag tokens. */
-  name?: string
-  /** RegExp used by the tokenizer to detect occurrences. */
-  match?: RegExp
-  /** Optional parse function called with the RegExp match. */
-  parse?: (match: RegExpExecArray) => any
-}
-
-/**
- * The value an extension parse handler can return.
- * - A single `JSONContent` node
- * - An array of `JSONContent` nodes
- * - A wrapper `{ mark, content }` where `content` is an array of nodes and
- *   `mark` is a mark descriptor to apply to the content.
- */
-export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: MarkType; content: JSONContent[] }
-
-/**
- * A small, common subset of token fields produced by the baseline lexer
- * (e.g. `marked`). Extensions can rely on these fields when implementing
- * `parse` handlers. Implementations may include additional fields.
- */
+// Shared markdown-related types for the MarkdownManager and extensions.
 export type MarkdownToken = {
   type?: string
   raw?: string
   text?: string
   tokens?: MarkdownToken[]
-  [key: string]: any
+  depth?: number
+  items?: MarkdownToken[]
 }
 
-export interface MarkdownSerializerOptions {
-  // placeholder for future serializer options
-  [key: string]: any
+export type MarkdownNode = {
+  type: string
+  content?: MarkdownNode[]
+  attrs?: Record<string, unknown>
+  text?: string
+}
+
+export type MarkdownHelpers = {
+  parseInline: (tokens: MarkdownToken[]) => MarkdownNode[]
+  renderChildren: (node: MarkdownNode[] | MarkdownNode) => string
+  text: (token: MarkdownToken) => MarkdownNode
 }
 
 /**
- * The shape that can be added to an Extension's `config.markdown`.
+ * Full runtime helpers object provided by MarkdownManager to handlers.
+ * This includes the small author-facing helpers plus internal helpers
+ * that can be useful for advanced handlers.
  */
-export interface MarkdownExtensionConfig extends Partial<MarkdownTokenizerHint> {
-  parse?: (token: any) => MarkdownParseResult | Promise<MarkdownParseResult>
-  render?: (node: JSONContent) => string | Promise<string>
+export type FullMarkdownHelpers = MarkdownHelpers & {
+  parseChildren: (tokens: MarkdownToken[]) => MarkdownNode[]
+  getExtension: (name: string) => any
+  createNode: (type: string, attrs?: any, content?: MarkdownNode[]) => MarkdownNode
 }
 
-export default MarkdownParseResult
+export default MarkdownHelpers
+
+/**
+ * Return shape for parser-level `parse` handlers.
+ * - a single JSON-like node
+ * - an array of JSON-like nodes
+ * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
+ */
+export type MarkdownParseResult = MarkdownNode | MarkdownNode[] | { mark: string; content: MarkdownNode[] }

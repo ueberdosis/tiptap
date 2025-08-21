@@ -5,7 +5,7 @@ import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
-import type { MarkdownParseResult, MarkdownToken } from './markdown/types.js'
+import type { FullMarkdownHelpers, MarkdownNode, MarkdownParseResult,MarkdownToken } from './markdown/types'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
@@ -255,11 +255,16 @@ export interface ExtendableConfig<
      * The function signature therefore accepts `any` and implementers
      * should document which contract they implement.
      */
-    parse?: (token: MarkdownToken) => MarkdownParseResult | any
+    // The `parse` hook supports two contracts:
+    // - Tokenizer-level: (match: RegExpExecArray) => tokenPayload
+    // - Parser-level: (token: MarkdownToken, helpers?: FullMarkdownHelpers) => JSONContent | JSONContent[] | { mark, content }
+    parse?:
+      | ((match: RegExpExecArray) => any)
+      | ((token: MarkdownToken, helpers: FullMarkdownHelpers) => MarkdownParseResult)
     /**
      * Render a node (ProseMirror JSON) to a markdown string.
      */
-    render?: (node: any) => string
+    render?: (node: MarkdownNode, helpers: FullMarkdownHelpers) => string
   }
 
   /**
