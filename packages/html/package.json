@@ -18,7 +18,11 @@
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": {
+        "browser": "./dist/index.js",
+        "node": "./dist/server/index.js",
+        "default": "./dist/index.js"
+      },
       "require": "./dist/index.cjs"
     },
     "./server": {
