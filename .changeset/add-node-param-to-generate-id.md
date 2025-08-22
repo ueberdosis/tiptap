@@ -13,5 +13,3 @@ editor.use(UniqueID, {
   generateID: (node) => `${node.type.name}-${uuidv4()}`,
 })
 ```
-
-Also note: the default implementation accepts the node parameter (and can be prefixed with an underscore to avoid unused-var lint warnings).
