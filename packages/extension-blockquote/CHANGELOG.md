@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+
 ## 3.2.1
 
 ### Patch Changes
