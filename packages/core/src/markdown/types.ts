@@ -1,3 +1,5 @@
+import type { Node } from '@tiptap/pm/model'
+
 // Shared markdown-related types for the MarkdownManager and extensions.
 export type MarkdownToken = {
   type?: string
@@ -8,17 +10,10 @@ export type MarkdownToken = {
   items?: MarkdownToken[]
 }
 
-export type MarkdownNode = {
-  type: string
-  content?: MarkdownNode[]
-  attrs?: Record<string, unknown>
-  text?: string
-}
-
 export type MarkdownHelpers = {
-  parseInline: (tokens: MarkdownToken[]) => MarkdownNode[]
-  renderChildren: (node: MarkdownNode[] | MarkdownNode) => string
-  text: (token: MarkdownToken) => MarkdownNode
+  parseInline: (tokens: MarkdownToken[]) => Node[]
+  renderChildren: (node: Node[] | Node, separator?: string) => string
+  text: (token: MarkdownToken) => Node
 }
 
 /**
@@ -27,9 +22,9 @@ export type MarkdownHelpers = {
  * that can be useful for advanced handlers.
  */
 export type FullMarkdownHelpers = MarkdownHelpers & {
-  parseChildren: (tokens: MarkdownToken[]) => MarkdownNode[]
+  parseChildren: (tokens: MarkdownToken[]) => Node[]
   getExtension: (name: string) => any
-  createNode: (type: string, attrs?: any, content?: MarkdownNode[]) => MarkdownNode
+  createNode: (type: string, attrs?: any, content?: Node[]) => Node
 }
 
 export default MarkdownHelpers
@@ -40,4 +35,4 @@ export default MarkdownHelpers
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
-export type MarkdownParseResult = MarkdownNode | MarkdownNode[] | { mark: string; content: MarkdownNode[] }
+export type MarkdownParseResult = Node | Node[] | { mark: string; content: Node[] }

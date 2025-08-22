@@ -81,6 +81,16 @@ export const BulletList = Node.create<BulletListOptions>({
     return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+
+      return h.renderChildren(node.content, '\n')
+    },
+  },
+
   addCommands() {
     return {
       toggleBulletList:

@@ -705,6 +705,25 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Get the document as Markdown.
+   * If a MarkdownManager is available it will be used to serialize the
+   * document to Markdown. Otherwise a best-effort plain-text fallback is
+   * returned via `getText()`.
+   */
+  public getMarkdown(): string {
+    try {
+      if (this.markdown) {
+        return this.markdown.serialize(this.getJSON())
+      }
+    } catch {
+      // Fall through to text fallback on serialization errors
+    }
+
+    // Fallback: return plain text if no markdown serializer is available
+    return this.getText()
+  }
+
+  /**
    * Get the document as text.
    */
   public getText(options?: { blockSeparator?: string; textSerializers?: Record<string, TextSerializer> }): string {

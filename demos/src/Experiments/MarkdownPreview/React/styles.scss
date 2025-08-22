@@ -1,0 +1,20 @@
+.markdown-demo {
+  display: flex;
+  gap: 1rem;
+  height: 100vh;
+  padding: 1rem;
+}
+
+.markdown-demo .editor,
+.markdown-demo .preview {
+  flex: 1 1 50%;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.markdown-demo .preview pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

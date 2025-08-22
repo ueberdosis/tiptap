@@ -5,7 +5,7 @@ import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
-import type { FullMarkdownHelpers, MarkdownNode, MarkdownParseResult,MarkdownToken } from './markdown/types'
+import type { FullMarkdownHelpers, MarkdownNode, MarkdownParseResult, MarkdownToken } from './markdown/types'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {

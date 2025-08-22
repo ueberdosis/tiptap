@@ -1,7 +1,8 @@
+import type { Node } from '@tiptap/pm/model'
 import { marked } from 'marked'
 
 import { getExtensionField } from '../helpers/getExtensionField.js'
-import type { AnyExtension } from '../types.js'
+import type { AnyExtension, JSONContent } from '../types.js'
 import type { FullMarkdownHelpers } from './types.js'
 
 /** Extension contract for markdown parsing/serialization. */
@@ -99,23 +100,23 @@ export class MarkdownManager {
    * Serialize a ProseMirror-like JSON document (or node array) to a Markdown string
    * using registered renderers and fallback renderers.
    */
-  serialize(docOrContent: any): string {
+  serialize(docOrContent: JSONContent, separator?: string): string {
     if (!docOrContent) {
       return ''
     }
 
     // If a full doc was passed
     if (docOrContent.type === 'doc' && Array.isArray(docOrContent.content)) {
-      return this.renderChildren(docOrContent.content)
+      return this.renderChildren(docOrContent.content as unknown as Node | Node[], separator || '\n\n')
     }
 
     // If an array of nodes was passed
     if (Array.isArray(docOrContent)) {
-      return this.renderChildren(docOrContent)
+      return this.renderChildren(docOrContent, separator)
     }
 
     // Single node
-    return this.renderChildren(docOrContent)
+    return this.renderChildren(docOrContent as Node | Node[], separator)
   }
 
   /**
@@ -124,9 +125,9 @@ export class MarkdownManager {
    */
   parseChildren(tokens: any[]): any[] {
     const helpers: FullMarkdownHelpers = {
-      parseChildren: (children: any[]) => this.parseChildren(children),
-      renderChildren: (node: any) => this.renderChildren(node),
-      getExtension: (name: string) => this.registry.get(name),
+      parseChildren: children => this.parseChildren(children),
+      renderChildren: (node, separator) => this.renderChildren(node, separator),
+      getExtension: name => this.registry.get(name),
 
       // extras
       parseInline: (children: any[]) => this.parseChildren(children),
@@ -178,54 +179,38 @@ export class MarkdownManager {
   }
 
   /**
-   * Render a ProseMirror node or node content back to Markdown using
-   * registered renderers or minimal defaults.
+   * Render a node or an array of nodes. Parent type controls how children
+   * are joined (which determines newline insertion between children).
    */
-  renderChildren(node: any): string {
+  renderChildren(nodeOrNodes: Node | Node[], separator?: string): string {
     const helpers: FullMarkdownHelpers = {
       parseChildren: (children: any[]) => this.parseChildren(children),
-      renderChildren: (n: any) => this.renderChildren(n),
+      renderChildren: (n: any, p: string | null = null) => this.renderChildren(n, p),
       getExtension: (name: string) => this.registry.get(name),
 
       // extras
       parseInline: (children: any[]) => this.parseChildren(children),
-      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }),
-      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }),
+      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }) as unknown as Node,
+      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }) as unknown as Node,
     }
 
-    // If node is an array of nodes, render each
-    if (Array.isArray(node)) {
-      return node.map(n => this.renderChildren(n)).join('')
+    // If node is an array of nodes, render each and join according to parentType
+    if (Array.isArray(nodeOrNodes)) {
+      const parts = nodeOrNodes.map((n: any) => this.renderChildren(n, n?.type || null)).filter(Boolean)
+      return parts.join(separator || '')
     }
 
-    const handler = node && node.type && this.getHandlerForToken(node.type)
-    if (handler && typeof handler.renderMarkdown === 'function') {
-      return handler.renderMarkdown(node, helpers)
-    }
-
-    // Minimal fallback renderers
-    if (!node) {
+    // Normalize falsy nodes
+    if (!nodeOrNodes) {
       return ''
     }
 
-    switch (node.type) {
-      case 'text': {
-        return node.text || ''
-      }
-      case 'paragraph': {
-        return `${this.renderChildren(node.content || [])}\n\n`
-      }
-      case 'heading': {
-        return `${'#'.repeat((node.attrs && node.attrs.level) || 1)} ${this.renderChildren(node.content || [])}\n\n`
-      }
-      default: {
-        // Unknown node: if it has text, return it
-        if (node.text) {
-          return node.text
-        }
-        return ''
-      }
+    const handler = nodeOrNodes.type && this.getHandlerForToken(nodeOrNodes.type as unknown as string)
+    if (handler && typeof handler.renderMarkdown === 'function') {
+      return handler.renderMarkdown(nodeOrNodes, helpers)
     }
+
+    return nodeOrNodes.text || ''
   }
 }
 

@@ -56,9 +56,9 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
     render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
-        return `\n\n`
+        return ''
       }
-      return `${h.renderChildren(node.content)}\n\n`
+      return h.renderChildren(node.content)
     },
   },
 
