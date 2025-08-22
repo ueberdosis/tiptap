@@ -100,7 +100,47 @@ export class NodeView<
 
     const clonedNode = this.dom.cloneNode(true) as HTMLElement
 
-    event.dataTransfer?.setDragImage(clonedNode, x, y)
+    // Preserve the visual size of the original when using the clone as
+    // the drag image.
+    try {
+      const domBox = this.dom.getBoundingClientRect()
+      clonedNode.style.width = `${Math.round(domBox.width)}px`
+      clonedNode.style.height = `${Math.round(domBox.height)}px`
+      clonedNode.style.boxSizing = 'border-box'
+      // Ensure the clone doesn't capture pointer events while offscreen
+      clonedNode.style.pointerEvents = 'none'
+    } catch {
+      // ignore measurement errors (e.g. if element not in DOM)
+    }
+
+    // Some browsers (notably Safari) require the element passed to
+    // setDragImage to be present in the DOM. Using a detached node can
+    // cause the drag to immediately end.
+    let dragImageWrapper: HTMLElement | null = null
+
+    try {
+      dragImageWrapper = document.createElement('div')
+      dragImageWrapper.style.position = 'absolute'
+      dragImageWrapper.style.top = '-9999px'
+      dragImageWrapper.style.left = '-9999px'
+      dragImageWrapper.style.pointerEvents = 'none'
+      dragImageWrapper.appendChild(clonedNode)
+      document.body.appendChild(dragImageWrapper)
+
+      event.dataTransfer?.setDragImage(clonedNode, x, y)
+    } finally {
+      // Remove the wrapper on the next tick so the browser can use the
+      // element as the drag image. A 0ms timeout is enough in practice.
+      if (dragImageWrapper) {
+        setTimeout(() => {
+          try {
+            dragImageWrapper?.remove()
+          } catch {
+            // ignore removal errors
+          }
+        }, 0)
+      }
+    }
 
     const pos = this.getPos()
 
