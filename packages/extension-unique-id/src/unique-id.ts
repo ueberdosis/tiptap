@@ -10,7 +10,7 @@ import { findDuplicates } from './helpers/findDuplicates.js'
 export interface UniqueIDOptions {
   attributeName: string
   types: string[]
-  generateID: () => any
+  generateID: (node: ProseMirrorNode) => any
   filterTransaction: ((transaction: Transaction) => boolean) | null
 }
 
@@ -71,7 +71,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       nodesWithoutId.forEach(({ node, pos }) => {
         tr.setNodeMarkup(pos, undefined, {
           ...node.attrs,
-          [attributeName]: generateID(),
+          [attributeName]: generateID(node),
         })
       })
 
@@ -150,7 +150,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               if (id === null) {
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
-                  [attributeName]: generateID(),
+                  [attributeName]: generateID(node),
                 })
 
                 return
@@ -169,7 +169,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
                   return
                 }
 
-                const generatedId = generateID()
+                const generatedId = generateID(node)
 
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
@@ -190,7 +190,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               if (newNode) {
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
-                  [attributeName]: generateID(),
+                  [attributeName]: generateID(node),
                 })
               }
             })
