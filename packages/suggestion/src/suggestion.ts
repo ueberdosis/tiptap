@@ -6,6 +6,11 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
+// Track document click handlers per EditorView instance to avoid accidental
+// leaks when multiple editors are created/destroyed. WeakMap ensures handlers
+// don't keep views alive.
+const clickHandlerMap: WeakMap<EditorView, (event: MouseEvent) => void> = new WeakMap()
+
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
@@ -250,47 +255,51 @@ export function Suggestion<I = any, TSelected = any>({
   const plugin: Plugin<any> = new Plugin({
     key: pluginKey,
 
-    view() {
-      let clickHandler: ((event: MouseEvent) => void) | null = null
-
+    view(editorView: EditorView) {
       const ensureClickHandler = (view: EditorView) => {
-        if (clickHandler) {
+        if (clickHandlerMap.has(view)) {
           return
         }
 
-        clickHandler = (event: MouseEvent) => {
+        const handler = (event: MouseEvent) => {
           if (!props) {
             return
           }
 
           const decorationNode = props.decorationNode
-          const target = event.target as Node | null
+          const target = event.target as Element | null
 
           if (!decorationNode) {
             return
           }
 
-          if (decorationNode.contains(target)) {
+          if (target && decorationNode.contains(target)) {
             return
           }
 
-          if (view.dom.contains(target)) {
+          if (target && view.dom.contains(target)) {
+            return
+          }
+
+          if (target && target.closest && target.closest('.react-renderer')) {
             return
           }
 
           dispatchExit(view, pluginKey)
         }
 
-        document.addEventListener('mousedown', clickHandler, true)
+        document.addEventListener('mousedown', handler, true)
+        clickHandlerMap.set(view, handler)
       }
 
-      const removeClickHandler = () => {
-        if (!clickHandler) {
+      const removeClickHandler = (view: EditorView) => {
+        const handler = clickHandlerMap.get(view)
+        if (!handler) {
           return
         }
 
-        document.removeEventListener('mousedown', clickHandler, true)
-        clickHandler = null
+        document.removeEventListener('mousedown', handler, true)
+        clickHandlerMap.delete(view)
       }
 
       return {
@@ -371,12 +380,12 @@ export function Suggestion<I = any, TSelected = any>({
           if (next.active) {
             ensureClickHandler(view)
           } else {
-            removeClickHandler()
+            removeClickHandler(editorView)
           }
         },
 
         destroy: () => {
-          removeClickHandler()
+          removeClickHandler(editorView)
 
           if (!props) {
             return
