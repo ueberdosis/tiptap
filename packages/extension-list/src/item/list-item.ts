@@ -54,6 +54,16 @@ export const ListItem = Node.create<ListItemOptions>({
     return ['li', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node || !Array.isArray(node.content)) {
+        return `\n\n`
+      }
+
+      return `- ${h.renderChildren(node.content)}`
+    },
+  },
+
   addKeyboardShortcuts() {
     return {
       Enter: () => this.editor.commands.splitListItem(this.name),
