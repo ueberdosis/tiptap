@@ -160,7 +160,10 @@ export class Editor extends EventEmitter<EditorEvents> {
         return
       }
 
-      this.commands.focus(this.options.autofocus)
+      // Only focus if autofocus is truthy and not false
+      if (this.options.autofocus !== false && this.options.autofocus !== null) {
+        this.commands.focus(this.options.autofocus)
+      }
       this.emit('create', { editor: this })
       this.isInitialized = true
     }, 0)
