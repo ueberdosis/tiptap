@@ -115,14 +115,14 @@ function run(config: {
     // Skip code blocks and non-textual nodes.
     // Be defensive: `node` may be a Fragment without a `type`. Only text,
     // inline, or textblock nodes are processed by paste rules.
-    if (!node || node.type?.spec?.code || !(node.isText || node.isTextblock || node.isInline)) {
+    if (node.type?.spec?.code || !(node.isText || node.isTextblock || node.isInline)) {
       return
     }
 
     // For textblock and inline/text nodes, compute the range relative to the node.
     // Prefer `node.nodeSize` when available (some Node shapes expose this),
     // otherwise fall back to `node.content?.size`. Default to 0 if neither exists.
-    const contentSize = node.nodeSize ?? node.content?.size ?? 0
+    const contentSize = node.content?.size ?? node.nodeSize ?? 0
     const resolvedFrom = Math.max(from, pos)
     const resolvedTo = Math.min(to, pos + contentSize)
 
@@ -133,9 +133,9 @@ function run(config: {
       return
     }
 
-    // Use textBetween to retrieve the text for matching. For text nodes, this will
-    // return the node's text; for other nodes it returns concatenated child text.
-    const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
+    const textToMatch = node.isText
+      ? node.text || ''
+      : node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find, pasteEvent)
 
