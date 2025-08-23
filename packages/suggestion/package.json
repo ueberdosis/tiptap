@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/suggestion",
   "description": "suggestion plugin for tiptap",
-  "version": "3.0.7",
+  "version": "3.2.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

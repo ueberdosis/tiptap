@@ -1,5 +1,51 @@
 # Change Log
 
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- 6a2873f: Ensure drag previews for node views work correctly in Safari by attaching
+  an offscreen clone of the node to the DOM while calling
+  `setDragImage`, and by preserving the original element's pixel
+  `width`/`height` so the preview matches the original. This prevents
+  Safari from immediately cancelling the drag when a detached element is
+  used as the drag image.
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Minor Changes
+
+- 5056e3e: Fix Editor.unmount() failing in test environments due to missing DOM remove() method
+
+### Patch Changes
+
+- @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/pm@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

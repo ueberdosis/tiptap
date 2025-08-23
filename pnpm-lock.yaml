@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@changesets/assemble-release-plan':
+    hash: k7lv6yvbsp2zaevp6zj5au6glm
+    path: patches/@changesets__assemble-release-plan.patch
+
 importers:
 
   .:
@@ -699,8 +704,8 @@ importers:
   packages/extension-link:
     dependencies:
       linkifyjs:
-        specifier: ^4.2.0
-        version: 4.2.0
+        specifier: ^4.3.2
+        version: 4.3.2
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^
@@ -5155,6 +5160,9 @@ packages:
   linkifyjs@4.2.0:
     resolution: {integrity: sha512-pCj3PrQyATaoTYKHrgWRF3SJwsm61udVh+vuls/Rl6SptiDhgE7ziUIudAedRY9QEfynmM7/RmLEfPUyw1HPCw==}
 
+  linkifyjs@4.3.2:
+    resolution: {integrity: sha512-NT1CJtq3hHIreOianA8aSXn6Cw0JzYOuDQbOrSPe7gqFnCpKP++MQe3ODgO3oh2GJFORkAAdqredOa60z63GbA==}
+
   lint-staged@15.4.1:
     resolution: {integrity: sha512-P8yJuVRyLrm5KxCtFx+gjI5Bil+wO7wnTl7C3bXhvtTaAFGirzeB24++D0wGoUwxrUKecNiehemgCob9YL39NA==}
     engines: {node: '>=18.12.0'}
@@ -7651,7 +7659,7 @@ snapshots:
       resolve-from: 5.0.0
       semver: 7.6.3
 
-  '@changesets/assemble-release-plan@6.0.5':
+  '@changesets/assemble-release-plan@6.0.5(patch_hash=k7lv6yvbsp2zaevp6zj5au6glm)':
     dependencies:
       '@changesets/errors': 0.2.0
       '@changesets/get-dependents-graph': 2.1.2
@@ -7667,7 +7675,7 @@ snapshots:
   '@changesets/cli@2.27.11':
     dependencies:
       '@changesets/apply-release-plan': 7.0.7
-      '@changesets/assemble-release-plan': 6.0.5
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=k7lv6yvbsp2zaevp6zj5au6glm)
       '@changesets/changelog-git': 0.2.0
       '@changesets/config': 3.0.5
       '@changesets/errors': 0.2.0
@@ -7718,7 +7726,7 @@ snapshots:
 
   '@changesets/get-release-plan@4.0.6':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.5
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=k7lv6yvbsp2zaevp6zj5au6glm)
       '@changesets/config': 3.0.5
       '@changesets/pre': 2.0.1
       '@changesets/read': 0.6.2
@@ -11350,6 +11358,8 @@ snapshots:
       uc.micro: 2.1.0
 
   linkifyjs@4.2.0: {}
+
+  linkifyjs@4.3.2: {}
 
   lint-staged@15.4.1:
     dependencies:

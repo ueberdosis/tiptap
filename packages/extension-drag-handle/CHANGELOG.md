@@ -1,5 +1,65 @@
 # @tiptap/extension-drag-handle
 
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/extension-collaboration@3.2.2
+- @tiptap/extension-node-range@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/extension-collaboration@3.2.1
+  - @tiptap/extension-node-range@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/extension-collaboration@3.2.0
+  - @tiptap/extension-node-range@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Minor Changes
+
+- 978c548: Expose `onDragStart` and `onDragEnd` callbacks to improve custom drag behavior. This allows better UI control compared to relying on `editor.view.dragging`, especially when using absolute-positioned drag handles.
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+- @tiptap/extension-collaboration@3.1.0
+- @tiptap/extension-node-range@3.1.0
+- @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+- @tiptap/extension-collaboration@3.0.9
+- @tiptap/extension-node-range@3.0.9
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+- @tiptap/extension-collaboration@3.0.8
+- @tiptap/extension-node-range@3.0.8
+- @tiptap/pm@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes
