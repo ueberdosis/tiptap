@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-heading",
   "description": "heading extension for tiptap",
-  "version": "3.2.0",
+  "version": "3.2.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
