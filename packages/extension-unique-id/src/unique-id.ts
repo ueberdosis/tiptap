@@ -7,10 +7,15 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { findDuplicates } from './helpers/findDuplicates.js'
 
+export type UniqueIDGenerationContext = {
+  node: ProseMirrorNode
+  pos: number
+}
+
 export interface UniqueIDOptions {
   attributeName: string
   types: string[]
-  generateID: () => any
+  generateID: (ctx: UniqueIDGenerationContext) => any
   filterTransaction: ((transaction: Transaction) => boolean) | null
 }
 
@@ -57,8 +62,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   onCreate() {
     const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
     const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
-    const collab = collaboration || collaborationCaret
-    const provider = collab?.options ? collab.options.provider : undefined
+
+    const collabExtensions = [collaboration, collaborationCaret].filter(Boolean)
+    const collab = collabExtensions.find(ext => ext?.options?.provider)
+    const provider = collab?.options?.provider
 
     const createIds = () => {
       const { view, state } = this.editor
@@ -71,7 +78,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       nodesWithoutId.forEach(({ node, pos }) => {
         tr.setNodeMarkup(pos, undefined, {
           ...node.attrs,
-          [attributeName]: generateID(),
+          [attributeName]: generateID({ node, pos }),
         })
       })
 
@@ -150,7 +157,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               if (id === null) {
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
-                  [attributeName]: generateID(),
+                  [attributeName]: generateID({ node, pos }),
                 })
 
                 return
@@ -169,7 +176,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
                   return
                 }
 
-                const generatedId = generateID()
+                const generatedId = generateID({ node, pos })
 
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
@@ -190,7 +197,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               if (newNode) {
                 tr.setNodeMarkup(pos, undefined, {
                   ...node.attrs,
-                  [attributeName]: generateID(),
+                  [attributeName]: generateID({ node, pos }),
                 })
               }
             })
