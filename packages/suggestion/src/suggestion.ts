@@ -209,6 +209,24 @@ export function Suggestion<I = any, TSelected = any>({
 }: SuggestionOptions<I, TSelected>) {
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
+
+  // Helper to create a clientRect callback for a given decoration node.
+  // Returns null when no decoration node is present. Uses the pluginKey's
+  // state to resolve the current decoration node on demand, avoiding a
+  // duplicated implementation in multiple places.
+  const clientRectFor = (view: EditorView, decorationNode: Element | null) => {
+    if (!decorationNode) {
+      return null
+    }
+
+    return () => {
+      const state = pluginKey.getState(editor.state)
+      const decorationId = state?.decorationId
+      const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
+
+      return currentDecorationNode?.getBoundingClientRect() || null
+    }
+  }
   // small helper used internally by the view to dispatch an exit
   function dispatchExit(view: EditorView, pluginKeyRef: PluginKey) {
     try {
@@ -232,14 +250,7 @@ export function Suggestion<I = any, TSelected = any>({
           return command({ editor, range: state?.range || { from: 0, to: 0 }, props: commandProps as any })
         },
         decorationNode,
-        clientRect: decorationNode
-          ? () => {
-              const { decorationId } = plugin.getState(editor.state) // eslint-disable-line
-              const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
-
-              return currentDecorationNode?.getBoundingClientRect() || null
-            }
-          : null,
+        clientRect: clientRectFor(view, decorationNode),
       }
 
       renderer?.onExit?.(exitProps)
@@ -339,14 +350,7 @@ export function Suggestion<I = any, TSelected = any>({
               })
             },
             decorationNode,
-            clientRect: decorationNode
-              ? () => {
-                  const { decorationId } = this.key?.getState(editor.state) // eslint-disable-line
-                  const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
-
-                  return currentDecorationNode?.getBoundingClientRect() || null
-                }
-              : null,
+            clientRect: clientRectFor(view, decorationNode),
           }
 
           if (handleStart) {
@@ -513,9 +517,11 @@ export function Suggestion<I = any, TSelected = any>({
         // and deterministic way to exit the suggestion without altering the
         // document (avoids transaction mapping/mismatch issues).
         if (event.key === 'Escape' || event.key === 'Esc') {
-          // Build temporary props for renderer.exit
           const state = plugin.getState(view.state)
-          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+          const cachedNode = props?.decorationNode ?? null
+          const decorationNode =
+            cachedNode ??
+            (state?.decorationId ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`) : null)
 
           const exitProps: SuggestionProps = {
             editor,
@@ -527,12 +533,12 @@ export function Suggestion<I = any, TSelected = any>({
               return command({ editor, range: state.range, props: commandProps as any })
             },
             decorationNode,
+            // If we have a cached decoration node, use it for the clientRect
+            // to avoid another DOM lookup. If not, leave clientRect null and
+            // let consumer decide if they want to query.
             clientRect: decorationNode
               ? () => {
-                  const { decorationId } = plugin.getState(editor.state) // eslint-disable-line
-                  const currentDecorationNode = view.dom.querySelector(`[data-decoration-id="${decorationId}"]`)
-
-                  return currentDecorationNode?.getBoundingClientRect() || null
+                  return decorationNode.getBoundingClientRect() || null
                 }
               : null,
           }
