@@ -43,30 +43,33 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8 }}>
-          <div className="bubble-menu">
-            <button
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              className={editor.isActive('bold') ? 'is-active' : ''}
-              type="button"
-            >
-              Bold
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={editor.isActive('italic') ? 'is-active' : ''}
-              type="button"
-            >
-              Italic
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive('strike') ? 'is-active' : ''}
-              type="button"
-            >
-              Strike
-            </button>
-          </div>
+        <BubbleMenu
+          editor={editor}
+          options={{ placement: 'bottom', offset: 8 }}
+          className="bubble-menu"
+          data-testid="styled-bubble-menu"
+        >
+          <button
+            type="button"
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive('bold') ? 'is-active' : ''}
+          >
+            Bold
+          </button>
+          <button
+            type="button"
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={editor.isActive('italic') ? 'is-active' : ''}
+          >
+            Italic
+          </button>
+          <button
+            type="button"
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={editor.isActive('strike') ? 'is-active' : ''}
+          >
+            Strike
+          </button>
         </BubbleMenu>
       )}
       <EditorContent editor={editor} />
