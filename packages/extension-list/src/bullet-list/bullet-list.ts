@@ -87,7 +87,10 @@ export const BulletList = Node.create<BulletListOptions>({
         return ''
       }
 
-      return h.renderChildren(node.content, '\n')
+      // Render list children with a single newline separator at list level
+      const parentCtx = h.currentContext ?? { level: 0, parentType: 'doc' }
+      const ctx = { level: (parentCtx.level ?? 0) + 1, parentType: 'list' }
+      return h.renderChildren(node.content, ctx)
     },
   },
 

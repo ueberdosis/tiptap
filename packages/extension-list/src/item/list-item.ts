@@ -57,10 +57,14 @@ export const ListItem = Node.create<ListItemOptions>({
   markdown: {
     render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
-        return `\n\n`
+        return ''
       }
 
-      return `- ${h.renderChildren(node.content)}`
+      // Render the content of the list item and indent subsequent lines
+      const parentCtx = h.currentContext ?? { level: 0, parentType: 'list' }
+      const ctx = { level: parentCtx.level ?? 0, parentType: 'list_item' }
+      const inner = h.renderChildren(node.content, ctx)
+      return `- ${h.indent(inner, ctx)}`
     },
   },
 

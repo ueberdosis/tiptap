@@ -11,9 +11,15 @@ export type MarkdownToken = {
 }
 
 export type MarkdownHelpers = {
-  parseInline: (tokens: MarkdownToken[]) => Node[]
-  renderChildren: (node: Node[] | Node, separator?: string) => string
-  text: (token: MarkdownToken) => Node
+  // When used during parsing these helpers return JSON-like node objects
+  // (not ProseMirror Node instances). Use `any` to represent that shape.
+  parseInline: (tokens: MarkdownToken[]) => any[]
+  /**
+   * Render children. The second argument may be a legacy separator string
+   * or a RenderContext (preferred).
+   */
+  renderChildren: (node: Node[] | Node, ctxOrSeparator?: RenderContext | string) => string
+  text: (token: MarkdownToken) => any
 }
 
 /**
@@ -22,9 +28,18 @@ export type MarkdownHelpers = {
  * that can be useful for advanced handlers.
  */
 export type FullMarkdownHelpers = MarkdownHelpers & {
-  parseChildren: (tokens: MarkdownToken[]) => Node[]
+  // parseChildren returns JSON-like nodes when invoked during parsing.
+  parseChildren: (tokens: MarkdownToken[]) => any[]
   getExtension: (name: string) => any
-  createNode: (type: string, attrs?: any, content?: Node[]) => Node
+  // createNode returns a JSON-like node during parsing; render-time helpers
+  // may instead work with real ProseMirror Node instances.
+  createNode: (type: string, attrs?: any, content?: any[]) => any
+  /** Current render context when calling renderers; undefined during parse. */
+  currentContext?: RenderContext
+  /** Indent a multi-line string according to the provided RenderContext. */
+  indent: (text: string, ctx?: RenderContext) => string
+  /** Return the indent string for a given level (e.g. '  ' or '\t'). */
+  getIndentString: (level?: number) => string
 }
 
 export default MarkdownHelpers
@@ -36,3 +51,15 @@ export default MarkdownHelpers
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
 export type MarkdownParseResult = Node | Node[] | { mark: string; content: Node[] }
+
+/**
+ * Context passed while rendering children. `level` controls indentation depth
+ * for constructs like lists or blockquotes. `parentType` is the parent node
+ * type (e.g. 'doc', 'list', 'list_item'). `meta` can carry extension-specific
+ * hints (for example desired bullet spacing).
+ */
+export type RenderContext = {
+  level: number
+  parentType?: string | null
+  meta?: Record<string, any>
+}

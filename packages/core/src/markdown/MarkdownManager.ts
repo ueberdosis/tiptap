@@ -16,14 +16,22 @@ export interface MarkdownExtensionSpec {
 export class MarkdownManager {
   private markedInstance: typeof marked
   private registry: Map<string, MarkdownExtensionSpec>
+  private indentStyle: 'space' | 'tab'
+  private indentSize: number
 
   /**
    * Create a MarkdownManager.
    * @param options.marked Optional marked instance to use (injected).
    * @param options.markedOptions Optional options to pass to marked.setOptions
    */
-  constructor(options?: { marked?: typeof marked; markedOptions?: Parameters<typeof marked.setOptions>[0] }) {
+  constructor(options?: {
+    marked?: typeof marked
+    markedOptions?: Parameters<typeof marked.setOptions>[0]
+    indentation?: { style?: 'space' | 'tab'; size?: number }
+  }) {
     this.markedInstance = options?.marked ?? marked
+    this.indentStyle = options?.indentation?.style ?? 'space'
+    this.indentSize = options?.indentation?.size ?? 2
 
     if (options?.markedOptions && typeof this.markedInstance.setOptions === 'function') {
       this.markedInstance.setOptions(options.markedOptions)
@@ -125,14 +133,17 @@ export class MarkdownManager {
    */
   parseChildren(tokens: any[]): any[] {
     const helpers: FullMarkdownHelpers = {
-      parseChildren: children => this.parseChildren(children),
-      renderChildren: (node, separator) => this.renderChildren(node, separator),
-      getExtension: name => this.registry.get(name),
+      parseChildren: (children: any[]) => this.parseChildren(children),
+      renderChildren: (node: any, ctxOrSeparator?: any) => this.renderChildren(node, ctxOrSeparator),
+      getExtension: (name: string) => this.registry.get(name),
 
       // extras
       parseInline: (children: any[]) => this.parseChildren(children),
       createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }),
       text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }),
+      // render-time helpers are not used during parsing but are present for API completeness
+      indent: (text: string, c?: any) => this.indent(text, c),
+      getIndentString: (level?: number) => this.getIndentString(level),
     }
 
     const result: any[] = []
@@ -182,22 +193,77 @@ export class MarkdownManager {
    * Render a node or an array of nodes. Parent type controls how children
    * are joined (which determines newline insertion between children).
    */
-  renderChildren(nodeOrNodes: Node | Node[], separator?: string): string {
+  renderChildren(nodeOrNodes: Node | Node[], ctxOrSeparator?: any): string {
+    // Accept either a RenderContext or a legacy separator string.
+    const ctx: any =
+      typeof ctxOrSeparator === 'string' || typeof ctxOrSeparator === 'undefined'
+        ? { level: 0, parentType: null, legacySeparator: ctxOrSeparator }
+        : ctxOrSeparator
+
     const helpers: FullMarkdownHelpers = {
       parseChildren: (children: any[]) => this.parseChildren(children),
-      renderChildren: (n: any, p: string | null = null) => this.renderChildren(n, p),
+      renderChildren: (n: any, c: any = null) => this.renderChildren(n, c),
       getExtension: (name: string) => this.registry.get(name),
 
       // extras
       parseInline: (children: any[]) => this.parseChildren(children),
-      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }) as unknown as Node,
-      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }) as unknown as Node,
+      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }),
+      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }),
+      indent: (text: string, c?: any) => this.indent(text, c),
+      getIndentString: (level?: number) => this.getIndentString(level),
     }
-
-    // If node is an array of nodes, render each and join according to parentType
+    // Attach the current context so renderers can inspect it if needed.
+    helpers.currentContext = ctx
+    // If node is an array of nodes, render each and join according to context
     if (Array.isArray(nodeOrNodes)) {
-      const parts = nodeOrNodes.map((n: any) => this.renderChildren(n, n?.type || null)).filter(Boolean)
-      return parts.join(separator || '')
+      const parts = nodeOrNodes
+        .map((n: any) => {
+          const childType = n?.type || null
+          // Decide whether to increase indent level for this child
+          let childLevel = ctx.level ?? 0
+          const isListLike =
+            childType === 'list' ||
+            childType === 'bulletList' ||
+            childType === 'orderedList' ||
+            childType === 'list_item' ||
+            childType === 'blockquote'
+          if (isListLike) {
+            childLevel = (ctx.level ?? 0) + 1
+          }
+
+          return this.renderChildren(n, { level: childLevel, parentType: childType })
+        })
+        .filter(Boolean)
+        .filter(Boolean)
+      // If a legacy separator was provided, use it.
+      if (typeof ctx.legacySeparator === 'string') {
+        return parts.join(ctx.legacySeparator)
+      }
+
+      // Heuristic: if all children look like inline/text nodes, join with
+      // empty separator. Otherwise double newline at doc-level, single
+      // newline when nested.
+      const looksInline = (nodeOrNodes as any[]).every(n => {
+        if (!n) {
+          return true
+        }
+        // text nodes are inline
+        if (n.type === 'text') {
+          return true
+        }
+        // nodes with a plain `text` property and no content are inline-ish
+        if (typeof n.text === 'string' && !Array.isArray(n.content)) {
+          return true
+        }
+        return false
+      })
+
+      if (looksInline) {
+        return parts.join('')
+      }
+
+      const sep = ctx.parentType === 'doc' || ctx.parentType === null ? '\n\n' : '\n'
+      return parts.join(sep)
     }
 
     // Normalize falsy nodes
@@ -210,7 +276,27 @@ export class MarkdownManager {
       return handler.renderMarkdown(nodeOrNodes, helpers)
     }
 
+    // Fallback: text node
     return nodeOrNodes.text || ''
+  }
+
+  /** Return indent string for a given level, e.g. '    ' or '\t'. */
+  private getIndentString(level: number = 0): string {
+    if (this.indentStyle === 'tab') {
+      return '\t'.repeat(level)
+    }
+
+    return ' '.repeat(this.indentSize * level)
+  }
+
+  /** Indent every line of `text` except the first by the context's indent. */
+  private indent(text: string, ctx?: { level?: number } | null): string {
+    const level = ctx?.level ?? 0
+    const indentStr = this.getIndentString(level)
+    return text
+      .split('\n')
+      .map((line, i) => (i === 0 ? line : indentStr + line))
+      .join('\n')
   }
 }
 

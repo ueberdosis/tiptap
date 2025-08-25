@@ -58,7 +58,10 @@ export const Paragraph = Node.create<ParagraphOptions>({
       if (!node || !Array.isArray(node.content)) {
         return ''
       }
-      return h.renderChildren(node.content)
+
+      // Forward the current render context so parent-level rules (lists, etc.) apply
+      const ctx = h.currentContext ?? { level: 0, parentType: 'doc' }
+      return h.renderChildren(node.content, ctx)
     },
   },
 
