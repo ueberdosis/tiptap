@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Ensure `ReactRenderer.destroy()` removes the renderer DOM element when present.
+
+  - When consumers append a `ReactRenderer`'s `.element` to the DOM (for example many demos append it to `document.body`), previously calling `destroy()` removed the portal renderer but left the DOM node in place which could lead to accumulating `.react-renderer` elements.
+  - `destroy()` now also removes the element from its parent node if present, preventing leaked DOM nodes / React roots.
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
 ## 3.2.2
 
 ### Patch Changes
