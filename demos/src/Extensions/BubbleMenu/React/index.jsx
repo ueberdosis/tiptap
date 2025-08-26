@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, findParentNode, posToDOMRect, useEditor } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -80,7 +80,20 @@ export default () => {
           <BubbleMenu
             editor={editor}
             shouldShow={() => editor.isActive('bulletList') || editor.isActive('orderedList')}
-            options={{ placement: 'top', offset: 8 }}
+            getReferencedVirtualElement={() => {
+              const parentNode = findParentNode(
+                node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
+              )(editor.state.selection)
+              if (parentNode) {
+                const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+                return {
+                  getBoundingClientRect: () => domRect,
+                  getClientRects: () => [domRect],
+                }
+              }
+              return null
+            }}
+            options={{ placement: 'top-start', offset: 8 }}
           >
             <div className="bubble-menu">
               <button
