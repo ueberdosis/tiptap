@@ -242,6 +242,16 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     const editor = this.editor as EditorWithContentComponent
 
     editor?.contentComponent?.removeRenderer(this.id)
+    // If the consumer appended the element to the document (for example
+    // many demos append the renderer element to document.body), make sure
+    // we remove it here to avoid leaking DOM nodes / React roots.
+    try {
+      if (this.element && this.element.parentNode) {
+        this.element.parentNode.removeChild(this.element)
+      }
+    } catch {
+      // ignore DOM removal errors
+    }
   }
 
   /**

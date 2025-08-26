@@ -1,5 +1,47 @@
 # @tiptap/extension-unique-id
 
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Change the `generateID` option to accept a context object: `{ node, pos }`.
+
+  This lets ID generators access both the ProseMirror `node` and its `pos` within the document when creating IDs, enabling logic that depends on node content, type, or position.
+
+  The change is backwards-compatible: existing `generateID` functions that ignore the new context will continue to work. Example usage:
+
+  ```
+  editor.use(UniqueID, {
+    generateID: ({ node, pos }) => `${node.type.name}-${pos}-${uuidv4()}`,
+  })
+  ```
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- 1cab7ff: Change the `generateID` option to accept a context object: `{ node, pos }`.
+
+  This lets ID generators access both the ProseMirror `node` and its `pos` within the document when creating IDs, enabling logic that depends on node content, type, or position.
+
+  The change is backwards-compatible: existing `generateID` functions that ignore the new context will continue to work.
+
+  - @tiptap/core@3.2.2
+  - @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
 ## 3.2.0
 
 ### Patch Changes

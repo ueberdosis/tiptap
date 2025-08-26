@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/vue-2",
   "description": "Vue components for tiptap",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

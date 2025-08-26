@@ -33,11 +33,11 @@ declare module '@tiptap/core' {
  *  It matches:
  *     - An opening backtick, followed by
  *     - Any text that doesn't include a backtick (captured for marking), followed by
- *     - A closing backtick.
+ *     - A closing backtick as the final character.
  *  This ensures that any text between backticks is formatted as code,
  *  regardless of the surrounding characters (exception being another backtick).
  */
-export const inputRegex = /(^|[^`])`([^`]+)`(?!`)/
+export const inputRegex = /(^|[^`])`([^`]+)`(?!`)$/
 
 /**
  * Matches inline code while pasting.
