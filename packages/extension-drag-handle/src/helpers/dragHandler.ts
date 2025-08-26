@@ -62,7 +62,7 @@ function drop(event: DragEvent, editor: Editor) {
     // Use the current selection that was set during drag start
     const selection = dragEditor.state.selection
     if (!selection.empty) {
-      dragEditor.commands.deleteRange(selection)
+      dragEditor.commands.deleteRange({ from: selection.from, to: selection.to })
     }
   }
 
