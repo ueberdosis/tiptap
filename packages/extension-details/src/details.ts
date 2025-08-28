@@ -376,6 +376,12 @@ export const Details = Node.create<DetailsOptions>({
         key: new PluginKey('detailsSelection'),
         appendTransaction: (transactions, oldState, newState) => {
           const { editor, type } = this
+          const isComposing = editor.view.composing === true
+
+          if (isComposing) {
+            return
+          }
+
           const selectionSet = transactions.some(transaction => transaction.selectionSet)
 
           if (!selectionSet || !oldState.selection.empty || !newState.selection.empty) {
