@@ -49,19 +49,12 @@ export const Paragraph = Node.create<ParagraphOptions>({
   },
 
   markdown: {
-    parse: (token, h) => {
-      const children = Array.isArray(token.tokens) ? h.parseInline(token.tokens) : [h.text(token)]
-      return { type: 'paragraph', content: children }
-    },
-
     render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
         return ''
       }
 
-      // Forward the current render context so parent-level rules (lists, etc.) apply
-      const ctx = h.currentContext ?? { level: 0, parentType: 'doc' }
-      return h.renderChildren(node.content, ctx)
+      return h.renderChildren(node.content)
     },
   },
 

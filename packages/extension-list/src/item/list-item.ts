@@ -55,16 +55,33 @@ export const ListItem = Node.create<ListItemOptions>({
   },
 
   markdown: {
-    render: (node, h) => {
+    render: (node, h, ctx) => {
       if (!node || !Array.isArray(node.content)) {
         return ''
       }
 
-      // Render the content of the list item and indent subsequent lines
-      const parentCtx = h.currentContext ?? { level: 0, parentType: 'list' }
-      const ctx = { level: parentCtx.level ?? 0, parentType: 'list_item' }
-      const inner = h.renderChildren(node.content, ctx)
-      return `- ${h.indent(inner, ctx)}`
+      const listCharacter = ctx.parentType === 'bulletList' ? '-' : `${ctx.index + 1}.`
+
+      const [content, ...children] = node.content
+
+      const output = [`${listCharacter} ${h.renderChildren(content)}`]
+      const childOutput: string[] = []
+
+      children.forEach(child => {
+        childOutput.push(`${h.renderChildren(child)}`)
+      })
+
+      if (childOutput && childOutput.length > 0) {
+        const childContent = childOutput
+          .join('')
+          .split('\n')
+          .map(line => h.indent(line))
+          .join('\n')
+
+        output.push(childContent)
+      }
+
+      return output.join('\n')
     },
   },
 

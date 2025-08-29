@@ -91,10 +91,6 @@ export const Bold = Mark.create<BoldOptions>({
   },
 
   markdown: {
-    parse: (token, h) => {
-      const content = token.tokens ? h.parseInline(token.tokens) : [h.text(token)]
-      return { type: 'bold', content }
-    },
     render: (node, h) => {
       return `**${h.renderChildren(node)}**`
     },

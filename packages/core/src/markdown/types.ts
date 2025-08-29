@@ -1,5 +1,7 @@
 import type { Node } from '@tiptap/pm/model'
 
+import type { JSONContent } from '../types'
+
 // Shared markdown-related types for the MarkdownManager and extensions.
 export type MarkdownToken = {
   type?: string
@@ -52,14 +54,23 @@ export default MarkdownHelpers
  */
 export type MarkdownParseResult = Node | Node[] | { mark: string; content: Node[] }
 
-/**
- * Context passed while rendering children. `level` controls indentation depth
- * for constructs like lists or blockquotes. `parentType` is the parent node
- * type (e.g. 'doc', 'list', 'list_item'). `meta` can carry extension-specific
- * hints (for example desired bullet spacing).
- */
 export type RenderContext = {
+  index: number
   level: number
-  parentType?: string | null
   meta?: Record<string, any>
+  parentType?: string | null
+}
+
+/** Extension contract for markdown parsing/serialization. */
+export interface MarkdownExtensionSpec {
+  markdownName: string
+  parseMarkdown: (token: any) => any
+  renderMarkdown: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  isIndenting: boolean
+}
+
+export type MarkdownRendererHelpers = {
+  renderChildren: (nodes: JSONContent | JSONContent[], separator?: string) => string
+  wrapInBlock: (prefix: string, content: string) => string
+  indent: (content: string) => string
 }

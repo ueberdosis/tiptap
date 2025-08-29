@@ -5,7 +5,13 @@ import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
-import type { FullMarkdownHelpers, MarkdownNode, MarkdownParseResult, MarkdownToken } from './markdown/types'
+import type {
+  FullMarkdownHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  RenderContext,
+} from './markdown/types'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
@@ -13,6 +19,7 @@ import type {
   EditorEvents,
   Extensions,
   GlobalAttributes,
+  JSONContent,
   KeyboardShortcutCommand,
   ParentConfig,
   RawCommands,
@@ -241,30 +248,19 @@ export interface ExtendableConfig<
      */
     match?: RegExp
     /**
-     * Parse helper used by the markdown subsystem. There are two valid
-     * contracts for this function depending on how the extension intends
-     * to participate:
-     *
-     * - Tokenizer-level parse: called with a RegExpExecArray when the
-     *   extension provides `match` to build a custom tokenizer. Should
-     *   return a small token payload (e.g. { type, raw, text }).
-     * - Parser-level parse: called with a token object emitted by the
-     *   baseline lexer (after post-processing). Should convert the token
-     *   to ProseMirror JSON (node(s) or `{ mark, content }`).
-     *
-     * The function signature therefore accepts `any` and implementers
-     * should document which contract they implement.
+     * Controls whether this extension will indent markdown content (for example bullet lists)
      */
-    // The `parse` hook supports two contracts:
-    // - Tokenizer-level: (match: RegExpExecArray) => tokenPayload
-    // - Parser-level: (token: MarkdownToken, helpers?: FullMarkdownHelpers) => JSONContent | JSONContent[] | { mark, content }
+    isIndenting?: boolean
+    /**
+     * A parse helper used by the markdown subsystem.
+     */
     parse?:
       | ((match: RegExpExecArray) => any)
       | ((token: MarkdownToken, helpers: FullMarkdownHelpers) => MarkdownParseResult)
     /**
      * Render a node (ProseMirror JSON) to a markdown string.
      */
-    render?: (node: MarkdownNode, helpers: FullMarkdownHelpers) => string
+    render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   }
 
   /**

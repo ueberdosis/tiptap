@@ -93,8 +93,7 @@ export const Heading = Node.create<HeadingOptions>({
       }
 
       // Use current context for proper joining/spacing
-      const ctx = h.currentContext ?? { level: 0, parentType: 'doc' }
-      return `${headingChars} ${h.renderChildren(node.content, ctx)}`
+      return `${headingChars} ${h.renderChildren(node.content)}`
     },
   },
 

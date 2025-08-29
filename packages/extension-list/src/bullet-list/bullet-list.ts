@@ -82,15 +82,14 @@ export const BulletList = Node.create<BulletListOptions>({
   },
 
   markdown: {
+    isIndenting: true,
+
     render: (node, h) => {
       if (!node.content) {
         return ''
       }
 
-      // Render list children with a single newline separator at list level
-      const parentCtx = h.currentContext ?? { level: 0, parentType: 'doc' }
-      const ctx = { level: (parentCtx.level ?? 0) + 1, parentType: 'list' }
-      return h.renderChildren(node.content, ctx)
+      return h.renderChildren(node.content, '\n')
     },
   },
 

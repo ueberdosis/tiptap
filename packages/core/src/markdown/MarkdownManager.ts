@@ -1,17 +1,9 @@
-import type { Node } from '@tiptap/pm/model'
 import { marked } from 'marked'
 
 import { getExtensionField } from '../helpers/getExtensionField.js'
 import type { AnyExtension, JSONContent } from '../types.js'
-import type { FullMarkdownHelpers } from './types.js'
-
-/** Extension contract for markdown parsing/serialization. */
-export interface MarkdownExtensionSpec {
-  markdownName?: string
-  parseMarkdown?: (token: any, helpers: FullMarkdownHelpers) => any
-  renderMarkdown?: (node: any, helpers: FullMarkdownHelpers) => string
-  priority?: number
-}
+import type { MarkdownExtensionSpec, MarkdownRendererHelpers, RenderContext } from './types.js'
+import { wrapInMarkdownBlock } from './utils.js'
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -45,6 +37,16 @@ export class MarkdownManager {
     return this.markedInstance
   }
 
+  /** Returns the correct indentCharacter (space or tab) */
+  get indentCharacter(): string {
+    return this.indentStyle === 'space' ? ' ' : '\t'
+  }
+
+  /** Returns the correct indentString repeated X times */
+  get indentString(): string {
+    return this.indentCharacter.repeat(this.indentSize)
+  }
+
   /** Helper to quickly check whether a marked instance is available. */
   hasMarked(): boolean {
     return !!this.markedInstance
@@ -59,7 +61,7 @@ export class MarkdownManager {
     const name = extension.name
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parse?, render?, match? }`.
-    const markdownCfg = getExtensionField<any>(extension, 'markdown' as any) ?? null
+    const markdownCfg = getExtensionField(extension, 'markdown') ?? null
 
     const markdownName = (markdownCfg && markdownCfg.name) ?? name
     if (!markdownName) {
@@ -68,13 +70,13 @@ export class MarkdownManager {
 
     const parseMarkdown = markdownCfg?.parse ?? undefined
     const renderMarkdown = markdownCfg?.render ?? undefined
-    const priority = getExtensionField<number>(extension, 'priority' as any)
+    const isIndenting = markdownCfg?.isIndenting ?? undefined
 
     this.registry.set(markdownName, {
       markdownName,
       parseMarkdown,
       renderMarkdown,
-      priority,
+      isIndenting,
     })
   }
 
@@ -84,219 +86,91 @@ export class MarkdownManager {
   }
 
   /**
-   * Parse a markdown string into Tiptap/ProseMirror JSON using registered
-   * handlers. Returns an object shaped like a ProseMirror doc: { type: 'doc', content: [...] }
-   */
-  parse(markdown: string): any {
-    if (!this.markedInstance || typeof this.markedInstance.lexer !== 'function') {
-      throw new Error('[tiptap/markdown] marked is not available to parse markdown')
-    }
-
-    // Tokenize using marked's lexer
-    const tokens = this.markedInstance.lexer(markdown)
-
-    // Convert tokens to ProseMirror-like JSON nodes
-    const content = this.parseChildren(tokens)
-
-    return {
-      type: 'doc',
-      content,
-    }
-  }
-
-  /**
    * Serialize a ProseMirror-like JSON document (or node array) to a Markdown string
    * using registered renderers and fallback renderers.
    */
-  serialize(docOrContent: JSONContent, separator?: string): string {
+  serialize(docOrContent: JSONContent): string {
     if (!docOrContent) {
       return ''
     }
 
-    // If a full doc was passed
-    if (docOrContent.type === 'doc' && Array.isArray(docOrContent.content)) {
-      return this.renderChildren(docOrContent.content as unknown as Node | Node[], separator || '\n\n')
-    }
-
     // If an array of nodes was passed
     if (Array.isArray(docOrContent)) {
-      return this.renderChildren(docOrContent, separator)
+      return this.renderNodes(docOrContent, docOrContent)
     }
 
     // Single node
-    return this.renderChildren(docOrContent as Node | Node[], separator)
+    return this.renderNodes(docOrContent, docOrContent)
   }
 
   /**
    * Convert an array of marked tokens into ProseMirror JSON nodes by using
    * registered extension handlers or a minimal fallback.
    */
-  parseChildren(tokens: any[]): any[] {
-    const helpers: FullMarkdownHelpers = {
-      parseChildren: (children: any[]) => this.parseChildren(children),
-      renderChildren: (node: any, ctxOrSeparator?: any) => this.renderChildren(node, ctxOrSeparator),
-      getExtension: (name: string) => this.registry.get(name),
+  // TODO: implement child parsing
+  parseChildren(): any[] {
+    return []
+  }
 
-      // extras
-      parseInline: (children: any[]) => this.parseChildren(children),
-      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }),
-      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }),
-      // render-time helpers are not used during parsing but are present for API completeness
-      indent: (text: string, c?: any) => this.indent(text, c),
-      getIndentString: (level?: number) => this.getIndentString(level),
+  renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
+    if (!node.type) {
+      return ''
     }
 
-    const result: any[] = []
+    // if node is a text node, we simply return it's text content
+    if (node.type === 'text') {
+      return node.text || ''
+    }
 
-    ;(tokens || []).forEach(token => {
-      const handler = this.getHandlerForToken(token.type)
+    // TODO: check what the default case should be in case
+    // of unknown node types (return the HTML? Try to return child content at least?)
+    const handler = this.getHandlerForToken(node.type)
+    if (!handler) {
+      return ''
+    }
 
-      let node: any = null
-      if (handler && typeof handler.parseMarkdown === 'function') {
-        // Handlers may accept (token) or (token, helpers). We always
-        // pass helpers for convenience; older handlers will ignore it.
-        node = handler.parseMarkdown(token, helpers)
-      } else {
-        // Minimal fallback mapping for common token types
-        switch (token.type) {
-          case 'text':
-            node = helpers.text(token)
-            break
-          case 'paragraph':
-            node = { type: 'paragraph', content: this.parseChildren(token.tokens || []) }
-            break
-          case 'heading':
-            node = { type: 'heading', attrs: { level: token.depth }, content: this.parseChildren(token.tokens || []) }
-            break
-          case 'list':
-          case 'list_item':
-            // Lists are complex; expose items as children for now
-            node = { type: token.type, attrs: token, content: this.parseChildren(token.tokens || token.items || []) }
-            break
-          default:
-            // Unknown token: try to treat as plain text
-            node = { type: 'text', text: token.raw ?? token.text ?? '' }
-        }
-      }
+    // TODO: We need to add marks rendering as well
 
-      if (Array.isArray(node)) {
-        result.push(...node)
-      } else if (node) {
-        result.push(node)
-      }
-    })
+    const helpers: MarkdownRendererHelpers = {
+      renderChildren: (nodes, separator) => {
+        const childLevel = handler.isIndenting ? level + 1 : level
+        return this.renderNodes(nodes, node, separator || '', index, childLevel)
+      },
+      indent: content => {
+        return this.indentString + content
+      },
+      wrapInBlock: wrapInMarkdownBlock,
+    }
 
-    return result
+    const context: RenderContext = {
+      index,
+      level,
+      parentType: parentNode?.type,
+      meta: {},
+    }
+
+    return handler.renderMarkdown(node, helpers, context)
   }
 
   /**
    * Render a node or an array of nodes. Parent type controls how children
    * are joined (which determines newline insertion between children).
    */
-  renderChildren(nodeOrNodes: Node | Node[], ctxOrSeparator?: any): string {
-    // Accept either a RenderContext or a legacy separator string.
-    const ctx: any =
-      typeof ctxOrSeparator === 'string' || typeof ctxOrSeparator === 'undefined'
-        ? { level: 0, parentType: null, legacySeparator: ctxOrSeparator }
-        : ctxOrSeparator
-
-    const helpers: FullMarkdownHelpers = {
-      parseChildren: (children: any[]) => this.parseChildren(children),
-      renderChildren: (n: any, c: any = null) => this.renderChildren(n, c),
-      getExtension: (name: string) => this.registry.get(name),
-
-      // extras
-      parseInline: (children: any[]) => this.parseChildren(children),
-      createNode: (type: string, attrs?: any, content?: any[]) => ({ type, attrs, content }),
-      text: (token: any) => ({ type: 'text', text: token.raw ?? token.text ?? '' }),
-      indent: (text: string, c?: any) => this.indent(text, c),
-      getIndentString: (level?: number) => this.getIndentString(level),
-    }
-    // Attach the current context so renderers can inspect it if needed.
-    helpers.currentContext = ctx
-    // If node is an array of nodes, render each and join according to context
-    if (Array.isArray(nodeOrNodes)) {
-      const parts = nodeOrNodes
-        .map((n: any) => {
-          const childType = n?.type || null
-          // Decide whether to increase indent level for this child
-          let childLevel = ctx.level ?? 0
-          const isListLike =
-            childType === 'list' ||
-            childType === 'bulletList' ||
-            childType === 'orderedList' ||
-            childType === 'list_item' ||
-            childType === 'blockquote'
-          if (isListLike) {
-            childLevel = (ctx.level ?? 0) + 1
-          }
-
-          return this.renderChildren(n, { level: childLevel, parentType: childType })
-        })
-        .filter(Boolean)
-        .filter(Boolean)
-      // If a legacy separator was provided, use it.
-      if (typeof ctx.legacySeparator === 'string') {
-        return parts.join(ctx.legacySeparator)
-      }
-
-      // Heuristic: if all children look like inline/text nodes, join with
-      // empty separator. Otherwise double newline at doc-level, single
-      // newline when nested.
-      const looksInline = (nodeOrNodes as any[]).every(n => {
-        if (!n) {
-          return true
-        }
-        // text nodes are inline
-        if (n.type === 'text') {
-          return true
-        }
-        // nodes with a plain `text` property and no content are inline-ish
-        if (typeof n.text === 'string' && !Array.isArray(n.content)) {
-          return true
-        }
-        return false
-      })
-
-      if (looksInline) {
-        return parts.join('')
-      }
-
-      const sep = ctx.parentType === 'doc' || ctx.parentType === null ? '\n\n' : '\n'
-      return parts.join(sep)
+  renderNodes(
+    nodeOrNodes: JSONContent | JSONContent[],
+    parentNode?: JSONContent,
+    separator = '',
+    index = 0,
+    level = 0,
+  ): string {
+    // if we have just one node, call renderNodeToMarkdown directly
+    if (!Array.isArray(nodeOrNodes)) {
+      return this.renderNodeToMarkdown(nodeOrNodes, parentNode, index, level)
     }
 
-    // Normalize falsy nodes
-    if (!nodeOrNodes) {
-      return ''
-    }
+    const output = nodeOrNodes.map((n, i) => this.renderNodeToMarkdown(n, parentNode, i, level))
 
-    const handler = nodeOrNodes.type && this.getHandlerForToken(nodeOrNodes.type as unknown as string)
-    if (handler && typeof handler.renderMarkdown === 'function') {
-      return handler.renderMarkdown(nodeOrNodes, helpers)
-    }
-
-    // Fallback: text node
-    return nodeOrNodes.text || ''
-  }
-
-  /** Return indent string for a given level, e.g. '    ' or '\t'. */
-  private getIndentString(level: number = 0): string {
-    if (this.indentStyle === 'tab') {
-      return '\t'.repeat(level)
-    }
-
-    return ' '.repeat(this.indentSize * level)
-  }
-
-  /** Indent every line of `text` except the first by the context's indent. */
-  private indent(text: string, ctx?: { level?: number } | null): string {
-    const level = ctx?.level ?? 0
-    const indentStr = this.getIndentString(level)
-    return text
-      .split('\n')
-      .map((line, i) => (i === 0 ? line : indentStr + line))
-      .join('\n')
+    return output.join(separator)
   }
 }
 
