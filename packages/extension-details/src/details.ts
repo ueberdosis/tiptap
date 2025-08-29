@@ -97,10 +97,10 @@ export const Details = Node.create<DetailsOptions>({
       if (!node.content) {
         return ''
       }
+      const content = h.renderChildren(node.content, '\n\n')
+      const output = ['::: details', content, ':::']
 
-      console.log('now render')
-      const content = h.renderChildren(node.content)
-      return `details: ${content}`
+      return output.join('\n')
     },
   },
 

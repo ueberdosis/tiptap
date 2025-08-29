@@ -181,6 +181,14 @@ export const InlineMath = Node.create<InlineMathOptions>({
     return ['span', mergeAttributes(HTMLAttributes, { 'data-type': 'inline-math' })]
   },
 
+  markdown: {
+    render: node => {
+      const latex = node.attrs?.latex || ''
+
+      return `$${latex}$`
+    },
+  },
+
   addInputRules() {
     return [
       new InputRule({

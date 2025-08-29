@@ -177,6 +177,15 @@ export const BlockMath = Node.create<BlockMathOptions>({
     return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'block-math' })]
   },
 
+  markdown: {
+    render: node => {
+      const latex = node.attrs?.latex || ''
+
+      const output = ['$$', latex, '$$']
+      return output.join('\n')
+    },
+  },
+
   addInputRules() {
     return [
       new InputRule({

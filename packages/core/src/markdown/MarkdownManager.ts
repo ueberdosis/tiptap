@@ -64,7 +64,7 @@ export class MarkdownManager {
     const markdownCfg = getExtensionField(extension, 'markdown') ?? null
 
     const markdownName = (markdownCfg && markdownCfg.name) ?? name
-    if (!markdownName) {
+    if (!markdownName || !markdownCfg) {
       return
     }
 
@@ -82,7 +82,11 @@ export class MarkdownManager {
 
   /** Get a registered handler for a token type. */
   private getHandlerForToken(type: string): MarkdownExtensionSpec | undefined {
-    return this.registry.get(type)
+    try {
+      return this.registry.get(type)
+    } catch {
+      // ignore unknown registry call
+    }
   }
 
   /**
@@ -113,7 +117,7 @@ export class MarkdownManager {
   }
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
-    if (!node.type) {
+    if (!node.type || !this.registry.has(node.type)) {
       return ''
     }
 
@@ -165,12 +169,22 @@ export class MarkdownManager {
   ): string {
     // if we have just one node, call renderNodeToMarkdown directly
     if (!Array.isArray(nodeOrNodes)) {
+      if (!nodeOrNodes.type || !this.registry.has(nodeOrNodes.type)) {
+        return ''
+      }
+
       return this.renderNodeToMarkdown(nodeOrNodes, parentNode, index, level)
     }
 
-    const output = nodeOrNodes.map((n, i) => this.renderNodeToMarkdown(n, parentNode, i, level))
+    return nodeOrNodes
+      .map((n, i) => {
+        if (!n.type || !this.registry.has(n.type)) {
+          return ''
+        }
 
-    return output.join(separator)
+        return this.renderNodeToMarkdown(n, parentNode, i, level)
+      })
+      .join(separator)
   }
 }
 

@@ -268,6 +268,16 @@ export const Mention = Node.create<MentionOptions>({
     return html
   },
 
+  markdown: {
+    render: node => {
+      if (!node.attrs?.label || !node.attrs?.id) {
+        return ''
+      }
+
+      return `@[${node.attrs.label || node.attrs.id}](${node.attrs.id})`
+    },
+  },
+
   renderText({ node }) {
     const args = {
       options: this.options,
