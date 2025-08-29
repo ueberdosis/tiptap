@@ -83,6 +83,20 @@ export const Heading = Node.create<HeadingOptions>({
     return [`h${level}`, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      const level = node.attrs?.level ? parseInt(node.attrs.level as string, 10) : 1
+      const headingChars = '#'.repeat(level)
+
+      if (!node.content) {
+        return ''
+      }
+
+      // Use current context for proper joining/spacing
+      return `${headingChars} ${h.renderChildren(node.content)}`
+    },
+  },
+
   addCommands() {
     return {
       setHeading:

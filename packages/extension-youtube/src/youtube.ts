@@ -334,4 +334,15 @@ export const Youtube = Node.create<YoutubeOptions>({
       ],
     ]
   },
+
+  markdown: {
+    render: node => {
+      const src = node.attrs?.src || ''
+      const start = node.attrs?.start || 0
+      const width = node.attrs?.width || 640
+      const height = node.attrs?.height || 360
+
+      return `!YT[${src}](${start}, ${width}, ${height})`
+    },
+  },
 })

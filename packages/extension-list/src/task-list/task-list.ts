@@ -61,6 +61,18 @@ export const TaskList = Node.create<TaskListOptions>({
     return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }), 0]
   },
 
+  markdown: {
+    isIndenting: true,
+
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+
+      return h.renderChildren(node.content, '\n')
+    },
+  },
+
   addCommands() {
     return {
       toggleTaskList:

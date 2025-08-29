@@ -133,6 +133,22 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     ]
   },
 
+  markdown: {
+    render: (node, h) => {
+      let output = ''
+      const language = node.attrs?.language || ''
+
+      if (!node.content) {
+        output = `\`\`\`${language}\n\n\`\`\``
+      } else {
+        const lines = [`\`\`\`${language}`, h.renderChildren(node.content), '```']
+        output = lines.join('\n')
+      }
+
+      return output
+    },
+  },
+
   addCommands() {
     return {
       setCodeBlock:

@@ -92,6 +92,18 @@ export const Details = Node.create<DetailsOptions>({
     return ['details', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+      const content = h.renderChildren(node.content, '\n\n')
+      const output = ['::: details', content, ':::']
+
+      return output.join('\n')
+    },
+  },
+
   addNodeView() {
     return ({ editor, getPos, node, HTMLAttributes }) => {
       const dom = document.createElement('div')
