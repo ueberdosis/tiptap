@@ -1,8 +1,32 @@
 .markdown-demo {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   height: 100vh;
   padding: 1rem;
+}
+
+.markdown-demo .toolbar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.markdown-demo .toolbar button {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.markdown-demo .toolbar button:hover {
+  background: #f8fafc;
+}
+
+.markdown-demo .split {
+  display: flex;
+  gap: 1rem;
+  flex: 1 1 auto;
 }
 
 .markdown-demo .editor,
