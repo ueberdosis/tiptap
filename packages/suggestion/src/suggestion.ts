@@ -210,13 +210,27 @@ export function Suggestion<I = any, TSelected = any>({
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
 
+  // Gets the DOM rectangle corresponding to the current editor cursor anchor position
+  // Calculates screen coordinates based on Tiptap's cursor position and converts to a DOMRect object
+  const getAnchorClientRect = () => {
+    const pos = editor.state.selection.$anchor.pos
+    const coords = editor.view.coordsAtPos(pos)
+    const { top, right, bottom, left } = coords
+
+    try {
+      return new DOMRect(left, top, right - left, bottom - top)
+    } catch {
+      return null
+    }
+  }
+
   // Helper to create a clientRect callback for a given decoration node.
   // Returns null when no decoration node is present. Uses the pluginKey's
   // state to resolve the current decoration node on demand, avoiding a
   // duplicated implementation in multiple places.
   const clientRectFor = (view: EditorView, decorationNode: Element | null) => {
     if (!decorationNode) {
-      return null
+      return getAnchorClientRect
     }
 
     return () => {
