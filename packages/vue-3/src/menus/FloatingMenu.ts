@@ -24,6 +24,11 @@ export const FloatingMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<FloatingMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -34,7 +39,7 @@ export const FloatingMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { pluginKey, editor, options, shouldShow } = props
+      const { pluginKey, editor, options, appendTo, shouldShow } = props
 
       if (!root.value) {
         return
@@ -43,7 +48,7 @@ export const FloatingMenu = defineComponent({
       root.value.style.visibility = 'hidden'
       root.value.style.position = 'absolute'
 
-      // remove the element from the DOM
+      // Remove element from DOM; plugin will re-parent it when shown
       root.value.remove()
 
       editor.registerPlugin(
@@ -52,6 +57,7 @@ export const FloatingMenu = defineComponent({
           editor,
           element: root.value as HTMLElement,
           options,
+          appendTo,
           shouldShow,
         }),
       )
@@ -63,6 +69,7 @@ export const FloatingMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
+    // Teleport only instantiates element + slot subtree; plugin controls final placement
     return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })
