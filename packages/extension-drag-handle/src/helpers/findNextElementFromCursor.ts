@@ -36,6 +36,10 @@ export const findElementNextToCoords = (options: FindElementNextToCoords) => {
       )
     })
 
+  if (!candidates || candidates.length === 0) {
+    return { resultElement: null, resultNode: null, pos: null }
+  }
+
   const finalCandidate = candidates[0]
   const candidatePos = editor.view.posAtDOM(finalCandidate, 0)
   if (candidatePos === -1) {
@@ -44,5 +48,5 @@ export const findElementNextToCoords = (options: FindElementNextToCoords) => {
 
   const candidateNode = editor.state.doc.nodeAt(candidatePos - 1)
 
-  return { resultElement: finalCandidate, resultNode: candidateNode, pos: candidatePos ?? null }
+  return { resultElement: finalCandidate, resultNode: candidateNode, pos: candidatePos }
 }
