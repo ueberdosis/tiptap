@@ -1,53 +1,48 @@
 import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
 
 export type FindElementNextToCoords = {
   x: number
   y: number
   direction?: 'left' | 'right'
   editor: Editor
+  bandHeight?: number
 }
 
 export const findElementNextToCoords = (options: FindElementNextToCoords) => {
-  const { x, y, direction, editor } = options
-  let resultElement: HTMLElement | null = null
-  let resultNode: Node | null = null
-  let pos: number | null = null
+  const { x, y, direction = 'right', editor, bandHeight = 5 } = options
 
-  let currentX = x
-
-  while (resultNode === null && currentX < window.innerWidth && currentX > 0) {
-    const allElements = document.elementsFromPoint(currentX, y)
-    const prosemirrorIndex = allElements.findIndex(element => element.classList.contains('ProseMirror'))
-    const filteredElements = allElements.slice(0, prosemirrorIndex)
-
-    if (filteredElements.length > 0) {
-      const target = filteredElements[0]
-
-      resultElement = target as HTMLElement
-      pos = editor.view.posAtDOM(target, 0)
-
-      if (pos >= 0) {
-        resultNode = editor.state.doc.nodeAt(Math.max(pos - 1, 0))
-
-        if (resultNode?.isText) {
-          resultNode = editor.state.doc.nodeAt(Math.max(pos - 1, 0))
-        }
-
-        if (!resultNode) {
-          resultNode = editor.state.doc.nodeAt(Math.max(pos, 0))
-        }
-
-        break
-      }
-    }
-
-    if (direction === 'left') {
-      currentX -= 1
-    } else {
-      currentX += 1
-    }
+  const rect = {
+    top: y - bandHeight,
+    bottom: y + bandHeight,
+    left: direction === 'right' ? x : 0,
+    right: direction === 'right' ? window.innerWidth - x : x,
   }
 
-  return { resultElement, resultNode, pos: pos ?? null }
+  const root = editor.view.dom as HTMLElement
+
+  // Get potential candidates from prosemirror child elements and filter
+  // by removing decorations and non prosemirror-elements
+  const candidates = [...root.querySelectorAll<HTMLElement>('*')]
+    .filter(candidate => {
+      return editor.view.posAtDOM(candidate, 0) >= 0
+    })
+    .filter(candidate => {
+      const candidateRect = candidate.getBoundingClientRect()
+      return !(
+        candidateRect.bottom < rect.top ||
+        candidateRect.top > rect.bottom ||
+        candidateRect.right < rect.left ||
+        candidateRect.left > rect.right
+      )
+    })
+
+  const finalCandidate = candidates[0]
+  const candidatePos = editor.view.posAtDOM(finalCandidate, 0)
+  if (candidatePos === -1) {
+    return { resultElement: finalCandidate, resultNode: null, pos: null }
+  }
+
+  const candidateNode = editor.state.doc.nodeAt(candidatePos - 1)
+
+  return { resultElement: finalCandidate, resultNode: candidateNode, pos: candidatePos ?? null }
 }
