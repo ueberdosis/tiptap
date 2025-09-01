@@ -1,6 +1,7 @@
 import type {
   DecorationWithType,
   Editor,
+  ExtensionAttribute,
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
@@ -47,6 +48,12 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    * If this is an object, it will be applied once when the node view is mounted.
    */
   attrs?:
+    | Record<string, string>
+    | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
+  /**
+   * The class names to add to the node view content DOM element.
+   */
+  contentDOMElementAttrs?:
     | Record<string, string>
     | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
 }
@@ -229,7 +236,7 @@ export class ReactNodeView<
   update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
-      if (typeof this.options.attrs === 'function') {
+      if (typeof this.options.attrs === 'function' || typeof this.options.contentDOMElementAttrs === 'function') {
         this.updateElementAttributes()
       }
     }
@@ -307,19 +314,41 @@ export class ReactNodeView<
    * Applying the attributes defined in the `attrs` option.
    */
   updateElementAttributes() {
+    const needsExtensionAttributes =
+      typeof this.options.attrs === 'function' || typeof this.options.contentDOMElementAttrs === 'function'
+
+    let extensionAttributes: ExtensionAttribute[] | undefined
+    let HTMLAttributes: Record<string, any> | undefined
+
+    if (needsExtensionAttributes) {
+      extensionAttributes = this.editor.extensionManager.attributes
+      HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
+    }
+
     if (this.options.attrs) {
       let attrsObj: Record<string, string> = {}
 
       if (typeof this.options.attrs === 'function') {
-        const extensionAttributes = this.editor.extensionManager.attributes
-        const HTMLAttributes = getRenderedAttributes(this.node, extensionAttributes)
-
-        attrsObj = this.options.attrs({ node: this.node, HTMLAttributes })
+        attrsObj = this.options.attrs({ node: this.node, HTMLAttributes: HTMLAttributes! })
       } else {
         attrsObj = this.options.attrs
       }
 
       this.renderer.updateAttributes(attrsObj)
+    }
+
+    if (this.options.contentDOMElementAttrs && this.contentDOMElement) {
+      let attrsObj: Record<string, string> = {}
+
+      if (typeof this.options.contentDOMElementAttrs === 'function') {
+        attrsObj = this.options.contentDOMElementAttrs({ node: this.node, HTMLAttributes: HTMLAttributes! })
+      } else {
+        attrsObj = this.options.contentDOMElementAttrs
+      }
+
+      Object.entries(attrsObj).forEach(([key, value]) => {
+        this.contentDOMElement!.setAttribute(key, value)
+      })
     }
   }
 }
