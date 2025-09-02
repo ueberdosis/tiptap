@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.3.1
+
+### Patch Changes
+
+- 02eae08: Fixed outdated warning message to reference `@tiptap/extension-undo-redo` instead of `@tiptap/extension-history`.
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

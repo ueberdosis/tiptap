@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.3.1
+
+### Patch Changes
+
+- 9e02c12: Prevent incorrect insertion of code marks when a space immediately follows backticks.
+  - @tiptap/core@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes
