@@ -342,7 +342,7 @@ export const Youtube = Node.create<YoutubeOptions>({
       const width = node.attrs?.width || 640
       const height = node.attrs?.height || 360
 
-      return `!YT[${src}](${start}, ${width}, ${height})`
+      return `[@youtube ${src}](${start}, ${width}, ${height})`
     },
   },
 })
