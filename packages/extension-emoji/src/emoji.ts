@@ -92,7 +92,7 @@ export const EmojiSuggestionPluginKey = new PluginKey('emojiSuggestion')
 
 export const inputRegex = /:([a-zA-Z0-9_+-]+):$/
 
-export const pasteRegex = /:([a-zA-Z0-9_+-]+):/g
+export const pasteRegex = /(^|\s):([a-zA-Z0-9_+-]+):/g
 
 export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
   name: 'emoji',
@@ -339,15 +339,21 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
       new PasteRule({
         find: pasteRegex,
         handler: ({ range, match, chain }) => {
-          const name = match[1]
+          // match[1] is the optional prefix (start or whitespace), match[2] is the shortcode name
+          const prefix = match[1] || ''
+          const name = match[2]
 
           if (!shortcodeToEmoji(name, this.options.emojis)) {
             return
           }
 
+          // Replace only the shortcode portion (preserve the prefix)
+          const shortcodeFrom = range.from + prefix.length
+          const shortcodeTo = range.to
+
           chain()
             .insertContentAt(
-              range,
+              { from: shortcodeFrom, to: shortcodeTo },
               {
                 type: this.name,
                 attrs: {
