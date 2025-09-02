@@ -6,6 +6,7 @@ import Image from '@tiptap/extension-image'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
+import { TableKit } from '@tiptap/extension-table'
 import { Youtube } from '@tiptap/extension-youtube'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -15,6 +16,7 @@ export default () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      TableKit,
       Emoji,
       Details,
       DetailsSummary,
@@ -153,6 +155,14 @@ export default () => {
           title="Insert horizontal rule"
         >
           Horizontal rule
+        </button>
+
+        <button
+          type="button"
+          onClick={() => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+          title="Insert table"
+        >
+          Insert table
         </button>
 
         <button

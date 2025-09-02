@@ -42,3 +42,31 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* Basic table styles for the editor */
+.tiptap table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+}
+
+.tiptap th,
+.tiptap td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tiptap th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.tiptap tr:nth-child(even) td {
+  background: #fbfdff;
+}
+
+.tiptap td {
+  min-width: 80px;
+}

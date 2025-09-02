@@ -270,6 +270,78 @@ export const Table = Node.create<TableOptions>({
     return table
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node || !node.content || node.content.length === 0) {
+        return ''
+      }
+
+      // Build a 2D array of cell text. Each child of the table is a row; each child of a row is a cell.
+      const rows: string[][] = []
+
+      node.content.forEach((rowNode: any) => {
+        const cells: string[] = []
+
+        if (rowNode.content) {
+          rowNode.content.forEach((cellNode: any) => {
+            // Render the children of the cell node. This may return multiline text; collapse whitespace.
+            const raw = cellNode.content ? h.renderChildren(cellNode.content) : ''
+            const text = (raw || '').replace(/\s+/g, ' ').trim()
+            cells.push(text)
+          })
+        }
+
+        rows.push(cells)
+      })
+
+      const columnCount = rows.reduce((max, r) => Math.max(max, r.length), 0)
+
+      if (columnCount === 0) {
+        return ''
+      }
+
+      // Compute max width for each column
+      const colWidths = new Array(columnCount).fill(0)
+
+      rows.forEach(r => {
+        for (let i = 0; i < columnCount; i += 1) {
+          const cell = r[i] || ''
+          const len = cell.length
+          if (len > colWidths[i]) {
+            colWidths[i] = len
+          }
+        }
+      })
+
+      const pad = (s: string, width: number) => s + ' '.repeat(Math.max(0, width - s.length))
+
+      // Header is the first row
+      const header = rows[0]
+
+      let out = '\n'
+
+      out += `| ${new Array(columnCount)
+        .fill(0)
+        .map((_, i) => pad(header[i] || '', colWidths[i]))
+        .join(' | ')} |\n`
+
+      // Separator: use at least three dashes per column, or match column width
+      out += `| ${colWidths.map(w => '-'.repeat(Math.max(3, w))).join(' | ')} |\n`
+
+      // Body rows
+      rows.slice(1).forEach(r => {
+        out += `| ${new Array(columnCount)
+          .fill(0)
+          .map((_, i) => pad(r[i] || '', colWidths[i]))
+          .join(' | ')} |\n`
+      })
+
+      out += '\n'
+
+      return out
+    },
+  },
+
   addCommands() {
     return {
       insertTable:
