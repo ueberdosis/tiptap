@@ -2,6 +2,6 @@
 "@tiptap/extension-emoji": patch
 ---
 
-Prevent emoji shortcodes from being converted when they appear inside pasted URLs.
+Preserve prefixes when replacing emoji shortcodes to avoid unintended conversions.
 
-Previously, pasting links such as `https://.../:x:/r/...` could unintentionally convert `:x:` (and similar shortcodes) into emoji nodes and break links. The paste handler now avoids replacing shortcodes that are part of URL-like text.
+Previously, shortcodes such as `:x:` could be converted into emoji nodes even when part of a larger string (e.g., in URLs or other text). The paste handler now preserves prefixes, which helps prevent unwanted conversions in such cases, but does not specifically target URLs.
