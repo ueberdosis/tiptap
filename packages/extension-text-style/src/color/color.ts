@@ -57,7 +57,20 @@ export const Color = Extension.create<ColorOptions>({
         attributes: {
           color: {
             default: null,
-            parseHTML: element => element.style.color?.replace(/['"]+/g, ''),
+            parseHTML: element => {
+              // Prefer the raw inline `style` attribute so we preserve
+              // the original format (e.g. `#rrggbb`) instead of the
+              // computed `rgb(...)` value returned by `element.style.color`.
+              const styleAttr = element.getAttribute && element.getAttribute('style')
+              if (styleAttr) {
+                const match = styleAttr.match(/color\s*:\s*([^;]+)/i)
+                if (match && match[1]) {
+                  return match[1].trim().replace(/['"]+/g, '')
+                }
+              }
+
+              return element.style.color?.replace(/['"]+/g, '')
+            },
             renderHTML: attributes => {
               if (!attributes.color) {
                 return {}

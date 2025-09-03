@@ -57,7 +57,20 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
         attributes: {
           backgroundColor: {
             default: null,
-            parseHTML: element => element.style.backgroundColor?.replace(/['"]+/g, ''),
+            parseHTML: element => {
+              // Prefer the raw inline `style` attribute so we preserve
+              // the original format (e.g. `#rrggbb`) instead of the
+              // computed `rgb(...)` value returned by `element.style.backgroundColor`.
+              const styleAttr = element.getAttribute && element.getAttribute('style')
+              if (styleAttr) {
+                const match = styleAttr.match(/background-color\s*:\s*([^;]+)/i)
+                if (match && match[1]) {
+                  return match[1].trim().replace(/['"]+/g, '')
+                }
+              }
+
+              return element.style.backgroundColor?.replace(/['"]+/g, '')
+            },
             renderHTML: attributes => {
               if (!attributes.backgroundColor) {
                 return {}
