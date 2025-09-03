@@ -376,7 +376,7 @@ export const Details = Node.create<DetailsOptions>({
         key: new PluginKey('detailsSelection'),
         appendTransaction: (transactions, oldState, newState) => {
           const { editor, type } = this
-          const isComposing = editor.view.composing === true
+          const isComposing = editor.view.composing
 
           if (isComposing) {
             return
