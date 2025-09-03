@@ -19,7 +19,7 @@ export const DragHandle = Vue.extend({
   props: {
     pluginKey: {
       type: [String, Object] as PropType<DragHandleProps['pluginKey']>,
-      default: dragHandlePluginDefaultKey,
+      default: () => dragHandlePluginDefaultKey,
     },
 
     editor: {
