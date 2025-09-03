@@ -459,6 +459,16 @@ export function Suggestion<I = any, TSelected = any>({
             cachedNode ??
             (state?.decorationId ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`) : null)
 
+          // Give the consumer a chance to handle Escape via onKeyDown first.
+          // If the consumer returns `true` we assume they handled the event and
+          // we won't call onExit/dispatchExit so they can both prevent
+          // propagation and decide whether to close the suggestion themselves.
+          const handledByKeyDown = renderer?.onKeyDown?.({ view, event, range: state.range }) || false
+
+          if (handledByKeyDown) {
+            return true
+          }
+
           const exitProps: SuggestionProps = {
             editor,
             range: state.range,
