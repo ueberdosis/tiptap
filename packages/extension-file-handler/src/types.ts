@@ -39,3 +39,4 @@ export type FileHandlePluginOptions = {
 }
 
 export type FileHandlerOptions = {} & Omit<FileHandlePluginOptions, 'key' | 'editor'>
+export type CloudFileHandlerOptions = FileHandlerOptions & { appId: string }

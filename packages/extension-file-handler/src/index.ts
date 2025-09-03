@@ -1,5 +1,6 @@
 import { FileHandler } from './fileHandler.js'
 
+export * from './CloudFileHandler.js'
 export * from './FileHandlePlugin.js'
 export * from './types.js'
 
