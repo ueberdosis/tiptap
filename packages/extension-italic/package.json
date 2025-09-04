@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-italic",
   "description": "italic extension for tiptap",
-  "version": "3.2.2",
+  "version": "3.3.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

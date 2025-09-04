@@ -1,5 +1,28 @@
 # @tiptap/extension-emoji
 
+## 3.3.1
+
+### Patch Changes
+
+- 03bf0ea: Preserve prefixes when replacing emoji shortcodes to avoid unintended conversions.
+
+  Previously, shortcodes such as `:x:` could be converted into emoji nodes even when part of a larger string (e.g., in URLs or other text). The paste handler now preserves prefixes, which helps prevent unwanted conversions in such cases, but does not specifically target URLs.
+
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/suggestion@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/suggestion@3.3.0
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
 ## 3.2.2
 
 ### Patch Changes

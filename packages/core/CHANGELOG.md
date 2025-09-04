@@ -1,5 +1,63 @@
 # Change Log
 
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Minor Changes
+
+- 5423726: Make input rules and paste rules respect extension `priority` by registering
+  them per-extension instead of aggregating them into a single global plugin.
+
+  ## Why
+
+  Previously all `addInputRules()` and `addPasteRules()` were gathered into one
+  global plugin which ran before the other plugins. That caused conflicts where
+  some extensions (for example mention/suggestion with `#`) could not preempt the
+  built-in heading input rule.
+
+  ## What changed
+
+  - Input and paste rules are now created and registered at the position of the
+    owning extension. This makes their execution order follow the extension
+    sorting/`priority` mechanism.
+  - Behavior is more predictable: extensions with higher `priority` can now take
+    precedence over lower priority extensions' input/paste rules.
+
+  ## Migration & compatibility
+
+  - This is a behavioral change. If you relied on the old global ordering (input
+    rules always running before other plugins), you may observe different
+    outcomes. In most cases this is desirable and fixes conflicts (like the
+    `#` mention vs. heading shortcut), but be aware of the change.
+  - If you need to force the previous behavior for a specific rule, you can:
+    - Register the rule as a ProseMirror plugin via `addProseMirrorPlugins()` on
+      the extension and place it where you want it to run.
+    - Adjust the extension `priority` value so the extension sits earlier or
+      later in the ordering.
+
+  If you have any questions or see regressions after upgrading, please open an
+  issue with a small repro and we'll help triage.
+
+### Patch Changes
+
+- 5423726: Fix paste rule handling for node views and defensively guard empty ranges.
+
+  This patch ensures paste rules can correctly inspect node content when
+  node-specific size metadata (`nodeSize`) is present, falling back to
+  `node.content.size` when needed. It also skips empty or invalid node ranges
+  before calling `textBetween`, preventing runtime errors originating from
+  internal Fragment/Node traversals (for example: "Cannot read properties of
+  undefined (reading 'nodeSize')").
+
+  The change is a defensive bugfix; it does not change public APIs.
+
+  - @tiptap/pm@3.3.0
+
 ## 3.2.2
 
 ### Patch Changes
