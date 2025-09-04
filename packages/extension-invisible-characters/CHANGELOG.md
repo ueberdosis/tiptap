@@ -1,5 +1,15 @@
 # @tiptap/extension-invisible-characters
 
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/extension-text-style@3.4.0
+  - @tiptap/pm@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes
