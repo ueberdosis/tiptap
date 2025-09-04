@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [3733bb9]
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+- Updated dependencies [90cbed5]
+  - @tiptap/suggestion@3.4.0
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes

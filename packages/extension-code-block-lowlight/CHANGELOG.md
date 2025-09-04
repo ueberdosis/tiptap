@@ -1,5 +1,23 @@
 # Change Log
 
+## 3.4.0
+
+### Patch Changes
+
+- 11c8085: Added indentation support for code blocks via `Tab`. Is deactivated by default.
+
+  **New Extension Options**:
+
+  - `enableTabIndentation: boolean` - controls if tab completion should be enabled
+  - `tabSize: number` - controls how many spaces are inserted for a tab
+
+- Updated dependencies [895c73f]
+- Updated dependencies [11c8085]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/extension-code-block@3.4.0
+  - @tiptap/pm@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes
