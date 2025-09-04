@@ -1,5 +1,5 @@
 ---
-'@tiptap/extension-code-block': minor
+'@tiptap/extension-code-block': patch
 '@tiptap/extension-code-block-lowlight': patch
 ---
 
