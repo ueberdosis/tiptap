@@ -145,6 +145,12 @@ export class FloatingMenuView {
   get middlewares() {
     const middlewares: Middleware[] = []
 
+    if (this.floatingUIOptions.offset) {
+      middlewares.push(
+        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
+      )
+    }
+
     if (this.floatingUIOptions.flip) {
       middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
     }
@@ -153,16 +159,6 @@ export class FloatingMenuView {
       middlewares.push(
         shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
       )
-    }
-
-    if (this.floatingUIOptions.offset) {
-      middlewares.push(
-        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
-      )
-    }
-
-    if (this.floatingUIOptions.arrow) {
-      middlewares.push(arrow(this.floatingUIOptions.arrow))
     }
 
     if (this.floatingUIOptions.size) {
@@ -177,14 +173,18 @@ export class FloatingMenuView {
       )
     }
 
-    if (this.floatingUIOptions.hide) {
-      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
-    }
-
     if (this.floatingUIOptions.inline) {
       middlewares.push(
         inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
       )
+    }
+
+    if (this.floatingUIOptions.arrow) {
+      middlewares.push(arrow(this.floatingUIOptions.arrow))
+    }
+
+    if (this.floatingUIOptions.hide) {
+      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
     }
 
     return middlewares
