@@ -1,5 +1,76 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.3.1
+
+### Patch Changes
+
+- Updated dependencies [8eff69a]
+  - @tiptap/extension-drag-handle@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/react@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+  - @tiptap/react@3.3.0
+  - @tiptap/extension-drag-handle@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.2
+- @tiptap/pm@3.2.2
+- @tiptap/react@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.1
+- @tiptap/react@3.2.1
+- @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.0
+- @tiptap/react@3.2.0
+- @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Minor Changes
+
+- 978c548: Expose `onDragStart` and `onDragEnd` callbacks to improve custom drag behavior. This allows better UI control compared to relying on `editor.view.dragging`, especially when using absolute-positioned drag handles.
+
+### Patch Changes
+
+- Updated dependencies [978c548]
+  - @tiptap/extension-drag-handle@3.1.0
+  - @tiptap/react@3.1.0
+  - @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/react@3.0.9
+- @tiptap/extension-drag-handle@3.0.9
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.0.8
+- @tiptap/pm@3.0.8
+- @tiptap/react@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

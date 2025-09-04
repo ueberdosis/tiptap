@@ -13,7 +13,7 @@ import {
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
 import type { EditorState, PluginView } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
 
@@ -82,6 +82,16 @@ export interface BubbleMenuPluginProps {
     | null
 
   /**
+   * The DOM element to append your menu to. Default is the editor's parent element.
+   *
+   * Sometimes the menu needs to be appended to a different DOM context due to accessibility, clipping, or z-index issues.
+   *
+   * @type {HTMLElement}
+   * @default null
+   */
+  appendTo?: HTMLElement
+
+  /**
    * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
    * hide, and inline middlewares.
    * @default {}
@@ -134,6 +144,8 @@ export class BubbleMenuView implements PluginView {
   public updateDelay: number
 
   public resizeDelay: number
+
+  public appendTo: HTMLElement | undefined
 
   private updateDebounceTimer: number | undefined
 
@@ -236,6 +248,7 @@ export class BubbleMenuView implements PluginView {
     updateDelay = 250,
     resizeDelay = 60,
     shouldShow,
+    appendTo,
     options,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -243,6 +256,7 @@ export class BubbleMenuView implements PluginView {
     this.view = view
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
+    this.appendTo = appendTo
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -320,6 +334,23 @@ export class BubbleMenuView implements PluginView {
     let virtualElement = {
       getBoundingClientRect: () => domRect,
       getClientRects: () => [domRect],
+    }
+
+    if (selection instanceof NodeSelection) {
+      let node = this.view.nodeDOM(selection.from) as HTMLElement
+
+      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+      if (nodeViewWrapper) {
+        node = nodeViewWrapper as HTMLElement
+      }
+
+      if (node) {
+        virtualElement = {
+          getBoundingClientRect: () => node.getBoundingClientRect(),
+          getClientRects: () => [node.getBoundingClientRect()],
+        }
+      }
     }
 
     // this is a special case for cell selections
@@ -448,8 +479,8 @@ export class BubbleMenuView implements PluginView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach to editor's parent element
-    this.view.dom.parentElement?.appendChild(this.element)
+    // attach to appendTo or editor's parent element
+    ;(this.appendTo ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()
