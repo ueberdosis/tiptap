@@ -1,5 +1,14 @@
 # @tiptap/extension-emoji
 
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [59fb86f]
+  - @tiptap/suggestion@3.4.1
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
 ## 3.4.0
 
 ### Patch Changes
