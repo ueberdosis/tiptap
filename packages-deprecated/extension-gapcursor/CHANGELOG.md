@@ -1,5 +1,59 @@
 # Change Log
 
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

@@ -32,7 +32,7 @@ jobs:
         node-version: [20]
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -46,7 +46,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         id: turbo-cache
         with:
           path: |
@@ -90,9 +90,9 @@ jobs:
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
       - name: Load turbo cache
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.4
         id: turbo-cache
         with:
           path: |
@@ -103,7 +103,7 @@ jobs:
             ${{ runner.os }}-turbo-${{ github.sha }}
             ${{ runner.os }}-turbo-
       - name: Load build cache
-        uses: actions/cache@v4.2.0
+        uses: actions/cache@v4.2.4
         id: cache
         with:
           path: |
@@ -127,7 +127,7 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: pnpm install && pnpm exec cypress install
+        run: pnpm install --strict-peer-dependencies && pnpm exec cypress install
 
       - name: Try to build the packages
         id: build-packages
@@ -135,7 +135,7 @@ jobs:
 
       - name: Test ${{ matrix.test-spec.name }}
         id: cypress
-        uses: cypress-io/github-action@v6.10.1
+        uses: cypress-io/github-action@v6.10.2
         with:
           cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           start: pnpm run serve
@@ -171,7 +171,7 @@ jobs:
     needs: test
 
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -185,7 +185,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         id: turbo-cache
         with:
           path: |

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-header",
   "description": "table cell extension for tiptap",
-  "version": "3.0.7",
+  "version": "3.4.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
