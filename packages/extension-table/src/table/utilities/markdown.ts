@@ -1,5 +1,4 @@
 import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/core'
-import type { Node } from 'packages/pm/model'
 
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
@@ -30,12 +29,10 @@ export function renderTableToMarkdown(
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
           // Render each direct child separately and join with separator so we can split again later
-          const parts = cellNode.content.map(child =>
-            child.content ? h.renderChildren(child.content as unknown as Node[]) : '',
-          )
+          const parts = cellNode.content.map(child => h.renderChildren(child as unknown as JSONContent))
           raw = parts.join(cellSep)
         } else {
-          raw = cellNode.content ? h.renderChildren(cellNode.content as unknown as Node[]) : ''
+          raw = cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : ''
         }
 
         const text = collapseWhitespace(raw)
