@@ -74,7 +74,6 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       }
 
       let content: Fragment | ProseMirrorNode
-      const { selection } = editor.state
 
       const emitContentError = (error: Error) => {
         editor.emit('contentError', {
@@ -180,9 +179,10 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       } else {
         newContent = content
 
-        const fromSelectionAtStart = selection.$from.parentOffset === 0
-        const isTextSelection = selection.$from.node().isText || selection.$from.node().isTextblock
-        const hasContent = selection.$from.node().content.size > 0
+        const $from = tr.doc.resolve(from)
+        const fromSelectionAtStart = $from.parentOffset === 0
+        const isTextSelection = $from.node().isText || $from.node().isTextblock
+        const hasContent = $from.node().content.size > 0
 
         if (fromSelectionAtStart && isTextSelection && hasContent) {
           from = Math.max(0, from - 1)
