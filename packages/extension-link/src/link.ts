@@ -302,6 +302,15 @@ export const Link = Mark.create<LinkOptions>({
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      const href = node.attrs?.href || ''
+      const text = h.renderChildren(node)
+
+      return `[${text}](${href})`
+    },
+  },
+
   addCommands() {
     return {
       setLink:

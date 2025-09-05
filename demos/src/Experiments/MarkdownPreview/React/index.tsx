@@ -3,6 +3,7 @@ import './styles.scss'
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import Emoji from '@tiptap/extension-emoji'
 import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
@@ -27,10 +28,11 @@ export default () => {
       Mention,
       Mathematics,
       Youtube,
+      Link,
     ],
     content: `
       <h1>Hello World. This is a test with Markdown</h1>
-      <p>We have to see how well this translates now.</p>
+      <p>We have to see how well this <a href="https://tiptap.dev">translates</a> now.</p>
       <div data-youtube-video>
         <iframe src="https://music.youtube.com/watch?v=iQabhtiG4h4" start="60" width="800" height="600"></iframe>
       </div>

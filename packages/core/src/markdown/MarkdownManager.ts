@@ -117,13 +117,56 @@ export class MarkdownManager {
   }
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
-    if (!node.type || !this.registry.has(node.type)) {
-      return ''
-    }
-
     // if node is a text node, we simply return it's text content
     if (node.type === 'text') {
-      return node.text || ''
+      // apply marks on text nodes as well (if present)
+      let inner = node.text || ''
+
+      if (node.marks && Array.isArray(node.marks) && node.marks.length > 0) {
+        const marks = node.marks as any[]
+        for (let i = 0; i < marks.length; i += 1) {
+          const mark = marks[i]
+          const markHandler = this.getHandlerForToken(mark.type)
+          if (!markHandler || !markHandler.renderMarkdown) {
+            continue
+          }
+
+          // Create a synthetic mark node whose content is a single text node
+          const markNode: JSONContent = {
+            type: mark.type,
+            attrs: mark.attrs ? mark.attrs : {},
+            content: [{ type: 'text', text: inner }],
+          }
+
+          try {
+            inner = markHandler.renderMarkdown(
+              markNode,
+              {
+                renderChildren: (nodes: JSONContent | JSONContent[]) => {
+                  if (!Array.isArray(nodes) && (nodes as any).content) {
+                    return this.renderNodes((nodes as any).content as JSONContent[], markNode, '')
+                  }
+
+                  return this.renderNodes(nodes, markNode, '')
+                },
+                indent: content => this.indentString + content,
+                wrapInBlock: wrapInMarkdownBlock,
+              },
+              { index: 0, level, parentType: node.type, meta: {} },
+            )
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error('Markdown mark renderer failed for', mark.type, err)
+            // keep inner as-is (unmarked)
+          }
+        }
+      }
+
+      return inner
+    }
+
+    if (!node.type || !this.registry.has(node.type)) {
+      return ''
     }
 
     // TODO: check what the default case should be in case
@@ -138,6 +181,11 @@ export class MarkdownManager {
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
+
+        if (!Array.isArray(nodes) && (nodes as any).content) {
+          return this.renderNodes((nodes as any).content as JSONContent[], node, separator || '', index, childLevel)
+        }
+
         return this.renderNodes(nodes, node, separator || '', index, childLevel)
       },
       indent: content => {
@@ -153,7 +201,10 @@ export class MarkdownManager {
       meta: {},
     }
 
-    return handler.renderMarkdown(node, helpers, context)
+    // First render the node itself (this will render children recursively)
+    const rendered = handler.renderMarkdown(node, helpers, context)
+
+    return rendered
   }
 
   /**
@@ -169,7 +220,7 @@ export class MarkdownManager {
   ): string {
     // if we have just one node, call renderNodeToMarkdown directly
     if (!Array.isArray(nodeOrNodes)) {
-      if (!nodeOrNodes.type || !this.registry.has(nodeOrNodes.type)) {
+      if (!nodeOrNodes.type) {
         return ''
       }
 
@@ -178,7 +229,7 @@ export class MarkdownManager {
 
     return nodeOrNodes
       .map((n, i) => {
-        if (!n.type || !this.registry.has(n.type)) {
+        if (!n.type) {
           return ''
         }
 
