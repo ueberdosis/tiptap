@@ -33,6 +33,8 @@ export class InputRule {
     can: () => CanCommands
   }) => void | null
 
+  undoable: boolean
+
   constructor(config: {
     find: InputRuleFinder
     handler: (props: {
@@ -43,9 +45,11 @@ export class InputRule {
       chain: () => ChainedCommands
       can: () => CanCommands
     }) => void | null
+    undoable?: boolean
   }) {
     this.find = config.find
     this.handler = config.handler
+    this.undoable = config.undoable ?? true
   }
 }
 
@@ -149,12 +153,14 @@ function run(config: {
 
     // store transform as meta data
     // so we can undo input rules within the `undoInputRules` command
-    tr.setMeta(plugin, {
-      transform: tr,
-      from,
-      to,
-      text,
-    })
+    if (rule.undoable) {
+      tr.setMeta(plugin, {
+        transform: tr,
+        from,
+        to,
+        text,
+      })
+    }
 
     view.dispatch(tr)
     matched = true
