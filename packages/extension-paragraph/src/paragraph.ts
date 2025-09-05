@@ -48,6 +48,16 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node || !Array.isArray(node.content)) {
+        return ''
+      }
+
+      return h.renderChildren(node.content)
+    },
+  },
+
   addCommands() {
     return {
       setParagraph:

@@ -52,10 +52,14 @@
     "jsx-dev-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/pm": "workspace:^",
+    "@types/marked": "^4.0.7"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:^"
+  },
+  "dependencies": {
+    "marked": "^16.1.2"
   },
   "repository": {
     "type": "git",

@@ -5,6 +5,13 @@ import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
+import type {
+  FullMarkdownHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  RenderContext,
+} from './markdown/types'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
@@ -12,6 +19,7 @@ import type {
   EditorEvents,
   Extensions,
   GlobalAttributes,
+  JSONContent,
   KeyboardShortcutCommand,
   ParentConfig,
   RawCommands,
@@ -223,6 +231,37 @@ export interface ExtendableConfig<
     storage: Storage
     parent: ParentConfig<Config>['addExtensions']
   }) => Extensions
+
+  /**
+   * Markdown integration hooks for this extension.
+   *
+   * Extensions can provide optional helpers to parse or render markdown.
+   */
+  markdown?: {
+    /**
+     * Optional unique name to identify the markdown tokenizer / parser for this extension.
+     * If omitted, the extension `name` will be used.
+     */
+    name?: string
+    /**
+     * A RegExp used by the tokenizer to detect custom markdown constructs.
+     */
+    match?: RegExp
+    /**
+     * Controls whether this extension will indent markdown content (for example bullet lists)
+     */
+    isIndenting?: boolean
+    /**
+     * A parse helper used by the markdown subsystem.
+     */
+    parse?:
+      | ((match: RegExpExecArray) => any)
+      | ((token: MarkdownToken, helpers: FullMarkdownHelpers) => MarkdownParseResult)
+    /**
+     * Render a node (ProseMirror JSON) to a markdown string.
+     */
+    render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  }
 
   /**
    * This function extends the schema of the node.

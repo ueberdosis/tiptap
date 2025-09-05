@@ -90,6 +90,12 @@ export const Bold = Mark.create<BoldOptions>({
     )
   },
 
+  markdown: {
+    render: (node, h) => {
+      return `**${h.renderChildren(node)}**`
+    },
+  },
+
   addCommands() {
     return {
       setBold:

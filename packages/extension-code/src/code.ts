@@ -71,6 +71,16 @@ export const Code = Mark.create<CodeOptions>({
     return ['code', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+
+      return `\`${h.renderChildren(node.content)}\``
+    },
+  },
+
   addCommands() {
     return {
       setCode:
