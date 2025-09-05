@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/extension-code-block@3.4.1
+- @tiptap/pm@3.4.1
+
 ## 3.4.0
 
 ### Patch Changes
