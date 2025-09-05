@@ -39,6 +39,7 @@ export interface ImageOptions {
         directions?: ResizableNodeViewDirections
         minWidth?: number
         minHeight?: number
+        alwaysPreserveAspectRatio?: boolean
       }
     | false
 }
@@ -131,23 +132,23 @@ export const Image = Node.create<ImageOptions>({
   },
 
   addNodeView() {
-    if (!this.options.resize) {
+    if (!this.options.resize || typeof document === 'undefined' || !this.editor.isEditable) {
       return null
     }
 
-    const { directions, minWidth, minHeight } = this.options.resize
+    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
 
     return ({ node, getPos, HTMLAttributes }) => {
       const el = document.createElement('img')
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
-        if (value) {
+        if (value != null) {
           switch (key) {
             case 'width':
-              el.style.width = `${value}px`
+              el.style.width = `${Number(value)}px`
               break
             case 'height':
-              el.style.height = `${value}px`
+              el.style.height = `${Number(value)}px`
               break
             default:
               el.setAttribute(key, value)
@@ -166,10 +167,53 @@ export const Image = Node.create<ImageOptions>({
         editor: this.editor,
         getPos,
         node,
+        preserveAspectRatio: alwaysPreserveAspectRatio === true,
       })
 
       return {
         dom: resizable,
+        update(updatedNode) {
+          if (updatedNode.type !== node.type) {
+            return false
+          }
+
+          Object.entries(updatedNode.attrs).forEach(([key, value]) => {
+            if (value != null) {
+              switch (key) {
+                case 'width':
+                  el.style.width = `${Number(value)}px`
+                  el.width = Number(value)
+                  break
+                case 'height':
+                  el.style.height = `${Number(value)}px`
+                  el.height = Number(value)
+                  break
+                default:
+                  el.setAttribute(key, value)
+                  break
+              }
+            } else {
+              switch (key) {
+                case 'width':
+                  el.style.removeProperty('width')
+                  el.removeAttribute('width')
+                  break
+                case 'height':
+                  el.style.removeProperty('height')
+                  el.removeAttribute('height')
+                  break
+                default:
+                  el.removeAttribute(key)
+                  break
+              }
+            }
+          })
+
+          return true
+        },
+        destroy() {
+          resizable.remove()
+        },
       }
     }
   },

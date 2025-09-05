@@ -19,6 +19,7 @@ export function setupResizeHandlers(
   node: Node,
   minWidth = DEFAULT_MIN_WIDTH,
   minHeight = DEFAULT_MIN_HEIGHT,
+  preserveAspectRatio = false,
 ): void {
   let isResizing = false
   let currentPosition: { x: number; y: number } | null = null
@@ -74,7 +75,7 @@ export function setupResizeHandlers(
       return
     }
 
-    const isAspectLocked = e.shiftKey
+    const isAspectLocked = e.shiftKey || preserveAspectRatio
 
     e.preventDefault()
     e.stopPropagation()

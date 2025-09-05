@@ -10,7 +10,13 @@ import React, { useCallback } from 'react'
 
 export default () => {
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text, Image.configure({ resize: { minWidth: 100, minHeight: 100 } }), Dropcursor],
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Image.configure({ resize: { minWidth: 100, minHeight: 100, alwaysPreserveAspectRatio: true } }),
+      Dropcursor,
+    ],
     content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
         <img src="https://unsplash.it/seed/tiptap/800/400" />

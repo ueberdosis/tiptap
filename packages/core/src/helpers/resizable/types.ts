@@ -49,4 +49,10 @@ export interface ResizableNodeViewOptions {
    * @default 20
    */
   minHeight?: number
+
+  /**
+   * Whether to preserve the aspect ratio when resizing without the shift key
+   * @default false
+   */
+  preserveAspectRatio?: boolean
 }
