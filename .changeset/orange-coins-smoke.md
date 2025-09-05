@@ -1,5 +1,5 @@
 ---
-'@tiptap/core': major
+'@tiptap/core': minor
 ---
 
 the addNodeView function can now return `null` to dynamically disable rendering of a node view
