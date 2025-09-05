@@ -68,6 +68,15 @@ export const DragHandle = defineComponent({
       editor.unregisterPlugin(pluginKey as string)
     })
 
-    return () => h('div', { ref: root, class: props.class }, slots.default?.())
+    return () =>
+      h(
+        'div',
+        {
+          ref: root,
+          class: props.class,
+          style: { visibility: 'hidden', position: 'absolute' },
+        },
+        slots.default?.(),
+      )
   },
 })

@@ -1,5 +1,100 @@
 # @tiptap/extension-emoji
 
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [59fb86f]
+  - @tiptap/suggestion@3.4.1
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [3733bb9]
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+- Updated dependencies [90cbed5]
+  - @tiptap/suggestion@3.4.0
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- 03bf0ea: Preserve prefixes when replacing emoji shortcodes to avoid unintended conversions.
+
+  Previously, shortcodes such as `:x:` could be converted into emoji nodes even when part of a larger string (e.g., in URLs or other text). The paste handler now preserves prefixes, which helps prevent unwanted conversions in such cases, but does not specifically target URLs.
+
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/suggestion@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/suggestion@3.3.0
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/pm@3.2.2
+- @tiptap/suggestion@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/suggestion@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/suggestion@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- 43747ce: Fixed a problem where the emoji extension would interfer with editor's in composing mode (for example in IME conversion)
+  - @tiptap/core@3.1.0
+  - @tiptap/pm@3.1.0
+  - @tiptap/suggestion@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+- @tiptap/pm@3.0.9
+- @tiptap/suggestion@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+- @tiptap/pm@3.0.8
+- @tiptap/suggestion@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

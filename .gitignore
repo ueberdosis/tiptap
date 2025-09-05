@@ -38,3 +38,7 @@ demos/*.tgz
 # demo directories
 demos/src/Dev/**
 !demos/src/Dev/.gitkeep
+
+# instructions
+.github/instructions/*
+!.github/instructions/tiptap.instructions.md
