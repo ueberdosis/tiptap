@@ -39,12 +39,13 @@ export function TiptapWrapper({ instance, children }: TiptapWrapperProps) {
   const [isReady, setIsReady] = useState(instance.isInitialized)
 
   useEffect(() => {
-    instance.on('create', () => {
+    const handleCreate = () => {
       setIsReady(true)
-    })
+    }
+    instance.on('create', handleCreate)
 
     return () => {
-      instance.off('create')
+      instance.off('create', handleCreate)
     }
   }, [instance])
 
