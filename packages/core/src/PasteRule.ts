@@ -171,9 +171,6 @@ function run(config: {
   return success
 }
 
-// When dragging across editors, must get another editor instance to delete selection content.
-let tiptapDragFromOtherEditor: Editor | null = null
-
 const createClipboardPasteEvent = (text: string) => {
   const event = new ClipboardEvent('paste', {
     clipboardData: new DataTransfer(),
@@ -252,25 +249,13 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
       view(view) {
         const handleDragstart = (event: DragEvent) => {
           dragSourceElement = view.dom.parentElement?.contains(event.target as Element) ? view.dom.parentElement : null
-
-          if (dragSourceElement) {
-            tiptapDragFromOtherEditor = editor
-          }
-        }
-
-        const handleDragend = () => {
-          if (tiptapDragFromOtherEditor) {
-            tiptapDragFromOtherEditor = null
-          }
         }
 
         window.addEventListener('dragstart', handleDragstart)
-        window.addEventListener('dragend', handleDragend)
 
         return {
           destroy() {
             window.removeEventListener('dragstart', handleDragstart)
-            window.removeEventListener('dragend', handleDragend)
           },
         }
       },
@@ -281,20 +266,8 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             dropEvent = event as DragEvent
 
-            if (!isDroppedFromProseMirror) {
-              const dragFromOtherEditor = tiptapDragFromOtherEditor
-
-              if (dragFromOtherEditor?.isEditable) {
-                // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
-                setTimeout(() => {
-                  const selection = dragFromOtherEditor.state.selection
-
-                  if (selection) {
-                    dragFromOtherEditor.commands.deleteRange({ from: selection.from, to: selection.to })
-                  }
-                }, 10)
-              }
-            }
+            // Don't interfere with ProseMirror's drag handling
+            // Let the drag handler manage cross-editor deletion
             return false
           },
 
