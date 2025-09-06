@@ -7,6 +7,7 @@ type ClickHandlerOptions = {
   type: MarkType
   editor: Editor
   enableClickSelection?: boolean
+  openOnClick?: boolean | 'whenNotEditable'
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -50,7 +51,25 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         }
 
         if (link && href) {
-          window.open(href, target)
+          // Always prevent default behavior for links
+          event.preventDefault()
+
+          // Determine if we should open the link based on openOnClick option
+          let shouldOpen = false
+
+          if (options.openOnClick === true) {
+            shouldOpen = true
+          } else if (options.openOnClick === 'whenNotEditable') {
+            // Legacy option: open when editor is not editable
+            shouldOpen = !view.editable
+          } else {
+            // openOnClick === false or undefined
+            shouldOpen = false
+          }
+
+          if (shouldOpen) {
+            window.open(href, target)
+          }
 
           return true
         }
