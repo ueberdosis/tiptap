@@ -1,0 +1,44 @@
+/* Test styles for bubble menu fix */
+.custom-bubble-menu {
+  /* This class should now be applied to the actual bubble menu element */
+  border-radius: 8px !important;
+}
+
+.ref-bubble-menu {
+  /* This class should also be applied to the actual bubble menu element */
+  border-radius: 12px !important;
+}
+
+.bubble-menu-content {
+  display: flex;
+  gap: 4px;
+}
+
+.bubble-menu-content button {
+  padding: 4px 8px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.bubble-menu-content button:hover {
+  background: #f0f0f0;
+}
+
+.bubble-menu-content button.is-active {
+  background: #000;
+  color: white;
+}
+
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 200px;
+}
