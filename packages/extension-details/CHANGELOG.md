@@ -1,5 +1,33 @@
 # @tiptap/extension-details
 
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [46fa8b8]
+  - @tiptap/extension-text-style@3.4.1
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- d3773c7: Fixed an issue where the input method editor (IME) failed to handle Chinese text correctly when entering the first word. Users can now input multiple words as expected.
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/extension-text-style@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/extension-text-style@3.3.1
+- @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

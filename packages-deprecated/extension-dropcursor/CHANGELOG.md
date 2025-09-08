@@ -1,5 +1,24 @@
 # Change Log
 
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- ef909f1: Updated `DropcursorOptions.color` types to use types defined in `prosemirror-dropcursor`
+  - @tiptap/extensions@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

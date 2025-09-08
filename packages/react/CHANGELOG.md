@@ -1,5 +1,29 @@
 # Change Log
 
+## 3.4.1
+
+### Patch Changes
+
+- 4dd8d58: fix: @types/react version mismatch
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

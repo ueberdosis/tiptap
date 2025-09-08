@@ -23,6 +23,8 @@ export const CodeBlockLowlight = CodeBlock.extend<CodeBlockLowlightOptions>({
       exitOnTripleEnter: true,
       exitOnArrowDown: true,
       defaultLanguage: null,
+      enableTabIndentation: false,
+      tabSize: 4,
       HTMLAttributes: {},
     }
   },
