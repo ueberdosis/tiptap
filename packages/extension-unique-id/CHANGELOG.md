@@ -1,5 +1,36 @@
 # @tiptap/extension-unique-id
 
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- 96a34a0: Fix collaboration extension selection to use the extension with a provider instead of the first registered extension
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

@@ -95,6 +95,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     emitContentError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
+    onMount: () => null,
+    onUnmount: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
     onTransaction: () => null,
@@ -117,6 +119,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
+    this.on('mount', this.options.onMount)
+    this.on('unmount', this.options.onUnmount)
     this.on('contentError', this.options.onContentError)
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
@@ -154,6 +158,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       )
     }
     this.createView(el)
+    this.emit('mount', { editor: this })
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -197,6 +202,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
     }
     this.css = null
+    this.emit('unmount', { editor: this })
   }
 
   /**

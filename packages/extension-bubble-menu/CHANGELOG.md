@@ -1,5 +1,45 @@
 # Change Log
 
+## 3.4.2
+
+### Patch Changes
+
+- 24445c4: Listen to a custom scroll target when positioning the BubbleMenu and
+  ensure the scroll listener is cleaned up on destroy.
+
+  The BubbleMenu now accepts an optional `scrollTarget` option which will be
+  used instead of `window` when listening for scroll events that affect the
+  menu positioning. The plugin also removes the scroll listener during
+  cleanup.
+
+  No user-facing API changes other than the new optional `scrollTarget` setting.
+
+  - @tiptap/core@3.4.2
+  - @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes
