@@ -1,5 +1,23 @@
 # Change Log
 
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 59fb86f: Previously, `clientRect` was only obtained through `decorationNode`. If `decorationNode` could not be obtained, `clientRect` was set to `null`, which caused the suggestion not to render in some IME scenarios (notably Chinese IME).
+
+  This change adds a fallback method to compute `clientRect` from the editor's cursor position when `decorationNode` is not available. It generates a DOMRect based on the cursor coordinates so the suggestion can render even when the decoration node is missing.
+
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
 ## 3.4.0
 
 ### Patch Changes
