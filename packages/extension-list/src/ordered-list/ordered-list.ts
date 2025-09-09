@@ -105,6 +105,18 @@ export const OrderedList = Node.create<OrderedListOptions>({
       : ['ol', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    isIndenting: true,
+
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+
+      return h.renderChildren(node.content, '\n')
+    },
+  },
+
   addCommands() {
     return {
       toggleOrderedList:
