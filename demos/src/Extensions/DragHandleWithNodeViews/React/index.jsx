@@ -11,13 +11,14 @@ export default () => {
   const editor = useEditor({
     extensions: [StarterKit, Recommendation],
     content: `
+      <div class="node-recommendation" data-id="1"></div>
       <h1>
         This is a very unique heading.
       </h1>
       <p>
         This is a unique paragraph. It’s so unique, it even has an ID attached to it.
       </p>
-      <div class="node-recommendation" data-id="123"></div>
+      <div class="node-recommendation" data-id="2"></div>
       <p>
         And this one, too.
       </p>
