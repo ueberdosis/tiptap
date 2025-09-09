@@ -42,7 +42,7 @@ export const findElementNextToCoords = (options: FindElementNextToCoords) => {
 
   const finalCandidate = candidates[0]
   const candidatePos = editor.view.posAtDOM(finalCandidate, 0)
-  if (candidatePos === -1) {
+  if (candidatePos <= 0) {
     return { resultElement: finalCandidate, resultNode: null, pos: null }
   }
 
