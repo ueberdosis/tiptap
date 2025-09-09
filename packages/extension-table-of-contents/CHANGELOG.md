@@ -1,5 +1,12 @@
 # @tiptap/extension-table-of-contents
 
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
 ## 3.4.1
 
 ### Patch Changes
