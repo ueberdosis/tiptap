@@ -6,14 +6,27 @@ import { createPortal } from 'react-dom'
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'pluginKey'>, 'element'>, 'editor'> &
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & {
+    menuElStyle?: React.CSSProperties | undefined
+  }
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
-    { pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null, options, children, ...restProps },
+    {
+      pluginKey = 'bubbleMenu',
+      editor,
+      updateDelay,
+      resizeDelay,
+      shouldShow = null,
+      options,
+      children,
+      menuElStyle,
+      ...restProps
+    },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
+    Object.assign(menuEl.current.style, menuElStyle)
 
     if (typeof ref === 'function') {
       ref(menuEl.current)
