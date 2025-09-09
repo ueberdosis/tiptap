@@ -129,9 +129,9 @@ export interface BubbleMenuPluginProps {
     /**
      * The scrollable element that should be listened to when updating the position of the bubble menu.
      * If not provided, the window will be used.
-     * @type {HTMLElement | null}
+     * @type {HTMLElement | Window}
      */
-    scrollTarget?: HTMLElement | null
+    scrollTarget?: HTMLElement | Window
   }
 }
 
@@ -160,7 +160,7 @@ export class BubbleMenuView implements PluginView {
 
   private isVisible = false
 
-  private scrollTarget: HTMLElement | null = null
+  private scrollTarget: HTMLElement | Window = window
 
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
@@ -266,7 +266,7 @@ export class BubbleMenuView implements PluginView {
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
-    this.scrollTarget = options?.scrollTarget ?? null
+    this.scrollTarget = options?.scrollTarget ?? window
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -284,7 +284,7 @@ export class BubbleMenuView implements PluginView {
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
     window.addEventListener('resize', this.resizeHandler)
-    ;(this.scrollTarget ?? window).addEventListener('scroll', this.resizeHandler)
+    this.scrollTarget.addEventListener('scroll', this.resizeHandler)
 
     this.update(view, view.state)
 
@@ -522,7 +522,7 @@ export class BubbleMenuView implements PluginView {
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     window.removeEventListener('resize', this.resizeHandler)
-    ;(this.scrollTarget ?? window).removeEventListener('scroll', this.resizeHandler)
+    this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
 
