@@ -98,7 +98,7 @@ function isReact19Plus(): boolean {
   return false
 }
 
-export interface ReactRendererOptions {
+export interface ReactRendererOptions<P extends Record<string, any> = object> {
   /**
    * The editor instance.
    * @type {Editor}
@@ -107,10 +107,10 @@ export interface ReactRendererOptions {
 
   /**
    * The props for the component.
-   * @type {Record<string, any>}
+   * @type {P}
    * @default {}
    */
-  props?: Record<string, any>
+  props?: P
 
   /**
    * The tag name of the element.
@@ -164,12 +164,12 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    */
   constructor(
     component: ComponentType<R, P>,
-    { editor, props = {}, as = 'div', className = '' }: ReactRendererOptions,
+    { editor, props, as = 'div', className = '' }: ReactRendererOptions<Omit<P, 'ref'>>,
   ) {
     this.id = Math.floor(Math.random() * 0xffffffff).toString()
     this.component = component
     this.editor = editor as EditorWithContentComponent
-    this.props = props as P
+    this.props = (props ?? {}) as P
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
 
@@ -226,7 +226,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   /**
    * Re-renders the React component with new props.
    */
-  updateProps(props: Record<string, any> = {}): void {
+  updateProps(props: Partial<Omit<P, 'ref'>> = {}): void {
     this.props = {
       ...this.props,
       ...props,
