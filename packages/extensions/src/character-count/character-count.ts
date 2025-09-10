@@ -17,6 +17,13 @@ export interface CharacterCountOptions {
    */
   mode: 'textSize' | 'nodeSize'
   /**
+   * Sets whether the content will be automatically trimmed when programatically setting content over the limit.
+   * If set to false, the user will be able to trim the text manually.\
+   * @default true
+   * @example false
+   */
+  autoTrim: boolean
+  /**
    * The text counter function to use. Defaults to a simple character count.
    * @default (text) => text.length
    * @example (text) => [...new Intl.Segmenter().segment(text)].length
@@ -63,6 +70,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
   addOptions() {
     return {
       limit: null,
+      autoTrim: true,
       mode: 'textSize',
       textCounter: text => text.length,
       wordCounter: text => text.split(' ').filter(word => word !== '').length,
@@ -110,8 +118,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           }
 
           const limit = this.options.limit
+          const autoTrim = this.options.autoTrim
 
-          if (limit === null || limit === undefined || limit === 0) {
+          if (limit === null || limit === undefined || limit === 0 || !autoTrim) {
             initialEvaluationDone = true
             return
           }
@@ -124,10 +133,9 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
             const to = over
 
             console.warn(
-              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
+              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed. alsjeblu`,
             )
             const tr = newState.tr.deleteRange(from, to)
-
             initialEvaluationDone = true
             return tr
           }
@@ -173,7 +181,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const from = pos - over
           const to = pos
 
-          // It’s probably a bad idea to mutate transactions within `filterTransaction`
+          // It's probably a bad idea to mutate transactions within `filterTransaction`
           // but for now this is working fine.
           transaction.deleteRange(from, to)
 
