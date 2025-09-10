@@ -18,7 +18,7 @@ export interface NodeConfig<Options = any, Storage = any>
         editor: Editor
         type: NodeType
         parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
-      }) => NodeViewRenderer)
+      }) => NodeViewRenderer | null)
     | null
 
   /**
