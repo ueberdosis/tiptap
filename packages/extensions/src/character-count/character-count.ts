@@ -133,7 +133,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
             const to = over
 
             console.warn(
-              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed. alsjeblu`,
+              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
             )
             const tr = newState.tr.deleteRange(from, to)
             initialEvaluationDone = true
@@ -181,7 +181,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const from = pos - over
           const to = pos
 
-          // It's probably a bad idea to mutate transactions within `filterTransaction`
+          // It’s probably a bad idea to mutate transactions within `filterTransaction`
           // but for now this is working fine.
           transaction.deleteRange(from, to)
 
