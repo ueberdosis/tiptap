@@ -23,6 +23,7 @@ export interface CollaborationCaretOptions {
   /**
    * A function that returns a DOM element for the cursor.
    * @param user The user details object
+   * @param clientId The user client id
    * @example
    * render: user => {
    *  const cursor = document.createElement('span')
@@ -38,11 +39,12 @@ export interface CollaborationCaretOptions {
    *  return cursor
    * }
    */
-  render(user: Record<string, any>): HTMLElement
+  render(user: Record<string, any>, clientId: number): HTMLElement
 
   /**
    * A function that returns a ProseMirror DecorationAttrs object for the selection.
    * @param user The user details object
+   * @param clientId The user client id
    * @example
    * selectionRender: user => {
    * return {
@@ -52,7 +54,7 @@ export interface CollaborationCaretOptions {
    *  'data-user': user.name,
    * }
    */
-  selectionRender(user: Record<string, any>): DecorationAttrs
+  selectionRender(user: Record<string, any>, clientId: number): DecorationAttrs
 
   /**
    * @deprecated The "onUpdate" option is deprecated. Please use `editor.storage.collaborationCaret.users` instead. Read more: https://tiptap.dev/api/extensions/collaboration-caret
