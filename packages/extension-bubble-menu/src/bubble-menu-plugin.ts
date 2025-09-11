@@ -1,7 +1,9 @@
 import {
   type Middleware,
+  type VirtualElement,
   arrow,
   autoPlacement,
+  autoUpdate,
   computePosition,
   flip,
   hide,
@@ -120,6 +122,7 @@ export interface BubbleMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
+    autoUpdate?: Parameters<typeof autoUpdate>[3] | boolean
 
     onShow?: () => void
     onHide?: () => void
@@ -162,6 +165,15 @@ export class BubbleMenuView implements PluginView {
 
   private scrollTarget: HTMLElement | Window = window
 
+  /**
+   * A cleanup function for the autoUpdate. This is used to stop the autoUpdate when the bubble menu is hidden or destroyed.
+   * It is set when the bubble menu is shown and cleared when the bubble menu is hidden or destroyed.
+   * @type {() => void | undefined}
+   * @default undefined
+   * @see https://floating-ui.com/docs/autoUpdate
+   * */
+  private autoUpdateCleanup: (() => void) | undefined
+
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
     placement: 'top',
@@ -173,6 +185,7 @@ export class BubbleMenuView implements PluginView {
     autoPlacement: false,
     hide: false,
     inline: false,
+    autoUpdate: false,
     onShow: undefined,
     onHide: undefined,
     onUpdate: undefined,
@@ -195,11 +208,7 @@ export class BubbleMenuView implements PluginView {
 
     const hasEditorFocus = view.hasFocus() || isChildOfMenu
 
-    if (!hasEditorFocus || empty || isEmptyTextBlock || !this.editor.isEditable) {
-      return false
-    }
-
-    return true
+    return hasEditorFocus && !empty && !isEmptyTextBlock && this.editor.isEditable
   }
 
   get middlewares() {
@@ -339,12 +348,16 @@ export class BubbleMenuView implements PluginView {
     this.hide()
   }
 
-  updatePosition() {
+  private get virtualElement(): VirtualElement {
     const { selection } = this.editor.state
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
-    let virtualElement = {
+    let virtualElement: VirtualElement = {
       getBoundingClientRect: () => domRect,
       getClientRects: () => [domRect],
+      /**
+       * Since virtualElement cannot respond to autoUpdate's scroll event, its contextElement must be added
+       * */
+      contextElement: this.view.dom,
     }
 
     if (selection instanceof NodeSelection) {
@@ -375,7 +388,7 @@ export class BubbleMenuView implements PluginView {
       const toDOM = this.view.nodeDOM(to)
 
       if (!fromDOM || !toDOM) {
-        return
+        return virtualElement
       }
 
       const clientRect =
@@ -391,21 +404,40 @@ export class BubbleMenuView implements PluginView {
         getClientRects: () => [clientRect],
       }
     }
+    return virtualElement
+  }
 
-    computePosition(virtualElement, this.element, {
-      placement: this.floatingUIOptions.placement,
-      strategy: this.floatingUIOptions.strategy,
-      middleware: this.middlewares,
-    }).then(({ x, y, strategy }) => {
-      this.element.style.width = 'max-content'
-      this.element.style.position = strategy
-      this.element.style.left = `${x}px`
-      this.element.style.top = `${y}px`
+  updatePosition() {
+    // clear the previous autoUpdate cleanup function
+    this.autoUpdateCleanup?.()
 
-      if (this.isVisible && this.floatingUIOptions.onUpdate) {
-        this.floatingUIOptions.onUpdate()
-      }
-    })
+    const update = () => {
+      computePosition(this.virtualElement, this.element, {
+        placement: this.floatingUIOptions.placement,
+        strategy: this.floatingUIOptions.strategy,
+        middleware: this.middlewares,
+      }).then(({ x, y, strategy }) => {
+        this.element.style.width = 'max-content'
+        this.element.style.position = strategy
+        this.element.style.left = `${x}px`
+        this.element.style.top = `${y}px`
+
+        if (this.isVisible && this.floatingUIOptions.onUpdate) {
+          this.floatingUIOptions.onUpdate()
+        }
+      })
+    }
+    if (this.floatingUIOptions.autoUpdate) {
+      // if autoUpdate is enabled, we use it to update the position of the bubble menu
+      this.autoUpdateCleanup = autoUpdate(
+        this.virtualElement,
+        this.element,
+        update,
+        typeof this.floatingUIOptions.autoUpdate !== 'boolean' ? this.floatingUIOptions.autoUpdate : {},
+      )
+    } else {
+      update()
+    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -449,7 +481,7 @@ export class BubbleMenuView implements PluginView {
     const from = Math.min(...ranges.map(range => range.$from.pos))
     const to = Math.max(...ranges.map(range => range.$to.pos))
 
-    const shouldShow = this.shouldShow?.({
+    return this.shouldShow?.({
       editor: this.editor,
       element: this.element,
       view: this.view,
@@ -458,8 +490,6 @@ export class BubbleMenuView implements PluginView {
       from,
       to,
     })
-
-    return shouldShow
   }
 
   updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
@@ -515,6 +545,8 @@ export class BubbleMenuView implements PluginView {
     }
 
     this.isVisible = false
+
+    this.autoUpdateCleanup?.()
   }
 
   destroy() {

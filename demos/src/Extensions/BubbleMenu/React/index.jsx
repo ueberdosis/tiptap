@@ -12,6 +12,22 @@ export default () => {
       <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
       </p>
+      <p>
+        If you have a lot of content, when you scroll the page, your pop-up menu will scroll with your page, thanks to <strong>autoUpdate</strong>, if you enable it
+      </p>
+      <p>
+        You can also toggle the menu visibility with the button above, or make the editor non-editable to see that the menu won't show up when selecting text.
+      </p>
+      <p>
+        This is just a basic example, you can customize it as you want!
+      </p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
+      <p>There is a lot of content here, which makes your page scrollable</p>
     `,
   })
 
@@ -43,7 +59,7 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, flip: true }}>
+        <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, flip: true, autoUpdate: true }}>
           <div className="bubble-menu">
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
