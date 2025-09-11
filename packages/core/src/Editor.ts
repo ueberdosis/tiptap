@@ -506,6 +506,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       },
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: this.editorState,
+      markViews: this.extensionManager.markViews,
+      nodeViews: this.extensionManager.nodeViews,
     })
 
     // `editor.view` is not yet available at this time.
@@ -516,7 +518,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.view.updateState(newState)
 
-    this.createNodeViews()
     this.prependClass()
     this.injectCSS()
 
