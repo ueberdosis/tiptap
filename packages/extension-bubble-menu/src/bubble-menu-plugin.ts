@@ -1,5 +1,6 @@
 import {
   type Middleware,
+  type VirtualElement,
   arrow,
   autoPlacement,
   computePosition,
@@ -92,6 +93,14 @@ export interface BubbleMenuPluginProps {
   appendTo?: HTMLElement
 
   /**
+   * A function that returns the virtual element for the menu.
+   * This is useful when the menu needs to be positioned relative to a specific DOM element.
+   * @type {() => VirtualElement | null}
+   * @default Position based on the selection.
+   */
+  getReferencedVirtualElement?: () => VirtualElement | null
+
+  /**
    * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
    * hide, and inline middlewares.
    * @default {}
@@ -153,6 +162,8 @@ export class BubbleMenuView implements PluginView {
   public resizeDelay: number
 
   public appendTo: HTMLElement | undefined
+
+  public getReferencedVirtualElement: (() => VirtualElement | null) | undefined
 
   private updateDebounceTimer: number | undefined
 
@@ -250,6 +261,68 @@ export class BubbleMenuView implements PluginView {
     return middlewares
   }
 
+  private get virtualElement(): VirtualElement | undefined {
+    const { selection } = this.editor.state
+
+    const referencedVirtualElement = this.getReferencedVirtualElement?.()
+    if (referencedVirtualElement) {
+      return referencedVirtualElement
+    }
+
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+    let virtualElement = {
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
+    }
+
+    if (selection instanceof NodeSelection) {
+      let node = this.view.nodeDOM(selection.from) as HTMLElement
+
+      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+      if (nodeViewWrapper) {
+        node = nodeViewWrapper as HTMLElement
+      }
+
+      if (node) {
+        virtualElement = {
+          getBoundingClientRect: () => node.getBoundingClientRect(),
+          getClientRects: () => [node.getBoundingClientRect()],
+        }
+      }
+    }
+
+    // this is a special case for cell selections
+    if (selection instanceof CellSelection) {
+      const { $anchorCell, $headCell } = selection
+
+      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
+      const to = $headCell ? $headCell.pos : $anchorCell!.pos
+
+      const fromDOM = this.view.nodeDOM(from)
+      const toDOM = this.view.nodeDOM(to)
+
+      if (!fromDOM || !toDOM) {
+        return
+      }
+
+      const clientRect =
+        fromDOM === toDOM
+          ? (fromDOM as HTMLElement).getBoundingClientRect()
+          : combineDOMRects(
+              (fromDOM as HTMLElement).getBoundingClientRect(),
+              (toDOM as HTMLElement).getBoundingClientRect(),
+            )
+
+      virtualElement = {
+        getBoundingClientRect: () => clientRect,
+        getClientRects: () => [clientRect],
+      }
+    }
+
+    return virtualElement
+  }
+
   constructor({
     editor,
     element,
@@ -258,6 +331,7 @@ export class BubbleMenuView implements PluginView {
     resizeDelay = 60,
     shouldShow,
     appendTo,
+    getReferencedVirtualElement,
     options,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -267,6 +341,7 @@ export class BubbleMenuView implements PluginView {
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
     this.scrollTarget = options?.scrollTarget ?? window
+    this.getReferencedVirtualElement = getReferencedVirtualElement
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -340,56 +415,10 @@ export class BubbleMenuView implements PluginView {
   }
 
   updatePosition() {
-    const { selection } = this.editor.state
-    const domRect = posToDOMRect(this.view, selection.from, selection.to)
-    let virtualElement = {
-      getBoundingClientRect: () => domRect,
-      getClientRects: () => [domRect],
-    }
+    const virtualElement = this.virtualElement
 
-    if (selection instanceof NodeSelection) {
-      let node = this.view.nodeDOM(selection.from) as HTMLElement
-
-      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
-
-      if (nodeViewWrapper) {
-        node = nodeViewWrapper as HTMLElement
-      }
-
-      if (node) {
-        virtualElement = {
-          getBoundingClientRect: () => node.getBoundingClientRect(),
-          getClientRects: () => [node.getBoundingClientRect()],
-        }
-      }
-    }
-
-    // this is a special case for cell selections
-    if (selection instanceof CellSelection) {
-      const { $anchorCell, $headCell } = selection
-
-      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
-      const to = $headCell ? $headCell.pos : $anchorCell!.pos
-
-      const fromDOM = this.view.nodeDOM(from)
-      const toDOM = this.view.nodeDOM(to)
-
-      if (!fromDOM || !toDOM) {
-        return
-      }
-
-      const clientRect =
-        fromDOM === toDOM
-          ? (fromDOM as HTMLElement).getBoundingClientRect()
-          : combineDOMRects(
-              (fromDOM as HTMLElement).getBoundingClientRect(),
-              (toDOM as HTMLElement).getBoundingClientRect(),
-            )
-
-      virtualElement = {
-        getBoundingClientRect: () => clientRect,
-        getClientRects: () => [clientRect],
-      }
+    if (!virtualElement) {
+      return
     }
 
     computePosition(virtualElement, this.element, {
