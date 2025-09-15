@@ -9,6 +9,7 @@ export interface BubbleMenuInterface extends Vue {
   updateDelay: BubbleMenuPluginProps['updateDelay']
   resizeDelay: BubbleMenuPluginProps['resizeDelay']
   shouldShow: BubbleMenuPluginProps['shouldShow']
+  getReferencedVirtualElement: BubbleMenuPluginProps['getReferencedVirtualElement']
   options: BubbleMenuPluginProps['options']
 }
 
@@ -68,6 +69,7 @@ export const BubbleMenu: Component = {
               element: this.$el as HTMLElement,
               pluginKey: this.pluginKey,
               shouldShow: this.shouldShow,
+              getReferencedVirtualElement: this.getReferencedVirtualElement,
             }),
           )
         })

@@ -42,6 +42,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         updateDelay: this.options.updateDelay,
         options: this.options.options,
         appendTo: this.options.appendTo,
+        getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         shouldShow: this.options.shouldShow,
       }),
     ]
