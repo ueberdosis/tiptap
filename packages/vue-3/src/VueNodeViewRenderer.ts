@@ -260,8 +260,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     return (
       this.decorations
         // @ts-ignore
-        .map(item => item.type.attrs.class)
-        .flat()
+        .flatMap(item => item.type.attrs.class)
         .join(' ')
     )
   }
