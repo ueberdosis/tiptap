@@ -160,7 +160,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createView(el)
     this.emit('mount', { editor: this })
 
-    if (this.css) {
+    if (this.css && !document.head.contains(this.css)) {
       document.head.appendChild(this.css)
     }
 
