@@ -88,7 +88,7 @@ export class ExtensionManager {
     const extensions = sortExtensions([...this.extensions].reverse())
 
     const allPlugins = extensions
-      .map(extension => {
+      .flatMap(extension => {
         const context = {
           name: extension.name,
           options: extension.options,
@@ -169,7 +169,6 @@ export class ExtensionManager {
 
         return plugins
       })
-      .flat()
 
     return allPlugins
   }
