@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.4.3
+
+### Patch Changes
+
+- 1ea8906: When the editor view is created, it now will also include `nodeViews` and `markViews` properties instead of setting them afterward. This avoids serialization of the editor state to HTML which will be replaced by node views anyway.
+  - @tiptap/pm@3.4.3
+
 ## 3.4.2
 
 ### Patch Changes
