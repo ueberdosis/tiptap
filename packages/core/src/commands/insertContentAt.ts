@@ -179,11 +179,11 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       } else {
         newContent = content
 
-        const fromPos = editor.state.doc.resolve(from)
-        const fromPosNode = fromPos.node()
-        const fromSelectionAtStart = fromPos.parentOffset === 0
-        const isTextSelection = fromPosNode.isText || fromPosNode.isTextblock
-        const hasContent = fromPosNode.content.size > 0
+        const $from = tr.doc.resolve(from)
+        const $fromNode = $from.node()
+        const fromSelectionAtStart = $from.parentOffset === 0
+        const isTextSelection = $fromNode.isText || $fromNode.isTextblock
+        const hasContent = $fromNode.content.size > 0
 
         if (fromSelectionAtStart && isTextSelection && hasContent) {
           from = Math.max(0, from - 1)
