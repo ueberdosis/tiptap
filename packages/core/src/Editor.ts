@@ -300,7 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           this.editorState = state
         },
         dispatch: (tr: Transaction): ReturnType<EditorView['dispatch']> => {
-          this.editorState = this.state.apply(tr)
+          this.dispatchTransaction(tr)
         },
 
         // Stub some commonly accessed properties to prevent errors
