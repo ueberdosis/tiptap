@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.4.4
+
+### Patch Changes
+
+- 00cf1d7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.4
+
 ## 3.4.3
 
 ### Patch Changes
