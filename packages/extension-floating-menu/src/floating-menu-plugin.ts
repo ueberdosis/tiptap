@@ -40,7 +40,7 @@ export interface FloatingMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         view: EditorView
@@ -52,7 +52,10 @@ export interface FloatingMenuPluginProps {
     | null
 
   /**
-   * FloatingUI options.
+   * The options for the floating menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
+   * hide, and inline middlewares.
+   * @default {}
+   * @see https://floating-ui.com/docs/computePosition#options
    */
   options?: {
     strategy?: 'absolute' | 'fixed'
@@ -197,6 +200,8 @@ export class FloatingMenuView {
       ...options,
     }
 
+    this.element.tabIndex = 0
+
     if (shouldShow) {
       this.shouldShow = shouldShow
     }
@@ -283,8 +288,11 @@ export class FloatingMenuView {
   updatePosition() {
     const { selection } = this.editor.state
 
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+
     const virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
     }
 
     computePosition(virtualElement, this.element, {

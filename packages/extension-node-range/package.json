@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-node-range",
   "description": "node range extension for tiptap",
-  "version": "3.0.0-beta.13",
+  "version": "3.4.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -36,12 +36,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "scripts": {
     "build": "tsup",

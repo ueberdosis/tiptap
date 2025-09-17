@@ -23,7 +23,7 @@
     "build:demos": "pnpm  --prefix demos run build:demos",
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
     "build:ci": "turbo run build",
-    "publish": "pnpm run build && pnpm publish -r --no-git-checks",
+    "publish": "pnpm run build && pnpm changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist && rm -rf ./packages-deprecated/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz && rm -rf ./packages-deprecated/*/*.tgz",
     "reset": "pnpm run clean:packages && pnpm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
@@ -85,5 +85,10 @@
       "prettier --write",
       "eslint --fix --quiet --no-error-on-unmatched-pattern"
     ]
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
+    }
   }
 }

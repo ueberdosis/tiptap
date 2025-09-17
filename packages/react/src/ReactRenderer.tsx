@@ -177,14 +177,17 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       this.element.classList.add(...className.split(' '))
     }
 
+    // If the editor is already initialized, we will need to
+    // synchronously render the component to ensure it renders
+    // together with Prosemirror's rendering.
     if (this.editor.isInitialized) {
-      // On first render, we need to flush the render synchronously
-      // Renders afterwards can be async, but this fixes a cursor positioning issue
       flushSync(() => {
         this.render()
       })
     } else {
-      this.render()
+      queueMicrotask(() => {
+        this.render()
+      })
     }
   }
 
@@ -239,6 +242,16 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     const editor = this.editor as EditorWithContentComponent
 
     editor?.contentComponent?.removeRenderer(this.id)
+    // If the consumer appended the element to the document (for example
+    // many demos append the renderer element to document.body), make sure
+    // we remove it here to avoid leaking DOM nodes / React roots.
+    try {
+      if (this.element && this.element.parentNode) {
+        this.element.parentNode.removeChild(this.element)
+      }
+    } catch {
+      // ignore DOM removal errors
+    }
   }
 
   /**

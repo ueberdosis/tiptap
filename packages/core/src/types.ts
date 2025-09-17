@@ -39,6 +39,18 @@ export type MaybeThisParameterType<T> =
   Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
 
 export interface EditorEvents {
+  mount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
+  unmount: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+  }
   beforeCreate: {
     /**
      * The editor instance
@@ -372,6 +384,14 @@ export interface EditorOptions {
    */
   onCreate: (props: EditorEvents['create']) => void
   /**
+   * Called when the editor is mounted.
+   */
+  onMount: (props: EditorEvents['mount']) => void
+  /**
+   * Called when the editor is unmounted.
+   */
+  onUnmount: (props: EditorEvents['unmount']) => void
+  /**
    * Called when the editor encounters an error while parsing the content.
    * Only enabled if `enableContentCheck` is `true`.
    */
@@ -662,9 +682,11 @@ export interface MarkViewRendererProps {
    * The HTML attributes that should be added to the mark's DOM element.
    */
   HTMLAttributes: Record<string, any>
+
+  updateAttributes: (attrs: Record<string, any>) => void
 }
 
-export type MarkViewRenderer = (props: MarkViewRendererProps) => MarkView
+export type MarkViewRenderer<Props = MarkViewRendererProps> = (props: Props) => MarkView
 
 export interface MarkViewRendererOptions {
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null

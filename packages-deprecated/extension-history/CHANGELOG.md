@@ -1,5 +1,236 @@
 # Change Log
 
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.8
+
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- d8a3d93: Pointed old `extension-history` extension as a fallback extension to the new `@tiptap/extensions` package where the old history extension is now exported from as `UndoRedo` to clarify what kind of history this extension is implementing.
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [bfec9b2]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [ce47182]
+- Updated dependencies [8c69002]
+- Updated dependencies [52b6644]
+  - @tiptap/extensions@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies [ce47182]
+  - @tiptap/extensions@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.0-beta.14
+
 ## 3.0.0-beta.13
 
 ### Patch Changes

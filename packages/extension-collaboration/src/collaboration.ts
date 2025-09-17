@@ -57,6 +57,12 @@ export interface CollaborationOptions {
   fragment?: XmlFragment | null
 
   /**
+   * The collaboration provider.
+   * @default null
+   */
+  provider?: any | null
+
+  /**
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void
@@ -86,6 +92,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       document: null,
       field: 'default',
       fragment: null,
+      provider: null,
     }
   },
 
@@ -98,7 +105,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onCreate() {
     if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
       console.warn(
-        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-history".',
+        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
       )
     }
   },

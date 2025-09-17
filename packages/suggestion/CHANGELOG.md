@@ -1,5 +1,382 @@
 # Change Log
 
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 59fb86f: Previously, `clientRect` was only obtained through `decorationNode`. If `decorationNode` could not be obtained, `clientRect` was set to `null`, which caused the suggestion not to render in some IME scenarios (notably Chinese IME).
+
+  This change adds a fallback method to compute `clientRect` from the editor's cursor position when `decorationNode` is not available. It generates a DOMRect based on the cursor coordinates so the suggestion can render even when the decoration node is missing.
+
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- 3733bb9: Allow consumers to handle the Escape key via `render().onKeyDown` before the suggestion plugin auto-exits.
+
+  Previously the suggestion plugin intercepted Escape internally and immediately called `onExit`, preventing `render().onKeyDown` from receiving the event and stopping propagation. Now `render().onKeyDown` is invoked first for Escape; if it returns `true` the plugin assumes the consumer handled the event (so they can call `event.preventDefault()` / `event.stopPropagation()` and optionally call `exitSuggestion(view)` themselves). If it returns `false` (or is absent), the plugin will continue to call `onExit` and close the suggestion as before.
+
+  This change enables scenarios where the editor is inside a modal/drawer and the consumer needs to prevent the outer UI from reacting to Escape while still controlling the suggestion's lifecycle.
+
+- 90cbed5: Remove the global document `mousedown` handler that closed suggestion popups when clicking outside.
+
+  Previously the suggestion plugin listened for document `mousedown` events and closed suggestion UIs when the user clicked outside the editor or suggestion portal. That behavior has been removed to avoid framework-specific coupling (for example reliance on `.react-renderer`) and related compatibility issues.
+
+  Now suggestions are closed via other signals:
+
+  - pressing Escape (unchanged)
+  - selection/cursor changes
+  - renderer.onExit (renderers can call this)
+  - programmatic calls to `exitSuggestion(view)`
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Add a safe API to exit suggestions and remove decorations.
+
+  - Dispatching a metadata-only transaction with `{ exit: true }` will now reliably deactivate the suggestion plugin and remove inline decorations.
+  - Pressing Escape now triggers renderer.onExit and dispatches the exit meta, so suggestions close immediately without needing document edits.
+  - Clicking outside the editor will also close active suggestions.
+  - Exported `exitSuggestion(view, pluginKey?)` helper to programmatically close suggestions safely.
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+- @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+- @tiptap/pm@3.0.8
+
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/core@3.0.7
+- @tiptap/pm@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [2e71d05]
+  - @tiptap/core@3.0.6
+  - @tiptap/pm@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/core@3.0.5
+- @tiptap/pm@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies [7ed03fa]
+  - @tiptap/core@3.0.4
+  - @tiptap/pm@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [75cabde]
+  - @tiptap/core@3.0.3
+  - @tiptap/pm@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/core@3.0.2
+- @tiptap/pm@3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+- 7eaa34d: Removed tippy.js and replaced it with [Floating UI](https://floating-ui.com/) - a newer, more lightweight and customizable floating element library.
+
+  This change is breaking existing menu implementations and will require a manual migration.
+
+  **Affected packages:**
+
+  - `@tiptap/extension-floating-menu`
+  - `@tiptap/extension-bubble-menu`
+  - `@tiptap/extension-mention`
+  - `@tiptap/suggestion`
+  - `@tiptap/react`
+  - `@tiptap/vue-2`
+  - `@tiptap/vue-3`
+
+  Make sure to remove `tippyOptions` from the `FloatingMenu` and `BubbleMenu` components, and replace them with the new `options` object. Check our documentation to see how to migrate your existing menu implementations.
+
+  - [FloatingMenu](https://tiptap.dev/docs/editor/extensions/functionality/floatingmenu)
+  - [BubbleMenu](https://tiptap.dev/docs/editor/extensions/functionality/bubble-menu)
+
+  You'll also need to install `@floating-ui/dom` as a peer dependency to your project like this:
+
+  ```bash
+  npm install @floating-ui/dom@^1.6.0
+  ```
+
+  The new `options` object is compatible with all components that use these extensions.
+
+### Minor Changes
+
+- a80e62f: Added support for empty query messages via decorations
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [1e91f9b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [62b0877]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.1
+  - @tiptap/pm@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.30
+- @tiptap/pm@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Minor Changes
+
+- a80e62f: Added support for empty query messages via decorations
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+- @tiptap/pm@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.28
+- @tiptap/pm@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies [412e1bd]
+  - @tiptap/core@3.0.0-beta.27
+  - @tiptap/pm@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+  - @tiptap/pm@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- Updated dependencies [4e2f6d8]
+  - @tiptap/core@3.0.0-beta.25
+  - @tiptap/pm@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.24
+- @tiptap/pm@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.23
+- @tiptap/pm@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.22
+- @tiptap/pm@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- Updated dependencies [813674c]
+- Updated dependencies [fc17b21]
+  - @tiptap/core@3.0.0-beta.21
+  - @tiptap/pm@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.20
+- @tiptap/pm@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- Updated dependencies [9ceeab4]
+  - @tiptap/core@3.0.0-beta.19
+  - @tiptap/pm@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.18
+- @tiptap/pm@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- Updated dependencies [e20006b]
+  - @tiptap/core@3.0.0-beta.17
+  - @tiptap/pm@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- Updated dependencies [ac897e7]
+- Updated dependencies [bf835b0]
+  - @tiptap/core@3.0.0-beta.16
+  - @tiptap/pm@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- Updated dependencies [087d114]
+  - @tiptap/core@3.0.0-beta.15
+  - @tiptap/pm@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+  - @tiptap/pm@3.0.0-beta.14
+
 ## 3.0.0-beta.13
 
 ### Patch Changes

@@ -2,10 +2,6 @@ import type { Extensions } from '@tiptap/core'
 import { getSchema } from '@tiptap/core'
 import type { ParseOptions } from '@tiptap/pm/model'
 import { DOMParser } from '@tiptap/pm/model'
-import type { Document as HappyDOMDocument } from 'happy-dom-without-node'
-
-import { createSafeParser } from './createSafeParser.js'
-import { createSafeWindow } from './createSafeWindow.js'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
@@ -20,17 +16,14 @@ import { createSafeWindow } from './createSafeWindow.js'
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
-  const schema = getSchema(extensions)
-  let doc: Document | HappyDOMDocument | null = null
-
   if (typeof window === 'undefined') {
-    const localWindow = createSafeWindow()
-    const localDOMParser = createSafeParser(localWindow)
-
-    doc = localDOMParser.parseFromString(html, 'text/html')
-  } else {
-    doc = new window.DOMParser().parseFromString(html, 'text/html')
+    throw new Error(
+      'generateJSON can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@tiptap/html/server` import instead.',
+    )
   }
+
+  const schema = getSchema(extensions)
+  const doc: Document = new window.DOMParser().parseFromString(html, 'text/html')
 
   if (!doc) {
     throw new Error('Failed to parse HTML string')

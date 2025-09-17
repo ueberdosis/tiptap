@@ -1,6 +1,6 @@
 {
   "name": "tiptap-demos",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
     "@lexical/react": "^0.11.3",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3",
+    "@tiptap/y-tiptap": "^3.0.0",
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",
@@ -65,7 +65,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "uuid": "^8.3.2",
-    "vite": "^5.4.17",
+    "vite": "^5.4.19",
     "vite-plugin-checker": "^0.6.4",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

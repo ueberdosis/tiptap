@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-typography",
   "description": "typography extension for tiptap",
-  "version": "3.0.0-beta.13",
+  "version": "3.4.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:^"
   },
   "repository": {
     "type": "git",

@@ -54,6 +54,24 @@ describe('can', () => {
     expect(canUndo).to.eq(true)
   })
 
+  it('returns false for non-applicable marks when cursor is positioned in node that disallows marks', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, UndoRedo, CodeBlock, Bold],
+    })
+
+    // Set up a code block and position cursor inside it (no selection)
+    editor
+      .chain()
+      .setCodeBlock()
+      .insertContent('Test code block')
+      .setTextSelection(5) // Position cursor in the middle of the text
+      .run()
+
+    const canSetMarkToBold = editor.can().setMark('bold')
+
+    expect(canSetMarkToBold).to.eq(false)
+  })
+
   it('returns false for non-applicable marks when selection contains node in conflict', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, CodeBlock, Bold],
