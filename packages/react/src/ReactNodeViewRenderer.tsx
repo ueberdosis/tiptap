@@ -180,7 +180,7 @@ export class ReactNodeView<
       throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element as HTMLElement
+    return this.renderer.element
   }
 
   /**

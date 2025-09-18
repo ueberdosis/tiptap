@@ -8,7 +8,9 @@ export default (props: MarkViewRendererProps) => {
 
   return (
     <span className="content" data-test-id="mark-view" data-count={props.HTMLAttributes['data-count']}>
-      <MarkViewContent />
+      <span className="mark-view-content-wrapper" data-test-id="mark-view-content-wrapper">
+        <MarkViewContent />
+      </span>
       <label contentEditable={false}>
         React component:
         <button
