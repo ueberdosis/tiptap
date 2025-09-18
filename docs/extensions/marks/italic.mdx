@@ -1,0 +1,91 @@
+---
+title: Italic extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-italic?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-italic
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-italic.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-italic?minimal=true
+    label: Downloads
+extension:
+  name: Italic
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-italic
+  icon: Italic
+  description: Helps to emphasize your text; it doesn’t bring you closer to Italy, though.
+  type: mark
+meta:
+  title: Italic extension | Tiptap Editor Docs
+  description: Use the Italic extension in your Tiptap Editor to emphasize your text with italics. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Use this extension to render text in _italic_. If you pass `<em>`, `<i>` tags, or text with inline `style` attributes setting `font-style: italic` in the editor’s initial content, they all will be rendered accordingly.
+
+Type `*one asterisk*` or `_one underline_` and it will magically transform to _italic_ text while you type.
+
+<CodeDemo path="/Marks/Italic" />
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<em>` HTML tags when reading contents of the `Editor` instance. All text marked italic, regardless of the method will be normalized to `<em>` HTML tags.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-italic
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Italic.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setItalic()
+
+Mark the text italic.
+
+```js
+editor.commands.setItalic()
+```
+
+### toggleItalic()
+
+Toggle the italic mark.
+
+```js
+editor.commands.toggleItalic()
+```
+
+### unsetItalic()
+
+Remove the italic mark.
+
+```js
+editor.commands.unsetItalic()
+```
+
+## Keyboard shortcuts
+
+| Command        | Windows/Linux                     | macOS                         |
+| -------------- | --------------------------------- | ----------------------------- |
+| toggleItalic() | <kbd>Control</kbd> + <kbd>I</kbd> | <kbd>Cmd</kbd> + <kbd>I</kbd> |
+
+## Source code
+
+[packages/extension-italic/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-italic/)

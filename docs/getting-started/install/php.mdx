@@ -1,0 +1,97 @@
+---
+title: PHP
+meta:
+  title: PHP | Tiptap Editor Docs
+  description: Discover how to utilize Tiptap within PHP environments, including Laravel and Livewire. Access the guide in our docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+You can use Tiptap with Laravel, Livewire, Inertia.js, Alpine.js, Tailwind CSS, and even—yes, you read that right—inside PHP.
+
+We provide [an official PHP package to work with Tiptap content](/editor/api/utilities/tiptap-for-php). You can transform Tiptap-compatible JSON to HTML and vice versa, sanitize your content, or just modify it.
+
+## Laravel Livewire
+
+### my-livewire-component.blade.php
+
+```html
+<!--
+  In your livewire component you could add an
+  autosave method to handle saving the content
+  from the editor every 10 seconds if you wanted
+-->
+<x-editor wire:model="foo" wire:poll.10000ms="autosave"></x-editor>
+```
+
+<Callout variant="default" title="Hint">
+
+    The `.defer` modifier is no longer available in Livewire v3, as updating the state is deferred by default. Use the `.live` modifier if you need to update the state server-side, as it changes.
+
+</Callout>
+
+### editor.blade.php
+
+```html
+<div
+  x-data="setupEditor(
+    $wire.entangle('{{ $attributes->wire('model')->value() }}').defer
+  )"
+  x-init="() => init($refs.editor)"
+  wire:ignore
+  {{ $attributes->whereDoesntStartWith('wire:model') }}
+>
+  <div x-ref="editor"></div>
+</div>
+```
+
+### index.js
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+
+window.setupEditor = function (content) {
+  let editor
+
+  return {
+    content: content,
+
+    init(element) {
+      editor = new Editor({
+        element: element,
+        extensions: [StarterKit],
+        content: this.content,
+        onUpdate: ({ editor }) => {
+          this.content = editor.getHTML()
+        },
+      })
+
+      this.$watch('content', (content) => {
+        // If the new content matches Tiptap's then we just skip.
+        if (content === editor.getHTML()) return
+
+        /*
+          Otherwise, it means that an external source
+          is modifying the data on this Alpine component,
+          which could be Livewire itself.
+          In this case, we only need to update Tiptap's
+          content and we're done.
+          For more information on the `setContent()` method, see:
+            https://www.tiptap.dev/api/commands/set-content
+        */
+        editor.commands.setContent(content, false)
+      })
+    },
+  }
+}
+```
+
+## Next steps
+
+- [Configure your editor](/editor/getting-started/configure)
+- [Add styles to your editor](/editor/getting-started/style-editor)
+- [Learn more about Tiptaps concepts](/editor/core-concepts/introduction)
+- [Learn how to persist the editor state](/editor/core-concepts/persistence)
+- [Start building your own extensions](/editor/extensions/custom-extensions)

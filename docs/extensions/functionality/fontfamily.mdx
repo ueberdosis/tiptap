@@ -1,0 +1,108 @@
+---
+title: FontFamily extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-font-family?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-font-family
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-font-family.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-font-family?minimal=true
+    label: Downloads
+meta:
+  title: FontFamily extension | Tiptap Editor Docs
+  description: Set custom font families using the Font Family extension in your Tiptap Editor. Learn more in our documentation.
+  category: Editor
+extension:
+  name: Font Family
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-font-family
+  description: Doesn’t have support for Comic Sans, but for all other fonts.
+  type: extension
+  icon: Type
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+This extension enables you to set the font family in the editor. It uses the [`TextStyle`](/editor/extensions/marks/text-style) mark, which renders a `<span>` tag. The font family is applied as inline style, for example `<span style="font-family: Arial">`.
+
+<CodeDemo path="/Extensions/FontFamily" />
+
+<Callout title="Heads-up!" variant="hint">
+  Be aware that `editor.isActive('textStyle', { fontFamily: 'Font Family' })` will return the font family as set by the [browser's CSS rules](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family#family-name) and not as you would have expected when setting the font family.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+This extension requires the [`TextStyle`](/editor/extensions/marks/text-style) mark.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyle, FontFamily } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyle, FontFamily],
+})
+```
+
+This extension is installed by default with the `TextStyleKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyleKit],
+})
+```
+
+## Settings
+
+### types
+
+A list of marks to which the font family attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+FontFamily.configure({
+  types: ['textStyle'],
+})
+```
+
+## Commands
+
+### setFontFamily()
+
+Applies the given font family as inline style.
+
+```js
+editor.commands.setFontFamily('Inter')
+```
+
+### unsetFontFamily()
+
+Removes any font family.
+
+```js
+editor.commands.unsetFontFamily()
+```
+
+## Source code
+
+[packages/extension-text-style/src/font-family/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/src/font-family)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { FontFamily } from '@tiptap/extension-text-style/font-family'
+
+new Editor({
+  extensions: [FontFamily],
+})
+```

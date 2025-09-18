@@ -1,0 +1,67 @@
+---
+title: How to develop a custom extension
+meta:
+  title: Custom extension | Tiptap Editor Docs
+  description: Customize and create extensions in Tiptap to extend your editor with new features and functionalities. More in the docs!
+  category: Editor
+---
+
+import Link from '@/components/Link'
+import * as CardGrid from '@/components/CardGrid'
+import { Tag } from '@/components/ui/Tag'
+import { Section } from '@/components/ui/Section'
+
+One of the strengths of Tiptap is its extendability. You don’t depend on the provided extensions, it is intended to extend the editor to your liking.
+
+With custom extensions you can add new content types and new functionalities, on top of what already exists or from scratch. Let’s start with a few common examples of how you can extend existing nodes, marks and extensions.
+
+You’ll learn how you start from scratch in the [Create new](/editor/extensions/custom-extensions/create-new) page, but you’ll need the same knowledge for extending existing and creating new extensions.
+
+### Customize and create extensions
+
+<CardGrid.Wrapper className="sm:grid-cols-3">
+  <CardGrid.Item asChild>
+    <Link href="/editor/extensions/custom-extensions/extend-existing">
+      <CardGrid.Subtitle size="sm">Extend extensions</CardGrid.Subtitle>
+      <div>
+        <CardGrid.ItemTitle>Customize and add to an existing extension</CardGrid.ItemTitle>
+      </div>
+      <CardGrid.ItemFooter>
+        <Tag>Extensions</Tag>
+      </CardGrid.ItemFooter>
+    </Link>
+  </CardGrid.Item>
+  <CardGrid.Item asChild>
+    <Link href="/editor/extensions/custom-extensions/create-new">
+      <CardGrid.Subtitle size="sm">Create extension</CardGrid.Subtitle>
+      <div>
+        <CardGrid.ItemTitle>Create a new extensions from scratch</CardGrid.ItemTitle>
+      </div>
+      <CardGrid.ItemFooter>
+        <Tag>Extensions</Tag>
+      </CardGrid.ItemFooter>
+    </Link>
+  </CardGrid.Item>
+  <CardGrid.Item asChild>
+    <Link href="/editor/extensions/custom-extensions/node-views">
+      <CardGrid.Subtitle size="sm">Create nodes</CardGrid.Subtitle>
+      <div>
+        <CardGrid.ItemTitle>Create custom and interactive nodes</CardGrid.ItemTitle>
+      </div>
+      <CardGrid.ItemFooter>
+        <Tag>Nodes</Tag>
+      </CardGrid.ItemFooter>
+    </Link>
+  </CardGrid.Item>
+  <CardGrid.Item asChild>
+    <Link href="/editor/extensions/custom-extensions/node-views/examples">
+      <CardGrid.Subtitle size="sm">Node examples</CardGrid.Subtitle>
+      <div>
+        <CardGrid.ItemTitle>Learn from custom node view examples</CardGrid.ItemTitle>
+      </div>
+      <CardGrid.ItemFooter>
+        <Tag>Nodes</Tag>
+      </CardGrid.ItemFooter>
+    </Link>
+  </CardGrid.Item>
+</CardGrid.Wrapper>

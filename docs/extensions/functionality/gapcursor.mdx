@@ -1,0 +1,62 @@
+---
+title: Gapcursor extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: Gapcursor extension | Tiptap Editor Docs
+  description: Prevent your cursor from getting stuck with the Gapcursor extension in Tiptap. Learn more in our documentation.
+  category: Editor
+extension:
+  name: Gapcursor
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions
+  description: The gapcursor prevents the cursor from getting stuck… in a gap.
+  type: extension
+  icon: TextCursor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension loads the [ProseMirror Gapcursor plugin](https://github.com/ProseMirror/prosemirror-gapcursor) by Marijn Haverbeke, which adds a gap for the cursor in places that don’t allow regular selection. For example, after a table at the end of a document.
+
+Note that Tiptap is headless, but the gapcursor needs CSS for its appearance. The [default CSS](https://github.com/ueberdosis/tiptap/tree/main/packages/core/src/style.ts) is loaded through the Editor class.
+
+<CodeDemo path="/Extensions/Gapcursor" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { Gapcursor } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [Gapcursor],
+})
+```
+
+## Source code
+
+[packages/extensions/src/gap-cursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/gap-cursor/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { Gapcursor } from '@tiptap/extensions/gapcursor'
+
+new Editor({
+  extensions: [Gapcursor],
+})
+```

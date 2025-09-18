@@ -1,0 +1,104 @@
+---
+title: Persistence
+meta:
+  title: Persistence | Tiptap Editor Docs
+  description: Learn how to persist the editor state in Tiptap. Discover how to save and restore the editor content in the docs.
+---
+
+After you have set up your editor, configured it and added some content you might wonder how to persist the editor.
+Since Tiptap is able to return **HTML** or **JSON** you can easily save the content to a database, LocalStorage or any other storage solution like sqlite or IndexedDB.
+
+While saving HTML is possible and may be the easiest way to get renderable content, we recommend using JSON to persist the editor state as it is more flexible, easier to parse
+and allows for external edits if needed without running an additional HTML parser over it.
+
+## Persisting the state to LocalStorage
+
+You can use the `localStorage` API to persist the editor state in the browser. Here's a simple example of how to save and restore the editor content using LocalStorage:
+
+```js
+// Save the editor content to LocalStorage
+localStorage.setItem('editorContent', JSON.stringify(editor.getJSON()))
+
+// Restore the editor content from LocalStorage
+const savedContent = localStorage.getItem('editorContent')
+if (savedContent) {
+  editor.setContent(JSON.parse(savedContent))
+}
+```
+
+You can also get data from the localStorage when initializing the editor:
+
+```js
+const savedContent = localStorage.getItem('editorContent')
+const editor = new Editor({
+  content: savedContent ? JSON.parse(savedContent) : '',
+  extensions: [
+    // your extensions here
+  ],
+})
+```
+
+## Persisting the state to a database
+
+To persist the editor state to a database, you can use the same approach as with LocalStorage, but instead of using `localStorage`, you would send the JSON data to your backend API.
+
+In this example we'll use the Fetch API to send the editor content to a hypothetical endpoint:
+
+```js
+// Save the editor content to a database
+fetch('/api/editor/content', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(editor.getJSON()),
+})
+```
+
+To restore the editor content from the database, you would fetch the content from your API and set it in the editor:
+
+```js
+// Restore the editor content from a database
+fetch('/api/editor/content')
+  .then(response => response.json())
+  .then(data => {
+    editor.setContent(data)
+  })
+  .catch(error => {
+    console.error('Error fetching editor content:', error)
+  })
+```
+
+## Restoring the editor state in React
+
+If you are using React, you can use the `useEffect` hook to restore the editor state when the component mounts. Here's an example of how to do this for the LocalStorage case:
+
+```jsx
+function MyEditor() {
+  const content = useMemo(() => {
+    const savedContent = localStorage.getItem('editorContent')
+    return savedContent ? JSON.parse(savedContent) : ''
+  }, [])
+
+  const editor = useEditor({
+    content,
+    extensions: [
+      // your extensions here
+    ],
+  })
+
+  return (
+    <div>
+      <EditorContent editor={editor} />
+      <button
+        onClick={() => {
+          // Save the editor content to LocalStorage
+          localStorage.setItem('editorContent', JSON.stringify(editor.getJSON()))
+        }}
+      >
+        Save Content
+      </button>
+    </div>
+  )
+}
+```

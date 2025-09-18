@@ -1,0 +1,103 @@
+---
+title: Color extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-style?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-style
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true
+    label: Downloads
+meta:
+  title: Color extension | Tiptap Editor Docs
+  description: Add text color support to your Tiptap editor with the Color extension. Learn more in our documentation.
+  category: Editor
+extension:
+  name: Color
+  link:
+  description: Add text color support to your editor (comes with unlimited colors).
+  type: extension
+  icon: Palette
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension enables you to set the font color in the editor. It uses the [`TextStyle`](/editor/extensions/marks/text-style) mark, which renders a `<span>` tag (and only that). The font color is applied as inline style then, for example `<span style="color: #958DF1">`.
+
+<CodeDemo path="/Extensions/Color" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+This extension requires the [`TextStyle`](/editor/extensions/marks/text-style) mark.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyle, Color } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyle, Color],
+})
+```
+
+This extension is installed by default with the `TextStyleKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyleKit],
+})
+```
+
+## Settings
+
+### types
+
+A list of marks to which the color attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+Color.configure({
+  types: ['textStyle'],
+})
+```
+
+## Commands
+
+### setColor()
+
+Applies the given font color as inline style.
+
+```js
+editor.commands.setColor('#ff0000')
+```
+
+### unsetColor()
+
+Removes any font color.
+
+```js
+editor.commands.unsetColor()
+```
+
+## Source code
+
+[packages/extension-text-style/src/color/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/src/color/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { Color } from '@tiptap/extension-text-style/color'
+
+new Editor({
+  extensions: [Color],
+})
+```

@@ -1,0 +1,138 @@
+---
+title: Create a new extension
+meta:
+  title: Create extensions | Tiptap Editor Docs
+  description: Create a new extension for your Tiptap editor and create a unique editor experience from scratch. Learn more in the docs!
+  category: Editor
+---
+
+You can build your own extensions from scratch and you know what? It’s the same syntax as for extending existing extension described above.
+
+### Create an extension
+
+Extensions add new capabilities to Tiptap and you’ll read the word extension here very often, even for nodes and marks. But there are literal extensions. Those can’t add to the schema (like marks and nodes do), but can add functionality or change the behaviour of the editor.
+
+A good example to learn from is probably [`TextAlign`](/editor/extensions/functionality/textalign).
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  // Your code goes here.
+})
+```
+
+You can also use a callback function to create an extension. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create(() => {
+  // Define variables or functions to use inside your extension
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customExtension',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+Read more about the [Extension API](/editor/extensions/custom-extensions/create-new/extension).
+
+### Create a node
+
+If you think of the document as a tree, then [nodes](/editor/extensions/nodes) are just a type of content in that tree. Good examples to learn from are [`Paragraph`](/editor/extensions/nodes/paragraph), [`Heading`](/editor/extensions/nodes/heading), or [`CodeBlock`](/editor/extensions/nodes/code-block).
+
+```js
+import { Node } from '@tiptap/core'
+
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  // Your code goes here.
+})
+```
+
+You can also use a callback function to create a node. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Node } from '@tiptap/core'
+
+const CustomNode = Node.create(() => {
+  // Define variables or functions to use inside your extension
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customNode',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+Nodes don’t have to be blocks. They can also be rendered inline with the text, for example for [@mentions](/editor/extensions/nodes/mention).
+
+Read more about the [Node API](/editor/extensions/custom-extensions/create-new/node).
+
+### Create a mark
+
+One or multiple marks can be applied to [nodes](/editor/extensions/nodes), for example to add inline formatting. Good examples to learn from are [`Bold`](/editor/extensions/marks/bold), [`Italic`](/editor/extensions/marks/italic) and [`Highlight`](/editor/extensions/marks/highlight).
+
+```js
+import { Mark } from '@tiptap/core'
+
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  // Your code goes here.
+})
+```
+
+You can also use a callback function to create a mark. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Mark } from '@tiptap/core'
+
+const CustomMark = Mark.create(() => {
+  // Define variables or functions to use inside your extension
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customMark',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+Read more about the [Mark API](/editor/extensions/custom-extensions/create-new/mark).
+
+## Publish standalone extensions
+
+If you want to create and publish your own extensions for Tiptap, you can use our CLI tool to bootstrap your project.
+Simply run `npm init tiptap-extension` and follow the instructions. The CLI will create a new folder with a pre-configured project for you including a build script running on Rollup.
+
+If you want to test your extension locally, you can run `npm link` in the project folder and then `npm link YOUR_EXTENSION` in your project (for example a Vite app).
+
+## Share
+
+When everything is working fine, don’t forget to [share it with the community](https://github.com/ueberdosis/tiptap/issues/819) or in our [awesome-tiptap](https://github.com/ueberdosis/awesome-tiptap) repository.

@@ -1,0 +1,54 @@
+---
+title: Extensions in Tiptap
+meta:
+  title: Extensions | Tiptap Editor Docs
+  description: Learn how to create, customize, and integrate extensions into Tiptap to improve your text editor's functionality.
+---
+
+Extensions enhance Tiptap by adding new capabilities or modifying the editor's behavior. Whether it is adding new types of content, customizing the editor's appearance, or extending its functionality, extensions are the building blocks of Tiptap.
+
+To add new types of content into your editor you can use [nodes](/editor/api/nodes) and [marks](/editor/extensions/marks) which can render content in the editor.
+
+The optional `@tiptap/starter-kit` includes the most commonly used extensions, simplifying setup. Read more about [`StarterKit`](/editor/getting-started/configure#default-extensions).
+
+Expand your editor's functionality with extensions created by the Tiptap community. Discover a variety of custom features and tools in the [Awesome Tiptap Repository](https://github.com/ueberdosis/awesome-tiptap#community-extensions). For collaboration and support, engage with other developers in the [Discussion Thread](https://github.com/ueberdosis/tiptap/discussions/2973) on community-built extensions.
+
+## What are extensions?
+
+Although Tiptap tries to hide most of the complexity of ProseMirror, it’s built on top of its APIs and we recommend you to read through the [ProseMirror Guide](https://ProseMirror.net/docs/guide/) for advanced usage. You’ll have a better understanding of how everything works under the hood and get more familiar with many terms and jargon used by Tiptap.
+
+Existing [nodes](/editor/extensions/nodes), [marks](/editor/extensions/marks) and [functionality](/editor/extensions/functionality) can give you a good impression on how to approach your own extensions. To make it easier to switch between the documentation and the source code, we linked to the file on GitHub from every single extension documentation page.
+
+We recommend to start with customizing existing extensions first, and create your own extensions with the gained knowledge later. That’s why all the examples below extend existing extensions, but all examples will work on newly created extensions as well.
+
+## Create a new extension
+
+You’re free to create your own extensions for Tiptap. Here is the boilerplate code that’s needed to create and register your own extension:
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  // Your code here
+})
+
+const editor = new Editor({
+  extensions: [
+    // Register your custom extension with the editor.
+    CustomExtension,
+    // … and don’t forget all other extensions.
+    Document,
+    Paragraph,
+    Text,
+    // …
+  ],
+})
+```
+
+You can easily bootstrap a new extension via our CLI.
+
+```bash
+npm init tiptap-extension
+```
+
+Learn more about custom extensions in our [guide](/editor/extensions/custom-extensions).

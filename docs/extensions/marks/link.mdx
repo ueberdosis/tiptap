@@ -1,0 +1,251 @@
+---
+title: Link extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-link?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-link
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-link.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-link?minimal=true
+    label: Downloads
+extension:
+  name: Link
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-link
+  description: 'Link it, link it good, link it real good (and don’t forget the href).'
+  type: mark
+  icon: Link
+meta:
+  title: Link extension | Tiptap Editor Docs
+  description: Learn how to use the Link extension in Tiptap to add support for <a> tags. Discover more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The Link extension adds support for `<a>` tags to the editor. The extension is headless too, there is no actual UI to add, modify or delete links. The usage example below uses the native JavaScript prompt to show you how that could work.
+
+In a real world application, you would probably add a more sophisticated user interface.
+
+Pasted URLs will be transformed to links automatically.
+
+<CodeDemo path="/Marks/Link" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-link
+```
+
+## Settings
+
+### protocols
+
+Additional custom protocols you would like to be recognized as links.
+
+Default: `[]`
+
+```js
+Link.configure({
+  protocols: ['ftp', 'mailto'],
+})
+```
+
+By default, [linkify](https://linkify.js.org/docs/) adds `//` to the end of a protocol however this behavior can be changed by passing `optionalSlashes` option
+
+```js
+Link.configure({
+  protocols: [
+    {
+      scheme: 'tel',
+      optionalSlashes: true,
+    },
+  ],
+})
+```
+
+### autolink
+
+If enabled, it adds links as you type.
+
+Default: `true`
+
+```js
+Link.configure({
+  autolink: false,
+})
+```
+
+### openOnClick
+
+If enabled, links will be opened on click.
+
+Default: `true`
+
+```js
+Link.configure({
+  openOnClick: false,
+})
+```
+
+### enableClickSelection
+
+If enabled, clicking on a link will select the link.
+
+Default: `false`
+
+```js
+Link.configure({
+  enableClickSelection: true,
+})
+```
+
+### linkOnPaste
+
+Adds a link to the current selection if the pasted content only contains an url.
+
+Default: `true`
+
+```js
+Link.configure({
+  linkOnPaste: false,
+})
+```
+
+### defaultProtocol
+
+The default protocol used by `linkOnPaste` and `autolink` when no protocol is defined.
+
+By default, the href generated for example.com is http://example.com and this option allows that protocol to be customized.
+
+Default: `http`
+
+```js
+Link.configure({
+  defaultProtocol: 'https',
+})
+```
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Link.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+#### Removing and overriding existing html attributes
+
+You can add `rel: null` to HTMLAttributes to remove the default `rel="noopener noreferrer nofollow"`. You can also override the default by using `rel: "your-value"`.
+
+This can also be used to change the `target` from the default value of `_blank`.
+
+```js
+Link.configure({
+  HTMLAttributes: {
+    // Change rel to different value
+    // Allow search engines to follow links(remove nofollow)
+    rel: 'noopener noreferrer',
+    // Remove target entirely so links open in current tab
+    target: null,
+  },
+})
+```
+
+### isAllowedUri
+
+A function that allows customization of link validation, modifying the default verification logic. This function accepts the URL and a context object with additional properties.
+
+**Parameters:**
+
+- `url`: The URL to validate.
+- `ctx`: An object containing:
+  - `defaultValidate`: A function that performs the default URL validation.
+  - `protocols`: An array of allowed protocols for the URL, e.g., `["http", "https"]`.
+  - `defaultProtocol`: The default protocol (e.g., `'http'`).
+
+**Returns:** `boolean` - `true` if the URL is valid, `false` otherwise.
+
+This function enables you to enforce rules on allowed protocols or domains when autolinking URLs.
+
+```js
+// Validate URLs to only accept non-relative URLs
+Link.configure({
+  isAllowedUri: (url, ctx) => ctx.defaultValidate(url) && !url.startsWith('./'),
+})
+```
+
+### validate (deprecated)
+
+This function has been deprecated in favor of the more descriptive `shouldAutoLink` function. If provided, the `validate` function will replace the `shouldAutoLink` function.
+
+### shouldAutoLink
+
+Defines whether a valid link should be automatically linked within the editor content.
+
+**Parameters:**
+
+- `url`: The URL that has already passed validation.
+
+**Returns:** `boolean` - `true` if the link should be auto-linked, `false` if it should not.
+
+Use this function to control autolinking behavior based on the URL.
+
+```js
+// Example: Auto-link only if the URL is secure
+Link.configure({
+  shouldAutoLink: (url) => url.startsWith('https://'),
+})
+```
+
+## Commands
+
+### setLink()
+
+Links the selected text.
+
+```js
+editor.commands.setLink({ href: 'https://example.com' })
+editor.commands.setLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### toggleLink()
+
+Adds or removes a link from the selected text.
+
+```js
+editor.commands.toggleLink({ href: 'https://example.com' })
+editor.commands.toggleLink({ href: 'https://example.com', target: '_blank' })
+```
+
+### unsetLink()
+
+Removes a link.
+
+```js
+editor.commands.unsetLink()
+```
+
+## Keyboard shortcuts
+
+<Callout title="No keyboard shortcut" variant="default">
+  This extension doesn’t bind a specific keyboard shortcut. You would probably open your custom UI
+  on `Mod-k` though.
+</Callout>
+
+## Get the current value
+
+Did you know that you can use [`getAttributes`](/editor/api/editor#getattributes) to find out which attributes, for example which href, is currently set? Don’t confuse it with a [command](/editor/api/commands) (which changes the state), it’s just a method. Here is how that could look like:
+
+```js
+this.editor.getAttributes('link').href
+```
+
+## Source code
+
+[packages/extension-link/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-link/)

@@ -1,0 +1,91 @@
+---
+title: Underline extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-underline?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-underline
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-underline.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-underline?minimal=true
+    label: Downloads
+meta:
+  title: Underline extension | Tiptap Editor Docs
+  description: Add a line below your text to make it look more… underlined with the Tiptap’s… Underline extension. More in the docs!
+  category: Editor
+extension:
+  name: Underline
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-underline
+  description: Add a line below your text to make it look more… underlined.
+  type: mark
+  icon: Underline
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Use this extension to render text <u>underlined</u>. If you pass `<u>` tags, or text with inline `style` attributes setting `text-decoration: underline` in the editor’s initial content, they all will be rendered accordingly.
+
+Be aware that underlined text in the internet usually indicates that it’s a clickable link. Don’t confuse your users with underlined text.
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<u>` HTML tags when reading contents of the `Editor` instance. All text marked underlined, regardless of the method will be normalized to `<u>` HTML tags.
+</Callout>
+
+<CodeDemo path="/Marks/Underline" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-underline
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Underline.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setUnderline()
+
+Marks a text as underlined.
+
+```js
+editor.commands.setUnderline()
+```
+
+### toggleUnderline()
+
+Toggles an underline mark.
+
+```js
+editor.commands.toggleUnderline()
+```
+
+### unsetUnderline()
+
+Removes an underline mark.
+
+```js
+editor.commands.unsetUnderline()
+```
+
+## Keyboard shortcuts
+
+| Command           | Windows/Linux                     | macOS                         |
+| ----------------- | --------------------------------- | ----------------------------- |
+| toggleUnderline() | <kbd>Control</kbd> + <kbd>U</kbd> | <kbd>Cmd</kbd> + <kbd>U</kbd> |
+
+## Source code
+
+[packages/extension-underline/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-underline/)

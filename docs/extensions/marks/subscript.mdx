@@ -1,0 +1,89 @@
+---
+title: Subscript extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-subscript?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-subscript
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-subscript.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-subscript?minimal=true
+    label: Downloads
+extension:
+  name: Subscript
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-subscript
+  description: Write slightly below the normal line to make a statement.
+  type: mark
+  icon: Subscript
+meta:
+  title: Subscript extension | Tiptap Editor Docs
+  description: Learn how to use the Subscript extension in Tiptap to write slightly below the normal line and show your unique style.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Use this extension to render text in <sub>subscript</sub>. If you pass `<sub>` or text with `vertical-align: sub` as inline style in the editor’s initial content, both will be rendered accordingly.
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<sub>` HTML tags when reading contents of the `Editor` instance. All text in subscript, regardless of the method will be normalized to `<sub>` HTML tags.
+</Callout>
+
+<CodeDemo path="/Marks/Subscript" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-subscript
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Subscript.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setSubscript()
+
+Mark text as subscript.
+
+```js
+editor.commands.setSubscript()
+```
+
+### toggleSubscript()
+
+Toggle subscript mark.
+
+```js
+editor.commands.toggleSubscript()
+```
+
+### unsetSubscript()
+
+Remove subscript mark.
+
+```js
+editor.commands.unsetSubscript()
+```
+
+## Keyboard shortcuts
+
+| Command           | Windows/Linux                     | macOS                         |
+| ----------------- | --------------------------------- | ----------------------------- |
+| toggleSubscript() | <kbd>Control</kbd> + <kbd>,</kbd> | <kbd>Cmd</kbd> + <kbd>,</kbd> |
+
+## Source code
+
+[packages/extension-subscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-subscript/)

@@ -1,0 +1,15 @@
+---
+title: joinBackward command
+meta:
+  title: joinBackward command | Tiptap Editor Docs
+  description: Join two nodes backwards from the current selection in your Tiptap Editor with the joinBackward command. Learn more in our docs!
+  category: Editor
+---
+
+The `joinBackward` command joins two nodes backwards from the current selection. If the selection is empty and at the start of a textblock, `joinBackward` will try to reduce the distance between that block and the block before it. [See also](https://prosemirror.net/docs/ref/#commands.joinBackward)
+
+## Use the joinBackward command
+
+```js
+editor.commands.joinBackward()
+```

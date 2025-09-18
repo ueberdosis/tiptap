@@ -1,0 +1,112 @@
+---
+title: Undo/Redo extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: Undo/Redo extension | Tiptap Editor Docs
+  description: Undo and redo changes in your Tiptap Editor with ease, allowing you to revert or reapply edits in your editor. More in the docs.
+  category: Editor
+extension:
+  name: Undo/Redo
+  description: Undo and redo changes in your Tiptap Editor with ease, allowing you to revert or reapply edits in your editor.
+  type: extension
+  icon: Undo2
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension provides undo and redo support. All changes to the document will be tracked and can be removed with `undo`. Undone changes can be applied with `redo` again.
+
+You should only integrate this extension if you don't plan to make your editor collaborative. The Collaboration extension has its own undo/redo support because people generally don't want to revert changes made by others.
+
+<CodeDemo path="/Extensions/UndoRedo" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { UndoRedo } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [UndoRedo],
+})
+```
+
+## Settings
+
+### depth
+
+The amount of history events that are collected before the oldest events are discarded.
+
+Default: `100`
+
+```js
+UndoRedo.configure({
+  depth: 10,
+})
+```
+
+### newGroupDelay
+
+The delay between changes after which a new group should be started (in milliseconds). When changes aren’t adjacent, a new group is always started.
+
+Default: `500`
+
+```js
+UndoRedo.configure({
+  newGroupDelay: 1000,
+})
+```
+
+## Commands
+
+### undo()
+
+Undo the last change.
+
+```js
+editor.commands.undo()
+```
+
+### redo()
+
+Redo the last change.
+
+```js
+editor.commands.redo()
+```
+
+## Keyboard shortcuts
+
+| Command | Windows/Linux                                                                                                                                     | macOS                                                                                                                                 |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| undo()  | <kbd>Control</kbd> + <kbd>Z</kbd> or <kbd>Control</kbd> + <kbd>я</kbd>                                                                            | <kbd>Cmd</kbd> + <kbd>Z</kbd> + or <kbd>Cmd</kbd> + <kbd>я</kbd>                                                                      |
+| redo()  | <kbd>Shift</kbd> + <kbd>Control</kbd> + <kbd>Z</kbd> or <kbd>Control</kbd> + <kbd>Y</kbd> or <kbd>Shift</kbd> + <kbd>Control</kbd> + <kbd>я</kbd> | <kbd>Shift</kbd> + <kbd>Cmd</kbd> + <kbd>Z</kbd> or <kbd>Cmd</kbd> + <kbd>Y</kbd> or <kbd>Shift</kbd> + <kbd>Cmd</kbd> + <kbd>я</kbd> |
+
+## Source code
+
+[packages/extensions/src/undo-redo/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/undo-redo/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { UndoRedo } from '@tiptap/extensions/undo-redo'
+
+new Editor({
+  extensions: [UndoRedo],
+})
+```

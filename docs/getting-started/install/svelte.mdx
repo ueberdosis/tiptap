@@ -1,0 +1,203 @@
+---
+title: Svelte
+meta:
+  title: Svelte | Tiptap Editor Docs
+  description: Discover how to set up Tiptap with Svelte for a dynamic rich text editing experience. Follow our detailed guide in our docs!
+  category: Editor
+---
+
+Learn how to integrate Tiptap with your SvelteKit project using this step-by-sep guide. Alternatively, check out our [Svelte text editor example](/examples/basics/default-text-editor).
+
+## Take a shortcut: Svelte REPL with Tiptap
+
+If you want to jump into it right away, here is a [Svelte REPL with Tiptap](https://svelte.dev/playground/66be82691d304dc981502659e93f8b92).
+
+### Requirements
+
+- [Node](https://nodejs.org/en/download/) installed on your machine
+- Experience with [Svelte](https://svelte.dev/docs#getting-started)
+
+## Create a project (optional)
+
+If you already have a SvelteKit project, that's fine too. Just skip this step.
+
+For the purpose of this guide, start with a fresh SvelteKit project called `my-tiptap-project`. The following commands set up everything we need. It asks a lot of questions, but select your preferred options or use the defaults.
+
+```bash
+npm create svelte@latest my-tiptap-project
+cd my-tiptap-project
+npm install
+npm run dev
+```
+
+### Install dependencies
+
+Now that we're done with boilerplate, let's install Tiptap! For the following example you'll need the `@tiptap/core` package, with a few components, `@tiptap/pm`, and `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
+
+```bash
+npm install @tiptap/core @tiptap/pm @tiptap/starter-kit
+```
+
+If you followed steps 1 and 2, you can now start your project with `npm run dev` and open [http://localhost:3000/](http://localhost:3000/) in your favorite browser. This might be different if you're working with an existing project.
+
+## Integrate Tiptap
+
+To start using Tiptap, you'll need to add a new component to your app. Let's call it `Tiptap` and add the following example code in `src/lib/Tiptap.svelte`.
+
+This is the fastest way to get Tiptap up and running with SvelteKit. It will give you a very basic version of Tiptap, without any buttons. No worries, you will be able to add more functionality soon.
+
+```svelte
+import { Editor } from '@tiptap/core'
+  import { StarterKit } from '@tiptap/starter-kit'
+  import BubbleMenu from '@tiptap/extension-bubble-menu'
+
+  let bubbleMenu = $state()
+  let element = $state()
+  let editorState = $state({editor: null})
+
+  onMount(() => {
+    editor = new Editor({
+      element: element,
+      extensions: [
+        StarterKit,
+        BubbleMenu.configure({
+          element: bubbleMenu,
+        }),
+      ],
+      content: `
+        <h1>Hello Svelte! 🌍️ </h1>
+        <p>This editor is running in Svelte.</p>
+        <p>Select some text to see the bubble menu popping up.</p>
+      `,
+      onTransaction: ({editor}) => {
+        // force re-render so `editor.isActive` works as expected
+		editorState = { editor }
+      },
+    })
+  })
+  onDestroy(() => {
+    editor.destroy()
+  })
+</script>
+
+<div style="position: relative" class="app">
+  {#if editorState.editor}
+    <div class="fixed-menu">
+      <button
+        onclick={() => editorState.editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        class:active={editorState.editor.isActive('heading', { level: 1 })}
+      >
+        H1
+      </button>
+      <button
+        onclick={() => editorState.editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        class:active={editorState.editor.isActive('heading', { level: 2 })}
+      >
+        H2
+      </button>
+      <button onclick={() => editorState.editor.chain().focus().setParagraph().run()} class:active={editorState.editor.isActive('paragraph')}>
+        P
+      </button>
+    </div>
+  {/if}
+
+  <div bind:this={element}></div>
+</div>
+
+<style>
+  button.active {
+    background: black;
+    color: white;
+  }
+</style>
+
+```
+
+
+
+## Add it to your app
+
+Now, let's replace the content of `src/routes/+page.svelte` with the following example code to use our new `Tiptap` component in our app.
+
+```svelte
+<script>
+  import Tiptap from '$lib/Tiptap.svelte'
+</script>
+
+<main>
+  <Tiptap />
+</main>
+```
+
+Tiptap should now be visible in your browser. Time to give yourself a pat on the back! :)
+
+## Next steps
+
+- [Configure your editor](/editor/getting-started/configure)
+- [Add styles to your editor](/editor/getting-started/style-editor)
+- [Learn more about Tiptap's concepts](/editor/core-concepts/introduction)
+- [Learn how to persist the editor state](/editor/core-concepts/persistence)
+- [Start building your own extensions](/editor/extensions/custom-extensions)
+
+## Setup with Svelte legacy syntax
+
+The example above uses the [Svelte runes syntax](https://svelte.dev/docs/svelte/what-are-runes). If your Svelte app is in [legacy mode](https://svelte.dev/docs/svelte/legacy-let), use this code for the `Tiptap.svelte` component instead.
+
+```svelte
+<script>
+	import { onMount, onDestroy } from 'svelte';
+	import { Editor } from '@tiptap/core';
+	import StarterKit from '@tiptap/starter-kit';
+
+	let element;
+	let editor;
+
+	onMount(() => {
+		editor = new Editor({
+			element: element,
+			extensions: [StarterKit],
+			content: '<p>Hello World! 🌍️ </p>',
+			onTransaction: () => {
+				// force re-render so `editor.isActive` works as expected
+				editor = editor;
+			},
+		});
+	});
+
+	onDestroy(() => {
+		if (editor) {
+			editor.destroy();
+		}
+	});
+</script>
+
+{#if editor}
+	<button
+		on:click={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+		class:active={editor.isActive('heading', { level: 1 })}
+	>
+		H1
+	</button>
+	<button
+		on:click={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+		class:active={editor.isActive('heading', { level: 2 })}
+	>
+		H2
+	</button>
+	<button
+		on:click={() => editor.chain().focus().setParagraph().run()}
+		class:active={editor.isActive('paragraph')}
+	>
+		P
+	</button>
+{/if}
+
+<div bind:this={element} />
+
+<style>
+	button.active {
+		background: black;
+		color: white;
+	}
+</style>
+```

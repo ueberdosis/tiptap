@@ -1,0 +1,138 @@
+---
+title: Emoji extension
+icon: emoji-smile-line
+extension:
+  name: Emoji
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-emoji
+  description: Render emojis as inline nodes with fallback images for unsupported emojis.
+  type: node
+  icon: Laugh
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-emoji.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-emoji
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-emoji.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-emoji?minimal=true
+    label: Downloads
+meta:
+  title: Emoji extension | Tiptap Editor Docs
+  description: Use the Emoji extension in Tiptap to render emojis as inline nodes with fallback images for unsupported emojis.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The `Emoji` extension renders emojis as an inline node. All inserted (typed, pasted, etc.) emojis will be converted to this node. The benefit of this is that unsupported emojis can be rendered with a fallback image. As soon as you copy text out of the editor, they will be converted back to plain text.
+
+<CodeDemo path="/Nodes/Emoji" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-emoji
+```
+
+## Dependencies
+
+To place the popups correctly, we’re using [tippy.js](https://atomiks.github.io/tippyjs/) in all our examples. You are free to bring your own library, but if you’re fine with it, just install what we use:
+
+```bash
+npm install tippy.js
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Emoji.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### emojis
+
+Define a set of emojis. Tiptap provides two lists of emojis:
+
+1. The default `emojis` list, which contains all Unicode emojis of version 14.1
+2. An extended `gitHubEmojis` list, which also contains custom emojis like :octocat:
+
+```js
+import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
+
+Emoji.configure({
+  emojis: gitHubEmojis,
+})
+```
+
+<Callout title="Skin tones" variant="hint">
+
+Skin tones are not yet supported ✌🏽
+
+</Callout>
+
+### enableEmoticons
+
+Specifies whether text should be converted to emoticons (e.g. `<3` to ❤️). Defaults to `false`.
+
+```js
+Emoji.configure({
+  enableEmoticons: true,
+})
+```
+
+### forceFallbackImages
+
+Specifies whether fallback images should always be rendered. Defaults to `false`.
+
+```js
+Emoji.configure({
+  forceFallbackImages: true,
+})
+```
+
+#### Add custom emojis
+
+It’s super easy to add your own custom emojis.
+
+```js
+import Emoji, { emojis } from '@tiptap/extension-emoji'
+
+const customEmojis = [
+  {
+    // A unique name of the emoji which will be stored as attribute
+    name: 'octocat',
+    // A list of unique shortcodes that are used by input rules to find the emoji
+    shortcodes: ['octocat'],
+    // A list of tags that can help for searching emojis
+    tags: ['cat', 'meow'],
+    // A name that can help to group emojis
+    group: 'My custom group of emojis',
+    // The image to be rendered
+    fallbackImage: 'https://github.githubassets.com/images/icons/emoji/octocat.png',
+  },
+]
+
+Emoji.configure({
+  emojis: [...emojis, ...customEmojis],
+})
+```
+
+### suggestion
+
+[Read more](/editor/api/utilities/suggestion)
+
+```js
+Emoji.configure({
+  suggestion: {
+    // …
+  },
+})
+```

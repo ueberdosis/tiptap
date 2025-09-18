@@ -1,0 +1,211 @@
+---
+title: React
+meta:
+  title: React | Tiptap Editor Docs
+  description: Learn how to integrate the Tiptap Editor with a React app and develop your custom editor experience.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This guide describes how to integrate Tiptap with your React project. We're using Vite, but the workflow should be similar with other setups.
+
+<CodeDemo path="/Examples/Default" />
+
+### Create a React project (optional)
+
+Start with a fresh React project called `my-tiptap-project`. [Vite](https://vitejs.dev/guide/) will set up everything we need.
+
+```bash
+# create a project with npm
+npm create vite@latest my-tiptap-project -- --template react-ts
+
+# OR, create a project with pnpm
+pnpm create vite@latest my-tiptap-project --template react-ts
+
+# OR, create a project with yarn
+yarn create vite my-tiptap-project --template react-ts
+
+# change directory
+cd my-tiptap-project
+```
+
+### Install Tiptap dependencies
+
+Next, install the `@tiptap/react` package, `@tiptap/pm` (the ProseMirror library), and `@tiptap/starter-kit`, which includes the most common extensions to get started quickly.
+
+- **@tiptap/react**: The React bindings for Tiptap including Tiptap's core functionality.
+- **@tiptap/pm**: Tiptap's ProseMirror dependencies, which are required for the editor to function.
+- **@tiptap/starter-kit**: A collection of commonly used extensions that provide basic functionality like paragraphs, headings, bold, italic, and more.
+
+```bash
+npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
+```
+
+If you followed steps 1 and 2, you can now start your project with `npm run dev` and open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Integrate Tiptap into your React app
+
+To actually start using Tiptap we need to create a new component. Let's call it `Tiptap` and add the following example code in `src/Tiptap.tsx`.
+
+```jsx
+// src/Tiptap.tsx
+import { useEditor, EditorContent } from '@tiptap/react'
+import { FloatingMenu, BubbleMenu } from '@tiptap/react/menus'
+import StarterKit from '@tiptap/starter-kit'
+
+const Tiptap = () => {
+  const editor = useEditor({
+    extensions: [StarterKit], // define your extension array
+    content: '<p>Hello World!</p>', // initial content
+  })
+
+  return (
+    <>
+      <EditorContent editor={editor} />
+      <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu>
+      <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
+    </>
+  )
+}
+
+export default Tiptap
+```
+
+### Add it to your app
+
+Finally, replace the content of `src/App.tsx` with our new `Tiptap` component.
+
+```jsx
+import Tiptap from './Tiptap'
+
+const App = () => {
+  return (
+    <div className="card">
+      <Tiptap />
+    </div>
+  )
+}
+
+export default App
+```
+
+## Using the EditorContext
+
+Tiptap provides a React context called `EditorContext`, that allows you to access the editor instance and its state from anywhere in your component tree. This is particularly useful for building custom toolbars, menus, or other components that need to interact with the editor.
+
+```jsx
+// src/Tiptap.tsx
+import { useEditor, EditorContent, EditorContext } from '@tiptap/react'
+import { FloatingMenu, BubbleMenu } from '@tiptap/react/menus'
+import StarterKit from '@tiptap/starter-kit'
+
+const Tiptap = () => {
+  const editor = useEditor({
+    extensions: [StarterKit], // define your extension array
+    content: '<p>Hello World!</p>', // initial content
+  })
+
+  // Memoize the provider value to avoid unnecessary re-renders
+  const providerValue = useMemo(() => ({ editor }), [editor])
+
+  return (
+    <EditorContext.Provider value={providerValue}>
+      <EditorContent editor={editor} />
+      <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu>
+      <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
+    </EditorContext.Provider>
+  )
+}
+
+export default Tiptap
+```
+
+### Consume the Editor context in child components
+
+If you use the `EditorProvider` to set up your Tiptap editor, you can now access your editor instance from any child component using the `useCurrentEditor` hook.
+
+```tsx
+import { useCurrentEditor } from '@tiptap/react'
+
+const EditorJSONPreview = () => {
+  const { editor } = useCurrentEditor()
+
+  return <pre>{JSON.stringify(editor.getJSON(), null, 2)}</pre>
+}
+```
+
+**Important**: This won't work if you use the `useEditor` hook to setup your editor.
+
+You should now see a pretty barebones example of Tiptap in your browser.
+
+## Reacting to Editor state changes
+
+To react to editor state changes, you can use the `useEditorState` hook from `@tiptap/react`. This hook can be used to fetch information from the editor state without causing re-renders on the editor component or it's children.
+
+```jsx
+import { useEditorState } from '@tiptap/react'
+
+function MyEditorComponent() {
+  // ... your editor setup code
+
+  const editorState = useEditorState({
+    editor,
+
+    // the selector function is used to select the state you want to react to
+    selector: ({ editor }) => {
+      if (!editor) return null;
+
+      return {
+        isEditable: editor.isEditable,
+        currentSelection: editor.state.selection,
+        currentContent: editor.getJSON(),
+        // you can add more state properties here e.g.:
+        // isBold: editor.isActive('bold'),
+        // isItalic: editor.isActive('italic'),
+      };
+    },
+  });
+}
+```
+
+## Use SSR with React and Tiptap
+
+Tiptap can be used with server-side rendering (SSR) in React applications. However, to ensure that the editor is only initialized on the client side, you need to use the `immediatelyRender` option
+when creating the editor instance to prevent it from rendering on the server.
+
+Here is an example of how to set up Tiptap with SSR in a React component:
+
+```jsx
+'use client'
+
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+
+export function MyEditor() {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '<p>Hello World!</p>',
+    // Disable immediate rendering to prevent SSR issues
+    immediatelyRender: false,
+  })
+
+  if (!editor) {
+    return null // Prevent rendering until the editor is initialized
+  }
+
+  return <EditorContent editor={editor} />
+}
+```
+
+## Optimize your performance
+
+We recommend visiting the [React Performance Guide](/guides/performance) to integrate the Tiptap Editor efficiently. This will help you avoid potential issues as your app scales.
+
+## Next steps
+
+- [Configure your editor](/editor/getting-started/configure)
+- [Add styles to your editor](/editor/getting-started/style-editor)
+- [Learn more about Tiptaps concepts](/editor/core-concepts/introduction)
+- [Learn how to persist the editor state](/editor/core-concepts/persistence)
+- [Start building your own extensions](/editor/extensions/custom-extensions)

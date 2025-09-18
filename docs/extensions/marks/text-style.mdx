@@ -1,0 +1,48 @@
+---
+title: TextStyle extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-style?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-style
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true
+    label: Downloads
+extension:
+  name: Text Style
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-style
+  description: 'Otherwise useless, it adds <span> tags required by other extensions.'
+  type: mark
+  icon: Paintbrush
+meta:
+  title: TextStyle extension | Tiptap Editor Docs
+  description: Use the Text Style extension in Tiptap to add <span> tags with custom styles. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This mark renders a `<span>` HTML tag and enables you to add a list of styling related attributes, for example font-family, font-size, or color. The extension doesn’t add any styling attribute by default, but other extensions use it as the foundation, for example [`FontFamily`](/editor/extensions/functionality/fontfamily) or [`Color`](/editor/extensions/functionality/color).
+
+<CodeDemo path="/Marks/Textstyle" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+## Commands
+
+### removeEmptyTextStyle()
+
+Remove `<span>` tags without an inline style.
+
+```js
+editor.command.removeEmptyTextStyle()
+```
+
+## Source code
+
+[packages/extension-text-style/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/)

@@ -1,0 +1,103 @@
+---
+title: FontSize extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-style?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-style
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true
+    label: Downloads
+meta:
+  title: FontSize extension | Tiptap Editor Docs
+  description: Set custom font size using the Font Size extension in your Tiptap Editor. Learn more in our documentation.
+  category: Editor
+extension:
+  name: Font Size
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-style
+  description: Set the font size in the editor.
+  type: extension
+  icon: AArrowUp
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension enables you to set the font size in the editor. It uses the [`TextStyle`](/editor/extensions/marks/text-style) mark, which renders a `<span>` tag. The font size is applied as inline style, for example `<span style="font-size: 14px">`.
+
+<CodeDemo path="/Extensions/FontSize" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+This extension requires the [`TextStyle`](/editor/extensions/marks/text-style) mark.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyle, FontSize } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyle, FontSize],
+})
+```
+
+This extension is installed by default with the `TextStyleKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyleKit],
+})
+```
+
+## Settings
+
+### types
+
+A list of marks to which the font family attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+FontSize.configure({
+  types: ['textStyle'],
+})
+```
+
+## Commands
+
+### setFontSize()
+
+Applies the given font family as inline style.
+
+```js
+editor.commands.setFontSize('14px')
+```
+
+### unsetFontSize()
+
+Removes any font family.
+
+```js
+editor.commands.unsetFontSize()
+```
+
+## Source code
+
+[packages/extension-text-style/src/font-size/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/src/font-size)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { FontSize } from '@tiptap/extension-text-style/font-size'
+
+new Editor({
+  extensions: [FontSize],
+})
+```

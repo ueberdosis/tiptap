@@ -1,0 +1,25 @@
+---
+title: setNode command
+meta:
+  title: setNode command | Tiptap Editor Docs
+  description: Use the setNode command in Tiptap to replace a given range with a specified text block node. Learn more in our docs!
+  category: Editor
+---
+
+The `setNode` command will replace a given range with a given node. The range depends on the current selection. **Important**: Currently `setNode` only supports text block nodes.
+
+## Parameters
+
+`typeOrName: string | NodeType`
+
+The type of the node that will replace the range. Can be a string or a NodeType.
+
+`attributes?: Record<string, any>`
+
+The attributes that should be applied to the node. **This is optional.**
+
+## Use the setNode command
+
+```js
+editor.commands.setNode('paragraph', { id: 'paragraph-01' })
+```

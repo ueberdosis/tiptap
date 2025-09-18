@@ -1,0 +1,82 @@
+---
+title: ListKit extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list/beta?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+meta:
+  title: ListKit extension | Tiptap Editor Docs
+  description: All necessary list extensions in one extension with ListKit. Perfect for quickly setting up lists with Tiptap. More in the docs!
+  category: Editor
+extension:
+  name: ListKit
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions-list
+  description: All necessary list extensions in one. It doesn’t get much better than this.
+  type: extension
+  icon: Package
+---
+
+The `ListKit` is a collection of all necessary Tiptap list extensions. If you quickly want to setup lists in Tiptap, this extension is for you.
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+## Included extensions
+
+### Nodes
+
+- [`BulletList`](/editor/extensions/nodes/bullet-list)
+- [`ListItem`](/editor/extensions/nodes/list-item)
+- [`OrderedList`](/editor/extensions/nodes/ordered-list)
+- [`TaskItem`](/editor/extensions/nodes/task-item)
+- [`TaskList`](/editor/extensions/nodes/task-list)
+
+### Extensions
+
+- [`ListKeymap`](/editor/extensions/functionality/listkeymap)
+
+## Source code
+
+[packages/extension-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/)
+
+## Using the ListKit extension
+
+Pass `ListKit` to the editor to load all included extension at once.
+
+```js
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list'
+
+const editor = new Editor({
+  extensions: [ListKit],
+})
+```
+
+You can configure the included extensions, or even disable a few of them, like shown below.
+
+```js
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list'
+
+const editor = new Editor({
+  extensions: [
+    ListKit.configure({
+      // Disable an extension
+      bulletList: false,
+
+      // Configure an extension
+      listItem: {
+        HTMLAttributes: { class: 'list-item' },
+      },
+    }),
+  ],
+})
+```

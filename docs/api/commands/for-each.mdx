@@ -1,0 +1,29 @@
+---
+title: forEach command
+meta:
+  title: forEach command | Tiptap Editor Docs
+  description: Use the forEach command in Tiptap to loop through an array of items and insert content into the editor. Learn more in our docs!
+  category: Editor
+---
+
+Loop through an array of items.
+
+## Parameters
+
+`items: any[]`
+
+An array of items.
+
+`fn: (item: any, props: CommandProps & { index: number }) => boolean`
+
+A function to do anything with your item.
+
+## Use the forEach command
+
+```js
+const items = ['foo', 'bar', 'baz']
+
+editor.commands.forEach(items, (item, { commands }) => {
+  return commands.insertContent(item)
+})
+```

@@ -1,0 +1,134 @@
+---
+title: Drag Handle React extension
+extension:
+  name: Drag Handle React
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-drag-handle-react
+  description: Have you ever wanted to drag nodes around your react-based editor? Well, we did too.
+  type: extension
+  icon: GripVertical
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-drag-handle-react.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-drag-handle-react
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-drag-handle-react.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-drag-handle-react?minimal=true
+    label: Downloads
+meta:
+  category: Editor
+  title: Drag Handle React | Tiptap Editor Docs
+  description: Enable dragging nodes around your React-based Tiptap Editor with the Drag Handle React Extension. Learn how to set it up here in the Docs!
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Have you ever wanted to drag nodes around your react-based editor? Well, we did too—so here’s an extension for that.
+
+The `DragHandleReact` component allows you to easily handle dragging nodes around in the editor. You can define custom render functions, placement, and more.
+It essentially wraps the [DragHandle](/editor/extensions/functionality/drag-handle) extension in a React component that will automatically register/unregister the extension with the editor.
+
+<CodeDemo path="/Extensions/DragHandle/" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-drag-handle-react @tiptap/extension-drag-handle @tiptap/extension-node-range @tiptap/extension-collaboration @tiptap/y-tiptap yjs y-protocols
+```
+
+## Props
+
+All props follow the same structure as the [DragHandle](/editor/extensions/functionality/drag-handle) extension.
+
+### children
+
+The content that should be displayed inside of the drag handle.
+
+```jsx
+<DragHandle>
+  <div>Drag Me!</div>
+</DragHandle>
+```
+
+### tippyOptions
+
+Options for tippy.js. You can pass any options that are available in the [tippy.js documentation](https://atomiks.github.io/tippyjs/v6/all-props/).
+
+Default: `undefined`
+
+```jsx
+<DragHandle
+  tippyOptions={{
+    placement: 'left',
+  }}
+>
+  <div>Drag Me!</div>
+</DragHandle>
+```
+
+### onNodeChange
+
+Returns a node or null when a node is hovered over. This can be used to highlight the node that is currently hovered over.
+
+Default: `undefined`
+
+```jsx
+function Component() {
+  const [selectedNode, setSelectedNode] = useState(null)
+
+  return (
+    <DragHandle
+      onNodeChange={({ node, editor, pos }) => {
+        setSelectedNode(node)
+        // do something with the node
+      }}
+    >
+      <div>Drag Me!</div>
+    </DragHandle>
+  )
+}
+```
+
+### pluginKey
+
+The key that should be used to store the plugin in the editor. This is useful if you have multiple drag handles in the same editor.
+
+Default: `undefined`
+
+```jsx
+<DragHandle pluginKey="myCustomDragHandle">
+  <div>Drag Me!</div>
+</DragHandle>
+```
+
+### onElementDragStart
+
+A function that is called when the element starts to be dragged. This can be used to add custom logic when dragging starts.
+
+```jsx
+<DragHandle
+  onElementDragStart={(e: DragEvent) => {
+    // do something when dragging starts
+  }}
+>
+  <div>Drag Me!</div>
+</DragHandle>
+```
+
+### onElementDragEnd
+
+A function that is called when the element stops being dragged. This can be used to add custom logic when dragging ends.
+
+```jsx
+<DragHandle
+  onElementDragEnd={(e: DragEvent) => {
+    // do something when dragging ends
+  }}
+>
+  <div>Drag Me!</div>
+</DragHandle>
+```
+
+### Commands
+
+See the [DragHandle](/editor/extensions/functionality/drag-handle) extension for available editor commands.

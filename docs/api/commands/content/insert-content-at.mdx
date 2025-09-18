@@ -1,0 +1,81 @@
+---
+title: insertContentAt command
+meta:
+  title: insertContentAt command | Tiptap Editor Docs
+  description: Add content to a specific position or range using plain text, HTML, or JSON with the insertContentAt command. More in the docs!
+  category: Editor
+---
+
+The `insertContentAt` will insert an HTML string or a node at a given position or range. If a range is given, the new content will replace the content in the given range with the new content.
+
+## Parameters
+
+`position: number | Range`
+
+The position or range the content will be inserted in.
+
+`value: Content`
+
+The content to be inserted. Can be plain text, an HTML string or JSON node(s).
+
+`options: Record<string, any>`
+
+- updateSelection: controls if the selection should be moved to the newly inserted content.
+- parseOptions: Passed content is parsed by ProseMirror. To hook into the parsing, you can pass `parseOptions` which are then handled by [ProseMirror](https://prosemirror.net/docs/ref/#model.ParseOptions).
+
+## Use the insertContentAt command
+
+```js
+// Plain text
+editor.commands.insertContentAt(12, 'Example Text')
+
+// Plain text, replacing a range
+editor.commands.insertContentAt({ from: 12, to: 16 }, 'Example Text')
+
+// HTML
+editor.commands.insertContentAt(12, '<h1>Example Text</h1>')
+
+// HTML with trim white space
+editor.commands.insertContentAt(12, '<p>Hello world</p>', {
+  updateSelection: true,
+  parseOptions: {
+    preserveWhitespace: 'full',
+  },
+})
+
+// JSON/Nodes
+editor.commands.insertContentAt(12, {
+  type: 'heading',
+  attrs: {
+    level: 1,
+  },
+  content: [
+    {
+      type: 'text',
+      text: 'Example Text',
+    },
+  ],
+})
+
+// Multiple nodes at once
+editor.commands.insertContentAt(12, [
+  {
+    type: 'paragraph',
+    content: [
+      {
+        type: 'text',
+        text: 'First paragraph',
+      },
+    ],
+  },
+  {
+    type: 'paragraph',
+    content: [
+      {
+        type: 'text',
+        text: 'Second paragraph',
+      },
+    ],
+  },
+])
+```

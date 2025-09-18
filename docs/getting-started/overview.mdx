@@ -1,0 +1,172 @@
+---
+title: Integrate the Tiptap Editor
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/core?label=version
+    url: https://www.npmjs.com/package/@tiptap/core
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/core.svg
+    url: https://npmcharts.com/compare/@tiptap/core?minimal=true
+    label: Downloads
+  - type: image
+    src: https://img.shields.io/npm/l/@tiptap/core.svg
+    url: https://www.npmjs.com/package/@tiptap/core
+    label: License
+meta:
+  title: Get started | Tiptap Editor Docs
+  description: Build a custom rich text editor with Tiptap, a customizable and headless editor framework. Learn more about Tiptap in the docs.
+  category: Editor
+---
+
+import { ArrowRightIcon } from 'lucide-react'
+import Link from '@/components/Link'
+import * as CtaBox from '@/components/CtaBox'
+import { Button } from '@/components/ui/Button'
+import * as CardGrid from '@/components/CardGrid'
+import { Tag } from '@/components/ui/Tag'
+import { Section } from '@/components/ui/Section'
+import cardCoverSimpleEditorTemplate from '@/assets/card-covers/examples/simple-editor-template-preview.jpg'
+import cardCoverUIComponents from '@/assets/card-covers/examples/components-preview.jpg'
+
+Build a rich-text editor that fits your product with exactly the features you need. Tiptap wraps the proven ProseMirror library in a modern, framework-agnostic API and gives you extensions and features for everything.
+
+## What is Tiptap?
+
+Tiptap is a headless rich-text editor framework that lets you build a custom editor completely tailored to your and your customers' needs.
+It's built on top of ProseMirror, a battle-tested library for building rich-text editors on the web.
+Under the hood Tiptap heavily relies on [Events](/editor/api/events), [Commands](/editor/api/commands),
+and [Extensions](/editor/extensions/overview) to provide a flexible and powerful API for building editors.
+
+## Why pick Tiptap?
+
+- **Modular by default:** Add only the extensions you need, from bold and links to complex tables and slash-menus. Keep the bundle small and your schema under control.
+- **Headless first** Plug Tiptap into React, Vue, Svelte, plain JS, or any other framework. Or integrate with React [UI Components and templates](/ui-components/getting-started/overview)
+- **Open source & Pro extensions:** Tiptap's open source is published on GitHub under the MIT license. When you need advanced features like comments or AI commands drop in paid Tiptap extensions.
+
+Want to get started with Tiptap? Follow our [installation guide](/editor/getting-started/install) to set up your first editor with Tiptap.
+
+<div className="grid gap-20">
+  <Section
+    title="Get started faster with ready-made components and templates"
+    description="Plug in our library of ready-made React components and full-featured templates to get a polished Editor and customize from there."
+  >
+    <CardGrid.Wrapper>
+      <CardGrid.Item asChild>
+        <Link href="/ui-components/templates/simple-editor">
+          <CardGrid.ItemImage
+            asNextImage
+            src={cardCoverSimpleEditorTemplate.src}
+            width={cardCoverSimpleEditorTemplate.width}
+            height={cardCoverSimpleEditorTemplate.height}
+            alt="Image"
+          />
+          <div>
+            <CardGrid.ItemTitle>Templates</CardGrid.ItemTitle>
+            <CardGrid.ItemParagraph>Get started fast with a prebuilt editor that includes commonly used features.</CardGrid.ItemParagraph>
+          </div>
+          <CardGrid.ItemFooter></CardGrid.ItemFooter>
+        </Link>
+      </CardGrid.Item>
+      <CardGrid.Item asChild>
+        <Link href="/ui-components/components/overview">
+          <CardGrid.ItemImage
+            asNextImage
+            src={cardCoverUIComponents.src}
+            width={cardCoverUIComponents.width}
+            height={cardCoverUIComponents.height}
+            alt="Image"
+          />
+          <div>
+            <CardGrid.ItemTitle>Components</CardGrid.ItemTitle>
+            <CardGrid.ItemParagraph>Already using Tiptap? Drop in just the pieces you need.</CardGrid.ItemParagraph>
+          </div>
+          <CardGrid.ItemFooter></CardGrid.ItemFooter>
+        </Link>
+      </CardGrid.Item>
+    </CardGrid.Wrapper>
+  </Section>
+</div>
+
+### Extend your editor
+
+Extend your Tiptap Editor with open source or Pro extensions. The Tiptap suite adds more sophisticated features and comes with a 30-day free trial through your [Tiptap Cloud dashboard](https://cloud.tiptap.dev/v2/billing).
+
+- Start with [`StarterKit`](/editor/extensions/functionality/starterkit) – a battery-included set of core marks and nodes.
+- Add [functional extensions](/editor/extensions/functionality) – character counters, placeholders, history.
+- Add [content extensions](/editor/extensions/overview) – images, tables, diagrams, custom nodes.
+- Create your own by following our [custom extension guide](/editor/extensions/custom-extensions).
+
+<div className="grid gap-20">
+  <CtaBox.Wrapper variant="light" className="mt-12">
+    <CtaBox.Title>Add Version History, Comments or drop in an AI Agent</CtaBox.Title>
+    <CtaBox.Description>Create a Tiptap account, open your dashboard, and start the 30 day trial to test every paid feature Tiptap has to offer.</CtaBox.Description>
+    <CtaBox.List>
+      <CtaBox.ListItem title="30 day trial: ">No credit card required</CtaBox.ListItem>
+      <CtaBox.ListItem title="Editor features: ">Integrate all Pro and Cloud Extensions.</CtaBox.ListItem>
+      <CtaBox.ListItem title="All paid features: ">Test Collaboration, Comments, Version history and more.</CtaBox.ListItem>
+      <CtaBox.ListItem title="AI features: ">Integrate AI features in your editor.</CtaBox.ListItem>
+    </CtaBox.List>
+    <CtaBox.Actions className="-mx-3">
+      <Button variant="tertiary" asChild>
+        <Link href="https://cloud.tiptap.dev/register">
+          Start trial
+          <ArrowRightIcon className="w-4 h-4" />
+        </Link>
+      </Button>
+    </CtaBox.Actions>
+  </CtaBox.Wrapper>
+</div>
+
+<Section title="Editor resources" moreLink={{ label: 'Browse guides', url: '/docs/guides' }}>
+  <CardGrid.Wrapper>
+    <CardGrid.Item asChild>
+      <Link href="/editor/getting-started/configure">
+        <CardGrid.Subtitle size="sm">First Steps</CardGrid.Subtitle>
+        <div>
+          <CardGrid.ItemTitle>How to set up and configure the Tiptap editor?</CardGrid.ItemTitle>
+        </div>
+        <CardGrid.ItemFooter>
+          <Tag>Editor</Tag>
+        </CardGrid.ItemFooter>
+      </Link>
+    </CardGrid.Item>
+    <CardGrid.Item asChild>
+      <Link href="/guides/pro-extensions">
+        <CardGrid.Subtitle size="sm">First Steps</CardGrid.Subtitle>
+        <div>
+          <CardGrid.ItemTitle>How to integrate Pro Extensions?</CardGrid.ItemTitle>
+        </div>
+        <CardGrid.ItemFooter>
+          <Tag>Editor</Tag>
+          <Tag>Collaboration</Tag>
+        </CardGrid.ItemFooter>
+      </Link>
+    </CardGrid.Item>
+    <CardGrid.Item asChild>
+      <Link href="/collaboration/getting-started/install">
+        <CardGrid.Subtitle size="sm">First Steps</CardGrid.Subtitle>
+        <div>
+          <CardGrid.ItemTitle>How to make your Editor collaborative?</CardGrid.ItemTitle>
+        </div>
+        <CardGrid.ItemFooter>
+          <Tag>Editor</Tag>
+          <Tag>Collaboration</Tag>
+        </CardGrid.ItemFooter>
+      </Link>
+    </CardGrid.Item>
+    <CardGrid.Item asChild>
+      <Link href="/editor/getting-started/style-editor">
+        <CardGrid.Subtitle size="sm">Styling</CardGrid.Subtitle>
+        <div>
+          <CardGrid.ItemTitle>
+            How to apply styling to the headless Tiptap Editor
+          </CardGrid.ItemTitle>
+        </div>
+        <CardGrid.ItemFooter>
+          <Tag>Editor</Tag>
+        </CardGrid.ItemFooter>
+      </Link>
+    </CardGrid.Item>
+  </CardGrid.Wrapper>
+</Section>

@@ -1,0 +1,86 @@
+---
+title: Blockquote extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-blockquote?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-blockquote
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-blockquote.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-blockquote?minimal=true
+    label: Downloads
+extension:
+  name: Blockquote
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-blockquote
+  description: Quoting other people will make you look clever.
+  type: node
+  icon: TextQuote
+meta:
+  title: Blockquote extension | Tiptap Editor Docs
+  description: Use the Blockquote extension in Tiptap to enable the quote HTML tag in the editor. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The Blockquote extension enables you to use the `<blockquote>` HTML tag in the editor. This is great to … show quotes in the editor, you know?
+
+Type <code>&gt;&nbsp;</code> at the beginning of a new line and it will magically transform to a blockquote.
+
+<CodeDemo path="/Nodes/Blockquote" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-blockquote
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Blockquote.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setBlockquote()
+
+Wrap content in a blockquote.
+
+```js
+editor.commands.setBlockquote()
+```
+
+### toggleBlockquote()
+
+Wrap or unwrap a blockquote.
+
+```js
+editor.commands.toggleBlockquote()
+```
+
+### unsetBlockquote()
+
+Unwrap a blockquote.
+
+```js
+editor.commands.unsetBlockquote()
+```
+
+## Keyboard shortcuts
+
+| Command           | Windows/Linux                                        | macOS                                            |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Toggle Blockquote | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> |
+
+## Source code
+
+[packages/extension-blockquote/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-blockquote/)

@@ -1,0 +1,25 @@
+---
+title: setMark command
+meta:
+  title: setMark command | Tiptap Editor Docs
+  description: Use the setMark command in Tiptap to add a new mark at the current selection. Learn more in our docs!
+  category: Editor
+---
+
+The `setMark` command will add a new mark at the current selection.
+
+## Parameters
+
+`typeOrName: string | MarkType`
+
+The type of a mark to add. Can be a string or a MarkType.
+
+`attributes: Record<string, any>`
+
+The attributes that should be applied to the mark. **This is optional.**
+
+## Use the setMark command
+
+```js
+editor.commands.setMark('bold', { class: 'bold-tag' })
+```

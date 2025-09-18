@@ -1,0 +1,137 @@
+---
+title: CharacterCount extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: CharacterCount extension | Tiptap Editor Docs
+  description: Count and limit the number of characters in your editor with the Character Count extension. Learn more in our docs!
+  category: Editor
+extension:
+  name: Character Count
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions
+  description: Limit the number of characters in your editor, or at least count them.
+  type: extension
+  icon: Calculator
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The `CharacterCount` extension limits the number of allowed characters to a specific length and is able to return the number of characters and words. That’s it, that’s all.
+
+<CodeDemo path="/Extensions/CharacterCount" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { CharacterCount } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [CharacterCount],
+})
+```
+
+## Settings
+
+### limit
+
+The maximum number of characters that should be allowed.
+
+Default: `null`
+
+```js
+CharacterCount.configure({
+  limit: 240,
+})
+```
+
+### mode
+
+The mode by which the size is calculated.
+
+Default: `'textSize'`
+
+```js
+CharacterCount.configure({
+  mode: 'nodeSize',
+})
+```
+
+### textCounter
+
+The text counter function to use. Defaults to a simple character count.
+
+Default: `(text) => text.length`
+
+```js
+CharacterCount.configure({
+  textCounter: (text) => [...new Intl.Segmenter().segment(text)].length,
+})
+```
+
+### wordCounter
+
+The word counter function to use. Defaults to a simple word count.
+
+Default: `(text) => text.split(' ').filter((word) => word !== '').length`
+
+```js
+CharacterCount.configure({
+  wordCounter: (text) => text.split(/\s+/).filter((word) => word !== '').length,
+})
+```
+
+## Storage
+
+### characters()
+
+Get the number of characters for the current document.
+
+```js
+editor.storage.characterCount.characters()
+
+// Get the size of a specific node.
+editor.storage.characterCount.characters({ node: someCustomNode })
+
+// Overwrite the default `mode`.
+editor.storage.characterCount.characters({ mode: 'nodeSize' })
+```
+
+### words()
+
+Get the number of words for the current document.
+
+```js
+editor.storage.characterCount.words()
+
+// Get the number of words for a specific node.
+editor.storage.characterCount.words({ node: someCustomNode })
+```
+
+## Source code
+
+[packages/extensions/src/character-count/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/character-count/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { CharacterCount } from '@tiptap/extensions/character-count'
+
+new Editor({
+  extensions: [CharacterCount],
+})
+```

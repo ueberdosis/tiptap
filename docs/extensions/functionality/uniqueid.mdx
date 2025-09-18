@@ -1,0 +1,88 @@
+---
+title: UniqueID extension
+extension:
+  name: UniqueID
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-unique-id
+  description: Add a unique ID to every single node and keep track of them.
+  type: extension
+  icon: Hash
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-unique-id.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-unique-id
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-unique-id.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-unique-id?minimal=true
+    label: Downloads
+meta:
+  title: UniqueID extension | Tiptap Editor Docs
+  description: Add a unique ID to every single node and keep track of them with the UniqueID extension. More in the docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The `UniqueID` extension adds unique IDs to all nodes. The extension keeps track of your nodes, even if you split them, merge them, undo/redo changes, crop content, paste content … It just works.
+Also, you can configure which node types get an unique ID, and which not, and you can customize how those IDs are generated.
+
+<CodeDemo path="/Extensions/UniqueID" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-unique-id
+```
+
+## Settings
+
+### attributeName
+
+Name of the attribute that is attached to the HTML tag (will be prefixed with `data-`).
+
+Default: `'id'`
+
+```js
+UniqueID.configure({
+  attributeName: 'uid',
+})
+```
+
+### types
+
+All types that should get a unique ID, for example `['heading', 'paragraph']`
+
+Default: `[]`
+
+```js
+UniqueID.configure({
+  types: ['heading', 'paragraph'],
+})
+```
+
+### generateID
+
+Function that generates and returns a unique ID. It receives a context object (for example `{ node, pos }`), so you can customize ID generation based on the node's type or its position.
+
+Default: `({ node, pos }) => uuidv4()`
+
+```js
+UniqueID.configure({
+  generateID: ({ node }) => `${node.type.name}-${uuidv4()}`,
+})
+```
+
+### filterTransaction
+
+Ignore some mutations, for example applied from other users through the collaboration plugin.
+
+Default: `null`
+
+```js
+import { isChangeOrigin } from '@tiptap/extension-collaboration'
+
+// Adds support for collaborative editing
+UniqueID.configure({
+  filterTransaction: (transaction) => !isChangeOrigin(transaction),
+})
+```

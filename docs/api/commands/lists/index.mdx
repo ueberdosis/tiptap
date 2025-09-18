@@ -1,0 +1,30 @@
+---
+title: List commands
+meta:
+  title: List commands | Tiptap Editor Docs
+  description: Manage lists in Tiptap with Editor commands like liftListItem, sinkListItem, splitListItem, toggleList, and wrapInList.
+  category: Editor
+---
+
+Lists are a crucial part of structuring content in your Tiptap editor. Tiptap provides commands to manipulate list structures easily. Here’s an overview of the essential commands that help you create, update, and manage your lists.
+
+## Use Cases
+
+- **Creating and Toggling Lists:** Create or switch between list types using [`toggleList`](/editor/api/commands/lists/toggle-list).
+- **Nesting and Unnesting List Items:** Lift or sink list items using commands like [`liftListItem`](/editor/api/commands/lists/lift-list-item) and [`sinkListItem`](/editor/api/commands/lists/sink-list-item).
+- **Splitting and Wrapping List Items:** Split or wrap list items efficiently with [`splitListItem`](/editor/api/commands/lists/split-list-item) and [`wrapInList`](/editor/api/commands/lists/wrap-in-list).
+- **Improving List Keyboard Behavior:** Use the [`List Keymap`](/editor/extensions/functionality/listkeymap) extension to refine list behavior with additional keymap handlers.
+
+## List Keymap Extension
+
+You might also want to include the [`List Keymap`](/editor/extensions/functionality/listkeymap) extension, which adds extra keymap handlers to change the default backspace and delete behavior for lists. It modifies the default behavior so that pressing backspace at the start of a list item lifts the content into the list item above.
+
+## Here’s a list of… list commands
+
+| Command         | Description                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `liftListItem`  | Attempts to lift the list item around the current selection up into a wrapping parent list. |
+| `sinkListItem`  | Sinks the list item around the current selection down into a wrapping child list.           |
+| `splitListItem` | Splits one list item into two separate list items.                                          |
+| `toggleList`    | Toggles between different types of lists.                                                   |
+| `wrapInList`    | Wraps a node in the current selection in a list.                                            |

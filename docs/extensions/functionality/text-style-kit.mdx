@@ -1,0 +1,86 @@
+---
+title: TextStyleKit extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-style/beta?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-style
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true
+    label: Downloads
+meta:
+  title: TextStyleKit extension | Tiptap Editor Docs
+  description: All necessary text style extensions in one extension with TextStyleKit. Perfect for quickly registering the most common text styles with Tiptap. More in the docs!
+  category: Editor
+extension:
+  name: TextStyleKit
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-style
+  description: All common text styles in one. It doesn’t get much better than this.
+  type: extension
+  icon: Package
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The `TextStyleKit` is a collection of the most common Tiptap text style extensions. If you quickly want to setup styles for your text in Tiptap, this extension is for you.
+
+<CodeDemo path="/Marks/Textstyle" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+## Included extensions
+
+### Marks
+
+- [`TextStyle`](/editor/extensions/marks/text-style)
+
+### Functionality
+
+- [`BackgroundColor`](/editor/extensions/functionality/background-color)
+- [`Color`](/editor/extensions/functionality/color)
+- [`FontFamily`](/editor/extensions/functionality/fontfamily)
+- [`FontSize`](/editor/extensions/functionality/fontsize)
+- [`LineHeight`](/editor/extensions/functionality/line-height)
+
+## Source code
+
+[packages/extension-text-style/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/)
+
+## Using the TextStyleKit extension
+
+Pass `TextStyleKit` to the editor to load all included extension at once.
+
+```js
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+const editor = new Editor({
+  extensions: [TextStyleKit],
+})
+```
+
+You can configure the included extensions, or even disable a few of them, like shown below.
+
+```js
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+const editor = new Editor({
+  extensions: [
+    TextStyleKit.configure({
+      // Disable an extension
+      backgroundColor: false,
+
+      // Configure an extension
+      fontSize: {
+        types: ['heading', 'paragraph'],
+      },
+    }),
+  ],
+})
+```

@@ -1,0 +1,101 @@
+---
+title: ListItem extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: List Item
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: 'Simply does its job. Doesn’t even care if it’s part of a bullet list or an ordered list.'
+  type: node
+  icon: List
+meta:
+  title: ListItem Extension | Tiptap Editor Docs
+  description: Use the List Item extension in Tiptap to add support for the `<li>` tag used in bullet and ordered lists. Learn more in our docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+The ListItem extension adds support for the `<li>` HTML tag. It’s used for bullet lists and ordered lists and can’t really be used without them.
+
+<CodeDemo path="/Nodes/ListItem" />
+
+<Callout title="Modify backspace behavior" variant="info">
+  If you want to modify the standard behavior of backspace and delete functions for lists, you
+  should read about the [ListKeymap](/editor/extensions/functionality/listkeymap) extension.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+This extension requires the [`BulletList`](/editor/extensions/nodes/bullet-list) or [`OrderedList`](/editor/extensions/nodes/ordered-list) node.
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { ListItem } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [ListItem],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+ListItem.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Keyboard shortcuts
+
+| Command         | Windows/Linux                     | macOS                             |
+| --------------- | --------------------------------- | --------------------------------- |
+| splitListItem() | <kbd>Enter</kbd>                  | <kbd>Enter</kbd>                  |
+| sinkListItem()  | <kbd>Tab</kbd>                    | <kbd>Tab</kbd>                    |
+| liftListItem()  | <kbd>Shift</kbd> + <kbd>Tab</kbd> | <kbd>Shift</kbd> + <kbd>Tab</kbd> |
+
+## Source code
+
+[packages/extension-list/src/item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/item/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { ListItem } from '@tiptap/extension-list/item'
+
+new Editor({
+  extensions: [ListItem],
+})
+```

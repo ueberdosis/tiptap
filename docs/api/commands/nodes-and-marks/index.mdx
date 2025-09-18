@@ -1,0 +1,44 @@
+---
+title: Nodes and marks commands
+meta:
+  title: Nodes and Marks commands | Tiptap Editor Docs
+  description: Easy-to-use commands for managing nodes and marks. Learn to manipulate paragraphs, headings, and inline styles in our docs.
+  category: Editor
+---
+
+Tiptap provides commands to manipulate nodes and marks easily.
+
+Nodes and marks are the building blocks of your Tiptap editor. Nodes represent content elements like paragraphs, headings, or images, while marks provide inline formatting, such as bold, italic, or links.
+
+## Use Cases
+
+- **Creating New Nodes:** Use [`createParagraphNear`](/editor/api/commands/nodes-and-marks/create-paragraph-near) or [`splitBlock`](/editor/api/commands/nodes-and-marks/split-block) to add new nodes near the selection.
+- **Managing Node Structures:** Update, replace, or lift nodes using commands like [`setNode`](/editor/api/commands/nodes-and-marks/set-node), [`lift`](/editor/api/commands/nodes-and-marks/lift), or [`toggleNode`](/editor/api/commands/nodes-and-marks/toggle-node).
+- **Mark Manipulation:** Toggle, set, or unset marks using commands like [`toggleMark`](/editor/api/commands/nodes-and-marks/toggle-mark), [`setMark`](/editor/api/commands/nodes-and-marks/set-mark), or [`unsetMark`](/editor/api/commands/nodes-and-marks/unset-mark).
+- **Content Cleanup:** Remove unwanted marks or nodes using [`clearNodes`](/editor/api/commands/nodes-and-marks/clear-nodes), [`unsetAllMarks`](/editor/api/commands/nodes-and-marks/unset-all-marks), or [`resetAttributes`](/editor/api/commands/nodes-and-marks/reset-attributes).
+
+## List of nodes and marks commands
+
+| Command               | Description                                                                |
+| --------------------- | -------------------------------------------------------------------------- |
+| `clearNodes`          | Clears all nodes while adhering to the editor's schema.                    |
+| `createParagraphNear` | Creates a new paragraph node near the current selection.                   |
+| `deleteNode`          | Deletes the selected node.                                                 |
+| `extendMarkRange`     | Expands the current selection to encompass the specified mark.             |
+| `exitCode`            | Exits the current code block and continues editing in a new default block. |
+| `joinBackward`        | Joins two nodes backwards from the current selection.                      |
+| `joinForward`         | Joins two nodes forwards from the current selection.                       |
+| `lift`                | Lifts a node up into its parent node.                                      |
+| `liftEmptyBlock`      | Lifts the currently selected empty textblock.                              |
+| `newlineInCode`       | Inserts a new line in the current code block.                              |
+| `resetAttributes`     | Resets specified attributes of a node to its default values.               |
+| `setMark`             | Adds a new mark at the current selection.                                  |
+| `setNode`             | Replaces a given range with a specified node.                              |
+| `splitBlock`          | Splits the current node into two nodes at the current selection.           |
+| `toggleMark`          | Toggles a specific mark on and off at the current selection.               |
+| `toggleNode`          | Toggles a node with another node.                                          |
+| `toggleWrap`          | Wraps the current node with a new node or removes a wrapping node.         |
+| `undoInputRule`       | Undoes the most recent input rule that was triggered.                      |
+| `unsetAllMarks`       | Removes all marks from the current selection.                              |
+| `unsetMark`           | Removes a specific mark from the current selection.                        |
+| `updateAttributes`    | Sets attributes of a node or mark to new values.                           |

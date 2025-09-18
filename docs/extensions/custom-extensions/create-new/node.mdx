@@ -1,0 +1,375 @@
+---
+title: Node API
+meta:
+  title: Node API | Tiptap Editor Docs
+  description: Create a new node for your Tiptap editor and create a unique editor experience from scratch. Learn more in the docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+The power of Tiptap lies in its flexibility. You can create your own extensions from scratch and build a unique editor experience tailored to your needs.
+
+## Creating a node
+
+Nodes are the building blocks of your editor. They can be blocks or inline nodes. Good examples to learn from are [`Paragraph`](/editor/extensions/nodes/paragraph), [`Heading`](/editor/extensions/nodes/heading), or [`CodeBlock`](/editor/extensions/nodes/code-block).
+
+They extend all of the options and methods from the [Extension API](/editor/extensions/custom-extensions/create-new/extension) and add a few more specific to nodes.
+
+Let's add a simple node extension to see how it works.
+
+```typescript
+import { Node } from '@tiptap/core'
+
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', HTMLAttributes, 0]
+  },
+})
+```
+
+You can also use a callback function to create a node. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Node } from '@tiptap/core'
+
+const CustomNode = Node.create(() => {
+  // here you could define variables or function that you can use on your schema definition
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customNode',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+This code creates a new node extension named `CustomNode`. It adds an `addOptions` method to define the node's options, which are configurable by the user. It also adds `parseHTML` and `renderHTML` methods to define how the node is parsed and rendered as HTML.
+
+It is installed to the editor just like any other extension by adding it to the `extensions` array.
+
+```typescript
+import { Editor } from '@tiptap/core'
+
+new Editor({
+  extensions: [CustomNode],
+})
+
+// Or if using React or Vue
+
+const editor = useEditor({
+  extensions: [CustomNode],
+})
+```
+
+Now let's take a closer look at the options and methods available for nodes.
+
+## Node options
+
+When creating a node, you can define options that are configurable by the user. These options can be used to customize the behavior or appearance of the node.
+
+### `parseHTML`
+
+The `parseHTML` method is used to define how the mark is parsed from HTML. It should return an array of objects representing the mark's attributes.
+
+Maps to the `parseDOM` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.parseDOM).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  parseHTML() {
+    return [
+      {
+        tag: 'span',
+        getAttrs: (node) => {
+          return {
+            class: node.getAttribute('class'),
+          }
+        },
+      },
+    ]
+  },
+})
+```
+
+This will be used during paste events to parse the HTML content into a mark.
+
+### `renderHTML`
+
+The `renderHTML` method is used to define how the mark is rendered as HTML. It should return an array representing the mark's HTML representation.
+
+Maps to the `toDOM` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.toDOM).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0]
+  },
+})
+```
+
+This will be used during copy events to render the mark as HTML. For more details, see the [extend existing extensions](/editor/extensions/custom-extensions/extend-existing#render-html) guide.
+
+### `addAttributes`
+
+The `addAttributes` method is used to define custom attributes for the mark. It should return an object with the attribute names and their default values.
+
+Maps to the `attrs` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.attrs).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  addAttributes() {
+    return {
+      customAttribute: {
+        default: 'value',
+        parseHTML: (element) => element.getAttribute('data-custom-attribute'),
+      },
+    }
+  },
+})
+```
+
+For more details, see the [extend existing extensions](/editor/extensions/custom-extensions/extend-existing#attributes) guide.
+
+### `topNode`
+
+Defines if this node should be a top-level node (doc).
+
+Maps to the `topNode` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.topNode).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  topNode: true,
+})
+```
+
+### `content`
+
+The content expression for this node, as described in the [schema guide](/guides/invalid-schema#a-note-on-content-types). When not given, the node does not allow any content.
+
+You can read more about it on the Prosemirror documentation [here](https://prosemirror.net/docs/guide/#schema.content_expressions).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  content: 'block+',
+})
+```
+
+### `marks`
+
+The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, `"_"` to explicitly allow all marks, or `""` to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.
+
+Maps to the `marks` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.marks).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  marks: 'strong em',
+})
+```
+
+### `group`
+
+The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.
+
+By default, Tiptap uses the groups 'block' and 'inline' for nodes. You can also use custom groups if you want to group specific nodes together and handle them in your schema.
+
+Maps to the `group` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.group).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  group: 'block',
+})
+```
+
+### `inline`
+
+Should be set to true for inline nodes. (Implied for text nodes).
+
+Maps to the `inline` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.inline).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  inline: true,
+})
+```
+
+### `atom`
+
+Can be set to true to indicate that, though this isn't a [leaf node](https://prosemirror.net/docs/ref/#model.NodeType.isLeaf), it doesn't have directly editable content and should be treated as a single unit in the view.
+
+Maps to the `atom` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.atom).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  atom: true,
+})
+```
+
+### `selectable`
+
+Controls whether nodes of this type can be selected as a [node selection](https://prosemirror.net/docs/ref/#state.NodeSelection). Defaults to true for non-text nodes.
+
+Maps to the `selectable` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.selectable).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  selectable: false,
+})
+```
+
+### `draggable`
+
+Determines whether nodes of this type can be dragged without being selected. Defaults to false.
+
+Maps to the `draggable` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.draggable).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  draggable: true,
+})
+```
+
+### `code`
+
+Can be used to indicate that this node contains code, which causes some commands to behave differently.
+
+Maps to the `code` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.code).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  code: true,
+})
+```
+
+### `whitespace`
+
+Controls the way whitespace in this a node is parsed. The default is `"normal"`, which causes the [DOM parser](https://prosemirror.net/docs/ref/#model.DOMParser) to collapse whitespace in normal mode, and normalize it (replacing newlines and such with spaces) otherwise. `"pre"` causes the parser to preserve spaces inside the node. When this option isn't given, but [`code`](https://prosemirror.net/docs/ref/#model.NodeSpec.code) is true, `whitespace` will default to `"pre"`.
+
+Maps to the `whitespace` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.whitespace).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  whitespace: 'pre',
+})
+```
+
+### `linebreakReplacement`
+
+Allows a **single** node to be set as a linebreak equivalent (e.g. hardBreak). When converting between block types that have whitespace set to "pre" and don't support the linebreak node (e.g. codeBlock) and other block types that do support the linebreak node (e.g. paragraphs) - this node will be used as the linebreak instead of stripping the newline.
+
+Maps to the `linebreakReplacement` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.linebreakReplacement).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  linebreakReplacement: true,
+})
+```
+
+### `defining`
+
+When enabled, enables both [`definingAsContext`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingAsContext) and [`definingForContent`](https://prosemirror.net/docs/ref/#model.NodeSpec.definingForContent).
+
+Maps to the `defining` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.defining).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  defining: true,
+})
+```
+
+### `isolating`
+
+When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.
+
+Maps to the `isolating` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.NodeSpec.isolating).
+
+```typescript
+const CustomNode = Node.create({
+  name: 'customNode',
+
+  isolating: true,
+})
+```
+
+### `addNodeView` (Advanced)
+
+For advanced use cases, where you need to execute JavaScript inside your nodes, for example to render a sophisticated interface around an image, you need to learn about node views.
+
+They are really powerful, but also complex. In a nutshell, you need to return a parent DOM element, and a DOM element where the content should be rendered in. Look at the following, simplified example:
+
+```js
+import Image from '@tiptap/extension-image'
+
+const CustomImage = Image.extend({
+  addNodeView() {
+    return () => {
+      const container = document.createElement('div')
+
+      container.addEventListener('click', (event) => {
+        alert('clicked on the container')
+      })
+
+      const content = document.createElement('div')
+      container.append(content)
+
+      return {
+        dom: container,
+        contentDOM: content,
+      }
+    }
+  },
+})
+```
+
+There is a whole lot to learn about node views, so head over to the [dedicated section in our guide about node views](/editor/extensions/custom-extensions/node-views) for more information. If you are looking for a real-world example, look at the source code of the [`TaskItem`](/editor/extensions/nodes/task-item) node. This is using a node view to render the checkboxes.

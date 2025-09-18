@@ -1,0 +1,109 @@
+---
+title: Typography extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-typography?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-typography
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-typography.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-typography?minimal=true
+    label: Downloads
+meta:
+  title: Typography Extension | Tiptap Editor Docs
+  description: Replace common text patterns with typographic characters with the typography extension in your editor. More in the docs!
+  category: Editor
+extension:
+  name: Typography
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-typography
+  description: The typography expert for your editor, fixing everything that’s wrong.
+  type: extension
+  icon: Type
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension tries to help with common text patterns with the correct typographic character. Under the hood all rules are input rules.
+
+<CodeDemo path="/Extensions/Typography" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-typography
+```
+
+## Rules
+
+| Name                | Description                                                      |
+| ------------------- | ---------------------------------------------------------------- |
+| emDash              | Converts double dashes `--` to an emdash `—`.                    |
+| ellipsis            | Converts three dots `...` to an ellipsis character `…`           |
+| openDoubleQuote     | `“`Smart” opening double quotes.                                 |
+| closeDoubleQuote    | “Smart`”` closing double quotes.                                 |
+| openSingleQuote     | `‘`Smart’ opening single quotes.                                 |
+| closeSingleQuote    | ‘Smart`’` closing single quotes.                                 |
+| leftArrow           | Converts `<-` to an arrow `←` .                                  |
+| rightArrow          | Converts `->` to an arrow `→`.                                   |
+| copyright           | Converts `(c)` to a copyright sign `©`.                         |
+| registeredTrademark | Converts `(r)` to registered trademark sign `®`.                |
+| trademark           | Converts `(tm)` to registered trademark sign `™`.               |
+| servicemark         | Converts `(sm)` to registered trademark sign `℠`.                |
+| oneHalf             | Converts `1/2` to one half `½`.                                  |
+| oneQuarter          | Converts `1/4` to one quarter `¼`.                               |
+| threeQuarters       | Converts `3/4` to three quarters `¾`.                            |
+| plusMinus           | Converts `+/-` to plus/minus sign `±`.                           |
+| notEqual            | Converts `!=` to a not equal sign `≠`.                           |
+| laquo               | Converts `<<` to left-pointing double angle quotation mark `«`.  |
+| raquo               | Converts `>>` to right-pointing double angle quotation mark `»`. |
+| multiplication      | Converts `2*3` or `2x3` to a multiplcation sign `2×3`.           |
+| superscriptTwo      | Converts `^2` a superscript two `²`.                             |
+| superscriptThree    | Converts `^3` a superscript three `³`.                           |
+
+## Keyboard shortcuts
+
+| Command         | Windows/Linux        | macOS             |
+| --------------- | -------------------- | ----------------- |
+| undoInputRule() | <kbd>Backspace</kbd> | <kbd>Delete</kbd> |
+
+## Source code
+
+[packages/extension-typography/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-typography/)
+
+### Disabling rules
+
+You can configure the included rules, or even disable a few of them, like shown below.
+
+```js
+import { Editor } from '@tiptap/core'
+import Typography from '@tiptap/extension-typography'
+
+const editor = new Editor({
+  extensions: [
+    // Disable some included rules
+    Typography.configure({
+      oneHalf: false,
+      oneQuarter: false,
+      threeQuarters: false,
+    }),
+  ],
+})
+```
+
+### Overriding rules
+
+You can override the output of a rule by passing a string to the option you want to override.
+
+```js
+import { Editor } from '@tiptap/core'
+import Typography from '@tiptap/extension-typography'
+
+const editor = new Editor({
+  extensions: [
+    // Disable some included rules
+    Typography.configure({
+      oneHalf: '1 / 2', // this will insert "1 / 2" instead of the default "½"
+    }),
+  ],
+})
+```

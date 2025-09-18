@@ -1,0 +1,17 @@
+---
+title: Create a custom mark view
+meta:
+  description: Customize and create mark views in your Tiptap editor with interactive mark views. More in the docs!
+  title: Mark views | Tiptap Editor Docs
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+While [node views](/editor/extensions/custom-extensions/node-views) are used to render nodes, mark views are used to render marks. They are a little bit simpler, because they don’t have to deal with the complexity of a node and come with a simpler API.
+
+Mark views are amazing to improve the in-editor experience, but can also be used in a read-only instance of Tiptap. They are unrelated to the HTML output by design, so you have full control about the in-editor experience _and_ the output.
+
+### Render JavaScript/Vue/React
+
+But what if you want to render your actual JavaScript/Vue/React code? Use the [Static Renderer](/editor/api/utilities/static-renderer). This utility lets you render your content as HTML, Markdown, or React components, without an Editor instance.

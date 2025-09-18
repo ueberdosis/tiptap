@@ -1,0 +1,152 @@
+---
+title: TaskItem extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: Task Item
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: 'The actually task; without it, the task list would be nothing.'
+  type: node
+  icon: ListChecks
+meta:
+  title: TaskItem extension | Tiptap Editor Docs
+  description: Use the TaskItem extension to add support for task items rendered as <li data-type="taskItem"> with checkboxes. More in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension renders a task item list element, which is a `<li>` tag with a `data-type` attribute set to `taskItem`. It also renders a checkbox inside the list element, which updates a `checked` attribute.
+
+This extension doesn’t require any JavaScript framework, it’s based on Vanilla JavaScript.
+
+<CodeDemo path="/Nodes/TaskItem" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+This extension requires the [`TaskList`](/editor/extensions/nodes/task-list) node.
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { TaskItem } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [TaskItem],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+TaskItem.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### nested
+
+Whether the task items are allowed to be nested within each other.
+
+```js
+TaskItem.configure({
+  nested: true,
+})
+```
+
+### onReadOnlyChecked
+
+A handler for when the task item is checked or unchecked while the editor is set to `readOnly`.
+If this is not supplied, the task items are immutable while the editor is `readOnly`.
+If this function returns false, the check state will be preserved (`readOnly`).
+
+```js
+TaskItem.configure({
+  onReadOnlyChecked: (node, checked) => {
+    // do something
+  },
+})
+```
+
+### taskListTypeName
+
+The type name of the task list that this task item belongs to. This is used to determine the parent task list type.
+
+```js
+TaskItem.configure({
+  taskListTypeName: 'taskList',
+})
+```
+
+### a11y
+
+a11y specific settings for the task item. It includes the following options:
+
+- **`checkboxLabel`**: A function that returns the aria-label for the checkbox based on the checked state of the task item. This is useful for screen readers to announce the state of the checkbox.
+  - **Parameters**:
+    - `node`: The task item node.
+    - `checked`: A boolean indicating whether the task item is checked or not.
+  - **Returns**: A string that will be used as the `aria-label` for the checkbox.
+
+```js
+TaskItem.configure({
+  a11y: {
+    // the aria-label for the checkbox
+    checkboxLabel: (node, checked) => {
+      return checked ? 'Task completed' : 'Task not completed'
+    },
+  },
+})
+```
+
+## Keyboard shortcuts
+
+| Command         | Windows/Linux                     | macOS                             |
+| --------------- | --------------------------------- | --------------------------------- |
+| splitListItem() | <kbd>Enter</kbd>                  | <kbd>Enter</kbd>                  |
+| sinkListItem()  | <kbd>Tab</kbd>                    | <kbd>Tab</kbd>                    |
+| liftListItem()  | <kbd>Shift</kbd> + <kbd>Tab</kbd> | <kbd>Shift</kbd> + <kbd>Tab</kbd> |
+
+## Source code
+
+[packages/extension-list/src/task-item/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/task-item/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { TaskItem } from '@tiptap/extension-list/task-item'
+
+new Editor({
+  extensions: [TaskItem],
+})
+```

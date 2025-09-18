@@ -1,0 +1,29 @@
+---
+title: unsetMark command
+meta:
+  title: unsetMark command | Tiptap Editor Docs
+  description: Use the unsetMark command in Tiptap to remove a specific mark from the current or across a selection. Learn more in our docs!
+  category: Editor
+---
+
+`unsetMark` will remove the mark from the current selection. Can also remove all marks across the current selection.
+
+## Parameters
+
+`typeOrName: string | MarkType`
+
+The type of mark that should be removed.
+
+`options?: Record<string, any>`
+
+- `extendEmptyMarkRange?: boolean` - Removes the mark even across the current selection. Defaults to `false`
+
+## Use the unsetMark command
+
+```js
+// removes a bold mark
+editor.commands.unsetMark('bold')
+
+// removes a bold mark across the current selection
+editor.commands.unsetMark('bold', { extendEmptyMarkRange: true })
+```

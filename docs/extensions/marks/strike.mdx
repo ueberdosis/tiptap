@@ -1,0 +1,91 @@
+---
+title: Strike extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-strike?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-strike
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-strike.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-strike?minimal=true
+    label: Downloads
+extension:
+  name: Strike
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-strike
+  description: Cut through the words you wrote if you’re too afraid to delete them.
+  type: mark
+  icon: Strikethrough
+meta:
+  title: Strike extension | Tiptap Editor Docs
+  description: Learn how to use the Strike extension in Tiptap to cut through the words you wrote if you're too afraid to delete it.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Use this extension to render ~~striked text~~. If you pass `<s>`, `<del>`, `<strike>` tags, or text with inline `style` attributes setting `text-decoration: line-through` in the editor’s initial content, they all will be rendered accordingly.
+
+Type <code>~~ text between tildes ~~</code> and it will be magically ~~striked through~~ while you type.
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<s>` HTML tags when reading contents of the `Editor` instance. All text striked through, regardless of the method will be normalized to `<s>` HTML tags.
+</Callout>
+
+<CodeDemo path="/Marks/Strike" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-strike
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Strike.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setStrike()
+
+Mark text as striked.
+
+```js
+editor.commands.setStrike()
+```
+
+### toggleStrike()
+
+Toggle strike mark.
+
+```js
+editor.commands.toggleStrike()
+```
+
+### unsetStrike()
+
+Remove strike mark.
+
+```js
+editor.commands.unsetStrike()
+```
+
+## Keyboard shortcuts
+
+| Command        | Windows/Linux                                        | macOS                                            |
+| -------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| toggleStrike() | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> |
+
+## Source code
+
+[packages/extension-strike/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-strike/)

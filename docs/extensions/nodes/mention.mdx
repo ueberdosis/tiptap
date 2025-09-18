@@ -1,0 +1,141 @@
+---
+title: Mention extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-mention?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-mention
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-mention.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-mention?minimal=true
+    label: Downloads
+extension:
+  name: Mention
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-mention
+  description: Mention other users with a suggestion popup and full control over the rendering.
+  type: node
+  icon: AtSign
+meta:
+  title: Mention extension | Tiptap Editor Docs
+  description: Use the Mention extension in Tiptap to mention other users with a suggestion popup. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Honestly, the mention node is amazing. It adds support for `@mentions`, for example to ping users, _and_ provides full control over the rendering.
+
+Literally everything can be customized. You can pass a custom component for the rendering. All examples use `.filter()` to search through items, but feel free to send async queries to an API or add a more advanced library like [fuse.js](https://fusejs.io/) to your project.
+
+<CodeDemo path="/Nodes/Mention" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-mention
+```
+
+## Dependencies
+
+To place the popups correctly, we’re using [tippy.js](https://atomiks.github.io/tippyjs/) in all our examples. You are free to bring your own library, but if you’re fine with it, just install what we use:
+
+```bash
+npm install tippy.js
+```
+
+Since 2.0.0-beta.193 we marked the `@tiptap/suggestion` as a peer dependency. That means, you will need to install it manually.
+
+```bash
+npm install @tiptap/suggestion
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Mention.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### renderText
+
+Define how a mention text should be rendered.
+
+```js
+Mention.configure({
+  renderText({ options, node }) {
+    return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`
+  },
+})
+```
+
+### renderHTML
+
+Define how a mention html element should be rendered, this is useful if you want to render an element other than `span` (e.g `a`)
+
+```js
+Mention.configure({
+  renderHTML({ options, node }) {
+    return [
+      'a',
+      mergeAttributes({ href: '/profile/1' }, options.HTMLAttributes),
+      `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+    ]
+  },
+})
+```
+
+### deleteTriggerWithBackspace
+
+Toggle whether the suggestion character(s) should also be deleted on deletion of a mention node. Default is `false`.
+
+```js
+Mention.configure({
+  deleteTriggerWithBackspace: true,
+})
+```
+
+### suggestion
+
+Options for the Suggestion utility. Used to define what character triggers the suggestion popup, among other parameters. [Read more](/editor/api/utilities/suggestion).
+
+```js
+Mention.configure({
+  suggestion: {
+    // …
+  },
+})
+```
+
+### suggestions
+
+Allows you to define multiple types of mentions within the same editor. For example, define a mention for people with the `@` trigger and one for movies with the `#` trigger. [Read more about the Suggestion utility](/editor/api/utilities/suggestion).
+
+```js
+Mention.configure({
+  suggestions: [
+    {
+      char: '@',
+      // Other options of the Suggestion utility
+    },
+    {
+      char: '#',
+      // Other options of the Suggestion utility
+    },
+  ],
+})
+```
+
+Below is an example demo:
+
+<CodeDemo path="/Examples/MultiMention" />
+
+## Source code
+
+[packages/extension-mention/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-mention/)

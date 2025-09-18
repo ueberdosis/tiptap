@@ -1,0 +1,164 @@
+---
+title: FloatingMenu extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-floating-menu?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-floating-menu
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-floating-menu.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-floating-menu?minimal=true
+    label: Downloads
+meta:
+  title: FloatingMenu extension | Tiptap Editor Docs
+  description: Use the Floating Menu extension in Tiptap to add a menu that appears on empty lines. Learn more in the docs.
+  category: Editor
+extension:
+  name: Floating Menu
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-floating-menu
+  description: Make a toolbar appear automagically on empty lines.
+  type: extension
+  icon: Cloud
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Use the Floating Menu extension in Tiptap to make a menu appear on an empty line.
+
+<CodeDemo path="/Extensions/FloatingMenu" />
+
+## Install the extension
+
+Install the Floating Menu extension and the [Floating UI](https://floating-ui.com) library.
+
+```bash
+npm install @tiptap/extension-floating-menu @floating-ui/dom@^1.6.0
+```
+
+## Settings
+
+### element
+
+The DOM element that contains your menu.
+
+Type: `HTMLElement`
+
+Default: `null`
+
+### options
+
+Under the hood, the `FloatingMenu` uses [Floating UI](https://floating-ui.com). You can control the middleware and positioning of the floating menu with these options.
+
+Type: `Object`
+
+Default: `{ strategy: 'absolute', placement: 'right' }`
+
+| Option          | Type                                   | Description                                                                                                                                                  |
+| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `strategy`      | `string`                               | The positioning strategy. See [here](https://floating-ui.com/docs/computePosition#strategy)                                                                  |
+| `placement`     | `string`                               | The placement of the menu. See [here](https://floating-ui.com/docs/computePosition#placement)                                                                |
+| `offset`        | `number`, `OffsetOptions` or `boolean` | The [offset middleware options](https://floating-ui.com/docs/offset#options). If `true` use default options, if `false` disable the middleware               |
+| `flip`          | `FlipOptions` or `boolean`             | The [flip middleware options](https://floating-ui.com/docs/flip#options). If `true` use default options, if `false` disable the middleware                   |
+| `shift`         | `ShiftOptions` or `boolean`            | The [shift middleware options](https://floating-ui.com/docs/shift#options). If `true` use default options, if `false` disable the middleware                 |
+| `arrow`         | `ArrowOptions` or `false`              | The [arrow middleware options](https://floating-ui.com/docs/arrow#options). If `false` disable the middleware                                                |
+| `size`          | `SizeOptions` or `boolean`             | The [size middleware options](https://floating-ui.com/docs/size#options). If `true` use default options, if `false` disable the middleware                   |
+| `autoPlacement` | `AutoPlacementOptions` or `boolean`    | The [autoPlacement middleware options](https://floating-ui.com/docs/autoPlacement#options). If `true` use default options, if `false` disable the middleware |
+| `hide`          | `HideOptions` or `boolean`             | The [hide middleware options](https://floating-ui.com/docs/hide#options). If `true` use default options, if `false` disable the middleware                   |
+| `inline`        | `InlineOptions` or `boolean`           | The [inline middleware options](https://floating-ui.com/docs/inline#options). If `true` use default options, if `false` disable the middleware               |
+| `onShow`        | `Function` or `undefined`              | A callback that is called when the menu is shown. This can be used to add custom logic or styles when the menu is displayed.                                 |
+| `onHide`        | `Function` or `undefined`              | A callback that is called when the menu is hidden. This can be used to add custom logic or styles when the menu is hidden.                                   |
+| `onUpdate`      | `Function` or `undefined`              | A callback that is called when the menu is updated. This can be used to add custom logic or styles when the menu is updated.                                 |
+| `onDestroy`     | `Function` or `undefined`              | A callback that is called when the menu is destroyed. This can be used to add custom logic or styles when the menu is removed.                               |
+
+### pluginKey
+
+The key for the underlying ProseMirror plugin. Make sure to use different keys if you add more than one instance.
+
+Type: `string | PluginKey`
+
+Default: `'floatingMenu'`
+
+### shouldShow
+
+A callback to control whether the menu should be shown or not.
+
+Type: `(props) => boolean`
+
+## Source code
+
+[packages/extension-floating-menu/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-floating-menu/)
+
+## Use in Vanilla JavaScript
+
+```js
+import { Editor } from '@tiptap/core'
+import FloatingMenu from '@tiptap/extension-floating-menu'
+
+new Editor({
+  extensions: [
+    FloatingMenu.configure({
+      element: document.querySelector('.menu'),
+    }),
+  ],
+})
+```
+
+### Other frameworks
+
+Check out the demo at the [top of this page](#) to see how to integrate the floating menu extension with React or Vue.
+
+### Custom logic
+
+Customize the logic for showing the menu with the `shouldShow` option. For components, `shouldShow` can be passed as a prop.
+
+```js
+FloatingMenu.configure({
+  shouldShow: ({ editor, view, state, oldState }) => {
+    // show the floating within any paragraph
+    return editor.isActive('paragraph')
+  },
+})
+```
+
+### Multiple menus
+
+Use multiple menus by setting an unique `pluginKey`.
+
+```js
+import { Editor } from '@tiptap/core'
+import FloatingMenu from '@tiptap/extension-floating-menu'
+
+new Editor({
+  extensions: [
+    FloatingMenu.configure({
+      pluginKey: 'floatingMenuOne',
+      element: document.querySelector('.menu-one'),
+    }),
+    FloatingMenu.configure({
+      pluginKey: 'floatingMenuTwo',
+      element: document.querySelector('.menu-two'),
+    }),
+  ],
+})
+```
+
+Alternatively you can pass a ProseMirror `PluginKey`.
+
+```js
+import { Editor } from '@tiptap/core'
+import FloatingMenu from '@tiptap/extension-floating-menu'
+import { PluginKey } from '@tiptap/pm/state'
+
+new Editor({
+  extensions: [
+    FloatingMenu.configure({
+      pluginKey: new PluginKey('floatingMenuOne'),
+      element: document.querySelector('.menu-one'),
+    }),
+    FloatingMenu.configure({
+      pluginKey: new PluginKey('floatingMenuOne'),
+      element: document.querySelector('.menu-two'),
+    }),
+  ],
+})
+```

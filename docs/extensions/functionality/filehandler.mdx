@@ -1,0 +1,92 @@
+---
+title: FileHandler extension
+extension:
+  name: File Handler
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-file-handler
+  description: Have you ever wanted to drag and drop or paste files into your editor? Well, we did too.
+  type: extension
+  icon: File
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-file-handler.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-file-handler
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-file-handler.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-file-handler?minimal=true
+    label: Downloads
+meta:
+  category: Editor
+  title: FileHandler extension | Tiptap Editor Docs
+  description: Handle file drops and pastes in your Tiptap editor with the FileHandler extension. Learn how to set it up here in the Docs!
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Have you ever wanted to drag and drop or paste files into your editor? Well, we did too—so here’s an extension for that.
+
+The `FileHandler` extension allows you to easily handle file drops and pastes in the editor. You can define custom handlers for both events & manage allowed file types.
+
+By default, the extension does not display the uploaded file when it is pasted or dropped. Instead, it triggers an event that you can respond to by inserting a new Node into the editor. For example, to display the uploaded image file, use the [image extension](/editor/extensions/nodes/image).
+
+<Callout title="No Server Upload Functionality" variant="info">
+  This extension is only responsible for handling the event of dropping or pasting a file into the
+  editor. It does not implement server file uploads.
+</Callout>
+
+<CodeDemo path="/Extensions/FileHandler" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-file-handler
+```
+
+## Settings
+
+### onPaste
+
+The callback function that will be called when a file is pasted into the editor. You will have access to the editor instance & the files pasted.
+
+Default: `undefined`
+
+```js
+FileHandler.configure({
+  onPaste: (editor, files, htmlContent) => {
+    // do something with the files
+    // and insert the file into the editor
+    // in some cases (for example copy / pasted gifs from other apps) you should probably not use the file directly
+    // as the file parser will only have a single gif frame as png
+    // in this case, you can extract the url from the htmlContent and use it instead, let other inputRules handle insertion
+    // or do anything else with the htmlContent pasted into here
+  },
+})
+```
+
+### onDrop
+
+The callback function that will be called when a file is dropped into the editor. You will have access to the editor instance, the files dropped and the position the file was dropped at.
+
+Default: `undefined`
+
+```js
+FileHandler.configure({
+  onDrop: (editor, files, pos) => {
+    // do something with the files
+    // and insert the file into the editor
+  },
+})
+```
+
+### allowedMimeTypes
+
+This option controls which file types are allowed to be dropped or pasted into the editor. You can define a list of mime types or a list of file extensions. If no mime types or file extensions are defined, all files will be allowed.
+
+Default: `undefined`
+
+```js
+FileHandler.configure({
+  allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+})
+```

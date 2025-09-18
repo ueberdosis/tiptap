@@ -1,0 +1,95 @@
+---
+title: Mark views with JavaScript
+meta:
+  title: JavaScript mark views | Tiptap Editor Docs
+  description: Use Vanilla JavaScript to build custom mark views in Tiptap.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Using frameworks like Vue or React can feel too complex, if you’re used to work without those two. Good news: You can use Vanilla JavaScript in your mark views. There is just a little bit you need to know, but let’s go through this one by one.
+
+## Render a mark view with JavaScript
+
+Here is what you need to do to render a mark view inside your editor:
+
+1. [Create a mark extension](/editor/extensions/custom-extensions/create-new/mark)
+2. Register a new mark view with `addMarkView()`
+3. Write your render function
+4. [Configure Tiptap to use your new mark extension](/editor/getting-started/configure)
+
+This is how your mark extension could look like:
+
+```ts
+import { Mark } from '@tiptap/core'
+
+export default Mark.create({
+  // Other options...
+  addMarkView() {
+    return ({ mark, HTMLAttributes }) => {
+      const dom = document.createElement('b')
+      const contentDOM = document.createElement('span')
+
+      dom.appendChild(contentDOM)
+
+      return {
+        dom,
+        contentDOM,
+      }
+    }
+  },
+})
+```
+
+Got it? Let’s see it in action. Feel free to copy the below example to get started.
+
+<CodeDemo path="/GuideMarkViews/JavaScript" />
+
+That mark view even interacts with the editor. Time to see how that is wired up.
+
+## Access mark attributes
+
+The editor passes a few helpful things to your render function. One of them is the `mark` prop. This one enables you to access mark attributes in your mark view. Let’s say you have [added an attribute](/editor/extensions/custom-extensions/extend-existing#attributes) named `color` to your mark extension. You could access the attribute like this:
+
+```ts
+addMarkView() {
+  return ({ mark }) => {
+    console.log(mark.attrs.color)
+  }
+}
+```
+
+## Adding a content editable
+
+A mark is wrapping a part of the text in the editor. If you want to make the content of the mark editable, you can add the `contenteditable` attribute to the `contentDOM` element.
+
+```ts
+addMarkView() {
+  return ({ mark, HTMLAttributes }) => {
+    const dom = document.createElement('b')
+    const contentDOM = document.createElement('span')
+
+    contentDOM.contentEditable = 'true'
+    dom.appendChild(contentDOM)
+
+    return {
+      dom,
+      contentDOM,
+    }
+  }
+}
+```
+
+Got it? You’re free to do anything you like, as long as you return a container for the mark view and another one for the content.
+
+## Updating mark view attributes
+
+If you want to update the attributes of your mark view, you can call the `updateAttributes` method on the MarkView instance.
+
+```ts
+markView.updateAttributes({
+  id: 'new-id',
+  color: 'blue',
+})
+```

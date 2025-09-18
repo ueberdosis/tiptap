@@ -1,0 +1,104 @@
+---
+title: Keyboard shortcuts in Tiptap
+meta:
+  title: Keyboard shortcuts | Tiptap Editor Docs
+  description: Discover the predefined keyboard shortcuts for Tiptap and learn how to customize these shortcuts to fit your editing needs.
+  category: Editor
+---
+
+Tiptap comes with sensible keyboard shortcut defaults. Depending on what you want to use it for, you’ll probably want to change those keyboard shortcuts to your liking. Let’s have a look at what we defined for you, and show you how to change it then!
+
+## Predefined keyboard shortcuts
+
+Most of the core extensions register their own keyboard shortcuts. Depending on what set of extension you use, not all of the below listed keyboard shortcuts work for your editor.
+
+### Essentials
+
+| Command                  | Windows/Linux                                                                  | macOS                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Copy                     | <kbd>Control</kbd> + <kbd>C</kbd>                                              | <kbd>Cmd</kbd> + <kbd>C</kbd>                                              |
+| Cut                      | <kbd>Control</kbd> + <kbd>X</kbd>                                              | <kbd>Cmd</kbd> + <kbd>X</kbd>                                              |
+| Paste                    | <kbd>Control</kbd> + <kbd>V</kbd>                                              | <kbd>Cmd</kbd> + <kbd>V</kbd>                                              |
+| Paste without formatting | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>                           | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>                           |
+| Undo                     | <kbd>Control</kbd> + <kbd>Z</kbd>                                              | <kbd>Cmd</kbd> + <kbd>Z</kbd>                                              |
+| Redo                     | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd>                           | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd>                           |
+| Add a line break         | <kbd>Shift</kbd> + <kbd>Enter</kbd><br /><kbd>Control</kbd> + <kbd>Enter</kbd> | <kbd>Shift</kbd> + <kbd>Enter</kbd><br /><kbd>Cmd</kbd> + <kbd>Enter</kbd> |
+
+### Text Formatting
+
+| Command       | Windows/Linux                                        | macOS                                            |
+| ------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Bold          | <kbd>Control</kbd> + <kbd>B</kbd>                    | <kbd>Cmd</kbd> + <kbd>B</kbd>                    |
+| Italicize     | <kbd>Control</kbd> + <kbd>I</kbd>                    | <kbd>Cmd</kbd> + <kbd>I</kbd>                    |
+| Underline     | <kbd>Control</kbd> + <kbd>U</kbd>                    | <kbd>Cmd</kbd> + <kbd>U</kbd>                    |
+| Strikethrough | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> |
+| Highlight     | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> |
+| Code          | <kbd>Control</kbd> + <kbd>E</kbd>                    | <kbd>Cmd</kbd> + <kbd>E</kbd>                    |
+
+### Paragraph Formatting
+
+| Command                 | Windows/Linux                                        | macOS                                            |
+| ----------------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| Apply normal text style | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>0</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>0</kbd>   |
+| Apply heading style 1   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>1</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>1</kbd>   |
+| Apply heading style 2   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>2</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>2</kbd>   |
+| Apply heading style 3   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>3</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>3</kbd>   |
+| Apply heading style 4   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>4</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>4</kbd>   |
+| Apply heading style 5   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>5</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>5</kbd>   |
+| Apply heading style 6   | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>6</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>6</kbd>   |
+| Ordered list            | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>7</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>7</kbd> |
+| Bullet list             | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>8</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>8</kbd> |
+| Task list               | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>9</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>9</kbd> |
+| Blockquote              | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> |
+| Left align              | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> |
+| Center align            | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+| Right align             | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> |
+| Justify                 | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> |
+| Code block              | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>   | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>   |
+| Subscript               | <kbd>Control</kbd> + <kbd>,</kbd>                    | <kbd>Cmd</kbd> + <kbd>,</kbd>                    |
+| Superscript             | <kbd>Control</kbd> + <kbd>.</kbd>                    | <kbd>Cmd</kbd> + <kbd>.</kbd>                    |
+
+### Text Selection
+
+| Command                                 | Windows/Linux                     | macOS                           |
+| --------------------------------------- | --------------------------------- | ------------------------------- |
+| Select all                              | <kbd>Control</kbd> + <kbd>A</kbd> | <kbd>Cmd</kbd> + <kbd>A</kbd>   |
+| Extend selection one character to left  | <kbd>Shift</kbd> + <kbd>←</kbd>   | <kbd>Shift</kbd> + <kbd>←</kbd> |
+| Extend selection one character to right | <kbd>Shift</kbd> + <kbd>→</kbd>   | <kbd>Shift</kbd> + <kbd>→</kbd> |
+| Extend selection one line up            | <kbd>Shift</kbd> + <kbd>↑</kbd>   | <kbd>Shift</kbd> + <kbd>↑</kbd> |
+| Extend selection one line down          | <kbd>Shift</kbd> + <kbd>↓</kbd>   | <kbd>Shift</kbd> + <kbd>↓</kbd> |
+
+## Overwrite keyboard shortcuts
+
+Keyboard shortcuts may be strings like `'Shift-Control-Enter'`. Keys are based on the strings that can appear in `event.key`, concatenated with a `-`. There is a little tool called [keycode.info](https://keycode.info/), which shows the `event.key` interactively.
+
+Use lowercase letters to refer to letter keys (or uppercase letters if you want shift to be held). You may use `Space` as an alias for the <code> </code>.
+
+Modifiers can be given in any order. `Shift`, `Alt`, `Control` and `Cmd` are recognized. For characters that are created by holding shift, the `Shift` prefix is implied, and should not be added explicitly.
+
+You can use `Mod` as a shorthand for `Cmd` on Mac and `Control` on other platforms.
+
+Here is an example how you can overwrite the keyboard shortcuts for an existing extension:
+
+```js
+// 1. Import the extension
+import BulletList from '@tiptap/extension-bullet-list'
+
+// 2. Overwrite the keyboard shortcuts
+const CustomBulletList = BulletList.extend({
+  addKeyboardShortcuts() {
+    return {
+      // ↓ your new keyboard shortcut
+      'Mod-l': () => this.editor.commands.toggleBulletList(),
+    }
+  },
+})
+
+// 3. Add the custom extension to your editor
+new Editor({
+  extensions: [
+    CustomBulletList(),
+    // …
+  ],
+})
+```

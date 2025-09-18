@@ -1,0 +1,82 @@
+---
+title: TableHeader extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-table?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-table
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-table.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-table?minimal=true
+    label: Downloads
+meta:
+  title: TableHeader extension | Tiptap Editor Docs
+  description: Improve tables with Tiptap’s TableHeader extension. Easily control table headers. Source code and usage examples in the docs!
+  category: Editor
+extension:
+  name: Table Header
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-table
+  description: 'Tables don’t require a header, but let’s be honest: They look better with it.'
+  type: node
+  icon: Table
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension complements the [`Table`](/editor/extensions/nodes/table) extension and adds… you guessed it… table headers to them.
+
+<CodeDemo path="/Nodes/Table" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-table
+```
+
+This extension requires the [`Table`](/editor/extensions/nodes/table) extension to be installed.
+
+This extension is installed by default with the `TableKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TableKit } from '@tiptap/extension-table'
+
+new Editor({
+  extensions: [TableKit],
+})
+```
+
+## Usage
+
+Table headers are optional. But come on, you want them, don’t you? If you don’t want them, update the `content` attribute of the [`TableRow`](/editor/extensions/nodes/table-row) extension, like this:
+
+```js
+// Table rows without table headers
+TableRow.extend({
+  content: 'tableCell*',
+})
+```
+
+This is the default, which allows table headers:
+
+```js
+// Table rows with table headers (default)
+TableRow.extend({
+  content: '(tableCell | tableHeader)*',
+})
+```
+
+## Source code
+
+[packages/extension-table-header/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table/src/header)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { TableHeader } from '@tiptap/extension-table/header'
+
+new Editor({
+  extensions: [TableHeader],
+})
+```

@@ -1,0 +1,59 @@
+---
+title: DetailsContent extension
+icon: menu-unfold-line
+extension:
+  name: DetailsContent
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-details-content
+  description: Add content to your details nodes.
+  type: node
+  icon: Text
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-details-content.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-details-content
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-details-content.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-details-content?minimal=true
+    label: Downloads
+meta:
+  title: DetailsContent extension | Tiptap Editor Docs
+  description: Show and hide content with the Details and DetailsContent extension in your Tiptap Editor. Great to… toggle hiding content!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The Details extension enables you to use the `<details>` HTML tag in the editor. This is great to show and hide content.
+
+<CodeDemo path="/Nodes/Details" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-details
+```
+
+## Usage
+
+```js
+import { Details, DetailsSummary, DetailsContent } from '@tiptap/extension-details'
+
+const editor = new Editor({
+  extensions: [Details, DetailsSummary, DetailsContent],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+DetailsContent.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```

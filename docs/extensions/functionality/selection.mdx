@@ -1,0 +1,76 @@
+---
+title: Selection extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: Selection extension | Tiptap Editor Docs
+  description: Use the Selection extension in Tiptap to preserve the selection when the editor is blurred. Learn more in our docs!
+  category: Editor
+extension:
+  name: Selection
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions/src/selection
+  description: Preserve the selection when the editor is blurred.
+  type: extension
+  icon: TextCursor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The Selection extension adds a CSS class to the current selection when the editor is blurred. By default it adds `.selection`, but you can change that.
+
+Note that it’s only a class, the styling is totally up to you. The usage example below has some CSS for that class.
+
+<CodeDemo path="/Extensions/Selection" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+And import it in your editor:
+
+```ts
+import { Editor } from '@tiptap/core'
+import { Selection } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [Selection],
+})
+```
+
+## Settings
+
+### className
+
+The class that is applied to the focused element.
+
+Default: `'has-focus'`
+
+```js
+Focus.configure({
+  className: 'focus',
+})
+```
+
+## Source code
+
+[packages/extensions/selection/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/selection/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { Selection } from '@tiptap/extensions/selection'
+
+new Editor({
+  extensions: [Selection],
+})
+```

@@ -1,0 +1,33 @@
+---
+title: Selection commands
+meta:
+  title: Selection commands | Tiptap Editor Docs
+  description: Manage selections in your Tiptap Editor with editor commands like blur, focus, deleteSelection, etc. More in our docs!
+  category: Editor
+---
+
+The Tiptap editor provides editor commands for managing selection and focus within your documents. Here’s an overview of the essential selection commands that help you manage cursor movement, selections, and focus behavior.
+
+## Use Cases
+
+- **Managing Focus and Blur:** Control focus behavior using [`focus`](/editor/api/commands/selection/focus) and [`blur`](/editor/api/commands/selection/blur).
+- **Deleting and Selecting Content:** Use commands like [`deleteSelection`](/editor/api/commands/selection/delete-selection) and [`selectAll`](/editor/api/commands/selection/select-all) to efficiently manage content.
+- **Navigating the Document:** Scroll to a specific position or node using [`scrollIntoView`](/editor/api/commands/selection/scroll-into-view) and select specific nodes with [`selectNodeBackward`](/editor/api/commands/selection/select-node-backward), [`selectNodeForward`](/editor/api/commands/selection/select-node-forward), or [`selectParentNode`](/editor/api/commands/selection/select-parent-node).
+
+## List of selection commands
+
+| Command              | Description                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| `blur`               | Removes focus from the editor.                                                              |
+| `deleteRange`        | Deletes everything in a range.                                                              |
+| `deleteSelection`    | Deletes the current selection or cursor position.                                           |
+| `enter`              | Simulates an Enter key press, creating a new line.                                          |
+| `focus`              | Sets focus back to the editor and moves the cursor to a specified position.                 |
+| `keyboardShortcut`   | Triggers a ShortcutEvent with a given name.                                                 |
+| `scrollIntoView`     | Scrolls the view to the current selection or cursor position.                               |
+| `selectAll`          | Selects the entire document.                                                                |
+| `selectNodeBackward` | Selects the node before the current textblock if the cursor is at the start of a textblock. |
+| `selectNodeForward`  | Selects the node after the current textblock if the cursor is at the end of a textblock.    |
+| `selectParentNode`   | Moves the selection to the parent node of the currently selected node.                      |
+| `setNodeSelection`   | Creates a new NodeSelection at a given position.                                            |
+| `setTextSelection`   | Controls the text selection by setting it to a specified range or position.                 |

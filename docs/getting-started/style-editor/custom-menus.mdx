@@ -1,0 +1,132 @@
+---
+title: How to develop a custom menu
+meta:
+  title: Custom menu | Tiptap Editor Docs
+  description: Learn how to develop a custom bubble or floating menu in your Tiptap editor. Learn more in our documentation!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+Tiptap comes very raw, but that's a good thing. You have full control over the editor's appearance.
+
+When we say full control, we mean it. You can (and have to) build a menu on your own, although Tiptap will help you wire everything up.
+
+## Menus
+
+The editor provides a fluent API to trigger commands and add active states. You can use any markup you like. To simplify menu positioning, Tiptap provides a few utilities and components. Let's go through the most typical use cases one by one.
+
+### Fixed menu
+
+A fixed menu is one that permanently sits in one location. For example, it's popular to place a fixed menu above the editor. Tiptap doesn't come with a fixed menu, but you can build one by creating a `<div>` element and filling it with `<button>` elements. [See below](#buttons) to learn how those buttons can trigger [commands](/editor/api/commands) in the editor, for example bolding or italicizing text.
+
+### Bubble menu
+
+A [bubble menu](/editor/extensions/functionality/bubble-menu) is one that appears when selecting text. The markup and styling are entirely up to you.
+
+<CodeDemo path="/Extensions/BubbleMenu?inline=false&hideSource=true" />
+
+### Floating menu
+
+A [floating menu](/editor/extensions/functionality/floatingmenu) appears in the editor when you place your cursor on an empty line. Again, the markup and styling are entirely up to you.
+
+<CodeDemo path="/Extensions/FloatingMenu?inline=false&hideSource=true" />
+
+### Slash commands (work in progress)
+
+Although there isn't an official extension yet, there is [an experiment](/examples/experiments/slash-commands) that allows you to use "slash commands." With slash commands, typing `/` at the beginning of a new line will reveal a popup menu.
+
+## Buttons
+
+Okay, you've got your menu. But how do you wire things up?
+
+### Commands
+
+You've got the editor running already and want to add your first button. You need a `<button>` HTML tag with a click handler. Depending on your setup, that can look like the following example:
+
+```html
+<button onclick="editor.chain().focus().toggleBold().run()">Bold</button>
+```
+
+Oh, that's a long command, right? Actually, it's a [chain of commands](/editor/api/commands). Let's go through this one by one:
+
+```js
+editor.chain().focus().toggleBold().run()
+```
+
+1. `editor` should be a Tiptap instance,
+2. `chain()` is used to tell the editor you want to execute multiple commands,
+3. `focus()` sets the focus back to the editor,
+4. `toggleBold()` marks the selected text bold. If the text is already bold, it removes the bold mark.
+5. `run()` will execute the chain.
+
+In other words: This will be a typical **Bold** button for your text editor.
+
+The available commands depend on the extensions registered with the editor. Most extensions come with a `set…()`, `unset…()`, and `toggle…()` command. Read the extension documentation to see what's actually available or just surf through your code editor's autocomplete.
+
+### Keep the focus
+
+You have already seen the `focus()` command in the above example. When you click on the button, the browser focuses that DOM element and the editor loses focus. It's likely you want to add `focus()` to all your menu buttons, so the writing flow of your users isn't interrupted.
+
+### The active state
+
+The editor provides an `isActive()` method to check if something is applied to the selected text already. In Vue.js you can toggle a CSS class with help of that function:
+
+**Important**: If you are using React, values from the editor state are not automatically reactive to avoid performance issues,
+that means the `isActive()` value will always return the value of the initial editor state.
+To subscribe to the editor state you can use the `useEditorState` hook as described [here](/editor/getting-started/install/react#reacting-to-editor-state-changes).
+
+```html
+<button
+  :class="{ 'is-active': editor.isActive('bold') }"
+  @click="editor.chain().focus().toggleBold().run()"
+>
+  Bold
+</button>
+```
+
+This toggles the `.is-active` class for nodes and marks. You can even check for specific attributes. Here is an example with the [`Highlight`](/editor/extensions/marks/highlight) mark that ignores different attributes:
+
+```js
+editor.isActive('highlight')
+```
+
+And an example that compares the given attribute(s):
+
+```js
+editor.isActive('highlight', { color: '#ffa8a8' })
+```
+
+There is even support for regular expressions:
+
+```js
+editor.isActive('textStyle', { color: /.*/ })
+```
+
+You can even check nodes and marks, but check for the attributes only. Here is an example with the [`TextAlign`](/editor/extensions/functionality/textalign) extension:
+
+```js
+editor.isActive({ textAlign: 'right' })
+```
+
+If your selection spans multiple nodes or marks, or only part of the selection has a mark, `isActive()` will return `false` and indicate nothing is active. This behavior is intentional, as it allows users to apply a new node or mark to the selection right away.
+
+## User experience
+
+When designing a great user experience you should consider a few things.
+
+### Accessibility
+
+- Make sure users can navigate the menu with their keyboard
+- Use [title attributes](https://developer.mozilla.org/de/docs/Web/HTML/Global_attributes/title)
+- Use [ARIA attributes](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics)
+- List available keyboard shortcuts
+
+### Icons
+
+Most editor menus use icons for their buttons. In some of our demos, we use the open source icon set [Remix Icon](https://remixicon.com/). However, you can use any icon set you prefer. Here are a few suggestions:
+
+- [Remix Icon](https://remixicon.com/#editor)
+- [Font Awesome](https://fontawesome.com/icons?c=editors)
+- [UI icons](https://www.ibm.com/design/language/iconography/ui-icons/library/)

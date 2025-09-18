@@ -1,0 +1,44 @@
+---
+title: Text extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text?minimal=true
+    label: Downloads
+extension:
+  name: Text
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text
+  description: 'No text editor without text, so better make sure to install this one.'
+  type: node
+  icon: Type
+meta:
+  title: Text extension | Tiptap Editor Docs
+  description: It's very likely that you want text in your text editor. Enable plain text support with the Text extension. More in the docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The `Text` extension is required, at least if you want to work with text of any kind and that’s very likely. This extension is a little bit different, it doesn’t even render HTML. It’s plain text, that’s all.
+
+<Callout title="Breaking Change" variant="info">
+  Tiptap v1 tried to hide that node from you, but it has always been there. You have to explicitly
+  import it from now on (or use [StarterKit](/editor/extensions/functionality/starterkit)).
+</Callout>
+
+<CodeDemo path="/Nodes/Text" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text
+```
+
+## Source code
+
+[packages/extension-text/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text/)

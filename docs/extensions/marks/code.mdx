@@ -1,0 +1,86 @@
+---
+title: Code extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-code?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-code
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-code.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-code?minimal=true
+    label: Downloads
+extension:
+  name: Code
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-code
+  description: 'Developers love to add some inline code to their texts.'
+  type: mark
+  icon: Code
+meta:
+  title: Code extension | Tiptap Editor Docs
+  description: Use the Code extension in your Tiptap Editor to add inline code to your texts. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The Code extensions enables you to use the `<code>` HTML tag in the editor. If you paste in text with `<code>` tags it will rendered accordingly.
+
+Type something with <code>\`back-ticks around\`</code> and it will magically transform to `inline code` while you type.
+
+<CodeDemo path="/Marks/Code" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-code
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Code.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setCode()
+
+Mark text as inline code.
+
+```js
+editor.commands.setCode()
+```
+
+### toggleCode()
+
+Toggle inline code mark.
+
+```js
+editor.commands.toggleCode()
+```
+
+### unsetCode()
+
+Remove inline code mark.
+
+```js
+editor.commands.unsetCode()
+```
+
+## Keyboard shortcuts
+
+| Command      | Windows/Linux                     | macOS                         |
+| ------------ | --------------------------------- | ----------------------------- |
+| toggleCode() | <kbd>Control</kbd> + <kbd>E</kbd> | <kbd>Cmd</kbd> + <kbd>E</kbd> |
+
+## Source code
+
+[packages/extension-code/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code/)

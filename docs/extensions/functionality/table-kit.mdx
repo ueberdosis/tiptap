@@ -1,0 +1,81 @@
+---
+title: TableKit extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-table/beta?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-table
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-table.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-table?minimal=true
+    label: Downloads
+meta:
+  title: TableKit extension | Tiptap Editor Docs
+  description: All necessary table extensions in one extension with TableKit. Perfect for quickly setting up tables with Tiptap. More in the docs!
+  category: Editor
+extension:
+  name: TableKit
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions-table
+  description: All necessary table extensions in one. It doesn’t get much better than this.
+  type: extension
+  icon: Package
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The `TableKit` is a collection of all necessary Tiptap table extensions. If you quickly want to setup tables in Tiptap, this extension is for you.
+
+<CodeDemo path="/Nodes/Table" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-table
+```
+
+## Included extensions
+
+### Nodes
+
+- [`Table`](/editor/extensions/nodes/table)
+- [`TableCell`](/editor/extensions/nodes/table-cell)
+- [`TableHeader`](/editor/extensions/nodes/table-header)
+- [`TableRow`](/editor/extensions/nodes/table-row)
+
+## Source code
+
+[packages/extension-table/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table/)
+
+## Using the TableKit extension
+
+Pass `TableKit` to the editor to load all included extension at once.
+
+```js
+import { Editor } from '@tiptap/core'
+import { TableKit } from '@tiptap/extension-table'
+
+const editor = new Editor({
+  extensions: [TableKit],
+})
+```
+
+You can configure the included extensions, or even disable a few of them, like shown below.
+
+```js
+import { Editor } from '@tiptap/core'
+import { TableKit } from '@tiptap/extension-table'
+
+const editor = new Editor({
+  extensions: [
+    TableKit.configure({
+      // Disable an extension
+      tableRow: false,
+
+      // Configure an extension
+      tableCell: {
+        HTMLAttributes: { class: 'list-item' },
+      },
+    }),
+  ],
+})
+```

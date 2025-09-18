@@ -1,0 +1,185 @@
+---
+title: InvisibleCharacters extensions
+extension:
+  name: Invisible Characters
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-invisible-characters
+  description: 'Allow your users to see invisible characters like spaces, hard breaks, and paragraphs.'
+  type: extension
+  icon: Asterisk
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-invisible-characters.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-invisible-characters
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-invisible-characters.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-invisible-characters?minimal=true
+    label: Downloads
+meta:
+  title: InvisibleCharacters extension | Tiptap Editor Docs
+  description: Allow your users to see invisible characters like spaces, hard breaks, and paragraphs. More in the docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension adds decorators to show non-printable characters and help you increase accessibility.
+
+<CodeDemo path="/Extensions/InvisibleCharacters" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-invisible-characters
+```
+
+## Settings
+
+### visible
+
+Define default visibility.
+
+Default: `true`
+
+```js
+InvisibleCharacters.configure({
+  visible: false,
+})
+```
+
+### builders
+
+An array of invisible characters – by default it contains: spaces, hard breaks and paragraphs.
+
+Default: `[new SpaceCharacter(), new HardBreakNode(), new ParagraphNode()]`
+
+```js
+import InvisibleCharacters, { SpaceCharacter } from '@tiptap/extension-invisible-characters'
+
+// [...]
+
+InvisibleCharacters.configure({
+  builders: [new SpaceCharacter(), new YourCustomInvisibleCharacter()],
+})
+```
+
+### injectCSS
+
+By default, the extension injects some CSS. With `injectCSS` you can disable that.
+
+Default: `true`
+
+```js
+InvisibleCharacters.configure({
+  injectCSS: false,
+})
+```
+
+### injectNonce
+
+When you use a [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) with `nonce`, you can specify a `nonce` to be added to dynamically created elements. Here is an example:
+
+Default: `undefined`
+
+```js
+InvisibleCharacters.configure({
+  injectCSS: false,
+  injectNonce: 'your-nonce-here',
+})
+```
+
+## Storage
+
+### visibility()
+
+Find out whether the visibility of invisible characters is active or not.
+
+```js
+editor.storage.invisibleCharacters.visibility()
+```
+
+## Commands
+
+### showInvisibleCharacters()
+
+Show invisible characters. You can also pass `false` to use the same command to hide them.
+
+```js
+editor.commands.showInvisibleCharacters()
+```
+
+### hideInvisibleCharacters()
+
+Hide invisible characters.
+
+```js
+editor.commands.hideInvisibleCharacters()
+```
+
+### toggleInvisibleCharacters()
+
+Toggle visibility of invisible characters.
+
+```js
+editor.commands.toggleInvisibleCharacters()
+```
+
+## Custom invisible characters
+
+To create a custom invisible characters, you can extend the classes provided by the package.
+
+### InvisibleCharacter
+
+```js
+import InvisibleCharacters, { InvisibleCharacter } from '@tiptap/extension-invisible-characters'
+
+class MyInvisibleCharacter extends InvisibleCharacter {
+  constructor() {
+    super({
+      type: 'my-invisible-character',
+      predicate: (value) => value === '+',
+    })
+  }
+}
+
+// … use it like this
+new Editor({
+  extensions: [InvisibleCharacters.configure({ builders: [new MyInvisibleCharacter()] })],
+})
+```
+
+To select the decoration within CSS, we can use the following selector:
+
+```css
+.Tiptap-invisible-character.Tiptap-invisible-character--my-invisible-character {
+  // …
+}
+```
+
+### InvisibleNode
+
+```js
+import InvisibleCharacters, { InvisibleNode } from '@tiptap/extension-invisible-characters'
+
+class MyInvisibleNode extends InvisibleNode {
+  constructor() {
+    super({
+      type: 'my-invisible-node',
+      predicate: (node) => node.type === node.type.schema.nodes.listItem,
+    })
+  }
+}
+
+// … use it like this
+new Editor({
+  extensions: [InvisibleCharacters.configure({ builders: [new MyInvisibleNode()] })],
+})
+```
+
+To select the decoration within CSS, we can use the following selector:
+
+```css
+.Tiptap-invisible-character.Tiptap-invisible-character--my-invisible-node {
+  // …
+}
+```

@@ -1,0 +1,146 @@
+---
+title: CodeBlockLowlight extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-code-block-lowlight?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-code-block-lowlight
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-code-block-lowlight.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-code-block-lowlight?minimal=true
+    label: Downloads
+extension:
+  name: CodeBlock Lowlight
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-code-block-lowlight
+  description: Add some colorful syntax highlighting to your code blocks.
+  type: node
+  icon: Code
+meta:
+  title: CodeBlockLowlight extension | Tiptap Editor Docs
+  description: Use the CodeBlockLowlight extension to add code blocks with syntax highlighting to your documents. Learn more in our docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+With the CodeBlockLowlight extension you can add fenced code blocks to your documents. It’ll wrap the code in `<pre>` and `<code>` HTML tags.
+
+<Callout title="Syntax highlight dependency" variant="warning">
+  This extension relies on the [lowlight](https://github.com/wooorm/lowlight) library to apply
+  syntax highlight to the code block’s content.
+</Callout>
+
+Type <code>&grave;&grave;&grave; </code> (three backticks and a space) or <code>&Tilde;&Tilde;&Tilde; </code> (three tildes and a space) and a code block is instantly added for you. You can even specify the language, try writing <code>&grave;&grave;&grave;css </code>. That should add a `language-css` class to the `<code>`-tag.
+
+<CodeDemo path="/Nodes/CodeBlockLowlight" />
+
+## Install
+
+```bash
+npm install lowlight @tiptap/extension-code-block-lowlight
+```
+
+## Settings
+
+### lowlight
+
+You should provide the `lowlight` module to this extension. Decoupling the `lowlight`
+package from the extension allows the client application to control which
+version of lowlight it uses and which programming language packages it needs to load.
+
+```js
+import { lowlight } from 'lowlight/lib/core'
+
+CodeBlockLowlight.configure({
+  lowlight,
+})
+```
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+CodeBlockLowlight.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### enableTabIndentation
+
+Enable tab key for indentation in code blocks.
+
+Default: `false`
+
+```js
+CodeBlockLowlight.configure({
+  enableTabIndentation: true,
+})
+```
+
+### tabSize
+
+The number of spaces to use for tab indentation.
+
+Default: `4`
+
+```js
+CodeBlockLowlight.configure({
+  tabSize: 2,
+})
+```
+
+### languageClassPrefix
+
+Adds a prefix to language classes that are applied to code tags.
+
+Default: `'language-'`
+
+```js
+CodeBlockLowlight.configure({
+  languageClassPrefix: 'language-',
+})
+```
+
+### defaultLanguage
+
+Define a default language instead of the automatic detection of lowlight.
+
+Default: `null`
+
+```js
+CodeBlockLowlight.configure({
+  defaultLanguage: 'plaintext',
+})
+```
+
+## Commands
+
+### setCodeBlock()
+
+Wrap content in a code block.
+
+```js
+editor.commands.setCodeBlock()
+```
+
+### toggleCodeBlock()
+
+Toggle the code block.
+
+```js
+editor.commands.toggleCodeBlock()
+```
+
+## Keyboard shortcuts
+
+| Command         | Windows/Linux                                      | macOS                                          |
+| --------------- | -------------------------------------------------- | ---------------------------------------------- |
+| toggleCodeBlock | <kbd>Control</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd> | <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd> |
+
+## Source code
+
+[packages/extension-code-block-lowlight/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block-lowlight/)

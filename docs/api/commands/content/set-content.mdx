@@ -1,0 +1,65 @@
+---
+title: setContent command
+meta:
+  title: setContent command | Tiptap Editor Docs
+  description: Replace the document with a new one using JSON or HTML with the setContent command. Learn more in our docs!
+  category: Editor
+---
+
+The `setContent` command replaces the document with new content. You can pass JSON or HTML. It's basically the same as setting the `content` on initialization.
+
+See also: [insertContent](/editor/api/commands/content/insert-content), [clearContent](/editor/api/commands/content/clear-content)
+
+## Parameters
+
+### content
+
+The new content as string (JSON or HTML), Fragment, or ProseMirror Node. The editor will only render what's allowed according to the [schema](/editor/core-concepts/schema).
+
+### options
+
+Optional configuration object with the following properties:
+
+`parseOptions?: Record<string, any>`
+Options to configure the parsing. Read more about parseOptions in the [ProseMirror documentation](https://prosemirror.net/docs/ref/#model.ParseOptions).
+
+`errorOnInvalidContent?: boolean`
+Whether to throw an error if the content is invalid.
+
+`emitUpdate?: boolean (true)`
+Whether to emit an update event. Defaults to `true` (Note: This changed from `false` in v2).
+
+## Examples
+
+```js
+// Plain text
+editor.commands.setContent('Example Text')
+
+// HTML
+editor.commands.setContent('<p>Example Text</p>')
+
+// JSON
+editor.commands.setContent({
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'Example Text',
+        },
+      ],
+    },
+  ],
+})
+
+// With options
+editor.commands.setContent('<p>Example Text</p>', {
+  emitUpdate: false,
+  parseOptions: {
+    preserveWhitespace: 'full',
+  },
+  errorOnInvalidContent: true,
+})
+```

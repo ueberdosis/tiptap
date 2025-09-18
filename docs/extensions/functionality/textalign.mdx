@@ -1,0 +1,118 @@
+---
+title: TextAlign extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-align?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-align
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-align.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-align?minimal=true
+    label: Downloads
+meta:
+  title: TextAlign extension | Tiptap Editor Docs
+  description: Left, right, center, whatever! Align the text however you like with the Text Align extension. More in the docs!
+  category: Editor
+extension:
+  name: Text Align
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-text-align
+  description: Left, right, center, whatever! Align the text however you like.
+  type: extension
+  icon: AlignCenter
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension adds a text align attribute to a specified list of nodes. The attribute is used to align the text.
+
+<Callout title="Firefox bug" variant="default">
+  `text-align: justify` doesn’t work together with `white-space: pre-wrap` in Firefox, [that’s a
+  known issue](https://bugzilla.mozilla.org/show_bug.cgi?id=1253840).
+</Callout>
+
+<CodeDemo path="/Extensions/TextAlign" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-align
+```
+
+## Settings
+
+### types
+
+A list of nodes where the text align attribute should be applied to. Usually something like `['heading', 'paragraph']`.
+
+Default: `[]`
+
+```js
+TextAlign.configure({
+  types: ['heading', 'paragraph'],
+})
+```
+
+### alignments
+
+A list of available options for the text align attribute.
+
+Default: `['left', 'center', 'right', 'justify']`
+
+```js
+TextAlign.configure({
+  alignments: ['left', 'right'],
+})
+```
+
+### defaultAlignment
+
+The default text align.
+
+Default: `null`
+
+```js
+TextAlign.configure({
+  defaultAlignment: 'right',
+})
+```
+
+## Commands
+
+### setTextAlign()
+
+Set the text align to the specified value.
+
+```js
+editor.commands.setTextAlign('right')
+```
+
+### unsetTextAlign()
+
+Remove the text align value.
+
+```js
+editor.commands.unsetTextAlign()
+```
+
+### toggleTextAlign()
+
+Toggles the text align value. If the current value is the same as the specified value, it will be removed.
+
+```js
+editor.commands.toggleTextAlign('right')
+```
+
+## Keyboard shortcuts
+
+| Command               | Windows/Linux                                     | macOS                                            |
+| --------------------- | ------------------------------------------------- | ------------------------------------------------ |
+| setTextAlign(left)    | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd> |
+| setTextAlign(center)  | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd> |
+| setTextAlign(right)   | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> |
+| setTextAlign(justify) | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>J</kbd> |
+
+## Source code
+
+[packages/extension-text-align/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-align/)

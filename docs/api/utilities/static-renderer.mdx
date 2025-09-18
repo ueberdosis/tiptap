@@ -1,0 +1,402 @@
+---
+title: Static Renderer
+meta:
+  title: Static Renderer | Tiptap Editor Docs
+  description: Use the Static Renderer to render JSON content as HTML, markdown, or React components without an editor instance. Learn more in our docs!
+  category: Editor
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/static-renderer?label=version
+    url: https://www.npmjs.com/package/@tiptap/static-renderer
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/static-renderer?label=version
+    url: https://npmcharts.com/compare/@tiptap/static-renderer
+    label: Downloads
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The Static Renderer helps render JSON content as HTML, markdown, or React components without an editor instance. All it needs is JSON content and a list of extensions.
+
+<CodeDemo src="https://deploy-preview-6012--tiptap-embed.netlify.app/preview/examples/staticrendering" />
+
+## Why Static Render?
+
+The main use case for static rendering is to render a Tiptap/ProseMirror JSON document on the server-side, for example within a Next.js or Nuxt.js application. This way, you can render the content of your editor to HTML before sending it to the client, which can improve the performance of your application by not having to load the editor on the client or server.
+
+Another use case is to render the content of your editor to another format like markdown, which can be useful if you want to send it to a markdown-based API. The static renderer is built in a way that the output can be anything you want, as long as you provide the correct mappings.
+
+But what makes it static? The static renderer doesn't require a browser, DOM or even an editor instance to render the content. It's a pure JavaScript function that takes a document (as JSON or Prosemirror Node instance) and returns the target format back.
+
+## Generating HTML strings from JSON
+
+Given a JSON document, the `renderToHTMLString` function will return an HTML string representing the JSON content. The function takes three arguments: the JSON document, a list of extensions, and an options object.
+
+```js
+import StarterKit from '@tiptap/starter-kit'
+import { renderToHTMLString } from '@tiptap/static-renderer/pm/html'
+
+renderToHTMLString({
+  extensions: [StarterKit], // using your extensions
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'Hello World!',
+          },
+        ],
+      },
+    ],
+  },
+})
+// returns: '<p>Hello World!</p>'
+```
+
+<CodeDemo src="https://deploy-preview-6012--tiptap-embed.netlify.app/preview/GuideContent/StaticRenderHTML" />
+
+### generateHTML API
+
+```ts
+function renderToHTMLString(options: {
+  extensions: Extension[]
+  content: ProsemirrorNode | JSONContent
+  options?: TiptapHTMLStaticRendererOptions
+}): string
+```
+
+- `extensions`: An array of Tiptap extensions that are used to render the content.
+- `content`: The content to render. Can be a Prosemirror Node instance or a JSON representation of a Prosemirror document.
+- `options`: An object with additional options.
+- `options.nodeMapping`: An object that maps Prosemirror nodes to HTML strings.
+- `options.markMapping`: An object that maps Prosemirror marks to HTML strings.
+- `options.unhandledNode`: A function that is called when an unhandled node is encountered.
+- `options.unhandledMark`: A function that is called when an unhandled mark is encountered.
+
+## Generating Markdown from JSON
+
+Given a JSON document, the `renderToMarkdown` function will return a markdown string representing the JSON content. The function takes three arguments: the JSON document, a list of extensions, and an options object.
+
+<Callout variant="warning">
+  This package does not validate the markdown output, there are several markdown flavors and this
+  package does not enforce any of them. It&apos;s up to you to ensure that the markdown output is
+  valid.
+</Callout>
+
+```js
+import StarterKit from '@tiptap/starter-kit'
+import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
+
+renderToMarkdown({
+  extensions: [StarterKit], // using your extensions
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'Hello World!',
+          },
+        ],
+      },
+    ],
+  },
+})
+// returns: 'Hello World!'
+```
+
+### generateMarkdown API
+
+```ts
+function renderToMarkdown(options: {
+  extensions: Extension[]
+  content: ProsemirrorNode | JSONContent
+  options?: TiptapMarkdownStaticRendererOptions
+}): string
+```
+
+- `extensions`: An array of Tiptap extensions that are used to render the content.
+- `content`: The content to render. Can be a Prosemirror Node instance or a JSON representation of a Prosemirror document.
+- `options`: An object with additional options.
+- `options.nodeMapping`: An object that maps Prosemirror nodes to markdown strings.
+- `options.markMapping`: An object that maps Prosemirror marks to markdown strings.
+- `options.unhandledNode`: A function that is called when an unhandled node is encountered.
+- `options.unhandledMark`: A function that is called when an unhandled mark is encountered.
+
+## Generating React components from JSON
+
+Given a JSON document, the `renderToReactElement` function will return a React component representing the JSON content. The function takes three arguments: the JSON document, a list of extensions, and an options object.
+
+```js
+import StarterKit from '@tiptap/starter-kit'
+import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
+
+renderToReactElement({
+  extensions: [StarterKit], // using your extensions
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'Hello World!',
+          },
+        ],
+      },
+    ],
+  },
+})
+// returns a react node that, when evaluated, would be equivalent to: '<p>Hello World!</p>' without a Tiptap editor instance
+```
+
+<CodeDemo src="https://deploy-preview-6012--tiptap-embed.netlify.app/preview/GuideContent/StaticRenderReact" />
+
+### generateReactElement API
+
+```ts
+function renderToReactElement(options: {
+  extensions: Extension[]
+  content: ProsemirrorNode | JSONContent
+  options?: TiptapReactStaticRendererOptions
+}): ReactElement
+```
+
+- `extensions`: An array of Tiptap extensions that are used to render the content.
+- `content`: The content to render. Can be a Prosemirror Node instance or a JSON representation of a Prosemirror document.
+- `options`: An object with additional options.
+- `options.nodeMapping`: An object that maps Prosemirror nodes to React components.
+- `options.markMapping`: An object that maps Prosemirror marks to React components.
+- `options.unhandledNode`: A function that is called when an unhandled node is encountered.
+- `options.unhandledMark`: A function that is called when an unhandled mark is encountered.
+
+### React NodeViews
+
+The static renderer doesn't support node views automatically, so you need to provide a mapping for each node type that you want rendered as a node view. Here is an example of how you can render a node view as a React component:
+
+```js
+
+import { Node } from '@tiptap/core'
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
+
+// This component does not have a NodeViewContent, so it does not render it's children's rich text content
+function MyCustomComponentWithoutContent() {
+  const [count, setCount] = React.useState(200)
+
+  return (
+    <div className='custom-component-without-content' onClick={() => setCount(a => a + 1)}>
+      {count} This is a react component!
+    </div>
+  )
+}
+
+const CustomNodeExtensionWithoutContent = Node.create({
+  name: 'customNodeExtensionWithoutContent',
+  atom: true,
+  renderHTML() {
+    return ['div', { class: 'my-custom-component-without-content' }] as const
+  },
+  addNodeView() {
+    return ReactNodeViewRenderer(MyCustomComponentWithoutContent)
+  },
+})
+
+renderToReactElement({
+  extensions: [StarterKit, CustomNodeExtensionWithoutContent],
+  options: {
+    nodeMapping: {
+      // render the custom node with the intended node view React component
+      customNodeExtensionWithoutContent: MyCustomComponentWithoutContent,
+    },
+  },
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'customNodeExtensionWithoutContent',
+      },
+    ],
+  },
+})
+// returns: <div class="my-custom-component-without-content">200 This is a react component!</div>
+```
+
+But, what if you want to render the rich text content of the node view? You can do that by providing a `NodeViewContent` component as a child of the node view component:
+
+```js
+import { Node } from '@tiptap/core'
+import {
+  NodeViewContent,
+  ReactNodeViewContentProvider,
+  ReactNodeViewRenderer
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
+
+const CustomNodeExtensionWithContent = Node.create({
+  name: 'customNodeExtensionWithContent',
+  content: 'text*',
+  group: 'block',
+  renderHTML() {
+    return ['div', { class: 'my-custom-component-with-content' }, 0] as const
+  },
+  addNodeView() {
+    return ReactNodeViewRenderer(MyCustomComponentWithContent)
+  },
+})
+
+function MyCustomComponentWithContent() {
+  return (
+    <div className="custom-component-with-content">
+      Custom component with content in React!
+      <NodeViewContent />
+    </div>
+  )
+}
+
+renderToReactElement({
+  extensions: [StarterKit, CustomNodeExtensionWithContent],
+  options: {
+    nodeMapping: {
+      customNodeExtensionWithContent: ({ children }) => {
+        // To pass the content down into the NodeViewContent component, we need to wrap the custom component with the ReactNodeViewContentProvider
+        return (
+          <ReactNodeViewContentProvider content={children}>
+            <MyCustomComponentWithContent />
+          </ReactNodeViewContentProvider>
+        )
+      },
+    },
+  },
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'customNodeExtensionWithContent',
+        // rich text content
+        content: [
+          {
+            type: 'text',
+            text: 'Hello, world!',
+          },
+        ],
+      },
+    ],
+  },
+})
+
+// returns: <div class="custom-component-with-content">Custom component with content in React!<div data-node-view-content="" style="white-space:pre-wrap">Hello, world!</div></div>
+// Note: The NodeViewContent component is rendered as a div with the attribute data-node-view-content, and the rich text content is rendered inside of it
+```
+
+<CodeDemo src="https://deploy-preview-6012--tiptap-embed.netlify.app/preview/Examples/StaticRenderingAdvanced" />
+
+## Shared Options
+
+The `renderToHTMLString`, `renderToMarkdown`, and `renderToReactElement` functions take an options object as an argument. This object can be used to customize the output of the renderer by providing custom node and mark mappings, or handling unhandled nodes and marks.
+
+```js
+import StarterKit from '@tiptap/starter-kit'
+import { renderToHTMLString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/pm/html'
+
+renderToHTMLString({
+  extensions: [StarterKit], // using your extensions
+  content: {
+    type: 'doc',
+    content: [
+      {
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'Hello World!',
+          },
+        ],
+      },
+    ],
+  },
+  options: {
+    // custom node mappings
+    nodeMapping: {
+      paragraph({ children }) {
+        return `<div class="custom-paragraph">${serializeChildrenToHTMLString(children)}</div>`
+      },
+    },
+    // custom mark mappings
+    markMapping: {
+      bold({ children }) {
+        return `<strong>${serializeChildrenToHTMLString(children)}</strong>`
+      },
+    },
+    // handle unhandled nodes
+    unhandledNode: ({ node }) => {
+      return `[unknown node ${node.type.name}]`
+    },
+    // handle unhandled marks
+    unhandledMark: ({ mark }) => {
+      return `[unknown node ${mark.type.name}]`
+    },
+  },
+})
+```
+
+## Technical Details
+
+### Namespaced imports
+
+To cut down on bundle size in your application, the static renderer is split into three separate packages: `@tiptap/static-renderer/pm/html`, `@tiptap/static-renderer/pm/markdown`, and `@tiptap/static-renderer/pm/react`. This way, you only need to import the parts of the static renderer that you need. If you want the most flexibility, you can import the entire static renderer package with `@tiptap/static-renderer`.
+
+```ts
+// Just the HTML renderer
+import { renderToHTMLString } from '@tiptap/static-renderer/pm/html'
+
+// Just the markdown renderer
+import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
+
+// Just the React renderer
+import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
+
+// The entire static renderer
+import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'
+```
+
+Packages in the `json` namespace are also available for statically rendering without a runtime dependency on any prosemirror packages. But, these packages cannot automatically map Prosemirror nodes and marks to the target format. You will need to provide custom mappings for every node and mark in these packages.
+
+```ts
+// Just the HTML renderer
+import { renderJSONContentToString } from '@tiptap/static-renderer/json/html'
+
+// Just the React renderer
+import { renderJSONContentToReactElement } from '@tiptap/static-renderer/json/react'
+```
+
+These packages have the same API as the `pm` namespace, but:
+
+- they require you to provide custom mappings for every node and mark
+- they do not require `extensions`, as they are not dependent on the prosemirror package
+
+### Custom mappings
+
+The static renderer uses default mappings for Prosemirror nodes and marks to the target format. These mappings can be overridden by providing custom mappings in the options object. This allows you to customize the output of the renderer to suit your needs.
+
+To convert custom nodes and marks to the target format, you should provide a mapping function that takes a `node` or `mark` object as an argument and returns the appropriate target format element. If you encounter an unhandled node or mark, you can provide a function that will be called with the unhandled node or mark as an argument.
+
+### How does this work?
+
+The static renderer packages in the `json` namespace map over the JSON content and call the appropriate mapping function for each node and mark. The `renderJSONContentToString` function returns a string representing the JSON content, while the `renderJSONContentToReactElement` function returns a React element representing the JSON content.
+
+The static renderer packages in the `pm` namespace, extending the packages in the `json` namespace, utilize the `renderHTML` method of Tiptap extensions to generate default mappings of Prosemirror nodes/marks to the target format. These can be completely overridden by providing custom mappings in the options.
+
+## Source code
+
+[packages/static-renderer/](https://github.com/ueberdosis/tiptap/blob/main/packages/static-renderer/)

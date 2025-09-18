@@ -1,0 +1,145 @@
+---
+title: BulletList extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: BulletList
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: Everything looks more serious with a few bullet points.
+  type: node
+  icon: List
+meta:
+  title: BulletList extension | Tiptap Editor Docs
+  description: Use the Bullet list extension to enable bullet lists in your Tiptap Editor. Learn more about lists in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+This extension enables you to use bullet lists in the editor. They are rendered as `<ul>` HTML tags. Type <code>\* </code>, <code>- </code> or <code>+ </code> at the beginning of a new line and it will magically transform to a bullet list.
+
+<CodeDemo path="/Nodes/BulletList" />
+
+<Callout title="Modify backspace behavior" variant="info">
+  If you want to modify the standard behavior of backspace and delete functions for lists, you
+  should read about the [ListKeymap](/editor/extensions/functionality/listkeymap) extension.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+This extension requires the [`ListItem`](/editor/extensions/nodes/list-item) node.
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { BulletList } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [BulletList],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+BulletList.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### itemTypeName
+
+Specify the list item name.
+
+Default: `'listItem'`
+
+```js
+BulletList.configure({
+  itemTypeName: 'listItem',
+})
+```
+
+### keepMarks
+
+Decides whether to keep the marks from a previous line after toggling the list either using `inputRule` or using the button
+
+Default: `false`
+
+```js
+BulletList.configure({
+  keepMarks: true,
+})
+```
+
+### keepAttributes
+
+Decides whether to keep the attributes from a previous line after toggling the list either using `inputRule` or using the button
+
+Default: `false`
+
+```js
+BulletList.configure({
+  keepAttributes: true,
+})
+```
+
+## Commands
+
+### toggleBulletList()
+
+Toggles a bullet list.
+
+```js
+editor.commands.toggleBulletList()
+```
+
+## Keyboard shortcuts
+
+| Command          | Windows/Linux                                        | macOS                                            |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| toggleBulletList | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>8</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>8</kbd> |
+
+## Source code
+
+[packages/extension-list/src/bullet-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/bullet-list/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { BulletList } from '@tiptap/extension-list/bullet-list'
+
+new Editor({
+  extensions: [BulletList],
+})
+```

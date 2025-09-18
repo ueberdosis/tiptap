@@ -1,0 +1,46 @@
+---
+title: Document extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-document?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-document
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-document.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-document?minimal=true
+    label: Downloads
+meta:
+  title: Document extension | Tiptap Editor Docs
+  description: Use the required Document extension as a home for all your editor’s nodes and content. Learn more in our docs!
+  category: Editor
+extension:
+  name: Document
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-document
+  description: 'Everyone needs it, nobody talks about it: the Document extension.'
+  type: node
+  icon: FileText
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The `Document` extension is required, no matter what you build with Tiptap. It’s a so called “topNode”, a node that’s the home to all other nodes. Think of it like the `<body>` tag for your document.
+
+The node is very tiny though. It defines a name of the node (`doc`), is configured to be a top node (`topNode: true`) and that it can contain multiple other nodes (`block+`). That’s all. But have a look yourself:
+
+<CodeDemo path="/Nodes/Document" />
+
+<Callout title="Breaking Change" variant="warning">
+  Tiptap v1 tried to hide that node from you, but it has always been there. You have to explicitly
+  import it from now on (or use [StarterKit](/editor/extensions/functionality/starterkit)).
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-document
+```
+
+## Source code
+
+[packages/extension-document/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-document/)

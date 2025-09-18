@@ -1,0 +1,56 @@
+---
+title: JSX
+meta:
+  title: JSX | Tiptap Editor Docs
+  description: Use JSX to control the way your extensions render to HTML.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+When creating custom extensions, you often have to define how they should be rendered to HTML. Usually, this is done by defining a `renderHTML` function that returns Prosemirror render array including the tag name, attributes and content holes.
+
+With the Tiptap JSX renderer, you can use JSX to define how your extensions should be rendered.
+
+<CodeDemo path="/Examples/JSX" />
+
+## Using JSX in your extension
+
+To use JSX in your extension, you will need a bundler that can handle **JSX** or **TSX** files like Vite or Webpack. Most frameworks like Next.js, Remix or Nuxt already should be able to handle this.
+
+By default, the JSX runtime of React is used if not configured otherwise. This will cause issues if you are trying to use JSX in a non-React environment like a Tiptap extension.
+
+To handle this, you can add a comment to the top of your file to specify which JSX runtime the bundler should use. Tiptap comes with it's own bundler from `@tiptap/core`.
+
+```jsx
+/** @jsxImportSource @tiptap/core */
+
+// your code here
+```
+
+## Writing JSX in the `renderHTML` function
+
+Now that the bundler should be able to handle JSX for Tiptap, you can use JSX in your `renderHTML` function.
+
+```jsx
+/** @jsxImportSource @tiptap/core */
+
+import { Node } from '@tiptap/core'
+
+const MyNode = Node.create({
+  // ... your node configuration
+
+  renderHTML({ HTMLAttributes }) {
+    return (
+      <div {...HTMLAttributes}>
+        <p>This is your custom node. And here is your content hole:</p>
+        <slot />
+      </div>
+    )
+  }
+})
+```
+
+The `<slot />` tag is used to define a content hole for Prosemirror via JSX. This is the position your editable content will be rendered into.
+
+**Note** that this is not using any component library like React or Vue under the hood and won't support hooks, states or other library specific features.

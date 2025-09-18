@@ -1,0 +1,80 @@
+---
+title: Input Rules
+meta:
+  title: Input Rules in Tiptap | Tiptap Editor Docs
+  description: Create input rules to automatically transform text as you type in Tiptap. Learn how to use and create input rules in the docs!
+  category: Editor
+---
+
+Input rules are a powerful feature in Tiptap that allow you to automatically transform text as you type. They can be used to create shortcuts for formatting, inserting content, or triggering commands based on specific patterns in the text.
+
+## What are input rules?
+
+Input rules are pattern-based triggers that watch for specific text input and automatically transform it into something else. For example, typing `**bold**` can automatically turn the text into bold formatting, or typing `1.` at the start of a line can create an ordered list. Input rules are especially useful for implementing Markdown-like shortcuts and improving the user experience.
+
+## How do input rules work in Tiptap?
+
+Tiptap uses input rules under the hood to provide many of its default shortcuts (like lists, blockquotes, and marks). Input rules are defined as regular expressions that match user input. When the pattern is detected, the rule executes a transformation—such as applying a mark, inserting a node, or running a command.
+
+Input rules are typically registered inside extensions (nodes, marks, or generic extensions) using the `addInputRules()` method. Tiptap provides helper functions like `markInputRule` and `nodeInputRule` to simplify the creation of input rules for marks and nodes.
+
+## Understanding `markInputRule` and `nodeInputRule`
+
+Tiptap provides two helper functions to simplify the creation of input rules:
+
+- **`markInputRule`**: For applying marks (like bold, italic, highlight) based on a pattern.
+- **`nodeInputRule`**: For inserting or transforming nodes (like images, figures, custom blocks) based on a pattern.
+
+Both functions accept a configuration object with at least these properties:
+
+- `find`: A regular expression to match the input pattern.
+- `type`: The mark or node type to apply/insert.
+- `getAttributes` (optional): A function to extract and return attributes from the regex match.
+
+### Extracting information with `getAttributes`
+
+The `getAttributes` function allows you to extract data from the matched input and pass it as attributes to the node or mark. This is especially useful for nodes like images or figures, where you want to capture values like `src`, `alt`, or `title` from the user's input.
+
+#### Example: Using `getAttributes` in a node input rule
+
+```ts
+addInputRules() {
+  return [
+    nodeInputRule({
+      find: /!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)$/, // Matches ![alt](src "title")
+      type: this.type,
+      getAttributes: match => {
+        const [, alt, src, title] = match
+        return { src, alt, title }
+      },
+    }),
+  ]
+},
+```
+
+In this example, when a user types something like `![Alt text](image.png "Optional title")`, the input rule extracts the `alt`, `src`, and `title` from the match and passes them as attributes to the node.
+
+#### Example: Using `getAttributes` in a mark input rule
+
+```ts
+addInputRules() {
+  return [
+    markInputRule({
+      find: /\*\*([^*]+)\*\*$/, // Matches **bold**
+      type: this.type,
+      getAttributes: match => {
+        // You can extract custom attributes here if needed
+        return {}
+      },
+    }),
+  ]
+},
+```
+
+### Tips
+
+- The `match` parameter in `getAttributes` is the result of the regular expression, so you can destructure it to get the captured groups.
+- You can use `getAttributes` to set any attributes your node or mark supports, such as `href` for links, `src` for images, or custom data fields.
+- If you don’t need to extract attributes, you can omit `getAttributes`.
+
+For more details, see the [ProseMirror input rules docs](https://prosemirror.net/docs/ref/#inputrules.InputRule).

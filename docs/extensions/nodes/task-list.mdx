@@ -1,0 +1,117 @@
+---
+title: TaskList extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: Task List
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: 'Adds support for tasks (though it won’t make sure you actually complete them).'
+  type: node
+  icon: ListChecks
+meta:
+  title: TaskList extension | Tiptap Editor Docs
+  description: Use the Task List extension in Tiptap to add support for task lists rendered as <ul data-type="taskList">. More in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension enables you to use task lists in the editor. They are rendered as `<ul data-type="taskList">`. This implementation doesn’t require any framework, it’s using Vanilla JavaScript only.
+
+Type <code>[ ] </code> or <code>[x] </code> at the beginning of a new line and it will magically transform to a task list.
+
+<CodeDemo path="/Nodes/TaskList" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+This extension requires the [`TaskItem`](/editor/extensions/nodes/task-item) extension.
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { TaskList } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [TaskList],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+TaskList.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### itemTypeName
+
+Specify the list item name.
+
+Default: `'taskItem'`
+
+```js
+TaskList.configure({
+  itemTypeName: 'taskItem',
+})
+```
+
+## Commands
+
+# toggleTaskList()
+
+Toggle a task list.
+
+```js
+editor.commands.toggleTaskList()
+```
+
+## Keyboard shortcuts
+
+| Command          | Windows/Linux                                        | macOS                                            |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| toggleTaskList() | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>9</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>9</kbd> |
+
+## Source code
+
+[packages/extension-list/src/task-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/task-list/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { TaskList } from '@tiptap/extension-list/task-list'
+
+new Editor({
+  extensions: [TaskList],
+})
+```

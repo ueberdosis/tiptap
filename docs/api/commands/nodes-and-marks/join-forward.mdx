@@ -1,0 +1,15 @@
+---
+title: joinForward command
+meta:
+  title: joinForward command | Tiptap Editor Docs
+  description: Join two nodes forwards from the current selection in the Tiptap Editor with the joinForward command. Learn more in our docs!
+  category: Editor
+---
+
+The `joinForward` command joins two nodes forwards from the current selection. If the selection is empty and at the end of a textblock, `joinForward` will try to reduce the distance between that block and the block after it. [See also](https://prosemirror.net/docs/ref/#commands.joinForward)
+
+## Use the joinForward command
+
+```js
+editor.commands.joinForward()
+```

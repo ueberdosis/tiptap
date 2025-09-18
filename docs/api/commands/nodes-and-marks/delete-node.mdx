@@ -1,0 +1,25 @@
+---
+title: deleteNode command
+meta:
+  title: deleteNode command | Tiptap Editor Docs
+  description: Use the deleteNode command in Tiptap to selectively remove nodes from your document. Learn more in the docs.
+  category: Editor
+---
+
+The `deleteNode` command deletes a node inside the current selection. It requires a `typeOrName` argument, which can be a string or a `NodeType` to find the node that needs to be deleted. After deleting the node, the view will automatically scroll to the cursors position.
+
+## Parameters
+
+`typeOrName: string | NodeType`
+
+## Use the deleteNode command
+
+```js
+// deletes a paragraph node
+editor.commands.deleteNode('paragraph')
+
+// or
+
+// deletes a custom node
+editor.commands.deleteNode(MyCustomNode)
+```

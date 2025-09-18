@@ -1,0 +1,510 @@
+---
+title: Extension API
+meta:
+  title: Extension API | Tiptap Editor Docs
+  description: Create a new extension for your Tiptap editor and create a unique editor experience from scratch. Learn more in the docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+The power of Tiptap lies in its flexibility. You can create your own extensions from scratch and build a unique editor experience tailored to your needs.
+
+The base extension structure is the same for all extensions, whether you're creating a node, a mark, or a functionality change. And, everything in Tiptap is based on extensions.
+
+## Creating an extension
+
+Extensions add new capabilities to Tiptap. You'll read the word "extension" a lot in the docs, even for nodes and marks. But there are literal extensions, too. These can't add to the schema (like marks and nodes do), but they can add functionality or change the behavior of the editor.
+
+A good example would be something that listens to the editor's events and does something with them. Like this:
+
+```typescript
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  onUpdate() {
+    console.log(this.editor.getJSON())
+  },
+})
+```
+
+You can also use a callback function to create an extension. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create(() => {
+  // Define variables or functions to use inside your extension
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customExtension',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+This extension listens to the editor's `update` event and logs the editor's current JSON representation to the console.
+
+It is installed to the editor like this:
+
+```typescript
+import { Editor } from '@tiptap/core'
+
+const editor = new Editor({
+  extensions: [CustomExtension],
+})
+
+// Or if using React or Vue
+
+const editor = useEditor({
+  extensions: [CustomExtension],
+})
+```
+
+This extensions array can contain any number of extensions. They will be installed in the order they are listed, or sorted by their `priority` property.
+
+Now that we've seen the basic structure of an extension, let's dive into all of the extension options you can use to create your own extensions.
+
+## Extension options
+
+When creating an extension, you can define a set of options that can be configured by the user. These options can be used to customize the behavior of the extension, or to provide additional functionality.
+
+### `name`
+
+The name of the extension. This is used to identify the extension in the editor's extension manager.
+
+```typescript
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+})
+```
+
+If the extension is a node or a mark, the name is used to identify the node or mark in the editor's schema and therefore persisted to the JSON representation of the editor's content. See [store your content as JSON](/guides/output-json-html#option-1-json) for more information.
+
+### `priority`
+
+The priority defines the order in which extensions are registered. The default priority is `100`, that’s what most extension have. Extensions with a higher priority will be loaded earlier.
+
+```js
+import Link from '@tiptap/extension-link'
+
+const CustomLink = Link.extend({
+  priority: 1000,
+})
+```
+
+The order in which extensions are loaded influences two things:
+
+1. Plugin order (ProseMirror plugins of extensions with a higher priority will run first.)
+2. Schema order
+
+The [`Link`](/editor/extensions/marks/link) mark for example has a higher priority, which means it will be rendered as `<a href="…"><strong>Example</strong></a>` instead of `<strong><a href="…">Example</a></strong>`.
+
+### `addOptions`
+
+The `addOptions` method is used to define the extension's options. This method should return an object with the options that can be configured by the user.
+
+```typescript
+type CustomExtensionOptions = {
+  customOption: string
+}
+
+declare module '@tiptap/core' {
+  interface ExtensionOptions {
+    customOption: CustomExtensionOptions
+  }
+}
+
+const CustomExtension = Extension.create<CustomExtensionOptions>({
+  name: 'customExtension',
+
+  addOptions() {
+    return {
+      customOption: 'default value',
+    }
+  },
+})
+```
+
+This exposes configuration which can be set when installing the extension:
+
+```typescript
+const editor = new Editor({
+  extensions: [CustomExtension.configure({ customOption: 'new value' })],
+})
+```
+
+### `addStorage`
+
+The `addStorage` method is used to define the extension's storage (essentially a simple state manager). This method should return an object with the storage that can be used by the extension.
+
+```typescript
+type CustomExtensionStorage = {
+  customValue: string
+}
+
+declare module '@tiptap/core' {
+  interface ExtensionStorage {
+    customExtension: CustomExtensionStorage
+  }
+}
+
+const CustomExtension = Extension.create<any, CustomExtensionStorage>({
+  name: 'customExtension',
+
+  addStorage() {
+    return {
+      customValue: 'default value',
+    }
+  },
+})
+```
+
+This exposes storage which can be accessed within the extension:
+
+```typescript
+const CustomExtension = Extension.create<any, CustomExtensionStorage>({
+  name: 'customExtension',
+
+  addStorage() {
+    return {
+      customValue: 'default value',
+    }
+  },
+
+  onUpdate() {
+    console.log(this.storage.customValue) // 'default value'
+  },
+})
+```
+
+Or, by the editor:
+
+```typescript
+const editor = new Editor({
+  extensions: [CustomExtension],
+})
+
+editor.storage.customExtension.customValue // 'default value'
+```
+
+<Callout title="Notice" variant="info">
+  The `editor.storage` is namespaced by the extension&apos;s name.
+</Callout>
+
+### `addCommands`
+
+The `addCommands` method is used to define the extension's commands. This method should return an object with the commands that can be executed by the user.
+
+```typescript
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    customExtension: {
+      customCommand: () => ReturnType
+    }
+  }
+}
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addCommands() {
+    return {
+      customCommand:
+        () =>
+        ({ commands }) => {
+          return commands.setContent('Custom command executed')
+        },
+    }
+  },
+})
+```
+
+<Callout title="Use the commands parameter inside of addCommands" variant="warning">
+  To access other commands inside `addCommands` use the `commands` parameter that’s passed to it.
+</Callout>
+
+This exposes commands which can be executed by the user:
+
+```typescript
+const editor = new Editor({
+  extensions: [CustomExtension],
+})
+
+editor.commands.customCommand() // 'Custom command executed'
+editor.chain().customCommand().run() // 'Custom command executed'
+```
+
+### `addKeyboardShortcuts`
+
+The `addKeyboardShortcuts` method is used to define keyboard shortcuts. This method should return an object with the keyboard shortcuts that can be used by the user.
+
+```typescript
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addKeyboardShortcuts() {
+    return {
+      'Mod-k': () => {
+        console.log('Keyboard shortcut executed')
+      },
+    }
+  },
+})
+```
+
+This exposes keyboard shortcuts which can be used by the user.
+
+### `addInputRules`
+
+With input rules you can define regular expressions to listen for user inputs. They are used for markdown shortcuts, or for example to convert text like `(c)` to a `©` (and many more) with the [`Typography`](/editor/extensions/functionality/typography) extension. Use the `markInputRule` helper function for marks, and the `nodeInputRule` for nodes.
+
+By default text between two tildes on both sides is transformed to ~~striked text~~. If you want to think one tilde on each side is enough, you can overwrite the input rule like this:
+
+```typescript
+import { Extension } from '@tiptap/core'
+import { markInputRule } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addInputRules() {
+    return [
+      markInputRule({
+        find: /(?:~)((?:[^~]+))(?:~)$/,
+        type: this.editor.schema.marks.strike,
+      }),
+    ]
+  },
+})
+```
+
+Now, when you type `~striked text~`, it will be transformed to ~~striked text~~.
+
+Want to learn more about input rules? Check out the [Input Rules](/editor/api/input-rules) documentation.
+
+### `addPasteRules`
+
+Paste rules work like input rules (see above) do. But instead of listening to what the user types, they are applied to pasted content.
+
+There is one tiny difference in the regular expression. Input rules typically end with a `$` dollar sign (which means “asserts position at the end of a line”), paste rules typically look through all the content and don’t have said `$` dollar sign.
+
+Taking the example from above and applying it to the paste rule would look like the following example.
+
+```typescript
+import { Extension } from '@tiptap/core'
+import { markPasteRule } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addPasteRules() {
+    return [
+      markPasteRule({
+        find: /(?:~)((?:[^~]+))(?:~)/g,
+        type: this.editor.schema.marks.strike,
+      }),
+    ]
+  },
+})
+```
+
+Want to learn more about paste rules? Check out the [Paste Rules](/editor/api/paste-rules) documentation.
+
+### Events
+
+You can even move your [event listeners](/editor/api/events) to a separate extension. Here is an example with listeners for all events:
+
+```typescript
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  onBeforeCreate() {
+    // The editor is about to be created.
+  },
+  onCreate() {
+    // The editor is ready.
+  },
+  onUpdate() {
+    // The content has changed.
+  },
+  onSelectionUpdate({ editor }) {
+    // The selection has changed.
+  },
+  onTransaction({ transaction }) {
+    // The editor state has changed.
+  },
+  onFocus({ event }) {
+    // The editor is focused.
+  },
+  onBlur({ event }) {
+    // The editor isn’t focused anymore.
+  },
+  onDestroy() {
+    // The editor is being destroyed.
+  },
+})
+```
+
+### `addProseMirrorPlugins`
+
+You can add ProseMirror plugins to your extension. This is useful if you want to extend the editor with ProseMirror plugins.
+
+#### Using an existing ProseMirror plugin
+
+You can wrap existing ProseMirror plugins in Tiptap extensions like shown in the example below.
+
+```typescript
+import { history } from '@tiptap/pm/history'
+
+const History = Extension.create({
+  addProseMirrorPlugins() {
+    return [
+      history(),
+      // …
+    ]
+  },
+})
+```
+
+#### Creating a ProseMirror plugin
+
+You can also create custom ProseMirror plugins. Here is an example of a custom ProseMirror plugin that logs a message to the console.
+
+```typescript
+import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Extension } from '@tiptap/core'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('customPlugin'),
+        view() {
+          return {
+            update() {
+              console.log('Custom plugin updated')
+            },
+          }
+        },
+      }),
+    ]
+  },
+})
+```
+
+To learn more about ProseMirror plugins, check out the [ProseMirror documentation](https://prosemirror.net/docs/ref/#state.Plugin).
+
+### `addExtensions`
+
+You can add more extensions to your extension. This is useful if you want to create a bundle of extensions that belong together.
+
+```typescript
+import { Extension } from '@tiptap/core'
+import CustomExtension1 from './CustomExtension1'
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  addExtensions() {
+    return [
+      CustomExtension1.configure({
+        name: 'customExtension1',
+      }),
+    ]
+  },
+})
+```
+
+### `extendNodeSchema`
+
+You can extend the editor's NodeConfig with the `extendNodeSchema` method. This is useful if you want to add additional attributes to the node schema.
+
+```typescript
+import { Extension } from '@tiptap/core'
+
+declare module '@tiptap/core' {
+  // This adds a new configuration option to the NodeConfig
+  interface NodeConfig {
+    customAttribute: {
+      default: null
+    }
+  }
+}
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  extendNodeSchema() {
+    return {
+      customAttribute: {
+        default: null,
+      },
+    }
+  },
+})
+```
+
+### `extendMarkSchema`
+
+You can extend the editor's MarkConfig with the `extendMarkSchema` method. This is useful if you want to add additional attributes to the mark schema.
+
+```typescript
+import { Extension } from '@tiptap/core'
+
+declare module '@tiptap/core' {
+  // This adds a new configuration option to the MarkConfig
+  interface MarkConfig {
+    customAttribute: {
+      default: null
+    }
+  }
+}
+
+const CustomExtension = Extension.create({
+  name: 'customExtension',
+
+  extendMarkSchema() {
+    return {
+      customAttribute: {
+        default: null,
+      },
+    }
+  },
+})
+```
+
+## What’s available in this?
+
+Those extensions aren’t classes, but you still have a few important things available in `this` everywhere in the extension.
+
+```js
+// Name of the extension, for example 'bulletList'
+this.name
+
+// Editor instance
+this.editor
+
+// ProseMirror type (if a node or mark)
+this.type
+
+// Object with all settings
+this.options
+
+// Everything that’s in the extended extension
+this.parent
+
+// Storage object
+this.storage
+```

@@ -1,0 +1,103 @@
+---
+title: Line Height extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-text-style?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-text-style
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-text-style.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-text-style?minimal=true
+    label: Downloads
+meta:
+  title: Line Height extension | Tiptap Editor Docs
+  description: Add text line-height support to your Tiptap editor with the Color extension. Learn more in our documentation.
+  category: Editor
+extension:
+  name: Line Height
+  link:
+  description: Add text line-height support to your editor (comes with unlimited colors).
+  type: extension
+  icon: LetterText
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension enables you to set the background color in the editor. It uses the [`TextStyle`](/editor/extensions/marks/text-style) mark, which renders a `<span>` tag (and only that). The background color is applied as inline style then, for example `<span style="background-color: #958DF1">`.
+
+<CodeDemo path="/Extensions/LineHeight" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-text-style
+```
+
+This extension requires the [`TextStyle`](/editor/extensions/marks/text-style) mark.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyle, LineHeight } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyle, LineHeight],
+})
+```
+
+This extension is installed by default with the `TextStyleKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+
+new Editor({
+  extensions: [TextStyleKit],
+})
+```
+
+## Settings
+
+### types
+
+A list of marks to which the color attribute should be applied to.
+
+Default: `['textStyle']`
+
+```js
+LineHeight.configure({
+  types: ['textStyle'],
+})
+```
+
+## Commands
+
+### setLineHeight()
+
+Applies the given line height as inline style.
+
+```js
+editor.commands.setLineHeight('1.1')
+```
+
+### unsetLineHeight()
+
+Removes any line height.
+
+```js
+editor.commands.unsetLineHeight()
+```
+
+## Source code
+
+[packages/extension-text-style/src/line-height/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-text-style/src/line-height/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { LineHeight } from '@tiptap/extension-text-style/line-height'
+
+new Editor({
+  extensions: [LineHeight],
+})
+```

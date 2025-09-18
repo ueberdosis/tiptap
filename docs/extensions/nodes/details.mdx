@@ -1,0 +1,90 @@
+---
+title: Details extension
+icon: menu-unfold-line
+extension:
+  name: Details
+  description: Add collapsible details nodes to your editor content.
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-details
+  type: node
+  icon: ListCollapse
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-details.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-details
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-details.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-details?minimal=true
+    label: Downloads
+meta:
+  title: Details extension | Tiptap Editor Docs
+  description: Use the Details extension in Tiptap to enable the <details> HTML tag for showing and hiding content. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+The Details extension enables you to use the `<details>` HTML tag in the editor. This is great to show and hide content.
+
+<CodeDemo path="/Nodes/Details" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-details
+```
+
+This extension requires the [`DetailsSummary`](/editor/extensions/nodes/details-summary) and [`DetailsContent`](/editor/extensions/nodes/details-content) node.
+
+## Settings
+
+### persist
+
+Specify if the open status should be saved in the document. Defaults to `false`.
+
+```js
+Details.configure({
+  persist: true,
+})
+```
+
+### openClassName
+
+Specifies a CSS class that is set when toggling the content. Defaults to `is-open`.
+
+```js
+Details.configure({
+  openClassName: 'is-open',
+})
+```
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Details.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setDetails()
+
+Wrap content in a details node.
+
+```js
+editor.commands.setDetails()
+```
+
+### unsetDetails()
+
+Unwrap a details node.
+
+```js
+editor.commands.unsetDetails()
+```

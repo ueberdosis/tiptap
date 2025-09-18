@@ -1,0 +1,40 @@
+---
+title: CDN
+meta:
+  title: CDN | Tiptap Editor Docs
+  description: Learn how to use Tiptap via CDN for quick and easy setup in demos or tests. Explore our quick start guide in the docs!
+  category: Editor
+---
+
+For testing purposes or demos, use our esm.sh CDN builds. Here are a few lines of code you need to get started.
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div class="element"></div>
+    <script type="module">
+      import { Editor } from 'https://esm.sh/@tiptap/core'
+      import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
+      const editor = new Editor({
+        element: document.querySelector('.element'),
+        extensions: [StarterKit],
+        content: '<p>Hello World!</p>',
+      })
+    </script>
+  </body>
+</html>
+```
+
+Tiptap should now be visible in your browser. Time to give yourself a pat on the back! :)
+
+## Next steps
+
+- [Configure your editor](/editor/getting-started/configure)
+- [Add styles to your editor](/editor/getting-started/style-editor)
+- [Learn more about Tiptaps concepts](/editor/core-concepts/introduction)
+- [Learn how to persist the editor state](/editor/core-concepts/persistence)
+- [Start building your own extensions](/editor/extensions/custom-extensions)

@@ -1,0 +1,21 @@
+---
+title: splitListItem command
+meta:
+  title: splitListItem command | Tiptap Editor Docs
+  description: Use the splitListItem command in Tiptap to split one list item into two separate list items. Learn more in our docs!
+  category: Editor
+---
+
+`splitListItem` splits one list item into two separate list items. If this is a nested list, the wrapping list item should be split.
+
+## Parameters
+
+`typeOrName: string | NodeType`
+
+The type of node that should be split into two separate list items.
+
+## Use the splitListItem command
+
+```js
+editor.commands.splitListItem('bulletList')
+```

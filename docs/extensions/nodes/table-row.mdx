@@ -1,0 +1,62 @@
+---
+title: TableRow extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-table?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-table
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-table.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-table?minimal=true
+    label: Downloads
+extension:
+  name: Table Row
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-table
+  description: 'The perfect middle ground between a table and a table cell.'
+  type: node
+  icon: Table
+meta:
+  title: TableRow extension | Tiptap Editor Docs
+  description: Use the Table Row extension in Tiptap to add rows to your tables for a better table structure. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+What’s a table without rows? Add this extension to make your tables usable.
+
+<CodeDemo path="/Nodes/Table" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-table
+```
+
+This extension requires the [`Table`](/editor/extensions/nodes/table) extension to be installed.
+
+This extension is installed by default with the `TableKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { TableKit } from '@tiptap/extension-table'
+
+new Editor({
+  extensions: [TableKit],
+})
+```
+
+## Source code
+
+[packages/extension-table/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-table/src/row)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { TableRow } from '@tiptap/extension-table/row'
+
+new Editor({
+  extensions: [TableRow],
+})
+```

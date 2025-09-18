@@ -1,0 +1,80 @@
+---
+title: HardBreak extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-hard-break?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-hard-break
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-hard-break.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-hard-break?minimal=true
+    label: Downloads
+extension:
+  name: Hard break
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-hard-break
+  description: Sometimes we all need a break, even if it’s just a line break.
+  type: node
+  icon: WrapText
+meta:
+  title: HardBreak extension | Tiptap Editor Docs
+  description: Use the Hard Break extension in Tiptap to add support for the <br> HTML tag for line breaks. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The HardBreak extensions adds support for the `<br>` HTML tag, which forces a line break.
+
+<CodeDemo path="/Nodes/HardBreak" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-hard-break
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+HardBreak.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### keepMarks
+
+Decides whether to keep marks after a line break. Based on the `keepOnSplit` option for marks.
+
+Default: `true`
+
+```js
+HardBreak.configure({
+  keepMarks: false,
+})
+```
+
+## Commands
+
+### setHardBreak()
+
+Add a line break.
+
+```js
+editor.commands.setHardBreak()
+```
+
+## Keyboard shortcuts
+
+| Command      | Windows/Linux                                                               | macOS                                                                   |
+| ------------ | --------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| setHardBreak | <kbd>Shift</kbd> + <kbd>Enter</kbd> + <kbd>Control</kbd> + <kbd>Enter</kbd> | <kbd>Shift</kbd> + <kbd>Enter</kbd> + <kbd>Cmd</kbd> + <kbd>Enter</kbd> |
+
+## Source code
+
+[packages/extension-hard-break/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-hard-break/)

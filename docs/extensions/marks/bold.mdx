@@ -1,0 +1,91 @@
+---
+title: Bold extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-bold?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-bold
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-bold.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-bold?minimal=true
+    label: Downloads
+extension:
+  name: Bold
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-bold
+  description: 'Make your text bold and let it stand out.'
+  type: mark
+  icon: Bold
+meta:
+  title: Bold extension | Tiptap Editor Docs
+  description: Use the Bold extension in Tiptap to make your text bold and let it stand out. Learn more in our docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+Use this extension to render text in **bold**. If you pass `<strong>`, `<b>` tags, or text with inline `style` attributes setting the `font-weight` CSS rule in the editor’s initial content, they all will be rendered accordingly.
+
+Type `**two asterisks**` or `__two underlines__` and it will magically transform to **bold** text while you type.
+
+<CodeDemo path="/Marks/Bold" />
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<strong>` HTML tags when reading contents of the `Editor` instance. All text marked bold, regardless of the method will be normalized to `<strong>` HTML tags.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-bold
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Bold.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setBold()
+
+Mark text as bold.
+
+```js
+editor.commands.setBold()
+```
+
+### toggleBold()
+
+Toggle the bold mark.
+
+```js
+editor.commands.toggleBold()
+```
+
+### unsetBold()
+
+Remove the bold mark.
+
+```js
+editor.commands.unsetBold()
+```
+
+## Keyboard shortcuts
+
+| Command      | Windows/Linux                     | macOS                         |
+| ------------ | --------------------------------- | ----------------------------- |
+| toggleBold() | <kbd>Control</kbd> + <kbd>B</kbd> | <kbd>Cmd</kbd> + <kbd>B</kbd> |
+
+## Source code
+
+[packages/extension-bold/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-bold/)

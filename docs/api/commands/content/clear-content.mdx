@@ -1,0 +1,26 @@
+---
+title: clearContent command
+meta:
+  title: clearContent command | Tiptap Editor Docs
+  description: Delete all content in the editor with the clearContent command in your Tiptap Editor. Learn more in the docs.
+  category: Editor
+---
+
+The `clearContent` command deletes the current document. The editor will maintain at least one empty paragraph due to schema requirements.
+
+See also: [setContent](/editor/api/commands/content/set-content), [insertContent](/editor/api/commands/content/insert-content)
+
+## Parameters
+
+`emitUpdate?: boolean (true)`
+Whether to emit an update event. Defaults to `true` (Note: This changed from `false` in v2).
+
+## Examples
+
+```js
+// Clear content (emits update event by default)
+editor.commands.clearContent()
+
+// Clear content without emitting update
+editor.commands.clearContent(false)
+```

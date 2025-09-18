@@ -1,0 +1,56 @@
+---
+title: Vanilla JavaScript
+meta:
+  title: Vanilla JavaScript | Tiptap Editor Docs
+  description: Learn how to set up the Tiptap Editor with Vanilla JavaScript, install dependencies and initialize the editor in the docs!
+category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+Are you using plain JavaScript or a framework that isn't listed? No worries, we provide everything you need.
+
+<Callout title="Hint" variant="hint">
+    If you don't use a bundler like Webpack or Rollup, please follow the [CDN](/editor/getting-started/install/cdn) guide instead. Since Tiptap is built in a modular way, you will need to use `<script type="module">` in your HTML to get our CDN imports working.
+</Callout>
+
+## Install dependencies
+
+For the following example, you will need `@tiptap/core` (the actual editor), `@tiptap/pm` (the ProseMirror library), and `@tiptap/starter-kit`. The StarterKit doesn't include all extensions, only the most common ones.
+
+```bash
+npm install @tiptap/core @tiptap/pm @tiptap/starter-kit
+```
+
+### Add markup
+
+Add the following HTML where you'd like to mount the editor:
+
+```html
+<div class="element"></div>
+```
+
+## Initialize the editor
+
+Everything is in place, so let's set up the editor. Add the following code to your JavaScript:
+
+```js
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
+
+new Editor({
+  element: document.querySelector('.element'),
+  extensions: [StarterKit],
+  content: '<p>Hello World!</p>',
+})
+```
+
+Open your project in the browser to see Tiptap in action. Good work!
+
+## Next steps
+
+- [Configure your editor](/editor/getting-started/configure)
+- [Add styles to your editor](/editor/getting-started/style-editor)
+- [Learn more about Tiptaps concepts](/editor/core-concepts/introduction)
+- [Learn how to persist the editor state](/editor/core-concepts/persistence)
+- [Start building your own extensions](/editor/extensions/custom-extensions)

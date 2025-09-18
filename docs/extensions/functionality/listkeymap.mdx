@@ -1,0 +1,103 @@
+---
+title: List Keymap extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: List Keymap
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: Lists’ behavior can be tricky, so we made this small extension to make them easier to work with.
+  type: extension
+  icon: Keyboard
+meta:
+  title: List Keymap extension | Tiptap Editor Docs
+  description: Add extra keymap handlers to change the default backspace and delete behavior for lists. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The List Keymap extension modifies the default ProseMirror and Tiptap behavior. Without this extension, pressing backspace at the start of a list item keeps the list item content on the same line. With the List Keymap, the content is lifted into the list item above.
+
+<CodeDemo path="/Extensions/ListKeymap" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+And import it in your editor:
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKeymap } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [ListKeymap],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### listTypes
+
+An array of list items and their parent wrapper node types.
+
+```js
+ListKeymap.configure({
+  listTypes: [
+    {
+      itemName: 'taskItem',
+      wrapperNames: ['customTaskList'],
+    },
+  ],
+})
+```
+
+Default value:
+
+```json
+[
+  {
+    "itemName": "listItem",
+    "wrapperNames": ["bulletList", "orderedList"]
+  },
+  {
+    "itemName": "taskItem",
+    "wrapperNames": ["taskList"]
+  }
+]
+```
+
+## Source code
+
+[packages/extension-list/src/keymap/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/keymap/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { ListKeymap } from '@tiptap/extension-list/keymap'
+
+new Editor({
+  extensions: [ListKeymap],
+})
+```

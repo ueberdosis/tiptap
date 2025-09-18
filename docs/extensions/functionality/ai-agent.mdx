@@ -1,0 +1,40 @@
+---
+title: AI Agent
+tags:
+  - type: team
+  - type: beta
+meta:
+  category: Editor
+extension:
+  name: AI Agent
+  description: Integrate an AI Assistant that can read and edit your document based on a user-defined task.
+  type: extension
+  icon: Bot
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+Integrate an AI Agent that can read and edit your document based on a user-defined task. The AI Agent
+extension lets you build AI Agents that edit rich text documents - from simple chatbot assistants to
+complex document editing workflows.
+
+<Callout title="More details" variant="hint">
+  For more detailed information on how to integrate, install, and configure the AI Agent extension,
+  please visit our [feature page](/content-ai/capabilities/agent/overview).
+</Callout>
+
+<CodeDemo
+  isPro
+  path="/Extensions/AiAgent"
+  src="https://develop--tiptap-pro.netlify.app/preview/Extensions/AiAgent"
+/>
+
+[View fullscreen demo](https://ai-agent.tiptap.dev).
+
+## Key features
+
+- Works out of the box with Tiptap Cloud. Zero configuration required.
+- Use with your own custom LLM and AI Agent framework of choice.
+- Combine Tiptap's text editing capabilities with your custom tools and RAG pipelines.
+- Compatible with the AI Changes extension. Let your users review and accept/reject AI-generated changes.

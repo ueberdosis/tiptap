@@ -1,0 +1,126 @@
+---
+title: Paste Rules
+meta:
+  title: Paste Rules in Tiptap | Tiptap Editor Docs
+  description: Create paste rules to automatically transform pasted content in Tiptap. Learn how to use and create paste rules in the docs!
+  category: Editor
+---
+
+Paste rules are a powerful feature in Tiptap that allow you to automatically transform content as it is pasted into the editor. They can be used to create shortcuts for formatting, inserting content, or triggering commands based on specific patterns in pasted text.
+
+## What are paste rules?
+
+Paste rules are pattern-based triggers that watch for specific text or content when it is pasted into the editor, and automatically transform it into something else. For example, pasting `**bold**` can automatically turn the text into bold formatting, or pasting an image URL can create an image node. Paste rules are especially useful for implementing Markdown-like shortcuts and improving the user experience when pasting content from external sources.
+
+## How do paste rules work in Tiptap?
+
+Tiptap uses paste rules to provide many of its default shortcuts and behaviors for pasted content. Paste rules are defined as regular expressions or custom matchers that match pasted text. When the pattern is detected, the rule executes a transformation—such as applying a mark, inserting a node, or running a command.
+
+Paste rules are typically registered inside extensions (nodes, marks, or generic extensions) using the `addPasteRules()` method. Tiptap provides helper functions like `markPasteRule` and `nodePasteRule` to simplify the creation of paste rules for marks and nodes.
+
+## Creating a paste rule in an extension
+
+To add a custom paste rule, define the `addPasteRules()` method in your extension. This method should return an array of paste rules.
+
+### Example: Creating a highlight mark with a paste rule
+
+```ts
+import { Mark, markPasteRule } from '@tiptap/core'
+
+const HighlightMark = Mark.create({
+  name: 'highlight',
+
+  addPasteRules() {
+    return [
+      markPasteRule({
+        find: /(?:==)((?:[^=]+))(?:==)/g, // Matches ==highlight==
+        type: this.type,
+      }),
+    ]
+  },
+})
+```
+
+### Example: Creating a custom figure node with a paste rule
+
+```ts
+import { Node, nodePasteRule } from '@tiptap/core'
+
+const FigureNode = Node.create({
+  name: 'figure',
+
+  addPasteRules() {
+    return [
+      nodePasteRule({
+        find: /!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, // Matches ![alt](src "title")
+        type: this.type,
+        getAttributes: match => {
+          const [, alt, src, title] = match
+          return { src, alt, title }
+        },
+      }),
+    ]
+  },
+})
+```
+
+## Understanding `markPasteRule` and `nodePasteRule`
+
+Tiptap provides two helper functions to simplify the creation of paste rules:
+
+- **`markPasteRule`**: For applying marks (like bold, italic, highlight) based on a pattern in pasted content.
+- **`nodePasteRule`**: For inserting or transforming nodes (like images, figures, custom blocks) based on a pattern in pasted content.
+
+Both functions accept a configuration object with at least these properties:
+
+- `find`: A regular expression or matcher function to match the pasted pattern.
+- `type`: The mark or node type to apply/insert.
+- `getAttributes` (optional): A function to extract and return attributes from the regex match.
+- `getContent` (nodePasteRule only, optional): A function or value to provide the node's content.
+
+### Extracting information with `getAttributes`
+
+The `getAttributes` function allows you to extract data from the matched input and pass it as attributes to the node or mark. This is especially useful for nodes like images or figures, where you want to capture values like `src`, `alt`, or `title` from the pasted content.
+
+#### Example: Using `getAttributes` in a node paste rule
+
+```ts
+addPasteRules() {
+  return [
+    nodePasteRule({
+      find: /!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, // Matches ![alt](src "title")
+      type: this.type,
+      getAttributes: match => {
+        const [, alt, src, title] = match
+        return { src, alt, title }
+      },
+    }),
+  ]
+},
+```
+
+In this example, when a user pastes something like `![Alt text](image.png "Optional title")`, the paste rule extracts the `alt`, `src`, and `title` from the match and passes them as attributes to the node.
+
+#### Example: Using `getAttributes` in a mark paste rule
+
+```ts
+addPasteRules() {
+  return [
+    markPasteRule({
+      find: /\*\*([^*]+)\*\*/g, // Matches **bold**
+      type: this.type,
+      getAttributes: match => {
+        // You can extract custom attributes here if needed
+        return {}
+      },
+    }),
+  ]
+},
+```
+
+### Tips
+
+- The `match` parameter in `getAttributes` is the result of the regular expression, so you can destructure it to get the captured groups.
+- You can use `getAttributes` to set any attributes your node or mark supports, such as `href` for links, `src` for images, or custom data fields.
+- If you don’t need to extract attributes, you can omit `getAttributes`.
+- Use the `g` (global) flag in your regex to match all occurrences in the pasted content.

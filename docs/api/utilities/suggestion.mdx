@@ -1,0 +1,128 @@
+---
+title: Suggestion utility
+meta:
+  title: Suggestion utility | Tiptap Editor Docs
+  description: Customize autocomplete suggestions using nodes like Mention and Emoji. Explore settings and configurations in our docs.
+  category: Editor
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/suggestion?label=version
+    url: https://www.npmjs.com/package/@tiptap/suggestion
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/suggestion?label=version
+    url: https://npmcharts.com/compare/@tiptap/suggestion
+    label: Downloads
+---
+
+This utility helps with all kinds of suggestions in the editor. Have a look at the [`Mention`](/editor/extensions/nodes/mention) or [`Emoji`](/editor/extensions/nodes/emoji) node to see it in action.
+
+## Settings
+
+### char
+
+The character that triggers the autocomplete popup.
+
+Default: `'@'`
+
+### pluginKey
+
+A ProseMirror PluginKey.
+
+Default: `SuggestionPluginKey`
+
+### allow
+
+A function that returns a boolean to indicate if the suggestion should be active.
+
+Default: `(props: { editor: Editor; state: EditorState; range: Range, isActive?: boolean }) => true`
+
+### allowSpaces
+
+Allows or disallows spaces in suggested items.
+
+Default: `false`
+
+### allowedPrefixes
+
+The prefix characters that are allowed to trigger a suggestion. Set to `null` to allow any prefix character.
+
+Default: `[' ']`
+
+### startOfLine
+
+Trigger the autocomplete popup at the start of a line only.
+
+Default: `false`
+
+### decorationTag
+
+The HTML tag that should be rendered for the suggestion.
+
+Default: `'span'`
+
+### decorationClass
+
+A CSS class that should be added to the suggestion.
+
+Default: `'suggestion'`
+
+### decorationContent
+
+The content that should be rendered in the suggestion decoration.
+
+Default: `''`
+
+### decorationEmptyClass
+
+A CSS class that should be added to the suggestion when it is empty.
+
+Default: `'is-empty'`
+
+### command
+
+Executed when a suggestion is selected.
+
+Default: `() => {}`
+
+### items
+
+Pass an array of filtered suggestions, can be async.
+
+Default: `({ editor, query }) => []`
+
+### render
+
+A render function for the autocomplete popup.
+
+Default: `() => ({})`
+
+### findSuggestionMatch
+
+Optional param to replace the built-in regex matching of editor content that triggers a suggestion.
+See [the
+source](https://github.com/ueberdosis/tiptap/blob/main/packages/suggestion/src/findSuggestionMatch.ts#L18)
+for more detail.
+
+Default: `findSuggestionMatch(config: Trigger): SuggestionMatch`
+
+## Exiting open suggestions
+
+Sometimes you want your users to be able to exit an an open suggestion without selecting an item. To achieve this, users can either press Escape which will close the open suggestion.
+If you want to manually trigger the closing of the suggestion, you can use use `exitSuggestion` utility function to close existing suggestions on your view.
+v
+```js
+import { exitSuggestion } from '@tiptap/suggestion'
+import { PluginKey } from 'prosemirror-state' // optional, if you need to create a custom key
+
+const MySuggestionPluginKey = new PluginKey('my-suggestions') // or use the default 'suggestion'
+
+exitSuggestion(editor.view, MySuggestionPluginKey)
+
+// Alternatively, use the default plugin key:
+// exitSuggestion(editor.iew, 'suggestion')
+```
+
+## Source code
+
+[packages/suggestion/](https://github.com/ueberdosis/tiptap/blob/main/packages/suggestion/)

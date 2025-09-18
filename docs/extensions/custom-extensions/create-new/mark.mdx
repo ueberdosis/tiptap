@@ -1,0 +1,255 @@
+---
+title: Mark API
+meta:
+  title: Mark API | Tiptap Editor Docs
+  description: Create a new mark for your Tiptap editor and create a unique editor experience from scratch. Learn more in the docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+
+The power of Tiptap lies in its flexibility. You can create your own extensions from scratch and build a unique editor experience tailored to your needs.
+
+## Creating a mark
+
+Marks are used to add inline formatting to text in Tiptap. Common examples include bold, italic, and underline formatting.
+
+They extend all of the options and methods from the [Extension API](/editor/extensions/custom-extensions/extension) and add a few more specific to marks.
+
+Let's add a simple mark extension to see how it works.
+
+```typescript
+import { Mark } from '@tiptap/core'
+
+const HighlightMark = Mark.create({
+  name: 'highlight',
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'mark',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['mark', HTMLAttributes, 0]
+  },
+})
+```
+
+You can also use a callback function to create a mark. This is useful if you want to encapsulate the logic of your extension, for example when you want to define event handlers or other custom logic.
+
+```js
+import { Mark } from '@tiptap/core'
+
+const CustomMark = Mark.create(() => {
+  // Define variables or functions to use inside your extension
+  const customVariable = 'foo'
+
+  function onCreate() {}
+  function onUpdate() {}
+
+  return {
+    name: 'customMark',
+    onCreate,
+    onUpdate,
+
+    // Your code goes here.
+  }
+})
+```
+
+This code creates a new mark extension named `HighlightMark`. It adds an `addOptions` method to define the mark's options, which are configurable by the user. It also adds `parseHTML` and `renderHTML` methods to define how the mark is parsed and rendered as HTML.
+
+It is installed to the editor just like any other extension by adding it to the `extensions` array.
+
+```typescript
+import { Editor } from '@tiptap/core'
+
+new Editor({
+  extensions: [HighlightMark],
+})
+
+// Or if using React or Vue
+
+const editor = useEditor({
+  extensions: [HighlightMark],
+})
+```
+
+Now let's take a closer look at the options and methods available for marks.
+
+## Mark options
+
+When creating a mark extension, you can define options that are configurable by the user. These options can be used to customize the behavior or appearance of the mark.
+
+### `parseHTML`
+
+The `parseHTML` method is used to define how the mark is parsed from HTML. It should return an array of objects representing the mark's attributes.
+
+Maps to the `parseDOM` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.parseDOM).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  parseHTML() {
+    return [
+      {
+        tag: 'span',
+        getAttrs: (node) => {
+          return {
+            class: node.getAttribute('class'),
+          }
+        },
+      },
+    ]
+  },
+})
+```
+
+This will be used during paste events to parse the HTML content into a mark.
+
+### `renderHTML`
+
+The `renderHTML` method is used to define how the mark is rendered as HTML. It should return an array representing the mark's HTML representation.
+
+Maps to the `toDOM` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.toDOM).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  renderHTML({ HTMLAttributes }) {
+    return ['span', HTMLAttributes, 0]
+  },
+})
+```
+
+This will be used during copy events to render the mark as HTML. For more details, see the [extend existing extensions](/editor/extensions/custom-extensions/extend-existing#render-html) guide.
+
+### `addAttributes`
+
+The `addAttributes` method is used to define custom attributes for the mark. It should return an object with the attribute names and their default values.
+
+Maps to the `attrs` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.attrs).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  addAttributes() {
+    return {
+      customAttribute: {
+        default: 'value',
+        parseHTML: (element) => element.getAttribute('data-custom-attribute'),
+      },
+    }
+  },
+})
+```
+
+For more details, see the [extend existing extensions](/editor/extensions/custom-extensions/extend-existing#rattributes) guide.
+
+### `keepOnSplit`
+
+By default, when a node is split, marks are removed from the content. You can set `keepOnSplit` to `true` to keep the mark on the new node.
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  keepOnSplit: true,
+})
+```
+
+### `inclusive`
+
+By default, marks are not inclusive, meaning they cannot be applied to the start or end of a node. You can set `inclusive` to `true` to allow the mark to be applied to the start or end of a node.
+
+Maps to the `inclusive` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.inclusive).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  inclusive: true,
+})
+```
+
+### `excludes`
+
+By default, marks do not exclude other marks. You can define a list of marks that should be excluded when this mark is applied.
+
+Maps to the `excludes` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  excludes: ['bold', 'italic'],
+})
+```
+
+### `exitable`
+
+By default, marks are not exitable, meaning they cannot be removed by pressing backspace at the start of the mark. You can set `exitable` to `true` to allow the mark to be removed in this way.
+
+Maps to the `exitable` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.exitable).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  exitable: true,
+})
+```
+
+### `group`
+
+By default, marks are not grouped, meaning they are applied individually. You can define a group for the mark to ensure that only one mark from the group can be applied at a time.
+
+Maps to the `group` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.group).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  group: 'textStyle',
+})
+```
+
+### `spanning`
+
+By default, marks do not span multiple nodes. You can set `spanning` to `true` to allow the mark to span multiple nodes.
+
+Maps to the `spanning` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.spanning).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  spanning: true,
+})
+```
+
+### `code`
+
+By default, marks are not treated as code marks. You can set `code` to `true` to treat the mark as a code mark.
+
+Maps to the `code` attribute in [the ProseMirror schema](https://prosemirror.net/docs/ref/#model.MarkSpec.code).
+
+```typescript
+const CustomMark = Mark.create({
+  name: 'customMark',
+
+  code: true,
+})
+```

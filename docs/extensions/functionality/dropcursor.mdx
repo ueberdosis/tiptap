@@ -1,0 +1,98 @@
+---
+title: Dropcursor extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: Dropcursor extension | Tiptap Editor Docs
+  description: Add a cursor when dragging items inside the editor with the Dropcursor extension. Learn how to use it here in the Docs!
+  category: Editor
+extension:
+  name: Dropcursor
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extensions
+  description: Adds a cursor when something is dragged inside the editor.
+  type: extension
+  icon: FoldVertical
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension loads the [ProseMirror Dropcursor plugin](https://github.com/ProseMirror/prosemirror-dropcursor) by Marijn Haverbeke, which shows a cursor at the drop position when something is dragged into the editor.
+
+Note that Tiptap is headless, but the dropcursor needs CSS for its appearance. There are settings for the color and width, and you’re free to add a custom CSS class.
+
+<CodeDemo path="/Extensions/Dropcursor" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { Dropcursor } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [Dropcursor],
+})
+```
+
+## Settings
+
+### color
+
+Color of the dropcursor.
+
+Default: `'currentColor'`
+
+```js
+Dropcursor.configure({
+  color: '#ff0000',
+})
+```
+
+### width
+
+Width of the dropcursor.
+
+Default: `1`
+
+```js
+Dropcursor.configure({
+  width: 2,
+})
+```
+
+### class
+
+One or multiple CSS classes that should be applied to the dropcursor.
+
+```js
+Dropcursor.configure({
+  class: 'my-custom-class',
+})
+```
+
+## Source code
+
+[packages/extensions/src/drop-cursor/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/drop-cursor/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { Dropcursor } from '@tiptap/extensions/dropcursor'
+
+new Editor({
+  extensions: [Dropcursor],
+})
+```

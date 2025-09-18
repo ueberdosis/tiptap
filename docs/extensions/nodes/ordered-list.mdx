@@ -1,0 +1,147 @@
+---
+title: OrderedList extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-list?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-list
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-list.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-list?minimal=true
+    label: Downloads
+extension:
+  name: Ordered List
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-list
+  description: If a bullet list doesn’t look serious enough, put some numbers in front of it.
+  type: node
+  icon: List
+meta:
+  title: OrderedList extension | Tiptap Editor Docs
+  description: Use the Ordered List extension in Tiptap to enable ordered lists rendered as <ol> HTML tags. Learn more in our docs!
+  category: Editor
+---
+
+import { Callout } from '@/components/ui/Callout'
+import { CodeDemo } from '@/components/CodeDemo'
+
+This extension enables you to use ordered lists in the editor. They are rendered as `<ol>` HTML tags.
+
+Type <code>1. </code> (or any other number followed by a dot) at the beginning of a new line and it will magically transform to a ordered list.
+
+<CodeDemo path="/Nodes/OrderedList" />
+
+<Callout title="Modify backspace behavior" variant="info">
+  If you want to modify the standard behavior of backspace and delete functions for lists, you
+  should read about the [ListKeymap](/editor/extensions/functionality/listkeymap) extension.
+</Callout>
+
+## Install
+
+```bash
+npm install @tiptap/extension-list
+```
+
+This extension requires the [`ListItem`](/editor/extensions/nodes/list-item) node.
+
+## Usage
+
+```js
+import { Editor } from '@tiptap/core'
+import { OrderedList } from '@tiptap/extension-list'
+
+new Editor({
+  extensions: [OrderedList],
+})
+```
+
+This extension is installed by default with the `ListKit` extension, so you don’t need to install it separately.
+
+```ts
+import { Editor } from '@tiptap/core'
+import { ListKit } from '@tiptap/extension-list-kit'
+
+new Editor({
+  extensions: [ListKit],
+})
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+OrderedList.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+### itemTypeName
+
+Specify the list item name.
+
+Default: `'listItem'`
+
+```js
+OrderedList.configure({
+  itemTypeName: 'listItem',
+})
+```
+
+### keepMarks
+
+Decides whether to keep the marks from a previous line after toggling the list either using `inputRule` or using the button
+
+Default: `false`
+
+```js
+OrderedList.configure({
+  keepMarks: true,
+})
+```
+
+### keepAttributes
+
+Decides whether to keep the attributes from a previous line after toggling the list either using `inputRule` or using the button
+
+Default: `false`
+
+```js
+OrderedList.configure({
+  keepAttributes: true,
+})
+```
+
+## Commands
+
+### toggleOrderedList()
+
+Toggle an ordered list.
+
+```js
+editor.commands.toggleOrderedList()
+```
+
+## Keyboard shortcuts
+
+| Command           | Windows/Linux                                        | macOS                                            |
+| ----------------- | ---------------------------------------------------- | ------------------------------------------------ |
+| toggleOrderedList | <kbd>Control</kbd> + <kbd>Shift</kbd> + <kbd>7</kbd> | <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>7</kbd> |
+
+## Source code
+
+[packages/extension-list/src/ordered-list/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-list/src/ordered-list/)
+
+## Minimal Install
+
+```js
+import { Editor } from '@tiptap/core'
+import { OrderedList } from '@tiptap/extension-list/ordered-list'
+
+new Editor({
+  extensions: [OrderedList],
+})
+```

@@ -1,0 +1,25 @@
+---
+title: Content Editor commands
+meta:
+  title: Content commands | Tiptap Editor Docs
+  description: Learn about the clearContent, insertContent, insertContentAt, and setContent commands to efficiently manage content in Tiptap.
+  category: Editor
+---
+
+Use these commands to dynamically insert, replace, or remove content in your editor. Initialize new documents, update existing ones, or manage user selections, these commands provide you with tools to handle content manipulation.
+
+## Use Cases
+
+- **Initializing New Documents:** Start fresh with the [`setContent`](/editor/api/commands/content/set-content) command to initialize a clean document or predefined template.
+- **Updating Existing Content:** Use the [`insertContent`](/editor/api/commands/content/insert-content) or [`insertContentAt](/editor/api/commands/content/insert-content-at) commands to add new content or update specific sections based on user interactions.
+- **Clearing Content:** Remove all content with the [`clearContent`](/editor/api/commands/content/clear-content) command while maintaining a valid document structure.
+- **Managing User Selections:** Insert or replace content at specific positions or ranges using [`insertContentAt`](/editor/api/commands/content/insert-content-at) according to user selections.
+
+## List of content commands
+
+| Command           | Description                                                         |
+| ----------------- | ------------------------------------------------------------------- |
+| `clearContent`    | Deletes the current document while adhering to the editor’s schema. |
+| `insertContent`   | Adds content to the document using plain text, HTML, or JSON.       |
+| `insertContentAt` | Inserts content at a specific position or range in the document.    |
+| `setContent`      | Replaces the entire document with a new one using JSON or HTML.     |

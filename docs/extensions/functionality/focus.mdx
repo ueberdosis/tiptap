@@ -1,0 +1,77 @@
+---
+title: Focus extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extensions?label=version
+    url: https://www.npmjs.com/package/@tiptap/extensions
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extensions.svg
+    url: https://npmcharts.com/compare/@tiptap/extensions?minimal=true
+    label: Downloads
+meta:
+  title: Focus extension | Tiptap Editor Docs
+  description: Use the Focus extension in Tiptap to track and highlight the cursor's position. Learn more in our docs!
+  category: Editor
+extension:
+  name: Focus
+  link: https://github.com/ueberdosis/tiptap/tree/main/extensions/src/focus
+  description: Keep track of where the cursor is, and let the user know you know it.
+  type: extension
+  icon: Focus
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The Focus extension adds a CSS class to focused nodes. By default it adds `.has-focus`, but you can change that.
+
+Note that it’s only a class, the styling is totally up to you. The usage example below has some CSS for that class.
+
+<CodeDemo path="/Extensions/Focus" />
+
+## Install
+
+```bash
+npm install @tiptap/extensions
+```
+
+And import it in your editor:
+
+```ts
+import { Editor } from '@tiptap/core'
+import { Focus } from '@tiptap/extensions'
+
+new Editor({
+  extensions: [Focus],
+})
+```
+
+## Settings
+
+### className
+
+The class that is applied to the focused element.
+
+Default: `'has-focus'`
+
+```js
+Focus.configure({
+  className: 'focus',
+})
+```
+
+### mode
+
+Apply the class to `'all'`, the `'shallowest'` or the `'deepest'` node.
+
+Default: `'all'`
+
+```js
+Focus.configure({
+  mode: 'deepest',
+})
+```
+
+## Source code
+
+[packages/extensions/focus/](https://github.com/ueberdosis/tiptap/blob/main/packages/extensions/src/focus/)

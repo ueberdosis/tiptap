@@ -1,0 +1,139 @@
+---
+title: Collaboration extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-collaboration?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-collaboration
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-collaboration.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-collaboration?minimal=true
+    label: Downloads
+meta:
+  category: Editor
+  title: Collaboration extension | Tiptap Editor Docs
+  description: Learn how to set up and use collaborative editing with the Collaboration extension in Tiptap.
+extension:
+  name: Collaboration
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-collaboration
+  description: Collaborative text editing can be fricking complex, but it doesn’t have to be that way.
+  type: extension
+  icon: Radio
+---
+
+import { ArrowRightIcon } from 'lucide-react'
+import Link from '@/components/Link'
+import * as CtaBox from '@/components/CtaBox'
+import { Button } from '@/components/ui/Button'
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+This small guide quickly shows how to integrate basic collaboration functionality into your editor. For a proper collaboration integration, review the documentation of [Tiptap Collaboration](/collaboration/getting-started/overview), which is a cloud and on-premises collaboration server solution.
+
+<CodeDemo path="/Demos/CollaborationSplitPane" />
+
+## Install
+
+<Callout title="More details" variant="hint">
+  For more detailed information on how to integrate, install, and configure the Collaboration
+  extension with the Tiptap Collaboration product, please visit our [feature
+  page](/collaboration/getting-started/overview).
+</Callout>
+
+```bash
+npm install @tiptap/extension-collaboration @tiptap/y-tiptap yjs y-websocket
+```
+
+## Settings
+
+### document
+
+An initialized Y.js document.
+
+Default: `null`
+
+```js
+Collaboration.configure({
+  document: new Y.Doc(),
+})
+```
+
+### field
+
+Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
+
+Default: `'default'`
+
+```js
+Collaboration.configure({
+  document: new Y.Doc(),
+  field: 'title',
+})
+```
+
+### fragment
+
+A raw Y.js fragment, can be used instead of `document` and `field`.
+
+Default: `null`
+
+```js
+Collaboration.configure({
+  fragment: new Y.Doc().getXmlFragment('body'),
+})
+```
+
+## Commands
+
+The `Collaboration` extension comes with its own history extension. Make sure to disable the `UndoRedo` extension, if you’re working with the `StarterKit`.
+
+### undo()
+
+Undo the last change.
+
+```js
+editor.commands.undo()
+```
+
+### redo()
+
+Redo the last change.
+
+```js
+editor.commands.redo()
+```
+
+## Keyboard shortcuts
+
+| Command | Windows/Linux                                                                             | macOS                                                                             |
+| ------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| undo()  | <kbd>Control</kbd> + <kbd>Z</kbd>                                                         | <kbd>Cmd</kbd> + <kbd>Z</kbd>                                                     |
+| redo()  | <kbd>Shift</kbd> + <kbd>Control</kbd> + <kbd>Z</kbd> or <kbd>Control</kbd> + <kbd>Y</kbd> | <kbd>Shift</kbd> + <kbd>Cmd</kbd> + <kbd>Z</kbd> or <kbd>Cmd</kbd> + <kbd>Y</kbd> |
+
+## Source code
+
+[packages/extension-collaboration/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-collaboration/)
+
+## You Did It!
+
+Your editor is now collaborative! Invite your friends and start typing together 🙌🏻 If you want to continue building out your collaborative editing features, make sure to check out the [Tiptap Collaboration Docs](/collaboration/getting-started/overview) for a fully hosted on on-premises collaboration server solution.
+
+<CtaBox.Wrapper>
+  <CtaBox.Title>Collaboration</CtaBox.Title>
+  <CtaBox.Description>
+    Fasten your seatbelts! Make your rich text editor collaborative with Tiptap Collaboration.
+  </CtaBox.Description>
+  <CtaBox.List>
+    <CtaBox.ListItem>Real-time everything</CtaBox.ListItem>
+    <CtaBox.ListItem>Offline-first & conflict free</CtaBox.ListItem>
+    <CtaBox.ListItem>Managed and hosted by us or on your premises</CtaBox.ListItem>
+  </CtaBox.List>
+  <CtaBox.Actions className="-mx-3">
+    <Button className="text-white/80 hover:text-white/100" variant="tertiary" asChild>
+      <Link href="/collaboration/getting-started/overview">
+        Learn more
+        <ArrowRightIcon className="w-4 h-4" />
+      </Link>
+    </Button>
+  </CtaBox.Actions>
+</CtaBox.Wrapper>

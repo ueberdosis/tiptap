@@ -1,0 +1,27 @@
+---
+title: setTextSelection command
+meta:
+  title: setTextSelection command | Tiptap Editor Docs
+  description: Use the setTextSelection command to control and set text selection to a specified range or position. Learn more in our docs!
+  category: Editor
+---
+
+If you think of selection in the context of an editor, you’ll probably think of a text selection. With `setTextSelection` you can control that text selection and set it to a specified range or position.
+
+See also: [focus](/editor/api/commands/selection/focus), [setNodeSelection](/editor/api/commands/selection/set-node-selection), [deleteSelection](/editor/api/commands/selection/delete-selection), [selectAll](/editor/api/commands/selection/select-all)
+
+## Parameters
+
+`position: number | Range`
+
+Pass a number, or a Range, for example `{ from: 5, to: 10 }`.
+
+## Use the setTextSelection command
+
+```js
+// Set the cursor to the specified position
+editor.commands.setTextSelection(10)
+
+// Set the text selection to the specified range
+editor.commands.setTextSelection({ from: 5, to: 10 })
+```

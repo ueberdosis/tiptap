@@ -1,0 +1,239 @@
+---
+title: Table of Contents extension
+extension:
+  name: Table of contents
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-table-of-contents
+  description: Add a table of contents listing all your anchors or headlines.
+  type: extension
+  icon: List
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-table-of-contents.svg?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-table-of-contents
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-table-of-contents.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-table-of-contents?minimal=true
+    label: Downloads
+meta:
+  title: Contents extension | Tiptap Editor Docs
+  description: Integrate a list of anchors to your document and collect all headlines in a nice TOC (Table of Contents). Learn more in the docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+The `TableOfContents` extension lets you get a list of anchors from your document and passes on important information about each anchor (for example the depth, the content and a unique ID for each heading but also the active state and scroll states for each anchor). This can be used to render the table of content on your own.
+
+<CodeDemo path="/Extensions/TableOfContents" />
+
+## Install
+
+Once done, you can install the extension from our private registry:
+
+```bash
+npm install @tiptap/extension-table-of-contents
+```
+
+## Settings
+
+### anchorTypes
+
+The types of the nodes you want to use for your Table of Content. By default this is `["heading"]` but in case you create your own custom Heading extension OR extend the existing one and use a different name, you can pass that name here.
+
+Default: `["heading"]`
+
+```js
+TableOfContents.configure({
+  anchorTypes: ['heading', 'customAnchorType'],
+})
+```
+
+### getIndex
+
+This option can be used to customize how the item indexes are calculated. By default this is using an internal function but it can be overwritten to do some custom logic.
+
+```js
+TableOfContents.configure({
+  getIndex: (anchor, previousAnchors, level) => {
+    // do some custom logic, but for this example we will just return 1
+    return 1
+  },
+})
+```
+
+We expose two ready to use functions - one to generate linear indexes which continue to count from 1 to n and one to generate hierarchical indexes that will count from 1 to n for each level.
+
+```js
+import { getLinearIndexes, getHierarchicalIndexes } from '@tiptap/extension-table-of-contents'
+
+// generate linear indexes
+TableOfContents.configure({
+  getIndex: getLinearIndexes,
+})
+
+// generate hierarchical indexes
+TableOfContents.configure({
+  getIndex: getHierarchicalIndexes,
+})
+```
+
+### getLevel
+
+This option can be used to customize how item levels are generated. By default the normal level generation is used that checks for heading element level attributes. If you want to customize this because for example you want to include custom anchors in your heading generation, you can use this to do so.
+
+```js
+TableOfContents.configure({
+  getLevel: (anchor, previousAnchors) => {
+    // do some custom logic, but for this example we will just return 1
+    return 1
+  },
+})
+```
+
+### getId
+
+A builder function that returns a unique ID for each heading. Inside the argument you get access to the headings text content (for example you want to generate IDs based on the text content of the heading).
+
+By default this is a function that uses the [uuid](https://www.npmjs.com/package/uuid) package to generate a unique ID.
+
+Default: `() => uuid()`
+
+```js
+// here we use an imaginary "slugify" function
+// you should probably also add a unique identifier to the slug
+TableOfContents.configure({
+  getId: (content) => slugify(content),
+})
+```
+
+### scrollParent
+
+The scroll parent you want to attach to. This is used to determine which heading currently is active or was already scrolled over. By default this is a callback function that returns the window but you can pass a callback that returns any HTML element here.
+
+Default: `() => window`
+
+```js
+// For example the editors DOM element itself is the scrolling element
+TableOfContents.configure({
+  scrollParent: () => editor.view.dom,
+})
+```
+
+### onUpdate
+
+The most important option that you must set to use this extension. This is a callback function that gets called whenever the Table of Content updates. You get access to an array of heading data (see below) which you can use to render your own Table of Content.
+
+To render the table of content you can render it by any means you want. You can use a framework like Vue, React or Svelte or you can use a simple templating engine like Handlebars or Pug. You can also use a simple `document.createElement` to render the table of content.
+
+You can pass a second argument to get the information whether this is the initial creation step for the ToC data.
+
+Default: `undefined`
+
+```js
+// with vanilla JS
+const tocElement = document.createElement('div')
+document.body.appendChild(tocElement)
+
+TableOfContents.configure({
+  onUpdate: (anchors, isCreate) => {
+    tocElement.innerHTML = ''
+
+    if (isCreate) {
+      console.log('This is the inital creation step for the ToC data')
+    }
+
+    anchors.forEach((anchor) => {
+      const anchorElement = document.createElement('div')
+
+      anchorElement.innerHTML = anchor.content
+      anchorElement.dataset.id = anchor.id
+      anchorElement.dataset.depth = anchor.depth
+      anchorElement.dataset.active = anchor.active
+      anchorElement.dataset.scrolled = anchor.scrolled
+
+      tocElement.appendChild(anchorElement)
+    })
+  },
+})
+```
+
+```js
+// with react
+const [anchors, setAnchors] = useState([])
+
+// inside the useEditor hook you could then do something like that:
+TableOfContents.configure({
+  onUpdate: (anchors) => {
+    setAnchors(anchors)
+  },
+})
+```
+
+```js
+// with vue
+const anchors = ref([])
+
+TableOfContents.configure({
+  onUpdate: (anchors) => {
+    anchors.value = anchors
+  },
+})
+```
+
+## Storage
+
+### content
+
+The heading content of the current document
+
+```js
+editor.storage.tableOfContents.content
+```
+
+### anchors
+
+An array of HTML nodes
+
+```js
+editor.storage.tableOfContents.anchors
+```
+
+### scrollHandler
+
+The scrollHandler used by the scroll function. Should not be changed or edited but
+could be used to manually bind this function somewhere else
+
+```js
+editor.storage.tableOfContents.scrollHandler()
+```
+
+### scrollPosition
+
+The current scrollPosition inside the scrollParent.
+
+```js
+editor.storage.tableOfContents.scrollPosition
+```
+
+## The anchors array
+
+The array returned by the storage or the `onUpdate` function includes objects structured like this:
+
+```js
+{
+  dom: HTMLElement // the HTML element for this anchor
+  editor: Editor // the editor
+  id: string // the node id
+  isActive: boolean // whether this anchor is currently active
+  isScrolledOver: boolean // whether this anchor was already scrolled over
+  itemIndex: number // the index of the item on its current level
+  level: number // the current level of the item - this could be different from the actual anchor level and is used to render the hierarchy from high to low headlines
+  node: Node // the ProseMirror node for this anchor
+  originalLevel: number // the actual level
+  pos: number // the position of the anchor node
+  textContent: string // the text content of the anchor
+}
+```
+
+This should give you enough flexibility to render your own table of content.

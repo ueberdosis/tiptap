@@ -1,0 +1,36 @@
+---
+title: toggleMark command
+meta:
+  title: toggleMark command | Tiptap Editor Docs
+  description: Use the toggleMark command in Tiptap to toggle a specific mark on and off at the current selection. Learn more in our docs!
+  category: Editor
+---
+
+The `toggleMark` command toggles a specific mark on and off at the current selection.
+
+## Parameters
+
+`typeOrName: string | MarkType`
+
+The type of mark that should be toggled.
+
+`attributes?: Record<string, any>`
+
+The attributes that should be applied to the mark. **This is optional.**
+
+`options?: Record<string, any>`
+
+- `extendEmptyMarkRange: boolean` - Removes the mark even across the current selection. Defaults to `false`
+
+## Use the toggleMark command
+
+```js
+// toggles a bold mark
+editor.commands.toggleMark('bold')
+
+// toggles bold mark with a color attribute
+editor.commands.toggleMark('bold', { color: 'red' })
+
+// toggles a bold mark with a color attribute and removes the mark across the current selection
+editor.commands.toggleMark('bold', { color: 'red' }, { extendEmptyMarkRange: true })
+```

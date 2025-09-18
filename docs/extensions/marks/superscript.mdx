@@ -1,0 +1,89 @@
+---
+title: Superscript extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-superscript?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-superscript
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-superscript.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-superscript?minimal=true
+    label: Downloads
+extension:
+  name: Superscript
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-superscript
+  description: Write slightly above the normal line to show you’re on the next level.
+  type: mark
+  icon: Superscript
+meta:
+  title: Superscript extension | Tiptap Editor Docs
+  description: Use the Superscript extension in Tiptap to write text above the normal line. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+import { Callout } from '@/components/ui/Callout'
+
+Use this extension to render text in <sup>superscript</sup>. If you pass `<sup>` or text with `vertical-align: super` as inline style in the editor’s initial content, both will be rendered accordingly.
+
+<Callout title="Restrictions" variant="default">
+    The extension will generate the corresponding `<sup>` HTML tags when reading contents of the `Editor` instance. All text in superscript, regardless of the method will be normalized to `<sup>` HTML tags.
+</Callout>
+
+<CodeDemo path="/Marks/Superscript" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-superscript
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+Superscript.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setSuperscript()
+
+Mark text as superscript.
+
+```js
+editor.commands.setSuperscript()
+```
+
+### toggleSuperscript()
+
+Toggle superscript mark.
+
+```js
+editor.commands.toggleSuperscript()
+```
+
+### unsetSuperscript()
+
+Remove superscript mark.
+
+```js
+editor.commands.unsetSuperscript()
+```
+
+## Keyboard shortcuts
+
+| Command             | Windows/Linux                     | macOS                         |
+| ------------------- | --------------------------------- | ----------------------------- |
+| toggleSuperscript() | <kbd>Control</kbd> + <kbd>.</kbd> | <kbd>Cmd</kbd> + <kbd>.</kbd> |
+
+## Source code
+
+[packages/extension-superscript/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-superscript/)

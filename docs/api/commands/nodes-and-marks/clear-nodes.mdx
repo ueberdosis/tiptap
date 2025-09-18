@@ -1,0 +1,17 @@
+---
+title: clearNodes command
+meta:
+  title: clearNodes command | Tiptap Editor Docs
+  description: Use the clearNodes command in Tiptap to normalize all nodes in the document to the default paragraph node. More in our docs!
+  category: Editor
+---
+
+The `clearNodes` command normalizes nodes to the default node, which is the paragraph by default. It’ll even normalize all kind of lists. For advanced use cases it can come in handy, before applying a new node type.
+
+If you wonder how you can define the default node: It depends on what’s in the `content` attribute of your [`Document`](/editor/extensions/nodes/document), by default that’s `block+` (at least one block node) and the [`Paragraph`](/editor/extensions/nodes/paragraph) node has the highest priority, so it’s loaded first and is therefore the default node.
+
+## Use the clearNodes command
+
+```js
+editor.commands.clearNodes()
+```

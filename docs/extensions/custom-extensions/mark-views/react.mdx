@@ -1,0 +1,87 @@
+---
+title: Mark views with React
+meta:
+  title: React mark views | Tiptap Editor Docs
+  description: Use React to build custom mark views in Tiptap.
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Using Vanilla JavaScript can feel complex if you are used to work in React. Good news: You can use regular React components in your mark views, too. There is just a little bit you need to know, but let’s go through this one by one.
+
+## Render a React component
+
+Here is what you need to do to render React components inside your editor:
+
+1. [Create a mark extension](/editor/extensions/custom-extensions/create-new/mark)
+2. Create a React component
+3. Pass that component to the provided `ReactNodeViewRenderer`
+4. Register it with `addMarkView()`
+5. [Configure Tiptap to use your new node extension](/editor/getting-started/configure)
+
+This is how your node extension could look like:
+
+```ts
+import { Mark } from '@tiptap/core'
+import { ReactMarkViewRenderer } from '@tiptap/react'
+
+import Component from './Component.jsx'
+
+export default Mark.create({
+  // options…
+
+  addMarkView() {
+    return ReactMarkViewRenderer(Component)
+  },
+})
+```
+
+And here is an example of a React component:
+
+```tsx
+import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+import React from 'react'
+
+export default (props: MarkViewRendererProps) => {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <span className="content" data-test-id="mark-view">
+      <MarkViewContent />
+      <label contentEditable={false}>
+        React component:
+        <button
+          onClick={() => {
+            setCount(count + 1)
+          }}
+        >
+          This button has been clicked {count} times.
+        </button>
+      </label>
+    </span>
+  )
+}
+```
+
+Got it? Let’s see it in action. Feel free to copy the below example to get started.
+
+<CodeDemo path="/GuideMarkViews/ReactComponent?inline=false&hideSource=false" />
+
+## Updating the mark view attributes
+
+Updating your mark view's attributes is very straightforward. You can use the `updateAttributes` method provided by the `MarkViewRendererProps` to update the attributes of your mark view.
+
+```tsx
+import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
+import React from 'react'
+
+export default (props: MarkViewRendererProps) => {
+  return (
+    <span id={props.HTMLAttributes.id}>
+      <MarkViewContent />
+      <button onClick={() => props.updateAttributes({ id: Date.now() })}>Update ID</button>
+    </span>
+  )
+}
+```

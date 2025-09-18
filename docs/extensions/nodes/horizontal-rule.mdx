@@ -1,0 +1,64 @@
+---
+title: HorizontalRule extension
+tags:
+  - type: image
+    src: https://img.shields.io/npm/v/@tiptap/extension-horizontal-rule?label=version
+    url: https://www.npmjs.com/package/@tiptap/extension-horizontal-rule
+    label: Version
+  - type: image
+    src: https://img.shields.io/npm/dm/@tiptap/extension-horizontal-rule.svg
+    url: https://npmcharts.com/compare/@tiptap/extension-horizontal-rule?minimal=true
+    label: Downloads
+extension:
+  name: Horizontal Rule
+  link: https://github.com/ueberdosis/tiptap/tree/main/packages/extension-horizontal-rule
+  description: The least code the better, but sometimes you just need multiple lines.
+  type: node
+  icon: Minus
+meta:
+  title: HorizontalRule extension | Tiptap Editor Docs
+  description: Use the Horizontal Rule extension in Tiptap to render the `<hr>` HTML tag for separating content. Learn more in our docs!
+  category: Editor
+---
+
+import { CodeDemo } from '@/components/CodeDemo'
+
+Use this extension to render a `<hr>` HTML tag. If you pass `<hr>` in the editor’s initial content, it’ll be rendered accordingly.
+
+Type three dashes (<code>---</code>) or three underscores and a space (<code>\_\_\_ </code>) at the beginning of a new line and it will magically transform to a horizontal rule.
+
+<CodeDemo path="/Nodes/HorizontalRule" />
+
+## Install
+
+```bash
+npm install @tiptap/extension-horizontal-rule
+```
+
+## Settings
+
+### HTMLAttributes
+
+Custom HTML attributes that should be added to the rendered HTML tag.
+
+```js
+HorizontalRule.configure({
+  HTMLAttributes: {
+    class: 'my-custom-class',
+  },
+})
+```
+
+## Commands
+
+### setHorizontalRule()
+
+Create a horizontal rule.
+
+```js
+editor.commands.setHorizontalRule()
+```
+
+## Source code
+
+[packages/extension-horizontal-rule/](https://github.com/ueberdosis/tiptap/blob/main/packages/extension-horizontal-rule/)

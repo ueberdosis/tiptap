@@ -1,0 +1,26 @@
+---
+title: resetAttributes command
+meta:
+  title: resetAttributes command | Tiptap Editor Docs
+  description: Use the resetAttributes command in Tiptap to reset a node's attributes to their default values. Learn more in our docs!
+  category: Editor
+---
+
+`resetAttributes` resets some of the nodes attributes back to it's default attributes.
+
+## Parameters
+
+`typeOrName: string | Node`
+
+The node that should be resetted. Can be a string or a Node.
+
+`attributes: string | string[]`
+
+A string or an array of strings that defines which attributes should be reset.
+
+## Use the resetAttributes command
+
+```js
+// reset the style and class attributes on the currently selected paragraph nodes
+editor.commands.resetAttributes('paragraph', ['style', 'class'])
+```

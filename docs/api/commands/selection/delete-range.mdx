@@ -1,0 +1,19 @@
+---
+title: deleteRange commands
+meta:
+  title: deleteRange command | Tiptap Editor Docs
+  description: Use the deleteRange command in Tiptap to remove content within a specific range in your document. Learn more in our docs!
+  category: Editor
+---
+
+The `deleteRange` command deletes everything in a given range. It requires a `range` attribute of type `Range`.
+
+## Parameters
+
+`range: Range`
+
+## Use the deleteRange command
+
+```js
+editor.commands.deleteRange({ from: 0, to: 12 })
+```
