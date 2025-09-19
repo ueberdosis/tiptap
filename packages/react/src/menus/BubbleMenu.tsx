@@ -1,5 +1,6 @@
 import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import { useCurrentEditor } from '@tiptap/react'
+import { PluginKey } from 'packages/pm/state'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -55,7 +56,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         resizeDelay,
         editor: attachToEditor,
         element: bubbleMenuElement,
-        pluginKey,
+        pluginKey: typeof pluginKey === 'string' ? new PluginKey(pluginKey) : pluginKey,
         shouldShow,
         getReferencedVirtualElement,
         options,

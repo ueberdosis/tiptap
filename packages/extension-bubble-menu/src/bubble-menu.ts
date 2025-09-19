@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { PluginKey } from 'packages/pm/state'
+import { PluginKey } from '@tiptap/pm/state'
 
 import type { BubbleMenuPluginProps } from './bubble-menu-plugin.js'
 import { BubbleMenuPlugin } from './bubble-menu-plugin.js'
