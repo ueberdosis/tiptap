@@ -13,8 +13,8 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
-import type { EditorState, PluginKey, PluginView, Transaction } from '@tiptap/pm/state'
-import { NodeSelection, Plugin } from '@tiptap/pm/state'
+import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
 
@@ -33,8 +33,10 @@ function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
 export interface BubbleMenuPluginProps {
   /**
    * The plugin key.
+   * @type {PluginKey | string}
+   * @default 'bubbleMenu'
    */
-  pluginKey: PluginKey
+  pluginKey: PluginKey | string
 
   /**
    * The editor instance.
@@ -188,8 +190,6 @@ export class BubbleMenuView implements PluginView {
     onDestroy: undefined,
   }
 
-  public pluginKey: PluginKey
-
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
     const { doc, selection } = state
     const { empty } = selection
@@ -333,7 +333,6 @@ export class BubbleMenuView implements PluginView {
     appendTo,
     getReferencedVirtualElement,
     options,
-    pluginKey,
   }: BubbleMenuViewProps) {
     this.editor = editor
     this.element = element
@@ -342,7 +341,6 @@ export class BubbleMenuView implements PluginView {
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
     this.scrollTarget = options?.scrollTarget ?? window
-    this.pluginKey = pluginKey
     this.getReferencedVirtualElement = getReferencedVirtualElement
 
     this.floatingUIOptions = {
@@ -550,7 +548,7 @@ export class BubbleMenuView implements PluginView {
   }
 
   transactionHandler({ transaction: tr }: { transaction: Transaction }) {
-    const meta = tr.getMeta(this.pluginKey)
+    const meta = tr.getMeta('bubbleMenu')
     if (meta === 'updatePosition') {
       this.updatePosition()
     }
@@ -574,7 +572,7 @@ export class BubbleMenuView implements PluginView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key: options.pluginKey,
+    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }
