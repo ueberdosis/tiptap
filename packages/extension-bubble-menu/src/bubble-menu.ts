@@ -12,6 +12,19 @@ export type BubbleMenuOptions = Omit<BubbleMenuPluginProps, 'editor' | 'element'
   element: HTMLElement | null
 }
 
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    bubbleMenu: {
+      /**
+       * Update the position of the bubble menu. This command is useful to force
+       * the bubble menu to update its position in response to certain events
+       * (for example, when the bubble menu is resized).
+       */
+      updateBubbleMenuPosition: () => ReturnType
+    }
+  }
+}
+
 /**
  * This extension allows you to create a bubble menu.
  * @see https://tiptap.dev/api/extensions/bubble-menu
@@ -46,5 +59,15 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         shouldShow: this.options.shouldShow,
       }),
     ]
+  },
+
+  addCommands() {
+    return {
+      updateBubbleMenuPosition:
+        () =>
+        ({ commands }) => {
+          return commands.setMeta('bubbleMenu', 'updatePosition')
+        },
+    }
   },
 })

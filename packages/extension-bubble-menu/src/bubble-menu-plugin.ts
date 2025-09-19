@@ -13,7 +13,7 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
-import type { EditorState, PluginView } from '@tiptap/pm/state'
+import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
 import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
@@ -358,6 +358,7 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.editor.on('transaction', this.transactionHandler)
     window.addEventListener('resize', this.resizeHandler)
     this.scrollTarget.addEventListener('scroll', this.resizeHandler)
 
@@ -546,6 +547,13 @@ export class BubbleMenuView implements PluginView {
     this.isVisible = false
   }
 
+  transactionHandler({ transaction: tr }: { transaction: Transaction }) {
+    const meta = tr.getMeta('bubbleMenu')
+    if (meta === 'updatePosition') {
+      this.updatePosition()
+    }
+  }
+
   destroy() {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
@@ -554,6 +562,7 @@ export class BubbleMenuView implements PluginView {
     this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+    this.editor.off('transaction', this.transactionHandler)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
