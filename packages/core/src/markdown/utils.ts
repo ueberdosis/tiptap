@@ -12,3 +12,112 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 
   return output.slice(0, output.length - 1)
 }
+
+/**
+ * Identifies marks that need to be closed (active but not in current node).
+ * Returns the mark types in reverse order for proper closing sequence.
+ */
+export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Map<string, any>): string[] {
+  const marksToClose: string[] = []
+  Array.from(activeMarks.keys()).forEach(markType => {
+    if (!currentMarks.has(markType)) {
+      marksToClose.push(markType)
+    }
+  })
+  return marksToClose.reverse()
+}
+
+/**
+ * Identifies marks that need to be opened (in current node but not active).
+ */
+export function findMarksToOpen(
+  activeMarks: Map<string, any>,
+  currentMarks: Map<string, any>,
+): Array<{ type: string; mark: any }> {
+  const marksToOpen: Array<{ type: string; mark: any }> = []
+  Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
+    if (!activeMarks.has(markType)) {
+      marksToOpen.push({ type: markType, mark })
+    }
+  })
+  return marksToOpen
+}
+
+/**
+ * Determines which marks need to be closed at the end of the current text node.
+ * This handles cases where marks end at node boundaries or when transitioning
+ * to nodes with different mark sets.
+ */
+export function findMarksToCloseAtEnd(
+  activeMarks: Map<string, any>,
+  currentMarks: Map<string, any>,
+  nextNode: any,
+  markSetsEqual: (a: Map<string, any>, b: Map<string, any>) => boolean,
+): string[] {
+  const isLastNode = !nextNode
+  const nextNodeHasNoMarks = nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
+  const nextNodeHasDifferentMarks =
+    nextNode &&
+    nextNode.type === 'text' &&
+    nextNode.marks &&
+    !markSetsEqual(currentMarks, new Map(nextNode.marks.map((mark: any) => [mark.type, mark])))
+
+  const marksToCloseAtEnd: string[] = []
+  if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
+    if (nextNode && nextNode.type === 'text' && nextNode.marks) {
+      const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
+      Array.from(activeMarks.keys()).forEach(markType => {
+        if (!nextMarks.has(markType)) {
+          marksToCloseAtEnd.push(markType)
+        }
+      })
+    } else if (isLastNode || nextNodeHasNoMarks) {
+      // Close all active marks
+      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+    }
+  }
+
+  return marksToCloseAtEnd.reverse()
+}
+
+/**
+ * Closes active marks before rendering a non-text node.
+ * Returns the closing markdown syntax and clears the active marks.
+ */
+export function closeMarksBeforeNode(
+  activeMarks: Map<string, any>,
+  getMarkClosing: (markType: string, mark: any) => string,
+): string {
+  let beforeMarkdown = ''
+  Array.from(activeMarks.keys())
+    .reverse()
+    .forEach(markType => {
+      const mark = activeMarks.get(markType)
+      const closeMarkdown = getMarkClosing(markType, mark)
+      if (closeMarkdown) {
+        beforeMarkdown = closeMarkdown + beforeMarkdown
+      }
+    })
+  activeMarks.clear()
+  return beforeMarkdown
+}
+
+/**
+ * Reopens marks after rendering a non-text node.
+ * Returns the opening markdown syntax and updates the active marks.
+ */
+export function reopenMarksAfterNode(
+  marksToReopen: Map<string, any>,
+  activeMarks: Map<string, any>,
+  getMarkOpening: (markType: string, mark: any) => string,
+): string {
+  let afterMarkdown = ''
+  Array.from(marksToReopen.entries()).forEach(([markType, mark]) => {
+    const openMarkdown = getMarkOpening(markType, mark)
+    if (openMarkdown) {
+      afterMarkdown += openMarkdown
+    }
+    activeMarks.set(markType, mark)
+  })
+  return afterMarkdown
+}

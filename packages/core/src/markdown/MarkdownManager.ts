@@ -3,7 +3,14 @@ import { marked } from 'marked'
 import { getExtensionField } from '../helpers/getExtensionField.js'
 import type { AnyExtension, JSONContent } from '../types.js'
 import type { MarkdownExtensionSpec, MarkdownRendererHelpers, RenderContext } from './types.js'
-import { wrapInMarkdownBlock } from './utils.js'
+import {
+  closeMarksBeforeNode,
+  findMarksToClose,
+  findMarksToCloseAtEnd,
+  findMarksToOpen,
+  reopenMarksAfterNode,
+  wrapInMarkdownBlock,
+} from './utils.js'
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -213,24 +220,12 @@ export class MarkdownManager {
         let textContent = node.text || ''
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
-        // Find marks that need to be closed (active but not in current node)
-        const marksToClose: string[] = []
-        Array.from(activeMarks.keys()).forEach(markType => {
-          if (!currentMarks.has(markType)) {
-            marksToClose.push(markType)
-          }
-        })
-
-        // Find marks that need to be opened (in current node but not active)
-        const marksToOpen: Array<{ type: string; mark: any }> = []
-        Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
-          if (!activeMarks.has(markType)) {
-            marksToOpen.push({ type: markType, mark })
-          }
-        })
+        // Find marks that need to be closed and opened
+        const marksToClose = findMarksToClose(activeMarks, currentMarks)
+        const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
         // Close marks (in reverse order of how they were opened)
-        marksToClose.reverse().forEach(markType => {
+        marksToClose.forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
@@ -248,71 +243,36 @@ export class MarkdownManager {
           activeMarks.set(type, mark)
         })
 
-        // If this is the last text node or next node doesn't have marks, close remaining marks
-        const isLastNode = !nextNode
-        const nextNodeHasNoMarks =
-          nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
-        const nextNodeHasDifferentMarks =
-          nextNode &&
-          nextNode.type === 'text' &&
-          nextNode.marks &&
-          !this.markSetsEqual(currentMarks, new Map(nextNode.marks.map(mark => [mark.type, mark])))
+        // Close marks at the end of this node if needed
+        const marksToCloseAtEnd = findMarksToCloseAtEnd(
+          activeMarks,
+          currentMarks,
+          nextNode,
+          this.markSetsEqual.bind(this),
+        )
 
-        if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
-          // Close any marks that end here
-          const marksToCloseAtEnd: string[] = []
-          if (nextNode && nextNode.type === 'text' && nextNode.marks) {
-            const nextMarks = new Map(nextNode.marks.map(mark => [mark.type, mark]))
-            Array.from(activeMarks.keys()).forEach(markType => {
-              if (!nextMarks.has(markType)) {
-                marksToCloseAtEnd.push(markType)
-              }
-            })
-          } else if (isLastNode || nextNodeHasNoMarks) {
-            // Close all active marks
-            marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+        marksToCloseAtEnd.forEach(markType => {
+          const mark = activeMarks.get(markType)
+          const closeMarkdown = this.getMarkClosing(markType, mark)
+          if (closeMarkdown) {
+            textContent += closeMarkdown
           }
-
-          marksToCloseAtEnd.reverse().forEach(markType => {
-            const mark = activeMarks.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark)
-            if (closeMarkdown) {
-              textContent += closeMarkdown
-            }
-            activeMarks.delete(markType)
-          })
-        }
+          activeMarks.delete(markType)
+        })
 
         result.push(textContent)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
 
-        // Close all marks
-        let beforeMarkdown = ''
-        Array.from(activeMarks.keys())
-          .reverse()
-          .forEach(markType => {
-            const mark = activeMarks.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark)
-            if (closeMarkdown) {
-              beforeMarkdown = closeMarkdown + beforeMarkdown
-            }
-          })
-        activeMarks.clear()
+        // Close all marks before the node
+        const beforeMarkdown = closeMarksBeforeNode(activeMarks, this.getMarkClosing.bind(this))
 
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
         // Reopen marks after the node
-        let afterMarkdown = ''
-        Array.from(marksToReopen.entries()).forEach(([markType, mark]) => {
-          const openMarkdown = this.getMarkOpening(markType, mark)
-          if (openMarkdown) {
-            afterMarkdown += openMarkdown
-          }
-          activeMarks.set(markType, mark)
-        })
+        const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
