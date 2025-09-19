@@ -105,6 +105,33 @@ export const OrderedList = Node.create<OrderedListOptions>({
       : ['ol', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdown: {
+    parseName: 'list',
+    isIndenting: true,
+
+    render: (node, h) => {
+      if (!node.content) {
+        return ''
+      }
+
+      return h.renderChildren(node.content, '\n')
+    },
+
+    parse: (token, helpers) => {
+      if (token.type !== 'list' || !(token as any).ordered) {
+        return []
+      }
+
+      return {
+        type: 'orderedList',
+        attrs: {
+          start: (token as any).start || 1,
+        },
+        content: token.items ? helpers.parseChildren(token.items) : [],
+      }
+    },
+  },
+
   addCommands() {
     return {
       toggleOrderedList:

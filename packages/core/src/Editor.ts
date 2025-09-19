@@ -27,6 +27,7 @@ import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
+import MarkdownManager from './markdown/MarkdownManager.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import type {
@@ -71,6 +72,11 @@ export class Editor extends EventEmitter<EditorEvents> {
   public isInitialized = false
 
   public extensionStorage: Storage = {} as Storage
+
+  /**
+   * Markdown manager for parsing/serializing markdown.
+   */
+  public markdown?: MarkdownManager
 
   /**
    * A unique ID for this editor instance.
@@ -433,6 +439,9 @@ export class Editor extends EventEmitter<EditorEvents> {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })
 
+    // Create MarkdownManager so extensions can register markdown handlers
+    this.markdown = new MarkdownManager()
+
     this.extensionManager = new ExtensionManager(allExtensions, this)
   }
 
@@ -461,11 +470,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
+        contentType: this.options.contentType,
+        markdownManager: this.markdown,
       })
     } catch (e) {
       if (
         !(e instanceof Error) ||
-        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)
+        ![
+          '[tiptap error]: Invalid JSON content',
+          '[tiptap error]: Invalid HTML content',
+          '[tiptap error]: Invalid Markdown content',
+        ].includes(e.message)
       ) {
         // Not the content error we were expecting
         throw e
@@ -492,6 +507,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: false,
+        contentType: this.options.contentType,
+        markdownManager: this.markdown,
       })
     }
     return doc
@@ -704,6 +721,25 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public getHTML(): string {
     return getHTMLFromFragment(this.state.doc.content, this.schema)
+  }
+
+  /**
+   * Get the document as Markdown.
+   * If a MarkdownManager is available it will be used to serialize the
+   * document to Markdown. Otherwise a best-effort plain-text fallback is
+   * returned via `getText()`.
+   */
+  public getMarkdown(): string {
+    try {
+      if (this.markdown) {
+        return this.markdown.serialize(this.getJSON())
+      }
+    } catch {
+      // Fall through to text fallback on serialization errors
+    }
+
+    // Fallback: return plain text if no markdown serializer is available
+    return this.getText()
   }
 
   /**

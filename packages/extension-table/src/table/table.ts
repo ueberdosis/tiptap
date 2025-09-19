@@ -28,6 +28,7 @@ import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
+import renderTableToMarkdown from './utilities/markdown.js'
 
 export interface TableOptions {
   /**
@@ -268,6 +269,12 @@ export const Table = Node.create<TableOptions>({
     ]
 
     return table
+  },
+
+  markdown: {
+    render: (node, h) => {
+      return renderTableToMarkdown(node, h)
+    },
   },
 
   addCommands() {
