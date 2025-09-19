@@ -66,6 +66,10 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   },
 
   markdown: {
+    parse: (token, helpers) => {
+      return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
+    },
+
     render: (node, h) => {
       if (!node.content) {
         return ''

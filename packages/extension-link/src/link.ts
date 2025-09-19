@@ -303,6 +303,14 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   markdown: {
+    parseName: 'link',
+
+    parse: (token, helpers) => {
+      return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
+        href: token.href,
+        title: token.title || null,
+      })
+    },
     render: (node, h) => {
       const href = node.attrs?.href || ''
       const text = h.renderChildren(node)

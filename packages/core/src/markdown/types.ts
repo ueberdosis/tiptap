@@ -10,6 +10,7 @@ export type MarkdownToken = {
   tokens?: MarkdownToken[]
   depth?: number
   items?: MarkdownToken[]
+  [key: string]: any
 }
 
 export type MarkdownHelpers = {
@@ -22,6 +23,27 @@ export type MarkdownHelpers = {
    */
   renderChildren: (node: Node[] | Node, ctxOrSeparator?: RenderContext | string) => string
   text: (token: MarkdownToken) => any
+}
+
+/**
+ * Helpers specifically for parsing markdown tokens into Tiptap JSON.
+ * These are provided to extension parse handlers.
+ */
+export type MarkdownParseHelpers = {
+  /** Parse an array of inline tokens into text nodes with marks */
+  parseInline: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Parse an array of block-level tokens */
+  parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Create a text node with optional marks */
+  createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => JSONContent
+  /** Create any node type with attributes and content */
+  createNode: (type: string, attrs?: any, content?: JSONContent[]) => JSONContent
+  /** Apply a mark to content (used for inline marks like bold, italic) */
+  applyMark: (
+    markType: string,
+    content: JSONContent[],
+    attrs?: any,
+  ) => { mark: string; content: JSONContent[]; attrs?: any }
 }
 
 /**
@@ -52,7 +74,7 @@ export default MarkdownHelpers
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
-export type MarkdownParseResult = Node | Node[] | { mark: string; content: Node[] }
+export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: string; content: JSONContent[]; attrs?: any }
 
 export type RenderContext = {
   index: number
@@ -63,10 +85,15 @@ export type RenderContext = {
 
 /** Extension contract for markdown parsing/serialization. */
 export interface MarkdownExtensionSpec {
+  /** Token name used for parsing (e.g., 'codespan', 'code', 'strong') */
+  parseName?: string
+  /** Node/mark name used for rendering (typically the extension name) */
+  renderName?: string
+  /** Legacy: if neither parseName nor renderName provided, use this */
   markdownName: string
-  parseMarkdown: (token: any) => any
-  renderMarkdown: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
-  isIndenting: boolean
+  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+  renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  isIndenting?: boolean
 }
 
 export type MarkdownRendererHelpers = {

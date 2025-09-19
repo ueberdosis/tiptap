@@ -84,6 +84,12 @@ export const Heading = Node.create<HeadingOptions>({
   },
 
   markdown: {
+    parse: (token, helpers) => {
+      // Convert 'heading' token to heading node
+      // marked provides 'depth' property (1-6) for heading level
+      return helpers.createNode('heading', { level: token.depth || 1 }, helpers.parseInline(token.tokens || []))
+    },
+
     render: (node, h) => {
       const level = node.attrs?.level ? parseInt(node.attrs.level as string, 10) : 1
       const headingChars = '#'.repeat(level)

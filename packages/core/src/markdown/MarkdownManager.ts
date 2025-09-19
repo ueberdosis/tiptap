@@ -2,7 +2,14 @@ import { marked } from 'marked'
 
 import { getExtensionField } from '../helpers/getExtensionField.js'
 import type { AnyExtension, JSONContent } from '../types.js'
-import type { MarkdownExtensionSpec, MarkdownRendererHelpers, RenderContext } from './types.js'
+import type {
+  MarkdownExtensionSpec,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  RenderContext,
+} from './types.js'
 import {
   closeMarksBeforeNode,
   findMarksToClose,
@@ -14,7 +21,8 @@ import {
 
 export class MarkdownManager {
   private markedInstance: typeof marked
-  private registry: Map<string, MarkdownExtensionSpec>
+  private registry: Map<string, MarkdownExtensionSpec[]>
+  private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
 
@@ -37,6 +45,7 @@ export class MarkdownManager {
     }
 
     this.registry = new Map()
+    this.nodeTypeRegistry = new Map()
   }
 
   /** Returns the underlying marked instance. */
@@ -67,32 +76,74 @@ export class MarkdownManager {
   registerExtension(extension: AnyExtension): void {
     const name = extension.name
     // Read the `markdown` object from the extension config. This allows
-    // extensions to provide `markdown: { name?, parse?, render?, match? }`.
+    // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
     const markdownCfg = getExtensionField(extension, 'markdown') ?? null
 
-    const markdownName = (markdownCfg && markdownCfg.name) ?? name
-    if (!markdownName || !markdownCfg) {
+    if (!markdownCfg) {
       return
     }
 
     const parseMarkdown = markdownCfg?.parse ?? undefined
     const renderMarkdown = markdownCfg?.render ?? undefined
-    const isIndenting = markdownCfg?.isIndenting ?? undefined
+    const isIndenting = markdownCfg?.isIndenting ?? false
 
-    this.registry.set(markdownName, {
-      markdownName,
+    // Support new parseName/renderName system while maintaining backward compatibility
+    const parseName = markdownCfg.parseName ?? markdownCfg.name ?? name
+    const renderName = markdownCfg.renderName ?? name
+    const legacyMarkdownName = markdownCfg.name ?? name
+
+    const spec: MarkdownExtensionSpec = {
+      parseName,
+      renderName,
+      markdownName: legacyMarkdownName, // Keep for backward compatibility
       parseMarkdown,
       renderMarkdown,
       isIndenting,
-    })
+    }
+
+    // Add to parse registry using parseName
+    if (parseName && parseMarkdown) {
+      const parseExisting = this.registry.get(parseName) || []
+      parseExisting.push(spec)
+      this.registry.set(parseName, parseExisting)
+    }
+
+    // Add to render registry using renderName (node type)
+    if (renderName && renderMarkdown) {
+      const renderExisting = this.nodeTypeRegistry.get(renderName) || []
+      renderExisting.push(spec)
+      this.nodeTypeRegistry.set(renderName, renderExisting)
+    }
   }
 
-  /** Get a registered handler for a token type. */
-  private getHandlerForToken(type: string): MarkdownExtensionSpec | undefined {
+  /** Get registered handlers for a token type and try each until one succeeds. */
+  private getHandlersForToken(type: string): MarkdownExtensionSpec[] {
     try {
-      return this.registry.get(type)
+      return this.registry.get(type) || []
     } catch {
-      // ignore unknown registry call
+      return []
+    }
+  }
+
+  /** Get the first handler for a token type (for backwards compatibility). */
+  private getHandlerForToken(type: string): MarkdownExtensionSpec | undefined {
+    // First try the markdown token registry (for parsing)
+    const markdownHandlers = this.getHandlersForToken(type)
+    if (markdownHandlers.length > 0) {
+      return markdownHandlers[0]
+    }
+
+    // Then try the node type registry (for rendering)
+    const nodeTypeHandlers = this.getHandlersForNodeType(type)
+    return nodeTypeHandlers.length > 0 ? nodeTypeHandlers[0] : undefined
+  }
+
+  /** Get registered handlers for a node type (for rendering). */
+  private getHandlersForNodeType(type: string): MarkdownExtensionSpec[] {
+    try {
+      return this.nodeTypeRegistry.get(type) || []
+    } catch {
+      return []
     }
   }
 
@@ -115,12 +166,224 @@ export class MarkdownManager {
   }
 
   /**
-   * Convert an array of marked tokens into ProseMirror JSON nodes by using
-   * registered extension handlers or a minimal fallback.
+   * Parse markdown string into Tiptap JSON document using registered extension handlers.
    */
-  // TODO: implement child parsing
-  parseChildren(): any[] {
-    return []
+  parse(markdown: string): JSONContent {
+    if (!this.hasMarked()) {
+      throw new Error('No marked instance available for parsing')
+    }
+
+    // Use marked to tokenize the markdown
+    const tokens = this.markedInstance.lexer(markdown)
+
+    // Convert tokens to Tiptap JSON
+    const content = this.parseTokens(tokens)
+
+    // Return a document node containing the parsed content
+    return {
+      type: 'doc',
+      content,
+    }
+  }
+
+  /**
+   * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
+   */
+  private parseTokens(tokens: MarkdownToken[]): JSONContent[] {
+    return tokens
+      .map(token => this.parseToken(token))
+      .filter((parsed): parsed is JSONContent | JSONContent[] => parsed !== null)
+      .flatMap(parsed => (Array.isArray(parsed) ? parsed : [parsed]))
+  }
+
+  /**
+   * Parse a single token into Tiptap JSON using the appropriate registered handler.
+   */
+  private parseToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.type) {
+      return null
+    }
+
+    const handlers = this.getHandlersForToken(token.type)
+    const helpers = this.createParseHelpers()
+
+    // Try each handler until one returns a valid result
+    const result = handlers.find(handler => {
+      if (!handler.parseMarkdown) {
+        return false
+      }
+
+      const parseResult = handler.parseMarkdown(token, helpers)
+      const normalized = this.normalizeParseResult(parseResult)
+
+      // Check if this handler returned a valid result (not null/empty array)
+      if (normalized && (!Array.isArray(normalized) || normalized.length > 0)) {
+        // Store result for return
+        this.lastParseResult = normalized
+        return true
+      }
+
+      return false
+    })
+
+    // If a handler worked, return its result
+    if (result && this.lastParseResult) {
+      const toReturn = this.lastParseResult
+      this.lastParseResult = null // Clean up
+      return toReturn
+    }
+
+    // If no handler worked, try fallback parsing
+    return this.parseFallbackToken(token)
+  }
+
+  private lastParseResult: JSONContent | JSONContent[] | null = null
+
+  /**
+   * Create the helper functions that are passed to parse handlers.
+   */
+  private createParseHelpers(): MarkdownParseHelpers {
+    return {
+      parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
+      parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
+      createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => ({
+        type: 'text',
+        text,
+        marks: marks || undefined,
+      }),
+      createNode: (type: string, attrs?: any, content?: JSONContent[]) => ({
+        type,
+        attrs: attrs || undefined,
+        content: content || undefined,
+      }),
+      applyMark: (markType: string, content: JSONContent[], attrs?: any) => ({
+        mark: markType,
+        content,
+        attrs: attrs || undefined,
+      }),
+    }
+  }
+
+  /**
+   * Parse inline tokens (bold, italic, links, etc.) into text nodes with marks.
+   * This is the complex part that handles mark nesting and boundaries.
+   */
+  private parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
+    const result: JSONContent[] = []
+
+    // Process tokens sequentially
+    tokens.forEach(token => {
+      if (token.type === 'text') {
+        // Create text node
+        result.push({
+          type: 'text',
+          text: token.text || '',
+        })
+      } else if (token.type) {
+        // Handle inline marks (bold, italic, etc.)
+        const markHandler = this.getHandlerForToken(token.type)
+        if (markHandler && markHandler.parseMarkdown) {
+          const helpers = this.createParseHelpers()
+          const parsed = markHandler.parseMarkdown(token, helpers)
+
+          if (this.isMarkResult(parsed)) {
+            // This is a mark result - apply the mark to the content
+            const markedContent = this.applyMarkToContent(parsed.mark, parsed.content, parsed.attrs)
+            result.push(...markedContent)
+          } else {
+            // Regular inline node
+            const normalized = this.normalizeParseResult(parsed)
+            if (Array.isArray(normalized)) {
+              result.push(...normalized)
+            } else if (normalized) {
+              result.push(normalized)
+            }
+          }
+        } else if (token.tokens) {
+          // Fallback: try to parse children if they exist
+          result.push(...this.parseInlineTokens(token.tokens))
+        }
+      }
+    })
+
+    return result
+  }
+
+  /**
+   * Apply a mark to content nodes.
+   */
+  private applyMarkToContent(markType: string, content: JSONContent[], attrs?: any): JSONContent[] {
+    return content.map(node => {
+      if (node.type === 'text') {
+        // Add the mark to existing marks or create new marks array
+        const existingMarks = node.marks || []
+        const newMark = attrs ? { type: markType, attrs } : { type: markType }
+        return {
+          ...node,
+          marks: [...existingMarks, newMark],
+        }
+      }
+
+      // For non-text nodes, recursively apply to content
+      return {
+        ...node,
+        content: node.content ? this.applyMarkToContent(markType, node.content, attrs) : undefined,
+      }
+    })
+  } /**
+   * Check if a parse result represents a mark to be applied.
+   */
+  private isMarkResult(result: any): result is { mark: string; content: JSONContent[]; attrs?: any } {
+    return result && typeof result === 'object' && 'mark' in result
+  }
+
+  /**
+   * Normalize parse results to ensure they're valid JSONContent.
+   */
+  private normalizeParseResult(result: MarkdownParseResult): JSONContent | JSONContent[] | null {
+    if (!result) {
+      return null
+    }
+
+    if (this.isMarkResult(result)) {
+      // This shouldn't happen at the top level, but handle it gracefully
+      return result.content
+    }
+
+    return result as JSONContent | JSONContent[]
+  }
+
+  /**
+   * Fallback parsing for common tokens when no specific handler is registered.
+   */
+  private parseFallbackToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    switch (token.type) {
+      case 'paragraph':
+        return {
+          type: 'paragraph',
+          content: token.tokens ? this.parseInlineTokens(token.tokens) : [],
+        }
+
+      case 'heading':
+        return {
+          type: 'heading',
+          attrs: { level: token.depth || 1 },
+          content: token.tokens ? this.parseInlineTokens(token.tokens) : [],
+        }
+
+      case 'text':
+        return {
+          type: 'text',
+          text: token.text || '',
+        }
+
+      default:
+        // Unknown token type - try to parse children if they exist
+        if (token.tokens) {
+          return this.parseTokens(token.tokens)
+        }
+        return null
+    }
   }
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
@@ -130,7 +393,7 @@ export class MarkdownManager {
       return node.text || ''
     }
 
-    if (!node.type || !this.registry.has(node.type)) {
+    if (!node.type) {
       return ''
     }
 
@@ -167,7 +430,7 @@ export class MarkdownManager {
     }
 
     // First render the node itself (this will render children recursively)
-    const rendered = handler.renderMarkdown(node, helpers, context)
+    const rendered = handler.renderMarkdown?.(node, helpers, context) || ''
 
     return rendered
   }
@@ -285,7 +548,8 @@ export class MarkdownManager {
    * Get the opening markdown syntax for a mark type.
    */
   private getMarkOpening(markType: string, mark: any): string {
-    const handler = this.getHandlerForToken(markType)
+    const handlers = this.getHandlersForNodeType(markType)
+    const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
       return ''
     }
@@ -324,7 +588,8 @@ export class MarkdownManager {
    * Get the closing markdown syntax for a mark type.
    */
   private getMarkClosing(markType: string, mark: any): string {
-    const handler = this.getHandlerForToken(markType)
+    const handlers = this.getHandlersForNodeType(markType)
+    const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
       return ''
     }

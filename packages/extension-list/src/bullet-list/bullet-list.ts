@@ -82,6 +82,7 @@ export const BulletList = Node.create<BulletListOptions>({
   },
 
   markdown: {
+    parseName: 'list',
     isIndenting: true,
 
     render: (node, h) => {
@@ -90,6 +91,17 @@ export const BulletList = Node.create<BulletListOptions>({
       }
 
       return h.renderChildren(node.content, '\n')
+    },
+
+    parse: (token, helpers) => {
+      if (token.type !== 'list' || (token as any).ordered) {
+        return []
+      }
+
+      return {
+        type: 'bulletList',
+        content: token.items ? helpers.parseChildren(token.items) : [],
+      }
     },
   },
 

@@ -106,6 +106,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   markdown: {
+    parseName: 'list',
     isIndenting: true,
 
     render: (node, h) => {
@@ -114,6 +115,20 @@ export const OrderedList = Node.create<OrderedListOptions>({
       }
 
       return h.renderChildren(node.content, '\n')
+    },
+
+    parse: (token, helpers) => {
+      if (token.type !== 'list' || !(token as any).ordered) {
+        return []
+      }
+
+      return {
+        type: 'orderedList',
+        attrs: {
+          start: (token as any).start || 1,
+        },
+        content: token.items ? helpers.parseChildren(token.items) : [],
+      }
     },
   },
 

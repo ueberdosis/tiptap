@@ -91,6 +91,13 @@ export const Bold = Mark.create<BoldOptions>({
   },
 
   markdown: {
+    name: 'strong',
+
+    parse: (token, helpers) => {
+      // Convert 'strong' token to bold mark
+      return helpers.applyMark('bold', helpers.parseInline(token.tokens || []))
+    },
+
     render: (node, h) => {
       return `**${h.renderChildren(node)}**`
     },

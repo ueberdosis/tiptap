@@ -9,6 +9,14 @@ export const Text = Node.create({
   group: 'inline',
 
   markdown: {
+    parse: token => {
+      // Convert 'text' token to text node - text nodes are special as they store text directly
+      return {
+        type: 'text',
+        text: token.text || '',
+      }
+    },
+
     render: node => node.text || '',
   },
 })

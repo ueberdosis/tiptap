@@ -72,6 +72,14 @@ export const Code = Mark.create<CodeOptions>({
   },
 
   markdown: {
+    parseName: 'codespan',
+
+    parse: (token, helpers) => {
+      // Convert 'codespan' token to code mark
+      // For codespan tokens, we use the raw text content, not tokens
+      return helpers.applyMark('code', [{ type: 'text', text: token.text || '' }])
+    },
+
     render: (node, h) => {
       if (!node.content) {
         return ''

@@ -49,6 +49,15 @@ export const Paragraph = Node.create<ParagraphOptions>({
   },
 
   markdown: {
+    parse: (token, helpers) => {
+      // Convert 'paragraph' token to paragraph node
+      return helpers.createNode(
+        'paragraph',
+        undefined, // no attributes for paragraph
+        helpers.parseInline(token.tokens || []),
+      )
+    },
+
     render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
         return ''

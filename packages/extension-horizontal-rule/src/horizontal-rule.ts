@@ -46,6 +46,12 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   },
 
   markdown: {
+    parseName: 'hr',
+
+    parse: (token, helpers) => {
+      return helpers.createNode('horizontalRule')
+    },
+
     render: () => {
       return '---'
     },
