@@ -1,6 +1,6 @@
 import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import { PluginKey } from '@tiptap/pm/state'
 import { useCurrentEditor } from '@tiptap/react'
-import { PluginKey } from 'packages/pm/state'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
