@@ -1,4 +1,4 @@
-import type { ComputePositionConfig } from '@floating-ui/dom'
+import type { ComputePositionConfig, VirtualElement } from '@floating-ui/dom'
 import { type Editor, Extension } from '@tiptap/core'
 import type { Node } from '@tiptap/pm/model'
 
@@ -19,6 +19,11 @@ export interface DragHandleOptions {
    * using the floating-ui/dom package
    */
   computePositionConfig?: ComputePositionConfig
+  /**
+   * A function that returns the virtual element for the drag handle.
+   * This is useful when the menu needs to be positioned relative to a specific DOM element.
+   */
+  getReferencedVirtualElement?: () => VirtualElement | null
   /**
    * Locks the draghandle in place and visibility
    */
@@ -97,6 +102,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
     return [
       DragHandlePlugin({
         computePositionConfig: { ...defaultComputePositionConfig, ...this.options.computePositionConfig },
+        getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         element,
         editor: this.editor,
         onNodeChange: this.options.onNodeChange,

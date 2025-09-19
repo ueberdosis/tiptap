@@ -1,4 +1,4 @@
-import { type ComputePositionConfig, computePosition } from '@floating-ui/dom'
+import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
@@ -63,6 +63,7 @@ export interface DragHandlePluginProps {
   onElementDragStart?: (e: DragEvent) => void
   onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
+  getReferencedVirtualElement?: () => VirtualElement | null
 }
 
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
@@ -72,6 +73,7 @@ export const DragHandlePlugin = ({
   element,
   editor,
   computePositionConfig,
+  getReferencedVirtualElement,
   onNodeChange,
   onElementDragStart,
   onElementDragEnd,
@@ -109,7 +111,7 @@ export const DragHandlePlugin = ({
   }
 
   function repositionDragHandle(dom: Element) {
-    const virtualElement = {
+    const virtualElement = getReferencedVirtualElement?.() || {
       getBoundingClientRect: () => dom.getBoundingClientRect(),
     }
 
