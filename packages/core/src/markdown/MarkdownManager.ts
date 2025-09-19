@@ -118,51 +118,9 @@ export class MarkdownManager {
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
     // if node is a text node, we simply return it's text content
+    // marks are handled at the array level in renderNodesWithMarkBoundaries
     if (node.type === 'text') {
-      // apply marks on text nodes as well (if present)
-      let inner = node.text || ''
-
-      if (node.marks && Array.isArray(node.marks) && node.marks.length > 0) {
-        const marks = node.marks as any[]
-        for (let i = 0; i < marks.length; i += 1) {
-          const mark = marks[i]
-          const markHandler = this.getHandlerForToken(mark.type)
-          if (!markHandler || !markHandler.renderMarkdown) {
-            continue
-          }
-
-          // Create a synthetic mark node whose content is a single text node
-          const markNode: JSONContent = {
-            type: mark.type,
-            attrs: mark.attrs ? mark.attrs : {},
-            content: [{ type: 'text', text: inner }],
-          }
-
-          try {
-            inner = markHandler.renderMarkdown(
-              markNode,
-              {
-                renderChildren: (nodes: JSONContent | JSONContent[]) => {
-                  if (!Array.isArray(nodes) && (nodes as any).content) {
-                    return this.renderNodes((nodes as any).content as JSONContent[], markNode, '')
-                  }
-
-                  return this.renderNodes(nodes, markNode, '')
-                },
-                indent: content => this.indentString + content,
-                wrapInBlock: wrapInMarkdownBlock,
-              },
-              { index: 0, level, parentType: node.type, meta: {} },
-            )
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.error('Markdown mark renderer failed for', mark.type, err)
-            // keep inner as-is (unmarked)
-          }
-        }
-      }
-
-      return inner
+      return node.text || ''
     }
 
     if (!node.type || !this.registry.has(node.type)) {
@@ -227,15 +185,229 @@ export class MarkdownManager {
       return this.renderNodeToMarkdown(nodeOrNodes, parentNode, index, level)
     }
 
-    return nodeOrNodes
-      .map((n, i) => {
-        if (!n.type) {
-          return ''
+    return this.renderNodesWithMarkBoundaries(nodeOrNodes, parentNode, separator, level)
+  }
+
+  /**
+   * Render an array of nodes while properly tracking mark boundaries.
+   * This handles cases where marks span across multiple text nodes.
+   */
+  private renderNodesWithMarkBoundaries(
+    nodes: JSONContent[],
+    parentNode?: JSONContent,
+    separator = '',
+    level = 0,
+  ): string {
+    const result: string[] = []
+    const activeMarks: Map<string, any> = new Map()
+
+    nodes.forEach((node, i) => {
+      // Lookahead to the next node to determine if marks need to be closed
+      const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
+
+      if (!node.type) {
+        return
+      }
+
+      if (node.type === 'text') {
+        let textContent = node.text || ''
+        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+
+        // Find marks that need to be closed (active but not in current node)
+        const marksToClose: string[] = []
+        Array.from(activeMarks.keys()).forEach(markType => {
+          if (!currentMarks.has(markType)) {
+            marksToClose.push(markType)
+          }
+        })
+
+        // Find marks that need to be opened (in current node but not active)
+        const marksToOpen: Array<{ type: string; mark: any }> = []
+        Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
+          if (!activeMarks.has(markType)) {
+            marksToOpen.push({ type: markType, mark })
+          }
+        })
+
+        // Close marks (in reverse order of how they were opened)
+        marksToClose.reverse().forEach(markType => {
+          const mark = activeMarks.get(markType)
+          const closeMarkdown = this.getMarkClosing(markType, mark)
+          if (closeMarkdown) {
+            textContent += closeMarkdown
+          }
+          activeMarks.delete(markType)
+        })
+
+        // Open new marks (should be at the beginning)
+        marksToOpen.forEach(({ type, mark }) => {
+          const openMarkdown = this.getMarkOpening(type, mark)
+          if (openMarkdown) {
+            textContent = openMarkdown + textContent
+          }
+          activeMarks.set(type, mark)
+        })
+
+        // If this is the last text node or next node doesn't have marks, close remaining marks
+        const isLastNode = !nextNode
+        const nextNodeHasNoMarks =
+          nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
+        const nextNodeHasDifferentMarks =
+          nextNode &&
+          nextNode.type === 'text' &&
+          nextNode.marks &&
+          !this.markSetsEqual(currentMarks, new Map(nextNode.marks.map(mark => [mark.type, mark])))
+
+        if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
+          // Close any marks that end here
+          const marksToCloseAtEnd: string[] = []
+          if (nextNode && nextNode.type === 'text' && nextNode.marks) {
+            const nextMarks = new Map(nextNode.marks.map(mark => [mark.type, mark]))
+            Array.from(activeMarks.keys()).forEach(markType => {
+              if (!nextMarks.has(markType)) {
+                marksToCloseAtEnd.push(markType)
+              }
+            })
+          } else if (isLastNode || nextNodeHasNoMarks) {
+            // Close all active marks
+            marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+          }
+
+          marksToCloseAtEnd.reverse().forEach(markType => {
+            const mark = activeMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark)
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            activeMarks.delete(markType)
+          })
         }
 
-        return this.renderNodeToMarkdown(n, parentNode, i, level)
-      })
-      .join(separator)
+        result.push(textContent)
+      } else {
+        // For non-text nodes, close all active marks before rendering, then reopen after
+        const marksToReopen = new Map(activeMarks)
+
+        // Close all marks
+        let beforeMarkdown = ''
+        Array.from(activeMarks.keys())
+          .reverse()
+          .forEach(markType => {
+            const mark = activeMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark)
+            if (closeMarkdown) {
+              beforeMarkdown = closeMarkdown + beforeMarkdown
+            }
+          })
+        activeMarks.clear()
+
+        // Render the node
+        const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
+
+        // Reopen marks after the node
+        let afterMarkdown = ''
+        Array.from(marksToReopen.entries()).forEach(([markType, mark]) => {
+          const openMarkdown = this.getMarkOpening(markType, mark)
+          if (openMarkdown) {
+            afterMarkdown += openMarkdown
+          }
+          activeMarks.set(markType, mark)
+        })
+
+        result.push(beforeMarkdown + nodeContent + afterMarkdown)
+      }
+    })
+
+    return result.join(separator)
+  }
+
+  /**
+   * Get the opening markdown syntax for a mark type.
+   */
+  private getMarkOpening(markType: string, mark: any): string {
+    const handler = this.getHandlerForToken(markType)
+    if (!handler || !handler.renderMarkdown) {
+      return ''
+    }
+
+    // Use a unique placeholder that's extremely unlikely to appear in real content
+    const placeholder = '\uE000__TIPTAP_MARKDOWN_PLACEHOLDER__\uE001'
+
+    // For most marks, we can extract the opening syntax by rendering a simple case
+    const syntheticNode: JSONContent = {
+      type: markType,
+      attrs: mark.attrs || {},
+      content: [{ type: 'text', text: placeholder }],
+    }
+
+    try {
+      const rendered = handler.renderMarkdown(
+        syntheticNode,
+        {
+          renderChildren: () => placeholder,
+          indent: (content: string) => content,
+          wrapInBlock: (prefix: string, content: string) => prefix + content,
+        },
+        { index: 0, level: 0, parentType: 'text', meta: {} },
+      )
+
+      // Extract the opening part (everything before placeholder)
+      const placeholderIndex = rendered.indexOf(placeholder)
+      return placeholderIndex >= 0 ? rendered.substring(0, placeholderIndex) : ''
+    } catch (err) {
+      console.error('Failed to get mark opening for', markType, err)
+      return ''
+    }
+  }
+
+  /**
+   * Get the closing markdown syntax for a mark type.
+   */
+  private getMarkClosing(markType: string, mark: any): string {
+    const handler = this.getHandlerForToken(markType)
+    if (!handler || !handler.renderMarkdown) {
+      return ''
+    }
+
+    // Use a unique placeholder that's extremely unlikely to appear in real content
+    const placeholder = '\uE000__TIPTAP_MARKDOWN_PLACEHOLDER__\uE001'
+
+    const syntheticNode: JSONContent = {
+      type: markType,
+      attrs: mark.attrs || {},
+      content: [{ type: 'text', text: placeholder }],
+    }
+
+    try {
+      const rendered = handler.renderMarkdown(
+        syntheticNode,
+        {
+          renderChildren: () => placeholder,
+          indent: (content: string) => content,
+          wrapInBlock: (prefix: string, content: string) => prefix + content,
+        },
+        { index: 0, level: 0, parentType: 'text', meta: {} },
+      )
+
+      // Extract the closing part (everything after placeholder)
+      const placeholderIndex = rendered.indexOf(placeholder)
+      const placeholderEnd = placeholderIndex + placeholder.length
+      return placeholderIndex >= 0 ? rendered.substring(placeholderEnd) : ''
+    } catch (err) {
+      console.error('Failed to get mark closing for', markType, err)
+      return ''
+    }
+  }
+
+  /**
+   * Check if two mark sets are equal.
+   */
+  private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
+    if (marks1.size !== marks2.size) {
+      return false
+    }
+
+    return Array.from(marks1.keys()).every(type => marks2.has(type))
   }
 }
 
