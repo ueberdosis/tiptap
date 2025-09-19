@@ -94,6 +94,18 @@ export interface MarkdownExtensionSpec {
   parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
   renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   isIndenting?: boolean
+  /** Custom tokenizer for marked.js to handle non-standard markdown syntax */
+  tokenizer?: MarkdownTokenizer
+}
+
+/** Custom tokenizer function for marked.js extensions */
+export type MarkdownTokenizer = {
+  /** Token name this tokenizer creates */
+  name: string
+  /** Priority level for tokenizer ordering (higher = earlier) */
+  level?: 'block' | 'inline'
+  /** Function that attempts to parse custom syntax from start of text */
+  tokenize: (src: string, tokens: MarkdownToken[]) => MarkdownToken | undefined | void
 }
 
 export type MarkdownRendererHelpers = {

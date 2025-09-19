@@ -8,6 +8,7 @@ import type {
   MarkdownParseResult,
   MarkdownRendererHelpers,
   MarkdownToken,
+  MarkdownTokenizer,
   RenderContext,
 } from './types.js'
 import {
@@ -86,6 +87,7 @@ export class MarkdownManager {
     const parseMarkdown = markdownCfg?.parse ?? undefined
     const renderMarkdown = markdownCfg?.render ?? undefined
     const isIndenting = markdownCfg?.isIndenting ?? false
+    const tokenizer = markdownCfg?.tokenizer ?? undefined
 
     // Support new parseName/renderName system while maintaining backward compatibility
     const parseName = markdownCfg.parseName ?? markdownCfg.name ?? name
@@ -99,6 +101,7 @@ export class MarkdownManager {
       parseMarkdown,
       renderMarkdown,
       isIndenting,
+      tokenizer,
     }
 
     // Add to parse registry using parseName
@@ -114,6 +117,84 @@ export class MarkdownManager {
       renderExisting.push(spec)
       this.nodeTypeRegistry.set(renderName, renderExisting)
     }
+
+    // Register custom tokenizer with marked.js
+    if (tokenizer && this.hasMarked()) {
+      this.registerTokenizer(tokenizer)
+    }
+  }
+
+  /**
+   * Register a custom tokenizer with marked.js for parsing non-standard markdown syntax.
+   */
+  private registerTokenizer(tokenizer: MarkdownTokenizer): void {
+    if (!this.hasMarked()) {
+      return
+    }
+
+    const { name, level = 'inline', tokenize } = tokenizer
+
+    // Create marked.js extension with proper types
+    const markedExtension: any = {
+      name,
+      level,
+      start: (src: string) => {
+        // Find the FIRST position where this pattern could start
+        // For mention tokenizer, look for '@' character
+        if (name === 'mention') {
+          const atIndex = src.indexOf('@')
+          return atIndex
+        }
+
+        // For YouTube tokenizer, look for '[@youtube' pattern
+        if (name === 'youtube') {
+          const youtubeIndex = src.indexOf('[@youtube')
+          return youtubeIndex
+        }
+
+        // For math tokenizers, look for $ characters
+        if (name === 'inlineMath') {
+          const dollarIndex = src.indexOf('$')
+          return dollarIndex
+        }
+
+        if (name === 'blockMath') {
+          const doubleDollarIndex = src.indexOf('$$')
+          return doubleDollarIndex
+        }
+
+        // For custom React node, look for ```react pattern
+        if (name === 'customReactNode') {
+          const reactIndex = src.indexOf('```react')
+          return reactIndex
+        }
+
+        // For other tokenizers, try to find a match and return its position
+        const result = tokenize(src, [])
+        if (result && result.raw) {
+          const index = src.indexOf(result.raw)
+          return index
+        }
+        return -1
+      },
+      tokenizer: (src: string, tokens: any[]) => {
+        const result = tokenize(src, tokens)
+        if (result && result.type) {
+          return {
+            type: result.type,
+            raw: result.raw || '',
+            ...result,
+          }
+        }
+        return undefined
+      },
+      childTokens: [], // Important: mention tokens don't have child tokens
+    }
+
+    // Register with marked.js - use extensions array to control priority
+    this.markedInstance.use({
+      extensions: [markedExtension],
+    })
   }
 
   /** Get registered handlers for a token type and try each until one succeeds. */

@@ -10,6 +10,7 @@ import type {
   MarkdownParseResult,
   MarkdownRendererHelpers,
   MarkdownToken,
+  MarkdownTokenizer,
   RenderContext,
 } from './markdown/types'
 import type { Node } from './Node.js'
@@ -262,6 +263,10 @@ export interface ExtendableConfig<
      * Controls whether this extension will indent markdown content (for example bullet lists)
      */
     isIndenting?: boolean
+    /**
+     * Custom tokenizer for marked.js to handle non-standard markdown syntax
+     */
+    tokenizer?: MarkdownTokenizer
     /**
      * A parse helper used by the markdown subsystem.
      */

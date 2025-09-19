@@ -111,6 +111,14 @@ export const Image = Node.create<ImageOptions>({
   },
 
   markdown: {
+    parse: (token, helpers) => {
+      return helpers.createNode('image', {
+        src: token.href,
+        title: token.title,
+        alt: token.text,
+      })
+    },
+
     render: node => {
       const src = node.attrs?.src ?? ''
       const alt = node.attrs?.alt ?? ''
