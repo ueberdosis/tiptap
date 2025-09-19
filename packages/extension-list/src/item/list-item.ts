@@ -60,25 +60,36 @@ export const ListItem = Node.create<ListItemOptions>({
         return ''
       }
 
-      const listCharacter = ctx.parentType === 'bulletList' ? '-' : `${ctx.index + 1}.`
+      let listCharacter = '-'
+
+      if (ctx.parentType === 'bulletList') {
+        listCharacter = '-'
+      } else if (ctx.parentType === 'orderedList') {
+        listCharacter = `${ctx.index + 1}.`
+      } else {
+        // Fallback to bullet list for unknown parent types
+        listCharacter = '-'
+      }
 
       const [content, ...children] = node.content
 
-      const output = [`${listCharacter} ${h.renderChildren(content)}`]
-      const childOutput: string[] = []
+      // Render the main list item content (should be a paragraph)
+      const mainContent = h.renderChildren([content])
+      const output = [`${listCharacter} ${mainContent}`]
 
-      children.forEach(child => {
-        childOutput.push(`${h.renderChildren(child)}`)
-      })
-
-      if (childOutput && childOutput.length > 0) {
-        const childContent = childOutput
-          .join('')
-          .split('\n')
-          .map(line => h.indent(line))
-          .join('\n')
-
-        output.push(childContent)
+      // Handle nested children (like nested lists)
+      if (children && children.length > 0) {
+        children.forEach(child => {
+          const childContent = h.renderChildren([child])
+          if (childContent) {
+            // Split the child content by lines and indent each line
+            const indentedChild = childContent
+              .split('\n')
+              .map(line => (line ? h.indent(line) : ''))
+              .join('\n')
+            output.push(indentedChild)
+          }
+        })
       }
 
       return output.join('\n')
