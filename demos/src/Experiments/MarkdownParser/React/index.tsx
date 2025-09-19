@@ -187,7 +187,8 @@ You can also edit in the editor and see the markdown update.`)
       Mathematics,
       CustomReactNode,
     ],
-    content: '<p>Click "Parse Markdown" to load content from the left panel.</p>',
+    content: '# Markdown Example\nClick "Parse Markdown" to load content from the left panel.',
+    contentType: 'markdown',
   })
 
   const parseMarkdown = () => {
@@ -230,7 +231,7 @@ You can also edit in the editor and see the markdown update.`)
   const insertImage = () => {
     const url = prompt('Enter image URL:', 'https://unsplash.it/400/300')
     if (url && editor) {
-      editor.chain().focus().setImage({ src: url }).run()
+      editor.chain().focus().insertContent(`![Image](${url})`, { contentType: 'markdown' }).run()
     }
   }
 
@@ -249,7 +250,8 @@ You can also edit in the editor and see the markdown update.`)
       editor
         .chain()
         .focus()
-        .insertContent(`<span data-type="mention" data-id="${id}" data-label="${name}"></span>`)
+        .insertContent(`@[${name}](${id})`, { contentType: 'markdown' })
+        // .insertContent(`<span data-type="mention" data-id="${id}" data-label="${name}"></span>`)
         .run()
     }
   }
@@ -271,28 +273,14 @@ You can also edit in the editor and see the markdown update.`)
   const insertInlineMath = () => {
     const latex = prompt('Enter LaTeX for inline math:', 'E = mc^2')
     if (latex && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: 'inlineMath',
-          attrs: { latex },
-        })
-        .run()
+      editor.chain().focus().insertContent(`$${latex}$`, { contentType: 'markdown' }).run()
     }
   }
 
   const insertBlockMath = () => {
     const latex = prompt('Enter LaTeX for block math:', '\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}')
     if (latex && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: 'blockMath',
-          attrs: { latex },
-        })
-        .run()
+      editor.chain().focus().insertContent(`$$\n${latex}\n$$`, { contentType: 'markdown' }).run()
     }
   }
 

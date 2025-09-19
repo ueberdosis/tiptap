@@ -1,7 +1,7 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
-import type { Content, RawCommands } from '../types.js'
+import type { Content, ContentType, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -39,6 +39,18 @@ declare module '@tiptap/core' {
            * @default true
            */
           emitUpdate?: boolean
+
+          /**
+           * The content type that determines how the content should be parsed.
+           * - 'json': Parse as Tiptap JSON
+           * - 'html': Parse as HTML (default for strings)
+           * - 'markdown': Parse as Markdown using the markdown parser
+           *
+           * If not specified, follows the same detection rules as editor content:
+           * - Objects/arrays are treated as JSON
+           * - Strings are treated as HTML by default
+           */
+          contentType?: ContentType
         },
       ) => ReturnType
     }
@@ -46,7 +58,7 @@ declare module '@tiptap/core' {
 }
 
 export const setContent: RawCommands['setContent'] =
-  (content, { errorOnInvalidContent, emitUpdate = true, parseOptions = {} } = {}) =>
+  (content, { errorOnInvalidContent, emitUpdate = true, parseOptions = {}, contentType } = {}) =>
   ({ editor, tr, dispatch, commands }) => {
     const { doc } = tr
 
@@ -55,6 +67,8 @@ export const setContent: RawCommands['setContent'] =
     if (parseOptions.preserveWhitespace !== 'full') {
       const document = createDocument(content, editor.schema, parseOptions, {
         errorOnInvalidContent: errorOnInvalidContent ?? editor.options.enableContentCheck,
+        contentType,
+        markdownManager: editor.markdown,
       })
 
       if (dispatch) {
@@ -70,5 +84,6 @@ export const setContent: RawCommands['setContent'] =
     return commands.insertContentAt({ from: 0, to: doc.content.size }, content, {
       parseOptions,
       errorOnInvalidContent: errorOnInvalidContent ?? editor.options.enableContentCheck,
+      contentType,
     })
   }
