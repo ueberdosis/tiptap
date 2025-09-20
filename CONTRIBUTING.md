@@ -26,7 +26,11 @@ whether or not your feature is likely to be used by other users of the project.
 
 Before filing an issue:
 
-- Attempt to replicate the problem, to ensure that it wasn't a coincidental incident.
+- Attempt to replicate the problem, to ensure that it wasn't a coincidental incident. Create a CodeSandbox to reproduce the issue. Use one of these templates to get started:
+  - [JavaScript template](https://codesandbox.io/s/tiptap-js-fv1lyo)
+  - [React template](https://codesandbox.io/s/tiptap-react-qidlsv)
+  - [Vue 2 template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
+  - [Vue 3 template](https://codesandbox.io/p/sandbox/tiptap-vue-3-ci7q9h)
 - Check to make sure your feature suggestion isn't already present within the project.
 - Check the pull requests tab to ensure that the bug doesn't have a fix in progress.
 - Check the pull requests tab to ensure that the feature isn't already in progress.
