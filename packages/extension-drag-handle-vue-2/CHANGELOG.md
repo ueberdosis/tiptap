@@ -1,5 +1,57 @@
 # @tiptap/extension-drag-handle-vue-2
 
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.4
+- @tiptap/vue-2@3.4.4
+- @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [915ed65]
+  - @tiptap/vue-2@3.4.3
+  - @tiptap/extension-drag-handle@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/vue-2@3.4.2
+- @tiptap/extension-drag-handle@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.1
+- @tiptap/pm@3.4.1
+- @tiptap/vue-2@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- 2cb08d3: Use factory function for object default value as required by vue 2.
+- 2cb08d3: Fixed a bug that would cause Vue 2 to throw errors in console because Vue 2 expects factory functions for prop defaults
+  - @tiptap/extension-drag-handle@3.4.0
+  - @tiptap/vue-2@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- Updated dependencies [8eff69a]
+  - @tiptap/extension-drag-handle@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/vue-2@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

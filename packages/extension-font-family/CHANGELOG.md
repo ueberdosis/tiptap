@@ -1,5 +1,42 @@
 # Change Log
 
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [46fa8b8]
+  - @tiptap/extension-text-style@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

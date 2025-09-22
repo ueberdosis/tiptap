@@ -6,11 +6,6 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
-// Track document click handlers per EditorView instance to avoid accidental
-// leaks when multiple editors are created/destroyed. WeakMap ensures handlers
-// don't keep views alive.
-const clickHandlerMap: WeakMap<EditorView, (event: MouseEvent) => void> = new WeakMap()
-
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
@@ -210,13 +205,27 @@ export function Suggestion<I = any, TSelected = any>({
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
 
+  // Gets the DOM rectangle corresponding to the current editor cursor anchor position
+  // Calculates screen coordinates based on Tiptap's cursor position and converts to a DOMRect object
+  const getAnchorClientRect = () => {
+    const pos = editor.state.selection.$anchor.pos
+    const coords = editor.view.coordsAtPos(pos)
+    const { top, right, bottom, left } = coords
+
+    try {
+      return new DOMRect(left, top, right - left, bottom - top)
+    } catch {
+      return null
+    }
+  }
+
   // Helper to create a clientRect callback for a given decoration node.
   // Returns null when no decoration node is present. Uses the pluginKey's
   // state to resolve the current decoration node on demand, avoiding a
   // duplicated implementation in multiple places.
   const clientRectFor = (view: EditorView, decorationNode: Element | null) => {
     if (!decorationNode) {
-      return null
+      return getAnchorClientRect
     }
 
     return () => {
@@ -230,10 +239,6 @@ export function Suggestion<I = any, TSelected = any>({
   // small helper used internally by the view to dispatch an exit
   function dispatchExit(view: EditorView, pluginKeyRef: PluginKey) {
     try {
-      // Try to call renderer.onExit so consumer renderers (for example the
-      // demos' ReactRenderer) can clean up and unmount immediately. This
-      // covers paths where we only dispatch a metadata transaction (like
-      // click-outside) and ensures we don't leak DOM nodes / React roots.
       const state = pluginKey.getState(view.state)
       const decorationNode = state?.decorationId
         ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
@@ -266,53 +271,7 @@ export function Suggestion<I = any, TSelected = any>({
   const plugin: Plugin<any> = new Plugin({
     key: pluginKey,
 
-    view(editorView: EditorView) {
-      const ensureClickHandler = (view: EditorView) => {
-        if (clickHandlerMap.has(view)) {
-          return
-        }
-
-        const handler = (event: MouseEvent) => {
-          if (!props) {
-            return
-          }
-
-          const decorationNode = props.decorationNode
-          const target = event.target as Element | null
-
-          if (!decorationNode) {
-            return
-          }
-
-          if (target && decorationNode.contains(target)) {
-            return
-          }
-
-          if (target && view.dom.contains(target)) {
-            return
-          }
-
-          if (target && target.closest && target.closest('.react-renderer')) {
-            return
-          }
-
-          dispatchExit(view, pluginKey)
-        }
-
-        document.addEventListener('mousedown', handler, true)
-        clickHandlerMap.set(view, handler)
-      }
-
-      const removeClickHandler = (view: EditorView) => {
-        const handler = clickHandlerMap.get(view)
-        if (!handler) {
-          return
-        }
-
-        document.removeEventListener('mousedown', handler, true)
-        clickHandlerMap.delete(view)
-      }
-
+    view() {
       return {
         update: async (view, prevState) => {
           const prev = this.key?.getState(prevState)
@@ -379,18 +338,9 @@ export function Suggestion<I = any, TSelected = any>({
           if (handleStart) {
             renderer?.onStart?.(props)
           }
-
-          // Install / remove click handler depending on suggestion active state
-          if (next.active) {
-            ensureClickHandler(view)
-          } else {
-            removeClickHandler(editorView)
-          }
         },
 
         destroy: () => {
-          removeClickHandler(editorView)
-
           if (!props) {
             return
           }
@@ -522,6 +472,16 @@ export function Suggestion<I = any, TSelected = any>({
           const decorationNode =
             cachedNode ??
             (state?.decorationId ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`) : null)
+
+          // Give the consumer a chance to handle Escape via onKeyDown first.
+          // If the consumer returns `true` we assume they handled the event and
+          // we won't call onExit/dispatchExit so they can both prevent
+          // propagation and decide whether to close the suggestion themselves.
+          const handledByKeyDown = renderer?.onKeyDown?.({ view, event, range: state.range }) || false
+
+          if (handledByKeyDown) {
+            return true
+          }
 
           const exitProps: SuggestionProps = {
             editor,

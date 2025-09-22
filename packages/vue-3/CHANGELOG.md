@@ -1,5 +1,55 @@
 # Change Log
 
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 915ed65: Add custom positioning support to the BubbleMenu.
+
+  This change adds an opt-in API that allows consumers to fully control how the BubbleMenu is positioned. Instead of relying solely on the internal placement logic, you can now provide a function (for example `getPosition`) that receives the relevant context (editor instance and menu DOM element) and returns the desired coordinates or positioning style.
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes
