@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-bold",
   "description": "bold extension for tiptap",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
