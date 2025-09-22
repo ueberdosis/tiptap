@@ -78,7 +78,7 @@ export const BubbleMenu: Component = {
   },
 
   render(this: BubbleMenuInterface, createElement: CreateElement) {
-    return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
+    return createElement('div', {}, this.$slots.default)
   },
 
   beforeDestroy(this: BubbleMenuInterface) {
