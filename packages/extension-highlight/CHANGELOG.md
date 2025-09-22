@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+
 ## 3.4.4
 
 ### Patch Changes
