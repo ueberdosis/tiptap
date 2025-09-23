@@ -30,7 +30,8 @@
     "prepare": "husky install",
     "turbo": "turbo",
     "changeset": "changeset",
-    "version": "pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
+    "changelog": "node ./scripts/aggregate-changeset.js",
+    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -39,6 +40,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@changesets/cli": "^2.27.11",
+    "@changesets/get-release-plan": "^4.0.13",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@cypress/webpack-preprocessor": "^6.0.2",

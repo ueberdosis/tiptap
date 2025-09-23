@@ -3,7 +3,7 @@ import { mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
-import Suggestion from '@tiptap/suggestion'
+import { Suggestion } from '@tiptap/suggestion'
 
 import { getSuggestionOptions } from './utils/get-default-suggestion-attributes.js'
 
