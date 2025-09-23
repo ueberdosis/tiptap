@@ -26,16 +26,6 @@
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
 
-# Change Log
-
-> **Important information**
->
-> As of version 2.4.1 Tiptap uses **Changesets** which don't allow the generation of one generic CHANGELOG file.
-> If you want to check changes of a specific package version, check the **CHANGELOG.md** file in the specific package
-> directory or out [Github Releases](https://github.com/ueberdosis/tiptap/releases)
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 # [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
 
