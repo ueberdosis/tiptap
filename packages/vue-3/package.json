@@ -51,5 +51,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && rollup -c"
+  },
+  "publishConfig": {
+    "tag": "v2-latest"
   }
 }
