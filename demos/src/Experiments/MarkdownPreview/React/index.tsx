@@ -9,6 +9,7 @@ import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
 import { TableKit } from '@tiptap/extension-table'
 import { Youtube } from '@tiptap/extension-youtube'
+import { Markdown } from '@tiptap/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect, useState } from 'react'
@@ -16,6 +17,7 @@ import React, { useEffect, useState } from 'react'
 export default () => {
   const editor = useEditor({
     extensions: [
+      Markdown,
       StarterKit,
       TableKit,
       Emoji,
