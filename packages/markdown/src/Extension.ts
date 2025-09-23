@@ -147,6 +147,18 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
 
     this.editor.markdown = this.storage.manager
 
+    // register all extensions that have markdown config
+    this.editor.extensionManager.extensions.forEach(extension => {
+      if (extension.config.markdown) {
+        this.storage.manager.registerExtension(extension)
+      }
+    })
+
+    // add a `getMarkdown()` method to the editor
+    this.editor.getMarkdown = () => {
+      return this.storage.manager.serialize(this.editor.getJSON())
+    }
+
     if (!this.editor.options.contentAsMarkdown) {
       return
     }
@@ -167,25 +179,5 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
 
     const json = this.editor.markdown.parse(this.editor.options.content as string)
     this.editor.options.content = json
-  },
-
-  onCreate() {
-    if (this.editor.markdown) {
-      return
-    }
-
-    // register all extensions that have markdown config
-    this.editor.extensionManager.extensions.forEach(extension => {
-      if (extension.config.markdown) {
-        this.storage.manager.registerExtension(extension)
-      }
-    })
-
-    // add a `getMarkdown()` method to the editor
-    this.editor.getMarkdown = () => {
-      return this.storage.manager.serialize(this.editor.getJSON())
-    }
-
-    // update commands
   },
 })

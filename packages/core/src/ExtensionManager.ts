@@ -345,15 +345,6 @@ export class ExtensionManager {
       if (onDestroy) {
         this.editor.on('destroy', onDestroy)
       }
-
-      // Register markdown handlers if the editor provides a markdown manager
-      try {
-        if (this.editor.markdown) {
-          this.editor.markdown.registerExtension(extension)
-        }
-      } catch {
-        // Swallow registration errors to avoid breaking editor init
-      }
     })
   }
 }
