@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.5.1
+
+### Patch Changes
+
+- f80c848: Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+  - @tiptap/core@3.5.1
+  - @tiptap/pm@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes

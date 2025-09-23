@@ -1,3 +1,31 @@
+# Releases
+
+## v3.5.1
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
 # Change Log
 
 > **Important information**
