@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.5.0
+
+### Minor Changes
+
+- 8fa5955: Add `updateBubbleMenuPosition` command to update position of bubble menu. This command lets developers programmatically update the position of the bubble menu in response to certain events (for example, when the bubble menu is resized).
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
 ## 3.4.6
 
 ### Patch Changes

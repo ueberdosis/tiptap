@@ -1,5 +1,19 @@
 # @tiptap/extension-drag-handle
 
+## 3.5.0
+
+### Minor Changes
+
+- daa51c4: Add `getReferencedVirtualElement` option to the drag handle extension to customize the position of the drag handle.
+
+### Patch Changes
+
+- 3eb5360: Fixed `findElementNextToCoords` returning incorrect nodes when the position is at a node boundary. The function now correctly identifies leaf nodes (like images, horizontal rules) by checking `$pos.nodeAfter` before falling back to the parent node lookup.
+  - @tiptap/core@3.5.0
+  - @tiptap/extension-collaboration@3.5.0
+  - @tiptap/extension-node-range@3.5.0
+  - @tiptap/pm@3.5.0
+
 ## 3.4.6
 
 ### Patch Changes
