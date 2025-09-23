@@ -1,16 +1,17 @@
+import {
+  type AnyExtension,
+  type JSONContent,
+  type MarkdownExtensionSpec,
+  type MarkdownParseHelpers,
+  type MarkdownParseResult,
+  type MarkdownRendererHelpers,
+  type MarkdownToken,
+  type MarkdownTokenizer,
+  type RenderContext,
+  getExtensionField,
+} from '@tiptap/core'
 import { marked } from 'marked'
 
-import { getExtensionField } from '../helpers/getExtensionField.js'
-import type { AnyExtension, JSONContent } from '../types.js'
-import type {
-  MarkdownExtensionSpec,
-  MarkdownParseHelpers,
-  MarkdownParseResult,
-  MarkdownRendererHelpers,
-  MarkdownToken,
-  MarkdownTokenizer,
-  RenderContext,
-} from './types.js'
 import {
   closeMarksBeforeNode,
   findMarksToClose,

@@ -6,6 +6,7 @@ import { Image } from '@tiptap/extension-image'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
 import { Youtube } from '@tiptap/extension-youtube'
+import { Markdown } from '@tiptap/markdown'
 import { EditorContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
@@ -156,6 +157,7 @@ You can also edit in the editor and see the markdown update.`)
 
   const editor = useEditor({
     extensions: [
+      Markdown,
       StarterKit,
       Youtube.configure({
         inline: false,
@@ -187,7 +189,8 @@ You can also edit in the editor and see the markdown update.`)
       Mathematics,
       CustomReactNode,
     ],
-    content: '<p>Click "Parse Markdown" to load content from the left panel.</p>',
+    content: '# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.',
+    contentAsMarkdown: true,
   })
 
   const parseMarkdown = () => {
@@ -198,11 +201,7 @@ You can also edit in the editor and see the markdown update.`)
 
     try {
       setError(null)
-      // Use the MarkdownManager to parse markdown to JSON
-      const parsedJson = editor.markdown.parse(markdownInput)
-
-      // Set the parsed content in the editor
-      editor.commands.setContent(parsedJson)
+      editor.commands.setContent(markdownInput, { asMarkdown: true })
     } catch (err) {
       setError(`Error parsing markdown: ${err instanceof Error ? err.message : String(err)}`)
     }
@@ -246,11 +245,7 @@ You can also edit in the editor and see the markdown update.`)
     if (name && editor) {
       // Generate a simple ID based on the name
       const id = Math.random().toString(36).substr(2, 9)
-      editor
-        .chain()
-        .focus()
-        .insertContent(`<span data-type="mention" data-id="${id}" data-label="${name}"></span>`)
-        .run()
+      editor.chain().focus().insertContent(`@[${name}](${id})`, { asMarkdown: true }).run()
     }
   }
 

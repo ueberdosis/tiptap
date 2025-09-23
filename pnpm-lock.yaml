@@ -391,17 +391,10 @@ importers:
         version: link:../../packages/extension-list
 
   packages/core:
-    dependencies:
-      marked:
-        specifier: ^16.1.2
-        version: 16.1.2
     devDependencies:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
-      '@types/marked':
-        specifier: ^4.0.7
-        version: 4.3.2
 
   packages/extension-blockquote:
     devDependencies:
@@ -903,6 +896,22 @@ importers:
       happy-dom:
         specifier: ^18.0.1
         version: 18.0.1
+
+  packages/markdown:
+    dependencies:
+      marked:
+        specifier: ^16.1.2
+        version: 16.1.2
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+      '@types/marked':
+        specifier: ^4.0.7
+        version: 4.3.2
 
   packages/pm:
     dependencies:

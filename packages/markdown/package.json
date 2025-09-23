@@ -1,68 +1,64 @@
 {
-  "name": "@tiptap/core",
-  "description": "headless rich text editor",
+  "name": "@tiptap/markdown",
+  "description": "markdown parser and serializer for tiptap",
   "version": "3.5.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
-    "headless",
-    "wysiwyg",
-    "text editor",
-    "prosemirror"
+    "tiptap utility"
   ],
   "license": "MIT",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
-  "type": "module",
   "exports": {
     ".": {
       "types": {
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": {
+        "browser": "./dist/index.js",
+        "node": "./dist/server/index.js",
+        "default": "./dist/index.js"
+      },
       "require": "./dist/index.cjs"
     },
-    "./jsx-runtime": {
+    "./server": {
       "types": {
-        "import": "./jsx-runtime/index.d.ts",
-        "require": "./jsx-runtime/index.d.cts"
+        "import": "./dist/server/index.d.ts",
+        "require": "./dist/server/index.d.cts"
       },
-      "import": "./jsx-runtime/index.js",
-      "require": "./jsx-runtime/index.cjs"
-    },
-    "./jsx-dev-runtime": {
-      "types": {
-        "import": "./jsx-dev-runtime/index.d.ts",
-        "require": "./jsx-dev-runtime/index.d.cts"
-      },
-      "import": "./jsx-dev-runtime/index.js",
-      "require": "./jsx-dev-runtime/index.cjs"
+      "import": "./dist/server/index.js",
+      "require": "./dist/server/index.cjs"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "src",
-    "dist",
-    "jsx-runtime",
-    "jsx-dev-runtime"
+    "dist"
   ],
+  "dependencies": {
+    "marked": "^16.1.2"
+  },
   "devDependencies": {
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "@types/marked": "^4.0.7"
   },
   "peerDependencies": {
+    "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/core"
+    "directory": "packages/markdown"
   },
-  "sideEffects": false,
   "scripts": {
     "build": "tsup",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
