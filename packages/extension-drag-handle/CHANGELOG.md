@@ -1,5 +1,7 @@
 # @tiptap/extension-drag-handle
 
+## 2.26.2
+
 ## 2.26.1
 
 ### Patch Changes

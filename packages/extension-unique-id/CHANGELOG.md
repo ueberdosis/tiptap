@@ -1,5 +1,7 @@
 # @tiptap/extension-unique-id
 
+## 2.26.2
+
 ## 2.26.1
 
 ## 2.26.0
