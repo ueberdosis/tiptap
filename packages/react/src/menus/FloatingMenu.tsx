@@ -12,7 +12,7 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
-  ({ pluginKey = 'floatingMenu', editor, shouldShow = null, options, children, ...restProps }, ref) => {
+  ({ pluginKey = 'floatingMenu', editor, appendTo, shouldShow = null, options, children, ...restProps }, ref) => {
     const menuEl = useRef(document.createElement('div'))
 
     if (typeof ref === 'function') {
@@ -46,6 +46,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
         editor: attachToEditor,
         element: floatingMenuElement,
         pluginKey,
+        appendTo,
         shouldShow,
         options,
       })

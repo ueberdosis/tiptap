@@ -32,6 +32,11 @@ export const BubbleMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
@@ -47,7 +52,16 @@ export const BubbleMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, shouldShow, getReferencedVirtualElement, updateDelay } = props
+      const {
+        editor,
+        options,
+        pluginKey,
+        resizeDelay,
+        appendTo,
+        shouldShow,
+        getReferencedVirtualElement,
+        updateDelay,
+      } = props
 
       if (!root.value) {
         return
@@ -56,7 +70,7 @@ export const BubbleMenu = defineComponent({
       root.value.style.visibility = 'hidden'
       root.value.style.position = 'absolute'
 
-      // remove the element from the DOM
+      // Remove element from DOM; plugin will re-parent it when shown
       root.value.remove()
 
       editor.registerPlugin(
@@ -66,6 +80,7 @@ export const BubbleMenu = defineComponent({
           options,
           pluginKey,
           resizeDelay,
+          appendTo,
           shouldShow,
           getReferencedVirtualElement,
           updateDelay,
@@ -79,6 +94,7 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
+    // Teleport only instantiates element + slot subtree; plugin controls final placement
     return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
   },
 })
