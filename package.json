@@ -25,7 +25,7 @@
     "build:demos": "npm run build:demos --workspace demos",
     "serve": "npm run build:demos && npx http-server ./demos/dist -p 3000",
     "build:ci": "turbo run build",
-    "publish": "npm run build && npm run changeset publish",
+    "publish": "npm run build && npm run changeset publish -- --tag v2-latest",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz",
     "reset": "npm run clean:packages && npm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && npm install",
