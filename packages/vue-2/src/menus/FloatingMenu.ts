@@ -71,7 +71,7 @@ export const FloatingMenu: Component = {
   },
 
   render(this: FloatingMenuInterface, createElement: CreateElement) {
-    return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
+    return createElement('div', {}, this.$slots.default)
   },
 
   beforeDestroy(this: FloatingMenuInterface) {

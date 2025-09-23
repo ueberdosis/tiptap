@@ -1,5 +1,47 @@
 # Change Log
 
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- 968016f: Added support for the `undoable` option in InputRules (matching ProseMirror’s implementation).
+
+  - When `false`, the change will not be tracked as undoable.
+  - Default remains `true` for backward compatibility.
+
+  This brings Tiptap’s InputRules behavior in line with ProseMirror and gives developers finer control over undo functionality.
+
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 0226d42: Fix an issue where injected CSS was not mounted correctly when the editor instance was mounted. The fix ensures CSS injected by the editor is attached to the document when the editor mounts, preventing missing styles in some mount/unmount scenarios.
+- 37af83b: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- f598ac7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- 00cf1d7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 1ea8906: When the editor view is created, it now will also include `nodeViews` and `markViews` properties instead of setting them afterward. This avoids serialization of the editor state to HTML which will be replaced by node views anyway.
+  - @tiptap/pm@3.4.3
+
 ## 3.4.2
 
 ### Patch Changes

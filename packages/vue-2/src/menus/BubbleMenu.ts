@@ -10,6 +10,7 @@ export interface BubbleMenuInterface extends Vue {
   resizeDelay: BubbleMenuPluginProps['resizeDelay']
   appendTo: BubbleMenuPluginProps['appendTo']
   shouldShow: BubbleMenuPluginProps['shouldShow']
+  getReferencedVirtualElement: BubbleMenuPluginProps['getReferencedVirtualElement']
   options: BubbleMenuPluginProps['options']
 }
 
@@ -75,6 +76,7 @@ export const BubbleMenu: Component = {
               pluginKey: this.pluginKey,
               appendTo: this.appendTo,
               shouldShow: this.shouldShow,
+              getReferencedVirtualElement: this.getReferencedVirtualElement,
             }),
           )
         })
@@ -83,7 +85,7 @@ export const BubbleMenu: Component = {
   },
 
   render(this: BubbleMenuInterface, createElement: CreateElement) {
-    return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
+    return createElement('div', {}, this.$slots.default)
   },
 
   beforeDestroy(this: BubbleMenuInterface) {

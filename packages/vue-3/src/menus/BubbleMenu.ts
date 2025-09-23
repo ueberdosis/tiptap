@@ -41,13 +41,18 @@ export const BubbleMenu = defineComponent({
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
+
+    getReferencedVirtualElement: {
+      type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>>,
+      default: undefined,
+    },
   },
 
   setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, appendTo, shouldShow, updateDelay } = props
+      const { editor, options, pluginKey, resizeDelay, appendTo, shouldShow, getReferencedVirtualElement, updateDelay } = props
 
       if (!root.value) {
         return
@@ -68,6 +73,7 @@ export const BubbleMenu = defineComponent({
           resizeDelay,
           appendTo,
           shouldShow,
+          getReferencedVirtualElement,
           updateDelay,
         }),
       )
