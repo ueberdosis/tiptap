@@ -291,8 +291,9 @@ export const Table = Node.create<TableOptions>({
         const headerCells: JSONContent[] = []
 
         token.header.forEach(cell => {
-          const wrappedTokens = cell.tokens.map(t => ({ type: 'paragraph', tokens: [t] }))
-          headerCells.push(h.createNode('tableHeader', {}, h.parseChildren(wrappedTokens)))
+          headerCells.push(
+            h.createNode('tableHeader', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]),
+          )
         })
 
         rows.push(h.createNode('tableRow', {}, headerCells))
@@ -302,8 +303,7 @@ export const Table = Node.create<TableOptions>({
         token.rows.forEach(row => {
           const bodyCells: JSONContent[] = []
           row.forEach(cell => {
-            const wrappedTokens = cell.tokens.map(t => ({ type: 'paragraph', tokens: [t] }))
-            bodyCells.push(h.createNode('tableCell', {}, h.parseChildren(wrappedTokens)))
+            bodyCells.push(h.createNode('tableCell', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
           })
           rows.push(h.createNode('tableRow', {}, bodyCells))
         })
