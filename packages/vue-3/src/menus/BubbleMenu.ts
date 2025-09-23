@@ -52,7 +52,16 @@ export const BubbleMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, appendTo, shouldShow, getReferencedVirtualElement, updateDelay } = props
+      const {
+        editor,
+        options,
+        pluginKey,
+        resizeDelay,
+        appendTo,
+        shouldShow,
+        getReferencedVirtualElement,
+        updateDelay,
+      } = props
 
       if (!root.value) {
         return
