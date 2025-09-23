@@ -115,6 +115,63 @@ function renderReleaseNotes(releaseData) {
 }
 
 /**
+ * Replace an existing `## v<version>` section in the changelog body, or prepend it.
+ * The body passed in should not include the `# Releases` heading.
+ *
+ * @param {string} body - existing changelog body (without top heading)
+ * @param {string} newSection - the section text starting with `## v...` and ending with a newline
+ * @param {string} version - semantic version string (without leading 'v')
+ * @returns {string} updated changelog body including the new or replaced section
+ */
+function replaceOrPrependVersionSection(body, newSection, version) {
+  // helper: escape regexp special chars for the version string
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')
+  }
+
+  const existing = body || ''
+  const newTrim = newSection.trim()
+
+  if (!existing.trim()) {
+    return newTrim + '\n\n'
+  }
+
+  // Find the first occurrence of the current version header at line start
+  const headerRe = new RegExp(`^## v${escapeRegExp(version)}\\b`, 'm')
+  const headerMatch = headerRe.exec(existing)
+
+  if (!headerMatch) {
+    // Not present: prepend
+    return `${newTrim}\n\n${existing}`
+  }
+
+  const startIndex = headerMatch.index
+
+  // Find the next header after startIndex. Stop at the next H1 or H2 header
+  // (lines starting with '#' or '##') so we don't clobber content that uses
+  // a different heading convention.
+  const rest = existing.slice(startIndex + headerMatch[0].length)
+  const nextHeaderRe = /^#{1,2}\s.*$/m
+  const nextMatch = nextHeaderRe.exec(rest)
+
+  let endIndex
+  if (nextMatch) {
+    // endIndex is relative to the original string
+    endIndex = startIndex + headerMatch[0].length + nextMatch.index
+  } else {
+    // no next header: replace until EOF
+    endIndex = existing.length
+  }
+
+  const before = existing.slice(0, startIndex)
+  const after = existing.slice(endIndex)
+
+  // Insert the new section at the position of the first header and keep everything after the next header
+  const result = `${before}${newTrim}\n\n${after}`
+  return result
+}
+
+/**
  * Removes the release heading from the existing CHANGELOG.md file.
  */
 async function readChangelogBody() {
@@ -144,8 +201,15 @@ async function main() {
 
     const existingBody = await readChangelogBody()
 
-    // write the new release notes followed by the existing changelog body
-    const combined = outputLines.join('\n') + '\n\n' + existingBody
+    // We only want the `## vX.Y.Z` section (skip the top '# Releases' heading
+    // that renderReleaseNotes includes). The section starts at the third line.
+    const sectionLines = outputLines.slice(2)
+    const newSection = sectionLines.join('\n') + '\n'
+
+    const updatedBody = replaceOrPrependVersionSection(existingBody, newSection, version)
+
+    // write the global Releases heading plus the updated body
+    const combined = '# Releases\n\n' + updatedBody
     await writeFile('CHANGELOG.md', combined, 'utf-8')
 
     console.log('Release notes written to CHANGELOG.md (prepended)')
