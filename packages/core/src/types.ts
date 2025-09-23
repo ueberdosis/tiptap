@@ -858,8 +858,28 @@ export type MarkdownTokenizer = {
   name: string
   /** Priority level for tokenizer ordering (higher = earlier) */
   level?: 'block' | 'inline'
+  /** Function that returns the start index of the token in the source string */
+  start?: (src: string) => number | undefined
   /** Function that attempts to parse custom syntax from start of text */
-  tokenize: (src: string, tokens: MarkdownToken[]) => MarkdownToken | undefined | void
+  tokenize: (
+    src: string,
+    tokens: MarkdownToken[],
+    lexer: {
+      /**
+       * Can be used to transform source text into inline tokens - useful while tokenizing child tokens.
+       * @param src
+       * @returns Array of inline tokens
+       */
+      inlineTokens: (src: string) => MarkdownToken[]
+
+      /**
+       * Can be used to transform source text into block-level tokens - useful while tokenizing child tokens.
+       * @param src
+       * @returns Array of block-level tokens
+       */
+      blockTokens: (src: string) => MarkdownToken[]
+    },
+  ) => MarkdownToken | undefined | void
 }
 
 export type MarkdownRendererHelpers = {

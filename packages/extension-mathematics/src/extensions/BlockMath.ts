@@ -181,6 +181,7 @@ export const BlockMath = Node.create<BlockMathOptions>({
     tokenizer: {
       name: 'blockMath',
       level: 'block',
+      start: (src: string) => src.indexOf('$$'),
       tokenize: (src: string) => {
         // Match $$latex$$ syntax for block math
         const match = src.match(/^\$\$([^$]+)\$\$/)

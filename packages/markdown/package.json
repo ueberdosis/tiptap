@@ -47,8 +47,7 @@
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@types/marked": "^4.0.7"
+    "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",

@@ -10,7 +10,7 @@ import {
   type RenderContext,
   getExtensionField,
 } from '@tiptap/core'
-import { marked } from 'marked'
+import { type Lexer, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -23,6 +23,7 @@ import {
 
 export class MarkdownManager {
   private markedInstance: typeof marked
+  private lexer: Lexer
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
@@ -39,6 +40,7 @@ export class MarkdownManager {
     indentation?: { style?: 'space' | 'tab'; size?: number }
   }) {
     this.markedInstance = options?.marked ?? marked
+    this.lexer = new this.markedInstance.Lexer()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
 
@@ -133,53 +135,38 @@ export class MarkdownManager {
       return
     }
 
-    const { name, level = 'inline', tokenize } = tokenizer
+    const { name, start, level = 'inline', tokenize } = tokenizer
+
+    const tokenizeInline = (src: string) => {
+      return this.lexer.inlineTokens(src)
+    }
+
+    const tokenizeBlock = (src: string) => {
+      return this.lexer.blockTokens(src)
+    }
+
+    const helper = {
+      inlineTokens: tokenizeInline,
+      blockTokens: tokenizeBlock,
+    }
 
     // Create marked.js extension with proper types
     const markedExtension: any = {
       name,
       level,
-      start: (src: string) => {
-        // Find the FIRST position where this pattern could start
-        // For mention tokenizer, look for '@' character
-        if (name === 'mention') {
-          const atIndex = src.indexOf('@')
-          return atIndex
-        }
-
-        // For YouTube tokenizer, look for '[@youtube' pattern
-        if (name === 'youtube') {
-          const youtubeIndex = src.indexOf('[@youtube')
-          return youtubeIndex
-        }
-
-        // For math tokenizers, look for $ characters
-        if (name === 'inlineMath') {
-          const dollarIndex = src.indexOf('$')
-          return dollarIndex
-        }
-
-        if (name === 'blockMath') {
-          const doubleDollarIndex = src.indexOf('$$')
-          return doubleDollarIndex
-        }
-
-        // For custom React node, look for ```react pattern
-        if (name === 'customReactNode') {
-          const reactIndex = src.indexOf('```react')
-          return reactIndex
-        }
-
-        // For other tokenizers, try to find a match and return its position
-        const result = tokenize(src, [])
-        if (result && result.raw) {
-          const index = src.indexOf(result.raw)
-          return index
-        }
-        return -1
-      },
+      start:
+        start ??
+        ((src: string) => {
+          // For other tokenizers, try to find a match and return its position
+          const result = tokenize(src, [], helper)
+          if (result && result.raw) {
+            const index = src.indexOf(result.raw)
+            return index
+          }
+          return -1
+        }),
       tokenizer: (src: string, tokens: any[]) => {
-        const result = tokenize(src, tokens)
+        const result = tokenize(src, tokens, helper)
         if (result && result.type) {
           return {
             type: result.type,
@@ -189,7 +176,7 @@ export class MarkdownManager {
         }
         return undefined
       },
-      childTokens: [], // Important: mention tokens don't have child tokens
+      childTokens: [],
     }
 
     // Register with marked.js - use extensions array to control priority

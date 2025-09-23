@@ -2,6 +2,7 @@ import './styles.scss'
 
 import type { JSONContent } from '@tiptap/core'
 import { Node } from '@tiptap/core'
+import { Highlight } from '@tiptap/extension-highlight'
 import { Image } from '@tiptap/extension-image'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
@@ -167,6 +168,7 @@ You can also edit in the editor and see the markdown update.`)
       }),
       Image,
       TableKit,
+      Highlight,
       Mention.configure({
         HTMLAttributes: {
           class: 'mention',

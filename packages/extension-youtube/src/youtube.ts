@@ -339,6 +339,7 @@ export const Youtube = Node.create<YoutubeOptions>({
     tokenizer: {
       name: 'youtube',
       level: 'block',
+      start: (src: string) => src.indexOf('[@youtube'),
       tokenize: (src: string) => {
         // Match [@youtube url](start, width, height) syntax
         const match = src.match(/^\[@youtube\s+([^\]]+)\]\(([^)]*)\)/)

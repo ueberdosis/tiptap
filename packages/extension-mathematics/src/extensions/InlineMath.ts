@@ -185,6 +185,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
     tokenizer: {
       name: 'inlineMath',
       level: 'inline',
+      start: (src: string) => src.indexOf('$'),
       tokenize: (src: string) => {
         // Match $latex$ syntax for inline math (but not $$)
         const match = src.match(/^\$([^$]+)\$(?!\$)/)

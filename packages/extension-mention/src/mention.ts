@@ -273,6 +273,7 @@ export const Mention = Node.create<MentionOptions>({
     tokenizer: {
       name: 'mention',
       level: 'inline',
+      start: (src: string) => src.indexOf('@['),
       tokenize: (src: string) => {
         // Look for @[label](id) pattern at the very start of the string
         const match = src.match(/^@\[([^\]]*)\]\(([^)]*)\)/)
