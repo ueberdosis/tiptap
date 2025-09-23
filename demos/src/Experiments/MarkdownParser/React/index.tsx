@@ -187,8 +187,7 @@ You can also edit in the editor and see the markdown update.`)
       Mathematics,
       CustomReactNode,
     ],
-    content: '# Markdown Example\nClick "Parse Markdown" to load content from the left panel.',
-    contentType: 'markdown',
+    content: '<p>Click "Parse Markdown" to load content from the left panel.</p>',
   })
 
   const parseMarkdown = () => {
@@ -231,7 +230,7 @@ You can also edit in the editor and see the markdown update.`)
   const insertImage = () => {
     const url = prompt('Enter image URL:', 'https://unsplash.it/400/300')
     if (url && editor) {
-      editor.chain().focus().insertContent(`![Image](${url})`, { contentType: 'markdown' }).run()
+      editor.chain().focus().setImage({ src: url }).run()
     }
   }
 
@@ -250,8 +249,7 @@ You can also edit in the editor and see the markdown update.`)
       editor
         .chain()
         .focus()
-        .insertContent(`@[${name}](${id})`, { contentType: 'markdown' })
-        // .insertContent(`<span data-type="mention" data-id="${id}" data-label="${name}"></span>`)
+        .insertContent(`<span data-type="mention" data-id="${id}" data-label="${name}"></span>`)
         .run()
     }
   }
@@ -273,14 +271,28 @@ You can also edit in the editor and see the markdown update.`)
   const insertInlineMath = () => {
     const latex = prompt('Enter LaTeX for inline math:', 'E = mc^2')
     if (latex && editor) {
-      editor.chain().focus().insertContent(`$${latex}$`, { contentType: 'markdown' }).run()
+      editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: 'inlineMath',
+          attrs: { latex },
+        })
+        .run()
     }
   }
 
   const insertBlockMath = () => {
     const latex = prompt('Enter LaTeX for block math:', '\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}')
     if (latex && editor) {
-      editor.chain().focus().insertContent(`$$\n${latex}\n$$`, { contentType: 'markdown' }).run()
+      editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: 'blockMath',
+          attrs: { latex },
+        })
+        .run()
     }
   }
 

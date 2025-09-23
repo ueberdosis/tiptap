@@ -1,9 +1,9 @@
 import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 import { Fragment } from '@tiptap/pm/model'
 
-import { parseContentByType } from '../helpers/parseContentByType.js'
+import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
-import type { Content, ContentType, Range, RawCommands } from '../types.js'
+import type { Content, Range, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -51,18 +51,6 @@ declare module '@tiptap/core' {
            * Whether to throw an error if the content is invalid.
            */
           errorOnInvalidContent?: boolean
-
-          /**
-           * The content type that determines how the content should be parsed.
-           * - 'json': Parse as Tiptap JSON
-           * - 'html': Parse as HTML (default for strings)
-           * - 'markdown': Parse as Markdown using the markdown parser
-           *
-           * If not specified, follows the same detection rules as editor content:
-           * - Objects/arrays are treated as JSON
-           * - Strings are treated as HTML by default
-           */
-          contentType?: ContentType
         },
       ) => ReturnType
     }
@@ -112,7 +100,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       // but ignore them (do not remove the invalid content from the document)
       if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
         try {
-          parseContentByType(value, editor.schema, options.contentType, editor.markdown, {
+          createNodeFromContent(value, editor.schema, {
             parseOptions,
             errorOnInvalidContent: true,
           })
@@ -122,7 +110,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       }
 
       try {
-        content = parseContentByType(value, editor.schema, options.contentType, editor.markdown, {
+        content = createNodeFromContent(value, editor.schema, {
           parseOptions,
           errorOnInvalidContent: options.errorOnInvalidContent ?? editor.options.enableContentCheck,
         })

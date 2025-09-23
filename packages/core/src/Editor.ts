@@ -470,17 +470,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     try {
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
-        contentType: this.options.contentType,
-        markdownManager: this.markdown,
       })
     } catch (e) {
       if (
         !(e instanceof Error) ||
-        ![
-          '[tiptap error]: Invalid JSON content',
-          '[tiptap error]: Invalid HTML content',
-          '[tiptap error]: Invalid Markdown content',
-        ].includes(e.message)
+        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)
       ) {
         // Not the content error we were expecting
         throw e
@@ -507,8 +501,6 @@ export class Editor extends EventEmitter<EditorEvents> {
       // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
       doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: false,
-        contentType: this.options.contentType,
-        markdownManager: this.markdown,
       })
     }
     return doc

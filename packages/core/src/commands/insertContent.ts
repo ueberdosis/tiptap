@@ -1,6 +1,6 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
 
-import type { Content, ContentType, RawCommands } from '../types.js'
+import type { Content, RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -31,18 +31,6 @@ declare module '@tiptap/core' {
           updateSelection?: boolean
           applyInputRules?: boolean
           applyPasteRules?: boolean
-
-          /**
-           * The content type that determines how the content should be parsed.
-           * - 'json': Parse as Tiptap JSON
-           * - 'html': Parse as HTML (default for strings)
-           * - 'markdown': Parse as Markdown using the markdown parser
-           *
-           * If not specified, follows the same detection rules as editor content:
-           * - Objects/arrays are treated as JSON
-           * - Strings are treated as HTML by default
-           */
-          contentType?: ContentType
         },
       ) => ReturnType
     }

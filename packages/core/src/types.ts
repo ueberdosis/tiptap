@@ -271,17 +271,6 @@ export interface EditorOptions {
    */
   content: Content
   /**
-   * The content type that determines how the content should be parsed.
-   * - 'json': Parse as Tiptap JSON (default for objects)
-   * - 'html': Parse as HTML (default for strings)
-   * - 'markdown': Parse as Markdown using the markdown parser
-   *
-   * If not specified, the type is auto-detected based on content:
-   * - Objects/arrays are treated as JSON
-   * - Strings are treated as HTML unless contentType is explicitly set to 'markdown'
-   */
-  contentType?: ContentType
-  /**
    * The extensions to use
    */
   extensions: Extensions
@@ -520,11 +509,6 @@ export type DOMOutputSpecArray =
   | [string, Record<string, any>, 0]
   | [string, Record<string, any>, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
-
-/**
- * The content type that determines how the content should be parsed
- */
-export type ContentType = 'json' | 'html' | 'markdown'
 
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
