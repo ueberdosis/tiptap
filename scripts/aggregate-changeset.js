@@ -190,6 +190,12 @@ async function main() {
   try {
     const plan = await getReleasePlan(process.cwd())
 
+    // If there are no changesets, do nothing — avoid touching CHANGELOG.md
+    if (!plan || !Array.isArray(plan.changesets) || plan.changesets.length === 0) {
+      console.log('No changesets found — skipping changelog generation')
+      return
+    }
+
     const version = plan.releases && plan.releases[0] ? plan.releases[0].newVersion : 'unreleased'
 
     const packages = buildPackagesMap(plan)
