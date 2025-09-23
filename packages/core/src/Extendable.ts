@@ -5,14 +5,6 @@ import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
 import type { Mark } from './Mark.js'
-import type {
-  MarkdownParseHelpers,
-  MarkdownParseResult,
-  MarkdownRendererHelpers,
-  MarkdownToken,
-  MarkdownTokenizer,
-  RenderContext,
-} from './markdown/types'
 import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
@@ -22,8 +14,14 @@ import type {
   GlobalAttributes,
   JSONContent,
   KeyboardShortcutCommand,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
   ParentConfig,
   RawCommands,
+  RenderContext,
 } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
