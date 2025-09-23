@@ -5,6 +5,7 @@ import { Node } from '@tiptap/core'
 import { Image } from '@tiptap/extension-image'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
+import { TableKit } from '@tiptap/extension-table'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
@@ -165,6 +166,7 @@ You can also edit in the editor and see the markdown update.`)
         height: 320,
       }),
       Image,
+      TableKit,
       Mention.configure({
         HTMLAttributes: {
           class: 'mention',
@@ -203,6 +205,7 @@ You can also edit in the editor and see the markdown update.`)
       setError(null)
       editor.commands.setContent(markdownInput, { asMarkdown: true })
     } catch (err) {
+      console.error(err)
       setError(`Error parsing markdown: ${err instanceof Error ? err.message : String(err)}`)
     }
   }

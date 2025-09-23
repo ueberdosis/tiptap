@@ -1,6 +1,13 @@
 import '../types.js'
 
-import { callOrReturn, getExtensionField, mergeAttributes, Node } from '@tiptap/core'
+import {
+  type JSONContent,
+  type MarkdownToken,
+  callOrReturn,
+  getExtensionField,
+  mergeAttributes,
+  Node,
+} from '@tiptap/core'
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 import {
@@ -29,6 +36,11 @@ import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
 import renderTableToMarkdown from './utilities/markdown.js'
+
+type MarkdownTableToken = {
+  header?: { tokens: MarkdownToken[] }[]
+  rows?: { tokens: MarkdownToken[] }[][]
+} & MarkdownToken
 
 export interface TableOptions {
   /**
@@ -272,6 +284,33 @@ export const Table = Node.create<TableOptions>({
   },
 
   markdown: {
+    parse: (token: MarkdownTableToken, h) => {
+      const rows = []
+
+      if (token.header) {
+        const headerCells: JSONContent[] = []
+
+        token.header.forEach(cell => {
+          const wrappedTokens = cell.tokens.map(t => ({ type: 'paragraph', tokens: [t] }))
+          headerCells.push(h.createNode('tableHeader', {}, h.parseChildren(wrappedTokens)))
+        })
+
+        rows.push(h.createNode('tableRow', {}, headerCells))
+      }
+
+      if (token.rows) {
+        token.rows.forEach(row => {
+          const bodyCells: JSONContent[] = []
+          row.forEach(cell => {
+            const wrappedTokens = cell.tokens.map(t => ({ type: 'paragraph', tokens: [t] }))
+            bodyCells.push(h.createNode('tableCell', {}, h.parseChildren(wrappedTokens)))
+          })
+          rows.push(h.createNode('tableRow', {}, bodyCells))
+        })
+      }
+
+      return h.createNode('table', undefined, rows)
+    },
     render: (node, h) => {
       return renderTableToMarkdown(node, h)
     },
