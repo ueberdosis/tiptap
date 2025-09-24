@@ -6,6 +6,8 @@ import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'v
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
 
+  inheritAttrs: false,
+
   props: {
     pluginKey: {
       // TODO: TypeScript breaks :(
@@ -35,7 +37,7 @@ export const FloatingMenu = defineComponent({
     },
   },
 
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
@@ -70,6 +72,6 @@ export const FloatingMenu = defineComponent({
     })
 
     // Teleport only instantiates element + slot subtree; plugin controls final placement
-    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
+    return () => h(Teleport, { to: 'body' }, h('div', { ...attrs, ref: root }, slots.default?.()))
   },
 })
