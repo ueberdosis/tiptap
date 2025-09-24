@@ -1,5 +1,34 @@
 # Change Log
 
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extension-dropcursor@3.5.2
+- @tiptap/extension-gapcursor@3.5.2
+- @tiptap/extension-list-item@3.5.2
+- @tiptap/extension-list-keymap@3.5.2
+- @tiptap/core@3.5.2
+- @tiptap/extension-blockquote@3.5.2
+- @tiptap/extension-bold@3.5.2
+- @tiptap/extension-bullet-list@3.5.2
+- @tiptap/extension-code@3.5.2
+- @tiptap/extension-code-block@3.5.2
+- @tiptap/extension-document@3.5.2
+- @tiptap/extension-hard-break@3.5.2
+- @tiptap/extension-heading@3.5.2
+- @tiptap/extension-horizontal-rule@3.5.2
+- @tiptap/extension-italic@3.5.2
+- @tiptap/extension-link@3.5.2
+- @tiptap/extension-list@3.5.2
+- @tiptap/extension-ordered-list@3.5.2
+- @tiptap/extension-paragraph@3.5.2
+- @tiptap/extension-strike@3.5.2
+- @tiptap/extension-text@3.5.2
+- @tiptap/extension-underline@3.5.2
+- @tiptap/extensions@3.5.2
+- @tiptap/pm@3.5.2
+
 ## 3.5.1
 
 ### Patch Changes

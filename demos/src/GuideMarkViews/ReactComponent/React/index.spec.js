@@ -13,6 +13,11 @@ context('/src/GuideMarkViews/ReactComponent/React/', () => {
     cy.get('.tiptap').find('[data-test-id="mark-view"]').should('exist')
   })
 
+  it('should show the markview content in the markview', () => {
+    cy.get('.tiptap').find('[data-test-id="mark-view-content-wrapper"]').should('exist')
+    cy.get('.tiptap').find('[data-test-id="mark-view-content-wrapper"]').should('contain', 'Mark View Text')
+  })
+
   it('should allow clicking the button', () => {
     cy.get('.tiptap').find('[data-test-id="count-button"]').should('contain', 'This button has been clicked 0 times.')
     cy.get('.tiptap')
