@@ -1,5 +1,13 @@
 # Releases
 
+## v3.5.2
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+
 ## v3.5.1
 
 ### @tiptap/extension-floating-menu
