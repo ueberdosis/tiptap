@@ -41,17 +41,25 @@ const mergeNestedSpanStyles = (element: HTMLElement) => {
   if (!element.children.length) {
     return
   }
-  const childSpans = element.querySelectorAll('span')
 
-  if (!childSpans) {
+  const childSpans = Array.from(element.children).filter(child => child.tagName === 'SPAN') as HTMLElement[]
+
+  if (childSpans.length === 0) {
     return
   }
 
-  childSpans.forEach(childSpan => {
-    const childStyle = childSpan.getAttribute('style')
-    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
+  const parentStyle = element.getAttribute('style') || ''
 
-    childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
+  childSpans.forEach(childSpan => {
+    const childStyle = childSpan.getAttribute('style') || ''
+
+    const merged = [parentStyle, childStyle].filter(Boolean).join(';')
+
+    if (merged) {
+      childSpan.setAttribute('style', merged)
+    } else {
+      childSpan.removeAttribute('style')
+    }
   })
 }
 
