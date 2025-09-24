@@ -29,6 +29,11 @@ export interface UniqueIDOptions {
    * unique ID based on the node type and the position.
    */
   generateID: (ctx: UniqueIDGenerationContext) => any
+  /**
+   * Ignore some mutations, for example applied from other users through the collaboration plugin.
+   *
+   * @default null
+   */
   filterTransaction: ((transaction: Transaction) => boolean) | null
 }
 
