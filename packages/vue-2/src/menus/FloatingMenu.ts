@@ -7,6 +7,7 @@ export interface FloatingMenuInterface extends Vue {
   pluginKey: FloatingMenuPluginProps['pluginKey']
   options: FloatingMenuPluginProps['options']
   editor: FloatingMenuPluginProps['editor']
+  appendTo: FloatingMenuPluginProps['appendTo']
   shouldShow: FloatingMenuPluginProps['shouldShow']
 }
 
@@ -27,6 +28,11 @@ export const FloatingMenu: Component = {
     options: {
       type: Object as PropType<FloatingMenuPluginProps['options']>,
       default: () => ({}),
+    },
+
+    appendTo: {
+      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      default: undefined,
     },
 
     shouldShow: {
@@ -55,6 +61,7 @@ export const FloatingMenu: Component = {
               editor,
               element: this.$el as HTMLElement,
               options: this.options,
+              appendTo: this.appendTo,
               shouldShow: this.shouldShow,
             }),
           )
@@ -64,7 +71,7 @@ export const FloatingMenu: Component = {
   },
 
   render(this: FloatingMenuInterface, createElement: CreateElement) {
-    return createElement('div', { style: { visibility: 'hidden' } }, this.$slots.default)
+    return createElement('div', {}, this.$slots.default)
   },
 
   beforeDestroy(this: FloatingMenuInterface) {
