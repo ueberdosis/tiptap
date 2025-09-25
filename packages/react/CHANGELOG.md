@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- 6af23ff: Hotfix: Fix a crash in the React package that could occur during mounting/unmounting when the editor wasn't fully initialized. This prevents a runtime error and improves stability.
+  - @tiptap/core@3.6.1
+  - @tiptap/pm@3.6.1
+
 ## 3.6.0
 
 ### Patch Changes
