@@ -1,5 +1,13 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.5.3
+- @tiptap/pm@3.5.3
+- @tiptap/react@3.5.3
+
 ## 3.5.2
 
 ### Patch Changes
