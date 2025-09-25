@@ -12,9 +12,16 @@ import type {
   EditorEvents,
   Extensions,
   GlobalAttributes,
+  JSONContent,
   KeyboardShortcutCommand,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
   ParentConfig,
   RawCommands,
+  RenderContext,
 } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
@@ -223,6 +230,50 @@ export interface ExtendableConfig<
     storage: Storage
     parent: ParentConfig<Config>['addExtensions']
   }) => Extensions
+
+  /**
+   * Markdown integration hooks for this extension.
+   *
+   * Extensions can provide optional helpers to parse or render markdown.
+   */
+  markdown?: {
+    /**
+     * Optional unique name to identify the markdown tokenizer / parser for this extension.
+     * If omitted, the extension `name` will be used.
+     * @deprecated Use parseName and renderName for better separation of concerns
+     */
+    name?: string
+    /**
+     * Token name used for parsing (e.g., 'codespan', 'code', 'strong')
+     * If omitted, falls back to `name` or extension name
+     */
+    parseName?: string
+    /**
+     * Node/mark name used for rendering (typically the extension name)
+     * If omitted, falls back to extension name
+     */
+    renderName?: string
+    /**
+     * A RegExp used by the tokenizer to detect custom markdown constructs.
+     */
+    match?: RegExp
+    /**
+     * Controls whether this extension will indent markdown content (for example bullet lists)
+     */
+    isIndenting?: boolean
+    /**
+     * Custom tokenizer for marked.js to handle non-standard markdown syntax
+     */
+    tokenizer?: MarkdownTokenizer
+    /**
+     * A parse helper used by the markdown subsystem.
+     */
+    parse?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+    /**
+     * Render a node (ProseMirror JSON) to a markdown string.
+     */
+    render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  }
 
   /**
    * This function extends the schema of the node.
