@@ -37,12 +37,14 @@ declare module '@tiptap/core' {
   }
 }
 
+const MAX_FIND_CHILD_SPAN_DEPTH = 20
+
 // returns all next child spans, either direct children or nested deeper
 // but won't traverse deeper into child spans found
-const findChildSpans = (element: HTMLElement): HTMLElement[] => {
+const findChildSpans = (element: HTMLElement, depth = 0): HTMLElement[] => {
   const childSpans: HTMLElement[] = []
 
-  if (!element.children.length) {
+  if (!element.children.length || depth > MAX_FIND_CHILD_SPAN_DEPTH) {
     return childSpans
   }
 
@@ -50,7 +52,7 @@ const findChildSpans = (element: HTMLElement): HTMLElement[] => {
     if (child.tagName === 'SPAN') {
       childSpans.push(child as HTMLElement)
     } else if (child.children.length) {
-      childSpans.push(...findChildSpans(child as HTMLElement))
+      childSpans.push(...findChildSpans(child as HTMLElement, depth + 1))
     }
   })
 
