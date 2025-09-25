@@ -37,29 +37,42 @@ declare module '@tiptap/core' {
   }
 }
 
+// returns all next child spans, either direct children or nested deeper
+// but won't traverse deeper into child spans found
+const findChildSpans = (element: HTMLElement): HTMLElement[] => {
+  const childSpans: HTMLElement[] = []
+
+  if (!element.children.length) {
+    return childSpans
+  }
+
+  Array.from(element.children).forEach(child => {
+    if (child.tagName === 'SPAN') {
+      childSpans.push(child as HTMLElement)
+    } else if (child.children.length) {
+      childSpans.push(...findChildSpans(child as HTMLElement))
+    }
+  })
+
+  return childSpans
+}
+
 const mergeNestedSpanStyles = (element: HTMLElement) => {
   if (!element.children.length) {
     return
   }
 
-  const childSpans = Array.from(element.children).filter(child => child.tagName === 'SPAN') as HTMLElement[]
+  const childSpans = findChildSpans(element)
 
-  if (childSpans.length === 0) {
+  if (!childSpans) {
     return
   }
 
-  const parentStyle = element.getAttribute('style') || ''
-
   childSpans.forEach(childSpan => {
-    const childStyle = childSpan.getAttribute('style') || ''
+    const childStyle = childSpan.getAttribute('style')
+    const closestParentSpanStyleOfChild = childSpan.parentElement?.closest('span')?.getAttribute('style')
 
-    const merged = [parentStyle, childStyle].filter(Boolean).join(';')
-
-    if (merged) {
-      childSpan.setAttribute('style', merged)
-    } else {
-      childSpan.removeAttribute('style')
-    }
+    childSpan.setAttribute('style', `${closestParentSpanStyleOfChild};${childStyle}`)
   })
 }
 
