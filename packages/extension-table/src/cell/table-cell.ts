@@ -45,7 +45,7 @@ export const TableCell = Node.create<TableCellOptions>({
             const cols = element.closest('table')?.querySelectorAll('colgroup > col')
             const cellIndex = Array.from(element.parentElement?.children || []).indexOf(element)
 
-            if (cols && cols[cellIndex]) {
+            if (cellIndex && cellIndex > -1 && cols && cols[cellIndex]) {
               const colWidth = cols[cellIndex].getAttribute('width')
               return colWidth ? [parseInt(colWidth, 10)] : null
             }
