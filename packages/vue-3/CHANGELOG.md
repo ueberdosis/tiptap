@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.6.0
+
+### Minor Changes
+
+- bffc44c: Pass `attrs` through Vue 3 menus
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
 ## 3.5.3
 
 ### Patch Changes
