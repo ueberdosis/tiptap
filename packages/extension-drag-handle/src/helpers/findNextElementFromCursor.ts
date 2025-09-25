@@ -11,11 +11,12 @@ export type FindElementNextToCoords = {
 export const findElementNextToCoords = (options: FindElementNextToCoords) => {
   const { x, y, direction = 'right', editor, bandHeight = 5 } = options
 
+  const xWithDirection = direction === 'right' ? x : window.innerWidth - x
   const rect = {
     top: y - bandHeight,
     bottom: y + bandHeight,
-    left: direction === 'right' ? x : 0,
-    right: direction === 'right' ? window.innerWidth - x : x,
+    left: xWithDirection,
+    right: xWithDirection,
   }
 
   const root = editor.view.dom as HTMLElement
