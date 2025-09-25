@@ -446,7 +446,7 @@ export type HTMLContent = string
  */
 export type JSONContent = {
   type?: string
-  attrs?: Record<string, any>
+  attrs?: Record<string, any> | undefined
   content?: JSONContent[]
   marks?: {
     type: string
