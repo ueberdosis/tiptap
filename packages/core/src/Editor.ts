@@ -505,7 +505,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates a ProseMirror view.
    */
-  private createView(element: NonNullable<EditorOptions['element']> & {}): void {
+  private createView(element: NonNullable<EditorOptions['element']>): void {
     this.editorView = new EditorView(element, {
       ...this.options.editorProps,
       attributes: {

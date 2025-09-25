@@ -1,5 +1,49 @@
 # @tiptap/extension-unique-id
 
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Minor Changes
+
+- 001b718: Create a utility to add unique IDs to a document in the server
+
+  The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
+
+  It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
+
+  It takes the following parameters:
+
+  - `doc`: The Tiptap JSON document to add unique IDs to.
+  - `extensions`: The extensions to use. Must include the `UniqueID` extension.
+
+  It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
 ## 3.5.1
 
 ### Patch Changes

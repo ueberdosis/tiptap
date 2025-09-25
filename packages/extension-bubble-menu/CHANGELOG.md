@@ -1,5 +1,38 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- 47a26e0: Remove recently added `updateBubbleMenuPosition` method because it would not work in the React and Vue versions of the BubbleMenu, only in the vanilla extension. And that would confuse developers.
+
+  Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
 ## 3.5.1
 
 ### Patch Changes
