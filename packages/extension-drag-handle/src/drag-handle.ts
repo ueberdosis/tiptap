@@ -32,6 +32,14 @@ export interface DragHandleOptions {
    * Returns a node or null when a node is hovered over
    */
   onNodeChange?: (options: { node: Node | null; editor: Editor }) => void
+  /**
+   * The callback function that will be called when drag start.
+   */
+  onElementDragStart?: (e: DragEvent) => void
+  /**
+   * The callback function that will be called when drag end.
+   */
+  onElementDragEnd?: (e: DragEvent) => void
 }
 
 declare module '@tiptap/core' {
@@ -70,6 +78,8 @@ export const DragHandle = Extension.create<DragHandleOptions>({
       onNodeChange: () => {
         return null
       },
+      onElementDragStart: undefined,
+      onElementDragEnd: undefined,
     }
   },
 
@@ -106,6 +116,8 @@ export const DragHandle = Extension.create<DragHandleOptions>({
         element,
         editor: this.editor,
         onNodeChange: this.options.onNodeChange,
+        onElementDragStart: this.options.onElementDragStart,
+        onElementDragEnd: this.options.onElementDragEnd,
       }).plugin,
     ]
   },

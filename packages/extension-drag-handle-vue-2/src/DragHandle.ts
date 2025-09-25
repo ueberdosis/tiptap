@@ -38,6 +38,16 @@ export const DragHandle = Vue.extend({
       default: null,
     },
 
+    onElementDragStart: {
+      type: Function as PropType<DragHandleProps['onElementDragStart']>,
+      default: undefined,
+    },
+
+    onElementDragEnd: {
+      type: Function as PropType<DragHandleProps['onElementDragEnd']>,
+      default: undefined,
+    },
+
     class: {
       type: String as PropType<DragHandleProps['class']>,
       default: 'drag-handle',
@@ -45,7 +55,7 @@ export const DragHandle = Vue.extend({
   },
 
   mounted() {
-    const { editor, pluginKey, onNodeChange } = this.$props
+    const { editor, pluginKey, onNodeChange, onElementDragStart, onElementDragEnd } = this.$props
 
     editor.registerPlugin(
       DragHandlePlugin({
@@ -54,6 +64,8 @@ export const DragHandle = Vue.extend({
         pluginKey,
         computePositionConfig: { ...defaultComputePositionConfig, ...this.computePositionConfig },
         onNodeChange,
+        onElementDragStart,
+        onElementDragEnd,
       }).plugin,
     )
   },
