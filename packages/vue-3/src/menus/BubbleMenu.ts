@@ -6,6 +6,8 @@ import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'v
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
 
+  inheritAttrs: false,
+
   props: {
     pluginKey: {
       type: [String, Object] as PropType<BubbleMenuPluginProps['pluginKey']>,
@@ -48,7 +50,7 @@ export const BubbleMenu = defineComponent({
     },
   },
 
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
@@ -95,6 +97,6 @@ export const BubbleMenu = defineComponent({
     })
 
     // Teleport only instantiates element + slot subtree; plugin controls final placement
-    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
+    return () => h(Teleport, { to: 'body' }, h('div', { ...attrs, ref: root }, slots.default?.()))
   },
 })

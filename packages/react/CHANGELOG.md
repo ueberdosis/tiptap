@@ -1,5 +1,20 @@
 # Change Log
 
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- ea9ac95: Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+  - @tiptap/core@3.5.2
+  - @tiptap/pm@3.5.2
+
 ## 3.5.1
 
 ### Patch Changes

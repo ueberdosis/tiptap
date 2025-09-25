@@ -1,5 +1,30 @@
 # Releases
 
+## v3.5.3
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Merge nested span styles only for immediate child spans and guard style values.
+  
+  - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
+  - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
+  - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
+  
+  This change fixes a bug that could cause exponential work when parsing deeply
+  nested `<span>` elements - in extreme cases that could make the tab unresponsive
+  or crash the renderer. It is a bugfix / performance improvement with no public API
+  changes.
+
+## v3.5.2
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+
 ## v3.5.1
 
 ### @tiptap/extension-floating-menu
@@ -26,16 +51,6 @@
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
 
-# Change Log
-
-> **Important information**
->
-> As of version 2.4.1 Tiptap uses **Changesets** which don't allow the generation of one generic CHANGELOG file.
-> If you want to check changes of a specific package version, check the **CHANGELOG.md** file in the specific package
-> directory or out [Github Releases](https://github.com/ueberdosis/tiptap/releases)
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 # [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
 
