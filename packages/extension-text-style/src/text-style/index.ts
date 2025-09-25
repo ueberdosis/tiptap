@@ -39,8 +39,10 @@ declare module '@tiptap/core' {
 
 const MAX_FIND_CHILD_SPAN_DEPTH = 20
 
-// returns all next child spans, either direct children or nested deeper
-// but won't traverse deeper into child spans found
+/**
+ * Returns all next child spans, either direct children or nested deeper
+ * but won't traverse deeper into child spans found, will only go MAX_FIND_CHILD_SPAN_DEPTH levels deep (default: 20)
+ */
 const findChildSpans = (element: HTMLElement, depth = 0): HTMLElement[] => {
   const childSpans: HTMLElement[] = []
 
