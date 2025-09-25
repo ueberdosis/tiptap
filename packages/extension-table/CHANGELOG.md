@@ -1,5 +1,25 @@
 # Change Log
 
+## 3.6.0
+
+### Patch Changes
+
+- c4ed2e6: Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
+
+  When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
+
+  This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+
+- f778a16: Fixes table wrapper replacement and lost selections when `resizable: true`.
+
+  TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
+
+  No API or breaking changes.
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
 ## 3.5.3
 
 ### Patch Changes

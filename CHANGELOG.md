@@ -1,5 +1,65 @@
 # Releases
 
+## v3.6.0
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+  
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
+  
+  When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
+  
+  This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+- Fixes table wrapper replacement and lost selections when `resizable: true`.
+  
+  TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
+  
+  No API or breaking changes.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Remove recently added `updateBubbleMenuPosition` method because it would not work in the React and Vue versions of the BubbleMenu, only in the vanilla extension. And that would confuse developers.
+  
+  Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Create a utility to add unique IDs to a document in the server
+  
+  The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
+  
+  It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
+  
+  It takes the following parameters:
+  
+  - `doc`: The Tiptap JSON document to add unique IDs to.
+  - `extensions`: The extensions to use. Must include the `UniqueID` extension.
+  
+  It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
+
+### @tiptap/vue-3
+
+#### Minor Changes
+
+- Pass `attrs` through Vue 3 menus
+
 ## v3.5.3
 
 ### @tiptap/extension-text-style
