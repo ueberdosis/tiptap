@@ -6,17 +6,17 @@ export interface CodeBlockOptions {
    * Adds a prefix to language classes that are applied to code tags.
    * @default 'language-'
    */
-  languageClassPrefix: string
+  languageClassPrefix: string | null | undefined
   /**
    * Define whether the node should be exited on triple enter.
    * @default true
    */
-  exitOnTripleEnter: boolean
+  exitOnTripleEnter: boolean | null | undefined
   /**
    * Define whether the node should be exited on arrow down if there is no node after it.
    * @default true
    */
-  exitOnArrowDown: boolean
+  exitOnArrowDown: boolean  | null | undefined
   /**
    * The default language.
    * @default null
@@ -27,12 +27,12 @@ export interface CodeBlockOptions {
    * Enable tab key for indentation in code blocks.
    * @default false
    */
-  enableTabIndentation: boolean
+  enableTabIndentation: boolean | null | undefined
   /**
    * The number of spaces to use for tab indentation.
    * @default 4
    */
-  tabSize: number
+  tabSize: number | null | undefined
   /**
    * Custom HTML attributes that should be added to the rendered HTML tag.
    * @default {}
