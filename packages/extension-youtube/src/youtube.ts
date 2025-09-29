@@ -336,52 +336,6 @@ export const Youtube = Node.create<YoutubeOptions>({
   },
 
   markdown: createAtomBlockMarkdownSpec({
-    blockName: 'youtube',
+    nodeName: 'youtube',
   }),
-
-  /* markdown: {
-    tokenizer: {
-      name: 'youtube',
-      level: 'block',
-      start: (src: string) => src.indexOf('[@youtube'),
-      tokenize: (src: string) => {
-        // Match [@youtube url](start, width, height) syntax
-        const match = src.match(/^\[@youtube\s+([^\]]+)\]\(([^)]*)\)/)
-        if (!match) {
-          return undefined
-        }
-
-        const [fullMatch, url, params] = match
-        const [start = '0', width = '640', height = '360'] = params.split(',').map(p => p.trim())
-
-        return {
-          type: 'youtube',
-          raw: fullMatch,
-          url: url.trim(),
-          start: parseInt(start, 10) || 0,
-          width: parseInt(width, 10) || 640,
-          height: parseInt(height, 10) || 360,
-        }
-      },
-    },
-    parse: (token: any) => {
-      return {
-        type: 'youtube',
-        attrs: {
-          src: token.url,
-          start: token.start,
-          width: token.width,
-          height: token.height,
-        },
-      }
-    },
-    render: node => {
-      const src = node.attrs?.src || ''
-      const start = node.attrs?.start || 0
-      const width = node.attrs?.width || 640
-      const height = node.attrs?.height || 360
-
-      return `[@youtube ${src}](${start}, ${width}, ${height})`
-    },
-  }, */
 })
