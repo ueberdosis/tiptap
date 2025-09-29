@@ -1,5 +1,5 @@
 import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent, wrappingInputRule } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
@@ -147,33 +147,10 @@ export const TaskItem = Node.create<TaskItemOptions>({
     },
 
     render: (node, h) => {
-      if (!node || !Array.isArray(node.content)) {
-        return ''
-      }
-
       const checkedChar = node.attrs?.checked ? 'x' : ' '
-      const [content, ...children] = node.content
+      const prefix = `- [${checkedChar}] `
 
-      // Render the main task item content (should be a paragraph)
-      const mainContent = h.renderChildren([content])
-      const output = [`- [${checkedChar}] ${mainContent}`]
-
-      // Handle nested children (like nested task lists)
-      if (children && children.length > 0) {
-        children.forEach(child => {
-          const childContent = h.renderChildren([child])
-          if (childContent) {
-            // Split the child content by lines and indent each line
-            const indentedChild = childContent
-              .split('\n')
-              .map(line => (line ? h.indent(line) : ''))
-              .join('\n')
-            output.push(indentedChild)
-          }
-        })
-      }
-
-      return output.join('\n')
+      return renderNestedMarkdownContent(node, h, prefix)
     },
   },
 

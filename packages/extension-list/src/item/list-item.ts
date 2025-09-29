@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
 
 export interface ListItemOptions {
   /**
@@ -58,43 +58,21 @@ export const ListItem = Node.create<ListItemOptions>({
     parseName: 'list_item',
 
     render: (node, h, ctx) => {
-      if (!node || !Array.isArray(node.content)) {
-        return ''
-      }
-
-      let listCharacter = '-'
-
-      if (ctx.parentType === 'bulletList') {
-        listCharacter = '-'
-      } else if (ctx.parentType === 'orderedList') {
-        listCharacter = `${ctx.index + 1}.`
-      } else {
-        // Fallback to bullet list for unknown parent types
-        listCharacter = '-'
-      }
-
-      const [content, ...children] = node.content
-
-      // Render the main list item content (should be a paragraph)
-      const mainContent = h.renderChildren([content])
-      const output = [`${listCharacter} ${mainContent}`]
-
-      // Handle nested children (like nested lists)
-      if (children && children.length > 0) {
-        children.forEach(child => {
-          const childContent = h.renderChildren([child])
-          if (childContent) {
-            // Split the child content by lines and indent each line
-            const indentedChild = childContent
-              .split('\n')
-              .map(line => (line ? h.indent(line) : ''))
-              .join('\n')
-            output.push(indentedChild)
+      return renderNestedMarkdownContent(
+        node,
+        h,
+        (context: any) => {
+          if (context.parentType === 'bulletList') {
+            return '- '
           }
-        })
-      }
-
-      return output.join('\n')
+          if (context.parentType === 'orderedList') {
+            return `${context.index + 1}. `
+          }
+          // Fallback to bullet list for unknown parent types
+          return '- '
+        },
+        ctx,
+      )
     },
 
     parse: (token, helpers) => {
