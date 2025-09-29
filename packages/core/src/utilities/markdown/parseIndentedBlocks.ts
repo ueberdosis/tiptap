@@ -29,6 +29,12 @@ export interface BlockParserConfig {
   createToken: (data: any, nestedTokens?: any[]) => ParsedBlock
   /** Base indentation to remove from nested content (default: 2 spaces) */
   baseIndentSize?: number
+  /**
+   * Custom parser for nested content. If provided, this will be called instead
+   * of the default lexer.blockTokens() for parsing nested content.
+   * This allows recursive parsing of the same block type.
+   */
+  customNestedParser?: (dedentedContent: string) => any[] | undefined
 }
 
 /**
@@ -162,7 +168,12 @@ export function parseIndentedBlocks(
         .join('\n')
 
       if (dedentedNested.trim()) {
-        nestedTokens = lexer.blockTokens(dedentedNested)
+        // Use custom nested parser if provided, otherwise fall back to default
+        if (config.customNestedParser) {
+          nestedTokens = config.customNestedParser(dedentedNested)
+        } else {
+          nestedTokens = lexer.blockTokens(dedentedNested)
+        }
       }
     }
 

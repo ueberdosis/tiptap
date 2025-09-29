@@ -315,20 +315,32 @@ export class MarkdownManager {
     return {
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
-      createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => ({
-        type: 'text',
-        text,
-        marks: marks || undefined,
-      }),
-      createNode: (type: string, attrs?: any, content?: JSONContent[]) => ({
-        type,
-        attrs: attrs || undefined,
-        content: content || undefined,
-      }),
+      createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => {
+        const node = {
+          type: 'text',
+          text,
+          marks: marks || undefined,
+        }
+
+        return node
+      },
+      createNode: (type: string, attrs?: any, content?: JSONContent[]) => {
+        const node = {
+          type,
+          attrs: attrs || undefined,
+          content: content || undefined,
+        }
+
+        if (!attrs || Object.keys(attrs).length === 0) {
+          delete node.attrs
+        }
+
+        return node
+      },
       applyMark: (markType: string, content: JSONContent[], attrs?: any) => ({
         mark: markType,
         content,
-        attrs: attrs || undefined,
+        attrs: attrs && Object.keys(attrs).length > 0 ? attrs : undefined,
       }),
     }
   }
