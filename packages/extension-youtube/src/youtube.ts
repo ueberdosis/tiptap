@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
 import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
 
@@ -335,7 +335,11 @@ export const Youtube = Node.create<YoutubeOptions>({
     ]
   },
 
-  markdown: {
+  markdown: createAtomBlockMarkdownSpec({
+    blockName: 'youtube',
+  }),
+
+  /* markdown: {
     tokenizer: {
       name: 'youtube',
       level: 'block',
@@ -379,5 +383,5 @@ export const Youtube = Node.create<YoutubeOptions>({
 
       return `[@youtube ${src}](${start}, ${width}, ${height})`
     },
-  },
+  }, */
 })

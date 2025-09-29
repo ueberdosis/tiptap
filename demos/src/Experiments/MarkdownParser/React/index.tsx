@@ -1,7 +1,6 @@
 import './styles.scss'
 
-import type { JSONContent } from '@tiptap/core'
-import { Node } from '@tiptap/core'
+import { createBlockMarkdownSpec, Node } from '@tiptap/core'
 import { Highlight } from '@tiptap/extension-highlight'
 import { Image } from '@tiptap/extension-image'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
@@ -10,7 +9,7 @@ import { Mention } from '@tiptap/extension-mention'
 import { TableKit } from '@tiptap/extension-table'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
-import { EditorContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import { EditorContent, NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
@@ -31,6 +30,9 @@ const CustomReactComponent = ({ node }: any) => {
       >
         <h4 style={{ margin: '0 0 8px 0', color: '#1e40af' }}>Custom React Component</h4>
         <p style={{ margin: 0, color: '#374151' }}>{node.attrs.content || 'This is a custom React node view!'}</p>
+        <div>
+          <NodeViewContent />
+        </div>
       </div>
     </NodeViewWrapper>
   )
@@ -41,6 +43,8 @@ const CustomReactNode = Node.create({
   name: 'customReactNode',
 
   group: 'block',
+
+  content: 'block+',
 
   addAttributes() {
     return {
@@ -59,44 +63,18 @@ const CustomReactNode = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', { 'data-type': 'custom-react-node', ...HTMLAttributes }]
+    return ['div', { 'data-type': 'custom-react-node', ...HTMLAttributes }, 0]
   },
 
   addNodeView() {
     return ReactNodeViewRenderer(CustomReactComponent)
   },
 
-  markdown: {
-    tokenizer: {
-      name: 'customReactNode',
-      level: 'block',
-      tokenize: (src: string) => {
-        // Match ```react\ncontent\n``` syntax
-        const match = src.match(/^```react\n([\s\S]*?)\n```/)
-        if (!match) {
-          return undefined
-        }
-
-        const [fullMatch, content] = match
-
-        return {
-          type: 'customReactNode',
-          raw: fullMatch,
-          content: content.trim(),
-        }
-      },
-    },
-    parseName: 'customReactNode',
-    parse: (token: any, helpers: any) => {
-      return helpers.createNode('customReactNode', {
-        content: token.content || 'Custom React Node from Markdown!',
-      })
-    },
-    render: (node: JSONContent) => {
-      const content = node.attrs?.content || 'Custom React Node'
-      return `\`\`\`react\n${content}\n\`\`\``
-    },
-  },
+  markdown: createBlockMarkdownSpec({
+    nodeName: 'customReactNode',
+    name: 'react',
+    content: 'block',
+  }),
 })
 
 export default () => {
@@ -202,7 +180,7 @@ export default () => {
     if (name && editor) {
       // Generate a simple ID based on the name
       const id = Math.random().toString(36).substr(2, 9)
-      editor.chain().focus().insertContent(`@[${name}](${id})`, { asMarkdown: true }).run()
+      editor.chain().focus().insertContent(`[@ id="${id}" label="${name}"]`, { asMarkdown: true }).run()
     }
   }
 

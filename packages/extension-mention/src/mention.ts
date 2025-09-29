@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import { mergeAttributes, Node } from '@tiptap/core'
+import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
@@ -268,7 +268,13 @@ export const Mention = Node.create<MentionOptions>({
     return html
   },
 
-  markdown: {
+  markdown: createInlineMarkdownSpec({
+    nodeName: 'mention',
+    name: '@',
+    selfClosing: true,
+  }),
+
+  /* markdown: {
     // Custom tokenizer to handle @[label](id) syntax
     tokenizer: {
       name: 'mention',
@@ -304,7 +310,7 @@ export const Mention = Node.create<MentionOptions>({
 
       return `@[${node.attrs.label || node.attrs.id}](${node.attrs.id})`
     },
-  },
+  }, */
 
   renderText({ node }) {
     const args = {

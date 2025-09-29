@@ -22,7 +22,7 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
 
 ### YouTube Videos
 
-[@youtube https://www.youtube.com/watch?v=dQw4w9WgXcQ](0, 400, 300)
+:::youtube {src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="0" width="400" height="300"}
 
 ### Images
 
@@ -30,7 +30,7 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
 
 ### Mentions
 
-Hey, @[Madonna](1), have you seen @[Tom Cruise](2)?
+Hey, [@ id="madonna" label="Madonna"], have you seen [@ id="tom-cruise" label="Tom Cruise"]?
 
 ### Mathematics
 
@@ -44,15 +44,18 @@ $$
 
 ### Custom React Component
 
-\`\`\`react
-This is a custom React node view with fenced syntax!
-\`\`\`
+:::react {content="This is a custom React node view with fenced syntax!"}
 
-\`\`\`react
-And here is another one with even more content. How great is this?
+Isn't this great?
 
-Absolutely fantastic!
-\`\`\`
+:::
+
+
+:::react {content="Here is another custom React node view with more content!"}
+
+Another one with even more inline content to **edit**!
+
+:::
 
 ### Try editing the markdown on the left:
 
