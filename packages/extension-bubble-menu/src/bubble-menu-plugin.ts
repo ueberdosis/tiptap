@@ -398,6 +398,11 @@ export class BubbleMenuView implements PluginView {
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
+    if (this.editor.isDestroyed) {
+      this.destroy()
+      return
+    }
+
     if (this.preventHide) {
       this.preventHide = false
 
