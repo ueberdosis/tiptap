@@ -1,3 +1,5 @@
+import type { MarkdownParseHelpers, MarkdownParseResult, MarkdownToken, MarkdownTokenizer } from '../../types.js'
+
 /**
  * Parse shortcode attributes like 'id="madonna" handle="john" name="John Doe"'
  * Requires all values to be quoted with either single or double quotes
@@ -96,7 +98,11 @@ export interface InlineMarkdownSpecOptions {
  * })
  * ```
  */
-export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
+export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
+  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  tokenizer: MarkdownTokenizer
+  render: (node: any) => string
+} {
   const {
     nodeName,
     name: shortcodeName,
@@ -130,7 +136,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
   const escapedShortcode = shortcode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
   return {
-    parse: (token: any, h: any) => {
+    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
       const attrs = { ...defaultAttributes, ...token.attributes }
 
       if (selfClosing) {
@@ -158,7 +164,8 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
         const match = src.match(startPattern)
         return match?.index
       },
-      tokenize(src: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      tokenize(src: string, _tokens: any[], _lexer: any) {
         // Use non-global regex to match from the start of the string
         const tokenPattern = selfClosing
           ? new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]`)

@@ -1,3 +1,10 @@
+import type {
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
+} from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -49,7 +56,11 @@ export interface BlockMarkdownSpecOptions {
  * })
  * ```
  */
-export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions) {
+export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
+  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  tokenizer: MarkdownTokenizer
+  render: (node: any, h: MarkdownRendererHelpers) => string
+} {
   const {
     nodeName,
     name: markdownName,
@@ -80,10 +91,12 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions) {
   }
 
   return {
-    parse: (token: any, h: any) => {
-      let nodeContent
+    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
+      let nodeContent: any
       if (getContent) {
-        nodeContent = getContent(token)
+        const contentResult = getContent(token)
+        // If getContent returns a string, wrap it in a text node
+        nodeContent = typeof contentResult === 'string' ? [{ type: 'text', text: contentResult }] : contentResult
       } else if (content === 'block') {
         nodeContent = h.parseChildren(token.tokens || [])
       } else {
@@ -146,7 +159,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions) {
       },
     },
 
-    render: (node: any, h: any) => {
+    render: (node: any, h: MarkdownRendererHelpers) => {
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''

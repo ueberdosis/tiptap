@@ -1,3 +1,4 @@
+import type { MarkdownParseHelpers, MarkdownParseResult, MarkdownToken, MarkdownTokenizer } from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -46,7 +47,11 @@ export interface AtomBlockMarkdownSpecOptions {
  * })
  * ```
  */
-export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOptions) {
+export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOptions): {
+  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  tokenizer: MarkdownTokenizer
+  render: (node: any) => string
+} {
   const {
     blockName,
     parseAttributes = defaultParseAttributes,
@@ -72,7 +77,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
   }
 
   return {
-    parse: (token: any, h: any) => {
+    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
       const attrs = { ...defaultAttributes, ...token.attributes }
       return h.createNode(blockName, attrs, [])
     },
@@ -84,7 +89,8 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
         return src.match(regex)?.index
       },
-      tokenize(src: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      tokenize(src: string, _tokens: any[], _lexer: any) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
         const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*(?:\\n|$)`)
