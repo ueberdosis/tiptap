@@ -121,30 +121,56 @@ export const TaskItem = Node.create<TaskItemOptions>({
   },
 
   markdown: {
+    parse: (token, h) => {
+      // Parse the task item's text content into paragraph content
+      const content = []
+
+      // First, add the main paragraph content
+      if (token.tokens && token.tokens.length > 0) {
+        // If we have tokens, create a paragraph with the inline content
+        content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
+      } else if (token.text) {
+        // If we have raw text, create a paragraph with text node
+        content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
+      } else {
+        // Fallback: empty paragraph
+        content.push(h.createNode('paragraph', {}, []))
+      }
+
+      // Then, add any nested content (like nested task lists)
+      if (token.nestedTokens && token.nestedTokens.length > 0) {
+        const nestedContent = h.parseChildren(token.nestedTokens)
+        content.push(...nestedContent)
+      }
+
+      return h.createNode('taskItem', { checked: token.checked || false }, content)
+    },
+
     render: (node, h) => {
       if (!node || !Array.isArray(node.content)) {
         return ''
       }
 
       const checkedChar = node.attrs?.checked ? 'x' : ' '
-
       const [content, ...children] = node.content
 
-      const output = [`- [${checkedChar}] ${h.renderChildren(content)}`]
-      const childOutput: string[] = []
+      // Render the main task item content (should be a paragraph)
+      const mainContent = h.renderChildren([content])
+      const output = [`- [${checkedChar}] ${mainContent}`]
 
-      children.forEach(child => {
-        childOutput.push(`${h.renderChildren(child)}`)
-      })
-
-      if (childOutput && childOutput.length > 0) {
-        const childContent = childOutput
-          .join('')
-          .split('\n')
-          .map(line => h.indent(line))
-          .join('\n')
-
-        output.push(childContent)
+      // Handle nested children (like nested task lists)
+      if (children && children.length > 0) {
+        children.forEach(child => {
+          const childContent = h.renderChildren([child])
+          if (childContent) {
+            // Split the child content by lines and indent each line
+            const indentedChild = childContent
+              .split('\n')
+              .map(line => (line ? h.indent(line) : ''))
+              .join('\n')
+            output.push(indentedChild)
+          }
+        })
       }
 
       return output.join('\n')
