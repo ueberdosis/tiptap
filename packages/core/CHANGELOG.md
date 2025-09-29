@@ -1,5 +1,42 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c0190bd: Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/pm@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes

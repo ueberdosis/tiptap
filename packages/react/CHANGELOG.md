@@ -1,5 +1,44 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- 6af23ff: Hotfix: Fix a crash in the React package that could occur during mounting/unmounting when the editor wasn't fully initialized. This prevents a runtime error and improves stability.
+  - @tiptap/core@3.6.1
+  - @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- ea9ac95: Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+  - @tiptap/core@3.5.2
+  - @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- f80c848: Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+  - @tiptap/core@3.5.1
+  - @tiptap/pm@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes

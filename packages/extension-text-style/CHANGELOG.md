@@ -1,5 +1,47 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- 04a0f34: Merge nested span styles only for immediate child spans and guard style values.
+
+  - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
+  - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
+  - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
+
+  This change fixes a bug that could cause exponential work when parsing deeply
+  nested `<span>` elements - in extreme cases that could make the tab unresponsive
+  or crash the renderer. It is a bugfix / performance improvement with no public API
+  changes.
+
+  - @tiptap/core@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes

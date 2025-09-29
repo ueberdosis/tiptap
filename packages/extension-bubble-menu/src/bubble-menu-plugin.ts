@@ -547,7 +547,7 @@ export class BubbleMenuView implements PluginView {
     this.isVisible = false
   }
 
-  transactionHandler({ transaction: tr }: { transaction: Transaction }) {
+  transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
     const meta = tr.getMeta('bubbleMenu')
     if (meta === 'updatePosition') {
       this.updatePosition()

@@ -1,5 +1,35 @@
 # Change Log
 
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extension-list@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extension-list@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes

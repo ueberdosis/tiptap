@@ -1,5 +1,48 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.6.1
+
+### Patch Changes
+
+- Updated dependencies [6af23ff]
+  - @tiptap/react@3.6.1
+  - @tiptap/extension-drag-handle@3.6.1
+  - @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.6.0
+- @tiptap/react@3.6.0
+- @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.5.3
+- @tiptap/pm@3.5.3
+- @tiptap/react@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- Updated dependencies [ea9ac95]
+  - @tiptap/react@3.5.2
+  - @tiptap/extension-drag-handle@3.5.2
+  - @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- Updated dependencies [f80c848]
+  - @tiptap/react@3.5.1
+  - @tiptap/extension-drag-handle@3.5.1
+  - @tiptap/pm@3.5.1
+
 ## 3.5.0
 
 ### Patch Changes
