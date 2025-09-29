@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-invisible-characters",
   "description": "invisible characters extension for tiptap",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/invisiblecharacters",
   "keywords": [
     "tiptap",
