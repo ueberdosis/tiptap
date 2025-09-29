@@ -2,10 +2,8 @@ import {
   type InsertContentAtOptions as MarkdownInsertContentAtOptions,
   type InsertContentOptions as MarkdownInsertContentOptions,
   type SetContentOptions as MarkdownSetContentOptions,
+  commands,
   Extension,
-  insertContent,
-  insertContentAt,
-  setContent,
 } from '@tiptap/core'
 import type { marked } from 'marked'
 
@@ -106,7 +104,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
           content = this.editor.markdown.parse(content as string)
         }
 
-        return setContent(content, options)
+        return commands.setContent(content, options)
       },
 
       insertContent: (value, options?: MarkdownInsertContentOptions) => {
@@ -114,7 +112,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
           value = this.editor.markdown.parse(value as string)
         }
 
-        return insertContent(value, options)
+        return commands.insertContent(value, options)
       },
 
       insertContentAt: (position, value, options?: MarkdownInsertContentAtOptions) => {
@@ -122,7 +120,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
           value = this.editor.markdown.parse(value as string)
         }
 
-        return insertContentAt(position, value, options)
+        return commands.insertContentAt(position, value, options)
       },
     }
   },
