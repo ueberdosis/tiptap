@@ -30,31 +30,43 @@ export function parseAttributes(attrString: string): Record<string, any> {
 
   const attributes: Record<string, any> = {}
 
-  // Parse classes (.className)
-  const classMatches = attrString.match(/\.([a-zA-Z][\w-]*)/g)
+  // First, extract and remove quoted strings to avoid parsing content inside them
+  const quotedStrings: string[] = []
+  const tempString = attrString.replace(/["']([^"']*)["']/g, match => {
+    quotedStrings.push(match)
+    return `__QUOTED_${quotedStrings.length - 1}__`
+  })
+
+  // Parse classes (.className) - only outside of quoted strings
+  const classMatches = tempString.match(/(?:^|\s)\.([a-zA-Z][\w-]*)/g)
   if (classMatches) {
-    const classes = classMatches.map(match => match.slice(1)) // Remove the dot
+    const classes = classMatches.map(match => match.trim().slice(1)) // Remove the dot
     attributes.class = classes.join(' ')
   }
 
-  // Parse IDs (#myId)
-  const idMatch = attrString.match(/#([a-zA-Z][\w-]*)/)
+  // Parse IDs (#myId) - only outside of quoted strings
+  const idMatch = tempString.match(/(?:^|\s)#([a-zA-Z][\w-]*)/)
   if (idMatch) {
     attributes.id = idMatch[1]
   }
 
-  // Parse key-value pairs (key="value" or key='value')
-  const kvRegex = /([a-zA-Z][\w-]*)\s*=\s*["']([^"']*)["']/g
-  const kvMatches = Array.from(attrString.matchAll(kvRegex))
-  kvMatches.forEach(([, key, value]) => {
-    attributes[key] = value
+  // Parse key-value pairs (key="value" or key='value') - restore quoted strings
+  const kvRegex = /([a-zA-Z][\w-]*)\s*=\s*(__QUOTED_\d+__)/g
+  const kvMatches = Array.from(tempString.matchAll(kvRegex))
+  kvMatches.forEach(([, key, quotedRef]) => {
+    const quotedIndex = parseInt(quotedRef.match(/__QUOTED_(\d+)__/)?.[1] || '0', 10)
+    const quotedValue = quotedStrings[quotedIndex]
+    if (quotedValue) {
+      // Remove the outer quotes
+      attributes[key] = quotedValue.slice(1, -1)
+    }
   })
 
   // Parse boolean attributes (standalone words that aren't classes/IDs)
-  const cleanString = attrString
-    .replace(/\.([a-zA-Z][\w-]*)/g, '') // Remove classes
-    .replace(/#([a-zA-Z][\w-]*)/g, '') // Remove IDs
-    .replace(/([a-zA-Z][\w-]*)\s*=\s*["'][^"']*["']/g, '') // Remove key-value pairs
+  const cleanString = tempString
+    .replace(/(?:^|\s)\.([a-zA-Z][\w-]*)/g, '') // Remove classes
+    .replace(/(?:^|\s)#([a-zA-Z][\w-]*)/g, '') // Remove IDs
+    .replace(/([a-zA-Z][\w-]*)\s*=\s*__QUOTED_\d+__/g, '') // Remove key-value pairs
     .trim()
 
   if (cleanString) {
