@@ -13,9 +13,27 @@ export type UniqueIDGenerationContext = {
 }
 
 export interface UniqueIDOptions {
+  /**
+   * The name of the attribute to add the unique ID to.
+   * @default "id"
+   */
   attributeName: string
+  /**
+   * The types of nodes to add unique IDs to.
+   * @default []
+   */
   types: string[]
+  /**
+   * The function that generates the unique ID. By default, a UUID v4 is
+   * generated. However, you can provide your own function to generate the
+   * unique ID based on the node type and the position.
+   */
   generateID: (ctx: UniqueIDGenerationContext) => any
+  /**
+   * Ignore some mutations, for example applied from other users through the collaboration plugin.
+   *
+   * @default null
+   */
   filterTransaction: ((transaction: Transaction) => boolean) | null
 }
 
