@@ -110,7 +110,9 @@ export default () => {
       Markdown,
       StarterKit,
       TaskList,
-      TaskItem,
+      TaskItem.configure({
+        nested: true,
+      }),
       Youtube.configure({
         inline: false,
         width: 480,
