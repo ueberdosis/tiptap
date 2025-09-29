@@ -14,6 +14,8 @@ export interface AtomBlockMarkdownSpecOptions {
   defaultAttributes?: Record<string, any>
   /** Required attributes that must be present */
   requiredAttributes?: string[]
+  /** Allowlist of attributes to include in markdown (if not provided, all attributes are included) */
+  allowedAttributes?: string[]
 }
 
 /**
@@ -32,10 +34,9 @@ export interface AtomBlockMarkdownSpecOptions {
  * ```ts
  * const youtubeSpec = createAtomBlockMarkdownSpec({
  *   blockName: 'youtube',
- *   parseAttributes: (attrStr) => parseAttributes(attrStr),
- *   serializeAttributes: (attrs) => serializeAttributes(attrs),
  *   requiredAttributes: ['src'],
- *   defaultAttributes: { start: 0 }
+ *   defaultAttributes: { start: 0 },
+ *   allowedAttributes: ['src', 'start', 'width', 'height'] // Only these get rendered to markdown
  * })
  *
  * // Usage in extension:
@@ -52,7 +53,23 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
     serializeAttributes = defaultSerializeAttributes,
     defaultAttributes = {},
     requiredAttributes = [],
+    allowedAttributes,
   } = options
+
+  // Helper function to filter attributes based on allowlist
+  const filterAttributes = (attrs: Record<string, any>) => {
+    if (!allowedAttributes) {
+      return attrs
+    }
+
+    const filtered: Record<string, any> = {}
+    allowedAttributes.forEach(key => {
+      if (key in attrs) {
+        filtered[key] = attrs[key]
+      }
+    })
+    return filtered
+  }
 
   return {
     parse: (token: any, h: any) => {
@@ -96,7 +113,8 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
     },
 
     render: (node: any) => {
-      const attrs = serializeAttributes(node.attrs || {})
+      const filteredAttrs = filterAttributes(node.attrs || {})
+      const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''
 
       return `:::${blockName}${attrString}`

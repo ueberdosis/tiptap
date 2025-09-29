@@ -272,6 +272,7 @@ export const Mention = Node.create<MentionOptions>({
     nodeName: 'mention',
     name: '@',
     selfClosing: true,
+    allowedAttributes: ['id', 'label'],
   }),
 
   /* markdown: {

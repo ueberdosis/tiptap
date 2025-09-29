@@ -47,6 +47,8 @@ export interface InlineMarkdownSpecOptions {
   defaultAttributes?: Record<string, any>
   /** Whether this is a self-closing shortcode (no content, like [emoji name=party]) */
   selfClosing?: boolean
+  /** Allowlist of attributes to include in markdown (if not provided, all attributes are included) */
+  allowedAttributes?: string[]
 }
 
 /**
@@ -68,26 +70,22 @@ export interface InlineMarkdownSpecOptions {
  * const mentionSpec = createInlineMarkdownSpec({
  *   nodeName: 'mention',
  *   selfClosing: true,
- *   defaultAttributes: { type: 'user' }
+ *   defaultAttributes: { type: 'user' },
+ *   allowedAttributes: ['id', 'label'] // Only these get rendered to markdown
  * })
  *
  * // Self-closing emoji: [emoji name="party_popper"]
  * const emojiSpec = createInlineMarkdownSpec({
  *   nodeName: 'emoji',
- *   selfClosing: true
+ *   selfClosing: true,
+ *   allowedAttributes: ['name']
  * })
  *
  * // With content: [highlight color="yellow"]text[/highlight]
  * const highlightSpec = createInlineMarkdownSpec({
  *   nodeName: 'highlight',
- *   selfClosing: false
- * })
- *
- * // Custom attribute parsing if needed
- * const customSpec = createInlineMarkdownSpec({
- *   nodeName: 'customNode',
- *   parseAttributes: (attrStr) => customParseLogic(attrStr),
- *   serializeAttributes: (attrs) => customSerializeLogic(attrs)
+ *   selfClosing: false,
+ *   allowedAttributes: ['color', 'style']
  * })
  *
  * // Usage in extension:
@@ -107,10 +105,26 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
     serializeAttributes = serializeShortcodeAttributes,
     defaultAttributes = {},
     selfClosing = false,
+    allowedAttributes,
   } = options
 
   // Use shortcodeName for markdown syntax, fallback to nodeName
   const shortcode = shortcodeName || nodeName
+
+  // Helper function to filter attributes based on allowlist
+  const filterAttributes = (attrs: Record<string, any>) => {
+    if (!allowedAttributes) {
+      return attrs
+    }
+
+    const filtered: Record<string, any> = {}
+    allowedAttributes.forEach(key => {
+      if (key in attrs) {
+        filtered[key] = attrs[key]
+      }
+    })
+    return filtered
+  }
 
   // Escape special regex characters in shortcode name
   const escapedShortcode = shortcode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -184,7 +198,8 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
 
     render: (node: any) => {
       const content = getContent ? getContent(node) : node.textContent || ''
-      const attrs = serializeAttributes(node.attrs || {})
+      const filteredAttrs = filterAttributes(node.attrs || {})
+      const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` ${attrs}` : ''
 
       if (selfClosing) {

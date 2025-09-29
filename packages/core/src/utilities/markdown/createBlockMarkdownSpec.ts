@@ -18,6 +18,8 @@ export interface BlockMarkdownSpecOptions {
   defaultAttributes?: Record<string, any>
   /** Content type: 'block' allows paragraphs/lists/etc, 'inline' only allows bold/italic/links/etc */
   content?: 'block' | 'inline'
+  /** Allowlist of attributes to include in markdown (if not provided, all attributes are included) */
+  allowedAttributes?: string[]
 }
 
 /**
@@ -35,10 +37,9 @@ export interface BlockMarkdownSpecOptions {
  * @example
  * ```ts
  * const calloutSpec = createBlockMarkdownSpec({
- *   blockName: 'callout',
- *   parseAttributes: (attrStr) => parseAttributes(attrStr),
- *   serializeAttributes: (attrs) => serializeAttributes(attrs),
- *   defaultAttributes: { type: 'info' }
+ *   nodeName: 'callout',
+ *   defaultAttributes: { type: 'info' },
+ *   allowedAttributes: ['type', 'title'] // Only these get rendered to markdown
  * })
  *
  * // Usage in extension:
@@ -57,10 +58,26 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions) {
     serializeAttributes = defaultSerializeAttributes,
     defaultAttributes = {},
     content = 'block',
+    allowedAttributes,
   } = options
 
   // Use markdownName for syntax, fallback to nodeName
   const blockName = markdownName || nodeName
+
+  // Helper function to filter attributes based on allowlist
+  const filterAttributes = (attrs: Record<string, any>) => {
+    if (!allowedAttributes) {
+      return attrs
+    }
+
+    const filtered: Record<string, any> = {}
+    allowedAttributes.forEach(key => {
+      if (key in attrs) {
+        filtered[key] = attrs[key]
+      }
+    })
+    return filtered
+  }
 
   return {
     parse: (token: any, h: any) => {
@@ -130,7 +147,8 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions) {
     },
 
     render: (node: any, h: any) => {
-      const attrs = serializeAttributes(node.attrs || {})
+      const filteredAttrs = filterAttributes(node.attrs || {})
+      const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''
       const renderedContent = h.renderChildren(node.content || [], '\n')
 
