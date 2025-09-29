@@ -79,7 +79,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
 
     tokenizer: {
       name: blockName,
-      level: 'block',
+      level: 'block' as const,
       start(src: string) {
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
         return src.match(regex)?.index

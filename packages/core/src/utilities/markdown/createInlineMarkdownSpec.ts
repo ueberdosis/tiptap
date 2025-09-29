@@ -148,7 +148,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions) {
 
     tokenizer: {
       name: nodeName,
-      level: 'inline',
+      level: 'inline' as const,
       start(src: string) {
         // Create a non-global version for finding the start position
         const startPattern = selfClosing
