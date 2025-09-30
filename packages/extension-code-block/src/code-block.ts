@@ -16,7 +16,7 @@ export interface CodeBlockOptions {
    * Define whether the node should be exited on arrow down if there is no node after it.
    * @default true
    */
-  exitOnArrowDown: boolean  | null | undefined
+  exitOnArrowDown: boolean | null | undefined
   /**
    * The default language.
    * @default null
@@ -105,6 +105,11 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         default: this.options.defaultLanguage,
         parseHTML: element => {
           const { languageClassPrefix } = this.options
+
+          if (!languageClassPrefix) {
+            return null
+          }
+
           const classNames = [...(element.firstElementChild?.classList || [])]
           const languages = classNames
             .filter(className => className.startsWith(languageClassPrefix))
@@ -194,7 +199,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           return false
         }
 
-        const indent = ' '.repeat(this.options.tabSize)
+        const indent = ' '.repeat(this.options.tabSize || 4)
 
         if (empty) {
           return editor.commands.insertContent(indent)
@@ -248,7 +253,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const currentLine = lines[currentLineIndex]
             const leadingSpaces = currentLine.match(/^ */)?.[0] || ''
-            const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize)
+            const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize || 4)
 
             if (spacesToRemove === 0) {
               return true
@@ -277,7 +282,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           const reverseIndentText = lines
             .map(line => {
               const leadingSpaces = line.match(/^ */)?.[0] || ''
-              const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize)
+              const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize || 4)
               return line.slice(spacesToRemove)
             })
             .join('\n')
