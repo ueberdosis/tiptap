@@ -122,11 +122,19 @@ export const OrderedList = Node.create<OrderedListOptions>({
         return []
       }
 
+      const listToken = token as any
+      const startValue = listToken.start || 1
+
+      if (startValue !== 1) {
+        return {
+          type: 'orderedList',
+          attrs: { start: startValue },
+          content: token.items ? helpers.parseChildren(token.items) : [],
+        }
+      }
+
       return {
         type: 'orderedList',
-        attrs: {
-          start: (token as any).start || 1,
-        },
         content: token.items ? helpers.parseChildren(token.items) : [],
       }
     },
