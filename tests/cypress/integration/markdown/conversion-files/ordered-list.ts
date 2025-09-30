@@ -4,14 +4,14 @@ export const expectedInput = `
 1. Item 1
 2. Item 2
   2.1 Subitem 1
-  2.2 Subitem 2
+ 2.2 Subitem 2
     2.2.1 Subsubitem 1
     2.2.2 Subsubitem 2
 3. Item 3
   3.1 Subitem 1
   3.2 Subitem 2
-    3.2.1 Subsubitem 1
-    3.2.2 Subsubitem 2
+   3.2.1 Subsubitem 1
+   3.2.2 Subsubitem 2
 `.trim()
 
 export const expectedOutput = {
