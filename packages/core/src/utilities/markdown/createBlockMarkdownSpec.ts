@@ -1,4 +1,4 @@
-import type { ExtendableMarkdownSpec, MarkdownParseHelpers, MarkdownToken } from '../../types.js'
+import type { ExtendableMarkdownSpec, JSONContent, MarkdownToken } from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -10,7 +10,7 @@ export interface BlockMarkdownSpecOptions {
   /** The markdown syntax name (defaults to nodeName if not provided) */
   name?: string
   /** Function to extract content from the node for serialization */
-  getContent?: (node: any) => string
+  getContent?: (token: MarkdownToken) => string
   /** Function to parse attributes from the attribute string */
   parseAttributes?: (attrString: string) => Record<string, any>
   /** Function to serialize attributes to string */
@@ -81,8 +81,9 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
   }
 
   return {
-    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
-      let nodeContent: any
+    parse: (token, h) => {
+      let nodeContent: JSONContent[]
+
       if (getContent) {
         const contentResult = getContent(token)
         // If getContent returns a string, wrap it in a text node
@@ -105,7 +106,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
         const regex = new RegExp(`^:::${blockName}`, 'm')
         return src.match(regex)?.index
       },
-      tokenize(src, tokens, lexer) {
+      tokenize(src, _tokens, lexer) {
         const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*\\n([\\s\\S]*?)\\n:::`)
         const match = src.match(regex)
 
@@ -119,31 +120,35 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
 
         let contentTokens: MarkdownToken[] = []
         if (trimmedContent) {
-          contentTokens = content === 'block' ? lexer.blockTokens(trimmedContent) : lexer.inlineTokens(trimmedContent)
-        }
+          if (content === 'block') {
+            contentTokens = lexer.blockTokens(trimmedContent)
 
-        if (content === 'block') {
-          while (contentTokens.length > 0) {
-            const lastToken = contentTokens[contentTokens.length - 1]
-            if (lastToken.type === 'paragraph' && (!lastToken.text || lastToken.text.trim() === '')) {
-              contentTokens.pop()
-            } else {
-              break
+            // Parse inline tokens for any token that has text content but no tokens
+            contentTokens.forEach(token => {
+              if (token.text && (!token.tokens || token.tokens.length === 0)) {
+                token.tokens = lexer.inlineTokens(token.text)
+              }
+            })
+
+            // Clean up empty trailing paragraphs
+            while (contentTokens.length > 0) {
+              const lastToken = contentTokens[contentTokens.length - 1]
+              if (lastToken.type === 'paragraph' && (!lastToken.text || lastToken.text.trim() === '')) {
+                contentTokens.pop()
+              } else {
+                break
+              }
             }
+          } else {
+            contentTokens = lexer.inlineTokens(trimmedContent)
           }
-
-          contentTokens.forEach(token => {
-            if (token.type === 'paragraph' && token.text) {
-              token.text = token.text.replace(/\n+$/, '')
-            }
-          })
         }
 
         return {
           type: nodeName,
           raw: fullMatch,
           attributes,
-          content: trimmedContent,
+          // content: trimmedContent,
           tokens: contentTokens,
         }
       },

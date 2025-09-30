@@ -175,7 +175,7 @@ describe('Markdown Utilities', () => {
         content: [],
       }
 
-      const rendered = spec.render(node, mockHelpers)
+      const rendered = spec.render(node, mockHelpers, {} as any)
       expect(rendered).to.equal(':::callout {type="info"}\nThis is a callout\n:::')
     })
   })

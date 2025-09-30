@@ -7,8 +7,7 @@ export const expectedInput = `
 
 This is a node with **bold text**.
 
-:::
-`
+:::`.trim()
 
 export const expectedOutput = {
   type: 'doc',

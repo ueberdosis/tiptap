@@ -6,7 +6,7 @@ export const expectedInput = `
 This is a [custom-inline type="bug" id="1234"] ticket.
 
 This is a [custom-inline-tag icon="house"]Home[/custom-inline-tag] tag.
-`
+`.trim()
 
 export const expectedOutput = {
   type: 'doc',
@@ -18,7 +18,6 @@ export const expectedOutput = {
         {
           type: 'customInline',
           attrs: { type: 'bug', id: '1234' },
-          content: [],
         },
         { type: 'text', text: ' ticket.' },
       ],
