@@ -1,10 +1,4 @@
-import type {
-  MarkdownParseHelpers,
-  MarkdownParseResult,
-  MarkdownRendererHelpers,
-  MarkdownToken,
-  MarkdownTokenizer,
-} from '../../types.js'
+import type { ExtendableMarkdownSpec, MarkdownParseHelpers, MarkdownToken } from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -56,11 +50,7 @@ export interface BlockMarkdownSpecOptions {
  * })
  * ```
  */
-export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
-  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
-  tokenizer: MarkdownTokenizer
-  render: (node: any, h: MarkdownRendererHelpers) => string
-} {
+export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): ExtendableMarkdownSpec {
   const {
     nodeName,
     name: markdownName,
@@ -111,11 +101,11 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
     tokenizer: {
       name: nodeName,
       level: 'block' as const,
-      start(src: string) {
+      start(src) {
         const regex = new RegExp(`^:::${blockName}`, 'm')
         return src.match(regex)?.index
       },
-      tokenize(src: string, tokens: any[], lexer: any) {
+      tokenize(src, tokens, lexer) {
         const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*\\n([\\s\\S]*?)\\n:::`)
         const match = src.match(regex)
 
@@ -127,7 +117,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
         const attributes = parseAttributes(attrString)
         const trimmedContent = matchedContent.replace(/^\s*\n|\n\s*$/g, '').trim()
 
-        let contentTokens: any[] = []
+        let contentTokens: MarkdownToken[] = []
         if (trimmedContent) {
           contentTokens = content === 'block' ? lexer.blockTokens(trimmedContent) : lexer.inlineTokens(trimmedContent)
         }
@@ -142,7 +132,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
             }
           }
 
-          contentTokens.forEach((token: any) => {
+          contentTokens.forEach(token => {
             if (token.type === 'paragraph' && token.text) {
               token.text = token.text.replace(/\n+$/, '')
             }
@@ -159,7 +149,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
       },
     },
 
-    render: (node: any, h: MarkdownRendererHelpers) => {
+    render: (node, h) => {
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''

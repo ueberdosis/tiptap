@@ -889,3 +889,42 @@ export type MarkdownRendererHelpers = {
   wrapInBlock: (prefix: string, content: string) => string
   indent: (content: string) => string
 }
+
+export type ExtendableMarkdownSpec = {
+  /**
+   * Optional unique name to identify the markdown tokenizer / parser for this extension.
+   * If omitted, the extension `name` will be used.
+   * @deprecated Use parseName and renderName for better separation of concerns
+   */
+  name?: string
+  /**
+   * Token name used for parsing (e.g., 'codespan', 'code', 'strong')
+   * If omitted, falls back to `name` or extension name
+   */
+  parseName?: string
+  /**
+   * Node/mark name used for rendering (typically the extension name)
+   * If omitted, falls back to extension name
+   */
+  renderName?: string
+  /**
+   * A RegExp used by the tokenizer to detect custom markdown constructs.
+   */
+  match?: RegExp
+  /**
+   * Controls whether this extension will indent markdown content (for example bullet lists)
+   */
+  isIndenting?: boolean
+  /**
+   * Custom tokenizer for marked.js to handle non-standard markdown syntax
+   */
+  tokenizer?: MarkdownTokenizer
+  /**
+   * A parse helper used by the markdown subsystem.
+   */
+  parse?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+  /**
+   * Render a node (ProseMirror JSON) to a markdown string.
+   */
+  render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+}
