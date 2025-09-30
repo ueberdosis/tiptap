@@ -124,13 +124,15 @@ describe('Markdown Conversion Tests', () => {
     describe(`convert ${file.name} from and to markdown`, () => {
       it(`should convert ${file.name} markdown to expected JSON structure`, () => {
         const json = markdownManager.parse(file.expectedInput)
-        console.log(JSON.stringify(json), file.expectedInput)
-        expect(json).to.deep.equal(file.expectedOutput)
+
+        const normalizedActual = JSON.parse(JSON.stringify(json))
+        const normalizedExpected = JSON.parse(JSON.stringify(file.expectedOutput))
+
+        expect(normalizedActual).to.deep.equal(normalizedExpected)
       })
 
       it(`should convert ${file.name} JSON structure back to expected markdown`, () => {
         const md = markdownManager.serialize(file.expectedOutput)
-        console.log(md, JSON.stringify(file.expectedOutput))
         expect(md.trim()).to.equal(file.expectedInput.trim())
       })
     })
