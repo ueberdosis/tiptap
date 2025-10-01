@@ -117,13 +117,189 @@ export const OrderedList = Node.create<OrderedListOptions>({
       return h.renderChildren(node.content, '\n')
     },
 
+    tokenizer: {
+      name: 'orderedList',
+      level: 'block',
+      start: (src: string) => {
+        const match = src.match(/^(\s*)(\d+)\.\s+/)
+        return match ? match.index : undefined
+      },
+      tokenize: (src: string, _tokens, lexer) => {
+        const lines = src.split('\n')
+        const listItems: Array<{
+          indent: number
+          number: number
+          content: string
+          raw: string
+        }> = []
+
+        let i = 0
+        let consumed = 0
+
+        // Parse all ordered list items from the beginning
+        while (i < lines.length) {
+          const line = lines[i]
+          const match = line.match(/^(\s*)(\d+)\.\s+(.*)$/)
+
+          if (!match) {
+            break
+          }
+
+          const [, indent, number, content] = match
+          const indentLevel = indent.length
+          let itemContent = content
+          let j = i + 1
+          const itemLines = [line]
+
+          // Collect continuation lines for this item
+          while (j < lines.length) {
+            const nextLine = lines[j]
+            const nextMatch = nextLine.match(/^(\s*)(\d+)\.\s+(.*)$/)
+
+            if (nextMatch) {
+              const nextIndentLevel = nextMatch[1].length
+              // If next item is at same or lesser indent, this item is done
+              if (nextIndentLevel <= indentLevel) {
+                break
+              }
+            }
+
+            // Check for continuation content
+            if (nextLine.trim() === '') {
+              // Empty line
+              itemLines.push(nextLine)
+              itemContent += '\n'
+              j += 1
+            } else if (nextLine.match(/^\s/)) {
+              // Indented content - part of this item
+              itemLines.push(nextLine)
+              itemContent += `\n${nextLine.slice(indentLevel + 2)}` // Remove list marker indent
+              j += 1
+            } else {
+              // Non-indented line means end of list
+              break
+            }
+          }
+
+          listItems.push({
+            indent: indentLevel,
+            number: parseInt(number, 10),
+            content: itemContent.trim(),
+            raw: itemLines.join('\n'),
+          })
+
+          consumed = j
+          i = j
+        }
+
+        if (listItems.length === 0) {
+          return undefined
+        }
+
+        // Build proper nested structure recursively
+        const buildNestedStructure = (items: typeof listItems, baseIndent: number) => {
+          const result: unknown[] = []
+          let idx = 0
+
+          while (idx < items.length) {
+            const item = items[idx]
+
+            if (item.indent === baseIndent) {
+              // This item belongs at the current level
+              const contentLines = item.content.split('\n')
+              const mainText = contentLines[0]?.trim() || ''
+
+              const tokens = []
+
+              // Always wrap the main text in a paragraph token
+              if (mainText) {
+                tokens.push({
+                  type: 'paragraph',
+                  raw: mainText,
+                  tokens: lexer.inlineTokens(mainText),
+                })
+              }
+
+              // Handle additional content after the main text
+              const additionalContent = contentLines.slice(1).join('\n').trim()
+              if (additionalContent) {
+                // Parse as block tokens (handles mixed unordered lists, etc.)
+                const blockTokens = lexer.blockTokens(additionalContent)
+                tokens.push(...blockTokens)
+              }
+
+              // Look ahead to find nested items at deeper indent levels
+              let j = idx + 1
+              const nestedItems = []
+
+              while (j < items.length && items[j].indent > baseIndent) {
+                nestedItems.push(items[j])
+                j += 1
+              }
+
+              // If we have nested items, recursively build their structure
+              if (nestedItems.length > 0) {
+                // Group nested items by their immediate child indent level
+                const nextIndent = Math.min(...nestedItems.map(ni => ni.indent))
+                const immediateChildren = nestedItems.filter(ni => ni.indent === nextIndent)
+
+                if (immediateChildren.length > 0) {
+                  // Build the nested list
+                  const nestedListItems = buildNestedStructure(nestedItems, nextIndent)
+
+                  // Create a nested list token
+                  tokens.push({
+                    type: 'list',
+                    ordered: true,
+                    start: immediateChildren[0].number,
+                    items: nestedListItems,
+                    raw: nestedItems.map(ni => ni.raw).join('\n'),
+                  })
+                }
+              }
+
+              result.push({
+                type: 'list_item',
+                raw: item.raw,
+                tokens,
+              })
+
+              // Skip the nested items we just processed
+              idx = j
+            } else {
+              // This item has deeper indent than we're currently processing
+              // It should be handled by a recursive call
+              idx += 1
+            }
+          }
+
+          return result
+        }
+
+        const items = buildNestedStructure(listItems, 0)
+
+        if (items.length === 0) {
+          return undefined
+        }
+
+        const startValue = listItems[0]?.number || 1
+
+        return {
+          type: 'list',
+          ordered: true,
+          start: startValue,
+          items,
+          raw: lines.slice(0, consumed).join('\n'),
+        } as unknown as object
+      },
+    },
+
     parse: (token, helpers) => {
-      if (token.type !== 'list' || !(token as any).ordered) {
+      if (token.type !== 'list' || !token.ordered) {
         return []
       }
 
-      const listToken = token as any
-      const startValue = listToken.start || 1
+      const startValue = token.start || 1
 
       if (startValue !== 1) {
         return {
