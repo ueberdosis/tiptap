@@ -121,7 +121,7 @@ describe('unmounted', () => {
     expect(called).to.eq(true)
   })
 
-  it('should emit an selectionUpdate event when the editor is updated', async () => {
+  it('should emit a selectionUpdate event when the editor is updated', async () => {
     const editor = new Editor({
       element: null,
       extensions: [Document, Paragraph, Text],
