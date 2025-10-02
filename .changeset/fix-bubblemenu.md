@@ -2,4 +2,4 @@
 "@tiptap/react": patch
 ---
 
-Fix BubbleMenu so it now reacts to prop changes after initial mount
+Resolved an issue where the React BubbleMenu did not update when FloatingUI option props changed after initial mount. The BubbleMenu now correctly responds to updated option props.
