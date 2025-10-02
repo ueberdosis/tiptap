@@ -55,6 +55,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         resizeDelay,
         editor: attachToEditor,
         element: bubbleMenuElement,
+        appendTo,
         pluginKey,
         appendTo,
         shouldShow,
