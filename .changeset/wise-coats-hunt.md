@@ -2,4 +2,4 @@
 '@tiptap/react': patch
 ---
 
-Fix react bubble menu `appendTo` behavior by passing the prop from the react BubbleMenu to the bubble menu plugin.
+Improved the BubbleMenu's usability by ensuring the `appendTo` prop passed to the React BubbleMenu component is now correctly forwarded to the underlying bubble menu plugin. This fix allows developers to customize where the BubbleMenu is attached in the DOM, helping resolve issues with positioning and portal setups in React apps.
