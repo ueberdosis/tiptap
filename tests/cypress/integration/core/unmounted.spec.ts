@@ -45,7 +45,7 @@ describe('unmounted', () => {
     expect(called).to.eq(true)
   })
 
-  it('should emit a unmount event when the editor is unmounted', async () => {
+  it('should emit an unmount event when the editor is unmounted', async () => {
     const editor = new Editor({
       element: null,
       extensions: [Document, Paragraph, Text],
