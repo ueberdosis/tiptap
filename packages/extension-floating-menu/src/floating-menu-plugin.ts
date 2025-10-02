@@ -44,7 +44,7 @@ export interface FloatingMenuPluginProps {
    * @type {HTMLElement}
    * @default null
    */
-  appendTo?: HTMLElement
+  appendTo?: HTMLElement | (() => HTMLElement)
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -112,7 +112,7 @@ export class FloatingMenuView {
 
   public view: EditorView
 
-  public appendTo: HTMLElement | undefined
+  public appendTo: HTMLElement | (() => HTMLElement) | undefined
 
   public preventHide = false
 
@@ -338,8 +338,10 @@ export class FloatingMenuView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
+
     // attach to appendTo or editor's parent element
-    ;(this.appendTo ?? this.view.dom.parentElement)?.appendChild(this.element)
+    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
+    ;(appendToElement ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()
