@@ -46,7 +46,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v4.3.0
         id: turbo-cache
         with:
           path: |
@@ -92,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Load turbo cache
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v4.3.0
         id: turbo-cache
         with:
           path: |
@@ -103,7 +103,7 @@ jobs:
             ${{ runner.os }}-turbo-${{ github.sha }}
             ${{ runner.os }}-turbo-
       - name: Load build cache
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v4.3.0
         id: cache
         with:
           path: |
@@ -185,7 +185,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v4.3.0
         id: turbo-cache
         with:
           path: |
