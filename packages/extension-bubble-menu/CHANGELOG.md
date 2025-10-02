@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.6.2
+
+### Patch Changes
+
+- 4648b3a: Fix a bug where the bubble menu could throw an error if the editor was destroyed
+  while the plugin was cleaning up.
+  - @tiptap/core@3.6.2
+  - @tiptap/pm@3.6.2
+
 ## 3.6.1
 
 ### Patch Changes

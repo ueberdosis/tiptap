@@ -26,6 +26,7 @@
     "publish": "pnpm run build && pnpm changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist && rm -rf ./packages-deprecated/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz && rm -rf ./packages-deprecated/*/*.tgz",
+    "make:demo": "sh ./scripts/make-demo.sh",
     "reset": "pnpm run clean:packages && pnpm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
     "prepare": "husky install",
     "turbo": "turbo",
