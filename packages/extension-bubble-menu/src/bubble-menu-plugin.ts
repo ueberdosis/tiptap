@@ -525,9 +525,9 @@ export class BubbleMenuView implements PluginView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
 
     // attach to appendTo or editor's parent element
+    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
     ;(appendToElement ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
