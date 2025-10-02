@@ -1,5 +1,14 @@
 # @tiptap/extension-table-of-contents
 
+## 3.6.3
+
+### Patch Changes
+
+- 2eab2d0: Improve typings by inferring the storage type for the Table of Contents extension
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
 ## 3.6.2
 
 ### Patch Changes
