@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.6.3
+
+### Patch Changes
+
+- 9562838: Configuration options for the CodeBlock extension now support `null` and `undefined` values.
+  This makes custom setups more flexible and avoids unnecessary type errors when omitting optional overrides.
+  All existing default values and fallback logic remain in place - no breaking changes for existing code.
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
 ## 3.6.2
 
 ### Patch Changes
