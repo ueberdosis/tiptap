@@ -36,7 +36,6 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
 
     useEffect(() => {
       const bubbleMenuElement = menuEl.current
-
       bubbleMenuElement.style.visibility = 'hidden'
       bubbleMenuElement.style.position = 'absolute'
 
@@ -56,6 +55,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         resizeDelay,
         editor: attachToEditor,
         element: bubbleMenuElement,
+        appendTo,
         pluginKey,
         appendTo,
         shouldShow,
@@ -73,8 +73,17 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
           }
         })
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editor, currentEditor])
+    }, [
+      editor,
+      currentEditor,
+      pluginKey,
+      updateDelay,
+      resizeDelay,
+      appendTo,
+      shouldShow,
+      getReferencedVirtualElement,
+      options,
+    ])
 
     return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
   },

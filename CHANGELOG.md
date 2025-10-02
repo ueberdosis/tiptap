@@ -1,5 +1,14 @@
 # Releases
 
+## v3.6.2
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fix a bug where the bubble menu could throw an error if the editor was destroyed
+  while the plugin was cleaning up.
+
 ## v3.6.1
 
 ### @tiptap/react
