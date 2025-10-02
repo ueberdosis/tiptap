@@ -1,6 +1,8 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
+const DEFAULT_TAB_SIZE = 4
+
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
@@ -84,7 +86,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       exitOnArrowDown: true,
       defaultLanguage: null,
       enableTabIndentation: false,
-      tabSize: 4,
+      tabSize: DEFAULT_TAB_SIZE,
       HTMLAttributes: {},
     }
   },
@@ -191,6 +193,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           return false
         }
 
+        const tabSize = this.options.tabSize ?? DEFAULT_TAB_SIZE
         const { state } = editor
         const { selection } = state
         const { $from, empty } = selection
@@ -199,7 +202,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           return false
         }
 
-        const indent = ' '.repeat(this.options.tabSize || 4)
+        const indent = ' '.repeat(tabSize)
 
         if (empty) {
           return editor.commands.insertContent(indent)
@@ -222,6 +225,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           return false
         }
 
+        const tabSize = this.options.tabSize ?? DEFAULT_TAB_SIZE
         const { state } = editor
         const { selection } = state
         const { $from, empty } = selection
@@ -253,7 +257,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             const currentLine = lines[currentLineIndex]
             const leadingSpaces = currentLine.match(/^ */)?.[0] || ''
-            const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize || 4)
+            const spacesToRemove = Math.min(leadingSpaces.length, tabSize)
 
             if (spacesToRemove === 0) {
               return true
@@ -282,7 +286,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           const reverseIndentText = lines
             .map(line => {
               const leadingSpaces = line.match(/^ */)?.[0] || ''
-              const spacesToRemove = Math.min(leadingSpaces.length, this.options.tabSize || 4)
+              const spacesToRemove = Math.min(leadingSpaces.length, tabSize)
               return line.slice(spacesToRemove)
             })
             .join('\n')
