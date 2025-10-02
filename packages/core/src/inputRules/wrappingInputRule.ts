@@ -28,6 +28,7 @@ export function wrappingInputRule(config: {
   keepMarks?: boolean
   keepAttributes?: boolean
   editor?: Editor
+  undoable?: boolean
   getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
   joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
 }) {
@@ -76,5 +77,6 @@ export function wrappingInputRule(config: {
         tr.join(range.from - 1)
       }
     },
+    undoable: config.undoable,
   })
 }

@@ -103,6 +103,16 @@ export class TableView implements NodeView {
   }
 
   ignoreMutation(mutation: ViewMutationRecord) {
-    return mutation.type === 'attributes' && (mutation.target === this.table || this.colgroup.contains(mutation.target))
+    const target = mutation.target as Node
+    const isInsideWrapper = this.dom.contains(target)
+    const isInsideContent = this.contentDOM.contains(target)
+
+    if (isInsideWrapper && !isInsideContent) {
+      if (mutation.type === 'attributes' || mutation.type === 'childList' || mutation.type === 'characterData') {
+        return true
+      }
+    }
+
+    return false
   }
 }

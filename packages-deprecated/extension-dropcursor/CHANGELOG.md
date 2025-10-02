@@ -1,5 +1,126 @@
 # Change Log
 
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- ef909f1: Updated `DropcursorOptions.color` types to use types defined in `prosemirror-dropcursor`
+  - @tiptap/extensions@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes

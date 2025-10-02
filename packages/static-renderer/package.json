@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/static-renderer",
   "description": "statically render Tiptap JSON",
-  "version": "3.0.9",
+  "version": "3.6.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

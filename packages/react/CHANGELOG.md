@@ -1,5 +1,171 @@
 # Change Log
 
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- 6af23ff: Hotfix: Fix a crash in the React package that could occur during mounting/unmounting when the editor wasn't fully initialized. This prevents a runtime error and improves stability.
+  - @tiptap/core@3.6.1
+  - @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- ea9ac95: Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+  - @tiptap/core@3.5.2
+  - @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- f80c848: Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+  - @tiptap/core@3.5.1
+  - @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 915ed65: Add custom positioning support to the BubbleMenu.
+
+  This change adds an opt-in API that allows consumers to fully control how the BubbleMenu is positioned. Instead of relying solely on the internal placement logic, you can now provide a function (for example `getPosition`) that receives the relevant context (editor instance and menu DOM element) and returns the desired coordinates or positioning style.
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 4dd8d58: fix: @types/react version mismatch
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Ensure `ReactRenderer.destroy()` removes the renderer DOM element when present.
+
+  - When consumers append a `ReactRenderer`'s `.element` to the DOM (for example many demos append it to `document.body`), previously calling `destroy()` removed the portal renderer but left the DOM node in place which could lead to accumulating `.react-renderer` elements.
+  - `destroy()` now also removes the element from its parent node if present, preventing leaked DOM nodes / React roots.
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+- @tiptap/pm@3.1.0
+
 ## 3.0.9
 
 ### Patch Changes

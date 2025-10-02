@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -45,7 +45,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.2.4
         id: turbo-cache
         with:
           path: |
