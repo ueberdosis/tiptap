@@ -1,5 +1,13 @@
 # Releases
 
+## v3.6.4
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
 ## v3.6.3
 
 ### @tiptap/react
