@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- 8525964: Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
 ## 3.6.4
 
 ### Patch Changes
