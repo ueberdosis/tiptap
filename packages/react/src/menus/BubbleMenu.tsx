@@ -57,7 +57,6 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         element: bubbleMenuElement,
         appendTo,
         pluginKey,
-        appendTo,
         shouldShow,
         getReferencedVirtualElement,
         options,
