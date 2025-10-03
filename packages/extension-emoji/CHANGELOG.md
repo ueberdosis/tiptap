@@ -1,5 +1,168 @@
 # @tiptap/extension-emoji
 
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/suggestion@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+- @tiptap/suggestion@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/suggestion@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+- @tiptap/suggestion@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+- @tiptap/suggestion@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/suggestion@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+- @tiptap/suggestion@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+- @tiptap/suggestion@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+- @tiptap/suggestion@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+- @tiptap/suggestion@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/suggestion@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 82121b8: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/suggestion@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/suggestion@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/suggestion@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+- @tiptap/suggestion@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [59fb86f]
+  - @tiptap/suggestion@3.4.1
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [3733bb9]
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+- Updated dependencies [90cbed5]
+  - @tiptap/suggestion@3.4.0
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- 03bf0ea: Preserve prefixes when replacing emoji shortcodes to avoid unintended conversions.
+
+  Previously, shortcodes such as `:x:` could be converted into emoji nodes even when part of a larger string (e.g., in URLs or other text). The paste handler now preserves prefixes, which helps prevent unwanted conversions in such cases, but does not specifically target URLs.
+
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/suggestion@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

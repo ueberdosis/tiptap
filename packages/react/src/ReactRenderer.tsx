@@ -151,7 +151,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   component: any
 
-  element: Element
+  element: HTMLElement
 
   props: P
 

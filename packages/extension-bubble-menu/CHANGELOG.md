@@ -1,5 +1,169 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- 48846f2: You can now pass a callback to the `appendTo` option in the floating and bubble menu
+  extensions. The callback must return an element synchronously,
+  so menus can be appended to elements that are created dynamically.
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- 4648b3a: Fix a bug where the bubble menu could throw an error if the editor was destroyed
+  while the plugin was cleaning up.
+  - @tiptap/core@3.6.2
+  - @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- 47a26e0: Remove recently added `updateBubbleMenuPosition` method because it would not work in the React and Vue versions of the BubbleMenu, only in the vanilla extension. And that would confuse developers.
+
+  Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Minor Changes
+
+- 8fa5955: Add `updateBubbleMenuPosition` command to update position of bubble menu. This command lets developers programmatically update the position of the bubble menu in response to certain events (for example, when the bubble menu is resized).
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 915ed65: Add custom positioning support to the BubbleMenu.
+
+  This change adds an opt-in API that allows consumers to fully control how the BubbleMenu is positioned. Instead of relying solely on the internal placement logic, you can now provide a function (for example `getPosition`) that receives the relevant context (editor instance and menu DOM element) and returns the desired coordinates or positioning style.
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- 24445c4: Listen to a custom scroll target when positioning the BubbleMenu and
+  ensure the scroll listener is cleaned up on destroy.
+
+  The BubbleMenu now accepts an optional `scrollTarget` option which will be
+  used instead of `window` when listening for scroll events that affect the
+  menu positioning. The plugin also removes the scroll listener during
+  cleanup.
+
+  No user-facing API changes other than the new optional `scrollTarget` setting.
+
+  - @tiptap/core@3.4.2
+  - @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
 ## 3.3.0
 
 ### Patch Changes

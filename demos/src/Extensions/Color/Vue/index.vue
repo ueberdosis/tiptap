@@ -78,7 +78,7 @@ export default {
     this.editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, Color],
       content: `
-        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <p><span style="color: #958DF1">Oh, for some reason that’s purple.</span> This text is using <span style="color: rgba(255, 0, 0, 0.5)">transparent, red rgba colors.</span></p>
       `,
     })
   },
