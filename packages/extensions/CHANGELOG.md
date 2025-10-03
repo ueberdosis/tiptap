@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.6.3
+
+### Patch Changes
+
+- 7024d69: The Selection extension now uses the correct SelectionOptions type, providing accurate typings for its options.
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
 ## 3.6.2
 
 ### Patch Changes
