@@ -45,6 +45,13 @@ context('/src/Commands/InsertContent/React/', () => {
     })
   })
 
+  it('should keep newlines in pre tag between nodes', () => {
+    cy.get('.tiptap').then(([{ editor }]) => {
+      editor.commands.insertContent('<pre><div>foo</div>\n<code>foo\nbar</code></pre>')
+      cy.get('.tiptap').should('contain.html', '<pre><div>foo</div>\n<code>foo\nbar</code></pre>')
+    })
+  })
+
   it('should keep newlines and tabs', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
       editor.commands.insertContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.\ntest\tOK</p>')
