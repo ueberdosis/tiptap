@@ -261,11 +261,13 @@ export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
   /**
-   * The element or selector to bind the editor to
-   * If `null` is passed, the editor will not be mounted automatically
-   * If a function is passed, it will be called with the editor's root element
+   * The element to bind the editor to:
+   * - If an `Element` is passed, the editor will be mounted appended to that element
+   * - If `null` is passed, the editor will not be mounted automatically
+   * - If an object with a `mount` property is passed, the editor will be mounted to that element
+   * - If a function is passed, it will be called with the editor's element, which should place the editor within the document
    */
-  element: Element | null
+  element: Element | { mount: HTMLElement } | ((editor: HTMLElement) => void) | null
   /**
    * The content of the editor (HTML, JSON, or a JSON array)
    */
@@ -444,7 +446,7 @@ export type HTMLContent = string
  */
 export type JSONContent = {
   type?: string
-  attrs?: Record<string, any>
+  attrs?: Record<string, any> | undefined
   content?: JSONContent[]
   marks?: {
     type: string

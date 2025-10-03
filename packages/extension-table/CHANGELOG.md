@@ -1,5 +1,132 @@
 # Change Log
 
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c4ed2e6: Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
+
+  When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
+
+  This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+
+- f778a16: Fixes table wrapper replacement and lost selections when `resizable: true`.
+
+  TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
+
+  No API or breaking changes.
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes

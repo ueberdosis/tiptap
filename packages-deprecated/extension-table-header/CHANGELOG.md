@@ -1,5 +1,97 @@
 # Change Log
 
+## 3.6.3
+
+### Patch Changes
+
+- @tiptap/extension-table@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/extension-table@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/extension-table@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c4ed2e6]
+- Updated dependencies [f778a16]
+  - @tiptap/extension-table@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extension-table@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extension-table@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/extension-table@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/extension-table@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extension-table@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes

@@ -1,5 +1,123 @@
 # Change Log
 
+## 3.6.3
+
+### Patch Changes
+
+- 67f7b4a: Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c0190bd: Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- 968016f: Added support for the `undoable` option in InputRules (matching ProseMirror’s implementation).
+
+  - When `false`, the change will not be tracked as undoable.
+  - Default remains `true` for backward compatibility.
+
+  This brings Tiptap’s InputRules behavior in line with ProseMirror and gives developers finer control over undo functionality.
+
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 0226d42: Fix an issue where injected CSS was not mounted correctly when the editor instance was mounted. The fix ensures CSS injected by the editor is attached to the document when the editor mounts, preventing missing styles in some mount/unmount scenarios.
+- 37af83b: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- f598ac7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- 00cf1d7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 1ea8906: When the editor view is created, it now will also include `nodeViews` and `markViews` properties instead of setting them afterward. This avoids serialization of the editor state to HTML which will be replaced by node views anyway.
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Minor Changes
+
+- ad51daa: Add `mount` and `unmount` events to the `Editor` instance for tracking mounts and unmounts
+
+### Patch Changes
+
+- 895c73f: Fix `can().toggleMark()` returning incorrect result when cursor is inside nodes that disallow marks
+
+  Fixed an issue where `can().toggleMark('bold')` incorrectly returned `true` when the cursor was positioned inside a code block (with no selection), even though marks are not allowed in code blocks. The method now correctly returns `false` in this scenario by checking if the parent node allows the mark type when the selection is a cursor.
+
+  - @tiptap/pm@3.4.0
+
 ## 3.3.1
 
 ### Patch Changes
