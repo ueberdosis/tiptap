@@ -2,6 +2,20 @@ import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm
 
 import type { Content, RawCommands } from '../types.js'
 
+export interface InsertContentOptions {
+  /**
+   * Options for parsing the content.
+   */
+  parseOptions?: ParseOptions
+
+  /**
+   * Whether to update the selection after inserting the content.
+   */
+  updateSelection?: boolean
+  applyInputRules?: boolean
+  applyPasteRules?: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     insertContent: {
@@ -19,19 +33,7 @@ declare module '@tiptap/core' {
         /**
          * Optional options
          */
-        options?: {
-          /**
-           * Options for parsing the content.
-           */
-          parseOptions?: ParseOptions
-
-          /**
-           * Whether to update the selection after inserting the content.
-           */
-          updateSelection?: boolean
-          applyInputRules?: boolean
-          applyPasteRules?: boolean
-        },
+        options?: InsertContentOptions,
       ) => ReturnType
     }
   }

@@ -160,6 +160,40 @@ textarea {
   }
 }
 
+[data-type='taskList'] {
+  list-style: none;
+  padding: 0;
+
+  [data-type='taskList'] {
+    padding-left: 1.5rem;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  > li > div > p:first-child {
+    margin: 0;
+  }
+
+  > li {
+    &:not(:first-child) {
+      margin-top: 0.125rem;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0.125rem;
+    }
+  }
+
+  [data-checked='true'] > div > p:first-child {
+    text-decoration: line-through;
+    color: var(--gray-4);
+  }
+}
+
 button:not([disabled]),
 select:not([disabled]) {
   cursor: pointer;

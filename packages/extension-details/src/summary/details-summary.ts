@@ -37,4 +37,12 @@ export const DetailsSummary = Node.create<DetailsSummaryOptions>({
   renderHTML({ HTMLAttributes }) {
     return ['summary', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
+
+  markdown: {
+    render: (node, h) => {
+      const content = node.content ? h.renderChildren(node.content) : ''
+
+      return `[@summary ${content}]`
+    },
+  },
 })
