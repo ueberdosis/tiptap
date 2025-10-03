@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.6.4
+
+### Patch Changes
+
+- 61494a7: Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+  - @tiptap/core@3.6.4
+  - @tiptap/pm@3.6.4
+
 ## 3.6.3
 
 ### Patch Changes
