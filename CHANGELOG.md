@@ -1,5 +1,26 @@
 # Releases
 
+## v3.6.5
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Added nextNodeType option to horizontal-rule extension, allowing users to specify which node type should be inserted after a horizontal rule
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+
 ## v3.6.4
 
 ### @tiptap/html

@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- 1e4caea: Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+  - @tiptap/pm@3.6.5
+
 ## 3.6.4
 
 ### Patch Changes
