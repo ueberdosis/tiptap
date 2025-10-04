@@ -55,7 +55,11 @@ export function createColGroup(
 
       const [property, value] = getColStyleDeclaration(cellMinWidth, hasWidth)
 
-      cols.push(['col', { style: `${property}: ${value}` }])
+      cols.push([
+        'col',
+        { style: `${property}: ${value}` },
+        0,
+      ])
     }
   }
 
