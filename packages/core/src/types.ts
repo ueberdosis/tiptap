@@ -854,6 +854,25 @@ export interface MarkdownExtensionSpec {
   tokenizer?: MarkdownTokenizer
 }
 
+/**
+ * Configuration object passed to custom marked.js tokenizers
+ */
+export type MarkdownLexerConfiguration = {
+  /**
+   * Can be used to transform source text into inline tokens - useful while tokenizing child tokens.
+   * @param src
+   * @returns Array of inline tokens
+   */
+  inlineTokens: (src: string) => MarkdownToken[]
+
+  /**
+   * Can be used to transform source text into block-level tokens - useful while tokenizing child tokens.
+   * @param src
+   * @returns Array of block-level tokens
+   */
+  blockTokens: (src: string) => MarkdownToken[]
+}
+
 /** Custom tokenizer function for marked.js extensions */
 export type MarkdownTokenizer = {
   /** Token name this tokenizer creates */
@@ -866,21 +885,7 @@ export type MarkdownTokenizer = {
   tokenize: (
     src: string,
     tokens: MarkdownToken[],
-    lexer: {
-      /**
-       * Can be used to transform source text into inline tokens - useful while tokenizing child tokens.
-       * @param src
-       * @returns Array of inline tokens
-       */
-      inlineTokens: (src: string) => MarkdownToken[]
-
-      /**
-       * Can be used to transform source text into block-level tokens - useful while tokenizing child tokens.
-       * @param src
-       * @returns Array of block-level tokens
-       */
-      blockTokens: (src: string) => MarkdownToken[]
-    },
+    lexer: MarkdownLexerConfiguration,
   ) => MarkdownToken | undefined | void
 }
 
