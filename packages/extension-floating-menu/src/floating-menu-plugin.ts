@@ -37,6 +37,16 @@ export interface FloatingMenuPluginProps {
   element: HTMLElement
 
   /**
+   * The DOM element to append your menu to. Default is the editor's parent element.
+   *
+   * Sometimes the menu needs to be appended to a different DOM context due to accessibility, clipping, or z-index issues.
+   *
+   * @type {HTMLElement}
+   * @default null
+   */
+  appendTo?: HTMLElement | (() => HTMLElement)
+
+  /**
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
@@ -101,6 +111,8 @@ export class FloatingMenuView {
   public element: HTMLElement
 
   public view: EditorView
+
+  public appendTo: HTMLElement | (() => HTMLElement) | undefined
 
   public preventHide = false
 
@@ -190,10 +202,11 @@ export class FloatingMenuView {
     return middlewares
   }
 
-  constructor({ editor, element, view, options, shouldShow }: FloatingMenuViewProps) {
+  constructor({ editor, element, view, options, appendTo, shouldShow }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+    this.appendTo = appendTo
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -325,8 +338,10 @@ export class FloatingMenuView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach to editor's parent element
-    this.view.dom.parentElement?.appendChild(this.element)
+
+    // attach to appendTo or editor's parent element
+    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
+    ;(appendToElement ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()

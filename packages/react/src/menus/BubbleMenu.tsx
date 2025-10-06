@@ -10,7 +10,18 @@ export type BubbleMenuProps = Optional<Omit<Optional<BubbleMenuPluginProps, 'plu
 
 export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
   (
-    { pluginKey = 'bubbleMenu', editor, updateDelay, resizeDelay, shouldShow = null, options, children, ...restProps },
+    {
+      pluginKey = 'bubbleMenu',
+      editor,
+      updateDelay,
+      resizeDelay,
+      appendTo,
+      shouldShow = null,
+      getReferencedVirtualElement,
+      options,
+      children,
+      ...restProps
+    },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
@@ -57,7 +68,6 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
 
     useEffect(() => {
       const bubbleMenuElement = menuEl.current
-
       bubbleMenuElement.style.visibility = 'hidden'
       bubbleMenuElement.style.position = 'absolute'
 
@@ -77,8 +87,10 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         resizeDelay,
         editor: attachToEditor,
         element: bubbleMenuElement,
+        appendTo,
         pluginKey,
         shouldShow,
+        getReferencedVirtualElement,
         options,
       })
 
@@ -92,8 +104,17 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
           }
         })
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editor, currentEditor])
+    }, [
+      editor,
+      currentEditor,
+      pluginKey,
+      updateDelay,
+      resizeDelay,
+      appendTo,
+      shouldShow,
+      getReferencedVirtualElement,
+      options,
+    ])
 
     return createPortal(<div>{children}</div>, menuEl.current)
   },

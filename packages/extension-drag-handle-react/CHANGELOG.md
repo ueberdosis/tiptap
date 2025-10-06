@@ -1,5 +1,193 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.6.5
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.6.5
+- @tiptap/react@3.6.5
+- @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.6.4
+- @tiptap/pm@3.6.4
+- @tiptap/react@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [48846f2]
+- Updated dependencies [e0be819]
+- Updated dependencies [caec80e]
+  - @tiptap/react@3.6.3
+  - @tiptap/extension-drag-handle@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/react@3.6.2
+- @tiptap/extension-drag-handle@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- Updated dependencies [6af23ff]
+  - @tiptap/react@3.6.1
+  - @tiptap/extension-drag-handle@3.6.1
+  - @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.6.0
+- @tiptap/react@3.6.0
+- @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.5.3
+- @tiptap/pm@3.5.3
+- @tiptap/react@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- Updated dependencies [ea9ac95]
+  - @tiptap/react@3.5.2
+  - @tiptap/extension-drag-handle@3.5.2
+  - @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- Updated dependencies [f80c848]
+  - @tiptap/react@3.5.1
+  - @tiptap/extension-drag-handle@3.5.1
+  - @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- Updated dependencies [daa51c4]
+- Updated dependencies [3eb5360]
+  - @tiptap/extension-drag-handle@3.5.0
+  - @tiptap/react@3.5.0
+  - @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.6
+- @tiptap/react@3.4.6
+- @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.5
+- @tiptap/react@3.4.5
+- @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.4
+- @tiptap/react@3.4.4
+- @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [915ed65]
+  - @tiptap/react@3.4.3
+  - @tiptap/extension-drag-handle@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/react@3.4.2
+- @tiptap/extension-drag-handle@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [4dd8d58]
+  - @tiptap/react@3.4.1
+  - @tiptap/extension-drag-handle@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.4.0
+- @tiptap/react@3.4.0
+- @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- Updated dependencies [8eff69a]
+  - @tiptap/extension-drag-handle@3.3.1
+  - @tiptap/pm@3.3.1
+  - @tiptap/react@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+  - @tiptap/react@3.3.0
+  - @tiptap/extension-drag-handle@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.2
+- @tiptap/pm@3.2.2
+- @tiptap/react@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.1
+- @tiptap/react@3.2.1
+- @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.2.0
+- @tiptap/react@3.2.0
+- @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Minor Changes

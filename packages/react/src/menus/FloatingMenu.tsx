@@ -12,7 +12,7 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
-  ({ pluginKey = 'floatingMenu', editor, shouldShow = null, options, children, ...restProps }, ref) => {
+  ({ pluginKey = 'floatingMenu', editor, appendTo, shouldShow = null, options, children, ...restProps }, ref) => {
     const menuEl = useRef(document.createElement('div'))
 
     if (typeof ref === 'function') {
@@ -78,6 +78,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
         editor: attachToEditor,
         element: floatingMenuElement,
         pluginKey,
+        appendTo,
         shouldShow,
         options,
       })
@@ -93,7 +94,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [editor, currentEditor])
+    }, [editor, currentEditor, appendTo, pluginKey, shouldShow, options])
 
     return createPortal(<div>{children}</div>, menuEl.current)
   },

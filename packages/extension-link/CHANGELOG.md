@@ -1,5 +1,174 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes

@@ -1,5 +1,188 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- 04a0f34: Merge nested span styles only for immediate child spans and guard style values.
+
+  - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
+  - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
+  - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
+
+  This change fixes a bug that could cause exponential work when parsing deeply
+  nested `<span>` elements - in extreme cases that could make the tab unresponsive
+  or crash the renderer. It is a bugfix / performance improvement with no public API
+  changes.
+
+  - @tiptap/core@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 46fa8b8: Prefer the raw inline `style` attribute when parsing `color` and
+  `background-color` so the original format (hex, rgba/hsla, etc.) is
+  preserved instead of falling back to the computed `element.style.*`
+  value (which often resolves to `rgb(...)`).
+
+  This fixes mismatches where consumers (for example, demo toolbars and
+  color pickers) expected the original hex values when initializing the
+  editor from HTML.
+
+  - The `color` and `background-color` parsers now look for a `style`
+    attribute first and extract the declared value. If no raw style is
+    present, they still fall back to `element.style.color` /
+    `element.style.backgroundColor`.
+
+  MIGRATION NOTES
+
+  - This is a patch-level change. It corrects parsing behavior and is the
+    least-disruptive fix for the issue.
+  - If your code relied on the parser returning computed `rgb(...)`
+    strings, you may see different string values (for example `#958DF1`
+    instead of `rgb(149, 141, 241)`) when HTML contained hex values.
+  - If you need a stable, normalized format for comparisons, normalize the
+    attribute (for example with a color utility like `tinycolor2`) before
+    comparing or use the editor APIs in a way that doesn't depend on the
+    exact string representation.
+  - @tiptap/core@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes

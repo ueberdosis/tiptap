@@ -1,13 +1,215 @@
-# Change Log
+# Releases
 
-> **Important information**
->
-> As of version 2.4.1 Tiptap uses **Changesets** which don't allow the generation of one generic CHANGELOG file.
-> If you want to check changes of a specific package version, check the **CHANGELOG.md** file in the specific package
-> directory or out [Github Releases](https://github.com/ueberdosis/tiptap/releases)
+## v3.6.5
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Added nextNodeType option to horizontal-rule extension, allowing users to specify which node type should be inserted after a horizontal rule
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+
+## v3.6.4
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
+## v3.6.3
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Updated the React `FloatingMenu` plugin hook dependencies to match the `BubbleMenu` behavior.
+  The FloatingMenu will now respond to changes in `appendTo`, `pluginKey`, `shouldShow`, and `options`.
+- Resolved an issue where the React BubbleMenu did not update when FloatingUI option props changed after initial mount. The BubbleMenu now correctly responds to updated option props.
+- Improved the BubbleMenu's usability by ensuring the `appendTo` prop passed to the React BubbleMenu component is now correctly forwarded to the underlying bubble menu plugin. This fix allows developers to customize where the BubbleMenu is attached in the DOM, helping resolve issues with positioning and portal setups in React apps.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- The Selection extension now uses the correct SelectionOptions type, providing accurate typings for its options.
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Configuration options for the CodeBlock extension now support `null` and `undefined` values.
+  This makes custom setups more flexible and avoids unnecessary type errors when omitting optional overrides.
+  All existing default values and fallback logic remain in place - no breaking changes for existing code.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Improve typings by inferring the storage type for the Table of Contents extension
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- You can now pass a callback to the `appendTo` option in the floating and bubble menu
+  extensions. The callback must return an element synchronously,
+  so menus can be appended to elements that are created dynamically.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- You can now pass a callback to the `appendTo` option in the floating and bubble menu
+  extensions. The callback must return an element synchronously,
+  so menus can be appended to elements that are created dynamically.
+
+## v3.6.2
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fix a bug where the bubble menu could throw an error if the editor was destroyed
+  while the plugin was cleaning up.
+
+## v3.6.1
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Hotfix: Fix a crash in the React package that could occur during mounting/unmounting when the editor wasn't fully initialized. This prevents a runtime error and improves stability.
+
+## v3.6.0
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+  
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
+  
+  When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
+  
+  This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+- Fixes table wrapper replacement and lost selections when `resizable: true`.
+  
+  TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
+  
+  No API or breaking changes.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Remove recently added `updateBubbleMenuPosition` method because it would not work in the React and Vue versions of the BubbleMenu, only in the vanilla extension. And that would confuse developers.
+  
+  Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Create a utility to add unique IDs to a document in the server
+  
+  The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
+  
+  It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
+  
+  It takes the following parameters:
+  
+  - `doc`: The Tiptap JSON document to add unique IDs to.
+  - `extensions`: The extensions to use. Must include the `UniqueID` extension.
+  
+  It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
+
+### @tiptap/vue-3
+
+#### Minor Changes
+
+- Pass `attrs` through Vue 3 menus
+
+## v3.5.3
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Merge nested span styles only for immediate child spans and guard style values.
+  
+  - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
+  - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
+  - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
+  
+  This change fixes a bug that could cause exponential work when parsing deeply
+  nested `<span>` elements - in extreme cases that could make the tab unresponsive
+  or crash the renderer. It is a bugfix / performance improvement with no public API
+  changes.
+
+## v3.5.2
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Tiptap will now correctly insert a React MarkViews' content into the correct element within `MarkViewContent` component
+
+## v3.5.1
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
+
 
 # [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
 
