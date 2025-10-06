@@ -1,3 +1,4 @@
+import type { JSONContent } from '@tiptap/core'
 import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@tiptap/core'
 
 describe('Markdown Utilities', () => {
@@ -102,8 +103,8 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['color'],
       })
 
-      const node = {
-        textContent: 'highlighted text',
+      const node: JSONContent = {
+        content: [{ type: 'text', text: 'highlighted text' }],
         attrs: {
           color: 'yellow',
         },
@@ -176,7 +177,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.render(node, mockHelpers, {} as any)
-      expect(rendered).to.equal(':::callout {type="info"}\nThis is a callout\n:::')
+      expect(rendered).to.equal(':::callout {type="info"}\n\nThis is a callout\n\n:::')
     })
   })
 

@@ -1,4 +1,10 @@
-import type { MarkdownParseHelpers, MarkdownParseResult, MarkdownToken, MarkdownTokenizer } from '../../types.js'
+import type {
+  JSONContent,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownToken,
+  MarkdownTokenizer,
+} from '../../types.js'
 
 /**
  * Parse shortcode attributes like 'id="madonna" handle="john" name="John Doe"'
@@ -204,7 +210,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
       },
     },
 
-    render: (node: any) => {
+    render: (node: JSONContent) => {
       let content = ''
       if (getContent) {
         content = getContent(node)

@@ -148,7 +148,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
           type: nodeName,
           raw: fullMatch,
           attributes,
-          // content: trimmedContent,
+          content: trimmedContent,
           tokens: contentTokens,
         }
       },
