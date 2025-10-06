@@ -12,6 +12,13 @@ export default () => {
       <p>
         Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
       </p>
+      <ul>
+        <li>Select any item to display a global menu</li>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+      </ul>
     `,
   })
 
@@ -48,6 +55,7 @@ export default () => {
           options={{ placement: 'bottom', offset: 8 }}
           className="bubble-menu"
           data-testid="styled-bubble-menu"
+          style={{ zIndex: 9999 }}
         >
           <button
             type="button"

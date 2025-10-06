@@ -23,6 +23,38 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
 
     const { editor: currentEditor } = useCurrentEditor()
 
+    // Apply props to the menu element whenever they change
+    useEffect(() => {
+      const floatingMenuElement = menuEl.current
+      const { style, className, ...otherProps } = restProps
+
+      // Clear existing attributes and className first
+      floatingMenuElement.className = ''
+      Array.from(floatingMenuElement.attributes).forEach(attr => {
+        if (attr.name !== 'style') {
+          floatingMenuElement.removeAttribute(attr.name)
+        }
+      })
+
+      // Apply className to the actual menu element
+      if (className) {
+        floatingMenuElement.className = className
+      }
+
+      // Apply other HTML attributes (data-*, etc.) to the actual menu element
+      Object.keys(otherProps).forEach(key => {
+        const value = (otherProps as any)[key]
+        if (value !== undefined) {
+          floatingMenuElement.setAttribute(key, value)
+        }
+      })
+
+      // Apply style props to the actual menu element (preserve positioning styles)
+      if (style) {
+        Object.assign(floatingMenuElement.style, style)
+      }
+    }, [restProps])
+
     useEffect(() => {
       const floatingMenuElement = menuEl.current
 
@@ -63,6 +95,6 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editor, currentEditor])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(<div>{children}</div>, menuEl.current)
   },
 )

@@ -25,6 +25,9 @@ context('/src/Extensions/BubbleMenu/React/', () => {
 
     // Verify that the className is applied to the bubble menu element
     cy.get('[data-testid="styled-bubble-menu"]').should('have.class', 'bubble-menu')
+
+    // Verify that style attributes are applied to the actual bubble menu element
+    cy.get('[data-testid="styled-bubble-menu"]').should('have.css', 'z-index', '9999')
   })
 
   it('should allow bubble menu buttons to work', () => {
