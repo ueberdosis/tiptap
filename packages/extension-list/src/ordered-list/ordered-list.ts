@@ -1,5 +1,7 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
+import { buildNestedStructure, collectOrderedListItems, parseListItems } from './utils.js'
+
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
 
@@ -117,17 +119,58 @@ export const OrderedList = Node.create<OrderedListOptions>({
       return h.renderChildren(node.content, '\n')
     },
 
+    tokenizer: {
+      name: 'orderedList',
+      level: 'block',
+      start: (src: string) => {
+        const match = src.match(/^(\s*)(\d+)\.\s+/)
+        return match ? match.index : undefined
+      },
+      tokenize: (src: string, _tokens, lexer) => {
+        const lines = src.split('\n')
+        const [listItems, consumed] = collectOrderedListItems(lines)
+
+        if (listItems.length === 0) {
+          return undefined
+        }
+
+        const items = buildNestedStructure(listItems, 0, lexer)
+
+        if (items.length === 0) {
+          return undefined
+        }
+
+        const startValue = listItems[0]?.number || 1
+
+        return {
+          type: 'list',
+          ordered: true,
+          start: startValue,
+          items,
+          raw: lines.slice(0, consumed).join('\n'),
+        } as unknown as object
+      },
+    },
+
     parse: (token, helpers) => {
-      if (token.type !== 'list' || !(token as any).ordered) {
+      if (token.type !== 'list' || !token.ordered) {
         return []
+      }
+
+      const startValue = token.start || 1
+      const content = token.items ? parseListItems(token.items, helpers) : []
+
+      if (startValue !== 1) {
+        return {
+          type: 'orderedList',
+          attrs: { start: startValue },
+          content,
+        }
       }
 
       return {
         type: 'orderedList',
-        attrs: {
-          start: (token as any).start || 1,
-        },
-        content: token.items ? helpers.parseChildren(token.items) : [],
+        content,
       }
     },
   },

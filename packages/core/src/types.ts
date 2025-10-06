@@ -854,6 +854,25 @@ export interface MarkdownExtensionSpec {
   tokenizer?: MarkdownTokenizer
 }
 
+/**
+ * Configuration object passed to custom marked.js tokenizers
+ */
+export type MarkdownLexerConfiguration = {
+  /**
+   * Can be used to transform source text into inline tokens - useful while tokenizing child tokens.
+   * @param src
+   * @returns Array of inline tokens
+   */
+  inlineTokens: (src: string) => MarkdownToken[]
+
+  /**
+   * Can be used to transform source text into block-level tokens - useful while tokenizing child tokens.
+   * @param src
+   * @returns Array of block-level tokens
+   */
+  blockTokens: (src: string) => MarkdownToken[]
+}
+
 /** Custom tokenizer function for marked.js extensions */
 export type MarkdownTokenizer = {
   /** Token name this tokenizer creates */
@@ -866,21 +885,7 @@ export type MarkdownTokenizer = {
   tokenize: (
     src: string,
     tokens: MarkdownToken[],
-    lexer: {
-      /**
-       * Can be used to transform source text into inline tokens - useful while tokenizing child tokens.
-       * @param src
-       * @returns Array of inline tokens
-       */
-      inlineTokens: (src: string) => MarkdownToken[]
-
-      /**
-       * Can be used to transform source text into block-level tokens - useful while tokenizing child tokens.
-       * @param src
-       * @returns Array of block-level tokens
-       */
-      blockTokens: (src: string) => MarkdownToken[]
-    },
+    lexer: MarkdownLexerConfiguration,
   ) => MarkdownToken | undefined | void
 }
 
@@ -888,4 +893,43 @@ export type MarkdownRendererHelpers = {
   renderChildren: (nodes: JSONContent | JSONContent[], separator?: string) => string
   wrapInBlock: (prefix: string, content: string) => string
   indent: (content: string) => string
+}
+
+export type ExtendableMarkdownSpec = {
+  /**
+   * Optional unique name to identify the markdown tokenizer / parser for this extension.
+   * If omitted, the extension `name` will be used.
+   * @deprecated Use parseName and renderName for better separation of concerns
+   */
+  name?: string
+  /**
+   * Token name used for parsing (e.g., 'codespan', 'code', 'strong')
+   * If omitted, falls back to `name` or extension name
+   */
+  parseName?: string
+  /**
+   * Node/mark name used for rendering (typically the extension name)
+   * If omitted, falls back to extension name
+   */
+  renderName?: string
+  /**
+   * A RegExp used by the tokenizer to detect custom markdown constructs.
+   */
+  match?: RegExp
+  /**
+   * Controls whether this extension will indent markdown content (for example bullet lists)
+   */
+  isIndenting?: boolean
+  /**
+   * Custom tokenizer for marked.js to handle non-standard markdown syntax
+   */
+  tokenizer?: MarkdownTokenizer
+  /**
+   * A parse helper used by the markdown subsystem.
+   */
+  parse?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+  /**
+   * Render a node (ProseMirror JSON) to a markdown string.
+   */
+  render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
 }

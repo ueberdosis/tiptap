@@ -11,6 +11,8 @@ import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
 
+import * as conversionfiles from './conversion-files/index.js'
+
 describe('Markdown Conversion Tests', () => {
   const extensions = [
     Document,
@@ -42,6 +44,20 @@ describe('Markdown Conversion Tests', () => {
 
   const markdownManager = new MarkdownManager()
   extensions.forEach(extension => {
+    markdownManager.registerExtension(extension as Extension)
+  })
+
+  const conversionExtensions = [] as Extension[]
+
+  Object.values(conversionfiles).forEach((file: any) => {
+    if (!file?.extensions) {
+      return
+    }
+
+    conversionExtensions.push(...file.extensions)
+  })
+
+  conversionExtensions.forEach(extension => {
     markdownManager.registerExtension(extension as Extension)
   })
 
@@ -104,208 +120,21 @@ describe('Markdown Conversion Tests', () => {
     })
   })
 
-  describe('convert nested taskList from and to markdown', () => {
-    const expectedMarkdown = `
-- [ ] Task 1
-- [x] Task 2
-- [ ] Task 3
-  - [ ] Subtask 1
-  - [x] Subtask 2
-    - [ ] Subtask 2a
-    - [x] Subtask 2b
-- [x] Task 4
-`.trim()
+  Object.values(conversionfiles).forEach(file => {
+    describe(`convert ${file.name} from and to markdown`, () => {
+      it(`should convert ${file.name} markdown to expected JSON structure`, () => {
+        const json = markdownManager.parse(file.expectedInput)
 
-    const expectedJSON = {
-      type: 'doc',
-      content: [
-        {
-          type: 'taskList',
-          content: [
-            {
-              type: 'taskItem',
-              attrs: { checked: false },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Task 1' }],
-                },
-              ],
-            },
-            {
-              type: 'taskItem',
-              attrs: { checked: true },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Task 2' }],
-                },
-              ],
-            },
-            {
-              type: 'taskItem',
-              attrs: { checked: false },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Task 3' }],
-                },
-                {
-                  type: 'taskList',
-                  content: [
-                    {
-                      type: 'taskItem',
-                      attrs: { checked: false },
-                      content: [
-                        {
-                          type: 'paragraph',
-                          content: [{ type: 'text', text: 'Subtask 1' }],
-                        },
-                      ],
-                    },
-                    {
-                      type: 'taskItem',
-                      attrs: { checked: true },
-                      content: [
-                        {
-                          type: 'paragraph',
-                          content: [{ type: 'text', text: 'Subtask 2' }],
-                        },
-                        {
-                          type: 'taskList',
-                          content: [
-                            {
-                              type: 'taskItem',
-                              attrs: { checked: false },
-                              content: [
-                                {
-                                  type: 'paragraph',
-                                  content: [{ type: 'text', text: 'Subtask 2a' }],
-                                },
-                              ],
-                            },
-                            {
-                              type: 'taskItem',
-                              attrs: { checked: true },
-                              content: [
-                                {
-                                  type: 'paragraph',
-                                  content: [{ type: 'text', text: 'Subtask 2b' }],
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: 'taskItem',
-              attrs: { checked: true },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Task 4' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
+        const normalizedActual = JSON.parse(JSON.stringify(json))
+        const normalizedExpected = JSON.parse(JSON.stringify(file.expectedOutput))
 
-    it('should convert nested markdown to expected JSON structure', () => {
-      const json = markdownManager.parse(expectedMarkdown)
-      expect(json).to.deep.equal(expectedJSON)
-    })
+        expect(normalizedActual).to.deep.equal(normalizedExpected)
+      })
 
-    it('should convert nested JSON structure back to expected markdown', () => {
-      const md = markdownManager.serialize(expectedJSON)
-      expect(md.trim()).to.equal(expectedMarkdown.trim())
-    })
-  })
-
-  describe('convert bulletList from and to markdown', () => {
-    const bulletListMarkdown = `
-- Item 1
-- Item 2
-  - Subitem 1
-  - Subitem 2
-- Item 3
-`.trim()
-
-    const bulletListJSON = {
-      type: 'doc',
-      content: [
-        {
-          type: 'bulletList',
-          content: [
-            {
-              type: 'listItem',
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Item 1' }],
-                },
-              ],
-            },
-            {
-              type: 'listItem',
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Item 2' }],
-                },
-                {
-                  type: 'bulletList',
-                  content: [
-                    {
-                      type: 'listItem',
-                      content: [
-                        {
-                          type: 'paragraph',
-                          content: [{ type: 'text', text: 'Subitem 1' }],
-                        },
-                      ],
-                    },
-                    {
-                      type: 'listItem',
-                      content: [
-                        {
-                          type: 'paragraph',
-                          content: [{ type: 'text', text: 'Subitem 2' }],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: 'listItem',
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: 'Item 3' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-
-    it('should convert bulletList markdown to expected JSON structure', () => {
-      const json = markdownManager.parse(bulletListMarkdown)
-      expect(json).to.deep.equal(bulletListJSON)
-    })
-
-    it('should convert bulletList JSON structure back to expected markdown', () => {
-      const md = markdownManager.serialize(bulletListJSON)
-      expect(md.trim()).to.equal(bulletListMarkdown.trim())
+      it(`should convert ${file.name} JSON structure back to expected markdown`, () => {
+        const md = markdownManager.serialize(file.expectedOutput)
+        expect(md.trim()).to.equal(file.expectedInput.trim())
+      })
     })
   })
 })

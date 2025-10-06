@@ -50,7 +50,6 @@ Isn't this great?
 
 :::
 
-
 :::react {content="Here is another custom React node view with more content!"}
 
 Another one with even more inline content to **edit**!
@@ -62,7 +61,11 @@ Another one with even more inline content to **edit**!
 1. Edit the markdown text
 2. Click "Parse Markdown"
 3. See it render in the editor!
+  1. Be very happy
+  2. Enjoy the parsed content
 4. Try adding YouTube videos, mentions, math expressions, and custom components directly in the editor
 5. Click "Extract Markdown" to see the serialized output
+  1. Be amazed by the fidelity of the conversion
+  2. Share your feedback!
 
 You can also edit in the editor and see the markdown update.`

@@ -5,17 +5,19 @@ import {
 } from './attributeUtils.js'
 
 export interface AtomBlockMarkdownSpecOptions {
-  /** The block name/type used in the markdown syntax (e.g., "youtube", "image") */
-  blockName: string
-  /** Function to parse attributes from the attribute string */
+  /** The Tiptap node name this spec is for */
+  nodeName: string
+  /** The markdown syntax name (defaults to nodeName if not provided) */
+  name?: string
+  /** Function to parse attributes from token attribute string */
   parseAttributes?: (attrString: string) => Record<string, any>
-  /** Function to serialize attributes to string */
+  /** Function to serialize attributes back to string for rendering */
   serializeAttributes?: (attrs: Record<string, any>) => string
   /** Default attributes to apply when parsing */
   defaultAttributes?: Record<string, any>
-  /** Required attributes that must be present */
+  /** Required attributes that must be present for successful parsing */
   requiredAttributes?: string[]
-  /** Allowlist of attributes to include in markdown (if not provided, all attributes are included) */
+  /** Attributes that are allowed to be rendered back to markdown (whitelist) */
   allowedAttributes?: string[]
 }
 
@@ -34,7 +36,7 @@ export interface AtomBlockMarkdownSpecOptions {
  * @example
  * ```ts
  * const youtubeSpec = createAtomBlockMarkdownSpec({
- *   blockName: 'youtube',
+ *   nodeName: 'youtube',
  *   requiredAttributes: ['src'],
  *   defaultAttributes: { start: 0 },
  *   allowedAttributes: ['src', 'start', 'width', 'height'] // Only these get rendered to markdown
@@ -53,13 +55,17 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
   render: (node: any) => string
 } {
   const {
-    blockName,
+    nodeName,
+    name: markdownName,
     parseAttributes = defaultParseAttributes,
     serializeAttributes = defaultSerializeAttributes,
     defaultAttributes = {},
     requiredAttributes = [],
     allowedAttributes,
   } = options
+
+  // Use markdownName for syntax, fallback to nodeName
+  const blockName = markdownName || nodeName
 
   // Helper function to filter attributes based on allowlist
   const filterAttributes = (attrs: Record<string, any>) => {
@@ -79,11 +85,11 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
   return {
     parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
       const attrs = { ...defaultAttributes, ...token.attributes }
-      return h.createNode(blockName, attrs, [])
+      return h.createNode(nodeName, attrs, [])
     },
 
     tokenizer: {
-      name: blockName,
+      name: nodeName,
       level: 'block' as const,
       start(src: string) {
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
@@ -111,7 +117,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
         }
 
         return {
-          type: blockName,
+          type: nodeName,
           raw: match[0],
           attributes,
         }

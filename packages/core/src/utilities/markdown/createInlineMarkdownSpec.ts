@@ -1,4 +1,10 @@
-import type { MarkdownParseHelpers, MarkdownParseResult, MarkdownToken, MarkdownTokenizer } from '../../types.js'
+import type {
+  JSONContent,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownToken,
+  MarkdownTokenizer,
+} from '../../types.js'
 
 /**
  * Parse shortcode attributes like 'id="madonna" handle="john" name="John Doe"'
@@ -147,7 +153,8 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
       // Nodes with content
       const content = getContent ? getContent(token) : token.content || ''
       if (content) {
-        return h.createNode(nodeName, attrs, [h.createNode('text', { text: content })])
+        // For inline content, create text nodes using the proper helper
+        return h.createNode(nodeName, attrs, [h.createTextNode(content)])
       }
       return h.createNode(nodeName, attrs, [])
     },
@@ -203,8 +210,18 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
       },
     },
 
-    render: (node: any) => {
-      const content = getContent ? getContent(node) : node.textContent || ''
+    render: (node: JSONContent) => {
+      let content = ''
+      if (getContent) {
+        content = getContent(node)
+      } else if (node.content && node.content.length > 0) {
+        // Extract text from content array for inline nodes
+        content = node.content
+          .filter((child: any) => child.type === 'text')
+          .map((child: any) => child.text)
+          .join('')
+      }
+
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` ${attrs}` : ''

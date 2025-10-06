@@ -1,3 +1,4 @@
+import type { JSONContent } from '@tiptap/core'
 import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@tiptap/core'
 
 describe('Markdown Utilities', () => {
@@ -102,8 +103,8 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['color'],
       })
 
-      const node = {
-        textContent: 'highlighted text',
+      const node: JSONContent = {
+        content: [{ type: 'text', text: 'highlighted text' }],
         attrs: {
           color: 'yellow',
         },
@@ -175,15 +176,15 @@ describe('Markdown Utilities', () => {
         content: [],
       }
 
-      const rendered = spec.render(node, mockHelpers)
-      expect(rendered).to.equal(':::callout {type="info"}\nThis is a callout\n:::')
+      const rendered = spec.render(node, mockHelpers, {} as any)
+      expect(rendered).to.equal(':::callout {type="info"}\n\nThis is a callout\n\n:::')
     })
   })
 
   describe('createAtomBlockMarkdownSpec', () => {
     it('should create a valid spec for atomic block nodes', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
       })
 
       expect(spec).to.have.property('parse')
@@ -194,7 +195,7 @@ describe('Markdown Utilities', () => {
 
     it('should handle tokenizer start detection', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
       })
 
       const startIndex = spec.tokenizer.start?.(':::youtube {src="test"}')
@@ -206,7 +207,7 @@ describe('Markdown Utilities', () => {
 
     it('should tokenize atom block syntax correctly', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
       })
 
       const token = spec.tokenizer.tokenize(':::youtube {src="https://youtube.com/watch?v=test"}\n', [], null)
@@ -221,7 +222,7 @@ describe('Markdown Utilities', () => {
 
     it('should validate required attributes', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
         requiredAttributes: ['src'],
       })
 
@@ -238,7 +239,7 @@ describe('Markdown Utilities', () => {
 
     it('should render atom block syntax correctly', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
         allowedAttributes: ['src', 'width'],
       })
 
@@ -256,7 +257,7 @@ describe('Markdown Utilities', () => {
 
     it('should apply default attributes', () => {
       const spec = createAtomBlockMarkdownSpec({
-        blockName: 'youtube',
+        nodeName: 'youtube',
         defaultAttributes: { start: '0', width: '640' },
       })
 
