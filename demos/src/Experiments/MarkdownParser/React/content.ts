@@ -20,6 +20,29 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
   - [ ] Incomplete task
   - [x] Completed task
 
+<h2>HTML Support</h2>
+
+<p>Markdown support comes with additional HTML support so your content can be easily parsed as well, even if not in Markdown format.</p>
+
+<ul>
+  <li>
+    <p>
+      <strong>Lists</strong>
+    </p>
+  </li>
+  <li>
+    <p>and</p>
+  </li>
+  <li>
+    <p>Sublists</p>
+    <ul>
+      <li>
+        <p>See?</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
 ### YouTube Videos
 
 :::youtube {src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="0" width="400" height="300"}

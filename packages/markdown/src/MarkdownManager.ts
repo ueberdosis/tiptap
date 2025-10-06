@@ -8,6 +8,7 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  generateJSON,
   getExtensionField,
 } from '@tiptap/core'
 import { type Lexer, marked } from 'marked'
@@ -28,6 +29,7 @@ export class MarkdownManager {
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
+  private extensions: AnyExtension[] = []
 
   /**
    * Create a MarkdownManager.
@@ -78,6 +80,9 @@ export class MarkdownManager {
    * extension config (using the same resolution used across the codebase).
    */
   registerExtension(extension: AnyExtension): void {
+    // Keep track of all extensions for HTML parsing
+    this.extensions.push(extension)
+
     const name = extension.name
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
@@ -458,12 +463,55 @@ export class MarkdownManager {
           text: token.text || '',
         }
 
+      case 'html':
+        // Parse HTML using extensions' parseHTML methods
+        return this.parseHTMLToken(token)
+
       default:
         // Unknown token type - try to parse children if they exist
         if (token.tokens) {
           return this.parseTokens(token.tokens)
         }
         return null
+    }
+  }
+
+  /**
+   * Parse HTML tokens using extensions' parseHTML methods.
+   * This allows HTML within markdown to be parsed according to extension rules.
+   */
+  private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    const html = token.text || token.raw || ''
+
+    if (!html.trim()) {
+      return null
+    }
+
+    // Use generateJSON to parse the HTML using extensions' parseHTML rules
+    try {
+      const parsed = generateJSON(html, this.extensions)
+
+      // If the result is a doc node, extract its content
+      if (parsed.type === 'doc' && parsed.content) {
+        // For block-level HTML, return the content array
+        if (token.block) {
+          return parsed.content
+        }
+
+        // For inline HTML, we need to flatten the content appropriately
+        // If there's only one paragraph with content, unwrap it
+        if (parsed.content.length === 1 && parsed.content[0].type === 'paragraph' && parsed.content[0].content) {
+          return parsed.content[0].content
+        }
+
+        return parsed.content
+      }
+
+      return parsed as JSONContent
+    } catch (error) {
+      // If HTML parsing fails, return null to skip this token
+      console.warn('Failed to parse HTML in markdown:', error)
+      return null
     }
   }
 
