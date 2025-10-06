@@ -1,0 +1,24 @@
+name: Notify Discord on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  discord_notify:
+    name: Send release to Discord
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Post release to Discord (tsickert/discord-webhook)
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
+          embed-title: ${{ github.event.release.name || github.event.release.tag_name }}
+          embed-description: ${{ github.event.release.body }}
+          embed-url: ${{ github.event.release.html_url }}
+          wait: true

@@ -6,6 +6,8 @@ import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'v
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
 
+  inheritAttrs: false,
+
   props: {
     pluginKey: {
       type: [String, Object] as PropType<BubbleMenuPluginProps['pluginKey']>,
@@ -32,17 +34,36 @@ export const BubbleMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
+
+    getReferencedVirtualElement: {
+      type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>>,
+      default: undefined,
+    },
   },
 
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, shouldShow, updateDelay } = props
+      const {
+        editor,
+        options,
+        pluginKey,
+        resizeDelay,
+        appendTo,
+        shouldShow,
+        getReferencedVirtualElement,
+        updateDelay,
+      } = props
 
       if (!root.value) {
         return
@@ -51,7 +72,7 @@ export const BubbleMenu = defineComponent({
       root.value.style.visibility = 'hidden'
       root.value.style.position = 'absolute'
 
-      // remove the element from the DOM
+      // Remove element from DOM; plugin will re-parent it when shown
       root.value.remove()
 
       editor.registerPlugin(
@@ -61,7 +82,9 @@ export const BubbleMenu = defineComponent({
           options,
           pluginKey,
           resizeDelay,
+          appendTo,
           shouldShow,
+          getReferencedVirtualElement,
           updateDelay,
         }),
       )
@@ -73,6 +96,7 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
+    // Teleport only instantiates element + slot subtree; plugin controls final placement
+    return () => h(Teleport, { to: 'body' }, h('div', { ...attrs, ref: root }, slots.default?.()))
   },
 })

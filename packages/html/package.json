@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "3.1.0",
+  "version": "3.6.5",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -18,7 +18,11 @@
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": {
+        "browser": "./dist/index.js",
+        "node": "./dist/server/index.js",
+        "default": "./dist/index.js"
+      },
       "require": "./dist/index.cjs"
     },
     "./server": {

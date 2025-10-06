@@ -1,5 +1,209 @@
 # @tiptap/extension-unique-id
 
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Minor Changes
+
+- 001b718: Create a utility to add unique IDs to a document in the server
+
+  The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
+
+  It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
+
+  It takes the following parameters:
+
+  - `doc`: The Tiptap JSON document to add unique IDs to.
+  - `extensions`: The extensions to use. Must include the `UniqueID` extension.
+
+  It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- 96a34a0: Fix collaboration extension selection to use the extension with a provider instead of the first registered extension
+  - @tiptap/core@3.3.1
+  - @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Change the `generateID` option to accept a context object: `{ node, pos }`.
+
+  This lets ID generators access both the ProseMirror `node` and its `pos` within the document when creating IDs, enabling logic that depends on node content, type, or position.
+
+  The change is backwards-compatible: existing `generateID` functions that ignore the new context will continue to work. Example usage:
+
+  ```
+  editor.use(UniqueID, {
+    generateID: ({ node, pos }) => `${node.type.name}-${pos}-${uuidv4()}`,
+  })
+  ```
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- 1cab7ff: Change the `generateID` option to accept a context object: `{ node, pos }`.
+
+  This lets ID generators access both the ProseMirror `node` and its `pos` within the document when creating IDs, enabling logic that depends on node content, type, or position.
+
+  The change is backwards-compatible: existing `generateID` functions that ignore the new context will continue to work.
+
+  - @tiptap/core@3.2.2
+  - @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- 0dc17f4: Fix UniqueID extension creating unwanted nodes on page refresh by looking for collaboration provider in the correct extension (collaborationCaret instead of collaboration)
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes

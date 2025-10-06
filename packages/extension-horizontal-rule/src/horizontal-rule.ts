@@ -8,6 +8,12 @@ export interface HorizontalRuleOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+  /**
+   * The default type to insert after the horizontal rule.
+   * @default "paragraph"
+   * @example "heading"
+   */
+  nextNodeType: string
 }
 
 declare module '@tiptap/core' {
@@ -32,6 +38,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      nextNodeType: 'paragraph',
     }
   },
 
@@ -71,7 +78,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
           return (
             currentChain
               // set cursor after horizontal rule
-              .command(({ tr, dispatch }) => {
+              .command(({ state: chainState, tr, dispatch }) => {
                 if (dispatch) {
                   const { $to } = tr.selection
                   const posAfter = $to.end()
@@ -86,7 +93,9 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                     }
                   } else {
                     // add node after horizontal rule if it’s the end of the document
-                    const node = $to.parent.type.contentMatch.defaultType?.create()
+                    const nodeType =
+                      chainState.schema.nodes[this.options.nextNodeType] || $to.parent.type.contentMatch.defaultType
+                    const node = nodeType?.create()
 
                     if (node) {
                       tr.insert(posAfter, node)

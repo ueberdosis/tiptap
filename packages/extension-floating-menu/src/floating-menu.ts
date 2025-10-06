@@ -24,6 +24,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
       element: null,
       options: {},
       pluginKey: 'floatingMenu',
+      appendTo: undefined,
       shouldShow: null,
     }
   },
@@ -39,6 +40,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
         editor: this.editor,
         element: this.options.element,
         options: this.options.options,
+        appendTo: this.options.appendTo,
         shouldShow: this.options.shouldShow,
       }),
     ]

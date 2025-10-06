@@ -1,5 +1,139 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- Updated dependencies [04a0f34]
+  - @tiptap/extension-text-style@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [46fa8b8]
+  - @tiptap/extension-text-style@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extension-text-style@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes

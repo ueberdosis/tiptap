@@ -18,10 +18,8 @@ import {
   splitExtensions,
 } from './helpers/index.js'
 import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
-import type { InputRule } from './InputRule.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
-import type { PasteRule } from './PasteRule.js'
 import { pasteRulesPlugin } from './PasteRule.js'
 import type { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
@@ -89,87 +87,89 @@ export class ExtensionManager {
     // based on the `priority` option.
     const extensions = sortExtensions([...this.extensions].reverse())
 
-    const inputRules: InputRule[] = []
-    const pasteRules: PasteRule[] = []
+    const allPlugins = extensions.flatMap(extension => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
 
-    const allPlugins = extensions
-      .map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: this.editor.extensionStorage[extension.name as keyof Storage],
-          editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
-        }
+      const plugins: Plugin[] = []
 
-        const plugins: Plugin[] = []
+      const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
+        extension,
+        'addKeyboardShortcuts',
+        context,
+      )
 
-        const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
-          extension,
-          'addKeyboardShortcuts',
-          context,
+      let defaultBindings: Record<string, () => boolean> = {}
+
+      // bind exit handling
+      if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
+        defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
+      }
+
+      if (addKeyboardShortcuts) {
+        const bindings = Object.fromEntries(
+          Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
+            return [shortcut, () => method({ editor })]
+          }),
         )
 
-        let defaultBindings: Record<string, () => boolean> = {}
+        defaultBindings = { ...defaultBindings, ...bindings }
+      }
 
-        // bind exit handling
-        if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
-          defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
+      const keyMapPlugin = keymap(defaultBindings)
+
+      plugins.push(keyMapPlugin)
+
+      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
+
+      if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
+        const rules = addInputRules()
+
+        if (rules && rules.length) {
+          const inputResult = inputRulesPlugin({
+            editor,
+            rules,
+          })
+
+          const inputPlugins = Array.isArray(inputResult) ? inputResult : [inputResult]
+
+          plugins.push(...inputPlugins)
         }
+      }
 
-        if (addKeyboardShortcuts) {
-          const bindings = Object.fromEntries(
-            Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
-              return [shortcut, () => method({ editor })]
-            }),
-          )
+      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
 
-          defaultBindings = { ...defaultBindings, ...bindings }
+      if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
+        const rules = addPasteRules()
+
+        if (rules && rules.length) {
+          const pasteRules = pasteRulesPlugin({ editor, rules })
+
+          plugins.push(...pasteRules)
         }
+      }
 
-        const keyMapPlugin = keymap(defaultBindings)
+      const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
+        extension,
+        'addProseMirrorPlugins',
+        context,
+      )
 
-        plugins.push(keyMapPlugin)
+      if (addProseMirrorPlugins) {
+        const proseMirrorPlugins = addProseMirrorPlugins()
 
-        const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
+        plugins.push(...proseMirrorPlugins)
+      }
 
-        if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
-          inputRules.push(...addInputRules())
-        }
+      return plugins
+    })
 
-        const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
-
-        if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
-          pasteRules.push(...addPasteRules())
-        }
-
-        const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
-          extension,
-          'addProseMirrorPlugins',
-          context,
-        )
-
-        if (addProseMirrorPlugins) {
-          const proseMirrorPlugins = addProseMirrorPlugins()
-
-          plugins.push(...proseMirrorPlugins)
-        }
-
-        return plugins
-      })
-      .flat()
-
-    return [
-      inputRulesPlugin({
-        editor,
-        rules: inputRules,
-      }),
-      ...pasteRulesPlugin({
-        editor,
-        rules: pasteRules,
-      }),
-      ...allPlugins,
-    ]
+    return allPlugins
   }
 
   /**

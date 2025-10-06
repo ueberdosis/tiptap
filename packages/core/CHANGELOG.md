@@ -1,5 +1,223 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- 1e4caea: Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- 67f7b4a: Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c0190bd: Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- 968016f: Added support for the `undoable` option in InputRules (matching ProseMirror’s implementation).
+
+  - When `false`, the change will not be tracked as undoable.
+  - Default remains `true` for backward compatibility.
+
+  This brings Tiptap’s InputRules behavior in line with ProseMirror and gives developers finer control over undo functionality.
+
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 0226d42: Fix an issue where injected CSS was not mounted correctly when the editor instance was mounted. The fix ensures CSS injected by the editor is attached to the document when the editor mounts, preventing missing styles in some mount/unmount scenarios.
+- 37af83b: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- f598ac7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- 00cf1d7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 1ea8906: When the editor view is created, it now will also include `nodeViews` and `markViews` properties instead of setting them afterward. This avoids serialization of the editor state to HTML which will be replaced by node views anyway.
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Minor Changes
+
+- ad51daa: Add `mount` and `unmount` events to the `Editor` instance for tracking mounts and unmounts
+
+### Patch Changes
+
+- 895c73f: Fix `can().toggleMark()` returning incorrect result when cursor is inside nodes that disallow marks
+
+  Fixed an issue where `can().toggleMark('bold')` incorrectly returned `true` when the cursor was positioned inside a code block (with no selection), even though marks are not allowed in code blocks. The method now correctly returns `false` in this scenario by checking if the parent node allows the mark type when the selection is a cursor.
+
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Minor Changes
+
+- 5423726: Make input rules and paste rules respect extension `priority` by registering
+  them per-extension instead of aggregating them into a single global plugin.
+
+  ## Why
+
+  Previously all `addInputRules()` and `addPasteRules()` were gathered into one
+  global plugin which ran before the other plugins. That caused conflicts where
+  some extensions (for example mention/suggestion with `#`) could not preempt the
+  built-in heading input rule.
+
+  ## What changed
+
+  - Input and paste rules are now created and registered at the position of the
+    owning extension. This makes their execution order follow the extension
+    sorting/`priority` mechanism.
+  - Behavior is more predictable: extensions with higher `priority` can now take
+    precedence over lower priority extensions' input/paste rules.
+
+  ## Migration & compatibility
+
+  - This is a behavioral change. If you relied on the old global ordering (input
+    rules always running before other plugins), you may observe different
+    outcomes. In most cases this is desirable and fixes conflicts (like the
+    `#` mention vs. heading shortcut), but be aware of the change.
+  - If you need to force the previous behavior for a specific rule, you can:
+    - Register the rule as a ProseMirror plugin via `addProseMirrorPlugins()` on
+      the extension and place it where you want it to run.
+    - Adjust the extension `priority` value so the extension sits earlier or
+      later in the ordering.
+
+  If you have any questions or see regressions after upgrading, please open an
+  issue with a small repro and we'll help triage.
+
+### Patch Changes
+
+- 5423726: Fix paste rule handling for node views and defensively guard empty ranges.
+
+  This patch ensures paste rules can correctly inspect node content when
+  node-specific size metadata (`nodeSize`) is present, falling back to
+  `node.content.size` when needed. It also skips empty or invalid node ranges
+  before calling `textBetween`, preventing runtime errors originating from
+  internal Fragment/Node traversals (for example: "Cannot read properties of
+  undefined (reading 'nodeSize')").
+
+  The change is a defensive bugfix; it does not change public APIs.
+
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- 6a2873f: Ensure drag previews for node views work correctly in Safari by attaching
+  an offscreen clone of the node to the DOM while calling
+  `setDragImage`, and by preserving the original element's pixel
+  `width`/`height` so the preview matches the original. This prevents
+  Safari from immediately cancelling the drag when a detached element is
+  used as the drag image.
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Minor Changes
+
+- 5056e3e: Fix Editor.unmount() failing in test environments due to missing DOM remove() method
+
+### Patch Changes
+
+- @tiptap/pm@3.2.0
+
 ## 3.1.0
 
 ### Patch Changes
