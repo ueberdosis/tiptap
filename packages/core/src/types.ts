@@ -890,8 +890,27 @@ export type MarkdownTokenizer = {
 }
 
 export type MarkdownRendererHelpers = {
+  /**
+   * Render children nodes to a markdown string, optionally separated by a string.
+   * @param nodes The node or array of nodes to render
+   * @param separator An optional separator string (legacy) or RenderContext
+   * @returns The rendered markdown string
+   */
   renderChildren: (nodes: JSONContent | JSONContent[], separator?: string) => string
+
+  /**
+   * Render a text token to a markdown string
+   * @param prefix The prefix to add before the content
+   * @param content The content to wrap
+   * @returns The wrapped content
+   */
   wrapInBlock: (prefix: string, content: string) => string
+
+  /**
+   * Indent a markdown string according to the provided RenderContext
+   * @param content The content to indent
+   * @returns The indented content
+   */
   indent: (content: string) => string
 }
 
