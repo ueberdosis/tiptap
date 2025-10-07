@@ -275,44 +275,6 @@ export const Mention = Node.create<MentionOptions>({
     allowedAttributes: ['id', 'label'],
   }),
 
-  /* markdown: {
-    // Custom tokenizer to handle @[label](id) syntax
-    tokenizer: {
-      name: 'mention',
-      level: 'inline',
-      start: (src: string) => src.indexOf('@['),
-      tokenize: (src: string) => {
-        // Look for @[label](id) pattern at the very start of the string
-        const match = src.match(/^@\[([^\]]*)\]\(([^)]*)\)/)
-        if (match) {
-          return {
-            type: 'mention',
-            raw: match[0], // The full matched string
-            label: match[1], // First capture group
-            id: match[2], // Second capture group
-          }
-        }
-        return undefined
-      },
-    },
-
-    // Parse mention token into Tiptap JSON
-    parse: (token, helpers) => {
-      return helpers.createNode('mention', {
-        id: token.id,
-        label: token.label,
-      })
-    },
-
-    render: node => {
-      if (!node.attrs?.label || !node.attrs?.id) {
-        return ''
-      }
-
-      return `@[${node.attrs.label || node.attrs.id}](${node.attrs.id})`
-    },
-  }, */
-
   renderText({ node }) {
     const args = {
       options: this.options,
