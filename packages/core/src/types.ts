@@ -897,12 +897,6 @@ export type MarkdownRendererHelpers = {
 
 export type ExtendableMarkdownSpec = {
   /**
-   * Optional unique name to identify the markdown tokenizer / parser for this extension.
-   * If omitted, the extension `name` will be used.
-   * @deprecated Use parseName and renderName for better separation of concerns
-   */
-  name?: string
-  /**
    * Token name used for parsing (e.g., 'codespan', 'code', 'strong')
    * If omitted, falls back to `name` or extension name
    */

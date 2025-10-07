@@ -1,5 +1,6 @@
 import {
   type AnyExtension,
+  type ExtendableMarkdownSpec,
   type JSONContent,
   type MarkdownExtensionSpec,
   type MarkdownParseHelpers,
@@ -86,7 +87,7 @@ export class MarkdownManager {
     const name = extension.name
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = getExtensionField(extension, 'markdown') ?? null
+    const markdownCfg = (getExtensionField(extension, 'markdown') ?? null) as ExtendableMarkdownSpec | null
 
     if (!markdownCfg) {
       return
@@ -98,14 +99,13 @@ export class MarkdownManager {
     const tokenizer = markdownCfg?.tokenizer ?? undefined
 
     // Support new parseName/renderName system while maintaining backward compatibility
-    const parseName = markdownCfg.parseName ?? markdownCfg.name ?? name
+    const parseName = markdownCfg.parseName ?? name
     const renderName = markdownCfg.renderName ?? name
-    const legacyMarkdownName = markdownCfg.name ?? name
 
     const spec: MarkdownExtensionSpec = {
       parseName,
       renderName,
-      markdownName: legacyMarkdownName, // Keep for backward compatibility
+      markdownName: name, // Keep for backward compatibility
       parseMarkdown,
       renderMarkdown,
       isIndenting,
