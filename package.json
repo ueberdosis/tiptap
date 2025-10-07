@@ -24,6 +24,7 @@
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
     "build:ci": "turbo run build",
     "publish": "pnpm run build && pnpm changeset publish",
+    "publish:markdown": "pnpm run build && pnpm changeset publish --tag markdown",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist && rm -rf ./packages-deprecated/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz && rm -rf ./packages-deprecated/*/*.tgz",
     "make:demo": "sh ./scripts/make-demo.sh",
@@ -32,7 +33,8 @@
     "turbo": "turbo",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
+    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile",
+    "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
