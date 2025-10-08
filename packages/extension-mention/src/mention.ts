@@ -268,7 +268,7 @@ export const Mention = Node.create<MentionOptions>({
     return html
   },
 
-  markdown: createInlineMarkdownSpec({
+  ...createInlineMarkdownSpec({
     nodeName: 'mention',
     name: '@',
     selfClosing: true,

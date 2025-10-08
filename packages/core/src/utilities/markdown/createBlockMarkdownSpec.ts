@@ -1,4 +1,11 @@
-import type { ExtendableMarkdownSpec, JSONContent, MarkdownToken } from '../../types.js'
+import type {
+  JSONContent,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
+} from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -50,7 +57,11 @@ export interface BlockMarkdownSpecOptions {
  * })
  * ```
  */
-export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): ExtendableMarkdownSpec {
+export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
+  parseMarkdown: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  markdownTokenizer: MarkdownTokenizer
+  renderMarkdown: (node: JSONContent, h: MarkdownRendererHelpers) => string
+} {
   const {
     nodeName,
     name: markdownName,
@@ -81,7 +92,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
   }
 
   return {
-    parse: (token, h) => {
+    parseMarkdown: (token, h) => {
       let nodeContent: JSONContent[]
 
       if (getContent) {
@@ -99,7 +110,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
       return h.createNode(nodeName, attrs, nodeContent)
     },
 
-    tokenizer: {
+    markdownTokenizer: {
       name: nodeName,
       level: 'block' as const,
       start(src) {
@@ -154,7 +165,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): Exte
       },
     },
 
-    render: (node, h) => {
+    renderMarkdown: (node, h) => {
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''

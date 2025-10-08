@@ -1,4 +1,10 @@
-import type { MarkdownParseHelpers, MarkdownParseResult, MarkdownToken, MarkdownTokenizer } from '../../types.js'
+import type {
+  JSONContent,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownToken,
+  MarkdownTokenizer,
+} from '../../types.js'
 import {
   parseAttributes as defaultParseAttributes,
   serializeAttributes as defaultSerializeAttributes,
@@ -50,9 +56,9 @@ export interface AtomBlockMarkdownSpecOptions {
  * ```
  */
 export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOptions): {
-  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
-  tokenizer: MarkdownTokenizer
-  render: (node: any) => string
+  parseMarkdown: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  markdownTokenizer: MarkdownTokenizer
+  renderMarkdown: (node: JSONContent) => string
 } {
   const {
     nodeName,
@@ -83,12 +89,12 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
   }
 
   return {
-    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
+    parseMarkdown: (token: MarkdownToken, h: MarkdownParseHelpers) => {
       const attrs = { ...defaultAttributes, ...token.attributes }
       return h.createNode(nodeName, attrs, [])
     },
 
-    tokenizer: {
+    markdownTokenizer: {
       name: nodeName,
       level: 'block' as const,
       start(src: string) {
@@ -124,7 +130,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       },
     },
 
-    render: (node: any) => {
+    renderMarkdown: node => {
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''

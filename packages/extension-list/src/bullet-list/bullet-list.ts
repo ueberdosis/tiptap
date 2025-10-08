@@ -81,28 +81,29 @@ export const BulletList = Node.create<BulletListOptions>({
     return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    parseName: 'list',
-    isIndenting: true,
+  markdownTokenName: 'list',
 
-    render: (node, h) => {
-      if (!node.content) {
-        return ''
-      }
+  parseMarkdown: (token, helpers) => {
+    if (token.type !== 'list' || (token as any).ordered) {
+      return []
+    }
 
-      return h.renderChildren(node.content, '\n')
-    },
+    return {
+      type: 'bulletList',
+      content: token.items ? helpers.parseChildren(token.items) : [],
+    }
+  },
 
-    parse: (token, helpers) => {
-      if (token.type !== 'list' || (token as any).ordered) {
-        return []
-      }
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
 
-      return {
-        type: 'bulletList',
-        content: token.items ? helpers.parseChildren(token.items) : [],
-      }
-    },
+    return h.renderChildren(node.content, '\n')
+  },
+
+  markdownOptions: {
+    indentsContent: true,
   },
 
   addCommands() {

@@ -99,34 +99,34 @@ export const Highlight = Mark.create<HighlightOptions>({
     return ['mark', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    render: (node, h) => {
-      return `==${h.renderChildren(node)}==`
-    },
-    parse(token, h) {
-      return h.applyMark('highlight', h.parseInline(token.tokens || []))
-    },
-    tokenizer: {
-      name: 'highlight',
-      level: 'inline',
-      start: (src: string) => src.indexOf('=='),
-      tokenize(src, _, h) {
-        const rule = /^(==)([^=]+)(==)/ // ==highlighted text==
-        const match = rule.exec(src)
+  renderMarkdown: (node, h) => {
+    return `==${h.renderChildren(node)}==`
+  },
 
-        if (match) {
-          const innerContent = match[2].trim()
+  parseMarkdown: (token, h) => {
+    return h.applyMark('highlight', h.parseInline(token.tokens || []))
+  },
 
-          const children = h.inlineTokens(innerContent)
+  markdownTokenizer: {
+    name: 'highlight',
+    level: 'inline',
+    start: (src: string) => src.indexOf('=='),
+    tokenize(src, _, h) {
+      const rule = /^(==)([^=]+)(==)/ // ==highlighted text==
+      const match = rule.exec(src)
 
-          return {
-            type: 'highlight',
-            raw: match[0],
-            text: innerContent,
-            tokens: children,
-          }
+      if (match) {
+        const innerContent = match[2].trim()
+
+        const children = h.inlineTokens(innerContent)
+
+        return {
+          type: 'highlight',
+          raw: match[0],
+          text: innerContent,
+          tokens: children,
         }
-      },
+      }
     },
   },
 

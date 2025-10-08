@@ -10,12 +10,18 @@ import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
   EditorEvents,
-  ExtendableMarkdownSpec,
   Extensions,
   GlobalAttributes,
+  JSONContent,
   KeyboardShortcutCommand,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
   ParentConfig,
   RawCommands,
+  RenderContext,
 } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
@@ -226,11 +232,39 @@ export interface ExtendableConfig<
   }) => Extensions
 
   /**
-   * Markdown integration hooks for this extension.
+   * The markdown token name
    *
-   * Extensions can provide optional helpers to parse or render markdown.
+   * This is the name of the token that this extension uses to parse and render markdown and comes from the Lexer.
+   *
    */
-  markdown?: ExtendableMarkdownSpec
+  markdownTokenName?: string
+
+  /**
+   * The parse function used by the markdown parser to convert markdown tokens to ProseMirror nodes.
+   */
+  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+
+  /**
+   * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
+   */
+  renderMarkdown?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+
+  /**
+   * The markdown tokenizer responsible for turning a markdown string into tokens
+   *
+   * Custom tokenizers are only needed when you want to parse non-standard markdown token.
+   */
+  markdownTokenizer?: MarkdownTokenizer
+
+  /**
+   * Optional markdown options for indentation
+   */
+  markdownOptions?: {
+    /**
+     * Defines if this markdown element should indent it's child elements
+     */
+    indentsContent?: boolean
+  }
 
   /**
    * This function extends the schema of the node.

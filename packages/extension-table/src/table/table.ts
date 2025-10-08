@@ -283,37 +283,34 @@ export const Table = Node.create<TableOptions>({
     return table
   },
 
-  markdown: {
-    parse: (token: MarkdownTableToken, h) => {
-      const rows = []
+  parseMarkdown: (token: MarkdownTableToken, h) => {
+    const rows = []
 
-      if (token.header) {
-        const headerCells: JSONContent[] = []
+    if (token.header) {
+      const headerCells: JSONContent[] = []
 
-        token.header.forEach(cell => {
-          headerCells.push(
-            h.createNode('tableHeader', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]),
-          )
+      token.header.forEach(cell => {
+        headerCells.push(h.createNode('tableHeader', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
+      })
+
+      rows.push(h.createNode('tableRow', {}, headerCells))
+    }
+
+    if (token.rows) {
+      token.rows.forEach(row => {
+        const bodyCells: JSONContent[] = []
+        row.forEach(cell => {
+          bodyCells.push(h.createNode('tableCell', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
         })
+        rows.push(h.createNode('tableRow', {}, bodyCells))
+      })
+    }
 
-        rows.push(h.createNode('tableRow', {}, headerCells))
-      }
+    return h.createNode('table', undefined, rows)
+  },
 
-      if (token.rows) {
-        token.rows.forEach(row => {
-          const bodyCells: JSONContent[] = []
-          row.forEach(cell => {
-            bodyCells.push(h.createNode('tableCell', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
-          })
-          rows.push(h.createNode('tableRow', {}, bodyCells))
-        })
-      }
-
-      return h.createNode('table', undefined, rows)
-    },
-    render: (node, h) => {
-      return renderTableToMarkdown(node, h)
-    },
+  renderMarkdown: (node, h) => {
+    return renderTableToMarkdown(node, h)
   },
 
   addCommands() {

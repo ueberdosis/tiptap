@@ -62,9 +62,7 @@ export const HardBreak = Node.create<HardBreakOptions>({
     return '\n'
   },
 
-  markdown: {
-    render: (_node, h) => h.indent(`\n`),
-  },
+  renderMarkdown: (_node, h) => h.indent(`\n`),
 
   addCommands() {
     return {

@@ -45,7 +45,9 @@ export const extensions = [
 
     atom: true,
 
-    markdown: createInlineMarkdownSpec({
+    markdownTokenName: 'custom-inline',
+
+    ...createInlineMarkdownSpec({
       nodeName: 'customInline',
       name: 'custom-inline',
       selfClosing: true,
@@ -71,7 +73,9 @@ export const extensions = [
 
     content: 'inline*',
 
-    markdown: createInlineMarkdownSpec({
+    markdownTokenName: 'custom-inline-tag',
+
+    ...createInlineMarkdownSpec({
       nodeName: 'customInlineTag',
       name: 'custom-inline-tag',
       allowedAttributes: ['icon'],

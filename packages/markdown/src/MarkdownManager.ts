@@ -1,6 +1,5 @@
 import {
   type AnyExtension,
-  type ExtendableMarkdownSpec,
   type JSONContent,
   type MarkdownExtensionSpec,
   type MarkdownParseHelpers,
@@ -13,6 +12,7 @@ import {
   getExtensionField,
 } from '@tiptap/core'
 import { type Lexer, marked } from 'marked'
+import { type ExtendableConfig } from 'packages/core/src/Extendable.js'
 
 import {
   closeMarksBeforeNode,
@@ -91,27 +91,24 @@ export class MarkdownManager {
     this.extensions.push(extension)
 
     const name = extension.name
+    const tokenName =
+      (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
+    const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
+      | ExtendableConfig['renderMarkdown']
+      | undefined
+    const tokenizer = getExtensionField(extension, 'markdownTokenizer') as
+      | ExtendableConfig['markdownTokenizer']
+      | undefined
+
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdown') ?? null) as ExtendableMarkdownSpec | null
-
-    if (!markdownCfg) {
-      return
-    }
-
-    const parseMarkdown = markdownCfg?.parse ?? undefined
-    const renderMarkdown = markdownCfg?.render ?? undefined
-    const isIndenting = markdownCfg?.isIndenting ?? false
-    const tokenizer = markdownCfg?.tokenizer ?? undefined
-
-    // Support new parseName/renderName system while maintaining backward compatibility
-    const parseName = markdownCfg.parseName ?? name
-    const renderName = markdownCfg.renderName ?? name
+    const markdownCfg = (getExtensionField(extension, 'markdown') ?? null) as ExtendableConfig['markdownOptions']
+    const isIndenting = markdownCfg?.indentsContent ?? false
 
     const spec: MarkdownExtensionSpec = {
-      parseName,
-      renderName,
-      markdownName: name, // Keep for backward compatibility
+      tokenName,
+      nodeName: name,
       parseMarkdown,
       renderMarkdown,
       isIndenting,
@@ -119,17 +116,17 @@ export class MarkdownManager {
     }
 
     // Add to parse registry using parseName
-    if (parseName && parseMarkdown) {
-      const parseExisting = this.registry.get(parseName) || []
+    if (tokenName && parseMarkdown) {
+      const parseExisting = this.registry.get(tokenName) || []
       parseExisting.push(spec)
-      this.registry.set(parseName, parseExisting)
+      this.registry.set(tokenName, parseExisting)
     }
 
     // Add to render registry using renderName (node type)
-    if (renderName && renderMarkdown) {
-      const renderExisting = this.nodeTypeRegistry.get(renderName) || []
+    if (renderMarkdown) {
+      const renderExisting = this.nodeTypeRegistry.get(name) || []
       renderExisting.push(spec)
-      this.nodeTypeRegistry.set(renderName, renderExisting)
+      this.nodeTypeRegistry.set(name, renderExisting)
     }
 
     // Register custom tokenizer with marked.js

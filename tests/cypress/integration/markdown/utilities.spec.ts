@@ -13,7 +13,7 @@ describe('Markdown Utilities', () => {
       expect(spec).to.have.property('parse')
       expect(spec).to.have.property('tokenizer')
       expect(spec).to.have.property('render')
-      expect(spec.tokenizer.level).to.equal('inline')
+      expect(spec.markdownTokenizer.level).to.equal('inline')
     })
 
     it('should create a valid spec for inline nodes with content', () => {
@@ -26,7 +26,7 @@ describe('Markdown Utilities', () => {
       expect(spec).to.have.property('parse')
       expect(spec).to.have.property('tokenizer')
       expect(spec).to.have.property('render')
-      expect(spec.tokenizer.level).to.equal('inline')
+      expect(spec.markdownTokenizer.level).to.equal('inline')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -35,10 +35,10 @@ describe('Markdown Utilities', () => {
         selfClosing: true,
       })
 
-      const startIndex = spec.tokenizer.start?.('[mention id="test"] some other text')
+      const startIndex = spec.markdownTokenizer.start?.('[mention id="test"] some other text')
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.tokenizer.start?.('no mention here')
+      const noMatch = spec.markdownTokenizer.start?.('no mention here')
       expect(noMatch).to.equal(undefined)
     })
 
@@ -48,7 +48,7 @@ describe('Markdown Utilities', () => {
         selfClosing: true,
       })
 
-      const token = spec.tokenizer.tokenize('[mention id="test" label="Test User"]', [], null)
+      const token = spec.markdownTokenizer.tokenize('[mention id="test" label="Test User"]', [], null)
       expect(token).to.deep.include({
         type: 'mention',
         raw: '[mention id="test" label="Test User"]',
@@ -66,7 +66,7 @@ describe('Markdown Utilities', () => {
         selfClosing: false,
       })
 
-      const token = spec.tokenizer.tokenize('[highlight color="yellow"]highlighted text[/highlight]', [], null)
+      const token = spec.markdownTokenizer.tokenize('[highlight color="yellow"]highlighted text[/highlight]', [], null)
       expect(token).to.deep.include({
         type: 'highlight',
         raw: '[highlight color="yellow"]highlighted text[/highlight]',
@@ -92,7 +92,7 @@ describe('Markdown Utilities', () => {
         },
       }
 
-      const rendered = spec.render(node)
+      const rendered = spec.renderMarkdown(node)
       expect(rendered).to.equal('[mention id="test" label="Test User"]')
     })
 
@@ -110,7 +110,7 @@ describe('Markdown Utilities', () => {
         },
       }
 
-      const rendered = spec.render(node)
+      const rendered = spec.renderMarkdown(node)
       expect(rendered).to.equal('[highlight color="yellow"]highlighted text[/highlight]')
     })
   })
@@ -124,7 +124,7 @@ describe('Markdown Utilities', () => {
       expect(spec).to.have.property('parse')
       expect(spec).to.have.property('tokenizer')
       expect(spec).to.have.property('render')
-      expect(spec.tokenizer.level).to.equal('block')
+      expect(spec.markdownTokenizer.level).to.equal('block')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -132,10 +132,10 @@ describe('Markdown Utilities', () => {
         nodeName: 'callout',
       })
 
-      const startIndex = spec.tokenizer.start?.(':::callout\ncontent\n:::')
+      const startIndex = spec.markdownTokenizer.start?.(':::callout\ncontent\n:::')
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.tokenizer.start?.('no callout here')
+      const noMatch = spec.markdownTokenizer.start?.('no callout here')
       expect(noMatch).to.equal(undefined)
     })
 
@@ -149,7 +149,7 @@ describe('Markdown Utilities', () => {
         inlineTokens: (src: string) => [{ type: 'text', text: src.trim() }],
       }
 
-      const token = spec.tokenizer.tokenize(':::callout {type="info"}\nThis is a callout\n:::', [], mockLexer)
+      const token = spec.markdownTokenizer.tokenize(':::callout {type="info"}\nThis is a callout\n:::', [], mockLexer)
       expect(token).to.deep.include({
         type: 'callout',
         attributes: { type: 'info' },
@@ -176,7 +176,7 @@ describe('Markdown Utilities', () => {
         content: [],
       }
 
-      const rendered = spec.render(node, mockHelpers, {} as any)
+      const rendered = spec.renderMarkdown(node, mockHelpers)
       expect(rendered).to.equal(':::callout {type="info"}\n\nThis is a callout\n\n:::')
     })
   })
@@ -190,7 +190,7 @@ describe('Markdown Utilities', () => {
       expect(spec).to.have.property('parse')
       expect(spec).to.have.property('tokenizer')
       expect(spec).to.have.property('render')
-      expect(spec.tokenizer.level).to.equal('block')
+      expect(spec.markdownTokenizer.level).to.equal('block')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -198,10 +198,10 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      const startIndex = spec.tokenizer.start?.(':::youtube {src="test"}')
+      const startIndex = spec.markdownTokenizer.start?.(':::youtube {src="test"}')
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.tokenizer.start?.('no youtube here')
+      const noMatch = spec.markdownTokenizer.start?.('no youtube here')
       expect(noMatch).to.equal(undefined)
     })
 
@@ -210,7 +210,7 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      const token = spec.tokenizer.tokenize(':::youtube {src="https://youtube.com/watch?v=test"}\n', [], null)
+      const token = spec.markdownTokenizer.tokenize(':::youtube {src="https://youtube.com/watch?v=test"}\n', [], null)
       expect(token).to.deep.include({
         type: 'youtube',
         raw: ':::youtube {src="https://youtube.com/watch?v=test"}\n',
@@ -227,11 +227,11 @@ describe('Markdown Utilities', () => {
       })
 
       // Should fail without required attribute
-      const tokenWithoutSrc = spec.tokenizer.tokenize(':::youtube {width="400"}\n', [], null)
+      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"}\n', [], null)
       expect(tokenWithoutSrc).to.equal(undefined)
 
       // Should succeed with required attribute
-      const tokenWithSrc = spec.tokenizer.tokenize(':::youtube {src="test"}\n', [], null)
+      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"}\n', [], null)
       expect(tokenWithSrc).to.not.equal(undefined)
       expect(tokenWithSrc).to.have.property('attributes')
       expect((tokenWithSrc as any).attributes).to.have.property('src', 'test')
@@ -251,7 +251,7 @@ describe('Markdown Utilities', () => {
         },
       }
 
-      const rendered = spec.render(node)
+      const rendered = spec.renderMarkdown(node)
       expect(rendered).to.equal(':::youtube {src="https://youtube.com/watch?v=test" width="400"}')
     })
 
@@ -270,7 +270,7 @@ describe('Markdown Utilities', () => {
       }
 
       const token = { attributes: { src: 'test' } }
-      const result = spec.parse(token as any, mockHelpers as any)
+      const result = spec.parseMarkdown(token as any, mockHelpers as any)
 
       expect((result as any).attrs).to.deep.include({
         src: 'test',

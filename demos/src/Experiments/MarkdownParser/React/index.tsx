@@ -70,10 +70,11 @@ const CustomReactNode = Node.create({
     return ReactNodeViewRenderer(CustomReactComponent)
   },
 
-  markdown: createBlockMarkdownSpec({
+  markdownTokenName: 'customReactNode',
+
+  ...createBlockMarkdownSpec({
     nodeName: 'customReactNode',
     name: 'react',
-    content: 'block',
   }),
 })
 

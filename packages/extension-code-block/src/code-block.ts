@@ -145,35 +145,33 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     ]
   },
 
-  markdown: {
-    parseName: 'code',
+  markdownTokenName: 'code',
 
-    parse: (token, helpers) => {
-      // only use code blocks if this is using the ``` fence
-      if (token.raw?.startsWith('```') === false) {
-        return []
-      }
+  parseMarkdown: (token, helpers) => {
+    // only use code blocks if this is using the ``` fence
+    if (token.raw?.startsWith('```') === false) {
+      return []
+    }
 
-      return helpers.createNode(
-        'codeBlock',
-        { language: token.lang || null },
-        token.text ? [helpers.createTextNode(token.text)] : [],
-      )
-    },
+    return helpers.createNode(
+      'codeBlock',
+      { language: token.lang || null },
+      token.text ? [helpers.createTextNode(token.text)] : [],
+    )
+  },
 
-    render: (node, h) => {
-      let output = ''
-      const language = node.attrs?.language || ''
+  renderMarkdown: (node, h) => {
+    let output = ''
+    const language = node.attrs?.language || ''
 
-      if (!node.content) {
-        output = `\`\`\`${language}\n\n\`\`\``
-      } else {
-        const lines = [`\`\`\`${language}`, h.renderChildren(node.content), '```']
-        output = lines.join('\n')
-      }
+    if (!node.content) {
+      output = `\`\`\`${language}\n\n\`\`\``
+    } else {
+      const lines = [`\`\`\`${language}`, h.renderChildren(node.content), '```']
+      output = lines.join('\n')
+    }
 
-      return output
-    },
+    return output
   },
 
   addCommands() {

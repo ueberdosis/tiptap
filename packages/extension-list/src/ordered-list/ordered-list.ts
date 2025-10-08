@@ -107,72 +107,73 @@ export const OrderedList = Node.create<OrderedListOptions>({
       : ['ol', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    parseName: 'list',
-    isIndenting: true,
+  markdownTokenName: 'list',
 
-    render: (node, h) => {
-      if (!node.content) {
-        return ''
-      }
+  parseMarkdown: (token, helpers) => {
+    if (token.type !== 'list' || !token.ordered) {
+      return []
+    }
 
-      return h.renderChildren(node.content, '\n')
-    },
+    const startValue = token.start || 1
+    const content = token.items ? parseListItems(token.items, helpers) : []
 
-    tokenizer: {
-      name: 'orderedList',
-      level: 'block',
-      start: (src: string) => {
-        const match = src.match(/^(\s*)(\d+)\.\s+/)
-        return match ? match.index : undefined
-      },
-      tokenize: (src: string, _tokens, lexer) => {
-        const lines = src.split('\n')
-        const [listItems, consumed] = collectOrderedListItems(lines)
-
-        if (listItems.length === 0) {
-          return undefined
-        }
-
-        const items = buildNestedStructure(listItems, 0, lexer)
-
-        if (items.length === 0) {
-          return undefined
-        }
-
-        const startValue = listItems[0]?.number || 1
-
-        return {
-          type: 'list',
-          ordered: true,
-          start: startValue,
-          items,
-          raw: lines.slice(0, consumed).join('\n'),
-        } as unknown as object
-      },
-    },
-
-    parse: (token, helpers) => {
-      if (token.type !== 'list' || !token.ordered) {
-        return []
-      }
-
-      const startValue = token.start || 1
-      const content = token.items ? parseListItems(token.items, helpers) : []
-
-      if (startValue !== 1) {
-        return {
-          type: 'orderedList',
-          attrs: { start: startValue },
-          content,
-        }
-      }
-
+    if (startValue !== 1) {
       return {
         type: 'orderedList',
+        attrs: { start: startValue },
         content,
       }
+    }
+
+    return {
+      type: 'orderedList',
+      content,
+    }
+  },
+
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
+
+    return h.renderChildren(node.content, '\n')
+  },
+
+  markdownTokenizer: {
+    name: 'orderedList',
+    level: 'block',
+    start: (src: string) => {
+      const match = src.match(/^(\s*)(\d+)\.\s+/)
+      return match ? match.index : undefined
     },
+    tokenize: (src: string, _tokens, lexer) => {
+      const lines = src.split('\n')
+      const [listItems, consumed] = collectOrderedListItems(lines)
+
+      if (listItems.length === 0) {
+        return undefined
+      }
+
+      const items = buildNestedStructure(listItems, 0, lexer)
+
+      if (items.length === 0) {
+        return undefined
+      }
+
+      const startValue = listItems[0]?.number || 1
+
+      return {
+        type: 'list',
+        ordered: true,
+        start: startValue,
+        items,
+        raw: lines.slice(0, consumed).join('\n'),
+      } as unknown as object
+    },
+  },
+
+  markdownOptions: {
+    indentsContent: true,
   },
 
   addCommands() {

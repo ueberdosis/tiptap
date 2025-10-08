@@ -65,31 +65,29 @@ export const Blockquote = Node.create<BlockquoteOptions>({
     )
   },
 
-  markdown: {
-    parse: (token, helpers) => {
-      return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
-    },
+  parseMarkdown: (token, helpers) => {
+    return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
+  },
 
-    render: (node, h) => {
-      if (!node.content) {
-        return ''
-      }
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
 
-      const lines: string[] = []
+    const lines: string[] = []
 
-      node.content.forEach(child => {
-        const lineContent = h.renderChildren(child)
-        const withPrefix = lineContent
-          .split('\n')
-          .map(line => `> ${line}`)
-          .join('\n')
-        lines.push(withPrefix)
-      })
+    node.content.forEach(child => {
+      const lineContent = h.renderChildren(child)
+      const withPrefix = lineContent
+        .split('\n')
+        .map(line => `> ${line}`)
+        .join('\n')
+      lines.push(withPrefix)
+    })
 
-      const linesWithSeparators = lines.flatMap(line => [line, '> '])
+    const linesWithSeparators = lines.flatMap(line => [line, '> '])
 
-      return linesWithSeparators.slice(0, -1).join('\n')
-    },
+    return linesWithSeparators.slice(0, -1).join('\n')
   },
 
   addCommands() {

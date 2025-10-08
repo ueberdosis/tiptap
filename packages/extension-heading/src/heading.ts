@@ -83,24 +83,22 @@ export const Heading = Node.create<HeadingOptions>({
     return [`h${level}`, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    parse: (token, helpers) => {
-      // Convert 'heading' token to heading node
-      // marked provides 'depth' property (1-6) for heading level
-      return helpers.createNode('heading', { level: token.depth || 1 }, helpers.parseInline(token.tokens || []))
-    },
+  parseMarkdown: (token, helpers) => {
+    // Convert 'heading' token to heading node
+    // marked provides 'depth' property (1-6) for heading level
+    return helpers.createNode('heading', { level: token.depth || 1 }, helpers.parseInline(token.tokens || []))
+  },
 
-    render: (node, h) => {
-      const level = node.attrs?.level ? parseInt(node.attrs.level as string, 10) : 1
-      const headingChars = '#'.repeat(level)
+  renderMarkdown: (node, h) => {
+    const level = node.attrs?.level ? parseInt(node.attrs.level as string, 10) : 1
+    const headingChars = '#'.repeat(level)
 
-      if (!node.content) {
-        return ''
-      }
+    if (!node.content) {
+      return ''
+    }
 
-      // Use current context for proper joining/spacing
-      return `${headingChars} ${h.renderChildren(node.content)}`
-    },
+    // Use current context for proper joining/spacing
+    return `${headingChars} ${h.renderChildren(node.content)}`
   },
 
   addCommands() {

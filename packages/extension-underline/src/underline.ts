@@ -61,6 +61,19 @@ export const Underline = Mark.create<UnderlineOptions>({
     return ['u', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdownTokenName: 'underline',
+
+  parseMarkdown: (token, helpers) => {
+    const content = [
+      {
+        type: 'underline',
+        content: helpers.parseInline(token.content),
+      },
+    ]
+
+    return helpers.applyMark('underline', content)
+  },
+
   addCommands() {
     return {
       setUnderline:

@@ -335,7 +335,7 @@ export const Youtube = Node.create<YoutubeOptions>({
     ]
   },
 
-  markdown: createAtomBlockMarkdownSpec({
+  ...createAtomBlockMarkdownSpec({
     nodeName: 'youtube',
   }),
 })

@@ -120,38 +120,36 @@ export const TaskItem = Node.create<TaskItemOptions>({
     ]
   },
 
-  markdown: {
-    parse: (token, h) => {
-      // Parse the task item's text content into paragraph content
-      const content = []
+  parseMarkdown: (token, h) => {
+    // Parse the task item's text content into paragraph content
+    const content = []
 
-      // First, add the main paragraph content
-      if (token.tokens && token.tokens.length > 0) {
-        // If we have tokens, create a paragraph with the inline content
-        content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
-      } else if (token.text) {
-        // If we have raw text, create a paragraph with text node
-        content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
-      } else {
-        // Fallback: empty paragraph
-        content.push(h.createNode('paragraph', {}, []))
-      }
+    // First, add the main paragraph content
+    if (token.tokens && token.tokens.length > 0) {
+      // If we have tokens, create a paragraph with the inline content
+      content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
+    } else if (token.text) {
+      // If we have raw text, create a paragraph with text node
+      content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
+    } else {
+      // Fallback: empty paragraph
+      content.push(h.createNode('paragraph', {}, []))
+    }
 
-      // Then, add any nested content (like nested task lists)
-      if (token.nestedTokens && token.nestedTokens.length > 0) {
-        const nestedContent = h.parseChildren(token.nestedTokens)
-        content.push(...nestedContent)
-      }
+    // Then, add any nested content (like nested task lists)
+    if (token.nestedTokens && token.nestedTokens.length > 0) {
+      const nestedContent = h.parseChildren(token.nestedTokens)
+      content.push(...nestedContent)
+    }
 
-      return h.createNode('taskItem', { checked: token.checked || false }, content)
-    },
+    return h.createNode('taskItem', { checked: token.checked || false }, content)
+  },
 
-    render: (node, h) => {
-      const checkedChar = node.attrs?.checked ? 'x' : ' '
-      const prefix = `- [${checkedChar}] `
+  renderMarkdown: (node, h) => {
+    const checkedChar = node.attrs?.checked ? 'x' : ' '
+    const prefix = `- [${checkedChar}] `
 
-      return renderNestedMarkdownContent(node, h, prefix)
-    },
+    return renderNestedMarkdownContent(node, h, prefix)
   },
 
   addKeyboardShortcuts() {

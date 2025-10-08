@@ -105,9 +105,9 @@ export interface InlineMarkdownSpecOptions {
  * ```
  */
 export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
-  parse: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
-  tokenizer: MarkdownTokenizer
-  render: (node: any) => string
+  parseMarkdown: (token: MarkdownToken, h: MarkdownParseHelpers) => MarkdownParseResult
+  markdownTokenizer: MarkdownTokenizer
+  renderMarkdown: (node: JSONContent) => string
 } {
   const {
     nodeName,
@@ -142,7 +142,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
   const escapedShortcode = shortcode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
   return {
-    parse: (token: MarkdownToken, h: MarkdownParseHelpers) => {
+    parseMarkdown: (token: MarkdownToken, h: MarkdownParseHelpers) => {
       const attrs = { ...defaultAttributes, ...token.attributes }
 
       if (selfClosing) {
@@ -159,7 +159,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
       return h.createNode(nodeName, attrs, [])
     },
 
-    tokenizer: {
+    markdownTokenizer: {
       name: nodeName,
       level: 'inline' as const,
       start(src: string) {
@@ -210,7 +210,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
       },
     },
 
-    render: (node: JSONContent) => {
+    renderMarkdown: (node: JSONContent) => {
       let content = ''
       if (getContent) {
         content = getContent(node)

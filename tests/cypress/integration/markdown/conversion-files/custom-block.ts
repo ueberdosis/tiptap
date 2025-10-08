@@ -36,7 +36,7 @@ export const extensions = [
 
     content: 'block+',
 
-    markdown: createBlockMarkdownSpec({
+    ...createBlockMarkdownSpec({
       nodeName: 'customBlock',
       name: 'custom-block',
       content: 'block',

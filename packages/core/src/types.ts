@@ -842,11 +842,9 @@ export type RenderContext = {
 /** Extension contract for markdown parsing/serialization. */
 export interface MarkdownExtensionSpec {
   /** Token name used for parsing (e.g., 'codespan', 'code', 'strong') */
-  parseName?: string
+  tokenName?: string
   /** Node/mark name used for rendering (typically the extension name) */
-  renderName?: string
-  /** Legacy: if neither parseName nor renderName provided, use this */
-  markdownName: string
+  nodeName?: string
   parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
   renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   isIndenting?: boolean
@@ -912,33 +910,4 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
-}
-
-export type ExtendableMarkdownSpec = {
-  /**
-   * Token name used for parsing (e.g., 'codespan', 'code', 'strong')
-   * If omitted, falls back to `name` or extension name
-   */
-  parseName?: string
-  /**
-   * Node/mark name used for rendering (typically the extension name)
-   * If omitted, falls back to extension name
-   */
-  renderName?: string
-  /**
-   * Controls whether this extension will indent markdown content (for example bullet lists)
-   */
-  isIndenting?: boolean
-  /**
-   * Custom tokenizer for marked.js to handle non-standard markdown syntax
-   */
-  tokenizer?: MarkdownTokenizer
-  /**
-   * A parse helper used by the markdown subsystem.
-   */
-  parse?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
-  /**
-   * Render a node (ProseMirror JSON) to a markdown string.
-   */
-  render?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
 }

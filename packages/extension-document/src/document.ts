@@ -9,13 +9,11 @@ export const Document = Node.create({
   topNode: true,
   content: 'block+',
 
-  markdown: {
-    render: (node, h) => {
-      if (!node.content) {
-        return ''
-      }
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
 
-      return h.renderChildren(node.content, '\n\n')
-    },
+    return h.renderChildren(node.content, '\n\n')
   },
 })

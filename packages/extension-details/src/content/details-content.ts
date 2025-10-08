@@ -38,14 +38,6 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
     return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }), 0]
   },
 
-  markdown: {
-    render: (node, h) => {
-      const content = node.content ? h.renderChildren(node.content, '\n\n') : ''
-
-      return `${content}`
-    },
-  },
-
   addNodeView() {
     return ({ HTMLAttributes }) => {
       const dom = document.createElement('div')

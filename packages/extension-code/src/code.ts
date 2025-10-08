@@ -71,22 +71,20 @@ export const Code = Mark.create<CodeOptions>({
     return ['code', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    parseName: 'codespan',
+  markdownTokenName: 'codespan',
 
-    parse: (token, helpers) => {
-      // Convert 'codespan' token to code mark
-      // For codespan tokens, we use the raw text content, not tokens
-      return helpers.applyMark('code', [{ type: 'text', text: token.text || '' }])
-    },
+  parseMarkdown: (token, helpers) => {
+    // Convert 'codespan' token to code mark
+    // For codespan tokens, we use the raw text content, not tokens
+    return helpers.applyMark('code', [{ type: 'text', text: token.text || '' }])
+  },
 
-    render: (node, h) => {
-      if (!node.content) {
-        return ''
-      }
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
 
-      return `\`${h.renderChildren(node.content)}\``
-    },
+    return `\`${h.renderChildren(node.content)}\``
   },
 
   addCommands() {

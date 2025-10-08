@@ -48,32 +48,30 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  markdown: {
-    parse: (token, helpers) => {
-      const tokens = token.tokens || []
+  parseMarkdown: (token, helpers) => {
+    const tokens = token.tokens || []
 
-      // Special case: if paragraph contains only a single image token,
-      // unwrap it to avoid nesting block elements incorrectly
-      if (tokens.length === 1 && tokens[0].type === 'image') {
-        // Parse the image token directly as a block element
-        return helpers.parseChildren([tokens[0]])
-      }
+    // Special case: if paragraph contains only a single image token,
+    // unwrap it to avoid nesting block elements incorrectly
+    if (tokens.length === 1 && tokens[0].type === 'image') {
+      // Parse the image token directly as a block element
+      return helpers.parseChildren([tokens[0]])
+    }
 
-      // Convert 'paragraph' token to paragraph node
-      return helpers.createNode(
-        'paragraph',
-        undefined, // no attributes for paragraph
-        helpers.parseInline(tokens),
-      )
-    },
+    // Convert 'paragraph' token to paragraph node
+    return helpers.createNode(
+      'paragraph',
+      undefined, // no attributes for paragraph
+      helpers.parseInline(tokens),
+    )
+  },
 
-    render: (node, h) => {
-      if (!node || !Array.isArray(node.content)) {
-        return ''
-      }
+  renderMarkdown: (node, h) => {
+    if (!node || !Array.isArray(node.content)) {
+      return ''
+    }
 
-      return h.renderChildren(node.content)
-    },
+    return h.renderChildren(node.content)
   },
 
   addCommands() {

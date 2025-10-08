@@ -27,7 +27,7 @@ const TestCallout = Node.create({
     }
   },
 
-  markdown: createBlockMarkdownSpec({
+  ...createBlockMarkdownSpec({
     nodeName: 'callout',
     allowedAttributes: ['type'],
   }),
@@ -47,7 +47,7 @@ const TestTag = Node.create({
     }
   },
 
-  markdown: createInlineMarkdownSpec({
+  ...createInlineMarkdownSpec({
     nodeName: 'tag',
     selfClosing: true,
     allowedAttributes: ['label'],

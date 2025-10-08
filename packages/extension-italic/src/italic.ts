@@ -107,17 +107,15 @@ export const Italic = Mark.create<ItalicOptions>({
     }
   },
 
-  markdown: {
-    parseName: 'em',
+  markdownTokenName: 'em',
 
-    parse: (token, helpers) => {
-      // Convert 'em' token to italic mark
-      return helpers.applyMark('italic', helpers.parseInline(token.tokens || []))
-    },
+  parseMarkdown: (token, helpers) => {
+    // Convert 'em' token to italic mark
+    return helpers.applyMark('italic', helpers.parseInline(token.tokens || []))
+  },
 
-    render: (node, h) => {
-      return `*${h.renderChildren(node)}*`
-    },
+  renderMarkdown: (node, h) => {
+    return `*${h.renderChildren(node)}*`
   },
 
   addKeyboardShortcuts() {

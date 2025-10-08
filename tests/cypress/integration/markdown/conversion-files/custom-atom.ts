@@ -25,7 +25,7 @@ export const extensions = [
 
     atom: true,
 
-    markdown: createAtomBlockMarkdownSpec({
+    ...createAtomBlockMarkdownSpec({
       nodeName: 'customAtom',
       name: 'custom-atom',
       allowedAttributes: ['label'],

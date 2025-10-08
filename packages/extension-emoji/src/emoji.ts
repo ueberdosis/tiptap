@@ -235,14 +235,12 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
     return emojiItem?.emoji || `:${node.attrs.name}:`
   },
 
-  markdown: {
-    render: node => {
-      if (!node.attrs?.name) {
-        return ''
-      }
+  renderMarkdown: node => {
+    if (!node.attrs?.name) {
+      return ''
+    }
 
-      return `:${node.attrs.name}:`
-    },
+    return `:${node.attrs.name}:`
   },
 
   addCommands() {
