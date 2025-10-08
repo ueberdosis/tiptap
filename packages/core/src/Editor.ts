@@ -315,6 +315,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       } as EditorView,
       {
         get: (obj, key) => {
+          if (this.editorView) {
+            // If the editor view is available, but the caller has a stale reference to the proxy,
+            // Just return what the editor view has.
+            return this.editorView[key as keyof EditorView]
+          }
           // Specifically always return the most recent editorState
           if (key === 'state') {
             return this.editorState

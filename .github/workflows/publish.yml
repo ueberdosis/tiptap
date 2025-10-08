@@ -45,7 +45,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v4.3.0
         id: turbo-cache
         with:
           path: |

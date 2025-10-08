@@ -1,5 +1,87 @@
 # Releases
 
+## v3.6.5
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Added nextNodeType option to horizontal-rule extension, allowing users to specify which node type should be inserted after a horizontal rule
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+
+## v3.6.4
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
+
+## v3.6.3
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Updated the React `FloatingMenu` plugin hook dependencies to match the `BubbleMenu` behavior.
+  The FloatingMenu will now respond to changes in `appendTo`, `pluginKey`, `shouldShow`, and `options`.
+- Resolved an issue where the React BubbleMenu did not update when FloatingUI option props changed after initial mount. The BubbleMenu now correctly responds to updated option props.
+- Improved the BubbleMenu's usability by ensuring the `appendTo` prop passed to the React BubbleMenu component is now correctly forwarded to the underlying bubble menu plugin. This fix allows developers to customize where the BubbleMenu is attached in the DOM, helping resolve issues with positioning and portal setups in React apps.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- The Selection extension now uses the correct SelectionOptions type, providing accurate typings for its options.
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Configuration options for the CodeBlock extension now support `null` and `undefined` values.
+  This makes custom setups more flexible and avoids unnecessary type errors when omitting optional overrides.
+  All existing default values and fallback logic remain in place - no breaking changes for existing code.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Improve typings by inferring the storage type for the Table of Contents extension
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- You can now pass a callback to the `appendTo` option in the floating and bubble menu
+  extensions. The callback must return an element synchronously,
+  so menus can be appended to elements that are created dynamically.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- You can now pass a callback to the `appendTo` option in the floating and bubble menu
+  extensions. The callback must return an element synchronously,
+  so menus can be appended to elements that are created dynamically.
+
 ## v3.6.2
 
 ### @tiptap/extension-bubble-menu

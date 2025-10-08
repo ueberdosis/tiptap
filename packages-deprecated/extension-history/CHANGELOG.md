@@ -1,5 +1,24 @@
 # Change Log
 
+## 3.6.5
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [7024d69]
+  - @tiptap/extensions@3.6.3
+
 ## 3.6.2
 
 ### Patch Changes
