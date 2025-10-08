@@ -10,7 +10,7 @@ Why:
 - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
 
 ```ts
-import { insertContent } from '@tiptap/core'
+import { commands } from '@tiptap/core'
 ```
 
 Notes:
