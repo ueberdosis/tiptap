@@ -103,7 +103,7 @@ export class MarkdownManager {
 
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdown') ?? null) as ExtendableConfig['markdownOptions']
+    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
 
     const spec: MarkdownExtensionSpec = {
