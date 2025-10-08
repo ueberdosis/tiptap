@@ -172,7 +172,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
         return match?.index
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      tokenize(src: string, _tokens: any[], _lexer: any) {
+      tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         const tokenPattern = selfClosing
           ? new RegExp(`^\\[${escapedShortcode}\\s*([^\\]]*)\\]`)

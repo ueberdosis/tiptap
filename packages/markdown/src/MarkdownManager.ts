@@ -41,6 +41,7 @@ export class MarkdownManager {
     marked?: typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
+    extensions?: AnyExtension[]
   }) {
     this.markedInstance = options?.marked ?? marked
     this.lexer = new this.markedInstance.Lexer()
@@ -53,6 +54,11 @@ export class MarkdownManager {
 
     this.registry = new Map()
     this.nodeTypeRegistry = new Map()
+
+    // If extensions were provided, register them now
+    if (options?.extensions) {
+      options.extensions.forEach(ext => this.registerExtension(ext))
+    }
   }
 
   /** Returns the underlying marked instance. */
