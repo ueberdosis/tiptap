@@ -926,10 +926,6 @@ export type ExtendableMarkdownSpec = {
    */
   renderName?: string
   /**
-   * A RegExp used by the tokenizer to detect custom markdown constructs.
-   */
-  match?: RegExp
-  /**
    * Controls whether this extension will indent markdown content (for example bullet lists)
    */
   isIndenting?: boolean
