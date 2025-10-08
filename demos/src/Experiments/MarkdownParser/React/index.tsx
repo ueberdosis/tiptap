@@ -1,4 +1,5 @@
 import './styles.scss'
+import 'katex/dist/katex.min.css'
 
 import { createBlockMarkdownSpec, Node } from '@tiptap/core'
 import { Highlight } from '@tiptap/extension-highlight'
@@ -188,14 +189,7 @@ export default () => {
   const insertCustomReactNode = () => {
     const content = prompt('Enter content for custom React node:', 'Hello from React!')
     if (content && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: 'customReactNode',
-          attrs: { content },
-        })
-        .run()
+      editor.chain().focus().insertContent(`:::react\n\n${content}\n\n:::`, { asMarkdown: true }).run()
     }
   }
 
