@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.6.6
+
+### Patch Changes
+
+- 9ef26a6: Fixed a bug that caused conditionally rendered bubble menus not to be attached to the DOM correctly
+  - @tiptap/core@3.6.6
+  - @tiptap/pm@3.6.6
+
 ## 3.6.5
 
 ### Patch Changes
