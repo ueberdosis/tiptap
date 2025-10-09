@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.26.3
+
+### Patch Changes
+
+- Fix high severity security vulnerability in linkify.js
+
 ## 2.26.2
 
 ## 2.26.1

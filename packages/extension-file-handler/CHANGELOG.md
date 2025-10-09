@@ -1,5 +1,7 @@
 # @tiptap/extension-file-handler
 
+## 2.26.3
+
 ## 2.26.2
 
 ## 2.26.1

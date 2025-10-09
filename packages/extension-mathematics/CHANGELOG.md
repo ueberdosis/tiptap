@@ -1,5 +1,7 @@
 # @tiptap/extension-mathematics
 
+## 2.26.3
+
 ## 2.26.2
 
 ## 2.26.1
