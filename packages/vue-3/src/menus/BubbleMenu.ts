@@ -95,6 +95,6 @@ export const BubbleMenu = defineComponent({
     })
 
     // Teleport only instantiates element + slot subtree; plugin controls final placement
-    return () => h(Teleport, { to: el }, h('div', attrs, slots.default?.()))
+    return () => h(Teleport, { to: el }, h('div', { ...attrs, ref: 'root' }, slots.default?.()))
   },
 })
