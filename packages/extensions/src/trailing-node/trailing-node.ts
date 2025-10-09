@@ -19,7 +19,7 @@ export interface TrailingNodeOptions {
    * prevent an infinite loop.
    * @default 'paragraph'
    */
-  node: string
+  node?: string
   /**
    * The node types after which the trailing node should not be inserted.
    * @default ['paragraph']
@@ -36,16 +36,19 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
 
   addOptions() {
     return {
-      node: 'paragraph',
+      node: undefined,
       notAfter: [],
     }
   },
 
   addProseMirrorPlugins() {
     const plugin = new PluginKey(this.name)
+    const defaultNode =
+      this.editor.schema.topNodeType.contentMatch.defaultType?.name || this.options.node || 'paragraph'
+
     const disabledNodes = Object.entries(this.editor.schema.nodes)
       .map(([, value]) => value)
-      .filter(node => (this.options.notAfter || []).concat(this.options.node).includes(node.name))
+      .filter(node => (this.options.notAfter || []).concat(defaultNode).includes(node.name))
 
     return [
       new Plugin({
@@ -54,7 +57,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
-          const type = schema.nodes[this.options.node]
+          const type = schema.nodes[defaultNode]
 
           if (!shouldInsertNodeAtEnd) {
             return
