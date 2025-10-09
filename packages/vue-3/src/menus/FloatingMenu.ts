@@ -38,6 +38,7 @@ export const FloatingMenu = defineComponent({
   },
 
   setup(props, { slots, attrs }) {
+    const el = document.createElement('div')
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
@@ -47,17 +48,17 @@ export const FloatingMenu = defineComponent({
         return
       }
 
-      root.value.style.visibility = 'hidden'
-      root.value.style.position = 'absolute'
+      el.style.visibility = 'hidden'
+      el.style.position = 'absolute'
 
       // Remove element from DOM; plugin will re-parent it when shown
-      root.value.remove()
+      el.remove()
 
       editor.registerPlugin(
         FloatingMenuPlugin({
           pluginKey,
           editor,
-          element: root.value as HTMLElement,
+          element: el,
           options,
           appendTo,
           shouldShow,
@@ -72,6 +73,6 @@ export const FloatingMenu = defineComponent({
     })
 
     // Teleport only instantiates element + slot subtree; plugin controls final placement
-    return () => h(Teleport, { to: 'body' }, h('div', { ...attrs, ref: root }, slots.default?.()))
+    return () => h(Teleport, { to: el }, h('div', { ...attrs, ref: root }, slots.default?.()))
   },
 })
