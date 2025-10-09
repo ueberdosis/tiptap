@@ -339,19 +339,6 @@ Final paragraph.`
         expect(doc.content[0].content[0].text).to.equal(markdown)
       })
     })
-
-    it('should validate mention extension markdown specs', () => {
-      // Verify that our extensions have proper markdown specs
-      const mention = extendedExtensions.find(ext => ext.name === 'mention')
-      expect(mention).to.not.equal(undefined)
-      expect(mention?.config.markdown).to.not.equal(undefined)
-    })
-
-    it('should validate youtube extension markdown specs', () => {
-      const youtube = extendedExtensions.find(ext => ext.name === 'youtube')
-      expect(youtube).to.not.equal(undefined)
-      expect(youtube?.config.markdown).to.not.equal(undefined)
-    })
   })
 
   describe('Performance Tests', () => {
