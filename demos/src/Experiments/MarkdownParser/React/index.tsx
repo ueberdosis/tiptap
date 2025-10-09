@@ -125,8 +125,8 @@ export default () => {
       Mathematics,
       CustomReactNode,
     ],
-    content: '# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.',
-    contentAsMarkdown: true,
+    content: '# Markdown Test\n\nClick **"Parse Markdown"** to load content from the left panel.',
+    contentType: 'markdown',
   })
 
   const parseMarkdown = () => {
@@ -137,7 +137,7 @@ export default () => {
 
     try {
       setError(null)
-      editor.commands.setContent(markdownInput, { asMarkdown: true })
+      editor.commands.setContent(markdownInput, { contentType: 'markdown' })
     } catch (err) {
       console.error(err)
       setError(`Error parsing markdown: ${err instanceof Error ? err.message : String(err)}`)
@@ -182,14 +182,14 @@ export default () => {
     if (name && editor) {
       // Generate a simple ID based on the name
       const id = Math.random().toString(36).substr(2, 9)
-      editor.chain().focus().insertContent(`[@ id="${id}" label="${name}"]`, { asMarkdown: true }).run()
+      editor.chain().focus().insertContent(`[@ id="${id}" label="${name}"]`, { contentType: 'markdown' }).run()
     }
   }
 
   const insertCustomReactNode = () => {
     const content = prompt('Enter content for custom React node:', 'Hello from React!')
     if (content && editor) {
-      editor.chain().focus().insertContent(`:::react\n\n${content}\n\n:::`, { asMarkdown: true }).run()
+      editor.chain().focus().insertContent(`:::react\n\n${content}\n\n:::`, { contentType: 'markdown' }).run()
     }
   }
 

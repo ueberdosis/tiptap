@@ -8,6 +8,8 @@ import {
 import type { marked } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
+import type { ContentType } from './types.js'
+import { assumeContentType } from './utils.js'
 
 declare module '@tiptap/core' {
   interface Editor {
@@ -24,9 +26,11 @@ declare module '@tiptap/core' {
 
   interface EditorOptions {
     /**
-     * If set to true, the content will be parsed as markdown before inserting or setting.
+     * The content type the content is provided as.
+     *
+     * @default 'json'
      */
-    contentAsMarkdown?: boolean
+    contentType?: ContentType
   }
 
   interface Storage {
@@ -35,29 +39,29 @@ declare module '@tiptap/core' {
 
   interface InsertContentOptions {
     /**
-     * Whether the content is provided as markdown.
-     * If true, the content will be parsed to JSON before inserting.
-     * @default false
+     * The content type the content is provided as.
+     *
+     * @default 'json'
      */
-    asMarkdown?: boolean
+    contentType?: ContentType
   }
 
   interface InsertContentAtOptions {
     /**
-     * Whether the content is provided as markdown.
-     * If true, the content will be parsed to JSON before inserting.
-     * @default false
+     * The content type the content is provided as.
+     *
+     * @default 'json'
      */
-    asMarkdown?: boolean
+    contentType?: ContentType
   }
 
   interface SetContentOptions {
     /**
-     * Whether the content is provided as markdown.
-     * If true, the content will be parsed to JSON before setting.
-     * @default false
+     * The content type the content is provided as.
+     *
+     * @default 'json'
      */
-    asMarkdown?: boolean
+    contentType?: ContentType
   }
 }
 
@@ -100,27 +104,51 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
   addCommands() {
     return {
       setContent: (content, options?: MarkdownSetContentOptions) => {
-        if (options?.asMarkdown && this.editor.markdown && typeof content === 'string') {
-          content = this.editor.markdown.parse(content as string)
+        // if no contentType is specified, we assume the content is in JSON format OR HTML format
+        if (!options?.contentType) {
+          return commands.setContent(content, options)
         }
 
-        return commands.setContent(content, options)
+        const actualContentType = assumeContentType(content, options?.contentType)
+
+        if (actualContentType !== 'markdown' || !this.editor.markdown) {
+          return commands.setContent(content, options)
+        }
+
+        const mdContent = this.editor.markdown.parse(content as string)
+        return commands.setContent(mdContent, options)
       },
 
       insertContent: (value, options?: MarkdownInsertContentOptions) => {
-        if (options?.asMarkdown && this.editor.markdown && typeof value === 'string') {
-          value = this.editor.markdown.parse(value as string)
+        // if no contentType is specified, we assume the content is in JSON format OR HTML format
+        if (!options?.contentType) {
+          return commands.insertContent(value, options)
         }
 
-        return commands.insertContent(value, options)
+        const actualContentType = assumeContentType(value, options?.contentType)
+
+        if (actualContentType !== 'markdown' || !this.editor.markdown) {
+          return commands.insertContent(value, options)
+        }
+
+        const mdContent = this.editor.markdown.parse(value as string)
+        return commands.insertContent(mdContent, options)
       },
 
       insertContentAt: (position, value, options?: MarkdownInsertContentAtOptions) => {
-        if (options?.asMarkdown && this.editor.markdown && typeof value === 'string') {
-          value = this.editor.markdown.parse(value as string)
+        // if no contentType is specified, we assume the content is in JSON format OR HTML format
+        if (!options?.contentType) {
+          return commands.insertContentAt(position, value, options)
         }
 
-        return commands.insertContentAt(position, value, options)
+        const actualContentType = assumeContentType(value, options?.contentType)
+
+        if (actualContentType !== 'markdown' || !this.editor.markdown) {
+          return commands.insertContentAt(position, value, options)
+        }
+
+        const mdContent = this.editor.markdown.parse(value as string)
+        return commands.insertContentAt(position, mdContent, options)
       },
     }
   },
@@ -157,20 +185,25 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       return this.storage.manager.serialize(this.editor.getJSON())
     }
 
-    if (!this.editor.options.contentAsMarkdown) {
+    if (!this.editor.options.contentType) {
+      return
+    }
+
+    const assumedType = assumeContentType(this.editor.options.content, this.editor.options.contentType)
+    if (assumedType !== 'markdown') {
       return
     }
 
     if (!this.editor.markdown) {
       console.error(
-        '[tiptap][markdown]: The `contentAsMarkdown` option is set to true, but the Markdown extension is not added to the editor. Please add the Markdown extension to use this feature.',
+        '[tiptap][markdown]: The `contentType` option is set to "markdown", but the Markdown extension is not added to the editor. Please add the Markdown extension to use this feature.',
       )
       return
     }
 
     if (!this.editor.options.content || typeof this.editor.options.content !== 'string') {
       console.error(
-        '[tiptap][markdown]: The `contentAsMarkdown` option is set to true, but the initial content is not a string. Please provide the initial content as a markdown string.',
+        '[tiptap][markdown]: The `contentType` option is set to "markdown", but the initial content is not a string. Please provide the initial content as a markdown string.',
       )
       return
     }

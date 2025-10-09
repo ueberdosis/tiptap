@@ -21,18 +21,18 @@ Add comprehensive bidirectional markdown support to Tiptap through a new `@tipta
 - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
 
 **Editor Options:**
-- **`contentAsMarkdown`**: Parse initial content as markdown when creating the editor
+- **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually markdown).
   ```typescript
   new Editor({
     content: '# Hello World',
-    contentAsMarkdown: true
+    contentType: 'markdown'
   })
   ```
 
-**Command Options:** All content commands now support an `asMarkdown` option:
-- **`setContent(markdown, { asMarkdown: true })`**: Replace editor content with markdown
-- **`insertContent(markdown, { asMarkdown: true })`**: Insert markdown at cursor position
-- **`insertContentAt(position, markdown, { asMarkdown: true })`**: Insert markdown at specific position
+**Command Options:** All content commands now support an `contentType` option:
+- **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
+- **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
+- **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert markdown at specific position
 
 For more, check [the documentation](https://tiptap.dev/docs/editor/core-concepts/markdown).
 
