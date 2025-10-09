@@ -29,7 +29,7 @@
     "dist"
   ],
   "dependencies": {
-    "linkifyjs": "^4.2.0"
+    "linkifyjs": "^4.3.2"
   },
   "devDependencies": {
     "@tiptap/core": "^2.26.2",
