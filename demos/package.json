@@ -13,7 +13,7 @@
     "@floating-ui/dom": "^1.6.13",
     "@hocuspocus/provider": "^2.15.0",
     "@hocuspocus/transformer": "^2.15.0",
-    "@lexical/react": "^0.11.3",
+    "@lexical/react": "^0.36.2",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
     "@tiptap/y-tiptap": "^3.0.0",
