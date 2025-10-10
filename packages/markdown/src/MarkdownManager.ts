@@ -158,21 +158,27 @@ export class MarkdownManager {
       blockTokens: tokenizeBlock,
     }
 
+    let startCb: (src: string) => number
+
+    if (!start) {
+      startCb = (src: string) => {
+        // For other tokenizers, try to find a match and return its position
+        const result = tokenize(src, [], helper)
+        if (result && result.raw) {
+          const index = src.indexOf(result.raw)
+          return index
+        }
+        return -1
+      }
+    } else {
+      startCb = typeof start === 'function' ? start : (src: string) => src.indexOf(start)
+    }
+
     // Create marked.js extension with proper types
     const markedExtension: any = {
       name,
       level,
-      start:
-        start ??
-        ((src: string) => {
-          // For other tokenizers, try to find a match and return its position
-          const result = tokenize(src, [], helper)
-          if (result && result.raw) {
-            const index = src.indexOf(result.raw)
-            return index
-          }
-          return -1
-        }),
+      start: startCb,
       tokenizer: (src: string, tokens: any[]) => {
         const result = tokenize(src, tokens, helper)
         if (result && result.type) {

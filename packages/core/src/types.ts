@@ -877,8 +877,8 @@ export type MarkdownTokenizer = {
   name: string
   /** Priority level for tokenizer ordering (higher = earlier) */
   level?: 'block' | 'inline'
-  /** Function that returns the start index of the token in the source string */
-  start?: (src: string) => number | undefined
+  /** A string to look for or a function that returns the start index of the token in the source string */
+  start?: string | ((src: string) => number)
   /** Function that attempts to parse custom syntax from start of text */
   tokenize: (
     src: string,
