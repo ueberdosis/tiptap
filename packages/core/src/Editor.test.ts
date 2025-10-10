@@ -1,8 +1,9 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import StarterKit from '@tiptap/starter-kit'
-import { afterEach, beforeEach, describe, expect, it } from 'vite-plus/test'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
 import { Editor } from './Editor.js'
 import { Extension } from './Extension.js'
@@ -12,6 +13,86 @@ const createTestEditor = () =>
     element: document.createElement('div'),
     extensions: [StarterKit],
   })
+
+describe('registerPlugin', () => {
+  let editor: Editor
+
+  beforeEach(() => {
+    editor = new Editor({ extensions: [Document, Paragraph, Text] })
+  })
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('appends a single plugin and updates the editor state and view', () => {
+    const existing = [...editor.state.plugins]
+    const plugin = new Plugin({})
+
+    const state = editor.registerPlugin(plugin)
+
+    expect(state.plugins).toEqual([...existing, plugin])
+    expect(editor.state).toBe(state)
+    expect(editor.view.state).toBe(state)
+  })
+
+  it('appends multiple plugins in order and initializes their state', () => {
+    const existing = [...editor.state.plugins]
+    const key = new PluginKey<number>('registered')
+    const plugins = [
+      new Plugin({ key, state: { init: () => 42, apply: (_transaction, value) => value } }),
+      new Plugin({}),
+    ]
+
+    const state = editor.registerPlugin(plugins)
+
+    expect(state.plugins).toEqual([...existing, ...plugins])
+    expect(editor.state).toBe(state)
+    expect(editor.view.state).toBe(state)
+    expect(key.getState(state)).toBe(42)
+  })
+
+  it('accepts an empty plugin array without removing existing plugins', () => {
+    const existing = [...editor.state.plugins]
+
+    const state = editor.registerPlugin([])
+
+    expect(state.plugins).toEqual(existing)
+    expect(editor.state).toBe(state)
+    expect(editor.view.state).toBe(state)
+  })
+
+  it('passes a single plugin to the custom merge callback', () => {
+    const existing = [...editor.state.plugins]
+    const plugin = new Plugin({})
+    const handlePlugins = vi.fn((newPlugin: Plugin, plugins: Plugin[]) => [newPlugin, ...plugins])
+
+    const state = editor.registerPlugin(plugin, handlePlugins)
+
+    expect(handlePlugins).toHaveBeenCalledExactlyOnceWith(plugin, existing)
+    expect(state.plugins).toEqual([plugin, ...existing])
+  })
+
+  it('passes the plugin array to the custom merge callback with a copy of existing plugins', () => {
+    const previousState = editor.state
+    const existing = [...previousState.plugins]
+    const plugins = [new Plugin({}), new Plugin({})]
+    const handlePlugins = vi.fn((newPlugins: Plugin[], currentPlugins: Plugin[]) => {
+      expect(newPlugins).toBe(plugins)
+      expect(currentPlugins).not.toBe(previousState.plugins)
+      currentPlugins.unshift(...newPlugins)
+      return currentPlugins
+    })
+
+    const state = editor.registerPlugin(plugins, handlePlugins)
+
+    expect(handlePlugins).toHaveBeenCalledOnce()
+    expect(previousState.plugins).toEqual(existing)
+    expect(state.plugins).toEqual([...plugins, ...existing])
+    expect(editor.state).toBe(state)
+    expect(editor.view.state).toBe(state)
+  })
+})
 
 describe('Editor', () => {
   it('keeps command fallbacks available while commands initialize', async () => {
