@@ -115,7 +115,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
       level: 'block' as const,
       start(src) {
         const regex = new RegExp(`^:::${blockName}`, 'm')
-        return src.match(regex)?.index
+        return src.match(regex)?.index || -1
       },
       tokenize(src, _tokens, lexer) {
         const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*\\n([\\s\\S]*?)\\n:::`)

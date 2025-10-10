@@ -35,10 +35,20 @@ describe('Markdown Utilities', () => {
         selfClosing: true,
       })
 
-      const startIndex = spec.markdownTokenizer.start?.('[mention id="test"] some other text')
+      const src = '[mention id="test"] some other text'
+      const startIndex =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(src)
+          : src.indexOf(spec.markdownTokenizer.start)
+
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.markdownTokenizer.start?.('no mention here')
+      const falseSrc = 'no mention here'
+      const noMatch =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(falseSrc)
+          : falseSrc.indexOf(spec.markdownTokenizer.start)
+
       expect(noMatch).to.equal(undefined)
     })
 
@@ -132,10 +142,20 @@ describe('Markdown Utilities', () => {
         nodeName: 'callout',
       })
 
-      const startIndex = spec.markdownTokenizer.start?.(':::callout\ncontent\n:::')
+      const src = ':::callout\ncontent\n:::'
+      const startIndex =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(src)
+          : src.indexOf(spec.markdownTokenizer.start)
+
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.markdownTokenizer.start?.('no callout here')
+      const falseSrc = 'no callout here'
+      const noMatch =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(falseSrc)
+          : falseSrc.indexOf(spec.markdownTokenizer.start)
+
       expect(noMatch).to.equal(undefined)
     })
 
@@ -198,10 +218,18 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      const startIndex = spec.markdownTokenizer.start?.(':::youtube {src="test"}')
+      const src = ':::youtube {src="test"}'
+      const startIndex =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(src)
+          : src.indexOf(spec.markdownTokenizer.start)
       expect(startIndex).to.equal(0)
 
-      const noMatch = spec.markdownTokenizer.start?.('no youtube here')
+      const falseSrc = 'no youtube here'
+      const noMatch =
+        typeof spec.markdownTokenizer.start === 'function'
+          ? spec.markdownTokenizer.start?.(falseSrc)
+          : falseSrc.indexOf(spec.markdownTokenizer.start)
       expect(noMatch).to.equal(undefined)
     })
 

@@ -99,7 +99,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       level: 'block' as const,
       start(src: string) {
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
-        return src.match(regex)?.index
+        return src.match(regex)?.index || -1
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       tokenize(src: string, _tokens: any[], _lexer: any) {

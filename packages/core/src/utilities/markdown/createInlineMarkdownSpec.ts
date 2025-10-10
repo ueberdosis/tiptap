@@ -169,7 +169,7 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
           : new RegExp(`\\[${escapedShortcode}\\s*[^\\]]*\\][\\s\\S]*?\\[\\/${escapedShortcode}\\]`)
 
         const match = src.match(startPattern)
-        return match?.index
+        return match?.index || -1
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       tokenize(src, _tokens, _lexer) {
