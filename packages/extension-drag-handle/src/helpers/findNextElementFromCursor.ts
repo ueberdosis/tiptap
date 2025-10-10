@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { Node as PMNode } from '@tiptap/pm/model'
+import type { Node } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
 export type FindElementNextToCoords = {
@@ -65,7 +65,7 @@ export const findElementNextToCoords = (
   options: FindElementNextToCoords,
 ): {
   resultElement: HTMLElement | null
-  resultNode: PMNode | null
+  resultNode: Node | null
   pos: number | null
 } => {
   const { x, y, editor } = options
