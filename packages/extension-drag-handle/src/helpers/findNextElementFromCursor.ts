@@ -31,7 +31,7 @@ function clampToContent(view: EditorView, x: number, y: number, inset = 5): { x:
   const lastBlock = container.lastElementChild
 
   if (!firstBlock || !lastBlock) {
-    // this condition will never met, as the first child element will be treated as last child element too
+    // this condition will never be met, as the first child element will be treated as last child element too
     return { x, y }
   }
 
