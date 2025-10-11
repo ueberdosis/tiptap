@@ -207,7 +207,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
       const filteredAttrs = filterAttributes(node.attrs || {})
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''
-      const renderedContent = h.renderChildren(node.content || [], '\n')
+      const renderedContent = h.renderChildren(node.content || [], '\n\n')
 
       return `:::${blockName}${attrString}\n\n${renderedContent}\n\n:::`
     },
