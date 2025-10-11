@@ -181,7 +181,7 @@ export default () => {
     const name = prompt('Enter mention name:', 'John Doe')
     if (name && editor) {
       // Generate a simple ID based on the name
-      const id = Math.random().toString(36).substr(2, 9)
+      const id = Math.random().toString(36).substring(2, 9)
       editor.chain().focus().insertContent(`[@ id="${id}" label="${name}"]`, { contentType: 'markdown' }).run()
     }
   }
