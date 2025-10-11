@@ -57,8 +57,9 @@ export class MarkdownManager {
 
     // If extensions were provided, register them now
     if (options?.extensions) {
-      options.extensions.forEach(ext => this.registerExtension(ext))
+      options.extensions.forEach(ext => this.registerExtension(ext, false))
     }
+    this.lexer = new this.markedInstance.Lexer() // Reset lexer to include all tokenizers
   }
 
   /** Returns the underlying marked instance. */
@@ -86,7 +87,7 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  registerExtension(extension: AnyExtension): void {
+  registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
@@ -132,7 +133,10 @@ export class MarkdownManager {
     // Register custom tokenizer with marked.js
     if (tokenizer && this.hasMarked()) {
       this.registerTokenizer(tokenizer)
-      this.lexer = new this.markedInstance.Lexer() // Reset lexer to include new tokenizer
+
+      if (recreateLexer) {
+        this.lexer = new this.markedInstance.Lexer() // Reset lexer to include new tokenizer
+      }
     }
   }
 
@@ -152,7 +156,6 @@ export class MarkdownManager {
     }
 
     const tokenizeBlock = (src: string) => {
-      this.lexer = new this.markedInstance.Lexer()
       return this.lexer.blockTokens(src)
     }
 

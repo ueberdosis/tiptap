@@ -171,14 +171,14 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       return
     }
 
-    this.editor.markdown = this.storage.manager
-
-    // Register all extensions for HTML parsing support
-    // Extensions with markdown config get registered for markdown parsing/rendering
-    // All extensions are registered so their parseHTML methods can be used for HTML in markdown
-    this.editor.extensionManager.extensions.forEach(extension => {
-      this.storage.manager.registerExtension(extension)
+    this.storage.manager = new MarkdownManager({
+      indentation: this.options.indentation,
+      marked: this.options.marked,
+      markedOptions: this.options.markedOptions,
+      extensions: this.editor.extensionManager.extensions,
     })
+
+    this.editor.markdown = this.storage.manager
 
     // add a `getMarkdown()` method to the editor
     this.editor.getMarkdown = () => {
