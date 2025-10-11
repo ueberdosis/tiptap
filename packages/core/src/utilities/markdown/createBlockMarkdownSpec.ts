@@ -140,8 +140,12 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
 
         blockPattern.lastIndex = 0
 
-        // eslint-disable-next-line no-cond-assign
-        for (let match = blockPattern.exec(remaining); match !== null; match = blockPattern.exec(remaining)) {
+        // run until no more matches are found
+        for (;;) {
+          const match = blockPattern.exec(remaining)
+          if (match === null) {
+            break
+          }
           const matchPos = match.index
           const blockType = match[1] // Empty string for closing tag, block name for opening
 
