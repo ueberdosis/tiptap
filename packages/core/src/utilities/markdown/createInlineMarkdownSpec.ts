@@ -171,7 +171,6 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
         const match = src.match(startPattern)
         return match?.index || -1
       },
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         const tokenPattern = selfClosing
