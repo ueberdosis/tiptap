@@ -350,13 +350,11 @@ Final paragraph.`
     it('should handle large documents efficiently', () => {
       // Generate a large markdown document
       const sections = []
-      Array.from({ length: 100 }, (_, index) => {
-        const i = index + 1
+      for (let i = 1; i <= 100; i++) {
         sections.push(`## Section ${i}`)
         sections.push(`This is paragraph ${i} with some **bold** text.`)
         sections.push(`And mention [@ id="user${i}" label="User ${i}"].`)
-        return i
-      })
+      }
       const largeMarkdown = sections.join('\n\n')
 
       const startTime = Date.now()
