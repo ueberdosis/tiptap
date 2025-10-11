@@ -1,5 +1,25 @@
 # Releases
 
+## v3.6.6
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fixed a bug that caused conditionally rendered bubble menus not to be attached to the DOM correctly
+
 ## v3.6.5
 
 ### @tiptap/extension-horizontal-rule
