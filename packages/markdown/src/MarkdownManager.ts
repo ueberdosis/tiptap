@@ -1,5 +1,6 @@
 import {
   type AnyExtension,
+  type ExtendableConfig,
   type JSONContent,
   type MarkdownExtensionSpec,
   type MarkdownParseHelpers,
@@ -12,7 +13,6 @@ import {
   getExtensionField,
 } from '@tiptap/core'
 import { type Lexer, marked } from 'marked'
-import { type ExtendableConfig } from 'packages/core/src/Extendable.js'
 
 import {
   closeMarksBeforeNode,
