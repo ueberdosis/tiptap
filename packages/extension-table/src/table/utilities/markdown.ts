@@ -58,7 +58,6 @@ export function renderTableToMarkdown(
     for (let i = 0; i < columnCount; i += 1) {
       const cell = r[i]?.text || ''
       const len = cell.length
-      console.log(cell, cell.length)
       if (len > colWidths[i]) {
         colWidths[i] = len
       }
