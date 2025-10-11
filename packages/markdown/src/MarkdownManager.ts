@@ -521,9 +521,7 @@ export class MarkdownManager {
 
       return parsed as JSONContent
     } catch (error) {
-      // If HTML parsing fails, return null to skip this token
-      console.warn('Failed to parse HTML in markdown:', error)
-      return null
+      throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
   }
 
@@ -538,14 +536,10 @@ export class MarkdownManager {
       return ''
     }
 
-    // TODO: check what the default case should be in case
-    // of unknown node types (return the HTML? Try to return child content at least?)
     const handler = this.getHandlerForToken(node.type)
     if (!handler) {
       return ''
     }
-
-    // TODO: We need to add marks rendering as well
 
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
