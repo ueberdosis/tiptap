@@ -366,6 +366,7 @@ export class BubbleMenuView implements PluginView {
 
     if (this.getShouldShow()) {
       this.show()
+      this.updatePosition()
     }
   }
 
@@ -494,7 +495,7 @@ export class BubbleMenuView implements PluginView {
       to,
     })
 
-    return shouldShow
+    return shouldShow || false
   }
 
   updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
