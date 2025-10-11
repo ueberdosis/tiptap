@@ -77,6 +77,12 @@ Isn't this great?
 
 Another one with even more inline content to **edit**!
 
+:::react {content="Nested node"}
+
+Nested content is also supported!
+
+:::
+
 :::
 
 ### Try editing the markdown on the left:
