@@ -169,7 +169,8 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
           : new RegExp(`\\[${escapedShortcode}\\s*[^\\]]*\\][\\s\\S]*?\\[\\/${escapedShortcode}\\]`)
 
         const match = src.match(startPattern)
-        return match?.index || -1
+        const index = match?.index
+        return index !== undefined ? index : -1
       },
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string

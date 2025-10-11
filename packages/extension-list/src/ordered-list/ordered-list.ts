@@ -144,7 +144,8 @@ export const OrderedList = Node.create<OrderedListOptions>({
     level: 'block',
     start: (src: string) => {
       const match = src.match(/^(\s*)(\d+)\.\s+/)
-      return match?.index || -1
+      const index = match?.index
+      return index !== undefined ? index : -1
     },
     tokenize: (src: string, _tokens, lexer) => {
       const lines = src.split('\n')

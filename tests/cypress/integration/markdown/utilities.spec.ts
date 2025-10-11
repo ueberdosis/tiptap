@@ -10,9 +10,9 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['id', 'label'],
       })
 
-      expect(spec).to.have.property('parse')
-      expect(spec).to.have.property('tokenizer')
-      expect(spec).to.have.property('render')
+      expect(spec).to.have.property('parseMarkdown')
+      expect(spec).to.have.property('markdownTokenizer')
+      expect(spec).to.have.property('renderMarkdown')
       expect(spec.markdownTokenizer.level).to.equal('inline')
     })
 
@@ -23,9 +23,9 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['color'],
       })
 
-      expect(spec).to.have.property('parse')
-      expect(spec).to.have.property('tokenizer')
-      expect(spec).to.have.property('render')
+      expect(spec).to.have.property('parseMarkdown')
+      expect(spec).to.have.property('markdownTokenizer')
+      expect(spec).to.have.property('renderMarkdown')
       expect(spec.markdownTokenizer.level).to.equal('inline')
     })
 
@@ -49,7 +49,7 @@ describe('Markdown Utilities', () => {
           ? spec.markdownTokenizer.start?.(falseSrc)
           : falseSrc.indexOf(spec.markdownTokenizer.start)
 
-      expect(noMatch).to.equal(undefined)
+      expect(noMatch).to.equal(-1)
     })
 
     it('should tokenize self-closing shortcodes correctly', () => {
@@ -131,9 +131,9 @@ describe('Markdown Utilities', () => {
         nodeName: 'callout',
       })
 
-      expect(spec).to.have.property('parse')
-      expect(spec).to.have.property('tokenizer')
-      expect(spec).to.have.property('render')
+      expect(spec).to.have.property('parseMarkdown')
+      expect(spec).to.have.property('markdownTokenizer')
+      expect(spec).to.have.property('renderMarkdown')
       expect(spec.markdownTokenizer.level).to.equal('block')
     })
 
@@ -156,7 +156,7 @@ describe('Markdown Utilities', () => {
           ? spec.markdownTokenizer.start?.(falseSrc)
           : falseSrc.indexOf(spec.markdownTokenizer.start)
 
-      expect(noMatch).to.equal(undefined)
+      expect(noMatch).to.equal(-1)
     })
 
     it('should tokenize block syntax correctly', () => {
@@ -207,9 +207,9 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      expect(spec).to.have.property('parse')
-      expect(spec).to.have.property('tokenizer')
-      expect(spec).to.have.property('render')
+      expect(spec).to.have.property('parseMarkdown')
+      expect(spec).to.have.property('markdownTokenizer')
+      expect(spec).to.have.property('renderMarkdown')
       expect(spec.markdownTokenizer.level).to.equal('block')
     })
 
@@ -230,7 +230,7 @@ describe('Markdown Utilities', () => {
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(falseSrc)
           : falseSrc.indexOf(spec.markdownTokenizer.start)
-      expect(noMatch).to.equal(undefined)
+      expect(noMatch).to.equal(-1)
     })
 
     it('should tokenize atom block syntax correctly', () => {

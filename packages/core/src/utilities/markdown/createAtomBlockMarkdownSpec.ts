@@ -99,7 +99,8 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       level: 'block' as const,
       start(src: string) {
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
-        return src.match(regex)?.index || -1
+        const index = src.match(regex)?.index
+        return index !== undefined ? index : -1
       },
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string

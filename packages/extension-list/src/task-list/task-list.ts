@@ -78,7 +78,8 @@ export const TaskList = Node.create<TaskListOptions>({
     level: 'block',
     start(src) {
       // Look for the start of a task list item
-      return src.match(/^\s*[-+*]\s+\[([ xX])\]\s+/)?.index || -1
+      const index = src.match(/^\s*[-+*]\s+\[([ xX])\]\s+/)?.index
+      return index !== undefined ? index : -1
     },
     tokenize(src, tokens, lexer) {
       // Helper function to recursively parse task lists
