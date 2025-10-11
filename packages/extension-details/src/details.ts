@@ -92,6 +92,8 @@ export const Details = Node.create<DetailsOptions>({
     return ['details', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  // TODO: Add markdown support
+
   addNodeView() {
     return ({ editor, getPos, node, HTMLAttributes }) => {
       const dom = document.createElement('div')

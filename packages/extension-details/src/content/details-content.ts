@@ -153,4 +153,6 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
       },
     }
   },
+
+  // TODO: Add markdown support
 })
