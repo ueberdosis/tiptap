@@ -154,14 +154,17 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
 
             if (level === 0) {
               // Found our matching closing tag
-              matchedContent = remaining.slice(0, matchPos).trim()
+              // Don't trim yet - keep newlines for tokenizer regex matching
+              const rawContent = remaining.slice(0, matchPos)
+              matchedContent = rawContent.trim()
               const fullMatch = src.slice(0, position + matchPos + match[0].length)
 
               // Tokenize the content
               let contentTokens: MarkdownToken[] = []
               if (matchedContent) {
                 if (content === 'block') {
-                  contentTokens = lexer.blockTokens(matchedContent)
+                  // Use rawContent for tokenization to preserve line boundaries for regex matching
+                  contentTokens = lexer.blockTokens(rawContent)
 
                   // Parse inline tokens for any token that has text content but no tokens
                   contentTokens.forEach(token => {

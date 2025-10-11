@@ -132,6 +132,7 @@ export class MarkdownManager {
     // Register custom tokenizer with marked.js
     if (tokenizer && this.hasMarked()) {
       this.registerTokenizer(tokenizer)
+      this.lexer = new this.markedInstance.Lexer() // Reset lexer to include new tokenizer
     }
   }
 
@@ -145,11 +146,13 @@ export class MarkdownManager {
 
     const { name, start, level = 'inline', tokenize } = tokenizer
 
+    // Helper functions that use a fresh lexer instance with all registered extensions
     const tokenizeInline = (src: string) => {
       return this.lexer.inlineTokens(src)
     }
 
     const tokenizeBlock = (src: string) => {
+      this.lexer = new this.markedInstance.Lexer()
       return this.lexer.blockTokens(src)
     }
 
