@@ -714,8 +714,7 @@ export class MarkdownManager {
       const placeholderIndex = rendered.indexOf(placeholder)
       return placeholderIndex >= 0 ? rendered.substring(0, placeholderIndex) : ''
     } catch (err) {
-      console.error('Failed to get mark opening for', markType, err)
-      return ''
+      throw new Error(`Failed to get mark opening for ${markType}: ${err}`)
     }
   }
 
@@ -754,8 +753,7 @@ export class MarkdownManager {
       const placeholderEnd = placeholderIndex + placeholder.length
       return placeholderIndex >= 0 ? rendered.substring(placeholderEnd) : ''
     } catch (err) {
-      console.error('Failed to get mark closing for', markType, err)
-      return ''
+      throw new Error(`Failed to get mark closing for ${markType}: ${err}`)
     }
   }
 
