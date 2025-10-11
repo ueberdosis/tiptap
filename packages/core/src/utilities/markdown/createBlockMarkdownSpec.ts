@@ -118,50 +118,85 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
         return src.match(regex)?.index || -1
       },
       tokenize(src, _tokens, lexer) {
-        const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*\\n([\\s\\S]*?)\\n:::`)
-        const match = src.match(regex)
+        // Match the opening tag with optional attributes
+        const openingRegex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*\\n`)
+        const openingMatch = src.match(openingRegex)
 
-        if (!match) {
+        if (!openingMatch) {
           return undefined
         }
 
-        const [fullMatch, attrString = '', matchedContent] = match
+        const [openingTag, attrString = ''] = openingMatch
         const attributes = parseAttributes(attrString)
-        const trimmedContent = matchedContent.replace(/^\s*\n|\n\s*$/g, '').trim()
 
-        let contentTokens: MarkdownToken[] = []
-        if (trimmedContent) {
-          if (content === 'block') {
-            contentTokens = lexer.blockTokens(trimmedContent)
+        // Find the matching closing tag by tracking nesting level
+        let level = 1
+        const position = openingTag.length
+        let matchedContent = ''
 
-            // Parse inline tokens for any token that has text content but no tokens
-            contentTokens.forEach(token => {
-              if (token.text && (!token.tokens || token.tokens.length === 0)) {
-                token.tokens = lexer.inlineTokens(token.text)
+        // Pattern to match any block opening (:::word) or closing (:::)
+        const blockPattern = /^:::(\w*)/gm
+        const remaining = src.slice(position)
+
+        blockPattern.lastIndex = 0
+
+        // eslint-disable-next-line no-cond-assign
+        for (let match = blockPattern.exec(remaining); match !== null; match = blockPattern.exec(remaining)) {
+          const matchPos = match.index
+          const blockType = match[1] // Empty string for closing tag, block name for opening
+
+          if (blockType) {
+            // Opening tag found - increase level
+            level += 1
+          } else {
+            // Closing tag found - decrease level
+            level -= 1
+
+            if (level === 0) {
+              // Found our matching closing tag
+              matchedContent = remaining.slice(0, matchPos).trim()
+              const fullMatch = src.slice(0, position + matchPos + match[0].length)
+
+              // Tokenize the content
+              let contentTokens: MarkdownToken[] = []
+              if (matchedContent) {
+                if (content === 'block') {
+                  contentTokens = lexer.blockTokens(matchedContent)
+
+                  // Parse inline tokens for any token that has text content but no tokens
+                  contentTokens.forEach(token => {
+                    if (token.text && (!token.tokens || token.tokens.length === 0)) {
+                      token.tokens = lexer.inlineTokens(token.text)
+                    }
+                  })
+
+                  // Clean up empty trailing paragraphs
+                  while (contentTokens.length > 0) {
+                    const lastToken = contentTokens[contentTokens.length - 1]
+                    if (lastToken.type === 'paragraph' && (!lastToken.text || lastToken.text.trim() === '')) {
+                      contentTokens.pop()
+                    } else {
+                      break
+                    }
+                  }
+                } else {
+                  contentTokens = lexer.inlineTokens(matchedContent)
+                }
               }
-            })
 
-            // Clean up empty trailing paragraphs
-            while (contentTokens.length > 0) {
-              const lastToken = contentTokens[contentTokens.length - 1]
-              if (lastToken.type === 'paragraph' && (!lastToken.text || lastToken.text.trim() === '')) {
-                contentTokens.pop()
-              } else {
-                break
+              return {
+                type: nodeName,
+                raw: fullMatch,
+                attributes,
+                content: matchedContent,
+                tokens: contentTokens,
               }
             }
-          } else {
-            contentTokens = lexer.inlineTokens(trimmedContent)
           }
         }
 
-        return {
-          type: nodeName,
-          raw: fullMatch,
-          attributes,
-          content: trimmedContent,
-          tokens: contentTokens,
-        }
+        // No matching closing tag found
+        return undefined
       },
     },
 
