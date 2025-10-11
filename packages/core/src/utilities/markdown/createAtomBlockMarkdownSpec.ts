@@ -101,8 +101,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
         const regex = new RegExp(`^:::${blockName}(?:\\s|$)`, 'm')
         return src.match(regex)?.index || -1
       },
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      tokenize(src: string, _tokens: any[], _lexer: any) {
+      tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
         const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*(?:\\n|$)`)
