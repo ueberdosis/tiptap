@@ -135,7 +135,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       const attrs = serializeAttributes(filteredAttrs)
       const attrString = attrs ? ` {${attrs}}` : ''
 
-      return `:::${blockName}${attrString}`
+      return `:::${blockName}${attrString} :::`
     },
   }
 }
