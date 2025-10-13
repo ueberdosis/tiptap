@@ -218,7 +218,7 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      const src = ':::youtube {src="test"}'
+      const src = ':::youtube {src="test"} :::'
       const startIndex =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(src)
@@ -238,10 +238,14 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      const token = spec.markdownTokenizer.tokenize(':::youtube {src="https://youtube.com/watch?v=test"}\n', [], null)
+      const token = spec.markdownTokenizer.tokenize(
+        ':::youtube {src="https://youtube.com/watch?v=test"} :::\n',
+        [],
+        null,
+      )
       expect(token).to.deep.include({
         type: 'youtube',
-        raw: ':::youtube {src="https://youtube.com/watch?v=test"}\n',
+        raw: ':::youtube {src="https://youtube.com/watch?v=test"} :::\n',
         attributes: {
           src: 'https://youtube.com/watch?v=test',
         },
@@ -255,11 +259,11 @@ describe('Markdown Utilities', () => {
       })
 
       // Should fail without required attribute
-      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"}\n', [], null)
+      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"} :::\n', [], null)
       expect(tokenWithoutSrc).to.equal(undefined)
 
       // Should succeed with required attribute
-      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"}\n', [], null)
+      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"} :::\n', [], null)
       expect(tokenWithSrc).to.not.equal(undefined)
       expect(tokenWithSrc).to.have.property('attributes')
       expect((tokenWithSrc as any).attributes).to.have.property('src', 'test')
@@ -280,7 +284,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.renderMarkdown(node)
-      expect(rendered).to.equal(':::youtube {src="https://youtube.com/watch?v=test" width="400"}')
+      expect(rendered).to.equal(':::youtube {src="https://youtube.com/watch?v=test" width="400"} :::')
     })
 
     it('should apply default attributes', () => {
