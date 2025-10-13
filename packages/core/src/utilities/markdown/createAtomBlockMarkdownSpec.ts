@@ -105,7 +105,7 @@ export function createAtomBlockMarkdownSpec(options: AtomBlockMarkdownSpecOption
       tokenize(src, _tokens, _lexer) {
         // Use non-global regex to match from the start of the string
         // Include optional newline to ensure we consume the entire line
-        const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*(?:\\n|$)`)
+        const regex = new RegExp(`^:::${blockName}(?:\\s+\\{([^}]*)\\})?\\s*:::(?:\\n|$)`)
         const match = src.match(regex)
 
         if (!match) {

@@ -136,7 +136,7 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
         let matchedContent = ''
 
         // Pattern to match any block opening (:::word) or closing (:::)
-        const blockPattern = /^:::(\w*)/gm
+        const blockPattern = /^:::([\w-]*)(\s.*)?/gm
         const remaining = src.slice(position)
 
         blockPattern.lastIndex = 0
@@ -149,6 +149,11 @@ export function createBlockMarkdownSpec(options: BlockMarkdownSpecOptions): {
           }
           const matchPos = match.index
           const blockType = match[1] // Empty string for closing tag, block name for opening
+
+          if (match[2]?.endsWith(':::')) {
+            // this is an atom ::: node, we skip it
+            continue
+          }
 
           if (blockType) {
             // Opening tag found - increase level
