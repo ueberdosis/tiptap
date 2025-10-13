@@ -1,4 +1,4 @@
-export const mdContent = `# Welcome to Markdown Parser Demo
+export const mdContent = `# Welcome to the Markdown Demo
 
 This demo showcases **bidirectional** markdown support in Tiptap with extended features.
 
@@ -42,6 +42,21 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
     </ul>
   </li>
 </ul>
+
+### Code
+
+Tiptap supports \`inline code\` and full code blocks:
+
+\`\`\`javascript
+import { Editor } from '@tiptap/core'
+import { StarterKit } from '@tiptap/starter-kit'
+
+const editor = new Editor({
+  extensions: [StarterKit],
+  content: '<p>Hello World!</p>',
+  element: document.querySelector('#editor'),
+})
+\`\`\`
 
 ### Details
 
