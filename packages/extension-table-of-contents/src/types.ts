@@ -50,4 +50,8 @@ declare module '@tiptap/core' {
       updateTableOfContents: () => ReturnType
     }
   }
+
+  interface Storage {
+    tableOfContents: TableOfContentsStorage
+  }
 }

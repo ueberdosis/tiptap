@@ -1,12 +1,24 @@
 <template>
   <div class="container">
+    <button
+      type="button"
+      @click="
+        () => {
+          showMenu = !showMenu
+          editor && editor.commands.focus()
+        }
+      "
+    >
+      Toggle menu
+    </button>
     <div class="control-group">
       <label>
         <input type="checkbox" :checked="isEditable" @change="() => (isEditable = !isEditable)" />
         Editable
       </label>
     </div>
-    <bubble-menu :editor="editor" v-if="editor">
+
+    <bubble-menu v-if="editor && showMenu" :editor="editor" :options="{ placement: 'bottom', offset: 8 }">
       <div class="bubble-menu">
         <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
           Bold
@@ -25,11 +37,25 @@
         </button>
       </div>
     </bubble-menu>
+
+    <bubble-menu
+      v-if="editor && showMenu"
+      :editor="editor"
+      :should-show="() => editor.isActive('bulletList') || editor.isActive('orderedList')"
+      :get-referenced-virtual-element="getListVirtualElement"
+      :options="{ placement: 'top-start', offset: 8 }"
+    >
+      <div class="bubble-menu">
+        <button type="button" @click="toggleListType">Toggle list type</button>
+      </div>
+    </bubble-menu>
+
     <editor-content :editor="editor" />
   </div>
 </template>
 
 <script>
+import { findParentNode, posToDOMRect } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { BubbleMenu } from '@tiptap/vue-3/menus'
@@ -44,6 +70,7 @@ export default {
     return {
       editor: null,
       isEditable: true,
+      showMenu: true,
     }
   },
 
@@ -60,8 +87,42 @@ export default {
         <p>
           Hey, try to select some text here. There will popup a menu for selecting some inline styles. Remember: you have full control about content and styling of this menu.
         </p>
+        <ul>
+          <li>Select any item to display a global menu</li>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+          <li>Item 4</li>
+        </ul>
       `,
     })
+  },
+
+  methods: {
+    getListVirtualElement() {
+      const editor = this.editor
+      const parentNode = findParentNode(node => node.type.name === 'bulletList' || node.type.name === 'orderedList')(
+        editor.state.selection,
+      )
+      if (parentNode) {
+        const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+        return {
+          getBoundingClientRect: () => domRect,
+          getClientRects: () => [domRect],
+        }
+      }
+      return null
+    },
+    toggleListType() {
+      const editor = this.editor
+      const chain = editor.chain().focus()
+      if (editor.isActive('bulletList')) {
+        chain.toggleOrderedList()
+      } else {
+        chain.toggleBulletList()
+      }
+      chain.run()
+    },
   },
 
   beforeUnmount() {
