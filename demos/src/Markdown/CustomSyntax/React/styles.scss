@@ -1,0 +1,57 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+
+  @media screen and (min-width: 900px) {
+    flex-direction: row;
+  }
+}
+
+.editor-wrapper {
+  flex: 1 1 auto;
+  order: 1;
+  overflow: auto;
+
+  @media screen and (min-width: 900px) {
+    flex: 1 1 50%;
+    order: 0;
+    width: 50%;
+  }
+}
+
+.preview {
+  flex: 0 0 auto;
+  order: 0;
+
+  @media screen and (min-width: 900px) {
+    flex: 1 1 50%;
+    order: 1;
+    width: 50%;
+  }
+}
+
+.preview pre {
+  background-color: #f1f1f1;
+  height: 35dvh;
+  margin: 0;
+  overflow: auto;
+  padding: 1rem;
+
+  @media screen and (min-width: 900px) {
+    min-height: 100%;
+  }
+}
+
+[data-type='custom'] {
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 2px solid #000;
+  margin: 1.5rem;
+  padding: 1rem;
+}
+
+[data-type='atom'] {
+  background: rgba(255, 0, 0, 0.05);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
