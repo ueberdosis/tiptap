@@ -147,7 +147,7 @@ Second paragraph.`
     })
 
     it('should parse YouTube videos', () => {
-      const markdown = ':::youtube {src="https://youtube.com/watch?v=test"}'
+      const markdown = ':::youtube {src="https://youtube.com/watch?v=test"} :::'
       const doc = markdownManager.parse(markdown)
 
       expect(doc.content[0].type).to.equal('youtube')
@@ -159,7 +159,7 @@ Second paragraph.`
 
 This is a description with [@ id="user" label="User Name"].
 
-:::youtube {src="https://youtube.com/watch?v=example"}
+:::youtube {src="https://youtube.com/watch?v=example"} :::
 
 ## Notes
 
@@ -253,7 +253,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.renderNodes(doc)
-      expect(markdown).to.equal(':::youtube {src="https://youtube.com/watch?v=test"}')
+      expect(markdown).to.equal(':::youtube {src="https://youtube.com/watch?v=test"} :::')
     })
   })
 
@@ -278,12 +278,12 @@ Final paragraph.`
       },
       {
         name: 'youtube video',
-        markdown: ':::youtube {src="https://youtube.com/watch?v=test"}',
+        markdown: ':::youtube {src="https://youtube.com/watch?v=test"} :::',
       },
       {
         name: 'mixed content',
         markdown:
-          '# Title\n\nHello [@ id="user" label="User"].\n\n:::youtube {src="https://youtube.com/watch?v=example"}',
+          '# Title\n\nHello [@ id="user" label="User"].\n\n:::youtube {src="https://youtube.com/watch?v=example"} :::',
       },
     ]
 
@@ -350,7 +350,7 @@ Final paragraph.`
     it('should handle large documents efficiently', () => {
       // Generate a large markdown document
       const sections = []
-      for (let i = 1; i <= 100; i++) {
+      for (let i = 1; i <= 100; i += 1) {
         sections.push(`## Section ${i}`)
         sections.push(`This is paragraph ${i} with some **bold** text.`)
         sections.push(`And mention [@ id="user${i}" label="User ${i}"].`)
@@ -381,7 +381,7 @@ Final paragraph.`
 
 Some text with [@ id="user" label="User"].
 
-:::youtube {src="https://youtube.com/watch?v=test"}
+:::youtube {src="https://youtube.com/watch?v=test"} :::
 :::`
 
       const doc = markdownManager.parse(nestedMarkdown)
