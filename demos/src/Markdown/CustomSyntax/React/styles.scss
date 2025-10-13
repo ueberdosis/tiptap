@@ -55,3 +55,13 @@
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
 }
+
+[data-type='inline'] {
+  background: rgba(0, 0, 255, 0.05);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+[data-type='mark'] {
+  background: rgba(255, 255, 0, 0.3);
+}
