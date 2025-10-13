@@ -1,4 +1,12 @@
-import { defaultBlockAt, findChildren, findParentNode, isActive, mergeAttributes, Node } from '@tiptap/core'
+import {
+  createBlockMarkdownSpec,
+  defaultBlockAt,
+  findChildren,
+  findParentNode,
+  isActive,
+  mergeAttributes,
+  Node,
+} from '@tiptap/core'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -92,7 +100,10 @@ export const Details = Node.create<DetailsOptions>({
     return ['details', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  // TODO: Add markdown support
+  ...createBlockMarkdownSpec({
+    nodeName: 'details',
+    content: 'block',
+  }),
 
   addNodeView() {
     return ({ editor, getPos, node, HTMLAttributes }) => {

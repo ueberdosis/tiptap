@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core'
+import { createBlockMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 
 export interface DetailsSummaryOptions {
   /**
@@ -38,5 +38,8 @@ export const DetailsSummary = Node.create<DetailsSummaryOptions>({
     return ['summary', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
-  // TODO: Add markdown support
+  ...createBlockMarkdownSpec({
+    nodeName: 'detailsSummary',
+    content: 'inline',
+  }),
 })

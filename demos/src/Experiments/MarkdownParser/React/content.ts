@@ -43,9 +43,44 @@ This demo showcases **bidirectional** markdown support in Tiptap with extended f
   </li>
 </ul>
 
+### Details
+
+:::details
+
+:::detailsSummary
+What features does Tiptap offer?
+:::
+
+:::detailsContent
+
+- Rich Text Editing
+- Collaborative Editing
+- Markdown Support
+- Content AI
+- Custom Extensions
+- More...
+
+:::
+
+:::
+
+:::details
+
+:::detailsSummary
+Where can I learn how to use Tiptap?
+:::
+
+:::detailsContent
+
+You can learn how to use Tiptap by visiting the [official documentation](https://tiptap.dev/docs).
+
+:::
+
+:::
+
 ### YouTube Videos
 
-:::youtube {src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="0" width="400" height="300"}
+:::youtube {src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="0" width="400" height="300"} :::
 
 ### Images
 
