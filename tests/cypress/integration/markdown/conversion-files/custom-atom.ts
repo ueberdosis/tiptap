@@ -3,7 +3,7 @@ import { createAtomBlockMarkdownSpec, Node } from '@tiptap/core'
 export const name = 'Custom Atom'
 
 export const expectedInput = `
-:::custom-atom {label="Example"}
+:::custom-atom {label="Example"} :::
 `.trim()
 
 export const expectedOutput = {
