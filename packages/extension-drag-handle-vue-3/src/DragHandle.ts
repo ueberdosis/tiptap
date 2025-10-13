@@ -39,6 +39,16 @@ export const DragHandle = defineComponent({
       default: null,
     },
 
+    onElementDragStart: {
+      type: Function as PropType<DragHandleProps['onElementDragStart']>,
+      default: undefined,
+    },
+
+    onElementDragEnd: {
+      type: Function as PropType<DragHandleProps['onElementDragEnd']>,
+      default: undefined,
+    },
+
     class: {
       type: String as PropType<DragHandleProps['class']>,
       default: 'drag-handle',
@@ -49,7 +59,7 @@ export const DragHandle = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { editor, pluginKey, onNodeChange, computePositionConfig } = props
+      const { editor, pluginKey, onNodeChange, computePositionConfig, onElementDragStart, onElementDragEnd } = props
 
       editor.registerPlugin(
         DragHandlePlugin({
@@ -58,6 +68,8 @@ export const DragHandle = defineComponent({
           pluginKey,
           computePositionConfig: { ...defaultComputePositionConfig, ...computePositionConfig },
           onNodeChange,
+          onElementDragStart,
+          onElementDragEnd,
         }).plugin,
       )
     })
