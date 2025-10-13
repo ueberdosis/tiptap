@@ -12,7 +12,7 @@ import {
   generateJSON,
   getExtensionField,
 } from '@tiptap/core'
-import { type Lexer, marked } from 'marked'
+import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -181,17 +181,17 @@ export class MarkdownManager {
     }
 
     // Create marked.js extension with proper types
-    const markedExtension: any = {
+    const markedExtension: TokenizerExtension = {
       name,
       level,
       start: startCb,
-      tokenizer: (src: string, tokens: any[]) => {
+      tokenizer: (src, tokens) => {
         const result = tokenize(src, tokens, helper)
         if (result && result.type) {
           return {
             type: result.type,
             raw: result.raw || '',
-            ...result,
+            tokens: (result.tokens || []) as Token[],
           }
         }
         return undefined
