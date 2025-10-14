@@ -58,7 +58,17 @@ export interface ResizableNodeViewOptions {
   preserveAspectRatio?: boolean
 
   /**
-   *
+   * A callback for the node view to react to updates
    */
   onUpdate?: NodeView['update']
+
+  /**
+   * The width attribute, defaults to 'width'
+   */
+  widthAttribute?: string
+
+  /**
+   * The height attribute, defaults to 'height'
+   */
+  heightAttribute?: string
 }

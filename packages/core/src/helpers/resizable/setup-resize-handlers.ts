@@ -10,17 +10,31 @@ const DEFAULT_MIN_HEIGHT = 20
 /**
  * Sets up resize event handlers for a handle with size clamping
  */
-export function setupResizeHandlers(
-  element: HTMLElement,
-  direction: ResizableNodeViewDirection | ResizableNodeViewDiagonalDirection,
-  dom: HTMLElement,
-  editor: Editor,
-  getPos: () => number | undefined,
-  node: Node,
+export function setupResizeHandlers({
+  element,
+  direction,
+  dom,
+  editor,
+  getPos,
+  node,
   minWidth = DEFAULT_MIN_WIDTH,
   minHeight = DEFAULT_MIN_HEIGHT,
   preserveAspectRatio = false,
-): void {
+  widthAttribute = 'width',
+  heightAttribute = 'height',
+}: {
+  element: HTMLElement
+  direction: ResizableNodeViewDirection | ResizableNodeViewDiagonalDirection
+  dom: HTMLElement
+  editor: Editor
+  getPos: () => number | undefined
+  node: Node
+  minWidth: number
+  minHeight: number
+  preserveAspectRatio: boolean
+  widthAttribute?: string
+  heightAttribute?: string
+}): void {
   let isResizing = false
   let currentPosition: { x: number; y: number } | null = null
 
@@ -62,8 +76,8 @@ export function setupResizeHandlers(
     editor.commands.command(({ tr }) => {
       tr.setNodeMarkup(pos, undefined, {
         ...node.attrs,
-        width: hasUpdatedWidth ? dom.clientWidth : node.attrs.width,
-        height: hasUpdatedHeight ? dom.clientHeight : node.attrs.height,
+        [widthAttribute]: hasUpdatedWidth ? dom.clientWidth : node.attrs.width,
+        [heightAttribute]: hasUpdatedHeight ? dom.clientHeight : node.attrs.height,
       })
 
       return true

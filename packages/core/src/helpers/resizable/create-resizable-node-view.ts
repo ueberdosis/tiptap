@@ -19,6 +19,8 @@ export function createResizableNodeView({
   minWidth = 20,
   minHeight = 20,
   preserveAspectRatio = false,
+  widthAttribute = 'width',
+  heightAttribute = 'height',
 }: ResizableNodeViewOptions): HTMLElement {
   // Setup the node DOM element
   dom.style.display = 'block'
@@ -35,7 +37,19 @@ export function createResizableNodeView({
       const directionKey = direction as ResizableNodeViewDirection | ResizableNodeViewDiagonalDirection
       const handle = createResizeHandle(directionKey)
       wrapper.appendChild(handle)
-      setupResizeHandlers(handle, directionKey, dom, editor, getPos, node, minWidth, minHeight, preserveAspectRatio)
+      setupResizeHandlers({
+        element: handle,
+        direction: directionKey,
+        dom,
+        editor,
+        getPos,
+        node,
+        minWidth,
+        minHeight,
+        preserveAspectRatio,
+        widthAttribute,
+        heightAttribute,
+      })
     }
   })
 
