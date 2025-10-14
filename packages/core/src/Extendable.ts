@@ -234,7 +234,9 @@ export interface ExtendableConfig<
   /**
    * The markdown token name
    *
-   * This is the name of the token that this extension uses to parse and render markdown and comes from the Lexer.
+   * This is the name of the token that this extension uses to parse and render markdown and comes from the Marked Lexer.
+   *
+   * @see https://github.com/markedjs/marked/blob/master/src/Tokens.ts
    *
    */
   markdownTokenName?: string

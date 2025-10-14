@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100dvh;
 
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 400px) {
     flex-direction: row;
   }
 }
@@ -13,7 +13,7 @@
   order: 1;
   overflow: auto;
 
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 400px) {
     flex: 1 1 50%;
     order: 0;
     width: 50%;
@@ -24,7 +24,7 @@
   flex: 0 0 auto;
   order: 0;
 
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 400px) {
     flex: 1 1 50%;
     order: 1;
     width: 50%;
@@ -38,7 +38,7 @@
   overflow: auto;
   padding: 1rem;
 
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 400px) {
     min-height: 100%;
   }
 }
