@@ -2,8 +2,6 @@
 "@tiptap/core": minor
 ---
 
-Export commands and their TypeScript typings from the core package.
-
 All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
 
 Why:
