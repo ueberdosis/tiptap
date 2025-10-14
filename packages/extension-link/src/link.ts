@@ -201,6 +201,7 @@ export const Link = Mark.create<LinkOptions>({
   exitable: true,
 
   onCreate() {
+    // TODO: v4 - remove validate option
     if (this.options.validate && !this.options.shouldAutoLink) {
       // Copy the validate function to the shouldAutoLink option
       this.options.shouldAutoLink = this.options.validate
