@@ -159,6 +159,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
         indentation: this.options.indentation,
         marked: this.options.marked,
         markedOptions: this.options.markedOptions,
+        extensions: [],
       }),
     }
   },
