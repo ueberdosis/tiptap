@@ -155,8 +155,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   markdownTokenName: 'code',
 
   parseMarkdown: (token, helpers) => {
-    // only use code blocks if this is using the ``` fence
-    if (token.raw?.startsWith('```') === false) {
+    if (token.raw?.startsWith('```') === false && token.codeBlockStyle !== 'indented') {
       return []
     }
 
