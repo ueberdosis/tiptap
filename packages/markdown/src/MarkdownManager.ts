@@ -94,7 +94,7 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  private registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
+  registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
