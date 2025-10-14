@@ -1,5 +1,16 @@
 # @tiptap/extension-file-handler
 
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/extension-text-style@3.7.0
+  - @tiptap/pm@3.7.0
+
 ## 3.6.7
 
 ### Patch Changes
