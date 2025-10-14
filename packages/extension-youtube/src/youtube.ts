@@ -337,5 +337,6 @@ export const Youtube = Node.create<YoutubeOptions>({
 
   ...createAtomBlockMarkdownSpec({
     nodeName: 'youtube',
+    allowedAttributes: ['src', 'width', 'height', 'start'],
   }),
 })

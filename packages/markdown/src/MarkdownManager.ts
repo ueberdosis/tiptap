@@ -9,6 +9,7 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  flattenExtensions,
   generateJSON,
   getExtensionField,
 } from '@tiptap/core'
@@ -30,23 +31,27 @@ export class MarkdownManager {
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
+  private baseExtensions: AnyExtension[] = []
   private extensions: AnyExtension[] = []
 
   /**
    * Create a MarkdownManager.
    * @param options.marked Optional marked instance to use (injected).
    * @param options.markedOptions Optional options to pass to marked.setOptions
+   * @param options.indentation Indentation settings (style and size).
+   * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
    */
   constructor(options?: {
     marked?: typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
-    extensions?: AnyExtension[]
+    extensions: AnyExtension[]
   }) {
     this.markedInstance = options?.marked ?? marked
     this.lexer = new this.markedInstance.Lexer()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
+    this.baseExtensions = options?.extensions || []
 
     if (options?.markedOptions && typeof this.markedInstance.setOptions === 'function') {
       this.markedInstance.setOptions(options.markedOptions)
@@ -57,7 +62,9 @@ export class MarkdownManager {
 
     // If extensions were provided, register them now
     if (options?.extensions) {
-      options.extensions.forEach(ext => this.registerExtension(ext, false))
+      this.baseExtensions = options.extensions
+      const flattened = flattenExtensions(options.extensions)
+      flattened.forEach(ext => this.registerExtension(ext, false))
     }
     this.lexer = new this.markedInstance.Lexer() // Reset lexer to include all tokenizers
   }
@@ -87,7 +94,7 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
+  private registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
@@ -187,13 +194,16 @@ export class MarkdownManager {
       start: startCb,
       tokenizer: (src, tokens) => {
         const result = tokenize(src, tokens, helper)
+
         if (result && result.type) {
           return {
-            type: result.type,
+            ...result,
+            type: result.type || name,
             raw: result.raw || '',
             tokens: (result.tokens || []) as Token[],
           }
         }
+
         return undefined
       },
       childTokens: [],
@@ -482,6 +492,9 @@ export class MarkdownManager {
         // Parse HTML using extensions' parseHTML methods
         return this.parseHTMLToken(token)
 
+      case 'space':
+        return null
+
       default:
         // Unknown token type - try to parse children if they exist
         if (token.tokens) {
@@ -504,7 +517,7 @@ export class MarkdownManager {
 
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
-      const parsed = generateJSON(html, this.extensions)
+      const parsed = generateJSON(html, this.baseExtensions)
 
       // If the result is a doc node, extract its content
       if (parsed.type === 'doc' && parsed.content) {
