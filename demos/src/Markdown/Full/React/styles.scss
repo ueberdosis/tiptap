@@ -6,8 +6,9 @@
 
 .markdown-parser-demo .split {
   display: flex;
-  gap: 1rem;
   flex: 1 1 auto;
+  gap: 1rem;
+  overflow: auto;
   padding: 0 1.5rem 1rem;
 }
 
