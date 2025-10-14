@@ -1,4 +1,5 @@
 import type { Node } from '@tiptap/pm/model'
+import type { NodeView } from '@tiptap/pm/view'
 
 import type { Editor } from '../../Editor.js'
 
@@ -55,4 +56,9 @@ export interface ResizableNodeViewOptions {
    * @default false
    */
   preserveAspectRatio?: boolean
+
+  /**
+   *
+   */
+  onUpdate?: NodeView['update']
 }

@@ -44,7 +44,7 @@ export default {
         Document,
         Paragraph,
         Text,
-        Image.configure({ resize: { minWidth: 100, minHeight: 100 } }),
+        Image.configure({ resize: { minWidth: 100, minHeight: 100, alwaysPreserveAspectRatio: true } }),
         Dropcursor,
       ],
       content: `

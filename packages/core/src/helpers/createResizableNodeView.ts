@@ -1,17 +1,9 @@
-import type {
-  ResizableNodeViewDiagonalDirection,
-  ResizableNodeViewDirection,
-  ResizableNodeViewDirections,
-  ResizableNodeViewOptions,
-} from './resizable/index.js'
+import type { NodeView } from '@tiptap/pm/view'
+
+import type { ResizableNodeViewOptions } from './resizable/index.js'
 import { createResizableNodeView as createResizableNodeViewModular } from './resizable/index.js'
 
-export type {
-  ResizableNodeViewDiagonalDirection,
-  ResizableNodeViewDirection,
-  ResizableNodeViewDirections,
-  ResizableNodeViewOptions,
-}
+export * from './resizable/index.js'
 
 /**
  * Creates a resizable node view for Tiptap
@@ -37,6 +29,22 @@ export type {
  * }
  * ```
  */
-export function createResizableNodeView(options: ResizableNodeViewOptions): HTMLElement {
-  return createResizableNodeViewModular(options)
+export function createResizableNodeView(options: ResizableNodeViewOptions): NodeView {
+  const view = createResizableNodeViewModular(options)
+
+  return {
+    dom: view,
+    update(...args) {
+      const [updatedNode] = args
+
+      if (updatedNode.type !== options.node.type || !options.onUpdate) {
+        return false
+      }
+
+      return options.onUpdate(...args)
+    },
+    destroy() {
+      view.remove()
+    },
+  }
 }
