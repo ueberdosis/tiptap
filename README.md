@@ -107,10 +107,6 @@ For help, discussion about best practices, or any other conversation that would 
   </tr>
 </table>
 
-<table>
-
-</table>
-
 [iFixit](https://www.ifixit.com/), [ApostropheCMS](https://apostrophecms.com/), [Novadiscovery](http://www.novadiscovery.com/), [Omics Data Automation](https://www.omicsautomation.com), [Flow Mobile](https://www.flowmobile.app/), [DocIQ](https://www.dociq.io/) and [hundreds of awesome individuals](https://github.com/sponsors/ueberdosis).
 
 ### Contributing

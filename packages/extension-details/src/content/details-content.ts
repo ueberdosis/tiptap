@@ -1,4 +1,4 @@
-import { defaultBlockAt, findParentNode, mergeAttributes, Node } from '@tiptap/core'
+import { createBlockMarkdownSpec, defaultBlockAt, findParentNode, mergeAttributes, Node } from '@tiptap/core'
 import { Selection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -153,4 +153,8 @@ export const DetailsContent = Node.create<DetailsContentOptions>({
       },
     }
   },
+
+  ...createBlockMarkdownSpec({
+    nodeName: 'detailsContent',
+  }),
 })

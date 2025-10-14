@@ -3,6 +3,25 @@ import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm
 import { createDocument } from '../helpers/createDocument.js'
 import type { Content, RawCommands } from '../types.js'
 
+export interface SetContentOptions {
+  /**
+   * Options for parsing the content.
+   * @default {}
+   */
+  parseOptions?: ParseOptions
+
+  /**
+   * Whether to throw an error if the content is invalid.
+   */
+  errorOnInvalidContent?: boolean
+
+  /**
+   * Whether to emit an update event.
+   * @default true
+   */
+  emitUpdate?: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     setContent: {
@@ -22,24 +41,7 @@ declare module '@tiptap/core' {
         /**
          * Options for `setContent`.
          */
-        options?: {
-          /**
-           * Options for parsing the content.
-           * @default {}
-           */
-          parseOptions?: ParseOptions
-
-          /**
-           * Whether to throw an error if the content is invalid.
-           */
-          errorOnInvalidContent?: boolean
-
-          /**
-           * Whether to emit an update event.
-           * @default true
-           */
-          emitUpdate?: boolean
-        },
+        options?: SetContentOptions,
       ) => ReturnType
     }
   }

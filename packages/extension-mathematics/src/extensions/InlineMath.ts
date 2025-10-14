@@ -181,6 +181,42 @@ export const InlineMath = Node.create<InlineMathOptions>({
     return ['span', mergeAttributes(HTMLAttributes, { 'data-type': 'inline-math' })]
   },
 
+  parseMarkdown: (token: any) => {
+    return {
+      type: 'inlineMath',
+      attrs: {
+        latex: token.latex,
+      },
+    }
+  },
+
+  renderMarkdown: node => {
+    const latex = node.attrs?.latex || ''
+
+    return `$${latex}$`
+  },
+
+  markdownTokenizer: {
+    name: 'inlineMath',
+    level: 'inline',
+    start: (src: string) => src.indexOf('$'),
+    tokenize: (src: string) => {
+      // Match $latex$ syntax for inline math (but not $$)
+      const match = src.match(/^\$([^$]+)\$(?!\$)/)
+      if (!match) {
+        return undefined
+      }
+
+      const [fullMatch, latex] = match
+
+      return {
+        type: 'inlineMath',
+        raw: fullMatch,
+        latex: latex.trim(),
+      }
+    },
+  },
+
   addInputRules() {
     return [
       new InputRule({

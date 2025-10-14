@@ -8,6 +8,8 @@ dist
 .env.*
 .eslintcache
 
+.instructions
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
