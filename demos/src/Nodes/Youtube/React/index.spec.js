@@ -9,7 +9,7 @@ context('/src/Nodes/Youtube/React/', () => {
 
   it('adds a video', () => {
     cy.window().then(win => {
-      cy.stub(win, 'prompt', () => 'https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
+      cy.stub(win, 'prompt').returns('https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
       cy.get('#add').eq(0).click()
       cy.get('.tiptap div[data-youtube-video] iframe')
         .should('have.length', 1)
@@ -27,7 +27,7 @@ context('/src/Nodes/Youtube/React/', () => {
 
   it('adds a video with 320 width and 240 height', () => {
     cy.window().then(win => {
-      cy.stub(win, 'prompt', () => 'https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
+      cy.stub(win, 'prompt').returns('https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
       cy.get('#width').type('{selectall}{backspace}320')
       cy.get('#height').type('{selectall}{backspace}240')
       cy.get('#add').eq(0).click()
@@ -49,15 +49,9 @@ context('/src/Nodes/Youtube/React/', () => {
 
   it('replaces a video', () => {
     cy.window().then(win => {
-      let runs = 0
-
-      cy.stub(win, 'prompt', () => {
-        runs += 1
-        if (runs === 1) {
-          return 'https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share'
-        }
-        return 'https://music.youtube.com/watch?v=wRakoMYVHm8'
-      })
+      const promptStub = cy.stub(win, 'prompt')
+      promptStub.onFirstCall().returns('https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
+      promptStub.onSecondCall().returns('https://music.youtube.com/watch?v=wRakoMYVHm8')
 
       cy.get('#add').eq(0).click()
       cy.get('.tiptap div[data-youtube-video] iframe')

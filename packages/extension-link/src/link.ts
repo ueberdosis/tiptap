@@ -201,6 +201,7 @@ export const Link = Mark.create<LinkOptions>({
   exitable: true,
 
   onCreate() {
+    // TODO: v4 - remove validate option
     if (this.options.validate && !this.options.shouldAutoLink) {
       // Copy the validate function to the shouldAutoLink option
       this.options.shouldAutoLink = this.options.validate
@@ -371,15 +372,19 @@ export const Link = Mark.create<LinkOptions>({
             )
 
             if (links.length) {
-              links.forEach(link =>
+              links.forEach(link => {
+                if (!this.options.shouldAutoLink(link.value)) {
+                  return
+                }
+
                 foundLinks.push({
                   text: link.value,
                   data: {
                     href: link.href,
                   },
                   index: link.start,
-                }),
-              )
+                })
+              })
             }
           }
 
@@ -431,6 +436,7 @@ export const Link = Mark.create<LinkOptions>({
           editor: this.editor,
           defaultProtocol: this.options.defaultProtocol,
           type: this.type,
+          shouldAutoLink: this.options.shouldAutoLink,
         }),
       )
     }

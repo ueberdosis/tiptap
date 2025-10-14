@@ -15,6 +15,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 export function textblockTypeInputRule(config: {
   find: InputRuleFinder
   type: NodeType
+  undoable?: boolean
   getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
@@ -29,5 +30,6 @@ export function textblockTypeInputRule(config: {
 
       state.tr.delete(range.from, range.to).setBlockType(range.from, range.from, config.type, attributes)
     },
+    undoable: config.undoable,
   })
 }

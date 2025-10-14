@@ -1,10 +1,12 @@
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import type { PropType } from 'vue'
-import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'vue'
+import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, Teleport } from 'vue'
 
 export const BubbleMenu = defineComponent({
   name: 'BubbleMenu',
+
+  inheritAttrs: false,
 
   props: {
     pluginKey: {
@@ -32,39 +34,58 @@ export const BubbleMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
+
+    getReferencedVirtualElement: {
+      type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>>,
+      default: undefined,
+    },
   },
 
-  setup(props, { slots }) {
-    const root = ref<HTMLElement | null>(null)
+  setup(props, { slots, attrs }) {
+    const el = document.createElement('div')
 
     onMounted(() => {
-      const { editor, options, pluginKey, resizeDelay, shouldShow, updateDelay } = props
+      const {
+        editor,
+        options,
+        pluginKey,
+        resizeDelay,
+        appendTo,
+        shouldShow,
+        getReferencedVirtualElement,
+        updateDelay,
+      } = props
 
-      if (!root.value) {
-        return
-      }
+      el.style.visibility = 'hidden'
+      el.style.position = 'absolute'
 
-      root.value.style.visibility = 'hidden'
-      root.value.style.position = 'absolute'
+      // Remove element from DOM; plugin will re-parent it when shown
+      el.remove()
 
-      // remove the element from the DOM
-      root.value.remove()
-
-      editor.registerPlugin(
-        BubbleMenuPlugin({
-          editor,
-          element: root.value as HTMLElement,
-          options,
-          pluginKey,
-          resizeDelay,
-          shouldShow,
-          updateDelay,
-        }),
-      )
+      nextTick(() => {
+        editor.registerPlugin(
+          BubbleMenuPlugin({
+            editor,
+            element: el,
+            options,
+            pluginKey,
+            resizeDelay,
+            appendTo,
+            shouldShow,
+            getReferencedVirtualElement,
+            updateDelay,
+          }),
+        )
+      })
     })
 
     onBeforeUnmount(() => {
@@ -73,6 +94,7 @@ export const BubbleMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
+    // Teleport only instantiates element + slot subtree; plugin controls final placement
+    return () => h(Teleport, { to: el }, h('div', { ...attrs, ref: 'root' }, slots.default?.()))
   },
 })
