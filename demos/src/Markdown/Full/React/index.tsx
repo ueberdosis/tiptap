@@ -82,9 +82,7 @@ const CustomReactNode = Node.create({
 
 export default () => {
   const [markdownInput, setMarkdownInput] = useState(mdContent)
-
   const [error, setError] = useState<string | null>(null)
-  const [showJson, setShowJson] = useState(false)
 
   const editor = useEditor({
     extensions: [
@@ -160,13 +158,6 @@ export default () => {
     }
   }
 
-  const getCurrentJson = () => {
-    if (!editor) {
-      return null
-    }
-    return editor.getJSON()
-  }
-
   const insertImage = () => {
     const url = prompt('Enter image URL:', 'https://unsplash.it/400/300')
     if (url && editor) {
@@ -227,26 +218,24 @@ export default () => {
 
   return (
     <div className="markdown-parser-demo">
-      <div className="controls">
-        <button type="button" onClick={parseMarkdown} disabled={!editor || !markdownInput.trim()}>
-          Parse Markdown →
-        </button>
+      <div className="control-group">
+        <div className="button-group">
+          <button type="button" onClick={parseMarkdown} disabled={!editor || !markdownInput.trim()}>
+            Parse Markdown →
+          </button>
 
-        <button type="button" onClick={() => setShowJson(!showJson)}>
-          {showJson ? 'Hide' : 'Show'} JSON
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            if (editor) {
-              const markdown = getEditorAsMarkdown()
-              setMarkdownInput(markdown)
-            }
-          }}
-        >
-          ← Extract Markdown
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (editor) {
+                const markdown = getEditorAsMarkdown()
+                setMarkdownInput(markdown)
+              }
+            }}
+          >
+            ← Extract Markdown
+          </button>
+        </div>
       </div>
 
       {error && <div className="error">{error}</div>}
@@ -266,24 +255,24 @@ export default () => {
           <div className="panel-label">Tiptap Editor</div>
 
           {/* Toolbar */}
-          <div className="editor-toolbar">
+          <div className="editor-toolbar button-group">
             <button type="button" onClick={insertImage} disabled={!editor} title="Insert Image">
-              📷 Image
+              Insert Image
             </button>
             <button type="button" onClick={insertYoutube} disabled={!editor} title="Insert YouTube Video">
-              ▶️ YouTube
+              Insert YouTube
             </button>
             <button type="button" onClick={insertMention} disabled={!editor} title="Insert Mention">
-              @ Mention
+              Insert Mention
             </button>
             <button type="button" onClick={insertInlineMath} disabled={!editor} title="Insert Inline Math">
-              📐 Inline Math
+              Insert Inline Math
             </button>
             <button type="button" onClick={insertBlockMath} disabled={!editor} title="Insert Block Math">
-              📊 Block Math
+              Insert Block Math
             </button>
             <button type="button" onClick={insertCustomReactNode} disabled={!editor} title="Insert Custom React Node">
-              ⚛️ React Node
+              Insert React Node
             </button>
           </div>
 
@@ -292,13 +281,6 @@ export default () => {
           </div>
         </div>
       </div>
-
-      {showJson && (
-        <div className="json-preview">
-          <strong>Current Editor JSON:</strong>
-          <pre>{JSON.stringify(getCurrentJson(), null, 2)}</pre>
-        </div>
-      )}
     </div>
   )
 }

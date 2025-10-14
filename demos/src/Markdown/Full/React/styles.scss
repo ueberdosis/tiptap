@@ -1,40 +1,14 @@
 .markdown-parser-demo {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   height: 100vh;
-  padding: 1rem;
-}
-
-.markdown-parser-demo .controls {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.markdown-parser-demo .controls button {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.markdown-parser-demo .controls button:hover {
-  background: #2563eb;
-}
-
-.markdown-parser-demo .controls button:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
 }
 
 .markdown-parser-demo .split {
   display: flex;
   gap: 1rem;
   flex: 1 1 auto;
+  padding: 0 1.5rem 1rem;
 }
 
 .markdown-parser-demo .input-panel,
@@ -86,29 +60,6 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom: none;
-}
-
-.markdown-parser-demo .editor-toolbar button {
-  background: #ffffff;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  padding: 0.375rem 0.75rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.15s ease;
-}
-
-.markdown-parser-demo .editor-toolbar button:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.markdown-parser-demo .editor-toolbar button:disabled {
-  background: #f9fafb;
-  color: #9ca3af;
-  cursor: not-allowed;
 }
 
 .markdown-parser-demo .editor-toolbar + .editor-container {
