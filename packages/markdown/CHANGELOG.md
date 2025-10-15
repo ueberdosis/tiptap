@@ -1,5 +1,14 @@
 # @tiptap/markdown
 
+## 3.7.1
+
+### Patch Changes
+
+- f1fc469: Editors will not throw an error anymore when `content` is an empty string and `contentType` is `markdown`
+- c9036bd: Remove invalid server configuration from package.json
+  - @tiptap/core@3.7.1
+  - @tiptap/pm@3.7.1
+
 ## 3.7.0
 
 ### Minor Changes
