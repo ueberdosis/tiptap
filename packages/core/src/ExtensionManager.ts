@@ -29,12 +29,21 @@ export class ExtensionManager {
 
   schema: Schema
 
+  /**
+   * A flattened and sorted array of all extensions
+   */
   extensions: Extensions
+
+  /**
+   * A non-flattened array of base extensions (no sub-extensions)
+   */
+  baseExtensions: Extensions
 
   splittableMarks: string[] = []
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
+    this.baseExtensions = extensions
     this.extensions = resolveExtensions(extensions)
     this.schema = getSchemaByResolvedExtensions(this.extensions, editor)
     this.setupExtensions()
