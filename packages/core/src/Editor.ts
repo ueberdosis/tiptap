@@ -355,13 +355,13 @@ export class Editor extends EventEmitter<EditorEvents> {
    * @param handlePlugins Control how to merge the plugin into the existing plugins.
    * @returns The new editor state
    */
-  public registerPlugin(
-    plugin: Plugin,
-    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[],
+  public registerPlugin<T extends Plugin | Plugin[]>(
+    plugin: T,
+    handlePlugins?: (newPlugin: T, plugins: Plugin[]) => Plugin[],
   ): EditorState {
     const plugins = isFunction(handlePlugins)
       ? handlePlugins(plugin, [...this.state.plugins])
-      : [...this.state.plugins, plugin]
+      : [...this.state.plugins, ...(Array.isArray(plugin) ? plugin : [plugin])]
 
     const state = this.state.reconfigure({ plugins })
 
