@@ -1,5 +1,38 @@
 # Releases
 
+## v3.6.7
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix CVE-2025-61927 by bumping happy-dom to 20.0.0
+  
+  Bumps the transitive/dev dependency happy-dom from ^18.0.1 → ^20.0.0 in @tiptap/html to address CVE-2025-61927. This is a dependency/security-only change and does not modify any public APIs.
+  
+  Why:
+  - happy-dom released a security fix for CVE-2025-61927; updating prevents the vulnerability being pulled into consumers that depend on @tiptap/html.
+
+## v3.6.6
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fixed a bug that caused conditionally rendered bubble menus not to be attached to the DOM correctly
+
 ## v3.6.5
 
 ### @tiptap/extension-horizontal-rule

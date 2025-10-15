@@ -32,7 +32,9 @@
     "turbo": "turbo",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
+    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile",
+    "publish:markdown": "pnpm run build && pnpm changeset publish --tag markdown",
+    "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -51,7 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "babel-loader": "^9.2.1",
-    "cypress": "^14.0.0",
+    "cypress": "^15.4.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",

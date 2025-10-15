@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-node-range",
   "description": "node range extension for tiptap",
-  "version": "3.6.5",
+  "version": "3.6.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
