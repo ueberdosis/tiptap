@@ -45,12 +45,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "happy-dom": "^20.0.0"
+    "happy-dom": "^20.0.2"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "happy-dom": "^20.0.0"
+    "happy-dom": "^20.0.2"
   },
   "repository": {
     "type": "git",
