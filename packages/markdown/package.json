@@ -20,18 +20,9 @@
       },
       "import": {
         "browser": "./dist/index.js",
-        "node": "./dist/server/index.js",
         "default": "./dist/index.js"
       },
       "require": "./dist/index.cjs"
-    },
-    "./server": {
-      "types": {
-        "import": "./dist/server/index.d.ts",
-        "require": "./dist/server/index.d.cts"
-      },
-      "import": "./dist/server/index.js",
-      "require": "./dist/server/index.cjs"
     }
   },
   "main": "dist/index.cjs",

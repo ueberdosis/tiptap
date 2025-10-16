@@ -201,7 +201,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       )
     }
 
-    if (!this.editor.options.content || typeof this.editor.options.content !== 'string') {
+    if (this.editor.options.content === undefined || typeof this.editor.options.content !== 'string') {
       throw new Error(
         '[tiptap][markdown]: The `contentType` option is set to "markdown", but the initial content is not a string. Please provide the initial content as a markdown string.',
       )
