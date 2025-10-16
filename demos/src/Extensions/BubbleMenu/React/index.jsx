@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, findParentNode, posToDOMRect, useEditor, useEditorState } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -59,69 +59,35 @@ export default () => {
       </div>
 
       {editor && showMenu && (
-        <>
-          <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, flip: true }}>
-            <div className="bubble-menu">
-              <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={isBold ? 'is-active' : ''}
-                type="button"
-              >
-                Bold
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={isItalic ? 'is-active' : ''}
-                type="button"
-              >
-                Italic
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={isStrikethrough ? 'is-active' : ''}
-                type="button"
-              >
-                Strike
-              </button>
-            </div>
-          </BubbleMenu>
-
-          <BubbleMenu
-            editor={editor}
-            shouldShow={() => editor.isActive('bulletList') || editor.isActive('orderedList')}
-            getReferencedVirtualElement={() => {
-              const parentNode = findParentNode(
-                node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
-              )(editor.state.selection)
-              if (parentNode) {
-                const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
-                return {
-                  getBoundingClientRect: () => domRect,
-                  getClientRects: () => [domRect],
-                }
-              }
-              return null
-            }}
-            options={{ placement: 'top-start', offset: 8 }}
+        <BubbleMenu
+          editor={editor}
+          options={{ placement: 'bottom', offset: 8, flip: true }}
+          className="bubble-menu"
+          data-testid="styled-bubble-menu"
+          style={{ zIndex: 9999 }}
+        >
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={isBold ? 'is-active' : ''}
+            type="button"
           >
-            <div className="bubble-menu">
-              <button
-                onClick={() => {
-                  const chain = editor.chain().focus()
-                  if (editor.isActive('bulletList')) {
-                    chain.toggleOrderedList()
-                  } else {
-                    chain.toggleBulletList()
-                  }
-                  chain.run()
-                }}
-                type="button"
-              >
-                Toggle list type
-              </button>
-            </div>
-          </BubbleMenu>
-        </>
+            Bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={isItalic ? 'is-active' : ''}
+            type="button"
+          >
+            Italic
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={isStrikethrough ? 'is-active' : ''}
+            type="button"
+          >
+            Strike
+          </button>
+        </BubbleMenu>
       )}
       <EditorContent editor={editor} />
     </>

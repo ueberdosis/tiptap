@@ -34,6 +34,38 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
 
     const { editor: currentEditor } = useCurrentEditor()
 
+    // Apply props to the menu element whenever they change
+    useEffect(() => {
+      const bubbleMenuElement = menuEl.current
+      const { style, className, ...otherProps } = restProps
+
+      // Clear existing attributes and className first
+      bubbleMenuElement.className = ''
+      Array.from(bubbleMenuElement.attributes).forEach(attr => {
+        if (attr.name !== 'style') {
+          bubbleMenuElement.removeAttribute(attr.name)
+        }
+      })
+
+      // Apply className to the actual menu element
+      if (className) {
+        bubbleMenuElement.className = className
+      }
+
+      // Apply other HTML attributes (data-*, etc.) to the actual menu element
+      Object.keys(otherProps).forEach(key => {
+        const value = (otherProps as any)[key]
+        if (value !== undefined) {
+          bubbleMenuElement.setAttribute(key, value)
+        }
+      })
+
+      // Apply style props to the actual menu element (preserve positioning styles)
+      if (style) {
+        Object.assign(bubbleMenuElement.style, style)
+      }
+    }, [restProps])
+
     useEffect(() => {
       const bubbleMenuElement = menuEl.current
       bubbleMenuElement.style.visibility = 'hidden'
@@ -84,6 +116,6 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       options,
     ])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(<div>{children}</div>, menuEl.current)
   },
 )
