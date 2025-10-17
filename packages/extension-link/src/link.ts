@@ -316,7 +316,13 @@ export const Link = Mark.create<LinkOptions>({
     const href = node.attrs?.href || ''
     const text = h.renderChildren(node)
 
-    return `[${text}](${href})`
+    let inner = `${href}`
+
+    if (node.attrs?.title) {
+      inner = `${href} "${node.attrs.title}"`
+    }
+
+    return `[${text}](${inner})`
   },
 
   addCommands() {

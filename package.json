@@ -16,6 +16,9 @@
     "lint": "turbo run lint",
     "lint:fix": "prettier -w --log-level warn . && eslint --fix --cache --quiet --no-error-on-unmatched-pattern .",
     "lint:staged": "lint-staged",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest dev",
+    "test:unit:coverage": "vitest --coverage",
     "test:open": "cypress open --project tests",
     "test:run": "cypress run --project tests",
     "test": "turbo run build && pnpm run test:run",
@@ -52,6 +55,7 @@
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "babel-loader": "^9.2.1",
     "cypress": "^15.4.0",
     "cz-conventional-changelog": "^3.3.0",
@@ -77,6 +81,7 @@
     "tsup": "^8.3.5",
     "turbo": "2.3.3",
     "typescript": "^5.7.3",
+    "vitest": "^3.2.4",
     "webpack": "^5.97.1"
   },
   "overrides": {
