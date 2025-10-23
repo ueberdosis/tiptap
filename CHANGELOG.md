@@ -1,5 +1,138 @@
 # Releases
 
+## v3.7.2
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fix [CVE-2025-62410](https://www.cve.org/CVERecord?id=CVE-2025-62410) by updating happy-dom to ^20.0.2
+
+## v3.7.1
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Editors will not throw an error anymore when `content` is an empty string and `contentType` is `markdown`
+- Remove invalid server configuration from package.json
+
+## v3.7.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
+  
+  Why:
+  - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
+  
+  ```ts
+  import { commands } from '@tiptap/core'
+  ```
+  
+  Notes:
+  - This is a non-breaking, additive change. It improves ergonomics for TypeScript consumers.
+  - If you rely on previously private/internal types, prefer the exported types from `@tiptap/core` going forward.
+- Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+  
+  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+  
+  **Core Features:**
+  
+  **Extension API**
+  - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
+  - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
+    - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
+    - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
+    - Access to underlying marked.js instance: `editor.markdown.instance`
+  
+  #### Editor Methods
+  - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
+  - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
+  
+  **Editor Options:**
+  - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
+    ```typescript
+    new Editor({
+      content: '# Hello World',
+      contentType: 'markdown'
+    })
+    ```
+  
+  **Command Options:** All content commands now support an `contentType` option:
+  - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
+  - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
+  - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
+  
+  For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
+
+#### Patch Changes
+
+- The extension manager now provides a new property `baseExtensions` that contains an unflattened array of extensions
+
+### @tiptap/markdown
+
+#### Minor Changes
+
+- Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+  
+  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+  
+  **Core Features:**
+  
+  **Extension API**
+  - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
+  - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
+    - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
+    - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
+    - Access to underlying marked.js instance: `editor.markdown.instance`
+  
+  #### Editor Methods
+  - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
+  - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
+  
+  **Editor Options:**
+  - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
+    ```typescript
+    new Editor({
+      content: '# Hello World',
+      contentType: 'markdown'
+    })
+    ```
+  
+  **Command Options:** All content commands now support an `contentType` option:
+  - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
+  - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
+  - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
+  
+  For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Paste Handlers and onPaste plugin now respect shouldAutoLink/validate options
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Make the `TrailingNode` extension's `node` option optional and derive the
+  default node type from the editor schema when available.
+  
+  Previously the extension used a hard-coded `'paragraph'` default and the
+  `node` option was required in the TypeScript definitions. This change:
+  
+  - makes `node` optional in the options type,
+  - prefers the editor schema's top node default type when resolving the
+    trailing node, and
+  - falls back to the configured option or `'paragraph'` as a last resort.
+  
+  This fixes cases where projects use a different top-level default node and
+  prevents the extension from inserting an incorrect trailing node type.
+
 ## v3.6.7
 
 ### @tiptap/html

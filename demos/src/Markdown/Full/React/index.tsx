@@ -158,64 +158,6 @@ export default () => {
     }
   }
 
-  const insertImage = () => {
-    const url = prompt('Enter image URL:', 'https://unsplash.it/400/300')
-    if (url && editor) {
-      editor.chain().focus().setImage({ src: url }).run()
-    }
-  }
-
-  const insertYoutube = () => {
-    const url = prompt('Enter YouTube URL:', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-    if (url && editor) {
-      editor.chain().focus().setYoutubeVideo({ src: url }).run()
-    }
-  }
-
-  const insertMention = () => {
-    const name = prompt('Enter mention name:', 'John Doe')
-    if (name && editor) {
-      // Generate a simple ID based on the name
-      const id = Math.random().toString(36).substring(2, 9)
-      editor.chain().focus().insertContent(`[@ id="${id}" label="${name}"]`, { contentType: 'markdown' }).run()
-    }
-  }
-
-  const insertCustomReactNode = () => {
-    const content = prompt('Enter content for custom React node:', 'Hello from React!')
-    if (content && editor) {
-      editor.chain().focus().insertContent(`:::react\n\n${content}\n\n:::`, { contentType: 'markdown' }).run()
-    }
-  }
-
-  const insertInlineMath = () => {
-    const latex = prompt('Enter LaTeX for inline math:', 'E = mc^2')
-    if (latex && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: 'inlineMath',
-          attrs: { latex },
-        })
-        .run()
-    }
-  }
-
-  const insertBlockMath = () => {
-    const latex = prompt('Enter LaTeX for block math:', '\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}')
-    if (latex && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: 'blockMath',
-          attrs: { latex },
-        })
-        .run()
-    }
-  }
-
   return (
     <div className="markdown-parser-demo">
       <div className="control-group">
@@ -253,29 +195,6 @@ export default () => {
 
         <div className="editor-panel">
           <div className="panel-label">Tiptap Editor</div>
-
-          {/* Toolbar */}
-          <div className="editor-toolbar button-group">
-            <button type="button" onClick={insertImage} disabled={!editor} title="Insert Image">
-              Insert Image
-            </button>
-            <button type="button" onClick={insertYoutube} disabled={!editor} title="Insert YouTube Video">
-              Insert YouTube
-            </button>
-            <button type="button" onClick={insertMention} disabled={!editor} title="Insert Mention">
-              Insert Mention
-            </button>
-            <button type="button" onClick={insertInlineMath} disabled={!editor} title="Insert Inline Math">
-              Insert Inline Math
-            </button>
-            <button type="button" onClick={insertBlockMath} disabled={!editor} title="Insert Block Math">
-              Insert Block Math
-            </button>
-            <button type="button" onClick={insertCustomReactNode} disabled={!editor} title="Insert Custom React Node">
-              Insert React Node
-            </button>
-          </div>
-
           <div className="editor-container">
             {editor ? <EditorContent editor={editor} /> : <div>Loading editor…</div>}
           </div>

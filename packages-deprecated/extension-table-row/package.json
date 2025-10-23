@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-row",
   "description": "table row extension for tiptap",
-  "version": "3.6.7",
+  "version": "3.7.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
