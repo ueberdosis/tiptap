@@ -12,6 +12,8 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element'> & {
   class?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
+  onElementDragStart?: DragHandlePluginProps['onElementDragStart']
+  onElementDragEnd?: DragHandlePluginProps['onElementDragEnd']
 }
 
 export const DragHandle = Vue.extend({
@@ -38,6 +40,16 @@ export const DragHandle = Vue.extend({
       default: null,
     },
 
+    onElementDragStart: {
+      type: Function as PropType<DragHandleProps['onElementDragStart']>,
+      default: null,
+    },
+
+    onElementDragEnd: {
+      type: Function as PropType<DragHandleProps['onElementDragEnd']>,
+      default: null,
+    },
+
     class: {
       type: String as PropType<DragHandleProps['class']>,
       default: 'drag-handle',
@@ -45,7 +57,7 @@ export const DragHandle = Vue.extend({
   },
 
   mounted() {
-    const { editor, pluginKey, onNodeChange } = this.$props
+    const { editor, pluginKey, onNodeChange, onElementDragStart, onElementDragEnd } = this.$props
 
     editor.registerPlugin(
       DragHandlePlugin({
@@ -54,6 +66,8 @@ export const DragHandle = Vue.extend({
         pluginKey,
         computePositionConfig: { ...defaultComputePositionConfig, ...this.computePositionConfig },
         onNodeChange,
+        onElementDragStart,
+        onElementDragEnd,
       }).plugin,
     )
   },
