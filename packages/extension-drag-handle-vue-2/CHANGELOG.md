@@ -1,5 +1,12 @@
 # @tiptap/extension-drag-handle-vue-2
 
+## 2.26.4
+
+### Patch Changes
+
+- e22288f: Use factory function for object default value as required by vue 2.
+- e22288f: Fixed a bug that would cause Vue 2 to throw errors in console because Vue 2 expects factory functions for prop defaults
+
 ## 2.26.3
 
 ## 2.26.2
