@@ -12,8 +12,6 @@ type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element'> & {
   class?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
-  onElementDragStart?: DragHandlePluginProps['onElementDragStart']
-  onElementDragEnd?: DragHandlePluginProps['onElementDragEnd']
 }
 
 export const DragHandle = Vue.extend({
