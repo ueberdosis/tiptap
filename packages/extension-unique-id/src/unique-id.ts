@@ -16,6 +16,14 @@ export interface UniqueIDOptions {
   types: string[],
   generateID: () => any,
   filterTransaction: ((transaction: Transaction) => boolean) | null,
+  /**
+   * Whether to update the document by adding unique IDs to the nodes. Set this
+   * property to `false` if the document is in `readonly` mode, is immutable, or
+   * you don't want it to be modified.
+   *
+   * @default true
+   */
+  updateDocument: boolean
 }
 
 export const UniqueID = Extension.create<UniqueIDOptions>({
@@ -31,6 +39,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       types: [],
       generateID: () => uuidv4(),
       filterTransaction: null,
+      updateDocument: true,
     }
   },
 
@@ -59,6 +68,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
   // check initial content for missing ids
   onCreate() {
+    if (!this.options.updateDocument) {
+      return
+    }
+
     const collab = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
     const provider = collab?.options ? collab.options.provider : undefined
 
@@ -103,6 +116,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   },
 
   addProseMirrorPlugins() {
+    if (!this.options.updateDocument) {
+      return []
+    }
+
     let dragSourceElement: Element | null = null
     let transformPasted = false
 
