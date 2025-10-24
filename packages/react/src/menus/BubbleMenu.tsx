@@ -34,55 +34,51 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
 
     const { editor: currentEditor } = useCurrentEditor()
 
-    useEffect(() => {
-      const bubbleMenuElement = menuEl.current
-      bubbleMenuElement.style.visibility = 'hidden'
-      bubbleMenuElement.style.position = 'absolute'
+    const attachToEditor = editor || currentEditor
 
-      if (editor?.isDestroyed || (currentEditor as any)?.isDestroyed) {
+    const bubbleMenuPluginProps: Omit<BubbleMenuPluginProps, 'editor' | 'element'> = {
+      updateDelay,
+      resizeDelay,
+      appendTo,
+      pluginKey,
+      shouldShow,
+      getReferencedVirtualElement,
+      options,
+    }
+    const bubbleMenuPluginPropsRef = useRef(bubbleMenuPluginProps)
+    bubbleMenuPluginPropsRef.current = bubbleMenuPluginProps
+
+    useEffect(() => {
+      if (attachToEditor?.isDestroyed) {
         return
       }
-
-      const attachToEditor = editor || currentEditor
 
       if (!attachToEditor) {
         console.warn('BubbleMenu component is not rendered inside of an editor component or does not have editor prop.')
         return
       }
 
+      const bubbleMenuElement = menuEl.current
+      bubbleMenuElement.style.visibility = 'hidden'
+      bubbleMenuElement.style.position = 'absolute'
+
       const plugin = BubbleMenuPlugin({
-        updateDelay,
-        resizeDelay,
+        ...bubbleMenuPluginPropsRef.current,
         editor: attachToEditor,
         element: bubbleMenuElement,
-        appendTo,
-        pluginKey,
-        shouldShow,
-        getReferencedVirtualElement,
-        options,
       })
 
       attachToEditor.registerPlugin(plugin)
 
       return () => {
-        attachToEditor.unregisterPlugin(pluginKey)
+        attachToEditor.unregisterPlugin(bubbleMenuPluginPropsRef.current.pluginKey)
         window.requestAnimationFrame(() => {
           if (bubbleMenuElement.parentNode) {
             bubbleMenuElement.parentNode.removeChild(bubbleMenuElement)
           }
         })
       }
-    }, [
-      editor,
-      currentEditor,
-      pluginKey,
-      updateDelay,
-      resizeDelay,
-      appendTo,
-      shouldShow,
-      getReferencedVirtualElement,
-      options,
-    ])
+    }, [attachToEditor])
 
     return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
   },
