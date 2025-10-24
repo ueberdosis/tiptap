@@ -49,8 +49,9 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       options,
     }
     /**
-     * The props for the bubble menu plugin. They are accessed inside a ref to avoid
-     * re-rendering the plugin when the props change.
+     * The props for the bubble menu plugin. They are accessed inside a ref to
+     * avoid running the useEffect hook and re-registering the plugin when the
+     * props change.
      */
     const bubbleMenuPluginPropsRef = useRef(bubbleMenuPluginProps)
     bubbleMenuPluginPropsRef.current = bubbleMenuPluginProps
