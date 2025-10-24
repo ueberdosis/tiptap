@@ -39,6 +39,8 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
      */
     const pluginEditor = editor || currentEditor
 
+    // Creating a useMemo would be more computationally expensive than just
+    // re-creating this object on every render.
     const bubbleMenuPluginProps: Omit<BubbleMenuPluginProps, 'editor' | 'element'> = {
       updateDelay,
       resizeDelay,
