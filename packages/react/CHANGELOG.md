@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.8.0
+
+### Patch Changes
+
+- f3770af: Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+  - @tiptap/core@3.8.0
+  - @tiptap/pm@3.8.0
+
 ## 3.7.2
 
 ### Patch Changes

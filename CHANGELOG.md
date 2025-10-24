@@ -1,5 +1,19 @@
 # Releases
 
+## v3.8.0
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+
 ## v3.7.2
 
 ### @tiptap/html
