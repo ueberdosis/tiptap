@@ -1,5 +1,16 @@
 # @tiptap/extension-unique-id
 
+## 3.8.0
+
+### Minor Changes
+
+- 23e516e: Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+
 ## 3.7.2
 
 ### Patch Changes

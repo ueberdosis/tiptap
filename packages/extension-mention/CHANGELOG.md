@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+- @tiptap/suggestion@3.8.0
+
 ## 3.7.2
 
 ### Patch Changes
