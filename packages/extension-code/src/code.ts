@@ -41,7 +41,7 @@ export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/
 /**
  * Matches inline code while pasting.
  */
-export const pasteRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/g
+export const pasteRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))/g
 
 /**
  * This extension allows you to mark text as inline code.
