@@ -1,5 +1,43 @@
 # Change Log
 
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- 7cf3ab6: Make the `TrailingNode` extension's `node` option optional and derive the
+  default node type from the editor schema when available.
+
+  Previously the extension used a hard-coded `'paragraph'` default and the
+  `node` option was required in the TypeScript definitions. This change:
+
+  - makes `node` optional in the options type,
+  - prefers the editor schema's top node default type when resolving the
+    trailing node, and
+  - falls back to the configured option or `'paragraph'` as a last resort.
+
+  This fixes cases where projects use a different top-level default node and
+  prevents the extension from inserting an incorrect trailing node type.
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/pm@3.7.0
+
 ## 3.6.7
 
 ### Patch Changes
