@@ -1,5 +1,29 @@
 # Change Log
 
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/extension-table@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/extension-table@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- @tiptap/extension-table@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/extension-table@3.6.7
+
 ## 3.6.6
 
 ### Patch Changes

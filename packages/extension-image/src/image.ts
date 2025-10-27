@@ -110,6 +110,22 @@ export const Image = Node.create<ImageOptions>({
     return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
+  parseMarkdown: (token, helpers) => {
+    return helpers.createNode('image', {
+      src: token.href,
+      title: token.title,
+      alt: token.text,
+    })
+  },
+
+  renderMarkdown: node => {
+    const src = node.attrs?.src ?? ''
+    const alt = node.attrs?.alt ?? ''
+    const title = node.attrs?.title ?? ''
+
+    return title ? `![${alt}](${src} "${title}")` : `![${alt}](${src})`
+  },
+
   addCommands() {
     return {
       setImage:

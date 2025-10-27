@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, findParentNode, posToDOMRect, useEditor } from '@tiptap/react'
+import { EditorContent, findParentNode, posToDOMRect, useEditor, useEditorState } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -31,6 +31,15 @@ export default () => {
     }
   }, [isEditable, editor])
 
+  const { isBold, isItalic, isStrikethrough } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold'),
+      isItalic: ctx.editor.isActive('italic'),
+      isStrikethrough: ctx.editor.isActive('strike'),
+    }),
+  })
+
   return (
     <>
       <button
@@ -55,21 +64,21 @@ export default () => {
             <div className="bubble-menu">
               <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive('bold') ? 'is-active' : ''}
+                className={isBold ? 'is-active' : ''}
                 type="button"
               >
                 Bold
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={editor.isActive('italic') ? 'is-active' : ''}
+                className={isItalic ? 'is-active' : ''}
                 type="button"
               >
                 Italic
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={editor.isActive('strike') ? 'is-active' : ''}
+                className={isStrikethrough ? 'is-active' : ''}
                 type="button"
               >
                 Strike
