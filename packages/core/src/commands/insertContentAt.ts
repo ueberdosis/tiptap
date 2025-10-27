@@ -5,6 +5,33 @@ import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
+export interface InsertContentAtOptions {
+  /**
+   * Options for parsing the content.
+   */
+  parseOptions?: ParseOptions
+
+  /**
+   * Whether to update the selection after inserting the content.
+   */
+  updateSelection?: boolean
+
+  /**
+   * Whether to apply input rules after inserting the content.
+   */
+  applyInputRules?: boolean
+
+  /**
+   * Whether to apply paste rules after inserting the content.
+   */
+  applyPasteRules?: boolean
+
+  /**
+   * Whether to throw an error if the content is invalid.
+   */
+  errorOnInvalidContent?: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     insertContentAt: {
@@ -26,32 +53,7 @@ declare module '@tiptap/core' {
         /**
          * Optional options
          */
-        options?: {
-          /**
-           * Options for parsing the content.
-           */
-          parseOptions?: ParseOptions
-
-          /**
-           * Whether to update the selection after inserting the content.
-           */
-          updateSelection?: boolean
-
-          /**
-           * Whether to apply input rules after inserting the content.
-           */
-          applyInputRules?: boolean
-
-          /**
-           * Whether to apply paste rules after inserting the content.
-           */
-          applyPasteRules?: boolean
-
-          /**
-           * Whether to throw an error if the content is invalid.
-           */
-          errorOnInvalidContent?: boolean
-        },
+        options?: InsertContentAtOptions,
       ) => ReturnType
     }
   }

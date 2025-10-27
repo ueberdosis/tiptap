@@ -90,6 +90,17 @@ export const Bold = Mark.create<BoldOptions>({
     )
   },
 
+  markdownTokenName: 'strong',
+
+  parseMarkdown: (token, helpers) => {
+    // Convert 'strong' token to bold mark
+    return helpers.applyMark('bold', helpers.parseInline(token.tokens || []))
+  },
+
+  renderMarkdown: (node, h) => {
+    return `**${h.renderChildren(node)}**`
+  },
+
   addCommands() {
     return {
       setBold:

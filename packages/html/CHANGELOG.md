@@ -1,5 +1,30 @@
 # Change Log
 
+## 3.7.2
+
+### Patch Changes
+
+- 1351d4d: Fix [CVE-2025-62410](https://www.cve.org/CVERecord?id=CVE-2025-62410) by updating happy-dom to ^20.0.2
+  - @tiptap/core@3.7.2
+  - @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/pm@3.7.0
+
 ## 3.6.7
 
 ### Patch Changes

@@ -32,7 +32,9 @@
     "turbo": "turbo",
     "changeset": "changeset",
     "changelog": "node ./scripts/aggregate-changeset.js",
-    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
+    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile",
+    "publish:markdown": "pnpm run build && pnpm changeset publish --tag markdown",
+    "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

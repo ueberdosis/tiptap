@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
 import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
 
@@ -334,4 +334,9 @@ export const Youtube = Node.create<YoutubeOptions>({
       ],
     ]
   },
+
+  ...createAtomBlockMarkdownSpec({
+    nodeName: 'youtube',
+    allowedAttributes: ['src', 'width', 'height', 'start'],
+  }),
 })
