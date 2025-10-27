@@ -175,7 +175,7 @@ export const Image = Node.create<ImageOptions>({
 
       el.src = HTMLAttributes.src
 
-      return createResizableNodeView({
+      const nodeView = createResizableNodeView({
         directions,
         minWidth,
         minHeight,
@@ -185,6 +185,18 @@ export const Image = Node.create<ImageOptions>({
         node,
         preserveAspectRatio: alwaysPreserveAspectRatio === true,
       })
+
+      const dom = nodeView.dom as HTMLElement
+
+      // when image is loaded, show the node view to get the correct dimensions
+      dom.style.visibility = 'hidden'
+      dom.style.pointerEvents = 'none'
+      el.onload = () => {
+        dom.style.visibility = ''
+        dom.style.pointerEvents = ''
+      }
+
+      return nodeView
     }
   },
 

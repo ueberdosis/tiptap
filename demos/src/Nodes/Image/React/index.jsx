@@ -19,8 +19,8 @@ export default () => {
     ],
     content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://unsplash.it/seed/tiptap/800/400" />
-        <img src="https://unsplash.it/seed/tiptap-2/800/400" />
+        <img src="https://placehold.co/600x400" />
+        <img src="https://placehold.co/800x400" />
       `,
   })
 

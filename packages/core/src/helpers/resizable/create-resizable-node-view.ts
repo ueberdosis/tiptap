@@ -22,11 +22,6 @@ export function createResizableNodeView({
   widthAttribute = 'width',
   heightAttribute = 'height',
 }: ResizableNodeViewOptions): HTMLElement {
-  // Setup the node DOM element
-  dom.style.display = 'block'
-  dom.style.position = 'relative'
-  dom.style.zIndex = '0'
-
   // Create wrapper structure
   const wrapper = createWrapper()
   wrapper.appendChild(dom)
