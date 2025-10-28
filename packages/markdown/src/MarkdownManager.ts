@@ -665,7 +665,7 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
-        marksToCloseAtEnd.forEach(markType => {
+        marksToCloseAtEnd.reverse().forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
@@ -687,6 +687,14 @@ export class MarkdownManager {
 
         // Reopen marks after the node
         const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+
+        console.log('Non-text node in marks:', {
+          nodeType: node.type,
+          beforeMarkdown,
+          nodeContent,
+          afterMarkdown,
+          result: beforeMarkdown + nodeContent + afterMarkdown,
+        })
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
