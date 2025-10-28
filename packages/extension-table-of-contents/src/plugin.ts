@@ -13,6 +13,12 @@ export const TableOfContentsPlugin = ({
     key: new PluginKey('tableOfContent'),
 
     appendTransaction(transactions, _oldState, newState) {
+      // Skip updating table of contents during IME composition
+      // to avoid interfering with input method editor
+      if (transactions.some(tr => tr.getMeta('composition'))) {
+        return
+      }
+
       const tr = newState.tr
       let modified = false
 
