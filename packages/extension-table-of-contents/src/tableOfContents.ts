@@ -249,12 +249,6 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   onTransaction({ transaction }) {
-    // Skip updating table of contents during IME composition
-    // to avoid interfering with input method editor
-    if (this.editor.view.composing) {
-      return
-    }
-
     if (transaction.docChanged && !transaction.getMeta('toc')) {
       setTocData({
         editor: this.editor,
