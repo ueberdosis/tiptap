@@ -238,6 +238,22 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
       },
 
       handleDOMEvents: {
+        compositionstart: view => {
+          // When composition starts, check if an input rule was just applied
+          // If so, undo it to allow IME to work properly
+          const pluginState = plugin.getState(view.state)
+
+          if (pluginState) {
+            // An input rule was recently applied, undo it
+            setTimeout(() => {
+              if (editor.can().undoInputRule()) {
+                editor.commands.undoInputRule()
+              }
+            })
+          }
+
+          return false
+        },
         compositionend: view => {
           setTimeout(() => {
             const { $cursor } = view.state.selection as TextSelection
