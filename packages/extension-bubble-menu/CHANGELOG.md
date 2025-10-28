@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/pm@3.9.0
+
 ## 3.8.0
 
 ### Patch Changes
