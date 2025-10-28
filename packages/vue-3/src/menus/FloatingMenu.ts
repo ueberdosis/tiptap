@@ -1,7 +1,7 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
 import type { PropType } from 'vue'
-import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
@@ -38,13 +38,14 @@ export const FloatingMenu = defineComponent({
   },
 
   setup(props, { slots, attrs }) {
-    const el = document.createElement('div')
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
       const { pluginKey, editor, options, appendTo, shouldShow } = props
 
-      if (!root.value) {
+      const el = root.value
+
+      if (!el) {
         return
       }
 
@@ -72,7 +73,8 @@ export const FloatingMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    // Teleport only instantiates element + slot subtree; plugin controls final placement
-    return () => h(Teleport, { to: el }, h('div', { ...attrs, ref: root }, slots.default?.()))
+    // Vue owns this element; attrs are applied reactively by Vue
+    // Plugin re-parents it when showing the menu
+    return () => h('div', { ref: root, ...attrs }, slots.default?.())
   },
 })

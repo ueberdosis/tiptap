@@ -43,6 +43,28 @@ describe('unmounted', () => {
       setTimeout(resolve, 0)
     })
     expect(called).to.eq(true)
+    editor.unmount()
+  })
+
+  it('should inject CSS when the editor is mounted', async () => {
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text],
+      content: '<p>Hello</p>',
+    })
+    let called = false
+    editor.on('mount', () => {
+      called = true
+      expect(document.head.querySelectorAll('style[data-tiptap-style]')).to.have.length(1)
+    })
+
+    expect(document.head.querySelectorAll('style[data-tiptap-style]')).to.have.length(0)
+    editor.mount(document.createElement('div'))
+    await new Promise(resolve => {
+      setTimeout(resolve, 0)
+    })
+    expect(called).to.eq(true)
+    editor.unmount()
   })
 
   it('should emit an unmount event when the editor is unmounted', async () => {
@@ -63,6 +85,45 @@ describe('unmounted', () => {
       setTimeout(resolve, 0)
     })
     expect(called).to.eq(true)
+  })
+
+  it('should only remove injected CSS when the editor is unmounted if no other editors exist', async () => {
+    const elementA = document.createElement('div')
+    document.body.appendChild(elementA)
+
+    const elementB = document.createElement('div')
+    document.body.appendChild(elementB)
+
+    const editorA = new Editor({
+      element: elementA,
+      extensions: [Document, Paragraph, Text],
+      content: '<p>Hello</p>',
+    })
+
+    const editorB = new Editor({
+      element: elementB,
+      extensions: [Document, Paragraph, Text],
+      content: '<p>Hello</p>',
+    })
+
+    let called = false
+    editorA.on('unmount', () => {
+      expect(document.head.querySelectorAll('style[data-tiptap-style]')).to.have.length(1)
+      editorB.unmount()
+    })
+    editorB.on('unmount', () => {
+      called = true
+      expect(document.head.querySelectorAll('style[data-tiptap-style]')).to.have.length(0)
+    })
+
+    editorA.unmount()
+    await new Promise(resolve => {
+      setTimeout(resolve, 0)
+    })
+    expect(called).to.eq(true)
+
+    elementA.remove()
+    elementB.remove()
   })
 
   it('should emit a destroy event when the editor is destroyed', async () => {
