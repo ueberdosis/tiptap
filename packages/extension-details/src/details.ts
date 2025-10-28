@@ -1,4 +1,12 @@
-import { defaultBlockAt, findChildren, findParentNode, isActive, mergeAttributes, Node } from '@tiptap/core'
+import {
+  createBlockMarkdownSpec,
+  defaultBlockAt,
+  findChildren,
+  findParentNode,
+  isActive,
+  mergeAttributes,
+  Node,
+} from '@tiptap/core'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -91,6 +99,11 @@ export const Details = Node.create<DetailsOptions>({
   renderHTML({ HTMLAttributes }) {
     return ['details', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
+
+  ...createBlockMarkdownSpec({
+    nodeName: 'details',
+    content: 'block',
+  }),
 
   addNodeView() {
     return ({ editor, getPos, node, HTMLAttributes }) => {
@@ -376,6 +389,12 @@ export const Details = Node.create<DetailsOptions>({
         key: new PluginKey('detailsSelection'),
         appendTransaction: (transactions, oldState, newState) => {
           const { editor, type } = this
+          const isComposing = editor.view.composing
+
+          if (isComposing) {
+            return
+          }
+
           const selectionSet = transactions.some(transaction => transaction.selectionSet)
 
           if (!selectionSet || !oldState.selection.empty || !newState.selection.empty) {

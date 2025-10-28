@@ -1,5 +1,200 @@
 # Change Log
 
+## 3.9.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [7cf3ab6]
+  - @tiptap/extensions@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [7024d69]
+  - @tiptap/extensions@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- ef909f1: Updated `DropcursorOptions.color` types to use types defined in `prosemirror-dropcursor`
+  - @tiptap/extensions@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/extensions@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

@@ -1,5 +1,333 @@
 # @tiptap/extension-drag-handle
 
+## 3.9.0
+
+### Patch Changes
+
+- 401fe3f: Replace DOM traversal with browser's native elementsFromPoint for better performance.
+
+  - Use elementsFromPoint instead of querySelectorAll
+  - Add clampToContent helper for coordinate boundary validation
+  - Add findClosestTopLevelBlock helper for efficient block lookup
+  - Future-proof for root-level mousemove listeners
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/extension-collaboration@3.9.0
+  - @tiptap/extension-node-range@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/extension-collaboration@3.8.0
+- @tiptap/extension-node-range@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/extension-collaboration@3.7.2
+- @tiptap/extension-node-range@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/extension-collaboration@3.7.1
+- @tiptap/extension-node-range@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/extension-collaboration@3.7.0
+  - @tiptap/extension-node-range@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/extension-collaboration@3.6.7
+- @tiptap/extension-node-range@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/extension-collaboration@3.6.6
+- @tiptap/extension-node-range@3.6.6
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/extension-collaboration@3.6.5
+  - @tiptap/extension-node-range@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/extension-collaboration@3.6.4
+- @tiptap/extension-node-range@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/extension-collaboration@3.6.3
+  - @tiptap/extension-node-range@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/extension-collaboration@3.6.2
+- @tiptap/extension-node-range@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/extension-collaboration@3.6.1
+- @tiptap/extension-node-range@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/extension-collaboration@3.6.0
+  - @tiptap/extension-node-range@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/extension-collaboration@3.5.3
+- @tiptap/extension-node-range@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/extension-collaboration@3.5.2
+- @tiptap/extension-node-range@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/extension-collaboration@3.5.1
+- @tiptap/extension-node-range@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Minor Changes
+
+- daa51c4: Add `getReferencedVirtualElement` option to the drag handle extension to customize the position of the drag handle.
+
+### Patch Changes
+
+- 3eb5360: Fixed `findElementNextToCoords` returning incorrect nodes when the position is at a node boundary. The function now correctly identifies leaf nodes (like images, horizontal rules) by checking `$pos.nodeAfter` before falling back to the parent node lookup.
+  - @tiptap/core@3.5.0
+  - @tiptap/extension-collaboration@3.5.0
+  - @tiptap/extension-node-range@3.5.0
+  - @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/extension-collaboration@3.4.6
+  - @tiptap/extension-node-range@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/extension-collaboration@3.4.5
+  - @tiptap/extension-node-range@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/extension-collaboration@3.4.4
+  - @tiptap/extension-node-range@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/extension-collaboration@3.4.3
+  - @tiptap/extension-node-range@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/extension-collaboration@3.4.2
+- @tiptap/extension-node-range@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/core@3.4.1
+- @tiptap/extension-collaboration@3.4.1
+- @tiptap/extension-node-range@3.4.1
+- @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/extension-collaboration@3.4.0
+  - @tiptap/extension-node-range@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- 8eff69a: Improve drag handle node lookup by scanning element bounding rects inside the editor instead of performing per-pixel `elementsFromPoint` loops, and throttle mouse handling to a single update per animation frame to reduce CPU usage and improve stability.
+
+  This should make drag handle positioning and node detection significantly faster and more robust.
+
+- Updated dependencies [02eae08]
+  - @tiptap/extension-collaboration@3.3.1
+  - @tiptap/core@3.3.1
+  - @tiptap/extension-node-range@3.3.1
+  - @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/extension-collaboration@3.3.0
+  - @tiptap/extension-node-range@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/extension-collaboration@3.2.2
+- @tiptap/extension-node-range@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/extension-collaboration@3.2.1
+  - @tiptap/extension-node-range@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/extension-collaboration@3.2.0
+  - @tiptap/extension-node-range@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Minor Changes
+
+- 978c548: Expose `onDragStart` and `onDragEnd` callbacks to improve custom drag behavior. This allows better UI control compared to relying on `editor.view.dragging`, especially when using absolute-positioned drag handles.
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+- @tiptap/extension-collaboration@3.1.0
+- @tiptap/extension-node-range@3.1.0
+- @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+- @tiptap/extension-collaboration@3.0.9
+- @tiptap/extension-node-range@3.0.9
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+- @tiptap/extension-collaboration@3.0.8
+- @tiptap/extension-node-range@3.0.8
+- @tiptap/pm@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

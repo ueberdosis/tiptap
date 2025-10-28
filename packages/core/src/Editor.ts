@@ -57,6 +57,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private css: HTMLStyleElement | null = null
 
+  private className = 'tiptap'
+
   public schema!: Schema
 
   private editorView: EditorView | null = null
@@ -95,6 +97,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     emitContentError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
+    onMount: () => null,
+    onUnmount: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
     onTransaction: () => null,
@@ -117,6 +121,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
+    this.on('mount', this.options.onMount)
+    this.on('unmount', this.options.onUnmount)
     this.on('contentError', this.options.onContentError)
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
@@ -154,6 +160,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       )
     }
     this.createView(el)
+    this.emit('mount', { editor: this })
+
+    if (this.css && !document.head.contains(this.css)) {
+      document.head.appendChild(this.css)
+    }
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
@@ -182,8 +193,23 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
     this.editorView = null
     this.isInitialized = false
-    this.css?.remove()
+
+    // Safely remove CSS element with fallback for test environments
+    // Only remove CSS if no other editors exist in the document after unmount
+    if (this.css && !document.querySelectorAll(`.${this.className}`).length) {
+      try {
+        if (typeof this.css.remove === 'function') {
+          this.css.remove()
+        } else if (this.css.parentNode) {
+          this.css.parentNode.removeChild(this.css)
+        }
+      } catch (error) {
+        // Silently handle any unexpected DOM removal errors in test environments
+        console.warn('Failed to remove CSS element:', error)
+      }
+    }
     this.css = null
+    this.emit('unmount', { editor: this })
   }
 
   /**
@@ -281,7 +307,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           this.editorState = state
         },
         dispatch: (tr: Transaction): ReturnType<EditorView['dispatch']> => {
-          this.editorState = this.state.apply(tr)
+          this.dispatchTransaction(tr)
         },
 
         // Stub some commonly accessed properties to prevent errors
@@ -292,6 +318,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       } as EditorView,
       {
         get: (obj, key) => {
+          if (this.editorView) {
+            // If the editor view is available, but the caller has a stale reference to the proxy,
+            // Just return what the editor view has.
+            return this.editorView[key as keyof EditorView]
+          }
           // Specifically always return the most recent editorState
           if (key === 'state') {
             return this.editorState
@@ -477,7 +508,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates a ProseMirror view.
    */
-  private createView(element: NonNullable<EditorOptions['element']> & {}): void {
+  private createView(element: NonNullable<EditorOptions['element']>): void {
     this.editorView = new EditorView(element, {
       ...this.options.editorProps,
       attributes: {
@@ -487,6 +518,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       },
       dispatchTransaction: this.dispatchTransaction.bind(this),
       state: this.editorState,
+      markViews: this.extensionManager.markViews,
+      nodeViews: this.extensionManager.nodeViews,
     })
 
     // `editor.view` is not yet available at this time.
@@ -497,7 +530,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.view.updateState(newState)
 
-    this.createNodeViews()
     this.prependClass()
     this.injectCSS()
 
@@ -527,7 +559,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Prepend class name to element.
    */
   public prependClass(): void {
-    this.view.dom.className = `tiptap ${this.view.dom.className}`
+    this.view.dom.className = `${this.className} ${this.view.dom.className}`
   }
 
   public isCapturingTransaction = false

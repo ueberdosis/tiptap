@@ -35,6 +35,8 @@ declare module '@tiptap/core' {
 export const HardBreak = Node.create<HardBreakOptions>({
   name: 'hardBreak',
 
+  markdownTokenName: 'br',
+
   addOptions() {
     return {
       keepMarks: true,
@@ -60,6 +62,14 @@ export const HardBreak = Node.create<HardBreakOptions>({
 
   renderText() {
     return '\n'
+  },
+
+  renderMarkdown: (_node, h) => h.indent(`\n`),
+
+  parseMarkdown: () => {
+    return {
+      type: 'hardBreak',
+    }
   },
 
   addCommands() {
