@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/react",
   "description": "React components for tiptap",
-  "version": "3.6.5",
+  "version": "3.9.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

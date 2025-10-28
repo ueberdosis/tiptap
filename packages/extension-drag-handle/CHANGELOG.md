@@ -1,5 +1,79 @@
 # @tiptap/extension-drag-handle
 
+## 3.9.0
+
+### Patch Changes
+
+- 401fe3f: Replace DOM traversal with browser's native elementsFromPoint for better performance.
+
+  - Use elementsFromPoint instead of querySelectorAll
+  - Add clampToContent helper for coordinate boundary validation
+  - Add findClosestTopLevelBlock helper for efficient block lookup
+  - Future-proof for root-level mousemove listeners
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/extension-collaboration@3.9.0
+  - @tiptap/extension-node-range@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/extension-collaboration@3.8.0
+- @tiptap/extension-node-range@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/extension-collaboration@3.7.2
+- @tiptap/extension-node-range@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/extension-collaboration@3.7.1
+- @tiptap/extension-node-range@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/extension-collaboration@3.7.0
+  - @tiptap/extension-node-range@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/extension-collaboration@3.6.7
+- @tiptap/extension-node-range@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/extension-collaboration@3.6.6
+- @tiptap/extension-node-range@3.6.6
+- @tiptap/pm@3.6.6
+
 ## 3.6.5
 
 ### Patch Changes

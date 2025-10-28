@@ -227,6 +227,7 @@ export class FloatingMenuView {
 
     if (this.getShouldShow()) {
       this.show()
+      this.updatePosition()
     }
   }
 

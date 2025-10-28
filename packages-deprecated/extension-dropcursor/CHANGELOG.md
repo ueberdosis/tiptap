@@ -1,5 +1,48 @@
 # Change Log
 
+## 3.9.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [7cf3ab6]
+  - @tiptap/extensions@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.6.6
+
 ## 3.6.5
 
 ### Patch Changes

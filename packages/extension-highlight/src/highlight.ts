@@ -99,6 +99,37 @@ export const Highlight = Mark.create<HighlightOptions>({
     return ['mark', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  renderMarkdown: (node, h) => {
+    return `==${h.renderChildren(node)}==`
+  },
+
+  parseMarkdown: (token, h) => {
+    return h.applyMark('highlight', h.parseInline(token.tokens || []))
+  },
+
+  markdownTokenizer: {
+    name: 'highlight',
+    level: 'inline',
+    start: (src: string) => src.indexOf('=='),
+    tokenize(src, _, h) {
+      const rule = /^(==)([^=]+)(==)/ // ==highlighted text==
+      const match = rule.exec(src)
+
+      if (match) {
+        const innerContent = match[2].trim()
+
+        const children = h.inlineTokens(innerContent)
+
+        return {
+          type: 'highlight',
+          raw: match[0],
+          text: innerContent,
+          tokens: children,
+        }
+      }
+    },
+  },
+
   addCommands() {
     return {
       setHighlight:
