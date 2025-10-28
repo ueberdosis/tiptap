@@ -688,14 +688,6 @@ export class MarkdownManager {
         // Reopen marks after the node
         const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
 
-        console.log('Non-text node in marks:', {
-          nodeType: node.type,
-          beforeMarkdown,
-          nodeContent,
-          afterMarkdown,
-          result: beforeMarkdown + nodeContent + afterMarkdown,
-        })
-
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
     })
