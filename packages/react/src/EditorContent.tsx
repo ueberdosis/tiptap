@@ -121,7 +121,7 @@ export class PureEditorContent extends React.Component<
 
       const element = this.editorContentRef.current
 
-      element.append(...editor.options.element.childNodes)
+      element.append(editor.view.dom)
 
       editor.setOptions({
         element,
@@ -176,18 +176,24 @@ export class PureEditorContent extends React.Component<
 
     editor.contentComponent = null
 
-    if (!editor.options.element?.firstChild) {
-      return
+    // try to reset the editor element
+    // may fail if this editor's view.dom was never initialized/mounted yet
+    try {
+      if (!editor.view.dom?.firstChild) {
+        return
+      }
+
+      // TODO using the new editor.mount method might allow us to remove this
+      const newElement = document.createElement('div')
+
+      newElement.append(editor.view.dom)
+
+      editor.setOptions({
+        element: newElement,
+      })
+    } catch {
+      // do nothing, nothing to reset
     }
-
-    // TODO using the new editor.mount method might allow us to remove this
-    const newElement = document.createElement('div')
-
-    newElement.append(...editor.options.element.childNodes)
-
-    editor.setOptions({
-      element: newElement,
-    })
   }
 
   render() {

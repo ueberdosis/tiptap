@@ -26,11 +26,15 @@
     "publish": "pnpm run build && pnpm changeset publish",
     "clean:packages": "rm -rf ./packages/*/dist && rm -rf ./packages/pm/*/dist && rm -rf ./packages-deprecated/*/dist",
     "clean:packs": "rm -rf ./packages/*/*.tgz && rm -rf ./packages-deprecated/*/*.tgz",
+    "make:demo": "sh ./scripts/make-demo.sh",
     "reset": "pnpm run clean:packages && pnpm run clean:packs && rm -rf ./**/.cache && rm -rf ./**/node_modules && rm -rf ./package-lock.json && pnpm install",
     "prepare": "husky install",
     "turbo": "turbo",
     "changeset": "changeset",
-    "version": "pnpm run changeset -- version && pnpm install --no-frozen-lockfile"
+    "changelog": "node ./scripts/aggregate-changeset.js",
+    "version": "pnpm run changelog && pnpm run changeset -- version && pnpm install --no-frozen-lockfile",
+    "publish:markdown": "pnpm run build && pnpm changeset publish --tag markdown",
+    "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -39,6 +43,7 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@changesets/cli": "^2.27.11",
+    "@changesets/get-release-plan": "^4.0.13",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@cypress/webpack-preprocessor": "^6.0.2",
@@ -48,7 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "babel-loader": "^9.2.1",
-    "cypress": "^14.0.0",
+    "cypress": "^15.4.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",

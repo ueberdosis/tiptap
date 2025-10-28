@@ -13,10 +13,36 @@ export type UniqueIDGenerationContext = {
 }
 
 export interface UniqueIDOptions {
+  /**
+   * The name of the attribute to add the unique ID to.
+   * @default "id"
+   */
   attributeName: string
+  /**
+   * The types of nodes to add unique IDs to.
+   * @default []
+   */
   types: string[]
+  /**
+   * The function that generates the unique ID. By default, a UUID v4 is
+   * generated. However, you can provide your own function to generate the
+   * unique ID based on the node type and the position.
+   */
   generateID: (ctx: UniqueIDGenerationContext) => any
+  /**
+   * Ignore some mutations, for example applied from other users through the collaboration plugin.
+   *
+   * @default null
+   */
   filterTransaction: ((transaction: Transaction) => boolean) | null
+  /**
+   * Whether to update the document by adding unique IDs to the nodes. Set this
+   * property to `false` if the document is in `readonly` mode, is immutable, or
+   * you don't want it to be modified.
+   *
+   * @default true
+   */
+  updateDocument: boolean
 }
 
 export const UniqueID = Extension.create<UniqueIDOptions>({
@@ -32,6 +58,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       types: [],
       generateID: () => uuidv4(),
       filterTransaction: null,
+      updateDocument: true,
     }
   },
 
@@ -60,6 +87,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
   // check initial content for missing ids
   onCreate() {
+    if (!this.options.updateDocument) {
+      return
+    }
+
     const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
     const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
 
@@ -108,6 +139,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   },
 
   addProseMirrorPlugins() {
+    if (!this.options.updateDocument) {
+      return []
+    }
+
     let dragSourceElement: Element | null = null
     let transformPasted = false
 

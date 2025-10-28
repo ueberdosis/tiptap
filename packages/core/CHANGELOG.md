@@ -1,5 +1,195 @@
 # Change Log
 
+## 3.9.0
+
+### Patch Changes
+
+- bbb8e16: Only remove injected CSS on unmount if no other editors are in the document (fixes #6836)
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Minor Changes
+
+- 35645d9: All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
+
+  Why:
+
+  - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
+
+  ```ts
+  import { commands } from '@tiptap/core'
+  ```
+
+  Notes:
+
+  - This is a non-breaking, additive change. It improves ergonomics for TypeScript consumers.
+  - If you rely on previously private/internal types, prefer the exported types from `@tiptap/core` going forward.
+
+- 35645d9: Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+
+  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+
+  **Core Features:**
+
+  **Extension API**
+
+  - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
+  - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
+    - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
+    - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
+    - Access to underlying marked.js instance: `editor.markdown.instance`
+
+  #### Editor Methods
+
+  - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
+  - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
+
+  **Editor Options:**
+
+  - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
+    ```typescript
+    new Editor({
+      content: '# Hello World',
+      contentType: 'markdown',
+    })
+    ```
+
+  **Command Options:** All content commands now support an `contentType` option:
+
+  - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
+  - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
+  - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
+
+  For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
+
+### Patch Changes
+
+- 35645d9: The extension manager now provides a new property `baseExtensions` that contains an unflattened array of extensions
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- 1e4caea: Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- 67f7b4a: Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c0190bd: Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- 968016f: Added support for the `undoable` option in InputRules (matching ProseMirror’s implementation).
+
+  - When `false`, the change will not be tracked as undoable.
+  - Default remains `true` for backward compatibility.
+
+  This brings Tiptap’s InputRules behavior in line with ProseMirror and gives developers finer control over undo functionality.
+
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 0226d42: Fix an issue where injected CSS was not mounted correctly when the editor instance was mounted. The fix ensures CSS injected by the editor is attached to the document when the editor mounts, preventing missing styles in some mount/unmount scenarios.
+- 37af83b: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- f598ac7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.5
+
 ## 3.4.4
 
 ### Patch Changes
