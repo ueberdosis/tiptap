@@ -106,7 +106,7 @@ export function closeMarksBeforeNode(
       const mark = activeMarks.get(markType)
       const closeMarkdown = getMarkClosing(markType, mark)
       if (closeMarkdown) {
-        beforeMarkdown += closeMarkdown
+        beforeMarkdown = closeMarkdown + beforeMarkdown
       }
     })
   activeMarks.clear()
