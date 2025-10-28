@@ -106,7 +106,7 @@ export function closeMarksBeforeNode(
       const mark = activeMarks.get(markType)
       const closeMarkdown = getMarkClosing(markType, mark)
       if (closeMarkdown) {
-        beforeMarkdown = closeMarkdown + beforeMarkdown
+        beforeMarkdown += closeMarkdown
       }
     })
   activeMarks.clear()
@@ -116,7 +116,6 @@ export function closeMarksBeforeNode(
 /**
  * Reopens marks after rendering a non-text node.
  * Returns the opening markdown syntax and updates the active marks.
- * Reopens in reverse order to match the closing order.
  */
 export function reopenMarksAfterNode(
   marksToReopen: Map<string, any>,
@@ -124,15 +123,13 @@ export function reopenMarksAfterNode(
   getMarkOpening: (markType: string, mark: any) => string,
 ): string {
   let afterMarkdown = ''
-  Array.from(marksToReopen.entries())
-    .reverse()
-    .forEach(([markType, mark]) => {
-      const openMarkdown = getMarkOpening(markType, mark)
-      if (openMarkdown) {
-        afterMarkdown += openMarkdown
-      }
-      activeMarks.set(markType, mark)
-    })
+  Array.from(marksToReopen.entries()).forEach(([markType, mark]) => {
+    const openMarkdown = getMarkOpening(markType, mark)
+    if (openMarkdown) {
+      afterMarkdown += openMarkdown
+    }
+    activeMarks.set(markType, mark)
+  })
   return afterMarkdown
 }
 
