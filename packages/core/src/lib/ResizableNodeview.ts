@@ -588,10 +588,21 @@ export class ResizableNodeview {
     }
   }
 
+  /**
+   * Initiates a resize operation when a handle is clicked.
+   *
+   * Captures the starting mouse position and element dimensions, sets up
+   * the resize state, adds the resizing class and state attribute, and
+   * attaches document-level listeners for mouse movement and keyboard input.
+   *
+   * @param event - The mouse down event
+   * @param direction - The direction of the handle being dragged
+   */
   private handleMouseDown(event: MouseEvent, direction: ResizableNodeViewDirection): void {
     event.preventDefault()
     event.stopPropagation()
 
+    // Capture initial state
     this.isResizing = true
     this.activeHandle = direction
 
@@ -600,6 +611,7 @@ export class ResizableNodeview {
     this.startWidth = this.element.offsetWidth
     this.startHeight = this.element.offsetHeight
 
+    // Recalculate aspect ratio at resize start for accuracy
     if (this.startWidth > 0 && this.startHeight > 0) {
       this.aspectRatio = this.startWidth / this.startHeight
     }
@@ -609,18 +621,29 @@ export class ResizableNodeview {
       // TODO: Select the node in the editor
     }
 
+    // Update UI state
     this.container.dataset.resizeState = 'true'
 
     if (this.classNames.resizing) {
       this.container.classList.add(this.classNames.resizing)
     }
 
+    // Attach document-level listeners for resize
     document.addEventListener('mousemove', this.handleMouseMove)
     document.addEventListener('mouseup', this.handleMouseUp)
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keyup', this.handleKeyUp)
   }
 
+  /**
+   * Handles mouse movement during an active resize.
+   *
+   * Calculates the delta from the starting position, computes new dimensions
+   * based on the active handle direction, applies constraints and aspect ratio,
+   * then updates the element's style and calls the onResize callback.
+   *
+   * @param event - The mouse move event
+   */
   private handleMouseMove = (event: MouseEvent): void => {
     if (!this.isResizing || !this.activeHandle) {
       return
@@ -639,6 +662,12 @@ export class ResizableNodeview {
     this.onResize(constrained.width, constrained.height)
   }
 
+  /**
+   * Completes the resize operation when the mouse button is released.
+   *
+   * Captures final dimensions, calls the onCommit callback to persist changes,
+   * removes the resizing state and class, and cleans up document-level listeners.
+   */
   private handleMouseUp = (): void => {
     if (!this.isResizing) {
       return
@@ -652,30 +681,58 @@ export class ResizableNodeview {
     this.isResizing = false
     this.activeHandle = null
 
+    // Remove UI state
     this.container.dataset.resizeState = 'false'
 
     if (this.classNames.resizing) {
       this.container.classList.remove(this.classNames.resizing)
     }
 
+    // Clean up document-level listeners
     document.removeEventListener('mousemove', this.handleMouseMove)
     document.removeEventListener('mouseup', this.handleMouseUp)
     document.removeEventListener('keydown', this.handleKeyDown)
     document.removeEventListener('keyup', this.handleKeyUp)
   }
 
+  /**
+   * Tracks Shift key state to enable temporary aspect ratio locking.
+   *
+   * When Shift is pressed during resize, aspect ratio is preserved even if
+   * preserveAspectRatio is false.
+   *
+   * @param event - The keyboard event
+   */
   private handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === 'Shift') {
       this.isShiftKeyPressed = true
     }
   }
 
+  /**
+   * Tracks Shift key release to disable temporary aspect ratio locking.
+   *
+   * @param event - The keyboard event
+   */
   private handleKeyUp = (event: KeyboardEvent): void => {
     if (event.key === 'Shift') {
       this.isShiftKeyPressed = false
     }
   }
 
+  /**
+   * Calculates new dimensions based on mouse delta and resize direction.
+   *
+   * Takes the starting dimensions and applies the mouse movement delta
+   * according to the handle direction. For corner handles, both dimensions
+   * are affected. For edge handles, only one dimension changes. If aspect
+   * ratio should be preserved, delegates to applyAspectRatio.
+   *
+   * @param direction - The active resize handle direction
+   * @param deltaX - Horizontal mouse movement since resize start
+   * @param deltaY - Vertical mouse movement since resize start
+   * @returns The calculated width and height
+   */
   private calculateNewDimensions(
     direction: ResizableNodeViewDirection,
     deltaX: number,
@@ -689,18 +746,21 @@ export class ResizableNodeview {
     const isBottom = direction.includes('bottom')
     const isTop = direction.includes('top')
 
+    // Apply horizontal delta
     if (isRight) {
       newWidth = this.startWidth + deltaX
     } else if (isLeft) {
       newWidth = this.startWidth - deltaX
     }
 
+    // Apply vertical delta
     if (isBottom) {
       newHeight = this.startHeight + deltaY
     } else if (isTop) {
       newHeight = this.startHeight - deltaY
     }
 
+    // For pure horizontal/vertical handles, only one dimension changes
     if (direction === 'right' || direction === 'left') {
       newWidth = this.startWidth + (isRight ? deltaX : -deltaX)
     }
@@ -718,8 +778,24 @@ export class ResizableNodeview {
     return { width: newWidth, height: newHeight }
   }
 
+  /**
+   * Applies min/max constraints to dimensions.
+   *
+   * When aspect ratio is NOT preserved, constraints are applied independently
+   * to width and height. When aspect ratio IS preserved, constraints are
+   * applied while maintaining the aspect ratio—if one dimension hits a limit,
+   * the other is recalculated proportionally.
+   *
+   * This ensures that aspect ratio is never broken when constrained.
+   *
+   * @param width - The unconstrained width
+   * @param height - The unconstrained height
+   * @param preserveAspectRatio - Whether to maintain aspect ratio while constraining
+   * @returns The constrained dimensions
+   */
   private applyConstraints(width: number, height: number, preserveAspectRatio: boolean): ResizableNodeDimensions {
     if (!preserveAspectRatio) {
+      // Independent constraints for each dimension
       let constrainedWidth = Math.max(this.minSize.width, width)
       let constrainedHeight = Math.max(this.minSize.height, height)
 
@@ -734,7 +810,7 @@ export class ResizableNodeview {
       return { width: constrainedWidth, height: constrainedHeight }
     }
 
-    // When preserving aspect ratio, we need to check which dimension hits the limit first
+    // Aspect-ratio-aware constraints: adjust both dimensions proportionally
     let constrainedWidth = width
     let constrainedHeight = height
 
@@ -763,6 +839,19 @@ export class ResizableNodeview {
     return { width: constrainedWidth, height: constrainedHeight }
   }
 
+  /**
+   * Adjusts dimensions to maintain the original aspect ratio.
+   *
+   * For horizontal handles (left/right), uses width as the primary dimension
+   * and calculates height from it. For vertical handles (top/bottom), uses
+   * height as primary and calculates width. For corner handles, uses width
+   * as the primary dimension.
+   *
+   * @param width - The new width
+   * @param height - The new height
+   * @param direction - The active resize direction
+   * @returns Dimensions adjusted to preserve aspect ratio
+   */
   private applyAspectRatio(
     width: number,
     height: number,
@@ -772,6 +861,7 @@ export class ResizableNodeview {
     const isVertical = direction === 'top' || direction === 'bottom'
 
     if (isHorizontal) {
+      // For horizontal resize, width is primary
       return {
         width,
         height: width / this.aspectRatio,
@@ -779,12 +869,14 @@ export class ResizableNodeview {
     }
 
     if (isVertical) {
+      // For vertical resize, height is primary
       return {
         width: height * this.aspectRatio,
         height,
       }
     }
 
+    // For corner resize, width is primary
     return {
       width,
       height: width / this.aspectRatio,
