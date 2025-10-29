@@ -58,8 +58,8 @@ export interface TableOptions {
   resizable: boolean
 
   /**
-   * Controls whether the table wrapper for the resizable node view should be rendered in
-   * non-editable mode as well.
+   * Controls whether the table should be wrapped in a div with class "tableWrapper" when rendered.
+   * In editable mode with resizable tables, this wrapper is always present via TableView.
    * @default false
    * @example true
    */
