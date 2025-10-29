@@ -13,9 +13,13 @@ export interface PlaceholderOptions {
 
   /**
    * **The class name for empty nodes**
+   *
+   * You can use a function to return a dynamic class name or a string.
    * @default 'is-empty'
    */
-  emptyNodeClass: string
+  emptyNodeClass:
+    | ((EmptyNodeClassProps: { editor: Editor; node: ProsemirrorNode; pos: number; hasAnchor: boolean }) => string)
+    | string
 
   /**
    * **The placeholder content**
@@ -95,7 +99,17 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
-                const classes = [this.options.emptyNodeClass]
+                const emptyNodeClass =
+                  typeof this.options.emptyNodeClass === 'function'
+                    ? this.options.emptyNodeClass({
+                        editor: this.editor,
+                        node,
+                        pos,
+                        hasAnchor,
+                      })
+                    : this.options.emptyNodeClass
+
+                const classes = [emptyNodeClass]
 
                 if (isEmptyDoc) {
                   classes.push(this.options.emptyEditorClass)
