@@ -45,6 +45,14 @@ export interface TableOptions {
   resizable: boolean
 
   /**
+   * Controls whether the table wrapper for the resizable node view should be rendered in
+   * non-editable mode as well.
+   * @default false
+   * @example true
+   */
+  renderWrapper: boolean
+
+  /**
    * The width of the resize handle.
    * @default 5
    * @example 10
@@ -254,6 +262,7 @@ export const Table = Node.create<TableOptions>({
     return {
       HTMLAttributes: {},
       resizable: false,
+      renderWrapper: false,
       handleWidth: 5,
       cellMinWidth: 25,
       // TODO: fix
@@ -292,7 +301,7 @@ export const Table = Node.create<TableOptions>({
       ['tbody', 0],
     ]
 
-    return table
+    return this.options.renderWrapper ? ['div', { class: 'tableWrapper' }, table] : table
   },
 
   addCommands() {
