@@ -1,10 +1,5 @@
-import {
-  type ResizableNodeViewDirections,
-  createResizableNodeView,
-  mergeAttributes,
-  Node,
-  nodeInputRule,
-} from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule, ResizableNodeview } from '@tiptap/core'
+import type { ResizableNodeViewDirection } from 'packages/core/src/lib'
 
 export interface ImageOptions {
   /**
@@ -36,7 +31,7 @@ export interface ImageOptions {
    */
   resize:
     | {
-        directions?: ResizableNodeViewDirections
+        directions?: ResizableNodeViewDirection[]
         minWidth?: number
         minHeight?: number
         alwaysPreserveAspectRatio?: boolean
@@ -161,10 +156,7 @@ export const Image = Node.create<ImageOptions>({
         if (value != null) {
           switch (key) {
             case 'width':
-              el.style.width = `${Number(value)}px`
-              break
             case 'height':
-              el.style.height = `${Number(value)}px`
               break
             default:
               el.setAttribute(key, value)
@@ -175,15 +167,40 @@ export const Image = Node.create<ImageOptions>({
 
       el.src = HTMLAttributes.src
 
-      const nodeView = createResizableNodeView({
-        directions,
-        minWidth,
-        minHeight,
-        dom: el,
-        editor: this.editor,
-        getPos,
+      const nodeView = new ResizableNodeview({
+        element: el,
         node,
-        preserveAspectRatio: alwaysPreserveAspectRatio === true,
+        getPos,
+        onResize: (width, height) => {
+          el.style.width = `${width}px`
+          el.style.height = `${height}px`
+        },
+        onCommit: (width, height) => {
+          const pos = getPos()
+          if (pos === undefined) {
+            return
+          }
+
+          this.editor.commands.updateAttributes(this.name, {
+            width,
+            height,
+          })
+        },
+        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
+          if (updatedNode.type !== node.type) {
+            return false
+          }
+
+          return true
+        },
+        options: {
+          directions,
+          min: {
+            width: minWidth,
+            height: minHeight,
+          },
+          preserveAspectRatio: alwaysPreserveAspectRatio === true,
+        },
       })
 
       const dom = nodeView.dom as HTMLElement
