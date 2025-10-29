@@ -1,5 +1,11 @@
 # @tiptap/extension-unique-id
 
+## 2.27.0
+
+### Minor Changes
+
+- dbcd9b1: Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
 ## 2.26.4
 
 ## 2.26.3

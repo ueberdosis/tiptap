@@ -1,5 +1,7 @@
 # @tiptap/extension-drag-handle-vue-2
 
+## 2.27.0
+
 ## 2.26.4
 
 ### Patch Changes

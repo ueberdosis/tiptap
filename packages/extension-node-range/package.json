@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-node-range",
   "description": "node range extension for tiptap",
-  "version": "2.26.4",
+  "version": "2.27.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -38,8 +38,8 @@
     "@tiptap/pm": "^2.7.0"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.26.4",
-    "@tiptap/pm": "^2.26.4"
+    "@tiptap/core": "^2.27.0",
+    "@tiptap/pm": "^2.27.0"
   },
   "scripts": {
     "clean": "rm -rf dist",
