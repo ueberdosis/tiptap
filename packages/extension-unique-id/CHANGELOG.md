@@ -1,5 +1,7 @@
 # @tiptap/extension-unique-id
 
+## 2.27.1
+
 ## 2.27.0
 
 ### Minor Changes

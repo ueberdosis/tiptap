@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.27.1
+
+### Patch Changes
+
+- 26531c9: Add a `renderWrapper` option to the Table extension so consumers can customize whether the table wrapper for the resizable node view should be rendered in non-editable mode as well.
+
 ## 2.27.0
 
 ## 2.26.4
