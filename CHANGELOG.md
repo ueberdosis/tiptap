@@ -1,5 +1,64 @@
 # Releases
 
+## v3.9.0
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fix attribute forwarding for BubbleMenu and FloatingMenu Vue 3 components to allow setting z-index and other HTML attributes
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Ensure that markdown hard breaks (two spaces followed by a newline) are parsed so they render as line breaks (`<br>`) in the editor when using `contentType: 'markdown'`.
+  
+  Fixes #7107
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Only remove injected CSS on unmount if no other editors are in the document (fixes #6836)
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Replace DOM traversal with browser's native elementsFromPoint for better performance.
+  
+  - Use elementsFromPoint instead of querySelectorAll
+  - Add clampToContent helper for coordinate boundary validation
+  - Add findClosestTopLevelBlock helper for efficient block lookup
+  - Future-proof for root-level mousemove listeners
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+
+## v3.8.0
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+
 ## v3.7.2
 
 ### @tiptap/html

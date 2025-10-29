@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.9.0
+
+### Patch Changes
+
+- 78ac867: Fix attribute forwarding for BubbleMenu and FloatingMenu Vue 3 components to allow setting z-index and other HTML attributes
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+
 ## 3.7.2
 
 ### Patch Changes
