@@ -365,10 +365,29 @@ export class ResizableNodeview {
     this.attachHandles()
   }
 
+  /**
+   * Returns the top-level DOM node that should be placed in the editor.
+   *
+   * This is required by the ProseMirror NodeView interface. The container
+   * includes the wrapper, handles, and the actual content element.
+   *
+   * @returns The container element to be inserted into the editor
+   */
   get dom() {
     return this.container
   }
 
+  /**
+   * Called when the node's content or attributes change.
+   *
+   * Updates the internal node reference. If a custom `onUpdate` callback
+   * was provided, it will be called to handle additional update logic.
+   *
+   * @param node - The new/updated node
+   * @param decorations - Node decorations
+   * @param innerDecorations - Inner decorations
+   * @returns `false` if the node type has changed (requires full rebuild), otherwise the result of `onUpdate` or `true`
+   */
   update(node: PMNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
     if (node.type !== this.node.type) {
       return false
@@ -383,6 +402,13 @@ export class ResizableNodeview {
     return true
   }
 
+  /**
+   * Cleanup method called when the node view is being removed.
+   *
+   * Removes all event listeners to prevent memory leaks. This is required
+   * by the ProseMirror NodeView interface. If a resize is active when
+   * destroy is called, it will be properly cancelled.
+   */
   destroy() {
     if (this.isResizing) {
       this.container.dataset.resizeState = 'false'
@@ -402,6 +428,15 @@ export class ResizableNodeview {
     this.container.remove()
   }
 
+  /**
+   * Creates the outer container element.
+   *
+   * The container is the top-level element returned by the NodeView and
+   * wraps the entire resizable node. It's set up with flexbox to handle
+   * alignment and includes data attributes for styling and identification.
+   *
+   * @returns The container element
+   */
   createContainer() {
     const element = document.createElement('div')
     element.dataset.resizeContainer = ''
@@ -419,6 +454,15 @@ export class ResizableNodeview {
     return element
   }
 
+  /**
+   * Creates the wrapper element that contains the content and handles.
+   *
+   * The wrapper uses relative positioning so that resize handles can be
+   * positioned absolutely within it. This is the direct parent of the
+   * content element being made resizable.
+   *
+   * @returns The wrapper element
+   */
   createWrapper() {
     const element = document.createElement('div')
     element.style.position = 'relative'
@@ -434,6 +478,15 @@ export class ResizableNodeview {
     return element
   }
 
+  /**
+   * Creates a resize handle element for a specific direction.
+   *
+   * Each handle is absolutely positioned and includes a data attribute
+   * identifying its direction for styling purposes.
+   *
+   * @param direction - The resize direction for this handle
+   * @returns The handle element
+   */
   private createHandle(direction: ResizableNodeViewDirection): HTMLElement {
     const handle = document.createElement('div')
     handle.dataset.resizeHandle = direction
@@ -446,6 +499,15 @@ export class ResizableNodeview {
     return handle
   }
 
+  /**
+   * Positions a handle element according to its direction.
+   *
+   * Corner handles (e.g., 'top-left') are positioned at the intersection
+   * of two edges. Edge handles (e.g., 'top') span the full width or height.
+   *
+   * @param handle - The handle element to position
+   * @param direction - The direction determining the position
+   */
   private positionHandle(handle: HTMLElement, direction: ResizableNodeViewDirection): void {
     const isTop = direction.includes('top')
     const isBottom = direction.includes('bottom')
@@ -468,6 +530,7 @@ export class ResizableNodeview {
       handle.style.right = '0'
     }
 
+    // Edge handles span the full width or height
     if (direction === 'top' || direction === 'bottom') {
       handle.style.left = '0'
       handle.style.right = '0'
@@ -479,6 +542,12 @@ export class ResizableNodeview {
     }
   }
 
+  /**
+   * Creates and attaches all resize handles to the wrapper.
+   *
+   * Iterates through the configured directions, creates a handle for each,
+   * positions it, attaches the mousedown listener, and appends it to the DOM.
+   */
   private attachHandles(): void {
     this.directions.forEach(direction => {
       const handle = this.createHandle(direction)
@@ -488,6 +557,13 @@ export class ResizableNodeview {
     })
   }
 
+  /**
+   * Applies initial sizing from node attributes to the element.
+   *
+   * If width/height attributes exist on the node, they're applied to the element.
+   * Otherwise, the element's natural/current dimensions are measured. The aspect
+   * ratio is calculated for later use in aspect-ratio-preserving resizes.
+   */
   private applyInitialSize(): void {
     const width = this.node.attrs.width as number | undefined
     const height = this.node.attrs.height as number | undefined
@@ -506,6 +582,7 @@ export class ResizableNodeview {
       this.initialHeight = this.element.offsetHeight
     }
 
+    // Calculate aspect ratio for use during resizing
     if (this.initialWidth > 0 && this.initialHeight > 0) {
       this.aspectRatio = this.initialWidth / this.initialHeight
     }
