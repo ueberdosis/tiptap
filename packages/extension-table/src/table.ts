@@ -301,9 +301,7 @@ export const Table = Node.create<TableOptions>({
       ['tbody', 0],
     ]
 
-    const output: DOMOutputSpec = this.options.renderWrapper ? ['div', { class: 'tableWrapper' }, table] : table
-
-    return output
+    return this.options.renderWrapper ? ['div', { class: 'tableWrapper' }, table] : table
   },
 
   addCommands() {
