@@ -31,6 +31,7 @@ export interface ImageOptions {
    */
   resize:
     | {
+        enabled: boolean
         directions?: ResizableNodeViewDirection[]
         minWidth?: number
         minHeight?: number
@@ -143,7 +144,12 @@ export const Image = Node.create<ImageOptions>({
   },
 
   addNodeView() {
-    if (!this.options.resize || typeof document === 'undefined' || !this.editor.isEditable) {
+    if (
+      !this.options.resize ||
+      !this.options.resize.enabled ||
+      typeof document === 'undefined' ||
+      !this.editor.isEditable
+    ) {
       return null
     }
 

@@ -64,6 +64,13 @@ export default {
 
   img {
     display: block;
+    height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--purple);
+    }
   }
 
   [data-resize-container] {

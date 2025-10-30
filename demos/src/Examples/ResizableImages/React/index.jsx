@@ -16,6 +16,7 @@ export default () => {
       Text,
       Image.configure({
         resize: {
+          enabled: true,
           alwaysPreserveAspectRatio: true,
         },
       }),
