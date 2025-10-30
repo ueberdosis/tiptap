@@ -1,6 +1,10 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView } from '@tiptap/pm/view'
 
+const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
+  return 'touches' in e
+}
+
 /**
  * Directions where resize handles can be placed
  *
@@ -552,7 +556,8 @@ export class ResizableNodeview {
     this.directions.forEach(direction => {
       const handle = this.createHandle(direction)
       this.positionHandle(handle, direction)
-      handle.addEventListener('mousedown', event => this.handleMouseDown(event, direction))
+      handle.addEventListener('mousedown', event => this.handleResizeStart(event, direction))
+      handle.addEventListener('touchstart', event => this.handleResizeStart(event as unknown as MouseEvent, direction))
       this.wrapper.appendChild(handle)
     })
   }
@@ -598,7 +603,7 @@ export class ResizableNodeview {
    * @param event - The mouse down event
    * @param direction - The direction of the handle being dragged
    */
-  private handleMouseDown(event: MouseEvent, direction: ResizableNodeViewDirection): void {
+  private handleResizeStart(event: MouseEvent | TouchEvent, direction: ResizableNodeViewDirection): void {
     event.preventDefault()
     event.stopPropagation()
 
@@ -606,8 +611,14 @@ export class ResizableNodeview {
     this.isResizing = true
     this.activeHandle = direction
 
-    this.startX = event.clientX
-    this.startY = event.clientY
+    if (isTouchEvent(event)) {
+      this.startX = event.touches[0].clientX
+      this.startY = event.touches[0].clientY
+    } else {
+      this.startX = event.clientX
+      this.startY = event.clientY
+    }
+
     this.startWidth = this.element.offsetWidth
     this.startHeight = this.element.offsetHeight
 
@@ -630,6 +641,7 @@ export class ResizableNodeview {
 
     // Attach document-level listeners for resize
     document.addEventListener('mousemove', this.handleMouseMove)
+    document.addEventListener('touchmove', this.handleTouchMove)
     document.addEventListener('mouseup', this.handleMouseUp)
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keyup', this.handleKeyUp)
@@ -651,6 +663,30 @@ export class ResizableNodeview {
 
     const deltaX = event.clientX - this.startX
     const deltaY = event.clientY - this.startY
+
+    this.handleResize(deltaX, deltaY)
+  }
+
+  private handleTouchMove = (event: TouchEvent): void => {
+    if (!this.isResizing || !this.activeHandle) {
+      return
+    }
+
+    const touch = event.touches[0]
+    if (!touch) {
+      return
+    }
+
+    const deltaX = touch.clientX - this.startX
+    const deltaY = touch.clientY - this.startY
+
+    this.handleResize(deltaX, deltaY)
+  }
+
+  private handleResize(deltaX: number, deltaY: number) {
+    if (!this.activeHandle) {
+      return
+    }
 
     const shouldPreserveAspectRatio = this.preserveAspectRatio || this.isShiftKeyPressed
     const { width, height } = this.calculateNewDimensions(this.activeHandle, deltaX, deltaY)
