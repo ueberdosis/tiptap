@@ -1,5 +1,13 @@
 # Releases
 
+## v3.9.1
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Add a `renderWrapper` option to the Table extension so consumers can customize whether the table wrapper for the resizable node view should be rendered in non-editable mode as well.
+
 ## v3.9.0
 
 ### @tiptap/vue-3
