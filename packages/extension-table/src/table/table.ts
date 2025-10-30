@@ -58,6 +58,14 @@ export interface TableOptions {
   resizable: boolean
 
   /**
+   * Controls whether the table should be wrapped in a div with class "tableWrapper" when rendered.
+   * In editable mode with resizable tables, this wrapper is always present via TableView.
+   * @default false
+   * @example true
+   */
+  renderWrapper: boolean
+
+  /**
    * The width of the resize handle.
    * @default 5
    * @example 10
@@ -247,6 +255,7 @@ export const Table = Node.create<TableOptions>({
     return {
       HTMLAttributes: {},
       resizable: false,
+      renderWrapper: false,
       handleWidth: 5,
       cellMinWidth: 25,
       // TODO: fix
@@ -280,7 +289,7 @@ export const Table = Node.create<TableOptions>({
       ['tbody', 0],
     ]
 
-    return table
+    return this.options.renderWrapper ? ['div', { class: 'tableWrapper' }, table] : table
   },
 
   parseMarkdown: (token: MarkdownTableToken, h) => {
