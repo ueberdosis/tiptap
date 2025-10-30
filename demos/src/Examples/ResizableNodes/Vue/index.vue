@@ -8,7 +8,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { Editor, EditorContent, Node as NodeExtension, ResizableNodeview } from '@tiptap/vue-3'
+import { Editor, EditorContent, Node as NodeExtension, ResizableNodeView } from '@tiptap/vue-3'
 
 const ResizableNode = NodeExtension.create({
   name: 'resizableNode',
@@ -58,7 +58,7 @@ const ResizableNode = NodeExtension.create({
       el.style.width = width
       el.style.height = height
 
-      const resizable = new ResizableNodeview({
+      const resizable = new ResizableNodeView({
         element: el,
         getPos: props.getPos,
         node: props.node,
