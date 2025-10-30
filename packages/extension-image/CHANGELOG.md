@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Added a new `resize` option that allows images to be resized. The option adds resize handlers to images allowing users to manually resize images via drag and drop or touch
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+
 ## 3.9.1
 
 ### Patch Changes
