@@ -1,4 +1,4 @@
-import { isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
 import { NodeSelection, TextSelection } from '@tiptap/pm/state'
 
 export interface HorizontalRuleOptions {
@@ -8,6 +8,12 @@ export interface HorizontalRuleOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+  /**
+   * The default type to insert after the horizontal rule.
+   * @default "paragraph"
+   * @example "heading"
+   */
+  nextNodeType: string
 }
 
 declare module '@tiptap/core' {
@@ -32,6 +38,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      nextNodeType: 'paragraph',
     }
   },
 
@@ -45,11 +52,26 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
     return ['hr', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
+  markdownTokenName: 'hr',
+
+  parseMarkdown: (token, helpers) => {
+    return helpers.createNode('horizontalRule')
+  },
+
+  renderMarkdown: () => {
+    return '---'
+  },
+
   addCommands() {
     return {
       setHorizontalRule:
         () =>
         ({ chain, state }) => {
+          // Check if we can insert the node at the current selection
+          if (!canInsertNode(state, state.schema.nodes[this.name])) {
+            return false
+          }
+
           const { selection } = state
           const { $to: $originTo } = selection
 
@@ -66,7 +88,7 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
           return (
             currentChain
               // set cursor after horizontal rule
-              .command(({ tr, dispatch }) => {
+              .command(({ state: chainState, tr, dispatch }) => {
                 if (dispatch) {
                   const { $to } = tr.selection
                   const posAfter = $to.end()
@@ -81,7 +103,9 @@ export const HorizontalRule = Node.create<HorizontalRuleOptions>({
                     }
                   } else {
                     // add node after horizontal rule if it’s the end of the document
-                    const node = $to.parent.type.contentMatch.defaultType?.create()
+                    const nodeType =
+                      chainState.schema.nodes[this.options.nextNodeType] || $to.parent.type.contentMatch.defaultType
+                    const node = nodeType?.create()
 
                     if (node) {
                       tr.insert(posAfter, node)

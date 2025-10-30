@@ -1,5 +1,629 @@
 # Change Log
 
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- 04a0f34: Merge nested span styles only for immediate child spans and guard style values.
+
+  - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
+  - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
+  - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
+
+  This change fixes a bug that could cause exponential work when parsing deeply
+  nested `<span>` elements - in extreme cases that could make the tab unresponsive
+  or crash the renderer. It is a bugfix / performance improvement with no public API
+  changes.
+
+  - @tiptap/core@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 46fa8b8: Prefer the raw inline `style` attribute when parsing `color` and
+  `background-color` so the original format (hex, rgba/hsla, etc.) is
+  preserved instead of falling back to the computed `element.style.*`
+  value (which often resolves to `rgb(...)`).
+
+  This fixes mismatches where consumers (for example, demo toolbars and
+  color pickers) expected the original hex values when initializing the
+  editor from HTML.
+
+  - The `color` and `background-color` parsers now look for a `style`
+    attribute first and extract the declared value. If no raw style is
+    present, they still fall back to `element.style.color` /
+    `element.style.backgroundColor`.
+
+  MIGRATION NOTES
+
+  - This is a patch-level change. It corrects parsing behavior and is the
+    least-disruptive fix for the issue.
+  - If your code relied on the parser returning computed `rgb(...)`
+    strings, you may see different string values (for example `#958DF1`
+    instead of `rgb(149, 141, 241)`) when HTML contained hex values.
+  - If you need a stable, normalized format for comparisons, normalize the
+    attribute (for example with a color utility like `tinycolor2`) before
+    comparing or use the editor APIs in a way that doesn't depend on the
+    exact string representation.
+  - @tiptap/core@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+
+## 3.0.7
+
+### Patch Changes
+
+- @tiptap/core@3.0.7
+
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [2e71d05]
+  - @tiptap/core@3.0.6
+
+## 3.0.5
+
+### Patch Changes
+
+- @tiptap/core@3.0.5
+
+## 3.0.4
+
+### Patch Changes
+
+- Updated dependencies [7ed03fa]
+  - @tiptap/core@3.0.4
+
+## 3.0.3
+
+### Patch Changes
+
+- Updated dependencies [75cabde]
+  - @tiptap/core@3.0.3
+
+## 3.0.2
+
+### Patch Changes
+
+- @tiptap/core@3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- f77cbac: This updates the default value of the option `mergeNestedSpanStyles` to `true`, this will attempt to merge the styles of nested spans into the child span during HTML parsing. This prioritizes the style of the child span. This is used when parsing content created in other editors. (Fix for ProseMirror's default behavior.)
+- 0b4981c: Add `toggleTextStyle` command and add typings for the commands parameters based on the installed extensions that include `textStyle`
+- 3b4e06c: This adds several extensions to the `text-style` package, which can be used to style text in the editor.
+
+  ## TextStyleKit
+
+  This extension adds a group of text style extensions to the editor, and is the recommended way of using the text style extensions. For easy configuration, you can pass an object with the following keys:
+
+  `backgroundColor`, `color`, `fontFamily`, `fontSize`, `lineHeight`, `textStyle`
+
+  Usage:
+
+  ```ts
+  import { TextStyleKit } from '@tiptap/extension-text-style'
+
+  new Editor({
+    extensions: [
+      TextStyleKit.configure({
+        backgroundColor: {
+          types: ['textStyle'],
+        },
+        color: {
+          types: ['textStyle'],
+        },
+        fontFamily: {
+          types: ['textStyle'],
+        },
+        fontSize: {
+          types: ['textStyle'],
+        },
+        lineHeight: {
+          types: ['textStyle'],
+        },
+        textStyle: {
+          types: ['textStyle'],
+        },
+      }),
+    ],
+  })
+  ```
+
+  ## Want to use the extensions separately?
+
+  For more control, you can also use the extensions separately.
+
+  ### BackgroundColor
+
+  This extension controls the background-color of a range of text in the editor.
+
+  Usage:
+
+  ```ts
+  import { BackgroundColor } from '@tiptap/extension-text-style'
+  ```
+
+  ### Color
+
+  This extension controls the color of a range of text in the editor.
+
+  Migrate from `@tiptap/extension-color` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import Color from '@tiptap/extension-color'
+  + import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { Color } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontFamily
+
+  This extension controls the font-family of a range of text in the editor.
+
+  Migration from `@tiptap/extension-font-family` to `@tiptap/extension-text-style`:
+
+  ```diff
+  - import FontFamily from '@tiptap/extension-font-family'
+  + import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  Usage:
+
+  ```ts
+  import { FontFamily } from '@tiptap/extension-text-style'
+  ```
+
+  ### FontSize
+
+  This extension controls the font-size of a range of text in the editor.
+
+  ```ts
+  import { FontSize } from '@tiptap/extension-text-style'
+  ```
+
+  ### LineHeight
+
+  This extension controls the line-height of a range of text in the editor.
+
+  ```ts
+  import { LineHeight } from '@tiptap/extension-text-style'
+  ```
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 0bad53e: The text-style extension, now will match elements with a style tag, but not consume them to allow other elements to match [per this comment](https://github.com/ueberdosis/tiptap/discussions/5912#discussioncomment-11716337).
+- 8c69002: Synced beta with stable features
+- Updated dependencies [1b4c82b]
+- Updated dependencies [a92f4a6]
+- Updated dependencies [8de8e13]
+- Updated dependencies [20f68f6]
+- Updated dependencies [5e957e5]
+- Updated dependencies [89bd9c7]
+- Updated dependencies [d0fda30]
+- Updated dependencies [0e3207f]
+- Updated dependencies [37913d5]
+- Updated dependencies [28c5418]
+- Updated dependencies [32958d6]
+- Updated dependencies [12bb31a]
+- Updated dependencies [9f207a6]
+- Updated dependencies [412e1bd]
+- Updated dependencies [062afaf]
+- Updated dependencies [ff8eed6]
+- Updated dependencies [704f462]
+- Updated dependencies [95b8c71]
+- Updated dependencies [8c69002]
+- Updated dependencies [664834f]
+- Updated dependencies [ac897e7]
+- Updated dependencies [087d114]
+- Updated dependencies [32958d6]
+- Updated dependencies [fc17b21]
+- Updated dependencies [e20006b]
+- Updated dependencies [5ba480b]
+- Updated dependencies [d6c7558]
+- Updated dependencies [062afaf]
+- Updated dependencies [9ceeab4]
+- Updated dependencies [32958d6]
+- Updated dependencies [bf835b0]
+- Updated dependencies [4e2f6d8]
+- Updated dependencies [32958d6]
+  - @tiptap/core@3.0.1
+
+## 3.0.0-beta.30
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies [412e1bd]
+  - @tiptap/core@3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+### Patch Changes
+
+- Updated dependencies [5ba480b]
+  - @tiptap/core@3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+### Patch Changes
+
+- Updated dependencies [4e2f6d8]
+  - @tiptap/core@3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+### Patch Changes
+
+- Updated dependencies [813674c]
+- Updated dependencies [fc17b21]
+  - @tiptap/core@3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+### Patch Changes
+
+- Updated dependencies [9ceeab4]
+  - @tiptap/core@3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+### Patch Changes
+
+- Updated dependencies [e20006b]
+  - @tiptap/core@3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+### Patch Changes
+
+- Updated dependencies [ac897e7]
+- Updated dependencies [bf835b0]
+  - @tiptap/core@3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+### Patch Changes
+
+- Updated dependencies [087d114]
+  - @tiptap/core@3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+### Patch Changes
+
+- Updated dependencies [95b8c71]
+  - @tiptap/core@3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+### Patch Changes
+
+- Updated dependencies [d0fda30]
+  - @tiptap/core@3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+### Patch Changes
+
+- @tiptap/core@3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+- Updated dependencies [8c69002]
+  - @tiptap/core@3.0.0-beta.5
+
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- Updated dependencies [5e957e5]
+- Updated dependencies [9f207a6]
+  - @tiptap/core@3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -180,6 +804,14 @@
 
 - Updated dependencies [0ec0af6]
   - @tiptap/core@3.0.0-next.0
+
+## 2.12.0
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
 
 ## 2.11.6
 

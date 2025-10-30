@@ -1,6 +1,5 @@
 /** @jsxImportSource @tiptap/core */
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
-import type { DOMOutputSpecArray } from '@tiptap/core/jsx-runtime'
 
 export interface BlockquoteOptions {
   /**
@@ -63,7 +62,32 @@ export const Blockquote = Node.create<BlockquoteOptions>({
       <blockquote {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
         <slot />
       </blockquote>
-    ) as unknown as DOMOutputSpecArray
+    )
+  },
+
+  parseMarkdown: (token, helpers) => {
+    return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
+  },
+
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
+
+    const lines: string[] = []
+
+    node.content.forEach(child => {
+      const lineContent = h.renderChildren(child)
+      const withPrefix = lineContent
+        .split('\n')
+        .map(line => `> ${line}`)
+        .join('\n')
+      lines.push(withPrefix)
+    })
+
+    const linesWithSeparators = lines.flatMap(line => [line, '> '])
+
+    return linesWithSeparators.slice(0, -1).join('\n')
   },
 
   addCommands() {

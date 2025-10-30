@@ -340,8 +340,14 @@ export interface NodeConfig<Options = any, Storage = any>
 export class Node<Options = any, Storage = any> extends Extendable<Options, Storage, NodeConfig<Options, Storage>> {
   type = 'node'
 
-  static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> = {}) {
-    return new Node<O, S>(config)
+  /**
+   * Create a new Node instance
+   * @param config - Node configuration object or a function that returns a configuration object
+   */
+  static create<O = any, S = any>(config: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>) = {}) {
+    // If the config is a function, execute it to get the configuration object
+    const resolvedConfig = typeof config === 'function' ? config() : config
+    return new Node<O, S>(resolvedConfig)
   }
 
   configure(options?: Partial<Options>) {
@@ -352,7 +358,20 @@ export class Node<Options = any, Storage = any> extends Extendable<Options, Stor
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
     ExtendedConfig = NodeConfig<ExtendedOptions, ExtendedStorage>,
-  >(extendedConfig?: Partial<ExtendedConfig>) {
-    return super.extend(extendedConfig) as Node<ExtendedOptions, ExtendedStorage>
+  >(
+    extendedConfig?:
+      | (() => Partial<ExtendedConfig>)
+      | (Partial<ExtendedConfig> &
+          ThisType<{
+            name: string
+            options: ExtendedOptions
+            storage: ExtendedStorage
+            editor: Editor
+            type: NodeType
+          }>),
+  ): Node<ExtendedOptions, ExtendedStorage> {
+    // If the extended config is a function, execute it to get the configuration object
+    const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
+    return super.extend(resolvedConfig) as Node<ExtendedOptions, ExtendedStorage>
   }
 }

@@ -24,6 +24,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
       element: null,
       pluginKey: 'bubbleMenu',
       updateDelay: undefined,
+      appendTo: undefined,
       shouldShow: null,
     }
   },
@@ -39,6 +40,9 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         editor: this.editor,
         element: this.options.element,
         updateDelay: this.options.updateDelay,
+        options: this.options.options,
+        appendTo: this.options.appendTo,
+        getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         shouldShow: this.options.shouldShow,
       }),
     ]

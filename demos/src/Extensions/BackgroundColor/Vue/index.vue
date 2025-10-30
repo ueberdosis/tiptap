@@ -70,7 +70,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { BackgroundColor , TextStyle } from '@tiptap/extension-text-style'
+import { BackgroundColor, TextStyle } from '@tiptap/extension-text-style'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
@@ -88,7 +88,8 @@ export default {
     this.editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, BackgroundColor],
       content: `
-        <p><span style="background-color: #958DF1">Oh, for some reason that's purple.</span></p>
+        <p><span style="background-color: #958DF1">Oh, for some reason that’s purple.</span></p>
+        <p><span style="background-color: rgba(149, 141, 241, 0.5)">Oh, for some reason that’s purple but with rgba.</span></p>
       `,
     })
   },

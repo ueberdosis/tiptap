@@ -1,0 +1,52 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  .mention {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: var(--purple);
+    padding: 0.1rem 0.3rem;
+    &::after {
+      content: '\200B';
+    }
+  }
+
+  /* Suggestion inline decoration styles (created by @tiptap/suggestion)
+     Visible highlight to help see the active suggestion range in demos */
+  [data-decoration-id] {
+    /* Reuse theme variables from demos setup for consistent look */
+    background-color: var(--purple-light);
+    border-bottom: 2px dashed var(--purple-contrast);
+    border-radius: 0.2rem;
+    padding: 0 0.18rem;
+    box-decoration-break: clone;
+  }
+
+  /* When the decoration is empty (no query), add a subtle hint */
+  [data-decoration-id].is-empty::after {
+    content: '\00A0';
+    border-bottom: 1px dotted var(--gray-3);
+  }
+
+  /* Make suggestion decoration visually match mention nodes */
+  .suggestion {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: var(--purple);
+    padding: 0.1rem 0.3rem;
+  }
+
+  .suggestion::after {
+    content: '\200B';
+  }
+
+  .suggestion.is-empty::after {
+    content: '\00A0';
+    border-bottom: 1px dotted rgba(31, 41, 55, 0.12);
+  }
+}

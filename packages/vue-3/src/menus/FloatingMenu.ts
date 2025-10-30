@@ -1,10 +1,12 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
 import type { PropType } from 'vue'
-import { defineComponent, h, onBeforeUnmount, onMounted, ref, Teleport } from 'vue'
+import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 
 export const FloatingMenu = defineComponent({
   name: 'FloatingMenu',
+
+  inheritAttrs: false,
 
   props: {
     pluginKey: {
@@ -24,34 +26,42 @@ export const FloatingMenu = defineComponent({
       default: () => ({}),
     },
 
+    appendTo: {
+      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      default: undefined,
+    },
+
     shouldShow: {
       type: Function as PropType<Exclude<Required<FloatingMenuPluginProps>['shouldShow'], null>>,
       default: null,
     },
   },
 
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { pluginKey, editor, options, shouldShow } = props
+      const { pluginKey, editor, options, appendTo, shouldShow } = props
 
-      if (!root.value) {
+      const el = root.value
+
+      if (!el) {
         return
       }
 
-      root.value.style.visibility = 'hidden'
-      root.value.style.position = 'absolute'
+      el.style.visibility = 'hidden'
+      el.style.position = 'absolute'
 
-      // remove the element from the DOM
-      root.value.remove()
+      // Remove element from DOM; plugin will re-parent it when shown
+      el.remove()
 
       editor.registerPlugin(
         FloatingMenuPlugin({
           pluginKey,
           editor,
-          element: root.value as HTMLElement,
+          element: el,
           options,
+          appendTo,
           shouldShow,
         }),
       )
@@ -63,6 +73,8 @@ export const FloatingMenu = defineComponent({
       editor.unregisterPlugin(pluginKey)
     })
 
-    return () => h(Teleport, { to: 'body' }, h('div', { ref: root }, slots.default?.()))
+    // Vue owns this element; attrs are applied reactively by Vue
+    // Plugin re-parents it when showing the menu
+    return () => h('div', { ref: root, ...attrs }, slots.default?.())
   },
 })

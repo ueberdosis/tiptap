@@ -1,5 +1,5 @@
 import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent, wrappingInputRule } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
@@ -31,6 +31,19 @@ export interface TaskItemOptions {
    * @example 'myCustomTaskList'
    */
   taskListTypeName: string
+
+  /**
+   * Accessibility options for the task item.
+   * @default {}
+   * @example
+   * ```js
+   * {
+   *   checkboxLabel: (node) => `Task item: ${node.textContent || 'empty task item'}`
+   * }
+   */
+  a11y?: {
+    checkboxLabel?: (node: ProseMirrorNode, checked: boolean) => string
+  }
 }
 
 /**
@@ -50,6 +63,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
       nested: false,
       HTMLAttributes: {},
       taskListTypeName: 'taskList',
+      a11y: undefined,
     }
   },
 
@@ -106,6 +120,38 @@ export const TaskItem = Node.create<TaskItemOptions>({
     ]
   },
 
+  parseMarkdown: (token, h) => {
+    // Parse the task item's text content into paragraph content
+    const content = []
+
+    // First, add the main paragraph content
+    if (token.tokens && token.tokens.length > 0) {
+      // If we have tokens, create a paragraph with the inline content
+      content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
+    } else if (token.text) {
+      // If we have raw text, create a paragraph with text node
+      content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
+    } else {
+      // Fallback: empty paragraph
+      content.push(h.createNode('paragraph', {}, []))
+    }
+
+    // Then, add any nested content (like nested task lists)
+    if (token.nestedTokens && token.nestedTokens.length > 0) {
+      const nestedContent = h.parseChildren(token.nestedTokens)
+      content.push(...nestedContent)
+    }
+
+    return h.createNode('taskItem', { checked: token.checked || false }, content)
+  },
+
+  renderMarkdown: (node, h) => {
+    const checkedChar = node.attrs?.checked ? 'x' : ' '
+    const prefix = `- [${checkedChar}] `
+
+    return renderNestedMarkdownContent(node, h, prefix)
+  },
+
   addKeyboardShortcuts() {
     const shortcuts: {
       [key: string]: KeyboardShortcutCommand
@@ -131,6 +177,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkboxStyler = document.createElement('span')
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
+
+      const updateA11Y = (currentNode: ProseMirrorNode) => {
+        checkbox.ariaLabel =
+          this.options.a11y?.checkboxLabel?.(currentNode, checkbox.checked) ||
+          `Task item checkbox for ${currentNode.textContent || 'empty task item'}`
+      }
+
+      updateA11Y(node)
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
@@ -199,6 +253,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
           listItem.dataset.checked = updatedNode.attrs.checked
           checkbox.checked = updatedNode.attrs.checked
+          updateA11Y(updatedNode)
 
           return true
         },

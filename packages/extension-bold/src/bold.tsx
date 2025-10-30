@@ -1,6 +1,5 @@
 /** @jsxImportSource @tiptap/core */
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
-import type { DOMOutputSpecArray } from '@tiptap/core/jsx-runtime'
 
 export interface BoldOptions {
   /**
@@ -88,7 +87,18 @@ export const Bold = Mark.create<BoldOptions>({
       <strong {...mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)}>
         <slot />
       </strong>
-    ) as unknown as DOMOutputSpecArray
+    )
+  },
+
+  markdownTokenName: 'strong',
+
+  parseMarkdown: (token, helpers) => {
+    // Convert 'strong' token to bold mark
+    return helpers.applyMark('bold', helpers.parseInline(token.tokens || []))
+  },
+
+  renderMarkdown: (node, h) => {
+    return `**${h.renderChildren(node)}**`
   },
 
   addCommands() {

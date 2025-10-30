@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Patch Changes
+
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+
 ## 3.0.0-next.2
 
 ### Patch Changes

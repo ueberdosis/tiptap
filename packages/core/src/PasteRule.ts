@@ -112,13 +112,30 @@ function run(config: {
   const handlers: (void | null)[] = []
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.isTextblock || node.type.spec.code) {
+    // Skip code blocks and non-textual nodes.
+    // Be defensive: `node` may be a Fragment without a `type`. Only text,
+    // inline, or textblock nodes are processed by paste rules.
+    if (node.type?.spec?.code || !(node.isText || node.isTextblock || node.isInline)) {
       return
     }
 
+    // For textblock and inline/text nodes, compute the range relative to the node.
+    // Prefer `node.nodeSize` when available (some Node shapes expose this),
+    // otherwise fall back to `node.content?.size`. Default to 0 if neither exists.
+    const contentSize = node.content?.size ?? node.nodeSize ?? 0
     const resolvedFrom = Math.max(from, pos)
-    const resolvedTo = Math.min(to, pos + node.content.size)
-    const textToMatch = node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
+    const resolvedTo = Math.min(to, pos + contentSize)
+
+    // If the resolved range is empty or invalid for this node, skip it. This
+    // avoids calling `textBetween` with start > end which can cause internal
+    // Fragment/Node traversal to access undefined `nodeSize` values.
+    if (resolvedFrom >= resolvedTo) {
+      return
+    }
+
+    const textToMatch = node.isText
+      ? node.text || ''
+      : node.textBetween(resolvedFrom - pos, resolvedTo - pos, undefined, '\ufffc')
 
     const matches = pasteRuleMatcherHandler(textToMatch, rule.find, pasteEvent)
 
@@ -267,7 +284,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             if (!isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
-              if (dragFromOtherEditor) {
+              if (dragFromOtherEditor?.isEditable) {
                 // setTimeout to avoid the wrong content after drop, timeout arg can't be empty or 0
                 setTimeout(() => {
                   const selection = dragFromOtherEditor.state.selection

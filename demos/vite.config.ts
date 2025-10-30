@@ -54,8 +54,6 @@ const getPackageDependencies = () => {
   collectPackageInformation('packages')
   collectPackageInformation('packages-deprecated')
 
-  console.log(paths)
-
   // Handle the JSX runtime alias
   paths.unshift({ find: '@tiptap/core/jsx-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
   paths.unshift({ find: '@tiptap/core/jsx-dev-runtime', replacement: resolve('../packages/core/src/jsx-runtime.ts') })
@@ -81,7 +79,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: fg.sync('./**/index.html', {
-        ignore: ['dist'],
+        ignore: ['dist', 'node_modules'],
       }),
     },
   },
@@ -265,7 +263,7 @@ export default defineConfig({
       load(id) {
         if (id.startsWith('source!')) {
           const path = id.split('!!')[0].replace('source!', '')
-          const ignore = ['**/*.spec.js', '**/*.spec.ts']
+          const ignore = ['**/*.spec.js', '**/*.spec.ts', 'node_modules/**']
 
           if (!path.endsWith('/JS')) {
             ignore.push('**/index.html')

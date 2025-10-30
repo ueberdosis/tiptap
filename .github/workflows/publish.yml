@@ -7,8 +7,7 @@ on:
   push:
     branches:
       - main
-      - develop
-      - next
+      - release/*
   # manual trigger for other branches
   workflow_dispatch:
 
@@ -32,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -46,7 +45,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Load turbo cache
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@v4.3.0
         id: turbo-cache
         with:
           path: |
@@ -58,7 +57,7 @@ jobs:
             ${{ runner.os }}-turbo-
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm install --strict-peer-dependencies
 
       - name: Setup npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
@@ -68,7 +67,7 @@ jobs:
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          publish: pnpm run publish --tag ${{ github.ref_name == 'next' && 'next'  || 'latest' }}
+          publish: pnpm run publish
           version: pnpm run version
           title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
           commit: >-

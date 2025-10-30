@@ -1,5 +1,162 @@
 # Change Log
 
+## 3.9.1
+
+## 3.9.0
+
+## 3.8.0
+
+## 3.7.2
+
+## 3.7.1
+
+## 3.7.0
+
+## 3.6.7
+
+## 3.6.6
+
+## 3.6.5
+
+## 3.6.4
+
+## 3.6.3
+
+## 3.6.2
+
+## 3.6.1
+
+## 3.6.0
+
+## 3.5.3
+
+## 3.5.2
+
+## 3.5.1
+
+## 3.5.0
+
+## 3.4.6
+
+## 3.4.5
+
+## 3.4.4
+
+## 3.4.3
+
+## 3.4.2
+
+## 3.4.1
+
+## 3.4.0
+
+## 3.3.1
+
+## 3.3.0
+
+## 3.2.2
+
+## 3.2.1
+
+## 3.2.0
+
+## 3.1.0
+
+## 3.0.9
+
+## 3.0.8
+
+## 3.0.7
+
+## 3.0.6
+
+## 3.0.5
+
+## 3.0.4
+
+## 3.0.3
+
+## 3.0.2
+
+## 3.0.1
+
+### Major Changes
+
+- a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
+
+### Minor Changes
+
+- 62b0877: Update prosemirror changeset to support token encoders
+
+### Patch Changes
+
+- 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
+- 1e91f9b: Fix prosemirror history build
+- 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
+- 8c69002: Synced beta with stable features
+
+## 3.0.0-beta.30
+
+## 3.0.0-beta.29
+
+## 3.0.0-beta.28
+
+## 3.0.0-beta.27
+
+## 3.0.0-beta.26
+
+## 3.0.0-beta.25
+
+## 3.0.0-beta.24
+
+## 3.0.0-beta.23
+
+## 3.0.0-beta.22
+
+## 3.0.0-beta.21
+
+## 3.0.0-beta.20
+
+## 3.0.0-beta.19
+
+## 3.0.0-beta.18
+
+## 3.0.0-beta.17
+
+## 3.0.0-beta.16
+
+## 3.0.0-beta.15
+
+## 3.0.0-beta.14
+
+## 3.0.0-beta.13
+
+## 3.0.0-beta.12
+
+## 3.0.0-beta.11
+
+## 3.0.0-beta.10
+
+## 3.0.0-beta.9
+
+## 3.0.0-beta.8
+
+## 3.0.0-beta.7
+
+## 3.0.0-beta.6
+
+## 3.0.0-beta.5
+
+### Minor Changes
+
+- 62b0877: Update prosemirror changeset to support token encoders
+
+### Patch Changes
+
+- 8c69002: Synced beta with stable features
+
+## 3.0.0-beta.4
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
@@ -49,6 +206,18 @@
 - a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
 
 ## 3.0.0-next.0
+
+## 2.12.0
+
+### Minor Changes
+
+- 896f767: Update prosemirror-changeset library to support token encoders
+
+## 2.11.9
+
+## 2.11.8
+
+## 2.11.7
 
 ## 2.11.6
 

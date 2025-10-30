@@ -1,5 +1,6 @@
 import {
   type Middleware,
+  type VirtualElement,
   arrow,
   autoPlacement,
   computePosition,
@@ -12,9 +13,22 @@ import {
 } from '@floating-ui/dom'
 import type { Editor } from '@tiptap/core'
 import { isTextSelection, posToDOMRect } from '@tiptap/core'
-import type { EditorState, PluginView } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
+import { CellSelection } from '@tiptap/pm/tables'
 import type { EditorView } from '@tiptap/pm/view'
+
+function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
+  const top = Math.min(rect1.top, rect2.top)
+  const bottom = Math.max(rect1.bottom, rect2.bottom)
+  const left = Math.min(rect1.left, rect2.left)
+  const right = Math.max(rect1.right, rect2.right)
+  const width = right - left
+  const height = bottom - top
+  const x = left
+  const y = top
+  return new DOMRect(x, y, width, height)
+}
 
 export interface BubbleMenuPluginProps {
   /**
@@ -56,7 +70,7 @@ export interface BubbleMenuPluginProps {
    * A function that determines whether the menu should be shown or not.
    * If this function returns `false`, the menu will be hidden, otherwise it will be shown.
    */
-  shouldShow:
+  shouldShow?:
     | ((props: {
         editor: Editor
         element: HTMLElement
@@ -69,7 +83,28 @@ export interface BubbleMenuPluginProps {
     | null
 
   /**
-   * FloatingUI options.
+   * The DOM element to append your menu to. Default is the editor's parent element.
+   *
+   * Sometimes the menu needs to be appended to a different DOM context due to accessibility, clipping, or z-index issues.
+   *
+   * @type {HTMLElement}
+   * @default null
+   */
+  appendTo?: HTMLElement | (() => HTMLElement)
+
+  /**
+   * A function that returns the virtual element for the menu.
+   * This is useful when the menu needs to be positioned relative to a specific DOM element.
+   * @type {() => VirtualElement | null}
+   * @default Position based on the selection.
+   */
+  getReferencedVirtualElement?: () => VirtualElement | null
+
+  /**
+   * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
+   * hide, and inline middlewares.
+   * @default {}
+   * @see https://floating-ui.com/docs/computePosition#options
    */
   options?: {
     strategy?: 'absolute' | 'fixed'
@@ -94,6 +129,18 @@ export interface BubbleMenuPluginProps {
     autoPlacement?: Parameters<typeof autoPlacement>[0] | boolean
     hide?: Parameters<typeof hide>[0] | boolean
     inline?: Parameters<typeof inline>[0] | boolean
+
+    onShow?: () => void
+    onHide?: () => void
+    onUpdate?: () => void
+    onDestroy?: () => void
+
+    /**
+     * The scrollable element that should be listened to when updating the position of the bubble menu.
+     * If not provided, the window will be used.
+     * @type {HTMLElement | Window}
+     */
+    scrollTarget?: HTMLElement | Window
   }
 }
 
@@ -114,9 +161,17 @@ export class BubbleMenuView implements PluginView {
 
   public resizeDelay: number
 
+  public appendTo: HTMLElement | (() => HTMLElement) | undefined
+
+  public getReferencedVirtualElement: (() => VirtualElement | null) | undefined
+
   private updateDebounceTimer: number | undefined
 
   private resizeDebounceTimer: number | undefined
+
+  private isVisible = false
+
+  private scrollTarget: HTMLElement | Window = window
 
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
@@ -129,6 +184,10 @@ export class BubbleMenuView implements PluginView {
     autoPlacement: false,
     hide: false,
     inline: false,
+    onShow: undefined,
+    onHide: undefined,
+    onUpdate: undefined,
+    onDestroy: undefined,
   }
 
   public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
@@ -202,6 +261,68 @@ export class BubbleMenuView implements PluginView {
     return middlewares
   }
 
+  private get virtualElement(): VirtualElement | undefined {
+    const { selection } = this.editor.state
+
+    const referencedVirtualElement = this.getReferencedVirtualElement?.()
+    if (referencedVirtualElement) {
+      return referencedVirtualElement
+    }
+
+    const domRect = posToDOMRect(this.view, selection.from, selection.to)
+    let virtualElement = {
+      getBoundingClientRect: () => domRect,
+      getClientRects: () => [domRect],
+    }
+
+    if (selection instanceof NodeSelection) {
+      let node = this.view.nodeDOM(selection.from) as HTMLElement
+
+      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+
+      if (nodeViewWrapper) {
+        node = nodeViewWrapper as HTMLElement
+      }
+
+      if (node) {
+        virtualElement = {
+          getBoundingClientRect: () => node.getBoundingClientRect(),
+          getClientRects: () => [node.getBoundingClientRect()],
+        }
+      }
+    }
+
+    // this is a special case for cell selections
+    if (selection instanceof CellSelection) {
+      const { $anchorCell, $headCell } = selection
+
+      const from = $anchorCell ? $anchorCell.pos : $headCell!.pos
+      const to = $headCell ? $headCell.pos : $anchorCell!.pos
+
+      const fromDOM = this.view.nodeDOM(from)
+      const toDOM = this.view.nodeDOM(to)
+
+      if (!fromDOM || !toDOM) {
+        return
+      }
+
+      const clientRect =
+        fromDOM === toDOM
+          ? (fromDOM as HTMLElement).getBoundingClientRect()
+          : combineDOMRects(
+              (fromDOM as HTMLElement).getBoundingClientRect(),
+              (toDOM as HTMLElement).getBoundingClientRect(),
+            )
+
+      virtualElement = {
+        getBoundingClientRect: () => clientRect,
+        getClientRects: () => [clientRect],
+      }
+    }
+
+    return virtualElement
+  }
+
   constructor({
     editor,
     element,
@@ -209,6 +330,8 @@ export class BubbleMenuView implements PluginView {
     updateDelay = 250,
     resizeDelay = 60,
     shouldShow,
+    appendTo,
+    getReferencedVirtualElement,
     options,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -216,11 +339,16 @@ export class BubbleMenuView implements PluginView {
     this.view = view
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
+    this.appendTo = appendTo
+    this.scrollTarget = options?.scrollTarget ?? window
+    this.getReferencedVirtualElement = getReferencedVirtualElement
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
       ...options,
     }
+
+    this.element.tabIndex = 0
 
     if (shouldShow) {
       this.shouldShow = shouldShow
@@ -230,20 +358,15 @@ export class BubbleMenuView implements PluginView {
     this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
-    window.addEventListener('resize', () => {
-      if (this.resizeDebounceTimer) {
-        clearTimeout(this.resizeDebounceTimer)
-      }
-
-      this.resizeDebounceTimer = window.setTimeout(() => {
-        this.updatePosition()
-      }, this.resizeDelay)
-    })
+    this.editor.on('transaction', this.transactionHandler)
+    window.addEventListener('resize', this.resizeHandler)
+    this.scrollTarget.addEventListener('scroll', this.resizeHandler)
 
     this.update(view, view.state)
 
     if (this.getShouldShow()) {
       this.show()
+      this.updatePosition()
     }
   }
 
@@ -255,12 +378,32 @@ export class BubbleMenuView implements PluginView {
     this.hide()
   }
 
+  /**
+   * Handles the window resize event to update the position of the bubble menu.
+   * It uses a debounce mechanism to prevent excessive updates.
+   * The delay is defined by the `resizeDelay` property.
+   */
+  resizeHandler = () => {
+    if (this.resizeDebounceTimer) {
+      clearTimeout(this.resizeDebounceTimer)
+    }
+
+    this.resizeDebounceTimer = window.setTimeout(() => {
+      this.updatePosition()
+    }, this.resizeDelay)
+  }
+
   focusHandler = () => {
     // we use `setTimeout` to make sure `selection` is already updated
     setTimeout(() => this.update(this.editor.view))
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
+    if (this.editor.isDestroyed) {
+      this.destroy()
+      return
+    }
+
     if (this.preventHide) {
       this.preventHide = false
 
@@ -279,10 +422,10 @@ export class BubbleMenuView implements PluginView {
   }
 
   updatePosition() {
-    const { selection } = this.editor.state
+    const virtualElement = this.virtualElement
 
-    const virtualElement = {
-      getBoundingClientRect: () => posToDOMRect(this.view, selection.from, selection.to),
+    if (!virtualElement) {
+      return
     }
 
     computePosition(virtualElement, this.element, {
@@ -294,6 +437,10 @@ export class BubbleMenuView implements PluginView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      if (this.isVisible && this.floatingUIOptions.onUpdate) {
+        this.floatingUIOptions.onUpdate()
+      }
     })
   }
 
@@ -348,7 +495,7 @@ export class BubbleMenuView implements PluginView {
       to,
     })
 
-    return shouldShow
+    return shouldShow || false
   }
 
   updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
@@ -373,25 +520,61 @@ export class BubbleMenuView implements PluginView {
   }
 
   show() {
+    if (this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach to editor's parent element
-    this.view.dom.parentElement?.appendChild(this.element)
+
+    // attach to appendTo or editor's parent element
+    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
+    ;(appendToElement ?? this.view.dom.parentElement)?.appendChild(this.element)
+
+    if (this.floatingUIOptions.onShow) {
+      this.floatingUIOptions.onShow()
+    }
+
+    this.isVisible = true
   }
 
   hide() {
+    if (!this.isVisible) {
+      return
+    }
+
     this.element.style.visibility = 'hidden'
     this.element.style.opacity = '0'
     // remove from the parent element
     this.element.remove()
+
+    if (this.floatingUIOptions.onHide) {
+      this.floatingUIOptions.onHide()
+    }
+
+    this.isVisible = false
+  }
+
+  transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
+    const meta = tr.getMeta('bubbleMenu')
+    if (meta === 'updatePosition') {
+      this.updatePosition()
+    }
   }
 
   destroy() {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
+    window.removeEventListener('resize', this.resizeHandler)
+    this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+    this.editor.off('transaction', this.transactionHandler)
+
+    if (this.floatingUIOptions.onDestroy) {
+      this.floatingUIOptions.onDestroy()
+    }
   }
 }
 

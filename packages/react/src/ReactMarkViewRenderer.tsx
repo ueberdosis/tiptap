@@ -16,16 +16,18 @@ export const ReactMarkViewContext = React.createContext<MarkViewContextProps>({
 })
 
 export type MarkViewContentProps<T extends keyof React.JSX.IntrinsicElements = 'span'> = {
-  as?: NoInfer<T>
-} & React.ComponentProps<T>
+  as?: T
+} & Omit<React.ComponentProps<T>, 'as'>
 
-export const MarkViewContent: React.FC<MarkViewContentProps> = props => {
-  const Tag = props.as || 'span'
+export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 'span'>(
+  props: MarkViewContentProps<T>,
+) => {
+  const { as: Tag = 'span', ...rest } = props
   const { markViewContentRef } = React.useContext(ReactMarkViewContext)
 
   return (
     // @ts-ignore
-    <Tag {...props} ref={markViewContentRef} data-mark-view-content="" />
+    <Tag {...rest} ref={markViewContentRef} data-mark-view-content="" />
   )
 }
 
@@ -40,8 +42,7 @@ export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
 
 export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, ReactMarkViewRendererOptions> {
   renderer: ReactRenderer
-  contentDOMElement: HTMLElement | null
-  didMountContentDomElement = false
+  contentDOMElement: HTMLElement
 
   constructor(
     component: React.ComponentType<MarkViewProps>,
@@ -51,14 +52,13 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     super(component, props, options)
 
     const { as = 'span', attrs, className = '' } = options || {}
-    const componentProps = props satisfies MarkViewProps
+    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
 
     this.contentDOMElement = document.createElement('span')
 
     const markViewContentRef: MarkViewContextProps['markViewContentRef'] = el => {
-      if (el && this.contentDOMElement && el.firstChild !== this.contentDOMElement) {
+      if (el && !el.contains(this.contentDOMElement)) {
         el.appendChild(this.contentDOMElement)
-        this.didMountContentDomElement = true
       }
     }
     const context: MarkViewContextProps = {
@@ -75,7 +75,7 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
       )
     })
 
-    ReactMarkViewProvider.displayName = 'ReactNodeView'
+    ReactMarkViewProvider.displayName = 'ReactMarkView'
 
     this.renderer = new ReactRenderer(ReactMarkViewProvider, {
       editor: props.editor,
@@ -90,14 +90,11 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
   }
 
   get dom() {
-    return this.renderer.element as HTMLElement
+    return this.renderer.element
   }
 
   get contentDOM() {
-    if (!this.didMountContentDomElement) {
-      return null
-    }
-    return this.contentDOMElement as HTMLElement
+    return this.contentDOMElement
   }
 }
 

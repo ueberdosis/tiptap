@@ -3,17 +3,21 @@ import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
 
+import type { LinkOptions } from '../link'
+
 type PasteHandlerOptions = {
   editor: Editor
   defaultProtocol: string
   type: MarkType
+  shouldAutoLink?: LinkOptions['shouldAutoLink']
 }
 
 export function pasteHandler(options: PasteHandlerOptions): Plugin {
   return new Plugin({
     key: new PluginKey('handlePasteLink'),
     props: {
-      handlePaste: (view, event, slice) => {
+      handlePaste: (view, _event, slice) => {
+        const { shouldAutoLink } = options
         const { state } = view
         const { selection } = state
         const { empty } = selection
@@ -32,7 +36,7 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           item => item.isLink && item.value === textContent,
         )
 
-        if (!textContent || !link) {
+        if (!textContent || !link || (shouldAutoLink !== undefined && !shouldAutoLink(link.href))) {
           return false
         }
 

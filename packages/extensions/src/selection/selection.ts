@@ -15,7 +15,7 @@ export type SelectionOptions = {
  * This extension allows you to add a class to the selected text.
  * @see https://www.tiptap.dev/api/extensions/selection
  */
-export const Selection = Extension.create({
+export const Selection = Extension.create<SelectionOptions>({
   name: 'selection',
 
   addOptions() {
@@ -32,7 +32,13 @@ export const Selection = Extension.create({
         key: new PluginKey('selection'),
         props: {
           decorations(state) {
-            if (state.selection.empty || editor.isFocused || !editor.isEditable || isNodeSelection(state.selection)) {
+            if (
+              state.selection.empty ||
+              editor.isFocused ||
+              !editor.isEditable ||
+              isNodeSelection(state.selection) ||
+              editor.view.dragging
+            ) {
               return null
             }
 

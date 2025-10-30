@@ -13,7 +13,7 @@ import { renderToElement } from '../extensionRenderer.js'
  * @param key The key to use for the React element
  * @returns The mapped HTML attributes as an object
  */
-function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Record<string, any> {
+export function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Record<string, any> {
   if (!attrs) {
     return { key }
   }
@@ -22,6 +22,23 @@ function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Re
       if (name === 'class') {
         return Object.assign(acc, { className: value })
       }
+
+      // React expects styles to be a object
+      // so we need to convert it from string to object
+      if (name === 'style' && typeof value === 'string') {
+        const styleObject: Record<string, string> = {}
+        value.split(';').forEach(style => {
+          const [styleKey, val] = style.split(':')
+          if (styleKey && val) {
+            // we need to turn the key into camelCase
+            const camelCaseKey = styleKey.trim().replace(/-([a-z])/g, g => g[1].toUpperCase())
+            styleObject[camelCaseKey] = val.trim()
+          }
+        })
+
+        return Object.assign(acc, { style: styleObject })
+      }
+
       return Object.assign(acc, { [name]: value })
     },
     { key },

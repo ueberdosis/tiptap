@@ -1,10 +1,10 @@
-import type { NodeViewProps } from '@tiptap/react'
+import type { ReactNodeViewProps } from '@tiptap/react'
 import { NodeViewWrapper } from '@tiptap/react'
 import React, { useContext } from 'react'
 
 import { Context } from './Context.js'
 
-export default (props: NodeViewProps) => {
+export default (props: ReactNodeViewProps) => {
   const { value } = useContext(Context)
 
   const increase = () => {
