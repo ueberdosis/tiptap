@@ -1,1 +1,1 @@
-export * from './ResizableNodeview.js'
+export * from './ResizableNodeView.js'
