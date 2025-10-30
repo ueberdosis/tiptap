@@ -708,7 +708,9 @@ export class ResizableNodeview {
     this.element.style.width = `${constrained.width}px`
     this.element.style.height = `${constrained.height}px`
 
-    this.onResize(constrained.width, constrained.height)
+    if (this.onResize) {
+      this.onResize(constrained.width, constrained.height)
+    }
   }
 
   /**
