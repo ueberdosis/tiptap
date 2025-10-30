@@ -1,5 +1,13 @@
 # Releases
 
+## v3.10.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Use correct `ResizableNodeView` class name
+
 ## v3.10.0
 
 ### @tiptap/core
