@@ -33,11 +33,11 @@ export type ResizableNodeDimensions = {
 }
 
 /**
- * Configuration options for creating a ResizableNodeview
+ * Configuration options for creating a ResizableNodeView
  *
  * @example
  * ```ts
- * new ResizableNodeview({
+ * new ResizableNodeView({
  *   element: imgElement,
  *   node,
  *   getPos,
@@ -222,7 +222,7 @@ export type ResizableNodeViewOptions = {
  *     const img = document.createElement('img')
  *     img.src = node.attrs.src
  *
- *     return new ResizableNodeview({
+ *     return new ResizableNodeView({
  *       element: img,
  *       node,
  *       getPos,
@@ -243,7 +243,7 @@ export type ResizableNodeViewOptions = {
  * }
  * ```
  */
-export class ResizableNodeview {
+export class ResizableNodeView {
   /** The ProseMirror node instance */
   node: PMNode
 
@@ -325,7 +325,7 @@ export class ResizableNodeview {
   private isShiftKeyPressed: boolean = false
 
   /**
-   * Creates a new ResizableNodeview instance.
+   * Creates a new ResizableNodeView instance.
    *
    * The constructor sets up the resize handles, applies initial sizing from
    * node attributes, and configures all resize behavior options.

@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeview } from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 import type { ResizableNodeViewDirection } from 'packages/core/src/lib'
 
 export interface ImageOptions {
@@ -173,7 +173,7 @@ export const Image = Node.create<ImageOptions>({
 
       el.src = HTMLAttributes.src
 
-      const nodeView = new ResizableNodeview({
+      const nodeView = new ResizableNodeView({
         element: el,
         node,
         getPos,
