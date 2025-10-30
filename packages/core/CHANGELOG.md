@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.10.1
+
+### Patch Changes
+
+- 3564e7c: Use correct `ResizableNodeView` class name
+  - @tiptap/pm@3.10.1
+
 ## 3.10.0
 
 ### Minor Changes
