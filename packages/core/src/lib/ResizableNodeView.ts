@@ -934,3 +934,5 @@ export class ResizableNodeView {
     }
   }
 }
+
+export const ResizableNodeview = ResizableNodeView
