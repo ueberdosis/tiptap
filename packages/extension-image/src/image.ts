@@ -181,10 +181,14 @@ export const Image = Node.create<ImageOptions>({
             return
           }
 
-          this.editor.commands.updateAttributes(this.name, {
-            width,
-            height,
-          })
+          this.editor
+            .chain()
+            .setNodeSelection(pos)
+            .updateAttributes(this.name, {
+              width,
+              height,
+            })
+            .run()
         },
         onUpdate: (updatedNode, _decorations, _innerDecorations) => {
           if (updatedNode.type !== node.type) {

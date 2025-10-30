@@ -64,6 +64,11 @@ export type ResizableNodeViewOptions = {
   element: HTMLElement
 
   /**
+   * The DOM element that will hold the editable content element
+   */
+  contentElement?: HTMLElement
+
+  /**
    * The ProseMirror node instance
    */
   node: PMNode
@@ -88,7 +93,7 @@ export type ResizableNodeViewOptions = {
    * }
    * ```
    */
-  onResize: (width: number, height: number) => void
+  onResize?: (width: number, height: number) => void
 
   /**
    * Callback fired once when resize completes with final dimensions.
@@ -245,6 +250,9 @@ export class ResizableNodeview {
   /** The DOM element being made resizable */
   element: HTMLElement
 
+  /** The editable DOM element inside the DOM */
+  contentElement?: HTMLElement
+
   /** The outer container element (returned as NodeView.dom) */
   container: HTMLElement
 
@@ -255,7 +263,7 @@ export class ResizableNodeview {
   getPos: () => number | undefined
 
   /** Callback fired during resize */
-  onResize: (width: number, height: number) => void
+  onResize?: (width: number, height: number) => void
 
   /** Callback fired when resize completes */
   onCommit: (width: number, height: number) => void
@@ -327,6 +335,7 @@ export class ResizableNodeview {
   constructor(options: ResizableNodeViewOptions) {
     this.node = options.node
     this.element = options.element
+    this.contentElement = options.contentElement
 
     this.getPos = options.getPos
 
@@ -379,6 +388,10 @@ export class ResizableNodeview {
    */
   get dom() {
     return this.container
+  }
+
+  get contentDOM() {
+    return this.contentElement
   }
 
   /**
