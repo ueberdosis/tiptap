@@ -102,6 +102,19 @@ export const findElementNextToCoords = (
 
   const node = state.doc.nodeAt(pos)
 
+  if (!node) {
+    // This case occurs when an atom node is allowed to contain inline content.
+    // We need to resolve the position here to ensure we target the correct parent node.
+    const resolvedPos = state.doc.resolve(pos)
+    const parent = resolvedPos.parent
+
+    return {
+      resultElement: block,
+      resultNode: parent,
+      pos: resolvedPos.start(),
+    }
+  }
+
   return {
     resultElement: block,
     resultNode: node,
