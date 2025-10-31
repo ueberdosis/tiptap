@@ -28,7 +28,7 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
     expect(worldNode).to.not.equal(undefined)
     // The italic mark should be present
     expect(worldNode!.marks).to.be.an('array')
-    const hasItalic = (worldNode.marks || []).some((m: any) => m.type === 'italic')
+    const hasItalic = worldNode!.marks.some((m: any) => m.type === 'italic')
     expect(hasItalic).to.equal(true)
   })
 
