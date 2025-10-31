@@ -111,36 +111,13 @@
     user-select: none;
   }
 
-  .selection-indicator__badge {
-    display: inline-block;
-    background: rgba(55, 65, 81, 0.9);
-    color: white;
-    font-size: 12px;
-    padding: 6px 8px;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    pointer-events: none;
-  }
-
-  .selection-indicator__badge {
-    display: inline-block;
-    background: rgba(55, 65, 81, 0.9);
-    color: white;
-    font-size: 12px;
-    padding: 6px 8px;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  /* Modifier for interactive badge (allows pointer events) */
+  .selection-indicator__badge--interactive {
     pointer-events: auto;
   }
 
-  .selection-indicator__badge {
-    display: inline-block;
-    background: rgba(55, 65, 81, 0.9);
-    color: white;
-    font-size: 12px;
-    padding: 6px 8px;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    pointer-events: auto;
+  /* Modifier for selectable badge (allows user selection) */
+  .selection-indicator__badge--selectable {
+    user-select: auto;
   }
 }
