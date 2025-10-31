@@ -1,5 +1,97 @@
 # Releases
 
+## v3.10.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Use correct `ResizableNodeView` class name
+
+## v3.10.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- the addNodeView function can now return `null` to dynamically disable rendering of a node view
+  
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### @tiptap/extension-image
+
+#### Minor Changes
+
+- Added a new `resize` option that allows images to be resized. The option adds resize handlers to images allowing users to manually resize images via drag and drop or touch
+
+## v3.9.1
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Add a `renderWrapper` option to the Table extension so consumers can customize whether the table wrapper for the resizable node view should be rendered in non-editable mode as well.
+
+## v3.9.0
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fix attribute forwarding for BubbleMenu and FloatingMenu Vue 3 components to allow setting z-index and other HTML attributes
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Ensure that markdown hard breaks (two spaces followed by a newline) are parsed so they render as line breaks (`<br>`) in the editor when using `contentType: 'markdown'`.
+  
+  Fixes #7107
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Only remove injected CSS on unmount if no other editors are in the document (fixes #6836)
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Replace DOM traversal with browser's native elementsFromPoint for better performance.
+  
+  - Use elementsFromPoint instead of querySelectorAll
+  - Add clampToContent helper for coordinate boundary validation
+  - Add findClosestTopLevelBlock helper for efficient block lookup
+  - Future-proof for root-level mousemove listeners
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+
+## v3.8.0
+
+### @tiptap/extension-unique-id
+
+#### Minor Changes
+
+- Add `updateDocument` option to disable document updates caused by the Unique ID extension.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Prevent Bubble Menu plugin from re-loading every time the BubbleMenu component re-renders. Reverts a regression introduced in v3.6.3, in PR #7028.
+
 ## v3.7.2
 
 ### @tiptap/html

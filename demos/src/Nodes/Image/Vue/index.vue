@@ -43,8 +43,8 @@ export default {
       extensions: [Document, Paragraph, Text, Image, Dropcursor],
       content: `
         <p>This is a basic example of implementing images. Drag to re-order.</p>
+        <img src="https://placehold.co/600x400" />
         <img src="https://placehold.co/800x400" />
-        <img src="https://placehold.co/800x400/6A00F5/white" />
       `,
     })
   },
