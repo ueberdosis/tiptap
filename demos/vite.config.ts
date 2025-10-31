@@ -317,6 +317,7 @@ export default defineConfig({
         return () => {
           viteDevServer.middlewares.use(async (req, res, next) => {
             if (req?.originalUrl?.startsWith('/preview')) {
+              // @ts-ignore
               req.url = '/preview/index.html'
             }
 

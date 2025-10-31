@@ -382,14 +382,80 @@ export class MarkdownManager {
   private parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
     const result: JSONContent[] = []
 
-    // Process tokens sequentially
-    tokens.forEach(token => {
+    // Process tokens sequentially using an index so we can lookahead and
+    // merge split inline HTML fragments like: text / <em> / inner / </em> / text
+    for (let i = 0; i < tokens.length; i += 1) {
+      const token = tokens[i]
+
       if (token.type === 'text') {
         // Create text node
         result.push({
           type: 'text',
           text: token.text || '',
         })
+      } else if (token.type === 'html') {
+        // Handle possible split inline HTML by attempting to detect an
+        // opening tag and searching forward for a matching closing tag.
+        const raw = (token.raw ?? token.text ?? '').toString()
+
+        // Quick checks for opening vs. closing tag
+        const isClosing = /^<\/[\s]*[\w-]+/i.test(raw)
+        const openMatch = raw.match(/^<[\s]*([\w-]+)(\s|>|\/|$)/i)
+
+        if (!isClosing && openMatch && !/\/>$/.test(raw)) {
+          // Try to find the corresponding closing html token for this tag
+          const tagName = openMatch[1]
+          const closingRegex = new RegExp(`^<\\/\\s*${tagName}\\b`, 'i')
+          let foundIndex = -1
+
+          // collect intermediate raw parts to reconstruct full HTML fragment
+          const parts: string[] = [raw]
+          for (let j = i + 1; j < tokens.length; j += 1) {
+            const t = tokens[j]
+            const tRaw = (t.raw ?? t.text ?? '').toString()
+            parts.push(tRaw)
+            if (t.type === 'html' && closingRegex.test(tRaw)) {
+              foundIndex = j
+              break
+            }
+          }
+
+          if (foundIndex !== -1) {
+            // Merge opening + inner + closing into one html fragment and parse
+            const mergedRaw = parts.join('')
+            const mergedToken = {
+              type: 'html',
+              raw: mergedRaw,
+              text: mergedRaw,
+              block: false,
+            } as unknown as MarkdownToken
+
+            const parsed = this.parseHTMLToken(mergedToken)
+            if (parsed) {
+              const normalized = this.normalizeParseResult(parsed as any)
+              if (Array.isArray(normalized)) {
+                result.push(...normalized)
+              } else if (normalized) {
+                result.push(normalized)
+              }
+            }
+
+            // advance i to the closing token
+            i = foundIndex
+            continue
+          }
+        }
+
+        // Fallback: single html token parse
+        const parsedSingle = this.parseHTMLToken(token)
+        if (parsedSingle) {
+          const normalized = this.normalizeParseResult(parsedSingle as any)
+          if (Array.isArray(normalized)) {
+            result.push(...normalized)
+          } else if (normalized) {
+            result.push(normalized)
+          }
+        }
       } else if (token.type) {
         // Handle inline marks (bold, italic, etc.)
         const markHandler = this.getHandlerForToken(token.type)
@@ -415,7 +481,7 @@ export class MarkdownManager {
           result.push(...this.parseInlineTokens(token.tokens))
         }
       }
-    })
+    }
 
     return result
   }
