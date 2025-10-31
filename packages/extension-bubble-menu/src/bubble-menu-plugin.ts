@@ -410,7 +410,7 @@ export class BubbleMenuView implements PluginView {
       return
     }
 
-    if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
+    if (event?.relatedTarget && this.element.contains(event.relatedTarget as Node)) {
       return
     }
 
