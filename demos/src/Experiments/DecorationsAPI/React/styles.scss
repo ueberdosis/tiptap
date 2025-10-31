@@ -4,13 +4,143 @@
     margin-top: 0;
   }
 
-  .selected-text {
-    box-shadow: 0 0 0 4px #00ff00ff;
+  h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5em;
   }
 
-  .selected-node {
-    background-color: #00ff0060;
-    box-shadow: 0 0 0 0.5rem #00ff0060;
-    border-radius: 0.25rem;
+  h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    color: #333;
+  }
+
+  /* Keyword Highlighting - Inline Decoration */
+  .highlight-important {
+    background-color: #ffd700;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+
+  .highlight-todo {
+    background-color: #ffcccc;
+    color: #cc0000;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+
+  .highlight-note {
+    background-color: #ccf2ff;
+    color: #0066cc;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+
+  .highlight-warning {
+    background-color: #ffe6cc;
+    color: #ff6600;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+
+  /* Readability Scoring - Node Decoration */
+  .readability-easy {
+    border-left: 4px solid #22c55e;
+    padding-left: 12px;
+    background-color: #f0fdf4;
+  }
+
+  .readability-medium {
+    border-left: 4px solid #eab308;
+    padding-left: 12px;
+    background-color: #fefce8;
+  }
+
+  .readability-hard {
+    border-left: 4px solid #ef4444;
+    padding-left: 12px;
+    background-color: #fef2f2;
+  }
+
+  .readability-empty {
+    border-left: 4px solid #d1d5db;
+    padding-left: 12px;
+    background-color: #f9fafb;
+    color: #999;
+    font-style: italic;
+  }
+
+  /* Footnote Widget styling */
+  .footnote-indicator {
+    display: inline-block;
+    vertical-align: super;
+    font-size: 0.8em;
+  }
+
+  /* Selection Indicator Widget */
+  /* Make editor container positioned so absolute widgets can be placed relative to it */
+  .ProseMirror {
+    position: relative;
+  }
+
+  .selection-indicator {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+
+  .selection-indicator__badge {
+    display: inline-block;
+    background: rgba(55, 65, 81, 0.9);
+    color: white;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .selection-indicator__badge {
+    display: inline-block;
+    background: rgba(55, 65, 81, 0.9);
+    color: white;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+  }
+
+  .selection-indicator__badge {
+    display: inline-block;
+    background: rgba(55, 65, 81, 0.9);
+    color: white;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+  }
+
+  .selection-indicator__badge {
+    display: inline-block;
+    background: rgba(55, 65, 81, 0.9);
+    color: white;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
   }
 }
