@@ -162,8 +162,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createView(el)
     this.emit('mount', { editor: this })
 
-    if (this.css && !document.head.contains(this.css)) {
-      document.head.appendChild(this.css)
+    if (this.css) {
+      if (document.head.contains(this.css)) {
+        const refCount = this.css.getAttribute('ref-count') || '1'
+        this.css.setAttribute('ref-count', `${Number(refCount) + 1}`)
+      } else {
+        document.head.appendChild(this.css)
+      }
     }
 
     window.setTimeout(() => {
@@ -197,19 +202,32 @@ export class Editor extends EventEmitter<EditorEvents> {
     // Safely remove CSS element with fallback for test environments
     // Only remove CSS if no other editors exist in the document after unmount
     if (this.css && !document.querySelectorAll(`.${this.className}`).length) {
-      try {
-        if (typeof this.css.remove === 'function') {
-          this.css.remove()
-        } else if (this.css.parentNode) {
-          this.css.parentNode.removeChild(this.css)
-        }
-      } catch (error) {
-        // Silently handle any unexpected DOM removal errors in test environments
-        console.warn('Failed to remove CSS element:', error)
+      const refCount = this.css.getAttribute('ref-count') || '1'
+      if (Number(refCount) <= 1) {
+        this.removeCss()
+      } else {
+        this.css.setAttribute('ref-count', `${Number(refCount) - 1}`)
       }
     }
-    this.css = null
     this.emit('unmount', { editor: this })
+  }
+
+  private removeCss() {
+    if (!this.css) {
+      return
+    }
+    try {
+      if (typeof this.css.remove === 'function') {
+        this.css.remove()
+      } else if (this.css.parentNode) {
+        this.css.parentNode.removeChild(this.css)
+      }
+    } catch (error) {
+      // Silently handle any unexpected DOM removal errors in test environments
+      console.warn('Failed to remove CSS element:', error)
+    }
+
+    this.css = null
   }
 
   /**
