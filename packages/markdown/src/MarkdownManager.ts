@@ -408,7 +408,7 @@ export class MarkdownManager {
           const closingRegex = new RegExp(`^<\\/\\s*${tagName}\\b`, 'i')
           let foundIndex = -1
 
-          // collect intermediate raw parts to reconstruct full HTML fragment
+          // Collect intermediate raw parts to reconstruct full HTML fragment
           const parts: string[] = [raw]
           for (let j = i + 1; j < tokens.length; j += 1) {
             const t = tokens[j]
