@@ -80,8 +80,7 @@ export const SelectionIndicatorExtension = Extension.create({
             return wrapper
           },
           // attach dynamic data so the decoration diffing can detect changes
-          spec: { display },
-          name: 'node-stats-widget',
+          spec: { display, name: 'node-stats-widget' },
         })
 
         return decorations
