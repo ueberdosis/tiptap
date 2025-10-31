@@ -376,6 +376,13 @@ export class MarkdownManager {
   }
 
   /**
+   * Escape special regex characters in a string.
+   */
+  private escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  /**
    * Parse inline tokens (bold, italic, links, etc.) into text nodes with marks.
    * This is the complex part that handles mark nesting and boundaries.
    */
@@ -405,7 +412,8 @@ export class MarkdownManager {
         if (!isClosing && openMatch && !/\/>$/.test(raw)) {
           // Try to find the corresponding closing html token for this tag
           const tagName = openMatch[1]
-          const closingRegex = new RegExp(`^<\\/\\s*${tagName}\\b`, 'i')
+          const escapedTagName = this.escapeRegex(tagName)
+          const closingRegex = new RegExp(`^<\\/\\s*${escapedTagName}\\b`, 'i')
           let foundIndex = -1
 
           // collect intermediate raw parts to reconstruct full HTML fragment
