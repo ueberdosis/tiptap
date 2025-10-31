@@ -440,7 +440,7 @@ export class MarkdownManager {
               }
             }
 
-            // advance i to the closing token
+            // Advance i to the closing token
             i = foundIndex
             continue
           }
