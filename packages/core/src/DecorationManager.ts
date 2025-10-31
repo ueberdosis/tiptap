@@ -63,10 +63,6 @@ export class DecorationManager {
     extNames.forEach(name => {
       const config = this.decorationConfigs[name]
 
-      if (!config.create) {
-        return
-      }
-
       const decos = config
         .create({
           state,
@@ -90,10 +86,12 @@ export class DecorationManager {
         case 'node':
           return Decoration.node(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
+            ...((item as any).spec || {}),
           })
         case 'inline':
           return Decoration.inline(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
+            ...((item as any).spec || {}),
           })
         case 'widget':
           if (!item.widget) {
@@ -102,9 +100,13 @@ export class DecorationManager {
 
           return Decoration.widget(item.from, item.widget, {
             extension: item.extension,
+            // include a small key so that widget decorations are easier to diff
+            key: `${item.extension}:${item.from}:${item.to}`,
+            // merge any custom spec provided by the extension (e.g., dynamic display string)
+            ...((item as any).spec || {}),
           })
         default:
-          throw new Error(`Unknown decoration type: ${item.type}`)
+          throw new Error(`Unknown decoration type: ${(item as any).type}`)
       }
     })
 
@@ -120,8 +122,8 @@ export class DecorationManager {
       const config = this.decorationConfigs[name]
 
       if (
-        config.requiresUpdate &&
-        config.requiresUpdate({
+        config.shouldUpdate &&
+        config.shouldUpdate({
           tr,
           oldState,
           newState,
