@@ -665,7 +665,7 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
-        marksToCloseAtEnd.reverse().forEach(markType => {
+        marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {

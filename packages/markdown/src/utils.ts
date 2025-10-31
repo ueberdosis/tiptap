@@ -88,7 +88,7 @@ export function findMarksToCloseAtEnd(
     }
   }
 
-  return marksToCloseAtEnd.reverse()
+  return marksToCloseAtEnd
 }
 
 /**
