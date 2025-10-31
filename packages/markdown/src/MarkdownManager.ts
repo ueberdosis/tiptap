@@ -394,13 +394,7 @@ export class MarkdownManager {
     for (let i = 0; i < tokens.length; i += 1) {
       const token = tokens[i]
 
-      if (token.type === 'text') {
-        // Create text node
-        result.push({
-          type: 'text',
-          text: token.text || '',
-        })
-      } else if (token.type === 'html') {
+      if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
         const raw = (token.raw ?? token.text ?? '').toString()
@@ -616,12 +610,6 @@ export class MarkdownManager {
   }
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
-    // if node is a text node, we simply return it's text content
-    // marks are handled at the array level in renderNodesWithMarkBoundaries
-    if (node.type === 'text') {
-      return node.text || ''
-    }
-
     if (!node.type) {
       return ''
     }
@@ -748,7 +736,10 @@ export class MarkdownManager {
           activeMarks.delete(markType)
         })
 
-        result.push(textContent)
+        const textNode = { type: 'text', text: textContent }
+        const nodeContent = this.renderNodeToMarkdown(textNode, parentNode, i, level)
+
+        result.push(nodeContent)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
