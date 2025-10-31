@@ -1,5 +1,13 @@
 # @tiptap/markdown
 
+## 3.10.2
+
+### Patch Changes
+
+- 194af3b: Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+  - @tiptap/core@3.10.2
+  - @tiptap/pm@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes
