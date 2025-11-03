@@ -267,21 +267,58 @@ export class MarkdownManager {
   /**
    * Parse markdown string into Tiptap JSON document using registered extension handlers.
    */
+  /**
+   * Parse markdown string into Tiptap JSON document using registered extension handlers.
+   * Includes a fix for empty or invalid markdown content (#7157).
+   */
+  /**
+   * Parse markdown string into Tiptap JSON document using registered extension handlers.
+   * Includes a fix for empty or invalid markdown content (#7157).
+   */
   parse(markdown: string): JSONContent {
     if (!this.hasMarked()) {
       throw new Error('No marked instance available for parsing')
     }
 
-    // Use marked to tokenize the markdown
-    const tokens = this.markedInstance.lexer(markdown)
+    if (!markdown || markdown.trim() === '') {
+      return {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+          },
+        ],
+      }
+    }
 
-    // Convert tokens to Tiptap JSON
-    const content = this.parseTokens(tokens)
+    try {
+      const tokens = this.markedInstance.lexer(markdown)
+      const content = this.parseTokens(tokens)
+      if (!content || content.length === 0) {
+        return {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+            },
+          ],
+        }
+      }
 
-    // Return a document node containing the parsed content
-    return {
-      type: 'doc',
-      content,
+      return {
+        type: 'doc',
+        content,
+      }
+    } catch (err) {
+      console.warn('Markdown parse failed, using fallback empty document', err)
+      return {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+          },
+        ],
+      }
     }
   }
 
