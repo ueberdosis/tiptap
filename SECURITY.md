@@ -6,8 +6,9 @@ If you discover a security vulnerability in Tiptap, please report it responsibly
 
 ### How to Report
 
-- **Via GitHub**: Open a private security advisory on GitHub (if enabled) or create an issue with the "security" label.
-- **Via Email**: Send details to security@tiptap.dev. Include a description of the vulnerability, steps to reproduce, and any potential impact.
+**Please do not report security vulnerabilities through public GitHub issues.**
+
+Send details to security@tiptap.dev. Include a description of the vulnerability, steps to reproduce, and any potential impact.
 
 We will acknowledge receipt within 48 hours and provide updates as we investigate.
 
