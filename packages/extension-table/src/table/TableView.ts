@@ -58,12 +58,17 @@ export function updateColumns(
     nextDOM = after
   }
 
-  if (fixedWidth) {
-    table.style.width = `${totalWidth}px`
-    table.style.minWidth = ''
-  } else {
-    table.style.width = ''
-    table.style.minWidth = `${totalWidth}px`
+  // Check if user has set a width style on the table node
+  const hasUserWidth = node.attrs.style && typeof node.attrs.style === 'string' && node.attrs.style.includes('width')
+
+  if (!hasUserWidth) {
+    if (fixedWidth) {
+      table.style.width = `${totalWidth}px`
+      table.style.minWidth = ''
+    } else {
+      table.style.width = ''
+      table.style.minWidth = `${totalWidth}px`
+    }
   }
 }
 
@@ -86,6 +91,12 @@ export class TableView implements NodeView {
     this.dom = document.createElement('div')
     this.dom.className = 'tableWrapper'
     this.table = this.dom.appendChild(document.createElement('table'))
+
+    // Apply user styles to the table element
+    if (node.attrs.style) {
+      this.table.style.cssText = node.attrs.style
+    }
+
     this.colgroup = this.table.appendChild(document.createElement('colgroup'))
     updateColumns(node, this.colgroup, this.table, cellMinWidth)
     this.contentDOM = this.table.appendChild(document.createElement('tbody'))

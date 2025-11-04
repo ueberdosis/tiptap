@@ -44,3 +44,4 @@ demos/src/Dev/**
 # instructions
 .github/instructions/*
 !.github/instructions/tiptap.instructions.md
+!.github/instructions/changeset.instructions.md
