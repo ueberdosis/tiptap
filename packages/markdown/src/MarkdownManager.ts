@@ -288,10 +288,7 @@ export class MarkdownManager {
         return createDocument([], schema).toJSON()
       }
 
-      return {
-        type: 'doc',
-        content,
-      }
+      return createDocument(content, schema).toJSON()
     } catch (err) {
       console.warn('Markdown parse failed, using fallback empty document', err)
       return createDocument([], schema).toJSON()
