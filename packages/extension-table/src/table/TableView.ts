@@ -59,16 +59,14 @@ export function updateColumns(
   }
 
   // Check if user has set a width style on the table node
-  const hasUserWidth = node.attrs.style && typeof node.attrs.style === 'string' && node.attrs.style.includes('width')
+  const hasUserWidth = node.attrs.style && typeof node.attrs.style === 'string' && /\bwidth\s*:/i.test(node.attrs.style)
 
-  if (!hasUserWidth) {
-    if (fixedWidth) {
-      table.style.width = `${totalWidth}px`
-      table.style.minWidth = ''
-    } else {
-      table.style.width = ''
-      table.style.minWidth = `${totalWidth}px`
-    }
+  if (fixedWidth && !hasUserWidth) {
+    table.style.width = `${totalWidth}px`
+    table.style.minWidth = ''
+  } else {
+    table.style.width = ''
+    table.style.minWidth = `${totalWidth}px`
   }
 }
 
