@@ -9,9 +9,11 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  createDocument,
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
@@ -267,42 +269,23 @@ export class MarkdownManager {
   /**
    * Parse markdown string into Tiptap JSON document using registered extension handlers.
    */
-  /**
-   * Parse markdown string into Tiptap JSON document using registered extension handlers.
-   * Includes a fix for empty or invalid markdown content (#7157).
-   */
-  /**
-   * Parse markdown string into Tiptap JSON document using registered extension handlers.
-   * Includes a fix for empty or invalid markdown content (#7157).
-   */
+
   parse(markdown: string): JSONContent {
     if (!this.hasMarked()) {
       throw new Error('No marked instance available for parsing')
     }
 
+    const schema = getSchema(this.baseExtensions)
     if (!markdown || markdown.trim() === '') {
-      return {
-        type: 'doc',
-        content: [
-          {
-            type: 'paragraph',
-          },
-        ],
-      }
+      return createDocument([], schema).toJSON()
     }
 
     try {
       const tokens = this.markedInstance.lexer(markdown)
       const content = this.parseTokens(tokens)
+
       if (!content || content.length === 0) {
-        return {
-          type: 'doc',
-          content: [
-            {
-              type: 'paragraph',
-            },
-          ],
-        }
+        return createDocument([], schema).toJSON()
       }
 
       return {
@@ -311,14 +294,7 @@ export class MarkdownManager {
       }
     } catch (err) {
       console.warn('Markdown parse failed, using fallback empty document', err)
-      return {
-        type: 'doc',
-        content: [
-          {
-            type: 'paragraph',
-          },
-        ],
-      }
+      return createDocument([], schema).toJSON()
     }
   }
 
