@@ -273,15 +273,6 @@ export const Table = Node.create<TableOptions>({
 
   group: 'block',
 
-  addAttributes() {
-    return {
-      style: {
-        default: null,
-        parseHTML: element => element.getAttribute('style'),
-      },
-    }
-  },
-
   parseHTML() {
     return [{ tag: 'table' }]
   },
