@@ -582,6 +582,11 @@ export class BubbleMenuView implements PluginView {
       this.updatePosition()
     } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
       this.updateOptions(meta.options)
+    } else if (meta === 'hide') {
+      this.hide()
+    } else if (meta === 'show') {
+      this.updatePosition()
+      this.show()
     }
   }
 
