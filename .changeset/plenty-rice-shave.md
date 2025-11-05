@@ -3,4 +3,4 @@
 '@tiptap/extension-bubble-menu': minor
 ---
 
-Add "events" to programatically show & hide the floating & bubble menus
+Add "events" to programmatically show & hide the floating & bubble menus
