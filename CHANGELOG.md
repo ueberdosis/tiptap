@@ -1,5 +1,19 @@
 # Releases
 
+## v3.10.2
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+
 ## v3.10.1
 
 ### @tiptap/core

@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.10.2
+
+### Patch Changes
+
+- 8299f73: Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+  - @tiptap/core@3.10.2
+  - @tiptap/pm@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes
