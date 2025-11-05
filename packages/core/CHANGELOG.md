@@ -1,5 +1,31 @@
 # Change Log
 
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- 3564e7c: Use correct `ResizableNodeView` class name
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- 4aa9f57: the addNodeView function can now return `null` to dynamically disable rendering of a node view
+
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### Patch Changes
+
+- @tiptap/pm@3.10.0
+
 ## 3.9.1
 
 ### Patch Changes

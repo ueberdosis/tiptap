@@ -1,5 +1,44 @@
 # Releases
 
+## v3.10.2
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+
+## v3.10.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Use correct `ResizableNodeView` class name
+
+## v3.10.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- the addNodeView function can now return `null` to dynamically disable rendering of a node view
+  
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### @tiptap/extension-image
+
+#### Minor Changes
+
+- Added a new `resize` option that allows images to be resized. The option adds resize handlers to images allowing users to manually resize images via drag and drop or touch
+
 ## v3.9.1
 
 ### @tiptap/extension-table
