@@ -317,7 +317,6 @@ export default defineConfig({
         return () => {
           viteDevServer.middlewares.use(async (req, res, next) => {
             if (req?.originalUrl?.startsWith('/preview')) {
-              // @ts-expect-error - req.url is not typed but exists at runtime in Vite middleware
               req.url = '/preview/index.html'
             }
 
