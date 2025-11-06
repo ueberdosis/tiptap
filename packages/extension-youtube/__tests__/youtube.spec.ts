@@ -3,6 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
+import { describe, expect, it } from 'vitest'
 
 /**
  * Most youtube tests should actually exist in the demo/ app folder
@@ -47,7 +48,7 @@ describe('extension-youtube', () => {
         },
       })
 
-      expect(editor.getHTML()).to.not.include(url)
+      expect(editor.getHTML()).not.toContain(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -71,7 +72,7 @@ describe('extension-youtube', () => {
       },
     })
 
-    expect(editor.getHTML()).to.include('https://www.youtube-nocookie.com/embed/testvideoid')
+    expect(editor.getHTML()).toContain('https://www.youtube-nocookie.com/embed/testvideoid')
 
     editor?.destroy()
     getEditorEl()?.remove()

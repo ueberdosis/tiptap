@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
-
 import { BackgroundColor } from '@tiptap/extension-text-style'
+import { describe, expect, it } from 'vitest'
 
 const ext: any = (BackgroundColor as any).configure()
 const globalAttrs = ext.config.addGlobalAttributes && ext.config.addGlobalAttributes.call(ext)[0]
@@ -13,7 +12,7 @@ describe('background-color parseHTML', () => {
 
     const parsed = parseHTML(el)
 
-    expect(parsed).to.equal('rgb(0, 255, 0)')
+    expect(parsed).toBe('rgb(0, 255, 0)')
   })
 
   it('parses hex inline style', () => {
@@ -22,7 +21,7 @@ describe('background-color parseHTML', () => {
 
     const parsed = parseHTML(el)
 
-    expect(parsed).to.equal('#00ff00')
+    expect(parsed).toBe('#00ff00')
   })
 
   it('parses hsla inline style', () => {
@@ -31,6 +30,6 @@ describe('background-color parseHTML', () => {
 
     const parsed = parseHTML(el)
 
-    expect(parsed).to.equal('hsla(120, 100%, 50%, 0.3)')
+    expect(parsed).toBe('hsla(120, 100%, 50%, 0.3)')
   })
 })

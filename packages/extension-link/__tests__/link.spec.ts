@@ -3,6 +3,7 @@ import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { describe, expect, it } from 'vitest'
 
 /**
  * Most link tests should actually exist in the demo/ app folder
@@ -58,8 +59,8 @@ describe('extension-link', () => {
         },
       })
 
-      expect(editor.getHTML()).to.include(url)
-      expect(JSON.stringify(editor.getJSON())).to.include(url)
+      expect(editor.getHTML()).toContain(url)
+      expect(JSON.stringify(editor.getJSON())).toContain(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -74,8 +75,8 @@ describe('extension-link', () => {
         content: `<p><a href="${url}">hello world!</a></p>`,
       })
 
-      expect(editor.getHTML()).to.include(url)
-      expect(JSON.stringify(editor.getJSON())).to.include(url)
+      expect(editor.getHTML()).toContain(url)
+      expect(JSON.stringify(editor.getJSON())).toContain(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -205,10 +206,10 @@ describe('extension-link', () => {
         },
       })
 
-      expect(editor.getHTML()).to.not.include(url)
+      expect(editor.getHTML()).not.toContain(url)
       // Unfortunately, if the content is provided as JSON, it stays in the editor instance until it's destroyed
       // At least, it cannot be outputted as HTML into a page
-      // expect(JSON.stringify(editor.getJSON())).to.not.include(url)
+      // expect(JSON.stringify(editor.getJSON())).not.toContain(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -223,8 +224,8 @@ describe('extension-link', () => {
         content: `<p><a href="${url}">hello world!</a></p>`,
       })
 
-      expect(editor.getHTML()).to.not.include(url)
-      expect(JSON.stringify(editor.getJSON())).to.not.include(url)
+      expect(editor.getHTML()).not.toContain(url)
+      expect(JSON.stringify(editor.getJSON())).not.toContain(url)
 
       editor?.destroy()
       getEditorEl()?.remove()
@@ -247,8 +248,8 @@ describe('extension-link', () => {
           content: `<p><a href="${url}">hello world!</a></p>`,
         })
 
-        expect(editor.getHTML()).to.include(url)
-        expect(JSON.stringify(editor.getJSON())).to.include(url)
+        expect(editor.getHTML()).toContain(url)
+        expect(JSON.stringify(editor.getJSON())).toContain(url)
 
         editor?.destroy()
         getEditorEl()?.remove()

@@ -4,6 +4,7 @@ import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { describe, expect, it } from 'vitest'
 
 describe('extension-horizontal-rule', () => {
   const editorElClass = 'tiptap'
@@ -49,7 +50,7 @@ describe('extension-horizontal-rule', () => {
     editor.commands.setTextSelection(2)
     editor.commands.setHorizontalRule()
 
-    expect(editor.getHTML()).to.match(/<img(.*?)><hr><p>Example Text<\/p>/)
+    expect(editor.getHTML()).toMatch(/<img(.*?)><hr><p>Example Text<\/p>/)
 
     editor?.destroy()
     getEditorEl()?.remove()
