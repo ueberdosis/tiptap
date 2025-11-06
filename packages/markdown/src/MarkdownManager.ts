@@ -366,7 +366,7 @@ export class MarkdownManager {
     }
 
     // Mixed list with taskList extension available: split into separate lists
-    type TaskListItemToken = MarkdownToken & { type: 'taskItem', checked?: boolean, indentLevel?: number }
+    type TaskListItemToken = MarkdownToken & { type: 'taskItem'; checked?: boolean; indentLevel?: number }
     const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
     let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
     let currentType: 'list' | 'taskList' | null = null
@@ -422,7 +422,7 @@ export class MarkdownManager {
           raw: '',
           mainContent,
           indentLevel,
-          checked: checked || false,
+          checked: checked ?? false,
           text: mainContent,
           tokens: this.lexer.inlineTokens(mainContent),
           nestedTokens,
