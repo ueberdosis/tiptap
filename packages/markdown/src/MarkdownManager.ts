@@ -388,7 +388,7 @@ export class MarkdownManager {
         const mainContent = firstLineMatch ? firstLineMatch[2] : ''
 
         // Parse nested content from remaining lines
-        let nestedTokens: any[] = []
+        let nestedTokens: MarkdownToken[] = []
         if (lines.length > 1) {
           // Join all lines after the first
           const nestedRaw = lines.slice(1).join('\n')
