@@ -927,8 +927,12 @@ export class MarkdownManager {
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
-        // Reopen marks after the node
-        const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+        // Reopen marks after the node, but NOT after a hard break
+        // Hard breaks should terminate marks (they create a line break where marks don't continue)
+        const afterMarkdown =
+          node.type === 'hardBreak'
+            ? ''
+            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
