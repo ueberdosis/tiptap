@@ -10,7 +10,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
-import { describe, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import * as conversionfiles from './conversion-files/index.js'
 
@@ -112,12 +112,12 @@ describe('Markdown Conversion Tests', () => {
 
     it('should convert simple markdown to expected JSON structure', () => {
       const json = markdownManager.parse(simpleMarkdown)
-      expect(json).to.deep.equal(simpleJSON)
+      expect(json).toEqual(simpleJSON)
     })
 
     it('should convert simple JSON structure back to expected markdown', () => {
       const md = markdownManager.serialize(simpleJSON)
-      expect(md.trim()).to.equal(simpleMarkdown.trim())
+      expect(md.trim()).toBe(simpleMarkdown.trim())
     })
   })
 
@@ -129,12 +129,12 @@ describe('Markdown Conversion Tests', () => {
         const normalizedActual = JSON.parse(JSON.stringify(json))
         const normalizedExpected = JSON.parse(JSON.stringify(file.expectedOutput))
 
-        expect(normalizedActual).to.deep.equal(normalizedExpected)
+        expect(normalizedActual).toEqual(normalizedExpected)
       })
 
       it(`should convert ${file.name} JSON structure back to expected markdown`, () => {
         const md = markdownManager.serialize(file.expectedOutput)
-        expect(md.trim()).to.equal(file.expectedInput.trim())
+        expect(md.trim()).toBe(file.expectedInput.trim())
       })
     })
   })

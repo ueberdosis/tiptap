@@ -1,5 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 describe('Markdown Utilities', () => {
   describe('createInlineMarkdownSpec', () => {
@@ -10,10 +11,10 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['id', 'label'],
       })
 
-      expect(spec).to.have.property('parseMarkdown')
-      expect(spec).to.have.property('markdownTokenizer')
-      expect(spec).to.have.property('renderMarkdown')
-      expect(spec.markdownTokenizer.level).to.equal('inline')
+      expect(spec).toHaveProperty('parseMarkdown')
+      expect(spec).toHaveProperty('markdownTokenizer')
+      expect(spec).toHaveProperty('renderMarkdown')
+      expect(spec.markdownTokenizer.level).toBe('inline')
     })
 
     it('should create a valid spec for inline nodes with content', () => {
@@ -23,10 +24,10 @@ describe('Markdown Utilities', () => {
         allowedAttributes: ['color'],
       })
 
-      expect(spec).to.have.property('parseMarkdown')
-      expect(spec).to.have.property('markdownTokenizer')
-      expect(spec).to.have.property('renderMarkdown')
-      expect(spec.markdownTokenizer.level).to.equal('inline')
+      expect(spec).toHaveProperty('parseMarkdown')
+      expect(spec).toHaveProperty('markdownTokenizer')
+      expect(spec).toHaveProperty('renderMarkdown')
+      expect(spec.markdownTokenizer.level).toBe('inline')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -39,17 +40,17 @@ describe('Markdown Utilities', () => {
       const startIndex =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(src)
-          : src.indexOf(spec.markdownTokenizer.start)
+          : src.indexOf(spec.markdownTokenizer.start!)
 
-      expect(startIndex).to.equal(0)
+      expect(startIndex).toBe(0)
 
       const falseSrc = 'no mention here'
       const noMatch =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(falseSrc)
-          : falseSrc.indexOf(spec.markdownTokenizer.start)
+          : falseSrc.indexOf(spec.markdownTokenizer.start!)
 
-      expect(noMatch).to.equal(-1)
+      expect(noMatch).toBe(-1)
     })
 
     it('should tokenize self-closing shortcodes correctly', () => {
@@ -58,8 +59,8 @@ describe('Markdown Utilities', () => {
         selfClosing: true,
       })
 
-      const token = spec.markdownTokenizer.tokenize('[mention id="test" label="Test User"]', [], null)
-      expect(token).to.deep.include({
+      const token = spec.markdownTokenizer.tokenize('[mention id="test" label="Test User"]', [], null as any)
+      expect(token).toMatchObject({
         type: 'mention',
         raw: '[mention id="test" label="Test User"]',
         content: '',
@@ -76,8 +77,12 @@ describe('Markdown Utilities', () => {
         selfClosing: false,
       })
 
-      const token = spec.markdownTokenizer.tokenize('[highlight color="yellow"]highlighted text[/highlight]', [], null)
-      expect(token).to.deep.include({
+      const token = spec.markdownTokenizer.tokenize(
+        '[highlight color="yellow"]highlighted text[/highlight]',
+        [],
+        null as any,
+      )
+      expect(token).toMatchObject({
         type: 'highlight',
         raw: '[highlight color="yellow"]highlighted text[/highlight]',
         content: 'highlighted text',
@@ -103,7 +108,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.renderMarkdown(node)
-      expect(rendered).to.equal('[mention id="test" label="Test User"]')
+      expect(rendered).toBe('[mention id="test" label="Test User"]')
     })
 
     it('should render shortcodes with content correctly', () => {
@@ -121,7 +126,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.renderMarkdown(node)
-      expect(rendered).to.equal('[highlight color="yellow"]highlighted text[/highlight]')
+      expect(rendered).toBe('[highlight color="yellow"]highlighted text[/highlight]')
     })
   })
 
@@ -131,10 +136,10 @@ describe('Markdown Utilities', () => {
         nodeName: 'callout',
       })
 
-      expect(spec).to.have.property('parseMarkdown')
-      expect(spec).to.have.property('markdownTokenizer')
-      expect(spec).to.have.property('renderMarkdown')
-      expect(spec.markdownTokenizer.level).to.equal('block')
+      expect(spec).toHaveProperty('parseMarkdown')
+      expect(spec).toHaveProperty('markdownTokenizer')
+      expect(spec).toHaveProperty('renderMarkdown')
+      expect(spec.markdownTokenizer.level).toBe('block')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -146,17 +151,17 @@ describe('Markdown Utilities', () => {
       const startIndex =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(src)
-          : src.indexOf(spec.markdownTokenizer.start)
+          : src.indexOf(spec.markdownTokenizer.start!)
 
-      expect(startIndex).to.equal(0)
+      expect(startIndex).toBe(0)
 
       const falseSrc = 'no callout here'
       const noMatch =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(falseSrc)
-          : falseSrc.indexOf(spec.markdownTokenizer.start)
+          : falseSrc.indexOf(spec.markdownTokenizer.start!)
 
-      expect(noMatch).to.equal(-1)
+      expect(noMatch).toBe(-1)
     })
 
     it('should tokenize block syntax correctly', () => {
@@ -170,13 +175,15 @@ describe('Markdown Utilities', () => {
       }
 
       const token = spec.markdownTokenizer.tokenize(':::callout {type="info"}\nThis is a callout\n:::', [], mockLexer)
-      expect(token).to.deep.include({
+      expect(token).toMatchObject({
         type: 'callout',
         attributes: { type: 'info' },
         content: 'This is a callout',
       })
 
-      expect(token).to.have.property('tokens').that.is.an('array').with.lengthOf(1)
+      expect(token).toHaveProperty('tokens')
+      expect(Array.isArray((token as any).tokens)).toBe(true)
+      expect((token as any).tokens).toHaveLength(1)
     })
 
     it('should render block syntax correctly', () => {
@@ -197,7 +204,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.renderMarkdown(node, mockHelpers)
-      expect(rendered).to.equal(':::callout {type="info"}\n\nThis is a callout\n\n:::')
+      expect(rendered).toBe(':::callout {type="info"}\n\nThis is a callout\n\n:::')
     })
   })
 
@@ -207,10 +214,10 @@ describe('Markdown Utilities', () => {
         nodeName: 'youtube',
       })
 
-      expect(spec).to.have.property('parseMarkdown')
-      expect(spec).to.have.property('markdownTokenizer')
-      expect(spec).to.have.property('renderMarkdown')
-      expect(spec.markdownTokenizer.level).to.equal('block')
+      expect(spec).toHaveProperty('parseMarkdown')
+      expect(spec).toHaveProperty('markdownTokenizer')
+      expect(spec).toHaveProperty('renderMarkdown')
+      expect(spec.markdownTokenizer.level).toBe('block')
     })
 
     it('should handle tokenizer start detection', () => {
@@ -222,15 +229,15 @@ describe('Markdown Utilities', () => {
       const startIndex =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(src)
-          : src.indexOf(spec.markdownTokenizer.start)
-      expect(startIndex).to.equal(0)
+          : src.indexOf(spec.markdownTokenizer.start!)
+      expect(startIndex).toBe(0)
 
       const falseSrc = 'no youtube here'
       const noMatch =
         typeof spec.markdownTokenizer.start === 'function'
           ? spec.markdownTokenizer.start?.(falseSrc)
-          : falseSrc.indexOf(spec.markdownTokenizer.start)
-      expect(noMatch).to.equal(-1)
+          : falseSrc.indexOf(spec.markdownTokenizer.start!)
+      expect(noMatch).toBe(-1)
     })
 
     it('should tokenize atom block syntax correctly', () => {
@@ -241,9 +248,9 @@ describe('Markdown Utilities', () => {
       const token = spec.markdownTokenizer.tokenize(
         ':::youtube {src="https://youtube.com/watch?v=test"} :::\n',
         [],
-        null,
+        null as any,
       )
-      expect(token).to.deep.include({
+      expect(token).toMatchObject({
         type: 'youtube',
         raw: ':::youtube {src="https://youtube.com/watch?v=test"} :::\n',
         attributes: {
@@ -259,14 +266,14 @@ describe('Markdown Utilities', () => {
       })
 
       // Should fail without required attribute
-      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"} :::\n', [], null)
-      expect(tokenWithoutSrc).to.equal(undefined)
+      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"} :::\n', [], null as any)
+      expect(tokenWithoutSrc).toBe(undefined)
 
       // Should succeed with required attribute
-      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"} :::\n', [], null)
-      expect(tokenWithSrc).to.not.equal(undefined)
-      expect(tokenWithSrc).to.have.property('attributes')
-      expect((tokenWithSrc as any).attributes).to.have.property('src', 'test')
+      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"} :::\n', [], null as any)
+      expect(tokenWithSrc).not.toBe(undefined)
+      expect(tokenWithSrc).toHaveProperty('attributes')
+      expect((tokenWithSrc as any).attributes).toHaveProperty('src', 'test')
     })
 
     it('should render atom block syntax correctly', () => {
@@ -284,7 +291,7 @@ describe('Markdown Utilities', () => {
       }
 
       const rendered = spec.renderMarkdown(node)
-      expect(rendered).to.equal(':::youtube {src="https://youtube.com/watch?v=test" width="400"} :::')
+      expect(rendered).toBe(':::youtube {src="https://youtube.com/watch?v=test" width="400"} :::')
     })
 
     it('should apply default attributes', () => {
@@ -304,7 +311,7 @@ describe('Markdown Utilities', () => {
       const token = { attributes: { src: 'test' } }
       const result = spec.parseMarkdown(token as any, mockHelpers as any)
 
-      expect((result as any).attrs).to.deep.include({
+      expect((result as any).attrs).toMatchObject({
         src: 'test',
         start: '0',
         width: '640',

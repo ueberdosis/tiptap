@@ -1,5 +1,4 @@
-import type { Extension } from '@tiptap/core'
-import { createBlockMarkdownSpec, createInlineMarkdownSpec, Node } from '@tiptap/core'
+import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Node } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -11,6 +10,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 // Create test extensions
 const TestCallout = Node.create({
@@ -56,8 +56,8 @@ const TestTag = Node.create({
 
 describe('MarkdownManager Direct Tests', () => {
   let markdownManager: MarkdownManager
-  let basicExtensions: Extension[]
-  let extendedExtensions: Extension[]
+  let basicExtensions: AnyExtension[]
+  let extendedExtensions: AnyExtension[]
 
   beforeEach(() => {
     // Basic extensions for standard markdown
@@ -93,10 +93,10 @@ describe('MarkdownManager Direct Tests', () => {
       const markdown = 'Hello world'
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.type).to.equal('doc')
-      expect(doc.content).to.be.an('array')
-      expect(doc.content[0].type).to.equal('paragraph')
-      expect(doc.content[0].content[0].text).to.equal('Hello world')
+      expect(doc.type).toBe('doc')
+      expect(Array.isArray(doc.content)).toBe(true)
+      expect(doc.content![0].type).toBe('paragraph')
+      expect(doc.content![0].content![0].text).toBe('Hello world')
     })
 
     it('should parse headings', () => {
@@ -105,14 +105,14 @@ describe('MarkdownManager Direct Tests', () => {
 ## Heading 2`
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.content).to.have.length(2)
-      expect(doc.content[0].type).to.equal('heading')
-      expect(doc.content[0].attrs.level).to.equal(1)
-      expect(doc.content[0].content[0].text).to.equal('Heading 1')
+      expect(doc.content).toHaveLength(2)
+      expect(doc.content![0].type).toBe('heading')
+      expect(doc.content![0].attrs!.level).toBe(1)
+      expect(doc.content![0].content![0].text).toBe('Heading 1')
 
-      expect(doc.content[1].type).to.equal('heading')
-      expect(doc.content[1].attrs.level).to.equal(2)
-      expect(doc.content[1].content[0].text).to.equal('Heading 2')
+      expect(doc.content![1].type).toBe('heading')
+      expect(doc.content![1].attrs!.level).toBe(2)
+      expect(doc.content![1].content![0].text).toBe('Heading 2')
     })
 
     it('should parse multiple paragraphs', () => {
@@ -121,11 +121,11 @@ describe('MarkdownManager Direct Tests', () => {
 Second paragraph.`
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.content).to.have.length(2)
-      expect(doc.content[0].type).to.equal('paragraph')
-      expect(doc.content[0].content[0].text).to.equal('First paragraph.')
-      expect(doc.content[1].type).to.equal('paragraph')
-      expect(doc.content[1].content[0].text).to.equal('Second paragraph.')
+      expect(doc.content).toHaveLength(2)
+      expect(doc.content![0].type).toBe('paragraph')
+      expect(doc.content![0].content![0].text).toBe('First paragraph.')
+      expect(doc.content![1].type).toBe('paragraph')
+      expect(doc.content![1].content![0].text).toBe('Second paragraph.')
     })
   })
 
@@ -139,19 +139,19 @@ Second paragraph.`
       const markdown = '[@ id="user123" label="John Doe"] said hello'
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.content[0].type).to.equal('paragraph')
-      expect(doc.content[0].content[0].type).to.equal('mention')
-      expect(doc.content[0].content[0].attrs.id).to.equal('user123')
-      expect(doc.content[0].content[0].attrs.label).to.equal('John Doe')
-      expect(doc.content[0].content[1].text).to.equal(' said hello')
+      expect(doc.content![0].type).toBe('paragraph')
+      expect(doc.content![0].content![0].type).toBe('mention')
+      expect(doc.content![0].content![0].attrs!.id).toBe('user123')
+      expect(doc.content![0].content![0].attrs!.label).toBe('John Doe')
+      expect(doc.content![0].content![1].text).toBe(' said hello')
     })
 
     it('should parse YouTube videos', () => {
       const markdown = ':::youtube {src="https://youtube.com/watch?v=test"} :::'
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.content[0].type).to.equal('youtube')
-      expect(doc.content[0].attrs.src).to.equal('https://youtube.com/watch?v=test')
+      expect(doc.content![0].type).toBe('youtube')
+      expect(doc.content![0].attrs!.src).toBe('https://youtube.com/watch?v=test')
     })
 
     it('should handle complex documents with mixed content', () => {
@@ -167,14 +167,14 @@ Final paragraph.`
 
       const doc = markdownManager.parse(markdown)
 
-      expect(doc.content).to.have.length(5)
-      expect(doc.content[0].type).to.equal('heading')
-      expect(doc.content[1].type).to.equal('paragraph')
-      expect(doc.content[1].content[0].type).to.equal('text')
-      expect(doc.content[1].content[1].type).to.equal('mention')
-      expect(doc.content[2].type).to.equal('youtube')
-      expect(doc.content[3].type).to.equal('heading')
-      expect(doc.content[4].type).to.equal('paragraph')
+      expect(doc.content).toHaveLength(5)
+      expect(doc.content![0].type).toBe('heading')
+      expect(doc.content![1].type).toBe('paragraph')
+      expect(doc.content![1].content![0].type).toBe('text')
+      expect(doc.content![1].content![1].type).toBe('mention')
+      expect(doc.content![2].type).toBe('youtube')
+      expect(doc.content![3].type).toBe('heading')
+      expect(doc.content![4].type).toBe('paragraph')
     })
   })
 
@@ -196,7 +196,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.renderNodes(doc)
-      expect(markdown).to.equal('Hello world')
+      expect(markdown).toBe('Hello world')
     })
 
     it('should render headings', () => {
@@ -217,7 +217,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.renderNodes(doc)
-      expect(markdown).to.equal('# Main Title\n\n## Subtitle')
+      expect(markdown).toBe('# Main Title\n\n## Subtitle')
     })
 
     it('should render mentions', () => {
@@ -238,7 +238,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.renderNodes(doc)
-      expect(markdown).to.equal('[@ id="user123" label="John Doe"] said hello')
+      expect(markdown).toBe('[@ id="user123" label="John Doe"] said hello')
     })
 
     it('should render YouTube videos', () => {
@@ -253,7 +253,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.renderNodes(doc)
-      expect(markdown).to.equal(':::youtube {src="https://youtube.com/watch?v=test"} :::')
+      expect(markdown).toBe(':::youtube {src="https://youtube.com/watch?v=test"} :::')
     })
   })
 
@@ -295,7 +295,7 @@ Final paragraph.`
         // Normalize whitespace for comparison
         const normalizeWhitespace = (str: string) => str.replace(/\s+/g, ' ').trim()
 
-        expect(normalizeWhitespace(roundtripMarkdown)).to.equal(normalizeWhitespace(markdown))
+        expect(normalizeWhitespace(roundtripMarkdown)).toBe(normalizeWhitespace(markdown))
       })
     })
   })
@@ -308,15 +308,15 @@ Final paragraph.`
       minimalExtensions.forEach(ext => minimalManager.registerExtension(ext))
 
       const simpleDoc = minimalManager.parse('Hello world')
-      expect(simpleDoc.content[0].type).to.equal('paragraph')
+      expect(simpleDoc.content![0].type).toBe('paragraph')
 
       // Test with extended extensions
       const extendedManager = new MarkdownManager()
       extendedExtensions.forEach(ext => extendedManager.registerExtension(ext))
 
       const complexDoc = extendedManager.parse('# Title\n\n[@ id="user" label="User"]')
-      expect(complexDoc.content[0].type).to.equal('heading')
-      expect(complexDoc.content[1].content[0].type).to.equal('mention')
+      expect(complexDoc.content![0].type).toBe('heading')
+      expect(complexDoc.content![1].content![0].type).toBe('mention')
     })
 
     it('should handle unknown markdown gracefully', () => {
@@ -335,8 +335,8 @@ Final paragraph.`
         const doc = manager.parse(markdown)
 
         // Should treat it as regular text since it's not recognized markdown
-        expect(doc.content[0].type).to.equal('paragraph')
-        expect(doc.content[0].content[0].text).to.equal(markdown)
+        expect(doc.content![0].type).toBe('paragraph')
+        expect(doc.content![0].content![0].text).toBe(markdown)
       })
     })
   })
@@ -366,11 +366,11 @@ Final paragraph.`
       const renderTime = Date.now() - renderStartTime
 
       // Basic performance expectations (these would need to be tuned)
-      expect(parseTime).to.be.lessThan(1000) // Less than 1 second
-      expect(renderTime).to.be.lessThan(1000) // Less than 1 second
-      expect(doc.content).to.have.length.greaterThan(200) // Should have parsed many nodes
-      expect(rendered).to.include('Section 1')
-      expect(rendered).to.include('Section 100')
+      expect(parseTime).toBeLessThan(1000) // Less than 1 second
+      expect(renderTime).toBeLessThan(1000) // Less than 1 second
+      expect(doc.content!.length).toBeGreaterThan(200) // Should have parsed many nodes
+      expect(rendered).toContain('Section 1')
+      expect(rendered).toContain('Section 100')
     })
 
     it('should handle deeply nested content', () => {
@@ -387,9 +387,9 @@ Some text with [@ id="user" label="User"].
       const doc = markdownManager.parse(nestedMarkdown)
       const rendered = markdownManager.renderNodes(doc)
 
-      expect(doc.content).to.have.length.greaterThan(1)
-      expect(rendered).to.include('Level 1')
-      expect(rendered).to.include('Level 2')
+      expect(doc.content!.length).toBeGreaterThan(1)
+      expect(rendered).toContain('Level 1')
+      expect(rendered).toContain('Level 2')
     })
   })
 })
