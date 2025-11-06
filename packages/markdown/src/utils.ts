@@ -148,7 +148,10 @@ export function reopenMarksAfterNode(
  */
 export function isTaskItem(item: MarkdownToken): { isTask: boolean; checked?: boolean; indentLevel: number } {
   const raw = item.raw || item.text || ''
+
+  // Match patterns like "- [ ] " or "  - [x] "
   const match = raw.match(/^(\s*)[-+*]\s+\[([ xX])\]\s+/)
+
   if (match) {
     return { isTask: true, checked: match[2].toLowerCase() === 'x', indentLevel: match[1].length }
   }
