@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -7,6 +5,7 @@ import { TextStyle } from '@tiptap/extension-text-style'
 import Youtube from '@tiptap/extension-youtube'
 import { generateHTML, generateJSON } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
+import { describe, expect, it } from 'vitest'
 
 describe('generateHTML', () => {
   it('generate HTML from JSON without an editor instance', () => {
@@ -27,7 +26,7 @@ describe('generateHTML', () => {
 
     const html = generateHTML(json, [Document, Paragraph, Text])
 
-    expect(html).to.eq('<p xmlns="http://www.w3.org/1999/xhtml">Example Text</p>')
+    expect(html).toBe('<p xmlns="http://www.w3.org/1999/xhtml">Example Text</p>')
   })
 
   it('can convert from & to html', async () => {
@@ -38,7 +37,7 @@ describe('generateHTML', () => {
       </div>`
     const json = generateJSON(html, extensions)
 
-    expect(json).to.deep.equal({
+    expect(json).toEqual({
       type: 'doc',
       content: [
         {
@@ -62,7 +61,7 @@ describe('generateHTML', () => {
       ],
     })
 
-    expect(generateHTML(json, extensions)).to.equal(
+    expect(generateHTML(json, extensions)).toBe(
       '<p xmlns="http://www.w3.org/1999/xhtml">Tiptap now supports YouTube embeds! Awesome!</p><div xmlns="http://www.w3.org/1999/xhtml" data-youtube-video=""><iframe width="640" height="480" allowfullscreen="true" autoplay="false" disablekbcontrols="false" enableiframeapi="false" endtime="0" ivloadpolicy="0" loop="false" modestbranding="false" origin="" playlist="" rel="1" src="https://www.youtube.com/embed/cqHqLQgVCgY?rel=1" start="0"></iframe></div>',
     )
   })
@@ -237,9 +236,9 @@ describe('generateHTML', () => {
       ],
     }
 
-    expect(json).to.deep.equal(expected)
+    expect(json).toEqual(expected)
 
-    expect(generateHTML(json, extensions)).to.equal(
+    expect(generateHTML(json, extensions)).toBe(
       `<h2 xmlns="http://www.w3.org/1999/xhtml">Hi there,</h2><p xmlns="http://www.w3.org/1999/xhtml">this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul xmlns="http://www.w3.org/1999/xhtml"><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p xmlns="http://www.w3.org/1999/xhtml">Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre xmlns="http://www.w3.org/1999/xhtml"><code class="language-css">body {
   display: none;
 }</code></pre><p xmlns="http://www.w3.org/1999/xhtml">I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote xmlns="http://www.w3.org/1999/xhtml"><p>Wow, that’s amazing. Good work, boy! 👏 <br />— Mom</p></blockquote>`,
