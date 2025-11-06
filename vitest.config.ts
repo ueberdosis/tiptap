@@ -17,7 +17,7 @@ const getPackageAliases = () => {
               return
             }
 
-            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(`${path}/${name}/${subPkgName}/src/index.ts`)
+            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(`${path}/${name}/${subPkgName}/index.ts`)
           })
         } else if (
           name === 'extension-text-style' ||
@@ -53,7 +53,7 @@ const getPackageAliases = () => {
 export default defineConfig({
   test: {
     environment: 'node',
-    include: ['packages/**/*.test.ts'],
+    include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
     globals: true,
   },

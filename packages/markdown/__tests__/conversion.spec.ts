@@ -10,6 +10,7 @@ import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
+import { describe, expect } from 'vitest'
 
 import * as conversionfiles from './conversion-files/index.js'
 
@@ -33,7 +34,7 @@ describe('Markdown Conversion Tests', () => {
       HTMLAttributes: {
         class: 'mention',
       },
-      suggestion: null,
+      suggestion: undefined,
     }),
     Youtube.configure({
       HTMLAttributes: {
