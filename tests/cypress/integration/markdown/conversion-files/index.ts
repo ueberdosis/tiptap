@@ -1,6 +1,8 @@
+export * as bulletList from './bullet-list.js'
 export * as customAtom from './custom-atom.js'
 export * as customBlock from './custom-block.js'
 export * as customInline from './custom-inline.js'
+export * as mixedListTypes from './mixed-list-types.js'
 export * as nestedNodes from './nested-nodes.js'
 export * as orderedList from './ordered-list.js'
 export * as taskList from './task-list.js'
