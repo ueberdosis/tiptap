@@ -68,6 +68,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.32.0",
     "fast-glob": "^3.3.2",
+    "happy-dom": "^20.0.2",
     "http-server": "14.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.3.0",

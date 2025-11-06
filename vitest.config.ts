@@ -45,14 +45,14 @@ const getPackageAliases = () => {
 
   // Handle the JSX runtime alias
   aliases['@tiptap/core/jsx-runtime'] = resolve('./packages/core/src/jsx-runtime.ts')
-  aliases['@tiptap/core/jsx-dev-runtime'] = resolve('./packages/core/src/jsx-runtime.ts')
+  aliases['@tiptap/core/jsx-dev-runtime'] = resolve('./packages/core/jsx-dev-runtime/index.js')
 
   return aliases
 }
 
 export default defineConfig({
   test: {
-    environment: 'node',
+    environment: 'happy-dom',
     include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
   },
