@@ -66,6 +66,7 @@ export default defineConfig({
     environment: 'happy-dom',
     include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
+    pool: 'forks',
   },
   resolve: {
     alias: [
