@@ -366,8 +366,9 @@ export class MarkdownManager {
     }
 
     // Mixed list with taskList extension available: split into separate lists
-    const groups: { type: 'list' | 'taskList'; items: any[] }[] = []
-    let currentGroup: any[] = []
+    type TaskListItemToken = MarkdownToken & { type: 'taskItem', checked?: boolean, indentLevel?: number }
+    const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
+    let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
     let currentType: 'list' | 'taskList' | null = null
 
     for (let i = 0; i < token.items.length; i += 1) {
