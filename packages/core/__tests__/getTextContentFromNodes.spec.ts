@@ -1,11 +1,10 @@
-/// <reference types="cypress" />
-
 import { getSchemaByResolvedExtensions, getTextContentFromNodes } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node } from '@tiptap/pm/model'
+import { describe, expect, it } from 'vitest'
 
 describe(getTextContentFromNodes.name, () => {
   it('gets text', () => {
@@ -34,6 +33,6 @@ describe(getTextContentFromNodes.name, () => {
 
     const text = getTextContentFromNodes(pos)
 
-    expect(text).to.eq('Start @Mention End')
+    expect(text).toBe('Start @Mention End')
   })
 })

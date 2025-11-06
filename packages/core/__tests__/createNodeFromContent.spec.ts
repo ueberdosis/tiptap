@@ -1,9 +1,8 @@
-/// <reference types="cypress" />
-
 import { createNodeFromContent, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { describe, expect, it } from 'vitest'
 
 describe('createNodeFromContent', () => {
   it('creates a fragment from a schema and HTML content', () => {
@@ -11,7 +10,7 @@ describe('createNodeFromContent', () => {
 
     const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
 
-    expect(fragment.toJSON()).to.deep.eq([
+    expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
         content: [
@@ -31,7 +30,7 @@ describe('createNodeFromContent', () => {
       errorOnInvalidContent: true,
     })
 
-    expect(fragment.toJSON()).to.deep.eq([
+    expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
         content: [
@@ -57,7 +56,7 @@ describe('createNodeFromContent', () => {
 
     const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
 
-    expect(fragment.toJSON()).to.deep.eq({
+    expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
       content: [
         {
@@ -83,7 +82,7 @@ describe('createNodeFromContent', () => {
       errorOnInvalidContent: true,
     })
 
-    expect(fragment.toJSON()).to.deep.eq({
+    expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
       content: [
         {
@@ -118,7 +117,7 @@ describe('createNodeFromContent', () => {
 
     const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
 
-    expect(fragment.toJSON()).to.deep.eq([
+    expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
         content: [
@@ -166,7 +165,7 @@ describe('createNodeFromContent', () => {
       errorOnInvalidContent: true,
     })
 
-    expect(fragment.toJSON()).to.deep.eq([
+    expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
         content: [
@@ -201,7 +200,7 @@ describe('createNodeFromContent', () => {
 
     const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
 
-    expect(fragment.toJSON()).to.deep.eq(null)
+    expect(fragment.toJSON()).toEqual(null)
   })
 
   it('returns empty content when a schema does not have matching node types for HTML content', () => {
@@ -209,7 +208,7 @@ describe('createNodeFromContent', () => {
 
     const fragment = createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]))
 
-    expect(fragment.toJSON()).to.deep.eq([{ type: 'text', text: 'Example Text' }])
+    expect(fragment.toJSON()).toEqual([{ type: 'text', text: 'Example Text' }])
   })
 
   it('if `errorOnInvalidContent` is true, will throw an error when a schema does not have matching node types for HTML content', () => {
@@ -219,7 +218,7 @@ describe('createNodeFromContent', () => {
       createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
         errorOnInvalidContent: true,
       })
-    }).to.throw('[tiptap error]: Invalid HTML content')
+    }).toThrow('[tiptap error]: Invalid HTML content')
   })
 
   it('if `errorOnInvalidContent` is true, will throw an error when a schema does not have matching node types for JSON content', () => {
@@ -237,7 +236,7 @@ describe('createNodeFromContent', () => {
       createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
         errorOnInvalidContent: true,
       })
-    }).to.throw('[tiptap error]: Invalid JSON content')
+    }).toThrow('[tiptap error]: Invalid JSON content')
   })
 
   it('if `errorOnInvalidContent` is true, will throw an error when a schema does not have matching mark types for JSON content', () => {
@@ -260,7 +259,7 @@ describe('createNodeFromContent', () => {
       createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
         errorOnInvalidContent: true,
       })
-    }).to.throw('[tiptap error]: Invalid JSON content')
+    }).toThrow('[tiptap error]: Invalid JSON content')
   })
 
   it('if `errorOnInvalidContent` is true, will throw an error, when the JSON content does not follow the nesting rules of the schema', () => {
@@ -283,6 +282,6 @@ describe('createNodeFromContent', () => {
       createNodeFromContent(content, getSchemaByResolvedExtensions([Document, Paragraph, Text]), {
         errorOnInvalidContent: true,
       })
-    }).to.throw('[tiptap error]: Invalid JSON content')
+    }).toThrow('[tiptap error]: Invalid JSON content')
   })
 })

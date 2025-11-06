@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
-
 import { Extension, Mark, Node } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 describe('extension storage', () => {
   ;[Extension, Node, Mark].forEach(Extendable => {
@@ -8,7 +7,7 @@ describe('extension storage', () => {
       it('should be an empty object if not defined', () => {
         const extension = Extendable.create({})
 
-        expect(extension.storage).to.deep.eq({})
+        expect(extension.storage).toEqual({})
       })
 
       it('should be be the return of `addStorage` if defined', () => {
@@ -18,7 +17,7 @@ describe('extension storage', () => {
           },
         })
 
-        expect(extension.storage).to.deep.eq({ a: 1 })
+        expect(extension.storage).toEqual({ a: 1 })
       })
 
       it('should be able to be extended', () => {
@@ -28,7 +27,7 @@ describe('extension storage', () => {
           },
         }).extend()
 
-        expect(extension.storage).to.deep.eq({ a: 1 })
+        expect(extension.storage).toEqual({ a: 1 })
       })
 
       it('should be able to be configured', () => {
@@ -40,7 +39,7 @@ describe('extension storage', () => {
           anything: 'else',
         })
 
-        expect(extension.storage).to.deep.eq({ a: 1 })
+        expect(extension.storage).toEqual({ a: 1 })
       })
 
       it('should be able to be extended and configured', () => {
@@ -54,13 +53,13 @@ describe('extension storage', () => {
             anything: 'else',
           })
 
-        expect(extension.storage).to.deep.eq({ a: 1 })
+        expect(extension.storage).toEqual({ a: 1 })
       })
 
       it('should be overwrite parents addStorage', () => {
         const extension = Extendable.create({
           addStorage() {
-            expect(false, 'This should not be called').to.eq(true)
+            expect(false, 'This should not be called').toBe(true)
             return { a: 1 }
           },
         }).extend({
@@ -69,19 +68,19 @@ describe('extension storage', () => {
           },
         })
 
-        expect(extension.storage).to.deep.eq({ b: 1 })
+        expect(extension.storage).toEqual({ b: 1 })
       })
 
       it('grandchild should overwrite grandparent & parents addStorage', () => {
         const extension = Extendable.create({
           addStorage() {
-            expect(false, 'This should not be called').to.eq(true)
+            expect(false, 'This should not be called').toBe(true)
             return { a: 1 }
           },
         })
           .extend({
             addStorage() {
-              expect(false, 'This should not be called').to.eq(true)
+              expect(false, 'This should not be called').toBe(true)
               return { b: 1 }
             },
           })
@@ -91,7 +90,7 @@ describe('extension storage', () => {
             },
           })
 
-        expect(extension.storage).to.deep.eq({ c: 1 })
+        expect(extension.storage).toEqual({ c: 1 })
       })
 
       it('should return a new object on each access', () => {
@@ -104,9 +103,9 @@ describe('extension storage', () => {
         const storage1 = extension.storage
         const storage2 = extension.storage
 
-        expect(storage1).to.deep.eq({ a: 1 })
-        expect(storage2).to.deep.eq({ a: 1 })
-        expect(storage1).not.to.eq(storage2)
+        expect(storage1).toEqual({ a: 1 })
+        expect(storage2).toEqual({ a: 1 })
+        expect(storage1).not.toBe(storage2)
       })
     })
   })

@@ -1,11 +1,10 @@
-/// <reference types="cypress" />
-
 // eslint-disable-next-line
 import { Editor, getDebugJSON } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import Link from '@tiptap/extension-link'
+import { describe, expect, it } from 'vitest'
 
 describe('extendMarkRange', () => {
   it('should extend full mark', () => {
@@ -70,7 +69,7 @@ describe('extendMarkRange', () => {
       to: 13,
     }
 
-    expect({ from, to }).to.deep.eq(expectedSelection)
+    expect({ from, to }).toEqual(expectedSelection)
   })
 
   it('should extend to mark with specific attributes', () => {
@@ -141,7 +140,7 @@ describe('extendMarkRange', () => {
       to: 9,
     }
 
-    expect({ from, to }).to.deep.eq(expectedSelection)
+    expect({ from, to }).toEqual(expectedSelection)
   })
 
   it('should not extend at all if selection contains no mark', () => {
@@ -206,7 +205,7 @@ describe('extendMarkRange', () => {
       to: 2,
     }
 
-    expect({ from, to }).to.deep.eq(expectedSelection)
+    expect({ from, to }).toEqual(expectedSelection)
   })
 
   it('should not extend at all if selection contains any non-matching mark', () => {
@@ -277,6 +276,6 @@ describe('extendMarkRange', () => {
       to: 11,
     }
 
-    expect({ from, to }).to.deep.eq(expectedSelection)
+    expect({ from, to }).toEqual(expectedSelection)
   })
 })

@@ -1,10 +1,9 @@
-/// <reference types="cypress" />
-
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Color, FontFamily, TextStyle } from '@tiptap/extension-text-style'
+import { describe, expect, it } from 'vitest'
 
 describe('isActive', () => {
   it('should check the current node', () => {
@@ -12,7 +11,7 @@ describe('isActive', () => {
       extensions: [Document, Paragraph, Text],
     })
 
-    expect(editor.isActive('paragraph')).to.eq(true)
+    expect(editor.isActive('paragraph')).toBe(true)
   })
 
   it('should check non-existent nodes', () => {
@@ -20,7 +19,7 @@ describe('isActive', () => {
       extensions: [Document, Paragraph, Text],
     })
 
-    expect(editor.isActive('doesNotExist')).to.eq(false)
+    expect(editor.isActive('doesNotExist')).toBe(false)
   })
 
   it('should check the current mark for correct values', () => {
@@ -31,7 +30,7 @@ describe('isActive', () => {
       `,
     })
 
-    expect(editor.isActive('textStyle', { fontFamily: 'Inter' })).to.eq(true)
+    expect(editor.isActive('textStyle', { fontFamily: 'Inter' })).toBe(true)
   })
 
   it('should check the current mark for false values', () => {
@@ -42,7 +41,7 @@ describe('isActive', () => {
       `,
     })
 
-    expect(editor.isActive('textStyle', { fontFamily: 'Comic Sans' })).to.eq(false)
+    expect(editor.isActive('textStyle', { fontFamily: 'Comic Sans' })).toBe(false)
   })
 
   it('should check the current mark for any values', () => {
@@ -53,7 +52,7 @@ describe('isActive', () => {
       `,
     })
 
-    expect(editor.isActive('textStyle', { fontFamily: /.*/ })).to.eq(true)
+    expect(editor.isActive('textStyle', { fontFamily: /.*/ })).toBe(true)
   })
 
   it('should check the current mark for correct values (multiple)', () => {
@@ -64,7 +63,7 @@ describe('isActive', () => {
       `,
     })
 
-    expect(editor.isActive('textStyle', { fontFamily: 'Inter', color: 'red' })).to.eq(true)
+    expect(editor.isActive('textStyle', { fontFamily: 'Inter', color: 'red' })).toBe(true)
   })
 
   it('should check the current mark for false values (multiple)', () => {
@@ -75,6 +74,6 @@ describe('isActive', () => {
       `,
     })
 
-    expect(editor.isActive('textStyle', { fontFamily: 'Inter', color: 'green' })).to.eq(false)
+    expect(editor.isActive('textStyle', { fontFamily: 'Inter', color: 'green' })).toBe(false)
   })
 })

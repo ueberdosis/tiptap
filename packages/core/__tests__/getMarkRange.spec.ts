@@ -1,11 +1,10 @@
-/// <reference types="cypress" />
-
 import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Node } from '@tiptap/pm/model'
+import { describe, expect, it } from 'vitest'
 
 describe('getMarkRange', () => {
   const document = {
@@ -29,7 +28,7 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(14)
     const range = getMarkRange($pos, schema.marks.link)
 
-    expect(range).to.deep.eq({
+    expect(range).toEqual({
       from: 11,
       to: 17,
     })
@@ -40,7 +39,7 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(11)
     const range = getMarkRange($pos, schema.marks.link)
 
-    expect(range).to.deep.eq({
+    expect(range).toEqual({
       from: 11,
       to: 17,
     })
@@ -51,7 +50,7 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(17)
     const range = getMarkRange($pos, schema.marks.link)
 
-    expect(range).to.deep.eq({
+    expect(range).toEqual({
       from: 11,
       to: 17,
     })
@@ -62,7 +61,7 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(6)
     const range = getMarkRange($pos, schema.marks.link)
 
-    expect(range).to.eq(undefined)
+    expect(range).toBe(undefined)
   })
 
   it('doesnt cross node boundaries on backward check', () => {
@@ -87,14 +86,14 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(28)
     const range = getMarkRange($pos, schema.marks.link)
 
-    expect(range).to.deep.eq({
+    expect(range).toEqual({
       from: 23,
       to: 28,
     })
 
     const nextRange = getMarkRange(doc.resolve(30), schema.marks.link)
 
-    expect(nextRange).to.eq(undefined)
+    expect(nextRange).toBe(undefined)
   })
 
   it('doesnt cross node boundaries on forward check', () => {
@@ -118,12 +117,12 @@ describe('getMarkRange', () => {
 
     const range = getMarkRange(doc.resolve(32), schema.marks.link)
 
-    expect(range).to.eq(undefined)
+    expect(range).toBe(undefined)
 
     const $pos = doc.resolve(33)
     const nextRange = getMarkRange($pos, schema.marks.link)
 
-    expect(nextRange).to.deep.eq({
+    expect(nextRange).toEqual({
       from: 33,
       to: 39,
     })
@@ -155,13 +154,13 @@ describe('getMarkRange', () => {
     const $pos = doc.resolve(27)
     const range = getMarkRange($pos, schema.marks.link, { href: 'https://tiptap.dev' })
 
-    expect(range).to.deep.eq({
+    expect(range).toEqual({
       from: 23,
       to: 28,
     })
 
     const nextRange = getMarkRange(doc.resolve(28), schema.marks.link)
 
-    expect(nextRange).to.deep.eq({ from: 28, to: 40 })
+    expect(nextRange).toEqual({ from: 28, to: 40 })
   })
 })

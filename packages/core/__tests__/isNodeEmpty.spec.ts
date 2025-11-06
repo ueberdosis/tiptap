@@ -1,10 +1,9 @@
-/// <reference types="cypress" />
-
 import { getSchema, isNodeEmpty } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import Mention from '@tiptap/extension-mention'
 import StarterKit from '@tiptap/starter-kit'
+import { describe, expect, it } from 'vitest'
 
 const schema = getSchema([StarterKit, Mention])
 const modifiedSchema = getSchema([
@@ -22,7 +21,7 @@ describe('isNodeEmpty', () => {
     it('should return true when text has only whitespace', () => {
       const node = schema.nodeFromJSON({ type: 'text', text: ' \n\t\r\n' })
 
-      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(true)
     })
 
     it('should return true when a paragraph has only whitespace', () => {
@@ -31,13 +30,13 @@ describe('isNodeEmpty', () => {
         content: [{ type: 'text', text: ' \n\t\r\n' }],
       })
 
-      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(true)
     })
 
     it('should return true for a hardbreak', () => {
       const node = schema.nodeFromJSON({ type: 'hardBreak' })
 
-      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(true)
     })
 
     it('should return true when a paragraph has only a hardbreak', () => {
@@ -46,7 +45,7 @@ describe('isNodeEmpty', () => {
         content: [{ type: 'hardBreak' }],
       })
 
-      expect(isNodeEmpty(node, { ignoreWhitespace: true })).to.eq(true)
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(true)
     })
   })
 
@@ -54,7 +53,7 @@ describe('isNodeEmpty', () => {
     it('should return false when text has content', () => {
       const node = schema.nodeFromJSON({ type: 'text', text: 'Hello world!' })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return false when a paragraph has text', () => {
@@ -63,7 +62,7 @@ describe('isNodeEmpty', () => {
         content: [{ type: 'text', text: 'Hello world!' }],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return false when a paragraph has hardbreaks', () => {
@@ -72,7 +71,7 @@ describe('isNodeEmpty', () => {
         content: [{ type: 'hardBreak' }],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return false when a paragraph has a mention', () => {
@@ -89,7 +88,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return true when a paragraph has no content', () => {
@@ -98,7 +97,7 @@ describe('isNodeEmpty', () => {
         content: [],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('should return true when a paragraph has additional attrs & no content', () => {
@@ -110,7 +109,7 @@ describe('isNodeEmpty', () => {
         },
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('should return true when a paragraph has additional marks & no content', () => {
@@ -123,7 +122,7 @@ describe('isNodeEmpty', () => {
         marks: [{ type: 'bold' }],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('should return false when a document has text', () => {
@@ -137,7 +136,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
     it('should return true when a document has an empty paragraph', () => {
       const node = schema.nodeFromJSON({
@@ -150,7 +149,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
   })
 
@@ -166,7 +165,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return false when a document has a filled paragraph', () => {
@@ -181,7 +180,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
 
     it('should return true when a document has an empty heading', () => {
@@ -193,7 +192,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('should return true when a document has an empty heading with attrs', () => {
@@ -202,7 +201,7 @@ describe('isNodeEmpty', () => {
         content: [{ type: 'heading', content: [], attrs: { level: 2 } }],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('should return true when a document has an empty heading & paragraph', () => {
@@ -214,7 +213,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
     it('should return true when a document has an empty heading & paragraph with attributes', () => {
       const node = modifiedSchema.nodeFromJSON({
@@ -225,7 +224,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(true)
+      expect(isNodeEmpty(node)).toBe(true)
     })
 
     it('can handle an image node', () => {
@@ -237,7 +236,7 @@ describe('isNodeEmpty', () => {
         ],
       })
 
-      expect(isNodeEmpty(node)).to.eq(false)
+      expect(isNodeEmpty(node)).toBe(false)
     })
   })
 })

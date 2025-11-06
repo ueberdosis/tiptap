@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
-
 import { mergeDeep } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 describe('mergeDeep', () => {
   it('should merge', () => {
@@ -16,7 +15,7 @@ describe('mergeDeep', () => {
     }
     const merged = mergeDeep(one, two)
 
-    expect(merged).to.deep.eq(result)
+    expect(merged).toEqual(result)
   })
 
   it('should merge when source has null value', () => {
@@ -31,7 +30,7 @@ describe('mergeDeep', () => {
     }
     const merged = mergeDeep(one, two)
 
-    expect(merged).to.deep.eq(result)
+    expect(merged).toEqual(result)
   })
 
   it('should not merge array', () => {
@@ -46,22 +45,7 @@ describe('mergeDeep', () => {
     }
     const merged = mergeDeep(one, two)
 
-    expect(merged).to.deep.eq(result)
-  })
-
-  it('should merge when source has null value', () => {
-    const one = {
-      a: null,
-    }
-    const two = {
-      a: { c: 3 },
-    }
-    const result = {
-      a: { c: 3 },
-    }
-    const merged = mergeDeep(one, two)
-
-    expect(merged).to.deep.eq(result)
+    expect(merged).toEqual(result)
   })
 
   it('should allow nulling a value', () => {
@@ -76,7 +60,7 @@ describe('mergeDeep', () => {
     }
     const merged = mergeDeep(one, two)
 
-    expect(merged).to.deep.eq(result)
+    expect(merged).toEqual(result)
   })
 
   it('should merge deep', () => {
@@ -108,6 +92,6 @@ describe('mergeDeep', () => {
     }
     const merged = mergeDeep(one, two)
 
-    expect(merged).to.deep.eq(result)
+    expect(merged).toEqual(result)
   })
 })

@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
-
 import { Extension, Mark, Node } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 describe('extension options', () => {
   ;[Extension, Node, Mark].forEach(Extendable => {
@@ -15,7 +14,7 @@ describe('extension options', () => {
           },
         })
 
-        expect(extension.options).to.deep.eq({
+        expect(extension.options).toEqual({
           foo: 1,
           bar: 1,
         })
@@ -33,7 +32,7 @@ describe('extension options', () => {
           .extend()
           .configure()
 
-        expect(extension.options).to.deep.eq({
+        expect(extension.options).toEqual({
           foo: 1,
           bar: 1,
         })
@@ -51,7 +50,7 @@ describe('extension options', () => {
           bar: 2,
         })
 
-        expect(extension.options).to.deep.eq({
+        expect(extension.options).toEqual({
           foo: 1,
           bar: 2,
         })
@@ -76,7 +75,7 @@ describe('extension options', () => {
           },
         })
 
-        expect(newExtension.options).to.deep.eq({
+        expect(newExtension.options).toEqual({
           foo: 1,
           bar: 1,
           baz: 1,
@@ -109,7 +108,7 @@ describe('extension options', () => {
           },
         })
 
-        expect(newExtension.options).to.deep.eq({
+        expect(newExtension.options).toEqual({
           foo: 1,
           bar: 1,
           baz: 1,
@@ -133,7 +132,7 @@ describe('extension options', () => {
           },
         })
 
-        expect(extension.options).to.deep.eq({
+        expect(extension.options).toEqual({
           baz: 1,
         })
       })
@@ -158,7 +157,7 @@ describe('extension options', () => {
           },
         })
 
-        expect(extension.options).to.deep.eq({
+        expect(extension.options).toEqual({
           foo: [1],
           HTMLAttributes: {
             class: 'foo',
@@ -180,7 +179,7 @@ describe('extension options', () => {
 
         const newExtension = extension.configure()
 
-        expect(newExtension.config.name).to.eq('parent')
+        expect(newExtension.config.name).toBe('parent')
       })
 
       it('should create its own instance on configure', () => {
@@ -202,12 +201,12 @@ describe('extension options', () => {
           foo: 3,
         })
 
-        expect(extension1.options).to.deep.eq({
+        expect(extension1.options).toEqual({
           foo: 2,
           bar: 4,
         })
 
-        expect(extension2.options).to.deep.eq({
+        expect(extension2.options).toEqual({
           foo: 3,
           bar: 2,
         })

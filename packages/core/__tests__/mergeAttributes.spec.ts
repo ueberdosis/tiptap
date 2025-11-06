@@ -1,12 +1,11 @@
-/// <reference types="cypress" />
-
 import { mergeAttributes } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 describe('mergeAttributes', () => {
   it('should merge two objects', () => {
     const value = mergeAttributes({ id: 1 }, { class: 'foo' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       id: 1,
       class: 'foo',
     })
@@ -15,7 +14,7 @@ describe('mergeAttributes', () => {
   it('should merge multiple objects', () => {
     const value = mergeAttributes({ id: 1 }, { class: 'foo' }, { title: 'bar' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       id: 1,
       class: 'foo',
       title: 'bar',
@@ -25,7 +24,7 @@ describe('mergeAttributes', () => {
   it('should overwrite values', () => {
     const value = mergeAttributes({ id: 1 }, { id: 2 })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       id: 2,
     })
   })
@@ -33,7 +32,7 @@ describe('mergeAttributes', () => {
   it('should merge classes', () => {
     const value = mergeAttributes({ class: 'foo' }, { class: 'bar' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       class: 'foo bar',
     })
   })
@@ -41,7 +40,7 @@ describe('mergeAttributes', () => {
   it('should merge styles', () => {
     const value = mergeAttributes({ style: 'color: red' }, { style: 'background: green' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'color: red; background: green',
     })
   })
@@ -49,7 +48,7 @@ describe('mergeAttributes', () => {
   it('should merge classes and styles', () => {
     const value = mergeAttributes({ class: 'foo', style: 'color: red' }, { class: 'bar', style: 'background: green' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       class: 'foo bar',
       style: 'color: red; background: green',
     })
@@ -58,7 +57,7 @@ describe('mergeAttributes', () => {
   it('should ignore falsy values', () => {
     const value = mergeAttributes(undefined as any, { class: 'foo' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       class: 'foo',
     })
   })
@@ -66,7 +65,7 @@ describe('mergeAttributes', () => {
   it('should overwrite styles', () => {
     const value = mergeAttributes({ style: 'color: red' }, { style: 'color: green' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'color: green',
     })
   })
@@ -77,7 +76,7 @@ describe('mergeAttributes', () => {
       { style: 'color: green;  background-color: red; margin-left: 30px' },
     )
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'color: green; background-color: red; margin-left: 30px',
     })
   })

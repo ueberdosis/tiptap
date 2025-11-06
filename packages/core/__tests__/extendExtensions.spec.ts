@@ -1,6 +1,5 @@
-/// <reference types="cypress" />
-
 import { Extension, getExtensionField, Mark, Node } from '@tiptap/core'
+import { describe, expect, it } from 'vitest'
 
 declare module '@tiptap/core' {
   // Extension does not have a addAttributes defined, but we just want to test it anyway
@@ -24,7 +23,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(extension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: {},
         })
       })
@@ -46,7 +45,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(extension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           bar: {},
         })
       })
@@ -70,7 +69,7 @@ describe('extend extensions', () => {
 
         const parent = newExtension.parent
 
-        expect(parent).to.eq(extension)
+        expect(parent).toBe(extension)
       })
 
       it('should merge configs', () => {
@@ -91,7 +90,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(extension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: {},
           bar: {},
         })
@@ -124,7 +123,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(extension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: {},
           bar: {},
           baz: {},
@@ -158,8 +157,8 @@ describe('extend extensions', () => {
           },
         })
 
-        expect(parentExtension.parent).to.eq(grandparentExtension)
-        expect(childExtension.parent).to.eq(parentExtension)
+        expect(parentExtension.parent).toBe(grandparentExtension)
+        expect(childExtension.parent).toBe(parentExtension)
       })
 
       it('should merge configs without direct parent configuration', () => {
@@ -182,7 +181,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(extension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: {},
           bar: {},
         })
@@ -224,7 +223,7 @@ describe('extend extensions', () => {
 
         getExtensionField(extension, 'addAttributes')()
 
-        expect(callCounts).to.deep.eq({
+        expect(callCounts).toEqual({
           grandparent: 1,
           parent: 1,
           child: 1,
@@ -270,7 +269,7 @@ describe('extend extensions', () => {
 
         getExtensionField(extension, 'addAttributes')()
 
-        expect(callCounts).to.deep.eq({
+        expect(callCounts).toEqual({
           grandparent: 1,
           parent: 1,
           child: 1,
@@ -299,8 +298,8 @@ describe('extend extensions', () => {
           baz: {},
         })
 
-        expect(parentExtension.parent).to.eq(grandparentExtension)
-        expect(childExtension.parent).to.eq(grandparentExtension)
+        expect(parentExtension.parent).toBe(grandparentExtension)
+        expect(childExtension.parent).toBe(grandparentExtension)
       })
 
       it("should use parent's config on `configure`", () => {
@@ -327,7 +326,7 @@ describe('extend extensions', () => {
           baz: {},
         })
 
-        expect(childExtension.config.name).to.eq('parent')
+        expect(childExtension.config.name).toBe('parent')
       })
 
       it('should allow extending a configure', () => {
@@ -341,7 +340,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(childExtension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: 'bar',
         })
       })
@@ -367,7 +366,7 @@ describe('extend extensions', () => {
 
         const attributes = getExtensionField(childExtension, 'addAttributes')()
 
-        expect(attributes).to.deep.eq({
+        expect(attributes).toEqual({
           foo: {},
           bar: {},
         })
@@ -383,7 +382,7 @@ describe('extend extensions', () => {
 
         const childExtension = parentExtension.configure({ child: 'exists-too', overwrite: 'child' })
 
-        expect(childExtension.options).to.deep.eq({
+        expect(childExtension.options).toEqual({
           parent: 'exists',
           child: 'exists-too',
           overwrite: 'child',
@@ -407,7 +406,7 @@ describe('extend extensions', () => {
             },
           })
 
-        expect(childExtension.options).to.deep.eq({
+        expect(childExtension.options).toEqual({
           defaultOptions: 'exists',
           configuredOptions: 'exists-too',
           additionalOptions: 'exist-too',
