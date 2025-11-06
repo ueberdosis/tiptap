@@ -55,7 +55,6 @@ export default defineConfig({
     environment: 'node',
     include: ['packages/**/*.test.ts'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
-    globals: true,
   },
   resolve: {
     alias: getPackageAliases(),
