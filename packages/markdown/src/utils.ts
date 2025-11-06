@@ -1,4 +1,4 @@
-import type { Content } from '@tiptap/core'
+import type { Content, MarkdownToken } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
 import type { ContentType } from './types'
@@ -146,7 +146,7 @@ export function reopenMarksAfterNode(
  * isTaskItem({ raw: '- Regular' }) // { isTask: false, indentLevel: 0 }
  * ```
  */
-export function isTaskItem(item: any): { isTask: boolean; checked?: boolean; indentLevel: number } {
+export function isTaskItem(item: MarkdownToken): { isTask: boolean; checked?: boolean; indentLevel: number } {
   const raw = item.raw || item.text || ''
   const match = raw.match(/^(\s*)[-+*]\s+\[([ xX])\]\s+/)
   if (match) {
