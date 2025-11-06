@@ -43,10 +43,6 @@ const getPackageAliases = () => {
   collectPackageInformation('./packages')
   collectPackageInformation('./packages-deprecated')
 
-  // Handle the JSX runtime alias
-  aliases['@tiptap/core/jsx-runtime'] = resolve('./packages/core/src/jsx-runtime.ts')
-  aliases['@tiptap/core/jsx-dev-runtime'] = resolve('./packages/core/jsx-dev-runtime/index.js')
-
   return aliases
 }
 
@@ -57,6 +53,23 @@ export default defineConfig({
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
   },
   resolve: {
-    alias: getPackageAliases(),
+    alias: [
+      {
+        find: /^@tiptap\/core\/jsx-dev-runtime$/,
+        replacement: resolve('./packages/core/src/jsx-runtime.ts'),
+      },
+      {
+        find: /^@tiptap\/core\/jsx-runtime$/,
+        replacement: resolve('./packages/core/src/jsx-runtime.ts'),
+      },
+      ...Object.entries(getPackageAliases()).map(([find, replacement]) => ({
+        find,
+        replacement,
+      })),
+    ],
+  },
+  esbuild: {
+    jsx: 'automatic',
+    jsxImportSource: '@tiptap/core',
   },
 })
