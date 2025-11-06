@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import type { TextType } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
@@ -8,6 +6,7 @@ import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
 import { renderJSONContentToString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/json/html-string'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
+import { describe, expect, it } from 'vitest'
 
 describe('static render json to string (no prosemirror)', () => {
   it('generate an HTML string from JSON without an editor instance', () => {
@@ -42,7 +41,7 @@ describe('static render json to string (no prosemirror)', () => {
       markMapping: {},
     })({ content: json })
 
-    expect(html).to.eq('<doc><p>Example Text</p></doc>')
+    expect(html).toBe('<doc><p>Example Text</p></doc>')
   })
 
   it('supports mapping nodes & marks', () => {
@@ -87,7 +86,7 @@ describe('static render json to string (no prosemirror)', () => {
       },
     })({ content: json })
 
-    expect(html).to.eq('<doc><p><strong>Example Text</strong></p></doc>')
+    expect(html).toBe('<doc><p><strong>Example Text</strong></p></doc>')
   })
 
   it('gives access to the original JSON node or mark', () => {
@@ -119,11 +118,11 @@ describe('static render json to string (no prosemirror)', () => {
     const html = renderJSONContentToString({
       nodeMapping: {
         doc: ({ node, children }) => {
-          expect(node).to.deep.eq(json)
+          expect(node).toEqual(json)
           return `<doc>${serializeChildrenToHTMLString(children)}</doc>`
         },
         heading: ({ node, children }) => {
-          expect(node).to.deep.eq({
+          expect(node).toEqual({
             type: 'heading',
             attrs: {
               level: 2,
@@ -144,7 +143,7 @@ describe('static render json to string (no prosemirror)', () => {
           return `<h${node.attrs.level}>${serializeChildrenToHTMLString(children)}</h${node.attrs.level}>`
         },
         text: ({ node }) => {
-          expect(node).to.deep.eq({
+          expect(node).toEqual({
             type: 'text',
             text: 'Example Text',
             marks: [
@@ -159,7 +158,7 @@ describe('static render json to string (no prosemirror)', () => {
       },
       markMapping: {
         bold: ({ children, mark }) => {
-          expect(mark).to.deep.eq({
+          expect(mark).toEqual({
             type: 'bold',
             attrs: {},
           })
@@ -168,7 +167,7 @@ describe('static render json to string (no prosemirror)', () => {
       },
     })({ content: json })
 
-    expect(html).to.eq('<doc><h2><strong>Example Text</strong></h2></doc>')
+    expect(html).toBe('<doc><h2><strong>Example Text</strong></h2></doc>')
   })
 })
 
@@ -201,7 +200,7 @@ describe('static render json to string (with prosemirror)', () => {
       extensions: [Document, Paragraph, Text, Bold],
     })
 
-    expect(html).to.eq('<p><strong>Example Text</strong></p>')
+    expect(html).toBe('<p><strong>Example Text</strong></p>')
   })
 
   it('supports custom mapping for nodes & marks', () => {
@@ -244,7 +243,7 @@ describe('static render json to string (with prosemirror)', () => {
       },
     })
 
-    expect(html).to.eq('<doc><p><b>Example Text</b></p></doc>')
+    expect(html).toBe('<doc><p><b>Example Text</b></p></doc>')
   })
 
   it('gives access to a prosemirror node or mark instance', () => {
@@ -276,21 +275,21 @@ describe('static render json to string (with prosemirror)', () => {
       options: {
         nodeMapping: {
           doc: ({ children, node }) => {
-            expect(node.type.name).to.eq('doc')
-            expect(node).to.be.instanceOf(Node)
+            expect(node.type.name).toBe('doc')
+            expect(node).toBeInstanceOf(Node)
             return `<doc>${serializeChildrenToHTMLString(children)}</doc>`
           },
         },
         markMapping: {
           bold: ({ children, mark }) => {
-            expect(mark.type.name).to.eq('bold')
-            expect(mark).to.be.instanceOf(Mark)
+            expect(mark.type.name).toBe('bold')
+            expect(mark).toBeInstanceOf(Mark)
             return `<b>${serializeChildrenToHTMLString(children)}</b>`
           },
         },
       },
     })
 
-    expect(html).to.eq('<doc><p><b>Example Text</b></p></doc>')
+    expect(html).toBe('<doc><p><b>Example Text</b></p></doc>')
   })
 })

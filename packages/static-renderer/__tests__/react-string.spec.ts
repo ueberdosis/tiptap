@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import { prettyDOM, render } from '@testing-library/react'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
@@ -8,6 +6,7 @@ import Text from '@tiptap/extension-text'
 import { Mark, Node } from '@tiptap/pm/model'
 import { mapAttrsToHTMLAttributes, renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
+import { describe, expect, it } from 'vitest'
 
 describe('static renderer: react', () => {
   it('mapAttrsToHTMLAttributes maps attributes to React attributes', () => {
@@ -19,7 +18,7 @@ describe('static renderer: react', () => {
 
     const result = mapAttrsToHTMLAttributes(attrs, 'test-key')
 
-    expect(result).to.deep.equal({
+    expect(result).toEqual({
       className: 'my-class',
       style: { color: 'red', fontSize: '16px', transform: 'translateX(15px) translateY(10px)' },
       id: 'my-id',
@@ -60,7 +59,7 @@ describe('static render json to react elements (with prosemirror)', () => {
     )
     const html = prettyDOM(view.container, undefined, { highlight: false })
 
-    expect(html).to.eq(`<div>
+    expect(html).toBe(`<div>
   <p>
     <strong>
       Example Text
@@ -112,7 +111,7 @@ describe('static render json to react elements (with prosemirror)', () => {
     )
     const html = prettyDOM(view.container, undefined, { highlight: false })
 
-    expect(html).to.eq(`<div>
+    expect(html).toBe(`<div>
   <doc>
     <p>
       <b>
@@ -153,15 +152,15 @@ describe('static render json to react elements (with prosemirror)', () => {
         options: {
           nodeMapping: {
             doc: ({ children, node }) => {
-              expect(node.type.name).to.eq('doc')
-              expect(node).to.be.instanceOf(Node)
+              expect(node.type.name).toBe('doc')
+              expect(node).toBeInstanceOf(Node)
               return React.createElement('doc', {}, children)
             },
           },
           markMapping: {
             bold: ({ children, mark }) => {
-              expect(mark.type.name).to.eq('bold')
-              expect(mark).to.be.instanceOf(Mark)
+              expect(mark.type.name).toBe('bold')
+              expect(mark).toBeInstanceOf(Mark)
               return React.createElement('b', {}, children)
             },
           },
@@ -170,7 +169,7 @@ describe('static render json to react elements (with prosemirror)', () => {
     )
     const html = prettyDOM(view.container, undefined, { highlight: false })
 
-    expect(html).to.eq(`<div>
+    expect(html).toBe(`<div>
   <doc>
     <p>
       <b>

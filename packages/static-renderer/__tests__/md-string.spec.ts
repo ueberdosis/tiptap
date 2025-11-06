@@ -1,8 +1,7 @@
-/// <reference types="cypress" />
-
 import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
+import { describe, expect, it } from 'vitest'
 
 describe('static render json to string (no prosemirror)', () => {
   it('should return empty string for empty content', () => {
@@ -14,7 +13,7 @@ describe('static render json to string (no prosemirror)', () => {
       content: json,
       extensions: [StarterKit, TableKit],
     })
-    expect(md).to.eq('')
+    expect(md).toBe('')
   })
 
   it('should render empty paragraph', () => {
@@ -31,7 +30,7 @@ describe('static render json to string (no prosemirror)', () => {
       content: json,
       extensions: [StarterKit, TableKit],
     })
-    expect(md).to.eq('\n\n')
+    expect(md).toBe('\n\n')
   })
 
   it('should render a simple paragraph', () => {
@@ -53,7 +52,7 @@ describe('static render json to string (no prosemirror)', () => {
       content: json,
       extensions: [StarterKit, TableKit],
     })
-    expect(md).to.eq('\nHello, world!\n')
+    expect(md).toBe('\nHello, world!\n')
   })
 
   it('should render a simple table', () => {
@@ -255,7 +254,7 @@ describe('static render json to string (no prosemirror)', () => {
     }
     const md = renderToMarkdown({ content: json, extensions: [StarterKit, TableKit] })
 
-    expect(md).to.eq(
+    expect(md).toBe(
       '\n| Col 1 | Col 2 | Col 3 |\n| --- | --- | --- |\n| Row 1 1 | 112 | 1334 |\n| Row 2 1 | 115 | 4 |\n\n',
     )
   })
