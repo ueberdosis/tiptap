@@ -1,9 +1,9 @@
 export const name = 'Hard Break with Marks'
 
-export const expectedInput = `**Speaker:**
+export const expectedInput = `**Speaker:**  
 John Doe.
 
-**Speaker:**
+**Speaker:**  
 **John Doe**`.trim()
 
 export const expectedOutput = {
