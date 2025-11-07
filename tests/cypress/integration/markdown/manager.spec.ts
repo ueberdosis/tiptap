@@ -213,7 +213,7 @@ Final paragraph.`
     })
 
     it('should render nested marks with correct tag order', () => {
-      // Test case: bold inside strike should render as ~**text**~
+      // Test case: bold inside strike should render as ~~**text**~~
       const doc = {
         type: 'doc',
         content: [
