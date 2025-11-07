@@ -64,7 +64,7 @@ export const HardBreak = Node.create<HardBreakOptions>({
     return '\n'
   },
 
-  renderMarkdown: () => `\n`,
+  renderMarkdown: () => `  \n`,
 
   parseMarkdown: () => {
     return {
