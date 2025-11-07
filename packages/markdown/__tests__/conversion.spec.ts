@@ -1,6 +1,7 @@
 import type { Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'
 import { Link } from '@tiptap/extension-link'
@@ -23,6 +24,7 @@ describe('Markdown Conversion Tests', () => {
     Italic,
     Link,
     Heading,
+    HardBreak,
     BulletList,
     OrderedList,
     ListItem,
