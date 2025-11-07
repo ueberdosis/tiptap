@@ -1,5 +1,13 @@
 # @tiptap/extension-emoji
 
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/pm@3.10.3
+- @tiptap/suggestion@3.10.3
+
 ## 3.10.2
 
 ### Patch Changes
