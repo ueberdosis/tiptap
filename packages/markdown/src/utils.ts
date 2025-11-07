@@ -26,7 +26,6 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 
 /**
  * Identifies marks that need to be closed (active but not in current node).
- * Returns the mark types in reverse order for proper closing sequence.
  */
 export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Map<string, any>): string[] {
   const marksToClose: string[] = []
@@ -35,7 +34,7 @@ export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Ma
       marksToClose.push(markType)
     }
   })
-  return marksToClose.reverse()
+  return marksToClose
 }
 
 /**
@@ -88,7 +87,7 @@ export function findMarksToCloseAtEnd(
     }
   }
 
-  return marksToCloseAtEnd.reverse()
+  return marksToCloseAtEnd
 }
 
 /**
