@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.10.4
+
+### Patch Changes
+
+- 64561c4: Fix autofocus behavior to prevent unwanted scrolling when disabled
+  - @tiptap/pm@3.10.4
+
 ## 3.10.3
 
 ### Patch Changes

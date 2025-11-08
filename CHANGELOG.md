@@ -1,5 +1,19 @@
 # Releases
 
+## v3.10.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix autofocus behavior to prevent unwanted scrolling when disabled
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Fixed nested blockquote markdown serialization to properly handle multi-level nesting
+
 ## v3.10.3
 
 ### @tiptap/markdown
