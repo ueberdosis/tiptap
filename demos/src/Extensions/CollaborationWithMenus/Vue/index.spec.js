@@ -11,6 +11,9 @@ context('/src/Extensions/CollaborationWithMenus/Vue/', () => {
   })
 
   it('should have menu plugins initiated', () => {
+    // plugin registration happens asynchronously (nextTick/setTimeout),
+    // add a short wait so the test isn't flaky
+    cy.wait(700)
     cy.get('.tiptap').then(([{ editor }]) => {
       const bubbleMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'bubbleMenu$')
       const floatingMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'floatingMenu$')
