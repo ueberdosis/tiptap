@@ -8,6 +8,7 @@ import { mapPositionFromTransaction } from './mapPositionFromTransaction.js'
  */
 export function mapRangeFromTransaction(options: MapRangeFromTransactionOptions): MapRangeFromTransactionResult {
   const { range, yRelativeRange } = options
+
   const fromResult = mapPositionFromTransaction({
     ...options,
     position: range.from,
@@ -18,6 +19,7 @@ export function mapRangeFromTransaction(options: MapRangeFromTransactionOptions)
     position: range.to,
     yRelativePosition: yRelativeRange.to,
   })
+
   return {
     newRange: {
       from: fromResult.newPosition,

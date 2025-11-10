@@ -785,7 +785,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public get positionHelpers(): PositionHelpers {
     return (
-      this.storage.collaboration?.positionHelpers ?? {
+      (this.storage as any).collaboration?.getPositionHelpers(this) ?? {
         mapPositionFromTransaction: options => {
           return mapPositionFromTransaction({
             state: this.state,

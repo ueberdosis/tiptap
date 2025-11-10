@@ -104,7 +104,7 @@ export function mapRangeFromTransaction({
 // The methods below are implemented by the Collaboration extension,
 // if you try to call them without the Collaboration extension installed,
 // an error will be thrown.
-const missingCollabExtensionError = new Error('The Collaboration extension is not installed or initialized yet.')
+const missingCollabExtensionError = new Error('Collaboration extension not installed')
 
 export function getYAbsolutePosition(): number {
   throw missingCollabExtensionError
