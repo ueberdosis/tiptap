@@ -1,5 +1,43 @@
 # Releases
 
+## v3.10.5
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
 ## v3.10.4
 
 ### @tiptap/core
