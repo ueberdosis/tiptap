@@ -40,7 +40,7 @@
     "@tiptap/core": "workspace:^",
     "@tiptap/extension-collaboration": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@tiptap/y-tiptap": "^3.0.0"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13"
@@ -51,7 +51,7 @@
     "@tiptap/core": "workspace:^",
     "@tiptap/extension-collaboration": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@tiptap/y-tiptap": "^3.0.0"
   },
   "scripts": {
     "build": "tsup",
