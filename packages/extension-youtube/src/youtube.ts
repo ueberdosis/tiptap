@@ -331,6 +331,7 @@ export const Youtube = Node.create<YoutubeOptions>({
           },
           HTMLAttributes,
         ),
+        0,
       ],
     ]
   },

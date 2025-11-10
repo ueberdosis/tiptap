@@ -5,6 +5,7 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Youtube from '@tiptap/extension-youtube'
 import { Mark, Node } from '@tiptap/pm/model'
 import { renderJSONContentToString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/json/html-string'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
@@ -292,5 +293,36 @@ describe('static render json to string (with prosemirror)', () => {
     })
 
     expect(html).to.eq('<doc><p><b>Example Text</b></p></doc>')
+  })
+
+  it('renders youtube extension followed by other nodes correctly', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'youtube',
+          attrs: {
+            src: 'https://www.youtube.com/watch?v=3lTUAWOgoHs',
+          },
+        },
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text after youtube',
+            },
+          ],
+        },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, Youtube],
+    })
+
+    expect(html).to.include('data-youtube-video')
+    expect(html).to.include('<p>text after youtube</p>')
   })
 })
