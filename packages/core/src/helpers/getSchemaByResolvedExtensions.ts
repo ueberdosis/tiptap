@@ -72,10 +72,19 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         isolating: callOrReturn(getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
-            return [
-              extensionAttribute.name,
-              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
-            ]
+            const spec: Record<string, any> = {}
+
+            // Only include 'default' if the attribute is not required and default is defined
+            if (!extensionAttribute?.attribute?.isRequired && extensionAttribute?.attribute?.default !== undefined) {
+              spec.default = extensionAttribute.attribute.default
+            }
+
+            // Only include 'validate' if it's defined
+            if (extensionAttribute?.attribute?.validate !== undefined) {
+              spec.validate = extensionAttribute.attribute.validate
+            }
+
+            return [extensionAttribute.name, spec]
           }),
         ),
       })
@@ -136,10 +145,19 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         code: callOrReturn(getExtensionField<MarkConfig['code']>(extension, 'code', context)),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
-            return [
-              extensionAttribute.name,
-              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
-            ]
+            const spec: Record<string, any> = {}
+
+            // Only include 'default' if the attribute is not required and default is defined
+            if (!extensionAttribute?.attribute?.isRequired && extensionAttribute?.attribute?.default !== undefined) {
+              spec.default = extensionAttribute.attribute.default
+            }
+
+            // Only include 'validate' if it's defined
+            if (extensionAttribute?.attribute?.validate !== undefined) {
+              spec.validate = extensionAttribute.attribute.validate
+            }
+
+            return [extensionAttribute.name, spec]
           }),
         ),
       })
