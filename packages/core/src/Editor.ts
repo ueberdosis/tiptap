@@ -25,6 +25,15 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import {
+  type PositionHelpers,
+  getYAbsolutePosition,
+  getYAbsoluteRange,
+  getYRelativePosition,
+  getYRelativeRange,
+  mapPositionFromTransaction,
+  mapRangeFromTransaction,
+} from './helpers/positionHelpers.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -772,5 +781,28 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  public get positionHelpers(): PositionHelpers {
+    return (
+      this.storage.collaboration?.positionHelpers ?? {
+        mapPositionFromTransaction: options => {
+          return mapPositionFromTransaction({
+            state: this.state,
+            ...options,
+          })
+        },
+        mapRangeFromTransaction: options => {
+          return mapRangeFromTransaction({
+            state: this.state,
+            ...options,
+          })
+        },
+        getYAbsolutePosition,
+        getYRelativePosition,
+        getYAbsoluteRange,
+        getYRelativeRange,
+      }
+    )
   }
 }

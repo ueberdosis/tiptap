@@ -1,38 +1,20 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { MapPositionFromTransactionOptions, MapPositionFromTransactionResult } from '@tiptap/core'
+import { mapPositionFromTransaction as coreMapPositionFromTransaction } from '@tiptap/core'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
-import type { YRelativePosition } from './yRelativePosition.js'
-import { getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
+import { getYAbsolutePosition } from './yRelativePosition.js'
 
-export interface MapPositionFromTransactionOptions {
-  transaction: Transaction
-  state: EditorState
-  position: number
-  yRelativePosition: YRelativePosition
-}
-
-export interface MapPositionFromTransactionResult {
-  newPosition: number
-  newYRelativePosition: YRelativePosition
-}
-
-export function mapPositionFromTransaction({
-  transaction,
-  state,
-  position,
-  yRelativePosition,
-}: MapPositionFromTransactionOptions): MapPositionFromTransactionResult {
+export function mapPositionFromTransaction(
+  options: MapPositionFromTransactionOptions,
+): MapPositionFromTransactionResult {
+  const { transaction, state, yRelativePosition } = options
   if (isChangeOrigin(transaction)) {
     return {
       newPosition: getYAbsolutePosition(state, yRelativePosition),
       newYRelativePosition: yRelativePosition,
+      mapResult: null,
     }
   }
 
-  const newPosition = transaction.mapping.map(position)
-
-  return {
-    newPosition,
-    newYRelativePosition: newPosition === position ? yRelativePosition : getYRelativePosition(state, newPosition),
-  }
+  return coreMapPositionFromTransaction(options)
 }

@@ -1,12 +1,7 @@
-import type { Range } from '@tiptap/core'
+import type { Range, YRelativeRange } from '@tiptap/core'
 import type { EditorState } from 'packages/pm/state/index.js'
 
-import { type YRelativePosition, getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
-
-export interface YRelativeRange {
-  from: YRelativePosition
-  to: YRelativePosition
-}
+import { getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
 
 export function getYAbsoluteRange(state: EditorState, yRelativeRange: YRelativeRange): Range {
   return {

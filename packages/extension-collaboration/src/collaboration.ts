@@ -1,8 +1,14 @@
+import type { PositionHelpers } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
+
+import { mapPositionFromTransaction } from './helpers/mapPositionFromTransaction.js'
+import { mapRangeFromTransaction } from './helpers/mapRangeFromTransaction.js'
+import { getYAbsolutePosition, getYRelativePosition } from './helpers/yRelativePosition.js'
+import { getYAbsoluteRange, getYRelativeRange } from './helpers/yRelativeRange.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
@@ -13,6 +19,11 @@ export interface CollaborationStorage {
    * Disabling collaboration will prevent any changes from being synced with other users.
    */
   isDisabled: boolean
+
+  /**
+   * Helper methods for working with Y.js positions and ranges.
+   */
+  positionHelpers: PositionHelpers | null
 }
 
 declare module '@tiptap/core' {
@@ -99,6 +110,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   addStorage() {
     return {
       isDisabled: false,
+      positionHelpers: null,
     }
   },
 
@@ -107,6 +119,33 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       console.warn(
         '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
       )
+    }
+    // Initialize helpers with access to the editor
+    this.storage.positionHelpers = {
+      mapPositionFromTransaction: options => {
+        return mapPositionFromTransaction({
+          ...options,
+          state: this.editor.state,
+        })
+      },
+      mapRangeFromTransaction: options => {
+        return mapRangeFromTransaction({
+          ...options,
+          state: this.editor.state,
+        })
+      },
+      getYAbsolutePosition: relativePos => {
+        return getYAbsolutePosition(this.editor.state, relativePos)
+      },
+      getYRelativePosition: absolutePos => {
+        return getYRelativePosition(this.editor.state, absolutePos)
+      },
+      getYAbsoluteRange: yRelativeRange => {
+        return getYAbsoluteRange(this.editor.state, yRelativeRange)
+      },
+      getYRelativeRange: absoluteRange => {
+        return getYRelativeRange(this.editor.state, absoluteRange)
+      },
     }
   },
 
