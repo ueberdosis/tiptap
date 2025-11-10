@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.10.5
+
+### Patch Changes
+
+- 9d5aeb1: Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
 ## 3.10.4
 
 ### Patch Changes
