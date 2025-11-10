@@ -1,5 +1,5 @@
 import type { Range, YRelativeRange } from '@tiptap/core'
-import type { EditorState } from 'packages/pm/state/index.js'
+import type { EditorState } from '@tiptap/pm/state'
 
 import { getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
 

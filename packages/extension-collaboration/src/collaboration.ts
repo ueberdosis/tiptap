@@ -114,12 +114,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     }
   },
 
-  onCreate() {
-    if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
-      console.warn(
-        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
-      )
-    }
+  onBeforeCreate() {
     // Initialize helpers with access to the editor
     this.storage.positionHelpers = {
       mapPositionFromTransaction: options => {
@@ -146,6 +141,14 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       getYRelativeRange: absoluteRange => {
         return getYRelativeRange(this.editor.state, absoluteRange)
       },
+    }
+  },
+
+  onCreate() {
+    if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
+      console.warn(
+        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
+      )
     }
   },
 

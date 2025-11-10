@@ -2,7 +2,7 @@ import type { MapPositionFromTransactionOptions, MapPositionFromTransactionResul
 import { mapPositionFromTransaction as coreMapPositionFromTransaction } from '@tiptap/core'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
-import { getYAbsolutePosition } from './yRelativePosition.js'
+import { getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
 
 export function mapPositionFromTransaction(
   options: MapPositionFromTransactionOptions,
@@ -10,11 +10,16 @@ export function mapPositionFromTransaction(
   const { transaction, state, yRelativePosition } = options
   if (isChangeOrigin(transaction)) {
     return {
-      newPosition: getYAbsolutePosition(state, yRelativePosition),
+      newPosition: yRelativePosition ? getYAbsolutePosition(state, yRelativePosition) : options.position,
       newYRelativePosition: yRelativePosition,
       mapResult: null,
     }
   }
 
-  return coreMapPositionFromTransaction(options)
+  const result = coreMapPositionFromTransaction(options)
+  return {
+    newPosition: result.newPosition,
+    newYRelativePosition: getYRelativePosition(state, result.newPosition),
+    mapResult: result.mapResult,
+  }
 }
