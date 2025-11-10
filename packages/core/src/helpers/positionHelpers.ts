@@ -101,22 +101,25 @@ export function mapRangeFromTransaction({
   }
 }
 
-const notImplementedError = new Error('Not implemented')
+// The methods below are implemented by the Collaboration extension,
+// if you try to call them without the Collaboration extension installed,
+// an error will be thrown.
+const missingCollabExtensionError = new Error('The Collaboration extension is not installed or initialized yet.')
 
 export function getYAbsolutePosition(): number {
-  throw notImplementedError
+  throw missingCollabExtensionError
 }
 
 export function getYRelativePosition(): YRelativePosition {
-  throw notImplementedError
+  throw missingCollabExtensionError
 }
 
 export function getYAbsoluteRange(): Range {
-  throw notImplementedError
+  throw missingCollabExtensionError
 }
 
 export function getYRelativeRange(): YRelativeRange {
-  throw notImplementedError
+  throw missingCollabExtensionError
 }
 
 /**
@@ -124,36 +127,38 @@ export function getYRelativeRange(): YRelativeRange {
  */
 export interface PositionHelpers {
   /**
-   * Maps a position from a transaction, handling both Yjs changes and regular transactions.
+   * Returns the new position after applying a transaction. Handles both Y.js
+   * transactions and regular transactions.
    */
   mapPositionFromTransaction: (
     options: WithOptionalProperties<MapPositionFromTransactionOptions, 'state'>,
   ) => MapPositionFromTransactionResult
 
   /**
-   * Maps a range from a transaction, handling both Yjs changes and regular transactions.
+   * Returns the new Range after applying a transaction. Handles both Y.js
+   * transactions and regular transactions.
    */
   mapRangeFromTransaction: (
     options: WithOptionalProperties<MapRangeFromTransactionOptions, 'state'>,
   ) => MapRangeFromTransactionResult
 
   /**
-   * Converts a Y.js relative position to an absolute position in the editor.
+   * Converts a Y.js relative position to a position in the editor.
    */
   getYAbsolutePosition: (relativePos: YRelativePosition) => number
 
   /**
-   * Converts an absolute position in the editor to a Y.js relative position.
+   * Converts a position in the editor to a Y.js relative position.
    */
   getYRelativePosition: (absolutePos: number) => YRelativePosition
 
   /**
-   * Converts a Y.js relative range to an absolute range in the editor.
+   * Converts a Y.js relative range to a Range in the editor.
    */
   getYAbsoluteRange: (yRelativeRange: YRelativeRange) => Range
 
   /**
-   * Converts an absolute range in the editor to a Y.js relative range.
+   * Converts a Range in the editor to a Y.js relative range.
    */
   getYRelativeRange: (absoluteRange: Range) => YRelativeRange
 }

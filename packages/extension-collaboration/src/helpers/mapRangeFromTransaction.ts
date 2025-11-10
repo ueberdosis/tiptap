@@ -2,6 +2,10 @@ import type { MapRangeFromTransactionOptions, MapRangeFromTransactionResult } fr
 
 import { mapPositionFromTransaction } from './mapPositionFromTransaction.js'
 
+/**
+ * Returns the new Range after applying a transaction. Handles both Y.js
+ * transactions and regular transactions.
+ */
 export function mapRangeFromTransaction(options: MapRangeFromTransactionOptions): MapRangeFromTransactionResult {
   const { range, yRelativeRange } = options
   const fromResult = mapPositionFromTransaction({
