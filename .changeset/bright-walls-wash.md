@@ -4,7 +4,7 @@
 'tiptap-demos': minor
 ---
 
-Create utility to update a position after a transaction. Fixes a bug where the positions were not correctly updated after a transaction when the editor had real-time collaboration enabled.
+Create utilities to update a position after a transaction. Fixes a bug where positions were not correctly updated after a transaction when the editor had real-time collaboration enabled.
 
 - Create `editor.positionHelpers` property that returns a `PositionHelpers` object with the following methods:
   - `mapPositionFromTransaction`
