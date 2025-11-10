@@ -1,5 +1,17 @@
 # @tiptap/extension-drag-handle
 
+## 3.10.5
+
+### Patch Changes
+
+- 50e8905: Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+- Updated dependencies [50e8905]
+- Updated dependencies [92fae18]
+  - @tiptap/extension-collaboration@3.10.5
+  - @tiptap/core@3.10.5
+  - @tiptap/extension-node-range@3.10.5
+  - @tiptap/pm@3.10.5
+
 ## 3.10.4
 
 ### Patch Changes
