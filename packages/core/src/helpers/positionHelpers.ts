@@ -7,6 +7,8 @@ type WithOptionalProperties<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T
 /**
  * A type that represents a Y.js relative position. Used to map a position from
  * a transaction, handling both Yjs changes and regular transactions.
+ *
+ * If the editor is not collaborative, the value can be `null`.
  */
 export type YRelativePosition = any | null
 
@@ -111,7 +113,7 @@ export function getYAbsolutePosition(): number {
 }
 
 export function getYRelativePosition(): YRelativePosition {
-  throw missingCollabExtensionError
+  return null
 }
 
 export function getYAbsoluteRange(): Range {
@@ -119,7 +121,10 @@ export function getYAbsoluteRange(): Range {
 }
 
 export function getYRelativeRange(): YRelativeRange {
-  throw missingCollabExtensionError
+  return {
+    from: null,
+    to: null,
+  }
 }
 
 /**
