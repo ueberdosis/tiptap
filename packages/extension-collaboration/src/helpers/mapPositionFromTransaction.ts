@@ -1,23 +1,8 @@
 import type { EditorState, Transaction } from '@tiptap/pm/state'
-import {
-  absolutePositionToRelativePosition,
-  relativePositionToAbsolutePosition,
-  ySyncPluginKey,
-} from '@tiptap/y-tiptap'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
-
-function getAbsolutePosition(state: EditorState, relativePos: YRelativePosition) {
-  const ystate = ySyncPluginKey.getState(state)
-  return relativePositionToAbsolutePosition(ystate.doc, ystate.type, relativePos, ystate.binding.mapping) || 0
-}
-
-function getRelativePosition(state: EditorState, absolutePos: number): YRelativePosition {
-  const ystate = ySyncPluginKey.getState(state)
-  return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
-}
-
-export type YRelativePosition = any | null
+import type { YRelativePosition } from './yRelativePosition.js'
+import { getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
 
 export interface MapPositionFromTransactionOptions {
   transaction: Transaction
@@ -39,7 +24,7 @@ export function mapPositionFromTransaction({
 }: MapPositionFromTransactionOptions): MapPositionFromTransactionResult {
   if (isChangeOrigin(transaction)) {
     return {
-      newPosition: getAbsolutePosition(state, yRelativePosition),
+      newPosition: getYAbsolutePosition(state, yRelativePosition),
       newYRelativePosition: yRelativePosition,
     }
   }
@@ -48,6 +33,6 @@ export function mapPositionFromTransaction({
 
   return {
     newPosition,
-    newYRelativePosition: newPosition === position ? yRelativePosition : getRelativePosition(state, newPosition),
+    newYRelativePosition: newPosition === position ? yRelativePosition : getYRelativePosition(state, newPosition),
   }
 }

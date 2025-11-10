@@ -1,40 +1,33 @@
 import type { Range } from '@tiptap/core'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 
-import { type YRelativePosition, mapPositionFromTransaction } from './mapPositionFromTransaction.js'
-
-export type YRelativeRange = {
-  from: YRelativePosition
-  to: YRelativePosition
-}
+import { mapPositionFromTransaction } from './mapPositionFromTransaction.js'
+import { type YRelativePosition } from './yRelativePosition.js'
 
 export interface MapRangeFromTransactionOptions {
   transaction: Transaction
   state: EditorState
   range: Range
-  yRelativeRange: YRelativeRange
+  yRelativeRange: YRelativePosition
 }
 
 export interface MapRangeFromTransactionResult {
   newRange: Range
-  newYRelativeRange: YRelativeRange
+  newYRelativeRange: YRelativePosition
 }
 
 export function mapRangeFromTransaction({
-  transaction,
-  state,
   range,
   yRelativeRange,
+  ...options
 }: MapRangeFromTransactionOptions): MapRangeFromTransactionResult {
   const fromResult = mapPositionFromTransaction({
-    transaction,
-    state,
+    ...options,
     position: range.from,
     yRelativePosition: yRelativeRange.from,
   })
   const toResult = mapPositionFromTransaction({
-    transaction,
-    state,
+    ...options,
     position: range.to,
     yRelativePosition: yRelativeRange.to,
   })
