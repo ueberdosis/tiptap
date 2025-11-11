@@ -144,7 +144,7 @@ export interface PositionHelpers {
    * Returns the new position after applying a transaction. Handles both Y.js
    * transactions and regular transactions.
    */
-  mapPositionFromTransaction: (
+  getUpdatedPosition: (
     options: WithOptionalProperties<MapPositionFromTransactionOptions, 'state'>,
   ) => MapPositionFromTransactionResult
 
@@ -152,7 +152,7 @@ export interface PositionHelpers {
    * Returns the new Range after applying a transaction. Handles both Y.js
    * transactions and regular transactions.
    */
-  mapRangeFromTransaction: (
+  getUpdatedRange: (
     options: WithOptionalProperties<MapRangeFromTransactionOptions, 'state'>,
   ) => MapRangeFromTransactionResult
 

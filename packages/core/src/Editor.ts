@@ -793,13 +793,13 @@ export class Editor extends EventEmitter<EditorEvents> {
   public get positionHelpers(): PositionHelpers {
     return (
       (this.storage as any).collaboration?.getPositionHelpers(this) ?? {
-        mapPositionFromTransaction: options => {
+        getUpdatedPosition: options => {
           return mapPositionFromTransaction({
             state: this.state,
             ...options,
           })
         },
-        mapRangeFromTransaction: options => {
+        getUpdatedRange: options => {
           return mapRangeFromTransaction({
             state: this.state,
             ...options,

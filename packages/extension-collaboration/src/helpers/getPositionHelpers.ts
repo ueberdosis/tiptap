@@ -8,13 +8,13 @@ import { getYAbsoluteRange, getYRelativeRange } from './yRelativeRange.js'
 export function getPositionHelpers(editor: Editor): PositionHelpers {
   const { state } = editor
   return {
-    mapPositionFromTransaction: options => {
+    getUpdatedPosition: options => {
       return mapPositionFromTransaction({
         ...options,
         state,
       })
     },
-    mapRangeFromTransaction: options => {
+    getUpdatedRange: options => {
       return mapRangeFromTransaction({
         ...options,
         state,

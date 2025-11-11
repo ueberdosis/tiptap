@@ -72,7 +72,7 @@ const DecorationsExtension = Extension.create({
             // positions
             if (transaction.docChanged) {
               decorationData = decorationData.map(({ position, yRelativePosition }) => {
-                const result = editor.positionHelpers.mapPositionFromTransaction({
+                const result = editor.positionHelpers.getUpdatedPosition({
                   transaction,
                   position,
                   yRelativePosition,
