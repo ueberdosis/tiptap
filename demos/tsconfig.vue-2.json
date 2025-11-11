@@ -3,28 +3,8 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "types": ["node"],
-    "baseUrl": ".",
-    "paths": {
-      "@tiptap/static-renderer/pm/html-string": [
-        "../packages/static-renderer/src/pm/html-string/index.ts"
-      ],
-      "@tiptap/static-renderer/pm/markdown": [
-        "../packages/static-renderer/src/pm/markdown/index.ts"
-      ],
-      "@tiptap/static-renderer/pm/react": [
-        "../packages/static-renderer/src/pm/react/index.ts"
-      ],
-      "@tiptap/static-renderer/json/html-string": [
-        "../packages/static-renderer/src/json/html-string/index.ts"
-      ],
-      "@tiptap/static-renderer/json/react": [
-        "../packages/static-renderer/src/json/react/index.ts"
-      ],
-      "@tiptap/*": [
-        "../packages/*/src/index.ts",
-        "../packages-deprecated/*/src/index.ts"
-      ]
-    },
+    "baseUrl": "..",
+    "rootDir": "..",
   },
   "include": [
     "../packages/vue-2/src/*.d.ts",
