@@ -1,5 +1,26 @@
 # Change Log
 
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- 5d17140: Fixed nested blockquote markdown serialization to properly handle multi-level nesting
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+
 ## 3.10.2
 
 ### Patch Changes

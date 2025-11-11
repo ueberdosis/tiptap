@@ -1,5 +1,25 @@
 # Change Log
 
+## 3.10.5
+
+### Patch Changes
+
+- 92fae18: Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- 64561c4: Fix autofocus behavior to prevent unwanted scrolling when disabled
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/pm@3.10.3
+
 ## 3.10.2
 
 ### Patch Changes

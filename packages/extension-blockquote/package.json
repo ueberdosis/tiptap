@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-blockquote",
   "description": "blockquote extension for tiptap",
-  "version": "3.10.2",
+  "version": "3.10.5",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
