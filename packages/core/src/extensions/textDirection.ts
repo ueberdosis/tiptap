@@ -36,7 +36,7 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
             parseHTML: element => {
               const dir = element.getAttribute('dir')
 
-              if (dir) {
+              if (dir && (dir === 'ltr' || dir === 'rtl' || dir === 'auto')) {
                 return dir
               }
 

@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
 export const unsetTextDirection: RawCommands['unsetTextDirection'] =
   position =>
   ({ tr, state, dispatch }) => {
-    const { doc, selection } = state
+    const { selection } = state
     let from: number
     let to: number
 
@@ -36,7 +36,7 @@ export const unsetTextDirection: RawCommands['unsetTextDirection'] =
     }
 
     if (dispatch) {
-      doc.nodesBetween(from, to, (node, pos) => {
+      tr.doc.nodesBetween(from, to, (node, pos) => {
         if (node.isText) {
           return
         }
