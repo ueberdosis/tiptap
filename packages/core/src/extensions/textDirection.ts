@@ -62,13 +62,15 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
       new Plugin({
         key: new PluginKey('textDirection'),
         props: {
-          attributes: () => {
-            if (!this.options.direction) {
+          attributes: (): { [name: string]: string } => {
+            const direction = this.options.direction
+
+            if (!direction) {
               return {}
             }
 
             return {
-              dir: this.options.direction,
+              dir: direction,
             }
           },
         },
