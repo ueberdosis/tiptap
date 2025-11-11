@@ -3,36 +3,26 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "types": ["node"],
+    "baseUrl": ".",
     "paths": {
       "@tiptap/static-renderer/pm/html-string": [
-        "../packages/static-renderer/src/pm/html-string/index.js",
         "../packages/static-renderer/src/pm/html-string/index.ts"
       ],
       "@tiptap/static-renderer/pm/markdown": [
-        "../packages/static-renderer/src/pm/markdown/index.js",
         "../packages/static-renderer/src/pm/markdown/index.ts"
       ],
       "@tiptap/static-renderer/pm/react": [
-        "../packages/static-renderer/src/pm/react/index.js",
         "../packages/static-renderer/src/pm/react/index.ts"
       ],
       "@tiptap/static-renderer/json/html-string": [
-        "../packages/static-renderer/src/json/html-string/index.js",
         "../packages/static-renderer/src/json/html-string/index.ts"
       ],
       "@tiptap/static-renderer/json/react": [
-        "../packages/static-renderer/src/json/react/index.js",
         "../packages/static-renderer/src/json/react/index.ts"
       ],
       "@tiptap/*": [
-        "../packages/*/src/index.js",
-        "../packages/*/src",
-        "../packages/*/dist/index.js",
-        "../packages/*/dist",
-        "../packages-deprecated/*/src/index.js",
-        "../packages-deprecated/*/src",
-        "../packages-deprecated/*/dist/index.js",
-        "../packages-deprecated/*/dist"
+        "../packages/*/src/index.ts",
+        "../packages-deprecated/*/src/index.ts"
       ]
     },
   },
