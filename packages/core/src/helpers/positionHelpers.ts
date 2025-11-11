@@ -47,7 +47,7 @@ export interface MapRangeFromTransactionOptions {
   transaction: Transaction
   state: EditorState
   range: Range
-  yRelativeRange: YRelativePosition
+  yRelativeRange: YRelativeRange
 }
 
 /**
@@ -55,11 +55,17 @@ export interface MapRangeFromTransactionOptions {
  */
 export interface MapRangeFromTransactionResult {
   newRange: Range
-  newYRelativeRange: YRelativePosition
+  newYRelativeRange: YRelativeRange
   mapResultFrom: MapResult | null
   mapResultTo: MapResult | null
 }
 
+/**
+ * Calculates the new position after applying a transaction. Handles both Y.js
+ * transactions and regular transactions.
+ *
+ * @returns The new position, the Y.js relative position, and the map result.
+ */
 export function mapPositionFromTransaction({
   transaction,
   position,
@@ -73,6 +79,12 @@ export function mapPositionFromTransaction({
   }
 }
 
+/**
+ * Calculates the new range after applying a transaction. Handles both Y.js
+ * transactions and regular transactions.
+ *
+ * @returns The new range, the Y.js relative range, and the map results.
+ */
 export function mapRangeFromTransaction({
   range,
   yRelativeRange,

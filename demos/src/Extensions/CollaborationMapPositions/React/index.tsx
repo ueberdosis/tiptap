@@ -108,8 +108,8 @@ const DecorationsExtension = Extension.create({
 
 const ydoc = new Y.Doc()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const provider = new WebrtcProvider('tiptap-collaboration-extension', ydoc)
+// eslint-disable-next-line no-new
+new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
   const editor = useEditor({
@@ -126,6 +126,10 @@ export default () => {
       DecorationsExtension,
     ],
   })
+
+  if (!editor) {
+    return null
+  }
 
   return (
     <>

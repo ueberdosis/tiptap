@@ -783,6 +783,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$pos(0)
   }
 
+  /**
+   * Returns a set of utilities for working with positions and ranges. These
+   * utilities let you calculate the new position or range after applying a
+   * transaction.
+   *
+   * @returns The position helpers.
+   */
   public get positionHelpers(): PositionHelpers {
     return (
       (this.storage as any).collaboration?.getPositionHelpers(this) ?? {
