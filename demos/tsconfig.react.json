@@ -2,9 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true,
-    "types": ["node"],
-    "baseUrl": "..",
-    "rootDir": "..",
+    "types": ["node"]
   },
   "include": [
     "../packages/react/src/*.d.ts",
