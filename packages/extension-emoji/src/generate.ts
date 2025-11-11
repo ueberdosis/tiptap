@@ -1,8 +1,8 @@
-import dataSource from 'emoji-datasource/emoji.json'
-import data from 'emojibase-data/en/data.json'
-import messages from 'emojibase-data/en/messages.json'
-import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json'
-import gitHubShortcodes from 'emojibase-data/en/shortcodes/github.json'
+import dataSource from 'emoji-datasource/emoji.json' with { type: 'json' }
+import data from 'emojibase-data/en/data.json' with { type: 'json' }
+import messages from 'emojibase-data/en/messages.json' with { type: 'json' }
+import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json' with { type: 'json' }
+import gitHubShortcodes from 'emojibase-data/en/shortcodes/github.json' with { type: 'json' }
 import fs from 'fs'
 import json5 from 'json5'
 
@@ -16,8 +16,11 @@ const emojis: EmojiItem[] = data
       return item.unified === emoji.hexcode || item.non_qualified === emoji.hexcode
     })
     const hasFallbackImage = dataSourceEmoji?.has_img_apple
-    const name = [gitHubShortcodes[emoji.hexcode]].flat()[0] || [emojibaseShortcodes[emoji.hexcode]].flat()[0]
-    const shortcodes = emojibaseShortcodes[emoji.hexcode] ? [emojibaseShortcodes[emoji.hexcode]].flat() : []
+    const name =
+      [(gitHubShortcodes as any)[emoji.hexcode]].flat()[0] || [(emojibaseShortcodes as any)[emoji.hexcode]].flat()[0]
+    const shortcodes = (emojibaseShortcodes as any)[emoji.hexcode]
+      ? [(emojibaseShortcodes as any)[emoji.hexcode]].flat()
+      : []
     const emoticons = emoji.emoticon ? [emoji.emoticon].flat() : []
 
     return {

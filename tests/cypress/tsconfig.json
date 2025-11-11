@@ -1,16 +1,54 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "importHelpers": false,
     "strict": false,
     "noEmit": false,
     "sourceMap": false,
     "types": ["cypress", "react", "react-dom"],
     "paths": {
-      "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
-      "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
-      "@tiptap/*": ["packages/*/src", "packages/*/dist"],
-      "@tiptap/pm/*": ["packages/pm/*"]
+      "@tiptap/static-renderer/pm/html-string": [
+        "packages/static-renderer/src/pm/html-string/index.js",
+        "packages/static-renderer/src/pm/html-string/index.ts"
+      ],
+      "@tiptap/static-renderer/pm/markdown": [
+        "packages/static-renderer/src/pm/markdown/index.js",
+        "packages/static-renderer/src/pm/markdown/index.ts"
+      ],
+      "@tiptap/static-renderer/pm/react": [
+        "packages/static-renderer/src/pm/react/index.js",
+        "packages/static-renderer/src/pm/react/index.ts"
+      ],
+      "@tiptap/static-renderer/json/html-string": [
+        "packages/static-renderer/src/json/html-string/index.js",
+        "packages/static-renderer/src/json/html-string/index.ts"
+      ],
+      "@tiptap/static-renderer/json/react": [
+        "packages/static-renderer/src/json/react/index.js",
+        "packages/static-renderer/src/json/react/index.ts"
+      ],
+      "@tiptap/static-renderer/pm/*": [
+        "packages/static-renderer/src/pm/*/index.js",
+        "packages/static-renderer/src/pm/*/index.ts",
+        "packages/static-renderer/src/pm/*",
+        "packages/static-renderer/src/pm/*.ts"
+      ],
+      "@tiptap/static-renderer/json/*": [
+        "packages/static-renderer/src/json/*/index.js",
+        "packages/static-renderer/src/json/*/index.ts",
+        "packages/static-renderer/src/json/*",
+        "packages/static-renderer/src/json/*.ts"
+      ],
+      "@tiptap/*": [
+        "packages/*/src/index.js",
+        "packages/*/src/index.ts",
+        "packages/*/src",
+        "packages/*/dist/index.js",
+        "packages/*/dist"
+      ],
+      "@tiptap/pm/*": ["packages/pm/*/index.js", "packages/pm/*/index.ts", "packages/pm/*"]
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"]
   },

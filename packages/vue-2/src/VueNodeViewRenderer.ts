@@ -2,12 +2,16 @@ import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRende
 import { NodeView } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import Vue from 'vue'
+import VueDefault from 'vue'
 import type { VueConstructor } from 'vue/types/umd'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
 import type { Editor } from './Editor.js'
 import { VueRenderer } from './VueRenderer.js'
+
+// Properly type Vue as VueConstructor to access static methods with nodenext
+const Vue = VueDefault as unknown as VueConstructor
+type VueInstance = InstanceType<VueConstructor>
 
 export const nodeViewProps = {
   editor: objectProp<NodeViewProps['editor']>().required,
@@ -34,7 +38,7 @@ export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
     | null
 }
 
-class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
+class VueNodeView extends NodeView<VueInstance | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
   decorationClasses!: {
@@ -220,7 +224,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
 }
 
 export function VueNodeViewRenderer(
-  component: Vue | VueConstructor,
+  component: VueInstance | VueConstructor,
   options?: Partial<VueNodeViewRendererOptions>,
 ): NodeViewRenderer {
   return props => {
