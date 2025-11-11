@@ -17,32 +17,29 @@ const webpackPreprocessor = require('@cypress/webpack-preprocessor')
 
 module.exports = on => {
   const alias = {}
-  const packagesPath = path.resolve(__dirname, '../../packages')
 
-  globSync(path.join(packagesPath, '*'), { onlyDirectories: true })
-    .map(name => path.relative(packagesPath, name))
+  globSync('../packages/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/', ''))
     .forEach(name => {
-      alias[`@tiptap/${name.split('/').slice(0, -1).join('/')}$`] = path.join(packagesPath, name, 'src/index.ts')
+      alias[`@tiptap/${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/${name}/src/index.ts`)
     })
 
   // Specifically resolve the pm package
-  globSync(path.join(packagesPath, 'pm/*'), { onlyDirectories: true })
-    .map(name => path.relative(path.join(packagesPath, 'pm'), name))
+  globSync('../packages/pm/*', { onlyDirectories: true })
+    .map(name => name.replace('../packages/pm', ''))
     .forEach(name => {
-      alias[`@tiptap/pm${name.split('/').slice(0, -1).join('/')}$`] = path.join(packagesPath, 'pm', name, 'index.ts')
+      alias[`@tiptap/pm${name.split('/').slice(0, -1).join('/')}$`] = path.resolve(`../packages/pm/${name}/index.ts`)
     })
   // Specifically resolve the static-renderer package
-  alias['@tiptap/static-renderer/json/html-string$'] = path.join(
-    packagesPath,
-    'static-renderer/src/json/html-string/index.ts',
+  alias['@tiptap/static-renderer/json/html-string$'] = path.resolve(
+    '../packages/static-renderer/src/json/html-string/index.ts',
   )
-  alias['@tiptap/static-renderer/pm/html-string$'] = path.join(
-    packagesPath,
-    'static-renderer/src/pm/html-string/index.ts',
+  alias['@tiptap/static-renderer/pm/html-string$'] = path.resolve(
+    '../packages/static-renderer/src/pm/html-string/index.ts',
   )
-  alias['@tiptap/static-renderer/pm/react$'] = path.join(packagesPath, 'static-renderer/src/pm/react/index.ts')
-  alias['@tiptap/static-renderer/pm/markdown$'] = path.join(packagesPath, 'static-renderer/src/pm/markdown/index.ts')
-  alias['@tiptap/static-renderer$'] = path.join(packagesPath, 'static-renderer/src/index.ts')
+  alias['@tiptap/static-renderer/pm/react$'] = path.resolve('../packages/static-renderer/src/pm/react/index.ts')
+  alias['@tiptap/static-renderer/pm/markdown$'] = path.resolve('../packages/static-renderer/src/pm/markdown/index.ts')
+  alias['@tiptap/static-renderer$'] = path.resolve('../packages/static-renderer/src/index.ts')
 
   const options = {
     webpackOptions: {
