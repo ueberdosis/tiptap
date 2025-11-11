@@ -5,11 +5,9 @@ import {
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
 } from '@tiptap/extension-drag-handle'
-import VueDefault, { type PropType } from 'vue'
-import type { VueConstructor } from 'vue/types/umd'
+import { type PropType } from 'vue'
 
-// Properly type Vue as VueConstructor to access static methods with nodenext
-const Vue = VueDefault as unknown as VueConstructor
+import { Vue } from './Vue.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -81,7 +79,7 @@ export const DragHandle = Vue.extend({
     editor.unregisterPlugin(pluginKey as string)
   },
 
-  render(h: VueDefault.CreateElement) {
+  render(h: Vue.CreateElement) {
     return h(
       'div',
       {
