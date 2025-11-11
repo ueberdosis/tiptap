@@ -113,7 +113,7 @@ export function getYAbsolutePosition(): number {
 }
 
 export function getYRelativePosition(): YRelativePosition {
-  return null
+  throw missingCollabExtensionError
 }
 
 export function getYAbsoluteRange(): Range {
