@@ -25,6 +25,12 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
   },
 
   addGlobalAttributes() {
+    // Only add the dir attribute to nodes if text direction is configured
+    // This prevents null/undefined values from appearing in JSON exports
+    if (!this.options.direction) {
+      return []
+    }
+
     const { nodeExtensions } = splitExtensions(this.extensions)
 
     return [
@@ -32,7 +38,7 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
         types: nodeExtensions.filter(extension => extension.name !== 'text').map(extension => extension.name),
         attributes: {
           dir: {
-            default: this.options.direction || null,
+            default: this.options.direction,
             parseHTML: element => {
               const dir = element.getAttribute('dir')
 
@@ -40,7 +46,7 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
                 return dir
               }
 
-              return this.options.direction || null
+              return this.options.direction
             },
             renderHTML: attributes => {
               if (!attributes.dir) {
