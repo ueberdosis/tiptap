@@ -1,5 +1,81 @@
 # Releases
 
+## v3.10.5
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
+## v3.10.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix autofocus behavior to prevent unwanted scrolling when disabled
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Fixed nested blockquote markdown serialization to properly handle multi-level nesting
+
+## v3.10.3
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix markdown serialization to prevent marks from continuing after hard breaks. Previously, marks like bold would incorrectly persist across hard breaks in the markdown output.
+- Fixed a bug where marks were resolved in incorrect orders, breaking markdown rendering for nested marks.
+- Fix parsing of mixed bullet lists and task lists. Previously, Marked.js would group consecutive bullet list items and task list items into a single list token, causing incorrect parsing. Now the parser detects mixed lists and splits them into separate bulletList and taskList nodes.
+
+## v3.10.2
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+
 ## v3.10.1
 
 ### @tiptap/core
