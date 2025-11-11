@@ -1,17 +1,13 @@
-import VueDefault from 'vue'
-import type { VueConstructor } from 'vue/types/umd'
-
-// Properly type Vue as VueConstructor to access static methods with nodenext
-const Vue = VueDefault as unknown as VueConstructor
-type VueInstance = InstanceType<VueConstructor>
+import type { VueConstructor } from 'vue'
+import Vue from 'vue'
 
 /**
  * The VueRenderer class is responsible for rendering a Vue component as a ProseMirror node view.
  */
 export class VueRenderer {
-  ref!: VueInstance
+  ref!: Vue
 
-  constructor(component: VueInstance | VueConstructor, props: any) {
+  constructor(component: Vue | VueConstructor, props: any) {
     const Component = typeof component === 'function' ? component : Vue.extend(component)
 
     this.ref = new Component(props).$mount()

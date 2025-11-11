@@ -1,7 +1,5 @@
 import { Editor as CoreEditor } from '@tiptap/core'
-import type { VueConstructor } from 'vue/types/umd'
-
-type Vue = InstanceType<VueConstructor>
+import type Vue from 'vue'
 
 export class Editor extends CoreEditor {
   public contentComponent: Vue | null = null
