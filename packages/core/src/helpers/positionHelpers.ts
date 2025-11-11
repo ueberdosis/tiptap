@@ -121,10 +121,7 @@ export function getYAbsoluteRange(): Range {
 }
 
 export function getYRelativeRange(): YRelativeRange {
-  return {
-    from: null,
-    to: null,
-  }
+  throw missingCollabExtensionError
 }
 
 /**
