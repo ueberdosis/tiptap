@@ -340,6 +340,7 @@ export class ResizableNodeView {
     resizing: '',
   }
 
+  /** Optional callback for creating custom resize handles */
   createCustomHandle?: (direction: ResizableNodeViewDirection, className: string) => HTMLElement
 
   /** Initial width of the element (for aspect ratio calculation) */
