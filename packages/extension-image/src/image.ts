@@ -1,5 +1,5 @@
+import type { ResizableNodeViewDirection } from '@tiptap/core'
 import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
-import type { ResizableNodeViewDirection } from 'packages/core/src/lib'
 
 export interface ImageOptions {
   /**
