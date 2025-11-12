@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/markdown",
   "description": "markdown parser and serializer for tiptap",
-  "version": "3.10.5",
+  "version": "3.10.6",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
