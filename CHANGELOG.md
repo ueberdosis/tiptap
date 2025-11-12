@@ -1,5 +1,13 @@
 # Releases
 
+## v3.10.7
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix BubbleMenu plugin registration not triggering due to missing element reference during component initialization.
+
 ## v3.10.6
 
 ### @tiptap/vue-2
