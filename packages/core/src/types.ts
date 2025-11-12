@@ -442,19 +442,73 @@ export interface EditorOptions {
 export type HTMLContent = string
 
 /**
- * Loosely describes a JSON representation of a Prosemirror document or node
+ * Describes a Tiptap JSON or the JSON representation of a Prosemirror node
  */
-export type JSONContent = {
-  type?: string
-  attrs?: Record<string, any> | undefined
-  content?: JSONContent[]
-  marks?: {
-    type: string
-    attrs?: Record<string, any>
-    [key: string]: any
-  }[]
-  text?: string
-  [key: string]: any
+export type JSONContent = JSONNode
+
+/**
+ * A Fragment is a list of Tiptap JSON nodes.
+ */
+export type JSONFragment = (JSONNode | JSONTextNode)[]
+
+/**
+ * Represents a non-text node in Tiptap JSON format.
+ * Nodes can contain other nodes or text nodes in their content array.
+ */
+export interface JSONNode {
+  /**
+   * The type of the node (e.g., "doc", "paragraph", "heading", "image").
+   */
+  type: string
+  /**
+   * Optional attributes for the node. The structure depends on the node type.
+   * Attribute values can be any JSON-serializable value.
+   */
+  attrs?: Record<string, unknown>
+  /**
+   * If the node is an inline node, it can have marks applied to it.
+   */
+  marks?: JSONMark[]
+  /**
+   * Optional array of child nodes.
+   * The content can be a mix of JSONNode and JSONTextNode.
+   */
+  content?: JSONFragment
+}
+
+/**
+ * Represents a text node in Tiptap JSON format.
+ * Text nodes contain the actual text content and optional marks.
+ */
+export interface JSONTextNode {
+  /**
+   * The type of the node, always "text" for text nodes.
+   */
+  type: 'text'
+  /**
+   * The text content of the node.
+   */
+  text: string
+  /**
+   * Optional array of marks applied to this text node.
+   */
+  marks?: JSONMark[]
+}
+
+/**
+ * Represents a mark in Tiptap JSON format.
+ * Marks are used to apply formatting to text nodes.
+ */
+export interface JSONMark {
+  /**
+   * The type of the mark (e.g., "bold", "italic", "link", "highlight").
+   */
+  type: string
+  /**
+   * Optional attributes for the mark. The structure depends on the mark type.
+   * Attribute values can be any JSON-serializable value.
+   */
+  attrs?: Record<string, unknown>
 }
 
 /**
