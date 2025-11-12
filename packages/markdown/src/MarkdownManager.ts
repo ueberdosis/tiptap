@@ -20,6 +20,7 @@ import {
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
+  isTaskItem,
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
@@ -303,6 +304,11 @@ export class MarkdownManager {
       return null
     }
 
+    // Special handling for 'list' tokens that may contain mixed bullet/task items
+    if (token.type === 'list') {
+      return this.parseListToken(token)
+    }
+
     const handlers = this.getHandlersForToken(token.type)
     const helpers = this.createParseHelpers()
 
@@ -339,7 +345,169 @@ export class MarkdownManager {
   private lastParseResult: JSONContent | JSONContent[] | null = null
 
   /**
-   * Create the helper functions that are passed to parse handlers.
+   * Parse a list token, handling mixed bullet and task list items by splitting them into separate lists.
+   * This ensures that consecutive task items and bullet items are grouped and parsed as separate list nodes.
+   *
+   * @param token The list token to parse
+   * @returns Array of parsed list nodes, or null if parsing fails
+   */
+  private parseListToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.items || token.items.length === 0) {
+      // No items, parse normally
+      return this.parseTokenWithHandlers(token)
+    }
+
+    const hasTask = token.items.some(item => isTaskItem(item).isTask)
+    const hasNonTask = token.items.some(item => !isTaskItem(item).isTask)
+
+    if (!hasTask || !hasNonTask || this.getHandlersForToken('taskList').length === 0) {
+      // Not mixed or no taskList extension, parse normally
+      return this.parseTokenWithHandlers(token)
+    }
+
+    // Mixed list with taskList extension available: split into separate lists
+    type TaskListItemToken = MarkdownToken & { type: 'taskItem'; checked?: boolean; indentLevel?: number }
+    const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
+    let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
+    let currentType: 'list' | 'taskList' | null = null
+
+    for (let i = 0; i < token.items.length; i += 1) {
+      const item = token.items[i]
+      const { isTask, checked, indentLevel } = isTaskItem(item)
+      let processedItem = item
+
+      if (isTask) {
+        // Transform list_item into taskItem token
+        const raw = item.raw || item.text || ''
+
+        // Split raw content by lines to separate main content from nested
+        const lines = raw.split('\n')
+
+        // Extract main content from the first line
+        const firstLineMatch = lines[0].match(/^\s*[-+*]\s+\[([ xX])\]\s+(.*)$/)
+        const mainContent = firstLineMatch ? firstLineMatch[2] : ''
+
+        // Parse nested content from remaining lines
+        let nestedTokens: MarkdownToken[] = []
+        if (lines.length > 1) {
+          // Join all lines after the first
+          const nestedRaw = lines.slice(1).join('\n')
+
+          // Only parse if there's actual content
+          if (nestedRaw.trim()) {
+            // Find minimum indentation of non-empty lines
+            const nestedLines = lines.slice(1)
+            const nonEmptyLines = nestedLines.filter(line => line.trim())
+            if (nonEmptyLines.length > 0) {
+              const minIndent = Math.min(...nonEmptyLines.map(line => line.length - line.trimStart().length))
+              // Remove common indentation while preserving structure
+              const trimmedLines = nestedLines.map(line => {
+                if (!line.trim()) {
+                  return '' // Keep empty lines
+                }
+                return line.slice(minIndent)
+              })
+              const nestedContent = trimmedLines.join('\n').trim()
+              // Use the lexer to parse nested content
+              if (nestedContent) {
+                // Use the full lexer pipeline to ensure inline tokens are populated
+                nestedTokens = this.markedInstance.lexer(`${nestedContent}\n`)
+              }
+            }
+          }
+        }
+
+        processedItem = {
+          type: 'taskItem',
+          raw: '',
+          mainContent,
+          indentLevel,
+          checked: checked ?? false,
+          text: mainContent,
+          tokens: this.lexer.inlineTokens(mainContent),
+          nestedTokens,
+        }
+      }
+
+      const itemType: 'list' | 'taskList' = isTask ? 'taskList' : 'list'
+
+      if (currentType !== itemType) {
+        if (currentGroup.length > 0) {
+          groups.push({ type: currentType!, items: currentGroup })
+        }
+        currentGroup = [processedItem]
+        currentType = itemType
+      } else {
+        currentGroup.push(processedItem)
+      }
+    }
+
+    if (currentGroup.length > 0) {
+      groups.push({ type: currentType!, items: currentGroup })
+    }
+
+    // Parse each group as a separate token
+    const results: JSONContent[] = []
+    for (let i = 0; i < groups.length; i += 1) {
+      const group = groups[i]
+      const subToken = { ...token, type: group.type, items: group.items }
+      const parsed = this.parseToken(subToken)
+      if (parsed) {
+        if (Array.isArray(parsed)) {
+          results.push(...parsed)
+        } else {
+          results.push(parsed)
+        }
+      }
+    }
+
+    return results.length > 0 ? results : null
+  }
+
+  /**
+   * Parse a token using registered handlers (extracted for reuse).
+   */
+  private parseTokenWithHandlers(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.type) {
+      return null
+    }
+
+    const handlers = this.getHandlersForToken(token.type)
+    const helpers = this.createParseHelpers()
+
+    // Try each handler until one returns a valid result
+    const result = handlers.find(handler => {
+      if (!handler.parseMarkdown) {
+        return false
+      }
+
+      const parseResult = handler.parseMarkdown(token, helpers)
+      const normalized = this.normalizeParseResult(parseResult)
+
+      // Check if this handler returned a valid result (not null/empty array)
+      if (normalized && (!Array.isArray(normalized) || normalized.length > 0)) {
+        // Store result for return
+        this.lastParseResult = normalized
+        return true
+      }
+
+      return false
+    })
+
+    // If a handler worked, return its result
+    if (result && this.lastParseResult) {
+      const toReturn = this.lastParseResult
+      this.lastParseResult = null // Clean up
+      return toReturn
+    }
+
+    // If no handler worked, try fallback parsing
+    return this.parseFallbackToken(token)
+  }
+
+  /**
+   * Creates helper functions for parsing markdown tokens.
+   * @returns An object containing helper functions for parsing.
    */
   private createParseHelpers(): MarkdownParseHelpers {
     return {
@@ -759,8 +927,12 @@ export class MarkdownManager {
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
-        // Reopen marks after the node
-        const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+        // Reopen marks after the node, but NOT after a hard break
+        // Hard breaks should terminate marks (they create a line break where marks don't continue)
+        const afterMarkdown =
+          node.type === 'hardBreak'
+            ? ''
+            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
