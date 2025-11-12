@@ -34,7 +34,7 @@ export const BubbleMenu: Component = {
 
     options: {
       type: Object as PropType<BubbleMenuPluginProps['options']>,
-      default: {},
+      default: () => ({}),
     },
 
     resizeDelay: {
@@ -57,6 +57,10 @@ export const BubbleMenu: Component = {
       immediate: true,
       handler(this: BubbleMenuInterface, editor: BubbleMenuPluginProps['editor']) {
         if (!editor) {
+          return
+        }
+
+        if (!this.$el) {
           return
         }
 
