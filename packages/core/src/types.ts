@@ -450,6 +450,29 @@ export type HTMLContent = string
  * `doc`. Nodes can have other nodes as children. Nodes can also have marks and
  * attributes. Text nodes (nodes with type `text`) have a `text` property and no
  * children.
+ *
+ * @example
+ * ```ts
+ * const content: JSONContent = {
+ *   type: 'doc',
+ *   content: [
+ *     {
+ *       type: 'paragraph',
+ *       content: [
+ *         {
+ *           type: 'text',
+ *           text: 'Hello ',
+ *         },
+ *         {
+ *           type: 'text',
+ *           text: 'world',
+ *           marks: [{ type: 'bold' }],
+ *         },
+ *       ],
+ *     },
+ *   ],
+ * }
+ * ```
  */
 export type JSONContent = {
   /**
