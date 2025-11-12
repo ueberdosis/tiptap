@@ -449,15 +449,21 @@ export type JSONContent = JSONNode
 /**
  * A Fragment is a list of Tiptap JSON nodes.
  */
-export type JSONFragment = (JSONNode | JSONTextNode)[]
+export type JSONFragment = JSONNode[]
 
 /**
- * Represents a non-text node in Tiptap JSON format.
- * Nodes can contain other nodes or text nodes in their content array.
+ * Represents a non-text node in Tiptap JSON format. Nodes can contain other
+ * nodes in their `content` property.
+ *
+ * There are two types of nodes:
+ * - Text nodes: nodes with the type "text". They have a `text` property and
+ *   never have a `content` property. Text nodes are inline nodes.
+ * - Non-text nodes: nodes with type other than "text". They can have a `content`
+ *   property but never have a `text` property.
  */
 export interface JSONNode {
   /**
-   * The type of the node (e.g., "doc", "paragraph", "heading", "image").
+   * The type of the node (e.g., "text", "doc", "paragraph", "heading", "image").
    */
   type: string
   /**
@@ -466,33 +472,18 @@ export interface JSONNode {
    */
   attrs?: Record<string, unknown>
   /**
+   * The text content of the node. Only present for text nodes.
+   * Text nodes have the `type` property set to "text".
+   */
+  text?: string
+  /**
    * If the node is an inline node, it can have marks applied to it.
    */
   marks?: JSONMark[]
   /**
    * Optional array of child nodes.
-   * The content can be a mix of JSONNode and JSONTextNode.
    */
   content?: JSONFragment
-}
-
-/**
- * Represents a text node in Tiptap JSON format.
- * Text nodes contain the actual text content and optional marks.
- */
-export interface JSONTextNode {
-  /**
-   * The type of the node, always "text" for text nodes.
-   */
-  type: 'text'
-  /**
-   * The text content of the node.
-   */
-  text: string
-  /**
-   * Optional array of marks applied to this text node.
-   */
-  marks?: JSONMark[]
 }
 
 /**
