@@ -204,6 +204,52 @@ export type ResizableNodeViewOptions = {
       /** Class added to container while actively resizing */
       resizing?: string
     }
+
+    /**
+     * Optional callback for creating custom resize handle elements.
+     *
+     * This function allows developers to define their own handle element
+     * (e.g., custom icons, classes, or styles) for a given resize direction.
+     * It is called internally for each handle direction.
+     *
+     * @param direction - The direction of the handle being created (e.g., 'top', 'bottom-right').
+     * @param className - The default CSS class name applied to the handle.
+     * @returns The custom handle HTMLElement.
+     *
+     * @example
+     * ```ts
+     * createCustomHandle: (direction, className) => {
+     *   const handle = document.createElement('div')
+     *   handle.dataset.resizeHandle = direction
+     *   handle.style.position = 'absolute'
+     *   handle.className = className
+     *
+     *   const isTop = direction.includes('top')
+     *   const isBottom = direction.includes('bottom')
+     *   const isLeft = direction.includes('left')
+     *   const isRight = direction.includes('right')
+     *
+     *   if (isTop) handle.style.top = '0'
+     *   if (isBottom) handle.style.bottom = '0'
+     *   if (isLeft) handle.style.left = '0'
+     *   if (isRight) handle.style.right = '0'
+     *
+     *   // Edge handles span the full width or height
+     *   if (direction === 'top' || direction === 'bottom') {
+     *     handle.style.left = '0'
+     *     handle.style.right = '0'
+     *   }
+     *
+     *   if (direction === 'left' || direction === 'right') {
+     *     handle.style.top = '0'
+     *     handle.style.bottom = '0'
+     *   }
+     *
+     *   return handle
+     * }
+     * ```
+     */
+    createCustomHandle?: (direction: ResizableNodeViewDirection, className: string) => HTMLElement
   }
 }
 
@@ -294,6 +340,8 @@ export class ResizableNodeView {
     resizing: '',
   }
 
+  createCustomHandle?: (direction: ResizableNodeViewDirection, className: string) => HTMLElement
+
   /** Initial width of the element (for aspect ratio calculation) */
   private initialWidth: number = 0
 
@@ -369,6 +417,10 @@ export class ResizableNodeView {
         handle: options.options.className.handle || '',
         resizing: options.options.className.resizing || '',
       }
+    }
+
+    if (options.options?.createCustomHandle) {
+      this.createCustomHandle = options.options.createCustomHandle
     }
 
     this.wrapper = this.createWrapper()
@@ -567,8 +619,14 @@ export class ResizableNodeView {
    */
   private attachHandles(): void {
     this.directions.forEach(direction => {
-      const handle = this.createHandle(direction)
-      this.positionHandle(handle, direction)
+      const handle = this.createCustomHandle
+        ? this.createCustomHandle(direction, this.classNames.handle)
+        : this.createHandle(direction)
+
+      if (!this.createCustomHandle) {
+        this.positionHandle(handle, direction)
+      }
+
       handle.addEventListener('mousedown', event => this.handleResizeStart(event, direction))
       handle.addEventListener('touchstart', event => this.handleResizeStart(event as unknown as MouseEvent, direction))
       this.wrapper.appendChild(handle)
