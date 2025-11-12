@@ -452,13 +452,13 @@ export type JSONContent = JSONNode
 export type JSONFragment = JSONNode[]
 
 /**
- * Represents a non-text node in Tiptap JSON format. Nodes can contain other
+ * Represents a node in Tiptap JSON format. Nodes can contain other
  * nodes in their `content` property.
  *
  * There are two types of nodes:
- * - Text nodes: nodes with the type "text". They have a `text` property and
+ * - Text nodes: nodes with the `type` property set to "text". They have a `text` property and
  *   never have a `content` property. Text nodes are inline nodes.
- * - Non-text nodes: nodes with type other than "text". They can have a `content`
+ * - Non-text nodes: nodes with `type` other than "text". They can have a `content`
  *   property but never have a `text` property.
  */
 export interface JSONNode {
