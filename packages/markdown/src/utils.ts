@@ -1,7 +1,7 @@
 import type { Content, MarkdownToken } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
-import type { ContentType } from './types'
+import type { ContentType } from './types.js'
 
 /**
  * Wraps each line of the content with the given prefix.
