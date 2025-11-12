@@ -470,7 +470,7 @@ export interface JSONNode {
    * Optional attributes for the node. The structure depends on the node type.
    * Attribute values can be any JSON-serializable value.
    */
-  attrs?: Record<string, unknown>
+  attrs?: Record<string, any>
   /**
    * The text content of the node. Only present for text nodes.
    * Text nodes have the `type` property set to "text".
@@ -499,7 +499,7 @@ export interface JSONMark {
    * Optional attributes for the mark. The structure depends on the mark type.
    * Attribute values can be any JSON-serializable value.
    */
-  attrs?: Record<string, unknown>
+  attrs?: Record<string, any>
 }
 
 /**
