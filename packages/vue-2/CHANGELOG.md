@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.10.6
+
+### Patch Changes
+
+- a7213b5: Fix BubbleMenu and FloatingMenu component runtime errors in Vue 2.
+  - @tiptap/core@3.10.6
+  - @tiptap/pm@3.10.6
+
 ## 3.10.5
 
 ### Patch Changes
