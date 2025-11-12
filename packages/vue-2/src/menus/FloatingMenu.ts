@@ -49,6 +49,10 @@ export const FloatingMenu: Component = {
           return
         }
 
+        if (!this.$el) {
+          return
+        }
+
         ;(this.$el as HTMLElement).style.visibility = 'hidden'
         ;(this.$el as HTMLElement).style.position = 'absolute'
 
