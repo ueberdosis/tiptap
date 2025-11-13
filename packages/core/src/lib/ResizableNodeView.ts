@@ -549,9 +549,6 @@ export class ResizableNodeView {
     const element = document.createElement('div')
     element.dataset.resizeContainer = ''
     element.dataset.node = this.node.type.name
-    element.style.display = 'flex'
-    element.style.justifyContent = 'flex-start'
-    element.style.alignItems = 'flex-start'
 
     if (this.classNames.container) {
       element.className = this.classNames.container
