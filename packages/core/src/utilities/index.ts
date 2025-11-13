@@ -1,6 +1,7 @@
 export * from './callOrReturn.js'
 export * from './canInsertNode.js'
 export * from './createStyleTag.js'
+export * from './decorations.js'
 export * from './deleteProps.js'
 export * from './elementFromString.js'
 export * from './escapeForRegEx.js'
