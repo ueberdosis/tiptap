@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-Parsed block content should account for leading newlines. Fixes #7220.
+Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
