@@ -122,6 +122,47 @@ describe('Markdown Conversion Tests', () => {
     })
   })
 
+  describe('convert taskList with leading paragraph from and to markdown', () => {
+    const markdownWithLeadingParagraph = `Leading paragraph
+
+- [ ] Task`
+
+    const expectedJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Leading paragraph' }],
+        },
+        {
+          type: 'taskList',
+          content: [
+            {
+              type: 'taskItem',
+              attrs: { checked: false },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: 'Task' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    it('should convert markdown with leading paragraph to expected JSON structure', () => {
+      const json = markdownManager.parse(markdownWithLeadingParagraph)
+      expect(json).to.deep.equal(expectedJSON)
+    })
+
+    it('should convert JSON structure back to expected markdown', () => {
+      const md = markdownManager.serialize(expectedJSON)
+      expect(md).to.equal(markdownWithLeadingParagraph)
+    })
+  })
+
   Object.values(conversionfiles).forEach(file => {
     describe(`convert ${file.name} from and to markdown`, () => {
       it(`should convert ${file.name} markdown to expected JSON structure`, () => {
