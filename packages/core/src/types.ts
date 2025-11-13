@@ -293,6 +293,14 @@ export interface EditorOptions {
    */
   editable: boolean
   /**
+   * The default text direction for all content in the editor.
+   * When set to 'ltr' or 'rtl', all nodes will have the corresponding dir attribute.
+   * When set to 'auto', the dir attribute will be set based on content detection.
+   * When undefined, no dir attribute will be added.
+   * @default undefined
+   */
+  textDirection?: 'ltr' | 'rtl' | 'auto'
+  /**
    * The editor's props
    */
   editorProps: EditorProps
@@ -357,7 +365,8 @@ export interface EditorOptions {
           | 'tabindex'
           | 'drop'
           | 'paste'
-          | 'delete',
+          | 'delete'
+          | 'textDirection',
           false
         >
       >
