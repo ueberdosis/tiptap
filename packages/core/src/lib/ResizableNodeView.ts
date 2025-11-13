@@ -1,6 +1,8 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView } from '@tiptap/pm/view'
 
+import type { Editor } from '../Editor.js'
+
 const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
   return 'touches' in e
 }
@@ -72,6 +74,11 @@ export type ResizableNodeViewOptions = {
    * The ProseMirror node instance
    */
   node: PMNode
+
+  /**
+   * The Tiptap editor instance
+   */
+  editor: Editor
 
   /**
    * Function that returns the current position of the node in the document
@@ -293,6 +300,9 @@ export class ResizableNodeView {
   /** The ProseMirror node instance */
   node: PMNode
 
+  /** The Tiptap editor instance */
+  editor: Editor
+
   /** The DOM element being made resizable */
   element: HTMLElement
 
@@ -373,6 +383,12 @@ export class ResizableNodeView {
   /** Whether Shift key is currently pressed (for temporary aspect ratio lock) */
   private isShiftKeyPressed: boolean = false
 
+  /** Last known editable state of the editor */
+  private lastEditableState: boolean | undefined = undefined
+
+  /** Map of handle elements by direction */
+  private handleMap = new Map<ResizableNodeViewDirection, HTMLElement>()
+
   /**
    * Creates a new ResizableNodeView instance.
    *
@@ -383,6 +399,7 @@ export class ResizableNodeView {
    */
   constructor(options: ResizableNodeViewOptions) {
     this.node = options.node
+    this.editor = options.editor
     this.element = options.element
     this.contentElement = options.contentElement
 
@@ -429,6 +446,8 @@ export class ResizableNodeView {
 
     this.applyInitialSize()
     this.attachHandles()
+
+    this.editor.on('update', this.handleEditorUpdate.bind(this))
   }
 
   /**
@@ -445,6 +464,23 @@ export class ResizableNodeView {
 
   get contentDOM() {
     return this.contentElement
+  }
+
+  private handleEditorUpdate() {
+    const isEditable = this.editor.isEditable
+
+    // Only if state actually changed
+    if (isEditable === this.lastEditableState) {
+      return
+    }
+
+    this.lastEditableState = isEditable
+
+    if (!isEditable) {
+      this.removeHandles()
+    } else if (isEditable && this.handleMap.size === 0) {
+      this.attachHandles()
+    }
   }
 
   /**
@@ -494,6 +530,8 @@ export class ResizableNodeView {
       this.isResizing = false
       this.activeHandle = null
     }
+
+    this.editor.off('update', this.handleEditorUpdate.bind(this))
 
     this.container.remove()
   }
@@ -630,8 +668,21 @@ export class ResizableNodeView {
 
       handle.addEventListener('mousedown', event => this.handleResizeStart(event, direction))
       handle.addEventListener('touchstart', event => this.handleResizeStart(event as unknown as MouseEvent, direction))
+
+      this.handleMap.set(direction, handle)
+
       this.wrapper.appendChild(handle)
     })
+  }
+
+  /**
+   * Removes all resize handles from the wrapper.
+   *
+   * Cleans up the handle map and removes each handle element from the DOM.
+   */
+  private removeHandles(): void {
+    this.handleMap.forEach(el => el.remove())
+    this.handleMap.clear()
   }
 
   /**
