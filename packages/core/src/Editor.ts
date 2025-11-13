@@ -25,6 +25,15 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import {
+  type PositionHelpers,
+  getYAbsolutePosition,
+  getYAbsoluteRange,
+  getYRelativePosition,
+  getYRelativeRange,
+  mapPositionFromTransaction,
+  mapRangeFromTransaction,
+} from './helpers/positionHelpers.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -772,5 +781,35 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  /**
+   * Returns a set of utilities for working with positions and ranges. These
+   * utilities let you calculate the new position or range after applying a
+   * transaction.
+   *
+   * @returns The position helpers.
+   */
+  public get positionHelpers(): PositionHelpers {
+    return (
+      (this.storage as any).collaboration?.getPositionHelpers(this) ?? {
+        getUpdatedPosition: options => {
+          return mapPositionFromTransaction({
+            state: this.state,
+            ...options,
+          })
+        },
+        getUpdatedRange: options => {
+          return mapRangeFromTransaction({
+            state: this.state,
+            ...options,
+          })
+        },
+        getYAbsolutePosition,
+        getYRelativePosition,
+        getYAbsoluteRange,
+        getYRelativeRange,
+      }
+    )
   }
 }
