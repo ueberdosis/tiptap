@@ -191,7 +191,7 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
-    ExtendedConfig = MarkConfig<ExtendedOptions, ExtendedStorage>,
+    ExtendedConfig extends MarkConfig<ExtendedOptions, ExtendedStorage> = MarkConfig<ExtendedOptions, ExtendedStorage>,
   >(
     extendedConfig?:
       | (() => Partial<ExtendedConfig>)
