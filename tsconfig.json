@@ -39,13 +39,13 @@
       ],
       "@tiptap/*": [
         "packages/*/src/index.js",
-        "packages/*/src",
+        "packages/*/src/index.ts",
         "packages/*/dist/index.js",
-        "packages/*/dist",
+        "packages/*/dist/index.ts",
         "packages-deprecated/*/src/index.js",
-        "packages-deprecated/*/src",
+        "packages-deprecated/*/src/index.ts",
         "packages-deprecated/*/dist/index.js",
-        "packages-deprecated/*/dist"
+        "packages-deprecated/*/dist/index.ts"
       ]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]

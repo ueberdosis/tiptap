@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.10.7
+
+### Patch Changes
+
+- 470f422: Fix BubbleMenu plugin registration not triggering due to missing element reference during component initialization.
+  - @tiptap/core@3.10.7
+  - @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- a7213b5: Fix BubbleMenu and FloatingMenu component runtime errors in Vue 2.
+  - @tiptap/core@3.10.6
+  - @tiptap/pm@3.10.6
+
 ## 3.10.5
 
 ### Patch Changes

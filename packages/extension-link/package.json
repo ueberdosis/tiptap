@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-link",
   "description": "link extension for tiptap",
-  "version": "3.10.5",
+  "version": "3.10.7",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
