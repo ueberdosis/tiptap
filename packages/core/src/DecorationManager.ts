@@ -2,8 +2,7 @@ import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/p
 import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor'
-import type { Extension } from './Extension'
-import type { DecorationItemWithExtension, DecorationOptions } from './types'
+import type { DecorationItemWithExtension, DecorationOptions, Extensions } from './types'
 import { findDecoUpdates } from './utilities/decorations.js'
 
 export const decorationPluginKey = new PluginKey('__tiptap_decorations')
@@ -11,11 +10,11 @@ export const decorationPluginKey = new PluginKey('__tiptap_decorations')
 export class DecorationManager {
   editor: Editor
 
-  extensions: Extension[]
+  extensions: Extensions
 
   decorationConfigs: Record<string, DecorationOptions> = {}
 
-  constructor(props: { editor: Editor; extensions: Extension[] }) {
+  constructor(props: { editor: Editor; extensions: Extensions }) {
     this.extensions = props.extensions
     this.editor = props.editor
 
