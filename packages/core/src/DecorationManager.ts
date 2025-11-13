@@ -2,8 +2,7 @@ import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/p
 import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor'
-import type { Extension } from './Extension'
-import type { DecorationItemWithExtension, DecorationOptions } from './types'
+import type { DecorationItemWithExtension, DecorationOptions, Extensions } from './types'
 import { findDecoUpdates } from './utilities/decorations.js'
 
 export const decorationPluginKey = new PluginKey('__tiptap_decorations')
@@ -11,11 +10,11 @@ export const decorationPluginKey = new PluginKey('__tiptap_decorations')
 export class DecorationManager {
   editor: Editor
 
-  extensions: Extension[]
+  extensions: Extensions
 
   decorationConfigs: Record<string, DecorationOptions> = {}
 
-  constructor(props: { editor: Editor; extensions: Extension[] }) {
+  constructor(props: { editor: Editor; extensions: Extensions }) {
     this.extensions = props.extensions
     this.editor = props.editor
 
@@ -49,7 +48,6 @@ export class DecorationManager {
       props: {
         decorations(state) {
           return this.getState(state)
-          // return this.createDecorations(state, this.editor.view)
         },
       },
     })
@@ -62,10 +60,6 @@ export class DecorationManager {
 
     extNames.forEach(name => {
       const config = this.decorationConfigs[name]
-
-      if (!config.create) {
-        return
-      }
 
       const decos = config
         .create({
@@ -90,10 +84,12 @@ export class DecorationManager {
         case 'node':
           return Decoration.node(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
+            ...(item.spec || {}),
           })
         case 'inline':
           return Decoration.inline(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
+            ...(item.spec || {}),
           })
         case 'widget':
           if (!item.widget) {
@@ -102,9 +98,13 @@ export class DecorationManager {
 
           return Decoration.widget(item.from, item.widget, {
             extension: item.extension,
+            // include a small key so that widget decorations are easier to diff
+            key: `${item.extension}:${item.from}:${item.to}`,
+            // merge any custom spec provided by the extension (e.g., dynamic display string)
+            ...(item.spec || {}),
           })
         default:
-          throw new Error(`Unknown decoration type: ${item.type}`)
+          throw new Error(`Unknown decoration type: ${(item as any).type}`)
       }
     })
 
@@ -120,8 +120,8 @@ export class DecorationManager {
       const config = this.decorationConfigs[name]
 
       if (
-        config.requiresUpdate &&
-        config.requiresUpdate({
+        config.shouldUpdate &&
+        config.shouldUpdate({
           tr,
           oldState,
           newState,
