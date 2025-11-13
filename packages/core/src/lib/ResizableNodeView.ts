@@ -220,7 +220,6 @@ export type ResizableNodeViewOptions = {
      * It is called internally for each handle direction.
      *
      * @param direction - The direction of the handle being created (e.g., 'top', 'bottom-right').
-     * @param className - The default CSS class name applied to the handle.
      * @returns The custom handle HTMLElement.
      *
      * @example
