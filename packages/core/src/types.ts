@@ -772,6 +772,11 @@ export interface BaseDecorationItem {
 export interface NodeDecoration extends BaseDecorationItem {
   type: 'node'
   attributes?: Record<string, string>
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
 }
 
 /**
@@ -781,6 +786,11 @@ export interface NodeDecoration extends BaseDecorationItem {
 export interface InlineDecoration extends BaseDecorationItem {
   type: 'inline'
   attributes?: Record<string, string>
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
 }
 
 /**
@@ -790,6 +800,11 @@ export interface InlineDecoration extends BaseDecorationItem {
 export interface WidgetDecoration extends BaseDecorationItem {
   type: 'widget'
   widget: (view: EditorView, getPos: () => number | undefined) => HTMLElement
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
 }
 
 export type DecorationItem = NodeDecoration | InlineDecoration | WidgetDecoration

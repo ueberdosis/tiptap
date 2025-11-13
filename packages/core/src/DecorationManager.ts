@@ -49,7 +49,6 @@ export class DecorationManager {
       props: {
         decorations(state) {
           return this.getState(state)
-          // return this.createDecorations(state, this.editor.view)
         },
       },
     })
@@ -86,12 +85,12 @@ export class DecorationManager {
         case 'node':
           return Decoration.node(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
-            ...((item as any).spec || {}),
+            ...(item.spec || {}),
           })
         case 'inline':
           return Decoration.inline(item.from, item.to, item.attributes || {}, {
             extension: item.extension,
-            ...((item as any).spec || {}),
+            ...(item.spec || {}),
           })
         case 'widget':
           if (!item.widget) {
@@ -103,7 +102,7 @@ export class DecorationManager {
             // include a small key so that widget decorations are easier to diff
             key: `${item.extension}:${item.from}:${item.to}`,
             // merge any custom spec provided by the extension (e.g., dynamic display string)
-            ...((item as any).spec || {}),
+            ...(item.spec || {}),
           })
         default:
           throw new Error(`Unknown decoration type: ${(item as any).type}`)

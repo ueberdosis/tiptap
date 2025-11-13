@@ -25,22 +25,73 @@ export function findDecoUpdates(
   const decosToRemove: Decoration[] = []
   const decosToAdd: Decoration[] = []
 
+  // Cache for decoration identities to avoid recomputation
+  const identityCache = new WeakMap<Decoration, string>()
+
   // helper to compute an identity for a decoration's spec
-  function decoIdentity(deco: Decoration) {
+  function decoIdentity(deco: Decoration): string {
+    // Check cache first
+    const cached = identityCache.get(deco)
+    if (cached !== undefined) {
+      return cached
+    }
+
+    let identity: string
+
     try {
       const attrs = (deco as any).attributes ?? (deco as any).attrs ?? {}
       const spec = deco.spec || {}
-      // avoid throwing from circular structures
-      try {
-        const id = JSON.stringify({ spec, attrs })
-        return id
-      } catch {
-        // fallback to a simpler representation
-        return `${String((spec as any).key ?? (spec as any).display ?? (spec as any).extension ?? '')}::${JSON.stringify(attrs)}`
+
+      // Build identity from key parts without JSON.stringify for performance
+      const parts: string[] = []
+
+      // Add spec properties that are commonly used for identity
+      if ((spec as any).key !== undefined) {
+        parts.push(`k:${String((spec as any).key)}`)
       }
+      if ((spec as any).display !== undefined) {
+        parts.push(`d:${String((spec as any).display)}`)
+      }
+      if ((spec as any).extension !== undefined) {
+        parts.push(`e:${String((spec as any).extension)}`)
+      }
+      if ((spec as any).name !== undefined) {
+        parts.push(`n:${String((spec as any).name)}`)
+      }
+
+      // Add stringified attrs if they exist
+      const attrKeys = Object.keys(attrs)
+      if (attrKeys.length > 0) {
+        parts.push(
+          `a:${attrKeys
+            .sort()
+            .map(k => `${k}=${attrs[k]}`)
+            .join(',')}`,
+        )
+      }
+
+      // If spec has other properties, fall back to JSON.stringify for those
+      const specKeys = Object.keys(spec).filter(
+        k => k !== 'key' && k !== 'display' && k !== 'extension' && k !== 'name',
+      )
+      if (specKeys.length > 0) {
+        try {
+          const otherSpec = Object.fromEntries(specKeys.map(k => [k, (spec as any)[k]]))
+          parts.push(`s:${JSON.stringify(otherSpec)}`)
+        } catch {
+          // Ignore JSON errors for circular structures
+          parts.push(`s:${specKeys.join(',')}`)
+        }
+      }
+
+      identity = parts.length > 0 ? parts.join('|') : ''
     } catch {
-      return String(deco.spec?.key ?? deco.spec?.display ?? deco.spec?.extension ?? '')
+      identity = String(deco.spec?.key ?? deco.spec?.display ?? deco.spec?.extension ?? '')
     }
+
+    // Cache the result
+    identityCache.set(deco, identity)
+    return identity
   }
 
   // lets find decorations on the old decorations that are not in the new decorations
