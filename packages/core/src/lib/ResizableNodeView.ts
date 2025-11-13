@@ -225,11 +225,11 @@ export type ResizableNodeViewOptions = {
      *
      * @example
      * ```ts
-     * createCustomHandle: (direction, className) => {
+     * createCustomHandle: (direction) => {
      *   const handle = document.createElement('div')
      *   handle.dataset.resizeHandle = direction
      *   handle.style.position = 'absolute'
-     *   handle.className = className
+     *   handle.className = 'tiptap-custom-handle'
      *
      *   const isTop = direction.includes('top')
      *   const isBottom = direction.includes('bottom')
@@ -256,7 +256,7 @@ export type ResizableNodeViewOptions = {
      * }
      * ```
      */
-    createCustomHandle?: (direction: ResizableNodeViewDirection, className: string) => HTMLElement
+    createCustomHandle?: (direction: ResizableNodeViewDirection) => HTMLElement
   }
 }
 
@@ -351,7 +351,7 @@ export class ResizableNodeView {
   }
 
   /** Optional callback for creating custom resize handles */
-  createCustomHandle?: (direction: ResizableNodeViewDirection, className: string) => HTMLElement
+  createCustomHandle?: (direction: ResizableNodeViewDirection) => HTMLElement
 
   /** Initial width of the element (for aspect ratio calculation) */
   private initialWidth: number = 0
@@ -656,9 +656,7 @@ export class ResizableNodeView {
    */
   private attachHandles(): void {
     this.directions.forEach(direction => {
-      const handle = this.createCustomHandle
-        ? this.createCustomHandle(direction, this.classNames.handle)
-        : this.createHandle(direction)
+      const handle = this.createCustomHandle ? this.createCustomHandle(direction) : this.createHandle(direction)
 
       if (!this.createCustomHandle) {
         this.positionHandle(handle, direction)
