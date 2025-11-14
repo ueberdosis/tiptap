@@ -1,0 +1,205 @@
+/* Page Break Aware Table Cell Styles */
+
+/* Basic page-aware cell styling */
+.page-break-aware-cell {
+  /* Allow content to break across pages when needed */
+  page-break-inside: auto;
+  break-inside: auto;
+  
+  /* Ensure proper vertical alignment when content flows */
+  vertical-align: top;
+  
+  /* Handle overflow gracefully */
+  overflow: visible;
+  
+  /* Enable flexible height */
+  height: auto;
+  min-height: 1em;
+}
+
+/* Header cells should maintain their styling */
+.page-break-aware-header {
+  background-color: var(--gray-1, #f5f5f5);
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Page break behavior classes */
+.page-break-before-always {
+  page-break-before: always;
+  break-before: always;
+}
+
+.page-break-before-avoid {
+  page-break-before: avoid;
+  break-before: avoid;
+}
+
+.page-break-before-left {
+  page-break-before: left;
+  break-before: left;
+}
+
+.page-break-before-right {
+  page-break-before: right;
+  break-before: right;
+}
+
+.page-break-after-always {
+  page-break-after: always;
+  break-after: always;
+}
+
+.page-break-after-avoid {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.page-break-after-left {
+  page-break-after: left;
+  break-after: left;
+}
+
+.page-break-after-right {
+  page-break-after: right;
+  break-after: right;
+}
+
+.page-break-inside-avoid {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Print media specific styles */
+@media print {
+  .page-break-aware-cell {
+    /* Ensure cells can split across pages in print */
+    page-break-inside: auto;
+    break-inside: auto;
+    
+    /* Maintain borders across pages */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    
+    /* Handle long content properly */
+    overflow: visible;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  /* Ensure table structure is maintained across pages */
+  .page-break-aware-table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+  }
+  
+  /* Keep header styling consistent across page breaks */
+  .page-break-aware-header {
+    background-color: #f5f5f5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Handle very long cell content */
+  .page-break-aware-cell * {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+  
+  /* Prevent awkward breaks in paragraphs when possible */
+  .page-break-aware-cell p {
+    orphans: 2;
+    widows: 2;
+  }
+  
+  /* Handle lists in cells */
+  .page-break-aware-cell ul,
+  .page-break-aware-cell ol {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+  
+  .page-break-aware-cell li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* Screen styles for page simulation */
+@media screen {
+  /* When simulating pages on screen, show visual breaks */
+  .page-simulation .page-break-aware-cell {
+    position: relative;
+  }
+  
+  .page-simulation .page-break-before-always::before,
+  .page-simulation .page-break-after-always::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, #ccc 50%, transparent 50%);
+    background-size: 20px 2px;
+    margin: 10px 0;
+  }
+  
+  /* Highlight cells that would break across pages */
+  .page-simulation .page-break-aware-cell[data-page-break-inside="auto"] {
+    border-left: 3px solid #2196f3;
+    padding-left: calc(6px + 3px); /* Original padding + border width */
+  }
+}
+
+/* Enhanced table wrapper for page-aware tables */
+.page-break-aware-table-wrapper {
+  overflow: visible;
+  margin: 1.5rem 0;
+}
+
+.page-break-aware-table-wrapper table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.page-break-aware-table-wrapper table td,
+.page-break-aware-table-wrapper table th {
+  border: 1px solid var(--gray-3, #d1d5db);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 6px 8px;
+  position: relative;
+  vertical-align: top;
+}
+
+.page-break-aware-table-wrapper table td > *,
+.page-break-aware-table-wrapper table th > * {
+  margin-bottom: 0;
+}
+
+.page-break-aware-table-wrapper table td:last-child > *,
+.page-break-aware-table-wrapper table th:last-child > * {
+  margin-bottom: 0;
+}
+
+/* Handle very long content in cells */
+.page-break-aware-cell-content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Responsive behavior */
+@media screen and (max-width: 768px) {
+  .page-break-aware-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .page-break-aware-cell {
+    min-width: 120px;
+  }
+}
