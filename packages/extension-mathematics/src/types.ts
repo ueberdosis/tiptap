@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/core'
 import type { KatexOptions } from 'katex'
 
-import type { BlockMathOptions, InlineMathOptions } from './extensions'
+import type { BlockMathOptions, InlineMathOptions } from './extensions/index.js'
 
 /**
  * Configuration options for the Mathematics extension.
