@@ -234,23 +234,35 @@ export interface ExtendableConfig<
 
   /**
    * This function allows developers to render decorations in the editor.
+   * Decorations are a lightweight way to add visual or interactive elements without changing the document structure.
+   *
    * @example
-   * decorations: {
-   *   create({ state }) {
+   * ```ts
+   * decorations: () => ({
+   *   create({ state, editor }) {
+   *     // Return an array of decorations for the current state
    *     return [
-   *       type: 'node', // or `inline` or `mark`
-   *       from: 10,
-   *       to: 20,
-   *       attributes: { class: 'my-decoration' },
-   *       // for widgets
-   *       widget: (view, pos) => {
-   *         const element = document.createElement('span')
-   *         element.textContent = '🎉'
-   *         return element
+   *       {
+   *         type: 'inline',
+   *         from: 10,
+   *         to: 20,
+   *         attributes: { class: 'highlight' },
    *       }
    *     ]
    *   },
-   * }
+   *   // Optional: specify when decorations need updating for better performance
+   *   shouldUpdate({ tr, oldState, newState }) {
+   *     return newState.selection.from !== oldState.selection.from
+   *   }
+   * })
+   * ```
+   *
+   * Three decoration types are available:
+   * - `node`: Decorates entire block nodes (headings, paragraphs, code blocks)
+   * - `inline`: Decorates inline content (highlighted text, underlines, background colors)
+   * - `widget`: Renders custom HTML at a position (buttons, icons, custom elements)
+   *
+   * @see https://tiptap.dev/docs/editor/core-concepts/decorations
    */
   decorations?: (props: { editor: Editor }) => DecorationOptions
 
