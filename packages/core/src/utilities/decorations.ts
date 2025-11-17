@@ -1,7 +1,7 @@
 import type { Transaction } from '@tiptap/pm/state'
 import type { Decoration, DecorationSet } from '@tiptap/pm/view'
 
-import type { InlineDecoration, NodeDecoration, WidgetDecoration } from '../types'
+import type { InlineDecoration, NodeDecoration, WidgetDecoration } from '../types.js'
 
 /**
  * Finds removed and added decorations from one decoration set to the next

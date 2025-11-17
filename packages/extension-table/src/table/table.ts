@@ -280,10 +280,20 @@ export const Table = Node.create<TableOptions>({
   renderHTML({ node, HTMLAttributes }) {
     const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth)
 
+    const userStyles = HTMLAttributes.style as string | undefined
+
+    function getTableStyle() {
+      if (userStyles) {
+        return userStyles
+      }
+
+      return tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`
+    }
+
     const table: DOMOutputSpec = [
       'table',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        style: tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`,
+        style: getTableStyle(),
       }),
       colgroup,
       ['tbody', 0],

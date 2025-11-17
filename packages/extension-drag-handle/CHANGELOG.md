@@ -1,5 +1,84 @@
 # @tiptap/extension-drag-handle
 
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/extension-collaboration@3.10.7
+- @tiptap/extension-node-range@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/extension-collaboration@3.10.6
+- @tiptap/extension-node-range@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 50e8905: Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+- Updated dependencies [50e8905]
+- Updated dependencies [92fae18]
+  - @tiptap/extension-collaboration@3.10.5
+  - @tiptap/core@3.10.5
+  - @tiptap/extension-node-range@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/extension-collaboration@3.10.4
+  - @tiptap/extension-node-range@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/extension-collaboration@3.10.3
+- @tiptap/extension-node-range@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+- @tiptap/extension-collaboration@3.10.2
+- @tiptap/extension-node-range@3.10.2
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/extension-collaboration@3.10.1
+  - @tiptap/extension-node-range@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/extension-collaboration@3.10.0
+  - @tiptap/extension-node-range@3.10.0
+  - @tiptap/pm@3.10.0
+
 ## 3.9.1
 
 ### Patch Changes

@@ -1,8 +1,8 @@
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import { type EditorView, Decoration, DecorationSet } from '@tiptap/pm/view'
 
-import type { Editor } from './Editor'
-import type { DecorationItemWithExtension, DecorationOptions, Extensions } from './types'
+import type { Editor } from './Editor.js'
+import type { DecorationItemWithExtension, DecorationOptions, Extensions } from './types.js'
 import { findDecoUpdates } from './utilities/decorations.js'
 
 export const decorationPluginKey = new PluginKey('__tiptap_decorations')
