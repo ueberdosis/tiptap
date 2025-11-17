@@ -34,13 +34,13 @@ function buildAttributeSpec(
 ): [string, Record<string, any>] {
   const spec: Record<string, any> = {}
 
-  // Only include 'default' if the attribute is not required and default is defined
-  if (!extensionAttribute?.attribute?.isRequired && extensionAttribute?.attribute?.default !== undefined) {
+  // Only include 'default' if the attribute is not required and default is set on the attribute
+  if (!extensionAttribute?.attribute?.isRequired && 'default' in (extensionAttribute?.attribute || {})) {
     spec.default = extensionAttribute.attribute.default
   }
 
   // Only include 'validate' if it's defined
-  if (extensionAttribute?.attribute?.validate !== undefined) {
+  if ('validate' in (extensionAttribute?.attribute || {})) {
     spec.validate = extensionAttribute.attribute.validate
   }
 
