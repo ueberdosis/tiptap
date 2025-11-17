@@ -5,7 +5,9 @@ import {
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
 } from '@tiptap/extension-drag-handle'
-import Vue, { type PropType } from 'vue'
+import { type PropType } from 'vue'
+
+import { Vue } from './Vue.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -77,7 +79,7 @@ export const DragHandle = Vue.extend({
     editor.unregisterPlugin(pluginKey as string)
   },
 
-  render(h) {
+  render(h: Vue.CreateElement) {
     return h(
       'div',
       {
