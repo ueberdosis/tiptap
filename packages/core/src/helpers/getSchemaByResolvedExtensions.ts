@@ -40,7 +40,7 @@ function buildAttributeSpec(
   }
 
   // Only include 'validate' if it's defined
-  if ('validate' in (extensionAttribute?.attribute || {})) {
+  if (extensionAttribute?.attribute?.validate !== undefined) {
     spec.validate = extensionAttribute.attribute.validate
   }
 
