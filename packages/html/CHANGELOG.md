@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
 ## 3.10.6
 
 ### Patch Changes
