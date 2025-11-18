@@ -34,7 +34,7 @@
     "dist"
   ],
   "dependencies": {
-    "marked": "^16.1.2"
+    "marked": "^15.0.12"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
