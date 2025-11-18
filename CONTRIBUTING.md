@@ -16,6 +16,10 @@ world that developers are civilized and selfless people.
 It's the duty of the maintainer to ensure that all submissions to the project are of sufficient
 quality to benefit the project. Many developers have different skillsets, strengths, and weaknesses. Respect the maintainer's decision, and do not be upset or abusive if your submission is not used.
 
+## Security
+
+If you discover a security vulnerability, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
+
 ## Viability
 
 When requesting or submitting new features, first consider whether it might be useful to others. Open

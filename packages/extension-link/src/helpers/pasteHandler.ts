@@ -3,7 +3,7 @@ import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { find } from 'linkifyjs'
 
-import type { LinkOptions } from '../link'
+import type { LinkOptions } from '../link.js'
 
 type PasteHandlerOptions = {
   editor: Editor

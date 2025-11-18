@@ -2,8 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "../../",
-    "paths": {
-      "@tiptap/*": ["packages/*/dist", "packages/*/src", "packages-deprecated/*/dist", "packages-deprecated/*/src"]
-    }
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   }
 }

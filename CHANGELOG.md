@@ -1,5 +1,130 @@
 # Releases
 
+## v3.10.7
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix BubbleMenu plugin registration not triggering due to missing element reference during component initialization.
+
+## v3.10.6
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix BubbleMenu and FloatingMenu component runtime errors in Vue 2.
+
+## v3.10.5
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+
+## v3.10.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix autofocus behavior to prevent unwanted scrolling when disabled
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Fixed nested blockquote markdown serialization to properly handle multi-level nesting
+
+## v3.10.3
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix markdown serialization to prevent marks from continuing after hard breaks. Previously, marks like bold would incorrectly persist across hard breaks in the markdown output.
+- Fixed a bug where marks were resolved in incorrect orders, breaking markdown rendering for nested marks.
+- Fix parsing of mixed bullet lists and task lists. Previously, Marked.js would group consecutive bullet list items and task list items into a single list token, causing incorrect parsing. Now the parser detects mixed lists and splits them into separate bulletList and taskList nodes.
+
+## v3.10.2
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+
+## v3.10.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Use correct `ResizableNodeView` class name
+
+## v3.10.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- the addNodeView function can now return `null` to dynamically disable rendering of a node view
+
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### @tiptap/extension-image
+
+#### Minor Changes
+
+- Added a new `resize` option that allows images to be resized. The option adds resize handlers to images allowing users to manually resize images via drag and drop or touch
+
+## v3.9.1
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Add a `renderWrapper` option to the Table extension so consumers can customize whether the table wrapper for the resizable node view should be rendered in non-editable mode as well.
+
 ## v3.9.0
 
 ### @tiptap/vue-3
@@ -13,7 +138,7 @@
 #### Patch Changes
 
 - Ensure that markdown hard breaks (two spaces followed by a newline) are parsed so they render as line breaks (`<br>`) in the editor when using `contentType: 'markdown'`.
-  
+
   Fixes #7107
 
 ### @tiptap/extension-unique-id
@@ -33,7 +158,7 @@
 #### Patch Changes
 
 - Replace DOM traversal with browser's native elementsFromPoint for better performance.
-  
+
   - Use elementsFromPoint instead of querySelectorAll
   - Add clampToContent helper for coordinate boundary validation
   - Add findClosestTopLevelBlock helper for efficient block lookup
@@ -83,48 +208,55 @@
 #### Minor Changes
 
 - All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
-  
+
   Why:
+
   - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
-  
+
   ```ts
   import { commands } from '@tiptap/core'
   ```
-  
+
   Notes:
+
   - This is a non-breaking, additive change. It improves ergonomics for TypeScript consumers.
   - If you rely on previously private/internal types, prefer the exported types from `@tiptap/core` going forward.
+
 - Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
-  
+
   **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
-  
+
   **Core Features:**
-  
+
   **Extension API**
+
   - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
   - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
     - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
     - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
     - Access to underlying marked.js instance: `editor.markdown.instance`
-  
+
   #### Editor Methods
+
   - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
   - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
-  
+
   **Editor Options:**
+
   - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
     ```typescript
     new Editor({
       content: '# Hello World',
-      contentType: 'markdown'
+      contentType: 'markdown',
     })
     ```
-  
+
   **Command Options:** All content commands now support an `contentType` option:
+
   - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
   - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
   - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
-  
+
   For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
 
 #### Patch Changes
@@ -136,36 +268,40 @@
 #### Minor Changes
 
 - Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
-  
+
   **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
-  
+
   **Core Features:**
-  
+
   **Extension API**
+
   - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
   - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
     - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
     - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
     - Access to underlying marked.js instance: `editor.markdown.instance`
-  
+
   #### Editor Methods
+
   - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
   - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
-  
+
   **Editor Options:**
+
   - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
     ```typescript
     new Editor({
       content: '# Hello World',
-      contentType: 'markdown'
+      contentType: 'markdown',
     })
     ```
-  
+
   **Command Options:** All content commands now support an `contentType` option:
+
   - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
   - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
   - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
-  
+
   For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
 
 ### @tiptap/extension-link
@@ -180,15 +316,15 @@
 
 - Make the `TrailingNode` extension's `node` option optional and derive the
   default node type from the editor schema when available.
-  
+
   Previously the extension used a hard-coded `'paragraph'` default and the
   `node` option was required in the TypeScript definitions. This change:
-  
+
   - makes `node` optional in the options type,
   - prefers the editor schema's top node default type when resolving the
     trailing node, and
   - falls back to the configured option or `'paragraph'` as a last resort.
-  
+
   This fixes cases where projects use a different top-level default node and
   prevents the extension from inserting an incorrect trailing node type.
 
@@ -199,10 +335,11 @@
 #### Patch Changes
 
 - Fix CVE-2025-61927 by bumping happy-dom to 20.0.0
-  
+
   Bumps the transitive/dev dependency happy-dom from ^18.0.1 → ^20.0.0 in @tiptap/html to address CVE-2025-61927. This is a dependency/security-only change and does not modify any public APIs.
-  
+
   Why:
+
   - happy-dom released a security fix for CVE-2025-61927; updating prevents the vulnerability being pulled into consumers that depend on @tiptap/html.
 
 ## v3.6.6
@@ -331,7 +468,7 @@
 #### Patch Changes
 
 - Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
-  
+
   - `element` now accepts:
     - `Element`: the editor is appended inside the given element.
     - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
@@ -343,14 +480,15 @@
 #### Patch Changes
 
 - Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
-  
+
   When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
-  
+
   This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+
 - Fixes table wrapper replacement and lost selections when `resizable: true`.
-  
+
   TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
-  
+
   No API or breaking changes.
 
 ### @tiptap/extension-bubble-menu
@@ -358,7 +496,7 @@
 #### Patch Changes
 
 - Remove recently added `updateBubbleMenuPosition` method because it would not work in the React and Vue versions of the BubbleMenu, only in the vanilla extension. And that would confuse developers.
-  
+
   Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
 
 ### @tiptap/extension-unique-id
@@ -366,16 +504,16 @@
 #### Minor Changes
 
 - Create a utility to add unique IDs to a document in the server
-  
+
   The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
-  
+
   It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
-  
+
   It takes the following parameters:
-  
+
   - `doc`: The Tiptap JSON document to add unique IDs to.
   - `extensions`: The extensions to use. Must include the `UniqueID` extension.
-  
+
   It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
 
 ### @tiptap/vue-3
@@ -391,11 +529,11 @@
 #### Patch Changes
 
 - Merge nested span styles only for immediate child spans and guard style values.
-  
+
   - Replace non-standard/fragile selector approach and avoid re-processing nested `<span>` elements.
   - Read parent style once, merge with child style only when present, and remove empty `style` attributes.
   - Improves parsing performance and robustness in browsers, Node/JSDOM and tests.
-  
+
   This change fixes a bug that could cause exponential work when parsing deeply
   nested `<span>` elements - in extreme cases that could make the tab unresponsive
   or crash the renderer. It is a bugfix / performance improvement with no public API
@@ -434,7 +572,6 @@
 #### Patch Changes
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
-
 
 # [2.4.0](https://github.com/ueberdosis/tiptap/compare/v2.3.2...v2.4.0) (2024-05-14)
 

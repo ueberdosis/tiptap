@@ -103,6 +103,7 @@ export function parseIndentedBlocks(
         break
       } else if (currentLine.trim() === '') {
         i += 1
+        totalRaw = `${totalRaw}${currentLine}\n`
         continue
       } else {
         return undefined
@@ -188,6 +189,6 @@ export function parseIndentedBlocks(
 
   return {
     items,
-    raw: totalRaw.trim(),
+    raw: totalRaw,
   }
 }

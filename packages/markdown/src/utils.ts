@@ -1,7 +1,7 @@
-import type { Content } from '@tiptap/core'
+import type { Content, MarkdownToken } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
-import type { ContentType } from './types'
+import type { ContentType } from './types.js'
 
 /**
  * Wraps each line of the content with the given prefix.
@@ -26,7 +26,6 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 
 /**
  * Identifies marks that need to be closed (active but not in current node).
- * Returns the mark types in reverse order for proper closing sequence.
  */
 export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Map<string, any>): string[] {
   const marksToClose: string[] = []
@@ -35,7 +34,7 @@ export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Ma
       marksToClose.push(markType)
     }
   })
-  return marksToClose.reverse()
+  return marksToClose
 }
 
 /**
@@ -88,7 +87,7 @@ export function findMarksToCloseAtEnd(
     }
   }
 
-  return marksToCloseAtEnd.reverse()
+  return marksToCloseAtEnd
 }
 
 /**
@@ -131,6 +130,31 @@ export function reopenMarksAfterNode(
     activeMarks.set(markType, mark)
   })
   return afterMarkdown
+}
+
+/**
+ * Check if a markdown list item token is a task item and extract its state.
+ *
+ * @param item The list item token to check
+ * @returns Object containing isTask flag, checked state, and indentation level
+ *
+ * @example
+ * ```ts
+ * isTaskItem({ raw: '- [ ] Task' }) // { isTask: true, checked: false, indentLevel: 0 }
+ * isTaskItem({ raw: '  - [x] Done' }) // { isTask: true, checked: true, indentLevel: 2 }
+ * isTaskItem({ raw: '- Regular' }) // { isTask: false, indentLevel: 0 }
+ * ```
+ */
+export function isTaskItem(item: MarkdownToken): { isTask: boolean; checked?: boolean; indentLevel: number } {
+  const raw = item.raw || item.text || ''
+
+  // Match patterns like "- [ ] " or "  - [x] "
+  const match = raw.match(/^(\s*)[-+*]\s+\[([ xX])\]\s+/)
+
+  if (match) {
+    return { isTask: true, checked: match[2].toLowerCase() === 'x', indentLevel: match[1].length }
+  }
+  return { isTask: false, indentLevel: 0 }
 }
 
 /**
