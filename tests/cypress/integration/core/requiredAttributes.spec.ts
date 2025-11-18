@@ -92,6 +92,9 @@ describe('Required Attributes', () => {
           attrWithFalse: {
             default: false,
           },
+          attrWithUndefined: {
+            default: undefined,
+          },
         }
       },
     })
@@ -108,6 +111,7 @@ describe('Required Attributes', () => {
     expect(nodeType.spec.attrs?.attrWithValue).to.have.property('default', 'defaultValue')
     expect(nodeType.spec.attrs?.attrWithZero).to.have.property('default', 0)
     expect(nodeType.spec.attrs?.attrWithFalse).to.have.property('default', false)
+    expect(nodeType.spec.attrs?.attrWithUndefined).to.have.property('default', undefined)
 
     editor.destroy()
   })
