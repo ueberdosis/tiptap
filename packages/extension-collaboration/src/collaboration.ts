@@ -1,5 +1,4 @@
-import { type Range, Extension } from '@tiptap/core'
-import type { Transaction } from '@tiptap/pm/state'
+import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
@@ -109,10 +108,10 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
   onBeforeCreate() {
     const { field } = this.options
-    this.editor.utils.getUpdatedPosition = (position: number, transaction: Transaction) => {
+    this.editor.utils.getUpdatedPosition = (position, transaction) => {
       return mapPositionFromTransaction({ position, transaction, editor: this.editor, field })
     }
-    this.editor.utils.getUpdatedRange = (range: Range, transaction: Transaction) => {
+    this.editor.utils.getUpdatedRange = (range, transaction) => {
       return mapRangeFromTransaction({ range, transaction, editor: this.editor, field })
     }
   },
