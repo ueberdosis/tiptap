@@ -63,7 +63,7 @@ export function renderToMarkdown({
             .trim()
             .split('\n')
             .map(a => `> ${a}`)
-            .join('\n')}`
+            .join('\n')}\n`
         },
         image({ node }) {
           return `![${node.attrs.alt}](${node.attrs.src})`
