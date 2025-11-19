@@ -11,7 +11,7 @@ export interface MapPositionsPluginState {
       updateAfter: Uint8Array
     }
   >
-  previousUpdate: Uint8Array | null
+  previousUpdate: Uint8Array
 }
 
 export const mapPositionsPluginKey = new PluginKey<MapPositionsPluginState>('mapPositions')
@@ -20,20 +20,20 @@ export function mapPositionsPlugin() {
   return new Plugin<MapPositionsPluginState>({
     key: mapPositionsPluginKey,
     state: {
-      init: () => {
+      init: (_config, editorState) => {
+        const yState = ySyncPluginKey.getState(editorState)
         return {
           transactionMap: new WeakMap(),
-          previousUpdate: null,
+          previousUpdate: Y.encodeStateAsUpdate(yState.doc),
         }
       },
       apply(transaction, pluginState, _oldState, newState) {
         const yState = ySyncPluginKey.getState(newState)
-        const previousUpdate = pluginState.previousUpdate
         const updateAfter = Y.encodeStateAsUpdate(yState.doc)
         // Store snapshots of the Y.js state before and after the transaction has been applied
         return {
           transactionMap: pluginState.transactionMap.set(transaction, {
-            updateBefore: previousUpdate ?? updateAfter,
+            updateBefore: pluginState.previousUpdate,
             updateAfter,
           }),
           previousUpdate: updateAfter,
