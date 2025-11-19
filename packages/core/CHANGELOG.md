@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.11.0
+
+### Minor Changes
+
+- 541c93c: Add native text direction support for RTL and bidirectional content. The editor now includes a `textDirection` option that can be set to `'ltr'`, `'rtl'`, or `'auto'` to control the direction of all content globally. Additionally, new `setTextDirection` and `unsetTextDirection` commands allow for granular control of text direction on specific nodes. This enables proper rendering of right-to-left languages like Arabic and Hebrew, as well as bidirectional text mixing multiple languages.
+
+### Patch Changes
+
+- @tiptap/pm@3.11.0
+
 ## 3.10.8
 
 ### Patch Changes
