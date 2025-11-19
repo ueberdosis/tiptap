@@ -13,8 +13,7 @@ import {
 import type { Editor } from '@tiptap/core'
 import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
 export interface FloatingMenuPluginProps {
@@ -222,6 +221,7 @@ export class FloatingMenuView {
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.editor.on('transaction', this.transactionHandler)
 
     this.update(view, view.state)
 
@@ -368,11 +368,23 @@ export class FloatingMenuView {
     this.isVisible = false
   }
 
+  transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
+    const meta = tr.getMeta('floatingMenu')
+    if (meta === 'hide') {
+      this.hide()
+    }
+    if (meta === 'show') {
+      this.updatePosition()
+      this.show()
+    }
+  }
+
   destroy() {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+    this.editor.off('transaction', this.transactionHandler)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
