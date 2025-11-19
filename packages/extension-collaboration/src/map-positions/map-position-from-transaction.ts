@@ -17,9 +17,9 @@ export function mapPositionFromTransaction(
   editor: Editor,
 ): MapPositionFromTransactionResult {
   const transactionMap = mapPositionsPluginKey.getState(editor.state)?.transactionMap
-  const editorStates = transactionMap?.get(transaction)
+  const transactionMapValue = transactionMap?.get(transaction)
 
-  if (!isChangeOrigin(transaction) || !editorStates) {
+  if (!isChangeOrigin(transaction) || !transactionMapValue) {
     const mapResult = transaction.mapping.mapResult(position)
     return {
       position: mapResult.pos,
@@ -27,7 +27,7 @@ export function mapPositionFromTransaction(
     }
   }
 
-  const { updateBefore, updateAfter } = editorStates
+  const { updateBefore, updateAfter } = transactionMapValue
 
   // Use the previous Y.js state to get the relative position
   const doc = new Y.Doc()
