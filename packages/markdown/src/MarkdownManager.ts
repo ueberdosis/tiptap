@@ -876,19 +876,45 @@ export class MarkdownManager {
         let textContent = node.text || ''
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
-        // Find marks that need to be closed and opened
+        // Check if any mark is a code mark (which preserves whitespace)
+        const hasCode = (node.marks || []).some(mark => mark.type === 'code')
+
+        let leadingSpace = ''
+        let trailingSpace = ''
+
+        // If not code, move leading/trailing whitespace out of the marks
+        if (!hasCode) {
+          const leadingMatch = textContent.match(/^(\s+)/)
+          if (leadingMatch) {
+            leadingSpace = leadingMatch[1]
+            textContent = textContent.slice(leadingSpace.length)
+          }
+
+          const trailingMatch = textContent.match(/(\s+)$/)
+          if (trailingMatch) {
+            trailingSpace = trailingMatch[1]
+            textContent = textContent.slice(0, -trailingSpace.length)
+          }
+        }
+
+        // Find marks that need to be closed
         const marksToClose = findMarksToClose(activeMarks, currentMarks)
-        const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
         // Close marks (in reverse order of how they were opened)
-        marksToClose.forEach(markType => {
+        // We reverse the array to close innermost marks first
+        marksToClose.reverse().forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
-            textContent += closeMarkdown
+            textContent = closeMarkdown + textContent
           }
           activeMarks.delete(markType)
         })
+
+        // Find marks that need to be opened
+        // We do this AFTER closing marks, because some marks might have been closed
+        // to maintain nesting (via findMarksToClose) and now need to be re-opened
+        const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
         // Open new marks (should be at the beginning)
         marksToOpen.forEach(({ type, mark }) => {
@@ -896,6 +922,13 @@ export class MarkdownManager {
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
+        })
+
+        // Add marks to activeMarks in reverse order (outer to inner)
+        // This ensures that activeMarks always represents the nesting stack [outer, ..., inner]
+        // which is required for correct closing order (innermost first)
+        const marksToOpenReverse = [...marksToOpen].reverse()
+        marksToOpenReverse.forEach(({ type, mark }) => {
           activeMarks.set(type, mark)
         })
 
@@ -907,7 +940,8 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
-        marksToCloseAtEnd.forEach(markType => {
+        // Reverse to close innermost first
+        marksToCloseAtEnd.reverse().forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
@@ -916,7 +950,8 @@ export class MarkdownManager {
           activeMarks.delete(markType)
         })
 
-        result.push(textContent)
+        // Re-assemble with spaces
+        result.push(leadingSpace + textContent + trailingSpace)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
