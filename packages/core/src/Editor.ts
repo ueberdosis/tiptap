@@ -25,14 +25,10 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
-import {
-  type PositionHelpers,
-  getYAbsolutePosition,
-  getYAbsoluteRange,
-  getYRelativePosition,
-  getYRelativeRange,
-  mapPositionFromTransaction,
-  mapRangeFromTransaction,
+import type {
+  MapPositionFromTransactionResult,
+  MapRangeFromTransactionResult,
+  PositionHelpers,
 } from './helpers/positionHelpers.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
@@ -45,6 +41,7 @@ import type {
   EditorEvents,
   EditorOptions,
   NodeType as TNodeType,
+  Range,
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
@@ -783,33 +780,25 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$pos(0)
   }
 
-  /**
-   * Returns a set of utilities for working with positions and ranges. These
-   * utilities let you calculate the new position or range after applying a
-   * transaction.
-   *
-   * @returns The position helpers.
-   */
-  public get positionHelpers(): PositionHelpers {
-    return (
-      (this.storage as any).collaboration?.getPositionHelpers(this) ?? {
-        getUpdatedPosition: options => {
-          return mapPositionFromTransaction({
-            state: this.state,
-            ...options,
-          })
-        },
-        getUpdatedRange: options => {
-          return mapRangeFromTransaction({
-            state: this.state,
-            ...options,
-          })
-        },
-        getYAbsolutePosition,
-        getYRelativePosition,
-        getYAbsoluteRange,
-        getYRelativeRange,
+  positionHelpers: PositionHelpers = {
+    getUpdatedPosition(position: number, transaction: Transaction): MapPositionFromTransactionResult {
+      const mapResult = transaction.mapping.mapResult(position)
+      return {
+        position: mapResult.pos,
+        mapResult,
       }
-    )
+    },
+    getUpdatedRange(range: Range, transaction: Transaction): MapRangeFromTransactionResult {
+      const mapResultFrom = transaction.mapping.mapResult(range.from)
+      const mapResultTo = transaction.mapping.mapResult(range.to)
+      return {
+        newRange: {
+          from: mapResultFrom.pos,
+          to: mapResultTo.pos,
+        },
+        mapResultFrom,
+        mapResultTo,
+      }
+    },
   }
 }

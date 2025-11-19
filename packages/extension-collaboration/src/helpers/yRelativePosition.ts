@@ -1,4 +1,3 @@
-import type { YRelativePosition } from '@tiptap/core'
 import type { EditorState } from '@tiptap/pm/state'
 import {
   absolutePositionToRelativePosition,
@@ -9,7 +8,7 @@ import {
 /**
  * Converts a Y.js relative position to a position in the Tiptap document.
  */
-export function getYAbsolutePosition(state: EditorState, relativePos: YRelativePosition): number {
+export function getYAbsolutePosition(state: EditorState, relativePos: any): number {
   // ystate is never null because we've checked it before calling this function
   const ystate = ySyncPluginKey.getState(state)
   return relativePositionToAbsolutePosition(ystate.doc, ystate.type, relativePos, ystate.binding.mapping) || 0
@@ -18,7 +17,7 @@ export function getYAbsolutePosition(state: EditorState, relativePos: YRelativeP
 /**
  * Converts a position in the Tiptap document to a Y.js relative position.
  */
-export function getYRelativePosition(state: EditorState, absolutePos: number): YRelativePosition {
+export function getYRelativePosition(state: EditorState, absolutePos: number): any {
   // ystate is never null because we've checked it before calling this function
   const ystate = ySyncPluginKey.getState(state)
   return absolutePositionToRelativePosition(absolutePos, ystate.type, ystate.binding.mapping)
