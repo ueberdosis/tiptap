@@ -5,6 +5,7 @@ import {
   absolutePositionToRelativePosition,
   ProsemirrorBinding,
   relativePositionToAbsolutePosition,
+  ySyncPlugin,
 } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 
@@ -15,6 +16,7 @@ export function mapPositionFromTransaction(
   position: number,
   transaction: Transaction,
   editor: Editor,
+  field: string,
 ): MapPositionFromTransactionResult {
   const transactionMap = mapPositionsPluginKey.getState(editor.state)?.transactionMap
   const transactionMapValue = transactionMap?.get(transaction)
@@ -33,14 +35,17 @@ export function mapPositionFromTransaction(
   const doc = new Y.Doc()
   Y.applyUpdate(doc, updateBefore)
 
-  const fragment = doc.getXmlFragment('default')
+  // To get the relative position, we need the mapping and the fragment. We run
+  // this code to generate them.
+  const fragment = doc.getXmlFragment(field)
   const binding = new ProsemirrorBinding(fragment)
-
-  // We have to run this code to generate the mapping
   binding.initView(
     new EditorView(null, {
       state: EditorState.create({
         doc: editor.state.doc,
+        // We need to pass the ySyncPlugin, otherwise the binding throws an
+        // error when applying an update.
+        plugins: [ySyncPlugin(fragment, {})],
       }),
     }),
   )
@@ -50,13 +55,7 @@ export function mapPositionFromTransaction(
   const relativePosition = absolutePositionToRelativePosition(position, fragment, binding.mapping)
 
   // Use the new Y.js state to get the absolute position
-  try {
-    // For some reason, this fails
-    Y.applyUpdate(doc, updateAfter)
-  } catch (error) {
-    // Ignore the error
-    console.error(error)
-  }
+  Y.applyUpdate(doc, updateAfter)
   const absolutePosition = relativePositionToAbsolutePosition(doc, fragment, relativePosition, binding.mapping) || 0
 
   return {

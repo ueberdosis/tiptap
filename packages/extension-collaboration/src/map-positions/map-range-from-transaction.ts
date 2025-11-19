@@ -7,9 +7,10 @@ export function mapRangeFromTransaction(
   range: Range,
   transaction: Transaction,
   editor: Editor,
+  field: string,
 ): MapRangeFromTransactionResult {
-  const fromResult = mapPositionFromTransaction(range.from, transaction, editor)
-  const toResult = mapPositionFromTransaction(range.to, transaction, editor)
+  const fromResult = mapPositionFromTransaction(range.from, transaction, editor, field)
+  const toResult = mapPositionFromTransaction(range.to, transaction, editor, field)
   return {
     newRange: {
       from: fromResult.position,

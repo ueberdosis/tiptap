@@ -9,7 +9,6 @@ export interface MapPositionsPluginState {
     {
       updateBefore: Uint8Array
       updateAfter: Uint8Array
-      binding: any
     }
   >
   previousUpdate: Uint8Array | null
@@ -34,8 +33,7 @@ export function mapPositionsPlugin() {
         // Store snapshots of the Y.js state before and after the transaction has been applied
         return {
           transactionMap: pluginState.transactionMap.set(transaction, {
-            binding: yState.binding,
-            updateBefore: previousUpdate ?? new Uint8Array(),
+            updateBefore: previousUpdate ?? updateAfter,
             updateAfter,
           }),
           previousUpdate: updateAfter,
