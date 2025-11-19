@@ -1,5 +1,27 @@
 # Change Log
 
+## 3.10.8
+
+### Patch Changes
+
+- 8375241: Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
+- b7ead7c: Add documentation comments to Tiptap JSON types
+- 95d3e80: allow `undefined` as a value for the `default` attribute key
+- fd479bd: Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/pm@3.10.6
+
 ## 3.10.5
 
 ### Patch Changes
