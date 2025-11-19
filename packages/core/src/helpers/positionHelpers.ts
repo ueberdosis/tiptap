@@ -29,7 +29,7 @@ export interface PositionHelpers {
   getUpdatedPosition(position: number, transaction: Transaction): MapPositionFromTransactionResult
 
   /**
-   * Returns the new position after applying a transaction.
+   * Returns the updated range after applying a transaction.
    */
   getUpdatedRange(range: Range, transaction: Transaction): MapRangeFromTransactionResult
 }
