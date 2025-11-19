@@ -251,6 +251,8 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
     return [
       ySyncPluginInstance,
+      // The mapPositionsPlugin must come after the ySyncPlugin, because it uses
+      // the metadata from the ySyncPlugin to map the positions.
       mapPositionsPlugin(),
       yUndoPluginInstance,
       // Only add the filterInvalidContent plugin if content checking is enabled
