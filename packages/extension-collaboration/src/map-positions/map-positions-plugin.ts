@@ -3,6 +3,13 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { ySyncPluginKey } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
 
+/**
+ * The plugin stores the snapshots of the Y.js state before and after the
+ * transaction has been applied. This information is used to map the positions
+ * of the document before and after the transaction has been applied. It uses a
+ * WeakMap so that the snapshots are garbage collected when the transaction is
+ * no longer referenced.
+ */
 export interface MapPositionsPluginState {
   transactionMap: WeakMap<
     Transaction,
