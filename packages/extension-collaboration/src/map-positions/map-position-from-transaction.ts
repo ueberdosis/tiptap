@@ -1,8 +1,8 @@
 import type { Editor, MapPositionFromTransactionResult } from '@tiptap/core'
 import type { Transaction } from '@tiptap/pm/state'
+import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition } from '@tiptap/y-tiptap'
 
 import { isChangeOrigin } from '../helpers/isChangeOrigin.js'
-import { getYAbsolutePosition, getYRelativePosition } from '../helpers/yRelativePosition.js'
 import { mapPositionsPluginKey } from './map-positions-plugin.js'
 
 export function mapPositionFromTransaction(
@@ -20,10 +20,17 @@ export function mapPositionFromTransaction(
       mapResult,
     }
   }
-  const { oldState, newState } = editorStates
 
-  const relativePosition = getYRelativePosition(oldState, position)
-  const absolutePosition = getYAbsolutePosition(newState, relativePosition)
+  const { previousYState, newYState } = editorStates
+  // Use the previous Y.js state to get the relative position
+  const relativePosition = absolutePositionToRelativePosition(
+    position,
+    previousYState.type,
+    previousYState.binding.mapping,
+  )
+  // Use the new Y.js state to get the absolute position
+  const absolutePosition =
+    relativePositionToAbsolutePosition(newYState.doc, newYState.type, relativePosition, newYState.binding.mapping) || 0
 
   return {
     position: absolutePosition,

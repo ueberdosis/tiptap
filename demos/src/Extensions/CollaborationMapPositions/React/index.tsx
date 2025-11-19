@@ -1,6 +1,5 @@
 import './styles.scss'
 
-import type { YRelativePosition } from '@tiptap/core'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -18,7 +17,6 @@ import * as Y from 'yjs'
  */
 interface DecorationData {
   position: number
-  yRelativePosition: YRelativePosition
 }
 
 /**
@@ -67,19 +65,15 @@ const DecorationsExtension = Extension.create({
           }),
           apply(transaction, pluginState, _oldState, newState) {
             let decorationData = pluginState.decorationData
+            console.log('DecorationsPlugin apply')
 
             // If the transaction changes the document, update the decoration
             // positions
             if (transaction.docChanged) {
-              decorationData = decorationData.map(({ position, yRelativePosition }) => {
-                const result = editor.positionHelpers.getUpdatedPosition({
-                  transaction,
-                  position,
-                  yRelativePosition,
-                })
+              decorationData = decorationData.map(({ position }) => {
+                const result = editor.positionHelpers.getUpdatedPosition(position, transaction)
                 return {
-                  position: result.newPosition,
-                  yRelativePosition: result.newYRelativePosition,
+                  position: result.position,
                 }
               })
             }
@@ -140,7 +134,6 @@ export default () => {
               const position = props.state.selection.from
               const decorationData: DecorationData = {
                 position,
-                yRelativePosition: editor.positionHelpers.getYRelativePosition(position),
               }
               props.tr.setMeta(DecorationsPluginKey, decorationData)
               return true

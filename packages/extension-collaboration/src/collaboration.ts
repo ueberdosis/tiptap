@@ -5,6 +5,7 @@ import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToPro
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
 import { mapPositionFromTransaction } from './map-positions/map-position-from-transaction.js'
+import { mapPositionsPlugin } from './map-positions/map-positions-plugin.js'
 import { mapRangeFromTransaction } from './map-positions/map-range-from-transaction.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
@@ -108,6 +109,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onBeforeCreate() {
     this.editor.positionHelpers = {
       getUpdatedPosition: (position, transaction) => {
+        console.log('Collaboration getUpdatedPosition')
         return mapPositionFromTransaction(position, transaction, this.editor)
       },
       getUpdatedRange: (range, transaction) => {
@@ -250,6 +252,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
     return [
       ySyncPluginInstance,
+      mapPositionsPlugin(),
       yUndoPluginInstance,
       // Only add the filterInvalidContent plugin if content checking is enabled
       this.editor.options.enableContentCheck &&
