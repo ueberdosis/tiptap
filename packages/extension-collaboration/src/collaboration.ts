@@ -109,7 +109,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onBeforeCreate() {
     this.editor.positionHelpers = {
       getUpdatedPosition: (position, transaction) => {
-        console.log('Collaboration getUpdatedPosition')
         return mapPositionFromTransaction(position, transaction, this.editor)
       },
       getUpdatedRange: (range, transaction) => {

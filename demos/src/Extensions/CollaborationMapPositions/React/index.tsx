@@ -65,7 +65,6 @@ const DecorationsExtension = Extension.create({
           }),
           apply(transaction, pluginState, _oldState, newState) {
             let decorationData = pluginState.decorationData
-            console.log('DecorationsPlugin apply')
 
             // If the transaction changes the document, update the decoration
             // positions
