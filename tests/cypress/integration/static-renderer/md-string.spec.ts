@@ -259,4 +259,40 @@ describe('static render json to string (no prosemirror)', () => {
       '\n| Col 1 | Col 2 | Col 3 |\n| --- | --- | --- |\n| Row 1 1 | 112 | 1334 |\n| Row 2 1 | 115 | 4 |\n\n',
     )
   })
+
+  it('should render a blockquote followed by a paragraph with proper separation', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'blockquote',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Blockquote content',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Paragraph below',
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit],
+    })
+    expect(md).to.contain('> Blockquote content\n\nParagraph below')
+  })
 })
