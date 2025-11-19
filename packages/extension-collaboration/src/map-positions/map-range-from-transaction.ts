@@ -1,7 +1,7 @@
 import type { Editor, GetUpdatedRangeResult, Range } from '@tiptap/core'
 import type { Transaction } from '@tiptap/pm/state'
 
-import { mapPositionFromTransaction } from './map-position-from-transaction.js'
+import { mapPositionsFromTransaction } from './map-positions-from-transaction.js'
 
 export interface MapRangeFromTransactionOptions {
   /**
@@ -24,8 +24,14 @@ export interface MapRangeFromTransactionOptions {
 }
 
 export function mapRangeFromTransaction(options: MapRangeFromTransactionOptions): GetUpdatedRangeResult {
-  const fromResult = mapPositionFromTransaction({ ...options, position: options.range.from })
-  const toResult = mapPositionFromTransaction({ ...options, position: options.range.to })
+  const results = mapPositionsFromTransaction({
+    ...options,
+    positions: [options.range.from, options.range.to],
+  })
+
+  const fromResult = results[0]
+  const toResult = results[1]
+
   return {
     range: {
       from: fromResult.position,

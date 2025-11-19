@@ -13,20 +13,14 @@ import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 
 /**
- * How decorations are stored in the plugin state.
- */
-interface DecorationData {
-  position: number
-}
-
-/**
- * Creates a ProseMirror DecorationSet from a list of decoration data.
+ * Creates a ProseMirror DecorationSet from a list of positions.
+ * @param positions - The positions where the decorations should be placed.
  * @returns A ProseMirror DecorationSet
  */
-function createDecorations(data: DecorationData[], doc: Node): DecorationSet {
+function createDecorations(positions: number[], doc: Node): DecorationSet {
   return DecorationSet.create(
     doc,
-    data.map(({ position }) =>
+    positions.map(position =>
       Decoration.widget(position, () => {
         const element = document.createElement('span')
         element.classList.add('decoration')
@@ -40,7 +34,7 @@ function createDecorations(data: DecorationData[], doc: Node): DecorationSet {
  * The state of the DecorationsExtension ProseMirror plugin.
  */
 interface PluginState {
-  decorationData: DecorationData[]
+  positions: number[]
   decorations: DecorationSet
 }
 
@@ -60,34 +54,29 @@ const DecorationsExtension = Extension.create({
         key: DecorationsPluginKey,
         state: {
           init: () => ({
-            decorationData: [],
+            positions: [],
             decorations: DecorationSet.empty,
           }),
           apply(transaction, pluginState, _oldState, newState) {
-            let decorationData = pluginState.decorationData
+            let positions = pluginState.positions
 
             // If the transaction changes the document, update the decoration
             // positions
             if (transaction.docChanged) {
-              decorationData = decorationData.map(({ position }) => {
-                const result = editor.utils.getUpdatedPosition(position, transaction)
-                return {
-                  position: result.position,
-                }
-              })
+              positions = editor.utils.getUpdatedPositions(positions, transaction).map(r => r.position)
             }
 
             // If the transaction adds a decoration, add it to the decoration data.
-            const metadata = transaction.getMeta(DecorationsPluginKey) as DecorationData | undefined
+            const metadata = transaction.getMeta(DecorationsPluginKey) as number | undefined
             if (metadata) {
-              decorationData.push(metadata)
+              positions.push(metadata)
             }
 
             return {
-              decorationData,
+              positions,
               // Create new ProseMirror decorations in the positions determined
               // by the decoration data.
-              decorations: createDecorations(decorationData, newState.doc),
+              decorations: createDecorations(positions, newState.doc),
             }
           },
         },
@@ -131,10 +120,7 @@ export default () => {
           onClick={() =>
             editor.commands.command(props => {
               const position = props.state.selection.from
-              const decorationData: DecorationData = {
-                position,
-              }
-              props.tr.setMeta(DecorationsPluginKey, decorationData)
+              props.tr.setMeta(DecorationsPluginKey, position)
               return true
             })
           }

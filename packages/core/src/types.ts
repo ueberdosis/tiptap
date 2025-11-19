@@ -1017,6 +1017,11 @@ export interface Utils {
   getUpdatedPosition(position: number, transaction: Transaction): GetUpdatedPositionResult
 
   /**
+   * Returns the updated positions after applying a transaction.
+   */
+  getUpdatedPositions(positions: number[], transaction: Transaction): GetUpdatedPositionResult[]
+
+  /**
    * Returns the updated range after applying a transaction.
    */
   getUpdatedRange(range: Range, transaction: Transaction): GetUpdatedRangeResult

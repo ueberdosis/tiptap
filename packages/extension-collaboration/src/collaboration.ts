@@ -5,6 +5,7 @@ import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToPro
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
 import { mapPositionFromTransaction } from './map-positions/map-position-from-transaction.js'
+import { mapPositionsFromTransaction } from './map-positions/map-positions-from-transaction.js'
 import { mapPositionsPlugin } from './map-positions/map-positions-plugin.js'
 import { mapRangeFromTransaction } from './map-positions/map-range-from-transaction.js'
 
@@ -110,6 +111,9 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     const { field } = this.options
     this.editor.utils.getUpdatedPosition = (position, transaction) => {
       return mapPositionFromTransaction({ position, transaction, editor: this.editor, field })
+    }
+    this.editor.utils.getUpdatedPositions = (positions, transaction) => {
+      return mapPositionsFromTransaction({ positions, transaction, editor: this.editor, field })
     }
     this.editor.utils.getUpdatedRange = (range, transaction) => {
       return mapRangeFromTransaction({ range, transaction, editor: this.editor, field })

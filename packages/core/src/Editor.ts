@@ -20,6 +20,7 @@ import {
   TextDirection,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
+import { createPositionUtils } from './helpers/createPositionUtils.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getText } from './helpers/getText.js'
@@ -36,10 +37,7 @@ import type {
   DocumentType,
   EditorEvents,
   EditorOptions,
-  GetUpdatedPositionResult,
-  GetUpdatedRangeResult,
   NodeType as TNodeType,
-  Range,
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
@@ -783,25 +781,5 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$pos(0)
   }
 
-  utils: Utils = {
-    getUpdatedPosition(position: number, transaction: Transaction): GetUpdatedPositionResult {
-      const mapResult = transaction.mapping.mapResult(position)
-      return {
-        position: mapResult.pos,
-        mapResult,
-      }
-    },
-    getUpdatedRange(range: Range, transaction: Transaction): GetUpdatedRangeResult {
-      const mapResultFrom = transaction.mapping.mapResult(range.from)
-      const mapResultTo = transaction.mapping.mapResult(range.to)
-      return {
-        range: {
-          from: mapResultFrom.pos,
-          to: mapResultTo.pos,
-        },
-        mapResultFrom,
-        mapResultTo,
-      }
-    },
-  }
+  utils: Utils = createPositionUtils()
 }
