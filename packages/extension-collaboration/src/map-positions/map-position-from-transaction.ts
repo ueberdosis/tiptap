@@ -1,4 +1,4 @@
-import type { Editor, MapPositionFromTransactionResult } from '@tiptap/core'
+import type { Editor, GetUpdatedPositionResult } from '@tiptap/core'
 import { type Transaction, EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import {
@@ -12,12 +12,32 @@ import * as Y from 'yjs'
 import { isChangeOrigin } from '../helpers/isChangeOrigin.js'
 import { mapPositionsPluginKey } from './map-positions-plugin.js'
 
-export function mapPositionFromTransaction(
-  position: number,
-  transaction: Transaction,
-  editor: Editor,
-  field: string,
-): MapPositionFromTransactionResult {
+export interface MapPositionFromTransactionOptions {
+  /**
+   * The position to map.
+   */
+  position: number
+  /**
+   * The transaction
+   */
+  transaction: Transaction
+  /**
+   * The editor instance.
+   */
+  editor: Editor
+  /**
+   * The name of the field, defined in the collaboration extension,
+   * that identifies the document in the Y.js document.
+   */
+  field: string
+}
+
+export function mapPositionFromTransaction({
+  position,
+  transaction,
+  editor,
+  field,
+}: MapPositionFromTransactionOptions): GetUpdatedPositionResult {
   const transactionMap = mapPositionsPluginKey.getState(editor.state)?.transactionMap
   const transactionMapValue = transactionMap?.get(transaction)
 

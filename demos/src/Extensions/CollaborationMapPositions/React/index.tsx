@@ -70,7 +70,7 @@ const DecorationsExtension = Extension.create({
             // positions
             if (transaction.docChanged) {
               decorationData = decorationData.map(({ position }) => {
-                const result = editor.positionHelpers.getUpdatedPosition(position, transaction)
+                const result = editor.utils.getUpdatedPosition(position, transaction)
                 return {
                   position: result.position,
                 }

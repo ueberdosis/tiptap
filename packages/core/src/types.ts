@@ -1,6 +1,6 @@
 import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
-import type { Mappable, Transform } from '@tiptap/pm/transform'
+import type { Mappable, MapResult, Transform } from '@tiptap/pm/transform'
 import type {
   Decoration,
   DecorationAttrs,
@@ -973,4 +973,51 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
+}
+
+/**
+ * The result of the mapPositionFromTransaction function.
+ */
+export interface GetUpdatedPositionResult {
+  /**
+   * The new position after applying the transaction.
+   */
+  position: number
+  /**
+   * A result of mapping the position, it includes information like whether the position was deleted.
+   */
+  mapResult: MapResult | null
+}
+
+/**
+ * The result of the mapRangeFromTransaction function.
+ */
+export interface GetUpdatedRangeResult {
+  /**
+   * The range with the updated positions after applying the transaction.
+   */
+  range: Range
+  /**
+   * A result of mapping the start position of the range, it includes information like whether the position was deleted.
+   */
+  mapResultFrom: MapResult | null
+  /**
+   * A result of mapping the end position of the range, it includes information like whether the position was deleted.
+   */
+  mapResultTo: MapResult | null
+}
+
+/**
+ * Helper methods for working with positions and ranges.
+ */
+export interface Utils {
+  /**
+   * Returns the new position after applying a transaction.
+   */
+  getUpdatedPosition(position: number, transaction: Transaction): GetUpdatedPositionResult
+
+  /**
+   * Returns the updated range after applying a transaction.
+   */
+  getUpdatedRange(range: Range, transaction: Transaction): GetUpdatedRangeResult
 }

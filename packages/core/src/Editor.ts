@@ -26,11 +26,6 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
-import type {
-  MapPositionFromTransactionResult,
-  MapRangeFromTransactionResult,
-  PositionHelpers,
-} from './helpers/positionHelpers.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -41,11 +36,14 @@ import type {
   DocumentType,
   EditorEvents,
   EditorOptions,
+  GetUpdatedPositionResult,
+  GetUpdatedRangeResult,
   NodeType as TNodeType,
   Range,
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -785,19 +783,19 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$pos(0)
   }
 
-  positionHelpers: PositionHelpers = {
-    getUpdatedPosition(position: number, transaction: Transaction): MapPositionFromTransactionResult {
+  utils: Utils = {
+    getUpdatedPosition(position: number, transaction: Transaction): GetUpdatedPositionResult {
       const mapResult = transaction.mapping.mapResult(position)
       return {
         position: mapResult.pos,
         mapResult,
       }
     },
-    getUpdatedRange(range: Range, transaction: Transaction): MapRangeFromTransactionResult {
+    getUpdatedRange(range: Range, transaction: Transaction): GetUpdatedRangeResult {
       const mapResultFrom = transaction.mapping.mapResult(range.from)
       const mapResultTo = transaction.mapping.mapResult(range.to)
       return {
-        newRange: {
+        range: {
           from: mapResultFrom.pos,
           to: mapResultTo.pos,
         },
