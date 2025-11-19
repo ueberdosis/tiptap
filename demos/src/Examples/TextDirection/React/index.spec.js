@@ -1,61 +1,25 @@
-import { expect, test } from '@playwright/test'
-
-test.describe('TextDirection', () => {
-  test('should apply text direction attributes', async ({ page }) => {
-    await page.goto('http://localhost:3000/Examples/TextDirection/React')
-
-    await page.waitForSelector('.tiptap')
-
-    const firstParagraph = page.locator('.tiptap p').first()
-    const dirAttribute = await firstParagraph.getAttribute('dir')
-
-    expect(dirAttribute).toBe('auto')
+context('/src/Examples/TextDirection/React/', () => {
+  beforeEach(() => {
+    cy.visit('/src/Examples/TextDirection/React/')
   })
 
-  test('should change global direction', async ({ page }) => {
-    await page.goto('http://localhost:3000/Examples/TextDirection/React')
-
-    await page.waitForSelector('.tiptap')
-
-    await page.click('button:has-text("RTL")')
-
-    await page.waitForTimeout(100)
-
-    const firstParagraph = page.locator('.tiptap p').first()
-    const dirAttribute = await firstParagraph.getAttribute('dir')
-
-    expect(dirAttribute).toBe('rtl')
+  it('should apply text direction attributes', () => {
+    cy.get('.tiptap p').first().should('have.attr', 'dir', 'auto')
   })
 
-  test('should set direction on selection', async ({ page }) => {
-    await page.goto('http://localhost:3000/Examples/TextDirection/React')
-
-    await page.waitForSelector('.tiptap')
-
-    const paragraph = page.locator('.tiptap p').first()
-    await paragraph.click()
-
-    await page.click('button:has-text("Set LTR")')
-
-    await page.waitForTimeout(100)
-
-    const dirAttribute = await paragraph.getAttribute('dir')
-
-    expect(dirAttribute).toBe('ltr')
+  it('should change global direction', () => {
+    cy.get('button').contains('RTL').click()
+    cy.get('.tiptap p').first().should('have.attr', 'dir', 'rtl')
   })
 
-  test('should unset direction', async ({ page }) => {
-    await page.goto('http://localhost:3000/Examples/TextDirection/React')
+  it('should set direction on selection', () => {
+    cy.get('.tiptap p').first().click()
+    cy.get('button').contains('Set LTR').click()
+    cy.get('.tiptap p').first().should('have.attr', 'dir', 'ltr')
+  })
 
-    await page.waitForSelector('.tiptap')
-
-    await page.click('button:has-text("None")')
-
-    await page.waitForTimeout(100)
-
-    const firstParagraph = page.locator('.tiptap p').first()
-    const dirAttribute = await firstParagraph.getAttribute('dir')
-
-    expect(dirAttribute).toBeNull()
+  it('should unset direction', () => {
+    cy.get('button').contains('None').click()
+    cy.get('.tiptap p').first().should('not.have.attr', 'dir')
   })
 })
