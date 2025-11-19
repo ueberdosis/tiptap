@@ -1,5 +1,68 @@
 # Change Log
 
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/extension-blockquote@3.11.0
+  - @tiptap/extension-bold@3.11.0
+  - @tiptap/extension-code@3.11.0
+  - @tiptap/extension-code-block@3.11.0
+  - @tiptap/extension-document@3.11.0
+  - @tiptap/extension-hard-break@3.11.0
+  - @tiptap/extension-heading@3.11.0
+  - @tiptap/extension-horizontal-rule@3.11.0
+  - @tiptap/extension-italic@3.11.0
+  - @tiptap/extension-link@3.11.0
+  - @tiptap/extension-list@3.11.0
+  - @tiptap/extension-paragraph@3.11.0
+  - @tiptap/extension-strike@3.11.0
+  - @tiptap/extension-text@3.11.0
+  - @tiptap/extension-underline@3.11.0
+  - @tiptap/extensions@3.11.0
+  - @tiptap/extension-list-item@3.11.0
+  - @tiptap/extension-list-keymap@3.11.0
+  - @tiptap/extension-bullet-list@3.11.0
+  - @tiptap/extension-ordered-list@3.11.0
+  - @tiptap/extension-dropcursor@3.11.0
+  - @tiptap/extension-gapcursor@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/extension-blockquote@3.10.8
+  - @tiptap/extension-bold@3.10.8
+  - @tiptap/extension-code@3.10.8
+  - @tiptap/extension-code-block@3.10.8
+  - @tiptap/extension-document@3.10.8
+  - @tiptap/extension-hard-break@3.10.8
+  - @tiptap/extension-heading@3.10.8
+  - @tiptap/extension-horizontal-rule@3.10.8
+  - @tiptap/extension-italic@3.10.8
+  - @tiptap/extension-link@3.10.8
+  - @tiptap/extension-list@3.10.8
+  - @tiptap/extension-paragraph@3.10.8
+  - @tiptap/extension-strike@3.10.8
+  - @tiptap/extension-text@3.10.8
+  - @tiptap/extension-underline@3.10.8
+  - @tiptap/extensions@3.10.8
+  - @tiptap/extension-list-item@3.10.8
+  - @tiptap/extension-list-keymap@3.10.8
+  - @tiptap/extension-bullet-list@3.10.8
+  - @tiptap/extension-ordered-list@3.10.8
+  - @tiptap/extension-dropcursor@3.10.8
+  - @tiptap/extension-gapcursor@3.10.8
+  - @tiptap/pm@3.10.8
+
 ## 3.10.7
 
 ### Patch Changes
