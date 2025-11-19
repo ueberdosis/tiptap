@@ -1,22 +1,18 @@
 import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { ySyncPluginKey } from '@tiptap/y-tiptap'
-
-export interface MapPositionsPluginYState {
-  type: any
-  binding: any
-  doc: any
-}
+import * as Y from 'yjs'
 
 export interface MapPositionsPluginState {
   transactionMap: WeakMap<
     Transaction,
     {
-      previousYState: MapPositionsPluginYState
-      newYState: MapPositionsPluginYState
+      updateBefore: Uint8Array
+      updateAfter: Uint8Array
+      binding: any
     }
   >
-  previousYState: MapPositionsPluginYState | null
+  previousUpdate: Uint8Array | null
 }
 
 export const mapPositionsPluginKey = new PluginKey<MapPositionsPluginState>('mapPositions')
@@ -28,24 +24,21 @@ export function mapPositionsPlugin() {
       init: () => {
         return {
           transactionMap: new WeakMap(),
-          previousYState: null,
+          previousUpdate: null,
         }
       },
       apply(transaction, pluginState, _oldState, newState) {
         const yState = ySyncPluginKey.getState(newState)
-        const previousYState = pluginState.previousYState
+        const previousUpdate = pluginState.previousUpdate
+        const updateAfter = Y.encodeStateAsUpdate(yState.doc)
         // Store snapshots of the Y.js state before and after the transaction has been applied
-        const newYState = {
-          type: yState.type,
-          binding: yState.binding,
-          doc: yState.doc,
-        }
         return {
           transactionMap: pluginState.transactionMap.set(transaction, {
-            previousYState: previousYState ?? newYState,
-            newYState,
+            binding: yState.binding,
+            updateBefore: previousUpdate ?? new Uint8Array(),
+            updateAfter,
           }),
-          previousYState: newYState,
+          previousUpdate: updateAfter,
         }
       },
     },

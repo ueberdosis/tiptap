@@ -52,7 +52,7 @@ export interface CollaborationOptions {
    * @default 'default'
    * @example 'my-custom-field'
    */
-  field?: string
+  field: string
 
   /**
    * A raw Y.js fragment, can be used instead of `document` and `field`.
