@@ -1,6 +1,7 @@
 export * from './CommandManager.js'
 export type * from './commands/index.js'
 export * as commands from './commands/index.js'
+export * from './DecorationManager.js'
 export * from './Editor.js'
 export * from './Extendable.js'
 export * from './Extension.js'
