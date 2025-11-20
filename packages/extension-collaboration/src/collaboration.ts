@@ -81,6 +81,22 @@ export interface CollaborationOptions {
    * Options for the Yjs undo plugin.
    */
   yUndoOptions?: YUndoOpts
+
+  /**
+   * Enables collaborative position mapping.
+   *
+   * Overrides `utils.getUpdatedPosition`, `utils.getUpdatedPositions`, and
+   * `utils.getUpdatedRange` with a special implementation that uses Y.js to map
+   * the positions and ranges, so that the correct positions are returned after
+   * a collaborative transaction has been applied.
+   *
+   * This option introduces a small performance overhead (it needs to store a
+   * snapshot of the Y.js state before and after every transaction), so it's
+   * disabled by default.
+   *
+   * @default false
+   */
+  enablePositionMapping: boolean
 }
 
 /**
@@ -98,6 +114,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       field: 'default',
       fragment: null,
       provider: null,
+      enablePositionMapping: false,
     }
   },
 
@@ -108,15 +125,17 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   },
 
   onBeforeCreate() {
-    const { field } = this.options
-    this.editor.utils.getUpdatedPosition = (position, transaction) => {
-      return mapPositionFromTransaction({ position, transaction, editor: this.editor, field })
-    }
-    this.editor.utils.getUpdatedPositions = (positions, transaction) => {
-      return mapPositionsFromTransaction({ positions, transaction, editor: this.editor, field })
-    }
-    this.editor.utils.getUpdatedRange = (range, transaction) => {
-      return mapRangeFromTransaction({ range, transaction, editor: this.editor, field })
+    if (this.options.enablePositionMapping) {
+      const { field } = this.options
+      this.editor.utils.getUpdatedPosition = (position, transaction) => {
+        return mapPositionFromTransaction({ position, transaction, editor: this.editor, field })
+      }
+      this.editor.utils.getUpdatedPositions = (positions, transaction) => {
+        return mapPositionsFromTransaction({ positions, transaction, editor: this.editor, field })
+      }
+      this.editor.utils.getUpdatedRange = (range, transaction) => {
+        return mapRangeFromTransaction({ range, transaction, editor: this.editor, field })
+      }
     }
   },
 
@@ -256,7 +275,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       ySyncPluginInstance,
       // The mapPositionsPlugin must come after the ySyncPlugin, because it uses
       // the metadata from the ySyncPlugin to map the positions.
-      mapPositionsPlugin(),
+      this.options.enablePositionMapping && mapPositionsPlugin(),
       yUndoPluginInstance,
       // Only add the filterInvalidContent plugin if content checking is enabled
       this.editor.options.enableContentCheck &&
