@@ -20,6 +20,7 @@ import {
   TextDirection,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
+import { createPositionUtils } from './helpers/createPositionUtils.js'
 import { getAttributes } from './helpers/getAttributes.js'
 import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
 import { getText } from './helpers/getText.js'
@@ -40,6 +41,7 @@ import type {
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -778,4 +780,6 @@ export class Editor extends EventEmitter<EditorEvents> {
   get $doc() {
     return this.$pos(0)
   }
+
+  utils: Utils = createPositionUtils()
 }

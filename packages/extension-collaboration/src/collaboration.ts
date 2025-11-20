@@ -4,6 +4,11 @@ import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
+import { mapPositionFromTransaction } from './map-positions/map-position-from-transaction.js'
+import { mapPositionsFromTransaction } from './map-positions/map-positions-from-transaction.js'
+import { mapPositionsPlugin } from './map-positions/map-positions-plugin.js'
+import { mapRangeFromTransaction } from './map-positions/map-range-from-transaction.js'
+
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
 
@@ -48,7 +53,7 @@ export interface CollaborationOptions {
    * @default 'default'
    * @example 'my-custom-field'
    */
-  field?: string
+  field: string
 
   /**
    * A raw Y.js fragment, can be used instead of `document` and `field`.
@@ -76,6 +81,22 @@ export interface CollaborationOptions {
    * Options for the Yjs undo plugin.
    */
   yUndoOptions?: YUndoOpts
+
+  /**
+   * Enables collaborative position mapping.
+   *
+   * Overrides `utils.getUpdatedPosition`, `utils.getUpdatedPositions`, and
+   * `utils.getUpdatedRange` with a special implementation that uses Y.js to map
+   * the positions and ranges, so that the correct positions are returned after
+   * a collaborative transaction has been applied.
+   *
+   * This option introduces a small performance overhead (it needs to store a
+   * snapshot of the Y.js state before and after every transaction), so it's
+   * disabled by default.
+   *
+   * @default false
+   */
+  enablePositionMapping: boolean
 }
 
 /**
@@ -93,12 +114,28 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       field: 'default',
       fragment: null,
       provider: null,
+      enablePositionMapping: false,
     }
   },
 
   addStorage() {
     return {
       isDisabled: false,
+    }
+  },
+
+  onBeforeCreate() {
+    if (this.options.enablePositionMapping) {
+      const { field } = this.options
+      this.editor.utils.getUpdatedPosition = (position, transaction) => {
+        return mapPositionFromTransaction({ position, transaction, editor: this.editor, field })
+      }
+      this.editor.utils.getUpdatedPositions = (positions, transaction) => {
+        return mapPositionsFromTransaction({ positions, transaction, editor: this.editor, field })
+      }
+      this.editor.utils.getUpdatedRange = (range, transaction) => {
+        return mapRangeFromTransaction({ range, transaction, editor: this.editor, field })
+      }
     }
   },
 
@@ -236,6 +273,9 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
     return [
       ySyncPluginInstance,
+      // The mapPositionsPlugin must come after the ySyncPlugin, because it uses
+      // the metadata from the ySyncPlugin to map the positions.
+      this.options.enablePositionMapping && mapPositionsPlugin(),
       yUndoPluginInstance,
       // Only add the filterInvalidContent plugin if content checking is enabled
       this.editor.options.enableContentCheck &&
