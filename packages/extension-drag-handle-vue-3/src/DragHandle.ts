@@ -73,6 +73,9 @@ export const DragHandle = defineComponent({
         return
       }
 
+      // Set initial visibility to hidden (let the plugin control it from here)
+      root.value.style.visibility = 'hidden'
+
       const init = DragHandlePlugin({
         editor,
         element: root.value,
@@ -106,7 +109,7 @@ export const DragHandle = defineComponent({
         {
           ref: root,
           class: props.class,
-          style: { visibility: 'hidden', position: 'absolute' },
+          style: { position: 'absolute' },
         },
         slots.default?.(),
       )
