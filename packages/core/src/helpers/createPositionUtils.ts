@@ -17,6 +17,7 @@ export function createPositionUtils(): Utils {
       mapResult: results,
     }
   }
+
   const getUpdatedPositions = (positions: number[], transaction: Transaction): GetUpdatedPositionResult[] => {
     return positions.map(position => getUpdatedPosition(position, transaction))
   }
