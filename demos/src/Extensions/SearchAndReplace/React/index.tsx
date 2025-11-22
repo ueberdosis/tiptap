@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import SearchAndReplace, { type SearchAndReplaceStorage } from '@tiptap/extension-search-and-replace'
+import { SearchAndReplace } from '@tiptap/extension-search-and-replace'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -139,7 +139,7 @@ const SearchAndReplaceDemo: React.FC = () => {
     if (!editor) {
       return
     }
-    const storage = (editor.storage as { searchAndReplace?: SearchAndReplaceStorage })?.searchAndReplace
+    const storage = editor.storage.searchAndReplace
     if (!storage) {
       return
     }
