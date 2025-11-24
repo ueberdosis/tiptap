@@ -252,13 +252,13 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        default: this.options.HTMLAttributes.class ?? null,
       },
     }
   },
@@ -297,10 +297,14 @@ export const Link = Mark.create<LinkOptions>({
       })
     ) {
       // strip out the href
-      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+      const merged = mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' })
+      const filtered = Object.fromEntries(Object.entries(merged).filter(([, value]) => value !== undefined))
+      return ['a', filtered, 0]
     }
 
-    return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+    const filtered = Object.fromEntries(Object.entries(merged).filter(([, value]) => value !== undefined))
+    return ['a', filtered, 0]
   },
 
   markdownTokenName: 'link',
