@@ -1,6 +1,7 @@
 import type { Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
+import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'
 import { Link } from '@tiptap/extension-link'
@@ -23,6 +24,7 @@ describe('Markdown Conversion Tests', () => {
     Italic,
     Link,
     Heading,
+    HardBreak,
     BulletList,
     OrderedList,
     ListItem,
@@ -118,6 +120,47 @@ describe('Markdown Conversion Tests', () => {
     it('should convert simple JSON structure back to expected markdown', () => {
       const md = markdownManager.serialize(simpleJSON)
       expect(md.trim()).toBe(simpleMarkdown.trim())
+    })
+  })
+
+  describe('convert taskList with leading paragraph from and to markdown', () => {
+    const markdownWithLeadingParagraph = `Leading paragraph
+
+- [ ] Task`
+
+    const expectedJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Leading paragraph' }],
+        },
+        {
+          type: 'taskList',
+          content: [
+            {
+              type: 'taskItem',
+              attrs: { checked: false },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [{ type: 'text', text: 'Task' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    it('should convert markdown with leading paragraph to expected JSON structure', () => {
+      const json = markdownManager.parse(markdownWithLeadingParagraph)
+      expect(json).toEqual(expectedJSON)
+    })
+
+    it('should convert JSON structure back to expected markdown', () => {
+      const md = markdownManager.serialize(expectedJSON)
+      expect(md).toBe(markdownWithLeadingParagraph)
     })
   })
 
