@@ -7,6 +7,7 @@ import { Link } from '@tiptap/extension-link'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mention } from '@tiptap/extension-mention'
 import { Paragraph } from '@tiptap/extension-paragraph'
+import { Strike } from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
@@ -61,7 +62,19 @@ describe('MarkdownManager Direct Tests', () => {
 
   beforeEach(() => {
     // Basic extensions for standard markdown
-    basicExtensions = [Document, Paragraph, Text, Heading, Bold, Italic, Link, BulletList, OrderedList, ListItem]
+    basicExtensions = [
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      Bold,
+      Italic,
+      Strike,
+      Link,
+      BulletList,
+      OrderedList,
+      ListItem,
+    ]
 
     // Extended extensions with custom markdown features
     extendedExtensions = [
@@ -197,6 +210,60 @@ Final paragraph.`
 
       const markdown = markdownManager.renderNodes(doc)
       expect(markdown).toBe('Hello world')
+    })
+
+    it('should render nested marks with correct tag order', () => {
+      // Test case: bold inside strike should render as ~~**text**~~
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'Test: ',
+                marks: [],
+              },
+              {
+                type: 'text',
+                text: 'abcd',
+                marks: [
+                  { type: 'bold' }, // Opens first: **
+                  { type: 'strike' }, // Opens second: ~
+                ],
+              },
+              {
+                type: 'text',
+                text: ' end.',
+                marks: [],
+              },
+            ],
+          },
+        ],
+      }
+
+      const docAtEnd = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'abcd',
+                marks: [
+                  { type: 'bold' }, // Opens first: **
+                  { type: 'strike' }, // Opens second: ~
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      expect(markdownManager.renderNodes(doc)).to.equal('Test: ~~**abcd**~~ end.')
+      expect(markdownManager.renderNodes(docAtEnd)).to.equal('~~**abcd**~~')
     })
 
     it('should render headings', () => {

@@ -12,11 +12,13 @@ context('/src/Extensions/CollaborationWithMenus/Vue/', () => {
 
   it('should have menu plugins initiated', () => {
     cy.get('.tiptap').then(([{ editor }]) => {
-      const bubbleMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'bubbleMenu$')
-      const floatingMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'floatingMenu$')
-      const hasBothMenuPluginsLoaded = !!bubbleMenuPlugin && !!floatingMenuPlugin
+      requestAnimationFrame(() => {
+        const bubbleMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'bubbleMenu$')
+        const floatingMenuPlugin = editor.view.state.plugins.find(plugin => plugin.spec.key?.key === 'floatingMenu$')
+        const hasBothMenuPluginsLoaded = !!bubbleMenuPlugin && !!floatingMenuPlugin
 
-      expect(hasBothMenuPluginsLoaded).to.equal(true)
+        expect(hasBothMenuPluginsLoaded).to.equal(true)
+      })
     })
   })
 

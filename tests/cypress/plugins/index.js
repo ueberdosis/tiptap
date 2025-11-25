@@ -50,8 +50,8 @@ module.exports = on => {
             loader: 'ts-loader',
             exclude: /node_modules/,
             options: {
-              // tsconfig:
               configFile: path.resolve(__dirname, '..', 'tsconfig.json'),
+              transpileOnly: true,
             },
           },
           {

@@ -1,5 +1,62 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.11.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.11.0
+- @tiptap/vue-3@3.11.0
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.8
+- @tiptap/vue-3@3.10.8
+- @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.7
+- @tiptap/pm@3.10.7
+- @tiptap/vue-3@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.6
+- @tiptap/pm@3.10.6
+- @tiptap/vue-3@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [50e8905]
+  - @tiptap/extension-drag-handle@3.10.5
+  - @tiptap/vue-3@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.4
+- @tiptap/vue-3@3.10.4
+- @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.3
+- @tiptap/pm@3.10.3
+- @tiptap/vue-3@3.10.3
+
 ## 3.10.2
 
 ### Patch Changes
