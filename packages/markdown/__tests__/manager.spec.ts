@@ -262,8 +262,8 @@ Final paragraph.`
         ],
       }
 
-      expect(markdownManager.renderNodes(doc)).to.equal('Test: ~~**abcd**~~ end.')
-      expect(markdownManager.renderNodes(docAtEnd)).to.equal('~~**abcd**~~')
+      expect(markdownManager.renderNodes(doc)).toBe('Test: ~~**abcd**~~ end.')
+      expect(markdownManager.renderNodes(docAtEnd)).toBe('~~**abcd**~~')
     })
 
     it('should render headings', () => {
