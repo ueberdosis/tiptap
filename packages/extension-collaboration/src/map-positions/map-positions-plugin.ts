@@ -1,7 +1,31 @@
 import type { Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { ProsemirrorBinding } from '@tiptap/y-tiptap'
 import { ySyncPluginKey } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'
+
+/**
+ * Stores metadata needed for position mapping through Yjs transactions.
+ */
+export interface TransactionMapValue {
+  /**
+   * Yjs state snapshot before the transaction
+   */
+  updateBefore: Uint8Array
+  /**
+   * Yjs state snapshot after the transaction
+   */
+  updateAfter: Uint8Array
+  /**
+   * Cached binding for the "before" state, created lazily on first use.
+   * Reusing this binding eliminates repeated Y.Doc and EditorView creation
+   * when mapping multiple positions from the same transaction.
+   */
+  beforeBinding?: {
+    doc: Y.Doc
+    binding: ProsemirrorBinding
+  }
+}
 
 /**
  * The plugin stores the snapshots of the Y.js state before and after the
@@ -11,13 +35,7 @@ import * as Y from 'yjs'
  * no longer referenced.
  */
 export interface MapPositionsPluginState {
-  transactionMap: WeakMap<
-    Transaction,
-    {
-      updateBefore: Uint8Array
-      updateAfter: Uint8Array
-    }
-  >
+  transactionMap: WeakMap<Transaction, TransactionMapValue>
   previousUpdate: Uint8Array
 }
 
