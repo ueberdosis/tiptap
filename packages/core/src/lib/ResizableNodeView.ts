@@ -655,7 +655,20 @@ export class ResizableNodeView {
    */
   private attachHandles(): void {
     this.directions.forEach(direction => {
-      const handle = this.createCustomHandle ? this.createCustomHandle(direction) : this.createHandle(direction)
+      let handle: HTMLElement
+
+      if (this.createCustomHandle) {
+        handle = this.createCustomHandle(direction)
+      } else {
+        handle = this.createHandle(direction)
+      }
+
+      if (!(handle instanceof HTMLElement)) {
+        console.warn(
+          `[ResizableNodeView] createCustomHandle("${direction}") did not return an HTMLElement. Falling back to default handle.`,
+        )
+        handle = this.createHandle(direction)
+      }
 
       if (!this.createCustomHandle) {
         this.positionHandle(handle, direction)
