@@ -14,6 +14,14 @@ The Tiptap Editor is a headless, framework-agnostic rich text editor that's cust
 
 Tiptap Editor is complemented by the collaboration open-source backend [Hocuspocus](https://github.com/ueberdosis/hocuspocus). Both the Editor and Hocuspocus form the foundation of the [Tiptap Suite](https://tiptap.dev/).
 
+### Open Source Petition
+
+Recognition of Open Source Work as Voluntary Service in Germany
+
+[![Open Petition Badge](https://img.shields.io/badge/Support-Open%20Source%20Petition-blue)](https://www.openpetition.de/petition/online/anerkennung-von-open-source-arbeit-als-ehrenamt-in-deutschland)
+
+![QR link to Petition](./os-petition.png)
+
 ### How does the Tiptap Editor work?
 
 - **Headless Framework:** Tiptap does not rely on a user interface. So there is no need for class overrides or code hacks. If you do need an example UI feel free to browse our [UI templates](#examples-codesandbox-and-ui-templates) linked below.
