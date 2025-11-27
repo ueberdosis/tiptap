@@ -10,8 +10,8 @@ export type DOMOutputSpecArray =
   | [string, Attributes]
   | [string, 0]
   | [string, Attributes, 0]
-  | [string, Attributes, DOMOutputSpecArray | 0]
-  | [string, DOMOutputSpecArray]
+  | [string, Attributes, ...(DOMOutputSpecArray | 0)[]]
+  | [string, ...DOMOutputSpecArray[]]
 
 // JSX types for Tiptap's JSX runtime
 // These types only apply when using @jsxImportSource @tiptap/core

@@ -572,8 +572,8 @@ export type DOMOutputSpecArray =
   | [string, Record<string, any>]
   | [string, 0]
   | [string, Record<string, any>, 0]
-  | [string, Record<string, any>, DOMOutputSpecArray | 0]
-  | [string, DOMOutputSpecArray]
+  | [string, Record<string, any>, ...(DOMOutputSpecArray | 0)[]]
+  | [string, ...DOMOutputSpecArray[]]
 
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
