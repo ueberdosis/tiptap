@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
       /**
        * Set the font size
        * @param fontSize The font size
-       * @example editor.commands.setFontSize('Arial')
+       * @example editor.commands.setFontSize('16px')
        */
       setFontSize: (fontSize: string) => ReturnType
       /**

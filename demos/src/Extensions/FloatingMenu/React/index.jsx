@@ -1,48 +1,13 @@
 import './styles.scss'
 
-import { EditorContent, mergeAttributes, Node, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import { FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 
-const Foo = Node.create({
-  name: 'foo',
-
-  group: 'inline',
-
-  inline: true,
-
-  parseHTML() {
-    return [
-      {
-        tag: 'span',
-        getAttrs: node => node.hasAttribute('data-foo') && null,
-      },
-    ]
-  },
-
-  renderHTML({ HTMLAttributes }) {
-    return ['span', mergeAttributes({ 'data-foo': '', HTMLAttributes }), 'foo']
-  },
-
-  renderText() {
-    return 'foo'
-  },
-
-  addCommands() {
-    return {
-      insertFoo:
-        () =>
-        ({ commands }) => {
-          return commands.insertContent({ type: this.name })
-        },
-    }
-  },
-})
-
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit, Foo],
+    extensions: [StarterKit],
     content: `
       <p>
         This is an example of a Medium-like editor. Enter a new line and some buttons will appear.
@@ -66,9 +31,6 @@ export default () => {
           <input type="checkbox" checked={isEditable} onChange={() => setIsEditable(!isEditable)} />
           Editable
         </label>
-        <button data-testid="insert-foo" onClick={() => editor.chain().insertFoo().focus().run()}>
-          Insert Foo
-        </button>
       </div>
       {editor && (
         <FloatingMenu editor={editor}>
