@@ -1,5 +1,89 @@
 # Change Log
 
+## 3.11.0
+
+### Minor Changes
+
+- 541c93c: Add native text direction support for RTL and bidirectional content. The editor now includes a `textDirection` option that can be set to `'ltr'`, `'rtl'`, or `'auto'` to control the direction of all content globally. Additionally, new `setTextDirection` and `unsetTextDirection` commands allow for granular control of text direction on specific nodes. This enables proper rendering of right-to-left languages like Arabic and Hebrew, as well as bidirectional text mixing multiple languages.
+
+### Patch Changes
+
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- 8375241: Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
+- b7ead7c: Add documentation comments to Tiptap JSON types
+- 95d3e80: allow `undefined` as a value for the `default` attribute key
+- fd479bd: Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 92fae18: Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- 64561c4: Fix autofocus behavior to prevent unwanted scrolling when disabled
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- 3564e7c: Use correct `ResizableNodeView` class name
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- 4aa9f57: the addNodeView function can now return `null` to dynamically disable rendering of a node view
+
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### Patch Changes
+
+- @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/pm@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

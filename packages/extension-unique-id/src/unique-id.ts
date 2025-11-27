@@ -243,8 +243,12 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
           }
 
           // `tr.setNodeMarkup` resets the stored marks
-          // so we’ll restore them if they exist
+          // so we'll restore them if they exist
           tr.setStoredMarks(newState.tr.storedMarks)
+
+          // Mark this transaction as coming from UniqueID
+          // to prevent infinite loops with other extensions (e.g., TrailingNode)
+          tr.setMeta('__uniqueIDTransaction', true)
 
           return tr
         },

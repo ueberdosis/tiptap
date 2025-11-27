@@ -1,4 +1,5 @@
-import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import type { ResizableNodeViewDirection } from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -22,6 +23,21 @@ export interface ImageOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * Controls if the image should be resizable and how the resize is configured.
+   * @default false
+   * @example { directions: { top: true, right: true, bottom: true, left: true, topLeft: true, topRight: true, bottomLeft: true, bottomRight: true }, minWidth: 100, minHeight: 100 }
+   */
+  resize:
+    | {
+        enabled: boolean
+        directions?: ResizableNodeViewDirection[]
+        minWidth?: number
+        minHeight?: number
+        alwaysPreserveAspectRatio?: boolean
+      }
+    | false
 }
 
 export interface SetImageOptions {
@@ -65,6 +81,7 @@ export const Image = Node.create<ImageOptions>({
       inline: false,
       allowBase64: false,
       HTMLAttributes: {},
+      resize: false,
     }
   },
 
@@ -124,6 +141,90 @@ export const Image = Node.create<ImageOptions>({
     const title = node.attrs?.title ?? ''
 
     return title ? `![${alt}](${src} "${title}")` : `![${alt}](${src})`
+  },
+
+  addNodeView() {
+    if (
+      !this.options.resize ||
+      !this.options.resize.enabled ||
+      typeof document === 'undefined' ||
+      !this.editor.isEditable
+    ) {
+      return null
+    }
+
+    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
+
+    return ({ node, getPos, HTMLAttributes }) => {
+      const el = document.createElement('img')
+
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        if (value != null) {
+          switch (key) {
+            case 'width':
+            case 'height':
+              break
+            default:
+              el.setAttribute(key, value)
+              break
+          }
+        }
+      })
+
+      el.src = HTMLAttributes.src
+
+      const nodeView = new ResizableNodeView({
+        element: el,
+        node,
+        getPos,
+        onResize: (width, height) => {
+          el.style.width = `${width}px`
+          el.style.height = `${height}px`
+        },
+        onCommit: (width, height) => {
+          const pos = getPos()
+          if (pos === undefined) {
+            return
+          }
+
+          this.editor
+            .chain()
+            .setNodeSelection(pos)
+            .updateAttributes(this.name, {
+              width,
+              height,
+            })
+            .run()
+        },
+        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
+          if (updatedNode.type !== node.type) {
+            return false
+          }
+
+          return true
+        },
+        options: {
+          directions,
+          min: {
+            width: minWidth,
+            height: minHeight,
+          },
+          preserveAspectRatio: alwaysPreserveAspectRatio === true,
+        },
+      })
+
+      const dom = nodeView.dom as HTMLElement
+
+      // when image is loaded, show the node view to get the correct dimensions
+      dom.style.visibility = 'hidden'
+      dom.style.pointerEvents = 'none'
+      el.onload = () => {
+        dom.style.visibility = ''
+        dom.style.pointerEvents = ''
+      }
+
+      return nodeView
+    }
   },
 
   addCommands() {

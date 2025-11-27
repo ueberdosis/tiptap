@@ -1,5 +1,85 @@
 # Change Log
 
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Added a new `resize` option that allows images to be resized. The option adds resize handlers to images allowing users to manually resize images via drag and drop or touch
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

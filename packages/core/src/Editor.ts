@@ -17,6 +17,7 @@ import {
   Keymap,
   Paste,
   Tabindex,
+  TextDirection,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -87,6 +88,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     extensions: [],
     autofocus: false,
     editable: true,
+    textDirection: undefined,
     editorProps: {},
     parseOptions: {},
     coreExtensionOptions: {},
@@ -171,7 +173,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         return
       }
 
-      this.commands.focus(this.options.autofocus)
+      if (this.options.autofocus !== false && this.options.autofocus !== null) {
+        this.commands.focus(this.options.autofocus)
+      }
       this.emit('create', { editor: this })
       this.isInitialized = true
     }, 0)
@@ -428,6 +432,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           Drop,
           Paste,
           Delete,
+          TextDirection.configure({
+            direction: this.options.textDirection,
+          }),
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
