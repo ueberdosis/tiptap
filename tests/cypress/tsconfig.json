@@ -9,6 +9,7 @@
     "importHelpers": false,
     "types": ["cypress", "react", "react-dom"],
     "paths": {
+      "@tiptap/pm/*": ["packages/pm/*/index.ts"],
       "@tiptap/static-renderer/pm/html-string": [
         "packages/static-renderer/src/pm/html-string/index.js",
         "packages/static-renderer/src/pm/html-string/index.ts"
