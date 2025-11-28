@@ -1,5 +1,24 @@
 # Releases
 
+## v3.11.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Improve TypeScript generics for Node.extend
+  
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+  
+  This is a type-only change — there are no runtime behavior changes.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Fixed a bug where the TrailingNode extension would not use the node option to assume the default node type
+
 ## v3.11.0
 
 ### @tiptap/core
