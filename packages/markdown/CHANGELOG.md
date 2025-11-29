@@ -1,5 +1,81 @@
 # @tiptap/markdown
 
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- f3bb5c1: Fixed CommonJS compatibility by downgrading `marked` dependency from v16 to v15.
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- 13fdcb5: Fix markdown serialization to prevent marks from continuing after hard breaks. Previously, marks like bold would incorrectly persist across hard breaks in the markdown output.
+- 5774fc2: Fixed a bug where marks were resolved in incorrect orders, breaking markdown rendering for nested marks.
+- f80391b: Fix parsing of mixed bullet lists and task lists. Previously, Marked.js would group consecutive bullet list items and task list items into a single list token, causing incorrect parsing. Now the parser detects mixed lists and splits them into separate bulletList and taskList nodes.
+  - @tiptap/core@3.10.3
+  - @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 194af3b: Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
+  - @tiptap/core@3.10.2
+  - @tiptap/pm@3.10.2
+
 ## 3.10.1
 
 ### Patch Changes

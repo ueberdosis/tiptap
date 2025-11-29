@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-collaboration-caret",
   "description": "collaboration caret extension for tiptap",
-  "version": "3.10.1",
+  "version": "3.11.1",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -33,12 +33,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@tiptap/y-tiptap": "^3.0.0"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@tiptap/y-tiptap": "^3.0.0"
   },
   "repository": {
     "type": "git",

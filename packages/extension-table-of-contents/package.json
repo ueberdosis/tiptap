@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-of-contents",
   "description": "table of contents extension for Tiptap",
-  "version": "3.10.1",
+  "version": "3.11.1",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
   "keywords": [
     "tiptap",
