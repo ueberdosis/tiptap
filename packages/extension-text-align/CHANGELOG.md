@@ -1,5 +1,42 @@
 # Change Log
 
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- fd479bd: Fix `setTextAlign` and `unsetTextAlign` commands to work correctly with `.can()` checks. Changed logic from `.every()` to `.some()` to return `true` when at least one configured node type matches, rather than requiring all types to match.
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+
 ## 3.10.5
 
 ### Patch Changes

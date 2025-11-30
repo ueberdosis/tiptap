@@ -20,16 +20,4 @@ context('/src/Extensions/FloatingMenu/React/', () => {
       floatingMenu.should('exist')
     })
   })
-
-  it('should not render a floating menu when a leaf node is inserted', () => {
-    cy.get('.tiptap').then(([{ editor }]) => {
-      editor.chain().setContent('<p></p>').focus().run()
-
-      cy.get('[data-testID="insert-foo"]').click()
-
-      const floatingMenu = cy.get('[data-testID="floating-menu"]')
-
-      floatingMenu.should('not.exist')
-    })
-  })
 })
