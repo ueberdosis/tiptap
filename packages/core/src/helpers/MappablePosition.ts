@@ -41,8 +41,7 @@ export interface GetUpdatedPositionResult {
 }
 
 /**
- * Calculates the new position after applying a transaction. Handles both Y.js
- * transactions and regular transactions.
+ * Calculates the new position after applying a transaction.
  *
  * @returns The new mappable position and the map result.
  */

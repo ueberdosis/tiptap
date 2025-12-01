@@ -977,7 +977,7 @@ export type Utils = {
   /**
    * Returns the new position after applying a transaction.
    *
-   * @param position The position (as a number) to update.
+   * @param position The position to update. A MappablePosition instance.
    * @param transaction The transaction to apply.
    * @returns The new position after applying the transaction.
    *
@@ -988,7 +988,7 @@ export type Utils = {
   getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
 
   /**
-   * Creates a MappablePosition from a position number. It can be used to obtain the
+   * Creates a MappablePosition from a position number. A mappable position can be used to track the
    * next position after applying a transaction.
    *
    * @param position The position (as a number) where the MappablePosition will be created.

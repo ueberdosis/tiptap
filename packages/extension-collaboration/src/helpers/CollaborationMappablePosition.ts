@@ -62,18 +62,23 @@ export function getUpdatedPosition(
   const yRelativePosition = position instanceof CollaborationMappablePosition ? position.yRelativePosition : null
 
   if (isChangeOrigin(transaction) && yRelativePosition) {
-    const newPosition = getYAbsolutePosition(state, yRelativePosition)
+    const absolutePosition = getYAbsolutePosition(state, yRelativePosition)
 
     return {
-      position: new CollaborationMappablePosition(newPosition, yRelativePosition),
+      position: new CollaborationMappablePosition(absolutePosition, yRelativePosition),
       mapResult: null,
     }
   }
 
   const result = coreGetUpdatedPosition(position, transaction)
 
+  const absolutePosition = result.position.position
+
   return {
-    position: new CollaborationMappablePosition(result.position.position, yRelativePosition),
+    position: new CollaborationMappablePosition(
+      absolutePosition,
+      yRelativePosition ?? getYRelativePosition(state, absolutePosition),
+    ),
     mapResult: result.mapResult,
   }
 }
