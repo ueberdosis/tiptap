@@ -6,7 +6,7 @@ import {
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 
 import { isChangeOrigin } from './isChangeOrigin.js'
-import { type YRelativePosition, getYAbsolutePosition, getYRelativePosition } from './YRelativePosition.js'
+import { type YRelativePosition, getYAbsolutePosition, getYRelativePosition } from './yRelativePosition.js'
 
 /**
  * A MappablePosition subclass that includes Y.js relative position information
