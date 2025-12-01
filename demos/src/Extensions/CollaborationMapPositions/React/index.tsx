@@ -1,6 +1,5 @@
 import './styles.scss'
 
-import type { YRelativePosition } from '@tiptap/core'
 import Collaboration from '@tiptap/extension-collaboration'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -9,23 +8,15 @@ import { Placeholder } from '@tiptap/extensions'
 import type { Node } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
+import { type MappablePosition, EditorContent, Extension, useEditor } from '@tiptap/react'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
-
-/**
- * How decorations are stored in the plugin state.
- */
-interface DecorationData {
-  position: number
-  yRelativePosition: YRelativePosition
-}
 
 /**
  * Creates a ProseMirror DecorationSet from a list of decoration data.
  * @returns A ProseMirror DecorationSet
  */
-function createDecorations(data: DecorationData[], doc: Node): DecorationSet {
+function createDecorations(data: MappablePosition[], doc: Node): DecorationSet {
   return DecorationSet.create(
     doc,
     data.map(({ position }) =>
@@ -42,7 +33,7 @@ function createDecorations(data: DecorationData[], doc: Node): DecorationSet {
  * The state of the DecorationsExtension ProseMirror plugin.
  */
 interface PluginState {
-  decorationData: DecorationData[]
+  decorationData: MappablePosition[]
   decorations: DecorationSet
 }
 
@@ -71,21 +62,14 @@ const DecorationsExtension = Extension.create({
             // If the transaction changes the document, update the decoration
             // positions
             if (transaction.docChanged) {
-              decorationData = decorationData.map(({ position, yRelativePosition }) => {
-                const result = editor.positionHelpers.getUpdatedPosition({
-                  transaction,
-                  position,
-                  yRelativePosition,
-                })
-                return {
-                  position: result.newPosition,
-                  yRelativePosition: result.newYRelativePosition,
-                }
+              decorationData = decorationData.map(position => {
+                const result = editor.utils.getUpdatedPosition(position, transaction)
+                return result.position
               })
             }
 
             // If the transaction adds a decoration, add it to the decoration data.
-            const metadata = transaction.getMeta(DecorationsPluginKey) as DecorationData | undefined
+            const metadata = transaction.getMeta(DecorationsPluginKey) as MappablePosition | undefined
             if (metadata) {
               decorationData.push(metadata)
             }
@@ -138,10 +122,7 @@ export default () => {
           onClick={() =>
             editor.commands.command(props => {
               const position = props.state.selection.from
-              const decorationData: DecorationData = {
-                position,
-                yRelativePosition: editor.positionHelpers.getYRelativePosition(position),
-              }
+              const decorationData = editor.utils.createMappablePosition(position)
               props.tr.setMeta(DecorationsPluginKey, decorationData)
               return true
             })
