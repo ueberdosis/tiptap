@@ -1,11 +1,10 @@
-import type { Editor, PositionHelpers } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
-import { getPositionHelpers } from './helpers/getPositionHelpers.js'
+import { createMappablePosition, getUpdatedPosition } from './helpers/CollaborationMappablePosition.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
@@ -16,11 +15,6 @@ export interface CollaborationStorage {
    * Disabling collaboration will prevent any changes from being synced with other users.
    */
   isDisabled: boolean
-
-  /**
-   * Get helper methods for working with Y.js positions and ranges.
-   */
-  getPositionHelpers: (editor: Editor) => PositionHelpers
 }
 
 declare module '@tiptap/core' {
@@ -107,7 +101,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   addStorage() {
     return {
       isDisabled: false,
-      getPositionHelpers,
     }
   },
 
@@ -117,6 +110,12 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
         '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
       )
     }
+  },
+
+  onBeforeCreate() {
+    this.editor.utils.getUpdatedPosition = (position, transaction) =>
+      getUpdatedPosition(position, transaction, this.editor.state)
+    this.editor.utils.createMappablePosition = position => createMappablePosition(position, this.editor.state)
   },
 
   addCommands() {

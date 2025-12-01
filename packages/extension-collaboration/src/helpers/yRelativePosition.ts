@@ -1,10 +1,17 @@
-import type { YRelativePosition } from '@tiptap/core'
 import type { EditorState } from '@tiptap/pm/state'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
 } from '@tiptap/y-tiptap'
+
+/**
+ * A type that represents a Y.js relative position. Used to map a position from
+ * a transaction, handling both Yjs changes and regular transactions.
+ *
+ * If the editor is not collaborative, the value can be `null`.
+ */
+export type YRelativePosition = any
 
 /**
  * Converts a Y.js relative position to a position in the Tiptap document.

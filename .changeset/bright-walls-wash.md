@@ -1,16 +1,10 @@
 ---
 '@tiptap/extension-collaboration': minor
 '@tiptap/core': minor
-'tiptap-demos': minor
 ---
 
-Create utilities to update a position after a transaction. Fixes a bug where positions were not correctly updated after a transaction when the editor had real-time collaboration enabled.
+Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
 
-- Create `editor.positionHelpers` property that returns a `PositionHelpers` object with the following methods:
-  - `getUpdatedPosition`
-  - `getUpdatedRange`
-  - `getYAbsolutePosition`
-  - `getYRelativePosition`
-  - `getYAbsoluteRange`
-  - `getYRelativeRange`
-- Create demo that showcases how to update a position after a transaction in a collaborative editor.
+- Introduce `MappablePosition` class in core with `position`, `fromJson`, and `toJSON` methods
+- Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+- Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
