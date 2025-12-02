@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-dropcursor",
   "description": "dropcursor extension for tiptap",
-  "version": "3.11.1",
+  "version": "3.12.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
