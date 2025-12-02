@@ -2,4 +2,4 @@
 '@tiptap/react': minor
 ---
 
-Replaced dependency fast-deep-equal with fast-equals, fixes #7291
+Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
