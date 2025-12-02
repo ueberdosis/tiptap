@@ -1,5 +1,13 @@
 # @tiptap/markdown
 
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
 ## 3.11.1
 
 ### Patch Changes
