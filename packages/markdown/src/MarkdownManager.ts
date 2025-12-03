@@ -891,6 +891,16 @@ export class MarkdownManager {
         })
 
         // Open new marks (should be at the beginning)
+        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
+        let leadingWhitespace = ''
+        if (marksToOpen.length > 0) {
+          const leadingMatch = textContent.match(/^(\s+)/)
+          if (leadingMatch) {
+            leadingWhitespace = leadingMatch[1]
+            textContent = textContent.slice(leadingWhitespace.length)
+          }
+        }
+
         marksToOpen.forEach(({ type, mark }) => {
           const openMarkdown = this.getMarkOpening(type, mark)
           if (openMarkdown) {
@@ -898,6 +908,9 @@ export class MarkdownManager {
           }
           activeMarks.set(type, mark)
         })
+
+        // Add leading whitespace before the mark opening
+        textContent = leadingWhitespace + textContent
 
         // Close marks at the end of this node if needed
         const marksToCloseAtEnd = findMarksToCloseAtEnd(
@@ -907,6 +920,16 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
+        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+        let trailingWhitespace = ''
+        if (marksToCloseAtEnd.length > 0) {
+          const trailingMatch = textContent.match(/(\s+)$/)
+          if (trailingMatch) {
+            trailingWhitespace = trailingMatch[1]
+            textContent = textContent.slice(0, -trailingWhitespace.length)
+          }
+        }
+
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
@@ -915,6 +938,9 @@ export class MarkdownManager {
           }
           activeMarks.delete(markType)
         })
+
+        // Add trailing whitespace after the mark closing
+        textContent += trailingWhitespace
 
         result.push(textContent)
       } else {
