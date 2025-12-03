@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.12.0
+
+### Patch Changes
+
+- 96e8605: Avoid mutating `this.options` in the `updateUser` command. `this.options` can be a getter and is not writable; the command now updates the provider awareness directly so user updates are applied correctly.
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

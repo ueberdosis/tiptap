@@ -1,5 +1,26 @@
 # Change Log
 
+## 3.12.0
+
+### Minor Changes
+
+- 5db9bc1: Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+### Patch Changes
+
+- 41601d1: Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

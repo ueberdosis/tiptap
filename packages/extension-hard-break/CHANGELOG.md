@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes
