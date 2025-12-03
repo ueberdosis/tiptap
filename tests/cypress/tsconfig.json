@@ -1,16 +1,18 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "bundler",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
     "strict": false,
     "noEmit": false,
     "sourceMap": false,
+    "importHelpers": false,
     "types": ["cypress", "react", "react-dom"],
     "paths": {
+      "@tiptap/pm/*": ["packages/pm/*"],
       "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
       "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
-      "@tiptap/*": ["packages/*/src", "packages/*/dist"],
-      "@tiptap/pm/*": ["packages/pm/*"]
+      "@tiptap/*": ["packages/*/src/index.ts", "packages-deprecated/*/src/index.ts"]
     },
     "typeRoots": ["../../node_modules/@types", "../../node_modules/"]
   },

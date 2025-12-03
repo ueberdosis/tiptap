@@ -2,11 +2,11 @@
   "compilerOptions": {
     "noEmit": true,
     "target": "es2019",
-    "module": "esnext",
+    "module": "nodenext",
     "strict": true,
     "jsx": "react-jsx",
     "importHelpers": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,7 +17,9 @@
     "allowJs": true,
     "checkJs": false,
     "paths": {
-      "@tiptap/*": ["packages/*/src", "packages/*/dist", "packages-deprecated/*/src", "packages-deprecated/*/dist"]
+      "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
+      "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
+      "@tiptap/*": ["packages/*/src/index.ts", "packages-deprecated/*/src/index.ts"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

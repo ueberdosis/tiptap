@@ -12,7 +12,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Post release to Discord (tsickert/discord-webhook)
         uses: tsickert/discord-webhook@v7.0.0

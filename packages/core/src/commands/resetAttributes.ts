@@ -43,23 +43,31 @@ export const resetAttributes: RawCommands['resetAttributes'] =
       markType = getMarkType(typeOrName as MarkType, state.schema)
     }
 
-    if (dispatch) {
-      tr.selection.ranges.forEach(range => {
-        state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
-          if (nodeType && nodeType === node.type) {
+    let canReset = false
+
+    tr.selection.ranges.forEach(range => {
+      state.doc.nodesBetween(range.$from.pos, range.$to.pos, (node, pos) => {
+        if (nodeType && nodeType === node.type) {
+          canReset = true
+
+          if (dispatch) {
             tr.setNodeMarkup(pos, undefined, deleteProps(node.attrs, attributes))
           }
+        }
 
-          if (markType && node.marks.length) {
-            node.marks.forEach(mark => {
-              if (markType === mark.type) {
+        if (markType && node.marks.length) {
+          node.marks.forEach(mark => {
+            if (markType === mark.type) {
+              canReset = true
+
+              if (dispatch) {
                 tr.addMark(pos, pos + node.nodeSize, markType.create(deleteProps(mark.attrs, attributes)))
               }
-            })
-          }
-        })
+            }
+          })
+        }
       })
-    }
+    })
 
-    return true
+    return canReset
   }
