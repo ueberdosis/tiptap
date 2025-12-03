@@ -1,5 +1,13 @@
 # Releases
 
+## v3.12.1
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Fixed a bug that mutated the ProseMirror document during server-side rendering, which could cause "Invalid content for node doc" errors.
+
 ## v3.12.0
 
 ### @tiptap/extension-collaboration
