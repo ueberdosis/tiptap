@@ -1,5 +1,62 @@
 # Releases
 
+## v3.12.0
+
+### @tiptap/extension-collaboration
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Avoid mutating `this.options` in the `updateUser` command. `this.options` can be a getter and is not writable; the command now updates the provider awareness directly so user updates are applied correctly.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+#### Patch Changes
+
+- Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+
+## v3.11.1
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Improve TypeScript generics for Node.extend
+  
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+  
+  This is a type-only change — there are no runtime behavior changes.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Fixed a bug where the TrailingNode extension would not use the node option to assume the default node type
+
 ## v3.11.0
 
 ### @tiptap/core

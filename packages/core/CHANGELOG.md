@@ -1,5 +1,32 @@
 # Change Log
 
+## 3.12.0
+
+### Minor Changes
+
+- f232c5a: Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### Patch Changes
+
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- d0c4264: Improve TypeScript generics for Node.extend
+
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+
+  This is a type-only change — there are no runtime behavior changes.
+
+  - @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Minor Changes
