@@ -17,6 +17,7 @@ import {
   Keymap,
   Paste,
   Tabindex,
+  TextDirection,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -25,6 +26,7 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -39,6 +41,7 @@ import type {
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -56,6 +59,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   public extensionManager!: ExtensionManager
 
   private css: HTMLStyleElement | null = null
+
+  private className = 'tiptap'
 
   public schema!: Schema
 
@@ -85,6 +90,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     extensions: [],
     autofocus: false,
     editable: true,
+    textDirection: undefined,
     editorProps: {},
     parseOptions: {},
     coreExtensionOptions: {},
@@ -169,7 +175,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         return
       }
 
-      this.commands.focus(this.options.autofocus)
+      if (this.options.autofocus !== false && this.options.autofocus !== null) {
+        this.commands.focus(this.options.autofocus)
+      }
       this.emit('create', { editor: this })
       this.isInitialized = true
     }, 0)
@@ -193,7 +201,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.isInitialized = false
 
     // Safely remove CSS element with fallback for test environments
-    if (this.css) {
+    // Only remove CSS if no other editors exist in the document after unmount
+    if (this.css && !document.querySelectorAll(`.${this.className}`).length) {
       try {
         if (typeof this.css.remove === 'function') {
           this.css.remove()
@@ -425,6 +434,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           Drop,
           Paste,
           Delete,
+          TextDirection.configure({
+            direction: this.options.textDirection,
+          }),
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
@@ -556,7 +568,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Prepend class name to element.
    */
   public prependClass(): void {
-    this.view.dom.className = `tiptap ${this.view.dom.className}`
+    this.view.dom.className = `${this.className} ${this.view.dom.className}`
   }
 
   public isCapturingTransaction = false
@@ -767,5 +779,13 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  /**
+   * Returns a set of utilities for working with positions and ranges.
+   */
+  public utils: Utils = {
+    getUpdatedPosition,
+    createMappablePosition,
   }
 }

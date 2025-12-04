@@ -2,11 +2,11 @@ import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRende
 import { NodeView } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
-import Vue from 'vue'
-import type { VueConstructor } from 'vue/types/umd'
+import type { VueConstructor } from 'vue'
 import { booleanProp, functionProp, objectProp } from 'vue-ts-types'
 
 import type { Editor } from './Editor.js'
+import { Vue } from './Vue.js'
 import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {

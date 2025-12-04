@@ -5,7 +5,9 @@ import {
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
 } from '@tiptap/extension-drag-handle'
-import Vue, { type PropType } from 'vue'
+import { type PropType } from 'vue'
+
+import { Vue } from './Vue.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -38,6 +40,16 @@ export const DragHandle = Vue.extend({
       default: null,
     },
 
+    onElementDragStart: {
+      type: Function as PropType<DragHandleProps['onElementDragStart']>,
+      default: null,
+    },
+
+    onElementDragEnd: {
+      type: Function as PropType<DragHandleProps['onElementDragEnd']>,
+      default: null,
+    },
+
     class: {
       type: String as PropType<DragHandleProps['class']>,
       default: 'drag-handle',
@@ -45,7 +57,7 @@ export const DragHandle = Vue.extend({
   },
 
   mounted() {
-    const { editor, pluginKey, onNodeChange } = this.$props
+    const { editor, pluginKey, onNodeChange, onElementDragStart, onElementDragEnd } = this.$props
 
     editor.registerPlugin(
       DragHandlePlugin({
@@ -54,6 +66,8 @@ export const DragHandle = Vue.extend({
         pluginKey,
         computePositionConfig: { ...defaultComputePositionConfig, ...this.computePositionConfig },
         onNodeChange,
+        onElementDragStart,
+        onElementDragEnd,
       }).plugin,
     )
   },
@@ -65,11 +79,14 @@ export const DragHandle = Vue.extend({
     editor.unregisterPlugin(pluginKey as string)
   },
 
-  render(h) {
+  render(h: Vue.CreateElement) {
     return h(
       'div',
       {
         class: this.class,
+        attrs: {
+          'data-dragging': 'false',
+        },
       },
       this.$slots.default,
     )

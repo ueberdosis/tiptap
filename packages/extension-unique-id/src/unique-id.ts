@@ -35,6 +35,14 @@ export interface UniqueIDOptions {
    * @default null
    */
   filterTransaction: ((transaction: Transaction) => boolean) | null
+  /**
+   * Whether to update the document by adding unique IDs to the nodes. Set this
+   * property to `false` if the document is in `readonly` mode, is immutable, or
+   * you don't want it to be modified.
+   *
+   * @default true
+   */
+  updateDocument: boolean
 }
 
 export const UniqueID = Extension.create<UniqueIDOptions>({
@@ -50,6 +58,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       types: [],
       generateID: () => uuidv4(),
       filterTransaction: null,
+      updateDocument: true,
     }
   },
 
@@ -78,6 +87,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
   // check initial content for missing ids
   onCreate() {
+    if (!this.options.updateDocument) {
+      return
+    }
+
     const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
     const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
 
@@ -126,6 +139,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   },
 
   addProseMirrorPlugins() {
+    if (!this.options.updateDocument) {
+      return []
+    }
+
     let dragSourceElement: Element | null = null
     let transformPasted = false
 
@@ -226,8 +243,12 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
           }
 
           // `tr.setNodeMarkup` resets the stored marks
-          // so we’ll restore them if they exist
+          // so we'll restore them if they exist
           tr.setStoredMarks(newState.tr.storedMarks)
+
+          // Mark this transaction as coming from UniqueID
+          // to prevent infinite loops with other extensions (e.g., TrailingNode)
+          tr.setMeta('__uniqueIDTransaction', true)
 
           return tr
         },

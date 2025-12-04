@@ -436,15 +436,14 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    if (this.options.openOnClick === true) {
-      plugins.push(
-        clickHandler({
-          type: this.type,
-          editor: this.editor,
-          enableClickSelection: this.options.enableClickSelection,
-        }),
-      )
-    }
+    plugins.push(
+      clickHandler({
+        type: this.type,
+        editor: this.editor,
+        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
+        enableClickSelection: this.options.enableClickSelection,
+      }),
+    )
 
     if (this.options.linkOnPaste) {
       plugins.push(
