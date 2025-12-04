@@ -5,9 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "vite --host",
-    "build:demos": "pnpm run ts && vite build",
-    "preview": "vite preview",
-    "ts": "tsc --project tsconfig.base.json --noEmit && tsc --project tsconfig.react.json --noEmit && tsc --project tsconfig.vue-2.json --noEmit && tsc --project tsconfig.vue-3.json --noEmit"
+    "build:demos": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13",

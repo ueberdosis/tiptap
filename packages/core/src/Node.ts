@@ -18,7 +18,7 @@ export interface NodeConfig<Options = any, Storage = any>
         editor: Editor
         type: NodeType
         parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
-      }) => NodeViewRenderer)
+      }) => NodeViewRenderer | null)
     | null
 
   /**
@@ -357,7 +357,7 @@ export class Node<Options = any, Storage = any> extends Extendable<Options, Stor
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
-    ExtendedConfig = NodeConfig<ExtendedOptions, ExtendedStorage>,
+    ExtendedConfig extends NodeConfig<ExtendedOptions, ExtendedStorage> = NodeConfig<ExtendedOptions, ExtendedStorage>,
   >(
     extendedConfig?:
       | (() => Partial<ExtendedConfig>)

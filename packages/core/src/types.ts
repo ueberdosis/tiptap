@@ -15,7 +15,14 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type {
+  Commands,
+  ExtensionConfig,
+  GetUpdatedPositionResult,
+  MappablePosition,
+  MarkConfig,
+  NodeConfig,
+} from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -293,6 +300,14 @@ export interface EditorOptions {
    */
   editable: boolean
   /**
+   * The default text direction for all content in the editor.
+   * When set to 'ltr' or 'rtl', all nodes will have the corresponding dir attribute.
+   * When set to 'auto', the dir attribute will be set based on content detection.
+   * When undefined, no dir attribute will be added.
+   * @default undefined
+   */
+  textDirection?: 'ltr' | 'rtl' | 'auto'
+  /**
    * The editor's props
    */
   editorProps: EditorProps
@@ -357,7 +372,8 @@ export interface EditorOptions {
           | 'tabindex'
           | 'drop'
           | 'paste'
-          | 'delete',
+          | 'delete'
+          | 'textDirection',
           false
         >
       >
@@ -442,17 +458,71 @@ export interface EditorOptions {
 export type HTMLContent = string
 
 /**
- * Loosely describes a JSON representation of a Prosemirror document or node
+ * A Tiptap JSON node or document. Tiptap JSON is the standard format for
+ * storing and manipulating Tiptap content. It is equivalent to the JSON
+ * representation of a Prosemirror node.
+ *
+ * Tiptap JSON documents are trees of nodes. The root node is usually of type
+ * `doc`. Nodes can have other nodes as children. Nodes can also have marks and
+ * attributes. Text nodes (nodes with type `text`) have a `text` property and no
+ * children.
+ *
+ * @example
+ * ```ts
+ * const content: JSONContent = {
+ *   type: 'doc',
+ *   content: [
+ *     {
+ *       type: 'paragraph',
+ *       content: [
+ *         {
+ *           type: 'text',
+ *           text: 'Hello ',
+ *         },
+ *         {
+ *           type: 'text',
+ *           text: 'world',
+ *           marks: [{ type: 'bold' }],
+ *         },
+ *       ],
+ *     },
+ *   ],
+ * }
+ * ```
  */
 export type JSONContent = {
+  /**
+   * The type of the node
+   */
   type?: string
+  /**
+   * The attributes of the node. Attributes can have any JSON-serializable value.
+   */
   attrs?: Record<string, any> | undefined
+  /**
+   * The children of the node. A node can have other nodes as children.
+   */
   content?: JSONContent[]
+  /**
+   * A list of marks of the node. Inline nodes can have marks.
+   */
   marks?: {
+    /**
+     * The type of the mark
+     */
     type: string
+    /**
+     * The attributes of the mark. Attributes can have any JSON-serializable value.
+     */
     attrs?: Record<string, any>
     [key: string]: any
   }[]
+  /**
+   * The text content of the node. This property is only present on text nodes
+   * (i.e. nodes with `type: 'text'`).
+   *
+   * Text nodes cannot have children, but they can have marks.
+   */
   text?: string
   [key: string]: any
 }
@@ -910,4 +980,31 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
+}
+
+export type Utils = {
+  /**
+   * Returns the new position after applying a transaction.
+   *
+   * @param position The position to update. A MappablePosition instance.
+   * @param transaction The transaction to apply.
+   * @returns The new position after applying the transaction.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
+   */
+  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+
+  /**
+   * Creates a MappablePosition from a position number. A mappable position can be used to track the
+   * next position after applying a transaction.
+   *
+   * @param position The position (as a number) where the MappablePosition will be created.
+   * @returns A new MappablePosition instance at the given position.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   */
+  createMappablePosition: (position: number) => MappablePosition
 }
