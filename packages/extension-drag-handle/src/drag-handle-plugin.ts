@@ -131,6 +131,10 @@ export const DragHandlePlugin = ({
     // @ts-ignore
     dragHandler(e, editor)
 
+    if (element) {
+      element.dataset.dragging = 'true'
+    }
+
     setTimeout(() => {
       if (element) {
         element.style.pointerEvents = 'none'
@@ -143,6 +147,7 @@ export const DragHandlePlugin = ({
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
+      element.dataset.dragging = 'false'
     }
   }
 
@@ -228,6 +233,7 @@ export const DragHandlePlugin = ({
       view: view => {
         element.draggable = true
         element.style.pointerEvents = 'auto'
+        element.dataset.dragging = 'false'
 
         editor.view.dom.parentElement?.appendChild(wrapper)
 
