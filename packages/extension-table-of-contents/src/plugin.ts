@@ -13,6 +13,11 @@ export const TableOfContentsPlugin = ({
     key: new PluginKey('tableOfContent'),
 
     appendTransaction(transactions, _oldState, newState) {
+      // Avoid running on the server where `window` / DOM is not available.
+      if (typeof window === 'undefined') {
+        return null
+      }
+
       const tr = newState.tr
       let modified = false
 

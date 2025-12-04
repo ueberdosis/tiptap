@@ -1,5 +1,13 @@
 # @tiptap/extension-table-of-contents
 
+## 3.12.1
+
+### Patch Changes
+
+- 06facb6: Fixed a bug that mutated the ProseMirror document during server-side rendering, which could cause "Invalid content for node doc" errors.
+  - @tiptap/core@3.12.1
+  - @tiptap/pm@3.12.1
+
 ## 3.12.0
 
 ### Patch Changes
