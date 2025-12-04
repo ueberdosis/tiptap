@@ -103,7 +103,14 @@ You can learn how to use Tiptap by visiting the [official documentation](https:/
 
 ### Mentions
 
-Hey, [@ id="madonna" label="Madonna"], have you seen [@ id="tom-cruise" label="Tom Cruise"]?
+Hey, [@ id="Madonna"], have you seen [@ id="Tom Cruise"]?
+
+This demo supports **multi-mention** with different trigger characters:
+
+- User mentions with \`@\`: [@ id="Lea Thompson"] and [@ id="Cyndi Lauper"]
+- Tag mentions with \`#\`: [@ id="bug" char="#"] and [@ id="feature" char="#"]
+
+Try typing \`@\` or \`#\` in the editor to see suggestions!
 
 ### Mathematics
 

@@ -107,22 +107,33 @@ export default () => {
         HTMLAttributes: {
           class: 'mention',
         },
-        suggestion: {
-          items: ({ query }) => {
-            return [
-              'Lea Thompson',
-              'Cyndi Lauper',
-              'Tom Cruise',
-              'Madonna',
-              'Jerry Hall',
-              'Joan Collins',
-              'Winona Ryder',
-              'Christina Applegate',
-            ]
-              .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
-              .slice(0, 5)
+        suggestions: [
+          {
+            char: '@',
+            items: ({ query }) => {
+              return [
+                'Lea Thompson',
+                'Cyndi Lauper',
+                'Tom Cruise',
+                'Madonna',
+                'Jerry Hall',
+                'Joan Collins',
+                'Winona Ryder',
+                'Christina Applegate',
+              ]
+                .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
+                .slice(0, 5)
+            },
           },
-        },
+          {
+            char: '#',
+            items: ({ query }) => {
+              return ['bug', 'feature', 'enhancement', 'documentation', 'help-wanted', 'priority-high', 'priority-low']
+                .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
+                .slice(0, 5)
+            },
+          },
+        ],
       }),
       Mathematics,
       CustomReactNode,
