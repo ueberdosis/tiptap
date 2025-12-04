@@ -15,7 +15,14 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type {
+  Commands,
+  ExtensionConfig,
+  GetUpdatedPositionResult,
+  MappablePosition,
+  MarkConfig,
+  NodeConfig,
+} from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -973,4 +980,31 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
+}
+
+export type Utils = {
+  /**
+   * Returns the new position after applying a transaction.
+   *
+   * @param position The position to update. A MappablePosition instance.
+   * @param transaction The transaction to apply.
+   * @returns The new position after applying the transaction.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
+   */
+  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+
+  /**
+   * Creates a MappablePosition from a position number. A mappable position can be used to track the
+   * next position after applying a transaction.
+   *
+   * @param position The position (as a number) where the MappablePosition will be created.
+   * @returns A new MappablePosition instance at the given position.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   */
+  createMappablePosition: (position: number) => MappablePosition
 }

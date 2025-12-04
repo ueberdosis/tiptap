@@ -84,6 +84,9 @@ export const DragHandle = Vue.extend({
       'div',
       {
         class: this.class,
+        attrs: {
+          'data-dragging': 'false',
+        },
       },
       this.$slots.default,
     )

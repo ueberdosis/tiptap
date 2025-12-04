@@ -1,5 +1,51 @@
 # Releases
 
+## v3.12.1
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Fixed a bug that mutated the ProseMirror document during server-side rendering, which could cause "Invalid content for node doc" errors.
+
+## v3.12.0
+
+### @tiptap/extension-collaboration
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Avoid mutating `this.options` in the `updateUser` command. `this.options` can be a getter and is not writable; the command now updates the provider awareness directly so user updates are applied correctly.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+#### Patch Changes
+
+- Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+
 ## v3.11.1
 
 ### @tiptap/core
