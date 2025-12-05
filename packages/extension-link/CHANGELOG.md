@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.13.0
+
+### Patch Changes
+
+- fb51a32: Ensure `enableClickSelection` works regardless of the `openOnClick` option by always registering the link click handler plugin.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes

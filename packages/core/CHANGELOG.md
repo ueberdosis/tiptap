@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.13.0
+
+### Minor Changes
+
+- e3b4f68: 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility. 2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles. 3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+### Patch Changes
+
+- 526365a: Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes

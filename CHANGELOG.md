@@ -1,5 +1,75 @@
 # Releases
 
+## v3.13.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Ensure `enableClickSelection` works regardless of the `openOnClick` option by always registering the link click handler plugin.
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Skip the table of contents update logic during IME input method composition to avoid interference with input.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed trailing and leading whitespace handling in markdown serialization for inline marks
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+
+### @tiptap/core
+
+#### Minor Changes
+
+- 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility.
+  2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles.
+  3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+#### Patch Changes
+
+- Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+
+### @tiptap/extension-image
+
+#### Minor Changes
+
+- 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility.
+  2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles.
+  3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
 ## v3.12.1
 
 ### @tiptap/extension-table-of-contents

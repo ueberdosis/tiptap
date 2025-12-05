@@ -1,5 +1,17 @@
 # @tiptap/extension-drag-handle
 
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/extension-collaboration@3.13.0
+  - @tiptap/extension-node-range@3.13.0
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes

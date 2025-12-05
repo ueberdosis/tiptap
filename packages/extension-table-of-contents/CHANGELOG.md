@@ -1,5 +1,15 @@
 # @tiptap/extension-table-of-contents
 
+## 3.13.0
+
+### Patch Changes
+
+- 18eef0d: Skip the table of contents update logic during IME input method composition to avoid interference with input.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes

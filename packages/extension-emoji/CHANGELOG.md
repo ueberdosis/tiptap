@@ -1,5 +1,15 @@
 # @tiptap/extension-emoji
 
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/suggestion@3.13.0
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes

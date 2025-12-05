@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [286820e]
+  - @tiptap/extension-drag-handle@3.13.0
+  - @tiptap/react@3.13.0
+  - @tiptap/pm@3.13.0
+
 ## 3.12.1
 
 ### Patch Changes
