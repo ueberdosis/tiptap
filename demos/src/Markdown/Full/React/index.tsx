@@ -9,6 +9,7 @@ import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
 import { TableKit } from '@tiptap/extension-table'
+import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
@@ -99,6 +100,12 @@ export default () => {
         inline: false,
         width: 480,
         height: 320,
+      }),
+      Twitch.configure({
+        inline: false,
+        width: 480,
+        height: 320,
+        parent: window.location.hostname,
       }),
       Image,
       TableKit,
