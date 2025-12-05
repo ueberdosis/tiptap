@@ -854,6 +854,12 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-twitch:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+
   packages/extension-typography:
     devDependencies:
       '@tiptap/core':
