@@ -321,7 +321,7 @@ describe('static render json to string (with prosemirror)', () => {
       extensions: [Document, Paragraph, Text, Youtube],
     })
 
-    expect(html).to.include('data-youtube-video')
-    expect(html).to.include('<p>text after youtube</p>')
+    expect(html).toContain('data-youtube-video')
+    expect(html).toContain('<p>text after youtube</p>')
   })
 })
