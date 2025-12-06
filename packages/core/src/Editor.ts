@@ -5,6 +5,7 @@ import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
+import { DecorationManager } from './DecorationManager.js'
 import { EventEmitter } from './EventEmitter.js'
 import { ExtensionManager } from './ExtensionManager.js'
 import {
@@ -55,6 +56,8 @@ export interface TiptapEditorHTMLElement extends HTMLElement {
 
 export class Editor extends EventEmitter<EditorEvents> {
   private commandManager!: CommandManager
+
+  private decorationManager!: DecorationManager
 
   public extensionManager!: ExtensionManager
 
@@ -122,6 +125,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.setOptions(options)
     this.createExtensionManager()
     this.createCommandManager()
+    this.createDecorationManager()
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
@@ -462,6 +466,13 @@ export class Editor extends EventEmitter<EditorEvents> {
     })
   }
 
+  private createDecorationManager(): void {
+    this.decorationManager = new DecorationManager({
+      editor: this,
+      extensions: this.extensionManager.extensions,
+    })
+  }
+
   /**
    * Creates a ProseMirror schema.
    */
@@ -534,7 +545,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
     const newState = this.state.reconfigure({
-      plugins: this.extensionManager.plugins,
+      plugins: [this.decorationManager.createPlugin(), ...this.extensionManager.plugins],
     })
 
     this.view.updateState(newState)
