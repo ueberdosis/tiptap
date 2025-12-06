@@ -1,0 +1,131 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Bluesky embed - wrapper and both blockquote (loading) and div (rendered) */
+  blockquote[data-bluesky-src],
+  blockquote[data-bluesky-uri],
+  div.bluesky-embed {
+    cursor: move;
+    transition: outline 0.15s;
+  }
+
+  /* Blockquote specific styles (before embed loads) */
+  blockquote[data-bluesky-src],
+  blockquote[data-bluesky-uri] {
+    padding: 1rem;
+    border-left: 4px solid var(--purple);
+    background-color: var(--gray-light);
+    border-radius: 0.25rem;
+
+    /* Loading state */
+    &[data-state='loading'],
+    &[data-state='resolving'] {
+      background-color: var(--gray-light);
+      opacity: 0.6;
+    }
+
+    /* Error state */
+    &[data-state='error'] {
+      background-color: rgba(239, 68, 68, 0.1);
+      border-left-color: #ef4444;
+
+      p {
+        color: #7f1d1d;
+      }
+    }
+
+    /* Resolved state */
+    &[data-state='resolved'] {
+      background-color: transparent;
+      border-left: none;
+      padding: 0;
+    }
+  }
+
+  /* Loading text styling */
+  .bluesky-embed-loading {
+    color: var(--gray);
+    font-size: 0.875rem;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Custom spinner example */
+  .bluesky-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+
+    span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--purple);
+      animation: spinner-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--purple);
+        animation: spinner-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes spinner-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes spinner-ping {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    75% {
+      transform: scale(2);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  /* Selected state - apply outline to wrapper and child div */
+  .ProseMirror-selectednode {
+    & > div.bluesky-embed {
+      outline: 3px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    &blockquote[data-bluesky-src],
+    &blockquote[data-bluesky-uri] {
+      outline: 3px solid var(--purple);
+      outline-offset: 2px;
+    }
+  }
+}
