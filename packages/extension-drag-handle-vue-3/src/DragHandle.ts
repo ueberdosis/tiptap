@@ -110,6 +110,7 @@ export const DragHandle = defineComponent({
           ref: root,
           class: props.class,
           style: { position: 'absolute' },
+          'data-dragging': 'false',
         },
         slots.default?.(),
       )
