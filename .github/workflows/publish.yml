@@ -44,6 +44,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
+      - name: Update npm for Trusted Publishing
+        run: npm install -g npm@11.6.2
+
       - name: Load turbo cache
         uses: actions/cache@v4.3.0
         id: turbo-cache
