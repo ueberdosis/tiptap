@@ -62,9 +62,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --strict-peer-dependencies
 
-      - name: Setup npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-
       - name: Create Release PR or publish stable version to npm
         id: changesets
         uses: changesets/action@v1
