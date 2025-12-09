@@ -144,18 +144,13 @@ export const Image = Node.create<ImageOptions>({
   },
 
   addNodeView() {
-    if (
-      !this.options.resize ||
-      !this.options.resize.enabled ||
-      typeof document === 'undefined' ||
-      !this.editor.isEditable
-    ) {
+    if (!this.options.resize || !this.options.resize.enabled || typeof document === 'undefined') {
       return null
     }
 
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
 
-    return ({ node, getPos, HTMLAttributes }) => {
+    return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
@@ -175,6 +170,7 @@ export const Image = Node.create<ImageOptions>({
 
       const nodeView = new ResizableNodeView({
         element: el,
+        editor,
         node,
         getPos,
         onResize: (width, height) => {
