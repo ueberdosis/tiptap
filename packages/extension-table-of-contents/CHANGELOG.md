@@ -1,5 +1,39 @@
 # @tiptap/extension-table-of-contents
 
+## 3.13.0
+
+### Patch Changes
+
+- 18eef0d: Skip the table of contents update logic during IME input method composition to avoid interference with input.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- 06facb6: Fixed a bug that mutated the ProseMirror document during server-side rendering, which could cause "Invalid content for node doc" errors.
+  - @tiptap/core@3.12.1
+  - @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

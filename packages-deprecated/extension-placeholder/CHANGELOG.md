@@ -1,5 +1,30 @@
 # Change Log
 
+## 3.13.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [eea7190]
+  - @tiptap/extensions@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes

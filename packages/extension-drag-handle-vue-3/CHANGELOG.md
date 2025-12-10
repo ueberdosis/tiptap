@@ -1,5 +1,39 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [286820e]
+  - @tiptap/extension-drag-handle@3.13.0
+  - @tiptap/vue-3@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.12.1
+- @tiptap/pm@3.12.1
+- @tiptap/vue-3@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.12.0
+- @tiptap/vue-3@3.12.0
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.11.1
+- @tiptap/vue-3@3.11.1
+- @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Patch Changes
