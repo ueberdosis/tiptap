@@ -201,15 +201,16 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               const nextNode = newNodes[i + 1]
 
               if (nextNode && node.content.size === 0) {
+                const nextNodeInTr = tr.doc.nodeAt(nextNode.pos)
+                if (nextNodeInTr?.attrs[attributeName] && nextNodeInTr.attrs[attributeName] !== id) {
+                  return
+                }
+
                 tr.setNodeMarkup(nextNode.pos, undefined, {
                   ...nextNode.node.attrs,
                   [attributeName]: id,
                 })
                 newIds[i + 1] = id
-
-                if (nextNode.node.attrs[attributeName]) {
-                  return
-                }
 
                 const generatedId = generateID({ node, pos })
 
