@@ -19,6 +19,14 @@ export interface HeadingOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * Whether to preserve whitespace in the rendered HTML output.
+   * When true, applies 'white-space: pre-wrap' CSS styling to preserve tabs and spaces.
+   * @default false
+   * @example true
+   */
+  preserveWhitespace: boolean
 }
 
 declare module '@tiptap/core' {
@@ -51,6 +59,7 @@ export const Heading = Node.create<HeadingOptions>({
     return {
       levels: [1, 2, 3, 4, 5, 6],
       HTMLAttributes: {},
+      preserveWhitespace: false,
     }
   },
 
@@ -69,6 +78,10 @@ export const Heading = Node.create<HeadingOptions>({
     }
   },
 
+  whitespace() {
+    return this.options.preserveWhitespace ? 'pre' : undefined
+  },
+
   parseHTML() {
     return this.options.levels.map((level: Level) => ({
       tag: `h${level}`,
@@ -80,7 +93,13 @@ export const Heading = Node.create<HeadingOptions>({
     const hasLevel = this.options.levels.includes(node.attrs.level)
     const level = hasLevel ? node.attrs.level : this.options.levels[0]
 
-    return [`h${level}`, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    const mergedAttributes = mergeAttributes(
+      this.options.HTMLAttributes,
+      HTMLAttributes,
+      this.options.preserveWhitespace ? { style: 'white-space: pre-wrap' } : {},
+    )
+
+    return [`h${level}`, mergedAttributes, 0]
   },
 
   parseMarkdown: (token, helpers) => {
