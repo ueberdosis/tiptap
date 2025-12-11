@@ -7,6 +7,14 @@ export interface ParagraphOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * Whether to preserve whitespace in the rendered HTML output.
+   * When true, applies 'white-space: pre-wrap' CSS styling to preserve tabs and spaces.
+   * @default false
+   * @example true
+   */
+  preserveWhitespace: boolean
 }
 
 declare module '@tiptap/core' {
@@ -33,6 +41,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      preserveWhitespace: false,
     }
   },
 
@@ -40,12 +49,22 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
   content: 'inline*',
 
+  whitespace() {
+    return this.options.preserveWhitespace ? 'pre' : undefined
+  },
+
   parseHTML() {
     return [{ tag: 'p' }]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['p', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    const mergedAttributes = mergeAttributes(
+      this.options.HTMLAttributes,
+      HTMLAttributes,
+      this.options.preserveWhitespace ? { style: 'white-space: pre-wrap' } : {},
+    )
+
+    return ['p', mergedAttributes, 0]
   },
 
   parseMarkdown: (token, helpers) => {
