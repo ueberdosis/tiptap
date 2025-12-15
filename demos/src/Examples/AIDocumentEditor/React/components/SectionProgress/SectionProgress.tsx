@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { Section, SectionStatus } from '../../types'
+import type { Section, SectionStatus } from '../../types/index.ts'
 
 interface SectionProgressProps {
   sections: Section[]

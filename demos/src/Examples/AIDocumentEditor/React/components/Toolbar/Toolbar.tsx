@@ -2,7 +2,7 @@ import type { Editor } from '@tiptap/react'
 import { useEditorState } from '@tiptap/react'
 import React from 'react'
 
-import type { AIAction } from '../../types'
+import type { AIAction } from '../../types/index.ts'
 
 interface ToolbarProps {
   editor: Editor

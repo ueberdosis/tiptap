@@ -1,4 +1,4 @@
-import type { AIAction, AIProvider, DocumentContext } from '../types'
+import type { AIAction, AIProvider, DocumentContext } from '../types/index.ts'
 
 const AI_BACKEND_URL = import.meta.env.VITE_AI_BACKEND_URL || 'http://localhost:8000'
 

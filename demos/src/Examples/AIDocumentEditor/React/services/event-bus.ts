@@ -1,4 +1,4 @@
-import type { EditorEvent, EditorEventType } from '../types'
+import type { EditorEvent, EditorEventType } from '../types/index.ts'
 
 type EventHandler<T = unknown> = (payload: T) => void
 

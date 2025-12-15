@@ -1,10 +1,10 @@
 import type { Editor } from '@tiptap/react'
 import { useCallback, useRef, useState } from 'react'
 
-import { getAIProvider } from '../services/ai-provider'
-import { eventBus } from '../services/event-bus'
-import { useEditorStore } from '../stores/editor-store'
-import type { AIAction, DocumentContext, Section } from '../types'
+import { getAIProvider } from '../services/ai-provider.ts'
+import { eventBus } from '../services/event-bus.ts'
+import { useEditorStore } from '../stores/editor-store.ts'
+import type { AIAction, DocumentContext, Section } from '../types/index.ts'
 
 interface UseAIOptions {
   editor: Editor | null

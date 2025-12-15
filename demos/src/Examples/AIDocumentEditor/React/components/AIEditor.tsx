@@ -6,23 +6,23 @@ import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 // Components
-import { AIBubbleMenu } from './BubbleMenu/AIBubbleMenu'
-import { ChatPanel } from './ChatPanel/ChatPanel'
-import { SectionProgress } from './SectionProgress/SectionProgress'
-import { Toolbar } from './Toolbar/Toolbar'
-import { VersionBar } from './VersionHistory/VersionBar'
+import { AIBubbleMenu } from './BubbleMenu/AIBubbleMenu.tsx'
+import { ChatPanel } from './ChatPanel/ChatPanel.tsx'
+import { SectionProgress } from './SectionProgress/SectionProgress.tsx'
+import { Toolbar } from './Toolbar/Toolbar.tsx'
+import { VersionBar } from './VersionHistory/VersionBar.tsx'
 
 // Hooks
-import { useAI } from '../hooks/useAI'
-import { useChat } from '../hooks/useChat'
-import { useVersionControl } from '../hooks/useVersionControl'
+import { useAI } from '../hooks/useAI.ts'
+import { useChat } from '../hooks/useChat.ts'
+import { useVersionControl } from '../hooks/useVersionControl.ts'
 
 // Services & Store
-import { eventBus } from '../services/event-bus'
-import { useEditorStore } from '../stores/editor-store'
+import { eventBus } from '../services/event-bus.ts'
+import { useEditorStore } from '../stores/editor-store.ts'
 
 // Types
-import type { DocumentReference, EditorFragmentProps, Section } from '../types'
+import type { DocumentReference, EditorFragmentProps, Section } from '../types/index.ts'
 
 // Default initial content
 const DEFAULT_CONTENT: JSONContent = {

@@ -1,9 +1,9 @@
 import type { Editor } from '@tiptap/react'
 import { useCallback, useRef, useState } from 'react'
 
-import { getAIProvider } from '../services/ai-provider'
-import { useEditorStore } from '../stores/editor-store'
-import type { ChatMessage, DocumentContext, Section } from '../types'
+import { getAIProvider } from '../services/ai-provider.ts'
+import { useEditorStore } from '../stores/editor-store.ts'
+import type { ChatMessage, DocumentContext, Section } from '../types/index.ts'
 
 // Simple ID generator
 function generateId(): string {

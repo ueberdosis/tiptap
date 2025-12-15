@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { AIAction, ChatMessage, DocumentType, DocumentVersion, EditorStore, FragmentState } from '../types'
+import type { AIAction, ChatMessage, DocumentType, DocumentVersion, EditorStore, FragmentState } from '../types/index.ts'
 
 export const useEditorStore = create<EditorStore>((set, get) => ({
   // Fragment state

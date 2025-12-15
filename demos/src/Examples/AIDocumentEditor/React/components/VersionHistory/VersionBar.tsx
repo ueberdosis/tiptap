@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { DocumentVersion } from '../../types'
+import type { DocumentVersion } from '../../types/index.ts'
 
 interface VersionBarProps {
   versions: DocumentVersion[]

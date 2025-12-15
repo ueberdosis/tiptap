@@ -1,7 +1,7 @@
 import { BubbleMenu, type Editor } from '@tiptap/react'
 import React, { useState } from 'react'
 
-import type { AIAction } from '../../types'
+import type { AIAction } from '../../types/index.ts'
 
 interface AIBubbleMenuProps {
   editor: Editor

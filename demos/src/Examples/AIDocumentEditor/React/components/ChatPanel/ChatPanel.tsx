@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import type { ChatMessage, DocumentReference } from '../../types'
+import type { ChatMessage, DocumentReference } from '../../types/index.ts'
 
 interface ChatPanelProps {
   messages: ChatMessage[]
