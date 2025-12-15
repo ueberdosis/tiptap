@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13",
+    "zustand": "^4.5.0",
     "@hocuspocus/provider": "^2.15.0",
     "@hocuspocus/transformer": "^2.15.0",
     "@lexical/react": "^0.36.2",
