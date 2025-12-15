@@ -1,9 +1,9 @@
 import type { Editor, JSONContent } from '@tiptap/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { eventBus } from '../services/event-bus'
-import { useEditorStore } from '../stores/editor-store'
-import type { DocumentVersion, Section, SectionStatus } from '../types'
+import { eventBus } from '../services/event-bus.ts'
+import { useEditorStore } from '../stores/editor-store.ts'
+import type { DocumentVersion, SectionStatus } from '../types/index.ts'
 
 // Simple ID generator
 function generateId(): string {
@@ -104,9 +104,8 @@ function extractSectionState(doc: JSONContent): Record<string, SectionStatus> {
 
   function traverse(node: JSONContent) {
     if (node.type === 'heading' && (node.attrs?.level === 1 || node.attrs?.level === 2)) {
-      const title = node.content?.[0]?.text || `Section ${sectionIndex}`
       state[`section-${sectionIndex}`] = 'pending'
-      sectionIndex++
+      sectionIndex += 1
     }
     if (node.content) {
       node.content.forEach(traverse)
@@ -165,9 +164,9 @@ export function useVersionControl({
     }
 
     // Debounced change detection
-    let timeout: NodeJS.Timeout
+    let timeout: ReturnType<typeof setTimeout> | undefined
     const handleUpdate = () => {
-      clearTimeout(timeout)
+      if (timeout) clearTimeout(timeout)
       timeout = setTimeout(checkChanges, 500)
     }
 

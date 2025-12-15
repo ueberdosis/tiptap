@@ -2,7 +2,7 @@ import './styles.scss'
 
 import React from 'react'
 
-import { AIEditor } from './components/AIEditor.tsx'
+import { AIEditor } from './components/AIEditor'
 
 /**
  * AI Document Editor Demo

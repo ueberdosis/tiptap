@@ -9,9 +9,10 @@ interface VersionBarProps {
   onSelectVersion: (versionId: string) => void
 }
 
-function formatDate(date: Date): string {
+function formatDate(date: Date | string): string {
+  const dateObj = typeof date === 'string' ? new Date(date) : date
   const now = new Date()
-  const diff = now.getTime() - date.getTime()
+  const diff = now.getTime() - dateObj.getTime()
 
   // Less than a minute
   if (diff < 60000) {
@@ -31,7 +32,7 @@ function formatDate(date: Date): string {
   }
 
   // Otherwise, show date
-  return date.toLocaleDateString()
+  return dateObj.toLocaleDateString()
 }
 
 export function VersionBar({ versions, currentVersionId, hasUnsavedChanges, onSelectVersion }: VersionBarProps) {
