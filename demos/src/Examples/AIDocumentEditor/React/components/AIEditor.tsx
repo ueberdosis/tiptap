@@ -3,7 +3,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
-import { Table, TableRow, TableCell, TableHeader } from '@tiptap/extension-table'
+import { TableKit } from '@tiptap/extension-table'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 // Components
@@ -34,12 +34,9 @@ const DEFAULT_CONTENT: JSONContent = PDBI_SUBMISSION
 const extensions = [
   StarterKit,
   Underline,
-  Table.configure({
+  TableKit.configure({
     resizable: true,
   }),
-  TableRow,
-  TableCell,
-  TableHeader,
   Placeholder.configure({
     placeholder: 'Start writing...',
   }),
