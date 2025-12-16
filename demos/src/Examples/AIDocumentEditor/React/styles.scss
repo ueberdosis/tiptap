@@ -1,919 +1,152 @@
-// AI Document Editor Styles
-// Following Tiptap demo styling patterns
-
-// Variables
-$primary: #6a00f5;
-$primary-light: rgba(106, 0, 245, 0.1);
-$secondary: #3b82f6;
-$success: #10b981;
-$warning: #f59e0b;
-$error: #ef4444;
-$gray-1: rgba(0, 0, 0, 0.1);
-$gray-2: rgba(0, 0, 0, 0.2);
-$gray-3: rgba(0, 0, 0, 0.5);
-$white: #fff;
-$black: #2e2b29;
-
-// Demo container
-.ai-document-editor-demo {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #f8f9fa;
-}
-
-// Main editor container
-.ai-editor-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: $white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-// Loading state
-.ai-editor-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 1rem;
-  color: $gray-3;
-
-  .spinner {
-    width: 24px;
-    height: 24px;
-    border: 2px solid $gray-1;
-    border-top-color: $primary;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
   }
-}
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
 
-// Error toast
-.ai-editor-error {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: $error;
-  color: $white;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  z-index: 1000;
-  animation: slideIn 0.2s ease;
-
-  button {
-    background: none;
-    border: none;
-    color: $white;
-    cursor: pointer;
-    opacity: 0.8;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-// Toolbar
-.ai-editor-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: #fafafa;
-  border-bottom: 1px solid $gray-1;
-  flex-wrap: wrap;
-
-  .toolbar-group {
-    display: flex;
-    gap: 2px;
-
-    button {
-      padding: 0.5rem 0.75rem;
-      background: transparent;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.875rem;
-      color: $black;
-      transition: all 0.15s;
-
-      &:hover:not(:disabled) {
-        background: $gray-1;
-      }
-
-      &.is-active {
-        background: $primary-light;
-        color: $primary;
-      }
-
-      &:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
     }
   }
 
-  .toolbar-divider {
-    width: 1px;
-    height: 24px;
-    background: $gray-1;
-    margin: 0 0.25rem;
-  }
-
-  .toolbar-spacer {
-    flex: 1;
-  }
-
-  // AI Actions dropdown
-  .ai-actions-group {
-    position: relative;
-  }
-
-  .ai-dropdown {
-    position: relative;
-
-    .ai-trigger {
-      background: linear-gradient(135deg, $primary, $secondary);
-      color: $white;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-
-      &:hover:not(:disabled) {
-        opacity: 0.9;
-        background: linear-gradient(135deg, $primary, $secondary);
-      }
-
-      &.is-active {
-        background: linear-gradient(135deg, $primary, $secondary);
-      }
-    }
-
-    .ai-menu {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      background: $white;
-      border: 1px solid $gray-1;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 100;
-      min-width: 180px;
-      padding: 0.5rem 0;
-
-      .ai-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        width: 100%;
-        padding: 0.5rem 1rem;
-        background: none;
-        border: none;
-        text-align: left;
-        cursor: pointer;
-        font-size: 0.875rem;
-
-        &:hover {
-          background: $gray-1;
-        }
-
-        .ai-icon {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  // Version info
-  .toolbar-version {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.75rem;
-    background: $gray-1;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    color: $gray-3;
-
-    .unsaved-indicator {
-      color: $warning;
-      font-size: 1.5rem;
-      line-height: 0;
-    }
-  }
-
-  // Save/Discard buttons
-  .version-actions {
-    .discard-btn {
-      color: $gray-3;
-
-      &:hover:not(:disabled) {
-        color: $error;
-        background: rgba($error, 0.1);
-      }
-    }
-
-    .save-btn {
-      background: $success;
-      color: $white;
-      font-weight: 500;
-
-      &:hover:not(:disabled) {
-        background: darken($success, 5%);
-      }
-
-      &:disabled {
-        background: $gray-2;
-      }
-    }
-  }
-}
-
-// Main content area
-.ai-editor-main {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-// Editor area
-.ai-editor-editor {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-right: 1px solid $gray-1;
-}
-
-// Editor content
-.ai-editor-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-  font-family: 'Georgia', serif;
-  font-size: 1.125rem;
-  line-height: 1.75;
-  color: $black;
-
-  &:focus {
-    outline: none;
-  }
-
-  // Typography
+  /* Heading styles */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.3;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.4rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
-  p {
-    margin-bottom: 1rem;
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
   }
 
-  ul,
-  ol {
-    padding-left: 1.5rem;
-    margin-bottom: 1rem;
+  /* Code and preformatted text styles */
+  code {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
 
-    li {
-      margin-bottom: 0.25rem;
+  pre {
+    background: var(--black);
+    border-radius: 0.5rem;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
     }
   }
 
   blockquote {
-    border-left: 3px solid $primary;
+    border-left: 3px solid var(--gray-3);
     margin: 1.5rem 0;
     padding-left: 1rem;
-    color: $gray-3;
-    font-style: italic;
-  }
-
-  code {
-    background: $gray-1;
-    border-radius: 4px;
-    padding: 0.2em 0.4em;
-    font-family: 'Monaco', 'Consolas', monospace;
-    font-size: 0.9em;
-  }
-
-  pre {
-    background: #1e1e1e;
-    color: #d4d4d4;
-    border-radius: 6px;
-    padding: 1rem;
-    margin: 1rem 0;
-    overflow-x: auto;
-
-    code {
-      background: none;
-      padding: 0;
-      color: inherit;
-    }
   }
 
   hr {
     border: none;
-    border-top: 2px solid $gray-1;
+    border-top: 1px solid var(--gray-2);
     margin: 2rem 0;
   }
 
-  // Tables
+  /* Table-specific styling */
   table {
     border-collapse: collapse;
-    margin: 1.5rem 0;
+    margin: 0;
+    overflow: hidden;
+    table-layout: fixed;
     width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 0.875rem;
 
-    th,
-    td {
-      border: 1px solid $gray-1;
-      padding: 0.75rem 1rem;
-      text-align: left;
+    td,
+    th {
+      border: 1px solid var(--gray-3);
+      box-sizing: border-box;
+      min-width: 1em;
+      padding: 6px 8px;
+      position: relative;
       vertical-align: top;
+
+      > * {
+        margin-bottom: 0;
+      }
     }
 
     th {
-      background: #f5f5f5;
-      font-weight: 600;
-      color: $black;
+      background-color: var(--gray-1);
+      font-weight: bold;
+      text-align: left;
     }
 
-    td {
-      background: $white;
+    .selectedCell:after {
+      background: var(--gray-2);
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
     }
 
-    tr:hover td {
-      background: rgba($primary, 0.03);
-    }
-  }
-
-  // Placeholder
-  p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    color: $gray-2;
-    float: left;
-    height: 0;
-    pointer-events: none;
-  }
-}
-
-// AI Bubble Menu
-.ai-bubble-menu {
-  display: flex;
-  background: $white;
-  border: 1px solid $gray-1;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 0.5rem;
-
-  .ai-bubble-processing {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    color: $primary;
-    font-size: 0.875rem;
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid $gray-1;
-      border-top-color: $primary;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+    .column-resize-handle {
+      background-color: var(--purple);
+      bottom: -2px;
+      pointer-events: none;
+      position: absolute;
+      right: -2px;
+      top: 0;
+      width: 4px;
     }
   }
 
-  .ai-bubble-actions {
-    display: flex;
-    gap: 2px;
+  .tableWrapper {
+    margin: 1.5rem 0;
+    overflow-x: auto;
   }
 
-  .ai-bubble-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    padding: 0.5rem 0.75rem;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s;
-
-    &:hover {
-      background: $gray-1;
-    }
-
-    .icon {
-      font-size: 1.25rem;
-    }
-
-    .label {
-      font-size: 0.625rem;
-      color: $gray-3;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    &.custom {
-      border-left: 1px solid $gray-1;
-      margin-left: 4px;
-      padding-left: 0.75rem;
-    }
-  }
-
-  .ai-bubble-custom {
-    display: flex;
-    gap: 0.5rem;
-
-    input {
-      width: 200px;
-      padding: 0.5rem;
-      border: 1px solid $gray-1;
-      border-radius: 4px;
-      font-size: 0.875rem;
-
-      &:focus {
-        outline: none;
-        border-color: $primary;
-      }
-    }
-
-    button {
-      padding: 0.5rem 0.75rem;
-      background: $primary;
-      color: $white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-
-      &:disabled {
-        background: $gray-2;
-      }
-
-      &:last-child {
-        background: $gray-1;
-        color: $black;
-      }
-    }
-  }
-}
-
-// Chat Panel
-.ai-editor-chat {
-  width: 350px;
-  min-width: 300px;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  background: #fafafa;
-}
-
-.chat-panel {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  .chat-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid $gray-1;
-
-    h3 {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .cancel-btn {
-      padding: 0.25rem 0.5rem;
-      background: $error;
-      color: $white;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-  }
-
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .chat-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    color: $gray-3;
-
-    .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      margin-bottom: 1.5rem;
-    }
-
-    .suggestions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      button {
-        padding: 0.5rem 1rem;
-        background: $white;
-        border: 1px solid $gray-1;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.875rem;
-        transition: all 0.15s;
-
-        &:hover {
-          border-color: $primary;
-          color: $primary;
-        }
-      }
-    }
-  }
-
-  .chat-message {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    .message-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-
-      .message-role {
-        font-weight: 600;
-      }
-
-      .message-time {
-        color: $gray-3;
-      }
-    }
-
-    .message-reference {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-      background: $primary-light;
-      border-radius: 4px;
-      color: $primary;
-
-      .reference-text {
-        font-style: italic;
-      }
-    }
-
-    .message-content {
-      padding: 0.75rem;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
-
-    &.user {
-      .message-content {
-        background: $primary;
-        color: $white;
-        border-bottom-right-radius: 2px;
-      }
-    }
-
-    &.assistant {
-      .message-content {
-        background: $white;
-        border: 1px solid $gray-1;
-        border-bottom-left-radius: 2px;
-      }
-    }
-
-    .cursor-blink {
-      animation: blink 1s step-end infinite;
-    }
-  }
-
-  .chat-selection-context {
-    padding: 0.5rem 1rem;
-    background: $primary-light;
-    font-size: 0.75rem;
-    border-top: 1px solid $gray-1;
-
-    .context-label {
-      font-weight: 600;
-      color: $primary;
-      margin-right: 0.5rem;
-    }
-
-    .context-text {
-      color: $gray-3;
-      font-style: italic;
-    }
-  }
-
-  .chat-input-form {
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem;
-    border-top: 1px solid $gray-1;
-    background: $white;
-
-    textarea {
-      flex: 1;
-      padding: 0.75rem;
-      border: 1px solid $gray-1;
-      border-radius: 6px;
-      resize: none;
-      font-size: 0.875rem;
-      font-family: inherit;
-      min-height: 40px;
-      max-height: 120px;
-
-      &:focus {
-        outline: none;
-        border-color: $primary;
-      }
-
-      &::placeholder {
-        color: $gray-2;
-      }
-    }
-
-    button {
-      padding: 0.75rem;
-      background: $primary;
-      color: $white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-
-      &:disabled {
-        background: $gray-2;
-        cursor: not-allowed;
-      }
-    }
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-// Section Progress
-.section-progress {
-  padding: 1rem;
-  border-top: 1px solid $gray-1;
-  background: #fafafa;
-
-  .progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-
-    .progress-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: $gray-3;
-    }
-
-    .progress-count {
-      font-size: 0.75rem;
-      color: $gray-3;
-    }
-  }
-
-  .progress-bar {
-    height: 4px;
-    background: $gray-1;
-    border-radius: 2px;
-    margin-bottom: 0.75rem;
-    overflow: hidden;
-
-    .progress-fill {
-      height: 100%;
-      background: $success;
-      transition: width 0.3s ease;
-    }
-  }
-
-  .section-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    max-height: 150px;
-    overflow-y: auto;
-  }
-
-  .section-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: left;
-    font-size: 0.75rem;
-
-    &:hover {
-      background: $gray-1;
-    }
-
-    &.current {
-      background: $primary-light;
-    }
-
-    .section-status {
-      font-size: 0.625rem;
-    }
-
-    .section-title {
-      color: $black;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-}
-
-// Version Bar
-.version-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: #fafafa;
-  border-top: 1px solid $gray-1;
-  overflow-x: auto;
-
-  &.empty {
-    justify-content: center;
-
-    .no-versions {
-      font-size: 0.875rem;
-      color: $gray-3;
-    }
-  }
-
-  .version-bar-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: $gray-3;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-
-  .version-timeline {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .version-connector {
-    color: $gray-2;
-    font-size: 0.875rem;
-  }
-
-  .version-node {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background: $white;
-    border: 1px solid $gray-1;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    transition: all 0.15s;
-
-    &:hover {
-      border-color: $primary;
-    }
-
-    &.current {
-      border-color: $primary;
-      background: $primary-light;
-    }
-
-    &.unsaved {
-      border-style: dashed;
-      color: $warning;
-      cursor: default;
-
-      &:hover {
-        border-color: $gray-1;
-      }
-    }
-
-    &.ai {
-      .version-dot {
-        font-size: 0.875rem;
-      }
-    }
-
-    &.user {
-      .version-dot {
-        font-size: 0.875rem;
-      }
-    }
-
-    .version-label {
-      color: $black;
-    }
-  }
-}
-
-// Responsive adjustments
-@media (max-width: 768px) {
-  .ai-editor-main {
-    flex-direction: column;
-  }
-
-  .ai-editor-chat {
-    width: 100%;
-    max-width: none;
-    height: 300px;
-    border-top: 1px solid $gray-1;
-    border-right: none;
-  }
-
-  .ai-editor-toolbar {
-    .toolbar-spacer {
-      display: none;
-    }
+  &.resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
   }
 }
