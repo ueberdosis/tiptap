@@ -3,6 +3,10 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 // Components
@@ -21,93 +25,24 @@ import { useVersionControl } from '../hooks/useVersionControl.ts'
 import { eventBus } from '../services/event-bus.ts'
 import { useEditorStore } from '../stores/editor-store.ts'
 
+// Data
+import { PDBI_SUBMISSION } from '../data/pdbi-submission.ts'
+
 // Types
 import type { DocumentReference, EditorFragmentProps, Section } from '../types/index.ts'
 
-// Default initial content
-const DEFAULT_CONTENT: JSONContent = {
-  type: 'doc',
-  content: [
-    {
-      type: 'heading',
-      attrs: { level: 1 },
-      content: [{ type: 'text', text: 'Welcome to AI Document Editor' }],
-    },
-    {
-      type: 'paragraph',
-      content: [
-        {
-          type: 'text',
-          text: 'This is an AI-powered document editor. Select any text to see AI editing options, or use the chat panel to ask questions about your document.',
-        },
-      ],
-    },
-    {
-      type: 'heading',
-      attrs: { level: 2 },
-      content: [{ type: 'text', text: 'Features' }],
-    },
-    {
-      type: 'bulletList',
-      content: [
-        {
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Select text and use AI to improve, simplify, or expand it' }],
-            },
-          ],
-        },
-        {
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Chat with AI about your document content' }],
-            },
-          ],
-        },
-        {
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Version history with save and restore' }],
-            },
-          ],
-        },
-        {
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: 'Section progress tracking' }],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: 'heading',
-      attrs: { level: 2 },
-      content: [{ type: 'text', text: 'Getting Started' }],
-    },
-    {
-      type: 'paragraph',
-      content: [
-        {
-          type: 'text',
-          text: 'Try selecting this paragraph and clicking one of the AI action buttons that appear. You can also type a message in the chat panel on the right to interact with ScyAI about your document.',
-        },
-      ],
-    },
-  ],
-}
+// Use PDBI Submission as default content for demo
+const DEFAULT_CONTENT: JSONContent = PDBI_SUBMISSION
 
 const extensions = [
   StarterKit,
   Underline,
+  Table.configure({
+    resizable: true,
+  }),
+  TableRow,
+  TableCell,
+  TableHeader,
   Placeholder.configure({
     placeholder: 'Start writing...',
   }),
