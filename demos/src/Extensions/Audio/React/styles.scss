@@ -1,0 +1,85 @@
+:root {
+  color-scheme: light;
+}
+
+.control-group {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  width: min(100%, 64rem);
+  margin-bottom: 1rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.control input,
+.control select {
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.45rem;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+.control label {
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.control-group.toggles {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.control-group.toggles .control {
+  align-self: center;
+}
+
+.control-group.toggles label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+}
+
+.insert {
+  background: #111827;
+  border: 1px solid #111827;
+  color: #fff;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  width: min(100%, 64rem);
+  margin-bottom: 1rem;
+  cursor: pointer;
+  display: block;
+}
+
+.insert:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tiptap {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  min-height: 12rem;
+  width: 100%;
+}
+
+.tiptap p {
+  margin: 0.5rem 0;
+}
+
+.tiptap audio {
+  width: 100%;
+  max-width: 64rem;
+  display: block;
+  margin: 0.75rem 0;
+}

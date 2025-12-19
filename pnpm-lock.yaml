@@ -408,6 +408,12 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/extension-audio:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+
   packages/extension-blockquote:
     devDependencies:
       '@tiptap/core':
