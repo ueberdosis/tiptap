@@ -8,9 +8,9 @@ export interface ParagraphOptions {
    */
   HTMLAttributes: Record<string, any>
   /**
-  * Reset marks when creating a new paragraph with Enter.
-  * @default false
-  */
+   * Reset marks when creating a new paragraph with Enter.
+   * @default false
+   */
   resetMarksOnEnter?: boolean
 }
 
