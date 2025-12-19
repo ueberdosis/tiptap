@@ -31,7 +31,7 @@ export default () => {
       }),
     ],
     content: `
-      <p>Use the controls below to insert audio tracks with native elements.</p>
+      <p>Use the controls above to insert audio tracks with native elements.</p>
       <audio src="${DEFAULT_AUDIO_SRC}" controls loop preload="metadata"></audio>
     `,
     editorProps: {
