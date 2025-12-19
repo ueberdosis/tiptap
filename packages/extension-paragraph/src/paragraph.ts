@@ -7,6 +7,11 @@ export interface ParagraphOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+  /**
+  * Reset marks when creating a new paragraph with Enter.
+  * @default false
+  */
+  resetMarksOnEnter?: boolean
 }
 
 declare module '@tiptap/core' {
@@ -87,6 +92,10 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-Alt-0': () => this.editor.commands.setParagraph(),
+      'Enter': () => {
+        if (!this.options.resetMarksOnEnter) return false
+        return this.editor.chain().splitBlock().unsetAllMarks().run()
+      },
     }
   },
 })
