@@ -1,5 +1,44 @@
 # Releases
 
+## v3.14.0
+
+### @tiptap/extension-twitch
+
+#### Minor Changes
+
+- Add new Twitch extension for embedding Twitch videos, clips, and live channels in the editor. Supports customizable parameters like autoplay, muted, and start time, with attribute-level overrides for per-embed configuration.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix `findElementNextToCoords` to resolve the parent when `nodeAt(pos)` is null
+  (e.g., inside an atom node that allows inline content)
+
 ## v3.13.0
 
 ### @tiptap/extension-drag-handle

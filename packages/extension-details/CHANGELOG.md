@@ -1,5 +1,13 @@
 # @tiptap/extension-details
 
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/extension-text-style@3.14.0
+- @tiptap/pm@3.14.0
+
 ## 3.13.0
 
 ### Patch Changes
