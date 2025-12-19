@@ -10,6 +10,7 @@ export interface ParagraphOptions {
   /**
    * Reset marks when creating a new paragraph with Enter.
    * @default false
+   * @example true
    */
   resetMarksOnEnter?: boolean
 }
@@ -38,6 +39,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      resetMarksOnEnter: false,
     }
   },
 
