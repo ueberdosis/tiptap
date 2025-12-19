@@ -1,5 +1,16 @@
 # @tiptap/extension-drag-handle
 
+## 3.14.0
+
+### Patch Changes
+
+- df277af: Fix `findElementNextToCoords` to resolve the parent when `nodeAt(pos)` is null
+  (e.g., inside an atom node that allows inline content)
+  - @tiptap/core@3.14.0
+  - @tiptap/extension-collaboration@3.14.0
+  - @tiptap/extension-node-range@3.14.0
+  - @tiptap/pm@3.14.0
+
 ## 3.13.0
 
 ### Patch Changes

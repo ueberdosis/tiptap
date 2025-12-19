@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.14.0
+
+### Patch Changes
+
+- 383145e: Append all children of editors parent node to element
+
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+  - @tiptap/core@3.14.0
+  - @tiptap/pm@3.14.0
+
 ## 3.13.0
 
 ### Patch Changes
