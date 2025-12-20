@@ -101,8 +101,11 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
         const { $from } = this.editor.state.selection
 
-        // Only handle in paragraphs
-        if ($from.parent.type !== this.type) {
+        // Only handle in top-level paragraphs (direct children of the doc)
+        const isParagraph = $from.parent.type === this.type
+        const isTopLevelParagraph = isParagraph && $from.depth === 1
+
+        if (!isTopLevelParagraph) {
           return false
         }
 
