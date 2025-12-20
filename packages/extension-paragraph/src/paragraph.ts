@@ -95,7 +95,17 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return {
       'Mod-Alt-0': () => this.editor.commands.setParagraph(),
       'Enter': () => {
-        if (!this.options.resetMarksOnEnter) return false
+        if (!this.options.resetMarksOnEnter) {
+          return false
+        }
+
+        const { $from } = this.editor.state.selection
+
+        // Only handle in paragraphs
+        if ($from.parent.type !== this.type) {
+          return false
+        }
+
         return this.editor.chain().splitBlock().unsetAllMarks().run()
       },
     }
