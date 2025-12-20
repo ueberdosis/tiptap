@@ -109,7 +109,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
           return false
         }
 
-        return this.editor.chain().splitBlock().unsetAllMarks().run()
+        return this.editor.chain().splitBlock({ keepMarks: false }).run()
       },
     }
   },
