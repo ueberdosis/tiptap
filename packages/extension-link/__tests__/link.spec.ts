@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -255,5 +256,55 @@ describe('extension-link', () => {
         getEditorEl()?.remove()
       })
     })
+  })
+
+  it('should return false when clicking on non-link elements', async () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Image,
+        Link.configure({
+          openOnClick: false,
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'image',
+                attrs: {
+                  src: 'https://placehold.co/400',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    const editorEl = getEditorEl()
+    const img = editorEl?.querySelector('img')
+
+    expect(img).toBeTruthy()
+
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+    })
+
+    const wasDefaultPrevented = !img?.dispatchEvent(clickEvent)
+
+    // The event should not be prevented by the link handler
+    expect(wasDefaultPrevented).toBe(false)
+
+    editor?.destroy()
+    getEditorEl()?.remove()
   })
 })
