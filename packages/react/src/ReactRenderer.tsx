@@ -159,6 +159,8 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   ref: R | null = null
 
+  destroyed = false
+
   /**
    * Immediately creates element and renders the provided React component.
    */
@@ -186,6 +188,9 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       })
     } else {
       queueMicrotask(() => {
+        if (this.destroyed) {
+          return
+        }
         this.render()
       })
     }
@@ -239,6 +244,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Destroy the React component.
    */
   destroy(): void {
+    this.destroyed = true
     const editor = this.editor as EditorWithContentComponent
 
     editor?.contentComponent?.removeRenderer(this.id)
