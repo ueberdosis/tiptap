@@ -560,6 +560,13 @@ export class BubbleMenuView implements PluginView {
     if (meta === 'updatePosition') {
       this.updatePosition()
     }
+    if (meta === 'hide') {
+      this.hide()
+    }
+    if (meta === 'show') {
+      this.updatePosition()
+      this.show()
+    }
   }
 
   destroy() {
