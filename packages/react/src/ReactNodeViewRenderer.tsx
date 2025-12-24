@@ -67,6 +67,11 @@ export class ReactNodeView<
    */
   contentDOMElement!: HTMLElement | null
 
+  /**
+   * The requestAnimationFrame ID used for selection updates.
+   */
+  selectionRafId: number | null = null
+
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
 
@@ -200,26 +205,33 @@ export class ReactNodeView<
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
-    const { from, to } = this.editor.state.selection
-    const pos = this.getPos()
-
-    if (typeof pos !== 'number') {
-      return
+    if (this.selectionRafId) {
+      cancelAnimationFrame(this.selectionRafId)
+      this.selectionRafId = null
     }
 
-    if (from <= pos && to >= pos + this.node.nodeSize) {
-      if (this.renderer.props.selected) {
+    this.selectionRafId = requestAnimationFrame(() => {
+      this.selectionRafId = null
+      const { from, to } = this.editor.state.selection
+      const pos = this.getPos()
+      if (typeof pos !== 'number') {
         return
       }
 
-      this.selectNode()
-    } else {
-      if (!this.renderer.props.selected) {
-        return
-      }
+      if (from <= pos && to >= pos + this.node.nodeSize) {
+        if (this.renderer.props.selected) {
+          return
+        }
 
-      this.deselectNode()
-    }
+        this.selectNode()
+      } else {
+        if (!this.renderer.props.selected) {
+          return
+        }
+
+        this.deselectNode()
+      }
+    })
   }
 
   /**
@@ -300,6 +312,11 @@ export class ReactNodeView<
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
     this.contentDOMElement = null
+
+    if (this.selectionRafId) {
+      cancelAnimationFrame(this.selectionRafId)
+      this.selectionRafId = null
+    }
   }
 
   /**

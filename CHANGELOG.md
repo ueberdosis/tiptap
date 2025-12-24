@@ -1,5 +1,160 @@
 # Releases
 
+## v3.14.0
+
+### @tiptap/extension-twitch
+
+#### Minor Changes
+
+- Add new Twitch extension for embedding Twitch videos, clips, and live channels in the editor. Supports customizable parameters like autoplay, muted, and start time, with attribute-level overrides for per-embed configuration.
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Append all children of editors parent node to element
+  
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix `findElementNextToCoords` to resolve the parent when `nodeAt(pos)` is null
+  (e.g., inside an atom node that allows inline content)
+
+## v3.13.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Added `data-dragging` attribute to drag handle elements to track drag state.
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Ensure `enableClickSelection` works regardless of the `openOnClick` option by always registering the link click handler plugin.
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Skip the table of contents update logic during IME input method composition to avoid interference with input.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed trailing and leading whitespace handling in markdown serialization for inline marks
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+
+### @tiptap/core
+
+#### Minor Changes
+
+- 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility.
+  2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles.
+  3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+#### Patch Changes
+
+- Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+
+### @tiptap/extension-image
+
+#### Minor Changes
+
+- 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility.
+  2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles.
+  3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+## v3.12.1
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Fixed a bug that mutated the ProseMirror document during server-side rendering, which could cause "Invalid content for node doc" errors.
+
+## v3.12.0
+
+### @tiptap/extension-collaboration
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+  
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Avoid mutating `this.options` in the `updateUser` command. `this.options` can be a getter and is not writable; the command now updates the provider awareness directly so user updates are applied correctly.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+#### Patch Changes
+
+- Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+
 ## v3.11.1
 
 ### @tiptap/core

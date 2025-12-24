@@ -26,6 +26,7 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -40,6 +41,7 @@ import type {
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -777,5 +779,13 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  /**
+   * Returns a set of utilities for working with positions and ranges.
+   */
+  public utils: Utils = {
+    getUpdatedPosition,
+    createMappablePosition,
   }
 }

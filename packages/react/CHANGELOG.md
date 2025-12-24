@@ -1,5 +1,45 @@
 # Change Log
 
+## 3.14.0
+
+### Patch Changes
+
+- 383145e: Append all children of editors parent node to element
+
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+  - @tiptap/core@3.14.0
+  - @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- 5db9bc1: Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+### Patch Changes
+
+- 41601d1: Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
 ## 3.11.1
 
 ### Patch Changes

@@ -1,5 +1,47 @@
 # @tiptap/extension-drag-handle
 
+## 3.14.0
+
+### Patch Changes
+
+- df277af: Fix `findElementNextToCoords` to resolve the parent when `nodeAt(pos)` is null
+  (e.g., inside an atom node that allows inline content)
+  - @tiptap/core@3.14.0
+  - @tiptap/extension-collaboration@3.14.0
+  - @tiptap/extension-node-range@3.14.0
+  - @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/extension-collaboration@3.13.0
+  - @tiptap/extension-node-range@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/extension-collaboration@3.12.1
+- @tiptap/extension-node-range@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/extension-collaboration@3.12.0
+  - @tiptap/core@3.12.0
+  - @tiptap/extension-node-range@3.12.0
+  - @tiptap/pm@3.12.0
+
 ## 3.11.1
 
 ### Patch Changes

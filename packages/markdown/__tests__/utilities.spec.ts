@@ -128,6 +128,111 @@ describe('Markdown Utilities', () => {
       const rendered = spec.renderMarkdown(node)
       expect(rendered).toBe('[highlight color="yellow"]highlighted text[/highlight]')
     })
+
+    it('should skip attributes with default values when skipIfDefault is specified', () => {
+      const spec = createInlineMarkdownSpec({
+        nodeName: 'mention',
+        selfClosing: true,
+        allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
+      })
+
+      // When mentionSuggestionChar equals the default '@', it should be omitted
+      const nodeWithDefault = {
+        attrs: {
+          id: 'test',
+          label: 'Test User',
+          mentionSuggestionChar: '@',
+        },
+      }
+
+      const renderedWithDefault = spec.renderMarkdown(nodeWithDefault)
+      expect(renderedWithDefault).toBe('[mention id="test" label="Test User"]')
+
+      // When mentionSuggestionChar differs from default, it should be included
+      const nodeWithNonDefault = {
+        attrs: {
+          id: 'bug',
+          label: 'Bug',
+          mentionSuggestionChar: '#',
+        },
+      }
+
+      const renderedWithNonDefault = spec.renderMarkdown(nodeWithNonDefault)
+      expect(renderedWithNonDefault).toBe('[mention id="bug" label="Bug" mentionSuggestionChar="#"]')
+    })
+
+    it('should support custom parseAttributes and serializeAttributes for attribute name mapping', () => {
+      const spec = createInlineMarkdownSpec({
+        nodeName: 'mention',
+        name: '@',
+        selfClosing: true,
+        allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
+        parseAttributes: (attrString: string) => {
+          const attrs: Record<string, any> = {}
+          const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
+          let match = regex.exec(attrString)
+
+          while (match !== null) {
+            const [, key, doubleQuoted, singleQuoted] = match
+            const value = doubleQuoted ?? singleQuoted
+            attrs[key === 'char' ? 'mentionSuggestionChar' : key] = value
+            match = regex.exec(attrString)
+          }
+
+          return attrs
+        },
+        serializeAttributes: (attrs: Record<string, any>) => {
+          return Object.entries(attrs)
+            .filter(([, value]) => value !== undefined && value !== null)
+            .map(([key, value]) => {
+              const serializedKey = key === 'mentionSuggestionChar' ? 'char' : key
+              return `${serializedKey}="${value}"`
+            })
+            .join(' ')
+        },
+      })
+
+      // Test serialization: mentionSuggestionChar should be serialized as 'char'
+      const nodeWithHashChar = {
+        attrs: {
+          id: 'bug',
+          mentionSuggestionChar: '#',
+        },
+      }
+
+      const rendered = spec.renderMarkdown(nodeWithHashChar)
+      expect(rendered).toBe('[@ id="bug" char="#"]')
+
+      // Test serialization: default '@' should be omitted
+      const nodeWithDefaultChar = {
+        attrs: {
+          id: 'Madonna',
+          mentionSuggestionChar: '@',
+        },
+      }
+
+      const renderedDefault = spec.renderMarkdown(nodeWithDefaultChar)
+      expect(renderedDefault).toBe('[@ id="Madonna"]')
+
+      // Test parsing: 'char' should be mapped to 'mentionSuggestionChar'
+      const token = spec.markdownTokenizer.tokenize('[@ id="feature" char="#"]', [], null as any)
+      expect(token).toMatchObject({
+        type: 'mention',
+        attributes: {
+          id: 'feature',
+          mentionSuggestionChar: '#',
+        },
+      })
+
+      // Test parsing: without char attribute
+      const tokenNoChar = spec.markdownTokenizer.tokenize('[@ id="Tom Cruise"]', [], null as any)
+      expect(tokenNoChar).toMatchObject({
+        type: 'mention',
+        attributes: {
+          id: 'Tom Cruise',
+        },
+      })
+    })
   })
 
   describe('createBlockMarkdownSpec', () => {
