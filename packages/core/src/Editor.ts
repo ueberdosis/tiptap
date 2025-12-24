@@ -430,7 +430,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           Commands,
           FocusEvents,
           Keymap,
-          Tabindex,
+          Tabindex.configure({
+            value: this.options.coreExtensionOptions?.tabindex?.value,
+          }),
           Drop,
           Paste,
           Delete,
