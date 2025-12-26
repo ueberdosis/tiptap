@@ -389,6 +389,11 @@ export class BubbleMenuView implements PluginView {
     }
 
     this.resizeDebounceTimer = window.setTimeout(() => {
+      // The editor might be destroyed during the `resizeDelay` interval.
+      if (this.editor.isDestroyed) {
+        return
+      }
+
       this.updatePosition()
     }, this.resizeDelay)
   }
