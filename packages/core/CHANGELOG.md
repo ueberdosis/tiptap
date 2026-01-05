@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
 ## 3.14.0
 
 ### Patch Changes
