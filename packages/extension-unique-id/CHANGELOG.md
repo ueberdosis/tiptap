@@ -1,5 +1,14 @@
 # @tiptap/extension-unique-id
 
+## 3.15.0
+
+### Patch Changes
+
+- c5cbea6: Fix unique ID assignment when handling empty nodes by checking next node's attribute state in the transaction document before modifying it, preventing incorrect ID assignments.
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
 ## 3.14.0
 
 ### Patch Changes

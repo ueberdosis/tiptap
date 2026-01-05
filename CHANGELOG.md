@@ -1,5 +1,19 @@
 # Releases
 
+## v3.15.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fix unique ID assignment when handling empty nodes by checking next node's attribute state in the transaction document before modifying it, preventing incorrect ID assignments.
+
 ## v3.14.0
 
 ### @tiptap/extension-twitch
