@@ -11,6 +11,8 @@ dist
 .instructions
 .agent
 
+docs
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
