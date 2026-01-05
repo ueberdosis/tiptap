@@ -826,6 +826,103 @@ export type ExtendedRegExpMatchArray = RegExpMatchArray & {
 
 export type Dispatch = ((args?: any) => any) | undefined
 
+/**
+ * Helper type for creating decoration items with better DX.
+ * Use the specific decoration types instead of this directly.
+ */
+export interface BaseDecorationItem {
+  from: number
+  to: number
+}
+
+/**
+ * A node-level decoration that wraps entire nodes.
+ * Useful for styling or interacting with specific nodes like code blocks, headings, etc.
+ */
+export interface NodeDecoration extends BaseDecorationItem {
+  type: 'node'
+  attributes?: Record<string, string>
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
+}
+
+/**
+ * An inline decoration that wraps inline content (text, marks, etc).
+ * Useful for highlighting, underlining, or other inline styling.
+ */
+export interface InlineDecoration extends BaseDecorationItem {
+  type: 'inline'
+  attributes?: Record<string, string>
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
+}
+
+/**
+ * A widget decoration that renders custom HTML at a specific position.
+ * Widgets can be interactive and are rendered by the editor.
+ */
+export interface WidgetDecoration extends BaseDecorationItem {
+  type: 'widget'
+  widget: (view: EditorView, getPos: () => number | undefined) => HTMLElement
+  /**
+   * Optional spec object for passing additional data to the decoration.
+   * Useful for decoration diffing and providing metadata.
+   */
+  spec?: Record<string, any>
+}
+
+export type DecorationItem = NodeDecoration | InlineDecoration | WidgetDecoration
+
+export type DecorationItemWithExtension = DecorationItem & {
+  extension: string
+}
+
+/**
+ * Configuration for creating decorations in an extension.
+ * Provides a cleaner API for building decorations without direct ProseMirror plugin access.
+ *
+ * @example
+ * ```ts
+ * decorations: () => ({
+ *   // Return decoration items for the current state
+ *   create({ state, editor }) {
+ *     return [
+ *       { type: 'inline', from: 0, to: 10, attributes: { class: 'highlight' } }
+ *     ]
+ *   },
+ *   // Optionally specify when decorations need to be recreated
+ *   shouldUpdate({ oldState, newState }) {
+ *     return newState.selection.from !== oldState.selection.from
+ *   }
+ * })
+ * ```
+ */
+export interface DecorationOptions {
+  /**
+   * Create decorations for the current editor state.
+   * Called when the editor is initialized and whenever `shouldUpdate` returns true.
+   *
+   * @param props - Context including editor state, view, and editor instance
+   * @returns Array of decoration items, or null/undefined if no decorations should be created
+   */
+  create: (props: { state: EditorState; view: EditorView; editor: Editor }) => DecorationItem[] | null | undefined
+
+  /**
+   * Determine if decorations need to be recreated after a transaction.
+   * If not provided, decorations will be recreated on every change (safest but less performant).
+   *
+   * @param props - Context including transaction, old state, and new state
+   * @returns true if decorations should be recreated, false to reuse mapped decorations
+   */
+  shouldUpdate?: (props: { tr: Transaction; oldState: EditorState; newState: EditorState }) => boolean
+}
+
 /** Markdown related types */
 
 // Shared markdown-related types for the MarkdownManager and extensions.
