@@ -9,6 +9,7 @@ dist
 .eslintcache
 
 .instructions
+.agent
 
 # Log files
 npm-debug.log*
