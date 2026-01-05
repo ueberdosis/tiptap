@@ -143,7 +143,7 @@ Second paragraph.`
     })
   })
 
-  describe.only('nested Marks parsing', () => {
+  describe('nested Marks parsing', () => {
     markdownManager = new MarkdownManager()
     ;[Underline, Strike, Bold].forEach(extension => {
       markdownManager.registerExtension(extension)
