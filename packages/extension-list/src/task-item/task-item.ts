@@ -1,5 +1,11 @@
 import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { mergeAttributes, Node, renderNestedMarkdownContent, wrappingInputRule } from '@tiptap/core'
+import {
+  getRenderedAttributes,
+  mergeAttributes,
+  Node,
+  renderNestedMarkdownContent,
+  wrappingInputRule,
+} from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
@@ -243,6 +249,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
         listItem.setAttribute(key, value)
       })
 
+      // Track the keys of previously rendered HTML attributes for proper removal
+      let prevRenderedAttributeKeys = new Set(Object.keys(HTMLAttributes))
+
       return {
         dom: listItem,
         contentDOM: content,
@@ -254,6 +263,30 @@ export const TaskItem = Node.create<TaskItemOptions>({
           listItem.dataset.checked = updatedNode.attrs.checked
           checkbox.checked = updatedNode.attrs.checked
           updateA11Y(updatedNode)
+
+          // Sync all HTML attributes from the updated node
+          const extensionAttributes = editor.extensionManager.attributes
+          const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+          const newKeys = new Set(Object.keys(newHTMLAttributes))
+
+          // Remove attributes that were previously rendered but are no longer present
+          prevRenderedAttributeKeys.forEach(key => {
+            if (!newKeys.has(key)) {
+              listItem.removeAttribute(key)
+            }
+          })
+
+          // Update or add new attributes
+          Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+            if (value === null || value === undefined) {
+              listItem.removeAttribute(key)
+            } else {
+              listItem.setAttribute(key, value)
+            }
+          })
+
+          // Update the tracked keys for next update
+          prevRenderedAttributeKeys = newKeys
 
           return true
         },
