@@ -1,5 +1,13 @@
 # Releases
 
+## v3.15.1
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Add a new `shouldShow` callback to the `Suggestion` utility. This allows developers to filter when suggestions are displayed, which is especially useful for collaborative environments to prevent suggestions from popping open for remote users.
+
 ## v3.15.0
 
 ### @tiptap/core

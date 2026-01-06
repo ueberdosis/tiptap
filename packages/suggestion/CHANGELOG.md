@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.15.1
+
+### Patch Changes
+
+- 5cdcc9e: Add a new `shouldShow` callback to the `Suggestion` utility. This allows developers to filter when suggestions are displayed, which is especially useful for collaborative environments to prevent suggestions from popping open for remote users.
+  - @tiptap/core@3.15.1
+  - @tiptap/pm@3.15.1
+
 ## 3.15.0
 
 ### Patch Changes
