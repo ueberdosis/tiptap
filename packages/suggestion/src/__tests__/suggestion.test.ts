@@ -41,6 +41,8 @@ describe('suggestion integration', () => {
 
     expect(shouldShow).toHaveBeenCalled()
     expect(render).not.toHaveBeenCalled()
+
+    editor.destroy()
   })
 
   it('should respect shouldShow returning true', async () => {
@@ -79,6 +81,8 @@ describe('suggestion integration', () => {
 
     expect(shouldShow).toHaveBeenCalled()
     expect(render).toHaveBeenCalled()
+
+    editor.destroy()
   })
 
   it('should pass transaction to shouldShow', async () => {
@@ -111,10 +115,13 @@ describe('suggestion integration', () => {
     // Flush microtasks
     await Promise.resolve()
 
-    expect(capturedProps).toBeTruthy()
-    // The transaction is passed inside the 'props' property of the argument
-    expect(capturedProps.props.transaction).toBeDefined()
+    // The transaction is passed as a flat property
+    expect(capturedProps.transaction).toBeDefined()
+    expect(capturedProps.query).toBe('')
+    expect(capturedProps.text).toBe('@')
     // Check that we receive the correct editor instance
     expect(capturedProps.editor).toBe(editor)
+
+    editor.destroy()
   })
 })
