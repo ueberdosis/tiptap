@@ -6,11 +6,17 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { UndoRedo } from '@tiptap/extensions'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 describe('can', () => {
+  let editor: Editor
+
+  afterEach(() => {
+    editor?.destroy()
+  })
+
   it('not undo', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo],
     })
 
@@ -20,7 +26,7 @@ describe('can', () => {
   })
 
   it('undo', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo],
     })
 
@@ -32,7 +38,7 @@ describe('can', () => {
   })
 
   it('not chain undo', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo],
     })
 
@@ -42,7 +48,7 @@ describe('can', () => {
   })
 
   it('chain undo', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo],
     })
 
@@ -54,7 +60,7 @@ describe('can', () => {
   })
 
   it('returns false for non-applicable marks when cursor is positioned in node that disallows marks', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, CodeBlock, Bold],
     })
 
@@ -72,7 +78,7 @@ describe('can', () => {
   })
 
   it('returns false for non-applicable marks when selection contains node in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, CodeBlock, Bold],
     })
 
@@ -90,7 +96,7 @@ describe('can', () => {
   })
 
   it('returns false for non-applicable marks when selection contains marks in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -102,7 +108,7 @@ describe('can', () => {
   })
 
   it('returns false for non-applicable marks when stored marks in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -114,7 +120,7 @@ describe('can', () => {
   })
 
   it('returns false for non-applicable marks when selecting multiple nodes in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -126,7 +132,7 @@ describe('can', () => {
   })
 
   it('returns true for applicable marks when selection does not contain nodes in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, CodeBlock, Bold],
     })
 
@@ -145,7 +151,7 @@ describe('can', () => {
   })
 
   it('returns true for applicable marks when stored marks are not in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -157,7 +163,7 @@ describe('can', () => {
   })
 
   it('returns true for applicable marks when selection does not contain marks in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -169,7 +175,7 @@ describe('can', () => {
   })
 
   it('returns true for applicable marks if at least one node in selection has no marks in conflict', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo, Code, Bold],
     })
 
@@ -181,7 +187,7 @@ describe('can', () => {
   })
 
   it('builds and passes down an undefined dispatch for nested "can" chain', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, UndoRedo],
     })
 
