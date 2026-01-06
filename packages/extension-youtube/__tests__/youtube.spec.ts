@@ -5,6 +5,8 @@ import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
 import { describe, expect, it } from 'vitest'
 
+import { getEmbedUrlFromYoutubeUrl } from '../src/utils.ts'
+
 /**
  * Most youtube tests should actually exist in the demo/ app folder
  */
@@ -76,5 +78,58 @@ describe('extension-youtube', () => {
 
     editor?.destroy()
     getEditorEl()?.remove()
+  })
+
+  describe('YouTube Shorts URL handling', () => {
+    it('generates correct embed URL for YouTube Shorts with query parameters', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/shorts/EkRHhOCdZjw',
+        controls: true,
+        rel: 1,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?rel=1')
+    })
+
+    it('generates correct embed URL for YouTube Shorts without www', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://youtube.com/shorts/EkRHhOCdZjw',
+        controls: true,
+        autoplay: true,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?autoplay=1')
+    })
+
+    it('generates correct embed URL for YouTube Shorts with multiple parameters', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/shorts/EkRHhOCdZjw',
+        autoplay: true,
+        controls: false,
+        rel: 0,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?autoplay=1&controls=0&rel=0')
+    })
+
+    it('generates correct embed URL for YouTube Shorts with nocookie option', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/shorts/EkRHhOCdZjw',
+        nocookie: true,
+        controls: true,
+        rel: 1,
+      })
+
+      expect(result).toBe('https://www.youtube-nocookie.com/embed/EkRHhOCdZjw?rel=1')
+    })
+
+    it('generates correct embed URL for YouTube Shorts without extra parameters', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/shorts/EkRHhOCdZjw',
+        controls: true,
+      })
+
+      expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw')
+    })
   })
 })
