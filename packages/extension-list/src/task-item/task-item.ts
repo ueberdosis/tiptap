@@ -270,16 +270,28 @@ export const TaskItem = Node.create<TaskItemOptions>({
           const newKeys = new Set(Object.keys(newHTMLAttributes))
 
           // Remove attributes that were previously rendered but are no longer present
+          // If the attribute exists in static options, restore it instead of removing
+          const staticAttrs = this.options.HTMLAttributes
+
           prevRenderedAttributeKeys.forEach(key => {
             if (!newKeys.has(key)) {
-              listItem.removeAttribute(key)
+              if (key in staticAttrs) {
+                listItem.setAttribute(key, staticAttrs[key])
+              } else {
+                listItem.removeAttribute(key)
+              }
             }
           })
 
           // Update or add new attributes
           Object.entries(newHTMLAttributes).forEach(([key, value]) => {
             if (value === null || value === undefined) {
-              listItem.removeAttribute(key)
+              // If the attribute exists in static options, restore it instead of removing
+              if (key in staticAttrs) {
+                listItem.setAttribute(key, staticAttrs[key])
+              } else {
+                listItem.removeAttribute(key)
+              }
             } else {
               listItem.setAttribute(key, value)
             }

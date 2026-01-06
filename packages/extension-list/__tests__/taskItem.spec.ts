@@ -193,4 +193,106 @@ describe('TaskItem', () => {
     expect(updatedTaskItemElement?.getAttribute('data-uid')).toBe('task-updated')
     expect(updatedTaskItemElement?.getAttribute('data-priority')).toBe('low')
   })
+
+  it('preserves HTMLAttributes from configure() options during updates', () => {
+    // Configure TaskItem with static HTMLAttributes
+    const ConfiguredTaskItem = TaskItem.configure({
+      HTMLAttributes: {
+        class: 'custom-task-item',
+        'data-static': 'static-value',
+      },
+    })
+
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, TaskList, ConfiguredTaskItem],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'taskList',
+            content: [
+              {
+                type: 'taskItem',
+                attrs: { checked: false },
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Test task' }] }],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    // Verify the static attributes are present initially
+    const taskItemElement = editor.view.dom.querySelector('li[data-checked]')
+
+    expect(taskItemElement?.getAttribute('class')).toBe('custom-task-item')
+    expect(taskItemElement?.getAttribute('data-static')).toBe('static-value')
+    expect(taskItemElement?.getAttribute('data-checked')).toBe('false')
+
+    // Update the task item
+    editor.chain().setTextSelection(4).updateAttributes('taskItem', { checked: true }).run()
+
+    // Verify static attributes are still present after update
+    const updatedTaskItemElement = editor.view.dom.querySelector('li[data-checked]')
+
+    expect(updatedTaskItemElement?.getAttribute('class')).toBe('custom-task-item')
+    expect(updatedTaskItemElement?.getAttribute('data-static')).toBe('static-value')
+    expect(updatedTaskItemElement?.getAttribute('data-checked')).toBe('true')
+  })
+
+  it('restores static HTMLAttributes when dynamic attribute with same key is removed', () => {
+    // Configure TaskItem with a static attribute that will be overridden by dynamic attribute
+    const ConfiguredTaskItem = TaskItem.extend({
+      addAttributes() {
+        return {
+          ...this.parent?.(),
+          customClass: {
+            default: null,
+            renderHTML: attributes => {
+              if (!attributes.customClass) {
+                return {}
+              }
+              return { class: attributes.customClass }
+            },
+          },
+        }
+      },
+    }).configure({
+      HTMLAttributes: {
+        class: 'static-class',
+      },
+    })
+
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, TaskList, ConfiguredTaskItem],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'taskList',
+            content: [
+              {
+                type: 'taskItem',
+                attrs: { checked: false, customClass: 'dynamic-class' },
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Test task' }] }],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    // Dynamic class should override static class initially
+    const taskItemElement = editor.view.dom.querySelector('li[data-checked]')
+
+    expect(taskItemElement?.getAttribute('class')).toBe('dynamic-class')
+
+    // Remove the dynamic class attribute
+    editor.chain().setTextSelection(4).updateAttributes('taskItem', { customClass: null }).run()
+
+    // Static class should be restored
+    const updatedTaskItemElement = editor.view.dom.querySelector('li[data-checked]')
+
+    expect(updatedTaskItemElement?.getAttribute('class')).toBe('static-class')
+  })
 })
