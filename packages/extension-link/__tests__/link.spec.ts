@@ -256,4 +256,95 @@ describe('extension-link', () => {
       })
     })
   })
+
+  describe('shouldAutoLink', () => {
+    it('default shouldAutoLink rejects bare hostnames without TLD', () => {
+      // Test using Link extension's default options
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Link],
+      })
+
+      // Access the default shouldAutoLink function through the extension options
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // Should reject bare hostnames without TLD
+        expect(shouldAutoLink('localhost')).toBe(false)
+        expect(shouldAutoLink('myserver')).toBe(false)
+        expect(shouldAutoLink('intranet')).toBe(false)
+
+        // Should allow URLs with protocols
+        expect(shouldAutoLink('http://localhost')).toBe(true)
+        expect(shouldAutoLink('https://localhost')).toBe(true)
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('ftp://myserver')).toBe(true)
+
+        // Should allow URLs with TLD
+        expect(shouldAutoLink('example.com')).toBe(true)
+        expect(shouldAutoLink('test.example.com')).toBe(true)
+        expect(shouldAutoLink('https://example.com')).toBe(true)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('default shouldAutoLink rejects bare IP addresses', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Link],
+      })
+
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // Should reject bare IP addresses
+        expect(shouldAutoLink('127.0.0.1')).toBe(false)
+        expect(shouldAutoLink('192.168.1.1')).toBe(false)
+        expect(shouldAutoLink('10.0.0.1')).toBe(false)
+        expect(shouldAutoLink('0.0.0.0')).toBe(false)
+
+        // Should allow IP addresses with protocols
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('https://192.168.1.1')).toBe(true)
+        expect(shouldAutoLink('http://10.0.0.1:8080')).toBe(true)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('allows custom shouldAutoLink to override default behavior', () => {
+      // Custom shouldAutoLink that allows all URLs (old behavior)
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link.configure({
+            shouldAutoLink: () => true,
+          }),
+        ],
+      })
+
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // With custom shouldAutoLink, localhost should be allowed
+        expect(shouldAutoLink('localhost')).toBe(true)
+        expect(shouldAutoLink('127.0.0.1')).toBe(true)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 })
