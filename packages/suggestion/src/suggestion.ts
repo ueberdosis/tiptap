@@ -24,6 +24,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props.text The current suggestion text.
    * @param props.transaction The current transaction.
    * @returns {boolean}
+   * @example ({ transaction }) => isChangeOrigin(transaction)
    */
   shouldShow?: (props: {
     editor: Editor
