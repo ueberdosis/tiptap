@@ -132,4 +132,19 @@ describe('extension-youtube', () => {
       expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw')
     })
   })
+
+  describe('YouTube Playlist URL handling', () => {
+    it('generates correct embed URL for playlist with additional parameters using & separator', () => {
+      const result = getEmbedUrlFromYoutubeUrl({
+        url: 'https://www.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf',
+        controls: true,
+        autoplay: true,
+      })
+
+      // Playlist URLs use ?list= in base URL, so additional params should use &
+      expect(result).toBe(
+        'https://www.youtube-nocookie.com/embed/videoseries?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf&autoplay=1',
+      )
+    })
+  })
 })
