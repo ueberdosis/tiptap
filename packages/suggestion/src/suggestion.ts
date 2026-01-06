@@ -15,6 +15,16 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   pluginKey?: PluginKey
 
   /**
+   * A function that returns a boolean to indicate if the suggestion should be active.
+   * This is useful to prevent suggestions from opening for remote users in collaborative environments.
+   * @param props The props object.
+   * @param props.editor The editor instance.
+   * @param props.range The range of the suggestion.
+   * @returns {boolean}
+   */
+  shouldShow?: (props: { editor: Editor; range: Range; props: any }) => boolean
+
+  /**
    * The editor instance.
    * @default null
    */
@@ -201,6 +211,7 @@ export function Suggestion<I = any, TSelected = any>({
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
+  shouldShow,
 }: SuggestionOptions<I, TSelected>) {
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
@@ -427,7 +438,16 @@ export function Suggestion<I = any, TSelected = any>({
               state,
               range: match.range,
               isActive: prev.active,
-            })
+            }) &&
+            (!shouldShow ||
+              shouldShow({
+                editor,
+                range: match.range,
+                props: {
+                  ...match,
+                  transaction,
+                },
+              }))
           ) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId
