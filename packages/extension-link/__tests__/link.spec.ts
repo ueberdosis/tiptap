@@ -286,6 +286,11 @@ describe('extension-link', () => {
         expect(shouldAutoLink('example.com')).toBe(true)
         expect(shouldAutoLink('test.example.com')).toBe(true)
         expect(shouldAutoLink('https://example.com')).toBe(true)
+
+        // Should correctly handle URLs with userinfo (user:pass@host)
+        expect(shouldAutoLink('user:pass@example.com')).toBe(true)
+        expect(shouldAutoLink('user@example.com')).toBe(true)
+        expect(shouldAutoLink('user:pass@localhost')).toBe(false)
       }
 
       editor?.destroy()

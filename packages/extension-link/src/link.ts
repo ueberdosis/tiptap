@@ -240,12 +240,17 @@ export const Link = Mark.create<LinkOptions>({
       isAllowedUri: (url, ctx) => !!isAllowedUri(url, ctx.protocols),
       validate: url => !!url,
       shouldAutoLink: url => {
-        // URLs with explicit protocols should be auto-linked
-        if (/^[a-z][a-z0-9+.-]*:/i.test(url)) {
+        // URLs with explicit protocols (e.g., https://) should be auto-linked
+        // But not if @ appears before :// (that would be userinfo like user:pass@host)
+        const hasProtocol = /^[a-z][a-z0-9+.-]*:\/\//i.test(url)
+        const hasMaybeProtocol = /^[a-z][a-z0-9+.-]*:/i.test(url)
+
+        if (hasProtocol || (hasMaybeProtocol && !url.includes('@'))) {
           return true
         }
-        // Extract the hostname part (before any path, query, or port)
-        const hostname = url.split(/[/?#:]/)[0]
+        // Strip userinfo (user:pass@) if present, then extract hostname
+        const urlWithoutUserinfo = url.includes('@') ? url.split('@').pop()! : url
+        const hostname = urlWithoutUserinfo.split(/[/?#:]/)[0]
 
         // Don't auto-link IP addresses without protocol
         if (/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) {
