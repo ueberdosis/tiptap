@@ -155,12 +155,12 @@ describe('Markdown Conversion Tests', () => {
 
     it('should convert markdown with leading paragraph to expected JSON structure', () => {
       const json = markdownManager.parse(markdownWithLeadingParagraph)
-      expect(json).to.deep.equal(expectedJSON)
+      expect(json).toEqual(expectedJSON)
     })
 
     it('should convert JSON structure back to expected markdown', () => {
       const md = markdownManager.serialize(expectedJSON)
-      expect(md).to.equal(markdownWithLeadingParagraph)
+      expect(md).toBe(markdownWithLeadingParagraph)
     })
   })
 
