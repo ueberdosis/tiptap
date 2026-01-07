@@ -3,6 +3,7 @@ import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
 import type { FocusPosition, RawCommands } from '../types.js'
 import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
+import { isSafari } from '../utilities/isSafari.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -45,6 +46,13 @@ export const focus: RawCommands['focus'] =
       // so we have to call this
       if (isiOS() || isAndroid()) {
         ;(view.dom as HTMLElement).focus()
+      }
+
+      // Safari requires preventScroll to avoid the browser scrolling to the
+      // top of the editor when focus is called before the selection is set.
+      // see: https://github.com/ueberdosis/tiptap/issues/7318
+      if (isSafari()) {
+        ;(view.dom as HTMLElement).focus({ preventScroll: true })
       }
 
       // For React we have to focus asynchronously. Otherwise wild things happen.
