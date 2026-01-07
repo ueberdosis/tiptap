@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+
 ## 3.15.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
 ## 3.15.2
 
 ### Patch Changes
