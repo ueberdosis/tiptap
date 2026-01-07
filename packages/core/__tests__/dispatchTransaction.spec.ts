@@ -19,6 +19,8 @@ describe('dispatchTransaction', () => {
     editor.commands.insertContent('foo')
 
     expect(dispatchTransaction).toHaveBeenCalled()
+
+    editor.destroy()
   })
 
   it('should call multiple dispatchTransaction hooks in priority order', () => {
@@ -47,6 +49,8 @@ describe('dispatchTransaction', () => {
     editor.commands.insertContent('foo')
 
     expect(order).toEqual(['extension2', 'extension1'])
+
+    editor.destroy()
   })
 
   it('should block transaction if next is not called', () => {
@@ -64,6 +68,8 @@ describe('dispatchTransaction', () => {
     editor.commands.insertContent('foo')
 
     expect(editor.getText()).toBe('')
+
+    editor.destroy()
   })
 
   it('should allow user-provided dispatchTransaction as base', () => {
@@ -89,6 +95,8 @@ describe('dispatchTransaction', () => {
     editor.commands.insertContent('foo')
 
     expect(userDispatch).toHaveBeenCalled()
+
+    editor.destroy()
   })
 
   it('should bypass extensions if enableExtensionDispatchTransaction is false', () => {
@@ -106,5 +114,7 @@ describe('dispatchTransaction', () => {
     editor.commands.insertContent('foo')
 
     expect(dispatchTransaction).not.toHaveBeenCalled()
+
+    editor.destroy()
   })
 })
