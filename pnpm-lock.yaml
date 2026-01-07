@@ -854,6 +854,12 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-twitch:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+
   packages/extension-typography:
     devDependencies:
       '@tiptap/core':
@@ -984,9 +990,9 @@ importers:
       '@types/use-sync-external-store':
         specifier: ^0.0.6
         version: 0.0.6
-      fast-deep-equal:
-        specifier: ^3.1.3
-        version: 3.1.3
+      fast-equals:
+        specifier: ^5.3.3
+        version: 5.3.3
       use-sync-external-store:
         specifier: ^1.4.0
         version: 1.4.0(react@19.1.0)
@@ -4661,6 +4667,10 @@ packages:
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
+  fast-equals@5.3.3:
+    resolution: {integrity: sha512-/boTcHZeIAQ2r/tL11voclBHDeP9WPxLt+tyAbVSyyXuUFyh0Tne7gJZTqGbxnvj79TjLdCXLOY7UIPhyG5MTw==}
+    engines: {node: '>=6.0.0'}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -11272,6 +11282,8 @@ snapshots:
   extsprintf@1.3.0: {}
 
   fast-deep-equal@3.1.3: {}
+
+  fast-equals@5.3.3: {}
 
   fast-glob@3.3.3:
     dependencies:

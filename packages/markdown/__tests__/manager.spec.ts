@@ -212,6 +212,139 @@ Final paragraph.`
       expect(markdown).toBe('Hello world')
     })
 
+    it('should move trailing whitespace outside of mark closing (Issue #7180)', () => {
+      // When text has trailing space and bold mark, output should be "**text** " not "**text **"
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'bold text ',
+                marks: [{ type: 'bold' }],
+              },
+              {
+                type: 'text',
+                text: 'continues here',
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.renderNodes(doc)
+      // The trailing space should be outside the ** markers
+      expect(markdown).toBe('**bold text** continues here')
+    })
+
+    it('should move leading whitespace outside of mark opening (Issue #7180)', () => {
+      // When text has leading space and bold mark, output should be " **text**" not "** text**"
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'normal text',
+              },
+              {
+                type: 'text',
+                text: ' bold text',
+                marks: [{ type: 'bold' }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.renderNodes(doc)
+      // The leading space should be outside the ** markers
+      expect(markdown).toBe('normal text **bold text**')
+    })
+
+    it('should handle both leading and trailing whitespace in marked text (Issue #7180)', () => {
+      // Text like " bold " with bold mark should output " **bold** " not "** bold **"
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'before',
+              },
+              {
+                type: 'text',
+                text: ' bold ',
+                marks: [{ type: 'bold' }],
+              },
+              {
+                type: 'text',
+                text: 'after',
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.renderNodes(doc)
+      // Both leading and trailing spaces should be outside the ** markers
+      expect(markdown).toBe('before **bold** after')
+    })
+
+    it('should handle trailing whitespace in italic marks (Issue #7180)', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'italic text ',
+                marks: [{ type: 'italic' }],
+              },
+              {
+                type: 'text',
+                text: 'normal',
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.renderNodes(doc)
+      expect(markdown).toBe('*italic text* normal')
+    })
+
+    it('should handle whitespace at end of paragraph with mark (Issue #7180)', () => {
+      // Bold text with trailing space at end of paragraph
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'some text ',
+                marks: [{ type: 'bold' }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.renderNodes(doc)
+      // Trailing space should be outside the marks
+      expect(markdown).toBe('**some text** ')
+    })
+
     it('should render nested marks with correct tag order', () => {
       // Test case: bold inside strike should render as ~~**text**~~
       const doc = {

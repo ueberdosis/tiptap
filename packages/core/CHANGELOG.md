@@ -1,5 +1,84 @@
 # Change Log
 
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Minor Changes
+
+- e3b4f68: 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility. 2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles. 3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+### Patch Changes
+
+- 526365a: Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- f232c5a: Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### Patch Changes
+
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- d0c4264: Improve TypeScript generics for Node.extend
+
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+
+  This is a type-only change — there are no runtime behavior changes.
+
+  - @tiptap/pm@3.11.1
+
 ## 3.11.0
 
 ### Minor Changes

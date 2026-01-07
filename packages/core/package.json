@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/core",
   "description": "headless rich text editor",
-  "version": "3.11.0",
+  "version": "3.15.3",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",

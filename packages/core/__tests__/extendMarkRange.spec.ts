@@ -70,6 +70,8 @@ describe('extendMarkRange', () => {
     }
 
     expect({ from, to }).toEqual(expectedSelection)
+
+    editor.destroy()
   })
 
   it('should extend to mark with specific attributes', () => {
@@ -141,6 +143,8 @@ describe('extendMarkRange', () => {
     }
 
     expect({ from, to }).toEqual(expectedSelection)
+
+    editor.destroy()
   })
 
   it('should not extend at all if selection contains no mark', () => {
@@ -206,6 +210,8 @@ describe('extendMarkRange', () => {
     }
 
     expect({ from, to }).toEqual(expectedSelection)
+
+    editor.destroy()
   })
 
   it('should not extend at all if selection contains any non-matching mark', () => {
@@ -277,5 +283,7 @@ describe('extendMarkRange', () => {
     }
 
     expect({ from, to }).toEqual(expectedSelection)
+
+    editor.destroy()
   })
 })

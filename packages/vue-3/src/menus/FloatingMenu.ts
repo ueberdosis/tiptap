@@ -27,7 +27,7 @@ export const FloatingMenu = defineComponent({
     },
 
     appendTo: {
-      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      type: [Object, Function] as PropType<FloatingMenuPluginProps['appendTo']>,
       default: undefined,
     },
 

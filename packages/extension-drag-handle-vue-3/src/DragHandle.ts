@@ -107,6 +107,7 @@ export const DragHandle = defineComponent({
           ref: root,
           class: props.class,
           style: { visibility: 'hidden', position: 'absolute' },
+          'data-dragging': 'false',
         },
         slots.default?.(),
       )
