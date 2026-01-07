@@ -50,7 +50,7 @@ export const EditorContent: Component = {
   beforeDestroy(this: EditorContentInterface) {
     const { editor } = this
 
-    if (!editor) {
+    if (!editor || editor.contentComponent !== this) {
       return
     }
 
