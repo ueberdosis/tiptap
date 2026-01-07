@@ -1,5 +1,13 @@
 # Releases
 
+## v3.15.3
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix Safari scrolling to top when using editor.chain().focus() commands
+
 ## v3.15.2
 
 ### @tiptap/extension-link
