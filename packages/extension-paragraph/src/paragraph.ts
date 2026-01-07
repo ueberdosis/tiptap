@@ -7,6 +7,12 @@ export interface ParagraphOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+  /**
+   * Reset marks when creating a new paragraph with Enter.
+   * @default false
+   * @example true
+   */
+  resetMarksOnEnter?: boolean
 }
 
 declare module '@tiptap/core' {
@@ -33,6 +39,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      resetMarksOnEnter: false,
     }
   },
 
@@ -87,6 +94,23 @@ export const Paragraph = Node.create<ParagraphOptions>({
   addKeyboardShortcuts() {
     return {
       'Mod-Alt-0': () => this.editor.commands.setParagraph(),
+      'Enter': () => {
+        if (!this.options.resetMarksOnEnter) {
+          return false
+        }
+
+        const { $from } = this.editor.state.selection
+
+        // Only handle in top-level paragraphs (direct children of the doc)
+        const isParagraph = $from.parent.type === this.type
+        const isTopLevelParagraph = isParagraph && $from.depth === 1
+
+        if (!isTopLevelParagraph) {
+          return false
+        }
+
+        return this.editor.chain().splitBlock({ keepMarks: false }).run()
+      },
     }
   },
 })
