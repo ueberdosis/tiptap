@@ -3,6 +3,7 @@ import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
 import { FocusPosition, RawCommands } from '../types.js'
 import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
+import { isSafari } from '../utilities/isSafari.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -56,8 +57,12 @@ export const focus: RawCommands['focus'] = (position = null, options = {}) => ({
       if (!editor.isDestroyed) {
         view.focus()
 
-        if (options?.scrollIntoView) {
-          editor.commands.scrollIntoView()
+        // Safari requires preventScroll to avoid the browser scrolling to the
+        // top of the editor when focus is called before the selection is set.
+        // We exclude iOS and Android since they are already handled above.
+        // see: https://github.com/ueberdosis/tiptap/issues/7318
+        if (isSafari() && !isiOS() && !isAndroid()) {
+          (view.dom as HTMLElement).focus({ preventScroll: true })
         }
       }
     })
