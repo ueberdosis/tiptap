@@ -2,4 +2,4 @@
 '@tiptap/react': patch
 ---
 
-fix: race condition in ReactRenderer
+Fix race conditions in ReactRenderer causing destroyed renderers to be re-added in Strict Mode
