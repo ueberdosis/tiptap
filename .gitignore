@@ -38,3 +38,6 @@ demos/*.tgz
 # demo directories
 demos/src/Dev/**
 !demos/src/Dev/.gitkeep
+
+docs
+.agent
