@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- 03998a1: Prevent auto-linking of bare hostnames (e.g., `localhost`) and IP addresses without a protocol prefix
+  - @tiptap/core@3.15.2
+  - @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes

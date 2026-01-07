@@ -1,5 +1,12 @@
 # @tiptap/extension-mathematics
 
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes

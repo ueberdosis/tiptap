@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- 7d5ce72: Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
+  - @tiptap/core@3.15.2
+  - @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes

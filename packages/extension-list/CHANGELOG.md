@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- c1caa7c: Fix lost HTML attributes in TaskItem node view updates
+  - @tiptap/core@3.15.2
+  - @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes

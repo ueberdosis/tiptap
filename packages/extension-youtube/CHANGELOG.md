@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- 8cbf4ae: Fix YouTube Shorts embed URLs using incorrect query parameter separator
+  - @tiptap/core@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes
