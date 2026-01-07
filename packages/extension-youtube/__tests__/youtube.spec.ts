@@ -81,7 +81,7 @@ describe('extension-youtube', () => {
   })
 
   describe('YouTube Shorts URL handling', () => {
-    it('generates correct embed URL for YouTube Shorts with query parameters', () => {
+    it('generates correct embed URL for YouTube Shorts with rel parameter', () => {
       const result = getEmbedUrlFromYoutubeUrl({
         url: 'https://www.youtube.com/shorts/EkRHhOCdZjw',
         controls: true,
@@ -91,7 +91,7 @@ describe('extension-youtube', () => {
       expect(result).toBe('https://www.youtube.com/embed/EkRHhOCdZjw?rel=1')
     })
 
-    it('generates correct embed URL for YouTube Shorts without www', () => {
+    it('generates correct embed URL for YouTube Shorts without www prefix', () => {
       const result = getEmbedUrlFromYoutubeUrl({
         url: 'https://youtube.com/shorts/EkRHhOCdZjw',
         controls: true,
