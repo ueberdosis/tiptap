@@ -1,5 +1,43 @@
 # Releases
 
+## v3.15.2
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Prevent auto-linking of bare hostnames (e.g., `localhost`) and IP addresses without a protocol prefix
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Fix lost HTML attributes in TaskItem node view updates
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Fix YouTube Shorts embed URLs using incorrect query parameter separator
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Fix race conditions in ReactRenderer causing destroyed renderers to be re-added in Strict Mode
+
 ## v3.15.1
 
 ### @tiptap/suggestion

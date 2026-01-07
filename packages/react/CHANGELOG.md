@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- d8ca9bf: Fix race conditions in ReactRenderer causing destroyed renderers to be re-added in Strict Mode
+  - @tiptap/core@3.15.2
+  - @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes

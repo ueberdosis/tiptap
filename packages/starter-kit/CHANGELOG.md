@@ -1,5 +1,36 @@
 # Change Log
 
+## 3.15.2
+
+### Patch Changes
+
+- Updated dependencies [03998a1]
+- Updated dependencies [c1caa7c]
+  - @tiptap/extension-link@3.15.2
+  - @tiptap/extension-list@3.15.2
+  - @tiptap/extension-list-item@3.15.2
+  - @tiptap/extension-list-keymap@3.15.2
+  - @tiptap/extension-bullet-list@3.15.2
+  - @tiptap/extension-ordered-list@3.15.2
+  - @tiptap/extension-dropcursor@3.15.2
+  - @tiptap/extension-gapcursor@3.15.2
+  - @tiptap/core@3.15.2
+  - @tiptap/extension-blockquote@3.15.2
+  - @tiptap/extension-bold@3.15.2
+  - @tiptap/extension-code@3.15.2
+  - @tiptap/extension-code-block@3.15.2
+  - @tiptap/extension-document@3.15.2
+  - @tiptap/extension-hard-break@3.15.2
+  - @tiptap/extension-heading@3.15.2
+  - @tiptap/extension-horizontal-rule@3.15.2
+  - @tiptap/extension-italic@3.15.2
+  - @tiptap/extension-paragraph@3.15.2
+  - @tiptap/extension-strike@3.15.2
+  - @tiptap/extension-text@3.15.2
+  - @tiptap/extension-underline@3.15.2
+  - @tiptap/extensions@3.15.2
+  - @tiptap/pm@3.15.2
+
 ## 3.15.1
 
 ### Patch Changes
