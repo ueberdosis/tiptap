@@ -25,12 +25,13 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 }
 
 /**
- * Identifies marks that need to be closed (active but not in current node).
+ * Identifies marks that need to be closed, based on the marks in the next node.
  */
-export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Map<string, any>): string[] {
+export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any): string[] {
   const marksToClose: string[] = []
-  Array.from(activeMarks.keys()).forEach(markType => {
-    if (!currentMarks.has(markType)) {
+
+  Array.from(currentMarks.keys()).forEach(markType => {
+    if (!nextNode || !nextNode.marks || !nextNode.marks.map((mark: any) => mark.type).includes(markType)) {
       marksToClose.push(markType)
     }
   })

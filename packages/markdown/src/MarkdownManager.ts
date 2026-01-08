@@ -863,7 +863,6 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
-
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -877,17 +876,30 @@ export class MarkdownManager {
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToClose = findMarksToClose(activeMarks, currentMarks)
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+        const marksToClose = findMarksToClose(currentMarks, nextNode)
 
-        // Close marks (in reverse order of how they were opened)
+        let middleTrailingWhitespace = ''
+
+        if (marksToClose.length > 0) {
+          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+          const middleTrailingMatch = textContent.match(/(\s+)$/)
+          if (middleTrailingMatch) {
+            middleTrailingWhitespace = middleTrailingMatch[1]
+            textContent = textContent.slice(0, -middleTrailingWhitespace.length)
+          }
+        }
+        // Close marks that are ending here
         marksToClose.forEach(markType => {
-          const mark = activeMarks.get(markType)
+          const mark = currentMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
-          activeMarks.delete(markType)
+          // deleting closed marks from active marks
+          if (activeMarks.has(markType)) {
+            activeMarks.delete(markType)
+          }
         })
 
         // Open new marks (should be at the beginning)
@@ -906,7 +918,9 @@ export class MarkdownManager {
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          activeMarks.set(type, mark)
+          if (!marksToClose.includes(type)) {
+            activeMarks.set(type, mark)
+          }
         })
 
         // Add leading whitespace before the mark opening
@@ -941,6 +955,7 @@ export class MarkdownManager {
 
         // Add trailing whitespace after the mark closing
         textContent += trailingWhitespace
+        textContent += middleTrailingWhitespace
 
         result.push(textContent)
       } else {
