@@ -21,6 +21,16 @@ export const FloatingMenu = defineComponent({
       required: true,
     },
 
+    updateDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['updateDelay']>,
+      default: undefined,
+    },
+
+    resizeDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['resizeDelay']>,
+      default: undefined,
+    },
+
     options: {
       type: Object as PropType<FloatingMenuPluginProps['options']>,
       default: () => ({}),
@@ -41,7 +51,7 @@ export const FloatingMenu = defineComponent({
     const root = ref<HTMLElement | null>(null)
 
     onMounted(() => {
-      const { pluginKey, editor, options, appendTo, shouldShow } = props
+      const { pluginKey, editor, updateDelay, resizeDelay, options, appendTo, shouldShow } = props
 
       const el = root.value
 
@@ -60,6 +70,8 @@ export const FloatingMenu = defineComponent({
           pluginKey,
           editor,
           element: el,
+          updateDelay,
+          resizeDelay,
           options,
           appendTo,
           shouldShow,
