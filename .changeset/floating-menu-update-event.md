@@ -1,6 +1,7 @@
 ---
 "@tiptap/extension-floating-menu": minor
 "@tiptap/react": minor
+"@tiptap/vue-2": minor
 "@tiptap/vue-3": minor
 ---
 

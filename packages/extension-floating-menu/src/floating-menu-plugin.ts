@@ -350,7 +350,7 @@ export class FloatingMenuView {
   /**
    * Handles the transaction event to update the position of the floating menu.
    * This allows external code to trigger a position update via:
-   * `editor.commands.setMeta('floatingMenu', 'updatePosition')`
+   * `editor.view.dispatch(editor.state.tr.setMeta('floatingMenu', 'updatePosition'))`
    */
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
     const meta = tr.getMeta('floatingMenu')
