@@ -11,6 +11,7 @@ dist
 .instructions
 .agent
 
+coverage
 docs
 
 # Log files
