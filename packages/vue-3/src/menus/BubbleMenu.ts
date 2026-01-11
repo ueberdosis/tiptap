@@ -35,7 +35,7 @@ export const BubbleMenu = defineComponent({
     },
 
     appendTo: {
-      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      type: [Object, Function] as PropType<BubbleMenuPluginProps['appendTo']>,
       default: undefined,
     },
 
