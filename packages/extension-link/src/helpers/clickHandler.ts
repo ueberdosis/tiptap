@@ -28,15 +28,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         if (event.target instanceof HTMLAnchorElement) {
           link = event.target
         } else {
-          let a = event.target as HTMLElement
-
-          while (a.nodeName !== 'DIV' && a.parentNode) {
-            if (a.nodeName === 'A') {
-              link = a as HTMLAnchorElement
-              break
-            }
-            a = a.parentNode as HTMLElement
-          }
+          link = (event.target as HTMLElement).closest('a')
         }
 
         if (!link) {
