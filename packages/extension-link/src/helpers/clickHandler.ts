@@ -28,7 +28,18 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         if (event.target instanceof HTMLAnchorElement) {
           link = event.target
         } else {
-          link = (event.target as HTMLElement).closest('a')
+          const target = event.target as HTMLElement | null
+          if (!target) {return false}
+
+          const root = options.editor.view.dom
+
+          // We intentionally limit the lookup to the ProseMirror root.
+          // Using tag names like DIV as boundaries breaks with custom NodeViews,
+          link = target.closest<HTMLAnchorElement>('a')
+
+          if (link && !root.contains(link)) {
+            link = null
+          }
         }
 
         if (!link) {
