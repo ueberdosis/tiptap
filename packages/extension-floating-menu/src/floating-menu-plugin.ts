@@ -137,8 +137,16 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  /**
+   * The delay in milliseconds before the menu should be updated.
+   * @default 250
+   */
   public updateDelay: number
 
+  /**
+   * The delay in milliseconds before the menu position should be updated on window resize.
+   * @default 60
+   */
   public resizeDelay: number
 
   public appendTo: HTMLElement | (() => HTMLElement) | undefined
