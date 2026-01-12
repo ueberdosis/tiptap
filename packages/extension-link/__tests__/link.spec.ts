@@ -258,7 +258,7 @@ describe('extension-link', () => {
     })
   })
 
-  it('should return false when clicking on non-link elements', async () => {
+  it('should return false when clicking on non-link elements', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -306,6 +306,8 @@ describe('extension-link', () => {
 
     editor?.destroy()
     getEditorEl()?.remove()
+  })
+
   describe('shouldAutoLink', () => {
     it('default shouldAutoLink rejects bare hostnames without TLD', () => {
       // Test using Link extension's default options

@@ -29,7 +29,9 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           link = event.target
         } else {
           const target = event.target as HTMLElement | null
-          if (!target) {return false}
+          if (!target) {
+            return false
+          }
 
           const root = options.editor.view.dom
 
