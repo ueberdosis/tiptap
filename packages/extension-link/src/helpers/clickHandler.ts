@@ -35,7 +35,7 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
 
           const root = options.editor.view.dom
 
-          // We intentionally limit the lookup to the ProseMirror root.
+          // Tntentionally limit the lookup to the editor root.
           // Using tag names like DIV as boundaries breaks with custom NodeViews,
           link = target.closest<HTMLAnchorElement>('a')
 
