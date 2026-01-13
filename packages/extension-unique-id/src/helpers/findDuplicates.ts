@@ -1,11 +1,17 @@
-import { removeDuplicates } from './removeDuplicates.js'
-
 /**
  * Returns a list of duplicated items within an array.
  */
 export function findDuplicates(items: any[]): any[] {
-  const filtered = items.filter((el, index) => items.indexOf(el) !== index)
-  const duplicates = removeDuplicates(filtered)
+  const seen = new Set()
+  const duplicates = new Set<any>()
 
-  return duplicates
+  for (const item of items) {
+    if (seen.has(item)) {
+      duplicates.add(item)
+    } else {
+      seen.add(item)
+    }
+  }
+
+  return Array.from(duplicates)
 }
