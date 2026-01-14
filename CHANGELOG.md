@@ -1,5 +1,37 @@
 # Releases
 
+## v3.16.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Fixed an issue where clicking on non-link elements (like images) required multiple clicks to select them. The link click handler now properly returns early when the clicked element is not a link, allowing other node handlers to process the click event.
+
+### @tiptap/extension-floating-menu
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-2
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-3
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
 ## v3.15.3
 
 ### @tiptap/core

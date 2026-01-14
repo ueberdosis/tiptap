@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.16.0
+
+### Patch Changes
+
+- 5f568dc: Fixed an issue where clicking on non-link elements (like images) required multiple clicks to select them. The link click handler now properly returns early when the clicked element is not a link, allowing other node handlers to process the click event.
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes
