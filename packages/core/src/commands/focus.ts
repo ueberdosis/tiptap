@@ -69,8 +69,14 @@ export const focus: RawCommands['focus'] =
       })
     }
 
-    if ((view.hasFocus() && position === null) || position === false) {
-      return true
+    try {
+      if ((view.hasFocus() && position === null) || position === false) {
+        return true
+      }
+    } catch {
+      // if view.hasFocus fails (view not mounted yet)
+      // we will return false because there's nothing to focus
+      return false
     }
 
     // we don’t try to resolve a NodeSelection or CellSelection
