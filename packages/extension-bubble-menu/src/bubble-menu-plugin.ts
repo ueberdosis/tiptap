@@ -432,11 +432,15 @@ export class BubbleMenuView implements PluginView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy }) => {
+    }).then(({ x, y, strategy, middlewareData }) => {
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      if (middlewareData.hide) {
+        this.element.style.visibility = middlewareData.hide.referenceHidden ? 'hidden' : 'visible'
+      }
 
       if (this.isVisible && this.floatingUIOptions.onUpdate) {
         this.floatingUIOptions.onUpdate()
