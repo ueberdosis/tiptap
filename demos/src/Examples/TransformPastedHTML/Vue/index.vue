@@ -116,7 +116,9 @@ export default {
         <p>Extensions with higher priority run first. Each extension receives the output from the previous extension's transform, creating a transform chain.</p>
 
         <h3>Try it:</h3>
-        <p>Use the buttons above to paste different types of HTML content and watch the transforms in action!</p>
+        <p>Use the buttons above to simulate the transformation, or try copying and pasting HTML content with tabs, "foo" text, or inline styles from another source to see the API work during actual paste events!</p>
+
+        <p><em>Note: The buttons above simulate the transform for demonstration purposes. Real paste events (Ctrl+V / Cmd+V) will also trigger these transforms automatically.</em></p>
       `,
     })
   },
