@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
 import type { Schema } from '@tiptap/pm/model'
 import type { Plugin, Transaction } from '@tiptap/pm/state'
-import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
@@ -282,7 +282,9 @@ export class ExtensionManager {
    * @param baseTransform The base transform function (e.g. from the editor props)
    * @returns A composed transform function that chains all extension transforms
    */
-  transformPastedHTML(baseTransform?: (html: string) => string): (html: string) => string {
+  transformPastedHTML(
+    baseTransform?: (html: string, view?: any) => string,
+  ): (html: string, view?: EditorView) => string {
     const { editor } = this
     const extensions = sortExtensions([...this.extensions])
 
@@ -306,9 +308,9 @@ export class ExtensionManager {
           return transform
         }
 
-        return (html: string) => {
+        return (html: string, view?: any) => {
           // Chain the transforms: pass the result of the previous transform to the next
-          const transformedHtml = transform(html)
+          const transformedHtml = transform(html, view)
           return extensionTransform.call(context, transformedHtml)
         }
       },
