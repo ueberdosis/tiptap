@@ -214,6 +214,30 @@ export interface ExtendableConfig<
   }) => Plugin[]
 
   /**
+   * This function transforms pasted HTML content before it's parsed.
+   * Extensions can use this to modify or clean up pasted HTML.
+   * The transformations are chained - each extension's transform receives
+   * the output from the previous extension's transform.
+   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#transform-pasted-html
+   * @example
+   * transformPastedHTML(html) {
+   *   // Remove all style attributes
+   *   return html.replace(/style="[^"]*"/g, '')
+   * }
+   */
+  transformPastedHTML?: (
+    this: {
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: PMType
+      parent: ParentConfig<Config>['transformPastedHTML']
+    },
+    html: string,
+  ) => string
+
+  /**
    * This function adds additional extensions to the editor. This is useful for
    * building extension kits.
    * @example
