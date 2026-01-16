@@ -128,28 +128,45 @@ class EditorInstanceManager {
   }
 
   /**
+   * Wrap options with callback wrappers that safely access the current options.
+   * The wrappers always check this.options.current at call time to ensure the most recent callbacks are used.
+   */
+  private wrapOptionsWithCallbacks(options: Partial<EditorOptions>): Partial<EditorOptions> {
+    return {
+      ...options,
+      onBeforeCreate: (...args: Parameters<NonNullable<EditorOptions['onBeforeCreate']>>) =>
+        this.options.current?.onBeforeCreate?.(...args),
+      onBlur: (...args: Parameters<NonNullable<EditorOptions['onBlur']>>) =>
+        this.options.current?.onBlur?.(...args),
+      onCreate: (...args: Parameters<NonNullable<EditorOptions['onCreate']>>) =>
+        this.options.current?.onCreate?.(...args),
+      onDestroy: (...args: Parameters<NonNullable<EditorOptions['onDestroy']>>) =>
+        this.options.current?.onDestroy?.(...args),
+      onFocus: (...args: Parameters<NonNullable<EditorOptions['onFocus']>>) =>
+        this.options.current?.onFocus?.(...args),
+      onSelectionUpdate: (...args: Parameters<NonNullable<EditorOptions['onSelectionUpdate']>>) =>
+        this.options.current?.onSelectionUpdate?.(...args),
+      onTransaction: (...args: Parameters<NonNullable<EditorOptions['onTransaction']>>) =>
+        this.options.current?.onTransaction?.(...args),
+      onUpdate: (...args: Parameters<NonNullable<EditorOptions['onUpdate']>>) =>
+        this.options.current?.onUpdate?.(...args),
+      onContentError: (...args: Parameters<NonNullable<EditorOptions['onContentError']>>) =>
+        this.options.current?.onContentError?.(...args),
+      onDrop: (...args: Parameters<NonNullable<EditorOptions['onDrop']>>) =>
+        this.options.current?.onDrop?.(...args),
+      onPaste: (...args: Parameters<NonNullable<EditorOptions['onPaste']>>) =>
+        this.options.current?.onPaste?.(...args),
+      onDelete: (...args: Parameters<NonNullable<EditorOptions['onDelete']>>) =>
+        this.options.current?.onDelete?.(...args),
+    }
+  }
+
+  /**
    * Create a new editor instance. And attach event listeners.
    */
   private createEditor(): Editor {
-    const optionsToApply: Partial<EditorOptions> = {
-      ...this.options.current,
-      // Always call the most recent version of the callback function by default
-      onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
-      onBlur: (...args) => this.options.current.onBlur?.(...args),
-      onCreate: (...args) => this.options.current.onCreate?.(...args),
-      onDestroy: (...args) => this.options.current.onDestroy?.(...args),
-      onFocus: (...args) => this.options.current.onFocus?.(...args),
-      onSelectionUpdate: (...args) => this.options.current.onSelectionUpdate?.(...args),
-      onTransaction: (...args) => this.options.current.onTransaction?.(...args),
-      onUpdate: (...args) => this.options.current.onUpdate?.(...args),
-      onContentError: (...args) => this.options.current.onContentError?.(...args),
-      onDrop: (...args) => this.options.current.onDrop?.(...args),
-      onPaste: (...args) => this.options.current.onPaste?.(...args),
-      onDelete: (...args) => this.options.current.onDelete?.(...args),
-    }
+    const optionsToApply = this.wrapOptionsWithCallbacks(this.options.current || {})
     const editor = new Editor(optionsToApply)
-
-    // no need to keep track of the event listeners, they will be removed when the editor is destroyed
 
     return editor
   }
@@ -237,10 +254,12 @@ class EditorInstanceManager {
         if (!EditorInstanceManager.compareOptions(this.options.current, this.editor.options)) {
           // But, the options are different, so we need to update the editor options
           // Still, this is faster than re-creating the editor
-          this.editor.setOptions({
-            ...this.options.current,
-            editable: this.editor.isEditable,
-          })
+          this.editor.setOptions(
+            this.wrapOptionsWithCallbacks({
+              ...this.options.current,
+              editable: this.editor.isEditable,
+            }),
+          )
         }
       } else {
         // When the editor:
@@ -304,7 +323,7 @@ class EditorInstanceManager {
         // If still mounted on the following tick, with the same instanceId, do not destroy the editor
         if (currentEditor) {
           // just re-apply options as they might have changed
-          currentEditor.setOptions(this.options.current)
+          currentEditor.setOptions(this.wrapOptionsWithCallbacks(this.options.current || {}))
         }
         return
       }
