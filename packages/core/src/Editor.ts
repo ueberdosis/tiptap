@@ -528,6 +528,10 @@ export class Editor extends EventEmitter<EditorEvents> {
       ? this.extensionManager.dispatchTransaction(baseDispatch)
       : baseDispatch
 
+    // Compose transformPastedHTML from extensions and user-provided editorProps
+    const baseTransformPastedHTML = (editorProps as any).transformPastedHTML
+    const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
+
     this.editorView = new EditorView(element, {
       ...editorProps,
       attributes: {
@@ -536,6 +540,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         ...editorProps?.attributes,
       },
       dispatchTransaction: dispatch,
+      transformPastedHTML,
       state: this.editorState,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
