@@ -1,5 +1,56 @@
 # Releases
 
+## v3.16.0
+
+### @tiptap/extension-audio
+
+#### Minor Changes
+
+- Add a native audio extension with demos and tests.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
+- Fix overlapping underline/bold/italic serialization and add tests
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Fixed an issue where clicking on non-link elements (like images) required multiple clicks to select them. The link click handler now properly returns early when the clicked element is not a link, allowing other node handlers to process the click event.
+
+### @tiptap/extension-floating-menu
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-2
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-3
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Improved `findDuplicates` helper performance from O(n²) to O(n) by using Set-based lookups instead of Array.indexOf
+
 ## v3.15.3
 
 ### @tiptap/core
