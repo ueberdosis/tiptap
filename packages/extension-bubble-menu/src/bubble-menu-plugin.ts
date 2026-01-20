@@ -261,7 +261,7 @@ export class BubbleMenuView implements PluginView {
     return middlewares
   }
 
-  private get virtualElement(): VirtualElement | undefined {    
+  private get virtualElement(): VirtualElement | undefined {
     const { selection } = this.editor.state
 
     const referencedVirtualElement = this.getReferencedVirtualElement?.()
