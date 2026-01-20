@@ -288,6 +288,12 @@ export interface EditorOptions {
    */
   injectCSS: boolean
   /**
+   * When true, resets all text formatting marks (bold, italic, etc.)
+   * when pressing Enter to create a new block.
+   * @default false
+   */
+  resetMarksOnEnter: boolean
+  /**
    * A nonce to use for CSP while injecting styles
    */
   injectNonce: string | undefined
