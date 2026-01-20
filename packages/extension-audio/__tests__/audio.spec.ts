@@ -179,4 +179,109 @@ describe('extension-audio', () => {
 
     destroyEditor()
   })
+
+  it('creates audio node when pasting a valid audio URL', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Audio],
+    })
+
+    const audioUrl = 'https://assets.tiptap.dev/sounds/loop.mp3'
+
+    // Simulate paste by inserting plain text content that matches the paste rule regex
+    editor.view.pasteText(audioUrl)
+
+    const json = editor.getJSON()
+    const audioNode = json.content?.find(node => node.type === 'audio')
+
+    expect(audioNode).toBeDefined()
+    expect(audioNode?.attrs?.src).toBe(audioUrl)
+
+    destroyEditor()
+  })
+
+  it('does not create audio node when paste handler is disabled', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Audio.configure({ addPasteHandler: false })],
+    })
+
+    const audioUrl = 'https://assets.tiptap.dev/sounds/loop.mp3'
+
+    editor.commands.insertContent(audioUrl)
+
+    const json = editor.getJSON()
+    const audioNode = json.content?.find(node => node.type === 'audio')
+
+    expect(audioNode).toBeUndefined()
+
+    destroyEditor()
+  })
+
+  it('renders audio node as inline when inline option is enabled', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Audio.configure({ inline: true })],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'Audio: ',
+              },
+              {
+                type: 'audio',
+                attrs: {
+                  src: 'https://assets.tiptap.dev/sounds/loop.mp3',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<p>Audio: <audio')
+    expect(html).toContain('src="https://assets.tiptap.dev/sounds/loop.mp3"')
+
+    destroyEditor()
+  })
+
+  it('renders audio node as block by default', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Audio],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'Some text',
+              },
+            ],
+          },
+          {
+            type: 'audio',
+            attrs: {
+              src: 'https://assets.tiptap.dev/sounds/loop.mp3',
+            },
+          },
+        ],
+      },
+    })
+
+    const html = editor.getHTML()
+
+    expect(html).toContain('<p>Some text</p><audio')
+
+    destroyEditor()
+  })
 })
