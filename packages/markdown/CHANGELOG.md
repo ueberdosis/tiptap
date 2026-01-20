@@ -1,5 +1,14 @@
 # @tiptap/markdown
 
+## 3.16.0
+
+### Patch Changes
+
+- d63518a: Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
+- d63518a: Fix overlapping underline/bold/italic serialization and add tests
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes
