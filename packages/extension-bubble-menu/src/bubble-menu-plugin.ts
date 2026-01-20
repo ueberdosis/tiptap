@@ -272,7 +272,7 @@ export class BubbleMenuView implements PluginView {
     if (!this.view || !this.view.dom || !this.view.dom.parentNode) {
       return
     }
-    
+
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
     let virtualElement = {
       getBoundingClientRect: () => domRect,
