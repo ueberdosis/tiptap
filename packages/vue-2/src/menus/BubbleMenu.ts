@@ -1,9 +1,11 @@
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
-import type { Component, CreateElement, PropType } from 'vue'
-import type Vue from 'vue'
+import type { Component, CreateElement, PropType, VNode } from 'vue'
 
-export interface BubbleMenuInterface extends Vue {
+export interface BubbleMenuInterface {
+  $el: HTMLElement
+  $nextTick: (callback: () => void) => void
+  $slots: { default?: VNode[] }
   pluginKey: BubbleMenuPluginProps['pluginKey']
   editor: BubbleMenuPluginProps['editor']
   updateDelay: BubbleMenuPluginProps['updateDelay']
@@ -34,7 +36,7 @@ export const BubbleMenu: Component = {
 
     options: {
       type: Object as PropType<BubbleMenuPluginProps['options']>,
-      default: {},
+      default: () => ({}),
     },
 
     resizeDelay: {
@@ -42,7 +44,7 @@ export const BubbleMenu: Component = {
     },
 
     appendTo: {
-      type: Object as PropType<BubbleMenuPluginProps['appendTo']>,
+      type: [Object, Function] as PropType<BubbleMenuPluginProps['appendTo']>,
       default: undefined,
     },
 
@@ -52,36 +54,35 @@ export const BubbleMenu: Component = {
     },
   },
 
-  watch: {
-    editor: {
-      immediate: true,
-      handler(this: BubbleMenuInterface, editor: BubbleMenuPluginProps['editor']) {
-        if (!editor) {
-          return
-        }
+  mounted(this: BubbleMenuInterface) {
+    const editor = this.editor
+    const el = this.$el as HTMLElement
 
-        ;(this.$el as HTMLElement).style.visibility = 'hidden'
-        ;(this.$el as HTMLElement).style.position = 'absolute'
+    if (!editor || !el) {
+      return
+    }
 
-        this.$el.remove()
+    el.style.visibility = 'hidden'
+    el.style.position = 'absolute'
 
-        this.$nextTick(() => {
-          editor.registerPlugin(
-            BubbleMenuPlugin({
-              updateDelay: this.updateDelay,
-              resizeDelay: this.resizeDelay,
-              options: this.options,
-              editor,
-              element: this.$el as HTMLElement,
-              pluginKey: this.pluginKey,
-              appendTo: this.appendTo,
-              shouldShow: this.shouldShow,
-              getReferencedVirtualElement: this.getReferencedVirtualElement,
-            }),
-          )
-        })
-      },
-    },
+    // Remove element from DOM; plugin will re-parent it when shown
+    el.remove()
+
+    this.$nextTick(() => {
+      editor.registerPlugin(
+        BubbleMenuPlugin({
+          updateDelay: this.updateDelay,
+          resizeDelay: this.resizeDelay,
+          options: this.options,
+          editor,
+          element: el,
+          pluginKey: this.pluginKey,
+          appendTo: this.appendTo,
+          shouldShow: this.shouldShow,
+          getReferencedVirtualElement: this.getReferencedVirtualElement,
+        }),
+      )
+    })
   },
 
   render(this: BubbleMenuInterface, createElement: CreateElement) {

@@ -1,6 +1,6 @@
 import { keymap } from '@tiptap/pm/keymap'
 import type { Schema } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
+import type { Plugin, Transaction } from '@tiptap/pm/state'
 import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
@@ -215,10 +215,16 @@ export class ExtensionManager {
             return []
           }
 
+          const nodeViewResult = addNodeView()
+
+          if (!nodeViewResult) {
+            return []
+          }
+
           const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
-            return addNodeView()({
+            return nodeViewResult({
               // pass-through
               node,
               view,
@@ -235,6 +241,40 @@ export class ExtensionManager {
           return [extension.name, nodeview]
         }),
     )
+  }
+
+  /**
+   * Get the composed dispatchTransaction function from all extensions.
+   * @param baseDispatch The base dispatch function (e.g. from the editor or user props)
+   * @returns A composed dispatch function
+   */
+  dispatchTransaction(baseDispatch: (tr: Transaction) => void): (tr: Transaction) => void {
+    const { editor } = this
+    const extensions = sortExtensions([...this.extensions].reverse())
+
+    return extensions.reduceRight((next, extension) => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const dispatchTransaction = getExtensionField<AnyConfig['dispatchTransaction']>(
+        extension,
+        'dispatchTransaction',
+        context,
+      )
+
+      if (!dispatchTransaction) {
+        return next
+      }
+
+      return (transaction: Transaction) => {
+        dispatchTransaction.call(context, { transaction, next })
+      }
+    }, baseDispatch)
   }
 
   get markViews(): Record<string, MarkViewConstructor> {

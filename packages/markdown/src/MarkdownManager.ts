@@ -20,6 +20,7 @@ import {
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
+  isTaskItem,
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
@@ -303,6 +304,11 @@ export class MarkdownManager {
       return null
     }
 
+    // Special handling for 'list' tokens that may contain mixed bullet/task items
+    if (token.type === 'list') {
+      return this.parseListToken(token)
+    }
+
     const handlers = this.getHandlersForToken(token.type)
     const helpers = this.createParseHelpers()
 
@@ -339,7 +345,169 @@ export class MarkdownManager {
   private lastParseResult: JSONContent | JSONContent[] | null = null
 
   /**
-   * Create the helper functions that are passed to parse handlers.
+   * Parse a list token, handling mixed bullet and task list items by splitting them into separate lists.
+   * This ensures that consecutive task items and bullet items are grouped and parsed as separate list nodes.
+   *
+   * @param token The list token to parse
+   * @returns Array of parsed list nodes, or null if parsing fails
+   */
+  private parseListToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.items || token.items.length === 0) {
+      // No items, parse normally
+      return this.parseTokenWithHandlers(token)
+    }
+
+    const hasTask = token.items.some(item => isTaskItem(item).isTask)
+    const hasNonTask = token.items.some(item => !isTaskItem(item).isTask)
+
+    if (!hasTask || !hasNonTask || this.getHandlersForToken('taskList').length === 0) {
+      // Not mixed or no taskList extension, parse normally
+      return this.parseTokenWithHandlers(token)
+    }
+
+    // Mixed list with taskList extension available: split into separate lists
+    type TaskListItemToken = MarkdownToken & { type: 'taskItem'; checked?: boolean; indentLevel?: number }
+    const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
+    let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
+    let currentType: 'list' | 'taskList' | null = null
+
+    for (let i = 0; i < token.items.length; i += 1) {
+      const item = token.items[i]
+      const { isTask, checked, indentLevel } = isTaskItem(item)
+      let processedItem = item
+
+      if (isTask) {
+        // Transform list_item into taskItem token
+        const raw = item.raw || item.text || ''
+
+        // Split raw content by lines to separate main content from nested
+        const lines = raw.split('\n')
+
+        // Extract main content from the first line
+        const firstLineMatch = lines[0].match(/^\s*[-+*]\s+\[([ xX])\]\s+(.*)$/)
+        const mainContent = firstLineMatch ? firstLineMatch[2] : ''
+
+        // Parse nested content from remaining lines
+        let nestedTokens: MarkdownToken[] = []
+        if (lines.length > 1) {
+          // Join all lines after the first
+          const nestedRaw = lines.slice(1).join('\n')
+
+          // Only parse if there's actual content
+          if (nestedRaw.trim()) {
+            // Find minimum indentation of non-empty lines
+            const nestedLines = lines.slice(1)
+            const nonEmptyLines = nestedLines.filter(line => line.trim())
+            if (nonEmptyLines.length > 0) {
+              const minIndent = Math.min(...nonEmptyLines.map(line => line.length - line.trimStart().length))
+              // Remove common indentation while preserving structure
+              const trimmedLines = nestedLines.map(line => {
+                if (!line.trim()) {
+                  return '' // Keep empty lines
+                }
+                return line.slice(minIndent)
+              })
+              const nestedContent = trimmedLines.join('\n').trim()
+              // Use the lexer to parse nested content
+              if (nestedContent) {
+                // Use the full lexer pipeline to ensure inline tokens are populated
+                nestedTokens = this.markedInstance.lexer(`${nestedContent}\n`)
+              }
+            }
+          }
+        }
+
+        processedItem = {
+          type: 'taskItem',
+          raw: '',
+          mainContent,
+          indentLevel,
+          checked: checked ?? false,
+          text: mainContent,
+          tokens: this.lexer.inlineTokens(mainContent),
+          nestedTokens,
+        }
+      }
+
+      const itemType: 'list' | 'taskList' = isTask ? 'taskList' : 'list'
+
+      if (currentType !== itemType) {
+        if (currentGroup.length > 0) {
+          groups.push({ type: currentType!, items: currentGroup })
+        }
+        currentGroup = [processedItem]
+        currentType = itemType
+      } else {
+        currentGroup.push(processedItem)
+      }
+    }
+
+    if (currentGroup.length > 0) {
+      groups.push({ type: currentType!, items: currentGroup })
+    }
+
+    // Parse each group as a separate token
+    const results: JSONContent[] = []
+    for (let i = 0; i < groups.length; i += 1) {
+      const group = groups[i]
+      const subToken = { ...token, type: group.type, items: group.items }
+      const parsed = this.parseToken(subToken)
+      if (parsed) {
+        if (Array.isArray(parsed)) {
+          results.push(...parsed)
+        } else {
+          results.push(parsed)
+        }
+      }
+    }
+
+    return results.length > 0 ? results : null
+  }
+
+  /**
+   * Parse a token using registered handlers (extracted for reuse).
+   */
+  private parseTokenWithHandlers(token: MarkdownToken): JSONContent | JSONContent[] | null {
+    if (!token.type) {
+      return null
+    }
+
+    const handlers = this.getHandlersForToken(token.type)
+    const helpers = this.createParseHelpers()
+
+    // Try each handler until one returns a valid result
+    const result = handlers.find(handler => {
+      if (!handler.parseMarkdown) {
+        return false
+      }
+
+      const parseResult = handler.parseMarkdown(token, helpers)
+      const normalized = this.normalizeParseResult(parseResult)
+
+      // Check if this handler returned a valid result (not null/empty array)
+      if (normalized && (!Array.isArray(normalized) || normalized.length > 0)) {
+        // Store result for return
+        this.lastParseResult = normalized
+        return true
+      }
+
+      return false
+    })
+
+    // If a handler worked, return its result
+    if (result && this.lastParseResult) {
+      const toReturn = this.lastParseResult
+      this.lastParseResult = null // Clean up
+      return toReturn
+    }
+
+    // If no handler worked, try fallback parsing
+    return this.parseFallbackToken(token)
+  }
+
+  /**
+   * Creates helper functions for parsing markdown tokens.
+   * @returns An object containing helper functions for parsing.
    */
   private createParseHelpers(): MarkdownParseHelpers {
     return {
@@ -376,20 +544,94 @@ export class MarkdownManager {
   }
 
   /**
+   * Escape special regex characters in a string.
+   */
+  private escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  /**
    * Parse inline tokens (bold, italic, links, etc.) into text nodes with marks.
    * This is the complex part that handles mark nesting and boundaries.
    */
   private parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
     const result: JSONContent[] = []
 
-    // Process tokens sequentially
-    tokens.forEach(token => {
+    // Process tokens sequentially using an index so we can lookahead and
+    // merge split inline HTML fragments like: text / <em> / inner / </em> / text
+    for (let i = 0; i < tokens.length; i += 1) {
+      const token = tokens[i]
+
       if (token.type === 'text') {
         // Create text node
         result.push({
           type: 'text',
           text: token.text || '',
         })
+      } else if (token.type === 'html') {
+        // Handle possible split inline HTML by attempting to detect an
+        // opening tag and searching forward for a matching closing tag.
+        const raw = (token.raw ?? token.text ?? '').toString()
+
+        // Quick checks for opening vs. closing tag
+        const isClosing = /^<\/[\s]*[\w-]+/i.test(raw)
+        const openMatch = raw.match(/^<[\s]*([\w-]+)(\s|>|\/|$)/i)
+
+        if (!isClosing && openMatch && !/\/>$/.test(raw)) {
+          // Try to find the corresponding closing html token for this tag
+          const tagName = openMatch[1]
+          const escapedTagName = this.escapeRegex(tagName)
+          const closingRegex = new RegExp(`^<\\/\\s*${escapedTagName}\\b`, 'i')
+          let foundIndex = -1
+
+          // Collect intermediate raw parts to reconstruct full HTML fragment
+          const parts: string[] = [raw]
+          for (let j = i + 1; j < tokens.length; j += 1) {
+            const t = tokens[j]
+            const tRaw = (t.raw ?? t.text ?? '').toString()
+            parts.push(tRaw)
+            if (t.type === 'html' && closingRegex.test(tRaw)) {
+              foundIndex = j
+              break
+            }
+          }
+
+          if (foundIndex !== -1) {
+            // Merge opening + inner + closing into one html fragment and parse
+            const mergedRaw = parts.join('')
+            const mergedToken = {
+              type: 'html',
+              raw: mergedRaw,
+              text: mergedRaw,
+              block: false,
+            } as unknown as MarkdownToken
+
+            const parsed = this.parseHTMLToken(mergedToken)
+            if (parsed) {
+              const normalized = this.normalizeParseResult(parsed as any)
+              if (Array.isArray(normalized)) {
+                result.push(...normalized)
+              } else if (normalized) {
+                result.push(normalized)
+              }
+            }
+
+            // Advance i to the closing token
+            i = foundIndex
+            continue
+          }
+        }
+
+        // Fallback: single html token parse
+        const parsedSingle = this.parseHTMLToken(token)
+        if (parsedSingle) {
+          const normalized = this.normalizeParseResult(parsedSingle as any)
+          if (Array.isArray(normalized)) {
+            result.push(...normalized)
+          } else if (normalized) {
+            result.push(normalized)
+          }
+        }
       } else if (token.type) {
         // Handle inline marks (bold, italic, etc.)
         const markHandler = this.getHandlerForToken(token.type)
@@ -415,7 +657,7 @@ export class MarkdownManager {
           result.push(...this.parseInlineTokens(token.tokens))
         }
       }
-    })
+    }
 
     return result
   }
@@ -621,7 +863,6 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
-
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -635,27 +876,55 @@ export class MarkdownManager {
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToClose = findMarksToClose(activeMarks, currentMarks)
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+        const marksToClose = findMarksToClose(currentMarks, nextNode)
 
-        // Close marks (in reverse order of how they were opened)
+        let middleTrailingWhitespace = ''
+
+        if (marksToClose.length > 0) {
+          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+          const middleTrailingMatch = textContent.match(/(\s+)$/)
+          if (middleTrailingMatch) {
+            middleTrailingWhitespace = middleTrailingMatch[1]
+            textContent = textContent.slice(0, -middleTrailingWhitespace.length)
+          }
+        }
+        // Close marks that are ending here
         marksToClose.forEach(markType => {
-          const mark = activeMarks.get(markType)
+          const mark = currentMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
-          activeMarks.delete(markType)
+          // deleting closed marks from active marks
+          if (activeMarks.has(markType)) {
+            activeMarks.delete(markType)
+          }
         })
 
         // Open new marks (should be at the beginning)
+        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
+        let leadingWhitespace = ''
+        if (marksToOpen.length > 0) {
+          const leadingMatch = textContent.match(/^(\s+)/)
+          if (leadingMatch) {
+            leadingWhitespace = leadingMatch[1]
+            textContent = textContent.slice(leadingWhitespace.length)
+          }
+        }
+
         marksToOpen.forEach(({ type, mark }) => {
           const openMarkdown = this.getMarkOpening(type, mark)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          activeMarks.set(type, mark)
+          if (!marksToClose.includes(type)) {
+            activeMarks.set(type, mark)
+          }
         })
+
+        // Add leading whitespace before the mark opening
+        textContent = leadingWhitespace + textContent
 
         // Close marks at the end of this node if needed
         const marksToCloseAtEnd = findMarksToCloseAtEnd(
@@ -665,6 +934,16 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
+        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+        let trailingWhitespace = ''
+        if (marksToCloseAtEnd.length > 0) {
+          const trailingMatch = textContent.match(/(\s+)$/)
+          if (trailingMatch) {
+            trailingWhitespace = trailingMatch[1]
+            textContent = textContent.slice(0, -trailingWhitespace.length)
+          }
+        }
+
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
@@ -673,6 +952,10 @@ export class MarkdownManager {
           }
           activeMarks.delete(markType)
         })
+
+        // Add trailing whitespace after the mark closing
+        textContent += trailingWhitespace
+        textContent += middleTrailingWhitespace
 
         result.push(textContent)
       } else {
@@ -685,8 +968,12 @@ export class MarkdownManager {
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
-        // Reopen marks after the node
-        const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+        // Reopen marks after the node, but NOT after a hard break
+        // Hard breaks should terminate marks (they create a line break where marks don't continue)
+        const afterMarkdown =
+          node.type === 'hardBreak'
+            ? ''
+            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }

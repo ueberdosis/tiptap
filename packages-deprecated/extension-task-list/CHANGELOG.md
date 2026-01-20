@@ -1,5 +1,132 @@
 # Change Log
 
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- @tiptap/extension-list@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- Updated dependencies [c1caa7c]
+  - @tiptap/extension-list@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/extension-list@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

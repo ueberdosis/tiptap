@@ -40,6 +40,23 @@ function serializeShortcodeAttributes(attrs: Record<string, any>): string {
     .join(' ')
 }
 
+/**
+ * Configuration for an allowed attribute in markdown serialization.
+ * Can be a simple string (attribute name) or an object with additional options.
+ */
+export type AllowedAttribute =
+  | string
+  | {
+      /** The attribute name */
+      name: string
+      /**
+       * If provided, the attribute will be skipped during serialization when its value
+       * equals this default value. This keeps markdown output clean by omitting
+       * attributes that have their default values.
+       */
+      skipIfDefault?: any
+    }
+
 export interface InlineMarkdownSpecOptions {
   /** The Tiptap node name this spec is for */
   nodeName: string
@@ -55,8 +72,26 @@ export interface InlineMarkdownSpecOptions {
   defaultAttributes?: Record<string, any>
   /** Whether this is a self-closing shortcode (no content, like [emoji name=party]) */
   selfClosing?: boolean
-  /** Allowlist of attributes to include in markdown (if not provided, all attributes are included) */
-  allowedAttributes?: string[]
+  /**
+   * Allowlist of attributes to include in markdown serialization.
+   * If not provided, all attributes are included.
+   *
+   * Each item can be either:
+   * - A string: the attribute name (always included if present)
+   * - An object: `{ name: string, skipIfDefault?: any }` for conditional inclusion
+   *
+   * @example
+   * // Simple string attributes (backward compatible)
+   * allowedAttributes: ['id', 'label']
+   *
+   * // Mixed with conditional attributes
+   * allowedAttributes: [
+   *   'id',
+   *   'label',
+   *   { name: 'mentionSuggestionChar', skipIfDefault: '@' }
+   * ]
+   */
+  allowedAttributes?: AllowedAttribute[]
 }
 
 /**
@@ -130,9 +165,20 @@ export function createInlineMarkdownSpec(options: InlineMarkdownSpecOptions): {
     }
 
     const filtered: Record<string, any> = {}
-    allowedAttributes.forEach(key => {
-      if (key in attrs) {
-        filtered[key] = attrs[key]
+    allowedAttributes.forEach(attr => {
+      // Handle both string and object formats for backward compatibility
+      const attrName = typeof attr === 'string' ? attr : attr.name
+      const skipIfDefault = typeof attr === 'string' ? undefined : attr.skipIfDefault
+
+      if (attrName in attrs) {
+        const value = attrs[attrName]
+
+        // Skip if value equals the default (when skipIfDefault is specified)
+        if (skipIfDefault !== undefined && value === skipIfDefault) {
+          return
+        }
+
+        filtered[attrName] = value
       }
     })
     return filtered
