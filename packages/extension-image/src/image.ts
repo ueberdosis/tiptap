@@ -112,6 +112,9 @@ export const Image = Node.create<ImageOptions>({
       height: {
         default: null,
       },
+      showCaption: {
+        default: false,
+      },
     }
   },
 
@@ -144,15 +147,33 @@ export const Image = Node.create<ImageOptions>({
   },
 
   addNodeView() {
+    // 기존 리사이즈 NodeView 유지, showCaption 지원 구조 추가
     if (!this.options.resize || !this.options.resize.enabled || typeof document === 'undefined') {
-      return null
+      // showCaption이 true면 figure+figcaption 구조 지원
+      return ({ node }) => {
+        const wrapper = document.createElement('figure')
+        const img = document.createElement('img')
+        img.src = node.attrs.src
+        if (node.attrs.alt) {img.alt = node.attrs.alt}
+        if (node.attrs.title) {img.title = node.attrs.title}
+        wrapper.appendChild(img)
+        if (node.attrs.showCaption) {
+          const figcaption = document.createElement('figcaption')
+          figcaption.setAttribute('data-node-view-content', 'true')
+          wrapper.appendChild(figcaption)
+        }
+        return {
+          dom: wrapper,
+          contentDOM: node.attrs.showCaption ? wrapper.querySelector('figcaption') : null,
+        }
+      }
     }
 
+    // 기존 리사이즈 NodeView (변경 없음)
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
-
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
@@ -165,9 +186,7 @@ export const Image = Node.create<ImageOptions>({
           }
         }
       })
-
       el.src = HTMLAttributes.src
-
       const nodeView = new ResizableNodeView({
         element: el,
         editor,
@@ -182,7 +201,6 @@ export const Image = Node.create<ImageOptions>({
           if (pos === undefined) {
             return
           }
-
           this.editor
             .chain()
             .setNodeSelection(pos)
@@ -196,7 +214,6 @@ export const Image = Node.create<ImageOptions>({
           if (updatedNode.type !== node.type) {
             return false
           }
-
           return true
         },
         options: {
@@ -208,17 +225,13 @@ export const Image = Node.create<ImageOptions>({
           preserveAspectRatio: alwaysPreserveAspectRatio === true,
         },
       })
-
       const dom = nodeView.dom as HTMLElement
-
-      // when image is loaded, show the node view to get the correct dimensions
       dom.style.visibility = 'hidden'
       dom.style.pointerEvents = 'none'
       el.onload = () => {
         dom.style.visibility = ''
         dom.style.pointerEvents = ''
       }
-
       return nodeView
     }
   },
