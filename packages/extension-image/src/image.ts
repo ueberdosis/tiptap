@@ -1,192 +1,115 @@
 import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import { mergeAttributes,Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
-  /**
-   * Controls if the image node should be inline or not.
-   * @default false
-   * @example true
-   */
   inline: boolean
-
-  /**
-   * Controls if base64 images are allowed. Enable this if you want to allow
-   * base64 image urls in the `src` attribute.
-   * @default false
-   * @example true
-   */
   allowBase64: boolean
-
-  /**
-   * HTML attributes to add to the image element.
-   * @default {}
-   * @example { class: 'foo' }
-   */
   HTMLAttributes: Record<string, any>
-
-  /**
-   * Controls if the image should be resizable and how the resize is configured.
-   * @default false
-   * @example { directions: { top: true, right: true, bottom: true, left: true, topLeft: true, topRight: true, bottomLeft: true, bottomRight: true }, minWidth: 100, minHeight: 100 }
-   */
-  resize:
-    | {
-        enabled: boolean
-        directions?: ResizableNodeViewDirection[]
-        minWidth?: number
-        minHeight?: number
-        alwaysPreserveAspectRatio?: boolean
-      }
-    | false
-}
-
-export interface SetImageOptions {
-  src: string
-  alt?: string
-  title?: string
-  width?: number
-  height?: number
-}
-
-declare module '@tiptap/core' {
-  interface Commands<ReturnType> {
-    image: {
-      /**
-       * Add an image
-       * @param options The image attributes
-       * @example
-       * editor
-       *   .commands
-       *   .setImage({ src: 'https://tiptap.dev/logo.png', alt: 'tiptap', title: 'tiptap logo' })
-       */
-      setImage: (options: SetImageOptions) => ReturnType
-    }
+  resize?: {
+    enabled: boolean
+    directions?: ResizableNodeViewDirection[]
+    minWidth?: number
+    minHeight?: number
+    alwaysPreserveAspectRatio?: boolean
   }
 }
 
-/**
- * Matches an image to a ![image](src "title") on input.
- */
-export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))$/
+const inputRegex = /(?:^|\s)(!\[([^\]]*)]\(([^\s)]+)(?:\s+['"]([^'"]*)['"])?\))/
 
-/**
- * This extension allows you to insert images.
- * @see https://www.tiptap.dev/api/nodes/image
- */
-export const Image = Node.create<ImageOptions>({
+const Image = Node.create({
   name: 'image',
 
-  addOptions() {
-    return {
-      inline: false,
-      allowBase64: false,
-      HTMLAttributes: {},
-      resize: false,
-    }
-  },
-
-  inline() {
-    return this.options.inline
-  },
-
-  group() {
-    return this.options.inline ? 'inline' : 'block'
-  },
-
-  draggable: true,
+  content: 'inline*',
 
   addAttributes() {
     return {
-      src: {
-        default: null,
-      },
-      alt: {
-        default: null,
-      },
-      title: {
-        default: null,
-      },
-      width: {
-        default: null,
-      },
-      height: {
-        default: null,
-      },
-      showCaption: {
-        default: false,
-      },
+      src: { default: null },
+      alt: { default: null },
+      title: { default: null },
+      showCaption: { default: false },
     }
   },
 
   parseHTML() {
+    const imgTag = this.options.allowBase64 ? 'img[src]' : 'img[src]:not([src^="data:"])'
     return [
       {
-        tag: this.options.allowBase64 ? 'img[src]' : 'img[src]:not([src^="data:"])',
+        tag: 'figure',
+        getAttrs: el => {
+          if (!(el instanceof HTMLElement)) {return false}
+          const img = el.querySelector('img')
+          if (!img) {return false}
+          const src = img.getAttribute('src')
+          if (!src) {return false}
+          if (!this.options.allowBase64 && src.startsWith('data:')) {return false}
+          return {
+            src,
+            alt: img.getAttribute('alt'),
+            title: img.getAttribute('title'),
+            showCaption: Boolean(el.querySelector('figcaption')),
+          }
+        },
+        contentElement: 'figcaption',
       },
+      { tag: imgTag },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
-  },
-
-  parseMarkdown: (token, helpers) => {
-    return helpers.createNode('image', {
-      src: token.href,
-      title: token.title,
-      alt: token.text,
-    })
-  },
-
-  renderMarkdown: node => {
-    const src = node.attrs?.src ?? ''
-    const alt = node.attrs?.alt ?? ''
-    const title = node.attrs?.title ?? ''
-
-    return title ? `![${alt}](${src} "${title}")` : `![${alt}](${src})`
+    const attrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+    const shouldShowCaption = Boolean((HTMLAttributes as any)?.showCaption)
+    if (!shouldShowCaption) {
+      return ['img', attrs]
+    }
+    return ['figure', {}, ['img', attrs], ['figcaption', { 'data-node-view-content': 'true' }, 0]]
   },
 
   addNodeView() {
-    // 기존 리사이즈 NodeView 유지, showCaption 지원 구조 추가
-    if (!this.options.resize || !this.options.resize.enabled || typeof document === 'undefined') {
-      // showCaption이 true면 figure+figcaption 구조 지원
-      return ({ node }) => {
+    if (typeof document === 'undefined') {
+      return null
+    }
+    const resize = this.options.resize
+    if (!resize || !resize.enabled) {
+      return ({ node, HTMLAttributes }) => {
         const wrapper = document.createElement('figure')
         const img = document.createElement('img')
-        img.src = node.attrs.src
-        if (node.attrs.alt) {img.alt = node.attrs.alt}
-        if (node.attrs.title) {img.title = node.attrs.title}
+        Object.entries(HTMLAttributes ?? {}).forEach(([key, value]) => {
+          if (value == null) {return}
+          if (key === 'class') {
+            img.className = String(value)
+            return
+          }
+          img.setAttribute(key, String(value))
+        })
+        img.src = (HTMLAttributes as any)?.src ?? node.attrs.src
         wrapper.appendChild(img)
-        if (node.attrs.showCaption) {
+        const shouldShowCaption = Boolean(node.attrs.showCaption) || node.content.size > 0
+        let contentDOM: HTMLElement | null = null
+        if (shouldShowCaption) {
           const figcaption = document.createElement('figcaption')
           figcaption.setAttribute('data-node-view-content', 'true')
           wrapper.appendChild(figcaption)
+          contentDOM = figcaption
         }
-        return {
-          dom: wrapper,
-          contentDOM: node.attrs.showCaption ? wrapper.querySelector('figcaption') : null,
-        }
+        return { dom: wrapper, contentDOM }
       }
     }
-
-    // 기존 리사이즈 NodeView (변경 없음)
-    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
-
+    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = resize
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+      Object.entries(HTMLAttributes ?? {}).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
             case 'width':
             case 'height':
               break
             default:
-              el.setAttribute(key, value)
+              el.setAttribute(key, String(value))
               break
           }
         }
       })
-      el.src = HTMLAttributes.src
+      el.src = (HTMLAttributes as any)?.src ?? node.attrs.src
       const nodeView = new ResizableNodeView({
         element: el,
         editor,
@@ -198,30 +121,13 @@ export const Image = Node.create<ImageOptions>({
         },
         onCommit: (width, height) => {
           const pos = getPos()
-          if (pos === undefined) {
-            return
-          }
-          this.editor
-            .chain()
-            .setNodeSelection(pos)
-            .updateAttributes(this.name, {
-              width,
-              height,
-            })
-            .run()
+          if (pos === undefined) {return}
+          editor.chain().setNodeSelection(pos).updateAttributes(this.name, { width, height }).run()
         },
-        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
-          if (updatedNode.type !== node.type) {
-            return false
-          }
-          return true
-        },
+        onUpdate: updatedNode => updatedNode.type === node.type,
         options: {
           directions,
-          min: {
-            width: minWidth,
-            height: minHeight,
-          },
+          min: { width: minWidth, height: minHeight },
           preserveAspectRatio: alwaysPreserveAspectRatio === true,
         },
       })
@@ -239,8 +145,8 @@ export const Image = Node.create<ImageOptions>({
   addCommands() {
     return {
       setImage:
-        options =>
-        ({ commands }) => {
+        (options: Record<string, any>) =>
+        ({ commands }: { commands: import('@tiptap/core').RawCommands }) => {
           return commands.insertContent({
             type: this.name,
             attrs: options,
@@ -254,12 +160,13 @@ export const Image = Node.create<ImageOptions>({
       nodeInputRule({
         find: inputRegex,
         type: this.type,
-        getAttributes: match => {
+        getAttributes: (match: RegExpMatchArray) => {
           const [, , alt, src, title] = match
-
           return { src, alt, title }
         },
       }),
     ]
   },
 })
+
+export default Image
