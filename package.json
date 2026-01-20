@@ -87,7 +87,8 @@
   },
   "overrides": {
     "@rollup/pluginutils": "^5.1.4",
-    "glob": "^10.5.0"
+    "glob": "^10.5.0",
+    "qs": "^6.14.1"
   },
   "publishConfig": {
     "provenance": true
