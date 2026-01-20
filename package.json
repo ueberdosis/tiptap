@@ -103,7 +103,8 @@
       "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
     },
     "overrides": {
-      "glob": "^10.5.0"
+      "glob": "^10.5.0",
+      "qs": "^6.14.1"
     }
   }
 }
