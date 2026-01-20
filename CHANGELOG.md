@@ -1,5 +1,73 @@
 # Releases
 
+## v3.15.3
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix Safari scrolling to top when using editor.chain().focus() commands
+
+## v3.15.2
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Prevent auto-linking of bare hostnames (e.g., `localhost`) and IP addresses without a protocol prefix
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Fix lost HTML attributes in TaskItem node view updates
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Fix YouTube Shorts embed URLs using incorrect query parameter separator
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Fix race conditions in ReactRenderer causing destroyed renderers to be re-added in Strict Mode
+
+## v3.15.1
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Add a new `shouldShow` callback to the `Suggestion` utility. This allows developers to filter when suggestions are displayed, which is especially useful for collaborative environments to prevent suggestions from popping open for remote users.
+
+## v3.15.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fix unique ID assignment when handling empty nodes by checking next node's attribute state in the transaction document before modifying it, preventing incorrect ID assignments.
+
 ## v3.14.0
 
 ### @tiptap/extension-twitch
