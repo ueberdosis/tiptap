@@ -1,5 +1,5 @@
 import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes,Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
   inline: boolean
@@ -36,12 +36,20 @@ const Image = Node.create({
       {
         tag: 'figure',
         getAttrs: el => {
-          if (!(el instanceof HTMLElement)) {return false}
+          if (!(el instanceof HTMLElement)) {
+            return false
+          }
           const img = el.querySelector('img')
-          if (!img) {return false}
+          if (!img) {
+            return false
+          }
           const src = img.getAttribute('src')
-          if (!src) {return false}
-          if (!this.options.allowBase64 && src.startsWith('data:')) {return false}
+          if (!src) {
+            return false
+          }
+          if (!this.options.allowBase64 && src.startsWith('data:')) {
+            return false
+          }
           return {
             src,
             alt: img.getAttribute('alt'),
@@ -74,7 +82,9 @@ const Image = Node.create({
         const wrapper = document.createElement('figure')
         const img = document.createElement('img')
         Object.entries(HTMLAttributes ?? {}).forEach(([key, value]) => {
-          if (value == null) {return}
+          if (value == null) {
+            return
+          }
           if (key === 'class') {
             img.className = String(value)
             return
@@ -121,7 +131,9 @@ const Image = Node.create({
         },
         onCommit: (width, height) => {
           const pos = getPos()
-          if (pos === undefined) {return}
+          if (pos === undefined) {
+            return
+          }
           editor.chain().setNodeSelection(pos).updateAttributes(this.name, { width, height }).run()
         },
         onUpdate: updatedNode => updatedNode.type === node.type,
@@ -169,4 +181,5 @@ const Image = Node.create({
   },
 })
 
+export { Image }
 export default Image
