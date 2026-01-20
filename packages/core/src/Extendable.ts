@@ -9,6 +9,7 @@ import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
+  DispatchTransactionProps,
   EditorEvents,
   Extensions,
   GlobalAttributes,
@@ -445,6 +446,33 @@ export interface ExtendableConfig<
           parent: ParentConfig<Config>['onDestroy']
         },
         event: EditorEvents['destroy'],
+      ) => void)
+    | null
+
+  /**
+   * This hook allows you to intercept and modify transactions before they are dispatched.
+   *
+   * Example
+   * ```ts
+   * dispatchTransaction({ transaction, next }) {
+   *   console.log('Dispatching transaction:', transaction)
+   *   next(transaction)
+   * }
+   * ```
+   *
+   * @param props - The dispatch transaction props
+   */
+  dispatchTransaction?:
+    | ((
+        this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['dispatchTransaction']
+        },
+        props: DispatchTransactionProps,
       ) => void)
     | null
 }

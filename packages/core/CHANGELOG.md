@@ -1,5 +1,40 @@
 # Change Log
 
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
 ## 3.14.0
 
 ### Patch Changes

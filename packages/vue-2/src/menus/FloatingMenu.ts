@@ -5,8 +5,10 @@ import type Vue from 'vue'
 
 export interface FloatingMenuInterface extends Vue {
   pluginKey: FloatingMenuPluginProps['pluginKey']
-  options: FloatingMenuPluginProps['options']
   editor: FloatingMenuPluginProps['editor']
+  updateDelay: FloatingMenuPluginProps['updateDelay']
+  resizeDelay: FloatingMenuPluginProps['resizeDelay']
+  options: FloatingMenuPluginProps['options']
   appendTo: FloatingMenuPluginProps['appendTo']
   shouldShow: FloatingMenuPluginProps['shouldShow']
 }
@@ -25,13 +27,21 @@ export const FloatingMenu: Component = {
       required: true,
     },
 
+    updateDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['updateDelay']>,
+    },
+
+    resizeDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['resizeDelay']>,
+    },
+
     options: {
       type: Object as PropType<FloatingMenuPluginProps['options']>,
       default: () => ({}),
     },
 
     appendTo: {
-      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      type: [Object, Function] as PropType<FloatingMenuPluginProps['appendTo']>,
       default: undefined,
     },
 
@@ -64,6 +74,8 @@ export const FloatingMenu: Component = {
               pluginKey: this.pluginKey,
               editor,
               element: this.$el as HTMLElement,
+              updateDelay: this.updateDelay,
+              resizeDelay: this.resizeDelay,
               options: this.options,
               appendTo: this.appendTo,
               shouldShow: this.shouldShow,

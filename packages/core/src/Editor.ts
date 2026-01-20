@@ -116,6 +116,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
+    enableExtensionDispatchTransaction: true,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -519,14 +520,23 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(element: NonNullable<EditorOptions['element']>): void {
+    const { editorProps, enableExtensionDispatchTransaction } = this.options
+    // If a user provided a custom `dispatchTransaction` through `editorProps`,
+    // we use that as the base dispatch function.
+    // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
+    const baseDispatch = (editorProps as any).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const dispatch = enableExtensionDispatchTransaction
+      ? this.extensionManager.dispatchTransaction(baseDispatch)
+      : baseDispatch
+
     this.editorView = new EditorView(element, {
-      ...this.options.editorProps,
+      ...editorProps,
       attributes: {
         // add `role="textbox"` to the editor element
         role: 'textbox',
-        ...this.options.editorProps?.attributes,
+        ...editorProps?.attributes,
       },
-      dispatchTransaction: this.dispatchTransaction.bind(this),
+      dispatchTransaction: dispatch,
       state: this.editorState,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
