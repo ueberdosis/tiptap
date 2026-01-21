@@ -16,10 +16,32 @@ export interface ImageOptions {
 
 const inputRegex = /(?:^|\s)(!\[([^\]]*)]\(([^\s)]+)(?:\s+['"]([^'"]*)['"])?\))/
 
-const Image = Node.create({
+const Image = Node.create<ImageOptions>({
   name: 'image',
 
+  // 원래 extension-image의 동작(옵션 inline)에 맞추려면 아래 두 개를 유지하는 게 안전합니다.
+  inline() {
+    return this.options.inline
+  },
+
+  group() {
+    return this.options.inline ? 'inline' : 'block'
+  },
+
+  draggable: true,
+
+  // 캡션을 담기 위해 content를 열어둡니다.
+  // (showCaption=false라도 content가 있을 수 있으므로 serialize 시 보존 처리 필요)
   content: 'inline*',
+
+  addOptions() {
+    return {
+      inline: false,
+      allowBase64: false,
+      HTMLAttributes: {},
+      resize: undefined,
+    }
+  },
 
   addAttributes() {
     return {
@@ -32,28 +54,26 @@ const Image = Node.create({
 
   parseHTML() {
     const imgTag = this.options.allowBase64 ? 'img[src]' : 'img[src]:not([src^="data:"])'
+
     return [
       {
         tag: 'figure',
-        getAttrs: (el: any) => {
-          if (!(el instanceof HTMLElement)) {
-            return false
-          }
+        getAttrs: (el: unknown) => {
+          if (!(el instanceof HTMLElement)) {return false}
+
           const img = el.querySelector('img')
-          if (!img) {
-            return false
-          }
+          if (!img) {return false}
+
           const src = img.getAttribute('src')
-          if (!src) {
-            return false
-          }
-          if (!this.options.allowBase64 && src.startsWith('data:')) {
-            return false
-          }
+          if (!src) {return false}
+
+          if (!this.options.allowBase64 && src.startsWith('data:')) {return false}
+
           return {
             src,
             alt: img.getAttribute('alt'),
             title: img.getAttribute('title'),
+            // figcaption이 있으면 showCaption=true로 파싱
             showCaption: Boolean(el.querySelector('figcaption')),
           }
         },
@@ -63,12 +83,17 @@ const Image = Node.create({
     ]
   },
 
-  renderHTML({ HTMLAttributes }) {
+  // showCaption이 false여도 "이미 content가 있으면" figure로 내보내서 데이터 유실 방지
+  // ProseMirror DOM spec에서 0(hole)이 node.content가 삽입될 자리입니다. :contentReference[oaicite:3]{index=3}
+  renderHTML({ node, HTMLAttributes }) {
     const attrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
-    const shouldShowCaption = Boolean((HTMLAttributes as any)?.showCaption)
-    if (!shouldShowCaption) {
+    const hasCaptionContent = node.content.size > 0
+    const shouldWrap = Boolean((node.attrs as any)?.showCaption) || hasCaptionContent
+
+    if (!shouldWrap) {
       return ['img', attrs]
     }
+
     return ['figure', {}, ['img', attrs], ['figcaption', { 'data-node-view-content': 'true' }, 0]]
   },
 
@@ -78,40 +103,44 @@ const Image = Node.create({
       return null
     }
 
-    // 1) resize 비활성: figure + figcaption NodeView
+    const applyImgAttrs = (img: HTMLImageElement, attrs: Record<string, any>) => {
+      Object.entries(attrs).forEach(([key, value]) => {
+        if (value == null) {return}
+        if (key === 'showCaption') {return} // img에 붙이지 않음
+
+        switch (key) {
+          case 'src':
+          case 'alt':
+          case 'title':
+            img.setAttribute(key, String(value))
+            break
+          default:
+            if (typeof value === 'boolean') {
+              if (value) {img.setAttribute(key, '')}
+            } else {
+              img.setAttribute(key, String(value))
+            }
+        }
+      })
+    }
+
+    // 1) resize 비활성: figure + figcaption NodeView (contentDOM 고정 + display 토글)
     if (!this.options.resize || !this.options.resize.enabled) {
       return ({ node, HTMLAttributes }) => {
-        let currentNode: typeof node = node
+        let currentNode = node
 
         const wrapper = document.createElement('figure')
         const img = document.createElement('img')
         const figcaption = document.createElement('figcaption')
 
-        // ProseMirror가 이 엘리먼트를 "편집 가능한 contentDOM"으로 인식
         figcaption.setAttribute('data-node-view-content', 'true')
 
-        // 기존 image.ts 스타일과 동일하게 HTMLAttributes를 img에 적용
-        Object.entries(HTMLAttributes).forEach(([key, value]) => {
-          if (value == null) {return}
-
-          switch (key) {
-            case 'src':
-            case 'alt':
-            case 'title':
-              img.setAttribute(key, String(value))
-              break
-            default:
-              if (typeof value === 'boolean') {
-                if (value) {img.setAttribute(key, '')}
-              } else {
-                img.setAttribute(key, String(value))
-              }
-          }
-        })
+        // HTMLAttributes(클래스 등) 반영 + showCaption 제외
+        const mergedHTMLAttrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+        applyImgAttrs(img, mergedHTMLAttrs)
 
         const syncFromNode = (n: typeof currentNode) => {
-          // node attrs 기준으로 핵심 속성 동기화
-          const { src, alt, title, width, height, showCaption } = n.attrs as any
+          const { src, alt, title, showCaption } = n.attrs as any
 
           if (src != null) {img.setAttribute('src', String(src))}
           else {img.removeAttribute('src')}
@@ -122,13 +151,7 @@ const Image = Node.create({
           if (title != null) {img.setAttribute('title', String(title))}
           else {img.removeAttribute('title')}
 
-          if (width != null) {img.setAttribute('width', String(width))}
-          else {img.removeAttribute('width')}
-
-          if (height != null) {img.setAttribute('height', String(height))}
-          else {img.removeAttribute('height')}
-
-          // contentDOM은 항상 유지하고, UI만 숨김/표시
+          // contentDOM은 항상 유지하고 UI만 숨김/표시
           figcaption.style.display = showCaption ? '' : 'none'
         }
 
@@ -141,13 +164,10 @@ const Image = Node.create({
           dom: wrapper,
           contentDOM: figcaption,
 
-          update: (updatedNode: unknown) => {
-            // Cast updatedNode to the correct type
-            const typedNode = updatedNode as typeof node
-            if (typedNode.type !== currentNode.type) {
-              return false
-            }
-            currentNode = typedNode
+          // NodeView.update는 (node, decorations, innerDecorations) 시그니처입니다. :contentReference[oaicite:4]{index=4}
+          update: (updatedNode, _decorations, _innerDecorations) => {
+            if (updatedNode.type !== currentNode.type) {return false}
+            currentNode = updatedNode
             syncFromNode(currentNode)
             return true
           },
@@ -155,34 +175,16 @@ const Image = Node.create({
       }
     }
 
-    // 2) resize 활성: 기존 ResizableNodeView (여기는 현재 파일의 로직을 그대로 유지)
+    // 2) resize 활성: 기존 ResizableNodeView 유지
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
 
     return ({ node: _node, getPos, HTMLAttributes, editor }) => {
-      // ✅ 이 아래는 기존 코드 그대로 두세요 (PR #7431에서 "변경 없음"이라고 한 블록)
       const el = document.createElement('img')
 
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
-        if (value != null) {
-          switch (key) {
-            case 'src':
-            case 'alt':
-            case 'title':
-              el.setAttribute(key, String(value))
-              break
-            default:
-              if (typeof value === 'boolean') {
-                if (value) {
-                  el.setAttribute(key, '')
-                }
-              } else {
-                el.setAttribute(key, String(value))
-              }
-          }
-        }
-      })
+      const mergedHTMLAttrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+      applyImgAttrs(el, mergedHTMLAttrs)
 
-      el.src = String(HTMLAttributes.src)
+      el.src = String(mergedHTMLAttrs.src)
 
       const nodeView = new ResizableNodeView({
         element: el,
@@ -197,9 +199,9 @@ const Image = Node.create({
       })
 
       const dom = nodeView.dom as HTMLElement
-
       dom.style.visibility = 'hidden'
       dom.style.pointerEvents = 'none'
+
       el.onload = () => {
         dom.style.visibility = ''
         dom.style.pointerEvents = ''
