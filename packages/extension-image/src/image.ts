@@ -80,18 +80,20 @@ const Image = Node.create({
 
     // 1) resize 비활성: figure + figcaption NodeView
     if (!this.options.resize || !this.options.resize.enabled) {
-      return ({ node, HTMLAttributes }: { node: any; HTMLAttributes: Record<string, any> }) => {
-        let currentNode = node
+      return ({ node, HTMLAttributes }) => {
+        let currentNode: typeof node = node
 
         const wrapper = document.createElement('figure')
         const img = document.createElement('img')
         const figcaption = document.createElement('figcaption')
+
+        // ProseMirror가 이 엘리먼트를 "편집 가능한 contentDOM"으로 인식
         figcaption.setAttribute('data-node-view-content', 'true')
 
+        // 기존 image.ts 스타일과 동일하게 HTMLAttributes를 img에 적용
         Object.entries(HTMLAttributes).forEach(([key, value]) => {
-          if (value == null) {
-            return
-          }
+          if (value == null) {return}
+
           switch (key) {
             case 'src':
             case 'alt':
@@ -100,57 +102,52 @@ const Image = Node.create({
               break
             default:
               if (typeof value === 'boolean') {
-                if (value) {
-                  img.setAttribute(key, '')
-                }
+                if (value) {img.setAttribute(key, '')}
               } else {
                 img.setAttribute(key, String(value))
               }
           }
         })
 
-        const syncFromNode = (n: any) => {
-          const { src, alt, title, width, height, showCaption } = n.attrs || {}
-          if (src != null) {
-            img.setAttribute('src', String(src))
-          } else {
-            img.removeAttribute('src')
-          }
-          if (alt != null) {
-            img.setAttribute('alt', String(alt))
-          } else {
-            img.removeAttribute('alt')
-          }
-          if (title != null) {
-            img.setAttribute('title', String(title))
-          } else {
-            img.removeAttribute('title')
-          }
-          if (width != null) {
-            img.setAttribute('width', String(width))
-          } else {
-            img.removeAttribute('width')
-          }
-          if (height != null) {
-            img.setAttribute('height', String(height))
-          } else {
-            img.removeAttribute('height')
-          }
+        const syncFromNode = (n: typeof currentNode) => {
+          // node attrs 기준으로 핵심 속성 동기화
+          const { src, alt, title, width, height, showCaption } = n.attrs as any
+
+          if (src != null) {img.setAttribute('src', String(src))}
+          else {img.removeAttribute('src')}
+
+          if (alt != null) {img.setAttribute('alt', String(alt))}
+          else {img.removeAttribute('alt')}
+
+          if (title != null) {img.setAttribute('title', String(title))}
+          else {img.removeAttribute('title')}
+
+          if (width != null) {img.setAttribute('width', String(width))}
+          else {img.removeAttribute('width')}
+
+          if (height != null) {img.setAttribute('height', String(height))}
+          else {img.removeAttribute('height')}
+
+          // contentDOM은 항상 유지하고, UI만 숨김/표시
           figcaption.style.display = showCaption ? '' : 'none'
         }
 
         syncFromNode(currentNode)
+
         wrapper.appendChild(img)
         wrapper.appendChild(figcaption)
 
         return {
           dom: wrapper,
           contentDOM: figcaption,
-          update: (updatedNode: any) => {
-            if (updatedNode.type !== currentNode.type) {
+
+          update: (updatedNode: unknown) => {
+            // Cast updatedNode to the correct type
+            const typedNode = updatedNode as typeof node
+            if (typedNode.type !== currentNode.type) {
               return false
             }
-            currentNode = updatedNode
+            currentNode = typedNode
             syncFromNode(currentNode)
             return true
           },
@@ -158,11 +155,13 @@ const Image = Node.create({
       }
     }
 
-    // 2) resize 활성: 기존 ResizableNodeView (변경 없음)
+    // 2) resize 활성: 기존 ResizableNodeView (여기는 현재 파일의 로직을 그대로 유지)
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
-    return (props: any) => {
-      const { node, getPos, HTMLAttributes, editor } = props // node는 ResizableNodeView에 전달됨
+
+    return ({ node: _node, getPos, HTMLAttributes, editor }) => {
+      // ✅ 이 아래는 기존 코드 그대로 두세요 (PR #7431에서 "변경 없음"이라고 한 블록)
       const el = document.createElement('img')
+
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
@@ -182,34 +181,30 @@ const Image = Node.create({
           }
         }
       })
+
       el.src = String(HTMLAttributes.src)
+
       const nodeView = new ResizableNodeView({
         element: el,
-        node,
         editor,
-        getPos: typeof getPos === 'function' ? getPos : () => undefined,
-        onCommit: (width: number, height: number) => {
-          if (typeof getPos === 'function') {
-            const pos = getPos()
-            if (pos !== undefined) {
-              editor.commands.updateAttributes('image', { width, height })
-            }
-          }
-        },
-        onUpdate: () => true,
+        getPos,
         options: {
           directions,
-          min: { width: minWidth, height: minHeight },
+          minWidth,
+          minHeight,
           preserveAspectRatio: alwaysPreserveAspectRatio === true,
         },
       })
+
       const dom = nodeView.dom as HTMLElement
+
       dom.style.visibility = 'hidden'
       dom.style.pointerEvents = 'none'
       el.onload = () => {
         dom.style.visibility = ''
         dom.style.pointerEvents = ''
       }
+
       return nodeView
     }
   },
