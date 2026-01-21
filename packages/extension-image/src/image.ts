@@ -35,7 +35,7 @@ const Image = Node.create({
     return [
       {
         tag: 'figure',
-        getAttrs: el => {
+        getAttrs: (el: any) => {
           if (!(el instanceof HTMLElement)) {
             return false
           }
@@ -73,70 +73,130 @@ const Image = Node.create({
   },
 
   addNodeView() {
+    // SSR 방어
     if (typeof document === 'undefined') {
       return null
     }
-    const resize = this.options.resize
-    if (!resize || !resize.enabled) {
-      return ({ node, HTMLAttributes }) => {
+
+    // 1) resize 비활성: figure + figcaption NodeView
+    if (!this.options.resize || !this.options.resize.enabled) {
+      return ({ node, HTMLAttributes }: { node: any; HTMLAttributes: Record<string, any> }) => {
+        let currentNode = node
+
         const wrapper = document.createElement('figure')
         const img = document.createElement('img')
-        Object.entries(HTMLAttributes ?? {}).forEach(([key, value]) => {
+        const figcaption = document.createElement('figcaption')
+        figcaption.setAttribute('data-node-view-content', 'true')
+
+        Object.entries(HTMLAttributes).forEach(([key, value]) => {
           if (value == null) {
             return
           }
-          if (key === 'class') {
-            img.className = String(value)
-            return
-          }
-          img.setAttribute(key, String(value))
-        })
-        img.src = (HTMLAttributes as any)?.src ?? node.attrs.src
-        wrapper.appendChild(img)
-        const shouldShowCaption = Boolean(node.attrs.showCaption) || node.content.size > 0
-        let contentDOM: HTMLElement | null = null
-        if (shouldShowCaption) {
-          const figcaption = document.createElement('figcaption')
-          figcaption.setAttribute('data-node-view-content', 'true')
-          wrapper.appendChild(figcaption)
-          contentDOM = figcaption
-        }
-        return { dom: wrapper, contentDOM }
-      }
-    }
-    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = resize
-    return ({ node, getPos, HTMLAttributes, editor }) => {
-      const el = document.createElement('img')
-      Object.entries(HTMLAttributes ?? {}).forEach(([key, value]) => {
-        if (value != null) {
           switch (key) {
-            case 'width':
-            case 'height':
+            case 'src':
+            case 'alt':
+            case 'title':
+              img.setAttribute(key, String(value))
               break
             default:
+              if (typeof value === 'boolean') {
+                if (value) {
+                  img.setAttribute(key, '')
+                }
+              } else {
+                img.setAttribute(key, String(value))
+              }
+          }
+        })
+
+        const syncFromNode = (n: any) => {
+          const { src, alt, title, width, height, showCaption } = n.attrs || {}
+          if (src != null) {
+            img.setAttribute('src', String(src))
+          } else {
+            img.removeAttribute('src')
+          }
+          if (alt != null) {
+            img.setAttribute('alt', String(alt))
+          } else {
+            img.removeAttribute('alt')
+          }
+          if (title != null) {
+            img.setAttribute('title', String(title))
+          } else {
+            img.removeAttribute('title')
+          }
+          if (width != null) {
+            img.setAttribute('width', String(width))
+          } else {
+            img.removeAttribute('width')
+          }
+          if (height != null) {
+            img.setAttribute('height', String(height))
+          } else {
+            img.removeAttribute('height')
+          }
+          figcaption.style.display = showCaption ? '' : 'none'
+        }
+
+        syncFromNode(currentNode)
+        wrapper.appendChild(img)
+        wrapper.appendChild(figcaption)
+
+        return {
+          dom: wrapper,
+          contentDOM: figcaption,
+          update: (updatedNode: any) => {
+            if (updatedNode.type !== currentNode.type) {
+              return false
+            }
+            currentNode = updatedNode
+            syncFromNode(currentNode)
+            return true
+          },
+        }
+      }
+    }
+
+    // 2) resize 활성: 기존 ResizableNodeView (변경 없음)
+    const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
+    return (props: any) => {
+      const { node, getPos, HTMLAttributes, editor } = props // node는 ResizableNodeView에 전달됨
+      const el = document.createElement('img')
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        if (value != null) {
+          switch (key) {
+            case 'src':
+            case 'alt':
+            case 'title':
               el.setAttribute(key, String(value))
               break
+            default:
+              if (typeof value === 'boolean') {
+                if (value) {
+                  el.setAttribute(key, '')
+                }
+              } else {
+                el.setAttribute(key, String(value))
+              }
           }
         }
       })
-      el.src = (HTMLAttributes as any)?.src ?? node.attrs.src
+      el.src = String(HTMLAttributes.src)
       const nodeView = new ResizableNodeView({
         element: el,
-        editor,
         node,
-        getPos,
-        onResize: (width, height) => {
-          el.style.width = `${width}px`
-          el.style.height = `${height}px`
-        },
-        onCommit: (width, height) => {
-          const pos = getPos()
-          if (pos === undefined) {
-            return
+        editor,
+        getPos: typeof getPos === 'function' ? getPos : () => undefined,
+        onCommit: (width: number, height: number) => {
+          if (typeof getPos === 'function') {
+            const pos = getPos()
+            if (pos !== undefined) {
+              editor.commands.updateAttributes('image', { width, height })
+            }
           }
-          editor.chain().setNodeSelection(pos).updateAttributes(this.name, { width, height }).run()
         },
-        onUpdate: updatedNode => updatedNode.type === node.type,
+        onUpdate: () => true,
         options: {
           directions,
           min: { width: minWidth, height: minHeight },
@@ -164,7 +224,7 @@ const Image = Node.create({
             attrs: options,
           })
         },
-    }
+    } as Partial<import('@tiptap/core').RawCommands>
   },
 
   addInputRules() {
