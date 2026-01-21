@@ -264,6 +264,23 @@ export interface EditorEvents {
   )
 }
 
+/**
+ * Props passed to the `dispatchTransaction` hook in extensions.
+ */
+export type DispatchTransactionProps = {
+  /**
+   * The transaction that is about to be dispatched.
+   */
+  transaction: Transaction
+  /**
+   * A function that should be called to pass the transaction down to the next extension
+   * (or eventually to the editor).
+   *
+   * @param transaction The transaction to dispatch
+   */
+  next: (transaction: Transaction) => void
+}
+
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
@@ -450,6 +467,17 @@ export interface EditorOptions {
    * Called when content is deleted from the editor.
    */
   onDelete: (props: EditorEvents['delete']) => void
+  /**
+   * Whether to enable extension-level dispatching of transactions.
+   * If `false`, extensions cannot define their own `dispatchTransaction` hook.
+   *
+   * @default true
+   * @example
+   * new Editor({
+   *   enableExtensionDispatchTransaction: false,
+   * })
+   */
+  enableExtensionDispatchTransaction?: boolean
 }
 
 /**

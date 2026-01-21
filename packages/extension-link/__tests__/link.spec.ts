@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -254,6 +255,152 @@ describe('extension-link', () => {
         editor?.destroy()
         getEditorEl()?.remove()
       })
+    })
+  })
+
+  it('should return false when clicking on non-link elements', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Image,
+        Link.configure({
+          openOnClick: false,
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'image',
+                attrs: {
+                  src: 'https://placehold.co/400',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    const editorEl = getEditorEl()
+    const img = editorEl?.querySelector('img')
+
+    expect(img).toBeTruthy()
+
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      button: 0,
+    })
+
+    const wasDefaultPrevented = !img?.dispatchEvent(clickEvent)
+
+    // The event should not be prevented by the link handler
+    expect(wasDefaultPrevented).toBe(false)
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  describe('shouldAutoLink', () => {
+    it('default shouldAutoLink rejects bare hostnames without TLD', () => {
+      // Test using Link extension's default options
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Link],
+      })
+
+      // Access the default shouldAutoLink function through the extension options
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // Should reject bare hostnames without TLD
+        expect(shouldAutoLink('localhost')).toBe(false)
+        expect(shouldAutoLink('myserver')).toBe(false)
+        expect(shouldAutoLink('intranet')).toBe(false)
+
+        // Should allow URLs with protocols
+        expect(shouldAutoLink('http://localhost')).toBe(true)
+        expect(shouldAutoLink('https://localhost')).toBe(true)
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('ftp://myserver')).toBe(true)
+
+        // Should allow URLs with TLD
+        expect(shouldAutoLink('example.com')).toBe(true)
+        expect(shouldAutoLink('test.example.com')).toBe(true)
+        expect(shouldAutoLink('https://example.com')).toBe(true)
+
+        // Should correctly handle URLs with userinfo (user:pass@host)
+        expect(shouldAutoLink('user:pass@example.com')).toBe(true)
+        expect(shouldAutoLink('user@example.com')).toBe(true)
+        expect(shouldAutoLink('user:pass@localhost')).toBe(false)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('default shouldAutoLink rejects bare IP addresses', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Link],
+      })
+
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // Should reject bare IP addresses
+        expect(shouldAutoLink('127.0.0.1')).toBe(false)
+        expect(shouldAutoLink('192.168.1.1')).toBe(false)
+        expect(shouldAutoLink('10.0.0.1')).toBe(false)
+        expect(shouldAutoLink('0.0.0.0')).toBe(false)
+
+        // Should allow IP addresses with protocols
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('https://192.168.1.1')).toBe(true)
+        expect(shouldAutoLink('http://10.0.0.1:8080')).toBe(true)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('allows custom shouldAutoLink to override default behavior', () => {
+      // Custom shouldAutoLink that allows all URLs (old behavior)
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link.configure({
+            shouldAutoLink: () => true,
+          }),
+        ],
+      })
+
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
+
+      expect(shouldAutoLink).toBeDefined()
+      if (shouldAutoLink) {
+        // With custom shouldAutoLink, localhost should be allowed
+        expect(shouldAutoLink('localhost')).toBe(true)
+        expect(shouldAutoLink('127.0.0.1')).toBe(true)
+      }
+
+      editor?.destroy()
+      getEditorEl()?.remove()
     })
   })
 })
