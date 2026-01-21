@@ -269,7 +269,7 @@ export class BubbleMenuView implements PluginView {
       return referencedVirtualElement
     }
 
-    if (!this.view || !this.view.dom || !this.view.dom.parentNode) {
+    if (!this.view?.dom?.parentNode) {
       return
     }
 
