@@ -1,5 +1,5 @@
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { DecorationSet } from '@tiptap/pm/view'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import { DecorationSet } from '@dibdab/pm/view'
 import type * as Y from 'yjs'
 
 import type { AnnotationItem } from './AnnotationItem.js'

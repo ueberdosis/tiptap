@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Placeholder } from '@tiptap/extensions'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Collaboration from '@dibdab/extension-collaboration'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Placeholder } from '@dibdab/extensions'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 

@@ -1,4 +1,4 @@
-import type { Fragment, Node, ResolvedPos } from '@tiptap/pm/model'
+import type { Fragment, Node, ResolvedPos } from '@dibdab/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { Content, Range } from './types.js'

@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import { ListItem } from '@tiptap/extension-list'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, Node, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { ListItem } from '@dibdab/extension-list'
+import { Color, TextStyle } from '@dibdab/extension-text-style'
+import { EditorContent, Node, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 import { content } from '../content.ts'

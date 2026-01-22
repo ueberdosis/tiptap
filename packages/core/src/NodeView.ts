@@ -1,5 +1,5 @@
-import { NodeSelection } from '@tiptap/pm/state'
-import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
+import { NodeSelection } from '@dibdab/pm/state'
+import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@dibdab/pm/view'
 
 import type { Editor as CoreEditor } from './Editor.js'
 import type { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'

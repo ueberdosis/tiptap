@@ -1,6 +1,6 @@
-import type { Editor } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@dibdab/core'
+import type { Node } from '@dibdab/pm/model'
+import type { EditorView } from '@dibdab/pm/view'
 
 export type FindElementNextToCoords = {
   x: number

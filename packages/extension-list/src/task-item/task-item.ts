@@ -1,12 +1,12 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
+import type { KeyboardShortcutCommand } from '@dibdab/core'
 import {
   getRenderedAttributes,
   mergeAttributes,
   Node,
   renderNestedMarkdownContent,
   wrappingInputRule,
-} from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+} from '@dibdab/core'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
 
 export interface TaskItemOptions {
   /**

@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/core",
+  "name": "@dibdab/core",
   "description": "headless rich text editor",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "headless",
     "wysiwyg",
     "text editor",
@@ -52,14 +52,14 @@
     "jsx-dev-runtime"
   ],
   "devDependencies": {
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/pm": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/core"
   },
   "sideEffects": false,

@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@dibdab/core'
 import type { Component, DefineComponent } from 'vue'
 import { h, markRaw, reactive, render } from 'vue'
 

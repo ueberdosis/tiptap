@@ -1,4 +1,4 @@
-import type { ResolvedPos } from '@tiptap/pm/model'
+import type { ResolvedPos } from '@dibdab/pm/model'
 
 /**
  * Returns the text content of a resolved prosemirror position

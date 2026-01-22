@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-file-handler",
+  "name": "@dibdab/extension-file-handler",
   "description": "file handler extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/filehandler",
+  "homepage": "https://dibdab.dev/docs/editor/extensions/functionality/filehandler",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,18 +31,18 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/extension-text-style": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/extension-text-style": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-file-handler"
   },
   "scripts": {

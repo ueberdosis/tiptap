@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@dibdab/pm/model'
 
 export const getOuterNodePos = (doc: Node, pos: number): number => {
   const resolvedPos = doc.resolve(pos)

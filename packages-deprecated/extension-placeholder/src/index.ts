@@ -1,6 +1,6 @@
-import { Placeholder } from '@tiptap/extensions'
+import { Placeholder } from '@dibdab/extensions'
 
-export type { PlaceholderOptions } from '@tiptap/extensions'
-export { Placeholder } from '@tiptap/extensions'
+export type { PlaceholderOptions } from '@dibdab/extensions'
+export { Placeholder } from '@dibdab/extensions'
 
 export default Placeholder

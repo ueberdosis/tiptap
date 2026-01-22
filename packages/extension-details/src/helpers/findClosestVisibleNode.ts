@@ -1,5 +1,5 @@
-import type { Editor, Predicate } from '@tiptap/core'
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Editor, Predicate } from '@dibdab/core'
+import type { Node as ProseMirrorNode, ResolvedPos } from '@dibdab/pm/model'
 
 import { isNodeVisible } from './isNodeVisible.js'
 

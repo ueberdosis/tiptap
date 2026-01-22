@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus, @typescript-eslint/no-explicit-any */
-import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
+import type { DOMOutputSpecArray, Extensions, JSONContent } from '@dibdab/core'
+import type { DOMOutputSpec, Mark, Node } from '@dibdab/pm/model'
 import React from 'react'
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'

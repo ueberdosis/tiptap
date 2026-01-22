@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-drag-handle",
+  "name": "@dibdab/extension-drag-handle",
   "description": "drag handle extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/drag-handle",
+  "homepage": "https://dibdab.dev/docs/editor/extensions/functionality/drag-handle",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-drag-handle"
   },
   "type": "module",
@@ -36,22 +36,22 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@dibdab/extension-node-range": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/extension-collaboration": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/y-tiptap": "^3.0.0"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13"
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.13",
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@dibdab/extension-node-range": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/extension-collaboration": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/y-tiptap": "^3.0.0"
   },
   "scripts": {
     "build": "tsup",

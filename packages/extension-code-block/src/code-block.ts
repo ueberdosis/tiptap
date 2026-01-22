@@ -1,5 +1,5 @@
-import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
-import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
+import { mergeAttributes, Node, textblockTypeInputRule } from '@dibdab/core'
+import { Plugin, PluginKey, Selection, TextSelection } from '@dibdab/pm/state'
 
 const DEFAULT_TAB_SIZE = 4
 
@@ -43,7 +43,7 @@ export interface CodeBlockOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     codeBlock: {
       /**

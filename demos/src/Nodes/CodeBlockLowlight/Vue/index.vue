@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import CodeBlockLowlight from '@dibdab/extension-code-block-lowlight'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'

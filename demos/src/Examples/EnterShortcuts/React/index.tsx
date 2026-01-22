@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, Extension, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 const CustomKeyboardShortcutExtension = Extension.create({

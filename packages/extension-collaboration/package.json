@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-collaboration",
+  "name": "@dibdab/extension-collaboration",
   "description": "collaboration extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,19 +31,19 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/y-tiptap": "^3.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/y-tiptap": "^3.0.0",
     "yjs": "^13"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-collaboration"
   },
   "scripts": {

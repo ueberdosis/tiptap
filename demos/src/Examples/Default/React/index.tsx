@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import { TextStyleKit } from '@tiptap/extension-text-style'
-import type { Editor } from '@tiptap/react'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { TextStyleKit } from '@dibdab/extension-text-style'
+import type { Editor } from '@dibdab/react'
+import { EditorContent, useEditor, useEditorState } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 const extensions = [TextStyleKit, StarterKit]

@@ -5,60 +5,60 @@
 ### Patch Changes
 
 - Updated dependencies [5f568dc]
-  - @tiptap/extension-link@3.16.0
-  - @tiptap/extension-dropcursor@3.16.0
-  - @tiptap/extension-gapcursor@3.16.0
-  - @tiptap/extension-list-item@3.16.0
-  - @tiptap/extension-list-keymap@3.16.0
-  - @tiptap/core@3.16.0
-  - @tiptap/extension-blockquote@3.16.0
-  - @tiptap/extension-bold@3.16.0
-  - @tiptap/extension-bullet-list@3.16.0
-  - @tiptap/extension-code@3.16.0
-  - @tiptap/extension-code-block@3.16.0
-  - @tiptap/extension-document@3.16.0
-  - @tiptap/extension-hard-break@3.16.0
-  - @tiptap/extension-heading@3.16.0
-  - @tiptap/extension-horizontal-rule@3.16.0
-  - @tiptap/extension-italic@3.16.0
-  - @tiptap/extension-list@3.16.0
-  - @tiptap/extension-ordered-list@3.16.0
-  - @tiptap/extension-paragraph@3.16.0
-  - @tiptap/extension-strike@3.16.0
-  - @tiptap/extension-text@3.16.0
-  - @tiptap/extension-underline@3.16.0
-  - @tiptap/extensions@3.16.0
-  - @tiptap/pm@3.16.0
+  - @dibdab/extension-link@3.16.0
+  - @dibdab/extension-dropcursor@3.16.0
+  - @dibdab/extension-gapcursor@3.16.0
+  - @dibdab/extension-list-item@3.16.0
+  - @dibdab/extension-list-keymap@3.16.0
+  - @dibdab/core@3.16.0
+  - @dibdab/extension-blockquote@3.16.0
+  - @dibdab/extension-bold@3.16.0
+  - @dibdab/extension-bullet-list@3.16.0
+  - @dibdab/extension-code@3.16.0
+  - @dibdab/extension-code-block@3.16.0
+  - @dibdab/extension-document@3.16.0
+  - @dibdab/extension-hard-break@3.16.0
+  - @dibdab/extension-heading@3.16.0
+  - @dibdab/extension-horizontal-rule@3.16.0
+  - @dibdab/extension-italic@3.16.0
+  - @dibdab/extension-list@3.16.0
+  - @dibdab/extension-ordered-list@3.16.0
+  - @dibdab/extension-paragraph@3.16.0
+  - @dibdab/extension-strike@3.16.0
+  - @dibdab/extension-text@3.16.0
+  - @dibdab/extension-underline@3.16.0
+  - @dibdab/extensions@3.16.0
+  - @dibdab/pm@3.16.0
 
 ## 3.15.3
 
 ### Patch Changes
 
 - Updated dependencies [8f86f06]
-  - @tiptap/core@3.15.3
-  - @tiptap/extension-blockquote@3.15.3
-  - @tiptap/extension-bold@3.15.3
-  - @tiptap/extension-code@3.15.3
-  - @tiptap/extension-code-block@3.15.3
-  - @tiptap/extension-document@3.15.3
-  - @tiptap/extension-hard-break@3.15.3
-  - @tiptap/extension-heading@3.15.3
-  - @tiptap/extension-horizontal-rule@3.15.3
-  - @tiptap/extension-italic@3.15.3
-  - @tiptap/extension-link@3.15.3
-  - @tiptap/extension-list@3.15.3
-  - @tiptap/extension-paragraph@3.15.3
-  - @tiptap/extension-strike@3.15.3
-  - @tiptap/extension-text@3.15.3
-  - @tiptap/extension-underline@3.15.3
-  - @tiptap/extensions@3.15.3
-  - @tiptap/extension-list-item@3.15.3
-  - @tiptap/extension-list-keymap@3.15.3
-  - @tiptap/extension-bullet-list@3.15.3
-  - @tiptap/extension-ordered-list@3.15.3
-  - @tiptap/extension-dropcursor@3.15.3
-  - @tiptap/extension-gapcursor@3.15.3
-  - @tiptap/pm@3.15.3
+  - @dibdab/core@3.15.3
+  - @dibdab/extension-blockquote@3.15.3
+  - @dibdab/extension-bold@3.15.3
+  - @dibdab/extension-code@3.15.3
+  - @dibdab/extension-code-block@3.15.3
+  - @dibdab/extension-document@3.15.3
+  - @dibdab/extension-hard-break@3.15.3
+  - @dibdab/extension-heading@3.15.3
+  - @dibdab/extension-horizontal-rule@3.15.3
+  - @dibdab/extension-italic@3.15.3
+  - @dibdab/extension-link@3.15.3
+  - @dibdab/extension-list@3.15.3
+  - @dibdab/extension-paragraph@3.15.3
+  - @dibdab/extension-strike@3.15.3
+  - @dibdab/extension-text@3.15.3
+  - @dibdab/extension-underline@3.15.3
+  - @dibdab/extensions@3.15.3
+  - @dibdab/extension-list-item@3.15.3
+  - @dibdab/extension-list-keymap@3.15.3
+  - @dibdab/extension-bullet-list@3.15.3
+  - @dibdab/extension-ordered-list@3.15.3
+  - @dibdab/extension-dropcursor@3.15.3
+  - @dibdab/extension-gapcursor@3.15.3
+  - @dibdab/pm@3.15.3
 
 ## 3.15.2
 
@@ -66,118 +66,118 @@
 
 - Updated dependencies [03998a1]
 - Updated dependencies [c1caa7c]
-  - @tiptap/extension-link@3.15.2
-  - @tiptap/extension-list@3.15.2
-  - @tiptap/extension-list-item@3.15.2
-  - @tiptap/extension-list-keymap@3.15.2
-  - @tiptap/extension-bullet-list@3.15.2
-  - @tiptap/extension-ordered-list@3.15.2
-  - @tiptap/extension-dropcursor@3.15.2
-  - @tiptap/extension-gapcursor@3.15.2
-  - @tiptap/core@3.15.2
-  - @tiptap/extension-blockquote@3.15.2
-  - @tiptap/extension-bold@3.15.2
-  - @tiptap/extension-code@3.15.2
-  - @tiptap/extension-code-block@3.15.2
-  - @tiptap/extension-document@3.15.2
-  - @tiptap/extension-hard-break@3.15.2
-  - @tiptap/extension-heading@3.15.2
-  - @tiptap/extension-horizontal-rule@3.15.2
-  - @tiptap/extension-italic@3.15.2
-  - @tiptap/extension-paragraph@3.15.2
-  - @tiptap/extension-strike@3.15.2
-  - @tiptap/extension-text@3.15.2
-  - @tiptap/extension-underline@3.15.2
-  - @tiptap/extensions@3.15.2
-  - @tiptap/pm@3.15.2
+  - @dibdab/extension-link@3.15.2
+  - @dibdab/extension-list@3.15.2
+  - @dibdab/extension-list-item@3.15.2
+  - @dibdab/extension-list-keymap@3.15.2
+  - @dibdab/extension-bullet-list@3.15.2
+  - @dibdab/extension-ordered-list@3.15.2
+  - @dibdab/extension-dropcursor@3.15.2
+  - @dibdab/extension-gapcursor@3.15.2
+  - @dibdab/core@3.15.2
+  - @dibdab/extension-blockquote@3.15.2
+  - @dibdab/extension-bold@3.15.2
+  - @dibdab/extension-code@3.15.2
+  - @dibdab/extension-code-block@3.15.2
+  - @dibdab/extension-document@3.15.2
+  - @dibdab/extension-hard-break@3.15.2
+  - @dibdab/extension-heading@3.15.2
+  - @dibdab/extension-horizontal-rule@3.15.2
+  - @dibdab/extension-italic@3.15.2
+  - @dibdab/extension-paragraph@3.15.2
+  - @dibdab/extension-strike@3.15.2
+  - @dibdab/extension-text@3.15.2
+  - @dibdab/extension-underline@3.15.2
+  - @dibdab/extensions@3.15.2
+  - @dibdab/pm@3.15.2
 
 ## 3.15.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.15.1
-- @tiptap/extension-gapcursor@3.15.1
-- @tiptap/extension-list-item@3.15.1
-- @tiptap/extension-list-keymap@3.15.1
-- @tiptap/core@3.15.1
-- @tiptap/extension-blockquote@3.15.1
-- @tiptap/extension-bold@3.15.1
-- @tiptap/extension-bullet-list@3.15.1
-- @tiptap/extension-code@3.15.1
-- @tiptap/extension-code-block@3.15.1
-- @tiptap/extension-document@3.15.1
-- @tiptap/extension-hard-break@3.15.1
-- @tiptap/extension-heading@3.15.1
-- @tiptap/extension-horizontal-rule@3.15.1
-- @tiptap/extension-italic@3.15.1
-- @tiptap/extension-link@3.15.1
-- @tiptap/extension-list@3.15.1
-- @tiptap/extension-ordered-list@3.15.1
-- @tiptap/extension-paragraph@3.15.1
-- @tiptap/extension-strike@3.15.1
-- @tiptap/extension-text@3.15.1
-- @tiptap/extension-underline@3.15.1
-- @tiptap/extensions@3.15.1
-- @tiptap/pm@3.15.1
+- @dibdab/extension-dropcursor@3.15.1
+- @dibdab/extension-gapcursor@3.15.1
+- @dibdab/extension-list-item@3.15.1
+- @dibdab/extension-list-keymap@3.15.1
+- @dibdab/core@3.15.1
+- @dibdab/extension-blockquote@3.15.1
+- @dibdab/extension-bold@3.15.1
+- @dibdab/extension-bullet-list@3.15.1
+- @dibdab/extension-code@3.15.1
+- @dibdab/extension-code-block@3.15.1
+- @dibdab/extension-document@3.15.1
+- @dibdab/extension-hard-break@3.15.1
+- @dibdab/extension-heading@3.15.1
+- @dibdab/extension-horizontal-rule@3.15.1
+- @dibdab/extension-italic@3.15.1
+- @dibdab/extension-link@3.15.1
+- @dibdab/extension-list@3.15.1
+- @dibdab/extension-ordered-list@3.15.1
+- @dibdab/extension-paragraph@3.15.1
+- @dibdab/extension-strike@3.15.1
+- @dibdab/extension-text@3.15.1
+- @dibdab/extension-underline@3.15.1
+- @dibdab/extensions@3.15.1
+- @dibdab/pm@3.15.1
 
 ## 3.15.0
 
 ### Patch Changes
 
 - Updated dependencies [ac8361c]
-  - @tiptap/core@3.15.0
-  - @tiptap/extension-blockquote@3.15.0
-  - @tiptap/extension-bold@3.15.0
-  - @tiptap/extension-code@3.15.0
-  - @tiptap/extension-code-block@3.15.0
-  - @tiptap/extension-document@3.15.0
-  - @tiptap/extension-hard-break@3.15.0
-  - @tiptap/extension-heading@3.15.0
-  - @tiptap/extension-horizontal-rule@3.15.0
-  - @tiptap/extension-italic@3.15.0
-  - @tiptap/extension-link@3.15.0
-  - @tiptap/extension-list@3.15.0
-  - @tiptap/extension-paragraph@3.15.0
-  - @tiptap/extension-strike@3.15.0
-  - @tiptap/extension-text@3.15.0
-  - @tiptap/extension-underline@3.15.0
-  - @tiptap/extensions@3.15.0
-  - @tiptap/extension-list-item@3.15.0
-  - @tiptap/extension-list-keymap@3.15.0
-  - @tiptap/extension-bullet-list@3.15.0
-  - @tiptap/extension-ordered-list@3.15.0
-  - @tiptap/extension-dropcursor@3.15.0
-  - @tiptap/extension-gapcursor@3.15.0
-  - @tiptap/pm@3.15.0
+  - @dibdab/core@3.15.0
+  - @dibdab/extension-blockquote@3.15.0
+  - @dibdab/extension-bold@3.15.0
+  - @dibdab/extension-code@3.15.0
+  - @dibdab/extension-code-block@3.15.0
+  - @dibdab/extension-document@3.15.0
+  - @dibdab/extension-hard-break@3.15.0
+  - @dibdab/extension-heading@3.15.0
+  - @dibdab/extension-horizontal-rule@3.15.0
+  - @dibdab/extension-italic@3.15.0
+  - @dibdab/extension-link@3.15.0
+  - @dibdab/extension-list@3.15.0
+  - @dibdab/extension-paragraph@3.15.0
+  - @dibdab/extension-strike@3.15.0
+  - @dibdab/extension-text@3.15.0
+  - @dibdab/extension-underline@3.15.0
+  - @dibdab/extensions@3.15.0
+  - @dibdab/extension-list-item@3.15.0
+  - @dibdab/extension-list-keymap@3.15.0
+  - @dibdab/extension-bullet-list@3.15.0
+  - @dibdab/extension-ordered-list@3.15.0
+  - @dibdab/extension-dropcursor@3.15.0
+  - @dibdab/extension-gapcursor@3.15.0
+  - @dibdab/pm@3.15.0
 
 ## 3.14.0
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.14.0
-- @tiptap/extension-gapcursor@3.14.0
-- @tiptap/extension-list-item@3.14.0
-- @tiptap/extension-list-keymap@3.14.0
-- @tiptap/core@3.14.0
-- @tiptap/extension-blockquote@3.14.0
-- @tiptap/extension-bold@3.14.0
-- @tiptap/extension-bullet-list@3.14.0
-- @tiptap/extension-code@3.14.0
-- @tiptap/extension-code-block@3.14.0
-- @tiptap/extension-document@3.14.0
-- @tiptap/extension-hard-break@3.14.0
-- @tiptap/extension-heading@3.14.0
-- @tiptap/extension-horizontal-rule@3.14.0
-- @tiptap/extension-italic@3.14.0
-- @tiptap/extension-link@3.14.0
-- @tiptap/extension-list@3.14.0
-- @tiptap/extension-ordered-list@3.14.0
-- @tiptap/extension-paragraph@3.14.0
-- @tiptap/extension-strike@3.14.0
-- @tiptap/extension-text@3.14.0
-- @tiptap/extension-underline@3.14.0
-- @tiptap/extensions@3.14.0
-- @tiptap/pm@3.14.0
+- @dibdab/extension-dropcursor@3.14.0
+- @dibdab/extension-gapcursor@3.14.0
+- @dibdab/extension-list-item@3.14.0
+- @dibdab/extension-list-keymap@3.14.0
+- @dibdab/core@3.14.0
+- @dibdab/extension-blockquote@3.14.0
+- @dibdab/extension-bold@3.14.0
+- @dibdab/extension-bullet-list@3.14.0
+- @dibdab/extension-code@3.14.0
+- @dibdab/extension-code-block@3.14.0
+- @dibdab/extension-document@3.14.0
+- @dibdab/extension-hard-break@3.14.0
+- @dibdab/extension-heading@3.14.0
+- @dibdab/extension-horizontal-rule@3.14.0
+- @dibdab/extension-italic@3.14.0
+- @dibdab/extension-link@3.14.0
+- @dibdab/extension-list@3.14.0
+- @dibdab/extension-ordered-list@3.14.0
+- @dibdab/extension-paragraph@3.14.0
+- @dibdab/extension-strike@3.14.0
+- @dibdab/extension-text@3.14.0
+- @dibdab/extension-underline@3.14.0
+- @dibdab/extensions@3.14.0
+- @dibdab/pm@3.14.0
 
 ## 3.13.0
 
@@ -186,89 +186,89 @@
 - Updated dependencies [fb51a32]
 - Updated dependencies [526365a]
 - Updated dependencies [e3b4f68]
-  - @tiptap/extension-link@3.13.0
-  - @tiptap/core@3.13.0
-  - @tiptap/extension-blockquote@3.13.0
-  - @tiptap/extension-bold@3.13.0
-  - @tiptap/extension-code@3.13.0
-  - @tiptap/extension-code-block@3.13.0
-  - @tiptap/extension-document@3.13.0
-  - @tiptap/extension-hard-break@3.13.0
-  - @tiptap/extension-heading@3.13.0
-  - @tiptap/extension-horizontal-rule@3.13.0
-  - @tiptap/extension-italic@3.13.0
-  - @tiptap/extension-list@3.13.0
-  - @tiptap/extension-paragraph@3.13.0
-  - @tiptap/extension-strike@3.13.0
-  - @tiptap/extension-text@3.13.0
-  - @tiptap/extension-underline@3.13.0
-  - @tiptap/extensions@3.13.0
-  - @tiptap/extension-list-item@3.13.0
-  - @tiptap/extension-list-keymap@3.13.0
-  - @tiptap/extension-bullet-list@3.13.0
-  - @tiptap/extension-ordered-list@3.13.0
-  - @tiptap/extension-dropcursor@3.13.0
-  - @tiptap/extension-gapcursor@3.13.0
-  - @tiptap/pm@3.13.0
+  - @dibdab/extension-link@3.13.0
+  - @dibdab/core@3.13.0
+  - @dibdab/extension-blockquote@3.13.0
+  - @dibdab/extension-bold@3.13.0
+  - @dibdab/extension-code@3.13.0
+  - @dibdab/extension-code-block@3.13.0
+  - @dibdab/extension-document@3.13.0
+  - @dibdab/extension-hard-break@3.13.0
+  - @dibdab/extension-heading@3.13.0
+  - @dibdab/extension-horizontal-rule@3.13.0
+  - @dibdab/extension-italic@3.13.0
+  - @dibdab/extension-list@3.13.0
+  - @dibdab/extension-paragraph@3.13.0
+  - @dibdab/extension-strike@3.13.0
+  - @dibdab/extension-text@3.13.0
+  - @dibdab/extension-underline@3.13.0
+  - @dibdab/extensions@3.13.0
+  - @dibdab/extension-list-item@3.13.0
+  - @dibdab/extension-list-keymap@3.13.0
+  - @dibdab/extension-bullet-list@3.13.0
+  - @dibdab/extension-ordered-list@3.13.0
+  - @dibdab/extension-dropcursor@3.13.0
+  - @dibdab/extension-gapcursor@3.13.0
+  - @dibdab/pm@3.13.0
 
 ## 3.12.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.12.1
-- @tiptap/extension-gapcursor@3.12.1
-- @tiptap/extension-list-item@3.12.1
-- @tiptap/extension-list-keymap@3.12.1
-- @tiptap/core@3.12.1
-- @tiptap/extension-blockquote@3.12.1
-- @tiptap/extension-bold@3.12.1
-- @tiptap/extension-bullet-list@3.12.1
-- @tiptap/extension-code@3.12.1
-- @tiptap/extension-code-block@3.12.1
-- @tiptap/extension-document@3.12.1
-- @tiptap/extension-hard-break@3.12.1
-- @tiptap/extension-heading@3.12.1
-- @tiptap/extension-horizontal-rule@3.12.1
-- @tiptap/extension-italic@3.12.1
-- @tiptap/extension-link@3.12.1
-- @tiptap/extension-list@3.12.1
-- @tiptap/extension-ordered-list@3.12.1
-- @tiptap/extension-paragraph@3.12.1
-- @tiptap/extension-strike@3.12.1
-- @tiptap/extension-text@3.12.1
-- @tiptap/extension-underline@3.12.1
-- @tiptap/extensions@3.12.1
-- @tiptap/pm@3.12.1
+- @dibdab/extension-dropcursor@3.12.1
+- @dibdab/extension-gapcursor@3.12.1
+- @dibdab/extension-list-item@3.12.1
+- @dibdab/extension-list-keymap@3.12.1
+- @dibdab/core@3.12.1
+- @dibdab/extension-blockquote@3.12.1
+- @dibdab/extension-bold@3.12.1
+- @dibdab/extension-bullet-list@3.12.1
+- @dibdab/extension-code@3.12.1
+- @dibdab/extension-code-block@3.12.1
+- @dibdab/extension-document@3.12.1
+- @dibdab/extension-hard-break@3.12.1
+- @dibdab/extension-heading@3.12.1
+- @dibdab/extension-horizontal-rule@3.12.1
+- @dibdab/extension-italic@3.12.1
+- @dibdab/extension-link@3.12.1
+- @dibdab/extension-list@3.12.1
+- @dibdab/extension-ordered-list@3.12.1
+- @dibdab/extension-paragraph@3.12.1
+- @dibdab/extension-strike@3.12.1
+- @dibdab/extension-text@3.12.1
+- @dibdab/extension-underline@3.12.1
+- @dibdab/extensions@3.12.1
+- @dibdab/pm@3.12.1
 
 ## 3.12.0
 
 ### Patch Changes
 
 - Updated dependencies [f232c5a]
-  - @tiptap/core@3.12.0
-  - @tiptap/extension-blockquote@3.12.0
-  - @tiptap/extension-bold@3.12.0
-  - @tiptap/extension-code@3.12.0
-  - @tiptap/extension-code-block@3.12.0
-  - @tiptap/extension-document@3.12.0
-  - @tiptap/extension-hard-break@3.12.0
-  - @tiptap/extension-heading@3.12.0
-  - @tiptap/extension-horizontal-rule@3.12.0
-  - @tiptap/extension-italic@3.12.0
-  - @tiptap/extension-link@3.12.0
-  - @tiptap/extension-list@3.12.0
-  - @tiptap/extension-paragraph@3.12.0
-  - @tiptap/extension-strike@3.12.0
-  - @tiptap/extension-text@3.12.0
-  - @tiptap/extension-underline@3.12.0
-  - @tiptap/extensions@3.12.0
-  - @tiptap/extension-list-item@3.12.0
-  - @tiptap/extension-list-keymap@3.12.0
-  - @tiptap/extension-bullet-list@3.12.0
-  - @tiptap/extension-ordered-list@3.12.0
-  - @tiptap/extension-dropcursor@3.12.0
-  - @tiptap/extension-gapcursor@3.12.0
-  - @tiptap/pm@3.12.0
+  - @dibdab/core@3.12.0
+  - @dibdab/extension-blockquote@3.12.0
+  - @dibdab/extension-bold@3.12.0
+  - @dibdab/extension-code@3.12.0
+  - @dibdab/extension-code-block@3.12.0
+  - @dibdab/extension-document@3.12.0
+  - @dibdab/extension-hard-break@3.12.0
+  - @dibdab/extension-heading@3.12.0
+  - @dibdab/extension-horizontal-rule@3.12.0
+  - @dibdab/extension-italic@3.12.0
+  - @dibdab/extension-link@3.12.0
+  - @dibdab/extension-list@3.12.0
+  - @dibdab/extension-paragraph@3.12.0
+  - @dibdab/extension-strike@3.12.0
+  - @dibdab/extension-text@3.12.0
+  - @dibdab/extension-underline@3.12.0
+  - @dibdab/extensions@3.12.0
+  - @dibdab/extension-list-item@3.12.0
+  - @dibdab/extension-list-keymap@3.12.0
+  - @dibdab/extension-bullet-list@3.12.0
+  - @dibdab/extension-ordered-list@3.12.0
+  - @dibdab/extension-dropcursor@3.12.0
+  - @dibdab/extension-gapcursor@3.12.0
+  - @dibdab/pm@3.12.0
 
 ## 3.11.1
 
@@ -276,60 +276,60 @@
 
 - Updated dependencies [d0c4264]
 - Updated dependencies [eea7190]
-  - @tiptap/core@3.11.1
-  - @tiptap/extensions@3.11.1
-  - @tiptap/extension-blockquote@3.11.1
-  - @tiptap/extension-bold@3.11.1
-  - @tiptap/extension-code@3.11.1
-  - @tiptap/extension-code-block@3.11.1
-  - @tiptap/extension-document@3.11.1
-  - @tiptap/extension-hard-break@3.11.1
-  - @tiptap/extension-heading@3.11.1
-  - @tiptap/extension-horizontal-rule@3.11.1
-  - @tiptap/extension-italic@3.11.1
-  - @tiptap/extension-link@3.11.1
-  - @tiptap/extension-list@3.11.1
-  - @tiptap/extension-paragraph@3.11.1
-  - @tiptap/extension-strike@3.11.1
-  - @tiptap/extension-text@3.11.1
-  - @tiptap/extension-underline@3.11.1
-  - @tiptap/extension-dropcursor@3.11.1
-  - @tiptap/extension-gapcursor@3.11.1
-  - @tiptap/extension-list-item@3.11.1
-  - @tiptap/extension-list-keymap@3.11.1
-  - @tiptap/extension-bullet-list@3.11.1
-  - @tiptap/extension-ordered-list@3.11.1
-  - @tiptap/pm@3.11.1
+  - @dibdab/core@3.11.1
+  - @dibdab/extensions@3.11.1
+  - @dibdab/extension-blockquote@3.11.1
+  - @dibdab/extension-bold@3.11.1
+  - @dibdab/extension-code@3.11.1
+  - @dibdab/extension-code-block@3.11.1
+  - @dibdab/extension-document@3.11.1
+  - @dibdab/extension-hard-break@3.11.1
+  - @dibdab/extension-heading@3.11.1
+  - @dibdab/extension-horizontal-rule@3.11.1
+  - @dibdab/extension-italic@3.11.1
+  - @dibdab/extension-link@3.11.1
+  - @dibdab/extension-list@3.11.1
+  - @dibdab/extension-paragraph@3.11.1
+  - @dibdab/extension-strike@3.11.1
+  - @dibdab/extension-text@3.11.1
+  - @dibdab/extension-underline@3.11.1
+  - @dibdab/extension-dropcursor@3.11.1
+  - @dibdab/extension-gapcursor@3.11.1
+  - @dibdab/extension-list-item@3.11.1
+  - @dibdab/extension-list-keymap@3.11.1
+  - @dibdab/extension-bullet-list@3.11.1
+  - @dibdab/extension-ordered-list@3.11.1
+  - @dibdab/pm@3.11.1
 
 ## 3.11.0
 
 ### Patch Changes
 
 - Updated dependencies [541c93c]
-  - @tiptap/core@3.11.0
-  - @tiptap/extension-blockquote@3.11.0
-  - @tiptap/extension-bold@3.11.0
-  - @tiptap/extension-code@3.11.0
-  - @tiptap/extension-code-block@3.11.0
-  - @tiptap/extension-document@3.11.0
-  - @tiptap/extension-hard-break@3.11.0
-  - @tiptap/extension-heading@3.11.0
-  - @tiptap/extension-horizontal-rule@3.11.0
-  - @tiptap/extension-italic@3.11.0
-  - @tiptap/extension-link@3.11.0
-  - @tiptap/extension-list@3.11.0
-  - @tiptap/extension-paragraph@3.11.0
-  - @tiptap/extension-strike@3.11.0
-  - @tiptap/extension-text@3.11.0
-  - @tiptap/extension-underline@3.11.0
-  - @tiptap/extensions@3.11.0
-  - @tiptap/extension-list-item@3.11.0
-  - @tiptap/extension-list-keymap@3.11.0
-  - @tiptap/extension-bullet-list@3.11.0
-  - @tiptap/extension-ordered-list@3.11.0
-  - @tiptap/extension-dropcursor@3.11.0
-  - @tiptap/extension-gapcursor@3.11.0
-  - @tiptap/pm@3.11.0
+  - @dibdab/core@3.11.0
+  - @dibdab/extension-blockquote@3.11.0
+  - @dibdab/extension-bold@3.11.0
+  - @dibdab/extension-code@3.11.0
+  - @dibdab/extension-code-block@3.11.0
+  - @dibdab/extension-document@3.11.0
+  - @dibdab/extension-hard-break@3.11.0
+  - @dibdab/extension-heading@3.11.0
+  - @dibdab/extension-horizontal-rule@3.11.0
+  - @dibdab/extension-italic@3.11.0
+  - @dibdab/extension-link@3.11.0
+  - @dibdab/extension-list@3.11.0
+  - @dibdab/extension-paragraph@3.11.0
+  - @dibdab/extension-strike@3.11.0
+  - @dibdab/extension-text@3.11.0
+  - @dibdab/extension-underline@3.11.0
+  - @dibdab/extensions@3.11.0
+  - @dibdab/extension-list-item@3.11.0
+  - @dibdab/extension-list-keymap@3.11.0
+  - @dibdab/extension-bullet-list@3.11.0
+  - @dibdab/extension-ordered-list@3.11.0
+  - @dibdab/extension-dropcursor@3.11.0
+  - @dibdab/extension-gapcursor@3.11.0
+  - @dibdab/pm@3.11.0
 
 ## 3.10.8
 
@@ -339,88 +339,88 @@
 - Updated dependencies [b7ead7c]
 - Updated dependencies [95d3e80]
 - Updated dependencies [fd479bd]
-  - @tiptap/core@3.10.8
-  - @tiptap/extension-blockquote@3.10.8
-  - @tiptap/extension-bold@3.10.8
-  - @tiptap/extension-code@3.10.8
-  - @tiptap/extension-code-block@3.10.8
-  - @tiptap/extension-document@3.10.8
-  - @tiptap/extension-hard-break@3.10.8
-  - @tiptap/extension-heading@3.10.8
-  - @tiptap/extension-horizontal-rule@3.10.8
-  - @tiptap/extension-italic@3.10.8
-  - @tiptap/extension-link@3.10.8
-  - @tiptap/extension-list@3.10.8
-  - @tiptap/extension-paragraph@3.10.8
-  - @tiptap/extension-strike@3.10.8
-  - @tiptap/extension-text@3.10.8
-  - @tiptap/extension-underline@3.10.8
-  - @tiptap/extensions@3.10.8
-  - @tiptap/extension-list-item@3.10.8
-  - @tiptap/extension-list-keymap@3.10.8
-  - @tiptap/extension-bullet-list@3.10.8
-  - @tiptap/extension-ordered-list@3.10.8
-  - @tiptap/extension-dropcursor@3.10.8
-  - @tiptap/extension-gapcursor@3.10.8
-  - @tiptap/pm@3.10.8
+  - @dibdab/core@3.10.8
+  - @dibdab/extension-blockquote@3.10.8
+  - @dibdab/extension-bold@3.10.8
+  - @dibdab/extension-code@3.10.8
+  - @dibdab/extension-code-block@3.10.8
+  - @dibdab/extension-document@3.10.8
+  - @dibdab/extension-hard-break@3.10.8
+  - @dibdab/extension-heading@3.10.8
+  - @dibdab/extension-horizontal-rule@3.10.8
+  - @dibdab/extension-italic@3.10.8
+  - @dibdab/extension-link@3.10.8
+  - @dibdab/extension-list@3.10.8
+  - @dibdab/extension-paragraph@3.10.8
+  - @dibdab/extension-strike@3.10.8
+  - @dibdab/extension-text@3.10.8
+  - @dibdab/extension-underline@3.10.8
+  - @dibdab/extensions@3.10.8
+  - @dibdab/extension-list-item@3.10.8
+  - @dibdab/extension-list-keymap@3.10.8
+  - @dibdab/extension-bullet-list@3.10.8
+  - @dibdab/extension-ordered-list@3.10.8
+  - @dibdab/extension-dropcursor@3.10.8
+  - @dibdab/extension-gapcursor@3.10.8
+  - @dibdab/pm@3.10.8
 
 ## 3.10.7
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.10.7
-- @tiptap/extension-gapcursor@3.10.7
-- @tiptap/extension-list-item@3.10.7
-- @tiptap/extension-list-keymap@3.10.7
-- @tiptap/core@3.10.7
-- @tiptap/extension-blockquote@3.10.7
-- @tiptap/extension-bold@3.10.7
-- @tiptap/extension-bullet-list@3.10.7
-- @tiptap/extension-code@3.10.7
-- @tiptap/extension-code-block@3.10.7
-- @tiptap/extension-document@3.10.7
-- @tiptap/extension-hard-break@3.10.7
-- @tiptap/extension-heading@3.10.7
-- @tiptap/extension-horizontal-rule@3.10.7
-- @tiptap/extension-italic@3.10.7
-- @tiptap/extension-link@3.10.7
-- @tiptap/extension-list@3.10.7
-- @tiptap/extension-ordered-list@3.10.7
-- @tiptap/extension-paragraph@3.10.7
-- @tiptap/extension-strike@3.10.7
-- @tiptap/extension-text@3.10.7
-- @tiptap/extension-underline@3.10.7
-- @tiptap/extensions@3.10.7
-- @tiptap/pm@3.10.7
+- @dibdab/extension-dropcursor@3.10.7
+- @dibdab/extension-gapcursor@3.10.7
+- @dibdab/extension-list-item@3.10.7
+- @dibdab/extension-list-keymap@3.10.7
+- @dibdab/core@3.10.7
+- @dibdab/extension-blockquote@3.10.7
+- @dibdab/extension-bold@3.10.7
+- @dibdab/extension-bullet-list@3.10.7
+- @dibdab/extension-code@3.10.7
+- @dibdab/extension-code-block@3.10.7
+- @dibdab/extension-document@3.10.7
+- @dibdab/extension-hard-break@3.10.7
+- @dibdab/extension-heading@3.10.7
+- @dibdab/extension-horizontal-rule@3.10.7
+- @dibdab/extension-italic@3.10.7
+- @dibdab/extension-link@3.10.7
+- @dibdab/extension-list@3.10.7
+- @dibdab/extension-ordered-list@3.10.7
+- @dibdab/extension-paragraph@3.10.7
+- @dibdab/extension-strike@3.10.7
+- @dibdab/extension-text@3.10.7
+- @dibdab/extension-underline@3.10.7
+- @dibdab/extensions@3.10.7
+- @dibdab/pm@3.10.7
 
 ## 3.10.6
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.10.6
-- @tiptap/extension-gapcursor@3.10.6
-- @tiptap/extension-list-item@3.10.6
-- @tiptap/extension-list-keymap@3.10.6
-- @tiptap/core@3.10.6
-- @tiptap/extension-blockquote@3.10.6
-- @tiptap/extension-bold@3.10.6
-- @tiptap/extension-bullet-list@3.10.6
-- @tiptap/extension-code@3.10.6
-- @tiptap/extension-code-block@3.10.6
-- @tiptap/extension-document@3.10.6
-- @tiptap/extension-hard-break@3.10.6
-- @tiptap/extension-heading@3.10.6
-- @tiptap/extension-horizontal-rule@3.10.6
-- @tiptap/extension-italic@3.10.6
-- @tiptap/extension-link@3.10.6
-- @tiptap/extension-list@3.10.6
-- @tiptap/extension-ordered-list@3.10.6
-- @tiptap/extension-paragraph@3.10.6
-- @tiptap/extension-strike@3.10.6
-- @tiptap/extension-text@3.10.6
-- @tiptap/extension-underline@3.10.6
-- @tiptap/extensions@3.10.6
-- @tiptap/pm@3.10.6
+- @dibdab/extension-dropcursor@3.10.6
+- @dibdab/extension-gapcursor@3.10.6
+- @dibdab/extension-list-item@3.10.6
+- @dibdab/extension-list-keymap@3.10.6
+- @dibdab/core@3.10.6
+- @dibdab/extension-blockquote@3.10.6
+- @dibdab/extension-bold@3.10.6
+- @dibdab/extension-bullet-list@3.10.6
+- @dibdab/extension-code@3.10.6
+- @dibdab/extension-code-block@3.10.6
+- @dibdab/extension-document@3.10.6
+- @dibdab/extension-hard-break@3.10.6
+- @dibdab/extension-heading@3.10.6
+- @dibdab/extension-horizontal-rule@3.10.6
+- @dibdab/extension-italic@3.10.6
+- @dibdab/extension-link@3.10.6
+- @dibdab/extension-list@3.10.6
+- @dibdab/extension-ordered-list@3.10.6
+- @dibdab/extension-paragraph@3.10.6
+- @dibdab/extension-strike@3.10.6
+- @dibdab/extension-text@3.10.6
+- @dibdab/extension-underline@3.10.6
+- @dibdab/extensions@3.10.6
+- @dibdab/pm@3.10.6
 
 ## 3.10.5
 
@@ -428,30 +428,30 @@
 
 - Updated dependencies [92fae18]
 - Updated dependencies [9d5aeb1]
-  - @tiptap/core@3.10.5
-  - @tiptap/extensions@3.10.5
-  - @tiptap/extension-blockquote@3.10.5
-  - @tiptap/extension-bold@3.10.5
-  - @tiptap/extension-code@3.10.5
-  - @tiptap/extension-code-block@3.10.5
-  - @tiptap/extension-document@3.10.5
-  - @tiptap/extension-hard-break@3.10.5
-  - @tiptap/extension-heading@3.10.5
-  - @tiptap/extension-horizontal-rule@3.10.5
-  - @tiptap/extension-italic@3.10.5
-  - @tiptap/extension-link@3.10.5
-  - @tiptap/extension-list@3.10.5
-  - @tiptap/extension-paragraph@3.10.5
-  - @tiptap/extension-strike@3.10.5
-  - @tiptap/extension-text@3.10.5
-  - @tiptap/extension-underline@3.10.5
-  - @tiptap/extension-dropcursor@3.10.5
-  - @tiptap/extension-gapcursor@3.10.5
-  - @tiptap/extension-list-item@3.10.5
-  - @tiptap/extension-list-keymap@3.10.5
-  - @tiptap/extension-bullet-list@3.10.5
-  - @tiptap/extension-ordered-list@3.10.5
-  - @tiptap/pm@3.10.5
+  - @dibdab/core@3.10.5
+  - @dibdab/extensions@3.10.5
+  - @dibdab/extension-blockquote@3.10.5
+  - @dibdab/extension-bold@3.10.5
+  - @dibdab/extension-code@3.10.5
+  - @dibdab/extension-code-block@3.10.5
+  - @dibdab/extension-document@3.10.5
+  - @dibdab/extension-hard-break@3.10.5
+  - @dibdab/extension-heading@3.10.5
+  - @dibdab/extension-horizontal-rule@3.10.5
+  - @dibdab/extension-italic@3.10.5
+  - @dibdab/extension-link@3.10.5
+  - @dibdab/extension-list@3.10.5
+  - @dibdab/extension-paragraph@3.10.5
+  - @dibdab/extension-strike@3.10.5
+  - @dibdab/extension-text@3.10.5
+  - @dibdab/extension-underline@3.10.5
+  - @dibdab/extension-dropcursor@3.10.5
+  - @dibdab/extension-gapcursor@3.10.5
+  - @dibdab/extension-list-item@3.10.5
+  - @dibdab/extension-list-keymap@3.10.5
+  - @dibdab/extension-bullet-list@3.10.5
+  - @dibdab/extension-ordered-list@3.10.5
+  - @dibdab/pm@3.10.5
 
 ## 3.10.4
 
@@ -459,118 +459,118 @@
 
 - Updated dependencies [64561c4]
 - Updated dependencies [5d17140]
-  - @tiptap/core@3.10.4
-  - @tiptap/extension-blockquote@3.10.4
-  - @tiptap/extension-bold@3.10.4
-  - @tiptap/extension-code@3.10.4
-  - @tiptap/extension-code-block@3.10.4
-  - @tiptap/extension-document@3.10.4
-  - @tiptap/extension-hard-break@3.10.4
-  - @tiptap/extension-heading@3.10.4
-  - @tiptap/extension-horizontal-rule@3.10.4
-  - @tiptap/extension-italic@3.10.4
-  - @tiptap/extension-link@3.10.4
-  - @tiptap/extension-list@3.10.4
-  - @tiptap/extension-paragraph@3.10.4
-  - @tiptap/extension-strike@3.10.4
-  - @tiptap/extension-text@3.10.4
-  - @tiptap/extension-underline@3.10.4
-  - @tiptap/extensions@3.10.4
-  - @tiptap/extension-list-item@3.10.4
-  - @tiptap/extension-list-keymap@3.10.4
-  - @tiptap/extension-bullet-list@3.10.4
-  - @tiptap/extension-ordered-list@3.10.4
-  - @tiptap/extension-dropcursor@3.10.4
-  - @tiptap/extension-gapcursor@3.10.4
-  - @tiptap/pm@3.10.4
+  - @dibdab/core@3.10.4
+  - @dibdab/extension-blockquote@3.10.4
+  - @dibdab/extension-bold@3.10.4
+  - @dibdab/extension-code@3.10.4
+  - @dibdab/extension-code-block@3.10.4
+  - @dibdab/extension-document@3.10.4
+  - @dibdab/extension-hard-break@3.10.4
+  - @dibdab/extension-heading@3.10.4
+  - @dibdab/extension-horizontal-rule@3.10.4
+  - @dibdab/extension-italic@3.10.4
+  - @dibdab/extension-link@3.10.4
+  - @dibdab/extension-list@3.10.4
+  - @dibdab/extension-paragraph@3.10.4
+  - @dibdab/extension-strike@3.10.4
+  - @dibdab/extension-text@3.10.4
+  - @dibdab/extension-underline@3.10.4
+  - @dibdab/extensions@3.10.4
+  - @dibdab/extension-list-item@3.10.4
+  - @dibdab/extension-list-keymap@3.10.4
+  - @dibdab/extension-bullet-list@3.10.4
+  - @dibdab/extension-ordered-list@3.10.4
+  - @dibdab/extension-dropcursor@3.10.4
+  - @dibdab/extension-gapcursor@3.10.4
+  - @dibdab/pm@3.10.4
 
 ## 3.10.3
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.10.3
-- @tiptap/extension-gapcursor@3.10.3
-- @tiptap/extension-list-item@3.10.3
-- @tiptap/extension-list-keymap@3.10.3
-- @tiptap/core@3.10.3
-- @tiptap/extension-blockquote@3.10.3
-- @tiptap/extension-bold@3.10.3
-- @tiptap/extension-bullet-list@3.10.3
-- @tiptap/extension-code@3.10.3
-- @tiptap/extension-code-block@3.10.3
-- @tiptap/extension-document@3.10.3
-- @tiptap/extension-hard-break@3.10.3
-- @tiptap/extension-heading@3.10.3
-- @tiptap/extension-horizontal-rule@3.10.3
-- @tiptap/extension-italic@3.10.3
-- @tiptap/extension-link@3.10.3
-- @tiptap/extension-list@3.10.3
-- @tiptap/extension-ordered-list@3.10.3
-- @tiptap/extension-paragraph@3.10.3
-- @tiptap/extension-strike@3.10.3
-- @tiptap/extension-text@3.10.3
-- @tiptap/extension-underline@3.10.3
-- @tiptap/extensions@3.10.3
-- @tiptap/pm@3.10.3
+- @dibdab/extension-dropcursor@3.10.3
+- @dibdab/extension-gapcursor@3.10.3
+- @dibdab/extension-list-item@3.10.3
+- @dibdab/extension-list-keymap@3.10.3
+- @dibdab/core@3.10.3
+- @dibdab/extension-blockquote@3.10.3
+- @dibdab/extension-bold@3.10.3
+- @dibdab/extension-bullet-list@3.10.3
+- @dibdab/extension-code@3.10.3
+- @dibdab/extension-code-block@3.10.3
+- @dibdab/extension-document@3.10.3
+- @dibdab/extension-hard-break@3.10.3
+- @dibdab/extension-heading@3.10.3
+- @dibdab/extension-horizontal-rule@3.10.3
+- @dibdab/extension-italic@3.10.3
+- @dibdab/extension-link@3.10.3
+- @dibdab/extension-list@3.10.3
+- @dibdab/extension-ordered-list@3.10.3
+- @dibdab/extension-paragraph@3.10.3
+- @dibdab/extension-strike@3.10.3
+- @dibdab/extension-text@3.10.3
+- @dibdab/extension-underline@3.10.3
+- @dibdab/extensions@3.10.3
+- @dibdab/pm@3.10.3
 
 ## 3.10.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.10.2
-- @tiptap/extension-gapcursor@3.10.2
-- @tiptap/extension-list-item@3.10.2
-- @tiptap/extension-list-keymap@3.10.2
-- @tiptap/core@3.10.2
-- @tiptap/extension-blockquote@3.10.2
-- @tiptap/extension-bold@3.10.2
-- @tiptap/extension-bullet-list@3.10.2
-- @tiptap/extension-code@3.10.2
-- @tiptap/extension-code-block@3.10.2
-- @tiptap/extension-document@3.10.2
-- @tiptap/extension-hard-break@3.10.2
-- @tiptap/extension-heading@3.10.2
-- @tiptap/extension-horizontal-rule@3.10.2
-- @tiptap/extension-italic@3.10.2
-- @tiptap/extension-link@3.10.2
-- @tiptap/extension-list@3.10.2
-- @tiptap/extension-ordered-list@3.10.2
-- @tiptap/extension-paragraph@3.10.2
-- @tiptap/extension-strike@3.10.2
-- @tiptap/extension-text@3.10.2
-- @tiptap/extension-underline@3.10.2
-- @tiptap/extensions@3.10.2
-- @tiptap/pm@3.10.2
+- @dibdab/extension-dropcursor@3.10.2
+- @dibdab/extension-gapcursor@3.10.2
+- @dibdab/extension-list-item@3.10.2
+- @dibdab/extension-list-keymap@3.10.2
+- @dibdab/core@3.10.2
+- @dibdab/extension-blockquote@3.10.2
+- @dibdab/extension-bold@3.10.2
+- @dibdab/extension-bullet-list@3.10.2
+- @dibdab/extension-code@3.10.2
+- @dibdab/extension-code-block@3.10.2
+- @dibdab/extension-document@3.10.2
+- @dibdab/extension-hard-break@3.10.2
+- @dibdab/extension-heading@3.10.2
+- @dibdab/extension-horizontal-rule@3.10.2
+- @dibdab/extension-italic@3.10.2
+- @dibdab/extension-link@3.10.2
+- @dibdab/extension-list@3.10.2
+- @dibdab/extension-ordered-list@3.10.2
+- @dibdab/extension-paragraph@3.10.2
+- @dibdab/extension-strike@3.10.2
+- @dibdab/extension-text@3.10.2
+- @dibdab/extension-underline@3.10.2
+- @dibdab/extensions@3.10.2
+- @dibdab/pm@3.10.2
 
 ## 3.10.1
 
 ### Patch Changes
 
 - Updated dependencies [3564e7c]
-  - @tiptap/core@3.10.1
-  - @tiptap/extension-blockquote@3.10.1
-  - @tiptap/extension-bold@3.10.1
-  - @tiptap/extension-code@3.10.1
-  - @tiptap/extension-code-block@3.10.1
-  - @tiptap/extension-document@3.10.1
-  - @tiptap/extension-hard-break@3.10.1
-  - @tiptap/extension-heading@3.10.1
-  - @tiptap/extension-horizontal-rule@3.10.1
-  - @tiptap/extension-italic@3.10.1
-  - @tiptap/extension-link@3.10.1
-  - @tiptap/extension-list@3.10.1
-  - @tiptap/extension-paragraph@3.10.1
-  - @tiptap/extension-strike@3.10.1
-  - @tiptap/extension-text@3.10.1
-  - @tiptap/extension-underline@3.10.1
-  - @tiptap/extensions@3.10.1
-  - @tiptap/extension-list-item@3.10.1
-  - @tiptap/extension-list-keymap@3.10.1
-  - @tiptap/extension-bullet-list@3.10.1
-  - @tiptap/extension-ordered-list@3.10.1
-  - @tiptap/extension-dropcursor@3.10.1
-  - @tiptap/extension-gapcursor@3.10.1
-  - @tiptap/pm@3.10.1
+  - @dibdab/core@3.10.1
+  - @dibdab/extension-blockquote@3.10.1
+  - @dibdab/extension-bold@3.10.1
+  - @dibdab/extension-code@3.10.1
+  - @dibdab/extension-code-block@3.10.1
+  - @dibdab/extension-document@3.10.1
+  - @dibdab/extension-hard-break@3.10.1
+  - @dibdab/extension-heading@3.10.1
+  - @dibdab/extension-horizontal-rule@3.10.1
+  - @dibdab/extension-italic@3.10.1
+  - @dibdab/extension-link@3.10.1
+  - @dibdab/extension-list@3.10.1
+  - @dibdab/extension-paragraph@3.10.1
+  - @dibdab/extension-strike@3.10.1
+  - @dibdab/extension-text@3.10.1
+  - @dibdab/extension-underline@3.10.1
+  - @dibdab/extensions@3.10.1
+  - @dibdab/extension-list-item@3.10.1
+  - @dibdab/extension-list-keymap@3.10.1
+  - @dibdab/extension-bullet-list@3.10.1
+  - @dibdab/extension-ordered-list@3.10.1
+  - @dibdab/extension-dropcursor@3.10.1
+  - @dibdab/extension-gapcursor@3.10.1
+  - @dibdab/pm@3.10.1
 
 ## 3.10.0
 
@@ -578,59 +578,59 @@
 
 - Updated dependencies [4aa9f57]
 - Updated dependencies [4aa9f57]
-  - @tiptap/core@3.10.0
-  - @tiptap/extension-blockquote@3.10.0
-  - @tiptap/extension-bold@3.10.0
-  - @tiptap/extension-code@3.10.0
-  - @tiptap/extension-code-block@3.10.0
-  - @tiptap/extension-document@3.10.0
-  - @tiptap/extension-hard-break@3.10.0
-  - @tiptap/extension-heading@3.10.0
-  - @tiptap/extension-horizontal-rule@3.10.0
-  - @tiptap/extension-italic@3.10.0
-  - @tiptap/extension-link@3.10.0
-  - @tiptap/extension-list@3.10.0
-  - @tiptap/extension-paragraph@3.10.0
-  - @tiptap/extension-strike@3.10.0
-  - @tiptap/extension-text@3.10.0
-  - @tiptap/extension-underline@3.10.0
-  - @tiptap/extensions@3.10.0
-  - @tiptap/extension-list-item@3.10.0
-  - @tiptap/extension-list-keymap@3.10.0
-  - @tiptap/extension-bullet-list@3.10.0
-  - @tiptap/extension-ordered-list@3.10.0
-  - @tiptap/extension-dropcursor@3.10.0
-  - @tiptap/extension-gapcursor@3.10.0
-  - @tiptap/pm@3.10.0
+  - @dibdab/core@3.10.0
+  - @dibdab/extension-blockquote@3.10.0
+  - @dibdab/extension-bold@3.10.0
+  - @dibdab/extension-code@3.10.0
+  - @dibdab/extension-code-block@3.10.0
+  - @dibdab/extension-document@3.10.0
+  - @dibdab/extension-hard-break@3.10.0
+  - @dibdab/extension-heading@3.10.0
+  - @dibdab/extension-horizontal-rule@3.10.0
+  - @dibdab/extension-italic@3.10.0
+  - @dibdab/extension-link@3.10.0
+  - @dibdab/extension-list@3.10.0
+  - @dibdab/extension-paragraph@3.10.0
+  - @dibdab/extension-strike@3.10.0
+  - @dibdab/extension-text@3.10.0
+  - @dibdab/extension-underline@3.10.0
+  - @dibdab/extensions@3.10.0
+  - @dibdab/extension-list-item@3.10.0
+  - @dibdab/extension-list-keymap@3.10.0
+  - @dibdab/extension-bullet-list@3.10.0
+  - @dibdab/extension-ordered-list@3.10.0
+  - @dibdab/extension-dropcursor@3.10.0
+  - @dibdab/extension-gapcursor@3.10.0
+  - @dibdab/pm@3.10.0
 
 ## 3.9.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.9.1
-- @tiptap/extension-gapcursor@3.9.1
-- @tiptap/extension-list-item@3.9.1
-- @tiptap/extension-list-keymap@3.9.1
-- @tiptap/core@3.9.1
-- @tiptap/extension-blockquote@3.9.1
-- @tiptap/extension-bold@3.9.1
-- @tiptap/extension-bullet-list@3.9.1
-- @tiptap/extension-code@3.9.1
-- @tiptap/extension-code-block@3.9.1
-- @tiptap/extension-document@3.9.1
-- @tiptap/extension-hard-break@3.9.1
-- @tiptap/extension-heading@3.9.1
-- @tiptap/extension-horizontal-rule@3.9.1
-- @tiptap/extension-italic@3.9.1
-- @tiptap/extension-link@3.9.1
-- @tiptap/extension-list@3.9.1
-- @tiptap/extension-ordered-list@3.9.1
-- @tiptap/extension-paragraph@3.9.1
-- @tiptap/extension-strike@3.9.1
-- @tiptap/extension-text@3.9.1
-- @tiptap/extension-underline@3.9.1
-- @tiptap/extensions@3.9.1
-- @tiptap/pm@3.9.1
+- @dibdab/extension-dropcursor@3.9.1
+- @dibdab/extension-gapcursor@3.9.1
+- @dibdab/extension-list-item@3.9.1
+- @dibdab/extension-list-keymap@3.9.1
+- @dibdab/core@3.9.1
+- @dibdab/extension-blockquote@3.9.1
+- @dibdab/extension-bold@3.9.1
+- @dibdab/extension-bullet-list@3.9.1
+- @dibdab/extension-code@3.9.1
+- @dibdab/extension-code-block@3.9.1
+- @dibdab/extension-document@3.9.1
+- @dibdab/extension-hard-break@3.9.1
+- @dibdab/extension-heading@3.9.1
+- @dibdab/extension-horizontal-rule@3.9.1
+- @dibdab/extension-italic@3.9.1
+- @dibdab/extension-link@3.9.1
+- @dibdab/extension-list@3.9.1
+- @dibdab/extension-ordered-list@3.9.1
+- @dibdab/extension-paragraph@3.9.1
+- @dibdab/extension-strike@3.9.1
+- @dibdab/extension-text@3.9.1
+- @dibdab/extension-underline@3.9.1
+- @dibdab/extensions@3.9.1
+- @dibdab/pm@3.9.1
 
 ## 3.9.0
 
@@ -638,117 +638,117 @@
 
 - Updated dependencies [6e734a3]
 - Updated dependencies [bbb8e16]
-  - @tiptap/extension-hard-break@3.9.0
-  - @tiptap/core@3.9.0
-  - @tiptap/extension-blockquote@3.9.0
-  - @tiptap/extension-bold@3.9.0
-  - @tiptap/extension-code@3.9.0
-  - @tiptap/extension-code-block@3.9.0
-  - @tiptap/extension-document@3.9.0
-  - @tiptap/extension-heading@3.9.0
-  - @tiptap/extension-horizontal-rule@3.9.0
-  - @tiptap/extension-italic@3.9.0
-  - @tiptap/extension-link@3.9.0
-  - @tiptap/extension-list@3.9.0
-  - @tiptap/extension-paragraph@3.9.0
-  - @tiptap/extension-strike@3.9.0
-  - @tiptap/extension-text@3.9.0
-  - @tiptap/extension-underline@3.9.0
-  - @tiptap/extensions@3.9.0
-  - @tiptap/extension-list-item@3.9.0
-  - @tiptap/extension-list-keymap@3.9.0
-  - @tiptap/extension-bullet-list@3.9.0
-  - @tiptap/extension-ordered-list@3.9.0
-  - @tiptap/extension-dropcursor@3.9.0
-  - @tiptap/extension-gapcursor@3.9.0
-  - @tiptap/pm@3.9.0
+  - @dibdab/extension-hard-break@3.9.0
+  - @dibdab/core@3.9.0
+  - @dibdab/extension-blockquote@3.9.0
+  - @dibdab/extension-bold@3.9.0
+  - @dibdab/extension-code@3.9.0
+  - @dibdab/extension-code-block@3.9.0
+  - @dibdab/extension-document@3.9.0
+  - @dibdab/extension-heading@3.9.0
+  - @dibdab/extension-horizontal-rule@3.9.0
+  - @dibdab/extension-italic@3.9.0
+  - @dibdab/extension-link@3.9.0
+  - @dibdab/extension-list@3.9.0
+  - @dibdab/extension-paragraph@3.9.0
+  - @dibdab/extension-strike@3.9.0
+  - @dibdab/extension-text@3.9.0
+  - @dibdab/extension-underline@3.9.0
+  - @dibdab/extensions@3.9.0
+  - @dibdab/extension-list-item@3.9.0
+  - @dibdab/extension-list-keymap@3.9.0
+  - @dibdab/extension-bullet-list@3.9.0
+  - @dibdab/extension-ordered-list@3.9.0
+  - @dibdab/extension-dropcursor@3.9.0
+  - @dibdab/extension-gapcursor@3.9.0
+  - @dibdab/pm@3.9.0
 
 ## 3.8.0
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.8.0
-- @tiptap/extension-gapcursor@3.8.0
-- @tiptap/extension-list-item@3.8.0
-- @tiptap/extension-list-keymap@3.8.0
-- @tiptap/core@3.8.0
-- @tiptap/extension-blockquote@3.8.0
-- @tiptap/extension-bold@3.8.0
-- @tiptap/extension-bullet-list@3.8.0
-- @tiptap/extension-code@3.8.0
-- @tiptap/extension-code-block@3.8.0
-- @tiptap/extension-document@3.8.0
-- @tiptap/extension-hard-break@3.8.0
-- @tiptap/extension-heading@3.8.0
-- @tiptap/extension-horizontal-rule@3.8.0
-- @tiptap/extension-italic@3.8.0
-- @tiptap/extension-link@3.8.0
-- @tiptap/extension-list@3.8.0
-- @tiptap/extension-ordered-list@3.8.0
-- @tiptap/extension-paragraph@3.8.0
-- @tiptap/extension-strike@3.8.0
-- @tiptap/extension-text@3.8.0
-- @tiptap/extension-underline@3.8.0
-- @tiptap/extensions@3.8.0
-- @tiptap/pm@3.8.0
+- @dibdab/extension-dropcursor@3.8.0
+- @dibdab/extension-gapcursor@3.8.0
+- @dibdab/extension-list-item@3.8.0
+- @dibdab/extension-list-keymap@3.8.0
+- @dibdab/core@3.8.0
+- @dibdab/extension-blockquote@3.8.0
+- @dibdab/extension-bold@3.8.0
+- @dibdab/extension-bullet-list@3.8.0
+- @dibdab/extension-code@3.8.0
+- @dibdab/extension-code-block@3.8.0
+- @dibdab/extension-document@3.8.0
+- @dibdab/extension-hard-break@3.8.0
+- @dibdab/extension-heading@3.8.0
+- @dibdab/extension-horizontal-rule@3.8.0
+- @dibdab/extension-italic@3.8.0
+- @dibdab/extension-link@3.8.0
+- @dibdab/extension-list@3.8.0
+- @dibdab/extension-ordered-list@3.8.0
+- @dibdab/extension-paragraph@3.8.0
+- @dibdab/extension-strike@3.8.0
+- @dibdab/extension-text@3.8.0
+- @dibdab/extension-underline@3.8.0
+- @dibdab/extensions@3.8.0
+- @dibdab/pm@3.8.0
 
 ## 3.7.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.7.2
-- @tiptap/extension-gapcursor@3.7.2
-- @tiptap/extension-list-item@3.7.2
-- @tiptap/extension-list-keymap@3.7.2
-- @tiptap/core@3.7.2
-- @tiptap/extension-blockquote@3.7.2
-- @tiptap/extension-bold@3.7.2
-- @tiptap/extension-bullet-list@3.7.2
-- @tiptap/extension-code@3.7.2
-- @tiptap/extension-code-block@3.7.2
-- @tiptap/extension-document@3.7.2
-- @tiptap/extension-hard-break@3.7.2
-- @tiptap/extension-heading@3.7.2
-- @tiptap/extension-horizontal-rule@3.7.2
-- @tiptap/extension-italic@3.7.2
-- @tiptap/extension-link@3.7.2
-- @tiptap/extension-list@3.7.2
-- @tiptap/extension-ordered-list@3.7.2
-- @tiptap/extension-paragraph@3.7.2
-- @tiptap/extension-strike@3.7.2
-- @tiptap/extension-text@3.7.2
-- @tiptap/extension-underline@3.7.2
-- @tiptap/extensions@3.7.2
-- @tiptap/pm@3.7.2
+- @dibdab/extension-dropcursor@3.7.2
+- @dibdab/extension-gapcursor@3.7.2
+- @dibdab/extension-list-item@3.7.2
+- @dibdab/extension-list-keymap@3.7.2
+- @dibdab/core@3.7.2
+- @dibdab/extension-blockquote@3.7.2
+- @dibdab/extension-bold@3.7.2
+- @dibdab/extension-bullet-list@3.7.2
+- @dibdab/extension-code@3.7.2
+- @dibdab/extension-code-block@3.7.2
+- @dibdab/extension-document@3.7.2
+- @dibdab/extension-hard-break@3.7.2
+- @dibdab/extension-heading@3.7.2
+- @dibdab/extension-horizontal-rule@3.7.2
+- @dibdab/extension-italic@3.7.2
+- @dibdab/extension-link@3.7.2
+- @dibdab/extension-list@3.7.2
+- @dibdab/extension-ordered-list@3.7.2
+- @dibdab/extension-paragraph@3.7.2
+- @dibdab/extension-strike@3.7.2
+- @dibdab/extension-text@3.7.2
+- @dibdab/extension-underline@3.7.2
+- @dibdab/extensions@3.7.2
+- @dibdab/pm@3.7.2
 
 ## 3.7.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.7.1
-- @tiptap/extension-gapcursor@3.7.1
-- @tiptap/extension-list-item@3.7.1
-- @tiptap/extension-list-keymap@3.7.1
-- @tiptap/core@3.7.1
-- @tiptap/extension-blockquote@3.7.1
-- @tiptap/extension-bold@3.7.1
-- @tiptap/extension-bullet-list@3.7.1
-- @tiptap/extension-code@3.7.1
-- @tiptap/extension-code-block@3.7.1
-- @tiptap/extension-document@3.7.1
-- @tiptap/extension-hard-break@3.7.1
-- @tiptap/extension-heading@3.7.1
-- @tiptap/extension-horizontal-rule@3.7.1
-- @tiptap/extension-italic@3.7.1
-- @tiptap/extension-link@3.7.1
-- @tiptap/extension-list@3.7.1
-- @tiptap/extension-ordered-list@3.7.1
-- @tiptap/extension-paragraph@3.7.1
-- @tiptap/extension-strike@3.7.1
-- @tiptap/extension-text@3.7.1
-- @tiptap/extension-underline@3.7.1
-- @tiptap/extensions@3.7.1
-- @tiptap/pm@3.7.1
+- @dibdab/extension-dropcursor@3.7.1
+- @dibdab/extension-gapcursor@3.7.1
+- @dibdab/extension-list-item@3.7.1
+- @dibdab/extension-list-keymap@3.7.1
+- @dibdab/core@3.7.1
+- @dibdab/extension-blockquote@3.7.1
+- @dibdab/extension-bold@3.7.1
+- @dibdab/extension-bullet-list@3.7.1
+- @dibdab/extension-code@3.7.1
+- @dibdab/extension-code-block@3.7.1
+- @dibdab/extension-document@3.7.1
+- @dibdab/extension-hard-break@3.7.1
+- @dibdab/extension-heading@3.7.1
+- @dibdab/extension-horizontal-rule@3.7.1
+- @dibdab/extension-italic@3.7.1
+- @dibdab/extension-link@3.7.1
+- @dibdab/extension-list@3.7.1
+- @dibdab/extension-ordered-list@3.7.1
+- @dibdab/extension-paragraph@3.7.1
+- @dibdab/extension-strike@3.7.1
+- @dibdab/extension-text@3.7.1
+- @dibdab/extension-underline@3.7.1
+- @dibdab/extensions@3.7.1
+- @dibdab/pm@3.7.1
 
 ## 3.7.0
 
@@ -759,88 +759,88 @@
 - Updated dependencies [35645d9]
 - Updated dependencies [075c4be]
 - Updated dependencies [7cf3ab6]
-  - @tiptap/core@3.7.0
-  - @tiptap/extension-link@3.7.0
-  - @tiptap/extensions@3.7.0
-  - @tiptap/extension-blockquote@3.7.0
-  - @tiptap/extension-bold@3.7.0
-  - @tiptap/extension-code@3.7.0
-  - @tiptap/extension-code-block@3.7.0
-  - @tiptap/extension-document@3.7.0
-  - @tiptap/extension-hard-break@3.7.0
-  - @tiptap/extension-heading@3.7.0
-  - @tiptap/extension-horizontal-rule@3.7.0
-  - @tiptap/extension-italic@3.7.0
-  - @tiptap/extension-list@3.7.0
-  - @tiptap/extension-paragraph@3.7.0
-  - @tiptap/extension-strike@3.7.0
-  - @tiptap/extension-text@3.7.0
-  - @tiptap/extension-underline@3.7.0
-  - @tiptap/extension-dropcursor@3.7.0
-  - @tiptap/extension-gapcursor@3.7.0
-  - @tiptap/extension-list-item@3.7.0
-  - @tiptap/extension-list-keymap@3.7.0
-  - @tiptap/extension-bullet-list@3.7.0
-  - @tiptap/extension-ordered-list@3.7.0
-  - @tiptap/pm@3.7.0
+  - @dibdab/core@3.7.0
+  - @dibdab/extension-link@3.7.0
+  - @dibdab/extensions@3.7.0
+  - @dibdab/extension-blockquote@3.7.0
+  - @dibdab/extension-bold@3.7.0
+  - @dibdab/extension-code@3.7.0
+  - @dibdab/extension-code-block@3.7.0
+  - @dibdab/extension-document@3.7.0
+  - @dibdab/extension-hard-break@3.7.0
+  - @dibdab/extension-heading@3.7.0
+  - @dibdab/extension-horizontal-rule@3.7.0
+  - @dibdab/extension-italic@3.7.0
+  - @dibdab/extension-list@3.7.0
+  - @dibdab/extension-paragraph@3.7.0
+  - @dibdab/extension-strike@3.7.0
+  - @dibdab/extension-text@3.7.0
+  - @dibdab/extension-underline@3.7.0
+  - @dibdab/extension-dropcursor@3.7.0
+  - @dibdab/extension-gapcursor@3.7.0
+  - @dibdab/extension-list-item@3.7.0
+  - @dibdab/extension-list-keymap@3.7.0
+  - @dibdab/extension-bullet-list@3.7.0
+  - @dibdab/extension-ordered-list@3.7.0
+  - @dibdab/pm@3.7.0
 
 ## 3.6.7
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.6.7
-- @tiptap/extension-gapcursor@3.6.7
-- @tiptap/extension-list-item@3.6.7
-- @tiptap/extension-list-keymap@3.6.7
-- @tiptap/core@3.6.7
-- @tiptap/extension-blockquote@3.6.7
-- @tiptap/extension-bold@3.6.7
-- @tiptap/extension-bullet-list@3.6.7
-- @tiptap/extension-code@3.6.7
-- @tiptap/extension-code-block@3.6.7
-- @tiptap/extension-document@3.6.7
-- @tiptap/extension-hard-break@3.6.7
-- @tiptap/extension-heading@3.6.7
-- @tiptap/extension-horizontal-rule@3.6.7
-- @tiptap/extension-italic@3.6.7
-- @tiptap/extension-link@3.6.7
-- @tiptap/extension-list@3.6.7
-- @tiptap/extension-ordered-list@3.6.7
-- @tiptap/extension-paragraph@3.6.7
-- @tiptap/extension-strike@3.6.7
-- @tiptap/extension-text@3.6.7
-- @tiptap/extension-underline@3.6.7
-- @tiptap/extensions@3.6.7
-- @tiptap/pm@3.6.7
+- @dibdab/extension-dropcursor@3.6.7
+- @dibdab/extension-gapcursor@3.6.7
+- @dibdab/extension-list-item@3.6.7
+- @dibdab/extension-list-keymap@3.6.7
+- @dibdab/core@3.6.7
+- @dibdab/extension-blockquote@3.6.7
+- @dibdab/extension-bold@3.6.7
+- @dibdab/extension-bullet-list@3.6.7
+- @dibdab/extension-code@3.6.7
+- @dibdab/extension-code-block@3.6.7
+- @dibdab/extension-document@3.6.7
+- @dibdab/extension-hard-break@3.6.7
+- @dibdab/extension-heading@3.6.7
+- @dibdab/extension-horizontal-rule@3.6.7
+- @dibdab/extension-italic@3.6.7
+- @dibdab/extension-link@3.6.7
+- @dibdab/extension-list@3.6.7
+- @dibdab/extension-ordered-list@3.6.7
+- @dibdab/extension-paragraph@3.6.7
+- @dibdab/extension-strike@3.6.7
+- @dibdab/extension-text@3.6.7
+- @dibdab/extension-underline@3.6.7
+- @dibdab/extensions@3.6.7
+- @dibdab/pm@3.6.7
 
 ## 3.6.6
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.6.6
-- @tiptap/extension-gapcursor@3.6.6
-- @tiptap/extension-list-item@3.6.6
-- @tiptap/extension-list-keymap@3.6.6
-- @tiptap/core@3.6.6
-- @tiptap/extension-blockquote@3.6.6
-- @tiptap/extension-bold@3.6.6
-- @tiptap/extension-bullet-list@3.6.6
-- @tiptap/extension-code@3.6.6
-- @tiptap/extension-code-block@3.6.6
-- @tiptap/extension-document@3.6.6
-- @tiptap/extension-hard-break@3.6.6
-- @tiptap/extension-heading@3.6.6
-- @tiptap/extension-horizontal-rule@3.6.6
-- @tiptap/extension-italic@3.6.6
-- @tiptap/extension-link@3.6.6
-- @tiptap/extension-list@3.6.6
-- @tiptap/extension-ordered-list@3.6.6
-- @tiptap/extension-paragraph@3.6.6
-- @tiptap/extension-strike@3.6.6
-- @tiptap/extension-text@3.6.6
-- @tiptap/extension-underline@3.6.6
-- @tiptap/extensions@3.6.6
-- @tiptap/pm@3.6.6
+- @dibdab/extension-dropcursor@3.6.6
+- @dibdab/extension-gapcursor@3.6.6
+- @dibdab/extension-list-item@3.6.6
+- @dibdab/extension-list-keymap@3.6.6
+- @dibdab/core@3.6.6
+- @dibdab/extension-blockquote@3.6.6
+- @dibdab/extension-bold@3.6.6
+- @dibdab/extension-bullet-list@3.6.6
+- @dibdab/extension-code@3.6.6
+- @dibdab/extension-code-block@3.6.6
+- @dibdab/extension-document@3.6.6
+- @dibdab/extension-hard-break@3.6.6
+- @dibdab/extension-heading@3.6.6
+- @dibdab/extension-horizontal-rule@3.6.6
+- @dibdab/extension-italic@3.6.6
+- @dibdab/extension-link@3.6.6
+- @dibdab/extension-list@3.6.6
+- @dibdab/extension-ordered-list@3.6.6
+- @dibdab/extension-paragraph@3.6.6
+- @dibdab/extension-strike@3.6.6
+- @dibdab/extension-text@3.6.6
+- @dibdab/extension-underline@3.6.6
+- @dibdab/extensions@3.6.6
+- @dibdab/pm@3.6.6
 
 ## 3.6.5
 
@@ -848,59 +848,59 @@
 
 - Updated dependencies [e6451b8]
 - Updated dependencies [1e4caea]
-  - @tiptap/extension-horizontal-rule@3.6.5
-  - @tiptap/core@3.6.5
-  - @tiptap/extension-blockquote@3.6.5
-  - @tiptap/extension-bold@3.6.5
-  - @tiptap/extension-code@3.6.5
-  - @tiptap/extension-code-block@3.6.5
-  - @tiptap/extension-document@3.6.5
-  - @tiptap/extension-hard-break@3.6.5
-  - @tiptap/extension-heading@3.6.5
-  - @tiptap/extension-italic@3.6.5
-  - @tiptap/extension-link@3.6.5
-  - @tiptap/extension-list@3.6.5
-  - @tiptap/extension-paragraph@3.6.5
-  - @tiptap/extension-strike@3.6.5
-  - @tiptap/extension-text@3.6.5
-  - @tiptap/extension-underline@3.6.5
-  - @tiptap/extensions@3.6.5
-  - @tiptap/extension-list-item@3.6.5
-  - @tiptap/extension-list-keymap@3.6.5
-  - @tiptap/extension-bullet-list@3.6.5
-  - @tiptap/extension-ordered-list@3.6.5
-  - @tiptap/extension-dropcursor@3.6.5
-  - @tiptap/extension-gapcursor@3.6.5
-  - @tiptap/pm@3.6.5
+  - @dibdab/extension-horizontal-rule@3.6.5
+  - @dibdab/core@3.6.5
+  - @dibdab/extension-blockquote@3.6.5
+  - @dibdab/extension-bold@3.6.5
+  - @dibdab/extension-code@3.6.5
+  - @dibdab/extension-code-block@3.6.5
+  - @dibdab/extension-document@3.6.5
+  - @dibdab/extension-hard-break@3.6.5
+  - @dibdab/extension-heading@3.6.5
+  - @dibdab/extension-italic@3.6.5
+  - @dibdab/extension-link@3.6.5
+  - @dibdab/extension-list@3.6.5
+  - @dibdab/extension-paragraph@3.6.5
+  - @dibdab/extension-strike@3.6.5
+  - @dibdab/extension-text@3.6.5
+  - @dibdab/extension-underline@3.6.5
+  - @dibdab/extensions@3.6.5
+  - @dibdab/extension-list-item@3.6.5
+  - @dibdab/extension-list-keymap@3.6.5
+  - @dibdab/extension-bullet-list@3.6.5
+  - @dibdab/extension-ordered-list@3.6.5
+  - @dibdab/extension-dropcursor@3.6.5
+  - @dibdab/extension-gapcursor@3.6.5
+  - @dibdab/pm@3.6.5
 
 ## 3.6.4
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.6.4
-- @tiptap/extension-gapcursor@3.6.4
-- @tiptap/extension-list-item@3.6.4
-- @tiptap/extension-list-keymap@3.6.4
-- @tiptap/core@3.6.4
-- @tiptap/extension-blockquote@3.6.4
-- @tiptap/extension-bold@3.6.4
-- @tiptap/extension-bullet-list@3.6.4
-- @tiptap/extension-code@3.6.4
-- @tiptap/extension-code-block@3.6.4
-- @tiptap/extension-document@3.6.4
-- @tiptap/extension-hard-break@3.6.4
-- @tiptap/extension-heading@3.6.4
-- @tiptap/extension-horizontal-rule@3.6.4
-- @tiptap/extension-italic@3.6.4
-- @tiptap/extension-link@3.6.4
-- @tiptap/extension-list@3.6.4
-- @tiptap/extension-ordered-list@3.6.4
-- @tiptap/extension-paragraph@3.6.4
-- @tiptap/extension-strike@3.6.4
-- @tiptap/extension-text@3.6.4
-- @tiptap/extension-underline@3.6.4
-- @tiptap/extensions@3.6.4
-- @tiptap/pm@3.6.4
+- @dibdab/extension-dropcursor@3.6.4
+- @dibdab/extension-gapcursor@3.6.4
+- @dibdab/extension-list-item@3.6.4
+- @dibdab/extension-list-keymap@3.6.4
+- @dibdab/core@3.6.4
+- @dibdab/extension-blockquote@3.6.4
+- @dibdab/extension-bold@3.6.4
+- @dibdab/extension-bullet-list@3.6.4
+- @dibdab/extension-code@3.6.4
+- @dibdab/extension-code-block@3.6.4
+- @dibdab/extension-document@3.6.4
+- @dibdab/extension-hard-break@3.6.4
+- @dibdab/extension-heading@3.6.4
+- @dibdab/extension-horizontal-rule@3.6.4
+- @dibdab/extension-italic@3.6.4
+- @dibdab/extension-link@3.6.4
+- @dibdab/extension-list@3.6.4
+- @dibdab/extension-ordered-list@3.6.4
+- @dibdab/extension-paragraph@3.6.4
+- @dibdab/extension-strike@3.6.4
+- @dibdab/extension-text@3.6.4
+- @dibdab/extension-underline@3.6.4
+- @dibdab/extensions@3.6.4
+- @dibdab/pm@3.6.4
 
 ## 3.6.3
 
@@ -909,264 +909,264 @@
 - Updated dependencies [7024d69]
 - Updated dependencies [9562838]
 - Updated dependencies [67f7b4a]
-  - @tiptap/extensions@3.6.3
-  - @tiptap/extension-code-block@3.6.3
-  - @tiptap/core@3.6.3
-  - @tiptap/extension-dropcursor@3.6.3
-  - @tiptap/extension-gapcursor@3.6.3
-  - @tiptap/extension-blockquote@3.6.3
-  - @tiptap/extension-bold@3.6.3
-  - @tiptap/extension-code@3.6.3
-  - @tiptap/extension-document@3.6.3
-  - @tiptap/extension-hard-break@3.6.3
-  - @tiptap/extension-heading@3.6.3
-  - @tiptap/extension-horizontal-rule@3.6.3
-  - @tiptap/extension-italic@3.6.3
-  - @tiptap/extension-link@3.6.3
-  - @tiptap/extension-list@3.6.3
-  - @tiptap/extension-paragraph@3.6.3
-  - @tiptap/extension-strike@3.6.3
-  - @tiptap/extension-text@3.6.3
-  - @tiptap/extension-underline@3.6.3
-  - @tiptap/extension-list-item@3.6.3
-  - @tiptap/extension-list-keymap@3.6.3
-  - @tiptap/extension-bullet-list@3.6.3
-  - @tiptap/extension-ordered-list@3.6.3
-  - @tiptap/pm@3.6.3
+  - @dibdab/extensions@3.6.3
+  - @dibdab/extension-code-block@3.6.3
+  - @dibdab/core@3.6.3
+  - @dibdab/extension-dropcursor@3.6.3
+  - @dibdab/extension-gapcursor@3.6.3
+  - @dibdab/extension-blockquote@3.6.3
+  - @dibdab/extension-bold@3.6.3
+  - @dibdab/extension-code@3.6.3
+  - @dibdab/extension-document@3.6.3
+  - @dibdab/extension-hard-break@3.6.3
+  - @dibdab/extension-heading@3.6.3
+  - @dibdab/extension-horizontal-rule@3.6.3
+  - @dibdab/extension-italic@3.6.3
+  - @dibdab/extension-link@3.6.3
+  - @dibdab/extension-list@3.6.3
+  - @dibdab/extension-paragraph@3.6.3
+  - @dibdab/extension-strike@3.6.3
+  - @dibdab/extension-text@3.6.3
+  - @dibdab/extension-underline@3.6.3
+  - @dibdab/extension-list-item@3.6.3
+  - @dibdab/extension-list-keymap@3.6.3
+  - @dibdab/extension-bullet-list@3.6.3
+  - @dibdab/extension-ordered-list@3.6.3
+  - @dibdab/pm@3.6.3
 
 ## 3.6.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.6.2
-- @tiptap/extension-gapcursor@3.6.2
-- @tiptap/extension-list-item@3.6.2
-- @tiptap/extension-list-keymap@3.6.2
-- @tiptap/core@3.6.2
-- @tiptap/extension-blockquote@3.6.2
-- @tiptap/extension-bold@3.6.2
-- @tiptap/extension-bullet-list@3.6.2
-- @tiptap/extension-code@3.6.2
-- @tiptap/extension-code-block@3.6.2
-- @tiptap/extension-document@3.6.2
-- @tiptap/extension-hard-break@3.6.2
-- @tiptap/extension-heading@3.6.2
-- @tiptap/extension-horizontal-rule@3.6.2
-- @tiptap/extension-italic@3.6.2
-- @tiptap/extension-link@3.6.2
-- @tiptap/extension-list@3.6.2
-- @tiptap/extension-ordered-list@3.6.2
-- @tiptap/extension-paragraph@3.6.2
-- @tiptap/extension-strike@3.6.2
-- @tiptap/extension-text@3.6.2
-- @tiptap/extension-underline@3.6.2
-- @tiptap/extensions@3.6.2
-- @tiptap/pm@3.6.2
+- @dibdab/extension-dropcursor@3.6.2
+- @dibdab/extension-gapcursor@3.6.2
+- @dibdab/extension-list-item@3.6.2
+- @dibdab/extension-list-keymap@3.6.2
+- @dibdab/core@3.6.2
+- @dibdab/extension-blockquote@3.6.2
+- @dibdab/extension-bold@3.6.2
+- @dibdab/extension-bullet-list@3.6.2
+- @dibdab/extension-code@3.6.2
+- @dibdab/extension-code-block@3.6.2
+- @dibdab/extension-document@3.6.2
+- @dibdab/extension-hard-break@3.6.2
+- @dibdab/extension-heading@3.6.2
+- @dibdab/extension-horizontal-rule@3.6.2
+- @dibdab/extension-italic@3.6.2
+- @dibdab/extension-link@3.6.2
+- @dibdab/extension-list@3.6.2
+- @dibdab/extension-ordered-list@3.6.2
+- @dibdab/extension-paragraph@3.6.2
+- @dibdab/extension-strike@3.6.2
+- @dibdab/extension-text@3.6.2
+- @dibdab/extension-underline@3.6.2
+- @dibdab/extensions@3.6.2
+- @dibdab/pm@3.6.2
 
 ## 3.6.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.6.1
-- @tiptap/extension-gapcursor@3.6.1
-- @tiptap/extension-list-item@3.6.1
-- @tiptap/extension-list-keymap@3.6.1
-- @tiptap/core@3.6.1
-- @tiptap/extension-blockquote@3.6.1
-- @tiptap/extension-bold@3.6.1
-- @tiptap/extension-bullet-list@3.6.1
-- @tiptap/extension-code@3.6.1
-- @tiptap/extension-code-block@3.6.1
-- @tiptap/extension-document@3.6.1
-- @tiptap/extension-hard-break@3.6.1
-- @tiptap/extension-heading@3.6.1
-- @tiptap/extension-horizontal-rule@3.6.1
-- @tiptap/extension-italic@3.6.1
-- @tiptap/extension-link@3.6.1
-- @tiptap/extension-list@3.6.1
-- @tiptap/extension-ordered-list@3.6.1
-- @tiptap/extension-paragraph@3.6.1
-- @tiptap/extension-strike@3.6.1
-- @tiptap/extension-text@3.6.1
-- @tiptap/extension-underline@3.6.1
-- @tiptap/extensions@3.6.1
-- @tiptap/pm@3.6.1
+- @dibdab/extension-dropcursor@3.6.1
+- @dibdab/extension-gapcursor@3.6.1
+- @dibdab/extension-list-item@3.6.1
+- @dibdab/extension-list-keymap@3.6.1
+- @dibdab/core@3.6.1
+- @dibdab/extension-blockquote@3.6.1
+- @dibdab/extension-bold@3.6.1
+- @dibdab/extension-bullet-list@3.6.1
+- @dibdab/extension-code@3.6.1
+- @dibdab/extension-code-block@3.6.1
+- @dibdab/extension-document@3.6.1
+- @dibdab/extension-hard-break@3.6.1
+- @dibdab/extension-heading@3.6.1
+- @dibdab/extension-horizontal-rule@3.6.1
+- @dibdab/extension-italic@3.6.1
+- @dibdab/extension-link@3.6.1
+- @dibdab/extension-list@3.6.1
+- @dibdab/extension-ordered-list@3.6.1
+- @dibdab/extension-paragraph@3.6.1
+- @dibdab/extension-strike@3.6.1
+- @dibdab/extension-text@3.6.1
+- @dibdab/extension-underline@3.6.1
+- @dibdab/extensions@3.6.1
+- @dibdab/pm@3.6.1
 
 ## 3.6.0
 
 ### Patch Changes
 
 - Updated dependencies [c0190bd]
-  - @tiptap/core@3.6.0
-  - @tiptap/extension-blockquote@3.6.0
-  - @tiptap/extension-bold@3.6.0
-  - @tiptap/extension-code@3.6.0
-  - @tiptap/extension-code-block@3.6.0
-  - @tiptap/extension-document@3.6.0
-  - @tiptap/extension-hard-break@3.6.0
-  - @tiptap/extension-heading@3.6.0
-  - @tiptap/extension-horizontal-rule@3.6.0
-  - @tiptap/extension-italic@3.6.0
-  - @tiptap/extension-link@3.6.0
-  - @tiptap/extension-list@3.6.0
-  - @tiptap/extension-paragraph@3.6.0
-  - @tiptap/extension-strike@3.6.0
-  - @tiptap/extension-text@3.6.0
-  - @tiptap/extension-underline@3.6.0
-  - @tiptap/extensions@3.6.0
-  - @tiptap/extension-list-item@3.6.0
-  - @tiptap/extension-list-keymap@3.6.0
-  - @tiptap/extension-bullet-list@3.6.0
-  - @tiptap/extension-ordered-list@3.6.0
-  - @tiptap/extension-dropcursor@3.6.0
-  - @tiptap/extension-gapcursor@3.6.0
-  - @tiptap/pm@3.6.0
+  - @dibdab/core@3.6.0
+  - @dibdab/extension-blockquote@3.6.0
+  - @dibdab/extension-bold@3.6.0
+  - @dibdab/extension-code@3.6.0
+  - @dibdab/extension-code-block@3.6.0
+  - @dibdab/extension-document@3.6.0
+  - @dibdab/extension-hard-break@3.6.0
+  - @dibdab/extension-heading@3.6.0
+  - @dibdab/extension-horizontal-rule@3.6.0
+  - @dibdab/extension-italic@3.6.0
+  - @dibdab/extension-link@3.6.0
+  - @dibdab/extension-list@3.6.0
+  - @dibdab/extension-paragraph@3.6.0
+  - @dibdab/extension-strike@3.6.0
+  - @dibdab/extension-text@3.6.0
+  - @dibdab/extension-underline@3.6.0
+  - @dibdab/extensions@3.6.0
+  - @dibdab/extension-list-item@3.6.0
+  - @dibdab/extension-list-keymap@3.6.0
+  - @dibdab/extension-bullet-list@3.6.0
+  - @dibdab/extension-ordered-list@3.6.0
+  - @dibdab/extension-dropcursor@3.6.0
+  - @dibdab/extension-gapcursor@3.6.0
+  - @dibdab/pm@3.6.0
 
 ## 3.5.3
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.5.3
-- @tiptap/extension-gapcursor@3.5.3
-- @tiptap/extension-list-item@3.5.3
-- @tiptap/extension-list-keymap@3.5.3
-- @tiptap/core@3.5.3
-- @tiptap/extension-blockquote@3.5.3
-- @tiptap/extension-bold@3.5.3
-- @tiptap/extension-bullet-list@3.5.3
-- @tiptap/extension-code@3.5.3
-- @tiptap/extension-code-block@3.5.3
-- @tiptap/extension-document@3.5.3
-- @tiptap/extension-hard-break@3.5.3
-- @tiptap/extension-heading@3.5.3
-- @tiptap/extension-horizontal-rule@3.5.3
-- @tiptap/extension-italic@3.5.3
-- @tiptap/extension-link@3.5.3
-- @tiptap/extension-list@3.5.3
-- @tiptap/extension-ordered-list@3.5.3
-- @tiptap/extension-paragraph@3.5.3
-- @tiptap/extension-strike@3.5.3
-- @tiptap/extension-text@3.5.3
-- @tiptap/extension-underline@3.5.3
-- @tiptap/extensions@3.5.3
-- @tiptap/pm@3.5.3
+- @dibdab/extension-dropcursor@3.5.3
+- @dibdab/extension-gapcursor@3.5.3
+- @dibdab/extension-list-item@3.5.3
+- @dibdab/extension-list-keymap@3.5.3
+- @dibdab/core@3.5.3
+- @dibdab/extension-blockquote@3.5.3
+- @dibdab/extension-bold@3.5.3
+- @dibdab/extension-bullet-list@3.5.3
+- @dibdab/extension-code@3.5.3
+- @dibdab/extension-code-block@3.5.3
+- @dibdab/extension-document@3.5.3
+- @dibdab/extension-hard-break@3.5.3
+- @dibdab/extension-heading@3.5.3
+- @dibdab/extension-horizontal-rule@3.5.3
+- @dibdab/extension-italic@3.5.3
+- @dibdab/extension-link@3.5.3
+- @dibdab/extension-list@3.5.3
+- @dibdab/extension-ordered-list@3.5.3
+- @dibdab/extension-paragraph@3.5.3
+- @dibdab/extension-strike@3.5.3
+- @dibdab/extension-text@3.5.3
+- @dibdab/extension-underline@3.5.3
+- @dibdab/extensions@3.5.3
+- @dibdab/pm@3.5.3
 
 ## 3.5.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.5.2
-- @tiptap/extension-gapcursor@3.5.2
-- @tiptap/extension-list-item@3.5.2
-- @tiptap/extension-list-keymap@3.5.2
-- @tiptap/core@3.5.2
-- @tiptap/extension-blockquote@3.5.2
-- @tiptap/extension-bold@3.5.2
-- @tiptap/extension-bullet-list@3.5.2
-- @tiptap/extension-code@3.5.2
-- @tiptap/extension-code-block@3.5.2
-- @tiptap/extension-document@3.5.2
-- @tiptap/extension-hard-break@3.5.2
-- @tiptap/extension-heading@3.5.2
-- @tiptap/extension-horizontal-rule@3.5.2
-- @tiptap/extension-italic@3.5.2
-- @tiptap/extension-link@3.5.2
-- @tiptap/extension-list@3.5.2
-- @tiptap/extension-ordered-list@3.5.2
-- @tiptap/extension-paragraph@3.5.2
-- @tiptap/extension-strike@3.5.2
-- @tiptap/extension-text@3.5.2
-- @tiptap/extension-underline@3.5.2
-- @tiptap/extensions@3.5.2
-- @tiptap/pm@3.5.2
+- @dibdab/extension-dropcursor@3.5.2
+- @dibdab/extension-gapcursor@3.5.2
+- @dibdab/extension-list-item@3.5.2
+- @dibdab/extension-list-keymap@3.5.2
+- @dibdab/core@3.5.2
+- @dibdab/extension-blockquote@3.5.2
+- @dibdab/extension-bold@3.5.2
+- @dibdab/extension-bullet-list@3.5.2
+- @dibdab/extension-code@3.5.2
+- @dibdab/extension-code-block@3.5.2
+- @dibdab/extension-document@3.5.2
+- @dibdab/extension-hard-break@3.5.2
+- @dibdab/extension-heading@3.5.2
+- @dibdab/extension-horizontal-rule@3.5.2
+- @dibdab/extension-italic@3.5.2
+- @dibdab/extension-link@3.5.2
+- @dibdab/extension-list@3.5.2
+- @dibdab/extension-ordered-list@3.5.2
+- @dibdab/extension-paragraph@3.5.2
+- @dibdab/extension-strike@3.5.2
+- @dibdab/extension-text@3.5.2
+- @dibdab/extension-underline@3.5.2
+- @dibdab/extensions@3.5.2
+- @dibdab/pm@3.5.2
 
 ## 3.5.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.5.1
-- @tiptap/extension-gapcursor@3.5.1
-- @tiptap/extension-list-item@3.5.1
-- @tiptap/extension-list-keymap@3.5.1
-- @tiptap/core@3.5.1
-- @tiptap/extension-blockquote@3.5.1
-- @tiptap/extension-bold@3.5.1
-- @tiptap/extension-bullet-list@3.5.1
-- @tiptap/extension-code@3.5.1
-- @tiptap/extension-code-block@3.5.1
-- @tiptap/extension-document@3.5.1
-- @tiptap/extension-hard-break@3.5.1
-- @tiptap/extension-heading@3.5.1
-- @tiptap/extension-horizontal-rule@3.5.1
-- @tiptap/extension-italic@3.5.1
-- @tiptap/extension-link@3.5.1
-- @tiptap/extension-list@3.5.1
-- @tiptap/extension-ordered-list@3.5.1
-- @tiptap/extension-paragraph@3.5.1
-- @tiptap/extension-strike@3.5.1
-- @tiptap/extension-text@3.5.1
-- @tiptap/extension-underline@3.5.1
-- @tiptap/extensions@3.5.1
-- @tiptap/pm@3.5.1
+- @dibdab/extension-dropcursor@3.5.1
+- @dibdab/extension-gapcursor@3.5.1
+- @dibdab/extension-list-item@3.5.1
+- @dibdab/extension-list-keymap@3.5.1
+- @dibdab/core@3.5.1
+- @dibdab/extension-blockquote@3.5.1
+- @dibdab/extension-bold@3.5.1
+- @dibdab/extension-bullet-list@3.5.1
+- @dibdab/extension-code@3.5.1
+- @dibdab/extension-code-block@3.5.1
+- @dibdab/extension-document@3.5.1
+- @dibdab/extension-hard-break@3.5.1
+- @dibdab/extension-heading@3.5.1
+- @dibdab/extension-horizontal-rule@3.5.1
+- @dibdab/extension-italic@3.5.1
+- @dibdab/extension-link@3.5.1
+- @dibdab/extension-list@3.5.1
+- @dibdab/extension-ordered-list@3.5.1
+- @dibdab/extension-paragraph@3.5.1
+- @dibdab/extension-strike@3.5.1
+- @dibdab/extension-text@3.5.1
+- @dibdab/extension-underline@3.5.1
+- @dibdab/extensions@3.5.1
+- @dibdab/pm@3.5.1
 
 ## 3.5.0
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.5.0
-- @tiptap/extension-gapcursor@3.5.0
-- @tiptap/extension-list-item@3.5.0
-- @tiptap/extension-list-keymap@3.5.0
-- @tiptap/core@3.5.0
-- @tiptap/extension-blockquote@3.5.0
-- @tiptap/extension-bold@3.5.0
-- @tiptap/extension-bullet-list@3.5.0
-- @tiptap/extension-code@3.5.0
-- @tiptap/extension-code-block@3.5.0
-- @tiptap/extension-document@3.5.0
-- @tiptap/extension-hard-break@3.5.0
-- @tiptap/extension-heading@3.5.0
-- @tiptap/extension-horizontal-rule@3.5.0
-- @tiptap/extension-italic@3.5.0
-- @tiptap/extension-link@3.5.0
-- @tiptap/extension-list@3.5.0
-- @tiptap/extension-ordered-list@3.5.0
-- @tiptap/extension-paragraph@3.5.0
-- @tiptap/extension-strike@3.5.0
-- @tiptap/extension-text@3.5.0
-- @tiptap/extension-underline@3.5.0
-- @tiptap/extensions@3.5.0
-- @tiptap/pm@3.5.0
+- @dibdab/extension-dropcursor@3.5.0
+- @dibdab/extension-gapcursor@3.5.0
+- @dibdab/extension-list-item@3.5.0
+- @dibdab/extension-list-keymap@3.5.0
+- @dibdab/core@3.5.0
+- @dibdab/extension-blockquote@3.5.0
+- @dibdab/extension-bold@3.5.0
+- @dibdab/extension-bullet-list@3.5.0
+- @dibdab/extension-code@3.5.0
+- @dibdab/extension-code-block@3.5.0
+- @dibdab/extension-document@3.5.0
+- @dibdab/extension-hard-break@3.5.0
+- @dibdab/extension-heading@3.5.0
+- @dibdab/extension-horizontal-rule@3.5.0
+- @dibdab/extension-italic@3.5.0
+- @dibdab/extension-link@3.5.0
+- @dibdab/extension-list@3.5.0
+- @dibdab/extension-ordered-list@3.5.0
+- @dibdab/extension-paragraph@3.5.0
+- @dibdab/extension-strike@3.5.0
+- @dibdab/extension-text@3.5.0
+- @dibdab/extension-underline@3.5.0
+- @dibdab/extensions@3.5.0
+- @dibdab/pm@3.5.0
 
 ## 3.4.6
 
 ### Patch Changes
 
 - Updated dependencies [968016f]
-  - @tiptap/core@3.4.6
-  - @tiptap/extension-blockquote@3.4.6
-  - @tiptap/extension-bold@3.4.6
-  - @tiptap/extension-code@3.4.6
-  - @tiptap/extension-code-block@3.4.6
-  - @tiptap/extension-document@3.4.6
-  - @tiptap/extension-hard-break@3.4.6
-  - @tiptap/extension-heading@3.4.6
-  - @tiptap/extension-horizontal-rule@3.4.6
-  - @tiptap/extension-italic@3.4.6
-  - @tiptap/extension-link@3.4.6
-  - @tiptap/extension-list@3.4.6
-  - @tiptap/extension-paragraph@3.4.6
-  - @tiptap/extension-strike@3.4.6
-  - @tiptap/extension-text@3.4.6
-  - @tiptap/extension-underline@3.4.6
-  - @tiptap/extensions@3.4.6
-  - @tiptap/extension-list-item@3.4.6
-  - @tiptap/extension-list-keymap@3.4.6
-  - @tiptap/extension-bullet-list@3.4.6
-  - @tiptap/extension-ordered-list@3.4.6
-  - @tiptap/extension-dropcursor@3.4.6
-  - @tiptap/extension-gapcursor@3.4.6
-  - @tiptap/pm@3.4.6
+  - @dibdab/core@3.4.6
+  - @dibdab/extension-blockquote@3.4.6
+  - @dibdab/extension-bold@3.4.6
+  - @dibdab/extension-code@3.4.6
+  - @dibdab/extension-code-block@3.4.6
+  - @dibdab/extension-document@3.4.6
+  - @dibdab/extension-hard-break@3.4.6
+  - @dibdab/extension-heading@3.4.6
+  - @dibdab/extension-horizontal-rule@3.4.6
+  - @dibdab/extension-italic@3.4.6
+  - @dibdab/extension-link@3.4.6
+  - @dibdab/extension-list@3.4.6
+  - @dibdab/extension-paragraph@3.4.6
+  - @dibdab/extension-strike@3.4.6
+  - @dibdab/extension-text@3.4.6
+  - @dibdab/extension-underline@3.4.6
+  - @dibdab/extensions@3.4.6
+  - @dibdab/extension-list-item@3.4.6
+  - @dibdab/extension-list-keymap@3.4.6
+  - @dibdab/extension-bullet-list@3.4.6
+  - @dibdab/extension-ordered-list@3.4.6
+  - @dibdab/extension-dropcursor@3.4.6
+  - @dibdab/extension-gapcursor@3.4.6
+  - @dibdab/pm@3.4.6
 
 ## 3.4.5
 
@@ -1175,148 +1175,148 @@
 - Updated dependencies [0226d42]
 - Updated dependencies [37af83b]
 - Updated dependencies [f598ac7]
-  - @tiptap/core@3.4.5
-  - @tiptap/extension-blockquote@3.4.5
-  - @tiptap/extension-bold@3.4.5
-  - @tiptap/extension-code@3.4.5
-  - @tiptap/extension-code-block@3.4.5
-  - @tiptap/extension-document@3.4.5
-  - @tiptap/extension-hard-break@3.4.5
-  - @tiptap/extension-heading@3.4.5
-  - @tiptap/extension-horizontal-rule@3.4.5
-  - @tiptap/extension-italic@3.4.5
-  - @tiptap/extension-link@3.4.5
-  - @tiptap/extension-list@3.4.5
-  - @tiptap/extension-paragraph@3.4.5
-  - @tiptap/extension-strike@3.4.5
-  - @tiptap/extension-text@3.4.5
-  - @tiptap/extension-underline@3.4.5
-  - @tiptap/extensions@3.4.5
-  - @tiptap/extension-list-item@3.4.5
-  - @tiptap/extension-list-keymap@3.4.5
-  - @tiptap/extension-bullet-list@3.4.5
-  - @tiptap/extension-ordered-list@3.4.5
-  - @tiptap/extension-dropcursor@3.4.5
-  - @tiptap/extension-gapcursor@3.4.5
-  - @tiptap/pm@3.4.5
+  - @dibdab/core@3.4.5
+  - @dibdab/extension-blockquote@3.4.5
+  - @dibdab/extension-bold@3.4.5
+  - @dibdab/extension-code@3.4.5
+  - @dibdab/extension-code-block@3.4.5
+  - @dibdab/extension-document@3.4.5
+  - @dibdab/extension-hard-break@3.4.5
+  - @dibdab/extension-heading@3.4.5
+  - @dibdab/extension-horizontal-rule@3.4.5
+  - @dibdab/extension-italic@3.4.5
+  - @dibdab/extension-link@3.4.5
+  - @dibdab/extension-list@3.4.5
+  - @dibdab/extension-paragraph@3.4.5
+  - @dibdab/extension-strike@3.4.5
+  - @dibdab/extension-text@3.4.5
+  - @dibdab/extension-underline@3.4.5
+  - @dibdab/extensions@3.4.5
+  - @dibdab/extension-list-item@3.4.5
+  - @dibdab/extension-list-keymap@3.4.5
+  - @dibdab/extension-bullet-list@3.4.5
+  - @dibdab/extension-ordered-list@3.4.5
+  - @dibdab/extension-dropcursor@3.4.5
+  - @dibdab/extension-gapcursor@3.4.5
+  - @dibdab/pm@3.4.5
 
 ## 3.4.4
 
 ### Patch Changes
 
 - Updated dependencies [00cf1d7]
-  - @tiptap/core@3.4.4
-  - @tiptap/extension-blockquote@3.4.4
-  - @tiptap/extension-bold@3.4.4
-  - @tiptap/extension-code@3.4.4
-  - @tiptap/extension-code-block@3.4.4
-  - @tiptap/extension-document@3.4.4
-  - @tiptap/extension-hard-break@3.4.4
-  - @tiptap/extension-heading@3.4.4
-  - @tiptap/extension-horizontal-rule@3.4.4
-  - @tiptap/extension-italic@3.4.4
-  - @tiptap/extension-link@3.4.4
-  - @tiptap/extension-list@3.4.4
-  - @tiptap/extension-paragraph@3.4.4
-  - @tiptap/extension-strike@3.4.4
-  - @tiptap/extension-text@3.4.4
-  - @tiptap/extension-underline@3.4.4
-  - @tiptap/extensions@3.4.4
-  - @tiptap/extension-list-item@3.4.4
-  - @tiptap/extension-list-keymap@3.4.4
-  - @tiptap/extension-bullet-list@3.4.4
-  - @tiptap/extension-ordered-list@3.4.4
-  - @tiptap/extension-dropcursor@3.4.4
-  - @tiptap/extension-gapcursor@3.4.4
-  - @tiptap/pm@3.4.4
+  - @dibdab/core@3.4.4
+  - @dibdab/extension-blockquote@3.4.4
+  - @dibdab/extension-bold@3.4.4
+  - @dibdab/extension-code@3.4.4
+  - @dibdab/extension-code-block@3.4.4
+  - @dibdab/extension-document@3.4.4
+  - @dibdab/extension-hard-break@3.4.4
+  - @dibdab/extension-heading@3.4.4
+  - @dibdab/extension-horizontal-rule@3.4.4
+  - @dibdab/extension-italic@3.4.4
+  - @dibdab/extension-link@3.4.4
+  - @dibdab/extension-list@3.4.4
+  - @dibdab/extension-paragraph@3.4.4
+  - @dibdab/extension-strike@3.4.4
+  - @dibdab/extension-text@3.4.4
+  - @dibdab/extension-underline@3.4.4
+  - @dibdab/extensions@3.4.4
+  - @dibdab/extension-list-item@3.4.4
+  - @dibdab/extension-list-keymap@3.4.4
+  - @dibdab/extension-bullet-list@3.4.4
+  - @dibdab/extension-ordered-list@3.4.4
+  - @dibdab/extension-dropcursor@3.4.4
+  - @dibdab/extension-gapcursor@3.4.4
+  - @dibdab/pm@3.4.4
 
 ## 3.4.3
 
 ### Patch Changes
 
 - Updated dependencies [1ea8906]
-  - @tiptap/core@3.4.3
-  - @tiptap/extension-blockquote@3.4.3
-  - @tiptap/extension-bold@3.4.3
-  - @tiptap/extension-code@3.4.3
-  - @tiptap/extension-code-block@3.4.3
-  - @tiptap/extension-document@3.4.3
-  - @tiptap/extension-hard-break@3.4.3
-  - @tiptap/extension-heading@3.4.3
-  - @tiptap/extension-horizontal-rule@3.4.3
-  - @tiptap/extension-italic@3.4.3
-  - @tiptap/extension-link@3.4.3
-  - @tiptap/extension-list@3.4.3
-  - @tiptap/extension-paragraph@3.4.3
-  - @tiptap/extension-strike@3.4.3
-  - @tiptap/extension-text@3.4.3
-  - @tiptap/extension-underline@3.4.3
-  - @tiptap/extensions@3.4.3
-  - @tiptap/extension-list-item@3.4.3
-  - @tiptap/extension-list-keymap@3.4.3
-  - @tiptap/extension-bullet-list@3.4.3
-  - @tiptap/extension-ordered-list@3.4.3
-  - @tiptap/extension-dropcursor@3.4.3
-  - @tiptap/extension-gapcursor@3.4.3
-  - @tiptap/pm@3.4.3
+  - @dibdab/core@3.4.3
+  - @dibdab/extension-blockquote@3.4.3
+  - @dibdab/extension-bold@3.4.3
+  - @dibdab/extension-code@3.4.3
+  - @dibdab/extension-code-block@3.4.3
+  - @dibdab/extension-document@3.4.3
+  - @dibdab/extension-hard-break@3.4.3
+  - @dibdab/extension-heading@3.4.3
+  - @dibdab/extension-horizontal-rule@3.4.3
+  - @dibdab/extension-italic@3.4.3
+  - @dibdab/extension-link@3.4.3
+  - @dibdab/extension-list@3.4.3
+  - @dibdab/extension-paragraph@3.4.3
+  - @dibdab/extension-strike@3.4.3
+  - @dibdab/extension-text@3.4.3
+  - @dibdab/extension-underline@3.4.3
+  - @dibdab/extensions@3.4.3
+  - @dibdab/extension-list-item@3.4.3
+  - @dibdab/extension-list-keymap@3.4.3
+  - @dibdab/extension-bullet-list@3.4.3
+  - @dibdab/extension-ordered-list@3.4.3
+  - @dibdab/extension-dropcursor@3.4.3
+  - @dibdab/extension-gapcursor@3.4.3
+  - @dibdab/pm@3.4.3
 
 ## 3.4.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.4.2
-- @tiptap/extension-gapcursor@3.4.2
-- @tiptap/extension-list-item@3.4.2
-- @tiptap/extension-list-keymap@3.4.2
-- @tiptap/core@3.4.2
-- @tiptap/extension-blockquote@3.4.2
-- @tiptap/extension-bold@3.4.2
-- @tiptap/extension-bullet-list@3.4.2
-- @tiptap/extension-code@3.4.2
-- @tiptap/extension-code-block@3.4.2
-- @tiptap/extension-document@3.4.2
-- @tiptap/extension-hard-break@3.4.2
-- @tiptap/extension-heading@3.4.2
-- @tiptap/extension-horizontal-rule@3.4.2
-- @tiptap/extension-italic@3.4.2
-- @tiptap/extension-link@3.4.2
-- @tiptap/extension-list@3.4.2
-- @tiptap/extension-ordered-list@3.4.2
-- @tiptap/extension-paragraph@3.4.2
-- @tiptap/extension-strike@3.4.2
-- @tiptap/extension-text@3.4.2
-- @tiptap/extension-underline@3.4.2
-- @tiptap/extensions@3.4.2
-- @tiptap/pm@3.4.2
+- @dibdab/extension-dropcursor@3.4.2
+- @dibdab/extension-gapcursor@3.4.2
+- @dibdab/extension-list-item@3.4.2
+- @dibdab/extension-list-keymap@3.4.2
+- @dibdab/core@3.4.2
+- @dibdab/extension-blockquote@3.4.2
+- @dibdab/extension-bold@3.4.2
+- @dibdab/extension-bullet-list@3.4.2
+- @dibdab/extension-code@3.4.2
+- @dibdab/extension-code-block@3.4.2
+- @dibdab/extension-document@3.4.2
+- @dibdab/extension-hard-break@3.4.2
+- @dibdab/extension-heading@3.4.2
+- @dibdab/extension-horizontal-rule@3.4.2
+- @dibdab/extension-italic@3.4.2
+- @dibdab/extension-link@3.4.2
+- @dibdab/extension-list@3.4.2
+- @dibdab/extension-ordered-list@3.4.2
+- @dibdab/extension-paragraph@3.4.2
+- @dibdab/extension-strike@3.4.2
+- @dibdab/extension-text@3.4.2
+- @dibdab/extension-underline@3.4.2
+- @dibdab/extensions@3.4.2
+- @dibdab/pm@3.4.2
 
 ## 3.4.1
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.4.1
-- @tiptap/extension-gapcursor@3.4.1
-- @tiptap/extension-list-item@3.4.1
-- @tiptap/extension-list-keymap@3.4.1
-- @tiptap/core@3.4.1
-- @tiptap/extension-blockquote@3.4.1
-- @tiptap/extension-bold@3.4.1
-- @tiptap/extension-bullet-list@3.4.1
-- @tiptap/extension-code@3.4.1
-- @tiptap/extension-code-block@3.4.1
-- @tiptap/extension-document@3.4.1
-- @tiptap/extension-hard-break@3.4.1
-- @tiptap/extension-heading@3.4.1
-- @tiptap/extension-horizontal-rule@3.4.1
-- @tiptap/extension-italic@3.4.1
-- @tiptap/extension-link@3.4.1
-- @tiptap/extension-list@3.4.1
-- @tiptap/extension-ordered-list@3.4.1
-- @tiptap/extension-paragraph@3.4.1
-- @tiptap/extension-strike@3.4.1
-- @tiptap/extension-text@3.4.1
-- @tiptap/extension-underline@3.4.1
-- @tiptap/extensions@3.4.1
-- @tiptap/pm@3.4.1
+- @dibdab/extension-dropcursor@3.4.1
+- @dibdab/extension-gapcursor@3.4.1
+- @dibdab/extension-list-item@3.4.1
+- @dibdab/extension-list-keymap@3.4.1
+- @dibdab/core@3.4.1
+- @dibdab/extension-blockquote@3.4.1
+- @dibdab/extension-bold@3.4.1
+- @dibdab/extension-bullet-list@3.4.1
+- @dibdab/extension-code@3.4.1
+- @dibdab/extension-code-block@3.4.1
+- @dibdab/extension-document@3.4.1
+- @dibdab/extension-hard-break@3.4.1
+- @dibdab/extension-heading@3.4.1
+- @dibdab/extension-horizontal-rule@3.4.1
+- @dibdab/extension-italic@3.4.1
+- @dibdab/extension-link@3.4.1
+- @dibdab/extension-list@3.4.1
+- @dibdab/extension-ordered-list@3.4.1
+- @dibdab/extension-paragraph@3.4.1
+- @dibdab/extension-strike@3.4.1
+- @dibdab/extension-text@3.4.1
+- @dibdab/extension-underline@3.4.1
+- @dibdab/extensions@3.4.1
+- @dibdab/pm@3.4.1
 
 ## 3.4.0
 
@@ -1326,60 +1326,60 @@
 - Updated dependencies [11c8085]
 - Updated dependencies [ef909f1]
 - Updated dependencies [ad51daa]
-  - @tiptap/core@3.4.0
-  - @tiptap/extension-code-block@3.4.0
-  - @tiptap/extension-dropcursor@3.4.0
-  - @tiptap/extension-blockquote@3.4.0
-  - @tiptap/extension-bold@3.4.0
-  - @tiptap/extension-code@3.4.0
-  - @tiptap/extension-document@3.4.0
-  - @tiptap/extension-hard-break@3.4.0
-  - @tiptap/extension-heading@3.4.0
-  - @tiptap/extension-horizontal-rule@3.4.0
-  - @tiptap/extension-italic@3.4.0
-  - @tiptap/extension-link@3.4.0
-  - @tiptap/extension-list@3.4.0
-  - @tiptap/extension-paragraph@3.4.0
-  - @tiptap/extension-strike@3.4.0
-  - @tiptap/extension-text@3.4.0
-  - @tiptap/extension-underline@3.4.0
-  - @tiptap/extensions@3.4.0
-  - @tiptap/extension-list-item@3.4.0
-  - @tiptap/extension-list-keymap@3.4.0
-  - @tiptap/extension-bullet-list@3.4.0
-  - @tiptap/extension-ordered-list@3.4.0
-  - @tiptap/extension-gapcursor@3.4.0
-  - @tiptap/pm@3.4.0
+  - @dibdab/core@3.4.0
+  - @dibdab/extension-code-block@3.4.0
+  - @dibdab/extension-dropcursor@3.4.0
+  - @dibdab/extension-blockquote@3.4.0
+  - @dibdab/extension-bold@3.4.0
+  - @dibdab/extension-code@3.4.0
+  - @dibdab/extension-document@3.4.0
+  - @dibdab/extension-hard-break@3.4.0
+  - @dibdab/extension-heading@3.4.0
+  - @dibdab/extension-horizontal-rule@3.4.0
+  - @dibdab/extension-italic@3.4.0
+  - @dibdab/extension-link@3.4.0
+  - @dibdab/extension-list@3.4.0
+  - @dibdab/extension-paragraph@3.4.0
+  - @dibdab/extension-strike@3.4.0
+  - @dibdab/extension-text@3.4.0
+  - @dibdab/extension-underline@3.4.0
+  - @dibdab/extensions@3.4.0
+  - @dibdab/extension-list-item@3.4.0
+  - @dibdab/extension-list-keymap@3.4.0
+  - @dibdab/extension-bullet-list@3.4.0
+  - @dibdab/extension-ordered-list@3.4.0
+  - @dibdab/extension-gapcursor@3.4.0
+  - @dibdab/pm@3.4.0
 
 ## 3.3.1
 
 ### Patch Changes
 
 - Updated dependencies [9e02c12]
-  - @tiptap/extension-code@3.3.1
-  - @tiptap/extension-dropcursor@3.3.1
-  - @tiptap/extension-gapcursor@3.3.1
-  - @tiptap/extension-list-item@3.3.1
-  - @tiptap/extension-list-keymap@3.3.1
-  - @tiptap/core@3.3.1
-  - @tiptap/extension-blockquote@3.3.1
-  - @tiptap/extension-bold@3.3.1
-  - @tiptap/extension-bullet-list@3.3.1
-  - @tiptap/extension-code-block@3.3.1
-  - @tiptap/extension-document@3.3.1
-  - @tiptap/extension-hard-break@3.3.1
-  - @tiptap/extension-heading@3.3.1
-  - @tiptap/extension-horizontal-rule@3.3.1
-  - @tiptap/extension-italic@3.3.1
-  - @tiptap/extension-link@3.3.1
-  - @tiptap/extension-list@3.3.1
-  - @tiptap/extension-ordered-list@3.3.1
-  - @tiptap/extension-paragraph@3.3.1
-  - @tiptap/extension-strike@3.3.1
-  - @tiptap/extension-text@3.3.1
-  - @tiptap/extension-underline@3.3.1
-  - @tiptap/extensions@3.3.1
-  - @tiptap/pm@3.3.1
+  - @dibdab/extension-code@3.3.1
+  - @dibdab/extension-dropcursor@3.3.1
+  - @dibdab/extension-gapcursor@3.3.1
+  - @dibdab/extension-list-item@3.3.1
+  - @dibdab/extension-list-keymap@3.3.1
+  - @dibdab/core@3.3.1
+  - @dibdab/extension-blockquote@3.3.1
+  - @dibdab/extension-bold@3.3.1
+  - @dibdab/extension-bullet-list@3.3.1
+  - @dibdab/extension-code-block@3.3.1
+  - @dibdab/extension-document@3.3.1
+  - @dibdab/extension-hard-break@3.3.1
+  - @dibdab/extension-heading@3.3.1
+  - @dibdab/extension-horizontal-rule@3.3.1
+  - @dibdab/extension-italic@3.3.1
+  - @dibdab/extension-link@3.3.1
+  - @dibdab/extension-list@3.3.1
+  - @dibdab/extension-ordered-list@3.3.1
+  - @dibdab/extension-paragraph@3.3.1
+  - @dibdab/extension-strike@3.3.1
+  - @dibdab/extension-text@3.3.1
+  - @dibdab/extension-underline@3.3.1
+  - @dibdab/extensions@3.3.1
+  - @dibdab/pm@3.3.1
 
 ## 3.3.0
 
@@ -1387,326 +1387,326 @@
 
 - Updated dependencies [5423726]
 - Updated dependencies [5423726]
-  - @tiptap/core@3.3.0
-  - @tiptap/extension-blockquote@3.3.0
-  - @tiptap/extension-bold@3.3.0
-  - @tiptap/extension-code@3.3.0
-  - @tiptap/extension-code-block@3.3.0
-  - @tiptap/extension-document@3.3.0
-  - @tiptap/extension-hard-break@3.3.0
-  - @tiptap/extension-heading@3.3.0
-  - @tiptap/extension-horizontal-rule@3.3.0
-  - @tiptap/extension-italic@3.3.0
-  - @tiptap/extension-link@3.3.0
-  - @tiptap/extension-list@3.3.0
-  - @tiptap/extension-paragraph@3.3.0
-  - @tiptap/extension-strike@3.3.0
-  - @tiptap/extension-text@3.3.0
-  - @tiptap/extension-underline@3.3.0
-  - @tiptap/extensions@3.3.0
-  - @tiptap/extension-list-item@3.3.0
-  - @tiptap/extension-list-keymap@3.3.0
-  - @tiptap/extension-bullet-list@3.3.0
-  - @tiptap/extension-ordered-list@3.3.0
-  - @tiptap/extension-dropcursor@3.3.0
-  - @tiptap/extension-gapcursor@3.3.0
-  - @tiptap/pm@3.3.0
+  - @dibdab/core@3.3.0
+  - @dibdab/extension-blockquote@3.3.0
+  - @dibdab/extension-bold@3.3.0
+  - @dibdab/extension-code@3.3.0
+  - @dibdab/extension-code-block@3.3.0
+  - @dibdab/extension-document@3.3.0
+  - @dibdab/extension-hard-break@3.3.0
+  - @dibdab/extension-heading@3.3.0
+  - @dibdab/extension-horizontal-rule@3.3.0
+  - @dibdab/extension-italic@3.3.0
+  - @dibdab/extension-link@3.3.0
+  - @dibdab/extension-list@3.3.0
+  - @dibdab/extension-paragraph@3.3.0
+  - @dibdab/extension-strike@3.3.0
+  - @dibdab/extension-text@3.3.0
+  - @dibdab/extension-underline@3.3.0
+  - @dibdab/extensions@3.3.0
+  - @dibdab/extension-list-item@3.3.0
+  - @dibdab/extension-list-keymap@3.3.0
+  - @dibdab/extension-bullet-list@3.3.0
+  - @dibdab/extension-ordered-list@3.3.0
+  - @dibdab/extension-dropcursor@3.3.0
+  - @dibdab/extension-gapcursor@3.3.0
+  - @dibdab/pm@3.3.0
 
 ## 3.2.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.2.2
-- @tiptap/extension-gapcursor@3.2.2
-- @tiptap/extension-list-item@3.2.2
-- @tiptap/extension-list-keymap@3.2.2
-- @tiptap/core@3.2.2
-- @tiptap/extension-blockquote@3.2.2
-- @tiptap/extension-bold@3.2.2
-- @tiptap/extension-bullet-list@3.2.2
-- @tiptap/extension-code@3.2.2
-- @tiptap/extension-code-block@3.2.2
-- @tiptap/extension-document@3.2.2
-- @tiptap/extension-hard-break@3.2.2
-- @tiptap/extension-heading@3.2.2
-- @tiptap/extension-horizontal-rule@3.2.2
-- @tiptap/extension-italic@3.2.2
-- @tiptap/extension-link@3.2.2
-- @tiptap/extension-list@3.2.2
-- @tiptap/extension-ordered-list@3.2.2
-- @tiptap/extension-paragraph@3.2.2
-- @tiptap/extension-strike@3.2.2
-- @tiptap/extension-text@3.2.2
-- @tiptap/extension-underline@3.2.2
-- @tiptap/extensions@3.2.2
-- @tiptap/pm@3.2.2
+- @dibdab/extension-dropcursor@3.2.2
+- @dibdab/extension-gapcursor@3.2.2
+- @dibdab/extension-list-item@3.2.2
+- @dibdab/extension-list-keymap@3.2.2
+- @dibdab/core@3.2.2
+- @dibdab/extension-blockquote@3.2.2
+- @dibdab/extension-bold@3.2.2
+- @dibdab/extension-bullet-list@3.2.2
+- @dibdab/extension-code@3.2.2
+- @dibdab/extension-code-block@3.2.2
+- @dibdab/extension-document@3.2.2
+- @dibdab/extension-hard-break@3.2.2
+- @dibdab/extension-heading@3.2.2
+- @dibdab/extension-horizontal-rule@3.2.2
+- @dibdab/extension-italic@3.2.2
+- @dibdab/extension-link@3.2.2
+- @dibdab/extension-list@3.2.2
+- @dibdab/extension-ordered-list@3.2.2
+- @dibdab/extension-paragraph@3.2.2
+- @dibdab/extension-strike@3.2.2
+- @dibdab/extension-text@3.2.2
+- @dibdab/extension-underline@3.2.2
+- @dibdab/extensions@3.2.2
+- @dibdab/pm@3.2.2
 
 ## 3.2.1
 
 ### Patch Changes
 
 - Updated dependencies [6a2873f]
-  - @tiptap/core@3.2.1
-  - @tiptap/extension-blockquote@3.2.1
-  - @tiptap/extension-bold@3.2.1
-  - @tiptap/extension-code@3.2.1
-  - @tiptap/extension-code-block@3.2.1
-  - @tiptap/extension-document@3.2.1
-  - @tiptap/extension-hard-break@3.2.1
-  - @tiptap/extension-heading@3.2.1
-  - @tiptap/extension-horizontal-rule@3.2.1
-  - @tiptap/extension-italic@3.2.1
-  - @tiptap/extension-link@3.2.1
-  - @tiptap/extension-list@3.2.1
-  - @tiptap/extension-paragraph@3.2.1
-  - @tiptap/extension-strike@3.2.1
-  - @tiptap/extension-text@3.2.1
-  - @tiptap/extension-underline@3.2.1
-  - @tiptap/extensions@3.2.1
-  - @tiptap/extension-list-item@3.2.1
-  - @tiptap/extension-list-keymap@3.2.1
-  - @tiptap/extension-bullet-list@3.2.1
-  - @tiptap/extension-ordered-list@3.2.1
-  - @tiptap/extension-dropcursor@3.2.1
-  - @tiptap/extension-gapcursor@3.2.1
-  - @tiptap/pm@3.2.1
+  - @dibdab/core@3.2.1
+  - @dibdab/extension-blockquote@3.2.1
+  - @dibdab/extension-bold@3.2.1
+  - @dibdab/extension-code@3.2.1
+  - @dibdab/extension-code-block@3.2.1
+  - @dibdab/extension-document@3.2.1
+  - @dibdab/extension-hard-break@3.2.1
+  - @dibdab/extension-heading@3.2.1
+  - @dibdab/extension-horizontal-rule@3.2.1
+  - @dibdab/extension-italic@3.2.1
+  - @dibdab/extension-link@3.2.1
+  - @dibdab/extension-list@3.2.1
+  - @dibdab/extension-paragraph@3.2.1
+  - @dibdab/extension-strike@3.2.1
+  - @dibdab/extension-text@3.2.1
+  - @dibdab/extension-underline@3.2.1
+  - @dibdab/extensions@3.2.1
+  - @dibdab/extension-list-item@3.2.1
+  - @dibdab/extension-list-keymap@3.2.1
+  - @dibdab/extension-bullet-list@3.2.1
+  - @dibdab/extension-ordered-list@3.2.1
+  - @dibdab/extension-dropcursor@3.2.1
+  - @dibdab/extension-gapcursor@3.2.1
+  - @dibdab/pm@3.2.1
 
 ## 3.2.0
 
 ### Patch Changes
 
 - Updated dependencies [5056e3e]
-  - @tiptap/core@3.2.0
-  - @tiptap/extension-blockquote@3.2.0
-  - @tiptap/extension-bold@3.2.0
-  - @tiptap/extension-code@3.2.0
-  - @tiptap/extension-code-block@3.2.0
-  - @tiptap/extension-document@3.2.0
-  - @tiptap/extension-hard-break@3.2.0
-  - @tiptap/extension-heading@3.2.0
-  - @tiptap/extension-horizontal-rule@3.2.0
-  - @tiptap/extension-italic@3.2.0
-  - @tiptap/extension-link@3.2.0
-  - @tiptap/extension-list@3.2.0
-  - @tiptap/extension-paragraph@3.2.0
-  - @tiptap/extension-strike@3.2.0
-  - @tiptap/extension-text@3.2.0
-  - @tiptap/extension-underline@3.2.0
-  - @tiptap/extensions@3.2.0
-  - @tiptap/extension-list-item@3.2.0
-  - @tiptap/extension-list-keymap@3.2.0
-  - @tiptap/extension-bullet-list@3.2.0
-  - @tiptap/extension-ordered-list@3.2.0
-  - @tiptap/extension-dropcursor@3.2.0
-  - @tiptap/extension-gapcursor@3.2.0
-  - @tiptap/pm@3.2.0
+  - @dibdab/core@3.2.0
+  - @dibdab/extension-blockquote@3.2.0
+  - @dibdab/extension-bold@3.2.0
+  - @dibdab/extension-code@3.2.0
+  - @dibdab/extension-code-block@3.2.0
+  - @dibdab/extension-document@3.2.0
+  - @dibdab/extension-hard-break@3.2.0
+  - @dibdab/extension-heading@3.2.0
+  - @dibdab/extension-horizontal-rule@3.2.0
+  - @dibdab/extension-italic@3.2.0
+  - @dibdab/extension-link@3.2.0
+  - @dibdab/extension-list@3.2.0
+  - @dibdab/extension-paragraph@3.2.0
+  - @dibdab/extension-strike@3.2.0
+  - @dibdab/extension-text@3.2.0
+  - @dibdab/extension-underline@3.2.0
+  - @dibdab/extensions@3.2.0
+  - @dibdab/extension-list-item@3.2.0
+  - @dibdab/extension-list-keymap@3.2.0
+  - @dibdab/extension-bullet-list@3.2.0
+  - @dibdab/extension-ordered-list@3.2.0
+  - @dibdab/extension-dropcursor@3.2.0
+  - @dibdab/extension-gapcursor@3.2.0
+  - @dibdab/pm@3.2.0
 
 ## 3.1.0
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.1.0
-- @tiptap/extension-gapcursor@3.1.0
-- @tiptap/extension-list-item@3.1.0
-- @tiptap/extension-list-keymap@3.1.0
-- @tiptap/core@3.1.0
-- @tiptap/extension-blockquote@3.1.0
-- @tiptap/extension-bold@3.1.0
-- @tiptap/extension-bullet-list@3.1.0
-- @tiptap/extension-code@3.1.0
-- @tiptap/extension-code-block@3.1.0
-- @tiptap/extension-document@3.1.0
-- @tiptap/extension-hard-break@3.1.0
-- @tiptap/extension-heading@3.1.0
-- @tiptap/extension-horizontal-rule@3.1.0
-- @tiptap/extension-italic@3.1.0
-- @tiptap/extension-link@3.1.0
-- @tiptap/extension-list@3.1.0
-- @tiptap/extension-ordered-list@3.1.0
-- @tiptap/extension-paragraph@3.1.0
-- @tiptap/extension-strike@3.1.0
-- @tiptap/extension-text@3.1.0
-- @tiptap/extension-underline@3.1.0
-- @tiptap/extensions@3.1.0
-- @tiptap/pm@3.1.0
+- @dibdab/extension-dropcursor@3.1.0
+- @dibdab/extension-gapcursor@3.1.0
+- @dibdab/extension-list-item@3.1.0
+- @dibdab/extension-list-keymap@3.1.0
+- @dibdab/core@3.1.0
+- @dibdab/extension-blockquote@3.1.0
+- @dibdab/extension-bold@3.1.0
+- @dibdab/extension-bullet-list@3.1.0
+- @dibdab/extension-code@3.1.0
+- @dibdab/extension-code-block@3.1.0
+- @dibdab/extension-document@3.1.0
+- @dibdab/extension-hard-break@3.1.0
+- @dibdab/extension-heading@3.1.0
+- @dibdab/extension-horizontal-rule@3.1.0
+- @dibdab/extension-italic@3.1.0
+- @dibdab/extension-link@3.1.0
+- @dibdab/extension-list@3.1.0
+- @dibdab/extension-ordered-list@3.1.0
+- @dibdab/extension-paragraph@3.1.0
+- @dibdab/extension-strike@3.1.0
+- @dibdab/extension-text@3.1.0
+- @dibdab/extension-underline@3.1.0
+- @dibdab/extensions@3.1.0
+- @dibdab/pm@3.1.0
 
 ## 3.0.9
 
 ### Patch Changes
 
 - Updated dependencies [22fcc31]
-  - @tiptap/extension-list@3.0.9
-  - @tiptap/extension-list-item@3.0.9
-  - @tiptap/extension-list-keymap@3.0.9
-  - @tiptap/extension-bullet-list@3.0.9
-  - @tiptap/extension-ordered-list@3.0.9
-  - @tiptap/extension-dropcursor@3.0.9
-  - @tiptap/extension-gapcursor@3.0.9
-  - @tiptap/core@3.0.9
-  - @tiptap/extension-blockquote@3.0.9
-  - @tiptap/extension-bold@3.0.9
-  - @tiptap/extension-code@3.0.9
-  - @tiptap/extension-code-block@3.0.9
-  - @tiptap/extension-document@3.0.9
-  - @tiptap/extension-hard-break@3.0.9
-  - @tiptap/extension-heading@3.0.9
-  - @tiptap/extension-horizontal-rule@3.0.9
-  - @tiptap/extension-italic@3.0.9
-  - @tiptap/extension-link@3.0.9
-  - @tiptap/extension-paragraph@3.0.9
-  - @tiptap/extension-strike@3.0.9
-  - @tiptap/extension-text@3.0.9
-  - @tiptap/extension-underline@3.0.9
-  - @tiptap/extensions@3.0.9
-  - @tiptap/pm@3.0.9
+  - @dibdab/extension-list@3.0.9
+  - @dibdab/extension-list-item@3.0.9
+  - @dibdab/extension-list-keymap@3.0.9
+  - @dibdab/extension-bullet-list@3.0.9
+  - @dibdab/extension-ordered-list@3.0.9
+  - @dibdab/extension-dropcursor@3.0.9
+  - @dibdab/extension-gapcursor@3.0.9
+  - @dibdab/core@3.0.9
+  - @dibdab/extension-blockquote@3.0.9
+  - @dibdab/extension-bold@3.0.9
+  - @dibdab/extension-code@3.0.9
+  - @dibdab/extension-code-block@3.0.9
+  - @dibdab/extension-document@3.0.9
+  - @dibdab/extension-hard-break@3.0.9
+  - @dibdab/extension-heading@3.0.9
+  - @dibdab/extension-horizontal-rule@3.0.9
+  - @dibdab/extension-italic@3.0.9
+  - @dibdab/extension-link@3.0.9
+  - @dibdab/extension-paragraph@3.0.9
+  - @dibdab/extension-strike@3.0.9
+  - @dibdab/extension-text@3.0.9
+  - @dibdab/extension-underline@3.0.9
+  - @dibdab/extensions@3.0.9
+  - @dibdab/pm@3.0.9
 
 ## 3.0.8
 
 ### Patch Changes
 
 - Updated dependencies [990084c]
-  - @tiptap/extension-link@3.0.8
-  - @tiptap/extension-dropcursor@3.0.8
-  - @tiptap/extension-gapcursor@3.0.8
-  - @tiptap/extension-list-item@3.0.8
-  - @tiptap/extension-list-keymap@3.0.8
-  - @tiptap/core@3.0.8
-  - @tiptap/extension-blockquote@3.0.8
-  - @tiptap/extension-bold@3.0.8
-  - @tiptap/extension-bullet-list@3.0.8
-  - @tiptap/extension-code@3.0.8
-  - @tiptap/extension-code-block@3.0.8
-  - @tiptap/extension-document@3.0.8
-  - @tiptap/extension-hard-break@3.0.8
-  - @tiptap/extension-heading@3.0.8
-  - @tiptap/extension-horizontal-rule@3.0.8
-  - @tiptap/extension-italic@3.0.8
-  - @tiptap/extension-list@3.0.8
-  - @tiptap/extension-ordered-list@3.0.8
-  - @tiptap/extension-paragraph@3.0.8
-  - @tiptap/extension-strike@3.0.8
-  - @tiptap/extension-text@3.0.8
-  - @tiptap/extension-underline@3.0.8
-  - @tiptap/extensions@3.0.8
-  - @tiptap/pm@3.0.8
+  - @dibdab/extension-link@3.0.8
+  - @dibdab/extension-dropcursor@3.0.8
+  - @dibdab/extension-gapcursor@3.0.8
+  - @dibdab/extension-list-item@3.0.8
+  - @dibdab/extension-list-keymap@3.0.8
+  - @dibdab/core@3.0.8
+  - @dibdab/extension-blockquote@3.0.8
+  - @dibdab/extension-bold@3.0.8
+  - @dibdab/extension-bullet-list@3.0.8
+  - @dibdab/extension-code@3.0.8
+  - @dibdab/extension-code-block@3.0.8
+  - @dibdab/extension-document@3.0.8
+  - @dibdab/extension-hard-break@3.0.8
+  - @dibdab/extension-heading@3.0.8
+  - @dibdab/extension-horizontal-rule@3.0.8
+  - @dibdab/extension-italic@3.0.8
+  - @dibdab/extension-list@3.0.8
+  - @dibdab/extension-ordered-list@3.0.8
+  - @dibdab/extension-paragraph@3.0.8
+  - @dibdab/extension-strike@3.0.8
+  - @dibdab/extension-text@3.0.8
+  - @dibdab/extension-underline@3.0.8
+  - @dibdab/extensions@3.0.8
+  - @dibdab/pm@3.0.8
 
 ## 3.0.7
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.7
-- @tiptap/extension-gapcursor@3.0.7
-- @tiptap/extension-list-item@3.0.7
-- @tiptap/extension-list-keymap@3.0.7
-- @tiptap/core@3.0.7
-- @tiptap/extension-blockquote@3.0.7
-- @tiptap/extension-bold@3.0.7
-- @tiptap/extension-bullet-list@3.0.7
-- @tiptap/extension-code@3.0.7
-- @tiptap/extension-code-block@3.0.7
-- @tiptap/extension-document@3.0.7
-- @tiptap/extension-hard-break@3.0.7
-- @tiptap/extension-heading@3.0.7
-- @tiptap/extension-horizontal-rule@3.0.7
-- @tiptap/extension-italic@3.0.7
-- @tiptap/extension-link@3.0.7
-- @tiptap/extension-list@3.0.7
-- @tiptap/extension-ordered-list@3.0.7
-- @tiptap/extension-paragraph@3.0.7
-- @tiptap/extension-strike@3.0.7
-- @tiptap/extension-text@3.0.7
-- @tiptap/extension-underline@3.0.7
-- @tiptap/extensions@3.0.7
-- @tiptap/pm@3.0.7
+- @dibdab/extension-dropcursor@3.0.7
+- @dibdab/extension-gapcursor@3.0.7
+- @dibdab/extension-list-item@3.0.7
+- @dibdab/extension-list-keymap@3.0.7
+- @dibdab/core@3.0.7
+- @dibdab/extension-blockquote@3.0.7
+- @dibdab/extension-bold@3.0.7
+- @dibdab/extension-bullet-list@3.0.7
+- @dibdab/extension-code@3.0.7
+- @dibdab/extension-code-block@3.0.7
+- @dibdab/extension-document@3.0.7
+- @dibdab/extension-hard-break@3.0.7
+- @dibdab/extension-heading@3.0.7
+- @dibdab/extension-horizontal-rule@3.0.7
+- @dibdab/extension-italic@3.0.7
+- @dibdab/extension-link@3.0.7
+- @dibdab/extension-list@3.0.7
+- @dibdab/extension-ordered-list@3.0.7
+- @dibdab/extension-paragraph@3.0.7
+- @dibdab/extension-strike@3.0.7
+- @dibdab/extension-text@3.0.7
+- @dibdab/extension-underline@3.0.7
+- @dibdab/extensions@3.0.7
+- @dibdab/pm@3.0.7
 
 ## 3.0.6
 
 ### Patch Changes
 
 - Updated dependencies [2e71d05]
-  - @tiptap/core@3.0.6
-  - @tiptap/extension-blockquote@3.0.6
-  - @tiptap/extension-bold@3.0.6
-  - @tiptap/extension-code@3.0.6
-  - @tiptap/extension-code-block@3.0.6
-  - @tiptap/extension-document@3.0.6
-  - @tiptap/extension-hard-break@3.0.6
-  - @tiptap/extension-heading@3.0.6
-  - @tiptap/extension-horizontal-rule@3.0.6
-  - @tiptap/extension-italic@3.0.6
-  - @tiptap/extension-link@3.0.6
-  - @tiptap/extension-list@3.0.6
-  - @tiptap/extension-paragraph@3.0.6
-  - @tiptap/extension-strike@3.0.6
-  - @tiptap/extension-text@3.0.6
-  - @tiptap/extension-underline@3.0.6
-  - @tiptap/extensions@3.0.6
-  - @tiptap/extension-list-item@3.0.6
-  - @tiptap/extension-list-keymap@3.0.6
-  - @tiptap/extension-bullet-list@3.0.6
-  - @tiptap/extension-ordered-list@3.0.6
-  - @tiptap/extension-dropcursor@3.0.6
-  - @tiptap/extension-gapcursor@3.0.6
-  - @tiptap/pm@3.0.6
+  - @dibdab/core@3.0.6
+  - @dibdab/extension-blockquote@3.0.6
+  - @dibdab/extension-bold@3.0.6
+  - @dibdab/extension-code@3.0.6
+  - @dibdab/extension-code-block@3.0.6
+  - @dibdab/extension-document@3.0.6
+  - @dibdab/extension-hard-break@3.0.6
+  - @dibdab/extension-heading@3.0.6
+  - @dibdab/extension-horizontal-rule@3.0.6
+  - @dibdab/extension-italic@3.0.6
+  - @dibdab/extension-link@3.0.6
+  - @dibdab/extension-list@3.0.6
+  - @dibdab/extension-paragraph@3.0.6
+  - @dibdab/extension-strike@3.0.6
+  - @dibdab/extension-text@3.0.6
+  - @dibdab/extension-underline@3.0.6
+  - @dibdab/extensions@3.0.6
+  - @dibdab/extension-list-item@3.0.6
+  - @dibdab/extension-list-keymap@3.0.6
+  - @dibdab/extension-bullet-list@3.0.6
+  - @dibdab/extension-ordered-list@3.0.6
+  - @dibdab/extension-dropcursor@3.0.6
+  - @dibdab/extension-gapcursor@3.0.6
+  - @dibdab/pm@3.0.6
 
 ## 3.0.5
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.5
-- @tiptap/extension-gapcursor@3.0.5
-- @tiptap/extension-list-item@3.0.5
-- @tiptap/extension-list-keymap@3.0.5
-- @tiptap/core@3.0.5
-- @tiptap/extension-blockquote@3.0.5
-- @tiptap/extension-bold@3.0.5
-- @tiptap/extension-bullet-list@3.0.5
-- @tiptap/extension-code@3.0.5
-- @tiptap/extension-code-block@3.0.5
-- @tiptap/extension-document@3.0.5
-- @tiptap/extension-hard-break@3.0.5
-- @tiptap/extension-heading@3.0.5
-- @tiptap/extension-horizontal-rule@3.0.5
-- @tiptap/extension-italic@3.0.5
-- @tiptap/extension-link@3.0.5
-- @tiptap/extension-list@3.0.5
-- @tiptap/extension-ordered-list@3.0.5
-- @tiptap/extension-paragraph@3.0.5
-- @tiptap/extension-strike@3.0.5
-- @tiptap/extension-text@3.0.5
-- @tiptap/extension-underline@3.0.5
-- @tiptap/extensions@3.0.5
-- @tiptap/pm@3.0.5
+- @dibdab/extension-dropcursor@3.0.5
+- @dibdab/extension-gapcursor@3.0.5
+- @dibdab/extension-list-item@3.0.5
+- @dibdab/extension-list-keymap@3.0.5
+- @dibdab/core@3.0.5
+- @dibdab/extension-blockquote@3.0.5
+- @dibdab/extension-bold@3.0.5
+- @dibdab/extension-bullet-list@3.0.5
+- @dibdab/extension-code@3.0.5
+- @dibdab/extension-code-block@3.0.5
+- @dibdab/extension-document@3.0.5
+- @dibdab/extension-hard-break@3.0.5
+- @dibdab/extension-heading@3.0.5
+- @dibdab/extension-horizontal-rule@3.0.5
+- @dibdab/extension-italic@3.0.5
+- @dibdab/extension-link@3.0.5
+- @dibdab/extension-list@3.0.5
+- @dibdab/extension-ordered-list@3.0.5
+- @dibdab/extension-paragraph@3.0.5
+- @dibdab/extension-strike@3.0.5
+- @dibdab/extension-text@3.0.5
+- @dibdab/extension-underline@3.0.5
+- @dibdab/extensions@3.0.5
+- @dibdab/pm@3.0.5
 
 ## 3.0.4
 
 ### Patch Changes
 
 - Updated dependencies [7ed03fa]
-  - @tiptap/core@3.0.4
-  - @tiptap/extension-blockquote@3.0.4
-  - @tiptap/extension-bold@3.0.4
-  - @tiptap/extension-code@3.0.4
-  - @tiptap/extension-code-block@3.0.4
-  - @tiptap/extension-document@3.0.4
-  - @tiptap/extension-hard-break@3.0.4
-  - @tiptap/extension-heading@3.0.4
-  - @tiptap/extension-horizontal-rule@3.0.4
-  - @tiptap/extension-italic@3.0.4
-  - @tiptap/extension-link@3.0.4
-  - @tiptap/extension-list@3.0.4
-  - @tiptap/extension-paragraph@3.0.4
-  - @tiptap/extension-strike@3.0.4
-  - @tiptap/extension-text@3.0.4
-  - @tiptap/extension-underline@3.0.4
-  - @tiptap/extensions@3.0.4
-  - @tiptap/extension-list-item@3.0.4
-  - @tiptap/extension-list-keymap@3.0.4
-  - @tiptap/extension-bullet-list@3.0.4
-  - @tiptap/extension-ordered-list@3.0.4
-  - @tiptap/extension-dropcursor@3.0.4
-  - @tiptap/extension-gapcursor@3.0.4
-  - @tiptap/pm@3.0.4
+  - @dibdab/core@3.0.4
+  - @dibdab/extension-blockquote@3.0.4
+  - @dibdab/extension-bold@3.0.4
+  - @dibdab/extension-code@3.0.4
+  - @dibdab/extension-code-block@3.0.4
+  - @dibdab/extension-document@3.0.4
+  - @dibdab/extension-hard-break@3.0.4
+  - @dibdab/extension-heading@3.0.4
+  - @dibdab/extension-horizontal-rule@3.0.4
+  - @dibdab/extension-italic@3.0.4
+  - @dibdab/extension-link@3.0.4
+  - @dibdab/extension-list@3.0.4
+  - @dibdab/extension-paragraph@3.0.4
+  - @dibdab/extension-strike@3.0.4
+  - @dibdab/extension-text@3.0.4
+  - @dibdab/extension-underline@3.0.4
+  - @dibdab/extensions@3.0.4
+  - @dibdab/extension-list-item@3.0.4
+  - @dibdab/extension-list-keymap@3.0.4
+  - @dibdab/extension-bullet-list@3.0.4
+  - @dibdab/extension-ordered-list@3.0.4
+  - @dibdab/extension-dropcursor@3.0.4
+  - @dibdab/extension-gapcursor@3.0.4
+  - @dibdab/pm@3.0.4
 
 ## 3.0.3
 
@@ -1714,59 +1714,59 @@
 
 - Updated dependencies [75cabde]
 - Updated dependencies [75cabde]
-  - @tiptap/core@3.0.3
-  - @tiptap/extension-blockquote@3.0.3
-  - @tiptap/extension-bold@3.0.3
-  - @tiptap/extension-code@3.0.3
-  - @tiptap/extension-code-block@3.0.3
-  - @tiptap/extension-document@3.0.3
-  - @tiptap/extension-hard-break@3.0.3
-  - @tiptap/extension-heading@3.0.3
-  - @tiptap/extension-horizontal-rule@3.0.3
-  - @tiptap/extension-italic@3.0.3
-  - @tiptap/extension-link@3.0.3
-  - @tiptap/extension-list@3.0.3
-  - @tiptap/extension-paragraph@3.0.3
-  - @tiptap/extension-strike@3.0.3
-  - @tiptap/extension-text@3.0.3
-  - @tiptap/extension-underline@3.0.3
-  - @tiptap/extensions@3.0.3
-  - @tiptap/extension-list-item@3.0.3
-  - @tiptap/extension-list-keymap@3.0.3
-  - @tiptap/extension-bullet-list@3.0.3
-  - @tiptap/extension-ordered-list@3.0.3
-  - @tiptap/extension-dropcursor@3.0.3
-  - @tiptap/extension-gapcursor@3.0.3
-  - @tiptap/pm@3.0.3
+  - @dibdab/core@3.0.3
+  - @dibdab/extension-blockquote@3.0.3
+  - @dibdab/extension-bold@3.0.3
+  - @dibdab/extension-code@3.0.3
+  - @dibdab/extension-code-block@3.0.3
+  - @dibdab/extension-document@3.0.3
+  - @dibdab/extension-hard-break@3.0.3
+  - @dibdab/extension-heading@3.0.3
+  - @dibdab/extension-horizontal-rule@3.0.3
+  - @dibdab/extension-italic@3.0.3
+  - @dibdab/extension-link@3.0.3
+  - @dibdab/extension-list@3.0.3
+  - @dibdab/extension-paragraph@3.0.3
+  - @dibdab/extension-strike@3.0.3
+  - @dibdab/extension-text@3.0.3
+  - @dibdab/extension-underline@3.0.3
+  - @dibdab/extensions@3.0.3
+  - @dibdab/extension-list-item@3.0.3
+  - @dibdab/extension-list-keymap@3.0.3
+  - @dibdab/extension-bullet-list@3.0.3
+  - @dibdab/extension-ordered-list@3.0.3
+  - @dibdab/extension-dropcursor@3.0.3
+  - @dibdab/extension-gapcursor@3.0.3
+  - @dibdab/pm@3.0.3
 
 ## 3.0.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.2
-- @tiptap/extension-gapcursor@3.0.2
-- @tiptap/extension-list-item@3.0.2
-- @tiptap/extension-list-keymap@3.0.2
-- @tiptap/core@3.0.2
-- @tiptap/extension-blockquote@3.0.2
-- @tiptap/extension-bold@3.0.2
-- @tiptap/extension-bullet-list@3.0.2
-- @tiptap/extension-code@3.0.2
-- @tiptap/extension-code-block@3.0.2
-- @tiptap/extension-document@3.0.2
-- @tiptap/extension-hard-break@3.0.2
-- @tiptap/extension-heading@3.0.2
-- @tiptap/extension-horizontal-rule@3.0.2
-- @tiptap/extension-italic@3.0.2
-- @tiptap/extension-link@3.0.2
-- @tiptap/extension-list@3.0.2
-- @tiptap/extension-ordered-list@3.0.2
-- @tiptap/extension-paragraph@3.0.2
-- @tiptap/extension-strike@3.0.2
-- @tiptap/extension-text@3.0.2
-- @tiptap/extension-underline@3.0.2
-- @tiptap/extensions@3.0.2
-- @tiptap/pm@3.0.2
+- @dibdab/extension-dropcursor@3.0.2
+- @dibdab/extension-gapcursor@3.0.2
+- @dibdab/extension-list-item@3.0.2
+- @dibdab/extension-list-keymap@3.0.2
+- @dibdab/core@3.0.2
+- @dibdab/extension-blockquote@3.0.2
+- @dibdab/extension-bold@3.0.2
+- @dibdab/extension-bullet-list@3.0.2
+- @dibdab/extension-code@3.0.2
+- @dibdab/extension-code-block@3.0.2
+- @dibdab/extension-document@3.0.2
+- @dibdab/extension-hard-break@3.0.2
+- @dibdab/extension-heading@3.0.2
+- @dibdab/extension-horizontal-rule@3.0.2
+- @dibdab/extension-italic@3.0.2
+- @dibdab/extension-link@3.0.2
+- @dibdab/extension-list@3.0.2
+- @dibdab/extension-ordered-list@3.0.2
+- @dibdab/extension-paragraph@3.0.2
+- @dibdab/extension-strike@3.0.2
+- @dibdab/extension-text@3.0.2
+- @dibdab/extension-underline@3.0.2
+- @dibdab/extensions@3.0.2
+- @dibdab/pm@3.0.2
 
 ## 3.0.1
 
@@ -1778,10 +1778,10 @@
   If you have theses extensions in your project, you can remove them from your project and use the ones from the starter kit instead.
 
   ```diff
-  - import Link from '@tiptap/extension-link'
-  - import ListKeymap from '@tiptap/extension-list-keymap'
-  - import Underline from '@tiptap/extension-underline'
-  + import { StarterKit } from '@tiptap/starter-kit'
+  - import Link from '@dibdab/extension-link'
+  - import ListKeymap from '@dibdab/extension-list-keymap'
+  - import Underline from '@dibdab/extension-underline'
+  + import { StarterKit } from '@dibdab/starter-kit'
   ```
 
 ### Patch Changes
@@ -1834,118 +1834,118 @@
 - Updated dependencies [bf835b0]
 - Updated dependencies [4e2f6d8]
 - Updated dependencies [32958d6]
-  - @tiptap/extension-list-keymap@3.0.1
-  - @tiptap/extension-dropcursor@3.0.1
-  - @tiptap/extension-gapcursor@3.0.1
-  - @tiptap/extension-list-item@3.0.1
-  - @tiptap/extension-horizontal-rule@3.0.1
-  - @tiptap/extension-ordered-list@3.0.1
-  - @tiptap/extension-bullet-list@3.0.1
-  - @tiptap/extension-blockquote@3.0.1
-  - @tiptap/extension-code-block@3.0.1
-  - @tiptap/extension-hard-break@3.0.1
-  - @tiptap/extension-paragraph@3.0.1
-  - @tiptap/extension-underline@3.0.1
-  - @tiptap/extension-document@3.0.1
-  - @tiptap/extension-heading@3.0.1
-  - @tiptap/extension-italic@3.0.1
-  - @tiptap/extension-strike@3.0.1
-  - @tiptap/extension-bold@3.0.1
-  - @tiptap/extension-code@3.0.1
-  - @tiptap/extension-link@3.0.1
-  - @tiptap/extension-list@3.0.1
-  - @tiptap/extension-text@3.0.1
-  - @tiptap/extensions@3.0.1
-  - @tiptap/core@3.0.1
-  - @tiptap/pm@3.0.1
+  - @dibdab/extension-list-keymap@3.0.1
+  - @dibdab/extension-dropcursor@3.0.1
+  - @dibdab/extension-gapcursor@3.0.1
+  - @dibdab/extension-list-item@3.0.1
+  - @dibdab/extension-horizontal-rule@3.0.1
+  - @dibdab/extension-ordered-list@3.0.1
+  - @dibdab/extension-bullet-list@3.0.1
+  - @dibdab/extension-blockquote@3.0.1
+  - @dibdab/extension-code-block@3.0.1
+  - @dibdab/extension-hard-break@3.0.1
+  - @dibdab/extension-paragraph@3.0.1
+  - @dibdab/extension-underline@3.0.1
+  - @dibdab/extension-document@3.0.1
+  - @dibdab/extension-heading@3.0.1
+  - @dibdab/extension-italic@3.0.1
+  - @dibdab/extension-strike@3.0.1
+  - @dibdab/extension-bold@3.0.1
+  - @dibdab/extension-code@3.0.1
+  - @dibdab/extension-link@3.0.1
+  - @dibdab/extension-list@3.0.1
+  - @dibdab/extension-text@3.0.1
+  - @dibdab/extensions@3.0.1
+  - @dibdab/core@3.0.1
+  - @dibdab/pm@3.0.1
 
 ## 3.0.0-beta.30
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.30
-- @tiptap/extension-gapcursor@3.0.0-beta.30
-- @tiptap/extension-list-item@3.0.0-beta.30
-- @tiptap/extension-list-keymap@3.0.0-beta.30
-- @tiptap/core@3.0.0-beta.30
-- @tiptap/extension-blockquote@3.0.0-beta.30
-- @tiptap/extension-bold@3.0.0-beta.30
-- @tiptap/extension-bullet-list@3.0.0-beta.30
-- @tiptap/extension-code@3.0.0-beta.30
-- @tiptap/extension-code-block@3.0.0-beta.30
-- @tiptap/extension-document@3.0.0-beta.30
-- @tiptap/extension-hard-break@3.0.0-beta.30
-- @tiptap/extension-heading@3.0.0-beta.30
-- @tiptap/extension-horizontal-rule@3.0.0-beta.30
-- @tiptap/extension-italic@3.0.0-beta.30
-- @tiptap/extension-link@3.0.0-beta.30
-- @tiptap/extension-list@3.0.0-beta.30
-- @tiptap/extension-ordered-list@3.0.0-beta.30
-- @tiptap/extension-paragraph@3.0.0-beta.30
-- @tiptap/extension-strike@3.0.0-beta.30
-- @tiptap/extension-text@3.0.0-beta.30
-- @tiptap/extension-underline@3.0.0-beta.30
-- @tiptap/extensions@3.0.0-beta.30
-- @tiptap/pm@3.0.0-beta.30
+- @dibdab/extension-dropcursor@3.0.0-beta.30
+- @dibdab/extension-gapcursor@3.0.0-beta.30
+- @dibdab/extension-list-item@3.0.0-beta.30
+- @dibdab/extension-list-keymap@3.0.0-beta.30
+- @dibdab/core@3.0.0-beta.30
+- @dibdab/extension-blockquote@3.0.0-beta.30
+- @dibdab/extension-bold@3.0.0-beta.30
+- @dibdab/extension-bullet-list@3.0.0-beta.30
+- @dibdab/extension-code@3.0.0-beta.30
+- @dibdab/extension-code-block@3.0.0-beta.30
+- @dibdab/extension-document@3.0.0-beta.30
+- @dibdab/extension-hard-break@3.0.0-beta.30
+- @dibdab/extension-heading@3.0.0-beta.30
+- @dibdab/extension-horizontal-rule@3.0.0-beta.30
+- @dibdab/extension-italic@3.0.0-beta.30
+- @dibdab/extension-link@3.0.0-beta.30
+- @dibdab/extension-list@3.0.0-beta.30
+- @dibdab/extension-ordered-list@3.0.0-beta.30
+- @dibdab/extension-paragraph@3.0.0-beta.30
+- @dibdab/extension-strike@3.0.0-beta.30
+- @dibdab/extension-text@3.0.0-beta.30
+- @dibdab/extension-underline@3.0.0-beta.30
+- @dibdab/extensions@3.0.0-beta.30
+- @dibdab/pm@3.0.0-beta.30
 
 ## 3.0.0-beta.29
 
 ### Patch Changes
 
 - Updated dependencies [ced913d]
-  - @tiptap/extension-link@3.0.0-beta.29
-  - @tiptap/extension-dropcursor@3.0.0-beta.29
-  - @tiptap/extension-gapcursor@3.0.0-beta.29
-  - @tiptap/extension-list-item@3.0.0-beta.29
-  - @tiptap/extension-list-keymap@3.0.0-beta.29
-  - @tiptap/core@3.0.0-beta.29
-  - @tiptap/extension-blockquote@3.0.0-beta.29
-  - @tiptap/extension-bold@3.0.0-beta.29
-  - @tiptap/extension-bullet-list@3.0.0-beta.29
-  - @tiptap/extension-code@3.0.0-beta.29
-  - @tiptap/extension-code-block@3.0.0-beta.29
-  - @tiptap/extension-document@3.0.0-beta.29
-  - @tiptap/extension-hard-break@3.0.0-beta.29
-  - @tiptap/extension-heading@3.0.0-beta.29
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.29
-  - @tiptap/extension-italic@3.0.0-beta.29
-  - @tiptap/extension-list@3.0.0-beta.29
-  - @tiptap/extension-ordered-list@3.0.0-beta.29
-  - @tiptap/extension-paragraph@3.0.0-beta.29
-  - @tiptap/extension-strike@3.0.0-beta.29
-  - @tiptap/extension-text@3.0.0-beta.29
-  - @tiptap/extension-underline@3.0.0-beta.29
-  - @tiptap/extensions@3.0.0-beta.29
-  - @tiptap/pm@3.0.0-beta.29
+  - @dibdab/extension-link@3.0.0-beta.29
+  - @dibdab/extension-dropcursor@3.0.0-beta.29
+  - @dibdab/extension-gapcursor@3.0.0-beta.29
+  - @dibdab/extension-list-item@3.0.0-beta.29
+  - @dibdab/extension-list-keymap@3.0.0-beta.29
+  - @dibdab/core@3.0.0-beta.29
+  - @dibdab/extension-blockquote@3.0.0-beta.29
+  - @dibdab/extension-bold@3.0.0-beta.29
+  - @dibdab/extension-bullet-list@3.0.0-beta.29
+  - @dibdab/extension-code@3.0.0-beta.29
+  - @dibdab/extension-code-block@3.0.0-beta.29
+  - @dibdab/extension-document@3.0.0-beta.29
+  - @dibdab/extension-hard-break@3.0.0-beta.29
+  - @dibdab/extension-heading@3.0.0-beta.29
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.29
+  - @dibdab/extension-italic@3.0.0-beta.29
+  - @dibdab/extension-list@3.0.0-beta.29
+  - @dibdab/extension-ordered-list@3.0.0-beta.29
+  - @dibdab/extension-paragraph@3.0.0-beta.29
+  - @dibdab/extension-strike@3.0.0-beta.29
+  - @dibdab/extension-text@3.0.0-beta.29
+  - @dibdab/extension-underline@3.0.0-beta.29
+  - @dibdab/extensions@3.0.0-beta.29
+  - @dibdab/pm@3.0.0-beta.29
 
 ## 3.0.0-beta.28
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.28
-- @tiptap/extension-gapcursor@3.0.0-beta.28
-- @tiptap/extension-list-item@3.0.0-beta.28
-- @tiptap/extension-list-keymap@3.0.0-beta.28
-- @tiptap/core@3.0.0-beta.28
-- @tiptap/extension-blockquote@3.0.0-beta.28
-- @tiptap/extension-bold@3.0.0-beta.28
-- @tiptap/extension-bullet-list@3.0.0-beta.28
-- @tiptap/extension-code@3.0.0-beta.28
-- @tiptap/extension-code-block@3.0.0-beta.28
-- @tiptap/extension-document@3.0.0-beta.28
-- @tiptap/extension-hard-break@3.0.0-beta.28
-- @tiptap/extension-heading@3.0.0-beta.28
-- @tiptap/extension-horizontal-rule@3.0.0-beta.28
-- @tiptap/extension-italic@3.0.0-beta.28
-- @tiptap/extension-link@3.0.0-beta.28
-- @tiptap/extension-list@3.0.0-beta.28
-- @tiptap/extension-ordered-list@3.0.0-beta.28
-- @tiptap/extension-paragraph@3.0.0-beta.28
-- @tiptap/extension-strike@3.0.0-beta.28
-- @tiptap/extension-text@3.0.0-beta.28
-- @tiptap/extension-underline@3.0.0-beta.28
-- @tiptap/extensions@3.0.0-beta.28
-- @tiptap/pm@3.0.0-beta.28
+- @dibdab/extension-dropcursor@3.0.0-beta.28
+- @dibdab/extension-gapcursor@3.0.0-beta.28
+- @dibdab/extension-list-item@3.0.0-beta.28
+- @dibdab/extension-list-keymap@3.0.0-beta.28
+- @dibdab/core@3.0.0-beta.28
+- @dibdab/extension-blockquote@3.0.0-beta.28
+- @dibdab/extension-bold@3.0.0-beta.28
+- @dibdab/extension-bullet-list@3.0.0-beta.28
+- @dibdab/extension-code@3.0.0-beta.28
+- @dibdab/extension-code-block@3.0.0-beta.28
+- @dibdab/extension-document@3.0.0-beta.28
+- @dibdab/extension-hard-break@3.0.0-beta.28
+- @dibdab/extension-heading@3.0.0-beta.28
+- @dibdab/extension-horizontal-rule@3.0.0-beta.28
+- @dibdab/extension-italic@3.0.0-beta.28
+- @dibdab/extension-link@3.0.0-beta.28
+- @dibdab/extension-list@3.0.0-beta.28
+- @dibdab/extension-ordered-list@3.0.0-beta.28
+- @dibdab/extension-paragraph@3.0.0-beta.28
+- @dibdab/extension-strike@3.0.0-beta.28
+- @dibdab/extension-text@3.0.0-beta.28
+- @dibdab/extension-underline@3.0.0-beta.28
+- @dibdab/extensions@3.0.0-beta.28
+- @dibdab/pm@3.0.0-beta.28
 
 ## 3.0.0-beta.27
 
@@ -1953,30 +1953,30 @@
 
 - Updated dependencies [ce47182]
 - Updated dependencies [412e1bd]
-  - @tiptap/extensions@3.0.0-beta.27
-  - @tiptap/core@3.0.0-beta.27
-  - @tiptap/extension-dropcursor@3.0.0-beta.27
-  - @tiptap/extension-gapcursor@3.0.0-beta.27
-  - @tiptap/extension-blockquote@3.0.0-beta.27
-  - @tiptap/extension-bold@3.0.0-beta.27
-  - @tiptap/extension-code@3.0.0-beta.27
-  - @tiptap/extension-code-block@3.0.0-beta.27
-  - @tiptap/extension-document@3.0.0-beta.27
-  - @tiptap/extension-hard-break@3.0.0-beta.27
-  - @tiptap/extension-heading@3.0.0-beta.27
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.27
-  - @tiptap/extension-italic@3.0.0-beta.27
-  - @tiptap/extension-link@3.0.0-beta.27
-  - @tiptap/extension-list@3.0.0-beta.27
-  - @tiptap/extension-paragraph@3.0.0-beta.27
-  - @tiptap/extension-strike@3.0.0-beta.27
-  - @tiptap/extension-text@3.0.0-beta.27
-  - @tiptap/extension-underline@3.0.0-beta.27
-  - @tiptap/extension-list-item@3.0.0-beta.27
-  - @tiptap/extension-list-keymap@3.0.0-beta.27
-  - @tiptap/extension-bullet-list@3.0.0-beta.27
-  - @tiptap/extension-ordered-list@3.0.0-beta.27
-  - @tiptap/pm@3.0.0-beta.27
+  - @dibdab/extensions@3.0.0-beta.27
+  - @dibdab/core@3.0.0-beta.27
+  - @dibdab/extension-dropcursor@3.0.0-beta.27
+  - @dibdab/extension-gapcursor@3.0.0-beta.27
+  - @dibdab/extension-blockquote@3.0.0-beta.27
+  - @dibdab/extension-bold@3.0.0-beta.27
+  - @dibdab/extension-code@3.0.0-beta.27
+  - @dibdab/extension-code-block@3.0.0-beta.27
+  - @dibdab/extension-document@3.0.0-beta.27
+  - @dibdab/extension-hard-break@3.0.0-beta.27
+  - @dibdab/extension-heading@3.0.0-beta.27
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.27
+  - @dibdab/extension-italic@3.0.0-beta.27
+  - @dibdab/extension-link@3.0.0-beta.27
+  - @dibdab/extension-list@3.0.0-beta.27
+  - @dibdab/extension-paragraph@3.0.0-beta.27
+  - @dibdab/extension-strike@3.0.0-beta.27
+  - @dibdab/extension-text@3.0.0-beta.27
+  - @dibdab/extension-underline@3.0.0-beta.27
+  - @dibdab/extension-list-item@3.0.0-beta.27
+  - @dibdab/extension-list-keymap@3.0.0-beta.27
+  - @dibdab/extension-bullet-list@3.0.0-beta.27
+  - @dibdab/extension-ordered-list@3.0.0-beta.27
+  - @dibdab/pm@3.0.0-beta.27
 
 ## 3.0.0-beta.26
 
@@ -1984,148 +1984,148 @@
 
 - Updated dependencies [5ba480b]
 - Updated dependencies [27dd14b]
-  - @tiptap/core@3.0.0-beta.26
-  - @tiptap/extension-link@3.0.0-beta.26
-  - @tiptap/extension-blockquote@3.0.0-beta.26
-  - @tiptap/extension-bold@3.0.0-beta.26
-  - @tiptap/extension-code@3.0.0-beta.26
-  - @tiptap/extension-code-block@3.0.0-beta.26
-  - @tiptap/extension-document@3.0.0-beta.26
-  - @tiptap/extension-hard-break@3.0.0-beta.26
-  - @tiptap/extension-heading@3.0.0-beta.26
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.26
-  - @tiptap/extension-italic@3.0.0-beta.26
-  - @tiptap/extension-list@3.0.0-beta.26
-  - @tiptap/extension-paragraph@3.0.0-beta.26
-  - @tiptap/extension-strike@3.0.0-beta.26
-  - @tiptap/extension-text@3.0.0-beta.26
-  - @tiptap/extension-underline@3.0.0-beta.26
-  - @tiptap/extensions@3.0.0-beta.26
-  - @tiptap/extension-list-item@3.0.0-beta.26
-  - @tiptap/extension-list-keymap@3.0.0-beta.26
-  - @tiptap/extension-bullet-list@3.0.0-beta.26
-  - @tiptap/extension-ordered-list@3.0.0-beta.26
-  - @tiptap/extension-dropcursor@3.0.0-beta.26
-  - @tiptap/extension-gapcursor@3.0.0-beta.26
-  - @tiptap/pm@3.0.0-beta.26
+  - @dibdab/core@3.0.0-beta.26
+  - @dibdab/extension-link@3.0.0-beta.26
+  - @dibdab/extension-blockquote@3.0.0-beta.26
+  - @dibdab/extension-bold@3.0.0-beta.26
+  - @dibdab/extension-code@3.0.0-beta.26
+  - @dibdab/extension-code-block@3.0.0-beta.26
+  - @dibdab/extension-document@3.0.0-beta.26
+  - @dibdab/extension-hard-break@3.0.0-beta.26
+  - @dibdab/extension-heading@3.0.0-beta.26
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.26
+  - @dibdab/extension-italic@3.0.0-beta.26
+  - @dibdab/extension-list@3.0.0-beta.26
+  - @dibdab/extension-paragraph@3.0.0-beta.26
+  - @dibdab/extension-strike@3.0.0-beta.26
+  - @dibdab/extension-text@3.0.0-beta.26
+  - @dibdab/extension-underline@3.0.0-beta.26
+  - @dibdab/extensions@3.0.0-beta.26
+  - @dibdab/extension-list-item@3.0.0-beta.26
+  - @dibdab/extension-list-keymap@3.0.0-beta.26
+  - @dibdab/extension-bullet-list@3.0.0-beta.26
+  - @dibdab/extension-ordered-list@3.0.0-beta.26
+  - @dibdab/extension-dropcursor@3.0.0-beta.26
+  - @dibdab/extension-gapcursor@3.0.0-beta.26
+  - @dibdab/pm@3.0.0-beta.26
 
 ## 3.0.0-beta.25
 
 ### Patch Changes
 
 - Updated dependencies [4e2f6d8]
-  - @tiptap/core@3.0.0-beta.25
-  - @tiptap/extension-blockquote@3.0.0-beta.25
-  - @tiptap/extension-bold@3.0.0-beta.25
-  - @tiptap/extension-code@3.0.0-beta.25
-  - @tiptap/extension-code-block@3.0.0-beta.25
-  - @tiptap/extension-document@3.0.0-beta.25
-  - @tiptap/extension-hard-break@3.0.0-beta.25
-  - @tiptap/extension-heading@3.0.0-beta.25
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.25
-  - @tiptap/extension-italic@3.0.0-beta.25
-  - @tiptap/extension-link@3.0.0-beta.25
-  - @tiptap/extension-list@3.0.0-beta.25
-  - @tiptap/extension-paragraph@3.0.0-beta.25
-  - @tiptap/extension-strike@3.0.0-beta.25
-  - @tiptap/extension-text@3.0.0-beta.25
-  - @tiptap/extension-underline@3.0.0-beta.25
-  - @tiptap/extensions@3.0.0-beta.25
-  - @tiptap/extension-list-item@3.0.0-beta.25
-  - @tiptap/extension-list-keymap@3.0.0-beta.25
-  - @tiptap/extension-bullet-list@3.0.0-beta.25
-  - @tiptap/extension-ordered-list@3.0.0-beta.25
-  - @tiptap/extension-dropcursor@3.0.0-beta.25
-  - @tiptap/extension-gapcursor@3.0.0-beta.25
-  - @tiptap/pm@3.0.0-beta.25
+  - @dibdab/core@3.0.0-beta.25
+  - @dibdab/extension-blockquote@3.0.0-beta.25
+  - @dibdab/extension-bold@3.0.0-beta.25
+  - @dibdab/extension-code@3.0.0-beta.25
+  - @dibdab/extension-code-block@3.0.0-beta.25
+  - @dibdab/extension-document@3.0.0-beta.25
+  - @dibdab/extension-hard-break@3.0.0-beta.25
+  - @dibdab/extension-heading@3.0.0-beta.25
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.25
+  - @dibdab/extension-italic@3.0.0-beta.25
+  - @dibdab/extension-link@3.0.0-beta.25
+  - @dibdab/extension-list@3.0.0-beta.25
+  - @dibdab/extension-paragraph@3.0.0-beta.25
+  - @dibdab/extension-strike@3.0.0-beta.25
+  - @dibdab/extension-text@3.0.0-beta.25
+  - @dibdab/extension-underline@3.0.0-beta.25
+  - @dibdab/extensions@3.0.0-beta.25
+  - @dibdab/extension-list-item@3.0.0-beta.25
+  - @dibdab/extension-list-keymap@3.0.0-beta.25
+  - @dibdab/extension-bullet-list@3.0.0-beta.25
+  - @dibdab/extension-ordered-list@3.0.0-beta.25
+  - @dibdab/extension-dropcursor@3.0.0-beta.25
+  - @dibdab/extension-gapcursor@3.0.0-beta.25
+  - @dibdab/pm@3.0.0-beta.25
 
 ## 3.0.0-beta.24
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.24
-- @tiptap/extension-gapcursor@3.0.0-beta.24
-- @tiptap/extension-list-item@3.0.0-beta.24
-- @tiptap/extension-list-keymap@3.0.0-beta.24
-- @tiptap/core@3.0.0-beta.24
-- @tiptap/extension-blockquote@3.0.0-beta.24
-- @tiptap/extension-bold@3.0.0-beta.24
-- @tiptap/extension-bullet-list@3.0.0-beta.24
-- @tiptap/extension-code@3.0.0-beta.24
-- @tiptap/extension-code-block@3.0.0-beta.24
-- @tiptap/extension-document@3.0.0-beta.24
-- @tiptap/extension-hard-break@3.0.0-beta.24
-- @tiptap/extension-heading@3.0.0-beta.24
-- @tiptap/extension-horizontal-rule@3.0.0-beta.24
-- @tiptap/extension-italic@3.0.0-beta.24
-- @tiptap/extension-link@3.0.0-beta.24
-- @tiptap/extension-list@3.0.0-beta.24
-- @tiptap/extension-ordered-list@3.0.0-beta.24
-- @tiptap/extension-paragraph@3.0.0-beta.24
-- @tiptap/extension-strike@3.0.0-beta.24
-- @tiptap/extension-text@3.0.0-beta.24
-- @tiptap/extension-underline@3.0.0-beta.24
-- @tiptap/extensions@3.0.0-beta.24
-- @tiptap/pm@3.0.0-beta.24
+- @dibdab/extension-dropcursor@3.0.0-beta.24
+- @dibdab/extension-gapcursor@3.0.0-beta.24
+- @dibdab/extension-list-item@3.0.0-beta.24
+- @dibdab/extension-list-keymap@3.0.0-beta.24
+- @dibdab/core@3.0.0-beta.24
+- @dibdab/extension-blockquote@3.0.0-beta.24
+- @dibdab/extension-bold@3.0.0-beta.24
+- @dibdab/extension-bullet-list@3.0.0-beta.24
+- @dibdab/extension-code@3.0.0-beta.24
+- @dibdab/extension-code-block@3.0.0-beta.24
+- @dibdab/extension-document@3.0.0-beta.24
+- @dibdab/extension-hard-break@3.0.0-beta.24
+- @dibdab/extension-heading@3.0.0-beta.24
+- @dibdab/extension-horizontal-rule@3.0.0-beta.24
+- @dibdab/extension-italic@3.0.0-beta.24
+- @dibdab/extension-link@3.0.0-beta.24
+- @dibdab/extension-list@3.0.0-beta.24
+- @dibdab/extension-ordered-list@3.0.0-beta.24
+- @dibdab/extension-paragraph@3.0.0-beta.24
+- @dibdab/extension-strike@3.0.0-beta.24
+- @dibdab/extension-text@3.0.0-beta.24
+- @dibdab/extension-underline@3.0.0-beta.24
+- @dibdab/extensions@3.0.0-beta.24
+- @dibdab/pm@3.0.0-beta.24
 
 ## 3.0.0-beta.23
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.23
-- @tiptap/extension-gapcursor@3.0.0-beta.23
-- @tiptap/extension-list-item@3.0.0-beta.23
-- @tiptap/extension-list-keymap@3.0.0-beta.23
-- @tiptap/core@3.0.0-beta.23
-- @tiptap/extension-blockquote@3.0.0-beta.23
-- @tiptap/extension-bold@3.0.0-beta.23
-- @tiptap/extension-bullet-list@3.0.0-beta.23
-- @tiptap/extension-code@3.0.0-beta.23
-- @tiptap/extension-code-block@3.0.0-beta.23
-- @tiptap/extension-document@3.0.0-beta.23
-- @tiptap/extension-hard-break@3.0.0-beta.23
-- @tiptap/extension-heading@3.0.0-beta.23
-- @tiptap/extension-horizontal-rule@3.0.0-beta.23
-- @tiptap/extension-italic@3.0.0-beta.23
-- @tiptap/extension-link@3.0.0-beta.23
-- @tiptap/extension-list@3.0.0-beta.23
-- @tiptap/extension-ordered-list@3.0.0-beta.23
-- @tiptap/extension-paragraph@3.0.0-beta.23
-- @tiptap/extension-strike@3.0.0-beta.23
-- @tiptap/extension-text@3.0.0-beta.23
-- @tiptap/extension-underline@3.0.0-beta.23
-- @tiptap/extensions@3.0.0-beta.23
-- @tiptap/pm@3.0.0-beta.23
+- @dibdab/extension-dropcursor@3.0.0-beta.23
+- @dibdab/extension-gapcursor@3.0.0-beta.23
+- @dibdab/extension-list-item@3.0.0-beta.23
+- @dibdab/extension-list-keymap@3.0.0-beta.23
+- @dibdab/core@3.0.0-beta.23
+- @dibdab/extension-blockquote@3.0.0-beta.23
+- @dibdab/extension-bold@3.0.0-beta.23
+- @dibdab/extension-bullet-list@3.0.0-beta.23
+- @dibdab/extension-code@3.0.0-beta.23
+- @dibdab/extension-code-block@3.0.0-beta.23
+- @dibdab/extension-document@3.0.0-beta.23
+- @dibdab/extension-hard-break@3.0.0-beta.23
+- @dibdab/extension-heading@3.0.0-beta.23
+- @dibdab/extension-horizontal-rule@3.0.0-beta.23
+- @dibdab/extension-italic@3.0.0-beta.23
+- @dibdab/extension-link@3.0.0-beta.23
+- @dibdab/extension-list@3.0.0-beta.23
+- @dibdab/extension-ordered-list@3.0.0-beta.23
+- @dibdab/extension-paragraph@3.0.0-beta.23
+- @dibdab/extension-strike@3.0.0-beta.23
+- @dibdab/extension-text@3.0.0-beta.23
+- @dibdab/extension-underline@3.0.0-beta.23
+- @dibdab/extensions@3.0.0-beta.23
+- @dibdab/pm@3.0.0-beta.23
 
 ## 3.0.0-beta.22
 
 ### Patch Changes
 
 - Updated dependencies [1d4d928]
-  - @tiptap/extension-list@3.0.0-beta.22
-  - @tiptap/extension-list-item@3.0.0-beta.22
-  - @tiptap/extension-list-keymap@3.0.0-beta.22
-  - @tiptap/extension-bullet-list@3.0.0-beta.22
-  - @tiptap/extension-ordered-list@3.0.0-beta.22
-  - @tiptap/extension-dropcursor@3.0.0-beta.22
-  - @tiptap/extension-gapcursor@3.0.0-beta.22
-  - @tiptap/core@3.0.0-beta.22
-  - @tiptap/extension-blockquote@3.0.0-beta.22
-  - @tiptap/extension-bold@3.0.0-beta.22
-  - @tiptap/extension-code@3.0.0-beta.22
-  - @tiptap/extension-code-block@3.0.0-beta.22
-  - @tiptap/extension-document@3.0.0-beta.22
-  - @tiptap/extension-hard-break@3.0.0-beta.22
-  - @tiptap/extension-heading@3.0.0-beta.22
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.22
-  - @tiptap/extension-italic@3.0.0-beta.22
-  - @tiptap/extension-link@3.0.0-beta.22
-  - @tiptap/extension-paragraph@3.0.0-beta.22
-  - @tiptap/extension-strike@3.0.0-beta.22
-  - @tiptap/extension-text@3.0.0-beta.22
-  - @tiptap/extension-underline@3.0.0-beta.22
-  - @tiptap/extensions@3.0.0-beta.22
-  - @tiptap/pm@3.0.0-beta.22
+  - @dibdab/extension-list@3.0.0-beta.22
+  - @dibdab/extension-list-item@3.0.0-beta.22
+  - @dibdab/extension-list-keymap@3.0.0-beta.22
+  - @dibdab/extension-bullet-list@3.0.0-beta.22
+  - @dibdab/extension-ordered-list@3.0.0-beta.22
+  - @dibdab/extension-dropcursor@3.0.0-beta.22
+  - @dibdab/extension-gapcursor@3.0.0-beta.22
+  - @dibdab/core@3.0.0-beta.22
+  - @dibdab/extension-blockquote@3.0.0-beta.22
+  - @dibdab/extension-bold@3.0.0-beta.22
+  - @dibdab/extension-code@3.0.0-beta.22
+  - @dibdab/extension-code-block@3.0.0-beta.22
+  - @dibdab/extension-document@3.0.0-beta.22
+  - @dibdab/extension-hard-break@3.0.0-beta.22
+  - @dibdab/extension-heading@3.0.0-beta.22
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.22
+  - @dibdab/extension-italic@3.0.0-beta.22
+  - @dibdab/extension-link@3.0.0-beta.22
+  - @dibdab/extension-paragraph@3.0.0-beta.22
+  - @dibdab/extension-strike@3.0.0-beta.22
+  - @dibdab/extension-text@3.0.0-beta.22
+  - @dibdab/extension-underline@3.0.0-beta.22
+  - @dibdab/extensions@3.0.0-beta.22
+  - @dibdab/pm@3.0.0-beta.22
 
 ## 3.0.0-beta.21
 
@@ -2134,148 +2134,148 @@
 - Updated dependencies [c11c89e]
 - Updated dependencies [813674c]
 - Updated dependencies [fc17b21]
-  - @tiptap/extension-link@3.0.0-beta.21
-  - @tiptap/core@3.0.0-beta.21
-  - @tiptap/extension-blockquote@3.0.0-beta.21
-  - @tiptap/extension-bold@3.0.0-beta.21
-  - @tiptap/extension-code@3.0.0-beta.21
-  - @tiptap/extension-code-block@3.0.0-beta.21
-  - @tiptap/extension-document@3.0.0-beta.21
-  - @tiptap/extension-hard-break@3.0.0-beta.21
-  - @tiptap/extension-heading@3.0.0-beta.21
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.21
-  - @tiptap/extension-italic@3.0.0-beta.21
-  - @tiptap/extension-list@3.0.0-beta.21
-  - @tiptap/extension-paragraph@3.0.0-beta.21
-  - @tiptap/extension-strike@3.0.0-beta.21
-  - @tiptap/extension-text@3.0.0-beta.21
-  - @tiptap/extension-underline@3.0.0-beta.21
-  - @tiptap/extensions@3.0.0-beta.21
-  - @tiptap/extension-list-item@3.0.0-beta.21
-  - @tiptap/extension-list-keymap@3.0.0-beta.21
-  - @tiptap/extension-bullet-list@3.0.0-beta.21
-  - @tiptap/extension-ordered-list@3.0.0-beta.21
-  - @tiptap/extension-dropcursor@3.0.0-beta.21
-  - @tiptap/extension-gapcursor@3.0.0-beta.21
-  - @tiptap/pm@3.0.0-beta.21
+  - @dibdab/extension-link@3.0.0-beta.21
+  - @dibdab/core@3.0.0-beta.21
+  - @dibdab/extension-blockquote@3.0.0-beta.21
+  - @dibdab/extension-bold@3.0.0-beta.21
+  - @dibdab/extension-code@3.0.0-beta.21
+  - @dibdab/extension-code-block@3.0.0-beta.21
+  - @dibdab/extension-document@3.0.0-beta.21
+  - @dibdab/extension-hard-break@3.0.0-beta.21
+  - @dibdab/extension-heading@3.0.0-beta.21
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.21
+  - @dibdab/extension-italic@3.0.0-beta.21
+  - @dibdab/extension-list@3.0.0-beta.21
+  - @dibdab/extension-paragraph@3.0.0-beta.21
+  - @dibdab/extension-strike@3.0.0-beta.21
+  - @dibdab/extension-text@3.0.0-beta.21
+  - @dibdab/extension-underline@3.0.0-beta.21
+  - @dibdab/extensions@3.0.0-beta.21
+  - @dibdab/extension-list-item@3.0.0-beta.21
+  - @dibdab/extension-list-keymap@3.0.0-beta.21
+  - @dibdab/extension-bullet-list@3.0.0-beta.21
+  - @dibdab/extension-ordered-list@3.0.0-beta.21
+  - @dibdab/extension-dropcursor@3.0.0-beta.21
+  - @dibdab/extension-gapcursor@3.0.0-beta.21
+  - @dibdab/pm@3.0.0-beta.21
 
 ## 3.0.0-beta.20
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.20
-- @tiptap/extension-gapcursor@3.0.0-beta.20
-- @tiptap/extension-list-item@3.0.0-beta.20
-- @tiptap/extension-list-keymap@3.0.0-beta.20
-- @tiptap/core@3.0.0-beta.20
-- @tiptap/extension-blockquote@3.0.0-beta.20
-- @tiptap/extension-bold@3.0.0-beta.20
-- @tiptap/extension-bullet-list@3.0.0-beta.20
-- @tiptap/extension-code@3.0.0-beta.20
-- @tiptap/extension-code-block@3.0.0-beta.20
-- @tiptap/extension-document@3.0.0-beta.20
-- @tiptap/extension-hard-break@3.0.0-beta.20
-- @tiptap/extension-heading@3.0.0-beta.20
-- @tiptap/extension-horizontal-rule@3.0.0-beta.20
-- @tiptap/extension-italic@3.0.0-beta.20
-- @tiptap/extension-link@3.0.0-beta.20
-- @tiptap/extension-list@3.0.0-beta.20
-- @tiptap/extension-ordered-list@3.0.0-beta.20
-- @tiptap/extension-paragraph@3.0.0-beta.20
-- @tiptap/extension-strike@3.0.0-beta.20
-- @tiptap/extension-text@3.0.0-beta.20
-- @tiptap/extension-underline@3.0.0-beta.20
-- @tiptap/extensions@3.0.0-beta.20
-- @tiptap/pm@3.0.0-beta.20
+- @dibdab/extension-dropcursor@3.0.0-beta.20
+- @dibdab/extension-gapcursor@3.0.0-beta.20
+- @dibdab/extension-list-item@3.0.0-beta.20
+- @dibdab/extension-list-keymap@3.0.0-beta.20
+- @dibdab/core@3.0.0-beta.20
+- @dibdab/extension-blockquote@3.0.0-beta.20
+- @dibdab/extension-bold@3.0.0-beta.20
+- @dibdab/extension-bullet-list@3.0.0-beta.20
+- @dibdab/extension-code@3.0.0-beta.20
+- @dibdab/extension-code-block@3.0.0-beta.20
+- @dibdab/extension-document@3.0.0-beta.20
+- @dibdab/extension-hard-break@3.0.0-beta.20
+- @dibdab/extension-heading@3.0.0-beta.20
+- @dibdab/extension-horizontal-rule@3.0.0-beta.20
+- @dibdab/extension-italic@3.0.0-beta.20
+- @dibdab/extension-link@3.0.0-beta.20
+- @dibdab/extension-list@3.0.0-beta.20
+- @dibdab/extension-ordered-list@3.0.0-beta.20
+- @dibdab/extension-paragraph@3.0.0-beta.20
+- @dibdab/extension-strike@3.0.0-beta.20
+- @dibdab/extension-text@3.0.0-beta.20
+- @dibdab/extension-underline@3.0.0-beta.20
+- @dibdab/extensions@3.0.0-beta.20
+- @dibdab/pm@3.0.0-beta.20
 
 ## 3.0.0-beta.19
 
 ### Patch Changes
 
 - Updated dependencies [9ceeab4]
-  - @tiptap/core@3.0.0-beta.19
-  - @tiptap/extension-blockquote@3.0.0-beta.19
-  - @tiptap/extension-bold@3.0.0-beta.19
-  - @tiptap/extension-code@3.0.0-beta.19
-  - @tiptap/extension-code-block@3.0.0-beta.19
-  - @tiptap/extension-document@3.0.0-beta.19
-  - @tiptap/extension-hard-break@3.0.0-beta.19
-  - @tiptap/extension-heading@3.0.0-beta.19
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.19
-  - @tiptap/extension-italic@3.0.0-beta.19
-  - @tiptap/extension-link@3.0.0-beta.19
-  - @tiptap/extension-list@3.0.0-beta.19
-  - @tiptap/extension-paragraph@3.0.0-beta.19
-  - @tiptap/extension-strike@3.0.0-beta.19
-  - @tiptap/extension-text@3.0.0-beta.19
-  - @tiptap/extension-underline@3.0.0-beta.19
-  - @tiptap/extensions@3.0.0-beta.19
-  - @tiptap/extension-list-item@3.0.0-beta.19
-  - @tiptap/extension-list-keymap@3.0.0-beta.19
-  - @tiptap/extension-bullet-list@3.0.0-beta.19
-  - @tiptap/extension-ordered-list@3.0.0-beta.19
-  - @tiptap/extension-dropcursor@3.0.0-beta.19
-  - @tiptap/extension-gapcursor@3.0.0-beta.19
-  - @tiptap/pm@3.0.0-beta.19
+  - @dibdab/core@3.0.0-beta.19
+  - @dibdab/extension-blockquote@3.0.0-beta.19
+  - @dibdab/extension-bold@3.0.0-beta.19
+  - @dibdab/extension-code@3.0.0-beta.19
+  - @dibdab/extension-code-block@3.0.0-beta.19
+  - @dibdab/extension-document@3.0.0-beta.19
+  - @dibdab/extension-hard-break@3.0.0-beta.19
+  - @dibdab/extension-heading@3.0.0-beta.19
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.19
+  - @dibdab/extension-italic@3.0.0-beta.19
+  - @dibdab/extension-link@3.0.0-beta.19
+  - @dibdab/extension-list@3.0.0-beta.19
+  - @dibdab/extension-paragraph@3.0.0-beta.19
+  - @dibdab/extension-strike@3.0.0-beta.19
+  - @dibdab/extension-text@3.0.0-beta.19
+  - @dibdab/extension-underline@3.0.0-beta.19
+  - @dibdab/extensions@3.0.0-beta.19
+  - @dibdab/extension-list-item@3.0.0-beta.19
+  - @dibdab/extension-list-keymap@3.0.0-beta.19
+  - @dibdab/extension-bullet-list@3.0.0-beta.19
+  - @dibdab/extension-ordered-list@3.0.0-beta.19
+  - @dibdab/extension-dropcursor@3.0.0-beta.19
+  - @dibdab/extension-gapcursor@3.0.0-beta.19
+  - @dibdab/pm@3.0.0-beta.19
 
 ## 3.0.0-beta.18
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.18
-- @tiptap/extension-gapcursor@3.0.0-beta.18
-- @tiptap/extension-list-item@3.0.0-beta.18
-- @tiptap/extension-list-keymap@3.0.0-beta.18
-- @tiptap/core@3.0.0-beta.18
-- @tiptap/extension-blockquote@3.0.0-beta.18
-- @tiptap/extension-bold@3.0.0-beta.18
-- @tiptap/extension-bullet-list@3.0.0-beta.18
-- @tiptap/extension-code@3.0.0-beta.18
-- @tiptap/extension-code-block@3.0.0-beta.18
-- @tiptap/extension-document@3.0.0-beta.18
-- @tiptap/extension-hard-break@3.0.0-beta.18
-- @tiptap/extension-heading@3.0.0-beta.18
-- @tiptap/extension-horizontal-rule@3.0.0-beta.18
-- @tiptap/extension-italic@3.0.0-beta.18
-- @tiptap/extension-link@3.0.0-beta.18
-- @tiptap/extension-list@3.0.0-beta.18
-- @tiptap/extension-ordered-list@3.0.0-beta.18
-- @tiptap/extension-paragraph@3.0.0-beta.18
-- @tiptap/extension-strike@3.0.0-beta.18
-- @tiptap/extension-text@3.0.0-beta.18
-- @tiptap/extension-underline@3.0.0-beta.18
-- @tiptap/extensions@3.0.0-beta.18
-- @tiptap/pm@3.0.0-beta.18
+- @dibdab/extension-dropcursor@3.0.0-beta.18
+- @dibdab/extension-gapcursor@3.0.0-beta.18
+- @dibdab/extension-list-item@3.0.0-beta.18
+- @dibdab/extension-list-keymap@3.0.0-beta.18
+- @dibdab/core@3.0.0-beta.18
+- @dibdab/extension-blockquote@3.0.0-beta.18
+- @dibdab/extension-bold@3.0.0-beta.18
+- @dibdab/extension-bullet-list@3.0.0-beta.18
+- @dibdab/extension-code@3.0.0-beta.18
+- @dibdab/extension-code-block@3.0.0-beta.18
+- @dibdab/extension-document@3.0.0-beta.18
+- @dibdab/extension-hard-break@3.0.0-beta.18
+- @dibdab/extension-heading@3.0.0-beta.18
+- @dibdab/extension-horizontal-rule@3.0.0-beta.18
+- @dibdab/extension-italic@3.0.0-beta.18
+- @dibdab/extension-link@3.0.0-beta.18
+- @dibdab/extension-list@3.0.0-beta.18
+- @dibdab/extension-ordered-list@3.0.0-beta.18
+- @dibdab/extension-paragraph@3.0.0-beta.18
+- @dibdab/extension-strike@3.0.0-beta.18
+- @dibdab/extension-text@3.0.0-beta.18
+- @dibdab/extension-underline@3.0.0-beta.18
+- @dibdab/extensions@3.0.0-beta.18
+- @dibdab/pm@3.0.0-beta.18
 
 ## 3.0.0-beta.17
 
 ### Patch Changes
 
 - Updated dependencies [e20006b]
-  - @tiptap/core@3.0.0-beta.17
-  - @tiptap/extension-blockquote@3.0.0-beta.17
-  - @tiptap/extension-bold@3.0.0-beta.17
-  - @tiptap/extension-code@3.0.0-beta.17
-  - @tiptap/extension-code-block@3.0.0-beta.17
-  - @tiptap/extension-document@3.0.0-beta.17
-  - @tiptap/extension-hard-break@3.0.0-beta.17
-  - @tiptap/extension-heading@3.0.0-beta.17
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.17
-  - @tiptap/extension-italic@3.0.0-beta.17
-  - @tiptap/extension-link@3.0.0-beta.17
-  - @tiptap/extension-list@3.0.0-beta.17
-  - @tiptap/extension-paragraph@3.0.0-beta.17
-  - @tiptap/extension-strike@3.0.0-beta.17
-  - @tiptap/extension-text@3.0.0-beta.17
-  - @tiptap/extension-underline@3.0.0-beta.17
-  - @tiptap/extensions@3.0.0-beta.17
-  - @tiptap/extension-list-item@3.0.0-beta.17
-  - @tiptap/extension-list-keymap@3.0.0-beta.17
-  - @tiptap/extension-bullet-list@3.0.0-beta.17
-  - @tiptap/extension-ordered-list@3.0.0-beta.17
-  - @tiptap/extension-dropcursor@3.0.0-beta.17
-  - @tiptap/extension-gapcursor@3.0.0-beta.17
-  - @tiptap/pm@3.0.0-beta.17
+  - @dibdab/core@3.0.0-beta.17
+  - @dibdab/extension-blockquote@3.0.0-beta.17
+  - @dibdab/extension-bold@3.0.0-beta.17
+  - @dibdab/extension-code@3.0.0-beta.17
+  - @dibdab/extension-code-block@3.0.0-beta.17
+  - @dibdab/extension-document@3.0.0-beta.17
+  - @dibdab/extension-hard-break@3.0.0-beta.17
+  - @dibdab/extension-heading@3.0.0-beta.17
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.17
+  - @dibdab/extension-italic@3.0.0-beta.17
+  - @dibdab/extension-link@3.0.0-beta.17
+  - @dibdab/extension-list@3.0.0-beta.17
+  - @dibdab/extension-paragraph@3.0.0-beta.17
+  - @dibdab/extension-strike@3.0.0-beta.17
+  - @dibdab/extension-text@3.0.0-beta.17
+  - @dibdab/extension-underline@3.0.0-beta.17
+  - @dibdab/extensions@3.0.0-beta.17
+  - @dibdab/extension-list-item@3.0.0-beta.17
+  - @dibdab/extension-list-keymap@3.0.0-beta.17
+  - @dibdab/extension-bullet-list@3.0.0-beta.17
+  - @dibdab/extension-ordered-list@3.0.0-beta.17
+  - @dibdab/extension-dropcursor@3.0.0-beta.17
+  - @dibdab/extension-gapcursor@3.0.0-beta.17
+  - @dibdab/pm@3.0.0-beta.17
 
 ## 3.0.0-beta.16
 
@@ -2283,30 +2283,30 @@
 
 - Updated dependencies [ac897e7]
 - Updated dependencies [bf835b0]
-  - @tiptap/core@3.0.0-beta.16
-  - @tiptap/extension-blockquote@3.0.0-beta.16
-  - @tiptap/extension-bold@3.0.0-beta.16
-  - @tiptap/extension-code@3.0.0-beta.16
-  - @tiptap/extension-code-block@3.0.0-beta.16
-  - @tiptap/extension-document@3.0.0-beta.16
-  - @tiptap/extension-hard-break@3.0.0-beta.16
-  - @tiptap/extension-heading@3.0.0-beta.16
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.16
-  - @tiptap/extension-italic@3.0.0-beta.16
-  - @tiptap/extension-link@3.0.0-beta.16
-  - @tiptap/extension-list@3.0.0-beta.16
-  - @tiptap/extension-paragraph@3.0.0-beta.16
-  - @tiptap/extension-strike@3.0.0-beta.16
-  - @tiptap/extension-text@3.0.0-beta.16
-  - @tiptap/extension-underline@3.0.0-beta.16
-  - @tiptap/extensions@3.0.0-beta.16
-  - @tiptap/extension-list-item@3.0.0-beta.16
-  - @tiptap/extension-list-keymap@3.0.0-beta.16
-  - @tiptap/extension-bullet-list@3.0.0-beta.16
-  - @tiptap/extension-ordered-list@3.0.0-beta.16
-  - @tiptap/extension-dropcursor@3.0.0-beta.16
-  - @tiptap/extension-gapcursor@3.0.0-beta.16
-  - @tiptap/pm@3.0.0-beta.16
+  - @dibdab/core@3.0.0-beta.16
+  - @dibdab/extension-blockquote@3.0.0-beta.16
+  - @dibdab/extension-bold@3.0.0-beta.16
+  - @dibdab/extension-code@3.0.0-beta.16
+  - @dibdab/extension-code-block@3.0.0-beta.16
+  - @dibdab/extension-document@3.0.0-beta.16
+  - @dibdab/extension-hard-break@3.0.0-beta.16
+  - @dibdab/extension-heading@3.0.0-beta.16
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.16
+  - @dibdab/extension-italic@3.0.0-beta.16
+  - @dibdab/extension-link@3.0.0-beta.16
+  - @dibdab/extension-list@3.0.0-beta.16
+  - @dibdab/extension-paragraph@3.0.0-beta.16
+  - @dibdab/extension-strike@3.0.0-beta.16
+  - @dibdab/extension-text@3.0.0-beta.16
+  - @dibdab/extension-underline@3.0.0-beta.16
+  - @dibdab/extensions@3.0.0-beta.16
+  - @dibdab/extension-list-item@3.0.0-beta.16
+  - @dibdab/extension-list-keymap@3.0.0-beta.16
+  - @dibdab/extension-bullet-list@3.0.0-beta.16
+  - @dibdab/extension-ordered-list@3.0.0-beta.16
+  - @dibdab/extension-dropcursor@3.0.0-beta.16
+  - @dibdab/extension-gapcursor@3.0.0-beta.16
+  - @dibdab/pm@3.0.0-beta.16
 
 ## 3.0.0-beta.15
 
@@ -2314,293 +2314,293 @@
 
 - Updated dependencies [087d114]
 - Updated dependencies [087d114]
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.15
-  - @tiptap/core@3.0.0-beta.15
-  - @tiptap/extension-blockquote@3.0.0-beta.15
-  - @tiptap/extension-bold@3.0.0-beta.15
-  - @tiptap/extension-code@3.0.0-beta.15
-  - @tiptap/extension-code-block@3.0.0-beta.15
-  - @tiptap/extension-document@3.0.0-beta.15
-  - @tiptap/extension-hard-break@3.0.0-beta.15
-  - @tiptap/extension-heading@3.0.0-beta.15
-  - @tiptap/extension-italic@3.0.0-beta.15
-  - @tiptap/extension-link@3.0.0-beta.15
-  - @tiptap/extension-list@3.0.0-beta.15
-  - @tiptap/extension-paragraph@3.0.0-beta.15
-  - @tiptap/extension-strike@3.0.0-beta.15
-  - @tiptap/extension-text@3.0.0-beta.15
-  - @tiptap/extension-underline@3.0.0-beta.15
-  - @tiptap/extensions@3.0.0-beta.15
-  - @tiptap/extension-list-item@3.0.0-beta.15
-  - @tiptap/extension-list-keymap@3.0.0-beta.15
-  - @tiptap/extension-bullet-list@3.0.0-beta.15
-  - @tiptap/extension-ordered-list@3.0.0-beta.15
-  - @tiptap/extension-dropcursor@3.0.0-beta.15
-  - @tiptap/extension-gapcursor@3.0.0-beta.15
-  - @tiptap/pm@3.0.0-beta.15
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.15
+  - @dibdab/core@3.0.0-beta.15
+  - @dibdab/extension-blockquote@3.0.0-beta.15
+  - @dibdab/extension-bold@3.0.0-beta.15
+  - @dibdab/extension-code@3.0.0-beta.15
+  - @dibdab/extension-code-block@3.0.0-beta.15
+  - @dibdab/extension-document@3.0.0-beta.15
+  - @dibdab/extension-hard-break@3.0.0-beta.15
+  - @dibdab/extension-heading@3.0.0-beta.15
+  - @dibdab/extension-italic@3.0.0-beta.15
+  - @dibdab/extension-link@3.0.0-beta.15
+  - @dibdab/extension-list@3.0.0-beta.15
+  - @dibdab/extension-paragraph@3.0.0-beta.15
+  - @dibdab/extension-strike@3.0.0-beta.15
+  - @dibdab/extension-text@3.0.0-beta.15
+  - @dibdab/extension-underline@3.0.0-beta.15
+  - @dibdab/extensions@3.0.0-beta.15
+  - @dibdab/extension-list-item@3.0.0-beta.15
+  - @dibdab/extension-list-keymap@3.0.0-beta.15
+  - @dibdab/extension-bullet-list@3.0.0-beta.15
+  - @dibdab/extension-ordered-list@3.0.0-beta.15
+  - @dibdab/extension-dropcursor@3.0.0-beta.15
+  - @dibdab/extension-gapcursor@3.0.0-beta.15
+  - @dibdab/pm@3.0.0-beta.15
 
 ## 3.0.0-beta.14
 
 ### Patch Changes
 
 - Updated dependencies [95b8c71]
-  - @tiptap/core@3.0.0-beta.14
-  - @tiptap/extension-blockquote@3.0.0-beta.14
-  - @tiptap/extension-bold@3.0.0-beta.14
-  - @tiptap/extension-code@3.0.0-beta.14
-  - @tiptap/extension-code-block@3.0.0-beta.14
-  - @tiptap/extension-document@3.0.0-beta.14
-  - @tiptap/extension-hard-break@3.0.0-beta.14
-  - @tiptap/extension-heading@3.0.0-beta.14
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.14
-  - @tiptap/extension-italic@3.0.0-beta.14
-  - @tiptap/extension-link@3.0.0-beta.14
-  - @tiptap/extension-list@3.0.0-beta.14
-  - @tiptap/extension-paragraph@3.0.0-beta.14
-  - @tiptap/extension-strike@3.0.0-beta.14
-  - @tiptap/extension-text@3.0.0-beta.14
-  - @tiptap/extension-underline@3.0.0-beta.14
-  - @tiptap/extensions@3.0.0-beta.14
-  - @tiptap/extension-list-item@3.0.0-beta.14
-  - @tiptap/extension-list-keymap@3.0.0-beta.14
-  - @tiptap/extension-bullet-list@3.0.0-beta.14
-  - @tiptap/extension-ordered-list@3.0.0-beta.14
-  - @tiptap/extension-dropcursor@3.0.0-beta.14
-  - @tiptap/extension-gapcursor@3.0.0-beta.14
-  - @tiptap/pm@3.0.0-beta.14
+  - @dibdab/core@3.0.0-beta.14
+  - @dibdab/extension-blockquote@3.0.0-beta.14
+  - @dibdab/extension-bold@3.0.0-beta.14
+  - @dibdab/extension-code@3.0.0-beta.14
+  - @dibdab/extension-code-block@3.0.0-beta.14
+  - @dibdab/extension-document@3.0.0-beta.14
+  - @dibdab/extension-hard-break@3.0.0-beta.14
+  - @dibdab/extension-heading@3.0.0-beta.14
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.14
+  - @dibdab/extension-italic@3.0.0-beta.14
+  - @dibdab/extension-link@3.0.0-beta.14
+  - @dibdab/extension-list@3.0.0-beta.14
+  - @dibdab/extension-paragraph@3.0.0-beta.14
+  - @dibdab/extension-strike@3.0.0-beta.14
+  - @dibdab/extension-text@3.0.0-beta.14
+  - @dibdab/extension-underline@3.0.0-beta.14
+  - @dibdab/extensions@3.0.0-beta.14
+  - @dibdab/extension-list-item@3.0.0-beta.14
+  - @dibdab/extension-list-keymap@3.0.0-beta.14
+  - @dibdab/extension-bullet-list@3.0.0-beta.14
+  - @dibdab/extension-ordered-list@3.0.0-beta.14
+  - @dibdab/extension-dropcursor@3.0.0-beta.14
+  - @dibdab/extension-gapcursor@3.0.0-beta.14
+  - @dibdab/pm@3.0.0-beta.14
 
 ## 3.0.0-beta.13
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.13
-- @tiptap/extension-gapcursor@3.0.0-beta.13
-- @tiptap/extension-list-item@3.0.0-beta.13
-- @tiptap/extension-list-keymap@3.0.0-beta.13
-- @tiptap/core@3.0.0-beta.13
-- @tiptap/extension-blockquote@3.0.0-beta.13
-- @tiptap/extension-bold@3.0.0-beta.13
-- @tiptap/extension-bullet-list@3.0.0-beta.13
-- @tiptap/extension-code@3.0.0-beta.13
-- @tiptap/extension-code-block@3.0.0-beta.13
-- @tiptap/extension-document@3.0.0-beta.13
-- @tiptap/extension-hard-break@3.0.0-beta.13
-- @tiptap/extension-heading@3.0.0-beta.13
-- @tiptap/extension-horizontal-rule@3.0.0-beta.13
-- @tiptap/extension-italic@3.0.0-beta.13
-- @tiptap/extension-link@3.0.0-beta.13
-- @tiptap/extension-list@3.0.0-beta.13
-- @tiptap/extension-ordered-list@3.0.0-beta.13
-- @tiptap/extension-paragraph@3.0.0-beta.13
-- @tiptap/extension-strike@3.0.0-beta.13
-- @tiptap/extension-text@3.0.0-beta.13
-- @tiptap/extension-underline@3.0.0-beta.13
-- @tiptap/extensions@3.0.0-beta.13
-- @tiptap/pm@3.0.0-beta.13
+- @dibdab/extension-dropcursor@3.0.0-beta.13
+- @dibdab/extension-gapcursor@3.0.0-beta.13
+- @dibdab/extension-list-item@3.0.0-beta.13
+- @dibdab/extension-list-keymap@3.0.0-beta.13
+- @dibdab/core@3.0.0-beta.13
+- @dibdab/extension-blockquote@3.0.0-beta.13
+- @dibdab/extension-bold@3.0.0-beta.13
+- @dibdab/extension-bullet-list@3.0.0-beta.13
+- @dibdab/extension-code@3.0.0-beta.13
+- @dibdab/extension-code-block@3.0.0-beta.13
+- @dibdab/extension-document@3.0.0-beta.13
+- @dibdab/extension-hard-break@3.0.0-beta.13
+- @dibdab/extension-heading@3.0.0-beta.13
+- @dibdab/extension-horizontal-rule@3.0.0-beta.13
+- @dibdab/extension-italic@3.0.0-beta.13
+- @dibdab/extension-link@3.0.0-beta.13
+- @dibdab/extension-list@3.0.0-beta.13
+- @dibdab/extension-ordered-list@3.0.0-beta.13
+- @dibdab/extension-paragraph@3.0.0-beta.13
+- @dibdab/extension-strike@3.0.0-beta.13
+- @dibdab/extension-text@3.0.0-beta.13
+- @dibdab/extension-underline@3.0.0-beta.13
+- @dibdab/extensions@3.0.0-beta.13
+- @dibdab/pm@3.0.0-beta.13
 
 ## 3.0.0-beta.12
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.12
-- @tiptap/extension-gapcursor@3.0.0-beta.12
-- @tiptap/extension-list-item@3.0.0-beta.12
-- @tiptap/extension-list-keymap@3.0.0-beta.12
-- @tiptap/core@3.0.0-beta.12
-- @tiptap/extension-blockquote@3.0.0-beta.12
-- @tiptap/extension-bold@3.0.0-beta.12
-- @tiptap/extension-bullet-list@3.0.0-beta.12
-- @tiptap/extension-code@3.0.0-beta.12
-- @tiptap/extension-code-block@3.0.0-beta.12
-- @tiptap/extension-document@3.0.0-beta.12
-- @tiptap/extension-hard-break@3.0.0-beta.12
-- @tiptap/extension-heading@3.0.0-beta.12
-- @tiptap/extension-horizontal-rule@3.0.0-beta.12
-- @tiptap/extension-italic@3.0.0-beta.12
-- @tiptap/extension-link@3.0.0-beta.12
-- @tiptap/extension-list@3.0.0-beta.12
-- @tiptap/extension-ordered-list@3.0.0-beta.12
-- @tiptap/extension-paragraph@3.0.0-beta.12
-- @tiptap/extension-strike@3.0.0-beta.12
-- @tiptap/extension-text@3.0.0-beta.12
-- @tiptap/extension-underline@3.0.0-beta.12
-- @tiptap/extensions@3.0.0-beta.12
-- @tiptap/pm@3.0.0-beta.12
+- @dibdab/extension-dropcursor@3.0.0-beta.12
+- @dibdab/extension-gapcursor@3.0.0-beta.12
+- @dibdab/extension-list-item@3.0.0-beta.12
+- @dibdab/extension-list-keymap@3.0.0-beta.12
+- @dibdab/core@3.0.0-beta.12
+- @dibdab/extension-blockquote@3.0.0-beta.12
+- @dibdab/extension-bold@3.0.0-beta.12
+- @dibdab/extension-bullet-list@3.0.0-beta.12
+- @dibdab/extension-code@3.0.0-beta.12
+- @dibdab/extension-code-block@3.0.0-beta.12
+- @dibdab/extension-document@3.0.0-beta.12
+- @dibdab/extension-hard-break@3.0.0-beta.12
+- @dibdab/extension-heading@3.0.0-beta.12
+- @dibdab/extension-horizontal-rule@3.0.0-beta.12
+- @dibdab/extension-italic@3.0.0-beta.12
+- @dibdab/extension-link@3.0.0-beta.12
+- @dibdab/extension-list@3.0.0-beta.12
+- @dibdab/extension-ordered-list@3.0.0-beta.12
+- @dibdab/extension-paragraph@3.0.0-beta.12
+- @dibdab/extension-strike@3.0.0-beta.12
+- @dibdab/extension-text@3.0.0-beta.12
+- @dibdab/extension-underline@3.0.0-beta.12
+- @dibdab/extensions@3.0.0-beta.12
+- @dibdab/pm@3.0.0-beta.12
 
 ## 3.0.0-beta.11
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.11
-- @tiptap/extension-gapcursor@3.0.0-beta.11
-- @tiptap/extension-list-item@3.0.0-beta.11
-- @tiptap/extension-list-keymap@3.0.0-beta.11
-- @tiptap/core@3.0.0-beta.11
-- @tiptap/extension-blockquote@3.0.0-beta.11
-- @tiptap/extension-bold@3.0.0-beta.11
-- @tiptap/extension-bullet-list@3.0.0-beta.11
-- @tiptap/extension-code@3.0.0-beta.11
-- @tiptap/extension-code-block@3.0.0-beta.11
-- @tiptap/extension-document@3.0.0-beta.11
-- @tiptap/extension-hard-break@3.0.0-beta.11
-- @tiptap/extension-heading@3.0.0-beta.11
-- @tiptap/extension-horizontal-rule@3.0.0-beta.11
-- @tiptap/extension-italic@3.0.0-beta.11
-- @tiptap/extension-link@3.0.0-beta.11
-- @tiptap/extension-list@3.0.0-beta.11
-- @tiptap/extension-ordered-list@3.0.0-beta.11
-- @tiptap/extension-paragraph@3.0.0-beta.11
-- @tiptap/extension-strike@3.0.0-beta.11
-- @tiptap/extension-text@3.0.0-beta.11
-- @tiptap/extension-underline@3.0.0-beta.11
-- @tiptap/extensions@3.0.0-beta.11
-- @tiptap/pm@3.0.0-beta.11
+- @dibdab/extension-dropcursor@3.0.0-beta.11
+- @dibdab/extension-gapcursor@3.0.0-beta.11
+- @dibdab/extension-list-item@3.0.0-beta.11
+- @dibdab/extension-list-keymap@3.0.0-beta.11
+- @dibdab/core@3.0.0-beta.11
+- @dibdab/extension-blockquote@3.0.0-beta.11
+- @dibdab/extension-bold@3.0.0-beta.11
+- @dibdab/extension-bullet-list@3.0.0-beta.11
+- @dibdab/extension-code@3.0.0-beta.11
+- @dibdab/extension-code-block@3.0.0-beta.11
+- @dibdab/extension-document@3.0.0-beta.11
+- @dibdab/extension-hard-break@3.0.0-beta.11
+- @dibdab/extension-heading@3.0.0-beta.11
+- @dibdab/extension-horizontal-rule@3.0.0-beta.11
+- @dibdab/extension-italic@3.0.0-beta.11
+- @dibdab/extension-link@3.0.0-beta.11
+- @dibdab/extension-list@3.0.0-beta.11
+- @dibdab/extension-ordered-list@3.0.0-beta.11
+- @dibdab/extension-paragraph@3.0.0-beta.11
+- @dibdab/extension-strike@3.0.0-beta.11
+- @dibdab/extension-text@3.0.0-beta.11
+- @dibdab/extension-underline@3.0.0-beta.11
+- @dibdab/extensions@3.0.0-beta.11
+- @dibdab/pm@3.0.0-beta.11
 
 ## 3.0.0-beta.10
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.10
-- @tiptap/extension-gapcursor@3.0.0-beta.10
-- @tiptap/extension-list-item@3.0.0-beta.10
-- @tiptap/extension-list-keymap@3.0.0-beta.10
-- @tiptap/core@3.0.0-beta.10
-- @tiptap/extension-blockquote@3.0.0-beta.10
-- @tiptap/extension-bold@3.0.0-beta.10
-- @tiptap/extension-bullet-list@3.0.0-beta.10
-- @tiptap/extension-code@3.0.0-beta.10
-- @tiptap/extension-code-block@3.0.0-beta.10
-- @tiptap/extension-document@3.0.0-beta.10
-- @tiptap/extension-hard-break@3.0.0-beta.10
-- @tiptap/extension-heading@3.0.0-beta.10
-- @tiptap/extension-horizontal-rule@3.0.0-beta.10
-- @tiptap/extension-italic@3.0.0-beta.10
-- @tiptap/extension-link@3.0.0-beta.10
-- @tiptap/extension-list@3.0.0-beta.10
-- @tiptap/extension-ordered-list@3.0.0-beta.10
-- @tiptap/extension-paragraph@3.0.0-beta.10
-- @tiptap/extension-strike@3.0.0-beta.10
-- @tiptap/extension-text@3.0.0-beta.10
-- @tiptap/extension-underline@3.0.0-beta.10
-- @tiptap/extensions@3.0.0-beta.10
-- @tiptap/pm@3.0.0-beta.10
+- @dibdab/extension-dropcursor@3.0.0-beta.10
+- @dibdab/extension-gapcursor@3.0.0-beta.10
+- @dibdab/extension-list-item@3.0.0-beta.10
+- @dibdab/extension-list-keymap@3.0.0-beta.10
+- @dibdab/core@3.0.0-beta.10
+- @dibdab/extension-blockquote@3.0.0-beta.10
+- @dibdab/extension-bold@3.0.0-beta.10
+- @dibdab/extension-bullet-list@3.0.0-beta.10
+- @dibdab/extension-code@3.0.0-beta.10
+- @dibdab/extension-code-block@3.0.0-beta.10
+- @dibdab/extension-document@3.0.0-beta.10
+- @dibdab/extension-hard-break@3.0.0-beta.10
+- @dibdab/extension-heading@3.0.0-beta.10
+- @dibdab/extension-horizontal-rule@3.0.0-beta.10
+- @dibdab/extension-italic@3.0.0-beta.10
+- @dibdab/extension-link@3.0.0-beta.10
+- @dibdab/extension-list@3.0.0-beta.10
+- @dibdab/extension-ordered-list@3.0.0-beta.10
+- @dibdab/extension-paragraph@3.0.0-beta.10
+- @dibdab/extension-strike@3.0.0-beta.10
+- @dibdab/extension-text@3.0.0-beta.10
+- @dibdab/extension-underline@3.0.0-beta.10
+- @dibdab/extensions@3.0.0-beta.10
+- @dibdab/pm@3.0.0-beta.10
 
 ## 3.0.0-beta.9
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.9
-- @tiptap/extension-gapcursor@3.0.0-beta.9
-- @tiptap/extension-list-item@3.0.0-beta.9
-- @tiptap/extension-list-keymap@3.0.0-beta.9
-- @tiptap/core@3.0.0-beta.9
-- @tiptap/extension-blockquote@3.0.0-beta.9
-- @tiptap/extension-bold@3.0.0-beta.9
-- @tiptap/extension-bullet-list@3.0.0-beta.9
-- @tiptap/extension-code@3.0.0-beta.9
-- @tiptap/extension-code-block@3.0.0-beta.9
-- @tiptap/extension-document@3.0.0-beta.9
-- @tiptap/extension-hard-break@3.0.0-beta.9
-- @tiptap/extension-heading@3.0.0-beta.9
-- @tiptap/extension-horizontal-rule@3.0.0-beta.9
-- @tiptap/extension-italic@3.0.0-beta.9
-- @tiptap/extension-link@3.0.0-beta.9
-- @tiptap/extension-list@3.0.0-beta.9
-- @tiptap/extension-ordered-list@3.0.0-beta.9
-- @tiptap/extension-paragraph@3.0.0-beta.9
-- @tiptap/extension-strike@3.0.0-beta.9
-- @tiptap/extension-text@3.0.0-beta.9
-- @tiptap/extension-underline@3.0.0-beta.9
-- @tiptap/extensions@3.0.0-beta.9
-- @tiptap/pm@3.0.0-beta.9
+- @dibdab/extension-dropcursor@3.0.0-beta.9
+- @dibdab/extension-gapcursor@3.0.0-beta.9
+- @dibdab/extension-list-item@3.0.0-beta.9
+- @dibdab/extension-list-keymap@3.0.0-beta.9
+- @dibdab/core@3.0.0-beta.9
+- @dibdab/extension-blockquote@3.0.0-beta.9
+- @dibdab/extension-bold@3.0.0-beta.9
+- @dibdab/extension-bullet-list@3.0.0-beta.9
+- @dibdab/extension-code@3.0.0-beta.9
+- @dibdab/extension-code-block@3.0.0-beta.9
+- @dibdab/extension-document@3.0.0-beta.9
+- @dibdab/extension-hard-break@3.0.0-beta.9
+- @dibdab/extension-heading@3.0.0-beta.9
+- @dibdab/extension-horizontal-rule@3.0.0-beta.9
+- @dibdab/extension-italic@3.0.0-beta.9
+- @dibdab/extension-link@3.0.0-beta.9
+- @dibdab/extension-list@3.0.0-beta.9
+- @dibdab/extension-ordered-list@3.0.0-beta.9
+- @dibdab/extension-paragraph@3.0.0-beta.9
+- @dibdab/extension-strike@3.0.0-beta.9
+- @dibdab/extension-text@3.0.0-beta.9
+- @dibdab/extension-underline@3.0.0-beta.9
+- @dibdab/extensions@3.0.0-beta.9
+- @dibdab/pm@3.0.0-beta.9
 
 ## 3.0.0-beta.8
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.8
-- @tiptap/extension-gapcursor@3.0.0-beta.8
-- @tiptap/extension-list-item@3.0.0-beta.8
-- @tiptap/extension-list-keymap@3.0.0-beta.8
-- @tiptap/core@3.0.0-beta.8
-- @tiptap/extension-blockquote@3.0.0-beta.8
-- @tiptap/extension-bold@3.0.0-beta.8
-- @tiptap/extension-bullet-list@3.0.0-beta.8
-- @tiptap/extension-code@3.0.0-beta.8
-- @tiptap/extension-code-block@3.0.0-beta.8
-- @tiptap/extension-document@3.0.0-beta.8
-- @tiptap/extension-hard-break@3.0.0-beta.8
-- @tiptap/extension-heading@3.0.0-beta.8
-- @tiptap/extension-horizontal-rule@3.0.0-beta.8
-- @tiptap/extension-italic@3.0.0-beta.8
-- @tiptap/extension-link@3.0.0-beta.8
-- @tiptap/extension-list@3.0.0-beta.8
-- @tiptap/extension-ordered-list@3.0.0-beta.8
-- @tiptap/extension-paragraph@3.0.0-beta.8
-- @tiptap/extension-strike@3.0.0-beta.8
-- @tiptap/extension-text@3.0.0-beta.8
-- @tiptap/extension-underline@3.0.0-beta.8
-- @tiptap/extensions@3.0.0-beta.8
-- @tiptap/pm@3.0.0-beta.8
+- @dibdab/extension-dropcursor@3.0.0-beta.8
+- @dibdab/extension-gapcursor@3.0.0-beta.8
+- @dibdab/extension-list-item@3.0.0-beta.8
+- @dibdab/extension-list-keymap@3.0.0-beta.8
+- @dibdab/core@3.0.0-beta.8
+- @dibdab/extension-blockquote@3.0.0-beta.8
+- @dibdab/extension-bold@3.0.0-beta.8
+- @dibdab/extension-bullet-list@3.0.0-beta.8
+- @dibdab/extension-code@3.0.0-beta.8
+- @dibdab/extension-code-block@3.0.0-beta.8
+- @dibdab/extension-document@3.0.0-beta.8
+- @dibdab/extension-hard-break@3.0.0-beta.8
+- @dibdab/extension-heading@3.0.0-beta.8
+- @dibdab/extension-horizontal-rule@3.0.0-beta.8
+- @dibdab/extension-italic@3.0.0-beta.8
+- @dibdab/extension-link@3.0.0-beta.8
+- @dibdab/extension-list@3.0.0-beta.8
+- @dibdab/extension-ordered-list@3.0.0-beta.8
+- @dibdab/extension-paragraph@3.0.0-beta.8
+- @dibdab/extension-strike@3.0.0-beta.8
+- @dibdab/extension-text@3.0.0-beta.8
+- @dibdab/extension-underline@3.0.0-beta.8
+- @dibdab/extensions@3.0.0-beta.8
+- @dibdab/pm@3.0.0-beta.8
 
 ## 3.0.0-beta.7
 
 ### Patch Changes
 
 - Updated dependencies [d0fda30]
-  - @tiptap/core@3.0.0-beta.7
-  - @tiptap/extension-blockquote@3.0.0-beta.7
-  - @tiptap/extension-bold@3.0.0-beta.7
-  - @tiptap/extension-code@3.0.0-beta.7
-  - @tiptap/extension-code-block@3.0.0-beta.7
-  - @tiptap/extension-document@3.0.0-beta.7
-  - @tiptap/extension-hard-break@3.0.0-beta.7
-  - @tiptap/extension-heading@3.0.0-beta.7
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.7
-  - @tiptap/extension-italic@3.0.0-beta.7
-  - @tiptap/extension-link@3.0.0-beta.7
-  - @tiptap/extension-list@3.0.0-beta.7
-  - @tiptap/extension-paragraph@3.0.0-beta.7
-  - @tiptap/extension-strike@3.0.0-beta.7
-  - @tiptap/extension-text@3.0.0-beta.7
-  - @tiptap/extension-underline@3.0.0-beta.7
-  - @tiptap/extensions@3.0.0-beta.7
-  - @tiptap/extension-list-item@3.0.0-beta.7
-  - @tiptap/extension-list-keymap@3.0.0-beta.7
-  - @tiptap/extension-bullet-list@3.0.0-beta.7
-  - @tiptap/extension-ordered-list@3.0.0-beta.7
-  - @tiptap/extension-dropcursor@3.0.0-beta.7
-  - @tiptap/extension-gapcursor@3.0.0-beta.7
-  - @tiptap/pm@3.0.0-beta.7
+  - @dibdab/core@3.0.0-beta.7
+  - @dibdab/extension-blockquote@3.0.0-beta.7
+  - @dibdab/extension-bold@3.0.0-beta.7
+  - @dibdab/extension-code@3.0.0-beta.7
+  - @dibdab/extension-code-block@3.0.0-beta.7
+  - @dibdab/extension-document@3.0.0-beta.7
+  - @dibdab/extension-hard-break@3.0.0-beta.7
+  - @dibdab/extension-heading@3.0.0-beta.7
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.7
+  - @dibdab/extension-italic@3.0.0-beta.7
+  - @dibdab/extension-link@3.0.0-beta.7
+  - @dibdab/extension-list@3.0.0-beta.7
+  - @dibdab/extension-paragraph@3.0.0-beta.7
+  - @dibdab/extension-strike@3.0.0-beta.7
+  - @dibdab/extension-text@3.0.0-beta.7
+  - @dibdab/extension-underline@3.0.0-beta.7
+  - @dibdab/extensions@3.0.0-beta.7
+  - @dibdab/extension-list-item@3.0.0-beta.7
+  - @dibdab/extension-list-keymap@3.0.0-beta.7
+  - @dibdab/extension-bullet-list@3.0.0-beta.7
+  - @dibdab/extension-ordered-list@3.0.0-beta.7
+  - @dibdab/extension-dropcursor@3.0.0-beta.7
+  - @dibdab/extension-gapcursor@3.0.0-beta.7
+  - @dibdab/pm@3.0.0-beta.7
 
 ## 3.0.0-beta.6
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.6
-- @tiptap/extension-gapcursor@3.0.0-beta.6
-- @tiptap/extension-list-item@3.0.0-beta.6
-- @tiptap/extension-list-keymap@3.0.0-beta.6
-- @tiptap/core@3.0.0-beta.6
-- @tiptap/extension-blockquote@3.0.0-beta.6
-- @tiptap/extension-bold@3.0.0-beta.6
-- @tiptap/extension-bullet-list@3.0.0-beta.6
-- @tiptap/extension-code@3.0.0-beta.6
-- @tiptap/extension-code-block@3.0.0-beta.6
-- @tiptap/extension-document@3.0.0-beta.6
-- @tiptap/extension-hard-break@3.0.0-beta.6
-- @tiptap/extension-heading@3.0.0-beta.6
-- @tiptap/extension-horizontal-rule@3.0.0-beta.6
-- @tiptap/extension-italic@3.0.0-beta.6
-- @tiptap/extension-link@3.0.0-beta.6
-- @tiptap/extension-list@3.0.0-beta.6
-- @tiptap/extension-ordered-list@3.0.0-beta.6
-- @tiptap/extension-paragraph@3.0.0-beta.6
-- @tiptap/extension-strike@3.0.0-beta.6
-- @tiptap/extension-text@3.0.0-beta.6
-- @tiptap/extension-underline@3.0.0-beta.6
-- @tiptap/extensions@3.0.0-beta.6
-- @tiptap/pm@3.0.0-beta.6
+- @dibdab/extension-dropcursor@3.0.0-beta.6
+- @dibdab/extension-gapcursor@3.0.0-beta.6
+- @dibdab/extension-list-item@3.0.0-beta.6
+- @dibdab/extension-list-keymap@3.0.0-beta.6
+- @dibdab/core@3.0.0-beta.6
+- @dibdab/extension-blockquote@3.0.0-beta.6
+- @dibdab/extension-bold@3.0.0-beta.6
+- @dibdab/extension-bullet-list@3.0.0-beta.6
+- @dibdab/extension-code@3.0.0-beta.6
+- @dibdab/extension-code-block@3.0.0-beta.6
+- @dibdab/extension-document@3.0.0-beta.6
+- @dibdab/extension-hard-break@3.0.0-beta.6
+- @dibdab/extension-heading@3.0.0-beta.6
+- @dibdab/extension-horizontal-rule@3.0.0-beta.6
+- @dibdab/extension-italic@3.0.0-beta.6
+- @dibdab/extension-link@3.0.0-beta.6
+- @dibdab/extension-list@3.0.0-beta.6
+- @dibdab/extension-ordered-list@3.0.0-beta.6
+- @dibdab/extension-paragraph@3.0.0-beta.6
+- @dibdab/extension-strike@3.0.0-beta.6
+- @dibdab/extension-text@3.0.0-beta.6
+- @dibdab/extension-underline@3.0.0-beta.6
+- @dibdab/extensions@3.0.0-beta.6
+- @dibdab/pm@3.0.0-beta.6
 
 ## 3.0.0-beta.5
 
@@ -2609,30 +2609,30 @@
 - 8c69002: Synced beta with stable features
 - Updated dependencies [8c69002]
 - Updated dependencies [62b0877]
-  - @tiptap/extension-list-keymap@3.0.0-beta.5
-  - @tiptap/extension-dropcursor@3.0.0-beta.5
-  - @tiptap/extension-gapcursor@3.0.0-beta.5
-  - @tiptap/extension-list-item@3.0.0-beta.5
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.5
-  - @tiptap/extension-ordered-list@3.0.0-beta.5
-  - @tiptap/extension-bullet-list@3.0.0-beta.5
-  - @tiptap/extension-blockquote@3.0.0-beta.5
-  - @tiptap/extension-code-block@3.0.0-beta.5
-  - @tiptap/extension-hard-break@3.0.0-beta.5
-  - @tiptap/extension-paragraph@3.0.0-beta.5
-  - @tiptap/extension-underline@3.0.0-beta.5
-  - @tiptap/extension-document@3.0.0-beta.5
-  - @tiptap/extension-heading@3.0.0-beta.5
-  - @tiptap/extension-italic@3.0.0-beta.5
-  - @tiptap/extension-strike@3.0.0-beta.5
-  - @tiptap/extension-bold@3.0.0-beta.5
-  - @tiptap/extension-code@3.0.0-beta.5
-  - @tiptap/extension-link@3.0.0-beta.5
-  - @tiptap/extension-list@3.0.0-beta.5
-  - @tiptap/extension-text@3.0.0-beta.5
-  - @tiptap/extensions@3.0.0-beta.5
-  - @tiptap/core@3.0.0-beta.5
-  - @tiptap/pm@3.0.0-beta.5
+  - @dibdab/extension-list-keymap@3.0.0-beta.5
+  - @dibdab/extension-dropcursor@3.0.0-beta.5
+  - @dibdab/extension-gapcursor@3.0.0-beta.5
+  - @dibdab/extension-list-item@3.0.0-beta.5
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.5
+  - @dibdab/extension-ordered-list@3.0.0-beta.5
+  - @dibdab/extension-bullet-list@3.0.0-beta.5
+  - @dibdab/extension-blockquote@3.0.0-beta.5
+  - @dibdab/extension-code-block@3.0.0-beta.5
+  - @dibdab/extension-hard-break@3.0.0-beta.5
+  - @dibdab/extension-paragraph@3.0.0-beta.5
+  - @dibdab/extension-underline@3.0.0-beta.5
+  - @dibdab/extension-document@3.0.0-beta.5
+  - @dibdab/extension-heading@3.0.0-beta.5
+  - @dibdab/extension-italic@3.0.0-beta.5
+  - @dibdab/extension-strike@3.0.0-beta.5
+  - @dibdab/extension-bold@3.0.0-beta.5
+  - @dibdab/extension-code@3.0.0-beta.5
+  - @dibdab/extension-link@3.0.0-beta.5
+  - @dibdab/extension-list@3.0.0-beta.5
+  - @dibdab/extension-text@3.0.0-beta.5
+  - @dibdab/extensions@3.0.0-beta.5
+  - @dibdab/core@3.0.0-beta.5
+  - @dibdab/pm@3.0.0-beta.5
 
 ## 3.0.0-beta.4
 
@@ -2640,30 +2640,30 @@
 
 - Updated dependencies [5e957e5]
 - Updated dependencies [9f207a6]
-  - @tiptap/core@3.0.0-beta.4
-  - @tiptap/extension-blockquote@3.0.0-beta.4
-  - @tiptap/extension-bold@3.0.0-beta.4
-  - @tiptap/extension-code@3.0.0-beta.4
-  - @tiptap/extension-code-block@3.0.0-beta.4
-  - @tiptap/extension-document@3.0.0-beta.4
-  - @tiptap/extension-hard-break@3.0.0-beta.4
-  - @tiptap/extension-heading@3.0.0-beta.4
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.4
-  - @tiptap/extension-italic@3.0.0-beta.4
-  - @tiptap/extension-link@3.0.0-beta.4
-  - @tiptap/extension-list@3.0.0-beta.4
-  - @tiptap/extension-paragraph@3.0.0-beta.4
-  - @tiptap/extension-strike@3.0.0-beta.4
-  - @tiptap/extension-text@3.0.0-beta.4
-  - @tiptap/extension-underline@3.0.0-beta.4
-  - @tiptap/extensions@3.0.0-beta.4
-  - @tiptap/extension-list-item@3.0.0-beta.4
-  - @tiptap/extension-list-keymap@3.0.0-beta.4
-  - @tiptap/extension-bullet-list@3.0.0-beta.4
-  - @tiptap/extension-ordered-list@3.0.0-beta.4
-  - @tiptap/extension-dropcursor@3.0.0-beta.4
-  - @tiptap/extension-gapcursor@3.0.0-beta.4
-  - @tiptap/pm@3.0.0-beta.4
+  - @dibdab/core@3.0.0-beta.4
+  - @dibdab/extension-blockquote@3.0.0-beta.4
+  - @dibdab/extension-bold@3.0.0-beta.4
+  - @dibdab/extension-code@3.0.0-beta.4
+  - @dibdab/extension-code-block@3.0.0-beta.4
+  - @dibdab/extension-document@3.0.0-beta.4
+  - @dibdab/extension-hard-break@3.0.0-beta.4
+  - @dibdab/extension-heading@3.0.0-beta.4
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.4
+  - @dibdab/extension-italic@3.0.0-beta.4
+  - @dibdab/extension-link@3.0.0-beta.4
+  - @dibdab/extension-list@3.0.0-beta.4
+  - @dibdab/extension-paragraph@3.0.0-beta.4
+  - @dibdab/extension-strike@3.0.0-beta.4
+  - @dibdab/extension-text@3.0.0-beta.4
+  - @dibdab/extension-underline@3.0.0-beta.4
+  - @dibdab/extensions@3.0.0-beta.4
+  - @dibdab/extension-list-item@3.0.0-beta.4
+  - @dibdab/extension-list-keymap@3.0.0-beta.4
+  - @dibdab/extension-bullet-list@3.0.0-beta.4
+  - @dibdab/extension-ordered-list@3.0.0-beta.4
+  - @dibdab/extension-dropcursor@3.0.0-beta.4
+  - @dibdab/extension-gapcursor@3.0.0-beta.4
+  - @dibdab/pm@3.0.0-beta.4
 
 ## 3.0.0-beta.3
 
@@ -2671,59 +2671,59 @@
 
 - 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
 - Updated dependencies [1b4c82b]
-  - @tiptap/extension-list-keymap@3.0.0-beta.3
-  - @tiptap/extension-dropcursor@3.0.0-beta.3
-  - @tiptap/extension-gapcursor@3.0.0-beta.3
-  - @tiptap/extension-list-item@3.0.0-beta.3
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.3
-  - @tiptap/extension-ordered-list@3.0.0-beta.3
-  - @tiptap/extension-bullet-list@3.0.0-beta.3
-  - @tiptap/extension-blockquote@3.0.0-beta.3
-  - @tiptap/extension-code-block@3.0.0-beta.3
-  - @tiptap/extension-hard-break@3.0.0-beta.3
-  - @tiptap/extension-paragraph@3.0.0-beta.3
-  - @tiptap/extension-underline@3.0.0-beta.3
-  - @tiptap/extension-document@3.0.0-beta.3
-  - @tiptap/extension-heading@3.0.0-beta.3
-  - @tiptap/extension-italic@3.0.0-beta.3
-  - @tiptap/extension-strike@3.0.0-beta.3
-  - @tiptap/extension-bold@3.0.0-beta.3
-  - @tiptap/extension-code@3.0.0-beta.3
-  - @tiptap/extension-link@3.0.0-beta.3
-  - @tiptap/extension-list@3.0.0-beta.3
-  - @tiptap/extension-text@3.0.0-beta.3
-  - @tiptap/extensions@3.0.0-beta.3
-  - @tiptap/core@3.0.0-beta.3
-  - @tiptap/pm@3.0.0-beta.3
+  - @dibdab/extension-list-keymap@3.0.0-beta.3
+  - @dibdab/extension-dropcursor@3.0.0-beta.3
+  - @dibdab/extension-gapcursor@3.0.0-beta.3
+  - @dibdab/extension-list-item@3.0.0-beta.3
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.3
+  - @dibdab/extension-ordered-list@3.0.0-beta.3
+  - @dibdab/extension-bullet-list@3.0.0-beta.3
+  - @dibdab/extension-blockquote@3.0.0-beta.3
+  - @dibdab/extension-code-block@3.0.0-beta.3
+  - @dibdab/extension-hard-break@3.0.0-beta.3
+  - @dibdab/extension-paragraph@3.0.0-beta.3
+  - @dibdab/extension-underline@3.0.0-beta.3
+  - @dibdab/extension-document@3.0.0-beta.3
+  - @dibdab/extension-heading@3.0.0-beta.3
+  - @dibdab/extension-italic@3.0.0-beta.3
+  - @dibdab/extension-strike@3.0.0-beta.3
+  - @dibdab/extension-bold@3.0.0-beta.3
+  - @dibdab/extension-code@3.0.0-beta.3
+  - @dibdab/extension-link@3.0.0-beta.3
+  - @dibdab/extension-list@3.0.0-beta.3
+  - @dibdab/extension-text@3.0.0-beta.3
+  - @dibdab/extensions@3.0.0-beta.3
+  - @dibdab/core@3.0.0-beta.3
+  - @dibdab/pm@3.0.0-beta.3
 
 ## 3.0.0-beta.2
 
 ### Patch Changes
 
-- @tiptap/extension-dropcursor@3.0.0-beta.2
-- @tiptap/extension-gapcursor@3.0.0-beta.2
-- @tiptap/extension-list-item@3.0.0-beta.2
-- @tiptap/extension-list-keymap@3.0.0-beta.2
-- @tiptap/core@3.0.0-beta.2
-- @tiptap/extension-blockquote@3.0.0-beta.2
-- @tiptap/extension-bold@3.0.0-beta.2
-- @tiptap/extension-bullet-list@3.0.0-beta.2
-- @tiptap/extension-code@3.0.0-beta.2
-- @tiptap/extension-code-block@3.0.0-beta.2
-- @tiptap/extension-document@3.0.0-beta.2
-- @tiptap/extension-hard-break@3.0.0-beta.2
-- @tiptap/extension-heading@3.0.0-beta.2
-- @tiptap/extension-horizontal-rule@3.0.0-beta.2
-- @tiptap/extension-italic@3.0.0-beta.2
-- @tiptap/extension-link@3.0.0-beta.2
-- @tiptap/extension-list@3.0.0-beta.2
-- @tiptap/extension-ordered-list@3.0.0-beta.2
-- @tiptap/extension-paragraph@3.0.0-beta.2
-- @tiptap/extension-strike@3.0.0-beta.2
-- @tiptap/extension-text@3.0.0-beta.2
-- @tiptap/extension-underline@3.0.0-beta.2
-- @tiptap/extensions@3.0.0-beta.2
-- @tiptap/pm@3.0.0-beta.2
+- @dibdab/extension-dropcursor@3.0.0-beta.2
+- @dibdab/extension-gapcursor@3.0.0-beta.2
+- @dibdab/extension-list-item@3.0.0-beta.2
+- @dibdab/extension-list-keymap@3.0.0-beta.2
+- @dibdab/core@3.0.0-beta.2
+- @dibdab/extension-blockquote@3.0.0-beta.2
+- @dibdab/extension-bold@3.0.0-beta.2
+- @dibdab/extension-bullet-list@3.0.0-beta.2
+- @dibdab/extension-code@3.0.0-beta.2
+- @dibdab/extension-code-block@3.0.0-beta.2
+- @dibdab/extension-document@3.0.0-beta.2
+- @dibdab/extension-hard-break@3.0.0-beta.2
+- @dibdab/extension-heading@3.0.0-beta.2
+- @dibdab/extension-horizontal-rule@3.0.0-beta.2
+- @dibdab/extension-italic@3.0.0-beta.2
+- @dibdab/extension-link@3.0.0-beta.2
+- @dibdab/extension-list@3.0.0-beta.2
+- @dibdab/extension-ordered-list@3.0.0-beta.2
+- @dibdab/extension-paragraph@3.0.0-beta.2
+- @dibdab/extension-strike@3.0.0-beta.2
+- @dibdab/extension-text@3.0.0-beta.2
+- @dibdab/extension-underline@3.0.0-beta.2
+- @dibdab/extensions@3.0.0-beta.2
+- @dibdab/pm@3.0.0-beta.2
 
 ## 3.0.0-beta.1
 
@@ -2731,90 +2731,90 @@
 
 - Updated dependencies [d0557ef]
 - Updated dependencies [664834f]
-  - @tiptap/extension-link@3.0.0-beta.1
-  - @tiptap/core@3.0.0-beta.1
-  - @tiptap/extension-dropcursor@3.0.0-beta.1
-  - @tiptap/extension-gapcursor@3.0.0-beta.1
-  - @tiptap/extension-list-item@3.0.0-beta.1
-  - @tiptap/extension-list-keymap@3.0.0-beta.1
-  - @tiptap/extension-blockquote@3.0.0-beta.1
-  - @tiptap/extension-bold@3.0.0-beta.1
-  - @tiptap/extension-bullet-list@3.0.0-beta.1
-  - @tiptap/extension-code@3.0.0-beta.1
-  - @tiptap/extension-code-block@3.0.0-beta.1
-  - @tiptap/extension-document@3.0.0-beta.1
-  - @tiptap/extension-hard-break@3.0.0-beta.1
-  - @tiptap/extension-heading@3.0.0-beta.1
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.1
-  - @tiptap/extension-italic@3.0.0-beta.1
-  - @tiptap/extension-list@3.0.0-beta.1
-  - @tiptap/extension-ordered-list@3.0.0-beta.1
-  - @tiptap/extension-paragraph@3.0.0-beta.1
-  - @tiptap/extension-strike@3.0.0-beta.1
-  - @tiptap/extension-text@3.0.0-beta.1
-  - @tiptap/extension-underline@3.0.0-beta.1
-  - @tiptap/extensions@3.0.0-beta.1
-  - @tiptap/pm@3.0.0-beta.1
+  - @dibdab/extension-link@3.0.0-beta.1
+  - @dibdab/core@3.0.0-beta.1
+  - @dibdab/extension-dropcursor@3.0.0-beta.1
+  - @dibdab/extension-gapcursor@3.0.0-beta.1
+  - @dibdab/extension-list-item@3.0.0-beta.1
+  - @dibdab/extension-list-keymap@3.0.0-beta.1
+  - @dibdab/extension-blockquote@3.0.0-beta.1
+  - @dibdab/extension-bold@3.0.0-beta.1
+  - @dibdab/extension-bullet-list@3.0.0-beta.1
+  - @dibdab/extension-code@3.0.0-beta.1
+  - @dibdab/extension-code-block@3.0.0-beta.1
+  - @dibdab/extension-document@3.0.0-beta.1
+  - @dibdab/extension-hard-break@3.0.0-beta.1
+  - @dibdab/extension-heading@3.0.0-beta.1
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.1
+  - @dibdab/extension-italic@3.0.0-beta.1
+  - @dibdab/extension-list@3.0.0-beta.1
+  - @dibdab/extension-ordered-list@3.0.0-beta.1
+  - @dibdab/extension-paragraph@3.0.0-beta.1
+  - @dibdab/extension-strike@3.0.0-beta.1
+  - @dibdab/extension-text@3.0.0-beta.1
+  - @dibdab/extension-underline@3.0.0-beta.1
+  - @dibdab/extensions@3.0.0-beta.1
+  - @dibdab/pm@3.0.0-beta.1
 
 ## 3.0.0-beta.0
 
 ### Patch Changes
 
 - Updated dependencies [52b6644]
-  - @tiptap/extensions@3.0.0-beta.0
-  - @tiptap/extension-dropcursor@3.0.0-beta.0
-  - @tiptap/extension-gapcursor@3.0.0-beta.0
-  - @tiptap/extension-list-item@3.0.0-beta.0
-  - @tiptap/extension-list-keymap@3.0.0-beta.0
-  - @tiptap/core@3.0.0-beta.0
-  - @tiptap/extension-blockquote@3.0.0-beta.0
-  - @tiptap/extension-bold@3.0.0-beta.0
-  - @tiptap/extension-bullet-list@3.0.0-beta.0
-  - @tiptap/extension-code@3.0.0-beta.0
-  - @tiptap/extension-code-block@3.0.0-beta.0
-  - @tiptap/extension-document@3.0.0-beta.0
-  - @tiptap/extension-hard-break@3.0.0-beta.0
-  - @tiptap/extension-heading@3.0.0-beta.0
-  - @tiptap/extension-horizontal-rule@3.0.0-beta.0
-  - @tiptap/extension-italic@3.0.0-beta.0
-  - @tiptap/extension-link@3.0.0-beta.0
-  - @tiptap/extension-list@3.0.0-beta.0
-  - @tiptap/extension-ordered-list@3.0.0-beta.0
-  - @tiptap/extension-paragraph@3.0.0-beta.0
-  - @tiptap/extension-strike@3.0.0-beta.0
-  - @tiptap/extension-text@3.0.0-beta.0
-  - @tiptap/extension-underline@3.0.0-beta.0
-  - @tiptap/pm@3.0.0-beta.0
+  - @dibdab/extensions@3.0.0-beta.0
+  - @dibdab/extension-dropcursor@3.0.0-beta.0
+  - @dibdab/extension-gapcursor@3.0.0-beta.0
+  - @dibdab/extension-list-item@3.0.0-beta.0
+  - @dibdab/extension-list-keymap@3.0.0-beta.0
+  - @dibdab/core@3.0.0-beta.0
+  - @dibdab/extension-blockquote@3.0.0-beta.0
+  - @dibdab/extension-bold@3.0.0-beta.0
+  - @dibdab/extension-bullet-list@3.0.0-beta.0
+  - @dibdab/extension-code@3.0.0-beta.0
+  - @dibdab/extension-code-block@3.0.0-beta.0
+  - @dibdab/extension-document@3.0.0-beta.0
+  - @dibdab/extension-hard-break@3.0.0-beta.0
+  - @dibdab/extension-heading@3.0.0-beta.0
+  - @dibdab/extension-horizontal-rule@3.0.0-beta.0
+  - @dibdab/extension-italic@3.0.0-beta.0
+  - @dibdab/extension-link@3.0.0-beta.0
+  - @dibdab/extension-list@3.0.0-beta.0
+  - @dibdab/extension-ordered-list@3.0.0-beta.0
+  - @dibdab/extension-paragraph@3.0.0-beta.0
+  - @dibdab/extension-strike@3.0.0-beta.0
+  - @dibdab/extension-text@3.0.0-beta.0
+  - @dibdab/extension-underline@3.0.0-beta.0
+  - @dibdab/pm@3.0.0-beta.0
 
 ## 3.0.0-next.8
 
 ### Patch Changes
 
 - Updated dependencies [1e91f9b]
-  - @tiptap/pm@3.0.0-next.8
-  - @tiptap/extension-dropcursor@3.0.0-next.8
-  - @tiptap/extension-gapcursor@3.0.0-next.8
-  - @tiptap/extension-list-item@3.0.0-next.8
-  - @tiptap/extension-list-keymap@3.0.0-next.8
-  - @tiptap/core@3.0.0-next.8
-  - @tiptap/extension-blockquote@3.0.0-next.8
-  - @tiptap/extension-bold@3.0.0-next.8
-  - @tiptap/extension-bullet-list@3.0.0-next.8
-  - @tiptap/extension-code@3.0.0-next.8
-  - @tiptap/extension-code-block@3.0.0-next.8
-  - @tiptap/extension-document@3.0.0-next.8
-  - @tiptap/extension-hard-break@3.0.0-next.8
-  - @tiptap/extension-heading@3.0.0-next.8
-  - @tiptap/extension-horizontal-rule@3.0.0-next.8
-  - @tiptap/extension-italic@3.0.0-next.8
-  - @tiptap/extension-link@3.0.0-next.8
-  - @tiptap/extension-list@3.0.0-next.8
-  - @tiptap/extension-ordered-list@3.0.0-next.8
-  - @tiptap/extension-paragraph@3.0.0-next.8
-  - @tiptap/extension-strike@3.0.0-next.8
-  - @tiptap/extension-text@3.0.0-next.8
-  - @tiptap/extension-underline@3.0.0-next.8
-  - @tiptap/extensions@3.0.0-next.8
+  - @dibdab/pm@3.0.0-next.8
+  - @dibdab/extension-dropcursor@3.0.0-next.8
+  - @dibdab/extension-gapcursor@3.0.0-next.8
+  - @dibdab/extension-list-item@3.0.0-next.8
+  - @dibdab/extension-list-keymap@3.0.0-next.8
+  - @dibdab/core@3.0.0-next.8
+  - @dibdab/extension-blockquote@3.0.0-next.8
+  - @dibdab/extension-bold@3.0.0-next.8
+  - @dibdab/extension-bullet-list@3.0.0-next.8
+  - @dibdab/extension-code@3.0.0-next.8
+  - @dibdab/extension-code-block@3.0.0-next.8
+  - @dibdab/extension-document@3.0.0-next.8
+  - @dibdab/extension-hard-break@3.0.0-next.8
+  - @dibdab/extension-heading@3.0.0-next.8
+  - @dibdab/extension-horizontal-rule@3.0.0-next.8
+  - @dibdab/extension-italic@3.0.0-next.8
+  - @dibdab/extension-link@3.0.0-next.8
+  - @dibdab/extension-list@3.0.0-next.8
+  - @dibdab/extension-ordered-list@3.0.0-next.8
+  - @dibdab/extension-paragraph@3.0.0-next.8
+  - @dibdab/extension-strike@3.0.0-next.8
+  - @dibdab/extension-text@3.0.0-next.8
+  - @dibdab/extension-underline@3.0.0-next.8
+  - @dibdab/extensions@3.0.0-next.8
 
 ## 3.0.0-next.7
 
@@ -2823,30 +2823,30 @@
 - 89bd9c7: Enforce type imports so that the bundler ignores TypeScript type imports when generating the index.js file of the dist directory
 - Updated dependencies [8de8e13]
 - Updated dependencies [89bd9c7]
-  - @tiptap/core@3.0.0-next.7
-  - @tiptap/extension-blockquote@3.0.0-next.7
-  - @tiptap/extension-bold@3.0.0-next.7
-  - @tiptap/extension-bullet-list@3.0.0-next.7
-  - @tiptap/extension-code@3.0.0-next.7
-  - @tiptap/extension-code-block@3.0.0-next.7
-  - @tiptap/extension-document@3.0.0-next.7
-  - @tiptap/extension-dropcursor@3.0.0-next.7
-  - @tiptap/extension-gapcursor@3.0.0-next.7
-  - @tiptap/extension-hard-break@3.0.0-next.7
-  - @tiptap/extension-heading@3.0.0-next.7
-  - @tiptap/extension-horizontal-rule@3.0.0-next.7
-  - @tiptap/extension-italic@3.0.0-next.7
-  - @tiptap/extension-link@3.0.0-next.7
-  - @tiptap/extension-list@3.0.0-next.7
-  - @tiptap/extension-list-item@3.0.0-next.7
-  - @tiptap/extension-list-keymap@3.0.0-next.7
-  - @tiptap/extension-ordered-list@3.0.0-next.7
-  - @tiptap/extension-paragraph@3.0.0-next.7
-  - @tiptap/extension-strike@3.0.0-next.7
-  - @tiptap/extension-text@3.0.0-next.7
-  - @tiptap/extension-underline@3.0.0-next.7
-  - @tiptap/extensions@3.0.0-next.7
-  - @tiptap/pm@3.0.0-next.7
+  - @dibdab/core@3.0.0-next.7
+  - @dibdab/extension-blockquote@3.0.0-next.7
+  - @dibdab/extension-bold@3.0.0-next.7
+  - @dibdab/extension-bullet-list@3.0.0-next.7
+  - @dibdab/extension-code@3.0.0-next.7
+  - @dibdab/extension-code-block@3.0.0-next.7
+  - @dibdab/extension-document@3.0.0-next.7
+  - @dibdab/extension-dropcursor@3.0.0-next.7
+  - @dibdab/extension-gapcursor@3.0.0-next.7
+  - @dibdab/extension-hard-break@3.0.0-next.7
+  - @dibdab/extension-heading@3.0.0-next.7
+  - @dibdab/extension-horizontal-rule@3.0.0-next.7
+  - @dibdab/extension-italic@3.0.0-next.7
+  - @dibdab/extension-link@3.0.0-next.7
+  - @dibdab/extension-list@3.0.0-next.7
+  - @dibdab/extension-list-item@3.0.0-next.7
+  - @dibdab/extension-list-keymap@3.0.0-next.7
+  - @dibdab/extension-ordered-list@3.0.0-next.7
+  - @dibdab/extension-paragraph@3.0.0-next.7
+  - @dibdab/extension-strike@3.0.0-next.7
+  - @dibdab/extension-text@3.0.0-next.7
+  - @dibdab/extension-underline@3.0.0-next.7
+  - @dibdab/extensions@3.0.0-next.7
+  - @dibdab/pm@3.0.0-next.7
 
 ## 3.0.0-next.6
 
@@ -2858,10 +2858,10 @@
   If you have theses extensions in your project, you can remove them from your project and use the ones from the starter kit instead.
 
   ```diff
-  - import Link from '@tiptap/extension-link'
-  - import ListKeymap from '@tiptap/extension-list-keymap'
-  - import Underline from '@tiptap/extension-underline'
-  + import { StarterKit } from '@tiptap/starter-kit'
+  - import Link from '@dibdab/extension-link'
+  - import ListKeymap from '@dibdab/extension-list-keymap'
+  - import Underline from '@dibdab/extension-underline'
+  + import { StarterKit } from '@dibdab/starter-kit'
   ```
 
 ### Patch Changes
@@ -2883,30 +2883,30 @@
 - Updated dependencies [062afaf]
 - Updated dependencies [32958d6]
 - Updated dependencies [32958d6]
-  - @tiptap/extension-horizontal-rule@3.0.0-next.6
-  - @tiptap/extension-ordered-list@3.0.0-next.6
-  - @tiptap/extension-bullet-list@3.0.0-next.6
-  - @tiptap/extension-list-keymap@3.0.0-next.6
-  - @tiptap/extension-blockquote@3.0.0-next.6
-  - @tiptap/extension-code-block@3.0.0-next.6
-  - @tiptap/extension-dropcursor@3.0.0-next.6
-  - @tiptap/extension-hard-break@3.0.0-next.6
-  - @tiptap/extension-gapcursor@3.0.0-next.6
-  - @tiptap/extension-list-item@3.0.0-next.6
-  - @tiptap/extension-paragraph@3.0.0-next.6
-  - @tiptap/extension-underline@3.0.0-next.6
-  - @tiptap/extension-document@3.0.0-next.6
-  - @tiptap/extension-heading@3.0.0-next.6
-  - @tiptap/extension-history@3.0.0-next.6
-  - @tiptap/extension-italic@3.0.0-next.6
-  - @tiptap/extension-strike@3.0.0-next.6
-  - @tiptap/extension-bold@3.0.0-next.6
-  - @tiptap/extension-code@3.0.0-next.6
-  - @tiptap/extension-link@3.0.0-next.6
-  - @tiptap/extension-text@3.0.0-next.6
-  - @tiptap/core@3.0.0-next.6
-  - @tiptap/pm@3.0.0-next.6
-  - @tiptap/extensions@3.0.0-next.6
+  - @dibdab/extension-horizontal-rule@3.0.0-next.6
+  - @dibdab/extension-ordered-list@3.0.0-next.6
+  - @dibdab/extension-bullet-list@3.0.0-next.6
+  - @dibdab/extension-list-keymap@3.0.0-next.6
+  - @dibdab/extension-blockquote@3.0.0-next.6
+  - @dibdab/extension-code-block@3.0.0-next.6
+  - @dibdab/extension-dropcursor@3.0.0-next.6
+  - @dibdab/extension-hard-break@3.0.0-next.6
+  - @dibdab/extension-gapcursor@3.0.0-next.6
+  - @dibdab/extension-list-item@3.0.0-next.6
+  - @dibdab/extension-paragraph@3.0.0-next.6
+  - @dibdab/extension-underline@3.0.0-next.6
+  - @dibdab/extension-document@3.0.0-next.6
+  - @dibdab/extension-heading@3.0.0-next.6
+  - @dibdab/extension-history@3.0.0-next.6
+  - @dibdab/extension-italic@3.0.0-next.6
+  - @dibdab/extension-strike@3.0.0-next.6
+  - @dibdab/extension-bold@3.0.0-next.6
+  - @dibdab/extension-code@3.0.0-next.6
+  - @dibdab/extension-link@3.0.0-next.6
+  - @dibdab/extension-text@3.0.0-next.6
+  - @dibdab/core@3.0.0-next.6
+  - @dibdab/pm@3.0.0-next.6
+  - @dibdab/extensions@3.0.0-next.6
 
 ## 3.0.0-next.5
 
@@ -2922,30 +2922,30 @@
 - Updated dependencies [062afaf]
 - Updated dependencies [32958d6]
 - Updated dependencies [32958d6]
-  - @tiptap/core@3.0.0-next.5
-  - @tiptap/extension-ordered-list@3.0.0-next.5
-  - @tiptap/extension-bullet-list@3.0.0-next.5
-  - @tiptap/extension-list-keymap@3.0.0-next.5
-  - @tiptap/extension-list-item@3.0.0-next.5
-  - @tiptap/extension-blockquote@3.0.0-next.5
-  - @tiptap/extension-bold@3.0.0-next.5
-  - @tiptap/extension-code@3.0.0-next.5
-  - @tiptap/extension-code-block@3.0.0-next.5
-  - @tiptap/extension-document@3.0.0-next.5
-  - @tiptap/extension-dropcursor@3.0.0-next.5
-  - @tiptap/extension-gapcursor@3.0.0-next.5
-  - @tiptap/extension-hard-break@3.0.0-next.5
-  - @tiptap/extension-heading@3.0.0-next.5
-  - @tiptap/extension-history@3.0.0-next.5
-  - @tiptap/extension-horizontal-rule@3.0.0-next.5
-  - @tiptap/extension-italic@3.0.0-next.5
-  - @tiptap/extension-link@3.0.0-next.5
-  - @tiptap/extension-paragraph@3.0.0-next.5
-  - @tiptap/extension-strike@3.0.0-next.5
-  - @tiptap/extension-text@3.0.0-next.5
-  - @tiptap/extension-underline@3.0.0-next.5
-  - @tiptap/extensions@3.0.0-next.5
-  - @tiptap/pm@3.0.0-next.5
+  - @dibdab/core@3.0.0-next.5
+  - @dibdab/extension-ordered-list@3.0.0-next.5
+  - @dibdab/extension-bullet-list@3.0.0-next.5
+  - @dibdab/extension-list-keymap@3.0.0-next.5
+  - @dibdab/extension-list-item@3.0.0-next.5
+  - @dibdab/extension-blockquote@3.0.0-next.5
+  - @dibdab/extension-bold@3.0.0-next.5
+  - @dibdab/extension-code@3.0.0-next.5
+  - @dibdab/extension-code-block@3.0.0-next.5
+  - @dibdab/extension-document@3.0.0-next.5
+  - @dibdab/extension-dropcursor@3.0.0-next.5
+  - @dibdab/extension-gapcursor@3.0.0-next.5
+  - @dibdab/extension-hard-break@3.0.0-next.5
+  - @dibdab/extension-heading@3.0.0-next.5
+  - @dibdab/extension-history@3.0.0-next.5
+  - @dibdab/extension-horizontal-rule@3.0.0-next.5
+  - @dibdab/extension-italic@3.0.0-next.5
+  - @dibdab/extension-link@3.0.0-next.5
+  - @dibdab/extension-paragraph@3.0.0-next.5
+  - @dibdab/extension-strike@3.0.0-next.5
+  - @dibdab/extension-text@3.0.0-next.5
+  - @dibdab/extension-underline@3.0.0-next.5
+  - @dibdab/extensions@3.0.0-next.5
+  - @dibdab/pm@3.0.0-next.5
 
 ## 3.0.0-next.4
 
@@ -2954,29 +2954,29 @@
 ### Patch Changes
 
 - Updated dependencies [4d2139b]
-  - @tiptap/pm@3.0.0-next.3
-  - @tiptap/core@3.0.0-next.3
-  - @tiptap/extension-blockquote@3.0.0-next.3
-  - @tiptap/extension-bold@3.0.0-next.3
-  - @tiptap/extension-bullet-list@3.0.0-next.3
-  - @tiptap/extension-code@3.0.0-next.3
-  - @tiptap/extension-code-block@3.0.0-next.3
-  - @tiptap/extension-document@3.0.0-next.3
-  - @tiptap/extension-dropcursor@3.0.0-next.3
-  - @tiptap/extension-gapcursor@3.0.0-next.3
-  - @tiptap/extension-hard-break@3.0.0-next.3
-  - @tiptap/extension-heading@3.0.0-next.3
-  - @tiptap/extension-history@3.0.0-next.3
-  - @tiptap/extension-horizontal-rule@3.0.0-next.3
-  - @tiptap/extension-italic@3.0.0-next.3
-  - @tiptap/extension-link@3.0.0-next.3
-  - @tiptap/extension-list-item@3.0.0-next.3
-  - @tiptap/extension-list-keymap@3.0.0-next.3
-  - @tiptap/extension-ordered-list@3.0.0-next.3
-  - @tiptap/extension-paragraph@3.0.0-next.3
-  - @tiptap/extension-strike@3.0.0-next.3
-  - @tiptap/extension-text@3.0.0-next.3
-  - @tiptap/extension-underline@3.0.0-next.3
+  - @dibdab/pm@3.0.0-next.3
+  - @dibdab/core@3.0.0-next.3
+  - @dibdab/extension-blockquote@3.0.0-next.3
+  - @dibdab/extension-bold@3.0.0-next.3
+  - @dibdab/extension-bullet-list@3.0.0-next.3
+  - @dibdab/extension-code@3.0.0-next.3
+  - @dibdab/extension-code-block@3.0.0-next.3
+  - @dibdab/extension-document@3.0.0-next.3
+  - @dibdab/extension-dropcursor@3.0.0-next.3
+  - @dibdab/extension-gapcursor@3.0.0-next.3
+  - @dibdab/extension-hard-break@3.0.0-next.3
+  - @dibdab/extension-heading@3.0.0-next.3
+  - @dibdab/extension-history@3.0.0-next.3
+  - @dibdab/extension-horizontal-rule@3.0.0-next.3
+  - @dibdab/extension-italic@3.0.0-next.3
+  - @dibdab/extension-link@3.0.0-next.3
+  - @dibdab/extension-list-item@3.0.0-next.3
+  - @dibdab/extension-list-keymap@3.0.0-next.3
+  - @dibdab/extension-ordered-list@3.0.0-next.3
+  - @dibdab/extension-paragraph@3.0.0-next.3
+  - @dibdab/extension-strike@3.0.0-next.3
+  - @dibdab/extension-text@3.0.0-next.3
+  - @dibdab/extension-underline@3.0.0-next.3
 
 ## 3.0.0-next.2
 
@@ -2993,29 +2993,29 @@
 - Updated dependencies [722ec00]
 - Updated dependencies [b7ef150]
 - Updated dependencies [2acf260]
-  - @tiptap/extension-code@3.0.0-next.2
-  - @tiptap/extension-heading@3.0.0-next.2
-  - @tiptap/extension-list-keymap@3.0.0-next.2
-  - @tiptap/core@3.0.0-next.2
-  - @tiptap/extension-link@3.0.0-next.2
-  - @tiptap/extension-blockquote@3.0.0-next.2
-  - @tiptap/extension-bold@3.0.0-next.2
-  - @tiptap/extension-bullet-list@3.0.0-next.2
-  - @tiptap/extension-code-block@3.0.0-next.2
-  - @tiptap/extension-document@3.0.0-next.2
-  - @tiptap/extension-dropcursor@3.0.0-next.2
-  - @tiptap/extension-gapcursor@3.0.0-next.2
-  - @tiptap/extension-hard-break@3.0.0-next.2
-  - @tiptap/extension-history@3.0.0-next.2
-  - @tiptap/extension-horizontal-rule@3.0.0-next.2
-  - @tiptap/extension-italic@3.0.0-next.2
-  - @tiptap/extension-list-item@3.0.0-next.2
-  - @tiptap/extension-ordered-list@3.0.0-next.2
-  - @tiptap/extension-paragraph@3.0.0-next.2
-  - @tiptap/extension-strike@3.0.0-next.2
-  - @tiptap/extension-text@3.0.0-next.2
-  - @tiptap/extension-underline@3.0.0-next.2
-  - @tiptap/pm@3.0.0-next.2
+  - @dibdab/extension-code@3.0.0-next.2
+  - @dibdab/extension-heading@3.0.0-next.2
+  - @dibdab/extension-list-keymap@3.0.0-next.2
+  - @dibdab/core@3.0.0-next.2
+  - @dibdab/extension-link@3.0.0-next.2
+  - @dibdab/extension-blockquote@3.0.0-next.2
+  - @dibdab/extension-bold@3.0.0-next.2
+  - @dibdab/extension-bullet-list@3.0.0-next.2
+  - @dibdab/extension-code-block@3.0.0-next.2
+  - @dibdab/extension-document@3.0.0-next.2
+  - @dibdab/extension-dropcursor@3.0.0-next.2
+  - @dibdab/extension-gapcursor@3.0.0-next.2
+  - @dibdab/extension-hard-break@3.0.0-next.2
+  - @dibdab/extension-history@3.0.0-next.2
+  - @dibdab/extension-horizontal-rule@3.0.0-next.2
+  - @dibdab/extension-italic@3.0.0-next.2
+  - @dibdab/extension-list-item@3.0.0-next.2
+  - @dibdab/extension-ordered-list@3.0.0-next.2
+  - @dibdab/extension-paragraph@3.0.0-next.2
+  - @dibdab/extension-strike@3.0.0-next.2
+  - @dibdab/extension-text@3.0.0-next.2
+  - @dibdab/extension-underline@3.0.0-next.2
+  - @dibdab/pm@3.0.0-next.2
 
 ## 3.0.0-next.1
 
@@ -3030,161 +3030,161 @@
 
 - Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/extension-horizontal-rule@3.0.0-next.1
-  - @tiptap/extension-ordered-list@3.0.0-next.1
-  - @tiptap/extension-bullet-list@3.0.0-next.1
-  - @tiptap/extension-list-keymap@3.0.0-next.1
-  - @tiptap/extension-blockquote@3.0.0-next.1
-  - @tiptap/extension-code-block@3.0.0-next.1
-  - @tiptap/extension-dropcursor@3.0.0-next.1
-  - @tiptap/extension-hard-break@3.0.0-next.1
-  - @tiptap/extension-gapcursor@3.0.0-next.1
-  - @tiptap/extension-list-item@3.0.0-next.1
-  - @tiptap/extension-paragraph@3.0.0-next.1
-  - @tiptap/extension-underline@3.0.0-next.1
-  - @tiptap/extension-document@3.0.0-next.1
-  - @tiptap/extension-heading@3.0.0-next.1
-  - @tiptap/extension-history@3.0.0-next.1
-  - @tiptap/extension-italic@3.0.0-next.1
-  - @tiptap/extension-strike@3.0.0-next.1
-  - @tiptap/extension-bold@3.0.0-next.1
-  - @tiptap/extension-code@3.0.0-next.1
-  - @tiptap/extension-link@3.0.0-next.1
-  - @tiptap/extension-text@3.0.0-next.1
-  - @tiptap/core@3.0.0-next.1
-  - @tiptap/pm@3.0.0-next.1
+  - @dibdab/extension-horizontal-rule@3.0.0-next.1
+  - @dibdab/extension-ordered-list@3.0.0-next.1
+  - @dibdab/extension-bullet-list@3.0.0-next.1
+  - @dibdab/extension-list-keymap@3.0.0-next.1
+  - @dibdab/extension-blockquote@3.0.0-next.1
+  - @dibdab/extension-code-block@3.0.0-next.1
+  - @dibdab/extension-dropcursor@3.0.0-next.1
+  - @dibdab/extension-hard-break@3.0.0-next.1
+  - @dibdab/extension-gapcursor@3.0.0-next.1
+  - @dibdab/extension-list-item@3.0.0-next.1
+  - @dibdab/extension-paragraph@3.0.0-next.1
+  - @dibdab/extension-underline@3.0.0-next.1
+  - @dibdab/extension-document@3.0.0-next.1
+  - @dibdab/extension-heading@3.0.0-next.1
+  - @dibdab/extension-history@3.0.0-next.1
+  - @dibdab/extension-italic@3.0.0-next.1
+  - @dibdab/extension-strike@3.0.0-next.1
+  - @dibdab/extension-bold@3.0.0-next.1
+  - @dibdab/extension-code@3.0.0-next.1
+  - @dibdab/extension-link@3.0.0-next.1
+  - @dibdab/extension-text@3.0.0-next.1
+  - @dibdab/core@3.0.0-next.1
+  - @dibdab/pm@3.0.0-next.1
 
 ## 3.0.0-next.0
 
 ### Patch Changes
 
 - Updated dependencies [0ec0af6]
-  - @tiptap/core@3.0.0-next.0
-  - @tiptap/extension-blockquote@3.0.0-next.0
-  - @tiptap/extension-bold@3.0.0-next.0
-  - @tiptap/extension-bullet-list@3.0.0-next.0
-  - @tiptap/extension-code@3.0.0-next.0
-  - @tiptap/extension-code-block@3.0.0-next.0
-  - @tiptap/extension-document@3.0.0-next.0
-  - @tiptap/extension-dropcursor@3.0.0-next.0
-  - @tiptap/extension-gapcursor@3.0.0-next.0
-  - @tiptap/extension-hard-break@3.0.0-next.0
-  - @tiptap/extension-heading@3.0.0-next.0
-  - @tiptap/extension-history@3.0.0-next.0
-  - @tiptap/extension-horizontal-rule@3.0.0-next.0
-  - @tiptap/extension-italic@3.0.0-next.0
-  - @tiptap/extension-list-item@3.0.0-next.0
-  - @tiptap/extension-ordered-list@3.0.0-next.0
-  - @tiptap/extension-paragraph@3.0.0-next.0
-  - @tiptap/extension-strike@3.0.0-next.0
-  - @tiptap/extension-text@3.0.0-next.0
+  - @dibdab/core@3.0.0-next.0
+  - @dibdab/extension-blockquote@3.0.0-next.0
+  - @dibdab/extension-bold@3.0.0-next.0
+  - @dibdab/extension-bullet-list@3.0.0-next.0
+  - @dibdab/extension-code@3.0.0-next.0
+  - @dibdab/extension-code-block@3.0.0-next.0
+  - @dibdab/extension-document@3.0.0-next.0
+  - @dibdab/extension-dropcursor@3.0.0-next.0
+  - @dibdab/extension-gapcursor@3.0.0-next.0
+  - @dibdab/extension-hard-break@3.0.0-next.0
+  - @dibdab/extension-heading@3.0.0-next.0
+  - @dibdab/extension-history@3.0.0-next.0
+  - @dibdab/extension-horizontal-rule@3.0.0-next.0
+  - @dibdab/extension-italic@3.0.0-next.0
+  - @dibdab/extension-list-item@3.0.0-next.0
+  - @dibdab/extension-ordered-list@3.0.0-next.0
+  - @dibdab/extension-paragraph@3.0.0-next.0
+  - @dibdab/extension-strike@3.0.0-next.0
+  - @dibdab/extension-text@3.0.0-next.0
 
 ## 2.12.0
 
 ### Patch Changes
 
 - Updated dependencies [896f767]
-  - @tiptap/pm@2.12.0
-  - @tiptap/core@2.12.0
-  - @tiptap/extension-blockquote@2.12.0
-  - @tiptap/extension-bold@2.12.0
-  - @tiptap/extension-bullet-list@2.12.0
-  - @tiptap/extension-code@2.12.0
-  - @tiptap/extension-code-block@2.12.0
-  - @tiptap/extension-document@2.12.0
-  - @tiptap/extension-dropcursor@2.12.0
-  - @tiptap/extension-gapcursor@2.12.0
-  - @tiptap/extension-hard-break@2.12.0
-  - @tiptap/extension-heading@2.12.0
-  - @tiptap/extension-history@2.12.0
-  - @tiptap/extension-horizontal-rule@2.12.0
-  - @tiptap/extension-italic@2.12.0
-  - @tiptap/extension-list-item@2.12.0
-  - @tiptap/extension-ordered-list@2.12.0
-  - @tiptap/extension-paragraph@2.12.0
-  - @tiptap/extension-strike@2.12.0
-  - @tiptap/extension-text@2.12.0
-  - @tiptap/extension-text-style@2.12.0
+  - @dibdab/pm@2.12.0
+  - @dibdab/core@2.12.0
+  - @dibdab/extension-blockquote@2.12.0
+  - @dibdab/extension-bold@2.12.0
+  - @dibdab/extension-bullet-list@2.12.0
+  - @dibdab/extension-code@2.12.0
+  - @dibdab/extension-code-block@2.12.0
+  - @dibdab/extension-document@2.12.0
+  - @dibdab/extension-dropcursor@2.12.0
+  - @dibdab/extension-gapcursor@2.12.0
+  - @dibdab/extension-hard-break@2.12.0
+  - @dibdab/extension-heading@2.12.0
+  - @dibdab/extension-history@2.12.0
+  - @dibdab/extension-horizontal-rule@2.12.0
+  - @dibdab/extension-italic@2.12.0
+  - @dibdab/extension-list-item@2.12.0
+  - @dibdab/extension-ordered-list@2.12.0
+  - @dibdab/extension-paragraph@2.12.0
+  - @dibdab/extension-strike@2.12.0
+  - @dibdab/extension-text@2.12.0
+  - @dibdab/extension-text-style@2.12.0
 
 ## 2.11.9
 
 ### Patch Changes
 
-- @tiptap/core@2.11.9
-- @tiptap/extension-blockquote@2.11.9
-- @tiptap/extension-bold@2.11.9
-- @tiptap/extension-bullet-list@2.11.9
-- @tiptap/extension-code@2.11.9
-- @tiptap/extension-code-block@2.11.9
-- @tiptap/extension-document@2.11.9
-- @tiptap/extension-dropcursor@2.11.9
-- @tiptap/extension-gapcursor@2.11.9
-- @tiptap/extension-hard-break@2.11.9
-- @tiptap/extension-heading@2.11.9
-- @tiptap/extension-history@2.11.9
-- @tiptap/extension-horizontal-rule@2.11.9
-- @tiptap/extension-italic@2.11.9
-- @tiptap/extension-list-item@2.11.9
-- @tiptap/extension-ordered-list@2.11.9
-- @tiptap/extension-paragraph@2.11.9
-- @tiptap/extension-strike@2.11.9
-- @tiptap/extension-text@2.11.9
-- @tiptap/extension-text-style@2.11.9
-- @tiptap/pm@2.11.9
+- @dibdab/core@2.11.9
+- @dibdab/extension-blockquote@2.11.9
+- @dibdab/extension-bold@2.11.9
+- @dibdab/extension-bullet-list@2.11.9
+- @dibdab/extension-code@2.11.9
+- @dibdab/extension-code-block@2.11.9
+- @dibdab/extension-document@2.11.9
+- @dibdab/extension-dropcursor@2.11.9
+- @dibdab/extension-gapcursor@2.11.9
+- @dibdab/extension-hard-break@2.11.9
+- @dibdab/extension-heading@2.11.9
+- @dibdab/extension-history@2.11.9
+- @dibdab/extension-horizontal-rule@2.11.9
+- @dibdab/extension-italic@2.11.9
+- @dibdab/extension-list-item@2.11.9
+- @dibdab/extension-ordered-list@2.11.9
+- @dibdab/extension-paragraph@2.11.9
+- @dibdab/extension-strike@2.11.9
+- @dibdab/extension-text@2.11.9
+- @dibdab/extension-text-style@2.11.9
+- @dibdab/pm@2.11.9
 
 ## 2.11.8
 
 ### Patch Changes
 
 - Updated dependencies [8147cc7]
-  - @tiptap/core@2.11.8
-  - @tiptap/extension-blockquote@2.11.8
-  - @tiptap/extension-bold@2.11.8
-  - @tiptap/extension-bullet-list@2.11.8
-  - @tiptap/extension-code@2.11.8
-  - @tiptap/extension-code-block@2.11.8
-  - @tiptap/extension-document@2.11.8
-  - @tiptap/extension-dropcursor@2.11.8
-  - @tiptap/extension-gapcursor@2.11.8
-  - @tiptap/extension-hard-break@2.11.8
-  - @tiptap/extension-heading@2.11.8
-  - @tiptap/extension-history@2.11.8
-  - @tiptap/extension-horizontal-rule@2.11.8
-  - @tiptap/extension-italic@2.11.8
-  - @tiptap/extension-list-item@2.11.8
-  - @tiptap/extension-ordered-list@2.11.8
-  - @tiptap/extension-paragraph@2.11.8
-  - @tiptap/extension-strike@2.11.8
-  - @tiptap/extension-text@2.11.8
-  - @tiptap/extension-text-style@2.11.8
-  - @tiptap/pm@2.11.8
+  - @dibdab/core@2.11.8
+  - @dibdab/extension-blockquote@2.11.8
+  - @dibdab/extension-bold@2.11.8
+  - @dibdab/extension-bullet-list@2.11.8
+  - @dibdab/extension-code@2.11.8
+  - @dibdab/extension-code-block@2.11.8
+  - @dibdab/extension-document@2.11.8
+  - @dibdab/extension-dropcursor@2.11.8
+  - @dibdab/extension-gapcursor@2.11.8
+  - @dibdab/extension-hard-break@2.11.8
+  - @dibdab/extension-heading@2.11.8
+  - @dibdab/extension-history@2.11.8
+  - @dibdab/extension-horizontal-rule@2.11.8
+  - @dibdab/extension-italic@2.11.8
+  - @dibdab/extension-list-item@2.11.8
+  - @dibdab/extension-ordered-list@2.11.8
+  - @dibdab/extension-paragraph@2.11.8
+  - @dibdab/extension-strike@2.11.8
+  - @dibdab/extension-text@2.11.8
+  - @dibdab/extension-text-style@2.11.8
+  - @dibdab/pm@2.11.8
 
 ## 2.11.7
 
 ### Patch Changes
 
 - Updated dependencies [e23882d]
-  - @tiptap/core@2.11.7
-  - @tiptap/extension-blockquote@2.11.7
-  - @tiptap/extension-bold@2.11.7
-  - @tiptap/extension-bullet-list@2.11.7
-  - @tiptap/extension-code@2.11.7
-  - @tiptap/extension-code-block@2.11.7
-  - @tiptap/extension-document@2.11.7
-  - @tiptap/extension-dropcursor@2.11.7
-  - @tiptap/extension-gapcursor@2.11.7
-  - @tiptap/extension-hard-break@2.11.7
-  - @tiptap/extension-heading@2.11.7
-  - @tiptap/extension-history@2.11.7
-  - @tiptap/extension-horizontal-rule@2.11.7
-  - @tiptap/extension-italic@2.11.7
-  - @tiptap/extension-list-item@2.11.7
-  - @tiptap/extension-ordered-list@2.11.7
-  - @tiptap/extension-paragraph@2.11.7
-  - @tiptap/extension-strike@2.11.7
-  - @tiptap/extension-text@2.11.7
-  - @tiptap/extension-text-style@2.11.7
-  - @tiptap/pm@2.11.7
+  - @dibdab/core@2.11.7
+  - @dibdab/extension-blockquote@2.11.7
+  - @dibdab/extension-bold@2.11.7
+  - @dibdab/extension-bullet-list@2.11.7
+  - @dibdab/extension-code@2.11.7
+  - @dibdab/extension-code-block@2.11.7
+  - @dibdab/extension-document@2.11.7
+  - @dibdab/extension-dropcursor@2.11.7
+  - @dibdab/extension-gapcursor@2.11.7
+  - @dibdab/extension-hard-break@2.11.7
+  - @dibdab/extension-heading@2.11.7
+  - @dibdab/extension-history@2.11.7
+  - @dibdab/extension-horizontal-rule@2.11.7
+  - @dibdab/extension-italic@2.11.7
+  - @dibdab/extension-list-item@2.11.7
+  - @dibdab/extension-ordered-list@2.11.7
+  - @dibdab/extension-paragraph@2.11.7
+  - @dibdab/extension-strike@2.11.7
+  - @dibdab/extension-text@2.11.7
+  - @dibdab/extension-text-style@2.11.7
+  - @dibdab/pm@2.11.7
 
 ## 2.11.6
 
@@ -3194,80 +3194,80 @@
 - Updated dependencies [826cfe7]
 - Updated dependencies [f3258d9]
 - Updated dependencies [9abb019]
-  - @tiptap/core@2.11.6
-  - @tiptap/pm@2.11.6
-  - @tiptap/extension-ordered-list@2.11.6
-  - @tiptap/extension-blockquote@2.11.6
-  - @tiptap/extension-bold@2.11.6
-  - @tiptap/extension-bullet-list@2.11.6
-  - @tiptap/extension-code@2.11.6
-  - @tiptap/extension-code-block@2.11.6
-  - @tiptap/extension-document@2.11.6
-  - @tiptap/extension-dropcursor@2.11.6
-  - @tiptap/extension-gapcursor@2.11.6
-  - @tiptap/extension-hard-break@2.11.6
-  - @tiptap/extension-heading@2.11.6
-  - @tiptap/extension-history@2.11.6
-  - @tiptap/extension-horizontal-rule@2.11.6
-  - @tiptap/extension-italic@2.11.6
-  - @tiptap/extension-list-item@2.11.6
-  - @tiptap/extension-paragraph@2.11.6
-  - @tiptap/extension-strike@2.11.6
-  - @tiptap/extension-text@2.11.6
-  - @tiptap/extension-text-style@2.11.6
+  - @dibdab/core@2.11.6
+  - @dibdab/pm@2.11.6
+  - @dibdab/extension-ordered-list@2.11.6
+  - @dibdab/extension-blockquote@2.11.6
+  - @dibdab/extension-bold@2.11.6
+  - @dibdab/extension-bullet-list@2.11.6
+  - @dibdab/extension-code@2.11.6
+  - @dibdab/extension-code-block@2.11.6
+  - @dibdab/extension-document@2.11.6
+  - @dibdab/extension-dropcursor@2.11.6
+  - @dibdab/extension-gapcursor@2.11.6
+  - @dibdab/extension-hard-break@2.11.6
+  - @dibdab/extension-heading@2.11.6
+  - @dibdab/extension-history@2.11.6
+  - @dibdab/extension-horizontal-rule@2.11.6
+  - @dibdab/extension-italic@2.11.6
+  - @dibdab/extension-list-item@2.11.6
+  - @dibdab/extension-paragraph@2.11.6
+  - @dibdab/extension-strike@2.11.6
+  - @dibdab/extension-text@2.11.6
+  - @dibdab/extension-text-style@2.11.6
 
 ## 2.11.5
 
 ### Patch Changes
 
 - Updated dependencies [98fffbb]
-  - @tiptap/pm@2.11.5
-  - @tiptap/core@2.11.5
-  - @tiptap/extension-blockquote@2.11.5
-  - @tiptap/extension-bold@2.11.5
-  - @tiptap/extension-bullet-list@2.11.5
-  - @tiptap/extension-code@2.11.5
-  - @tiptap/extension-code-block@2.11.5
-  - @tiptap/extension-document@2.11.5
-  - @tiptap/extension-dropcursor@2.11.5
-  - @tiptap/extension-gapcursor@2.11.5
-  - @tiptap/extension-hard-break@2.11.5
-  - @tiptap/extension-heading@2.11.5
-  - @tiptap/extension-history@2.11.5
-  - @tiptap/extension-horizontal-rule@2.11.5
-  - @tiptap/extension-italic@2.11.5
-  - @tiptap/extension-list-item@2.11.5
-  - @tiptap/extension-ordered-list@2.11.5
-  - @tiptap/extension-paragraph@2.11.5
-  - @tiptap/extension-strike@2.11.5
-  - @tiptap/extension-text@2.11.5
-  - @tiptap/extension-text-style@2.11.5
+  - @dibdab/pm@2.11.5
+  - @dibdab/core@2.11.5
+  - @dibdab/extension-blockquote@2.11.5
+  - @dibdab/extension-bold@2.11.5
+  - @dibdab/extension-bullet-list@2.11.5
+  - @dibdab/extension-code@2.11.5
+  - @dibdab/extension-code-block@2.11.5
+  - @dibdab/extension-document@2.11.5
+  - @dibdab/extension-dropcursor@2.11.5
+  - @dibdab/extension-gapcursor@2.11.5
+  - @dibdab/extension-hard-break@2.11.5
+  - @dibdab/extension-heading@2.11.5
+  - @dibdab/extension-history@2.11.5
+  - @dibdab/extension-horizontal-rule@2.11.5
+  - @dibdab/extension-italic@2.11.5
+  - @dibdab/extension-list-item@2.11.5
+  - @dibdab/extension-ordered-list@2.11.5
+  - @dibdab/extension-paragraph@2.11.5
+  - @dibdab/extension-strike@2.11.5
+  - @dibdab/extension-text@2.11.5
+  - @dibdab/extension-text-style@2.11.5
 
 ## 2.11.4
 
 ### Patch Changes
 
-- @tiptap/core@2.11.4
-- @tiptap/extension-blockquote@2.11.4
-- @tiptap/extension-bold@2.11.4
-- @tiptap/extension-bullet-list@2.11.4
-- @tiptap/extension-code@2.11.4
-- @tiptap/extension-code-block@2.11.4
-- @tiptap/extension-document@2.11.4
-- @tiptap/extension-dropcursor@2.11.4
-- @tiptap/extension-gapcursor@2.11.4
-- @tiptap/extension-hard-break@2.11.4
-- @tiptap/extension-heading@2.11.4
-- @tiptap/extension-history@2.11.4
-- @tiptap/extension-horizontal-rule@2.11.4
-- @tiptap/extension-italic@2.11.4
-- @tiptap/extension-list-item@2.11.4
-- @tiptap/extension-ordered-list@2.11.4
-- @tiptap/extension-paragraph@2.11.4
-- @tiptap/extension-strike@2.11.4
-- @tiptap/extension-text@2.11.4
-- @tiptap/extension-text-style@2.11.4
-- @tiptap/pm@2.11.4
+- @dibdab/core@2.11.4
+- @dibdab/extension-blockquote@2.11.4
+- @dibdab/extension-bold@2.11.4
+- @dibdab/extension-bullet-list@2.11.4
+- @dibdab/extension-code@2.11.4
+- @dibdab/extension-code-block@2.11.4
+- @dibdab/extension-document@2.11.4
+- @dibdab/extension-dropcursor@2.11.4
+- @dibdab/extension-gapcursor@2.11.4
+- @dibdab/extension-hard-break@2.11.4
+- @dibdab/extension-heading@2.11.4
+- @dibdab/extension-history@2.11.4
+- @dibdab/extension-horizontal-rule@2.11.4
+- @dibdab/extension-italic@2.11.4
+- @dibdab/extension-list-item@2.11.4
+- @dibdab/extension-ordered-list@2.11.4
+- @dibdab/extension-paragraph@2.11.4
+- @dibdab/extension-strike@2.11.4
+- @dibdab/extension-text@2.11.4
+- @dibdab/extension-text-style@2.11.4
+- @dibdab/pm@2.11.4
 
 ## 2.11.3
 
@@ -3277,55 +3277,55 @@
 - Updated dependencies [20f68f6]
 - Updated dependencies [ff8eed6]
 - Updated dependencies [d6c7558]
-  - @tiptap/extensions@3.0.0-next.4
-  - @tiptap/core@3.0.0-next.4
-  - @tiptap/extension-blockquote@3.0.0-next.4
-  - @tiptap/extension-bold@3.0.0-next.4
-  - @tiptap/extension-bullet-list@3.0.0-next.4
-  - @tiptap/extension-code@3.0.0-next.4
-  - @tiptap/extension-code-block@3.0.0-next.4
-  - @tiptap/extension-document@3.0.0-next.4
-  - @tiptap/extension-dropcursor@3.0.0-next.4
-  - @tiptap/extension-gapcursor@3.0.0-next.4
-  - @tiptap/extension-hard-break@3.0.0-next.4
-  - @tiptap/extension-heading@3.0.0-next.4
-  - @tiptap/extension-history@3.0.0-next.4
-  - @tiptap/extension-horizontal-rule@3.0.0-next.4
-  - @tiptap/extension-italic@3.0.0-next.4
-  - @tiptap/extension-link@3.0.0-next.4
-  - @tiptap/extension-list-item@3.0.0-next.4
-  - @tiptap/extension-list-keymap@3.0.0-next.4
-  - @tiptap/extension-ordered-list@3.0.0-next.4
-  - @tiptap/extension-paragraph@3.0.0-next.4
-  - @tiptap/extension-strike@3.0.0-next.4
-  - @tiptap/extension-text@3.0.0-next.4
-  - @tiptap/extension-underline@3.0.0-next.4
-  - @tiptap/pm@3.0.0-next.4
+  - @dibdab/extensions@3.0.0-next.4
+  - @dibdab/core@3.0.0-next.4
+  - @dibdab/extension-blockquote@3.0.0-next.4
+  - @dibdab/extension-bold@3.0.0-next.4
+  - @dibdab/extension-bullet-list@3.0.0-next.4
+  - @dibdab/extension-code@3.0.0-next.4
+  - @dibdab/extension-code-block@3.0.0-next.4
+  - @dibdab/extension-document@3.0.0-next.4
+  - @dibdab/extension-dropcursor@3.0.0-next.4
+  - @dibdab/extension-gapcursor@3.0.0-next.4
+  - @dibdab/extension-hard-break@3.0.0-next.4
+  - @dibdab/extension-heading@3.0.0-next.4
+  - @dibdab/extension-history@3.0.0-next.4
+  - @dibdab/extension-horizontal-rule@3.0.0-next.4
+  - @dibdab/extension-italic@3.0.0-next.4
+  - @dibdab/extension-link@3.0.0-next.4
+  - @dibdab/extension-list-item@3.0.0-next.4
+  - @dibdab/extension-list-keymap@3.0.0-next.4
+  - @dibdab/extension-ordered-list@3.0.0-next.4
+  - @dibdab/extension-paragraph@3.0.0-next.4
+  - @dibdab/extension-strike@3.0.0-next.4
+  - @dibdab/extension-text@3.0.0-next.4
+  - @dibdab/extension-underline@3.0.0-next.4
+  - @dibdab/pm@3.0.0-next.4
 
 ## 2.5.8
 
 ### Patch Changes
 
 - Updated dependencies [a08bf85]
-  - @tiptap/core@2.5.8
-  - @tiptap/extension-blockquote@2.5.8
-  - @tiptap/extension-bold@2.5.8
-  - @tiptap/extension-bullet-list@2.5.8
-  - @tiptap/extension-code@2.5.8
-  - @tiptap/extension-code-block@2.5.8
-  - @tiptap/extension-document@2.5.8
-  - @tiptap/extension-dropcursor@2.5.8
-  - @tiptap/extension-gapcursor@2.5.8
-  - @tiptap/extension-hard-break@2.5.8
-  - @tiptap/extension-heading@2.5.8
-  - @tiptap/extension-history@2.5.8
-  - @tiptap/extension-horizontal-rule@2.5.8
-  - @tiptap/extension-italic@2.5.8
-  - @tiptap/extension-list-item@2.5.8
-  - @tiptap/extension-ordered-list@2.5.8
-  - @tiptap/extension-paragraph@2.5.8
-  - @tiptap/extension-strike@2.5.8
-  - @tiptap/extension-text@2.5.8
+  - @dibdab/core@2.5.8
+  - @dibdab/extension-blockquote@2.5.8
+  - @dibdab/extension-bold@2.5.8
+  - @dibdab/extension-bullet-list@2.5.8
+  - @dibdab/extension-code@2.5.8
+  - @dibdab/extension-code-block@2.5.8
+  - @dibdab/extension-document@2.5.8
+  - @dibdab/extension-dropcursor@2.5.8
+  - @dibdab/extension-gapcursor@2.5.8
+  - @dibdab/extension-hard-break@2.5.8
+  - @dibdab/extension-heading@2.5.8
+  - @dibdab/extension-history@2.5.8
+  - @dibdab/extension-horizontal-rule@2.5.8
+  - @dibdab/extension-italic@2.5.8
+  - @dibdab/extension-list-item@2.5.8
+  - @dibdab/extension-ordered-list@2.5.8
+  - @dibdab/extension-paragraph@2.5.8
+  - @dibdab/extension-strike@2.5.8
+  - @dibdab/extension-text@2.5.8
 
 ## 2.5.7
 
@@ -3333,25 +3333,25 @@
 
 - Updated dependencies [b012471]
 - Updated dependencies [cc3497e]
-  - @tiptap/core@2.5.7
-  - @tiptap/extension-blockquote@2.5.7
-  - @tiptap/extension-bold@2.5.7
-  - @tiptap/extension-bullet-list@2.5.7
-  - @tiptap/extension-code@2.5.7
-  - @tiptap/extension-code-block@2.5.7
-  - @tiptap/extension-document@2.5.7
-  - @tiptap/extension-dropcursor@2.5.7
-  - @tiptap/extension-gapcursor@2.5.7
-  - @tiptap/extension-hard-break@2.5.7
-  - @tiptap/extension-heading@2.5.7
-  - @tiptap/extension-history@2.5.7
-  - @tiptap/extension-horizontal-rule@2.5.7
-  - @tiptap/extension-italic@2.5.7
-  - @tiptap/extension-list-item@2.5.7
-  - @tiptap/extension-ordered-list@2.5.7
-  - @tiptap/extension-paragraph@2.5.7
-  - @tiptap/extension-strike@2.5.7
-  - @tiptap/extension-text@2.5.7
+  - @dibdab/core@2.5.7
+  - @dibdab/extension-blockquote@2.5.7
+  - @dibdab/extension-bold@2.5.7
+  - @dibdab/extension-bullet-list@2.5.7
+  - @dibdab/extension-code@2.5.7
+  - @dibdab/extension-code-block@2.5.7
+  - @dibdab/extension-document@2.5.7
+  - @dibdab/extension-dropcursor@2.5.7
+  - @dibdab/extension-gapcursor@2.5.7
+  - @dibdab/extension-hard-break@2.5.7
+  - @dibdab/extension-heading@2.5.7
+  - @dibdab/extension-history@2.5.7
+  - @dibdab/extension-horizontal-rule@2.5.7
+  - @dibdab/extension-italic@2.5.7
+  - @dibdab/extension-list-item@2.5.7
+  - @dibdab/extension-ordered-list@2.5.7
+  - @dibdab/extension-paragraph@2.5.7
+  - @dibdab/extension-strike@2.5.7
+  - @dibdab/extension-text@2.5.7
 
 ## 2.5.6
 
@@ -3361,25 +3361,25 @@
 - Updated dependencies [35682d1]
 - Updated dependencies [4e5b2d8]
 - Updated dependencies [2104f0f]
-  - @tiptap/core@2.5.6
-  - @tiptap/extension-code-block@2.5.6
-  - @tiptap/extension-blockquote@2.5.6
-  - @tiptap/extension-bold@2.5.6
-  - @tiptap/extension-bullet-list@2.5.6
-  - @tiptap/extension-code@2.5.6
-  - @tiptap/extension-document@2.5.6
-  - @tiptap/extension-dropcursor@2.5.6
-  - @tiptap/extension-gapcursor@2.5.6
-  - @tiptap/extension-hard-break@2.5.6
-  - @tiptap/extension-heading@2.5.6
-  - @tiptap/extension-history@2.5.6
-  - @tiptap/extension-horizontal-rule@2.5.6
-  - @tiptap/extension-italic@2.5.6
-  - @tiptap/extension-list-item@2.5.6
-  - @tiptap/extension-ordered-list@2.5.6
-  - @tiptap/extension-paragraph@2.5.6
-  - @tiptap/extension-strike@2.5.6
-  - @tiptap/extension-text@2.5.6
+  - @dibdab/core@2.5.6
+  - @dibdab/extension-code-block@2.5.6
+  - @dibdab/extension-blockquote@2.5.6
+  - @dibdab/extension-bold@2.5.6
+  - @dibdab/extension-bullet-list@2.5.6
+  - @dibdab/extension-code@2.5.6
+  - @dibdab/extension-document@2.5.6
+  - @dibdab/extension-dropcursor@2.5.6
+  - @dibdab/extension-gapcursor@2.5.6
+  - @dibdab/extension-hard-break@2.5.6
+  - @dibdab/extension-heading@2.5.6
+  - @dibdab/extension-history@2.5.6
+  - @dibdab/extension-horizontal-rule@2.5.6
+  - @dibdab/extension-italic@2.5.6
+  - @dibdab/extension-list-item@2.5.6
+  - @dibdab/extension-ordered-list@2.5.6
+  - @dibdab/extension-paragraph@2.5.6
+  - @dibdab/extension-strike@2.5.6
+  - @dibdab/extension-text@2.5.6
 
 ## 2.5.5
 
@@ -3387,25 +3387,25 @@
 
 - Updated dependencies [4cca382]
 - Updated dependencies [3b67e8a]
-  - @tiptap/core@2.5.5
-  - @tiptap/extension-blockquote@2.5.5
-  - @tiptap/extension-bold@2.5.5
-  - @tiptap/extension-bullet-list@2.5.5
-  - @tiptap/extension-code@2.5.5
-  - @tiptap/extension-code-block@2.5.5
-  - @tiptap/extension-document@2.5.5
-  - @tiptap/extension-dropcursor@2.5.5
-  - @tiptap/extension-gapcursor@2.5.5
-  - @tiptap/extension-hard-break@2.5.5
-  - @tiptap/extension-heading@2.5.5
-  - @tiptap/extension-history@2.5.5
-  - @tiptap/extension-horizontal-rule@2.5.5
-  - @tiptap/extension-italic@2.5.5
-  - @tiptap/extension-list-item@2.5.5
-  - @tiptap/extension-ordered-list@2.5.5
-  - @tiptap/extension-paragraph@2.5.5
-  - @tiptap/extension-strike@2.5.5
-  - @tiptap/extension-text@2.5.5
+  - @dibdab/core@2.5.5
+  - @dibdab/extension-blockquote@2.5.5
+  - @dibdab/extension-bold@2.5.5
+  - @dibdab/extension-bullet-list@2.5.5
+  - @dibdab/extension-code@2.5.5
+  - @dibdab/extension-code-block@2.5.5
+  - @dibdab/extension-document@2.5.5
+  - @dibdab/extension-dropcursor@2.5.5
+  - @dibdab/extension-gapcursor@2.5.5
+  - @dibdab/extension-hard-break@2.5.5
+  - @dibdab/extension-heading@2.5.5
+  - @dibdab/extension-history@2.5.5
+  - @dibdab/extension-horizontal-rule@2.5.5
+  - @dibdab/extension-italic@2.5.5
+  - @dibdab/extension-list-item@2.5.5
+  - @dibdab/extension-ordered-list@2.5.5
+  - @dibdab/extension-paragraph@2.5.5
+  - @dibdab/extension-strike@2.5.5
+  - @dibdab/extension-text@2.5.5
 
 ## 2.5.4
 
@@ -3413,98 +3413,98 @@
 
 - dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
 - Updated dependencies [dd7f9ac]
-  - @tiptap/extension-horizontal-rule@2.5.4
-  - @tiptap/extension-ordered-list@2.5.4
-  - @tiptap/extension-bullet-list@2.5.4
-  - @tiptap/extension-blockquote@2.5.4
-  - @tiptap/extension-code-block@2.5.4
-  - @tiptap/extension-dropcursor@2.5.4
-  - @tiptap/extension-hard-break@2.5.4
-  - @tiptap/extension-gapcursor@2.5.4
-  - @tiptap/extension-list-item@2.5.4
-  - @tiptap/extension-paragraph@2.5.4
-  - @tiptap/extension-document@2.5.4
-  - @tiptap/extension-heading@2.5.4
-  - @tiptap/extension-history@2.5.4
-  - @tiptap/extension-italic@2.5.4
-  - @tiptap/extension-strike@2.5.4
-  - @tiptap/extension-bold@2.5.4
-  - @tiptap/extension-code@2.5.4
-  - @tiptap/extension-text@2.5.4
-  - @tiptap/core@2.5.4
+  - @dibdab/extension-horizontal-rule@2.5.4
+  - @dibdab/extension-ordered-list@2.5.4
+  - @dibdab/extension-bullet-list@2.5.4
+  - @dibdab/extension-blockquote@2.5.4
+  - @dibdab/extension-code-block@2.5.4
+  - @dibdab/extension-dropcursor@2.5.4
+  - @dibdab/extension-hard-break@2.5.4
+  - @dibdab/extension-gapcursor@2.5.4
+  - @dibdab/extension-list-item@2.5.4
+  - @dibdab/extension-paragraph@2.5.4
+  - @dibdab/extension-document@2.5.4
+  - @dibdab/extension-heading@2.5.4
+  - @dibdab/extension-history@2.5.4
+  - @dibdab/extension-italic@2.5.4
+  - @dibdab/extension-strike@2.5.4
+  - @dibdab/extension-bold@2.5.4
+  - @dibdab/extension-code@2.5.4
+  - @dibdab/extension-text@2.5.4
+  - @dibdab/core@2.5.4
 
 ## 2.5.3
 
 ### Patch Changes
 
-- @tiptap/core@2.5.3
-- @tiptap/extension-blockquote@2.5.3
-- @tiptap/extension-bold@2.5.3
-- @tiptap/extension-bullet-list@2.5.3
-- @tiptap/extension-code@2.5.3
-- @tiptap/extension-code-block@2.5.3
-- @tiptap/extension-document@2.5.3
-- @tiptap/extension-dropcursor@2.5.3
-- @tiptap/extension-gapcursor@2.5.3
-- @tiptap/extension-hard-break@2.5.3
-- @tiptap/extension-heading@2.5.3
-- @tiptap/extension-history@2.5.3
-- @tiptap/extension-horizontal-rule@2.5.3
-- @tiptap/extension-italic@2.5.3
-- @tiptap/extension-list-item@2.5.3
-- @tiptap/extension-ordered-list@2.5.3
-- @tiptap/extension-paragraph@2.5.3
-- @tiptap/extension-strike@2.5.3
-- @tiptap/extension-text@2.5.3
+- @dibdab/core@2.5.3
+- @dibdab/extension-blockquote@2.5.3
+- @dibdab/extension-bold@2.5.3
+- @dibdab/extension-bullet-list@2.5.3
+- @dibdab/extension-code@2.5.3
+- @dibdab/extension-code-block@2.5.3
+- @dibdab/extension-document@2.5.3
+- @dibdab/extension-dropcursor@2.5.3
+- @dibdab/extension-gapcursor@2.5.3
+- @dibdab/extension-hard-break@2.5.3
+- @dibdab/extension-heading@2.5.3
+- @dibdab/extension-history@2.5.3
+- @dibdab/extension-horizontal-rule@2.5.3
+- @dibdab/extension-italic@2.5.3
+- @dibdab/extension-list-item@2.5.3
+- @dibdab/extension-ordered-list@2.5.3
+- @dibdab/extension-paragraph@2.5.3
+- @dibdab/extension-strike@2.5.3
+- @dibdab/extension-text@2.5.3
 
 ## 2.5.2
 
 ### Patch Changes
 
 - Updated dependencies [07f4c03]
-  - @tiptap/core@2.5.2
-  - @tiptap/extension-blockquote@2.5.2
-  - @tiptap/extension-bold@2.5.2
-  - @tiptap/extension-bullet-list@2.5.2
-  - @tiptap/extension-code@2.5.2
-  - @tiptap/extension-code-block@2.5.2
-  - @tiptap/extension-document@2.5.2
-  - @tiptap/extension-dropcursor@2.5.2
-  - @tiptap/extension-gapcursor@2.5.2
-  - @tiptap/extension-hard-break@2.5.2
-  - @tiptap/extension-heading@2.5.2
-  - @tiptap/extension-history@2.5.2
-  - @tiptap/extension-horizontal-rule@2.5.2
-  - @tiptap/extension-italic@2.5.2
-  - @tiptap/extension-list-item@2.5.2
-  - @tiptap/extension-ordered-list@2.5.2
-  - @tiptap/extension-paragraph@2.5.2
-  - @tiptap/extension-strike@2.5.2
-  - @tiptap/extension-text@2.5.2
+  - @dibdab/core@2.5.2
+  - @dibdab/extension-blockquote@2.5.2
+  - @dibdab/extension-bold@2.5.2
+  - @dibdab/extension-bullet-list@2.5.2
+  - @dibdab/extension-code@2.5.2
+  - @dibdab/extension-code-block@2.5.2
+  - @dibdab/extension-document@2.5.2
+  - @dibdab/extension-dropcursor@2.5.2
+  - @dibdab/extension-gapcursor@2.5.2
+  - @dibdab/extension-hard-break@2.5.2
+  - @dibdab/extension-heading@2.5.2
+  - @dibdab/extension-history@2.5.2
+  - @dibdab/extension-horizontal-rule@2.5.2
+  - @dibdab/extension-italic@2.5.2
+  - @dibdab/extension-list-item@2.5.2
+  - @dibdab/extension-ordered-list@2.5.2
+  - @dibdab/extension-paragraph@2.5.2
+  - @dibdab/extension-strike@2.5.2
+  - @dibdab/extension-text@2.5.2
 
 ## 2.5.1
 
 ### Patch Changes
 
-- @tiptap/core@2.5.1
-- @tiptap/extension-blockquote@2.5.1
-- @tiptap/extension-bold@2.5.1
-- @tiptap/extension-bullet-list@2.5.1
-- @tiptap/extension-code@2.5.1
-- @tiptap/extension-code-block@2.5.1
-- @tiptap/extension-document@2.5.1
-- @tiptap/extension-dropcursor@2.5.1
-- @tiptap/extension-gapcursor@2.5.1
-- @tiptap/extension-hard-break@2.5.1
-- @tiptap/extension-heading@2.5.1
-- @tiptap/extension-history@2.5.1
-- @tiptap/extension-horizontal-rule@2.5.1
-- @tiptap/extension-italic@2.5.1
-- @tiptap/extension-list-item@2.5.1
-- @tiptap/extension-ordered-list@2.5.1
-- @tiptap/extension-paragraph@2.5.1
-- @tiptap/extension-strike@2.5.1
-- @tiptap/extension-text@2.5.1
+- @dibdab/core@2.5.1
+- @dibdab/extension-blockquote@2.5.1
+- @dibdab/extension-bold@2.5.1
+- @dibdab/extension-bullet-list@2.5.1
+- @dibdab/extension-code@2.5.1
+- @dibdab/extension-code-block@2.5.1
+- @dibdab/extension-document@2.5.1
+- @dibdab/extension-dropcursor@2.5.1
+- @dibdab/extension-gapcursor@2.5.1
+- @dibdab/extension-hard-break@2.5.1
+- @dibdab/extension-heading@2.5.1
+- @dibdab/extension-history@2.5.1
+- @dibdab/extension-horizontal-rule@2.5.1
+- @dibdab/extension-italic@2.5.1
+- @dibdab/extension-list-item@2.5.1
+- @dibdab/extension-ordered-list@2.5.1
+- @dibdab/extension-paragraph@2.5.1
+- @dibdab/extension-strike@2.5.1
+- @dibdab/extension-text@2.5.1
 
 ## 2.5.0
 
@@ -3515,197 +3515,197 @@
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
-  - @tiptap/core@2.5.0
-  - @tiptap/extension-blockquote@2.5.0
-  - @tiptap/extension-bold@2.5.0
-  - @tiptap/extension-bullet-list@2.5.0
-  - @tiptap/extension-code@2.5.0
-  - @tiptap/extension-code-block@2.5.0
-  - @tiptap/extension-document@2.5.0
-  - @tiptap/extension-dropcursor@2.5.0
-  - @tiptap/extension-gapcursor@2.5.0
-  - @tiptap/extension-hard-break@2.5.0
-  - @tiptap/extension-heading@2.5.0
-  - @tiptap/extension-history@2.5.0
-  - @tiptap/extension-horizontal-rule@2.5.0
-  - @tiptap/extension-italic@2.5.0
-  - @tiptap/extension-list-item@2.5.0
-  - @tiptap/extension-ordered-list@2.5.0
-  - @tiptap/extension-paragraph@2.5.0
-  - @tiptap/extension-strike@2.5.0
-  - @tiptap/extension-text@2.5.0
+  - @dibdab/core@2.5.0
+  - @dibdab/extension-blockquote@2.5.0
+  - @dibdab/extension-bold@2.5.0
+  - @dibdab/extension-bullet-list@2.5.0
+  - @dibdab/extension-code@2.5.0
+  - @dibdab/extension-code-block@2.5.0
+  - @dibdab/extension-document@2.5.0
+  - @dibdab/extension-dropcursor@2.5.0
+  - @dibdab/extension-gapcursor@2.5.0
+  - @dibdab/extension-hard-break@2.5.0
+  - @dibdab/extension-heading@2.5.0
+  - @dibdab/extension-history@2.5.0
+  - @dibdab/extension-horizontal-rule@2.5.0
+  - @dibdab/extension-italic@2.5.0
+  - @dibdab/extension-list-item@2.5.0
+  - @dibdab/extension-ordered-list@2.5.0
+  - @dibdab/extension-paragraph@2.5.0
+  - @dibdab/extension-strike@2.5.0
+  - @dibdab/extension-text@2.5.0
 
 ## 2.5.0-pre.16
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.16
-- @tiptap/extension-blockquote@2.5.0-pre.16
-- @tiptap/extension-bold@2.5.0-pre.16
-- @tiptap/extension-bullet-list@2.5.0-pre.16
-- @tiptap/extension-code@2.5.0-pre.16
-- @tiptap/extension-code-block@2.5.0-pre.16
-- @tiptap/extension-document@2.5.0-pre.16
-- @tiptap/extension-dropcursor@2.5.0-pre.16
-- @tiptap/extension-gapcursor@2.5.0-pre.16
-- @tiptap/extension-hard-break@2.5.0-pre.16
-- @tiptap/extension-heading@2.5.0-pre.16
-- @tiptap/extension-history@2.5.0-pre.16
-- @tiptap/extension-horizontal-rule@2.5.0-pre.16
-- @tiptap/extension-italic@2.5.0-pre.16
-- @tiptap/extension-list-item@2.5.0-pre.16
-- @tiptap/extension-ordered-list@2.5.0-pre.16
-- @tiptap/extension-paragraph@2.5.0-pre.16
-- @tiptap/extension-strike@2.5.0-pre.16
-- @tiptap/extension-text@2.5.0-pre.16
+- @dibdab/core@2.5.0-pre.16
+- @dibdab/extension-blockquote@2.5.0-pre.16
+- @dibdab/extension-bold@2.5.0-pre.16
+- @dibdab/extension-bullet-list@2.5.0-pre.16
+- @dibdab/extension-code@2.5.0-pre.16
+- @dibdab/extension-code-block@2.5.0-pre.16
+- @dibdab/extension-document@2.5.0-pre.16
+- @dibdab/extension-dropcursor@2.5.0-pre.16
+- @dibdab/extension-gapcursor@2.5.0-pre.16
+- @dibdab/extension-hard-break@2.5.0-pre.16
+- @dibdab/extension-heading@2.5.0-pre.16
+- @dibdab/extension-history@2.5.0-pre.16
+- @dibdab/extension-horizontal-rule@2.5.0-pre.16
+- @dibdab/extension-italic@2.5.0-pre.16
+- @dibdab/extension-list-item@2.5.0-pre.16
+- @dibdab/extension-ordered-list@2.5.0-pre.16
+- @dibdab/extension-paragraph@2.5.0-pre.16
+- @dibdab/extension-strike@2.5.0-pre.16
+- @dibdab/extension-text@2.5.0-pre.16
 
 ## 2.5.0-pre.15
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.15
-- @tiptap/extension-blockquote@2.5.0-pre.15
-- @tiptap/extension-bold@2.5.0-pre.15
-- @tiptap/extension-bullet-list@2.5.0-pre.15
-- @tiptap/extension-code@2.5.0-pre.15
-- @tiptap/extension-code-block@2.5.0-pre.15
-- @tiptap/extension-document@2.5.0-pre.15
-- @tiptap/extension-dropcursor@2.5.0-pre.15
-- @tiptap/extension-gapcursor@2.5.0-pre.15
-- @tiptap/extension-hard-break@2.5.0-pre.15
-- @tiptap/extension-heading@2.5.0-pre.15
-- @tiptap/extension-history@2.5.0-pre.15
-- @tiptap/extension-horizontal-rule@2.5.0-pre.15
-- @tiptap/extension-italic@2.5.0-pre.15
-- @tiptap/extension-list-item@2.5.0-pre.15
-- @tiptap/extension-ordered-list@2.5.0-pre.15
-- @tiptap/extension-paragraph@2.5.0-pre.15
-- @tiptap/extension-strike@2.5.0-pre.15
-- @tiptap/extension-text@2.5.0-pre.15
+- @dibdab/core@2.5.0-pre.15
+- @dibdab/extension-blockquote@2.5.0-pre.15
+- @dibdab/extension-bold@2.5.0-pre.15
+- @dibdab/extension-bullet-list@2.5.0-pre.15
+- @dibdab/extension-code@2.5.0-pre.15
+- @dibdab/extension-code-block@2.5.0-pre.15
+- @dibdab/extension-document@2.5.0-pre.15
+- @dibdab/extension-dropcursor@2.5.0-pre.15
+- @dibdab/extension-gapcursor@2.5.0-pre.15
+- @dibdab/extension-hard-break@2.5.0-pre.15
+- @dibdab/extension-heading@2.5.0-pre.15
+- @dibdab/extension-history@2.5.0-pre.15
+- @dibdab/extension-horizontal-rule@2.5.0-pre.15
+- @dibdab/extension-italic@2.5.0-pre.15
+- @dibdab/extension-list-item@2.5.0-pre.15
+- @dibdab/extension-ordered-list@2.5.0-pre.15
+- @dibdab/extension-paragraph@2.5.0-pre.15
+- @dibdab/extension-strike@2.5.0-pre.15
+- @dibdab/extension-text@2.5.0-pre.15
 
 ## 2.5.0-pre.14
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.14
-- @tiptap/extension-blockquote@2.5.0-pre.14
-- @tiptap/extension-bold@2.5.0-pre.14
-- @tiptap/extension-bullet-list@2.5.0-pre.14
-- @tiptap/extension-code@2.5.0-pre.14
-- @tiptap/extension-code-block@2.5.0-pre.14
-- @tiptap/extension-document@2.5.0-pre.14
-- @tiptap/extension-dropcursor@2.5.0-pre.14
-- @tiptap/extension-gapcursor@2.5.0-pre.14
-- @tiptap/extension-hard-break@2.5.0-pre.14
-- @tiptap/extension-heading@2.5.0-pre.14
-- @tiptap/extension-history@2.5.0-pre.14
-- @tiptap/extension-horizontal-rule@2.5.0-pre.14
-- @tiptap/extension-italic@2.5.0-pre.14
-- @tiptap/extension-list-item@2.5.0-pre.14
-- @tiptap/extension-ordered-list@2.5.0-pre.14
-- @tiptap/extension-paragraph@2.5.0-pre.14
-- @tiptap/extension-strike@2.5.0-pre.14
-- @tiptap/extension-text@2.5.0-pre.14
+- @dibdab/core@2.5.0-pre.14
+- @dibdab/extension-blockquote@2.5.0-pre.14
+- @dibdab/extension-bold@2.5.0-pre.14
+- @dibdab/extension-bullet-list@2.5.0-pre.14
+- @dibdab/extension-code@2.5.0-pre.14
+- @dibdab/extension-code-block@2.5.0-pre.14
+- @dibdab/extension-document@2.5.0-pre.14
+- @dibdab/extension-dropcursor@2.5.0-pre.14
+- @dibdab/extension-gapcursor@2.5.0-pre.14
+- @dibdab/extension-hard-break@2.5.0-pre.14
+- @dibdab/extension-heading@2.5.0-pre.14
+- @dibdab/extension-history@2.5.0-pre.14
+- @dibdab/extension-horizontal-rule@2.5.0-pre.14
+- @dibdab/extension-italic@2.5.0-pre.14
+- @dibdab/extension-list-item@2.5.0-pre.14
+- @dibdab/extension-ordered-list@2.5.0-pre.14
+- @dibdab/extension-paragraph@2.5.0-pre.14
+- @dibdab/extension-strike@2.5.0-pre.14
+- @dibdab/extension-text@2.5.0-pre.14
 
 ## 2.5.0-pre.13
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.13
-  - @tiptap/extension-blockquote@2.5.0-pre.13
-  - @tiptap/extension-bold@2.5.0-pre.13
-  - @tiptap/extension-bullet-list@2.5.0-pre.13
-  - @tiptap/extension-code@2.5.0-pre.13
-  - @tiptap/extension-code-block@2.5.0-pre.13
-  - @tiptap/extension-document@2.5.0-pre.13
-  - @tiptap/extension-dropcursor@2.5.0-pre.13
-  - @tiptap/extension-gapcursor@2.5.0-pre.13
-  - @tiptap/extension-hard-break@2.5.0-pre.13
-  - @tiptap/extension-heading@2.5.0-pre.13
-  - @tiptap/extension-history@2.5.0-pre.13
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.13
-  - @tiptap/extension-italic@2.5.0-pre.13
-  - @tiptap/extension-list-item@2.5.0-pre.13
-  - @tiptap/extension-ordered-list@2.5.0-pre.13
-  - @tiptap/extension-paragraph@2.5.0-pre.13
-  - @tiptap/extension-strike@2.5.0-pre.13
-  - @tiptap/extension-text@2.5.0-pre.13
+  - @dibdab/core@2.5.0-pre.13
+  - @dibdab/extension-blockquote@2.5.0-pre.13
+  - @dibdab/extension-bold@2.5.0-pre.13
+  - @dibdab/extension-bullet-list@2.5.0-pre.13
+  - @dibdab/extension-code@2.5.0-pre.13
+  - @dibdab/extension-code-block@2.5.0-pre.13
+  - @dibdab/extension-document@2.5.0-pre.13
+  - @dibdab/extension-dropcursor@2.5.0-pre.13
+  - @dibdab/extension-gapcursor@2.5.0-pre.13
+  - @dibdab/extension-hard-break@2.5.0-pre.13
+  - @dibdab/extension-heading@2.5.0-pre.13
+  - @dibdab/extension-history@2.5.0-pre.13
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.13
+  - @dibdab/extension-italic@2.5.0-pre.13
+  - @dibdab/extension-list-item@2.5.0-pre.13
+  - @dibdab/extension-ordered-list@2.5.0-pre.13
+  - @dibdab/extension-paragraph@2.5.0-pre.13
+  - @dibdab/extension-strike@2.5.0-pre.13
+  - @dibdab/extension-text@2.5.0-pre.13
 
 ## 2.5.0-pre.12
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.12
-  - @tiptap/extension-blockquote@2.5.0-pre.12
-  - @tiptap/extension-bold@2.5.0-pre.12
-  - @tiptap/extension-bullet-list@2.5.0-pre.12
-  - @tiptap/extension-code@2.5.0-pre.12
-  - @tiptap/extension-code-block@2.5.0-pre.12
-  - @tiptap/extension-document@2.5.0-pre.12
-  - @tiptap/extension-dropcursor@2.5.0-pre.12
-  - @tiptap/extension-gapcursor@2.5.0-pre.12
-  - @tiptap/extension-hard-break@2.5.0-pre.12
-  - @tiptap/extension-heading@2.5.0-pre.12
-  - @tiptap/extension-history@2.5.0-pre.12
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.12
-  - @tiptap/extension-italic@2.5.0-pre.12
-  - @tiptap/extension-list-item@2.5.0-pre.12
-  - @tiptap/extension-ordered-list@2.5.0-pre.12
-  - @tiptap/extension-paragraph@2.5.0-pre.12
-  - @tiptap/extension-strike@2.5.0-pre.12
-  - @tiptap/extension-text@2.5.0-pre.12
+  - @dibdab/core@2.5.0-pre.12
+  - @dibdab/extension-blockquote@2.5.0-pre.12
+  - @dibdab/extension-bold@2.5.0-pre.12
+  - @dibdab/extension-bullet-list@2.5.0-pre.12
+  - @dibdab/extension-code@2.5.0-pre.12
+  - @dibdab/extension-code-block@2.5.0-pre.12
+  - @dibdab/extension-document@2.5.0-pre.12
+  - @dibdab/extension-dropcursor@2.5.0-pre.12
+  - @dibdab/extension-gapcursor@2.5.0-pre.12
+  - @dibdab/extension-hard-break@2.5.0-pre.12
+  - @dibdab/extension-heading@2.5.0-pre.12
+  - @dibdab/extension-history@2.5.0-pre.12
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.12
+  - @dibdab/extension-italic@2.5.0-pre.12
+  - @dibdab/extension-list-item@2.5.0-pre.12
+  - @dibdab/extension-ordered-list@2.5.0-pre.12
+  - @dibdab/extension-paragraph@2.5.0-pre.12
+  - @dibdab/extension-strike@2.5.0-pre.12
+  - @dibdab/extension-text@2.5.0-pre.12
 
 ## 2.5.0-pre.11
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.11
-  - @tiptap/extension-blockquote@2.5.0-pre.11
-  - @tiptap/extension-bold@2.5.0-pre.11
-  - @tiptap/extension-bullet-list@2.5.0-pre.11
-  - @tiptap/extension-code@2.5.0-pre.11
-  - @tiptap/extension-code-block@2.5.0-pre.11
-  - @tiptap/extension-document@2.5.0-pre.11
-  - @tiptap/extension-dropcursor@2.5.0-pre.11
-  - @tiptap/extension-gapcursor@2.5.0-pre.11
-  - @tiptap/extension-hard-break@2.5.0-pre.11
-  - @tiptap/extension-heading@2.5.0-pre.11
-  - @tiptap/extension-history@2.5.0-pre.11
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.11
-  - @tiptap/extension-italic@2.5.0-pre.11
-  - @tiptap/extension-list-item@2.5.0-pre.11
-  - @tiptap/extension-ordered-list@2.5.0-pre.11
-  - @tiptap/extension-paragraph@2.5.0-pre.11
-  - @tiptap/extension-strike@2.5.0-pre.11
-  - @tiptap/extension-text@2.5.0-pre.11
+  - @dibdab/core@2.5.0-pre.11
+  - @dibdab/extension-blockquote@2.5.0-pre.11
+  - @dibdab/extension-bold@2.5.0-pre.11
+  - @dibdab/extension-bullet-list@2.5.0-pre.11
+  - @dibdab/extension-code@2.5.0-pre.11
+  - @dibdab/extension-code-block@2.5.0-pre.11
+  - @dibdab/extension-document@2.5.0-pre.11
+  - @dibdab/extension-dropcursor@2.5.0-pre.11
+  - @dibdab/extension-gapcursor@2.5.0-pre.11
+  - @dibdab/extension-hard-break@2.5.0-pre.11
+  - @dibdab/extension-heading@2.5.0-pre.11
+  - @dibdab/extension-history@2.5.0-pre.11
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.11
+  - @dibdab/extension-italic@2.5.0-pre.11
+  - @dibdab/extension-list-item@2.5.0-pre.11
+  - @dibdab/extension-ordered-list@2.5.0-pre.11
+  - @dibdab/extension-paragraph@2.5.0-pre.11
+  - @dibdab/extension-strike@2.5.0-pre.11
+  - @dibdab/extension-text@2.5.0-pre.11
 
 ## 2.5.0-pre.10
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.10
-  - @tiptap/extension-blockquote@2.5.0-pre.10
-  - @tiptap/extension-bold@2.5.0-pre.10
-  - @tiptap/extension-bullet-list@2.5.0-pre.10
-  - @tiptap/extension-code@2.5.0-pre.10
-  - @tiptap/extension-code-block@2.5.0-pre.10
-  - @tiptap/extension-document@2.5.0-pre.10
-  - @tiptap/extension-dropcursor@2.5.0-pre.10
-  - @tiptap/extension-gapcursor@2.5.0-pre.10
-  - @tiptap/extension-hard-break@2.5.0-pre.10
-  - @tiptap/extension-heading@2.5.0-pre.10
-  - @tiptap/extension-history@2.5.0-pre.10
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.10
-  - @tiptap/extension-italic@2.5.0-pre.10
-  - @tiptap/extension-list-item@2.5.0-pre.10
-  - @tiptap/extension-ordered-list@2.5.0-pre.10
-  - @tiptap/extension-paragraph@2.5.0-pre.10
-  - @tiptap/extension-strike@2.5.0-pre.10
-  - @tiptap/extension-text@2.5.0-pre.10
+  - @dibdab/core@2.5.0-pre.10
+  - @dibdab/extension-blockquote@2.5.0-pre.10
+  - @dibdab/extension-bold@2.5.0-pre.10
+  - @dibdab/extension-bullet-list@2.5.0-pre.10
+  - @dibdab/extension-code@2.5.0-pre.10
+  - @dibdab/extension-code-block@2.5.0-pre.10
+  - @dibdab/extension-document@2.5.0-pre.10
+  - @dibdab/extension-dropcursor@2.5.0-pre.10
+  - @dibdab/extension-gapcursor@2.5.0-pre.10
+  - @dibdab/extension-hard-break@2.5.0-pre.10
+  - @dibdab/extension-heading@2.5.0-pre.10
+  - @dibdab/extension-history@2.5.0-pre.10
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.10
+  - @dibdab/extension-italic@2.5.0-pre.10
+  - @dibdab/extension-list-item@2.5.0-pre.10
+  - @dibdab/extension-ordered-list@2.5.0-pre.10
+  - @dibdab/extension-paragraph@2.5.0-pre.10
+  - @dibdab/extension-strike@2.5.0-pre.10
+  - @dibdab/extension-text@2.5.0-pre.10
 
 ## 2.5.0-pre.9
 
@@ -3713,74 +3713,74 @@
 
 - d5e10dc: fix(starter-kit): make blockquote shortcut work in starter-kit
 - Updated dependencies [14a00f4]
-  - @tiptap/core@2.5.0-pre.9
-  - @tiptap/extension-blockquote@2.5.0-pre.9
-  - @tiptap/extension-bold@2.5.0-pre.9
-  - @tiptap/extension-bullet-list@2.5.0-pre.9
-  - @tiptap/extension-code@2.5.0-pre.9
-  - @tiptap/extension-code-block@2.5.0-pre.9
-  - @tiptap/extension-document@2.5.0-pre.9
-  - @tiptap/extension-dropcursor@2.5.0-pre.9
-  - @tiptap/extension-gapcursor@2.5.0-pre.9
-  - @tiptap/extension-hard-break@2.5.0-pre.9
-  - @tiptap/extension-heading@2.5.0-pre.9
-  - @tiptap/extension-history@2.5.0-pre.9
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.9
-  - @tiptap/extension-italic@2.5.0-pre.9
-  - @tiptap/extension-list-item@2.5.0-pre.9
-  - @tiptap/extension-ordered-list@2.5.0-pre.9
-  - @tiptap/extension-paragraph@2.5.0-pre.9
-  - @tiptap/extension-strike@2.5.0-pre.9
-  - @tiptap/extension-text@2.5.0-pre.9
+  - @dibdab/core@2.5.0-pre.9
+  - @dibdab/extension-blockquote@2.5.0-pre.9
+  - @dibdab/extension-bold@2.5.0-pre.9
+  - @dibdab/extension-bullet-list@2.5.0-pre.9
+  - @dibdab/extension-code@2.5.0-pre.9
+  - @dibdab/extension-code-block@2.5.0-pre.9
+  - @dibdab/extension-document@2.5.0-pre.9
+  - @dibdab/extension-dropcursor@2.5.0-pre.9
+  - @dibdab/extension-gapcursor@2.5.0-pre.9
+  - @dibdab/extension-hard-break@2.5.0-pre.9
+  - @dibdab/extension-heading@2.5.0-pre.9
+  - @dibdab/extension-history@2.5.0-pre.9
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.9
+  - @dibdab/extension-italic@2.5.0-pre.9
+  - @dibdab/extension-list-item@2.5.0-pre.9
+  - @dibdab/extension-ordered-list@2.5.0-pre.9
+  - @dibdab/extension-paragraph@2.5.0-pre.9
+  - @dibdab/extension-strike@2.5.0-pre.9
+  - @dibdab/extension-text@2.5.0-pre.9
 
 ## 2.5.0-pre.8
 
 ### Patch Changes
 
 - Updated dependencies [509676e]
-  - @tiptap/core@2.5.0-pre.8
-  - @tiptap/extension-blockquote@2.5.0-pre.8
-  - @tiptap/extension-bold@2.5.0-pre.8
-  - @tiptap/extension-bullet-list@2.5.0-pre.8
-  - @tiptap/extension-code@2.5.0-pre.8
-  - @tiptap/extension-code-block@2.5.0-pre.8
-  - @tiptap/extension-document@2.5.0-pre.8
-  - @tiptap/extension-dropcursor@2.5.0-pre.8
-  - @tiptap/extension-gapcursor@2.5.0-pre.8
-  - @tiptap/extension-hard-break@2.5.0-pre.8
-  - @tiptap/extension-heading@2.5.0-pre.8
-  - @tiptap/extension-history@2.5.0-pre.8
-  - @tiptap/extension-horizontal-rule@2.5.0-pre.8
-  - @tiptap/extension-italic@2.5.0-pre.8
-  - @tiptap/extension-list-item@2.5.0-pre.8
-  - @tiptap/extension-ordered-list@2.5.0-pre.8
-  - @tiptap/extension-paragraph@2.5.0-pre.8
-  - @tiptap/extension-strike@2.5.0-pre.8
-  - @tiptap/extension-text@2.5.0-pre.8
+  - @dibdab/core@2.5.0-pre.8
+  - @dibdab/extension-blockquote@2.5.0-pre.8
+  - @dibdab/extension-bold@2.5.0-pre.8
+  - @dibdab/extension-bullet-list@2.5.0-pre.8
+  - @dibdab/extension-code@2.5.0-pre.8
+  - @dibdab/extension-code-block@2.5.0-pre.8
+  - @dibdab/extension-document@2.5.0-pre.8
+  - @dibdab/extension-dropcursor@2.5.0-pre.8
+  - @dibdab/extension-gapcursor@2.5.0-pre.8
+  - @dibdab/extension-hard-break@2.5.0-pre.8
+  - @dibdab/extension-heading@2.5.0-pre.8
+  - @dibdab/extension-history@2.5.0-pre.8
+  - @dibdab/extension-horizontal-rule@2.5.0-pre.8
+  - @dibdab/extension-italic@2.5.0-pre.8
+  - @dibdab/extension-list-item@2.5.0-pre.8
+  - @dibdab/extension-ordered-list@2.5.0-pre.8
+  - @dibdab/extension-paragraph@2.5.0-pre.8
+  - @dibdab/extension-strike@2.5.0-pre.8
+  - @dibdab/extension-text@2.5.0-pre.8
 
 ## 2.5.0-pre.7
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.7
-- @tiptap/extension-blockquote@2.5.0-pre.7
-- @tiptap/extension-bold@2.5.0-pre.7
-- @tiptap/extension-bullet-list@2.5.0-pre.7
-- @tiptap/extension-code@2.5.0-pre.7
-- @tiptap/extension-code-block@2.5.0-pre.7
-- @tiptap/extension-document@2.5.0-pre.7
-- @tiptap/extension-dropcursor@2.5.0-pre.7
-- @tiptap/extension-gapcursor@2.5.0-pre.7
-- @tiptap/extension-hard-break@2.5.0-pre.7
-- @tiptap/extension-heading@2.5.0-pre.7
-- @tiptap/extension-history@2.5.0-pre.7
-- @tiptap/extension-horizontal-rule@2.5.0-pre.7
-- @tiptap/extension-italic@2.5.0-pre.7
-- @tiptap/extension-list-item@2.5.0-pre.7
-- @tiptap/extension-ordered-list@2.5.0-pre.7
-- @tiptap/extension-paragraph@2.5.0-pre.7
-- @tiptap/extension-strike@2.5.0-pre.7
-- @tiptap/extension-text@2.5.0-pre.7
+- @dibdab/core@2.5.0-pre.7
+- @dibdab/extension-blockquote@2.5.0-pre.7
+- @dibdab/extension-bold@2.5.0-pre.7
+- @dibdab/extension-bullet-list@2.5.0-pre.7
+- @dibdab/extension-code@2.5.0-pre.7
+- @dibdab/extension-code-block@2.5.0-pre.7
+- @dibdab/extension-document@2.5.0-pre.7
+- @dibdab/extension-dropcursor@2.5.0-pre.7
+- @dibdab/extension-gapcursor@2.5.0-pre.7
+- @dibdab/extension-hard-break@2.5.0-pre.7
+- @dibdab/extension-heading@2.5.0-pre.7
+- @dibdab/extension-history@2.5.0-pre.7
+- @dibdab/extension-horizontal-rule@2.5.0-pre.7
+- @dibdab/extension-italic@2.5.0-pre.7
+- @dibdab/extension-list-item@2.5.0-pre.7
+- @dibdab/extension-ordered-list@2.5.0-pre.7
+- @dibdab/extension-paragraph@2.5.0-pre.7
+- @dibdab/extension-strike@2.5.0-pre.7
+- @dibdab/extension-text@2.5.0-pre.7
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
@@ -3793,39 +3793,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.2.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0...v2.2.1) (2024-01-31)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
 
@@ -3843,27 +3843,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
 
@@ -3873,51 +3873,51 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.8](https://github.com/ueberdosis/tiptap/compare/v2.1.7...v2.1.8) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.7](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.1.7) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.14](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.13...v2.1.0-rc.14) (2023-08-11)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.13](https://github.com/ueberdosis/tiptap/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
 
@@ -3949,43 +3949,43 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.12](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.11](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.6...v2.1.0-rc.7) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.6](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.5...v2.1.0-rc.6) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.5](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
 
@@ -3999,19 +3999,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.0.2](https://github.com/ueberdosis/tiptap/compare/v2.0.1...v2.0.2) (2023-04-03)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 ## [2.0.1](https://github.com/ueberdosis/tiptap/compare/v2.0.0...v2.0.1) (2023-03-30)
 
@@ -4021,23 +4021,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.220](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.219...v2.0.0-beta.220) (2023-02-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.215](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.214...v2.0.0-beta.215) (2023-02-08)
 
@@ -4047,43 +4047,43 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.214](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.213...v2.0.0-beta.214) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.209](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.208...v2.0.0-beta.209) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.208](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.207...v2.0.0-beta.208) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.207](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.206...v2.0.0-beta.207) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.206](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.205...v2.0.0-beta.206) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.205](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.204...v2.0.0-beta.205) (2022-12-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.204](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.203...v2.0.0-beta.204) (2022-11-25)
 
@@ -4093,43 +4093,43 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.203](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.202...v2.0.0-beta.203) (2022-11-24)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # [2.0.0-beta.193](https://github.com/ueberdosis/tiptap/compare/v0.1.2...v2.0.0-beta.193) (2022-09-10)
 
@@ -4150,848 +4150,848 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
 
-# [2.0.0-beta.192](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.191...@tiptap/starter-kit@2.0.0-beta.192) (2022-09-03)
+# [2.0.0-beta.192](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.191...@dibdab/starter-kit@2.0.0-beta.192) (2022-09-03)
 
 ### Bug Fixes
 
 - let StarterKit be imported as cjs module ([#2967](https://github.com/ueberdosis/tiptap/issues/2967)) ([69d22d2](https://github.com/ueberdosis/tiptap/commit/69d22d2d3c3b3064641e0a1ba66a0a9ada90d6bd))
 
-# [2.0.0-beta.191](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.190...@tiptap/starter-kit@2.0.0-beta.191) (2022-07-06)
+# [2.0.0-beta.191](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.190...@dibdab/starter-kit@2.0.0-beta.191) (2022-07-06)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.190](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.189...@tiptap/starter-kit@2.0.0-beta.190) (2022-06-27)
+# [2.0.0-beta.190](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.189...@dibdab/starter-kit@2.0.0-beta.190) (2022-06-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.189](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.188...@tiptap/starter-kit@2.0.0-beta.189) (2022-06-20)
+# [2.0.0-beta.189](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.188...@dibdab/starter-kit@2.0.0-beta.189) (2022-06-20)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.188](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.186...@tiptap/starter-kit@2.0.0-beta.188) (2022-06-17)
-
-### Reverts
-
-- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
-
-# [2.0.0-beta.186](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.186...@tiptap/starter-kit@2.0.0-beta.186) (2022-06-17)
+# [2.0.0-beta.188](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.186...@dibdab/starter-kit@2.0.0-beta.188) (2022-06-17)
 
 ### Reverts
 
 - Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
 
-# [2.0.0-beta.185](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.184...@tiptap/starter-kit@2.0.0-beta.185) (2022-05-18)
+# [2.0.0-beta.186](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.186...@dibdab/starter-kit@2.0.0-beta.186) (2022-06-17)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+### Reverts
 
-# [2.0.0-beta.184](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.183...@tiptap/starter-kit@2.0.0-beta.184) (2022-04-27)
+- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.185](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.184...@dibdab/starter-kit@2.0.0-beta.185) (2022-05-18)
 
-# [2.0.0-beta.183](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.182...@tiptap/starter-kit@2.0.0-beta.183) (2022-02-07)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.184](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.183...@dibdab/starter-kit@2.0.0-beta.184) (2022-04-27)
 
-# [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.181...@tiptap/starter-kit@2.0.0-beta.182) (2022-02-07)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.183](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.182...@dibdab/starter-kit@2.0.0-beta.183) (2022-02-07)
 
-# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.180...@tiptap/starter-kit@2.0.0-beta.181) (2022-02-03)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.182](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.181...@dibdab/starter-kit@2.0.0-beta.182) (2022-02-07)
 
-# [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.179...@tiptap/starter-kit@2.0.0-beta.180) (2022-01-28)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.181](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.180...@dibdab/starter-kit@2.0.0-beta.181) (2022-02-03)
 
-# [2.0.0-beta.179](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.178...@tiptap/starter-kit@2.0.0-beta.179) (2022-01-27)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.180](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.179...@dibdab/starter-kit@2.0.0-beta.180) (2022-01-28)
 
-# [2.0.0-beta.178](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.177...@tiptap/starter-kit@2.0.0-beta.178) (2022-01-27)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.179](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.178...@dibdab/starter-kit@2.0.0-beta.179) (2022-01-27)
 
-# [2.0.0-beta.177](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.176...@tiptap/starter-kit@2.0.0-beta.177) (2022-01-26)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.178](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.177...@dibdab/starter-kit@2.0.0-beta.178) (2022-01-27)
 
-# [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.175...@tiptap/starter-kit@2.0.0-beta.176) (2022-01-25)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.177](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.176...@dibdab/starter-kit@2.0.0-beta.177) (2022-01-26)
 
-# [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.174...@tiptap/starter-kit@2.0.0-beta.175) (2022-01-24)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.176](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.175...@dibdab/starter-kit@2.0.0-beta.176) (2022-01-25)
 
-# [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.173...@tiptap/starter-kit@2.0.0-beta.174) (2022-01-20)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.175](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.174...@dibdab/starter-kit@2.0.0-beta.175) (2022-01-24)
 
-# [2.0.0-beta.173](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.172...@tiptap/starter-kit@2.0.0-beta.173) (2022-01-20)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.174](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.173...@dibdab/starter-kit@2.0.0-beta.174) (2022-01-20)
 
-# [2.0.0-beta.172](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.171...@tiptap/starter-kit@2.0.0-beta.172) (2022-01-20)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.173](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.172...@dibdab/starter-kit@2.0.0-beta.173) (2022-01-20)
 
-# [2.0.0-beta.171](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.170...@tiptap/starter-kit@2.0.0-beta.171) (2022-01-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.172](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.171...@dibdab/starter-kit@2.0.0-beta.172) (2022-01-20)
 
-# [2.0.0-beta.170](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.169...@tiptap/starter-kit@2.0.0-beta.170) (2022-01-11)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.171](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.170...@dibdab/starter-kit@2.0.0-beta.171) (2022-01-13)
 
-# [2.0.0-beta.169](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.168...@tiptap/starter-kit@2.0.0-beta.169) (2022-01-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.170](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.169...@dibdab/starter-kit@2.0.0-beta.170) (2022-01-11)
 
-# [2.0.0-beta.168](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.167...@tiptap/starter-kit@2.0.0-beta.168) (2022-01-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.169](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.168...@dibdab/starter-kit@2.0.0-beta.169) (2022-01-10)
 
-# [2.0.0-beta.167](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.166...@tiptap/starter-kit@2.0.0-beta.167) (2022-01-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.168](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.167...@dibdab/starter-kit@2.0.0-beta.168) (2022-01-05)
 
-# [2.0.0-beta.166](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.165...@tiptap/starter-kit@2.0.0-beta.166) (2022-01-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.167](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.166...@dibdab/starter-kit@2.0.0-beta.167) (2022-01-05)
 
-# [2.0.0-beta.165](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.164...@tiptap/starter-kit@2.0.0-beta.165) (2022-01-04)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.166](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.165...@dibdab/starter-kit@2.0.0-beta.166) (2022-01-05)
 
-# [2.0.0-beta.164](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.163...@tiptap/starter-kit@2.0.0-beta.164) (2021-12-22)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.165](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.164...@dibdab/starter-kit@2.0.0-beta.165) (2022-01-04)
 
-# [2.0.0-beta.163](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.162...@tiptap/starter-kit@2.0.0-beta.163) (2021-12-17)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.164](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.163...@dibdab/starter-kit@2.0.0-beta.164) (2021-12-22)
 
-# [2.0.0-beta.162](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.161...@tiptap/starter-kit@2.0.0-beta.162) (2021-12-16)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.163](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.162...@dibdab/starter-kit@2.0.0-beta.163) (2021-12-17)
 
-# [2.0.0-beta.161](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.160...@tiptap/starter-kit@2.0.0-beta.161) (2021-12-16)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.162](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.161...@dibdab/starter-kit@2.0.0-beta.162) (2021-12-16)
 
-# [2.0.0-beta.160](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.159...@tiptap/starter-kit@2.0.0-beta.160) (2021-12-15)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.161](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.160...@dibdab/starter-kit@2.0.0-beta.161) (2021-12-16)
 
-# [2.0.0-beta.159](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.158...@tiptap/starter-kit@2.0.0-beta.159) (2021-12-15)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.160](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.159...@dibdab/starter-kit@2.0.0-beta.160) (2021-12-15)
 
-# [2.0.0-beta.158](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.157...@tiptap/starter-kit@2.0.0-beta.158) (2021-12-14)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.159](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.158...@dibdab/starter-kit@2.0.0-beta.159) (2021-12-15)
 
-# [2.0.0-beta.157](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.156...@tiptap/starter-kit@2.0.0-beta.157) (2021-12-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.158](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.157...@dibdab/starter-kit@2.0.0-beta.158) (2021-12-14)
 
-# [2.0.0-beta.156](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.155...@tiptap/starter-kit@2.0.0-beta.156) (2021-12-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.157](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.156...@dibdab/starter-kit@2.0.0-beta.157) (2021-12-13)
 
-# [2.0.0-beta.155](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.154...@tiptap/starter-kit@2.0.0-beta.155) (2021-12-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.156](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.155...@dibdab/starter-kit@2.0.0-beta.156) (2021-12-10)
 
-# [2.0.0-beta.154](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.153...@tiptap/starter-kit@2.0.0-beta.154) (2021-12-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.155](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.154...@dibdab/starter-kit@2.0.0-beta.155) (2021-12-10)
 
-# [2.0.0-beta.153](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.152...@tiptap/starter-kit@2.0.0-beta.153) (2021-12-06)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.154](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.153...@dibdab/starter-kit@2.0.0-beta.154) (2021-12-08)
 
-# [2.0.0-beta.152](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.151...@tiptap/starter-kit@2.0.0-beta.152) (2021-12-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.153](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.152...@dibdab/starter-kit@2.0.0-beta.153) (2021-12-06)
 
-# [2.0.0-beta.151](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.150...@tiptap/starter-kit@2.0.0-beta.151) (2021-12-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.152](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.151...@dibdab/starter-kit@2.0.0-beta.152) (2021-12-05)
 
-# [2.0.0-beta.150](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.149...@tiptap/starter-kit@2.0.0-beta.150) (2021-12-03)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.151](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.150...@dibdab/starter-kit@2.0.0-beta.151) (2021-12-05)
 
-# [2.0.0-beta.149](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.148...@tiptap/starter-kit@2.0.0-beta.149) (2021-12-03)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.150](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.149...@dibdab/starter-kit@2.0.0-beta.150) (2021-12-03)
 
-# [2.0.0-beta.148](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.147...@tiptap/starter-kit@2.0.0-beta.148) (2021-12-02)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.149](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.148...@dibdab/starter-kit@2.0.0-beta.149) (2021-12-03)
 
-# [2.0.0-beta.147](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.146...@tiptap/starter-kit@2.0.0-beta.147) (2021-12-02)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.148](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.147...@dibdab/starter-kit@2.0.0-beta.148) (2021-12-02)
 
-# [2.0.0-beta.146](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.145...@tiptap/starter-kit@2.0.0-beta.146) (2021-12-02)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.147](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.146...@dibdab/starter-kit@2.0.0-beta.147) (2021-12-02)
 
-# [2.0.0-beta.145](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.144...@tiptap/starter-kit@2.0.0-beta.145) (2021-11-25)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.146](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.145...@dibdab/starter-kit@2.0.0-beta.146) (2021-12-02)
 
-# [2.0.0-beta.144](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.143...@tiptap/starter-kit@2.0.0-beta.144) (2021-11-23)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.145](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.144...@dibdab/starter-kit@2.0.0-beta.145) (2021-11-25)
 
-# [2.0.0-beta.143](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.142...@tiptap/starter-kit@2.0.0-beta.143) (2021-11-22)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.144](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.143...@dibdab/starter-kit@2.0.0-beta.144) (2021-11-23)
 
-# [2.0.0-beta.142](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.141...@tiptap/starter-kit@2.0.0-beta.142) (2021-11-18)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.143](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.142...@dibdab/starter-kit@2.0.0-beta.143) (2021-11-22)
 
-# [2.0.0-beta.141](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.140...@tiptap/starter-kit@2.0.0-beta.141) (2021-11-17)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.142](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.141...@dibdab/starter-kit@2.0.0-beta.142) (2021-11-18)
 
-# [2.0.0-beta.140](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.139...@tiptap/starter-kit@2.0.0-beta.140) (2021-11-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.141](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.140...@dibdab/starter-kit@2.0.0-beta.141) (2021-11-17)
 
-# [2.0.0-beta.139](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.138...@tiptap/starter-kit@2.0.0-beta.139) (2021-11-09)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.140](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.139...@dibdab/starter-kit@2.0.0-beta.140) (2021-11-10)
 
-# [2.0.0-beta.138](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.137...@tiptap/starter-kit@2.0.0-beta.138) (2021-11-09)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.139](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.138...@dibdab/starter-kit@2.0.0-beta.139) (2021-11-09)
 
-# [2.0.0-beta.137](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.136...@tiptap/starter-kit@2.0.0-beta.137) (2021-11-09)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.138](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.137...@dibdab/starter-kit@2.0.0-beta.138) (2021-11-09)
 
-# [2.0.0-beta.136](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.135...@tiptap/starter-kit@2.0.0-beta.136) (2021-11-09)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.137](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.136...@dibdab/starter-kit@2.0.0-beta.137) (2021-11-09)
 
-# [2.0.0-beta.135](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.134...@tiptap/starter-kit@2.0.0-beta.135) (2021-11-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.136](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.135...@dibdab/starter-kit@2.0.0-beta.136) (2021-11-09)
 
-# [2.0.0-beta.134](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.133...@tiptap/starter-kit@2.0.0-beta.134) (2021-11-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.135](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.134...@dibdab/starter-kit@2.0.0-beta.135) (2021-11-08)
 
-# [2.0.0-beta.133](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.132...@tiptap/starter-kit@2.0.0-beta.133) (2021-11-05)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.134](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.133...@dibdab/starter-kit@2.0.0-beta.134) (2021-11-08)
 
-# [2.0.0-beta.132](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.131...@tiptap/starter-kit@2.0.0-beta.132) (2021-10-31)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.133](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.132...@dibdab/starter-kit@2.0.0-beta.133) (2021-11-05)
 
-# [2.0.0-beta.131](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.130...@tiptap/starter-kit@2.0.0-beta.131) (2021-10-26)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.132](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.131...@dibdab/starter-kit@2.0.0-beta.132) (2021-10-31)
 
-# [2.0.0-beta.130](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.129...@tiptap/starter-kit@2.0.0-beta.130) (2021-10-25)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.131](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.130...@dibdab/starter-kit@2.0.0-beta.131) (2021-10-26)
 
-# [2.0.0-beta.129](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.128...@tiptap/starter-kit@2.0.0-beta.129) (2021-10-22)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.130](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.129...@dibdab/starter-kit@2.0.0-beta.130) (2021-10-25)
 
-# [2.0.0-beta.128](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.127...@tiptap/starter-kit@2.0.0-beta.128) (2021-10-22)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.129](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.128...@dibdab/starter-kit@2.0.0-beta.129) (2021-10-22)
 
-# [2.0.0-beta.127](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.126...@tiptap/starter-kit@2.0.0-beta.127) (2021-10-14)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.128](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.127...@dibdab/starter-kit@2.0.0-beta.128) (2021-10-22)
 
-# [2.0.0-beta.126](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.125...@tiptap/starter-kit@2.0.0-beta.126) (2021-10-14)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.127](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.126...@dibdab/starter-kit@2.0.0-beta.127) (2021-10-14)
 
-# [2.0.0-beta.125](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.124...@tiptap/starter-kit@2.0.0-beta.125) (2021-10-14)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.126](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.125...@dibdab/starter-kit@2.0.0-beta.126) (2021-10-14)
 
-# [2.0.0-beta.124](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.123...@tiptap/starter-kit@2.0.0-beta.124) (2021-10-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.125](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.124...@dibdab/starter-kit@2.0.0-beta.125) (2021-10-14)
 
-# [2.0.0-beta.123](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.122...@tiptap/starter-kit@2.0.0-beta.123) (2021-10-12)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.124](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.123...@dibdab/starter-kit@2.0.0-beta.124) (2021-10-13)
 
-# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.121...@tiptap/starter-kit@2.0.0-beta.122) (2021-10-12)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.123](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.122...@dibdab/starter-kit@2.0.0-beta.123) (2021-10-12)
 
-# [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.120...@tiptap/starter-kit@2.0.0-beta.121) (2021-10-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.122](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.121...@dibdab/starter-kit@2.0.0-beta.122) (2021-10-12)
 
-# [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.119...@tiptap/starter-kit@2.0.0-beta.120) (2021-10-10)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.121](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.120...@dibdab/starter-kit@2.0.0-beta.121) (2021-10-10)
 
-# [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.118...@tiptap/starter-kit@2.0.0-beta.119) (2021-10-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.120](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.119...@dibdab/starter-kit@2.0.0-beta.120) (2021-10-10)
 
-# [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.117...@tiptap/starter-kit@2.0.0-beta.118) (2021-10-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.119](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.118...@dibdab/starter-kit@2.0.0-beta.119) (2021-10-08)
 
-# [2.0.0-beta.117](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.116...@tiptap/starter-kit@2.0.0-beta.117) (2021-10-03)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.118](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.117...@dibdab/starter-kit@2.0.0-beta.118) (2021-10-08)
 
-# [2.0.0-beta.116](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.115...@tiptap/starter-kit@2.0.0-beta.116) (2021-10-02)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.117](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.116...@dibdab/starter-kit@2.0.0-beta.117) (2021-10-03)
 
-# [2.0.0-beta.115](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.114...@tiptap/starter-kit@2.0.0-beta.115) (2021-09-30)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.116](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.115...@dibdab/starter-kit@2.0.0-beta.116) (2021-10-02)
 
-# [2.0.0-beta.114](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.113...@tiptap/starter-kit@2.0.0-beta.114) (2021-09-29)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.115](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.114...@dibdab/starter-kit@2.0.0-beta.115) (2021-09-30)
 
-# [2.0.0-beta.113](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.112...@tiptap/starter-kit@2.0.0-beta.113) (2021-09-28)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.114](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.113...@dibdab/starter-kit@2.0.0-beta.114) (2021-09-29)
 
-# [2.0.0-beta.112](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.111...@tiptap/starter-kit@2.0.0-beta.112) (2021-09-27)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.113](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.112...@dibdab/starter-kit@2.0.0-beta.113) (2021-09-28)
 
-# [2.0.0-beta.111](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.110...@tiptap/starter-kit@2.0.0-beta.111) (2021-09-23)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.112](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.111...@dibdab/starter-kit@2.0.0-beta.112) (2021-09-27)
 
-# [2.0.0-beta.110](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.109...@tiptap/starter-kit@2.0.0-beta.110) (2021-09-22)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.111](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.110...@dibdab/starter-kit@2.0.0-beta.111) (2021-09-23)
 
-# [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.108...@tiptap/starter-kit@2.0.0-beta.109) (2021-09-21)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.110](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.109...@dibdab/starter-kit@2.0.0-beta.110) (2021-09-22)
 
-# [2.0.0-beta.108](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.107...@tiptap/starter-kit@2.0.0-beta.108) (2021-09-21)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.109](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.108...@dibdab/starter-kit@2.0.0-beta.109) (2021-09-21)
 
-# [2.0.0-beta.107](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.106...@tiptap/starter-kit@2.0.0-beta.107) (2021-09-20)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.108](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.107...@dibdab/starter-kit@2.0.0-beta.108) (2021-09-21)
 
-# [2.0.0-beta.106](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.105...@tiptap/starter-kit@2.0.0-beta.106) (2021-09-18)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.107](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.106...@dibdab/starter-kit@2.0.0-beta.107) (2021-09-20)
 
-# [2.0.0-beta.105](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.104...@tiptap/starter-kit@2.0.0-beta.105) (2021-09-15)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.106](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.105...@dibdab/starter-kit@2.0.0-beta.106) (2021-09-18)
 
-# [2.0.0-beta.104](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.103...@tiptap/starter-kit@2.0.0-beta.104) (2021-09-09)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.105](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.104...@dibdab/starter-kit@2.0.0-beta.105) (2021-09-15)
 
-# [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.102...@tiptap/starter-kit@2.0.0-beta.103) (2021-09-08)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.104](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.103...@dibdab/starter-kit@2.0.0-beta.104) (2021-09-09)
 
-# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.101...@tiptap/starter-kit@2.0.0-beta.102) (2021-09-06)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.103](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.102...@dibdab/starter-kit@2.0.0-beta.103) (2021-09-08)
 
-# [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.100...@tiptap/starter-kit@2.0.0-beta.101) (2021-08-26)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.102](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.101...@dibdab/starter-kit@2.0.0-beta.102) (2021-09-06)
 
-# [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.99...@tiptap/starter-kit@2.0.0-beta.100) (2021-08-26)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.101](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.100...@dibdab/starter-kit@2.0.0-beta.101) (2021-08-26)
 
-# [2.0.0-beta.99](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.98...@tiptap/starter-kit@2.0.0-beta.99) (2021-08-24)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.100](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.99...@dibdab/starter-kit@2.0.0-beta.100) (2021-08-26)
 
-# [2.0.0-beta.98](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.97...@tiptap/starter-kit@2.0.0-beta.98) (2021-08-20)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.99](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.98...@dibdab/starter-kit@2.0.0-beta.99) (2021-08-24)
 
-# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.96...@tiptap/starter-kit@2.0.0-beta.97) (2021-08-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.98](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.97...@dibdab/starter-kit@2.0.0-beta.98) (2021-08-20)
 
-# [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.95...@tiptap/starter-kit@2.0.0-beta.96) (2021-08-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.97](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.96...@dibdab/starter-kit@2.0.0-beta.97) (2021-08-13)
 
-# [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.94...@tiptap/starter-kit@2.0.0-beta.95) (2021-08-13)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.96](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.95...@dibdab/starter-kit@2.0.0-beta.96) (2021-08-13)
 
-# [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.93...@tiptap/starter-kit@2.0.0-beta.94) (2021-08-12)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.95](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.94...@dibdab/starter-kit@2.0.0-beta.95) (2021-08-13)
 
-# [2.0.0-beta.93](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.92...@tiptap/starter-kit@2.0.0-beta.93) (2021-08-12)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.94](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.93...@dibdab/starter-kit@2.0.0-beta.94) (2021-08-12)
 
-# [2.0.0-beta.92](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.91...@tiptap/starter-kit@2.0.0-beta.92) (2021-08-11)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.93](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.92...@dibdab/starter-kit@2.0.0-beta.93) (2021-08-12)
 
-# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.90...@tiptap/starter-kit@2.0.0-beta.91) (2021-08-11)
+**Note:** Version bump only for package @dibdab/starter-kit
 
-**Note:** Version bump only for package @tiptap/starter-kit
+# [2.0.0-beta.92](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.91...@dibdab/starter-kit@2.0.0-beta.92) (2021-08-11)
 
-# [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.89...@tiptap/starter-kit@2.0.0-beta.90) (2021-08-09)
+**Note:** Version bump only for package @dibdab/starter-kit
+
+# [2.0.0-beta.91](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.90...@dibdab/starter-kit@2.0.0-beta.91) (2021-08-11)
+
+**Note:** Version bump only for package @dibdab/starter-kit
+
+# [2.0.0-beta.90](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.89...@dibdab/starter-kit@2.0.0-beta.90) (2021-08-09)
 
 ### Bug Fixes
 
 - improve export for StarterKitOptions ([8fcc80d](https://github.com/ueberdosis/tiptap/commit/8fcc80d68ec9471523ec0a8108035afef4d0f9f3))
 
-# [2.0.0-beta.89](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.88...@tiptap/starter-kit@2.0.0-beta.89) (2021-07-30)
+# [2.0.0-beta.89](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.88...@dibdab/starter-kit@2.0.0-beta.89) (2021-07-30)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.88](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.87...@tiptap/starter-kit@2.0.0-beta.88) (2021-07-28)
+# [2.0.0-beta.88](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.87...@dibdab/starter-kit@2.0.0-beta.88) (2021-07-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.87](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.86...@tiptap/starter-kit@2.0.0-beta.87) (2021-07-28)
+# [2.0.0-beta.87](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.86...@dibdab/starter-kit@2.0.0-beta.87) (2021-07-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.86](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.85...@tiptap/starter-kit@2.0.0-beta.86) (2021-07-28)
+# [2.0.0-beta.86](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.85...@dibdab/starter-kit@2.0.0-beta.86) (2021-07-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.84...@tiptap/starter-kit@2.0.0-beta.85) (2021-07-27)
+# [2.0.0-beta.85](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.84...@dibdab/starter-kit@2.0.0-beta.85) (2021-07-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.83...@tiptap/starter-kit@2.0.0-beta.84) (2021-07-26)
+# [2.0.0-beta.84](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.83...@dibdab/starter-kit@2.0.0-beta.84) (2021-07-26)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.82...@tiptap/starter-kit@2.0.0-beta.83) (2021-07-26)
+# [2.0.0-beta.83](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.82...@dibdab/starter-kit@2.0.0-beta.83) (2021-07-26)
 
 ### Bug Fixes
 
 - export starter kit extension options ([4a2a428](https://github.com/ueberdosis/tiptap/commit/4a2a428a4c59fd3cdae589816f823d759d7926bd))
 
-# [2.0.0-beta.82](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.81...@tiptap/starter-kit@2.0.0-beta.82) (2021-07-09)
+# [2.0.0-beta.82](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.81...@dibdab/starter-kit@2.0.0-beta.82) (2021-07-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.80...@tiptap/starter-kit@2.0.0-beta.81) (2021-06-23)
+# [2.0.0-beta.81](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.80...@dibdab/starter-kit@2.0.0-beta.81) (2021-06-23)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.79...@tiptap/starter-kit@2.0.0-beta.80) (2021-06-17)
+# [2.0.0-beta.80](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.79...@dibdab/starter-kit@2.0.0-beta.80) (2021-06-17)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.79](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.78...@tiptap/starter-kit@2.0.0-beta.79) (2021-06-15)
+# [2.0.0-beta.79](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.78...@dibdab/starter-kit@2.0.0-beta.79) (2021-06-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.77...@tiptap/starter-kit@2.0.0-beta.78) (2021-06-14)
+# [2.0.0-beta.78](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.77...@dibdab/starter-kit@2.0.0-beta.78) (2021-06-14)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.77](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.76...@tiptap/starter-kit@2.0.0-beta.77) (2021-06-07)
+# [2.0.0-beta.77](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.76...@dibdab/starter-kit@2.0.0-beta.77) (2021-06-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.76](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.75...@tiptap/starter-kit@2.0.0-beta.76) (2021-06-03)
+# [2.0.0-beta.76](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.75...@dibdab/starter-kit@2.0.0-beta.76) (2021-06-03)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.75](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.74...@tiptap/starter-kit@2.0.0-beta.75) (2021-06-02)
+# [2.0.0-beta.75](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.74...@dibdab/starter-kit@2.0.0-beta.75) (2021-06-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.74](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.73...@tiptap/starter-kit@2.0.0-beta.74) (2021-06-02)
+# [2.0.0-beta.74](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.73...@dibdab/starter-kit@2.0.0-beta.74) (2021-06-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.73](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.72...@tiptap/starter-kit@2.0.0-beta.73) (2021-06-01)
+# [2.0.0-beta.73](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.72...@dibdab/starter-kit@2.0.0-beta.73) (2021-06-01)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.72](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.71...@tiptap/starter-kit@2.0.0-beta.72) (2021-06-01)
+# [2.0.0-beta.72](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.71...@dibdab/starter-kit@2.0.0-beta.72) (2021-06-01)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.70...@tiptap/starter-kit@2.0.0-beta.71) (2021-05-31)
+# [2.0.0-beta.71](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.70...@dibdab/starter-kit@2.0.0-beta.71) (2021-05-31)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.70](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.69...@tiptap/starter-kit@2.0.0-beta.70) (2021-05-29)
+# [2.0.0-beta.70](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.69...@dibdab/starter-kit@2.0.0-beta.70) (2021-05-29)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.69](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.68...@tiptap/starter-kit@2.0.0-beta.69) (2021-05-28)
+# [2.0.0-beta.69](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.68...@dibdab/starter-kit@2.0.0-beta.69) (2021-05-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.67...@tiptap/starter-kit@2.0.0-beta.68) (2021-05-28)
+# [2.0.0-beta.68](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.67...@dibdab/starter-kit@2.0.0-beta.68) (2021-05-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.66...@tiptap/starter-kit@2.0.0-beta.67) (2021-05-28)
+# [2.0.0-beta.67](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.66...@dibdab/starter-kit@2.0.0-beta.67) (2021-05-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.65...@tiptap/starter-kit@2.0.0-beta.66) (2021-05-27)
+# [2.0.0-beta.66](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.65...@dibdab/starter-kit@2.0.0-beta.66) (2021-05-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.65](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.64...@tiptap/starter-kit@2.0.0-beta.65) (2021-05-24)
+# [2.0.0-beta.65](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.64...@dibdab/starter-kit@2.0.0-beta.65) (2021-05-24)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.64](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.63...@tiptap/starter-kit@2.0.0-beta.64) (2021-05-24)
+# [2.0.0-beta.64](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.63...@dibdab/starter-kit@2.0.0-beta.64) (2021-05-24)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.62...@tiptap/starter-kit@2.0.0-beta.63) (2021-05-19)
+# [2.0.0-beta.63](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.62...@dibdab/starter-kit@2.0.0-beta.63) (2021-05-19)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.61...@tiptap/starter-kit@2.0.0-beta.62) (2021-05-18)
+# [2.0.0-beta.62](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.61...@dibdab/starter-kit@2.0.0-beta.62) (2021-05-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.60...@tiptap/starter-kit@2.0.0-beta.61) (2021-05-18)
+# [2.0.0-beta.61](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.60...@dibdab/starter-kit@2.0.0-beta.61) (2021-05-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.60](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.59...@tiptap/starter-kit@2.0.0-beta.60) (2021-05-18)
+# [2.0.0-beta.60](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.59...@dibdab/starter-kit@2.0.0-beta.60) (2021-05-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.59](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.58...@tiptap/starter-kit@2.0.0-beta.59) (2021-05-17)
+# [2.0.0-beta.59](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.58...@dibdab/starter-kit@2.0.0-beta.59) (2021-05-17)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.58](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.57...@tiptap/starter-kit@2.0.0-beta.58) (2021-05-17)
+# [2.0.0-beta.58](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.57...@dibdab/starter-kit@2.0.0-beta.58) (2021-05-17)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.56...@tiptap/starter-kit@2.0.0-beta.57) (2021-05-13)
+# [2.0.0-beta.57](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.56...@dibdab/starter-kit@2.0.0-beta.57) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.54...@tiptap/starter-kit@2.0.0-beta.56) (2021-05-13)
+# [2.0.0-beta.56](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.54...@dibdab/starter-kit@2.0.0-beta.56) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.53...@tiptap/starter-kit@2.0.0-beta.54) (2021-05-13)
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.53...@dibdab/starter-kit@2.0.0-beta.54) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.53...@tiptap/starter-kit@2.0.0-beta.54) (2021-05-13)
+# [2.0.0-beta.54](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.53...@dibdab/starter-kit@2.0.0-beta.54) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.52...@tiptap/starter-kit@2.0.0-beta.53) (2021-05-13)
+# [2.0.0-beta.53](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.52...@dibdab/starter-kit@2.0.0-beta.53) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.51...@tiptap/starter-kit@2.0.0-beta.52) (2021-05-11)
+# [2.0.0-beta.52](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.51...@dibdab/starter-kit@2.0.0-beta.52) (2021-05-11)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.50...@tiptap/starter-kit@2.0.0-beta.51) (2021-05-09)
+# [2.0.0-beta.51](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.50...@dibdab/starter-kit@2.0.0-beta.51) (2021-05-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.49...@tiptap/starter-kit@2.0.0-beta.50) (2021-05-07)
+# [2.0.0-beta.50](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.49...@dibdab/starter-kit@2.0.0-beta.50) (2021-05-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.48...@tiptap/starter-kit@2.0.0-beta.49) (2021-05-07)
+# [2.0.0-beta.49](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.48...@dibdab/starter-kit@2.0.0-beta.49) (2021-05-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.47...@tiptap/starter-kit@2.0.0-beta.48) (2021-05-07)
+# [2.0.0-beta.48](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.47...@dibdab/starter-kit@2.0.0-beta.48) (2021-05-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.46...@tiptap/starter-kit@2.0.0-beta.47) (2021-05-07)
+# [2.0.0-beta.47](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.46...@dibdab/starter-kit@2.0.0-beta.47) (2021-05-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.45...@tiptap/starter-kit@2.0.0-beta.46) (2021-05-07)
+# [2.0.0-beta.46](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.45...@dibdab/starter-kit@2.0.0-beta.46) (2021-05-07)
 
 ### Bug Fixes
 
 - revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
 
-# [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.44...@tiptap/starter-kit@2.0.0-beta.45) (2021-05-06)
+# [2.0.0-beta.45](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.44...@dibdab/starter-kit@2.0.0-beta.45) (2021-05-06)
 
 ### Bug Fixes
 
 - revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
 
-# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.43...@tiptap/starter-kit@2.0.0-beta.44) (2021-05-06)
+# [2.0.0-beta.44](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.43...@dibdab/starter-kit@2.0.0-beta.44) (2021-05-06)
 
 ### Bug Fixes
 
 - add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
 
-# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.42...@tiptap/starter-kit@2.0.0-beta.43) (2021-05-06)
+# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.42...@dibdab/starter-kit@2.0.0-beta.43) (2021-05-06)
 
 ### Features
 
 - add StarterKit extension ([21384fc](https://github.com/ueberdosis/tiptap/commit/21384fc7a66dd7d1e3849be52ae4ab9adc26cf4e))
 
-# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.41...@tiptap/starter-kit@2.0.0-beta.42) (2021-05-06)
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.41...@dibdab/starter-kit@2.0.0-beta.42) (2021-05-06)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.40...@tiptap/starter-kit@2.0.0-beta.41) (2021-05-05)
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.40...@dibdab/starter-kit@2.0.0-beta.41) (2021-05-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.39...@tiptap/starter-kit@2.0.0-beta.40) (2021-05-05)
+# [2.0.0-beta.40](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.39...@dibdab/starter-kit@2.0.0-beta.40) (2021-05-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.38...@tiptap/starter-kit@2.0.0-beta.39) (2021-05-05)
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.38...@dibdab/starter-kit@2.0.0-beta.39) (2021-05-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.37...@tiptap/starter-kit@2.0.0-beta.38) (2021-05-04)
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.37...@dibdab/starter-kit@2.0.0-beta.38) (2021-05-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.36...@tiptap/starter-kit@2.0.0-beta.37) (2021-04-27)
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.36...@dibdab/starter-kit@2.0.0-beta.37) (2021-04-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.35...@tiptap/starter-kit@2.0.0-beta.36) (2021-04-27)
+# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.35...@dibdab/starter-kit@2.0.0-beta.36) (2021-04-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.34...@tiptap/starter-kit@2.0.0-beta.35) (2021-04-27)
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.34...@dibdab/starter-kit@2.0.0-beta.35) (2021-04-27)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.33...@tiptap/starter-kit@2.0.0-beta.34) (2021-04-23)
+# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.33...@dibdab/starter-kit@2.0.0-beta.34) (2021-04-23)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.32...@tiptap/starter-kit@2.0.0-beta.33) (2021-04-23)
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.32...@dibdab/starter-kit@2.0.0-beta.33) (2021-04-23)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.31...@tiptap/starter-kit@2.0.0-beta.32) (2021-04-22)
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.31...@dibdab/starter-kit@2.0.0-beta.32) (2021-04-22)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.30...@tiptap/starter-kit@2.0.0-beta.31) (2021-04-21)
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.30...@dibdab/starter-kit@2.0.0-beta.31) (2021-04-21)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.29...@tiptap/starter-kit@2.0.0-beta.30) (2021-04-20)
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.29...@dibdab/starter-kit@2.0.0-beta.30) (2021-04-20)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.28...@tiptap/starter-kit@2.0.0-beta.29) (2021-04-20)
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.28...@dibdab/starter-kit@2.0.0-beta.29) (2021-04-20)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.27...@tiptap/starter-kit@2.0.0-beta.28) (2021-04-16)
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.27...@dibdab/starter-kit@2.0.0-beta.28) (2021-04-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.26...@tiptap/starter-kit@2.0.0-beta.27) (2021-04-15)
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.26...@dibdab/starter-kit@2.0.0-beta.27) (2021-04-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.25...@tiptap/starter-kit@2.0.0-beta.26) (2021-04-15)
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.25...@dibdab/starter-kit@2.0.0-beta.26) (2021-04-15)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.24...@tiptap/starter-kit@2.0.0-beta.25) (2021-04-12)
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.24...@dibdab/starter-kit@2.0.0-beta.25) (2021-04-12)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.23...@tiptap/starter-kit@2.0.0-beta.24) (2021-04-12)
+# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.23...@dibdab/starter-kit@2.0.0-beta.24) (2021-04-12)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.22...@tiptap/starter-kit@2.0.0-beta.23) (2021-04-11)
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.22...@dibdab/starter-kit@2.0.0-beta.23) (2021-04-11)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.21...@tiptap/starter-kit@2.0.0-beta.22) (2021-04-09)
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.21...@dibdab/starter-kit@2.0.0-beta.22) (2021-04-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.20...@tiptap/starter-kit@2.0.0-beta.21) (2021-04-09)
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.20...@dibdab/starter-kit@2.0.0-beta.21) (2021-04-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.19...@tiptap/starter-kit@2.0.0-beta.20) (2021-04-09)
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.19...@dibdab/starter-kit@2.0.0-beta.20) (2021-04-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.18...@tiptap/starter-kit@2.0.0-beta.19) (2021-04-08)
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.18...@dibdab/starter-kit@2.0.0-beta.19) (2021-04-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.17...@tiptap/starter-kit@2.0.0-beta.18) (2021-04-08)
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.17...@dibdab/starter-kit@2.0.0-beta.18) (2021-04-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.16...@tiptap/starter-kit@2.0.0-beta.17) (2021-04-08)
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.16...@dibdab/starter-kit@2.0.0-beta.17) (2021-04-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.15...@tiptap/starter-kit@2.0.0-beta.16) (2021-04-08)
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.15...@dibdab/starter-kit@2.0.0-beta.16) (2021-04-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.14...@tiptap/starter-kit@2.0.0-beta.15) (2021-04-07)
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.14...@dibdab/starter-kit@2.0.0-beta.15) (2021-04-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.13...@tiptap/starter-kit@2.0.0-beta.14) (2021-04-07)
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.13...@dibdab/starter-kit@2.0.0-beta.14) (2021-04-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.12...@tiptap/starter-kit@2.0.0-beta.13) (2021-04-07)
+# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.12...@dibdab/starter-kit@2.0.0-beta.13) (2021-04-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.11...@tiptap/starter-kit@2.0.0-beta.12) (2021-04-07)
+# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.11...@dibdab/starter-kit@2.0.0-beta.12) (2021-04-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.10...@tiptap/starter-kit@2.0.0-beta.11) (2021-04-07)
+# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.10...@dibdab/starter-kit@2.0.0-beta.11) (2021-04-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.9...@tiptap/starter-kit@2.0.0-beta.10) (2021-04-06)
+# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.9...@dibdab/starter-kit@2.0.0-beta.10) (2021-04-06)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.8...@tiptap/starter-kit@2.0.0-beta.9) (2021-04-04)
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.8...@dibdab/starter-kit@2.0.0-beta.9) (2021-04-04)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.7...@tiptap/starter-kit@2.0.0-beta.8) (2021-04-02)
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.7...@dibdab/starter-kit@2.0.0-beta.8) (2021-04-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.6...@tiptap/starter-kit@2.0.0-beta.7) (2021-04-01)
+# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.6...@dibdab/starter-kit@2.0.0-beta.7) (2021-04-01)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.5...@tiptap/starter-kit@2.0.0-beta.6) (2021-04-01)
+# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.5...@dibdab/starter-kit@2.0.0-beta.6) (2021-04-01)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.4...@tiptap/starter-kit@2.0.0-beta.5) (2021-03-31)
+# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.4...@dibdab/starter-kit@2.0.0-beta.5) (2021-03-31)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.3...@tiptap/starter-kit@2.0.0-beta.4) (2021-03-16)
+# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.3...@dibdab/starter-kit@2.0.0-beta.4) (2021-03-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.2...@tiptap/starter-kit@2.0.0-beta.3) (2021-03-09)
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.2...@dibdab/starter-kit@2.0.0-beta.3) (2021-03-09)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-beta.1...@tiptap/starter-kit@2.0.0-beta.2) (2021-03-08)
+# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-beta.1...@dibdab/starter-kit@2.0.0-beta.2) (2021-03-08)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.14...@tiptap/starter-kit@2.0.0-beta.1) (2021-03-05)
+# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.14...@dibdab/starter-kit@2.0.0-beta.1) (2021-03-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.13...@tiptap/starter-kit@2.0.0-alpha.14) (2021-02-26)
+# [2.0.0-alpha.14](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.13...@dibdab/starter-kit@2.0.0-alpha.14) (2021-02-26)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.12...@tiptap/starter-kit@2.0.0-alpha.13) (2021-02-16)
+# [2.0.0-alpha.13](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.12...@dibdab/starter-kit@2.0.0-alpha.13) (2021-02-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.11...@tiptap/starter-kit@2.0.0-alpha.12) (2021-02-07)
+# [2.0.0-alpha.12](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.11...@dibdab/starter-kit@2.0.0-alpha.12) (2021-02-07)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.10...@tiptap/starter-kit@2.0.0-alpha.11) (2021-02-05)
+# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.10...@dibdab/starter-kit@2.0.0-alpha.11) (2021-02-05)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.9...@tiptap/starter-kit@2.0.0-alpha.10) (2021-01-29)
+# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.9...@dibdab/starter-kit@2.0.0-alpha.10) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.8...@tiptap/starter-kit@2.0.0-alpha.9) (2021-01-29)
+# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.8...@dibdab/starter-kit@2.0.0-alpha.9) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.7...@tiptap/starter-kit@2.0.0-alpha.8) (2021-01-28)
+# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.7...@dibdab/starter-kit@2.0.0-alpha.8) (2021-01-28)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.6...@tiptap/starter-kit@2.0.0-alpha.7) (2020-12-18)
+# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.6...@dibdab/starter-kit@2.0.0-alpha.7) (2020-12-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.5...@tiptap/starter-kit@2.0.0-alpha.6) (2020-12-18)
+# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.5...@dibdab/starter-kit@2.0.0-alpha.6) (2020-12-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.4...@tiptap/starter-kit@2.0.0-alpha.5) (2020-12-02)
+# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.4...@dibdab/starter-kit@2.0.0-alpha.5) (2020-12-02)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.3...@tiptap/starter-kit@2.0.0-alpha.4) (2020-11-20)
+# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.3...@dibdab/starter-kit@2.0.0-alpha.4) (2020-11-20)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.2...@tiptap/starter-kit@2.0.0-alpha.3) (2020-11-19)
+# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.2...@dibdab/starter-kit@2.0.0-alpha.3) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@2.0.0-alpha.1...@tiptap/starter-kit@2.0.0-alpha.2) (2020-11-19)
+# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@2.0.0-alpha.1...@dibdab/starter-kit@2.0.0-alpha.2) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@1.0.0-alpha.2...@tiptap/starter-kit@2.0.0-alpha.1) (2020-11-18)
+# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@1.0.0-alpha.2...@dibdab/starter-kit@2.0.0-alpha.1) (2020-11-18)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
-# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/starter-kit@1.0.0-alpha.1...@tiptap/starter-kit@1.0.0-alpha.2) (2020-11-16)
+# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/starter-kit@1.0.0-alpha.1...@dibdab/starter-kit@1.0.0-alpha.2) (2020-11-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit
 
 # 1.0.0-alpha.1 (2020-11-16)
 
-**Note:** Version bump only for package @tiptap/starter-kit
+**Note:** Version bump only for package @dibdab/starter-kit

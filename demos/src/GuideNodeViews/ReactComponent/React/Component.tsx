@@ -1,5 +1,5 @@
-import type { ReactNodeViewProps } from '@tiptap/react'
-import { NodeViewWrapper } from '@tiptap/react'
+import type { ReactNodeViewProps } from '@dibdab/react'
+import { NodeViewWrapper } from '@dibdab/react'
 import React from 'react'
 
 export default (props: ReactNodeViewProps<HTMLLabelElement>) => {

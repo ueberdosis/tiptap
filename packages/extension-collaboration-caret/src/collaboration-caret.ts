@@ -1,6 +1,6 @@
-import { Extension } from '@tiptap/core'
-import type { DecorationAttrs } from '@tiptap/pm/view'
-import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
+import { Extension } from '@dibdab/core'
+import type { DecorationAttrs } from '@dibdab/pm/view'
+import { defaultSelectionBuilder, yCursorPlugin } from '@dibdab/y-tiptap'
 
 type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
@@ -60,7 +60,7 @@ export interface CollaborationCaretOptions {
   onUpdate: (users: { clientId: number; [key: string]: any }[]) => null
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     collaborationCaret: {
       /**

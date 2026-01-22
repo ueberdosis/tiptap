@@ -1,4 +1,4 @@
-import type { DecorationSet } from '@tiptap/pm/view'
+import type { DecorationSet } from '@dibdab/pm/view'
 
 import type { InvisibleCharacter } from './plugin/InvisibleCharacter.js'
 import type { InvisibleNode } from './plugin/InvisibleNode.js'

@@ -1,5 +1,5 @@
-import { Mark } from '@tiptap/core'
-import { VueMarkViewRenderer } from '@tiptap/vue-3'
+import { Mark } from '@dibdab/core'
+import { VueMarkViewRenderer } from '@dibdab/vue-3'
 
 import Component from './Component.vue'
 

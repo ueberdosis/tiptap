@@ -1,6 +1,6 @@
-import { CharacterCount } from '@tiptap/extensions'
+import { CharacterCount } from '@dibdab/extensions'
 
-export type { CharacterCountOptions } from '@tiptap/extensions'
-export { CharacterCount } from '@tiptap/extensions'
+export type { CharacterCountOptions } from '@dibdab/extensions'
+export { CharacterCount } from '@dibdab/extensions'
 
 export default CharacterCount

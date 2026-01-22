@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension } from '@tiptap/core'
+import { Extension } from '@dibdab/core'
 
 export type LineHeightOptions = {
   /**
@@ -11,7 +11,7 @@ export type LineHeightOptions = {
   types: string[]
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     lineHeight: {
       /**
@@ -30,7 +30,7 @@ declare module '@tiptap/core' {
 }
 
 // @ts-ignore because the module is not found during dts build
-declare module '@tiptap/extension-text-style' {
+declare module '@dibdab/extension-text-style' {
   interface TextStyleAttributes {
     lineHeight?: string | null
   }

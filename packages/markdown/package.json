@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/markdown",
+  "name": "@dibdab/markdown",
   "description": "markdown parser and serializer for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap utility"
   ],
   "license": "MIT",
@@ -37,16 +37,16 @@
     "marked": "^15.0.12"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/markdown"
   },
   "scripts": {

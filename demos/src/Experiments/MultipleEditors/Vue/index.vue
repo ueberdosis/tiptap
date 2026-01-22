@@ -29,16 +29,16 @@
 </template>
 
 <script>
-import Bold from '@tiptap/extension-bold'
-import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Dropcursor } from '@tiptap/extensions'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { yDocToProsemirrorJSON } from '@tiptap/y-tiptap'
+import Bold from '@dibdab/extension-bold'
+import Collaboration from '@dibdab/extension-collaboration'
+import Document from '@dibdab/extension-document'
+import Heading from '@dibdab/extension-heading'
+import { TaskItem, TaskList } from '@dibdab/extension-list'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Dropcursor } from '@dibdab/extensions'
+import { Editor, EditorContent } from '@dibdab/vue-3'
+import { yDocToProsemirrorJSON } from '@dibdab/y-tiptap'
 import * as Y from 'yjs'
 
 const HeadingDocument = Document.extend({

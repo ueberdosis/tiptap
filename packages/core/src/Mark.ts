@@ -1,4 +1,4 @@
-import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from '@dibdab/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { ExtendableConfig } from './Extendable.js'

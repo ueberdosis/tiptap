@@ -1,4 +1,4 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@dibdab/pm/state'
 
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'

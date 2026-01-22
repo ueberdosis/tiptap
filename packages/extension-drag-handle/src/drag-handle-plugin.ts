@@ -1,14 +1,14 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@dibdab/core'
+import { isChangeOrigin } from '@dibdab/extension-collaboration'
+import type { Node } from '@dibdab/pm/model'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@dibdab/pm/state'
+import type { EditorView } from '@dibdab/pm/view'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
-} from '@tiptap/y-tiptap'
+} from '@dibdab/y-tiptap'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'

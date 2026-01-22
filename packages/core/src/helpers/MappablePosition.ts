@@ -1,5 +1,5 @@
-import type { Transaction } from '@tiptap/pm/state'
-import type { MapResult } from '@tiptap/pm/transform'
+import type { Transaction } from '@dibdab/pm/state'
+import type { MapResult } from '@dibdab/pm/transform'
 
 /**
  * A class that represents a mappable position in the editor. It can be extended

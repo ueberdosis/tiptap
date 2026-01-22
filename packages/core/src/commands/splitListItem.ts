@@ -1,13 +1,13 @@
-import type { Node as ProseMirrorNode, NodeType } from '@tiptap/pm/model'
-import { Fragment, Slice } from '@tiptap/pm/model'
-import { TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import type { Node as ProseMirrorNode, NodeType } from '@dibdab/pm/model'
+import { Fragment, Slice } from '@dibdab/pm/model'
+import { TextSelection } from '@dibdab/pm/state'
+import { canSplit } from '@dibdab/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     splitListItem: {
       /**

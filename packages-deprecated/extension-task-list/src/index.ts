@@ -1,6 +1,6 @@
-import { TaskList } from '@tiptap/extension-list'
+import { TaskList } from '@dibdab/extension-list'
 
-export type { TaskListOptions } from '@tiptap/extension-list'
-export { TaskList } from '@tiptap/extension-list'
+export type { TaskListOptions } from '@dibdab/extension-list'
+export { TaskList } from '@dibdab/extension-list'
 
 export default TaskList

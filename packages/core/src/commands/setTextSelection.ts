@@ -1,9 +1,9 @@
-import { TextSelection } from '@tiptap/pm/state'
+import { TextSelection } from '@dibdab/pm/state'
 
 import type { Range, RawCommands } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     setTextSelection: {
       /**

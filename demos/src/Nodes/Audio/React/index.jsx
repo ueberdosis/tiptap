@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import Audio from '@tiptap/extension-audio'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import Audio from '@dibdab/extension-audio'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 const DEFAULT_AUDIO_SRC = 'https://www.w3schools.com/html/horse.ogg'

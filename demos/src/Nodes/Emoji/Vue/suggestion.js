@@ -1,5 +1,5 @@
 import { computePosition } from '@floating-ui/dom'
-import { VueRenderer } from '@tiptap/vue-3'
+import { VueRenderer } from '@dibdab/vue-3'
 
 import EmojiList from './EmojiList.vue'
 

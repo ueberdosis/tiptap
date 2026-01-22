@@ -1,6 +1,6 @@
-import type { EditorState } from '@tiptap/pm/state'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import type { EditorState } from '@dibdab/pm/state'
+import { NodeSelection, TextSelection } from '@dibdab/pm/state'
+import { canSplit } from '@dibdab/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
@@ -16,7 +16,7 @@ function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   }
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     splitBlock: {
       /**

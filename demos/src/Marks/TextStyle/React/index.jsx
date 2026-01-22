@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Bold from '@tiptap/extension-bold'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { TextStyleKit } from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Bold from '@dibdab/extension-bold'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { TextStyleKit } from '@dibdab/extension-text-style'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 export default () => {

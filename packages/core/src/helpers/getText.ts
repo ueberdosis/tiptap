@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
 
 import type { TextSerializer } from '../types.js'
 import { getTextBetween } from './getTextBetween.js'

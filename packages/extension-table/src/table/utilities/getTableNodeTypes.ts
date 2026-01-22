@@ -1,4 +1,4 @@
-import type { NodeType, Schema } from '@tiptap/pm/model'
+import type { NodeType, Schema } from '@dibdab/pm/model'
 
 export function getTableNodeTypes(schema: Schema): { [key: string]: NodeType } {
   if (schema.cached.tableNodeTypes) {

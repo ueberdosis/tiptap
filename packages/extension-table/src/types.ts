@@ -1,6 +1,6 @@
-import type { ParentConfig } from '@tiptap/core'
+import type { ParentConfig } from '@dibdab/core'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface NodeConfig<Options, Storage> {
     /**
      * A string or function to determine the role of the table.

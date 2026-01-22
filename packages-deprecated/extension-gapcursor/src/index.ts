@@ -1,5 +1,5 @@
-import { Gapcursor } from '@tiptap/extensions'
+import { Gapcursor } from '@dibdab/extensions'
 
-export { Gapcursor } from '@tiptap/extensions'
+export { Gapcursor } from '@dibdab/extensions'
 
 export default Gapcursor

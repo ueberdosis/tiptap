@@ -1,4 +1,4 @@
-import { Extension, Mark, Node } from '@tiptap/core'
+import { Extension, Mark, Node } from '@dibdab/core'
 import { describe, expect, it } from 'vitest'
 
 describe('extension options', () => {

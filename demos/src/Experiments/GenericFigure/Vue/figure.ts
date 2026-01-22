@@ -1,5 +1,5 @@
-import { mergeAttributes, Node } from '@tiptap/core'
-import { Plugin } from '@tiptap/pm/state'
+import { mergeAttributes, Node } from '@dibdab/core'
+import { Plugin } from '@dibdab/pm/state'
 
 export const Figure = Node.create({
   name: 'figure',

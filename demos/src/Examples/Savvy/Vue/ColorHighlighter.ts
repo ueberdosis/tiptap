@@ -1,5 +1,5 @@
-import { Extension } from '@tiptap/core'
-import { Plugin } from '@tiptap/pm/state'
+import { Extension } from '@dibdab/core'
+import { Plugin } from '@dibdab/pm/state'
 
 import findColors from './findColors.js'
 

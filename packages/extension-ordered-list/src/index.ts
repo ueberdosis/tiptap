@@ -1,6 +1,6 @@
-import { OrderedList } from '@tiptap/extension-list'
+import { OrderedList } from '@dibdab/extension-list'
 
-export type { OrderedListOptions } from '@tiptap/extension-list'
-export { OrderedList } from '@tiptap/extension-list'
+export type { OrderedListOptions } from '@dibdab/extension-list'
+export { OrderedList } from '@dibdab/extension-list'
 
 export default OrderedList

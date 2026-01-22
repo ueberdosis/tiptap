@@ -1,4 +1,4 @@
-import type { MarkType, Schema } from '@tiptap/pm/model'
+import type { MarkType, Schema } from '@dibdab/pm/model'
 
 export function getMarkType(nameOrType: string | MarkType, schema: Schema): MarkType {
   if (typeof nameOrType === 'string') {

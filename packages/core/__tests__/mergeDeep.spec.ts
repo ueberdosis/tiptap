@@ -1,4 +1,4 @@
-import { mergeDeep } from '@tiptap/core'
+import { mergeDeep } from '@dibdab/core'
 import { describe, expect, it } from 'vitest'
 
 describe('mergeDeep', () => {

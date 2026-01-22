@@ -1,10 +1,10 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { CharacterCount } from '@dibdab/extensions'
+import { EditorContent, useEditor, useEditorState } from '@dibdab/react'
 
 const limit = 280
 

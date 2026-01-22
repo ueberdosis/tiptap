@@ -1,6 +1,6 @@
-import type { Editor } from '@tiptap/core'
-import { PluginKey } from '@tiptap/pm/state'
-import type { SuggestionOptions } from '@tiptap/suggestion'
+import type { Editor } from '@dibdab/core'
+import { PluginKey } from '@dibdab/pm/state'
+import type { SuggestionOptions } from '@dibdab/suggestion'
 
 /**
  * Arguments for the `getSuggestionOptions` function

@@ -1,8 +1,8 @@
-import Bold from '@tiptap/extension-bold'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { renderToHTMLString } from '@tiptap/static-renderer'
+import Bold from '@dibdab/extension-bold'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { renderToHTMLString } from '@dibdab/static-renderer'
 import React, { useMemo } from 'react'
 
 const json = {

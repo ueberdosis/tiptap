@@ -1,6 +1,6 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { Transform } from '@tiptap/pm/transform'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
+import type { Transaction } from '@dibdab/pm/state'
+import { Transform } from '@dibdab/pm/transform'
 
 /**
  * Returns a new `Transform` based on all steps of the passed transactions.

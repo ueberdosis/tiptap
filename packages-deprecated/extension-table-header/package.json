@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-table-header",
+  "name": "@dibdab/extension-table-header",
   "description": "table cell extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,14 +31,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-table": "workspace:^"
+    "@dibdab/extension-table": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-table": "workspace:^"
+    "@dibdab/extension-table": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-table-header"
   },
   "scripts": {

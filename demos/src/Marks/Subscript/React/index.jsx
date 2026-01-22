@@ -1,10 +1,10 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Subscript from '@tiptap/extension-subscript'
-import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Subscript from '@dibdab/extension-subscript'
+import Text from '@dibdab/extension-text'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 export default () => {

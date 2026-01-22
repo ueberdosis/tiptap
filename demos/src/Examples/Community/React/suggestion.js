@@ -1,5 +1,5 @@
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, ReactRenderer } from '@tiptap/react'
+import { posToDOMRect, ReactRenderer } from '@dibdab/react'
 
 import { MentionList } from './MentionList.jsx'
 

@@ -1,8 +1,8 @@
-import type { Editor } from '@tiptap/core'
-import { Extension, isNodeEmpty } from '@tiptap/core'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Editor } from '@dibdab/core'
+import { Extension, isNodeEmpty } from '@dibdab/core'
+import type { Node as ProsemirrorNode } from '@dibdab/pm/model'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import { Decoration, DecorationSet } from '@dibdab/pm/view'
 
 export interface PlaceholderOptions {
   /**

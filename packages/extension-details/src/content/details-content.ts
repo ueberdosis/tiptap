@@ -1,6 +1,6 @@
-import { createBlockMarkdownSpec, defaultBlockAt, findParentNode, mergeAttributes, Node } from '@tiptap/core'
-import { Selection } from '@tiptap/pm/state'
-import type { ViewMutationRecord } from '@tiptap/pm/view'
+import { createBlockMarkdownSpec, defaultBlockAt, findParentNode, mergeAttributes, Node } from '@dibdab/core'
+import { Selection } from '@dibdab/pm/state'
+import type { ViewMutationRecord } from '@dibdab/pm/view'
 
 export interface DetailsContentOptions {
   /**

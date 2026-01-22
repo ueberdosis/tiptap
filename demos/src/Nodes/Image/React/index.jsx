@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Dropcursor } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Document from '@dibdab/extension-document'
+import Image from '@dibdab/extension-image'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Dropcursor } from '@dibdab/extensions'
+import { EditorContent, useEditor } from '@dibdab/react'
 import { useCallback } from 'react'
 
 export default () => {

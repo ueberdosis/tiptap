@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { Node } from '@dibdab/core'
 
 /**
  * The default document node which represents the top level node of the editor.

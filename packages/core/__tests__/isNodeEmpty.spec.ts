@@ -1,8 +1,8 @@
-import { getSchema, isNodeEmpty } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
-import Mention from '@tiptap/extension-mention'
-import StarterKit from '@tiptap/starter-kit'
+import { getSchema, isNodeEmpty } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import Image from '@dibdab/extension-image'
+import Mention from '@dibdab/extension-mention'
+import StarterKit from '@dibdab/starter-kit'
 import { describe, expect, it } from 'vitest'
 
 const schema = getSchema([StarterKit, Mention])

@@ -1,6 +1,6 @@
-import { Focus } from '@tiptap/extensions'
+import { Focus } from '@dibdab/extensions'
 
-export type { FocusOptions } from '@tiptap/extensions'
-export { Focus } from '@tiptap/extensions'
+export type { FocusOptions } from '@dibdab/extensions'
+export { Focus } from '@dibdab/extensions'
 
 export default Focus

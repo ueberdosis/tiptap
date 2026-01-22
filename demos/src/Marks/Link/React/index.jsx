@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Code from '@tiptap/extension-code'
-import Document from '@tiptap/extension-document'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import Code from '@dibdab/extension-code'
+import Document from '@dibdab/extension-document'
+import Link from '@dibdab/extension-link'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { EditorContent, useEditor, useEditorState } from '@dibdab/react'
 import React, { useCallback } from 'react'
 
 export default () => {

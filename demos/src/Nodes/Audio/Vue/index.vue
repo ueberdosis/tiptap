@@ -69,9 +69,9 @@
 </template>
 
 <script>
-import Audio from '@tiptap/extension-audio'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Audio from '@dibdab/extension-audio'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 const DEFAULT_AUDIO_SRC = 'https://www.w3schools.com/html/horse.ogg'
 

@@ -2,50 +2,50 @@
 
 ## v3.16.0
 
-### @tiptap/extension-audio
+### @dibdab/extension-audio
 
 #### Minor Changes
 
 - Add a native audio extension with demos and tests.
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
 - Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
 - Fix overlapping underline/bold/italic serialization and add tests
 
-### @tiptap/extension-link
+### @dibdab/extension-link
 
 #### Patch Changes
 
 - Fixed an issue where clicking on non-link elements (like images) required multiple clicks to select them. The link click handler now properly returns early when the clicked element is not a link, allowing other node handlers to process the click event.
 
-### @tiptap/extension-floating-menu
+### @dibdab/extension-floating-menu
 
 #### Minor Changes
 
 - Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
 
-### @tiptap/react
+### @dibdab/react
 
 #### Minor Changes
 
 - Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Minor Changes
 
 - Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Minor Changes
 
 - Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Patch Changes
 
@@ -53,7 +53,7 @@
 
 ## v3.15.3
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -61,37 +61,37 @@
 
 ## v3.15.2
 
-### @tiptap/extension-link
+### @dibdab/extension-link
 
 #### Patch Changes
 
 - Prevent auto-linking of bare hostnames (e.g., `localhost`) and IP addresses without a protocol prefix
 
-### @tiptap/extension-list
+### @dibdab/extension-list
 
 #### Patch Changes
 
 - Fix lost HTML attributes in TaskItem node view updates
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Patch Changes
 
 - Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Patch Changes
 
 - Fix Vue prop validation warning for `appendTo` prop in BubbleMenu and FloatingMenu
 
-### @tiptap/extension-youtube
+### @dibdab/extension-youtube
 
 #### Patch Changes
 
 - Fix YouTube Shorts embed URLs using incorrect query parameter separator
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -99,7 +99,7 @@
 
 ## v3.15.1
 
-### @tiptap/suggestion
+### @dibdab/suggestion
 
 #### Patch Changes
 
@@ -107,13 +107,13 @@
 
 ## v3.15.0
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
 - Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Patch Changes
 
@@ -121,13 +121,13 @@
 
 ## v3.14.0
 
-### @tiptap/extension-twitch
+### @dibdab/extension-twitch
 
 #### Minor Changes
 
 - Add new Twitch extension for embedding Twitch videos, clips, and live channels in the editor. Supports customizable parameters like autoplay, muted, and start time, with attribute-level overrides for per-embed configuration.
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -135,7 +135,7 @@
   
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Patch Changes
 
@@ -143,7 +143,7 @@
   
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Patch Changes
 
@@ -151,7 +151,7 @@
   
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
-### @tiptap/extension-drag-handle
+### @dibdab/extension-drag-handle
 
 #### Patch Changes
 
@@ -160,55 +160,55 @@
 
 ## v3.13.0
 
-### @tiptap/extension-drag-handle
+### @dibdab/extension-drag-handle
 
 #### Patch Changes
 
 - Added `data-dragging` attribute to drag handle elements to track drag state.
 
-### @tiptap/extension-drag-handle-react
+### @dibdab/extension-drag-handle-react
 
 #### Patch Changes
 
 - Added `data-dragging` attribute to drag handle elements to track drag state.
 
-### @tiptap/extension-drag-handle-vue-2
+### @dibdab/extension-drag-handle-vue-2
 
 #### Patch Changes
 
 - Added `data-dragging` attribute to drag handle elements to track drag state.
 
-### @tiptap/extension-drag-handle-vue-3
+### @dibdab/extension-drag-handle-vue-3
 
 #### Patch Changes
 
 - Added `data-dragging` attribute to drag handle elements to track drag state.
 
-### @tiptap/extension-link
+### @dibdab/extension-link
 
 #### Patch Changes
 
 - Ensure `enableClickSelection` works regardless of the `openOnClick` option by always registering the link click handler plugin.
 
-### @tiptap/extension-table-of-contents
+### @dibdab/extension-table-of-contents
 
 #### Patch Changes
 
 - Skip the table of contents update logic during IME input method composition to avoid interference with input.
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
 - Fixed trailing and leading whitespace handling in markdown serialization for inline marks
 
-### @tiptap/extension-mention
+### @dibdab/extension-mention
 
 #### Patch Changes
 
 - Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
@@ -220,7 +220,7 @@
 
 - Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
 
-### @tiptap/extension-image
+### @dibdab/extension-image
 
 #### Minor Changes
 
@@ -230,7 +230,7 @@
 
 ## v3.12.1
 
-### @tiptap/extension-table-of-contents
+### @dibdab/extension-table-of-contents
 
 #### Patch Changes
 
@@ -238,7 +238,7 @@
 
 ## v3.12.0
 
-### @tiptap/extension-collaboration
+### @dibdab/extension-collaboration
 
 #### Minor Changes
 
@@ -248,7 +248,7 @@
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
@@ -258,13 +258,13 @@
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
 
-### @tiptap/extension-collaboration-caret
+### @dibdab/extension-collaboration-caret
 
 #### Patch Changes
 
 - Avoid mutating `this.options` in the `updateUser` command. `this.options` can be a getter and is not writable; the command now updates the provider awareness directly so user updates are applied correctly.
 
-### @tiptap/react
+### @dibdab/react
 
 #### Minor Changes
 
@@ -276,7 +276,7 @@
 
 ## v3.11.1
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -287,7 +287,7 @@
   
   This is a type-only change — there are no runtime behavior changes.
 
-### @tiptap/extensions
+### @dibdab/extensions
 
 #### Patch Changes
 
@@ -295,7 +295,7 @@
 
 ## v3.11.0
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
@@ -303,7 +303,7 @@
 
 ## v3.10.8
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -312,19 +312,19 @@
 - allow `undefined` as a value for the `default` attribute key
 - Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
 
-### @tiptap/extension-text-align
+### @dibdab/extension-text-align
 
 #### Patch Changes
 
 - Fix `setTextAlign` and `unsetTextAlign` commands to work correctly with `.can()` checks. Changed logic from `.every()` to `.some()` to return `true` when at least one configured node type matches, rather than requiring all types to match.
 
-### @tiptap/static-renderer
+### @dibdab/static-renderer
 
 #### Patch Changes
 
 - Fix static HTML renderer incorrectly generating self-closing tags for HTML elements that require proper closing tags (iframe, script, style, etc.).
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
@@ -332,7 +332,7 @@
 
 ## v3.10.7
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Patch Changes
 
@@ -340,7 +340,7 @@
 
 ## v3.10.6
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Patch Changes
 
@@ -348,37 +348,37 @@
 
 ## v3.10.5
 
-### @tiptap/extension-collaboration
+### @dibdab/extension-collaboration
 
 #### Patch Changes
 
-- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@dibdab/y-tiptap` to stable v3.0.0.
 
-### @tiptap/extension-collaboration-caret
-
-#### Patch Changes
-
-- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
-
-### @tiptap/extension-drag-handle
+### @dibdab/extension-collaboration-caret
 
 #### Patch Changes
 
-- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@dibdab/y-tiptap` to stable v3.0.0.
 
-### @tiptap/core
+### @dibdab/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@dibdab/y-tiptap` to stable v3.0.0.
+
+### @dibdab/core
 
 #### Patch Changes
 
 - Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Patch Changes
 
 - Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
 
-### @tiptap/extensions
+### @dibdab/extensions
 
 #### Patch Changes
 
@@ -386,13 +386,13 @@
 
 ## v3.10.4
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
 - Fix autofocus behavior to prevent unwanted scrolling when disabled
 
-### @tiptap/extension-blockquote
+### @dibdab/extension-blockquote
 
 #### Patch Changes
 
@@ -400,7 +400,7 @@
 
 ## v3.10.3
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
@@ -410,13 +410,13 @@
 
 ## v3.10.2
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
 - Fix parsing of mixed inline HTML within Markdown content so that inline HTML fragments are parsed correctly.
 
-### @tiptap/extension-table
+### @dibdab/extension-table
 
 #### Patch Changes
 
@@ -424,7 +424,7 @@
 
 ## v3.10.1
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -432,7 +432,7 @@
 
 ## v3.10.0
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
@@ -441,7 +441,7 @@
 
   While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
 
-### @tiptap/extension-image
+### @dibdab/extension-image
 
 #### Minor Changes
 
@@ -449,7 +449,7 @@
 
 ## v3.9.1
 
-### @tiptap/extension-table
+### @dibdab/extension-table
 
 #### Patch Changes
 
@@ -457,13 +457,13 @@
 
 ## v3.9.0
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Patch Changes
 
 - Fix attribute forwarding for BubbleMenu and FloatingMenu Vue 3 components to allow setting z-index and other HTML attributes
 
-### @tiptap/extension-hard-break
+### @dibdab/extension-hard-break
 
 #### Patch Changes
 
@@ -471,19 +471,19 @@
 
   Fixes #7107
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Minor Changes
 
 - Add `updateDocument` option to disable document updates caused by the Unique ID extension.
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
 - Only remove injected CSS on unmount if no other editors are in the document (fixes #6836)
 
-### @tiptap/extension-drag-handle
+### @dibdab/extension-drag-handle
 
 #### Patch Changes
 
@@ -494,7 +494,7 @@
   - Add findClosestTopLevelBlock helper for efficient block lookup
   - Future-proof for root-level mousemove listeners
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -502,13 +502,13 @@
 
 ## v3.8.0
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Minor Changes
 
 - Add `updateDocument` option to disable document updates caused by the Unique ID extension.
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -516,7 +516,7 @@
 
 ## v3.7.2
 
-### @tiptap/html
+### @dibdab/html
 
 #### Patch Changes
 
@@ -524,7 +524,7 @@
 
 ## v3.7.1
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Patch Changes
 
@@ -533,28 +533,28 @@
 
 ## v3.7.0
 
-### @tiptap/core
+### @dibdab/core
 
 #### Minor Changes
 
-- All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
+- All commands and their corresponding TypeScript types are now exported from `@dibdab/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
 
   Why:
 
   - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
 
   ```ts
-  import { commands } from '@tiptap/core'
+  import { commands } from '@dibdab/core'
   ```
 
   Notes:
 
   - This is a non-breaking, additive change. It improves ergonomics for TypeScript consumers.
-  - If you rely on previously private/internal types, prefer the exported types from `@tiptap/core` going forward.
+  - If you rely on previously private/internal types, prefer the exported types from `@dibdab/core` going forward.
 
-- Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+- Add comprehensive bidirectional markdown support to Tiptap through a new `@dibdab/markdown` package and Markdown utilities in `@dibdab/core`.
 
-  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+  **New Package: `@dibdab/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
 
   **Core Features:**
 
@@ -593,13 +593,13 @@
 
 - The extension manager now provides a new property `baseExtensions` that contains an unflattened array of extensions
 
-### @tiptap/markdown
+### @dibdab/markdown
 
 #### Minor Changes
 
-- Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+- Add comprehensive bidirectional markdown support to Tiptap through a new `@dibdab/markdown` package and Markdown utilities in `@dibdab/core`.
 
-  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+  **New Package: `@dibdab/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
 
   **Core Features:**
 
@@ -634,13 +634,13 @@
 
   For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
 
-### @tiptap/extension-link
+### @dibdab/extension-link
 
 #### Patch Changes
 
 - Paste Handlers and onPaste plugin now respect shouldAutoLink/validate options
 
-### @tiptap/extensions
+### @dibdab/extensions
 
 #### Patch Changes
 
@@ -660,33 +660,33 @@
 
 ## v3.6.7
 
-### @tiptap/html
+### @dibdab/html
 
 #### Patch Changes
 
 - Fix CVE-2025-61927 by bumping happy-dom to 20.0.0
 
-  Bumps the transitive/dev dependency happy-dom from ^18.0.1 → ^20.0.0 in @tiptap/html to address CVE-2025-61927. This is a dependency/security-only change and does not modify any public APIs.
+  Bumps the transitive/dev dependency happy-dom from ^18.0.1 → ^20.0.0 in @dibdab/html to address CVE-2025-61927. This is a dependency/security-only change and does not modify any public APIs.
 
   Why:
 
-  - happy-dom released a security fix for CVE-2025-61927; updating prevents the vulnerability being pulled into consumers that depend on @tiptap/html.
+  - happy-dom released a security fix for CVE-2025-61927; updating prevents the vulnerability being pulled into consumers that depend on @dibdab/html.
 
 ## v3.6.6
 
-### @tiptap/extension-floating-menu
+### @dibdab/extension-floating-menu
 
 #### Patch Changes
 
 - Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
 
-### @tiptap/extension-bubble-menu
+### @dibdab/extension-bubble-menu
 
 #### Patch Changes
 
 - Fixed a problem where the position of a menu is not updated on creation when shouldShow is true
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Patch Changes
 
@@ -694,19 +694,19 @@
 
 ## v3.6.5
 
-### @tiptap/extension-horizontal-rule
+### @dibdab/extension-horizontal-rule
 
 #### Patch Changes
 
 - Added nextNodeType option to horizontal-rule extension, allowing users to specify which node type should be inserted after a horizontal rule
 
-### @tiptap/html
+### @dibdab/html
 
 #### Patch Changes
 
 - Fix: Clean up happy-dom window instance fixing a memory leak caused by unclosed happy-dom windows
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -715,7 +715,7 @@
 
 ## v3.6.4
 
-### @tiptap/html
+### @dibdab/html
 
 #### Patch Changes
 
@@ -723,7 +723,7 @@
 
 ## v3.6.3
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -732,13 +732,13 @@
 - Resolved an issue where the React BubbleMenu did not update when FloatingUI option props changed after initial mount. The BubbleMenu now correctly responds to updated option props.
 - Improved the BubbleMenu's usability by ensuring the `appendTo` prop passed to the React BubbleMenu component is now correctly forwarded to the underlying bubble menu plugin. This fix allows developers to customize where the BubbleMenu is attached in the DOM, helping resolve issues with positioning and portal setups in React apps.
 
-### @tiptap/extensions
+### @dibdab/extensions
 
 #### Patch Changes
 
 - The Selection extension now uses the correct SelectionOptions type, providing accurate typings for its options.
 
-### @tiptap/extension-code-block
+### @dibdab/extension-code-block
 
 #### Patch Changes
 
@@ -746,19 +746,19 @@
   This makes custom setups more flexible and avoids unnecessary type errors when omitting optional overrides.
   All existing default values and fallback logic remain in place - no breaking changes for existing code.
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
 - Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
 
-### @tiptap/extension-table-of-contents
+### @dibdab/extension-table-of-contents
 
 #### Patch Changes
 
 - Improve typings by inferring the storage type for the Table of Contents extension
 
-### @tiptap/extension-floating-menu
+### @dibdab/extension-floating-menu
 
 #### Patch Changes
 
@@ -766,7 +766,7 @@
   extensions. The callback must return an element synchronously,
   so menus can be appended to elements that are created dynamically.
 
-### @tiptap/extension-bubble-menu
+### @dibdab/extension-bubble-menu
 
 #### Patch Changes
 
@@ -776,7 +776,7 @@
 
 ## v3.6.2
 
-### @tiptap/extension-bubble-menu
+### @dibdab/extension-bubble-menu
 
 #### Patch Changes
 
@@ -785,7 +785,7 @@
 
 ## v3.6.1
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -793,7 +793,7 @@
 
 ## v3.6.0
 
-### @tiptap/core
+### @dibdab/core
 
 #### Patch Changes
 
@@ -805,7 +805,7 @@
     - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
     - `null`: no automatic mounting.
 
-### @tiptap/extension-table
+### @dibdab/extension-table
 
 #### Patch Changes
 
@@ -821,7 +821,7 @@
 
   No API or breaking changes.
 
-### @tiptap/extension-bubble-menu
+### @dibdab/extension-bubble-menu
 
 #### Patch Changes
 
@@ -829,13 +829,13 @@
 
   Write the `transactionHandler` method as an arrow function because arrow functions have no `this`, so the `this` remains the instance of the `BubbleMenuView` class.
 
-### @tiptap/extension-unique-id
+### @dibdab/extension-unique-id
 
 #### Minor Changes
 
 - Create a utility to add unique IDs to a document in the server
 
-  The utility is called `generateUniqueIds` and is exported from the `@tiptap/extension-unique-id` package.
+  The utility is called `generateUniqueIds` and is exported from the `@dibdab/extension-unique-id` package.
 
   It has the same functionality as the `UniqueID` extension, but without the need to create an `Editor` instance. This lets you add unique IDs to the document in the server.
 
@@ -846,7 +846,7 @@
 
   It returns the updated Tiptap JSON document, with the unique IDs added to the nodes.
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Minor Changes
 
@@ -854,7 +854,7 @@
 
 ## v3.5.3
 
-### @tiptap/extension-text-style
+### @dibdab/extension-text-style
 
 #### Patch Changes
 
@@ -871,7 +871,7 @@
 
 ## v3.5.2
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
@@ -879,25 +879,25 @@
 
 ## v3.5.1
 
-### @tiptap/extension-floating-menu
+### @dibdab/extension-floating-menu
 
 #### Patch Changes
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
 
-### @tiptap/react
+### @dibdab/react
 
 #### Patch Changes
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
 
-### @tiptap/vue-2
+### @dibdab/vue-2
 
 #### Patch Changes
 
 - Add `appendTo` support to `FloatingMenu` and pass it through in React/Vue 2/Vue 3 for both `BubbleMenu` and `FloatingMenu` to allow fixing clipping/z-index issues.
 
-### @tiptap/vue-3
+### @dibdab/vue-3
 
 #### Patch Changes
 
@@ -908,7 +908,7 @@
 ### Bug Fixes
 
 - **core:** configure should use the parent of the current instance, to avoid duplication ([#5147](https://github.com/ueberdosis/tiptap/issues/5147)) ([4db463c](https://github.com/ueberdosis/tiptap/commit/4db463c6bbcc3a17ee8eb591bea8e357120ecb35))
-- fix ts error for BubbleMenu and FloatingMenu in @tiptap/react ([#5126](https://github.com/ueberdosis/tiptap/issues/5126)) ([baff4af](https://github.com/ueberdosis/tiptap/commit/baff4af39e2b8970d7cab99859ece41228643f9d))
+- fix ts error for BubbleMenu and FloatingMenu in @dibdab/react ([#5126](https://github.com/ueberdosis/tiptap/issues/5126)) ([baff4af](https://github.com/ueberdosis/tiptap/commit/baff4af39e2b8970d7cab99859ece41228643f9d))
 
 ### Features
 
@@ -1502,7 +1502,7 @@
 - Vue3 CLI doesn't have "npm run dev" by @Aiyush-G in https://github.com/ueberdosis/tiptap/pull/2350
 - fix: export type `Level` for external use by @webri in https://github.com/ueberdosis/tiptap/pull/2354
 - add way to cancel inputrules and pasterules by @philippkuehn in https://github.com/ueberdosis/tiptap/pull/2368
-- Mark `@tiptap/react` and `@tiptap/core` as side effect free by @dcastil in https://github.com/ueberdosis/tiptap/pull/2361
+- Mark `@dibdab/react` and `@dibdab/core` as side effect free by @dcastil in https://github.com/ueberdosis/tiptap/pull/2361
 - Nuxt specific corrections by @gsqrt2 in https://github.com/ueberdosis/tiptap/pull/2410
 - build(deps): bump nanoid from 3.1.30 to 3.2.0 by @dependabot in https://github.com/ueberdosis/tiptap/pull/2419
 - build(deps): bump node-fetch from 2.6.6 to 2.6.7 by @dependabot in https://github.com/ueberdosis/tiptap/pull/2424
@@ -1538,9 +1538,9 @@
 - build(deps): bump actions/checkout from 3.0.0 to 3.0.2 by @dependabot in https://github.com/ueberdosis/tiptap/pull/2727
 - feat: Add `onBeforeStart` and `onBeforeUpdate` handlers to the render function by @rfgamaral in https://github.com/ueberdosis/tiptap/pull/2628
 - feat: Add a generic type for suggestion items by @rfgamaral in https://github.com/ueberdosis/tiptap/pull/2610
-- Reduce bundle size of @tiptap/extension-table package by @enriquecastl in https://github.com/ueberdosis/tiptap/pull/2622
+- Reduce bundle size of @dibdab/extension-table package by @enriquecastl in https://github.com/ueberdosis/tiptap/pull/2622
 - Update Suggestion package.json by @dphuang2 in https://github.com/ueberdosis/tiptap/pull/2739
-- fix: Support inline nodes with content in @tiptap/suggestion by @thatsjonsense in https://github.com/ueberdosis/tiptap/pull/2648
+- fix: Support inline nodes with content in @dibdab/suggestion by @thatsjonsense in https://github.com/ueberdosis/tiptap/pull/2648
 - Allow class attribute through setLink() by @Ken-vdE in https://github.com/ueberdosis/tiptap/pull/2758
 - update people by @patrickbaber in https://github.com/ueberdosis/tiptap/pull/2776
 - fix: properly calculate setDragImage position by @dilizarov in https://github.com/ueberdosis/tiptap/pull/2768
@@ -1567,7 +1567,7 @@
 - Add support for custom protocols in extension-link by @shaunabanana in https://github.com/ueberdosis/tiptap/pull/2832
 - fix(textStyle): Null-safe parseHTML getting no color/fontFamily from HTMLElement styles by @d8vjork in https://github.com/ueberdosis/tiptap/pull/2825
 - build(deps): bump actions/upload-artifact from 3.0.0 to 3.1.0 by @dependabot in https://github.com/ueberdosis/tiptap/pull/2820
-- Declare lowlight as a peerDependency in `@tiptap/extension-code-block-lowlight` by @enriquecastl in https://github.com/ueberdosis/tiptap/pull/2625
+- Declare lowlight as a peerDependency in `@dibdab/extension-code-block-lowlight` by @enriquecastl in https://github.com/ueberdosis/tiptap/pull/2625
 - add precommit hook for linting and automatic eslint fixes + update eslint packages by @bdbch in https://github.com/ueberdosis/tiptap/pull/2862
 - Adding missing extensions to docs in https://tiptap.dev/api/extensions by @Lior539 in https://github.com/ueberdosis/tiptap/pull/2856
 - docs(docs): add missing documentation for commands by @bdbch in https://github.com/ueberdosis/tiptap/pull/2861

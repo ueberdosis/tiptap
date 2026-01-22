@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProsemirrorNode, NodeType } from '@tiptap/pm/model'
+import type { Fragment, Node as ProsemirrorNode, NodeType } from '@dibdab/pm/model'
 
 export function createCell(
   cellType: NodeType,

@@ -1,8 +1,8 @@
-import type { Editor } from '@tiptap/core'
-import { findChildren, findParentNode } from '@tiptap/core'
-import { GapCursor } from '@tiptap/pm/gapcursor'
-import type { ResolvedPos } from '@tiptap/pm/model'
-import type { Selection } from '@tiptap/pm/state'
+import type { Editor } from '@dibdab/core'
+import { findChildren, findParentNode } from '@dibdab/core'
+import { GapCursor } from '@dibdab/pm/gapcursor'
+import type { ResolvedPos } from '@dibdab/pm/model'
+import type { Selection } from '@dibdab/pm/state'
 
 import { isNodeVisible } from './isNodeVisible.js'
 

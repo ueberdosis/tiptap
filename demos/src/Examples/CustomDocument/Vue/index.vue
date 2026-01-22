@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import { Placeholder } from '@tiptap/extensions'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Document from '@dibdab/extension-document'
+import { Placeholder } from '@dibdab/extensions'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 const CustomDocument = Document.extend({
   content: 'heading block*',

@@ -1,8 +1,8 @@
-# @tiptap/extension-invisible-characters
+# @dibdab/extension-invisible-characters
 
-[![Version](https://img.shields.io/npm/v/@tiptap/extension-invisible-characters.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-invisible-characters)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-invisible-characters.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/extension-invisible-characters.svg)](https://www.npmjs.com/package/@tiptap/extension-invisible-characters)
+[![Version](https://img.shields.io/npm/v/@dibdab/extension-invisible-characters.svg?label=version)](https://www.npmjs.com/package/@dibdab/extension-invisible-characters)
+[![Downloads](https://img.shields.io/npm/dm/@dibdab/extension-invisible-characters.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@dibdab/extension-invisible-characters.svg)](https://www.npmjs.com/package/@dibdab/extension-invisible-characters)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction

@@ -1,4 +1,4 @@
-import type { JSONContent, MarkdownLexerConfiguration, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
+import type { JSONContent, MarkdownLexerConfiguration, MarkdownParseHelpers, MarkdownToken } from '@dibdab/core'
 
 /**
  * Matches an ordered list item line with optional leading whitespace.

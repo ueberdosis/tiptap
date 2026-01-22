@@ -10,12 +10,12 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/core'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@dibdab/core'
+import { getText, getTextSerializersFromSchema, posToDOMRect } from '@dibdab/core'
+import type { Node as ProsemirrorNode } from '@dibdab/pm/model'
+import type { EditorState, Transaction } from '@dibdab/pm/state'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import type { EditorView } from '@dibdab/pm/view'
 
 export interface FloatingMenuPluginProps {
   /**

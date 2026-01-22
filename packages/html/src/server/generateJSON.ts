@@ -1,6 +1,6 @@
-import type { Extensions } from '@tiptap/core'
-import { getSchema } from '@tiptap/core'
-import { type ParseOptions, DOMParser as PMDOMParser } from '@tiptap/pm/model'
+import type { Extensions } from '@dibdab/core'
+import { getSchema } from '@dibdab/core'
+import { type ParseOptions, DOMParser as PMDOMParser } from '@dibdab/pm/model'
 import { Window } from 'happy-dom'
 
 /**

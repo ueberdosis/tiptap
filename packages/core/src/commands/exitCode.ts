@@ -1,8 +1,8 @@
-import { exitCode as originalExitCode } from '@tiptap/pm/commands'
+import { exitCode as originalExitCode } from '@dibdab/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     exitCode: {
       /**

@@ -1,4 +1,4 @@
-import { Plugin, PluginKey, Selection } from '@tiptap/pm/state'
+import { Plugin, PluginKey, Selection } from '@dibdab/pm/state'
 
 import { CommandManager } from '../CommandManager.js'
 import { Extension } from '../Extension.js'

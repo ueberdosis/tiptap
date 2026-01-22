@@ -1,4 +1,4 @@
-import { NodeViewWrapper } from '@tiptap/react'
+import { NodeViewWrapper } from '@dibdab/react'
 
 export const RecommendationView = ({ node }) => {
   return (

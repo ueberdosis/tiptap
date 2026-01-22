@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Editor, EditorContent, Node as NodeExtension, ResizableNodeView } from '@tiptap/vue-3'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Editor, EditorContent, Node as NodeExtension, ResizableNodeView } from '@dibdab/vue-3'
 
 const ResizableNode = NodeExtension.create({
   name: 'resizableNode',

@@ -4,10 +4,10 @@ import type {
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
-} from '@tiptap/core'
-import { getRenderedAttributes, NodeView } from '@tiptap/core'
-import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+} from '@dibdab/core'
+import { getRenderedAttributes, NodeView } from '@dibdab/core'
+import type { Node, Node as ProseMirrorNode } from '@dibdab/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@dibdab/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 

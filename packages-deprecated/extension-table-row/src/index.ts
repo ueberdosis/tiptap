@@ -1,6 +1,6 @@
-import { TableRow } from '@tiptap/extension-table'
+import { TableRow } from '@dibdab/extension-table'
 
-export type { TableRowOptions } from '@tiptap/extension-table'
-export { TableRow } from '@tiptap/extension-table'
+export type { TableRowOptions } from '@dibdab/extension-table'
+export { TableRow } from '@dibdab/extension-table'
 
 export default TableRow

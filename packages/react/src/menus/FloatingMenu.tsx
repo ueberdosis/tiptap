@@ -1,6 +1,6 @@
-import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
-import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
-import { useCurrentEditor } from '@tiptap/react'
+import type { FloatingMenuPluginProps } from '@dibdab/extension-floating-menu'
+import { FloatingMenuPlugin } from '@dibdab/extension-floating-menu'
+import { useCurrentEditor } from '@dibdab/react'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 

@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, wrappingInputRule } from '@dibdab/core'
 
 import { buildNestedStructure, collectOrderedListItems, parseListItems } from './utils.js'
 
@@ -35,7 +35,7 @@ export interface OrderedListOptions {
   keepAttributes: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     orderedList: {
       /**

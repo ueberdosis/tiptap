@@ -1,12 +1,12 @@
-import type { MarkType, ResolvedPos } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { MarkType, ResolvedPos } from '@dibdab/pm/model'
+import type { EditorState, Transaction } from '@dibdab/pm/state'
 
 import { getMarkAttributes } from '../helpers/getMarkAttributes.js'
 import { getMarkType } from '../helpers/getMarkType.js'
 import { isTextSelection } from '../helpers/index.js'
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     setMark: {
       /**

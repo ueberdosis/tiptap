@@ -1,5 +1,5 @@
-import type { Node, Schema } from '@tiptap/pm/model'
-import { DOMSerializer } from '@tiptap/pm/model'
+import type { Node, Schema } from '@dibdab/pm/model'
+import { DOMSerializer } from '@dibdab/pm/model'
 
 /**
  * Returns the HTML string representation of a given document node.

@@ -1,4 +1,4 @@
-import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@dibdab/core'
 
 import { AUDIO_URL_REGEX_GLOBAL, isValidAudioUrl, sanitizeAudioSrc } from './utils.js'
 
@@ -104,7 +104,7 @@ type SetAudioOptions = {
   HTMLAttributes?: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     audio: {
       /**

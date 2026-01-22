@@ -86,6 +86,6 @@ export default defineConfig({
   },
   esbuild: {
     jsx: 'automatic',
-    jsxImportSource: '@tiptap/core',
+    jsxImportSource: '@dibdab/core',
   },
 })

@@ -8,11 +8,11 @@ import {
   Node,
   nodeInputRule,
   PasteRule,
-} from '@tiptap/core'
-import type { Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { SuggestionOptions } from '@tiptap/suggestion'
-import Suggestion from '@tiptap/suggestion'
+} from '@dibdab/core'
+import type { Transaction } from '@dibdab/pm/state'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import type { SuggestionOptions } from '@dibdab/suggestion'
+import Suggestion from '@dibdab/suggestion'
 import emojiRegex from 'emoji-regex'
 import { isEmojiSupported } from 'is-emoji-supported'
 
@@ -21,7 +21,7 @@ import { emojiToShortcode } from './helpers/emojiToShortcode.js'
 import { removeDuplicates } from './helpers/removeDuplicates.js'
 import { shortcodeToEmoji } from './helpers/shortcodeToEmoji.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     emoji: {
       /**

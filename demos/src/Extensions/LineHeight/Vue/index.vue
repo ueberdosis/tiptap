@@ -35,9 +35,9 @@
 <script>
 import './styles.scss'
 
-import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { LineHeight, TextStyle } from '@dibdab/extension-text-style'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 export default {
   components: {

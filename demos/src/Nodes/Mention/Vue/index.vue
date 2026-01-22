@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Mention from '@tiptap/extension-mention'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Document from '@dibdab/extension-document'
+import Mention from '@dibdab/extension-mention'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 import suggestion from './suggestion.js'
 

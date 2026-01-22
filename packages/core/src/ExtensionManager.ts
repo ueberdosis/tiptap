@@ -1,7 +1,7 @@
-import { keymap } from '@tiptap/pm/keymap'
-import type { Schema } from '@tiptap/pm/model'
-import type { Plugin, Transaction } from '@tiptap/pm/state'
-import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import { keymap } from '@dibdab/pm/keymap'
+import type { Schema } from '@dibdab/pm/model'
+import type { Plugin, Transaction } from '@dibdab/pm/state'
+import type { MarkViewConstructor, NodeViewConstructor } from '@dibdab/pm/view'
 
 import type { Editor } from './Editor.js'
 import {

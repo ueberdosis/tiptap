@@ -1,6 +1,6 @@
-import { Extension, isNodeSelection } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { Extension, isNodeSelection } from '@dibdab/core'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import { Decoration, DecorationSet } from '@dibdab/pm/view'
 
 export type SelectionOptions = {
   /**

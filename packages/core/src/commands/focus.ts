@@ -5,7 +5,7 @@ import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isSafari } from '../utilities/isSafari.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     focus: {
       /**

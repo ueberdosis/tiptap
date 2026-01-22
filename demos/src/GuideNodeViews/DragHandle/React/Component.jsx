@@ -1,4 +1,4 @@
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
+import { NodeViewContent, NodeViewWrapper } from '@dibdab/react'
 import React from 'react'
 
 export default () => {

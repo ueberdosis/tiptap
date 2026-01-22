@@ -1,10 +1,10 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@dibdab/core'
 import {
   type DragHandlePluginProps,
   defaultComputePositionConfig,
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
-} from '@tiptap/extension-drag-handle'
+} from '@dibdab/extension-drag-handle'
 import { type PropType } from 'vue'
 
 import { Vue } from './Vue.js'

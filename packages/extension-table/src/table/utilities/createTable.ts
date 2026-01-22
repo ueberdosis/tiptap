@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
+import type { Fragment, Node as ProsemirrorNode, Schema } from '@dibdab/pm/model'
 
 import { createCell } from './createCell.js'
 import { getTableNodeTypes } from './getTableNodeTypes.js'

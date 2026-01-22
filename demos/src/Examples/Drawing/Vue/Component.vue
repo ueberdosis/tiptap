@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { nodeViewProps, NodeViewWrapper } from '@dibdab/vue-3'
 import * as d3 from 'd3'
 import { v4 as uuid } from 'uuid'
 

@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/static-renderer",
+  "name": "@dibdab/static-renderer",
   "description": "statically render Tiptap JSON",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap static renderer",
     "tiptap react renderer"
   ],
@@ -72,22 +72,22 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/static-renderer"
   },
   "scripts": {

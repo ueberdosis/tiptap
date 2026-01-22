@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import type { PluginKey } from '@tiptap/pm/state'
+import type { Editor } from '@dibdab/core'
+import type { PluginKey } from '@dibdab/pm/state'
 
 export type FileHandlePluginOptions = {
   /**

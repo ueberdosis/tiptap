@@ -1,4 +1,4 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
 
 /**
  * Returns true if the given prosemirror node is empty.

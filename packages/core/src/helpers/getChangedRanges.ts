@@ -1,4 +1,4 @@
-import type { Step, Transform } from '@tiptap/pm/transform'
+import type { Step, Transform } from '@dibdab/pm/transform'
 
 import type { Range } from '../types.js'
 import { removeDuplicates } from '../utilities/removeDuplicates.js'

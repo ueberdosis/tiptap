@@ -1,6 +1,6 @@
-import { ListKeymap } from '@tiptap/extension-list'
+import { ListKeymap } from '@dibdab/extension-list'
 
-export type { ListKeymapOptions } from '@tiptap/extension-list'
-export { listHelpers, ListKeymap } from '@tiptap/extension-list'
+export type { ListKeymapOptions } from '@dibdab/extension-list'
+export { listHelpers, ListKeymap } from '@dibdab/extension-list'
 
 export default ListKeymap

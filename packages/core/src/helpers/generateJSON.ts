@@ -1,4 +1,4 @@
-import { DOMParser } from '@tiptap/pm/model'
+import { DOMParser } from '@dibdab/pm/model'
 
 import type { Extensions } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'

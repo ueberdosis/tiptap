@@ -1,5 +1,5 @@
-import { Editor, Extension } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+import { Editor, Extension } from '@dibdab/core'
+import StarterKit from '@dibdab/starter-kit'
 import { describe, expect, it, vi } from 'vitest'
 
 import { Suggestion } from '../suggestion.js'

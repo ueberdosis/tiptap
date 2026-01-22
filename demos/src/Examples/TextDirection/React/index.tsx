@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import type { Editor } from '@tiptap/react'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import type { Editor } from '@dibdab/react'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useState } from 'react'
 
 const extensions = [StarterKit]

@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent } from '@dibdab/core'
 
 export interface ListItemOptions {
   /**

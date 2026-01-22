@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { FloatingMenu } from '@tiptap/vue-3/menus'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
+import { FloatingMenu } from '@dibdab/vue-3/menus'
 
 export default {
   components: {

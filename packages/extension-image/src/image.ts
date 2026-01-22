@@ -1,5 +1,5 @@
-import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import type { ResizableNodeViewDirection } from '@dibdab/core'
+import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@dibdab/core'
 
 export interface ImageOptions {
   /**
@@ -48,7 +48,7 @@ export interface SetImageOptions {
   height?: number
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     image: {
       /**

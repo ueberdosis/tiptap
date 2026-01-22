@@ -1,7 +1,7 @@
-import type { NodeWithPos } from '@tiptap/core'
-import { combineTransactionSteps, findChildrenInRange, getChangedRanges, getMarksBetween } from '@tiptap/core'
-import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { NodeWithPos } from '@dibdab/core'
+import { combineTransactionSteps, findChildrenInRange, getChangedRanges, getMarksBetween } from '@dibdab/core'
+import type { MarkType } from '@dibdab/pm/model'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
 import type { MultiToken } from 'linkifyjs'
 import { tokenize } from 'linkifyjs'
 

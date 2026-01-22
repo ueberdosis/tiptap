@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Code from '@tiptap/extension-code'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Typography from '@tiptap/extension-typography'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Code from '@dibdab/extension-code'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import Typography from '@dibdab/extension-typography'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 import { ColorHighlighter } from './ColorHighlighter.ts'

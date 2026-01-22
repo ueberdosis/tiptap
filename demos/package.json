@@ -15,7 +15,7 @@
     "@lexical/react": "^0.36.2",
     "@lifeomic/attempt": "3.1.0",
     "@shikijs/core": "1.10.3",
-    "@tiptap/y-tiptap": "^3.0.0",
+    "@dibdab/y-tiptap": "^3.0.0",
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",

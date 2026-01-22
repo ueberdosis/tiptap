@@ -1,6 +1,6 @@
-import { TaskItem } from '@tiptap/extension-list'
+import { TaskItem } from '@dibdab/extension-list'
 
-export type { TaskItemOptions } from '@tiptap/extension-list'
-export { TaskItem } from '@tiptap/extension-list'
+export type { TaskItemOptions } from '@dibdab/extension-list'
+export { TaskItem } from '@dibdab/extension-list'
 
 export default TaskItem

@@ -1,4 +1,4 @@
-# @tiptap/extension-audio
+# @dibdab/extension-audio
 
 ## 3.16.0
 
@@ -8,4 +8,4 @@
 
 ### Patch Changes
 
-- @tiptap/core@3.16.0
+- @dibdab/core@3.16.0

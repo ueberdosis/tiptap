@@ -1,7 +1,7 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
-import { Plugin } from '@tiptap/pm/state'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
+import { Fragment } from '@dibdab/pm/model'
+import type { EditorState } from '@dibdab/pm/state'
+import { Plugin } from '@dibdab/pm/state'
 
 import { CommandManager } from './CommandManager.js'
 import type { Editor } from './Editor.js'

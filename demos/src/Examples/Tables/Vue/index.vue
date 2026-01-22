@@ -80,9 +80,9 @@
 </template>
 
 <script>
-import { TableCell, TableKit } from '@tiptap/extension-table'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { TableCell, TableKit } from '@dibdab/extension-table'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 const CustomTableCell = TableCell.extend({
   addAttributes() {

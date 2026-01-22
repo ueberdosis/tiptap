@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { useEditorState } from '@tiptap/react'
+import type { Editor } from '@dibdab/core'
+import { useEditorState } from '@dibdab/react'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { useMenubarNav } from './useMenubarNav.js'

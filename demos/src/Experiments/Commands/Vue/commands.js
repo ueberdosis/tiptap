@@ -1,5 +1,5 @@
-import { Extension } from '@tiptap/core'
-import Suggestion from '@tiptap/suggestion'
+import { Extension } from '@dibdab/core'
+import Suggestion from '@dibdab/suggestion'
 
 export default Extension.create({
   name: 'commands',

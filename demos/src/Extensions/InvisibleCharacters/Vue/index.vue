@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import HardBreak from '@tiptap/extension-hard-break'
-import Heading from '@tiptap/extension-heading'
-import InvisibleCharacters from '@tiptap/extension-invisible-characters'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Document from '@dibdab/extension-document'
+import HardBreak from '@dibdab/extension-hard-break'
+import Heading from '@dibdab/extension-heading'
+import InvisibleCharacters from '@dibdab/extension-invisible-characters'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 export default {
   components: {

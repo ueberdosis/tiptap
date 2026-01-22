@@ -1,4 +1,4 @@
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorView } from '@dibdab/pm/view'
 
 import type { Result as Issue } from '../LinterPlugin.js'
 import LinterPlugin from '../LinterPlugin.js'

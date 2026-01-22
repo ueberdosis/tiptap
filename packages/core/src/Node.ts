@@ -1,4 +1,4 @@
-import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from '@dibdab/pm/model'
 
 import type { Editor } from './Editor.js'
 import type { ExtendableConfig } from './Extendable.js'

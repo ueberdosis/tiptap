@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import { EditorProvider } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorProvider } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 import DraggableItem from './DraggableItem.js'

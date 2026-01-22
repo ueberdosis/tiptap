@@ -1,9 +1,9 @@
-import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Node } from '@tiptap/pm/model'
+import { getMarkRange, getSchemaByResolvedExtensions } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import Link from '@dibdab/extension-link'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Node } from '@dibdab/pm/model'
 import { describe, expect, it } from 'vitest'
 
 describe('getMarkRange', () => {

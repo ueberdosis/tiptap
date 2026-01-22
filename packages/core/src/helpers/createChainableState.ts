@@ -1,4 +1,4 @@
-import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@dibdab/pm/state'
 
 /**
  * Takes a Transaction & Editor State and turns it into a chainable state object

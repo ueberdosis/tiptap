@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-table-row",
+  "name": "@dibdab/extension-table-row",
   "description": "table row extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,14 +31,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-table": "workspace:^"
+    "@dibdab/extension-table": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-table": "workspace:^"
+    "@dibdab/extension-table": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-table-row"
   },
   "scripts": {

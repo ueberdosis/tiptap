@@ -1,7 +1,7 @@
-import { Extension, getExtensionField, Mark, Node } from '@tiptap/core'
+import { Extension, getExtensionField, Mark, Node } from '@dibdab/core'
 import { describe, expect, it } from 'vitest'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   // Extension does not have a addAttributes defined, but we just want to test it anyway
   interface ExtensionConfig {
     // @ts-ignore - this is a dynamic key

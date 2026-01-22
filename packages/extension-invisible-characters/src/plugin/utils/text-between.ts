@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model'
+import type { Node } from '@dibdab/pm/model'
 
 import type { Position } from '../../types.js'
 

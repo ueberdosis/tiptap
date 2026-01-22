@@ -1,4 +1,4 @@
-import type { NodeType } from '@tiptap/pm/model'
+import type { NodeType } from '@dibdab/pm/model'
 
 import type { InputRuleFinder } from '../InputRule.js'
 import { InputRule } from '../InputRule.js'

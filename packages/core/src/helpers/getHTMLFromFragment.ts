@@ -1,5 +1,5 @@
-import type { Fragment, Schema } from '@tiptap/pm/model'
-import { DOMSerializer } from '@tiptap/pm/model'
+import type { Fragment, Schema } from '@dibdab/pm/model'
+import { DOMSerializer } from '@dibdab/pm/model'
 
 export function getHTMLFromFragment(fragment: Fragment, schema: Schema): string {
   const documentFragment = DOMSerializer.fromSchema(schema).serializeFragment(fragment)

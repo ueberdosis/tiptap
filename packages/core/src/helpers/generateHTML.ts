@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/pm/model'
+import { Node } from '@dibdab/pm/model'
 
 import type { Extensions, JSONContent } from '../types.js'
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'

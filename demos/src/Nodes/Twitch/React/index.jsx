@@ -1,12 +1,12 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import { ListKit } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Twitch from '@tiptap/extension-twitch'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Document from '@dibdab/extension-document'
+import Heading from '@dibdab/extension-heading'
+import { ListKit } from '@dibdab/extension-list'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import Twitch from '@dibdab/extension-twitch'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 const MenuBar = ({ editor }) => {

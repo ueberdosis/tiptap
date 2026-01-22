@@ -1,5 +1,5 @@
-import type { Mark } from '@tiptap/pm/model'
-import type { ViewMutationRecord } from '@tiptap/pm/view'
+import type { Mark } from '@dibdab/pm/model'
+import type { ViewMutationRecord } from '@dibdab/pm/view'
 
 import type { Editor } from './Editor.js'
 import type { MarkViewProps, MarkViewRendererOptions } from './types.js'

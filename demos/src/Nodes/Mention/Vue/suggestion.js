@@ -1,5 +1,5 @@
 import { computePosition, flip, shift } from '@floating-ui/dom'
-import { posToDOMRect, VueRenderer } from '@tiptap/vue-3'
+import { posToDOMRect, VueRenderer } from '@dibdab/vue-3'
 
 import MentionList from './MentionList.vue'
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import StarterKit from '@tiptap/starter-kit'
-import { EditorContent, useEditor } from '@tiptap/vue-3'
+import StarterKit from '@dibdab/starter-kit'
+import { EditorContent, useEditor } from '@dibdab/vue-3'
 import { ref, watch } from 'vue'
 
 import type { TNote } from './types.js'

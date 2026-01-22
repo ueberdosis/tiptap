@@ -1,4 +1,4 @@
-import type { MarkType, NodeType } from '@tiptap/pm/model'
+import type { MarkType, NodeType } from '@dibdab/pm/model'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
@@ -6,7 +6,7 @@ import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
 import type { RawCommands } from '../types.js'
 import { deleteProps } from '../utilities/deleteProps.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     resetAttributes: {
       /**

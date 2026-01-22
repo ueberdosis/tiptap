@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
-import { Placeholder } from '@tiptap/extensions'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Details, DetailsContent, DetailsSummary } from '@dibdab/extension-details'
+import { Placeholder } from '@dibdab/extensions'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 export default {
   components: {

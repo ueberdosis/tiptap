@@ -1,12 +1,12 @@
-import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
+import type { DragHandlePluginProps } from '@dibdab/extension-drag-handle'
 import {
   defaultComputePositionConfig,
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
-} from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
-import type { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { Editor } from '@tiptap/vue-3'
+} from '@dibdab/extension-drag-handle'
+import type { Node } from '@dibdab/pm/model'
+import type { Plugin, PluginKey } from '@dibdab/pm/state'
+import type { Editor } from '@dibdab/vue-3'
 import type { PropType } from 'vue'
 import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 

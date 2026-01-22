@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import { Placeholder } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { Placeholder } from '@dibdab/extensions'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 export default () => {

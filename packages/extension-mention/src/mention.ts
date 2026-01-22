@@ -1,9 +1,9 @@
-import type { Editor } from '@tiptap/core'
-import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
-import type { DOMOutputSpec } from '@tiptap/pm/model'
-import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { SuggestionOptions } from '@tiptap/suggestion'
-import { Suggestion } from '@tiptap/suggestion'
+import type { Editor } from '@dibdab/core'
+import { createInlineMarkdownSpec, mergeAttributes, Node } from '@dibdab/core'
+import type { DOMOutputSpec } from '@dibdab/pm/model'
+import { Node as ProseMirrorNode } from '@dibdab/pm/model'
+import type { SuggestionOptions } from '@dibdab/suggestion'
+import { Suggestion } from '@dibdab/suggestion'
 
 import { getSuggestionOptions } from './utils/get-default-suggestion-attributes.js'
 

@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-drag-handle-react",
+  "name": "@dibdab/extension-drag-handle-react",
   "description": "drag handle extension for tiptap with react",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-drag-handle-react"
   },
   "type": "module",
@@ -36,16 +36,16 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/react": "workspace:^",
+    "@dibdab/extension-drag-handle": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/react": "workspace:^",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/react": "workspace:^",
+    "@dibdab/extension-drag-handle": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/react": "workspace:^",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@dibdab/core'
 
 import type { FloatingMenuPluginProps } from './floating-menu-plugin.js'
 import { FloatingMenuPlugin } from './floating-menu-plugin.js'
@@ -12,7 +12,7 @@ export type FloatingMenuOptions = Omit<FloatingMenuPluginProps, 'editor' | 'elem
   element: HTMLElement | null
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     floatingMenu: {
       /**

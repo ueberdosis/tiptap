@@ -1,12 +1,12 @@
 import './styles.scss'
 
-import Code from '@tiptap/extension-code'
-import Document from '@tiptap/extension-document'
-import { BulletList, ListItem } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Focus } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Code from '@dibdab/extension-code'
+import Document from '@dibdab/extension-document'
+import { BulletList, ListItem } from '@dibdab/extension-list'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import { Focus } from '@dibdab/extensions'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 export default () => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
-import { MarkView } from '@tiptap/core'
+import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@dibdab/core'
+import { MarkView } from '@dibdab/core'
 import type { Component, PropType } from 'vue'
 import { defineComponent, h, toRaw } from 'vue'
 

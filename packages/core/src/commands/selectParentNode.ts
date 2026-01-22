@@ -1,8 +1,8 @@
-import { selectParentNode as originalSelectParentNode } from '@tiptap/pm/commands'
+import { selectParentNode as originalSelectParentNode } from '@dibdab/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     selectParentNode: {
       /**

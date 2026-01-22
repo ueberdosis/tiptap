@@ -1,4 +1,4 @@
-import type { JSONContent } from '@tiptap/core'
+import type { JSONContent } from '@dibdab/core'
 
 /**
  * @fileoverview Utility functions for rendering nested content in markdown.

@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import { getHierarchicalIndexes, TableOfContents } from '@tiptap/extension-table-of-contents'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { getHierarchicalIndexes, TableOfContents } from '@dibdab/extension-table-of-contents'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useState } from 'react'
 
 import { content as bookContent } from '../content.js'

@@ -1,6 +1,6 @@
-import { Extension } from '@tiptap/core'
-import type { SelectionRange } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Extension } from '@dibdab/core'
+import type { SelectionRange } from '@dibdab/pm/state'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
 
 import { getNodeRangeDecorations } from './helpers/getNodeRangeDecorations.js'
 import { getSelectionRanges } from './helpers/getSelectionRanges.js'

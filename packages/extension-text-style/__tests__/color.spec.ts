@@ -1,4 +1,4 @@
-import { Color } from '@tiptap/extension-text-style'
+import { Color } from '@dibdab/extension-text-style'
 import { describe, expect, it } from 'vitest'
 
 const ext: any = (Color as any).configure()

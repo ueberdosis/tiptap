@@ -1,9 +1,9 @@
-import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import Image from '@tiptap/extension-image'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Editor } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import HorizontalRule from '@dibdab/extension-horizontal-rule'
+import Image from '@dibdab/extension-image'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
 import { describe, expect, it } from 'vitest'
 
 describe('extension-horizontal-rule', () => {

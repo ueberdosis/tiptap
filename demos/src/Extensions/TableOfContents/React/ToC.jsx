@@ -1,4 +1,4 @@
-import { TextSelection } from '@tiptap/pm/state'
+import { TextSelection } from '@dibdab/pm/state'
 
 export const ToCItem = ({ item, onItemClick }) => {
   return (

@@ -1,6 +1,6 @@
 import type { ComputePositionConfig, VirtualElement } from '@floating-ui/dom'
-import { type Editor, Extension } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import { type Editor, Extension } from '@dibdab/core'
+import type { Node } from '@dibdab/pm/model'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
 
@@ -42,7 +42,7 @@ export interface DragHandleOptions {
   onElementDragEnd?: (e: DragEvent) => void
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     dragHandle: {
       /**

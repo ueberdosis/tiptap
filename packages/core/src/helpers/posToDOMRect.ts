@@ -1,4 +1,4 @@
-import type { EditorView } from '@tiptap/pm/view'
+import type { EditorView } from '@dibdab/pm/view'
 
 import { minMax } from '../utilities/minMax.js'
 

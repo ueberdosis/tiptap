@@ -1,4 +1,4 @@
-import { BackgroundColor } from '@tiptap/extension-text-style'
+import { BackgroundColor } from '@dibdab/extension-text-style'
 import { describe, expect, it } from 'vitest'
 
 const ext: any = (BackgroundColor as any).configure()

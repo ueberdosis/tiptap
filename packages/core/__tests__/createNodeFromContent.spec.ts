@@ -1,7 +1,7 @@
-import { createNodeFromContent, getSchemaByResolvedExtensions } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { createNodeFromContent, getSchemaByResolvedExtensions } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
 import { describe, expect, it } from 'vitest'
 
 describe('createNodeFromContent', () => {

@@ -25,7 +25,7 @@ Key points for AI assistants:
 ```
 .
 ├─ packages/                 # Core and all first-party extensions
-│  ├─ core/                  # Editor core (@tiptap/core)
+│  ├─ core/                  # Editor core (@dibdab/core)
 │  ├─ extension-*/           # Individual extensions
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
@@ -90,7 +90,7 @@ pnpm lint:fix
   pnpm serve
   ```
 
-When adding a demo, keep it small and self-contained, with imports from published package names (`@tiptap/...`).
+When adding a demo, keep it small and self-contained, with imports from published package names (`@dibdab/...`).
 
 ---
 
@@ -188,7 +188,7 @@ Packages live under `packages/*`. Public entry points are typically `packages/<n
 ### Demos auto-discovery rules
 
 The demos app discovers examples automatically. When adding a demo:
-- Keep demo files small and self-contained. Import from published package names (for example `@tiptap/extension-foo`).
+- Keep demo files small and self-contained. Import from published package names (for example `@dibdab/extension-foo`).
 - Name demo files clearly; follow existing naming conventions in `demos/`.
 
 ### Validation checklist (run locally before opening a PR)
@@ -202,7 +202,7 @@ pnpm test       # runs unit and/or cypress where configured
 pnpm dev        # optionally run the demos and open http://localhost:3000
 ```
 
-If a single package is failing types, run a targeted build for that package (e.g. `pnpm -w -F @tiptap/core build`), or run `pnpm build` at the repo root.
+If a single package is failing types, run a targeted build for that package (e.g. `pnpm -w -F @dibdab/core build`), or run `pnpm build` at the repo root.
 
 ### PR checklist
 

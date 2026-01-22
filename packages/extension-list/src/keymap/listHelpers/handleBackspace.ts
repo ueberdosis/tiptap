@@ -1,6 +1,6 @@
-import type { Editor } from '@tiptap/core'
-import { isAtStartOfNode, isNodeActive } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import type { Editor } from '@dibdab/core'
+import { isAtStartOfNode, isNodeActive } from '@dibdab/core'
+import type { Node } from '@dibdab/pm/model'
 
 import { findListItemPos } from './findListItemPos.js'
 import { hasListBefore } from './hasListBefore.js'

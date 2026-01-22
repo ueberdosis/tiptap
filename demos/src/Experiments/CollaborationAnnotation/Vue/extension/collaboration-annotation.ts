@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@dibdab/core'
 import type * as Y from 'yjs'
 
 import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin.js'
@@ -48,7 +48,7 @@ function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
   return options.map ? options.map : (options.document?.getMap(options.field) as Y.Map<any>)
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     annotation: {
       addAnnotation: (data: any) => ReturnType

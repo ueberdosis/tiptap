@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-drag-handle-vue-3",
+  "name": "@dibdab/extension-drag-handle-vue-3",
   "description": "drag handle extension for tiptap with vue 3",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-drag-handle-vue-3"
   },
   "type": "module",
@@ -36,15 +36,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-3": "workspace:^",
+    "@dibdab/extension-drag-handle": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-3": "workspace:^",
+    "@dibdab/extension-drag-handle": "workspace:^",
+    "@dibdab/pm": "workspace:^",
+    "@dibdab/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "scripts": {

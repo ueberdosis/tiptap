@@ -1,6 +1,6 @@
 import '../types.js'
 
-import { mergeAttributes, Node } from '@tiptap/core'
+import { mergeAttributes, Node } from '@dibdab/core'
 
 export interface TableCellOptions {
   /**

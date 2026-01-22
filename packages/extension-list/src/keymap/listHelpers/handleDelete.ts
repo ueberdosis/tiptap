@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { isAtEndOfNode, isNodeActive } from '@tiptap/core'
+import type { Editor } from '@dibdab/core'
+import { isAtEndOfNode, isNodeActive } from '@dibdab/core'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'

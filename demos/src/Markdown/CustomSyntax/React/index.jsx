@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import Image from '@tiptap/extension-image'
-import { TableKit } from '@tiptap/extension-table'
-import { Markdown } from '@tiptap/markdown'
+import Image from '@dibdab/extension-image'
+import { TableKit } from '@dibdab/extension-table'
+import { Markdown } from '@dibdab/markdown'
 import {
   createAtomBlockMarkdownSpec,
   createBlockMarkdownSpec,
@@ -11,8 +11,8 @@ import {
   Mark,
   Node,
   useEditor,
-} from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+} from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import { useState } from 'react'
 
 const CustomNode = Node.create({

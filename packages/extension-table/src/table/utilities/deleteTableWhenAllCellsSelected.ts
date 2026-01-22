@@ -1,5 +1,5 @@
-import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { findParentNodeClosestToPos } from '@tiptap/core'
+import type { KeyboardShortcutCommand } from '@dibdab/core'
+import { findParentNodeClosestToPos } from '@dibdab/core'
 
 import { isCellSelection } from './isCellSelection.js'
 

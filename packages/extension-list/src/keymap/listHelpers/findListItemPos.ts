@@ -1,6 +1,6 @@
-import { getNodeType } from '@tiptap/core'
-import type { NodeType } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import { getNodeType } from '@dibdab/core'
+import type { NodeType } from '@dibdab/pm/model'
+import type { EditorState } from '@dibdab/pm/state'
 
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection

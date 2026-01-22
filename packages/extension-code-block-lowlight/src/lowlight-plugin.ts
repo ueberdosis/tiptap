@@ -1,7 +1,7 @@
-import { findChildren } from '@tiptap/core'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { findChildren } from '@dibdab/core'
+import type { Node as ProsemirrorNode } from '@dibdab/pm/model'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
+import { Decoration, DecorationSet } from '@dibdab/pm/view'
 // @ts-ignore
 import highlight from 'highlight.js/lib/core'
 

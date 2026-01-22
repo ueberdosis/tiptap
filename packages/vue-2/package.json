@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/vue-2",
+  "name": "@dibdab/vue-2",
   "description": "Vue components for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap vue components"
   ],
   "license": "MIT",
@@ -42,22 +42,22 @@
     "vue-ts-types": "1.6.2"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "vue": "^2.7.16"
   },
   "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
+    "@dibdab/extension-bubble-menu": "workspace:^",
+    "@dibdab/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "vue": "^2.6.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/vue-2"
   },
   "sideEffects": false,

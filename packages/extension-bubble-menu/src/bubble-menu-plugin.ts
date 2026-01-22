@@ -11,12 +11,12 @@ import {
   shift,
   size,
 } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { isTextSelection, posToDOMRect } from '@tiptap/core'
-import type { EditorState, PluginView, Transaction } from '@tiptap/pm/state'
-import { NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
-import { CellSelection } from '@tiptap/pm/tables'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@dibdab/core'
+import { isTextSelection, posToDOMRect } from '@dibdab/core'
+import type { EditorState, PluginView, Transaction } from '@dibdab/pm/state'
+import { NodeSelection, Plugin, PluginKey } from '@dibdab/pm/state'
+import { CellSelection } from '@dibdab/pm/tables'
+import type { EditorView } from '@dibdab/pm/view'
 
 function combineDOMRects(rect1: DOMRect, rect2: DOMRect): DOMRect {
   const top = Math.min(rect1.top, rect2.top)

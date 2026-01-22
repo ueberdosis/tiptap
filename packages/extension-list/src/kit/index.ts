@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@dibdab/core'
 
 import type { BulletListOptions } from '../bullet-list/index.js'
 import { BulletList } from '../bullet-list/index.js'

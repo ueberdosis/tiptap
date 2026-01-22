@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
-import { FloatingMenu } from '@tiptap/react/menus'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from '@dibdab/react'
+import { FloatingMenu } from '@dibdab/react/menus'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useEffect } from 'react'
 
 export default () => {

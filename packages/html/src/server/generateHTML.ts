@@ -1,5 +1,5 @@
-import { type Extensions, type JSONContent, getSchema } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
+import { type Extensions, type JSONContent, getSchema } from '@dibdab/core'
+import { Node } from '@dibdab/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 

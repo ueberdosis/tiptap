@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { findParentNode, posToDOMRect } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import { BubbleMenu } from '@tiptap/vue-3/menus'
+import { findParentNode, posToDOMRect } from '@dibdab/core'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
+import { BubbleMenu } from '@dibdab/vue-3/menus'
 
 export default {
   components: {

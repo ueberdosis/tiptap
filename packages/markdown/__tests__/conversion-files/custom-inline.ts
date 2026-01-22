@@ -1,4 +1,4 @@
-import { createInlineMarkdownSpec, Node } from '@tiptap/core'
+import { createInlineMarkdownSpec, Node } from '@dibdab/core'
 
 export const name = 'Custom Inline'
 

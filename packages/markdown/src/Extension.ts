@@ -4,14 +4,14 @@ import {
   type SetContentOptions as MarkdownSetContentOptions,
   commands,
   Extension,
-} from '@tiptap/core'
+} from '@dibdab/core'
 import type { marked } from 'marked'
 
 import MarkdownManager from './MarkdownManager.js'
 import type { ContentType } from './types.js'
 import { assumeContentType } from './utils.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Editor {
     /**
      * Get the content of the editor as markdown.

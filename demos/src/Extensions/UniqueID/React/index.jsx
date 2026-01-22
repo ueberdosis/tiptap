@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import UniqueID from '@tiptap/extension-unique-id'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import UniqueID from '@dibdab/extension-unique-id'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 export default () => {

@@ -1,10 +1,10 @@
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCaret from '@tiptap/extension-collaboration-caret'
-import Highlight from '@tiptap/extension-highlight'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
-import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import Collaboration from '@dibdab/extension-collaboration'
+import CollaborationCaret from '@dibdab/extension-collaboration-caret'
+import Highlight from '@dibdab/extension-highlight'
+import { TaskItem, TaskList } from '@dibdab/extension-list'
+import { CharacterCount } from '@dibdab/extensions'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
 const colors = [

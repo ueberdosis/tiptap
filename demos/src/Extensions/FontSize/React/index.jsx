@@ -1,6 +1,6 @@
-import { FontSize, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { FontSize, TextStyle } from '@dibdab/extension-text-style'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 
 export default () => {
   const editor = useEditor({

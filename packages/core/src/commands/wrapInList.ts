@@ -1,10 +1,10 @@
-import type { NodeType } from '@tiptap/pm/model'
-import { wrapInList as originalWrapInList } from '@tiptap/pm/schema-list'
+import type { NodeType } from '@dibdab/pm/model'
+import { wrapInList as originalWrapInList } from '@dibdab/pm/schema-list'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     wrapInList: {
       /**

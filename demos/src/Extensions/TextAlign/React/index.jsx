@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import TextAlign from '@tiptap/extension-text-align'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Document from '@dibdab/extension-document'
+import Heading from '@dibdab/extension-heading'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
+import TextAlign from '@dibdab/extension-text-align'
+import { EditorContent, useEditor } from '@dibdab/react'
 import React from 'react'
 
 export default () => {

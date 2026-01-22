@@ -6,9 +6,9 @@ import {
   isActive,
   mergeAttributes,
   Node,
-} from '@tiptap/core'
-import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
-import type { ViewMutationRecord } from '@tiptap/pm/view'
+} from '@dibdab/core'
+import { Plugin, PluginKey, Selection, TextSelection } from '@dibdab/pm/state'
+import type { ViewMutationRecord } from '@dibdab/pm/view'
 
 import { findClosestVisibleNode } from './helpers/findClosestVisibleNode.js'
 import { isNodeVisible } from './helpers/isNodeVisible.js'
@@ -31,7 +31,7 @@ export interface DetailsOptions {
   }
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     details: {
       /**

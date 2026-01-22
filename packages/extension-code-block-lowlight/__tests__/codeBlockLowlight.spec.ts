@@ -1,8 +1,8 @@
-import { Editor } from '@tiptap/core'
-import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
-import { Document } from '@tiptap/extension-document'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
+import { Editor } from '@dibdab/core'
+import { CodeBlockLowlight } from '@dibdab/extension-code-block-lowlight'
+import { Document } from '@dibdab/extension-document'
+import { Paragraph } from '@dibdab/extension-paragraph'
+import { Text } from '@dibdab/extension-text'
 import { all, createLowlight } from 'lowlight'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 

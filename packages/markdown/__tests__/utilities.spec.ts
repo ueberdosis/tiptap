@@ -1,5 +1,5 @@
-import type { JSONContent } from '@tiptap/core'
-import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@tiptap/core'
+import type { JSONContent } from '@dibdab/core'
+import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@dibdab/core'
 import { describe, expect, it } from 'vitest'
 
 describe('Markdown Utilities', () => {

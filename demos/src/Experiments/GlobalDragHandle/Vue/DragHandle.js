@@ -1,5 +1,5 @@
-import { Extension } from '@tiptap/core'
-import { NodeSelection, Plugin } from '@tiptap/pm/state'
+import { Extension } from '@dibdab/core'
+import { NodeSelection, Plugin } from '@dibdab/pm/state'
 
 function removeNode(node) {
   node.parentNode.removeChild(node)

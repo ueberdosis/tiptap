@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/pm",
+  "name": "@dibdab/pm",
   "description": "prosemirror wrapper package for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "prosemirror"
   ],
   "license": "MIT",
@@ -202,7 +202,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/pm"
   },
   "scripts": {

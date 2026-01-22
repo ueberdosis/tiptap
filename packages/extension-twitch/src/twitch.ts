@@ -1,4 +1,4 @@
-import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
+import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@dibdab/core'
 
 import { getEmbedUrlFromTwitchUrl, isValidTwitchUrl, TWITCH_REGEX_GLOBAL } from './utils.js'
 
@@ -87,7 +87,7 @@ type SetTwitchVideoOptions = {
   time?: string
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     twitch: {
       /**
@@ -106,9 +106,9 @@ declare module '@tiptap/core' {
  *
  * @example
  * ```ts
- * import { useEditor, EditorContent } from '@tiptap/react'
- * import { StarterKit } from '@tiptap/starter-kit'
- * import { Twitch } from '@tiptap/extension-twitch'
+ * import { useEditor, EditorContent } from '@dibdab/react'
+ * import { StarterKit } from '@dibdab/starter-kit'
+ * import { Twitch } from '@dibdab/extension-twitch'
  *
  * const editor = useEditor({
  *   extensions: [

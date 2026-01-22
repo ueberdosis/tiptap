@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@dibdab/pm/state'
 
 export const isAtStartOfNode = (state: EditorState) => {
   const { $from, $to } = state.selection

@@ -1,4 +1,4 @@
-import { fromString } from '@tiptap/core'
+import { fromString } from '@dibdab/core'
 import { describe, expect, it } from 'vitest'
 
 describe('fromString', () => {

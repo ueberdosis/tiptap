@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@dibdab/starter-kit'
+import { Editor, EditorContent } from '@dibdab/vue-3'
 
 import Commands from './commands.js'
 import suggestion from './suggestion.js'

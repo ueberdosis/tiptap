@@ -1,5 +1,5 @@
-import type { ParseOptions } from '@tiptap/pm/model'
-import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@tiptap/pm/model'
+import type { ParseOptions } from '@dibdab/pm/model'
+import { DOMParser, Fragment, Node as ProseMirrorNode, Schema } from '@dibdab/pm/model'
 
 import type { Content } from '../types.js'
 import { elementFromString } from '../utilities/elementFromString.js'

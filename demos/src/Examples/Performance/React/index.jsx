@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
-import { BubbleMenu } from '@tiptap/react/menus'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor, useEditorState } from '@dibdab/react'
+import { BubbleMenu } from '@dibdab/react/menus'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 function EditorInstance({ shouldOptimizeRendering }) {

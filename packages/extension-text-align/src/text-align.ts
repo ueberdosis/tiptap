@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@dibdab/core'
 
 export interface TextAlignOptions {
   /**
@@ -23,7 +23,7 @@ export interface TextAlignOptions {
   defaultAlignment: string | null
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     textAlign: {
       /**

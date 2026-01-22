@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-unique-id",
+  "name": "@dibdab/extension-unique-id",
   "description": "unique id extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev/api/extensions/unique-id",
+  "homepage": "https://dibdab.dev/api/extensions/unique-id",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,20 +31,20 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "dependencies": {
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "@types/uuid": "^10.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-unique-id"
   },
   "scripts": {

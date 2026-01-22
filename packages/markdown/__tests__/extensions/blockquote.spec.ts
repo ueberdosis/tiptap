@@ -1,10 +1,10 @@
-import type { Extension } from '@tiptap/core'
-import { Blockquote } from '@tiptap/extension-blockquote'
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
-import { MarkdownManager } from '@tiptap/markdown'
+import type { Extension } from '@dibdab/core'
+import { Blockquote } from '@dibdab/extension-blockquote'
+import { Document } from '@dibdab/extension-document'
+import { Heading } from '@dibdab/extension-heading'
+import { Paragraph } from '@dibdab/extension-paragraph'
+import { Text } from '@dibdab/extension-text'
+import { MarkdownManager } from '@dibdab/markdown'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 describe('Blockquote Markdown Conversion', () => {

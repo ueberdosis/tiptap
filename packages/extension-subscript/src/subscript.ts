@@ -1,5 +1,5 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
-import type { StyleParseRule } from '@tiptap/pm/model'
+import { Mark, mergeAttributes } from '@dibdab/core'
+import type { StyleParseRule } from '@dibdab/pm/model'
 
 export interface SubscriptExtensionOptions {
   /**
@@ -10,7 +10,7 @@ export interface SubscriptExtensionOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     subscript: {
       /**

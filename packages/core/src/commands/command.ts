@@ -1,6 +1,6 @@
 import type { Command, RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     command: {
       /**

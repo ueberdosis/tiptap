@@ -1,4 +1,4 @@
-import type { Plugin } from '@tiptap/pm/state'
+import type { Plugin } from '@dibdab/pm/state'
 
 import type { Editor } from './Editor.js'
 import { getExtensionField } from './helpers/getExtensionField.js'

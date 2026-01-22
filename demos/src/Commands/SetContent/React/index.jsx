@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Mentions from '@tiptap/extension-mention'
-import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorProvider } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import Mentions from '@dibdab/extension-mention'
+import { Color, TextStyle } from '@dibdab/extension-text-style'
+import { EditorProvider } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 const extensions = [Color, TextStyle, StarterKit, Mentions]

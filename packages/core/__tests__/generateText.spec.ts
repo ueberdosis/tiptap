@@ -1,8 +1,8 @@
-import type { NodeConfig } from '@tiptap/core'
-import { generateText, Node } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import type { NodeConfig } from '@dibdab/core'
+import { generateText, Node } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
 import { describe, expect, it } from 'vitest'
 
 describe(generateText.name, () => {

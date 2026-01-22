@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@dibdab/core'
 import type { KatexOptions } from 'katex'
 
 import type { BlockMathOptions, InlineMathOptions } from './extensions/index.js'

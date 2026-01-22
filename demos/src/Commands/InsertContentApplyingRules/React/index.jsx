@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import { EditorProvider, useCurrentEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorProvider, useCurrentEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useState } from 'react'
 
 const MenuBar = () => {

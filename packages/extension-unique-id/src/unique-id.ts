@@ -1,8 +1,8 @@
-import { combineTransactionSteps, Extension, findChildren, findChildrenInRange, getChangedRanges } from '@tiptap/core'
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Fragment, Slice } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { combineTransactionSteps, Extension, findChildren, findChildrenInRange, getChangedRanges } from '@dibdab/core'
+import type { Node as ProseMirrorNode } from '@dibdab/pm/model'
+import { Fragment, Slice } from '@dibdab/pm/model'
+import type { Transaction } from '@dibdab/pm/state'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
 import { findDuplicates } from './helpers/findDuplicates.js'

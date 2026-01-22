@@ -1,9 +1,9 @@
-import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { Editor } from '@dibdab/core'
+import Document from '@dibdab/extension-document'
+import Image from '@dibdab/extension-image'
+import Link from '@dibdab/extension-link'
+import Paragraph from '@dibdab/extension-paragraph'
+import Text from '@dibdab/extension-text'
 import { describe, expect, it } from 'vitest'
 
 /**

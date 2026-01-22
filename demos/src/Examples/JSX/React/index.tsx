@@ -1,7 +1,7 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React from 'react'
 
 import { Paragraph } from './Paragraph.jsx'

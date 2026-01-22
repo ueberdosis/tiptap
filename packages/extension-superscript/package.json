@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-superscript",
+  "name": "@dibdab/extension-superscript",
   "description": "superscript extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev",
+  "homepage": "https://dibdab.dev",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -31,16 +31,16 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-superscript"
   },
   "scripts": {

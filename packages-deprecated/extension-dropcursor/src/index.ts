@@ -1,6 +1,6 @@
-import { Dropcursor } from '@tiptap/extensions'
+import { Dropcursor } from '@dibdab/extensions'
 
-export type { DropcursorOptions } from '@tiptap/extensions'
-export { Dropcursor } from '@tiptap/extensions'
+export type { DropcursorOptions } from '@dibdab/extensions'
+export { Dropcursor } from '@dibdab/extensions'
 
 export default Dropcursor

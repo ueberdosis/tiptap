@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@dibdab/pm/state'
 
 import { findParentNode } from './findParentNode.js'
 

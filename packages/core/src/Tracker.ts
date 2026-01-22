@@ -1,4 +1,4 @@
-import type { Transaction } from '@tiptap/pm/state'
+import type { Transaction } from '@dibdab/pm/state'
 
 export interface TrackerResult {
   position: number

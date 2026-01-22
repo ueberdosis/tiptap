@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
-import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
-import { EditorState } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
+import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@dibdab/pm/model'
+import type { Plugin, PluginKey, Transaction } from '@dibdab/pm/state'
+import { EditorState } from '@dibdab/pm/state'
+import { EditorView } from '@dibdab/pm/view'
 
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'

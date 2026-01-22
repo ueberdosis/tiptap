@@ -1,8 +1,8 @@
 import './styles.scss'
 
-import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { Color, TextStyle } from '@dibdab/extension-text-style'
+import { EditorContent, useEditor } from '@dibdab/react'
+import StarterKit from '@dibdab/starter-kit'
 import React, { useCallback } from 'react'
 
 const MenuBar = ({ editor }) => {

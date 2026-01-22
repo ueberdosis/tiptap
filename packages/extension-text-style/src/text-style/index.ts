@@ -1,4 +1,4 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@dibdab/core'
 
 import type { TextStyleAttributes } from '../index.js'
 
@@ -19,7 +19,7 @@ export interface TextStyleOptions {
   mergeNestedSpanStyles: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@dibdab/core' {
   interface Commands<ReturnType> {
     textStyle: {
       /**

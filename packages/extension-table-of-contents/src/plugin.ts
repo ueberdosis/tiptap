@@ -1,5 +1,5 @@
-import type { NodeType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { NodeType } from '@dibdab/pm/model'
+import { Plugin, PluginKey } from '@dibdab/pm/state'
 import { v4 as uuidv4 } from 'uuid'
 
 export const TableOfContentsPlugin = ({

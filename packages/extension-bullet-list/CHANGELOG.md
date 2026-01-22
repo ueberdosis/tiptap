@@ -4,371 +4,371 @@
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.16.0
+- @dibdab/extension-list@3.16.0
 
 ## 3.15.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.15.3
+- @dibdab/extension-list@3.15.3
 
 ## 3.15.2
 
 ### Patch Changes
 
 - Updated dependencies [c1caa7c]
-  - @tiptap/extension-list@3.15.2
+  - @dibdab/extension-list@3.15.2
 
 ## 3.15.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.15.1
+- @dibdab/extension-list@3.15.1
 
 ## 3.15.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.15.0
+- @dibdab/extension-list@3.15.0
 
 ## 3.14.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.14.0
+- @dibdab/extension-list@3.14.0
 
 ## 3.13.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.13.0
+- @dibdab/extension-list@3.13.0
 
 ## 3.12.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.12.1
+- @dibdab/extension-list@3.12.1
 
 ## 3.12.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.12.0
+- @dibdab/extension-list@3.12.0
 
 ## 3.11.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.11.1
+- @dibdab/extension-list@3.11.1
 
 ## 3.11.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.11.0
+- @dibdab/extension-list@3.11.0
 
 ## 3.10.8
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.8
+- @dibdab/extension-list@3.10.8
 
 ## 3.10.7
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.7
+- @dibdab/extension-list@3.10.7
 
 ## 3.10.6
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.6
+- @dibdab/extension-list@3.10.6
 
 ## 3.10.5
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.5
+- @dibdab/extension-list@3.10.5
 
 ## 3.10.4
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.4
+- @dibdab/extension-list@3.10.4
 
 ## 3.10.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.3
+- @dibdab/extension-list@3.10.3
 
 ## 3.10.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.2
+- @dibdab/extension-list@3.10.2
 
 ## 3.10.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.1
+- @dibdab/extension-list@3.10.1
 
 ## 3.10.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.10.0
+- @dibdab/extension-list@3.10.0
 
 ## 3.9.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.9.1
+- @dibdab/extension-list@3.9.1
 
 ## 3.9.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.9.0
+- @dibdab/extension-list@3.9.0
 
 ## 3.8.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.8.0
+- @dibdab/extension-list@3.8.0
 
 ## 3.7.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.7.2
+- @dibdab/extension-list@3.7.2
 
 ## 3.7.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.7.1
+- @dibdab/extension-list@3.7.1
 
 ## 3.7.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.7.0
+- @dibdab/extension-list@3.7.0
 
 ## 3.6.7
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.7
+- @dibdab/extension-list@3.6.7
 
 ## 3.6.6
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.6
+- @dibdab/extension-list@3.6.6
 
 ## 3.6.5
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.5
+- @dibdab/extension-list@3.6.5
 
 ## 3.6.4
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.4
+- @dibdab/extension-list@3.6.4
 
 ## 3.6.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.3
+- @dibdab/extension-list@3.6.3
 
 ## 3.6.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.2
+- @dibdab/extension-list@3.6.2
 
 ## 3.6.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.1
+- @dibdab/extension-list@3.6.1
 
 ## 3.6.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.6.0
+- @dibdab/extension-list@3.6.0
 
 ## 3.5.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.5.3
+- @dibdab/extension-list@3.5.3
 
 ## 3.5.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.5.2
+- @dibdab/extension-list@3.5.2
 
 ## 3.5.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.5.1
+- @dibdab/extension-list@3.5.1
 
 ## 3.5.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.5.0
+- @dibdab/extension-list@3.5.0
 
 ## 3.4.6
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.6
+- @dibdab/extension-list@3.4.6
 
 ## 3.4.5
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.5
+- @dibdab/extension-list@3.4.5
 
 ## 3.4.4
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.4
+- @dibdab/extension-list@3.4.4
 
 ## 3.4.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.3
+- @dibdab/extension-list@3.4.3
 
 ## 3.4.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.2
+- @dibdab/extension-list@3.4.2
 
 ## 3.4.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.1
+- @dibdab/extension-list@3.4.1
 
 ## 3.4.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.4.0
+- @dibdab/extension-list@3.4.0
 
 ## 3.3.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.3.1
+- @dibdab/extension-list@3.3.1
 
 ## 3.3.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.3.0
+- @dibdab/extension-list@3.3.0
 
 ## 3.2.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.2.2
+- @dibdab/extension-list@3.2.2
 
 ## 3.2.1
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.2.1
+- @dibdab/extension-list@3.2.1
 
 ## 3.2.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.2.0
+- @dibdab/extension-list@3.2.0
 
 ## 3.1.0
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.1.0
+- @dibdab/extension-list@3.1.0
 
 ## 3.0.9
 
 ### Patch Changes
 
 - Updated dependencies [22fcc31]
-  - @tiptap/extension-list@3.0.9
+  - @dibdab/extension-list@3.0.9
 
 ## 3.0.8
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.8
+- @dibdab/extension-list@3.0.8
 
 ## 3.0.7
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.7
+- @dibdab/extension-list@3.0.7
 
 ## 3.0.6
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.6
+- @dibdab/extension-list@3.0.6
 
 ## 3.0.5
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.5
+- @dibdab/extension-list@3.0.5
 
 ## 3.0.4
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.4
+- @dibdab/extension-list@3.0.4
 
 ## 3.0.3
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.3
+- @dibdab/extension-list@3.0.3
 
 ## 3.0.2
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.2
+- @dibdab/extension-list@3.0.2
 
 ## 3.0.1
 
 ### Major Changes
 
 - a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
-- 2c911d2: This adds all of the list packages to the `@tiptap/extension-list` package.
+- 2c911d2: This adds all of the list packages to the `@dibdab/extension-list` package.
 
   ## ListKit
 
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from '@dibdab/extension-list'
 
   new Editor({
     extensions: [
@@ -396,16 +396,16 @@
 
   ## List repackaging
 
-  Since we've moved the code out of the list extensions to the `@tiptap/extension-list` package, you can remove the following packages from your project:
+  Since we've moved the code out of the list extensions to the `@dibdab/extension-list` package, you can remove the following packages from your project:
 
   ```bash
-  npm uninstall @tiptap/extension-ordered-list @tiptap/extension-bullet-list @tiptap/extension-list-keymap @tiptap/extension-list-item @tiptap/extension-task-list
+  npm uninstall @dibdab/extension-ordered-list @dibdab/extension-bullet-list @dibdab/extension-list-keymap @dibdab/extension-list-item @dibdab/extension-task-list
   ```
 
-  And replace them with the new `@tiptap/extension-list` package:
+  And replace them with the new `@dibdab/extension-list` package:
 
   ```bash
-  npm install @tiptap/extension-list
+  npm install @dibdab/extension-list
   ```
 
   ## Want to use the extensions separately?
@@ -416,102 +416,102 @@
 
   This extension adds a bullet list to the editor.
 
-  Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-bullet-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import BulletList from '@tiptap/extension-bullet-list'
-  + import { BulletList } from '@tiptap/extension-list'
+  - import BulletList from '@dibdab/extension-bullet-list'
+  + import { BulletList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from '@dibdab/extension-list'
   ```
 
   ### OrderedList
 
   This extension adds an ordered list to the editor.
 
-  Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-ordered-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import OrderedList from '@tiptap/extension-ordered-list'
-  + import { OrderedList } from '@tiptap/extension-list'
+  - import OrderedList from '@dibdab/extension-ordered-list'
+  + import { OrderedList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from '@dibdab/extension-list'
   ```
 
   ### ListItem
 
   This extension adds a list item to the editor.
 
-  Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListItem from '@tiptap/extension-list-item'
-  + import { ListItem } from '@tiptap/extension-list'
+  - import ListItem from '@dibdab/extension-list-item'
+  + import { ListItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from '@dibdab/extension-list'
   ```
 
   ### TaskList
 
   This extension adds a task list to the editor.
 
-  Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskList from '@tiptap/extension-task-list'
-  + import { TaskList } from '@tiptap/extension-list'
+  - import TaskList from '@dibdab/extension-task-list'
+  + import { TaskList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from '@dibdab/extension-list'
   ```
 
   ### TaskItem
 
   This extension adds a task item to the editor.
 
-  Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskItem from '@tiptap/extension-task-item'
-  + import { TaskItem } from '@tiptap/extension-list'
+  - import TaskItem from '@dibdab/extension-task-item'
+  + import { TaskItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from '@dibdab/extension-list'
   ```
 
   ### ListKeymap
 
   This extension adds better default keybindings for lists to the editor.
 
-  Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-keymap` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListKeymap from '@tiptap/extension-list-keymap'
-  + import { ListKeymap } from '@tiptap/extension-list'
+  - import ListKeymap from '@dibdab/extension-list-keymap'
+  + import { ListKeymap } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from '@dibdab/extension-list'
   ```
 
 ### Patch Changes
@@ -523,158 +523,158 @@
 - Updated dependencies [89bd9c7]
 - Updated dependencies [8c69002]
 - Updated dependencies [1d4d928]
-  - @tiptap/extension-list@3.0.1
+  - @dibdab/extension-list@3.0.1
 
 ## 3.0.0-beta.30
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.30
+- @dibdab/extension-list@3.0.0-beta.30
 
 ## 3.0.0-beta.29
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.29
+- @dibdab/extension-list@3.0.0-beta.29
 
 ## 3.0.0-beta.28
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.28
+- @dibdab/extension-list@3.0.0-beta.28
 
 ## 3.0.0-beta.27
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.27
+- @dibdab/extension-list@3.0.0-beta.27
 
 ## 3.0.0-beta.26
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.26
+- @dibdab/extension-list@3.0.0-beta.26
 
 ## 3.0.0-beta.25
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.25
+- @dibdab/extension-list@3.0.0-beta.25
 
 ## 3.0.0-beta.24
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.24
+- @dibdab/extension-list@3.0.0-beta.24
 
 ## 3.0.0-beta.23
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.23
+- @dibdab/extension-list@3.0.0-beta.23
 
 ## 3.0.0-beta.22
 
 ### Patch Changes
 
 - Updated dependencies [1d4d928]
-  - @tiptap/extension-list@3.0.0-beta.22
+  - @dibdab/extension-list@3.0.0-beta.22
 
 ## 3.0.0-beta.21
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.21
+- @dibdab/extension-list@3.0.0-beta.21
 
 ## 3.0.0-beta.20
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.20
+- @dibdab/extension-list@3.0.0-beta.20
 
 ## 3.0.0-beta.19
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.19
+- @dibdab/extension-list@3.0.0-beta.19
 
 ## 3.0.0-beta.18
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.18
+- @dibdab/extension-list@3.0.0-beta.18
 
 ## 3.0.0-beta.17
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.17
+- @dibdab/extension-list@3.0.0-beta.17
 
 ## 3.0.0-beta.16
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.16
+- @dibdab/extension-list@3.0.0-beta.16
 
 ## 3.0.0-beta.15
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.15
+- @dibdab/extension-list@3.0.0-beta.15
 
 ## 3.0.0-beta.14
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.14
+- @dibdab/extension-list@3.0.0-beta.14
 
 ## 3.0.0-beta.13
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.13
+- @dibdab/extension-list@3.0.0-beta.13
 
 ## 3.0.0-beta.12
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.12
+- @dibdab/extension-list@3.0.0-beta.12
 
 ## 3.0.0-beta.11
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.11
+- @dibdab/extension-list@3.0.0-beta.11
 
 ## 3.0.0-beta.10
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.10
+- @dibdab/extension-list@3.0.0-beta.10
 
 ## 3.0.0-beta.9
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.9
+- @dibdab/extension-list@3.0.0-beta.9
 
 ## 3.0.0-beta.8
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.8
+- @dibdab/extension-list@3.0.0-beta.8
 
 ## 3.0.0-beta.7
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.7
+- @dibdab/extension-list@3.0.0-beta.7
 
 ## 3.0.0-beta.6
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.6
+- @dibdab/extension-list@3.0.0-beta.6
 
 ## 3.0.0-beta.5
 
@@ -682,13 +682,13 @@
 
 - 8c69002: Synced beta with stable features
 - Updated dependencies [8c69002]
-  - @tiptap/extension-list@3.0.0-beta.5
+  - @dibdab/extension-list@3.0.0-beta.5
 
 ## 3.0.0-beta.4
 
 ### Patch Changes
 
-- @tiptap/extension-list@3.0.0-beta.4
+- @dibdab/extension-list@3.0.0-beta.4
 
 ## 3.0.0-beta.3
 
@@ -696,7 +696,7 @@
 
 - 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
 - Updated dependencies [1b4c82b]
-  - @tiptap/extension-list@3.0.0-beta.3
+  - @dibdab/extension-list@3.0.0-beta.3
 
 ## 3.0.0-beta.2
 
@@ -717,14 +717,14 @@
 ### Major Changes
 
 - a92f4a6: We are now building packages with tsup which does not support UMD builds, please repackage if you require UMD builds
-- 2c911d2: This adds all of the list packages to the `@tiptap/extension-list` package.
+- 2c911d2: This adds all of the list packages to the `@dibdab/extension-list` package.
 
   ## ListKit
 
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from '@dibdab/extension-list'
 
   new Editor({
     extensions: [
@@ -752,16 +752,16 @@
 
   ## List repackaging
 
-  Since we've moved the code out of the list extensions to the `@tiptap/extension-list` package, you can remove the following packages from your project:
+  Since we've moved the code out of the list extensions to the `@dibdab/extension-list` package, you can remove the following packages from your project:
 
   ```bash
-  npm uninstall @tiptap/extension-ordered-list @tiptap/extension-bullet-list @tiptap/extension-list-keymap @tiptap/extension-list-item @tiptap/extension-task-list
+  npm uninstall @dibdab/extension-ordered-list @dibdab/extension-bullet-list @dibdab/extension-list-keymap @dibdab/extension-list-item @dibdab/extension-task-list
   ```
 
-  And replace them with the new `@tiptap/extension-list` package:
+  And replace them with the new `@dibdab/extension-list` package:
 
   ```bash
-  npm install @tiptap/extension-list
+  npm install @dibdab/extension-list
   ```
 
   ## Want to use the extensions separately?
@@ -772,116 +772,116 @@
 
   This extension adds a bullet list to the editor.
 
-  Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-bullet-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import BulletList from '@tiptap/extension-bullet-list'
-  + import { BulletList } from '@tiptap/extension-list'
+  - import BulletList from '@dibdab/extension-bullet-list'
+  + import { BulletList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from '@dibdab/extension-list'
   ```
 
   ### OrderedList
 
   This extension adds an ordered list to the editor.
 
-  Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-ordered-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import OrderedList from '@tiptap/extension-ordered-list'
-  + import { OrderedList } from '@tiptap/extension-list'
+  - import OrderedList from '@dibdab/extension-ordered-list'
+  + import { OrderedList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from '@dibdab/extension-list'
   ```
 
   ### ListItem
 
   This extension adds a list item to the editor.
 
-  Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListItem from '@tiptap/extension-list-item'
-  + import { ListItem } from '@tiptap/extension-list'
+  - import ListItem from '@dibdab/extension-list-item'
+  + import { ListItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from '@dibdab/extension-list'
   ```
 
   ### TaskList
 
   This extension adds a task list to the editor.
 
-  Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskList from '@tiptap/extension-task-list'
-  + import { TaskList } from '@tiptap/extension-list'
+  - import TaskList from '@dibdab/extension-task-list'
+  + import { TaskList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from '@dibdab/extension-list'
   ```
 
   ### TaskItem
 
   This extension adds a task item to the editor.
 
-  Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskItem from '@tiptap/extension-task-item'
-  + import { TaskItem } from '@tiptap/extension-list'
+  - import TaskItem from '@dibdab/extension-task-item'
+  + import { TaskItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from '@dibdab/extension-list'
   ```
 
   ### ListKeymap
 
   This extension adds better default keybindings for lists to the editor.
 
-  Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-keymap` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListKeymap from '@tiptap/extension-list-keymap'
-  + import { ListKeymap } from '@tiptap/extension-list'
+  - import ListKeymap from '@dibdab/extension-list-keymap'
+  + import { ListKeymap } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from '@dibdab/extension-list'
   ```
 
 ## 3.0.0-next.5
 
 ### Major Changes
 
-- 2c911d2: This adds all of the list packages to the `@tiptap/extension-list` package.
+- 2c911d2: This adds all of the list packages to the `@dibdab/extension-list` package.
 
   ## ListKit
 
   The `ListKit` export allows configuring all list extensions with one extension, and is the recommended way of using the list extensions.
 
   ```ts
-  import { ListKit } from '@tiptap/extension-list'
+  import { ListKit } from '@dibdab/extension-list'
 
   new Editor({
     extensions: [
@@ -909,16 +909,16 @@
 
   ## List repackaging
 
-  Since we've moved the code out of the list extensions to the `@tiptap/extension-list` package, you can remove the following packages from your project:
+  Since we've moved the code out of the list extensions to the `@dibdab/extension-list` package, you can remove the following packages from your project:
 
   ```bash
-  npm uninstall @tiptap/extension-ordered-list @tiptap/extension-bullet-list @tiptap/extension-list-keymap @tiptap/extension-list-item @tiptap/extension-task-list
+  npm uninstall @dibdab/extension-ordered-list @dibdab/extension-bullet-list @dibdab/extension-list-keymap @dibdab/extension-list-item @dibdab/extension-task-list
   ```
 
-  And replace them with the new `@tiptap/extension-list` package:
+  And replace them with the new `@dibdab/extension-list` package:
 
   ```bash
-  npm install @tiptap/extension-list
+  npm install @dibdab/extension-list
   ```
 
   ## Want to use the extensions separately?
@@ -929,102 +929,102 @@
 
   This extension adds a bullet list to the editor.
 
-  Migrate from `@tiptap/extension-bullet-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-bullet-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import BulletList from '@tiptap/extension-bullet-list'
-  + import { BulletList } from '@tiptap/extension-list'
+  - import BulletList from '@dibdab/extension-bullet-list'
+  + import { BulletList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { BulletList } from '@tiptap/extension-list'
+  import { BulletList } from '@dibdab/extension-list'
   ```
 
   ### OrderedList
 
   This extension adds an ordered list to the editor.
 
-  Migrate from `@tiptap/extension-ordered-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-ordered-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import OrderedList from '@tiptap/extension-ordered-list'
-  + import { OrderedList } from '@tiptap/extension-list'
+  - import OrderedList from '@dibdab/extension-ordered-list'
+  + import { OrderedList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { OrderedList } from '@tiptap/extension-list'
+  import { OrderedList } from '@dibdab/extension-list'
   ```
 
   ### ListItem
 
   This extension adds a list item to the editor.
 
-  Migrate from `@tiptap/extension-list-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListItem from '@tiptap/extension-list-item'
-  + import { ListItem } from '@tiptap/extension-list'
+  - import ListItem from '@dibdab/extension-list-item'
+  + import { ListItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem } from '@dibdab/extension-list'
   ```
 
   ### TaskList
 
   This extension adds a task list to the editor.
 
-  Migrate from `@tiptap/extension-task-list` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-list` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskList from '@tiptap/extension-task-list'
-  + import { TaskList } from '@tiptap/extension-list'
+  - import TaskList from '@dibdab/extension-task-list'
+  + import { TaskList } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskList } from '@tiptap/extension-list'
+  import { TaskList } from '@dibdab/extension-list'
   ```
 
   ### TaskItem
 
   This extension adds a task item to the editor.
 
-  Migrate from `@tiptap/extension-task-item` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-task-item` to `@dibdab/extension-list`:
 
   ```diff
-  - import TaskItem from '@tiptap/extension-task-item'
-  + import { TaskItem } from '@tiptap/extension-list'
+  - import TaskItem from '@dibdab/extension-task-item'
+  + import { TaskItem } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { TaskItem } from '@tiptap/extension-list'
+  import { TaskItem } from '@dibdab/extension-list'
   ```
 
   ### ListKeymap
 
   This extension adds better default keybindings for lists to the editor.
 
-  Migrate from `@tiptap/extension-list-keymap` to `@tiptap/extension-list`:
+  Migrate from `@dibdab/extension-list-keymap` to `@dibdab/extension-list`:
 
   ```diff
-  - import ListKeymap from '@tiptap/extension-list-keymap'
-  + import { ListKeymap } from '@tiptap/extension-list'
+  - import ListKeymap from '@dibdab/extension-list-keymap'
+  + import { ListKeymap } from '@dibdab/extension-list'
   ```
 
   Usage:
 
   ```ts
-  import { ListKeymap } from '@tiptap/extension-list'
+  import { ListKeymap } from '@dibdab/extension-list'
   ```
 
 ## 3.0.0-next.4
@@ -1043,14 +1043,14 @@
 
 - Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/core@3.0.0-next.1
+  - @dibdab/core@3.0.0-next.1
 
 ## 3.0.0-next.0
 
 ### Patch Changes
 
 - Updated dependencies [0ec0af6]
-  - @tiptap/core@3.0.0-next.0
+  - @dibdab/core@3.0.0-next.0
 
 ## 2.12.0
 
@@ -1073,7 +1073,7 @@
 ### Patch Changes
 
 - Updated dependencies [a08bf85]
-  - @tiptap/core@2.5.8
+  - @dibdab/core@2.5.8
 
 ## 2.5.7
 
@@ -1081,7 +1081,7 @@
 
 - Updated dependencies [b012471]
 - Updated dependencies [cc3497e]
-  - @tiptap/core@2.5.7
+  - @dibdab/core@2.5.7
 
 ## 2.5.6
 
@@ -1090,7 +1090,7 @@
 - Updated dependencies [618bca9]
 - Updated dependencies [35682d1]
 - Updated dependencies [2104f0f]
-  - @tiptap/core@2.5.6
+  - @dibdab/core@2.5.6
 
 ## 2.5.5
 
@@ -1098,7 +1098,7 @@
 
 - Updated dependencies [4cca382]
 - Updated dependencies [3b67e8a]
-  - @tiptap/core@2.5.5
+  - @dibdab/core@2.5.5
 
 ## 2.5.4
 
@@ -1106,26 +1106,26 @@
 
 - dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
 - Updated dependencies [dd7f9ac]
-  - @tiptap/core@2.5.4
+  - @dibdab/core@2.5.4
 
 ## 2.5.3
 
 ### Patch Changes
 
-- @tiptap/core@2.5.3
+- @dibdab/core@2.5.3
 
 ## 2.5.2
 
 ### Patch Changes
 
 - Updated dependencies [07f4c03]
-  - @tiptap/core@2.5.2
+  - @dibdab/core@2.5.2
 
 ## 2.5.1
 
 ### Patch Changes
 
-- @tiptap/core@2.5.1
+- @dibdab/core@2.5.1
 
 ## 2.5.0
 
@@ -1135,73 +1135,73 @@
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
-  - @tiptap/core@2.5.0
+  - @dibdab/core@2.5.0
 
 ## 2.5.0-pre.16
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.16
+- @dibdab/core@2.5.0-pre.16
 
 ## 2.5.0-pre.15
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.15
+- @dibdab/core@2.5.0-pre.15
 
 ## 2.5.0-pre.14
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.14
+- @dibdab/core@2.5.0-pre.14
 
 ## 2.5.0-pre.13
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.13
+  - @dibdab/core@2.5.0-pre.13
 
 ## 2.5.0-pre.12
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.12
+  - @dibdab/core@2.5.0-pre.12
 
 ## 2.5.0-pre.11
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.11
+  - @dibdab/core@2.5.0-pre.11
 
 ## 2.5.0-pre.10
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.10
+  - @dibdab/core@2.5.0-pre.10
 
 ## 2.5.0-pre.9
 
 ### Patch Changes
 
 - Updated dependencies [14a00f4]
-  - @tiptap/core@2.5.0-pre.9
+  - @dibdab/core@2.5.0-pre.9
 
 ## 2.5.0-pre.8
 
 ### Patch Changes
 
 - Updated dependencies [509676e]
-  - @tiptap/core@2.5.0-pre.8
+  - @dibdab/core@2.5.0-pre.8
 
 ## 2.5.0-pre.7
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.7
+- @dibdab/core@2.5.0-pre.7
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
@@ -1214,39 +1214,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.2.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0...v2.2.1) (2024-01-31)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
 
@@ -1264,27 +1264,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.2.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.2.0-rc.0) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.11](https://github.com/ueberdosis/tiptap/compare/v2.1.10...v2.1.11) (2023-09-20)
 
@@ -1294,51 +1294,51 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.8](https://github.com/ueberdosis/tiptap/compare/v2.1.7...v2.1.8) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.7](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.1.7) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.14](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.13...v2.1.0-rc.14) (2023-08-11)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.13](https://github.com/ueberdosis/tiptap/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
 
@@ -1370,43 +1370,43 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.12](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.11](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.6...v2.1.0-rc.7) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.6](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.5...v2.1.0-rc.6) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.5](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.4](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.3...v2.1.0-rc.4) (2023-04-27)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
 
@@ -1420,19 +1420,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.0.2](https://github.com/ueberdosis/tiptap/compare/v2.0.1...v2.0.2) (2023-04-03)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 ## [2.0.1](https://github.com/ueberdosis/tiptap/compare/v2.0.0...v2.0.1) (2023-03-30)
 
@@ -1442,7 +1442,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.220](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.219...v2.0.0-beta.220) (2023-02-28)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
 
@@ -1452,15 +1452,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.215](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.214...v2.0.0-beta.215) (2023-02-08)
 
@@ -1470,19 +1470,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.214](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.213...v2.0.0-beta.214) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
 
@@ -1492,23 +1492,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.209](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.208...v2.0.0-beta.209) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.208](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.207...v2.0.0-beta.208) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.207](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.206...v2.0.0-beta.207) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.206](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.205...v2.0.0-beta.206) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.205](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.204...v2.0.0-beta.205) (2022-12-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.204](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.203...v2.0.0-beta.204) (2022-11-25)
 
@@ -1518,219 +1518,219 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.203](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.202...v2.0.0-beta.203) (2022-11-24)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.198](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.197...v2.0.0-beta.198) (2022-09-29)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.27...@tiptap/extension-bullet-list@2.0.0-beta.29) (2022-06-17)
-
-### Reverts
-
-- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
-
-# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.27...@tiptap/extension-bullet-list@2.0.0-beta.27) (2022-06-17)
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.27...@dibdab/extension-bullet-list@2.0.0-beta.29) (2022-06-17)
 
 ### Reverts
 
 - Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
 
-# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.25...@tiptap/extension-bullet-list@2.0.0-beta.26) (2021-12-22)
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.27...@dibdab/extension-bullet-list@2.0.0-beta.27) (2022-06-17)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+### Reverts
 
-# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.24...@tiptap/extension-bullet-list@2.0.0-beta.25) (2021-12-10)
+- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.25...@dibdab/extension-bullet-list@2.0.0-beta.26) (2021-12-22)
+
+**Note:** Version bump only for package @dibdab/extension-bullet-list
+
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.24...@dibdab/extension-bullet-list@2.0.0-beta.25) (2021-12-10)
 
 ### Features
 
 - add itemTypeName option ([3d7c8e6](https://github.com/ueberdosis/tiptap/commit/3d7c8e642f31b1fa813e84dddc3968504477d536))
 
-# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.23...@tiptap/extension-bullet-list@2.0.0-beta.24) (2021-12-02)
+# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.23...@dibdab/extension-bullet-list@2.0.0-beta.24) (2021-12-02)
 
 ### Bug Fixes
 
 - remove some magic strings ([6c34dec](https://github.com/ueberdosis/tiptap/commit/6c34dec33ac39c9f037a0a72e4525f3fc6d422bf))
 
-# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.22...@tiptap/extension-bullet-list@2.0.0-beta.23) (2021-11-09)
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.22...@dibdab/extension-bullet-list@2.0.0-beta.23) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.21...@tiptap/extension-bullet-list@2.0.0-beta.22) (2021-11-09)
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.21...@dibdab/extension-bullet-list@2.0.0-beta.22) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.20...@tiptap/extension-bullet-list@2.0.0-beta.21) (2021-11-09)
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.20...@dibdab/extension-bullet-list@2.0.0-beta.21) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.19...@tiptap/extension-bullet-list@2.0.0-beta.20) (2021-10-31)
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.19...@dibdab/extension-bullet-list@2.0.0-beta.20) (2021-10-31)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.18...@tiptap/extension-bullet-list@2.0.0-beta.19) (2021-10-26)
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.18...@dibdab/extension-bullet-list@2.0.0-beta.19) (2021-10-26)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.17...@tiptap/extension-bullet-list@2.0.0-beta.18) (2021-10-14)
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.17...@dibdab/extension-bullet-list@2.0.0-beta.18) (2021-10-14)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.16...@tiptap/extension-bullet-list@2.0.0-beta.17) (2021-10-14)
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.16...@dibdab/extension-bullet-list@2.0.0-beta.17) (2021-10-14)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.15...@tiptap/extension-bullet-list@2.0.0-beta.16) (2021-10-08)
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.15...@dibdab/extension-bullet-list@2.0.0-beta.16) (2021-10-08)
 
 ### Features
 
 - Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
 
-# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.14...@tiptap/extension-bullet-list@2.0.0-beta.15) (2021-07-26)
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.14...@dibdab/extension-bullet-list@2.0.0-beta.15) (2021-07-26)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.13...@tiptap/extension-bullet-list@2.0.0-beta.14) (2021-06-07)
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.13...@dibdab/extension-bullet-list@2.0.0-beta.14) (2021-06-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.12...@tiptap/extension-bullet-list@2.0.0-beta.13) (2021-05-18)
+# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.12...@dibdab/extension-bullet-list@2.0.0-beta.13) (2021-05-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.11...@tiptap/extension-bullet-list@2.0.0-beta.12) (2021-05-13)
+# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.11...@dibdab/extension-bullet-list@2.0.0-beta.12) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.10...@tiptap/extension-bullet-list@2.0.0-beta.11) (2021-05-07)
+# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.10...@dibdab/extension-bullet-list@2.0.0-beta.11) (2021-05-07)
 
 ### Bug Fixes
 
 - revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
 
-# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.9...@tiptap/extension-bullet-list@2.0.0-beta.10) (2021-05-06)
+# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.9...@dibdab/extension-bullet-list@2.0.0-beta.10) (2021-05-06)
 
 ### Bug Fixes
 
 - revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
 
-# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.8...@tiptap/extension-bullet-list@2.0.0-beta.9) (2021-05-06)
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.8...@dibdab/extension-bullet-list@2.0.0-beta.9) (2021-05-06)
 
 ### Bug Fixes
 
 - add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
 
-# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.7...@tiptap/extension-bullet-list@2.0.0-beta.8) (2021-05-06)
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.7...@dibdab/extension-bullet-list@2.0.0-beta.8) (2021-05-06)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.6...@tiptap/extension-bullet-list@2.0.0-beta.7) (2021-05-05)
+# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.6...@dibdab/extension-bullet-list@2.0.0-beta.7) (2021-05-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.5...@tiptap/extension-bullet-list@2.0.0-beta.6) (2021-04-23)
+# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.5...@dibdab/extension-bullet-list@2.0.0-beta.6) (2021-04-23)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.4...@tiptap/extension-bullet-list@2.0.0-beta.5) (2021-04-22)
+# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.4...@dibdab/extension-bullet-list@2.0.0-beta.5) (2021-04-22)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.3...@tiptap/extension-bullet-list@2.0.0-beta.4) (2021-04-21)
+# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.3...@dibdab/extension-bullet-list@2.0.0-beta.4) (2021-04-21)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.2...@tiptap/extension-bullet-list@2.0.0-beta.3) (2021-04-16)
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.2...@dibdab/extension-bullet-list@2.0.0-beta.3) (2021-04-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-beta.1...@tiptap/extension-bullet-list@2.0.0-beta.2) (2021-04-15)
+# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-beta.1...@dibdab/extension-bullet-list@2.0.0-beta.2) (2021-04-15)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.11...@tiptap/extension-bullet-list@2.0.0-beta.1) (2021-03-05)
+# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.11...@dibdab/extension-bullet-list@2.0.0-beta.1) (2021-03-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.10...@tiptap/extension-bullet-list@2.0.0-alpha.11) (2021-02-16)
+# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.10...@dibdab/extension-bullet-list@2.0.0-alpha.11) (2021-02-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.9...@tiptap/extension-bullet-list@2.0.0-alpha.10) (2021-02-07)
+# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.9...@dibdab/extension-bullet-list@2.0.0-alpha.10) (2021-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.8...@tiptap/extension-bullet-list@2.0.0-alpha.9) (2021-02-05)
+# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.8...@dibdab/extension-bullet-list@2.0.0-alpha.9) (2021-02-05)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.7...@tiptap/extension-bullet-list@2.0.0-alpha.8) (2021-01-29)
+# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.7...@dibdab/extension-bullet-list@2.0.0-alpha.8) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.6...@tiptap/extension-bullet-list@2.0.0-alpha.7) (2021-01-29)
+# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.6...@dibdab/extension-bullet-list@2.0.0-alpha.7) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.5...@tiptap/extension-bullet-list@2.0.0-alpha.6) (2021-01-28)
+# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.5...@dibdab/extension-bullet-list@2.0.0-alpha.6) (2021-01-28)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.4...@tiptap/extension-bullet-list@2.0.0-alpha.5) (2020-12-18)
+# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.4...@dibdab/extension-bullet-list@2.0.0-alpha.5) (2020-12-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.3...@tiptap/extension-bullet-list@2.0.0-alpha.4) (2020-12-02)
+# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.3...@dibdab/extension-bullet-list@2.0.0-alpha.4) (2020-12-02)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.2...@tiptap/extension-bullet-list@2.0.0-alpha.3) (2020-11-19)
+# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.2...@dibdab/extension-bullet-list@2.0.0-alpha.3) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@2.0.0-alpha.1...@tiptap/extension-bullet-list@2.0.0-alpha.2) (2020-11-19)
+# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@2.0.0-alpha.1...@dibdab/extension-bullet-list@2.0.0-alpha.2) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@1.0.0-alpha.2...@tiptap/extension-bullet-list@2.0.0-alpha.1) (2020-11-18)
+# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@1.0.0-alpha.2...@dibdab/extension-bullet-list@2.0.0-alpha.1) (2020-11-18)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
-# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-bullet-list@1.0.0-alpha.1...@tiptap/extension-bullet-list@1.0.0-alpha.2) (2020-11-16)
+# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@dibdab/extension-bullet-list@1.0.0-alpha.1...@dibdab/extension-bullet-list@1.0.0-alpha.2) (2020-11-16)
 
-**Note:** Version bump only for package @tiptap/extension-bullet-list
+**Note:** Version bump only for package @dibdab/extension-bullet-list
 
 # 1.0.0-alpha.1 (2020-11-16)
 

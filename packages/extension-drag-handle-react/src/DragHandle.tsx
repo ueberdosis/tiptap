@@ -3,10 +3,10 @@ import {
   defaultComputePositionConfig,
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
-} from '@tiptap/extension-drag-handle'
-import type { Node } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
-import type { Editor } from '@tiptap/react'
+} from '@dibdab/extension-drag-handle'
+import type { Node } from '@dibdab/pm/model'
+import type { Plugin } from '@dibdab/pm/state'
+import type { Editor } from '@dibdab/react'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>

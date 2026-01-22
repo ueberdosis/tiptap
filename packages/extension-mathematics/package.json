@@ -1,10 +1,10 @@
 {
-  "name": "@tiptap/extension-mathematics",
+  "name": "@dibdab/extension-mathematics",
   "description": "latex math extension for tiptap",
   "version": "3.16.0",
-  "homepage": "https://tiptap.dev/api/extensions/mathematics",
+  "homepage": "https://dibdab.dev/api/extensions/mathematics",
   "keywords": [
-    "tiptap",
+    "dibdab",
     "tiptap extension"
   ],
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/ueberdosis/dibdab",
     "directory": "packages/extension-mathematics"
   },
   "type": "module",
@@ -36,13 +36,13 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "@types/katex": "^0.16.7"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@dibdab/core": "workspace:^",
+    "@dibdab/pm": "workspace:^",
     "katex": "^0.16.4"
   },
   "scripts": {
