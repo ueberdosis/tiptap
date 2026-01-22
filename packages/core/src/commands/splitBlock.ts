@@ -4,7 +4,7 @@ import { canSplit } from '@dibdab/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   const marks = state.storedMarks || (state.selection.$to.parentOffset && state.selection.$from.marks())
@@ -30,7 +30,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const splitBlock: RawCommands['splitBlock'] =
+export const splitBlock: CommandSpec =
   ({ keepMarks = true } = {}) =>
   ({ tr, state, dispatch, editor }) => {
     const { selection, doc } = tr

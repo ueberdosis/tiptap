@@ -2,7 +2,7 @@
 // TODO: add types to @types/prosemirror-commands
 import { selectTextblockEnd as originalSelectTextblockEnd } from '@dibdab/pm/commands'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -16,7 +16,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const selectTextblockEnd: RawCommands['selectTextblockEnd'] =
+export const selectTextblockEnd: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalSelectTextblockEnd(state, dispatch)

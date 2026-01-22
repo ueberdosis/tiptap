@@ -2,7 +2,7 @@ import type { MarkType } from '@dibdab/pm/model'
 
 import { getMarkRange } from '../helpers/getMarkRange.js'
 import { getMarkType } from '../helpers/getMarkType.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -30,7 +30,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const unsetMark: RawCommands['unsetMark'] =
+export const unsetMark: CommandSpec =
   (typeOrName, options = {}) =>
   ({ tr, state, dispatch }) => {
     const { extendEmptyMarkRange = false } = options

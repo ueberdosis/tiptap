@@ -5,7 +5,7 @@ import { canSplit } from '@dibdab/pm/transform'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -21,7 +21,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const splitListItem: RawCommands['splitListItem'] =
+export const splitListItem: CommandSpec =
   (typeOrName, overrideAttrs = {}) =>
   ({ tr, state, dispatch, editor }) => {
     const type = getNodeType(typeOrName, state.schema)

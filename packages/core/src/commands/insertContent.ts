@@ -1,6 +1,6 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@dibdab/pm/model'
 
-import type { Content, RawCommands } from '../types.js'
+import type { CommandSpec,Content } from '../types.js'
 
 export interface InsertContentOptions {
   /**
@@ -39,7 +39,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const insertContent: RawCommands['insertContent'] =
+export const insertContent: CommandSpec =
   (value, options) =>
   ({ tr, commands }) => {
     return commands.insertContentAt({ from: tr.selection.from, to: tr.selection.to }, value, options)

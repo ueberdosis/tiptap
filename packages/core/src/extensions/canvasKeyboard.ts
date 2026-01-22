@@ -1,6 +1,6 @@
 import type { Editor } from '../Editor.js'
 import { Extension } from '../Extension.js'
-import type { CanvasMode } from '../types/canvas.js'
+import { CanvasMode } from '../types/canvas.js'
 
 export interface CanvasKeyboardOptions {
   /**
@@ -58,7 +58,7 @@ export const CanvasKeyboard = Extension.create<CanvasKeyboardOptions>({
        */
       navigateToEditor:
         (direction: 'up' | 'down' | 'left' | 'right') =>
-        ({ editor }) => {
+        ({ editor }: { editor: Editor }) => {
           if (!this.options.enabled || !this.options.enableSpatialNavigation) {
             return false
           }
@@ -84,16 +84,18 @@ export const CanvasKeyboard = Extension.create<CanvasKeyboardOptions>({
        */
       toggleCanvasEditMode:
         () =>
-        ({ editor }) => {
+        ({ editor }: { editor: Editor }) => {
           if (!this.options.enabled || !this.options.enableModeShortcuts) {
             return false
           }
 
           const canvasContext = editor.canvasContext
-          if (!canvasContext) {return false}
+          if (!canvasContext) {
+            return false
+          }
 
           const currentMode = canvasContext.mode
-          const newMode = currentMode === 'edit' ? 'readonly' : 'edit'
+          const newMode: CanvasMode = currentMode === CanvasMode.EDIT ? CanvasMode.READONLY : CanvasMode.EDIT
 
           const previousMode = currentMode
           editor.updateCanvasMode(newMode)
@@ -110,13 +112,15 @@ export const CanvasKeyboard = Extension.create<CanvasKeyboardOptions>({
        */
       setCanvasMode:
         (mode: CanvasMode) =>
-        ({ editor }) => {
+        ({ editor }: { editor: Editor }) => {
           if (!this.options.enabled || !this.options.enableModeShortcuts) {
             return false
           }
 
           const canvasContext = editor.canvasContext
-          if (!canvasContext) {return false}
+          if (!canvasContext) {
+            return false
+          }
 
           const previousMode = canvasContext.mode
           editor.updateCanvasMode(mode)
@@ -137,7 +141,9 @@ export const CanvasKeyboard = Extension.create<CanvasKeyboardOptions>({
     if (this.options.shortcuts) {
       Object.entries(this.options.shortcuts).forEach(([key, handler]) => {
         shortcuts[key] = () => {
-          if (!this.options.enabled) {return false}
+          if (!this.options.enabled) {
+            return false
+          }
           return handler(this.editor)
         }
       })
@@ -177,19 +183,19 @@ export const CanvasKeyboard = Extension.create<CanvasKeyboardOptions>({
       // Ctrl+Shift+R for readonly mode
       shortcuts['Ctrl-Shift-r'] = () => {
         // @ts-ignore - setCanvasMode command is added by this extension
-        return this.editor.commands.setCanvasMode('readonly')
+        return this.editor.commands.setCanvasMode(CanvasMode.READONLY)
       }
 
       // Ctrl+Shift+P for pan mode
       shortcuts['Ctrl-Shift-p'] = () => {
         // @ts-ignore - setCanvasMode command is added by this extension
-        return this.editor.commands.setCanvasMode('pan')
+        return this.editor.commands.setCanvasMode(CanvasMode.PAN)
       }
 
       // Ctrl+Shift+S for select mode
       shortcuts['Ctrl-Shift-s'] = () => {
         // @ts-ignore - setCanvasMode command is added by this extension
-        return this.editor.commands.setCanvasMode('select')
+        return this.editor.commands.setCanvasMode(CanvasMode.SELECT)
       }
     }
 

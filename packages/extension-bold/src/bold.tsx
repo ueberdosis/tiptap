@@ -1,4 +1,4 @@
-/** @jsxImportSource @tiptap/core */
+/** @jsxImportSource @dibdab/core */
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@dibdab/core'
 
 export interface BoldOptions {

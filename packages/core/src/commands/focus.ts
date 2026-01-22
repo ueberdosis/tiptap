@@ -1,6 +1,6 @@
 import { isTextSelection } from '../helpers/isTextSelection.js'
 import { resolveFocusPosition } from '../helpers/resolveFocusPosition.js'
-import type { FocusPosition, RawCommands } from '../types.js'
+import type { CommandSpec,FocusPosition } from '../types.js'
 import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
 import { isSafari } from '../utilities/isSafari.js'
@@ -33,7 +33,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const focus: RawCommands['focus'] =
+export const focus: CommandSpec =
   (position = null, options = {}) =>
   ({ editor, view, tr, dispatch }) => {
     options = {

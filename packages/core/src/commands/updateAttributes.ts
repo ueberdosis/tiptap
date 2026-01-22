@@ -4,7 +4,7 @@ import type { SelectionRange } from '@dibdab/pm/state'
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -30,7 +30,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const updateAttributes: RawCommands['updateAttributes'] =
+export const updateAttributes: CommandSpec =
   (typeOrName, attributes = {}) =>
   ({ tr, state, dispatch }) => {
     let nodeType: NodeType | null = null

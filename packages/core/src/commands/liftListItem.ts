@@ -2,7 +2,7 @@ import type { NodeType } from '@dibdab/pm/model'
 import { liftListItem as originalLiftListItem } from '@dibdab/pm/schema-list'
 
 import { getNodeType } from '../helpers/getNodeType.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -17,7 +17,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const liftListItem: RawCommands['liftListItem'] =
+export const liftListItem: CommandSpec =
   typeOrName =>
   ({ state, dispatch }) => {
     const type = getNodeType(typeOrName, state.schema)

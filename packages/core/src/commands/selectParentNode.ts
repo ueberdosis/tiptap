@@ -1,6 +1,6 @@
 import { selectParentNode as originalSelectParentNode } from '@dibdab/pm/commands'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -14,7 +14,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const selectParentNode: RawCommands['selectParentNode'] =
+export const selectParentNode: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalSelectParentNode(state, dispatch)

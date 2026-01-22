@@ -1,4 +1,4 @@
-import type { Command, RawCommands } from '../types.js'
+import type { Command, CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -17,6 +17,6 @@ declare module '@dibdab/core' {
   }
 }
 
-export const command: RawCommands['command'] = fn => props => {
+export const command: CommandSpec = fn => props => {
   return fn(props)
 }

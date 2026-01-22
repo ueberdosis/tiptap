@@ -1,7 +1,7 @@
 import type { Fragment, Node as ProseMirrorNode, ParseOptions } from '@dibdab/pm/model'
 
 import { createDocument } from '../helpers/createDocument.js'
-import type { Content, RawCommands } from '../types.js'
+import type { CommandSpec,Content } from '../types.js'
 
 export interface SetContentOptions {
   /**
@@ -47,7 +47,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const setContent: RawCommands['setContent'] =
+export const setContent: CommandSpec =
   (content, { errorOnInvalidContent, emitUpdate = true, parseOptions = {} } = {}) =>
   ({ editor, tr, dispatch, commands }) => {
     const { doc } = tr

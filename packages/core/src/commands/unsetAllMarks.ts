@@ -1,4 +1,4 @@
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -12,7 +12,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const unsetAllMarks: RawCommands['unsetAllMarks'] =
+export const unsetAllMarks: CommandSpec =
   () =>
   ({ tr, dispatch }) => {
     const { selection } = tr

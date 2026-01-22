@@ -1,4 +1,4 @@
-import type { Range, RawCommands } from '../types.js'
+import type { CommandSpec,Range } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -13,7 +13,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const deleteRange: RawCommands['deleteRange'] =
+export const deleteRange: CommandSpec =
   range =>
   ({ tr, dispatch }) => {
     const { from, to } = range

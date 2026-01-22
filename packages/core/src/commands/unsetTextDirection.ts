@@ -1,4 +1,4 @@
-import type { Range, RawCommands } from '../types.js'
+import type { CommandSpec,Range } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -15,7 +15,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const unsetTextDirection: RawCommands['unsetTextDirection'] =
+export const unsetTextDirection: CommandSpec =
   position =>
   ({ tr, state, dispatch }) => {
     const { selection } = state

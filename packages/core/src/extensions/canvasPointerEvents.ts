@@ -97,11 +97,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onPointerDown) {
                 const result = this.options.onPointerDown(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               if (this.options.stopPropagation) {
@@ -120,11 +124,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onPointerMove) {
                 const result = this.options.onPointerMove(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               if (this.options.stopPropagation) {
@@ -143,11 +151,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onPointerUp) {
                 const result = this.options.onPointerUp(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               if (this.options.stopPropagation) {
@@ -166,11 +178,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onPointerEnter) {
                 const result = this.options.onPointerEnter(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               return false
@@ -182,11 +198,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onPointerLeave) {
                 const result = this.options.onPointerLeave(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               return false
@@ -198,11 +218,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event as PointerEvent)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onClick) {
                 const result = this.options.onClick(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               if (this.options.stopPropagation) {
@@ -221,11 +245,15 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
               }
 
               const data = this.createEventData(event as PointerEvent)
-              if (!data) {return false}
+              if (!data) {
+                return false
+              }
 
               if (this.options.onDoubleClick) {
                 const result = this.options.onDoubleClick(data)
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               if (this.options.stopPropagation) {
@@ -243,9 +271,9 @@ export const CanvasPointerEvents = Extension.create<CanvasPointerEventsOptions>(
     ]
   },
 
-  addMethods() {
+  addCommands() {
     return {
-      createEventData: (event: PointerEvent): CanvasPointerEventData | null => {
+      createEventData: (event: PointerEvent) => () => {
         const { editor } = this
         const canvasContext = editor.canvasContext
         const editorElement = editor.view.dom as HTMLElement

@@ -73,12 +73,16 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
        * Add a selection range to the multi-editor selection
        */
       addSelection: (editor: Editor, from: number, to: number) => () => {
-        if (!this.options.enabled) {return false}
+        if (!this.options.enabled) {
+          return false
+        }
 
         const nodeId = editor.canvasContext?.node.id
-        if (!nodeId) {return false}
+        if (!nodeId) {
+          return false
+        }
 
-        const existingIndex = this.storage.selections.findIndex(s => s.editor === editor)
+        const existingIndex = this.storage.selections.findIndex((s: SelectionRange) => s.editor === editor)
 
         const newSelection: SelectionRange = {
           editor,
@@ -106,9 +110,11 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
        * Remove a selection range from the multi-editor selection
        */
       removeSelection: (editor: Editor) => () => {
-        if (!this.options.enabled) {return false}
+        if (!this.options.enabled) {
+          return false
+        }
 
-        const index = this.storage.selections.findIndex(s => s.editor === editor)
+        const index = this.storage.selections.findIndex((s: SelectionRange) => s.editor === editor)
         if (index >= 0) {
           this.storage.selections.splice(index, 1)
 
@@ -124,7 +130,9 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
        * Clear all selections
        */
       clearSelections: () => () => {
-        if (!this.options.enabled) {return false}
+        if (!this.options.enabled) {
+          return false
+        }
 
         this.storage.selections = []
         this.storage.isMultiSelecting = false
@@ -155,7 +163,7 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
        */
       startCrossEditorSelection:
         () =>
-        ({ editor }) => {
+        ({ editor }: { editor: Editor }) => {
           if (!this.options.enabled || !this.options.allowCrossEditorSelection) {
             return false
           }
@@ -173,7 +181,9 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
        * End cross-editor selection mode
        */
       endCrossEditorSelection: () => () => {
-        if (!this.options.enabled) {return false}
+        if (!this.options.enabled) {
+          return false
+        }
 
         this.storage.isMultiSelecting = false
 
@@ -193,7 +203,7 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
         }
 
         // Collect all selected content
-        const contents = this.storage.selections.map(selection => {
+        const contents = this.storage.selections.map((selection: SelectionRange) => {
           const { editor, from, to } = selection
           return editor.state.doc.textBetween(from, to)
         })
@@ -218,7 +228,7 @@ export const CanvasSelection = Extension.create<CanvasSelectionOptions>({
         }
 
         // Delete from each editor
-        this.storage.selections.forEach(selection => {
+        this.storage.selections.forEach((selection: SelectionRange) => {
           const { editor, from, to } = selection
           const tr = editor.state.tr.delete(from, to)
           editor.view.dispatch(tr)

@@ -1,7 +1,7 @@
 import type { NodeType } from '@dibdab/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -16,7 +16,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const deleteNode: RawCommands['deleteNode'] =
+export const deleteNode: CommandSpec =
   typeOrName =>
   ({ tr, state, dispatch }) => {
     const type = getNodeType(typeOrName, state.schema)

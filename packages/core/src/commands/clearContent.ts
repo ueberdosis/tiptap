@@ -1,4 +1,4 @@
-import type { RawCommands } from '../types.js'
+import type { CommandProps, CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -18,8 +18,9 @@ declare module '@dibdab/core' {
   }
 }
 
-export const clearContent: RawCommands['clearContent'] =
+export const clearContent: CommandSpec =
   (emitUpdate = true) =>
-  ({ commands }) => {
+  ({ commands }: CommandProps) => {
+    // @ts-ignore - setContent command is dynamically added
     return commands.setContent('', { emitUpdate })
   }

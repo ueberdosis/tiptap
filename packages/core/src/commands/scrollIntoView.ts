@@ -1,4 +1,4 @@
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -12,7 +12,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const scrollIntoView: RawCommands['scrollIntoView'] =
+export const scrollIntoView: CommandSpec =
   () =>
   ({ tr, dispatch }) => {
     if (dispatch) {

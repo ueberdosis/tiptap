@@ -1,6 +1,6 @@
 import { NodeSelection } from '@dibdab/pm/state'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
 declare module '@dibdab/core' {
@@ -16,7 +16,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const setNodeSelection: RawCommands['setNodeSelection'] =
+export const setNodeSelection: CommandSpec =
   position =>
   ({ tr, dispatch }) => {
     if (dispatch) {

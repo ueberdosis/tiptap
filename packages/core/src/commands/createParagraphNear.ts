@@ -1,6 +1,6 @@
 import { createParagraphNear as originalCreateParagraphNear } from '@dibdab/pm/commands'
 
-import type { RawCommands } from '../types.js'
+import type { Command, CommandProps } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -14,8 +14,8 @@ declare module '@dibdab/core' {
   }
 }
 
-export const createParagraphNear: RawCommands['createParagraphNear'] =
-  () =>
-  ({ state, dispatch }) => {
+export const createParagraphNear =
+  (): Command =>
+  ({ state, dispatch }: CommandProps) => {
     return originalCreateParagraphNear(state, dispatch)
   }

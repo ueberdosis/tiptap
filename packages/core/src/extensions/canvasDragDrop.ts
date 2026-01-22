@@ -101,10 +101,14 @@ export const CanvasDragDrop = Extension.create<CanvasDragDropOptions>({
         props: {
           handleDOMEvents: {
             dragstart: (view, event) => {
-              if (!this.options.enabled) {return false}
+              if (!this.options.enabled) {
+                return false
+              }
 
               const canvasContext = editor.canvasContext
-              if (!canvasContext) {return false}
+              if (!canvasContext) {
+                return false
+              }
 
               const screenPoint: Point = {
                 x: event.clientX,
@@ -151,10 +155,14 @@ export const CanvasDragDrop = Extension.create<CanvasDragDropOptions>({
             },
 
             dragover: (view, event) => {
-              if (!this.options.enabled) {return false}
+              if (!this.options.enabled) {
+                return false
+              }
 
               const canvasContext = editor.canvasContext
-              if (!canvasContext) {return false}
+              if (!canvasContext) {
+                return false
+              }
 
               // Check if this is a cross-editor drag
               const isCrossEditorDrag = this.storage.dragSourceEditor && this.storage.dragSourceEditor !== editor
@@ -189,17 +197,23 @@ export const CanvasDragDrop = Extension.create<CanvasDragDropOptions>({
                   event,
                 })
 
-                if (result === true) {return true}
+                if (result === true) {
+                  return true
+                }
               }
 
               return false
             },
 
             drop: (view, event) => {
-              if (!this.options.enabled) {return false}
+              if (!this.options.enabled) {
+                return false
+              }
 
               const canvasContext = editor.canvasContext
-              if (!canvasContext) {return false}
+              if (!canvasContext) {
+                return false
+              }
 
               event.preventDefault()
 
@@ -246,7 +260,9 @@ export const CanvasDragDrop = Extension.create<CanvasDragDropOptions>({
             },
 
             dragend: (view, event) => {
-              if (!this.options.enabled || !this.storage.isDragging) {return false}
+              if (!this.options.enabled || !this.storage.isDragging) {
+                return false
+              }
 
               const canvasContext = editor.canvasContext
               if (!canvasContext) {
@@ -276,23 +292,24 @@ export const CanvasDragDrop = Extension.create<CanvasDragDropOptions>({
     ]
   },
 
-  addMethods() {
+  addCommands() {
     return {
-      resetDragState: () => {
-        this.storage.isDragging = false
-        this.storage.dragSourceEditor = null
-        this.storage.dragContent = null
-        this.storage.dragStartPoint = null
-      },
-
-      isDragging: (): boolean => {
+      isDragging: () => () => {
         return this.storage.isDragging
       },
 
-      getDragSource: (): Editor | null => {
+      getDragSource: () => () => {
         return this.storage.dragSourceEditor
       },
     }
+  },
+
+  // Helper method to reset drag state
+  resetDragState() {
+    this.storage.isDragging = false
+    this.storage.dragSourceEditor = null
+    this.storage.dragContent = null
+    this.storage.dragStartPoint = null
   },
 })
 

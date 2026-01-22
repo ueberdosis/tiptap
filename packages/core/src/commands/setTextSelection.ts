@@ -1,6 +1,6 @@
 import { TextSelection } from '@dibdab/pm/state'
 
-import type { Range, RawCommands } from '../types.js'
+import type { CommandSpec,Range } from '../types.js'
 import { minMax } from '../utilities/minMax.js'
 
 declare module '@dibdab/core' {
@@ -16,7 +16,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const setTextSelection: RawCommands['setTextSelection'] =
+export const setTextSelection: CommandSpec =
   position =>
   ({ tr, dispatch }) => {
     if (dispatch) {

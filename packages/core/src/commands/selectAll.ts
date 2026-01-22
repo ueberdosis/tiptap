@@ -1,6 +1,6 @@
 import { AllSelection } from '@dibdab/pm/state'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -14,7 +14,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const selectAll: RawCommands['selectAll'] =
+export const selectAll: CommandSpec =
   () =>
   ({ tr, dispatch }) => {
     if (dispatch) {

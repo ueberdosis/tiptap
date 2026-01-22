@@ -2,7 +2,7 @@ import type { NodeType } from '@dibdab/pm/model'
 import { sinkListItem as originalSinkListItem } from '@dibdab/pm/schema-list'
 
 import { getNodeType } from '../helpers/getNodeType.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -17,7 +17,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const sinkListItem: RawCommands['sinkListItem'] =
+export const sinkListItem: CommandSpec =
   typeOrName =>
   ({ state, dispatch }) => {
     const type = getNodeType(typeOrName, state.schema)

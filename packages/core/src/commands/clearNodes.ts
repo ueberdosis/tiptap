@@ -1,6 +1,6 @@
 import { liftTarget } from '@dibdab/pm/transform'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -14,7 +14,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const clearNodes: RawCommands['clearNodes'] =
+export const clearNodes: CommandSpec =
   () =>
   ({ state, tr, dispatch }) => {
     const { selection } = tr

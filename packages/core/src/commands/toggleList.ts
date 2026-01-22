@@ -5,7 +5,7 @@ import { canJoin } from '@dibdab/pm/transform'
 import { findParentNode } from '../helpers/findParentNode.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { isList } from '../helpers/isList.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   const list = findParentNode(node => node.type === listType)(tr.selection)
@@ -78,7 +78,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const toggleList: RawCommands['toggleList'] =
+export const toggleList: CommandSpec =
   (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) =>
   ({ editor, tr, state, dispatch, chain, commands, can }) => {
     const { extensions, splittableMarks } = editor.extensionManager

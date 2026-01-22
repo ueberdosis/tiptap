@@ -5,7 +5,7 @@ import {
   joinUp as originalJoinUp,
 } from '@dibdab/pm/commands'
 
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -44,25 +44,25 @@ declare module '@dibdab/core' {
   }
 }
 
-export const joinUp: RawCommands['joinUp'] =
+export const joinUp: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalJoinUp(state, dispatch)
   }
 
-export const joinDown: RawCommands['joinDown'] =
+export const joinDown: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalJoinDown(state, dispatch)
   }
 
-export const joinBackward: RawCommands['joinBackward'] =
+export const joinBackward: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalJoinBackward(state, dispatch)
   }
 
-export const joinForward: RawCommands['joinForward'] =
+export const joinForward: CommandSpec =
   () =>
   ({ state, dispatch }) => {
     return originalJoinForward(state, dispatch)

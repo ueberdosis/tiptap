@@ -1,4 +1,4 @@
-import type { CommandProps, RawCommands } from '../types.js'
+import type { CommandProps, CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -19,6 +19,6 @@ declare module '@dibdab/core' {
   }
 }
 
-export const forEach: RawCommands['forEach'] = (items, fn) => props => {
+export const forEach: CommandSpec = (items, fn) => props => {
   return items.every((item, index) => fn(item, { ...props, index }))
 }

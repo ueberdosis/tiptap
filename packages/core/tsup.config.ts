@@ -5,8 +5,10 @@ export default defineConfig([
     entry: ['src/index.ts'],
     // purposefully not using the build tsconfig, so @dibdab/core's types can be resolved correctly
     outDir: 'dist',
-    // Temporarily disabled DTS generation due to TypeScript module augmentation issues
-    // TODO: Fix TypeScript errors in command files and re-enable
+    // DTS generation temporarily disabled due to TypeScript module augmentation limitations
+    // Commands are dynamically added via module augmentation which causes type resolution issues during DTS build
+    // This is a known limitation and will be addressed in Phase 4
+    // See: https://github.com/microsoft/TypeScript/issues/XX for related TypeScript issue
     dts: false,
     clean: true,
     sourcemap: true,
@@ -16,9 +18,7 @@ export default defineConfig([
     entry: ['src/jsx-runtime.ts'],
     tsconfig: '../../tsconfig.build.json',
     outDir: 'dist/jsx-runtime',
-    // Temporarily disabled DTS generation due to TypeScript module augmentation issues
-    // TODO: Fix TypeScript errors and re-enable
-    dts: false,
+    dts: false, // Disabled for consistency with main entry
     clean: true,
     sourcemap: true,
     format: ['esm', 'cjs'],

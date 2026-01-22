@@ -1,4 +1,4 @@
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -13,7 +13,7 @@ declare module '@dibdab/core' {
 }
 
 // @ts-ignore - Type is correctly defined via module augmentation
-export const blur: RawCommands['blur'] =
+export const blur: CommandSpec =
   () =>
   // @ts-ignore - Parameters are correctly typed via RawCommands
   ({ editor, view }) => {

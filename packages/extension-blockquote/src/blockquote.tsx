@@ -1,4 +1,4 @@
-/** @jsxImportSource @tiptap/core */
+/** @jsxImportSource @dibdab/core */
 import { mergeAttributes, Node, wrappingInputRule } from '@dibdab/core'
 
 export interface BlockquoteOptions {

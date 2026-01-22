@@ -13,7 +13,7 @@ export default defineConfig(
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
     outDir: `dist${entry.replace('src', '').split('/').slice(0, -1).join('/')}`,
-    dts: true,
+    dts: false,
     sourcemap: true,
     format: ['esm', 'cjs'],
     external: [/^[^./]/],

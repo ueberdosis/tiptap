@@ -2,7 +2,7 @@ import { wrapIn as originalWrapIn } from '@dibdab/pm/commands'
 import type { NodeType } from '@dibdab/pm/model'
 
 import { getNodeType } from '../helpers/getNodeType.js'
-import type { RawCommands } from '../types.js'
+import type { CommandSpec } from '../types.js'
 
 declare module '@dibdab/core' {
   interface Commands<ReturnType> {
@@ -18,7 +18,7 @@ declare module '@dibdab/core' {
   }
 }
 
-export const wrapIn: RawCommands['wrapIn'] =
+export const wrapIn: CommandSpec =
   (typeOrName, attributes = {}) =>
   ({ state, dispatch }) => {
     const type = getNodeType(typeOrName, state.schema)

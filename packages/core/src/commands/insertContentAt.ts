@@ -3,7 +3,7 @@ import { Fragment } from '@dibdab/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
-import type { Content, Range, RawCommands } from '../types.js'
+import type { CommandSpec,Content, Range } from '../types.js'
 
 export interface InsertContentAtOptions {
   /**
@@ -63,7 +63,7 @@ const isFragment = (nodeOrFragment: ProseMirrorNode | Fragment): nodeOrFragment 
   return !('type' in nodeOrFragment)
 }
 
-export const insertContentAt: RawCommands['insertContentAt'] =
+export const insertContentAt: CommandSpec =
   (position, value, options) =>
   ({ tr, dispatch, editor }) => {
     if (dispatch) {
