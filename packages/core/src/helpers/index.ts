@@ -1,3 +1,5 @@
+export * from './canvasFocusManager.js'
+export * from './canvasTransform.js'
 export * from './combineTransactionSteps.js'
 export * from './createChainableState.js'
 export * from './createDocument.js'

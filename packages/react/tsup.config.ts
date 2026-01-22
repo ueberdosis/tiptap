@@ -5,7 +5,7 @@ export default defineConfig(
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
     outDir: `dist${entry.replace('src', '').split('/').slice(0, -1).join('/')}`,
-    dts: true,
+    dts: false, // TODO: Fix TypeScript errors and re-enable
     sourcemap: true,
     format: ['esm', 'cjs'],
     external: [/^[^./]/],

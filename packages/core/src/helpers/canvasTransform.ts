@@ -164,6 +164,52 @@ export function clampPointToRect(point: Point, rect: { x: number; y: number; wid
 }
 
 /**
+ * Cached coordinate transformation for performance
+ * Only recreates transform functions when viewport/zoom changes
+ */
+export function createCachedCoordinateTransform(editorElement?: HTMLElement | null): {
+  update: (viewport: Viewport, nodePosition: Point) => void
+  transform: {
+    screenToCanvas: (screenPoint: Point) => Point
+    canvasToScreen: (canvasPoint: Point) => Point
+    screenToEditor: (screenPoint: Point) => Point
+    editorToScreen: (editorPoint: Point) => Point
+  }
+} {
+  let cachedTransform: ReturnType<typeof createCoordinateTransform> | null = null
+  let lastViewport: Viewport | null = null
+  let lastNodePosition: Point | null = null
+
+  const hasChanged = (viewport: Viewport, nodePosition: Point): boolean => {
+    if (!lastViewport || !lastNodePosition) {return true}
+
+    return (
+      lastViewport.offset.x !== viewport.offset.x ||
+      lastViewport.offset.y !== viewport.offset.y ||
+      lastViewport.zoom !== viewport.zoom ||
+      lastNodePosition.x !== nodePosition.x ||
+      lastNodePosition.y !== nodePosition.y
+    )
+  }
+
+  return {
+    update: (viewport: Viewport, nodePosition: Point) => {
+      if (hasChanged(viewport, nodePosition)) {
+        cachedTransform = createCoordinateTransform(viewport, nodePosition, editorElement)
+        lastViewport = { ...viewport }
+        lastNodePosition = { ...nodePosition }
+      }
+    },
+    get transform() {
+      if (!cachedTransform) {
+        throw new Error('CachedCoordinateTransform: Must call update() before accessing transform')
+      }
+      return cachedTransform
+    },
+  }
+}
+
+/**
  * Create a default canvas context for testing or fallback
  */
 export function createDefaultCanvasContext(
