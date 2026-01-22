@@ -176,8 +176,9 @@ describe('calculateScore', () => {
       // Cursor at x=100, element left at 50, so distance is 50 which is < 100 threshold
       const result = calculateScore(context, [], edgeConfig, { x: 100, y: 100 })
 
-      // Should deduct strength * depth = 500 * 2 = 1000
-      expect(result).toBe(0) // 1000 - 1000 = 0
+      // Should deduct strength * depth = 500 * 2 = 1000, resulting in score 0
+      // Score <= 0 returns -1 for consistency with rule-based exclusion
+      expect(result).toBe(-1)
     })
 
     it('should not apply edge deduction when not near edge', () => {

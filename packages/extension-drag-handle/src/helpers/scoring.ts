@@ -48,5 +48,9 @@ export function calculateScore(
 
   score -= calculateEdgeDeduction(coords, dom, edgeConfig, context.depth)
 
+  if (score <= 0) {
+    return -1
+  }
+
   return score
 }

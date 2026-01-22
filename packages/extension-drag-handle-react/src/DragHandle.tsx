@@ -13,7 +13,7 @@ import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey' | 'nestedOptions'>, 'element'> & {
+export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element' | 'nestedOptions'> & {
   className?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
   children: ReactNode
@@ -77,7 +77,8 @@ export const DragHandle = (props: DragHandleProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const plugin = useRef<Plugin | null>(null)
 
-  const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [nested])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
     let initPlugin: {
