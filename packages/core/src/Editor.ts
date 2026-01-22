@@ -82,6 +82,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public instanceId = Math.random().toString(36).slice(2, 9)
 
+  /**
+   * Canvas context for spatial computing interfaces.
+   * Null if the editor is not in a canvas environment.
+   */
+  public canvasContext: import('./types/canvas.js').CanvasContext | null = null
+
   public options: EditorOptions = {
     element: typeof document !== 'undefined' ? document.createElement('div') : null,
     content: '',
@@ -139,6 +145,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
+
+    // Initialize canvas context if provided
+    if (this.options.canvasEditorOptions?.canvasContext) {
+      this.setCanvasContext(this.options.canvasEditorOptions.canvasContext)
+    }
 
     const initialDoc = this.createDoc()
     const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
@@ -754,6 +765,123 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public get isEmpty(): boolean {
     return isNodeEmpty(this.state.doc)
+  }
+
+  /**
+   * Set the canvas context for this editor.
+   * This enables canvas-aware features.
+   */
+  public setCanvasContext(context: import('./types/canvas.js').CanvasContext | null): void {
+    this.canvasContext = context
+  }
+
+  /**
+   * Update the canvas viewport and emit viewport change event.
+   */
+  public updateCanvasViewport(viewport: Partial<import('./types/canvas.js').Viewport>): void {
+    if (!this.canvasContext) {
+      console.warn('Cannot update canvas viewport: no canvas context set')
+      return
+    }
+
+    const previousViewport = { ...this.canvasContext.viewport }
+    this.canvasContext.viewport = { ...this.canvasContext.viewport, ...viewport }
+
+    this.emit('canvasViewportChange', {
+      editor: this,
+      previousViewport,
+      viewport: this.canvasContext.viewport,
+    })
+  }
+
+  /**
+   * Update the canvas zoom level and emit zoom event.
+   */
+  public updateCanvasZoom(zoom: number, anchor?: import('./types/canvas.js').Point): void {
+    if (!this.canvasContext) {
+      console.warn('Cannot update canvas zoom: no canvas context set')
+      return
+    }
+
+    const previousZoom = this.canvasContext.viewport.zoom
+    this.canvasContext.viewport.zoom = zoom
+
+    this.emit('canvasZoom', {
+      editor: this,
+      previousZoom,
+      zoom,
+      anchor,
+    })
+  }
+
+  /**
+   * Update the canvas node position and emit node move event.
+   */
+  public updateCanvasNodePosition(position: import('./types/canvas.js').Point): void {
+    if (!this.canvasContext) {
+      console.warn('Cannot update canvas node position: no canvas context set')
+      return
+    }
+
+    const previousPosition = { ...this.canvasContext.node.position }
+    this.canvasContext.node.position = position
+
+    this.emit('canvasNodeMove', {
+      editor: this,
+      previousPosition,
+      position,
+    })
+  }
+
+  /**
+   * Update the canvas mode and emit mode change event.
+   */
+  public updateCanvasMode(mode: import('./types/canvas.js').CanvasMode): void {
+    if (!this.canvasContext) {
+      console.warn('Cannot update canvas mode: no canvas context set')
+      return
+    }
+
+    const previousMode = this.canvasContext.mode
+    this.canvasContext.mode = mode
+
+    this.emit('canvasModeChange', {
+      editor: this,
+      previousMode,
+      mode,
+    })
+
+    // Auto-disable editor when in pan/select mode if option is enabled
+    if (this.options.canvasEditorOptions?.autoDisableOnCanvasMode) {
+      const shouldDisable = mode === 'pan' || mode === 'select'
+      this.setEditable(!shouldDisable)
+    }
+  }
+
+  /**
+   * Update the canvas visibility and emit visibility change event.
+   */
+  public updateCanvasVisibility(isVisible: boolean): void {
+    if (!this.canvasContext) {
+      console.warn('Cannot update canvas visibility: no canvas context set')
+      return
+    }
+
+    this.canvasContext.isVisible = isVisible
+
+    this.emit('canvasVisibilityChange', {
+      editor: this,
+      isVisible,
+    })
+
+    // Call visibility callbacks if enabled
+    if (this.options.canvasEditorOptions?.handleVisibility) {
+      if (isVisible && this.options.canvasEditorOptions.onVisible) {
+        this.options.canvasEditorOptions.onVisible()
+      } else if (!isVisible && this.options.canvasEditorOptions.onHidden) {
+        this.options.canvasEditorOptions.onHidden()
+      }
+    }
   }
 
   /**

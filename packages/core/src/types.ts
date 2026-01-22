@@ -262,6 +262,85 @@ export interface EditorEvents {
         mark: ProseMirrorMark
       }
   )
+  // Canvas-aware events
+  canvasZoom: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * Previous zoom level
+     */
+    previousZoom: number
+    /**
+     * New zoom level
+     */
+    zoom: number
+    /**
+     * Point that should remain fixed during zoom
+     */
+    anchor?: { x: number; y: number }
+  }
+  canvasViewportChange: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * Previous viewport state
+     */
+    previousViewport: {
+      offset: { x: number; y: number }
+      size: { width: number; height: number }
+      zoom: number
+    }
+    /**
+     * New viewport state
+     */
+    viewport: {
+      offset: { x: number; y: number }
+      size: { width: number; height: number }
+      zoom: number
+    }
+  }
+  canvasNodeMove: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * Previous position of the parent node
+     */
+    previousPosition: { x: number; y: number }
+    /**
+     * New position of the parent node
+     */
+    position: { x: number; y: number }
+  }
+  canvasModeChange: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * Previous canvas mode
+     */
+    previousMode: string
+    /**
+     * New canvas mode
+     */
+    mode: string
+  }
+  canvasVisibilityChange: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * Whether the editor is now visible in the viewport
+     */
+    isVisible: boolean
+  }
 }
 
 /**
@@ -478,6 +557,42 @@ export interface EditorOptions {
    * })
    */
   enableExtensionDispatchTransaction?: boolean
+  /**
+   * Canvas-aware editor options for spatial computing interfaces.
+   * Enables features like viewport tracking, zoom handling, and node positioning.
+   *
+   * @example
+   * new Editor({
+   *   canvasEditorOptions: {
+   *     autoDisableOnCanvasMode: true,
+   *     handleVisibility: true,
+   *   }
+   * })
+   */
+  canvasEditorOptions?: {
+    /**
+     * Initial canvas context
+     */
+    canvasContext?: import('./types/canvas.js').CanvasContext
+    /**
+     * Whether to automatically disable the editor when canvas is in pan/select mode
+     * @default false
+     */
+    autoDisableOnCanvasMode?: boolean
+    /**
+     * Whether to handle viewport visibility changes
+     * @default false
+     */
+    handleVisibility?: boolean
+    /**
+     * Callback when editor becomes visible in viewport
+     */
+    onVisible?: () => void
+    /**
+     * Callback when editor becomes hidden from viewport
+     */
+    onHidden?: () => void
+  }
 }
 
 /**
@@ -1036,3 +1151,6 @@ export type Utils = {
    */
   createMappablePosition: (position: number) => MappablePosition
 }
+
+// Canvas Context Types
+export * from './types/canvas.js'
