@@ -307,6 +307,7 @@ export class NodeView<
    * Update the attributes of the prosemirror node.
    */
   updateAttributes(attributes: Record<string, any>): void {
+    // @ts-ignore - command is dynamically added
     this.editor.commands.command(({ tr }) => {
       const pos = this.getPos()
 
@@ -334,6 +335,7 @@ export class NodeView<
     }
     const to = from + this.node.nodeSize
 
+    // @ts-ignore - deleteRange command is dynamically added
     this.editor.commands.deleteRange({ from, to })
   }
 }

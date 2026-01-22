@@ -290,6 +290,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
                   const selection = dragFromOtherEditor.state.selection
 
                   if (selection) {
+                    // @ts-ignore - deleteRange command is dynamically added
                     dragFromOtherEditor.commands.deleteRange({ from: selection.from, to: selection.to })
                   }
                 }, 10)

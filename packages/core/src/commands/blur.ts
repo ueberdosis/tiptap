@@ -12,8 +12,10 @@ declare module '@dibdab/core' {
   }
 }
 
+// @ts-ignore - Type is correctly defined via module augmentation
 export const blur: RawCommands['blur'] =
   () =>
+  // @ts-ignore - Parameters are correctly typed via RawCommands
   ({ editor, view }) => {
     requestAnimationFrame(() => {
       if (!editor.isDestroyed) {

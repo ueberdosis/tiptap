@@ -1,0 +1,73 @@
+Package Name,Category,Status,Recommendation,Justification,Dependencies,Priority
+@dibdab/core,Core,Active,KEEP,Foundation of the editor,prosemirror,CRITICAL
+@dibdab/pm,Core,Active,KEEP,ProseMirror wrapper,prosemirror,CRITICAL
+@dibdab/react,Framework,Active,KEEP,React integration - our primary framework,core,CRITICAL
+@dibdab/vue-2,Framework,Active,REMOVE,Legacy Vue 2 (EOL) - not needed,core,LOW
+@dibdab/vue-3,Framework,Active,REMOVE,Vue 3 - can add back later if needed,core,LOW
+@dibdab/html,Utility,Active,KEEP,HTML rendering for SSR/export,core,HIGH
+@dibdab/markdown,Utility,Active,KEEP,Markdown import/export,core,HIGH
+@dibdab/static-renderer,Utility,Active,KEEP,Static rendering,core,MEDIUM
+@dibdab/extensions,Utility,Active,KEEP,Bundled utilities (placeholder focus undo-redo etc),core,HIGH
+@dibdab/suggestion,Utility,Active,KEEP,Suggestion/autocomplete functionality,core,MEDIUM
+@dibdab/extension-text,Text,Active,KEEP,Base text node - fundamental,core,CRITICAL
+@dibdab/extension-paragraph,Text,Active,KEEP,Paragraph node - fundamental,core,CRITICAL
+@dibdab/extension-document,Text,Active,KEEP,Document node - fundamental,core,CRITICAL
+@dibdab/extension-bold,Formatting,Active,KEEP,Bold formatting - essential,core,CRITICAL
+@dibdab/extension-italic,Formatting,Active,KEEP,Italic formatting - essential,core,CRITICAL
+@dibdab/extension-underline,Formatting,Active,KEEP,Underline formatting - essential,core,CRITICAL
+@dibdab/extension-strike,Formatting,Active,KEEP,Strikethrough - essential,core,CRITICAL
+@dibdab/extension-heading,Formatting,Active,KEEP,Headings H1-H6 - essential structure,core,CRITICAL
+@dibdab/extension-hard-break,Formatting,Active,KEEP,Line breaks - basic functionality,core,CRITICAL
+@dibdab/extension-text-style,Formatting,Active,KEEP,Text styling foundation,core,CRITICAL
+@dibdab/extension-color,Formatting,Active,KEEP,Text color - very useful for canvas,core,HIGH
+@dibdab/extension-font-family,Formatting,Active,KEEP,Font selection - very useful for canvas,core,HIGH
+@dibdab/extension-text-align,Formatting,Active,KEEP,Text alignment - layout control,core,HIGH
+@dibdab/extension-subscript,Formatting,Active,REMOVE,Subscript - specialized formatting,core,LOW
+@dibdab/extension-superscript,Formatting,Active,REMOVE,Superscript - specialized formatting,core,LOW
+@dibdab/extension-highlight,Formatting,Active,REMOVE,Text highlighting - can add back,core,MEDIUM
+@dibdab/extension-image,Content,Active,KEEP,Image embedding - useful for rich content,core,HIGH
+@dibdab/extension-link,Content,Active,KEEP,Hyperlinks - useful for interactive content,core,HIGH
+@dibdab/extension-youtube,Embed,Active,REMOVE,YouTube embeds - not canvas editing requirement,core,LOW
+@dibdab/extension-twitch,Embed,Active,REMOVE,Twitch embeds - niche use case,core,LOW
+@dibdab/extension-audio,Embed,Active,REMOVE,Audio embeds - not needed initially,core,LOW
+@dibdab/extension-bullet-list,List,Active,REMOVE,Bullet lists - can add back if needed,core,MEDIUM
+@dibdab/extension-ordered-list,List,Active,REMOVE,Numbered lists - can add back if needed,core,MEDIUM
+@dibdab/extension-list,List,Active,REMOVE,Generic list extension,core,MEDIUM
+@dibdab/extension-blockquote,Block,Active,REMOVE,Block quotes - more suited for documents,core,LOW
+@dibdab/extension-details,Block,Active,REMOVE,HTML details/summary - rarely used,core,LOW
+@dibdab/extension-horizontal-rule,Block,Active,REMOVE,Horizontal dividers - low priority,core,LOW
+@dibdab/extension-code,Code,Active,REMOVE,Inline code - developer-focused,core,LOW
+@dibdab/extension-code-block,Code,Active,REMOVE,Code blocks - developer-focused,core,LOW
+@dibdab/extension-code-block-lowlight,Code,Active,REMOVE,Syntax highlighting - large deps,core + lowlight,LOW
+@dibdab/extension-table,Advanced,Active,REMOVE,Table support - complex can add back,core,MEDIUM
+@dibdab/extension-table-of-contents,Advanced,Active,REMOVE,Table of contents - for long-form docs,core,LOW
+@dibdab/extension-mathematics,Advanced,Active,REMOVE,LaTeX math - specialized use case,core + katex,LOW
+@dibdab/extension-emoji,Advanced,Active,REMOVE,Emoji picker - users can paste emojis,core,LOW
+@dibdab/extension-mention,Advanced,Active,REMOVE,@mentions - social feature,core + suggestion,LOW
+@dibdab/extension-typography,Advanced,Active,REMOVE,Smart quotes/dashes - nice-to-have,core,LOW
+@dibdab/extension-invisible-characters,Debug,Active,REMOVE,Show whitespace - debugging tool,core,LOW
+@dibdab/extension-collaboration,Collaboration,Active,REMOVE,Real-time collaboration - complex,core + yjs,LOW
+@dibdab/extension-collaboration-caret,Collaboration,Active,REMOVE,Show other users cursors,core + yjs,LOW
+@dibdab/extension-bubble-menu,UI,Active,KEEP,Context menu on selection - great UX,core,HIGH
+@dibdab/extension-floating-menu,UI,Active,KEEP,Floating menu - useful for UX,core,MEDIUM
+@dibdab/extension-drag-handle,UI,Active,REMOVE,Framework-agnostic drag handle,core,LOW
+@dibdab/extension-drag-handle-react,UI,Active,KEEP,React drag handles - useful for reordering,core + react,HIGH
+@dibdab/extension-drag-handle-vue-2,UI,Active,REMOVE,Vue 2 drag handles,core + vue-2,LOW
+@dibdab/extension-drag-handle-vue-3,UI,Active,REMOVE,Vue 3 drag handles,core + vue-3,LOW
+@dibdab/extension-file-handler,Utility,Active,EVALUATE,File drag-drop - could be useful,core,MEDIUM
+@dibdab/extension-unique-id,Utility,Active,EVALUATE,Node tracking - might be needed for canvas,core,MEDIUM
+@dibdab/extension-node-range,Utility,Active,REMOVE,Node range utilities - unclear usage,core,LOW
+@dibdab/starter-kit,Bundle,Active,REMOVE,Bundles many extensions we're removing,core + many,LOW
+@dibdab/extension-character-count,Utility,Deprecated,REMOVE,Now in @dibdab/extensions,core,N/A
+@dibdab/extension-dropcursor,Utility,Deprecated,REMOVE,Now in @dibdab/extensions,core,N/A
+@dibdab/extension-focus,Utility,Deprecated,REMOVE,Now in @dibdab/extensions,core,N/A
+@dibdab/extension-gapcursor,Utility,Deprecated,REMOVE,Now in @dibdab/extensions,core,N/A
+@dibdab/extension-history,Utility,Deprecated,REMOVE,Now in @dibdab/extensions (undo-redo),core,N/A
+@dibdab/extension-list-item,List,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-list-keymap,List,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-placeholder,Utility,Deprecated,REMOVE,Now in @dibdab/extensions,core,N/A
+@dibdab/extension-table-cell,Table,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-table-header,Table,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-table-row,Table,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-task-item,List,Deprecated,REMOVE,Deprecated,core,N/A
+@dibdab/extension-task-list,List,Deprecated,REMOVE,Deprecated,core,N/A

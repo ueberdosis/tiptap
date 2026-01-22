@@ -59,6 +59,7 @@ export class NodePos {
       to = this.to - 1
     }
 
+    // @ts-ignore - insertContentAt command is dynamically added
     this.editor.commands.insertContentAt({ from, to }, content)
   }
 

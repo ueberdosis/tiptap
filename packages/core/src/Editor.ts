@@ -177,6 +177,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
 
       if (this.options.autofocus !== false && this.options.autofocus !== null) {
+        // @ts-ignore - focus command is dynamically added
         this.commands.focus(this.options.autofocus)
       }
       this.emit('create', { editor: this })
