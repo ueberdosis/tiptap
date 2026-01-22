@@ -1,3 +1,4 @@
+export { CanvasAware, createCanvasContext } from './canvasAware.js'
 export { ClipboardTextSerializer } from './clipboardTextSerializer.js'
 export { Commands } from './commands.js'
 export { Delete } from './delete.js'
