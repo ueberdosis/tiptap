@@ -43,7 +43,7 @@ export const listWrapperDeprioritize: DragHandleRule = {
     const firstChild = node.firstChild
 
     if (firstChild && listItemTypes.includes(firstChild.type.name)) {
-      return 900
+      return 1000
     }
 
     return 0
