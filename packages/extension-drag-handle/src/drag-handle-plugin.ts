@@ -1,5 +1,5 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
+import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
@@ -151,8 +151,26 @@ export const DragHandlePlugin = ({
     }
   }
 
+  function onDrop() {
+    // Firefox has a bug where the caret becomes invisible after drag and drop.
+    // This workaround forces Firefox to re-render the caret by toggling contentEditable.
+    // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
+    if (isFirefox()) {
+      const editorElement = editor.view.dom
+
+      // Use requestAnimationFrame to ensure the drop operation has completed
+      requestAnimationFrame(() => {
+        if (editorElement.isContentEditable) {
+          editorElement.contentEditable = 'false'
+          editorElement.contentEditable = 'true'
+        }
+      })
+    }
+  }
+
   element.addEventListener('dragstart', onDragStart)
   element.addEventListener('dragend', onDragEnd)
+  document.addEventListener('drop', onDrop)
 
   wrapper.appendChild(element)
 
@@ -160,6 +178,7 @@ export const DragHandlePlugin = ({
     unbind() {
       element.removeEventListener('dragstart', onDragStart)
       element.removeEventListener('dragend', onDragEnd)
+      document.removeEventListener('drop', onDrop)
       if (rafId) {
         cancelAnimationFrame(rafId)
         rafId = null
@@ -299,6 +318,10 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
+            element.removeEventListener('dragstart', onDragStart)
+            element.removeEventListener('dragend', onDragEnd)
+            document.removeEventListener('drop', onDrop)
+
             if (rafId) {
               cancelAnimationFrame(rafId)
               rafId = null
