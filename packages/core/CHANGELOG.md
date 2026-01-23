@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
 ## 3.16.0
 
 ### Patch Changes
