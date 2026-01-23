@@ -563,6 +563,48 @@ export class BubbleMenuView implements PluginView {
     const meta = tr.getMeta('bubbleMenu')
     if (meta === 'updatePosition') {
       this.updatePosition()
+    } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
+      this.updateOptions(meta.options)
+    }
+  }
+
+  updateOptions(newProps: Partial<Omit<BubbleMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+    if (newProps.updateDelay !== undefined) {
+      this.updateDelay = newProps.updateDelay
+    }
+
+    if (newProps.resizeDelay !== undefined) {
+      this.resizeDelay = newProps.resizeDelay
+    }
+
+    if (newProps.appendTo !== undefined) {
+      this.appendTo = newProps.appendTo
+    }
+
+    if (newProps.getReferencedVirtualElement !== undefined) {
+      this.getReferencedVirtualElement = newProps.getReferencedVirtualElement
+    }
+
+    if (newProps.shouldShow !== undefined) {
+      if (newProps.shouldShow) {
+        this.shouldShow = newProps.shouldShow
+      }
+    }
+
+    if (newProps.options !== undefined) {
+      const newScrollTarget = newProps.options.scrollTarget
+
+      // Handle scrollTarget change - need to remove old listener and add new one
+      if (newScrollTarget !== undefined && newScrollTarget !== this.scrollTarget) {
+        this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
+        this.scrollTarget = newScrollTarget ?? window
+        this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+      }
+
+      this.floatingUIOptions = {
+        ...this.floatingUIOptions,
+        ...newProps.options,
+      }
     }
   }
 
