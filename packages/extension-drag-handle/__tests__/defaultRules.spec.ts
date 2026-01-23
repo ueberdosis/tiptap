@@ -2,7 +2,12 @@ import type { Node, ResolvedPos } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 import { describe, expect, it } from 'vitest'
 
-import { defaultRules, inlineContent, listItemFirstChild } from '../src/helpers/defaultRules.js'
+import {
+  defaultRules,
+  inlineContent,
+  listItemFirstChild,
+  listWrapperDeprioritize,
+} from '../src/helpers/defaultRules.js'
 import type { RuleContext } from '../src/types/rules.js'
 
 /**
@@ -207,16 +212,89 @@ describe('inlineContent', () => {
   })
 })
 
+describe('listWrapperDeprioritize', () => {
+  it('should have correct id', () => {
+    expect(listWrapperDeprioritize.id).toBe('listWrapperDeprioritize')
+  })
+
+  it('should exclude nodes with listItem as first child', () => {
+    const firstChild = { type: { name: 'listItem' } } as unknown as Node
+    const node = {
+      type: { name: 'bulletList' },
+      isInline: false,
+      isText: false,
+      firstChild,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = listWrapperDeprioritize.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should exclude nodes with taskItem as first child', () => {
+    const firstChild = { type: { name: 'taskItem' } } as unknown as Node
+    const node = {
+      type: { name: 'taskList' },
+      isInline: false,
+      isText: false,
+      firstChild,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = listWrapperDeprioritize.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should not affect nodes with other first children', () => {
+    const firstChild = { type: { name: 'paragraph' } } as unknown as Node
+    const node = {
+      type: { name: 'blockquote' },
+      isInline: false,
+      isText: false,
+      firstChild,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = listWrapperDeprioritize.evaluate(context)
+
+    expect(result).toBe(0)
+  })
+
+  it('should not affect nodes with no children', () => {
+    const node = {
+      type: { name: 'horizontalRule' },
+      isInline: false,
+      isText: false,
+      firstChild: null,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = listWrapperDeprioritize.evaluate(context)
+
+    expect(result).toBe(0)
+  })
+})
+
 describe('defaultRules', () => {
   it('should contain listItemFirstChild rule', () => {
     expect(defaultRules).toContain(listItemFirstChild)
+  })
+
+  it('should contain listWrapperDeprioritize rule', () => {
+    expect(defaultRules).toContain(listWrapperDeprioritize)
   })
 
   it('should contain inlineContent rule', () => {
     expect(defaultRules).toContain(inlineContent)
   })
 
-  it('should have exactly 2 rules', () => {
-    expect(defaultRules).toHaveLength(2)
+  it('should have exactly 3 rules', () => {
+    expect(defaultRules).toHaveLength(3)
   })
 })
