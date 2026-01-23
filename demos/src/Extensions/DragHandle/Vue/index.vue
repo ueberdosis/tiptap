@@ -13,7 +13,8 @@
     <button @click="editor.chain().focus().unlockDragHandle().run()">Unlock drag handle</button>
     <button @click="editor.chain().focus().toggleDragHandle().run()">Toggle drag handle</button>
     <button @click="editor.setEditable(!editor.isEditable)">Toggle editable</button>
-    <drag-handle :editor="editor">
+    <button @click="nested = !nested">Toggle nested</button>
+    <drag-handle :editor="editor" :nested="nestedOptions">
       <div class="custom-drag-handle" />
     </drag-handle>
   </div>
@@ -27,6 +28,8 @@ import NodeRange from '@tiptap/extension-node-range'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
+const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
+
 export default {
   components: {
     EditorContent,
@@ -35,7 +38,13 @@ export default {
   data() {
     return {
       editor: null,
+      nested: true,
     }
+  },
+  computed: {
+    nestedOptions() {
+      return this.nested ? NESTED_CONFIG : false
+    },
   },
   mounted() {
     this.editor = new Editor({
@@ -48,22 +57,65 @@ export default {
         }),
       ],
       content: `
-        <h1>This is a demo file for our Drag Handle extension experiement.</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ipsum suspendisse ultrices gravida dictum fusce ut placerat. Viverra mauris in aliquam sem fringilla. Sit amet commodo nulla facilisi nullam. Viverra orci sagittis eu volutpat odio facilisis mauris sit. In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque adipiscing commodo elit at imperdiet. Pulvinar sapien et ligula ullamcorper malesuada proin. Odio pellentesque diam volutpat commodo. Pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies.</p>
-        <p>Odio eu feugiat pretium nibh ipsum consequat nisl. Velit euismod in pellentesque massa placerat. Vel quam elementum pulvinar etiam non quam. Sit amet purus gravida quis. Tincidunt eget nullam non nisi est sit. Eget nulla facilisi etiam dignissim diam. Magnis dis parturient montes nascetur ridiculus mus mauris vitae. Vitae congue eu consequat ac felis donec et odio pellentesque. Sit amet porttitor eget dolor morbi non arcu risus quis. Suspendisse ultrices gravida dictum fusce ut. Tortor vitae purus faucibus ornare. Faucibus ornare suspendisse sed nisi lacus sed. Tristique senectus et netus et.</p>
-        <p>Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Sem viverra aliquet eget sit amet tellus. Nec ullamcorper sit amet risus nullam. Facilisis gravida neque convallis a cras semper auctor. Habitant morbi tristique senectus et netus et malesuada fames ac. Dui vivamus arcu felis bibendum. Velit laoreet id donec ultrices. Enim diam vulputate ut pharetra sit. Aenean pharetra magna ac placerat vestibulum lectus mauris. Mi eget mauris pharetra et ultrices. Lacus viverra vitae congue eu consequat ac felis donec.</p>
-        <h2></h2>
-        <p>Odio eu feugiat pretium nibh ipsum consequat nisl. Velit euismod in pellentesque massa placerat. Vel quam elementum pulvinar etiam non quam. Sit amet purus gravida quis. Tincidunt eget nullam non nisi est sit. Eget nulla facilisi etiam dignissim diam. Magnis dis parturient montes nascetur ridiculus mus mauris vitae. Vitae congue eu consequat ac felis donec et odio pellentesque. Sit amet porttitor eget dolor morbi non arcu risus quis. Suspendisse ultrices gravida dictum fusce ut. Tortor vitae purus faucibus ornare. Faucibus ornare suspendisse sed nisi lacus sed. Tristique senectus et netus et.</p>
-        <p>Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Sem viverra aliquet eget sit amet tellus. Nec ullamcorper sit amet risus nullam. Facilisis gravida neque convallis a cras semper auctor. Habitant morbi tristique senectus et netus et malesuada fames ac. Dui vivamus arcu felis bibendum. Velit laoreet id donec ultrices. Enim diam vulputate ut pharetra sit. Aenean pharetra magna ac placerat vestibulum lectus mauris. Mi eget mauris pharetra et ultrices. Lacus viverra vitae congue eu consequat ac felis donec.</p>
+        <h1>The Complete Guide to Modern Web Development</h1>
+        <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
+
+        <h2>Getting Started</h2>
+        <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
+
+        <blockquote>
+          <p>"The best code is no code at all. Every new line of code you willingly bring into the world is code that has to be debugged, code that has to be read and understood." - Jeff Atwood</p>
+        </blockquote>
+
+        <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+        <hr>
+
+        <h2>Key Technologies</h2>
+        <p>Here are the essential technologies every web developer should be familiar with:</p>
+
         <ul>
-          <li>Bullet Item 1</li>
-          <li>Bullet Item 2</li>
-          <li>Bullet Item 3</li>
+          <li>HTML5 and semantic markup</li>
+          <li>CSS3 with modern layout techniques
+            <ul>
+              <li>Flexbox for one-dimensional layouts</li>
+              <li>Grid for two-dimensional layouts</li>
+              <li>Custom properties (CSS variables)</li>
+            </ul>
+          </li>
+          <li>JavaScript (ES6+)</li>
+          <li>TypeScript for type safety</li>
         </ul>
-        <h2>Lorem Ipsum</h2>
-        <p>Tincidunt ornare massa eget egestas. Neque convallis a cras semper auctor neque. Eget nulla facilisi etiam dignissim diam quis enim. Phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim. At tempor commodo ullamcorper a lacus vestibulum sed arcu. Sed vulputate mi sit amet mauris commodo quis imperdiet. Eget gravida cum sociis natoque. Lacinia quis vel eros donec ac odio tempor orci dapibus. Integer vitae justo eget magna fermentum iaculis eu non. Sed odio morbi quis commodo. Neque sodales ut etiam sit amet. Ipsum nunc aliquet bibendum enim facilisis gravida neque convallis a. Tempus quam pellentesque nec nam aliquam sem et tortor consequat. Urna nec tincidunt praesent semper feugiat nibh sed pulvinar proin. Lacus sed turpis tincidunt id aliquet risus feugiat in. Et leo duis ut diam quam nulla. Ultrices eros in cursus turpis. Adipiscing elit ut aliquam purus sit amet luctus venenatis.</p>
-        <h3>Lorem Ipsum</h3>
-        <p>Sapien eget mi proin sed libero enim sed faucibus. Aliquam id diam maecenas ultricies mi eget mauris. Amet mattis vulputate enim nulla aliquet porttitor lacus. Pulvinar elementum integer enim neque volutpat ac. Libero volutpat sed cras ornare arcu dui vivamus arcu felis. Urna nunc id cursus metus aliquam eleifend mi in nulla. Justo laoreet sit amet cursus sit. In massa tempor nec feugiat nisl pretium fusce. Vel quam elementum pulvinar etiam non. Nisl nisi scelerisque eu ultrices vitae. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam.</p>
+
+        <h3>Framework Comparison</h3>
+        <p>Choosing the right framework depends on your project requirements:</p>
+
+        <ol>
+          <li>React - Component-based UI library</li>
+          <li>Vue - Progressive framework</li>
+          <li>Angular - Full-featured platform</li>
+          <li>Svelte - Compile-time framework</li>
+        </ol>
+
+        <hr>
+
+        <h2>Best Practices</h2>
+        <p>Following established best practices ensures your code remains maintainable and scalable.</p>
+
+        <blockquote>
+          <p>Always write code as if the person who ends up maintaining it is a violent psychopath who knows where you live.</p>
+        </blockquote>
+
+        <h3>Code Organization</h3>
+        <p>A well-organized codebase is crucial for long-term project success. Consider these principles:</p>
+
+        <ul>
+          <li>Separation of concerns</li>
+          <li>DRY (Don't Repeat Yourself)</li>
+          <li>KISS (Keep It Simple, Stupid)</li>
+        </ul>
+
+        <p>By following these guidelines, you'll create applications that are easier to maintain, test, and extend over time.</p>
       `,
     })
   },
