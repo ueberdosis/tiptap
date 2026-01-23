@@ -25,6 +25,32 @@ export const listItemFirstChild: DragHandleRule = {
 }
 
 /**
+ * Nodes that contain list items (listItem/taskItem) as direct children
+ * are deprioritized. This makes it easier to target individual list items
+ * rather than the entire list wrapper.
+ *
+ * This rule detects list wrappers dynamically by checking if the first child
+ * is a list item, rather than hardcoding wrapper type names.
+ *
+ * Users can still target the list wrapper by moving to the very edge
+ * where edge detection kicks in.
+ */
+export const listWrapperDeprioritize: DragHandleRule = {
+  id: 'listWrapperDeprioritize',
+  evaluate: ({ node }) => {
+    const listItemTypes = ['listItem', 'taskItem']
+
+    const firstChild = node.firstChild
+
+    if (firstChild && listItemTypes.includes(firstChild.type.name)) {
+      return 900
+    }
+
+    return 0
+  },
+}
+
+/**
  * Inline nodes (text, marks, inline atoms) should never be drag targets.
  */
 export const inlineContent: DragHandleRule = {
@@ -42,4 +68,4 @@ export const inlineContent: DragHandleRule = {
  * All default rules.
  * Users can extend these or replace them entirely.
  */
-export const defaultRules: DragHandleRule[] = [listItemFirstChild, inlineContent]
+export const defaultRules: DragHandleRule[] = [listItemFirstChild, listWrapperDeprioritize, inlineContent]
