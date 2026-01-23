@@ -8,8 +8,10 @@ context('/src/Examples/Images/React/', () => {
   })
 
   it('allows removing images', () => {
-    cy.get('.tiptap img').should('have.length', 2)
+    cy.get('.tiptap').should('be.visible')
+    cy.get('.tiptap img').should('have.length', 2).and('be.visible')
     cy.get('.tiptap img').first().click()
+    cy.get('.tiptap img.ProseMirror-selectednode').should('exist')
     cy.get('.tiptap').type('{backspace}')
     cy.get('.tiptap img').should('have.length', 1)
   })
