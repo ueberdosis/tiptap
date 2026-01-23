@@ -9,7 +9,7 @@ context('/src/Examples/Images/React/', () => {
 
   it('allows removing images', () => {
     cy.get('.tiptap img').should('have.length', 2)
-    cy.get('.tiptap img').first().trigger('mousedown', { which: 1 })
+    cy.get('.tiptap img').first().click()
     cy.get('.tiptap').type('{backspace}')
     cy.get('.tiptap img').should('have.length', 1)
   })
