@@ -1,5 +1,20 @@
 # @tiptap/extension-drag-handle
 
+## 3.17.0
+
+### Minor Changes
+
+- a7ab5df: Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### Patch Changes
+
+- eecf1c9: Fixed Firefox bug where the text caret becomes invisible after drag and drop.
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/extension-collaboration@3.17.0
+  - @tiptap/extension-node-range@3.17.0
+  - @tiptap/pm@3.17.0
+
 ## 3.16.0
 
 ### Patch Changes

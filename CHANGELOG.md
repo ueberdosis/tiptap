@@ -1,5 +1,47 @@
 # Releases
 
+## v3.17.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Added a safeguard to avoid `TypeError: Cannot read properties of null (reading 'domFromPos')` being thrown when the editor was being destroyed
+
+### @tiptap/extension-drag-handle
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+#### Patch Changes
+
+- Fixed Firefox bug where the text caret becomes invisible after drag and drop.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Added `isFirefox` utility to core
+
+### @tiptap/extension-drag-handle-react
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
 ## v3.16.0
 
 ### @tiptap/extension-audio
