@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment node
+ */
+
 import { Code } from '@tiptap/extension-code'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
