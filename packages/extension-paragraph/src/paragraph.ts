@@ -22,6 +22,19 @@ declare module '@tiptap/core' {
 }
 
 /**
+ * Markdown marker for empty paragraphs to preserve blank lines.
+ * Using &nbsp; (non-breaking space HTML entity) ensures the paragraph
+ * is not collapsed by markdown parsers while remaining human-readable.
+ */
+const EMPTY_PARAGRAPH_MARKDOWN = '&nbsp;'
+
+/**
+ * Unicode character for non-breaking space (U+00A0).
+ * Some markdown parsers may convert &nbsp; entities to this literal character.
+ */
+const NBSP_CHAR = '\u00A0'
+
+/**
  * This extension allows you to create paragraphs.
  * @see https://www.tiptap.dev/api/nodes/paragraph
  */
@@ -66,7 +79,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
     if (
       content.length === 1 &&
       content[0].type === 'text' &&
-      (content[0].text === '&nbsp;' || content[0].text === '\u00A0')
+      (content[0].text === EMPTY_PARAGRAPH_MARKDOWN || content[0].text === NBSP_CHAR)
     ) {
       return helpers.createNode('paragraph', undefined, [])
     }
@@ -85,7 +98,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
     // If the paragraph is empty, render a non-breaking space to preserve blank lines
     if (content.length === 0) {
-      return '&nbsp;'
+      return EMPTY_PARAGRAPH_MARKDOWN
     }
 
     return h.renderChildren(content)

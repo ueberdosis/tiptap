@@ -298,5 +298,26 @@ describe('Markdown Conversion Tests', () => {
       // Should still render as &nbsp; for empty paragraphs
       expect(markdown).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
     })
+
+    it('should parse literal NBSP character (\\u00A0) as empty paragraph', () => {
+      // Some markdown parsers may convert &nbsp; entity to the literal NBSP character
+      const markdown = 'Line1\n\n\u00A0\n\n\u00A0\n\nLine2'
+      const json = markdownManager.parse(markdown)
+
+      // After parsing, should get empty paragraphs (not text nodes with NBSP)
+      expect(json.content).toHaveLength(4)
+      expect(json.content[0].type).toBe('paragraph')
+      expect(json.content[0].content[0].text).toBe('Line1')
+      expect(json.content[1].type).toBe('paragraph')
+      expect(json.content[1].content).toEqual([])
+      expect(json.content[2].type).toBe('paragraph')
+      expect(json.content[2].content).toEqual([])
+      expect(json.content[3].type).toBe('paragraph')
+      expect(json.content[3].content[0].text).toBe('Line2')
+
+      // Should serialize back to &nbsp; (normalized form)
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+    })
   })
 })
