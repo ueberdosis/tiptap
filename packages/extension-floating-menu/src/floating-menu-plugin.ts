@@ -389,12 +389,13 @@ export class FloatingMenuView {
     }
 
     if (newProps.options !== undefined) {
-      const newScrollTarget = newProps.options.scrollTarget
-
       // Handle scrollTarget change - need to remove old listener and add new one
-      if (newScrollTarget !== undefined && newScrollTarget !== this.scrollTarget) {
+      // Use nullish coalescing to default to window when scrollTarget is undefined/null
+      const newScrollTarget = newProps.options.scrollTarget ?? window
+
+      if (newScrollTarget !== this.scrollTarget) {
         this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
-        this.scrollTarget = newScrollTarget ?? window
+        this.scrollTarget = newScrollTarget
         this.scrollTarget.addEventListener('scroll', this.resizeHandler)
       }
 
