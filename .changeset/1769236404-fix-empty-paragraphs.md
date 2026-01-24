@@ -3,4 +3,4 @@
 '@tiptap/markdown': patch
 ---
 
-fix markdown serialization doubling newlines and parsing collapsing multiple blank lines
+Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines

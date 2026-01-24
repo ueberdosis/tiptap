@@ -76,16 +76,19 @@ export const Paragraph = Node.create<ParagraphOptions>({
   },
 
   renderMarkdown: (node, h) => {
-    if (!node || !Array.isArray(node.content)) {
+    if (!node) {
       return ''
     }
 
+    // Normalize content: treat undefined/null as empty array
+    const content = Array.isArray(node.content) ? node.content : []
+
     // If the paragraph is empty, render a non-breaking space to preserve blank lines
-    if (node.content.length === 0) {
+    if (content.length === 0) {
       return '&nbsp;'
     }
 
-    return h.renderChildren(node.content)
+    return h.renderChildren(content)
   },
 
   addCommands() {

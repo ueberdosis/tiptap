@@ -268,5 +268,35 @@ describe('Markdown Conversion Tests', () => {
       const remarked = markdownManager.serialize(parsed)
       expect(remarked).toBe(markdown)
     })
+
+    it('should handle empty paragraphs without content field (real editor output)', () => {
+      // Real editor output may omit the content field for empty paragraphs
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'Line1' }],
+          },
+          {
+            type: 'paragraph',
+            // No content field - this is what the real editor might output
+          },
+          {
+            type: 'paragraph',
+            // No content field
+          },
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'Line2' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+
+      // Should still render as &nbsp; for empty paragraphs
+      expect(markdown).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+    })
   })
 })
