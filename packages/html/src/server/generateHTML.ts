@@ -17,7 +17,10 @@ import { getHTMLFromFragment } from './getHTMLFromFragment.js'
  * ```
  */
 export function generateHTML(doc: JSONContent, extensions: Extensions): string {
-  if (typeof window !== 'undefined') {
+  // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
+  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+
+  if (!isNode) {
     throw new Error(
       'generateHTML can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@tiptap/html` import instead.',
     )
