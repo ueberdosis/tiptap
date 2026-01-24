@@ -22,14 +22,14 @@ export const EditorContent = defineComponent({
 
       if (editor && editor.options.element && rootEl.value) {
         nextTick(() => {
-          if (!rootEl.value || !editor.options.element?.firstChild) {
+          if (!rootEl.value || !editor.view.dom?.parentNode) {
             return
           }
 
           // TODO using the new editor.mount method might allow us to remove this
           const element = unref(rootEl.value)
 
-          rootEl.value.append(...editor.options.element.childNodes)
+          rootEl.value.append(...editor.view.dom.parentNode.childNodes)
 
           // @ts-ignore
           editor.contentComponent = instance.ctx._

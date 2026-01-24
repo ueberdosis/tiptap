@@ -235,6 +235,14 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
     return emojiItem?.emoji || `:${node.attrs.name}:`
   },
 
+  renderMarkdown: node => {
+    if (!node.attrs?.name) {
+      return ''
+    }
+
+    return `:${node.attrs.name}:`
+  },
+
   addCommands() {
     return {
       setEmoji:
@@ -295,10 +303,7 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
     if (this.options.enableEmoticons) {
       // get the list of supported emoticons
-      const emoticons = this.options.emojis
-        .map(item => item.emoticons)
-        .flat()
-        .filter(item => item) as string[]
+      const emoticons = this.options.emojis.flatMap(item => item.emoticons).filter(item => item) as string[]
 
       const emoticonRegex = new RegExp(`(?:^|\\s)(${emoticons.map(item => escapeForRegEx(item)).join('|')}) $`)
 

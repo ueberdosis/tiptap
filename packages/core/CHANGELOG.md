@@ -1,5 +1,397 @@
 # Change Log
 
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Minor Changes
+
+- e3b4f68: 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility. 2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles. 3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+### Patch Changes
+
+- 526365a: Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- f232c5a: Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### Patch Changes
+
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- d0c4264: Improve TypeScript generics for Node.extend
+
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+
+  This is a type-only change — there are no runtime behavior changes.
+
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Minor Changes
+
+- 541c93c: Add native text direction support for RTL and bidirectional content. The editor now includes a `textDirection` option that can be set to `'ltr'`, `'rtl'`, or `'auto'` to control the direction of all content globally. Additionally, new `setTextDirection` and `unsetTextDirection` commands allow for granular control of text direction on specific nodes. This enables proper rendering of right-to-left languages like Arabic and Hebrew, as well as bidirectional text mixing multiple languages.
+
+### Patch Changes
+
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- 8375241: Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
+- b7ead7c: Add documentation comments to Tiptap JSON types
+- 95d3e80: allow `undefined` as a value for the `default` attribute key
+- fd479bd: Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 92fae18: Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- 64561c4: Fix autofocus behavior to prevent unwanted scrolling when disabled
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- 3564e7c: Use correct `ResizableNodeView` class name
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- 4aa9f57: the addNodeView function can now return `null` to dynamically disable rendering of a node view
+
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### Patch Changes
+
+- @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/pm@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- bbb8e16: Only remove injected CSS on unmount if no other editors are in the document (fixes #6836)
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Minor Changes
+
+- 35645d9: All commands and their corresponding TypeScript types are now exported from `@tiptap/core` so they can be imported and referenced directly by consumers. This makes it easier to build typed helpers, extensions, and tests that depend on the command signatures.
+
+  Why:
+
+  - Previously some command option types were only available as internal types or scattered across files, which made it awkward for downstream users to import and reuse them.
+
+  ```ts
+  import { commands } from '@tiptap/core'
+  ```
+
+  Notes:
+
+  - This is a non-breaking, additive change. It improves ergonomics for TypeScript consumers.
+  - If you rely on previously private/internal types, prefer the exported types from `@tiptap/core` going forward.
+
+- 35645d9: Add comprehensive bidirectional markdown support to Tiptap through a new `@tiptap/markdown` package and Markdown utilities in `@tiptap/core`.
+
+  **New Package: `@tiptap/markdown`** - A new official extension that provides full Markdown parsing and serialization capabilities using [MarkedJS](https://marked.js.org) as the underlying Markdown parser.
+
+  **Core Features:**
+
+  **Extension API**
+
+  - **`Markdown` Extension**: Main extension that adds Markdown support to your editor
+  - **`MarkdownManager`**: Core engine for parsing and serializing Markdown
+    - Parse Markdown strings to Tiptap JSON: `editor.markdown.parse(markdown)`
+    - Serialize Tiptap JSON to Markdown: `editor.markdown.serialize(json)`
+    - Access to underlying marked.js instance: `editor.markdown.instance`
+
+  #### Editor Methods
+
+  - **`editor.getMarkdown()`**: Serialize current editor content to Markdown string
+  - **`editor.markdown`**: Access to MarkdownManager instance for advanced operations
+
+  **Editor Options:**
+
+  - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
+    ```typescript
+    new Editor({
+      content: '# Hello World',
+      contentType: 'markdown',
+    })
+    ```
+
+  **Command Options:** All content commands now support an `contentType` option:
+
+  - **`setContent(markdown, { contentType: 'markdown' })`**: Replace editor content with markdown
+  - **`insertContent(markdown, { contentType: 'markdown' })`**: Insert markdown at cursor position
+  - **`insertContentAt(position, markdown, { contentType: 'markdown' })`**: Insert Markdown at specific position
+
+  For more, check [the documentation](https://tiptap.dev/docs/editor/markdown).
+
+### Patch Changes
+
+- 35645d9: The extension manager now provides a new property `baseExtensions` that contains an unflattened array of extensions
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- 1e4caea: Editors can now emit `transaction` and `update` events before being mounted.
+  This means smoother state handling and instant feedback from editors, even when they're not in the DOM.
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- 67f7b4a: Refined the `JSONContent.attrs` definition to exactly mirror the structure returned by `editor.getJSON()`. This ensures strict type safety and consistency between the editor output and the expected type, eliminating errors caused by mismatched attribute signatures.
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c0190bd: Improve typing and docs for `EditorOptions.element` to reflect all supported mounting modes and align behavior across adapters.
+
+  - `element` now accepts:
+    - `Element`: the editor is appended inside the given element.
+    - `{ mount: HTMLElement }`: the editor is mounted directly to `mount` (no extra wrapper).
+    - `(editorEl: HTMLElement) => void`: a function that receives the editor element so you can place it anywhere in the DOM.
+    - `null`: no automatic mounting.
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- 968016f: Added support for the `undoable` option in InputRules (matching ProseMirror’s implementation).
+
+  - When `false`, the change will not be tracked as undoable.
+  - Default remains `true` for backward compatibility.
+
+  This brings Tiptap’s InputRules behavior in line with ProseMirror and gives developers finer control over undo functionality.
+
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- 0226d42: Fix an issue where injected CSS was not mounted correctly when the editor instance was mounted. The fix ensures CSS injected by the editor is attached to the document when the editor mounts, preventing missing styles in some mount/unmount scenarios.
+- 37af83b: refactor: replace `map(...).flat()` with `flatMap` for simpler, more efficient array flattening
+- f598ac7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- 00cf1d7: Fix bug in `insertContentAt` command where extra content would get deleted when the selection was at the beginning of the document and a node was inserted
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- 1ea8906: When the editor view is created, it now will also include `nodeViews` and `markViews` properties instead of setting them afterward. This avoids serialization of the editor state to HTML which will be replaced by node views anyway.
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- @tiptap/pm@3.4.1
+
 ## 3.4.0
 
 ### Minor Changes

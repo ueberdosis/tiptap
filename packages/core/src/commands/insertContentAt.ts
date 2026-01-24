@@ -5,6 +5,33 @@ import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
 import type { Content, Range, RawCommands } from '../types.js'
 
+export interface InsertContentAtOptions {
+  /**
+   * Options for parsing the content.
+   */
+  parseOptions?: ParseOptions
+
+  /**
+   * Whether to update the selection after inserting the content.
+   */
+  updateSelection?: boolean
+
+  /**
+   * Whether to apply input rules after inserting the content.
+   */
+  applyInputRules?: boolean
+
+  /**
+   * Whether to apply paste rules after inserting the content.
+   */
+  applyPasteRules?: boolean
+
+  /**
+   * Whether to throw an error if the content is invalid.
+   */
+  errorOnInvalidContent?: boolean
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     insertContentAt: {
@@ -26,32 +53,7 @@ declare module '@tiptap/core' {
         /**
          * Optional options
          */
-        options?: {
-          /**
-           * Options for parsing the content.
-           */
-          parseOptions?: ParseOptions
-
-          /**
-           * Whether to update the selection after inserting the content.
-           */
-          updateSelection?: boolean
-
-          /**
-           * Whether to apply input rules after inserting the content.
-           */
-          applyInputRules?: boolean
-
-          /**
-           * Whether to apply paste rules after inserting the content.
-           */
-          applyPasteRules?: boolean
-
-          /**
-           * Whether to throw an error if the content is invalid.
-           */
-          errorOnInvalidContent?: boolean
-        },
+        options?: InsertContentAtOptions,
       ) => ReturnType
     }
   }
@@ -74,7 +76,6 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       }
 
       let content: Fragment | ProseMirrorNode
-      const { selection } = editor.state
 
       const emitContentError = (error: Error) => {
         editor.emit('contentError', {
@@ -180,9 +181,11 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       } else {
         newContent = content
 
-        const fromSelectionAtStart = selection.$from.parentOffset === 0
-        const isTextSelection = selection.$from.node().isText || selection.$from.node().isTextblock
-        const hasContent = selection.$from.node().content.size > 0
+        const $from = tr.doc.resolve(from)
+        const $fromNode = $from.node()
+        const fromSelectionAtStart = $from.parentOffset === 0
+        const isTextSelection = $fromNode.isText || $fromNode.isTextblock
+        const hasContent = $fromNode.content.size > 0
 
         if (fromSelectionAtStart && isTextSelection && hasContent) {
           from = Math.max(0, from - 1)

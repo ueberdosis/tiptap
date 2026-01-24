@@ -149,10 +149,7 @@ export const CollaborationCaret = Extension.create<CollaborationCaretOptions, Co
   addCommands() {
     return {
       updateUser: attributes => () => {
-        this.options.user = attributes
-
-        this.options.provider.awareness.setLocalStateField('user', this.options.user)
-
+        this.options.provider.awareness.setLocalStateField('user', attributes)
         return true
       },
       user:

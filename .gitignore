@@ -8,6 +8,11 @@ dist
 .env.*
 .eslintcache
 
+.instructions
+.agent
+
+docs
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
@@ -42,3 +47,5 @@ demos/src/Dev/**
 # instructions
 .github/instructions/*
 !.github/instructions/tiptap.instructions.md
+!.github/instructions/changeset.instructions.md
+!.github/instructions/PR.instructions.md

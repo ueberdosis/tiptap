@@ -1,9 +1,9 @@
 import type { Editor } from '@tiptap/core'
-import { mergeAttributes, Node } from '@tiptap/core'
+import { createInlineMarkdownSpec, mergeAttributes, Node } from '@tiptap/core'
 import type { DOMOutputSpec } from '@tiptap/pm/model'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { SuggestionOptions } from '@tiptap/suggestion'
-import Suggestion from '@tiptap/suggestion'
+import { Suggestion } from '@tiptap/suggestion'
 
 import { getSuggestionOptions } from './utils/get-default-suggestion-attributes.js'
 
@@ -267,6 +267,36 @@ export const Mention = Node.create<MentionOptions>({
     }
     return html
   },
+
+  ...createInlineMarkdownSpec({
+    nodeName: 'mention',
+    name: '@',
+    selfClosing: true,
+    allowedAttributes: ['id', 'label', { name: 'mentionSuggestionChar', skipIfDefault: '@' }],
+    parseAttributes: (attrString: string) => {
+      const attrs: Record<string, any> = {}
+      const regex = /(\w+)=(?:"([^"]*)"|'([^']*)')/g
+      let match = regex.exec(attrString)
+
+      while (match !== null) {
+        const [, key, doubleQuoted, singleQuoted] = match
+        const value = doubleQuoted ?? singleQuoted
+        attrs[key === 'char' ? 'mentionSuggestionChar' : key] = value
+        match = regex.exec(attrString)
+      }
+
+      return attrs
+    },
+    serializeAttributes: (attrs: Record<string, any>) => {
+      return Object.entries(attrs)
+        .filter(([, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => {
+          const serializedKey = key === 'mentionSuggestionChar' ? 'char' : key
+          return `${serializedKey}="${value}"`
+        })
+        .join(' ')
+    },
+  }),
 
   renderText({ node }) {
     const args = {
