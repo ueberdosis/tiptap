@@ -17,7 +17,10 @@ import { Window } from 'happy-dom'
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
-  if (typeof window !== 'undefined') {
+  // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
+  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+
+  if (!isNode) {
     throw new Error(
       'generateJSON can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@tiptap/html` import instead.',
     )

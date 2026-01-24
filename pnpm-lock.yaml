@@ -921,6 +921,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.10.3
       happy-dom:
         specifier: ^20.0.2
         version: 20.0.2
