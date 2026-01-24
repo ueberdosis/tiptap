@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { defineComponent } from 'vue'
 
-import { MarkViewContent, markViewProps,VueMarkViewRenderer } from '../src/VueMarkViewRenderer.js'
+import { MarkViewContent, markViewProps, VueMarkViewRenderer } from '../src/VueMarkViewRenderer.js'
 
 // Create a simple Vue component for the mark view
 const TestMarkComponent = defineComponent({
