@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.17.1
+
+### Patch Changes
+
+- 4807c55: Fixed IME input (Chinese, Japanese, Korean) in Vue 3 mark views by preventing DOM element destruction during composition events
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
 ## 3.17.0
 
 ### Patch Changes

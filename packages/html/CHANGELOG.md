@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.17.1
+
+### Patch Changes
+
+- 52146ad: Fixed server-side HTML parsing crash when content contains link, script, or style tags with resource references.
+- 547cf9e: Fixed server exports failing in Node.js test environments with jsdom/happy-dom
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
 ## 3.17.0
 
 ### Patch Changes
