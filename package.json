@@ -101,8 +101,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch",
-      "@tiptap/y-tiptap@3.0.1": "patches/@tiptap__y-tiptap@3.0.1.patch"
+      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
     },
     "overrides": {
       "glob": "^10.5.0",
