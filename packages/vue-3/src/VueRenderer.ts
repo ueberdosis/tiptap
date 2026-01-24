@@ -58,7 +58,7 @@ export class VueRenderer {
   }
 
   renderComponent() {
-    if (this.destroyed && this.renderedComponent) {
+    if (this.destroyed) {
       return this.renderedComponent
     }
 
@@ -67,7 +67,7 @@ export class VueRenderer {
     if (this.editor.appContext) {
       vNode.appContext = this.editor.appContext
     }
-    if (typeof document !== 'undefined' && this.el && !this.destroyed) {
+    if (typeof document !== 'undefined' && this.el) {
       render(vNode, this.el)
     }
 
