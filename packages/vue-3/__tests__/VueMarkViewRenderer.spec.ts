@@ -30,7 +30,7 @@ const CustomMark = Mark.create({
     return ['mark', mergeAttributes(HTMLAttributes), 0]
   },
 
-  addNodeView() {
+  addMarkView() {
     return VueMarkViewRenderer(TestMarkComponent)
   },
 })
