@@ -819,7 +819,9 @@ export class MarkdownManager {
       index,
       level,
       parentType: parentNode?.type,
-      meta: {},
+      meta: {
+        parentAttrs: parentNode?.attrs,
+      },
     }
 
     // First render the node itself (this will render children recursively)
