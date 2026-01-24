@@ -779,6 +779,15 @@ export class MarkdownManager {
 
       return parsed as JSONContent
     } catch (error) {
+      // If window object is not available (server-side rendering), fall back to treating HTML as plain text
+      const errorMessage = String(error)
+      if (errorMessage.includes('window object') || errorMessage.includes('window is not defined')) {
+        // Return the HTML as plain text instead of failing
+        return {
+          type: 'text',
+          text: html,
+        }
+      }
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
   }
