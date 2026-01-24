@@ -58,17 +58,31 @@ export const Paragraph = Node.create<ParagraphOptions>({
       return helpers.parseChildren([tokens[0]])
     }
 
+    // Parse the inline tokens
+    const content = helpers.parseInline(tokens)
+
+    // Special case: if paragraph contains only &nbsp; (non-breaking space),
+    // treat it as an empty paragraph to preserve blank lines
+    if (
+      content.length === 1 &&
+      content[0].type === 'text' &&
+      (content[0].text === '&nbsp;' || content[0].text === '\u00A0')
+    ) {
+      return helpers.createNode('paragraph', undefined, [])
+    }
+
     // Convert 'paragraph' token to paragraph node
-    return helpers.createNode(
-      'paragraph',
-      undefined, // no attributes for paragraph
-      helpers.parseInline(tokens),
-    )
+    return helpers.createNode('paragraph', undefined, content)
   },
 
   renderMarkdown: (node, h) => {
     if (!node || !Array.isArray(node.content)) {
       return ''
+    }
+
+    // If the paragraph is empty, render a non-breaking space to preserve blank lines
+    if (node.content.length === 0) {
+      return '&nbsp;'
     }
 
     return h.renderChildren(node.content)
