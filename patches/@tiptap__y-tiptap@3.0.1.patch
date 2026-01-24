@@ -1,0 +1,15 @@
+diff --git a/dist/y-tiptap.js b/dist/y-tiptap.js
+index 45a1deef85c2e59bda50fa14d38e56ce253a2e4a..eacfcd8995637e550337101eea16c5e04be7d493 100644
+--- a/dist/y-tiptap.js
++++ b/dist/y-tiptap.js
+@@ -1862,6 +1862,10 @@ const createDecorations = (
+   createSelection
+ ) => {
+   const ystate = ySyncPluginKey.getState(state);
++  // Guard against undefined ystate during editor initialization
++  if (!ystate || !ystate.doc) {
++    return DecorationSet.create(state.doc, [])
++  }
+   const y = ystate.doc;
+   const decorations = [];
+   if (

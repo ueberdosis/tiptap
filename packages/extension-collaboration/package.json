@@ -33,12 +33,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@tiptap/y-tiptap": "^3.0.1"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0",
+    "@tiptap/y-tiptap": "^3.0.1",
     "yjs": "^13"
   },
   "repository": {

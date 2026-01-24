@@ -32,13 +32,22 @@
   ],
   "devDependencies": {
     "@tiptap/core": "workspace:^",
+    "@tiptap/extension-collaboration": "workspace:^",
+    "@tiptap/extension-document": "workspace:^",
+    "@tiptap/extension-paragraph": "workspace:^",
+    "@tiptap/extension-table": "workspace:^",
+    "@tiptap/extension-table-cell": "workspace:^",
+    "@tiptap/extension-table-header": "workspace:^",
+    "@tiptap/extension-table-row": "workspace:^",
+    "@tiptap/extension-text": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@tiptap/y-tiptap": "^3.0.1",
+    "yjs": "^13.6.23"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0"
+    "@tiptap/y-tiptap": "^3.0.1"
   },
   "repository": {
     "type": "git",
