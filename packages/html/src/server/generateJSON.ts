@@ -23,7 +23,15 @@ export function generateJSON(html: string, extensions: Extensions, options?: Par
     )
   }
 
-  const localWindow = new Window()
+  const localWindow = new Window({
+    settings: {
+      disableJavaScriptEvaluation: true,
+      disableJavaScriptFileLoading: true,
+      disableCSSFileLoading: true,
+      disableIframePageLoading: true,
+      disableComputedStyleRendering: true,
+    },
+  })
   const localDOMParser = new localWindow.DOMParser()
   let result: Record<string, any>
 
