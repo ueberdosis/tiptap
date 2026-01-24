@@ -22,20 +22,59 @@ describe('MarkdownManager Server-side Parsing', () => {
   it('parses inline code with HTML-like tags and strike marks without error', () => {
     const md = '`<h1>`~`<h6>`'
 
-    // This should not throw an error about window object
-    expect(() => {
-      const doc = manager.parse(md)
-      expect(doc.type).toBe('doc')
-    }).not.toThrow()
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    expect(doc.content).toBeDefined()
+
+    const paragraph = doc.content![0]
+    expect(paragraph.type).toBe('paragraph')
+    expect(paragraph.content).toBeDefined()
+
+    // Find text nodes with code marks (inline code)
+    const codeTextNodes = paragraph.content!.filter(
+      (n: any) => n.type === 'text' && n.marks?.some((m: any) => m.type === 'code'),
+    )
+    expect(codeTextNodes.length).toBeGreaterThan(0)
+
+    // At least one code segment should contain an HTML-like tag
+    const hasHtmlTag = codeTextNodes.some((n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')))
+    expect(hasHtmlTag).toBe(true)
+
+    // All text content combined should include both HTML tags and the tilde
+    const allTextNodes = paragraph.content!.filter((n: any) => n.type === 'text')
+    const allText = allTextNodes.map((n: any) => n.text).join('')
+    expect(allText).toContain('h1')
+    expect(allText).toContain('h6')
+    expect(allText).toMatch(/~/)
   })
 
   it('parses inline code with HTML-like tags and double strike marks without error', () => {
     const md = '`<h1>`~~`<h6>`'
 
-    expect(() => {
-      const doc = manager.parse(md)
-      expect(doc.type).toBe('doc')
-    }).not.toThrow()
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    expect(doc.content).toBeDefined()
+
+    const paragraph = doc.content![0]
+    expect(paragraph.type).toBe('paragraph')
+
+    // Find text nodes with code marks
+    const codeTextNodes = paragraph.content!.filter(
+      (n: any) => n.type === 'text' && n.marks?.some((m: any) => m.type === 'code'),
+    )
+    expect(codeTextNodes.length).toBeGreaterThan(0)
+
+    // At least one code segment should contain an HTML-like tag
+    const hasHtmlTag = codeTextNodes.some((n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')))
+    expect(hasHtmlTag).toBe(true)
+
+    // All text should contain both HTML tags
+    const allTextNodes = paragraph.content!.filter((n: any) => n.type === 'text')
+    const allText = allTextNodes.map((n: any) => n.text).join('')
+    expect(allText).toContain('h1')
+    expect(allText).toContain('h6')
   })
 
   it('parses strike marks in normal text', () => {
@@ -49,19 +88,55 @@ describe('MarkdownManager Server-side Parsing', () => {
   it('parses HTML heading tags with strike marks', () => {
     const md = '<h1>~~test~~</h1>'
 
-    expect(() => {
-      const doc = manager.parse(md)
-      expect(doc.type).toBe('doc')
-    }).not.toThrow()
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    expect(doc.content).toBeDefined()
+
+    const paragraph = doc.content![0]
+    expect(paragraph.type).toBe('paragraph')
+    expect(paragraph.content).toBeDefined()
+
+    // In Node.js environment, HTML tags should be treated as literal text
+    const allText = paragraph
+      .content!.map((n: any) => (n.text ? n.text : n.content?.map((c: any) => c.text).join('') || ''))
+      .join('')
+
+    // Should contain the HTML tags as literal text
+    expect(allText).toContain('<h1>')
+    expect(allText).toContain('</h1>')
+
+    // Should contain 'test' text
+    expect(allText).toContain('test')
   })
 
   it('parses multiple inline code segments with HTML-like content and strike', () => {
     const md = 'text `<h1>` more ~~text~~ and `<h2>`'
 
-    expect(() => {
-      const doc = manager.parse(md)
-      expect(doc.type).toBe('doc')
-    }).not.toThrow()
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    expect(doc.content).toBeDefined()
+
+    const paragraph = doc.content![0]
+    expect(paragraph.type).toBe('paragraph')
+
+    // Find text nodes with code marks (inline code)
+    const codeTextNodes = paragraph.content!.filter(
+      (n: any) => n.type === 'text' && n.marks?.some((m: any) => m.type === 'code'),
+    )
+    expect(codeTextNodes.length).toBeGreaterThanOrEqual(2)
+
+    // Code text should contain literal HTML-like tags
+    expect(codeTextNodes[0].text).toBe('<h1>')
+    expect(codeTextNodes[1].text).toBe('<h2>')
+
+    // Find text nodes with strike marks
+    const textNodes = paragraph.content!.filter((n: any) => n.type === 'text')
+    const strikeTextNode = textNodes.find(
+      (n: any) => n.text && n.text.includes('text') && n.marks?.some((m: any) => m.type === 'strike'),
+    )
+    expect(strikeTextNode).toBeDefined()
   })
 
   it('parses HTML tags as plain text in server environment', () => {
