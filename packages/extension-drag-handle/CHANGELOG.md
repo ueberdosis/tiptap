@@ -1,5 +1,453 @@
 # @tiptap/extension-drag-handle
 
+## 3.17.0
+
+### Minor Changes
+
+- a7ab5df: Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### Patch Changes
+
+- eecf1c9: Fixed Firefox bug where the text caret becomes invisible after drag and drop.
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/extension-collaboration@3.17.0
+  - @tiptap/extension-node-range@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/extension-collaboration@3.16.0
+- @tiptap/extension-node-range@3.16.0
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/extension-collaboration@3.15.3
+  - @tiptap/extension-node-range@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/extension-collaboration@3.15.2
+- @tiptap/extension-node-range@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/extension-collaboration@3.15.1
+- @tiptap/extension-node-range@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/extension-collaboration@3.15.0
+  - @tiptap/extension-node-range@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- df277af: Fix `findElementNextToCoords` to resolve the parent when `nodeAt(pos)` is null
+  (e.g., inside an atom node that allows inline content)
+  - @tiptap/core@3.14.0
+  - @tiptap/extension-collaboration@3.14.0
+  - @tiptap/extension-node-range@3.14.0
+  - @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/extension-collaboration@3.13.0
+  - @tiptap/extension-node-range@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/extension-collaboration@3.12.1
+- @tiptap/extension-node-range@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/extension-collaboration@3.12.0
+  - @tiptap/core@3.12.0
+  - @tiptap/extension-node-range@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/extension-collaboration@3.11.1
+  - @tiptap/extension-node-range@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/extension-collaboration@3.11.0
+  - @tiptap/extension-node-range@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/extension-collaboration@3.10.8
+  - @tiptap/extension-node-range@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/extension-collaboration@3.10.7
+- @tiptap/extension-node-range@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/extension-collaboration@3.10.6
+- @tiptap/extension-node-range@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 50e8905: Fixed collaborative editing errors with certain emoji combinations (like 🔴🟢, 😎🐈, 🟣🔵) by updating `@tiptap/y-tiptap` to stable v3.0.0.
+- Updated dependencies [50e8905]
+- Updated dependencies [92fae18]
+  - @tiptap/extension-collaboration@3.10.5
+  - @tiptap/core@3.10.5
+  - @tiptap/extension-node-range@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/extension-collaboration@3.10.4
+  - @tiptap/extension-node-range@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/extension-collaboration@3.10.3
+- @tiptap/extension-node-range@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+- @tiptap/extension-collaboration@3.10.2
+- @tiptap/extension-node-range@3.10.2
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/extension-collaboration@3.10.1
+  - @tiptap/extension-node-range@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/extension-collaboration@3.10.0
+  - @tiptap/extension-node-range@3.10.0
+  - @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+- @tiptap/extension-collaboration@3.9.1
+- @tiptap/extension-node-range@3.9.1
+- @tiptap/pm@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- 401fe3f: Replace DOM traversal with browser's native elementsFromPoint for better performance.
+
+  - Use elementsFromPoint instead of querySelectorAll
+  - Add clampToContent helper for coordinate boundary validation
+  - Add findClosestTopLevelBlock helper for efficient block lookup
+  - Future-proof for root-level mousemove listeners
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/extension-collaboration@3.9.0
+  - @tiptap/extension-node-range@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/extension-collaboration@3.8.0
+- @tiptap/extension-node-range@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/extension-collaboration@3.7.2
+- @tiptap/extension-node-range@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/extension-collaboration@3.7.1
+- @tiptap/extension-node-range@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/extension-collaboration@3.7.0
+  - @tiptap/extension-node-range@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/extension-collaboration@3.6.7
+- @tiptap/extension-node-range@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/extension-collaboration@3.6.6
+- @tiptap/extension-node-range@3.6.6
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/extension-collaboration@3.6.5
+  - @tiptap/extension-node-range@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/extension-collaboration@3.6.4
+- @tiptap/extension-node-range@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/extension-collaboration@3.6.3
+  - @tiptap/extension-node-range@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/extension-collaboration@3.6.2
+- @tiptap/extension-node-range@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/extension-collaboration@3.6.1
+- @tiptap/extension-node-range@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/extension-collaboration@3.6.0
+  - @tiptap/extension-node-range@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/extension-collaboration@3.5.3
+- @tiptap/extension-node-range@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/extension-collaboration@3.5.2
+- @tiptap/extension-node-range@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/extension-collaboration@3.5.1
+- @tiptap/extension-node-range@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Minor Changes
+
+- daa51c4: Add `getReferencedVirtualElement` option to the drag handle extension to customize the position of the drag handle.
+
+### Patch Changes
+
+- 3eb5360: Fixed `findElementNextToCoords` returning incorrect nodes when the position is at a node boundary. The function now correctly identifies leaf nodes (like images, horizontal rules) by checking `$pos.nodeAfter` before falling back to the parent node lookup.
+  - @tiptap/core@3.5.0
+  - @tiptap/extension-collaboration@3.5.0
+  - @tiptap/extension-node-range@3.5.0
+  - @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/extension-collaboration@3.4.6
+  - @tiptap/extension-node-range@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/extension-collaboration@3.4.5
+  - @tiptap/extension-node-range@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/extension-collaboration@3.4.4
+  - @tiptap/extension-node-range@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/extension-collaboration@3.4.3
+  - @tiptap/extension-node-range@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/extension-collaboration@3.4.2
+- @tiptap/extension-node-range@3.4.2
+- @tiptap/pm@3.4.2
+
 ## 3.4.1
 
 ### Patch Changes

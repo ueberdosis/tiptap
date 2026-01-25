@@ -1,5 +1,360 @@
 # Change Log
 
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- eea7190: Fixed a bug where the TrailingNode extension would not use the node option to assume the default node type
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 9d5aeb1: Fixed infinite transaction loop that caused browser tabs to freeze when using UniqueID and TrailingNode extensions together.
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+- @tiptap/pm@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- 7cf3ab6: Make the `TrailingNode` extension's `node` option optional and derive the
+  default node type from the editor schema when available.
+
+  Previously the extension used a hard-coded `'paragraph'` default and the
+  `node` option was required in the TypeScript definitions. This change:
+
+  - makes `node` optional in the options type,
+  - prefers the editor schema's top node default type when resolving the
+    trailing node, and
+  - falls back to the configured option or `'paragraph'` as a last resort.
+
+  This fixes cases where projects use a different top-level default node and
+  prevents the extension from inserting an incorrect trailing node type.
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- 7024d69: The Selection extension now uses the correct SelectionOptions type, providing accurate typings for its options.
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
 ## 3.4.1
 
 ### Patch Changes

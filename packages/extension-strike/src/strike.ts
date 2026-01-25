@@ -77,6 +77,17 @@ export const Strike = Mark.create<StrikeOptions>({
     return ['s', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  markdownTokenName: 'del',
+
+  parseMarkdown: (token, helpers) => {
+    // Convert 'del' token to strike mark
+    return helpers.applyMark('strike', helpers.parseInline(token.tokens || []))
+  },
+
+  renderMarkdown: (node, h) => {
+    return `~~${h.renderChildren(node)}~~`
+  },
+
   addCommands() {
     return {
       setStrike:

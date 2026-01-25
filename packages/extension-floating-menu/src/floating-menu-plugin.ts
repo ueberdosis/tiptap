@@ -13,7 +13,7 @@ import {
 import type { Editor } from '@tiptap/core'
 import { getText, getTextSerializersFromSchema, posToDOMRect } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
@@ -35,6 +35,32 @@ export interface FloatingMenuPluginProps {
    * @default null
    */
   element: HTMLElement
+
+  /**
+   * The delay in milliseconds before the menu should be updated.
+   * This can be useful to prevent performance issues.
+   * @type {number}
+   * @default 250
+   */
+  updateDelay?: number
+
+  /**
+   * The delay in milliseconds before the menu position should be updated on window resize.
+   * This can be useful to prevent performance issues.
+   * @type {number}
+   * @default 60
+   */
+  resizeDelay?: number
+
+  /**
+   * The DOM element to append your menu to. Default is the editor's parent element.
+   *
+   * Sometimes the menu needs to be appended to a different DOM context due to accessibility, clipping, or z-index issues.
+   *
+   * @type {HTMLElement}
+   * @default null
+   */
+  appendTo?: HTMLElement | (() => HTMLElement)
 
   /**
    * A function that determines whether the menu should be shown or not.
@@ -85,6 +111,13 @@ export interface FloatingMenuPluginProps {
     onHide?: () => void
     onUpdate?: () => void
     onDestroy?: () => void
+
+    /**
+     * The scrollable element that should be listened to when updating the position of the floating menu.
+     * If not provided, the window will be used.
+     * @type {HTMLElement | Window}
+     */
+    scrollTarget?: HTMLElement | Window
   }
 }
 
@@ -104,7 +137,27 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  /**
+   * The delay in milliseconds before the menu should be updated.
+   * @default 250
+   */
+  public updateDelay: number
+
+  /**
+   * The delay in milliseconds before the menu position should be updated on window resize.
+   * @default 60
+   */
+  public resizeDelay: number
+
+  public appendTo: HTMLElement | (() => HTMLElement) | undefined
+
+  private updateDebounceTimer: number | undefined
+
+  private resizeDebounceTimer: number | undefined
+
   private isVisible = false
+
+  private scrollTarget: HTMLElement | Window = window
 
   private getTextContent(node: ProsemirrorNode) {
     return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
@@ -190,10 +243,23 @@ export class FloatingMenuView {
     return middlewares
   }
 
-  constructor({ editor, element, view, options, shouldShow }: FloatingMenuViewProps) {
+  constructor({
+    editor,
+    element,
+    view,
+    updateDelay = 250,
+    resizeDelay = 60,
+    options,
+    appendTo,
+    shouldShow,
+  }: FloatingMenuViewProps) {
     this.editor = editor
     this.element = element
     this.view = view
+    this.updateDelay = updateDelay
+    this.resizeDelay = resizeDelay
+    this.appendTo = appendTo
+    this.scrollTarget = options?.scrollTarget ?? window
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -209,11 +275,15 @@ export class FloatingMenuView {
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
+    this.editor.on('transaction', this.transactionHandler)
+    window.addEventListener('resize', this.resizeHandler)
+    this.scrollTarget.addEventListener('scroll', this.resizeHandler)
 
     this.update(view, view.state)
 
     if (this.getShouldShow()) {
       this.show()
+      this.updatePosition()
     }
   }
 
@@ -285,6 +355,72 @@ export class FloatingMenuView {
     this.hide()
   }
 
+  /**
+   * Handles the transaction event to update the position of the floating menu.
+   * This allows external code to trigger a position update via:
+   * `editor.view.dispatch(editor.state.tr.setMeta('floatingMenu', 'updatePosition'))`
+   */
+  transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
+    const meta = tr.getMeta('floatingMenu')
+    if (meta === 'updatePosition') {
+      this.updatePosition()
+    } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
+      this.updateOptions(meta.options)
+    }
+  }
+
+  updateOptions(newProps: Partial<Omit<FloatingMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+    if (newProps.updateDelay !== undefined) {
+      this.updateDelay = newProps.updateDelay
+    }
+
+    if (newProps.resizeDelay !== undefined) {
+      this.resizeDelay = newProps.resizeDelay
+    }
+
+    if (newProps.appendTo !== undefined) {
+      this.appendTo = newProps.appendTo
+    }
+
+    if (newProps.shouldShow !== undefined) {
+      if (newProps.shouldShow) {
+        this.shouldShow = newProps.shouldShow
+      }
+    }
+
+    if (newProps.options !== undefined) {
+      // Handle scrollTarget change - need to remove old listener and add new one
+      // Use nullish coalescing to default to window when scrollTarget is undefined/null
+      const newScrollTarget = newProps.options.scrollTarget ?? window
+
+      if (newScrollTarget !== this.scrollTarget) {
+        this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
+        this.scrollTarget = newScrollTarget
+        this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+      }
+
+      this.floatingUIOptions = {
+        ...this.floatingUIOptions,
+        ...newProps.options,
+      }
+    }
+  }
+
+  /**
+   * Handles the window resize event to update the position of the floating menu.
+   * It uses a debounce mechanism to prevent excessive updates.
+   * The delay is defined by the `resizeDelay` property.
+   */
+  resizeHandler = () => {
+    if (this.resizeDebounceTimer) {
+      clearTimeout(this.resizeDebounceTimer)
+    }
+
+    this.resizeDebounceTimer = window.setTimeout(() => {
+      this.updatePosition()
+    }, this.resizeDelay)
+  }
+
   updatePosition() {
     const { selection } = this.editor.state
 
@@ -325,8 +461,10 @@ export class FloatingMenuView {
 
     this.element.style.visibility = 'visible'
     this.element.style.opacity = '1'
-    // attach to editor's parent element
-    this.view.dom.parentElement?.appendChild(this.element)
+
+    // attach to appendTo or editor's parent element
+    const appendToElement = typeof this.appendTo === 'function' ? this.appendTo() : this.appendTo
+    ;(appendToElement ?? this.view.dom.parentElement)?.appendChild(this.element)
 
     if (this.floatingUIOptions.onShow) {
       this.floatingUIOptions.onShow()
@@ -355,8 +493,11 @@ export class FloatingMenuView {
   destroy() {
     this.hide()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
+    window.removeEventListener('resize', this.resizeHandler)
+    this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
+    this.editor.off('transaction', this.transactionHandler)
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()

@@ -1,5 +1,357 @@
 # Change Log
 
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- 8299f73: Allow setting custom table widths by respecting user-provided `style` attributes instead of always overriding them with calculated widths.
+  - @tiptap/core@3.10.2
+  - @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- 16fbfcb: Add a `renderWrapper` option to the Table extension so consumers can customize whether the table wrapper for the resizable node view should be rendered in non-editable mode as well.
+  - @tiptap/core@3.9.1
+  - @tiptap/pm@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- c4ed2e6: Parse cell `colwidth` from nearest `<colgroup>` when missing on the cell
+
+  When importing HTML, table column widths are often declared on a surrounding `<colgroup>` rather than on each `<td>`. Previously, `tableCell` only read the `colwidth` attribute from the cell itself and would lose width information in that case. The implementation now falls back to reading the corresponding `<col>`'s `width` from the table's `<colgroup>` using the cell's index.
+
+  This is a non-breaking bugfix that preserves layout information when HTML uses `<colgroup>`. Consider adding a small demo or unit test to assert colwidth is preserved for cells when only the `<colgroup>` contains width attributes.
+
+- f778a16: Fixes table wrapper replacement and lost selections when `resizable: true`.
+
+  TableView.ignoreMutation now ignores attribute/childList/characterData mutations that occur inside the table wrapper but outside the editable `contentDOM`, preventing wrapper re-creation during resize interactions so selections (e.g. `mergeCells()`) are preserved.
+
+  No API or breaking changes.
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
 ## 3.4.1
 
 ### Patch Changes
