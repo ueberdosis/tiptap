@@ -1,3 +1,13 @@
+/**
+ * Mention Extension Demo (React)
+ * 
+ * Dependencies:
+ * - @tiptap/extension-mention
+ * - @tiptap/react
+ * - @floating-ui/dom (for suggestion positioning)
+ * 
+ * Note: Tiptap v3 no longer uses tippy.js. Use @floating-ui/dom instead.
+ */
 import './styles.scss'
 
 import Document from '@tiptap/extension-document'
