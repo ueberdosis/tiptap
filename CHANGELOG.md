@@ -1,5 +1,77 @@
 # Releases
 
+## v3.17.1
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+- Fixed markdown HTML parsing when window object is unavailable in server-side environments
+- Fixed ordered list numbering when list has a non-default start value
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fixed IME input (Chinese, Japanese, Korean) in Vue 3 mark views by preventing DOM element destruction during composition events
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fixed server-side HTML parsing crash when content contains link, script, or style tags with resource references.
+- Fixed server exports failing in Node.js test environments with jsdom/happy-dom
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fixed bubble and floating menus to properly handle hide middleware data, hiding menus when reference element is scrolled out of view
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fixed bubble and floating menus to properly handle hide middleware data, hiding menus when reference element is scrolled out of view
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Fixed ordered list numbering when list has a non-default start value
+
 ## v3.17.0
 
 ### @tiptap/extension-bubble-menu

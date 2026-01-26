@@ -1,5 +1,18 @@
 # @tiptap/extension-drag-handle
 
+## 3.17.1
+
+### Patch Changes
+
+- 1a55fd0: Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+- Updated dependencies [1a55fd0]
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/extension-collaboration@3.17.1
+  - @tiptap/core@3.17.1
+  - @tiptap/extension-node-range@3.17.1
+  - @tiptap/pm@3.17.1
+
 ## 3.17.0
 
 ### Minor Changes

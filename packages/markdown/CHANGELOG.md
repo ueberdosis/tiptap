@@ -1,5 +1,17 @@
 # @tiptap/markdown
 
+## 3.17.1
+
+### Patch Changes
+
+- 62c6f15: Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+- 4bcacda: Fixed markdown HTML parsing when window object is unavailable in server-side environments
+- 5d267cb: Fixed ordered list numbering when list has a non-default start value
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
 ## 3.17.0
 
 ### Patch Changes

@@ -757,6 +757,28 @@ export class MarkdownManager {
       return null
     }
 
+    // Check if we're in a server-side environment (no window object)
+    // If so, fall back to treating HTML as plain text to avoid runtime errors
+    if (typeof window === 'undefined') {
+      // For block-level HTML, wrap in a paragraph to maintain valid document structure
+      if (token.block) {
+        return {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: html,
+            },
+          ],
+        }
+      }
+      // For inline HTML, return plain text
+      return {
+        type: 'text',
+        text: html,
+      }
+    }
+
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
       const parsed = generateJSON(html, this.baseExtensions)
@@ -819,7 +841,9 @@ export class MarkdownManager {
       index,
       level,
       parentType: parentNode?.type,
-      meta: {},
+      meta: {
+        parentAttrs: parentNode?.attrs,
+      },
     }
 
     // First render the node itself (this will render children recursively)

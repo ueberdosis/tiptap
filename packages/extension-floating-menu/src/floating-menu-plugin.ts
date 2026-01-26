@@ -435,7 +435,14 @@ export class FloatingMenuView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy }) => {
+    }).then(({ x, y, strategy, middlewareData }) => {
+      // Handle hide middleware - hide element if reference is hidden or element has escaped
+      if (middlewareData.hide?.referenceHidden || middlewareData.hide?.escaped) {
+        this.element.style.visibility = 'hidden'
+        return
+      }
+
+      this.element.style.visibility = 'visible'
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
