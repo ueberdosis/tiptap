@@ -674,4 +674,84 @@ Some text with [@ id="user" label="User"].
       expect(rendered).toContain('Level 2')
     })
   })
+
+  describe('Escape Sequences', () => {
+    beforeEach(() => {
+      markdownManager = new MarkdownManager()
+      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+    })
+
+    it('should handle double backslash producing literal backslash before emphasis', () => {
+      // According to CommonMark: \\* means escaped backslash (\) followed by emphasis delimiter (*)
+      // Input: \\*text\\* → Output: \ + emphasis(text + \)
+      const markdown = '\\\\*This sentence is surrounded with escaped asterisks.\\\\*'
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content![0].type).toBe('paragraph')
+
+      const content = doc.content![0].content!
+
+      // First node should be literal backslash
+      expect(content[0].type).toBe('text')
+      expect(content[0].text).toBe('\\')
+      expect(content[0].marks).toBeUndefined()
+
+      // Second node should be the text with emphasis
+      expect(content[1].type).toBe('text')
+      expect(content[1].text).toContain('This sentence')
+      expect(content[1].marks).toBeDefined()
+      expect(content[1].marks![0].type).toBe('italic')
+    })
+
+    it('should handle single backslash escaping asterisks', () => {
+      // According to CommonMark, \* should produce a literal asterisk
+      const markdown = '\\*text\\*'
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content![0].type).toBe('paragraph')
+
+      const content = doc.content![0].content!
+      const textContent = content.map((node: any) => node.text).join('')
+
+      // Should produce: *text* (literal asterisks, no formatting)
+      expect(textContent).toBe('*text*')
+
+      // Should NOT have any italic marks
+      expect(content.every((node: any) => !node.marks || node.marks.length === 0)).toBe(true)
+    })
+
+    it('should handle escaped underscores without applying emphasis', () => {
+      // Similar to asterisks, escaped underscores should not create emphasis
+      const markdown = '\\\\_ This has escaped underscores .\\\\_'
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content![0].type).toBe('paragraph')
+
+      const content = doc.content![0].content!
+      const textContent = content.map((node: any) => node.text).join('')
+
+      // Should contain literal backslash-underscore
+      expect(textContent).toContain('\\_')
+
+      // Should NOT have emphasis marks
+      expect(content.every((node: any) => !node.marks || node.marks.length === 0)).toBe(true)
+    })
+
+    it('should not apply formatting when escaped delimiters cannot be paired', () => {
+      // As noted in the issue, \\*text renders correctly as \*text
+      const markdown = '\\\\*text'
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content![0].type).toBe('paragraph')
+
+      const content = doc.content![0].content!
+      const textContent = content.map((node: any) => node.text).join('')
+
+      // Should produce: \*text (literal backslash-asterisk followed by text)
+      expect(textContent).toContain('\\*')
+
+      // Should NOT have emphasis marks
+      expect(content.every((node: any) => !node.marks || node.marks.length === 0)).toBe(true)
+    })
+  })
 })

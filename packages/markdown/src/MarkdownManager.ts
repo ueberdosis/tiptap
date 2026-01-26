@@ -568,6 +568,13 @@ export class MarkdownManager {
           type: 'text',
           text: token.text || '',
         })
+      } else if (token.type === 'escape') {
+        // Handle escaped characters (e.g., \*, \_, \\)
+        // marked.js provides the actual character in token.text
+        result.push({
+          type: 'text',
+          text: token.text || '',
+        })
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
