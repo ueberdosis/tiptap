@@ -1,5 +1,13 @@
 import { Extension, textInputRule } from '@tiptap/core'
 
+/**
+ * Configuration for directional quotes (open/close pair).
+ */
+export interface DirectionalQuotes {
+  open: string
+  close: string
+}
+
 export interface TypographyOptions {
   /**
    * The em dash character.
@@ -132,6 +140,40 @@ export interface TypographyOptions {
    * @default '¾'
    */
   threeQuarters: false | string
+
+  /**
+   * Directional double quotes configuration.
+   * Use this for explicit LTR/RTL quote control.
+   * When `rtl` is configured, RTL-specific quote rules are used instead of default LTR.
+   * @example
+   * ```ts
+   * Typography.configure({
+   *   doubleQuotes: {
+   *     rtl: { open: '\u201D', close: '\u201C' } // Swapped for RTL
+   *   }
+   * })
+   * ```
+   */
+  doubleQuotes?: {
+    rtl?: DirectionalQuotes
+  }
+
+  /**
+   * Directional single quotes configuration.
+   * Use this for explicit LTR/RTL quote control.
+   * When `rtl` is configured, RTL-specific quote rules are used instead of default LTR.
+   * @example
+   * ```ts
+   * Typography.configure({
+   *   singleQuotes: {
+   *     rtl: { open: '\u2019', close: '\u2018' } // Swapped for RTL
+   *   }
+   * })
+   * ```
+   */
+  singleQuotes?: {
+    rtl?: DirectionalQuotes
+  }
 }
 
 export const emDash = (override?: string) =>
@@ -311,20 +353,36 @@ export const Typography = Extension.create<TypographyOptions>({
       rules.push(ellipsis(this.options.ellipsis))
     }
 
-    if (this.options.openDoubleQuote !== false) {
-      rules.push(openDoubleQuote(this.options.openDoubleQuote))
+    // Double quotes: use RTL configuration if provided, otherwise use default LTR
+    if (this.options.doubleQuotes?.rtl) {
+      const { open, close } = this.options.doubleQuotes.rtl
+
+      rules.push(openDoubleQuote(open))
+      rules.push(closeDoubleQuote(close))
+    } else {
+      if (this.options.openDoubleQuote !== false) {
+        rules.push(openDoubleQuote(this.options.openDoubleQuote))
+      }
+
+      if (this.options.closeDoubleQuote !== false) {
+        rules.push(closeDoubleQuote(this.options.closeDoubleQuote))
+      }
     }
 
-    if (this.options.closeDoubleQuote !== false) {
-      rules.push(closeDoubleQuote(this.options.closeDoubleQuote))
-    }
+    // Single quotes: use RTL configuration if provided, otherwise use default LTR
+    if (this.options.singleQuotes?.rtl) {
+      const { open, close } = this.options.singleQuotes.rtl
 
-    if (this.options.openSingleQuote !== false) {
-      rules.push(openSingleQuote(this.options.openSingleQuote))
-    }
+      rules.push(openSingleQuote(open))
+      rules.push(closeSingleQuote(close))
+    } else {
+      if (this.options.openSingleQuote !== false) {
+        rules.push(openSingleQuote(this.options.openSingleQuote))
+      }
 
-    if (this.options.closeSingleQuote !== false) {
-      rules.push(closeSingleQuote(this.options.closeSingleQuote))
+      if (this.options.closeSingleQuote !== false) {
+        rules.push(closeSingleQuote(this.options.closeSingleQuote))
+      }
     }
 
     if (this.options.leftArrow !== false) {
