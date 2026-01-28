@@ -100,6 +100,23 @@ export class ReactNodeView<
     }
   }
 
+  private cachedExtensionWithSyncedStorage: NodeViewRendererProps['extension'] | null = null
+
+  /**
+   * Returns the extension with a direct reference to the editor's mutable storage.
+   * Cached to avoid object creation on every update.
+   */
+  get extensionWithSyncedStorage() {
+    if (!this.cachedExtensionWithSyncedStorage) {
+      this.cachedExtensionWithSyncedStorage = {
+        ...this.extension,
+        storage: this.editor.storage[this.extension.name as keyof typeof this.editor.storage] ?? {},
+      }
+    }
+
+    return this.cachedExtensionWithSyncedStorage
+  }
+
   /**
    * Setup the React component.
    * Called on initialization.
@@ -112,7 +129,7 @@ export class ReactNodeView<
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
-      extension: this.extension,
+      extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
@@ -266,7 +283,8 @@ export class ReactNodeView<
         newDecorations: decorations,
         oldInnerDecorations,
         innerDecorations,
-        updateProps: () => rerenderComponent({ node, decorations, innerDecorations }),
+        updateProps: () =>
+          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
       })
     }
 
@@ -278,7 +296,7 @@ export class ReactNodeView<
     this.decorations = decorations
     this.innerDecorations = innerDecorations
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
     return true
   }
