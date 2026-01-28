@@ -78,15 +78,23 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   private cachedExtensionWithSyncedStorage: NodeViewProps['extension'] | null = null
 
   /**
-   * Returns the extension with a direct reference to the editor's mutable storage.
-   * Cached to avoid object creation on every update.
+   * Returns a proxy of the extension that redirects storage access to the editor's mutable storage.
+   * This preserves the original prototype chain (instanceof checks, methods like configure/extend work).
+   * Cached to avoid proxy creation on every update.
    */
-  get extensionWithSyncedStorage() {
+  get extensionWithSyncedStorage(): NodeViewProps['extension'] {
     if (!this.cachedExtensionWithSyncedStorage) {
-      this.cachedExtensionWithSyncedStorage = {
-        ...this.extension,
-        storage: this.editor.storage[this.extension.name as keyof typeof this.editor.storage] ?? {},
-      }
+      const editor = this.editor
+      const extension = this.extension
+
+      this.cachedExtensionWithSyncedStorage = new Proxy(extension, {
+        get(target, prop, receiver) {
+          if (prop === 'storage') {
+            return editor.storage[extension.name as keyof typeof editor.storage] ?? {}
+          }
+          return Reflect.get(target, prop, receiver)
+        },
+      })
     }
 
     return this.cachedExtensionWithSyncedStorage
