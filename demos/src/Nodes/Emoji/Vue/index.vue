@@ -7,6 +7,17 @@
   <editor-content :editor="editor" />
 </template>
 
+<!--
+  Emoji Extension Demo (Vue 3)
+  
+  Dependencies:
+  - @tiptap/extension-emoji
+  - @tiptap/vue-3
+  - @tiptap/starter-kit
+  - @floating-ui/dom (for suggestion positioning)
+  
+  Note: Tiptap v3 no longer uses tippy.js. Use @floating-ui/dom instead.
+-->
 <script>
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import StarterKit from '@tiptap/starter-kit'
