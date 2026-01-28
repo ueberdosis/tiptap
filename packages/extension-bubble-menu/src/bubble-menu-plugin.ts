@@ -614,6 +614,13 @@ export class BubbleMenuView implements PluginView {
         ...newProps.options,
       }
     }
+    if (meta === 'hide') {
+      this.hide()
+    }
+    if (meta === 'show') {
+      this.updatePosition()
+      this.show()
+    }
   }
 
   destroy() {
