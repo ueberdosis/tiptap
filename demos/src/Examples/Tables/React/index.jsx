@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { TableCell, TableKit } from '@tiptap/extension-table'
-import { useEditor, Tiptap } from '@tiptap/react'
+import { useEditor, Tiptap, useTiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -51,7 +51,8 @@ export const tableHTML = `
   </table>
 `
 
-const MenuBar = ({ editor }) => {
+const MenuBar = () => {
+  const { editor } = useTiptap()
   if (!editor) {
     return null
   }
@@ -206,11 +207,9 @@ export default () => {
   })
 
   return (
-    <>
-      <MenuBar editor={editor} />
-      <Tiptap instance={editor}>
-        <Tiptap.Content />
-      </Tiptap>
-    </>
+    <Tiptap instance={editor}>
+      <MenuBar />
+      <Tiptap.Content />
+    </Tiptap>
   )
 }

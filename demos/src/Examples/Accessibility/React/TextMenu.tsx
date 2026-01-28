@@ -1,7 +1,5 @@
 import { Selection } from '@tiptap/pm/state'
-import type { Editor } from '@tiptap/react'
-import { useEditorState } from '@tiptap/react'
-import { BubbleMenu } from '@tiptap/react/menus'
+import { useTiptap, useTiptapState, Tiptap } from '@tiptap/react'
 import React, { useRef } from 'react'
 
 import { useMenubarNav } from './useMenubarNav.js'
@@ -9,11 +7,11 @@ import { useMenubarNav } from './useMenubarNav.js'
 /**
  * Handles formatting text with marks like bold, italic, etc.
  */
-export function TextMenu({ editor }: { editor: Editor }) {
+export function TextMenu() {
+  const { editor } = useTiptap()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const editorState = useEditorState({
-    editor,
+  const editorState = useTiptapState({
     selector: ctx => {
       return {
         isBold: ctx.editor.isActive('bold'),
@@ -48,8 +46,7 @@ export function TextMenu({ editor }: { editor: Editor }) {
   })
 
   return (
-    <BubbleMenu
-      editor={editor}
+    <Tiptap.BubbleMenu
       shouldShow={null}
       aria-label="Text formatting menu"
       aria-orientation="horizontal"
@@ -113,6 +110,6 @@ export function TextMenu({ editor }: { editor: Editor }) {
       >
         Clear marks
       </button>
-    </BubbleMenu>
+    </Tiptap.BubbleMenu>
   )
 }

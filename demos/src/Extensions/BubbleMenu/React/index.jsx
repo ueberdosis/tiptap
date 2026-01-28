@@ -1,9 +1,68 @@
 import './styles.scss'
 
-import { findParentNode, posToDOMRect, useEditor, useEditorState, Tiptap } from '@tiptap/react'
-import { BubbleMenu } from '@tiptap/react/menus'
+import { findParentNode, posToDOMRect, useEditor, useTiptap, useTiptapState, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
+
+const InlineBubbleMenuContent = () => {
+  const { editor } = useTiptap()
+  const { isBold, isItalic, isStrikethrough } = useTiptapState({
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold'),
+      isItalic: ctx.editor.isActive('italic'),
+      isStrikethrough: ctx.editor.isActive('strike'),
+    }),
+  })
+
+  return (
+    <div className="bubble-menu">
+      <button
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={isBold ? 'is-active' : ''}
+        type="button"
+      >
+        Bold
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={isItalic ? 'is-active' : ''}
+        type="button"
+      >
+        Italic
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        className={isStrikethrough ? 'is-active' : ''}
+        type="button"
+      >
+        Strike
+      </button>
+    </div>
+  )
+}
+
+const ListBubbleMenuContent = () => {
+  const { editor } = useTiptap()
+
+  return (
+    <div className="bubble-menu">
+      <button
+        onClick={() => {
+          const chain = editor.chain().focus()
+          if (editor.isActive('bulletList')) {
+            chain.toggleOrderedList()
+          } else {
+            chain.toggleBulletList()
+          }
+          chain.run()
+        }}
+        type="button"
+      >
+        Toggle list type
+      </button>
+    </div>
+  )
+}
 
 export default () => {
   const editor = useEditor({
@@ -31,15 +90,6 @@ export default () => {
     }
   }, [isEditable, editor])
 
-  const { isBold, isItalic, isStrikethrough } = useEditorState({
-    editor,
-    selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrikethrough: ctx.editor.isActive('strike'),
-    }),
-  })
-
   return (
     <>
       <button
@@ -58,72 +108,34 @@ export default () => {
         </label>
       </div>
 
-      {editor && showMenu && (
-        <>
-          <BubbleMenu editor={editor} options={{ placement: 'bottom', offset: 8, flip: true }}>
-            <div className="bubble-menu">
-              <button
-                onClick={() => editor.chain().focus().toggleBold().run()}
-                className={isBold ? 'is-active' : ''}
-                type="button"
-              >
-                Bold
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={isItalic ? 'is-active' : ''}
-                type="button"
-              >
-                Italic
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                className={isStrikethrough ? 'is-active' : ''}
-                type="button"
-              >
-                Strike
-              </button>
-            </div>
-          </BubbleMenu>
-
-          <BubbleMenu
-            editor={editor}
-            shouldShow={() => editor.isActive('bulletList') || editor.isActive('orderedList')}
-            getReferencedVirtualElement={() => {
-              const parentNode = findParentNode(
-                node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
-              )(editor.state.selection)
-              if (parentNode) {
-                const domRect = posToDOMRect(editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
-                return {
-                  getBoundingClientRect: () => domRect,
-                  getClientRects: () => [domRect],
-                }
-              }
-              return null
-            }}
-            options={{ placement: 'top-start', offset: 8 }}
-          >
-            <div className="bubble-menu">
-              <button
-                onClick={() => {
-                  const chain = editor.chain().focus()
-                  if (editor.isActive('bulletList')) {
-                    chain.toggleOrderedList()
-                  } else {
-                    chain.toggleBulletList()
-                  }
-                  chain.run()
-                }}
-                type="button"
-              >
-                Toggle list type
-              </button>
-            </div>
-          </BubbleMenu>
-        </>
-      )}
       <Tiptap instance={editor}>
+        {showMenu && (
+          <>
+            <Tiptap.BubbleMenu options={{ placement: 'bottom', offset: 8, flip: true }}>
+              <InlineBubbleMenuContent />
+            </Tiptap.BubbleMenu>
+
+            <Tiptap.BubbleMenu
+              shouldShow={(props) => props.editor.isActive('bulletList') || props.editor.isActive('orderedList')}
+              getReferencedVirtualElement={(props) => {
+                const parentNode = findParentNode(
+                  node => node.type.name === 'bulletList' || node.type.name === 'orderedList',
+                )(props.editor.state.selection)
+                if (parentNode) {
+                  const domRect = posToDOMRect(props.editor.view, parentNode.start, parentNode.start + parentNode.node.nodeSize)
+                  return {
+                    getBoundingClientRect: () => domRect,
+                    getClientRects: () => [domRect],
+                  }
+                }
+                return null
+              }}
+              options={{ placement: 'top-start', offset: 8 }}
+            >
+              <ListBubbleMenuContent />
+            </Tiptap.BubbleMenu>
+          </>
+        )}
         <Tiptap.Content />
       </Tiptap>
     </>

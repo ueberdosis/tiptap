@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { Node, useEditor, Tiptap } from '@tiptap/react'
+import { Node, useEditor, Tiptap, useTiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -26,7 +26,8 @@ const WrapperBlock = Node.create({
   },
 })
 
-const MenuBar = ({ editor }) => {
+const MenuBar = () => {
+  const { editor } = useTiptap()
   if (!editor) {
     return null
   }
@@ -167,11 +168,10 @@ export default () => {
   })
 
   return (
-    <>
-      <MenuBar editor={editor} />
-      <Tiptap instance={editor}>
-        <Tiptap.Content />
+    <Tiptap instance={editor}>
+      <MenuBar />
+       
+      <Tiptap.Content />
       </Tiptap>
-    </>
   )
 }

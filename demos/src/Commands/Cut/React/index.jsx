@@ -1,11 +1,12 @@
 import './styles.scss'
 
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { useEditor, Tiptap } from '@tiptap/react'
+import { useEditor, Tiptap, useTiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback } from 'react'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = () => {
+  const { editor } = useTiptap()
   const onCutToStart = useCallback(() => {
     editor.chain().cut({ from: editor.state.selection.$from.pos, to: editor.state.selection.$to.pos }, 1).run()
   }, [editor])
@@ -70,11 +71,10 @@ export default () => {
   })
 
   return (
-    <>
-      <MenuBar editor={editor} />
-      <Tiptap instance={editor}>
-        <Tiptap.Content />
+    <Tiptap instance={editor}>
+      <MenuBar />
+       
+      <Tiptap.Content />
       </Tiptap>
-    </>
   )
 }

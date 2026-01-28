@@ -1,10 +1,12 @@
 import './MenuBar.scss'
 
+import { useTiptap } from '@tiptap/react'
 import React, { Fragment } from 'react'
 
 import MenuItem from './MenuItem.jsx'
 
-export default ({ editor }) => {
+export default () => {
+  const { editor } = useTiptap()
   const items = [
     {
       icon: 'bold',

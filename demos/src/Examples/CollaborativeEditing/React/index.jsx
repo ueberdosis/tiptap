@@ -120,8 +120,8 @@ export default () => {
 
   return (
     <div className="editor">
-      {editor && <MenuBar editor={editor} />}
       <Tiptap instance={editor}>
+        <MenuBar />
         <Tiptap.Content className="editor__content" />
       </Tiptap>
       <div className="editor__footer">

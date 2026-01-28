@@ -6,10 +6,11 @@ import { ListKit } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Twitch from '@tiptap/extension-twitch'
-import { useEditor, Tiptap } from '@tiptap/react'
+import { useEditor, Tiptap, useTiptap } from '@tiptap/react'
 import React from 'react'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = () => {
+  const { editor } = useTiptap()
   const [height, setHeight] = React.useState(480)
   const [width, setWidth] = React.useState(640)
 
@@ -114,11 +115,10 @@ export default () => {
   })
 
   return (
-    <>
-      <MenuBar editor={editor} />
-      <Tiptap instance={editor}>
-        <Tiptap.Content />
+    <Tiptap instance={editor}>
+      <MenuBar />
+       
+      <Tiptap.Content />
       </Tiptap>
-    </>
   )
 }

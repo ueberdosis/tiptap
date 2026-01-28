@@ -2,11 +2,13 @@ import './styles.scss'
 
 import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
-import { useEditor, Tiptap } from '@tiptap/react'
+import { useEditor, useTiptap, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = () => {
+  const { editor } = useTiptap()
+
   if (!editor) {
     return null
   }
@@ -129,11 +131,9 @@ export default () => {
   })
 
   return (
-    <>
-      <MenuBar editor={editor} />
-      <Tiptap instance={editor}>
-        <Tiptap.Content />
-      </Tiptap>
-    </>
+    <Tiptap instance={editor}>
+      <MenuBar />
+      <Tiptap.Content />
+    </Tiptap>
   )
 }

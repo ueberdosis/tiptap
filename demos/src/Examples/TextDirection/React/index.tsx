@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import type { Editor } from '@tiptap/react'
-import { useEditor, Tiptap } from '@tiptap/react'
+import { useEditor, Tiptap, useTiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 

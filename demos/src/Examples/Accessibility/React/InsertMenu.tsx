@@ -1,6 +1,4 @@
-import type { Editor } from '@tiptap/react'
-import { useEditorState } from '@tiptap/react'
-import { FloatingMenu } from '@tiptap/react/menus'
+import { useTiptap, useTiptapState, Tiptap } from '@tiptap/react'
 import React, { useRef } from 'react'
 
 import { useMenubarNav } from './useMenubarNav.js'
@@ -8,11 +6,11 @@ import { useMenubarNav } from './useMenubarNav.js'
 /**
  * A floating menu for inserting new elements like lists, horizontal rules, etc.
  */
-export function InsertMenu({ editor }: { editor: Editor }) {
+export function InsertMenu() {
+  const { editor } = useTiptap()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const { activeNodeType } = useEditorState({
-    editor,
+  const { activeNodeType } = useTiptapState({
     selector: ctx => {
       const activeNode = ctx.editor.state.selection.$from.node(1)
 
@@ -34,8 +32,7 @@ export function InsertMenu({ editor }: { editor: Editor }) {
   })
 
   return (
-    <FloatingMenu
-      editor={editor}
+    <Tiptap.FloatingMenu
       shouldShow={null}
       aria-orientation="horizontal"
       role="menubar"
@@ -80,6 +77,6 @@ export function InsertMenu({ editor }: { editor: Editor }) {
       <button onClick={() => editor.chain().focus().setHardBreak().run()} aria-label="Hard break" tabIndex={-1}>
         Hard break
       </button>
-    </FloatingMenu>
+    </Tiptap.FloatingMenu>
   )
 }

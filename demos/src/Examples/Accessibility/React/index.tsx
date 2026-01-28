@@ -29,16 +29,16 @@ export default () => {
 
   return (
     <div role="application" className="editor-application">
-      {/* The static menu bar */}
-      <MenuBar editor={editor} />
-      {/* The editor content */}
       <Tiptap instance={editor}>
+        {/* The static menu bar */}
+        <MenuBar />
+        {/* The editor content */}
         <Tiptap.Content />
+        {/* Handles marks: bold, italic, etc. using a bubble menu */}
+        <TextMenu />
+        {/* Handles nodes: headings, lists, etc. using a floating menu */}
+        <InsertMenu />
       </Tiptap>
-      {/* Handles marks: bold, italic, etc. using a bubble menu */}
-      <TextMenu editor={editor} />
-      {/* Handles nodes: headings, lists, etc. using a floating menu */}
-      <InsertMenu editor={editor} />
     </div>
   )
 }

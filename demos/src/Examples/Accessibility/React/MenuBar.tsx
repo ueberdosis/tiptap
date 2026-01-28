@@ -1,5 +1,4 @@
-import type { Editor } from '@tiptap/core'
-import { useEditorState } from '@tiptap/react'
+import { useTiptap, useTiptapState } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { useMenubarNav } from './useMenubarNav.js'
@@ -7,13 +6,13 @@ import { useMenubarNav } from './useMenubarNav.js'
 /**
  * Handles the heading dropdown
  */
-function NodeTypeDropdown({ editor }: { editor: Editor }) {
+function NodeTypeDropdown() {
+  const { editor } = useTiptap()
   const dropdownRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const editorState = useEditorState({
-    editor,
+  const editorState = useTiptapState({
     selector: ctx => {
       const activeNode = ctx.editor.state.selection.$from.node(1)
 
@@ -255,11 +254,11 @@ function NodeTypeDropdown({ editor }: { editor: Editor }) {
 /**
  * An accessible static top menu bar for the editor
  */
-export function MenuBar({ editor }: { editor: Editor }) {
+export function MenuBar() {
+  const { editor } = useTiptap()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const editorState = useEditorState({
-    editor,
+  const editorState = useTiptapState({
     selector: ctx => {
       return {
         canUndo: ctx.editor.can().chain().focus().undo().run(),
@@ -293,7 +292,7 @@ export function MenuBar({ editor }: { editor: Editor }) {
       ref={containerRef}
     >
       <div className="button-group">
-        <NodeTypeDropdown editor={editor} />
+        <NodeTypeDropdown />
         <button
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editorState.canUndo}

@@ -1,9 +1,52 @@
 import './styles.scss'
 
-import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
-import { BubbleMenu } from '@tiptap/react/menus'
+import { useEditor, useEditorState, useTiptap, useTiptapState, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
+
+const BubbleMenuContent = () => {
+  const { editor } = useTiptap()
+  const currentEditorState = useTiptapState({
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold'),
+      isItalic: ctx.editor.isActive('italic'),
+      isStrike: ctx.editor.isActive('strike'),
+    }),
+    equalityFn: (prev, next) => {
+      if (!next) {
+        return false
+      }
+      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
+    },
+  })
+
+  if (!currentEditorState) {
+    return null
+  }
+
+  return (
+    <>
+      <button
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={currentEditorState.isBold ? 'is-active' : ''}
+      >
+        Bold
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={currentEditorState.isItalic ? 'is-active' : ''}
+      >
+        Italic
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        className={currentEditorState.isStrike ? 'is-active' : ''}
+      >
+        Strike
+      </button>
+    </>
+  )
+}
 
 function EditorInstance({ shouldOptimizeRendering }) {
   const countRenderRef = React.useRef(0)
@@ -22,38 +65,9 @@ function EditorInstance({ shouldOptimizeRendering }) {
     extensions: [StarterKit],
     content: `
     <p>
-      A highly optimized editor that only re-renders when it’s necessary.
+      A highly optimized editor that only re-renders when it's necessary.
     </p>
     `,
-  })
-  /**
-   * This hook allows us to select the editor state we want to use in our component.
-   */
-  const currentEditorState = useEditorState({
-    /**
-     * The editor instance we want to use.
-     */
-    editor,
-    /**
-     * This selector allows us to select the data we want to use in our component.
-     * It is evaluated on every editor transaction and compared to it's previously returned value.
-     */
-    selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrike: ctx.editor.isActive('strike'),
-    }),
-    /**
-     * This function allows us to customize the equality check for the selector.
-     * By default it is a `===` check.
-     */
-    equalityFn: (prev, next) => {
-      // A deep-equal function would probably be more maintainable here, but, we use a shallow one to show that it can be customized.
-      if (!next) {
-        return false
-      }
-      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
-    },
   })
 
   return (
@@ -63,29 +77,10 @@ function EditorInstance({ shouldOptimizeRendering }) {
           Number of renders: <span id="render-count">{countRenderRef.current}</span>
         </div>
       </div>
-      {currentEditorState && (
-        <BubbleMenu className="bubble-menu" editor={editor}>
-          <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={currentEditorState.isBold ? 'is-active' : ''}
-          >
-            Bold
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={currentEditorState.isItalic ? 'is-active' : ''}
-          >
-            Italic
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={currentEditorState.isStrike ? 'is-active' : ''}
-          >
-            Strike
-          </button>
-        </BubbleMenu>
-      )}
       <Tiptap instance={editor}>
+        <Tiptap.BubbleMenu className="bubble-menu">
+          <BubbleMenuContent />
+        </Tiptap.BubbleMenu>
         <Tiptap.Content />
       </Tiptap>
     </div>
