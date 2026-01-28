@@ -18,9 +18,9 @@ export function preparePlaceholderAttribute(attr: string): string {
       // or special chars like $, %, &, etc.
       // but not dashes
       .replace(/[^a-zA-Z0-9-]/g, '')
-      // and finally replace any numeric character at the start
+      // and replace any numeric character at the start
       .replace(/^[0-9-]+/, '')
-      // and replace any stray, leading dashes
+      // and finally replace any stray, leading dashes
       .replace(/^-+/, '')
       .toLowerCase()
   )
