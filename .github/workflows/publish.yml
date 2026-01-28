@@ -82,6 +82,8 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v2.1.1
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
@@ -94,6 +96,8 @@ jobs:
         id: slack_failure
         uses: slackapi/slack-github-action@v2.1.1
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"
