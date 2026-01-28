@@ -6,7 +6,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { Tiptap, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
@@ -121,7 +121,9 @@ export default () => {
   return (
     <div className="editor">
       {editor && <MenuBar editor={editor} />}
-      <EditorContent className="editor__content" editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content className="editor__content" />
+      </Tiptap>
       <div className="editor__footer">
         <div className={`editor__status editor__status--${status}`}>
           {status === 'connected'

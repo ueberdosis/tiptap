@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import Link from '@tiptap/extension-link'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -73,7 +73,9 @@ export default () => {
           </button>
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
 
@@ -16,7 +16,9 @@ function EditorComponent({ label }: { label?: string }) {
   return (
     <div style={{ border: '2px solid #f3f3f3', margin: 24 }}>
       <div style={{ padding: 4, fontSize: 14, backgroundColor: '#f3f3f3' }}>{label}</div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </div>
   )
 }

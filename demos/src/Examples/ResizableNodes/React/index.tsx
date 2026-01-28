@@ -3,7 +3,7 @@ import './styles.scss'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, Node as NodeExtension, ResizableNodeview, useEditor } from '@tiptap/react'
+import { Node as NodeExtension, ResizableNodeview, useEditor, Tiptap } from '@tiptap/react'
 
 const ResizableNode = NodeExtension.create({
   name: 'resizableNode',
@@ -105,7 +105,9 @@ export default () => {
 
   return (
     <>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

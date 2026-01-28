@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -60,7 +60,9 @@ export default () => {
         </div>
       </div>
 
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

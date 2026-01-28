@@ -4,7 +4,7 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
@@ -123,7 +123,9 @@ export default () => {
           </div>
         </div>
       </div>
-      <EditorContent className="editor__content" editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content className="editor__content" />
+      </Tiptap>
     </div>
   )
 }

@@ -7,9 +7,9 @@ import {
   createAtomBlockMarkdownSpec,
   createBlockMarkdownSpec,
   createInlineMarkdownSpec,
-  EditorContent,
   Mark,
   Node,
+  Tiptap,
   useEditor,
 } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -181,7 +181,9 @@ export default () => {
   return (
     <>
       <div className="grid">
-        <EditorContent className="editor-wrapper" editor={editor} />
+        <Tiptap instance={editor}>
+          <Tiptap.Content className="editor-wrapper" />
+        </Tiptap>
         <div className="preview">
           <pre>{serializedContent}</pre>
         </div>

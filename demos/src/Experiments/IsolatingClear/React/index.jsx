@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, Node, useEditor } from '@tiptap/react'
+import { Node, useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -169,7 +169,9 @@ export default () => {
   return (
     <>
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import Image from '@tiptap/extension-image'
 import { TableKit } from '@tiptap/extension-table'
 import { Markdown } from '@tiptap/markdown'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -98,7 +98,9 @@ export default () => {
           <button onClick={() => document.getElementById('upload')?.click()}>Select Markdown File</button>
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

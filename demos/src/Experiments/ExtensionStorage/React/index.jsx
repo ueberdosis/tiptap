@@ -3,7 +3,7 @@ import './styles.scss'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 import { CustomExtension } from './CustomExtension.ts'
@@ -23,7 +23,9 @@ export default () => {
 
   return (
     <>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
       <div className="output-group">Reactive storage: {editor?.storage.custom.foo}</div>
     </>
   )

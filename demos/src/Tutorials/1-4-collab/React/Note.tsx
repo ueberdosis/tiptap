@@ -1,6 +1,6 @@
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/extension-collaboration'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 import * as Y from 'yjs'
@@ -45,6 +45,8 @@ export default ({ note }: { note: TNote }) => {
 
   return (
     // @ts-ignore
-    <EditorContent editor={editor} />
+    <Tiptap instance={editor}>
+      <Tiptap.Content />
+    </Tiptap>
   )
 }

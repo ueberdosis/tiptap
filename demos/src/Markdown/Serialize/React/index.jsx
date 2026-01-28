@@ -3,7 +3,7 @@ import './styles.scss'
 import Image from '@tiptap/extension-image'
 import { TableKit } from '@tiptap/extension-table'
 import { Markdown } from '@tiptap/markdown'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
 
@@ -26,7 +26,9 @@ export default () => {
   return (
     <>
       <div className="grid">
-        <EditorContent className="editor-wrapper" editor={editor} />
+        <Tiptap instance={editor}>
+          <Tiptap.Content className="editor-wrapper" />
+        </Tiptap>
         <div className="preview">
           <pre>{serializedContent}</pre>
         </div>

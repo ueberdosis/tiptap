@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import { FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -56,7 +56,9 @@ export default () => {
           </div>
         </FloatingMenu>
       )}
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

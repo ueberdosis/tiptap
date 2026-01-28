@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import { ListItem, OrderedList } from '@tiptap/extension-list'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -58,7 +58,9 @@ export default () => {
         </div>
       </div>
 
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

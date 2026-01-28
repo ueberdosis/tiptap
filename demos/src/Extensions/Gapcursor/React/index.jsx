@@ -5,7 +5,7 @@ import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Gapcursor } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -17,5 +17,7 @@ export default () => {
       `,
   })
 
-  return <EditorContent editor={editor} />
+  return <Tiptap instance={editor}>
+    <Tiptap.Content />
+  </Tiptap>
 }

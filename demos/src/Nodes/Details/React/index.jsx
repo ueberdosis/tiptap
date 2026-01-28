@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
 import { Placeholder } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -77,7 +77,9 @@ export default () => {
           </button>
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

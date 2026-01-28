@@ -1,5 +1,5 @@
 import { FontSize, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 export default () => {
@@ -43,7 +43,9 @@ export default () => {
         </div>
       </div>
 
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

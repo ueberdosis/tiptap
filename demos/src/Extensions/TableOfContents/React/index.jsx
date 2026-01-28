@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { getHierarchicalIndexes, TableOfContents } from '@tiptap/extension-table-of-contents'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
@@ -33,7 +33,9 @@ export default () => {
   return (
     <div className="col-group">
       <div className="main">
-        <EditorContent editor={editor} />
+        <Tiptap instance={editor}>
+          <Tiptap.Content />
+        </Tiptap>
       </div>
       <div className="sidebar">
         <div className="sidebar-options">

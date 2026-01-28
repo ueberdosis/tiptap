@@ -9,7 +9,7 @@ import type { Node } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import type { MappablePosition } from '@tiptap/react'
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
+import { Extension, useEditor, Tiptap } from '@tiptap/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
@@ -427,7 +427,9 @@ export default () => {
         </div>
       </div>
 
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
 
       {performanceLog.length > 0 && (
         <div className="performance-log">

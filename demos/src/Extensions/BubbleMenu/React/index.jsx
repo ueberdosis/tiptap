@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, findParentNode, posToDOMRect, useEditor, useEditorState } from '@tiptap/react'
+import { findParentNode, posToDOMRect, useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
@@ -123,7 +123,9 @@ export default () => {
           </BubbleMenu>
         </>
       )}
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

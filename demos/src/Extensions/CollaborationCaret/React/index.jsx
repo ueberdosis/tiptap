@@ -6,7 +6,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Placeholder } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
@@ -36,7 +36,9 @@ function Component() {
     ],
   })
 
-  return <EditorContent editor={editor} />
+  return <Tiptap instance={editor}>
+    <Tiptap.Content />
+  </Tiptap>
 }
 
 function App() {

@@ -8,7 +8,7 @@ import { Placeholder } from '@tiptap/extensions'
 import type { Node } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { type MappablePosition, EditorContent, Extension, useEditor } from '@tiptap/react'
+import { type MappablePosition, Extension, useEditor, Tiptap } from '@tiptap/react'
 import { WebrtcProvider } from 'y-webrtc'
 import * as Y from 'yjs'
 
@@ -131,7 +131,9 @@ export default () => {
           Insert decoration
         </button>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

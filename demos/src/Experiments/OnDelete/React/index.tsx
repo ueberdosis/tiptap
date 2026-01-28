@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -28,7 +28,9 @@ export default () => {
       <div className="control-group">
         <div className="hint">Most recent deletion: {mostRecentDeletion}</div>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

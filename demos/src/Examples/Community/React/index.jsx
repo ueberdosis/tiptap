@@ -5,7 +5,7 @@ import Mention from '@tiptap/extension-mention'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 import suggestion from './suggestion.js'
@@ -48,7 +48,9 @@ export default () => {
 
   return (
     <>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
       {editor && (
         <div
           className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}

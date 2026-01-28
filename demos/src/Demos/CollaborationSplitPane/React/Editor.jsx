@@ -3,7 +3,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -182,7 +182,9 @@ const Editor = ({ ydoc, provider, room }) => {
         </div>
       </div>
 
-      <EditorContent editor={editor} className="main-group" />
+      <Tiptap instance={editor}>
+        <Tiptap.Content className="main-group"/>
+      </Tiptap>
 
       <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
         <label>

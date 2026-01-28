@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
@@ -85,7 +85,9 @@ function EditorInstance({ shouldOptimizeRendering }) {
           </button>
         </BubbleMenu>
       )}
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </div>
   )
 }

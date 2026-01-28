@@ -12,7 +12,7 @@ import { TableKit } from '@tiptap/extension-table'
 import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
-import { EditorContent, NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import { NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
@@ -214,7 +214,9 @@ export default () => {
         <div className="editor-panel">
           <div className="panel-label">Tiptap Editor</div>
           <div className="editor-container">
-            {editor ? <EditorContent editor={editor} /> : <div>Loading editor…</div>}
+            {editor ? <Tiptap instance={editor}>
+              <Tiptap.Content />
+            </Tiptap> : <div>Loading editor…</div>}
           </div>
         </div>
       </div>

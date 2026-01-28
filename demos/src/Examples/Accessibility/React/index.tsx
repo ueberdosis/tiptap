@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -32,7 +32,9 @@ export default () => {
       {/* The static menu bar */}
       <MenuBar editor={editor} />
       {/* The editor content */}
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
       {/* Handles marks: bold, italic, etc. using a bubble menu */}
       <TextMenu editor={editor} />
       {/* Handles nodes: headings, lists, etc. using a floating menu */}

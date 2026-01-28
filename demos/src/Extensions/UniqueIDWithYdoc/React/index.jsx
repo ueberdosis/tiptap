@@ -7,7 +7,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import UniqueID from '@tiptap/extension-unique-id'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 const doc = TiptapTransformer.toYdoc({
@@ -46,5 +46,7 @@ export default () => {
     ],
   })
 
-  return <EditorContent editor={editor} />
+  return <Tiptap instance={editor}>
+    <Tiptap.Content />
+  </Tiptap>
 }

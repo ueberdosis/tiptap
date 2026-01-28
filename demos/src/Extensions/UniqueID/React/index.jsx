@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import UniqueID from '@tiptap/extension-unique-id'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -26,5 +26,7 @@ export default () => {
     `,
   })
 
-  return <EditorContent editor={editor} />
+  return <Tiptap instance={editor}>
+    <Tiptap.Content />
+  </Tiptap>
 }

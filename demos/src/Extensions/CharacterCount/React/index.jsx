@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 
 const limit = 280
 
@@ -41,7 +41,9 @@ export default () => {
 
   return (
     <>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
 
       <div className={`character-count ${charactersCount === limit ? 'character-count--warning' : ''}`}>
         <svg height="20" width="20" viewBox="0 0 20 20">

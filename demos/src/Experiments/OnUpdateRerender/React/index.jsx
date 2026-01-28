@@ -3,7 +3,7 @@ import './styles.scss'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import React from 'react'
 
 const TiptapComponent = ({ onUpdate }) => {
@@ -20,7 +20,9 @@ const TiptapComponent = ({ onUpdate }) => {
     onUpdate,
   })
 
-  return <EditorContent editor={editor} />
+  return <Tiptap instance={editor}>
+    <Tiptap.Content />
+  </Tiptap>
 }
 
 export default () => {

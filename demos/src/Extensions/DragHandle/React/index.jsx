@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { useEditor, Tiptap } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
 
@@ -93,7 +93,9 @@ export default () => {
       <DragHandle editor={editor} nested={nested ? NESTED_CONFIG : false}>
         <div className="custom-drag-handle" />
       </DragHandle>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }

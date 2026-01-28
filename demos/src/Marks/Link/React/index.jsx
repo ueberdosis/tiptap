@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { useEditor, useEditorState, Tiptap } from '@tiptap/react'
 import React, { useCallback } from 'react'
 
 export default () => {
@@ -133,7 +133,9 @@ export default () => {
           </button>
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+      </Tiptap>
     </>
   )
 }
