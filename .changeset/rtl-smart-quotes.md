@@ -1,20 +1,28 @@
+---
 "@tiptap/extension-typography": minor
 ---
 
-feat(extension-typography): add opt-in RTL smart quote support
+feat(extension-typography): add RTL smart quote support
 
-Adds new `doubleQuotes` and `singleQuotes` configuration options that allow users to specify RTL-specific quote characters. When configured, RTL quote rules replace the default LTR rules, ensuring correct quote direction for RTL languages like Arabic, Hebrew, and Persian.
+Adds automatic RTL smart quote detection and optional explicit configuration for the Typography extension.
 
-Example usage:
+**Automatic RTL Detection:**
+When `editor.options.textDirection` is set to `'rtl'`, the extension now automatically uses RTL-swapped smart quotes without requiring explicit configuration.
+
+**Manual Configuration (optional):**
+You can still explicitly configure RTL quotes using the new `doubleQuotes` and `singleQuotes` options:
+
 ```ts
 Typography.configure({
   doubleQuotes: {
-    rtl: { open: '"', close: '"' }  // Swapped quotes for RTL
+    rtl: { open: '\u201D', close: '\u201C' }
   },
   singleQuotes: {
-    rtl: { open: ''', close: ''' }
+    rtl: { open: '\u2019', close: '\u2018' }
   }
 })
 ```
+
+Manual configuration takes precedence over automatic detection, allowing full control when needed.
 
 Closes #7411

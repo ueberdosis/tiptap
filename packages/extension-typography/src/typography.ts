@@ -353,12 +353,19 @@ export const Typography = Extension.create<TypographyOptions>({
       rules.push(ellipsis(this.options.ellipsis))
     }
 
-    // Double quotes: use RTL configuration if provided, otherwise use default LTR
+    // Determine if RTL mode is active based on explicit config or editor option
+    const isRTL = this.editor.options.textDirection === 'rtl'
+
+    // Double quotes: use explicit RTL config if provided, otherwise use automatic RTL detection
     if (this.options.doubleQuotes?.rtl) {
       const { open, close } = this.options.doubleQuotes.rtl
 
       rules.push(openDoubleQuote(open))
       rules.push(closeDoubleQuote(close))
+    } else if (isRTL) {
+      // Automatic RTL detection: swap open and close quotes
+      rules.push(openDoubleQuote('\u201D')) // Right double quotation mark
+      rules.push(closeDoubleQuote('\u201C')) // Left double quotation mark
     } else {
       if (this.options.openDoubleQuote !== false) {
         rules.push(openDoubleQuote(this.options.openDoubleQuote))
@@ -369,12 +376,16 @@ export const Typography = Extension.create<TypographyOptions>({
       }
     }
 
-    // Single quotes: use RTL configuration if provided, otherwise use default LTR
+    // Single quotes: use explicit RTL config if provided, otherwise use automatic RTL detection
     if (this.options.singleQuotes?.rtl) {
       const { open, close } = this.options.singleQuotes.rtl
 
       rules.push(openSingleQuote(open))
       rules.push(closeSingleQuote(close))
+    } else if (isRTL) {
+      // Automatic RTL detection: swap open and close quotes
+      rules.push(openSingleQuote('\u2019')) // Right single quotation mark
+      rules.push(closeSingleQuote('\u2018')) // Left single quotation mark
     } else {
       if (this.options.openSingleQuote !== false) {
         rules.push(openSingleQuote(this.options.openSingleQuote))
