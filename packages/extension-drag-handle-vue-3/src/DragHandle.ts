@@ -119,6 +119,10 @@ export const DragHandle = defineComponent({
     }
 
     onMounted(async () => {
+      // Hide via DOM (not reactive style) so re-renders don't override plugin's visibility control
+      if (root.value) {
+        root.value.style.visibility = 'hidden'
+      }
       await nextTick()
       initPlugin()
     })
