@@ -23,6 +23,18 @@ describe('extension-placeholder', () => {
     editor.destroy()
   })
 
+  it('falls back to the default when passing in an empty string', () => {
+    const editor = createEditor({
+      placeholder: 'Type something...',
+      dataAttribute: '',
+    })
+
+    const paragraph = editor.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
+
+    editor.destroy()
+  })
+
   it('uses a custom data-placeholder attribute when passing a dataAttribute option', () => {
     const editor = createEditor({
       placeholder: 'Type something...',

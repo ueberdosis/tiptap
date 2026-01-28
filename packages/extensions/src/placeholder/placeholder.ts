@@ -5,6 +5,11 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 /**
+ * The default data attribute label
+ */
+const DEFAULT_DATA_ATTRIBUTE = 'placeholder'
+
+/**
  * Prepares the placeholder attribute by ensuring it is properly formatted.
  * @param attr - The placeholder attribute string.
  * @returns The prepared placeholder attribute string.
@@ -41,6 +46,7 @@ export interface PlaceholderOptions {
 
   /**
    * **The data-attribute used for the placeholder label**
+   * Will be prepended with `data-` and converted to kebab-case and cleaned of special characters.
    * @default 'placeholder'
    */
   dataAttribute: string
@@ -95,7 +101,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
     return {
       emptyEditorClass: 'is-editor-empty',
       emptyNodeClass: 'is-empty',
-      dataAttribute: 'placeholder',
+      dataAttribute: DEFAULT_DATA_ATTRIBUTE,
       placeholder: 'Write something …',
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
@@ -104,7 +110,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   },
 
   addProseMirrorPlugins() {
-    const dataAttribute = `data-${preparePlaceholderAttribute(this.options.dataAttribute)}`
+    const dataAttribute = this.options.dataAttribute
+      ? `data-${preparePlaceholderAttribute(this.options.dataAttribute)}`
+      : `data-${DEFAULT_DATA_ATTRIBUTE}`
 
     return [
       new Plugin({
