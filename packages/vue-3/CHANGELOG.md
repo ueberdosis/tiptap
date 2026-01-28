@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- feac5c8: Fixed extension storage not updating in React and Vue node views
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
 ## 3.17.1
 
 ### Patch Changes

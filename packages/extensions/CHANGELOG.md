@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- a65e55d: Added a new `dataAttribute` to the extension option to control which attribute name will be used for the placeholder label.
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
 ## 3.17.1
 
 ### Patch Changes
