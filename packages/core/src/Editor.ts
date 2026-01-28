@@ -99,6 +99,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableCoreExtensions: true,
     enableContentCheck: false,
     emitContentError: false,
+    resetMarksOnEnter: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onMount: () => null,
