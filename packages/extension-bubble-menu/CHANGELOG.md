@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- 3e446fb: Fix BubbleMenu and FloatingMenu props not updating after initialization
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
 ## 3.17.1
 
 ### Patch Changes
