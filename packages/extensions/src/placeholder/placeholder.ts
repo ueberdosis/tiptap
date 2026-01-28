@@ -19,7 +19,7 @@ export function preparePlaceholderAttribute(attr: string): string {
     attr
       // replace whitespace with dashes
       .replace(/\s+/g, '-')
-      // replace non-alphanumberic characters
+      // replace non-alphanumeric  characters
       // or special chars like $, %, &, etc.
       // but not dashes
       .replace(/[^a-zA-Z0-9-]/g, '')
