@@ -1,5 +1,91 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.18.0
+
+### Patch Changes
+
+- Updated dependencies [3e446fb]
+- Updated dependencies [feac5c8]
+- Updated dependencies [328aedb]
+  - @tiptap/react@3.18.0
+  - @tiptap/extension-drag-handle@3.18.0
+  - @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [1a55fd0]
+  - @tiptap/extension-drag-handle@3.17.1
+  - @tiptap/react@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Minor Changes
+
+- a7ab5df: Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+- Updated dependencies [a7ab5df]
+  - @tiptap/extension-drag-handle@3.17.0
+  - @tiptap/react@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- Updated dependencies [9516ee0]
+  - @tiptap/react@3.16.0
+  - @tiptap/extension-drag-handle@3.16.0
+  - @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.3
+- @tiptap/react@3.15.3
+- @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- Updated dependencies [d8ca9bf]
+  - @tiptap/react@3.15.2
+  - @tiptap/extension-drag-handle@3.15.2
+  - @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.1
+- @tiptap/pm@3.15.1
+- @tiptap/react@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.0
+- @tiptap/react@3.15.0
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- Updated dependencies [383145e]
+- Updated dependencies [df277af]
+  - @tiptap/react@3.14.0
+  - @tiptap/extension-drag-handle@3.14.0
+  - @tiptap/pm@3.14.0
+
 ## 3.13.0
 
 ### Patch Changes

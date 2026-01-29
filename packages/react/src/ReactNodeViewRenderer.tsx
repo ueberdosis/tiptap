@@ -100,6 +100,31 @@ export class ReactNodeView<
     }
   }
 
+  private cachedExtensionWithSyncedStorage: NodeViewRendererProps['extension'] | null = null
+
+  /**
+   * Returns a proxy of the extension that redirects storage access to the editor's mutable storage.
+   * This preserves the original prototype chain (instanceof checks, methods like configure/extend work).
+   * Cached to avoid proxy creation on every update.
+   */
+  get extensionWithSyncedStorage(): NodeViewRendererProps['extension'] {
+    if (!this.cachedExtensionWithSyncedStorage) {
+      const editor = this.editor
+      const extension = this.extension
+
+      this.cachedExtensionWithSyncedStorage = new Proxy(extension, {
+        get(target, prop, receiver) {
+          if (prop === 'storage') {
+            return editor.storage[extension.name as keyof typeof editor.storage] ?? {}
+          }
+          return Reflect.get(target, prop, receiver)
+        },
+      })
+    }
+
+    return this.cachedExtensionWithSyncedStorage
+  }
+
   /**
    * Setup the React component.
    * Called on initialization.
@@ -112,7 +137,7 @@ export class ReactNodeView<
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
-      extension: this.extension,
+      extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
@@ -266,7 +291,8 @@ export class ReactNodeView<
         newDecorations: decorations,
         oldInnerDecorations,
         innerDecorations,
-        updateProps: () => rerenderComponent({ node, decorations, innerDecorations }),
+        updateProps: () =>
+          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
       })
     }
 
@@ -278,7 +304,7 @@ export class ReactNodeView<
     this.decorations = decorations
     this.innerDecorations = innerDecorations
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
     return true
   }

@@ -461,8 +461,8 @@ export class ResizableNodeView {
     return this.container
   }
 
-  get contentDOM() {
-    return this.contentElement
+  get contentDOM(): HTMLElement | null {
+    return this.contentElement ?? null
   }
 
   private handleEditorUpdate() {

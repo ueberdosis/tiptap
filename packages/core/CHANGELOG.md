@@ -1,5 +1,67 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- aa9709e: Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- b46e66a: Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/pm@3.14.0
+
 ## 3.13.0
 
 ### Minor Changes

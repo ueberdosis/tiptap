@@ -23,6 +23,31 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           return false
         }
 
+        let link: HTMLAnchorElement | null = null
+
+        if (event.target instanceof HTMLAnchorElement) {
+          link = event.target
+        } else {
+          const target = event.target as HTMLElement | null
+          if (!target) {
+            return false
+          }
+
+          const root = options.editor.view.dom
+
+          // Tntentionally limit the lookup to the editor root.
+          // Using tag names like DIV as boundaries breaks with custom NodeViews,
+          link = target.closest<HTMLAnchorElement>('a')
+
+          if (link && !root.contains(link)) {
+            link = null
+          }
+        }
+
+        if (!link) {
+          return false
+        }
+
         let handled = false
 
         if (options.enableClickSelection) {
@@ -31,30 +56,11 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
         }
 
         if (options.openOnClick) {
-          let link: HTMLAnchorElement | null = null
-
-          if (event.target instanceof HTMLAnchorElement) {
-            link = event.target
-          } else {
-            let a = event.target as HTMLElement
-            const els = []
-
-            while (a.nodeName !== 'DIV') {
-              els.push(a)
-              a = a.parentNode as HTMLElement
-            }
-            link = els.find(value => value.nodeName === 'A') as HTMLAnchorElement
-          }
-
-          if (!link) {
-            return handled
-          }
-
           const attrs = getAttributes(view.state, options.type.name)
-          const href = link?.href ?? attrs.href
-          const target = link?.target ?? attrs.target
+          const href = link.href ?? attrs.href
+          const target = link.target ?? attrs.target
 
-          if (link && href) {
+          if (href) {
             window.open(href, target)
             handled = true
           }

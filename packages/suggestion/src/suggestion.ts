@@ -1,5 +1,5 @@
 import type { Editor, Range } from '@tiptap/core'
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
@@ -13,6 +13,26 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @example 'mention'
    */
   pluginKey?: PluginKey
+
+  /**
+   * A function that returns a boolean to indicate if the suggestion should be active.
+   * This is useful to prevent suggestions from opening for remote users in collaborative environments.
+   * @param props The props object.
+   * @param props.editor The editor instance.
+   * @param props.range The range of the suggestion.
+   * @param props.query The current suggestion query.
+   * @param props.text The current suggestion text.
+   * @param props.transaction The current transaction.
+   * @returns {boolean}
+   * @example ({ transaction }) => isChangeOrigin(transaction)
+   */
+  shouldShow?: (props: {
+    editor: Editor
+    range: Range
+    query: string
+    text: string
+    transaction: Transaction
+  }) => boolean
 
   /**
    * The editor instance.
@@ -201,6 +221,7 @@ export function Suggestion<I = any, TSelected = any>({
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
+  shouldShow,
 }: SuggestionOptions<I, TSelected>) {
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
@@ -427,7 +448,15 @@ export function Suggestion<I = any, TSelected = any>({
               state,
               range: match.range,
               isActive: prev.active,
-            })
+            }) &&
+            (!shouldShow ||
+              shouldShow({
+                editor,
+                range: match.range,
+                query: match.query,
+                text: match.text,
+                transaction,
+              }))
           ) {
             next.active = true
             next.decorationId = prev.decorationId ? prev.decorationId : decorationId

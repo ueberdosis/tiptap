@@ -1,5 +1,5 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
+import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
@@ -14,6 +14,7 @@ import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
+import type { NormalizedNestedOptions } from './types/options.js'
 
 type PluginState = {
   locked: boolean
@@ -64,6 +65,7 @@ export interface DragHandlePluginProps {
   onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
   getReferencedVirtualElement?: () => VirtualElement | null
+  nestedOptions: NormalizedNestedOptions
 }
 
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
@@ -77,6 +79,7 @@ export const DragHandlePlugin = ({
   onNodeChange,
   onElementDragStart,
   onElementDragEnd,
+  nestedOptions,
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
@@ -128,8 +131,8 @@ export const DragHandlePlugin = ({
     onElementDragStart?.(e)
     // Push this to the end of the event cue
     // Fixes bug where incorrect drag pos is returned if drag handle has position: absolute
-    // @ts-ignore
-    dragHandler(e, editor)
+    // Pass the current node context to avoid recalculation issues during drag start
+    dragHandler(e, editor, nestedOptions, { node: currentNode, pos: currentNodePos })
 
     if (element) {
       element.dataset.dragging = 'true'
@@ -151,8 +154,26 @@ export const DragHandlePlugin = ({
     }
   }
 
+  function onDrop() {
+    // Firefox has a bug where the caret becomes invisible after drag and drop.
+    // This workaround forces Firefox to re-render the caret by toggling contentEditable.
+    // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
+    if (isFirefox()) {
+      const editorElement = editor.view.dom
+
+      // Use requestAnimationFrame to ensure the drop operation has completed
+      requestAnimationFrame(() => {
+        if (editorElement.isContentEditable) {
+          editorElement.contentEditable = 'false'
+          editorElement.contentEditable = 'true'
+        }
+      })
+    }
+  }
+
   element.addEventListener('dragstart', onDragStart)
   element.addEventListener('dragend', onDragEnd)
+  document.addEventListener('drop', onDrop)
 
   wrapper.appendChild(element)
 
@@ -160,6 +181,7 @@ export const DragHandlePlugin = ({
     unbind() {
       element.removeEventListener('dragstart', onDragStart)
       element.removeEventListener('dragend', onDragEnd)
+      document.removeEventListener('drop', onDrop)
       if (rafId) {
         cancelAnimationFrame(rafId)
         rafId = null
@@ -299,6 +321,10 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
+            element.removeEventListener('dragstart', onDragStart)
+            element.removeEventListener('dragend', onDragEnd)
+            document.removeEventListener('drop', onDrop)
+
             if (rafId) {
               cancelAnimationFrame(rafId)
               rafId = null
@@ -378,6 +404,7 @@ export const DragHandlePlugin = ({
                 y,
                 direction: 'right',
                 editor,
+                nestedOptions,
               })
 
               // Skip if there is no node next to coords
@@ -386,27 +413,33 @@ export const DragHandlePlugin = ({
               }
 
               let domNode = nodeData.resultElement as HTMLElement
+              let targetNode = nodeData.resultNode
+              let targetPos = nodeData.pos
 
-              domNode = getOuterDomNode(view, domNode)
+              // In nested mode, the node data already contains the correct target
+              // In non-nested mode, traverse to the top-level block
+              if (!nestedOptions?.enabled) {
+                domNode = getOuterDomNode(view, domNode)
 
-              // Skip if domNode is editor dom.
-              if (domNode === view.dom) {
-                return
+                // Skip if domNode is editor dom.
+                if (domNode === view.dom) {
+                  return
+                }
+
+                // We only want `Element`.
+                if (domNode?.nodeType !== 1) {
+                  return
+                }
+
+                const domNodePos = view.posAtDOM(domNode, 0)
+
+                targetNode = getOuterNode(editor.state.doc, domNodePos)
+                targetPos = getOuterNodePos(editor.state.doc, domNodePos)
               }
 
-              // We only want `Element`.
-              if (domNode?.nodeType !== 1) {
-                return
-              }
-
-              const domNodePos = view.posAtDOM(domNode, 0)
-              const outerNode = getOuterNode(editor.state.doc, domNodePos)
-
-              if (outerNode !== currentNode) {
-                const outerNodePos = getOuterNodePos(editor.state.doc, domNodePos)
-
-                currentNode = outerNode
-                currentNodePos = outerNodePos
+              if (targetNode !== currentNode) {
+                currentNode = targetNode
+                currentNodePos = targetPos ?? -1
 
                 // Memorize relative position to retrieve absolute position in case of collaboration
                 currentNodeRelPos = getRelativePos(view.state, currentNodePos)
