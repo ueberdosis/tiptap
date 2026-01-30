@@ -1,5 +1,32 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- aa9709e: Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- b46e66a: Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes

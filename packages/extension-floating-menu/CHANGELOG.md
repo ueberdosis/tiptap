@@ -1,5 +1,42 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- 3e446fb: Fix BubbleMenu and FloatingMenu props not updating after initialization
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- 725d182: Fixed bubble and floating menus to properly handle hide middleware data, hiding menus when reference element is scrolled out of view
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Minor Changes
+
+- 9516ee0: Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes

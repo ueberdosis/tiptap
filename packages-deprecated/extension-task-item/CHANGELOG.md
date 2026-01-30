@@ -1,5 +1,30 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [5d267cb]
+  - @tiptap/extension-list@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/extension-list@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes

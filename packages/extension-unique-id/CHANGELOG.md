@@ -1,5 +1,37 @@
 # @tiptap/extension-unique-id
 
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/core@3.18.0
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- bb4989f: Improved `findDuplicates` helper performance from O(n²) to O(n) by using Set-based lookups instead of Array.indexOf
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes

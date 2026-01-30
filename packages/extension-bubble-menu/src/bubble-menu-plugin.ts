@@ -269,6 +269,10 @@ export class BubbleMenuView implements PluginView {
       return referencedVirtualElement
     }
 
+    if (!this.view?.dom?.parentNode) {
+      return
+    }
+
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
     let virtualElement = {
       getBoundingClientRect: () => domRect,
@@ -432,7 +436,14 @@ export class BubbleMenuView implements PluginView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy }) => {
+    }).then(({ x, y, strategy, middlewareData }) => {
+      // Handle hide middleware - hide element if reference is hidden or element has escaped
+      if (middlewareData.hide?.referenceHidden || middlewareData.hide?.escaped) {
+        this.element.style.visibility = 'hidden'
+        return
+      }
+
+      this.element.style.visibility = 'visible'
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
@@ -559,6 +570,49 @@ export class BubbleMenuView implements PluginView {
     const meta = tr.getMeta('bubbleMenu')
     if (meta === 'updatePosition') {
       this.updatePosition()
+    } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
+      this.updateOptions(meta.options)
+    }
+  }
+
+  updateOptions(newProps: Partial<Omit<BubbleMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+    if (newProps.updateDelay !== undefined) {
+      this.updateDelay = newProps.updateDelay
+    }
+
+    if (newProps.resizeDelay !== undefined) {
+      this.resizeDelay = newProps.resizeDelay
+    }
+
+    if (newProps.appendTo !== undefined) {
+      this.appendTo = newProps.appendTo
+    }
+
+    if (newProps.getReferencedVirtualElement !== undefined) {
+      this.getReferencedVirtualElement = newProps.getReferencedVirtualElement
+    }
+
+    if (newProps.shouldShow !== undefined) {
+      if (newProps.shouldShow) {
+        this.shouldShow = newProps.shouldShow
+      }
+    }
+
+    if (newProps.options !== undefined) {
+      // Handle scrollTarget change - need to remove old listener and add new one
+      // Use nullish coalescing to default to window when scrollTarget is undefined/null
+      const newScrollTarget = newProps.options.scrollTarget ?? window
+
+      if (newScrollTarget !== this.scrollTarget) {
+        this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
+        this.scrollTarget = newScrollTarget
+        this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+      }
+
+      this.floatingUIOptions = {
+        ...this.floatingUIOptions,
+        ...newProps.options,
+      }
     }
   }
 

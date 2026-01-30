@@ -1,5 +1,244 @@
 # Releases
 
+## v3.18.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fix BubbleMenu and FloatingMenu props not updating after initialization
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fix BubbleMenu and FloatingMenu props not updating after initialization
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Introduce a new, optional React integration that provides a declarative `<Tiptap />` component for setting up editors in React apps.
+  
+  Summary
+  - Add a new, ergonomic way to initialize and use Tiptap editors in React via `<Tiptap />` components. This is an additive change and does not remove or change existing APIs.
+  
+  Why this change
+  - Improves ergonomics for React users by offering a component-first API that pairs well with React patterns (hooks, JSX composition and props-driven configuration).
+  
+  Migration and usage
+  - The old programmatic setup remains supported for this major version — nothing breaks. We encourage consumers to try the new `<Tiptap />` component and migrate when convenient.
+  
+  Example
+  
+  ```tsx
+  import { Tiptap, useEditor } from '@tiptap/react'
+  
+  function MyEditor() {
+    const editor = useEditor({ extensions: [StarterKit], content: '<h1>Hello from Tiptap</h1>' })
+  
+    return (
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+        <Tiptap.BubbleMenu>My Bubble Menu</Tiptap.BubbleMenu>
+        <Tiptap.FloatingMenu>My Floating Menu</Tiptap.FloatingMenu>
+        <MenuBar /> {/* MenuBar can use the new `useTiptap` hook to read the editor instance from context */}
+      </Tiptap>
+    )
+  }
+  ```
+  
+  Deprecation plan
+  - The old imperative setup will remain fully backward-compatible for this major release. We plan to deprecate (and remove) the legacy setup in the next major version — a deprecation notice and migration guide will be published ahead of that change.
+
+#### Patch Changes
+
+- Fix BubbleMenu and FloatingMenu props not updating after initialization
+- Fixed extension storage not updating in React and Vue node views
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fixed extension storage not updating in React and Vue node views
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Upgrade marked.js from v15.0.12 to v17.0.1. Note that `**)**` requires whitespace when adjacent to alphanumeric text per CommonMark specification.
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Added a new `dataAttribute` to the extension option to control which attribute name will be used for the placeholder label.
+
+## v3.17.1
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+- Fixed markdown HTML parsing when window object is unavailable in server-side environments
+- Fixed ordered list numbering when list has a non-default start value
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fixed IME input (Chinese, Japanese, Korean) in Vue 3 mark views by preventing DOM element destruction during composition events
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed CollaborationCaret crash with "Cannot read properties of undefined (reading 'doc')" error by updating to @tiptap/y-tiptap@3.0.2, which includes a guard against undefined state during editor initialization. This issue affected editors initialized with HTML content, particularly when using tables.
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Fixed server-side HTML parsing crash when content contains link, script, or style tags with resource references.
+- Fixed server exports failing in Node.js test environments with jsdom/happy-dom
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fixed bubble and floating menus to properly handle hide middleware data, hiding menus when reference element is scrolled out of view
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fixed bubble and floating menus to properly handle hide middleware data, hiding menus when reference element is scrolled out of view
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Fixed ordered list numbering when list has a non-default start value
+
+## v3.17.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Added a safeguard to avoid `TypeError: Cannot read properties of null (reading 'domFromPos')` being thrown when the editor was being destroyed
+
+### @tiptap/extension-drag-handle
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+#### Patch Changes
+
+- Fixed Firefox bug where the text caret becomes invisible after drag and drop.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Added `isFirefox` utility to core
+
+### @tiptap/extension-drag-handle-react
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Minor Changes
+
+- Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+## v3.16.0
+
+### @tiptap/extension-audio
+
+#### Minor Changes
+
+- Add a native audio extension with demos and tests.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
+- Fix overlapping underline/bold/italic serialization and add tests
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Fixed an issue where clicking on non-link elements (like images) required multiple clicks to select them. The link click handler now properly returns early when the clicked element is not a link, allowing other node handlers to process the click event.
+
+### @tiptap/extension-floating-menu
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-2
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/vue-3
+
+#### Minor Changes
+
+- Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Improved `findDuplicates` helper performance from O(n²) to O(n) by using Set-based lookups instead of Array.indexOf
+
 ## v3.15.3
 
 ### @tiptap/core

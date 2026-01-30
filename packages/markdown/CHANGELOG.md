@@ -1,5 +1,42 @@
 # @tiptap/markdown
 
+## 3.18.0
+
+### Patch Changes
+
+- 9b388ef: Upgrade marked.js from v15.0.12 to v17.0.1. Note that `**)**` requires whitespace when adjacent to alphanumeric text per CommonMark specification.
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- 62c6f15: Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+- 4bcacda: Fixed markdown HTML parsing when window object is unavailable in server-side environments
+- 5d267cb: Fixed ordered list numbering when list has a non-default start value
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- d63518a: Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
+- d63518a: Fix overlapping underline/bold/italic serialization and add tests
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
 ## 3.15.3
 
 ### Patch Changes

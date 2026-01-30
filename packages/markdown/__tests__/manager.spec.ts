@@ -7,8 +7,9 @@ import { Link } from '@tiptap/extension-link'
 import { BulletList, ListItem, OrderedList, TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mention } from '@tiptap/extension-mention'
 import { Paragraph } from '@tiptap/extension-paragraph'
-import { Strike } from '@tiptap/extension-strike'
+import Strike from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
+import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -74,6 +75,7 @@ describe('MarkdownManager Direct Tests', () => {
       BulletList,
       OrderedList,
       ListItem,
+      Underline,
     ]
 
     // Extended extensions with custom markdown features
@@ -141,7 +143,87 @@ Second paragraph.`
       expect(doc.content![1].content![0].text).toBe('Second paragraph.')
     })
   })
+  describe('simple nested Marks parsing', () => {
+    beforeEach(() => {
+      markdownManager = new MarkdownManager()
 
+      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+    })
+    const nestedMarkdown = `**...++abc++**`
+
+    const expectedJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: '...',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: 'abc',
+              marks: [{ type: 'underline' }, { type: 'bold' }],
+            },
+          ],
+        },
+      ],
+    }
+    it('should convert nested markdown to expected JSON structure', () => {
+      const json = markdownManager.parse(nestedMarkdown)
+      expect(json).toEqual(expectedJSON)
+    })
+
+    it('should convert nested JSON structure back to expected markdown', () => {
+      const md = markdownManager.serialize(expectedJSON)
+      expect(md).toEqual(nestedMarkdown)
+    })
+  })
+  describe('complex nested Marks parsing', () => {
+    beforeEach(() => {
+      markdownManager = new MarkdownManager()
+
+      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+    })
+    const nestedMarkdown = `**...~~++abc*abc*++~~**`
+
+    const expectedJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: '...',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: 'abc',
+              marks: [{ type: 'underline' }, { type: 'strike' }, { type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: 'abc',
+              marks: [{ type: 'italic' }, { type: 'underline' }, { type: 'strike' }, { type: 'bold' }],
+            },
+          ],
+        },
+      ],
+    }
+    it('should convert nested markdown to expected JSON structure', () => {
+      const json = markdownManager.parse(nestedMarkdown)
+      expect(json).toEqual(expectedJSON)
+    })
+
+    it('should convert nested JSON structure back to expected markdown', () => {
+      const md = markdownManager.serialize(expectedJSON)
+      expect(md).toEqual(nestedMarkdown)
+    })
+  })
   describe('Extended Markdown Parsing', () => {
     beforeEach(() => {
       markdownManager = new MarkdownManager()
