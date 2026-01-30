@@ -1,6 +1,6 @@
 import { type BubbleMenuPluginProps, BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
 import { useCurrentEditor } from '@tiptap/react'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -58,6 +58,18 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
     const bubbleMenuPluginPropsRef = useRef(bubbleMenuPluginProps)
     bubbleMenuPluginPropsRef.current = bubbleMenuPluginProps
 
+    /**
+     * Track whether the plugin has been initialized, so we only send updates
+     * after the initial registration.
+     */
+    const [pluginInitialized, setPluginInitialized] = useState(false)
+
+    /**
+     * Track whether we need to skip the first options update dispatch.
+     * This prevents unnecessary updates right after plugin initialization.
+     */
+    const skipFirstUpdateRef = useRef(true)
+
     useEffect(() => {
       if (pluginEditor?.isDestroyed) {
         return
@@ -82,7 +94,11 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
 
       const createdPluginKey = bubbleMenuPluginPropsRef.current.pluginKey
 
+      skipFirstUpdateRef.current = true
+      setPluginInitialized(true)
+
       return () => {
+        setPluginInitialized(false)
         pluginEditor.unregisterPlugin(createdPluginKey)
         window.requestAnimationFrame(() => {
           if (bubbleMenuElement.parentNode) {
@@ -91,6 +107,38 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
         })
       }
     }, [pluginEditor])
+
+    /**
+     * Update the plugin options when props change after the plugin has been initialized.
+     * This allows dynamic updates to options like scrollTarget without re-registering the entire plugin.
+     */
+    useEffect(() => {
+      if (!pluginInitialized || !pluginEditor || pluginEditor.isDestroyed) {
+        return
+      }
+
+      // Skip the first update right after initialization since the plugin was just created with these options
+      if (skipFirstUpdateRef.current) {
+        skipFirstUpdateRef.current = false
+        return
+      }
+
+      pluginEditor.view.dispatch(
+        pluginEditor.state.tr.setMeta('bubbleMenu', {
+          type: 'updateOptions',
+          options: bubbleMenuPluginPropsRef.current,
+        }),
+      )
+    }, [
+      pluginInitialized,
+      pluginEditor,
+      updateDelay,
+      resizeDelay,
+      shouldShow,
+      options,
+      appendTo,
+      getReferencedVirtualElement,
+    ])
 
     return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
   },

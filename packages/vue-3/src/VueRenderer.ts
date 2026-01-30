@@ -31,6 +31,11 @@ export class VueRenderer {
 
   props: Record<string, any>
 
+  /**
+   * Flag to track if the renderer has been destroyed, preventing queued or asynchronous renders from executing after teardown.
+   */
+  destroyed = false
+
   constructor(component: Component, { props = {}, editor }: VueRendererOptions) {
     this.editor = editor as ExtendedEditor
     this.component = markRaw(component)
@@ -53,6 +58,10 @@ export class VueRenderer {
   }
 
   renderComponent() {
+    if (this.destroyed) {
+      return this.renderedComponent
+    }
+
     let vNode: ExtendedVNode = h(this.component as DefineComponent, this.props)
 
     if (this.editor.appContext) {
@@ -74,6 +83,10 @@ export class VueRenderer {
   }
 
   updateProps(props: Record<string, any> = {}): void {
+    if (this.destroyed) {
+      return
+    }
+
     Object.entries(props).forEach(([key, value]) => {
       this.props[key] = value
     })
@@ -81,6 +94,11 @@ export class VueRenderer {
   }
 
   destroy(): void {
+    if (this.destroyed) {
+      return
+    }
+
+    this.destroyed = true
     this.renderedComponent.destroy()
   }
 }

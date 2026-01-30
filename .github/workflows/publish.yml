@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -44,8 +44,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
+      - name: Update npm for Trusted Publishing
+        run: npm install -g npm@11.6.2
+
       - name: Load turbo cache
-        uses: actions/cache@v4.3.0
+        uses: actions/cache@v5.0.2
         id: turbo-cache
         with:
           path: |
@@ -58,9 +61,6 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --strict-peer-dependencies
-
-      - name: Setup npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
       - name: Create Release PR or publish stable version to npm
         id: changesets
@@ -80,8 +80,10 @@ jobs:
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'
         id: slack
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
@@ -92,8 +94,10 @@ jobs:
       - name: Send failure notification
         if: failure()
         id: slack_failure
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"

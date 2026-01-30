@@ -60,6 +60,7 @@ body {
 .tiptap {
   caret-color: var(--purple);
   margin: 1.5rem;
+  padding-bottom: 2rem;
 
   &:focus {
     outline: none;

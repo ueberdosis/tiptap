@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/html",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "3.11.0",
+  "version": "3.18.0",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
+    "@types/node": "^22.0.0",
     "happy-dom": "^20.0.2"
   },
   "peerDependencies": {

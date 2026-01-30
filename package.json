@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "browserslist": [
     "defaults",
@@ -16,9 +16,11 @@
     "lint": "turbo run lint",
     "lint:fix": "prettier -w --log-level warn . && eslint --fix --cache --quiet --no-error-on-unmatched-pattern .",
     "lint:staged": "lint-staged",
-    "test:open": "cypress open --project tests",
-    "test:run": "cypress run --project tests",
-    "test": "turbo run build && pnpm run test:run",
+    "test:e2e:open": "cypress open --project tests",
+    "test:e2e": "cypress run --project tests",
+    "test:unit": "vitest run",
+    "test:unit:dev": "vitest",
+    "test": "turbo run build && pnpm run test:e2e && pnpm run test:unit",
     "build": "turbo build",
     "build:demos": "pnpm --prefix demos run build:demos",
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
@@ -52,8 +54,9 @@
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
+    "@vitest/ui": "^4.0.7",
     "babel-loader": "^9.2.1",
-    "cypress": "^15.4.0",
+    "cypress": "^15.9.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -64,6 +67,8 @@
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.32.0",
+    "fast-glob": "^3.3.2",
+    "happy-dom": "^20.0.2",
     "http-server": "14.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.3.0",
@@ -74,13 +79,16 @@
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
-    "tsup": "^8.3.5",
+    "tsup": "^8.5.1",
     "turbo": "2.3.3",
     "typescript": "^5.7.3",
+    "vitest": "^4.0.7",
     "webpack": "^5.97.1"
   },
   "overrides": {
-    "@rollup/pluginutils": "^5.1.4"
+    "@rollup/pluginutils": "^5.1.4",
+    "glob": "^10.5.0",
+    "qs": "^6.14.1"
   },
   "publishConfig": {
     "provenance": true
@@ -94,6 +102,10 @@
   "pnpm": {
     "patchedDependencies": {
       "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
+    },
+    "overrides": {
+      "glob": "^10.5.0",
+      "qs": "^6.14.1"
     }
   }
 }
