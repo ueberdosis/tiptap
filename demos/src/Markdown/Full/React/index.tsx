@@ -9,6 +9,7 @@ import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { Mathematics } from '@tiptap/extension-mathematics'
 import { Mention } from '@tiptap/extension-mention'
 import { TableKit } from '@tiptap/extension-table'
+import { Twitch } from '@tiptap/extension-twitch'
 import { Youtube } from '@tiptap/extension-youtube'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
@@ -100,6 +101,12 @@ export default () => {
         width: 480,
         height: 320,
       }),
+      Twitch.configure({
+        inline: false,
+        width: 480,
+        height: 320,
+        parent: window.location.hostname,
+      }),
       Image,
       TableKit,
       Highlight,
@@ -107,22 +114,33 @@ export default () => {
         HTMLAttributes: {
           class: 'mention',
         },
-        suggestion: {
-          items: ({ query }) => {
-            return [
-              'Lea Thompson',
-              'Cyndi Lauper',
-              'Tom Cruise',
-              'Madonna',
-              'Jerry Hall',
-              'Joan Collins',
-              'Winona Ryder',
-              'Christina Applegate',
-            ]
-              .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
-              .slice(0, 5)
+        suggestions: [
+          {
+            char: '@',
+            items: ({ query }) => {
+              return [
+                'Lea Thompson',
+                'Cyndi Lauper',
+                'Tom Cruise',
+                'Madonna',
+                'Jerry Hall',
+                'Joan Collins',
+                'Winona Ryder',
+                'Christina Applegate',
+              ]
+                .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
+                .slice(0, 5)
+            },
           },
-        },
+          {
+            char: '#',
+            items: ({ query }) => {
+              return ['bug', 'feature', 'enhancement', 'documentation', 'help-wanted', 'priority-high', 'priority-low']
+                .filter(item => item.toLowerCase().startsWith(query.toLowerCase()))
+                .slice(0, 5)
+            },
+          },
+        ],
       }),
       Mathematics,
       CustomReactNode,

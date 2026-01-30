@@ -772,9 +772,6 @@ export class MarkdownManager {
     if (!html.trim()) {
       return null
     }
-
-    const inlineFallback = () => (html ? [{ type: 'text', text: html }] : null)
-
     try {
       const parsed = generateJSON(html, this.baseExtensions)
 
@@ -868,7 +865,9 @@ export class MarkdownManager {
       index,
       level,
       parentType: parentNode?.type,
-      meta: {},
+      meta: {
+        parentAttrs: parentNode?.attrs,
+      },
     }
 
     // First render the node itself (this will render children recursively)
@@ -912,7 +911,6 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
-
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -926,27 +924,55 @@ export class MarkdownManager {
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToClose = findMarksToClose(activeMarks, currentMarks)
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+        const marksToClose = findMarksToClose(currentMarks, nextNode)
 
-        // Close marks (in reverse order of how they were opened)
+        let middleTrailingWhitespace = ''
+
+        if (marksToClose.length > 0) {
+          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+          const middleTrailingMatch = textContent.match(/(\s+)$/)
+          if (middleTrailingMatch) {
+            middleTrailingWhitespace = middleTrailingMatch[1]
+            textContent = textContent.slice(0, -middleTrailingWhitespace.length)
+          }
+        }
+        // Close marks that are ending here
         marksToClose.forEach(markType => {
-          const mark = activeMarks.get(markType)
+          const mark = currentMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
-          activeMarks.delete(markType)
+          // deleting closed marks from active marks
+          if (activeMarks.has(markType)) {
+            activeMarks.delete(markType)
+          }
         })
 
         // Open new marks (should be at the beginning)
+        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
+        let leadingWhitespace = ''
+        if (marksToOpen.length > 0) {
+          const leadingMatch = textContent.match(/^(\s+)/)
+          if (leadingMatch) {
+            leadingWhitespace = leadingMatch[1]
+            textContent = textContent.slice(leadingWhitespace.length)
+          }
+        }
+
         marksToOpen.forEach(({ type, mark }) => {
           const openMarkdown = this.getMarkOpening(type, mark)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          activeMarks.set(type, mark)
+          if (!marksToClose.includes(type)) {
+            activeMarks.set(type, mark)
+          }
         })
+
+        // Add leading whitespace before the mark opening
+        textContent = leadingWhitespace + textContent
 
         // Close marks at the end of this node if needed
         const marksToCloseAtEnd = findMarksToCloseAtEnd(
@@ -956,6 +982,16 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
+        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+        let trailingWhitespace = ''
+        if (marksToCloseAtEnd.length > 0) {
+          const trailingMatch = textContent.match(/(\s+)$/)
+          if (trailingMatch) {
+            trailingWhitespace = trailingMatch[1]
+            textContent = textContent.slice(0, -trailingWhitespace.length)
+          }
+        }
+
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType)
           const closeMarkdown = this.getMarkClosing(markType, mark)
@@ -964,6 +1000,10 @@ export class MarkdownManager {
           }
           activeMarks.delete(markType)
         })
+
+        // Add trailing whitespace after the mark closing
+        textContent += trailingWhitespace
+        textContent += middleTrailingWhitespace
 
         result.push(textContent)
       } else {

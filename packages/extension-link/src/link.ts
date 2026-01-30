@@ -239,7 +239,29 @@ export const Link = Mark.create<LinkOptions>({
       },
       isAllowedUri: (url, ctx) => !!isAllowedUri(url, ctx.protocols),
       validate: url => !!url,
-      shouldAutoLink: url => !!url,
+      shouldAutoLink: url => {
+        // URLs with explicit protocols (e.g., https://) should be auto-linked
+        // But not if @ appears before :// (that would be userinfo like user:pass@host)
+        const hasProtocol = /^[a-z][a-z0-9+.-]*:\/\//i.test(url)
+        const hasMaybeProtocol = /^[a-z][a-z0-9+.-]*:/i.test(url)
+
+        if (hasProtocol || (hasMaybeProtocol && !url.includes('@'))) {
+          return true
+        }
+        // Strip userinfo (user:pass@) if present, then extract hostname
+        const urlWithoutUserinfo = url.includes('@') ? url.split('@').pop()! : url
+        const hostname = urlWithoutUserinfo.split(/[/?#:]/)[0]
+
+        // Don't auto-link IP addresses without protocol
+        if (/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) {
+          return false
+        }
+        // Don't auto-link single-word hostnames without TLD (e.g., "localhost")
+        if (!/\./.test(hostname)) {
+          return false
+        }
+        return true
+      },
     }
   },
 
@@ -436,15 +458,14 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    if (this.options.openOnClick === true) {
-      plugins.push(
-        clickHandler({
-          type: this.type,
-          editor: this.editor,
-          enableClickSelection: this.options.enableClickSelection,
-        }),
-      )
-    }
+    plugins.push(
+      clickHandler({
+        type: this.type,
+        editor: this.editor,
+        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
+        enableClickSelection: this.options.enableClickSelection,
+      }),
+    )
 
     if (this.options.linkOnPaste) {
       plugins.push(
