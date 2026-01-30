@@ -133,21 +133,17 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
                 } else {
                   const remainingChars = limit - charCount
                   let charIndex = 0
-                  let currentCharCount = 0
 
                   for (let i = 0; i < nodeText.length; i++) {
                     const substring = nodeText.slice(0, i + 1)
                     const substringCharCount = this.options.textCounter(substring)
-                    
                     if (substringCharCount > remainingChars) {
                       break
                     }
-                    
                     charIndex = i + 1
-                    currentCharCount = substringCharCount
                   }
 
-                  limitPosition = pos + 1 + charIndex
+                  limitPosition = pos + charIndex
                   return false
                 }
               }
