@@ -222,7 +222,7 @@ export const InlineMath = Node.create<InlineMathOptions>({
       new InputRule({
         find: /(?<!$)(\$\$([^$\n]+?)\$\$)(?!\$)/,
         handler: ({ state, range, match }) => {
-          const latex = match[3]
+          const latex = match[2]
           const { tr } = state
           const start = range.from
           const end = range.to
