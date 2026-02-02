@@ -54,8 +54,39 @@ export const h: JSXRenderer = (tag, attributes) => {
     throw new Error('SVG elements are not supported in the JSX syntax, use the array syntax instead')
   }
 
-  // Otherwise, return the tag, attributes, and children
-  return [tag, rest, children]
+  // Handle children array by spreading elements
+  if (Array.isArray(children)) {
+    if (children.length === 0) {
+      // Empty array means no children
+      return [tag, rest]
+    }
+
+    // Check if this is a DOMOutputSpecArray (single child) or an array of children
+    // DOMOutputSpecArray always starts with a string tag as the first element
+    const isDOMOutputSpec = typeof children[0] === 'string'
+
+    if (isDOMOutputSpec) {
+      // This is a single DOMOutputSpecArray child, not multiple children
+      return [tag, rest, children]
+    }
+
+    // Filter out null/undefined values from array of children
+    const validChildren = children.filter(child => child != null)
+
+    if (validChildren.length === 0) {
+      return [tag, rest]
+    }
+
+    // Spread children into the result array
+    return [tag, rest, ...validChildren]
+  }
+
+  // Single child or no children
+  if (children !== undefined && children !== null) {
+    return [tag, rest, children]
+  }
+
+  return [tag, rest]
 }
 
 // See
