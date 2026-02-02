@@ -62,8 +62,16 @@ export const h: JSXRenderer = (tag, attributes) => {
     }
 
     // Check if this is a DOMOutputSpecArray (single child) or an array of children
-    // DOMOutputSpecArray always starts with a string tag as the first element
-    const isDOMOutputSpec = typeof children[0] === 'string'
+    // DOMOutputSpecArray always starts with a string tag as the first element,
+    // optionally followed by attributes object, 0 (content hole), or another DOMOutputSpecArray
+    const firstElement = children[0]
+    const secondElement = children.length > 1 ? children[1] : undefined
+    const isDOMOutputSpec =
+      typeof firstElement === 'string' &&
+      (secondElement === undefined ||
+        secondElement === 0 ||
+        (typeof secondElement === 'object' && secondElement !== null && !Array.isArray(secondElement)) ||
+        (Array.isArray(secondElement) && typeof secondElement[0] === 'string'))
 
     if (isDOMOutputSpec) {
       // This is a single DOMOutputSpecArray child, not multiple children

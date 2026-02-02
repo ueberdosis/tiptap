@@ -258,4 +258,41 @@ describe('JSX Runtime', () => {
       ])
     })
   })
+
+  describe('DOMOutputSpec detection edge cases', () => {
+    it('should correctly identify DOMOutputSpecArray with just tag and 0', () => {
+      // ['div', 0] is a valid DOMOutputSpecArray with content hole
+      const child = ['div', 0] as any
+      const result = h('section', { children: child })
+
+      expect(result).toEqual(['section', {}, ['div', 0]])
+    })
+
+    it('should correctly identify DOMOutputSpecArray with tag, attrs, and 0', () => {
+      // ['div', { class: 'x' }, 0] is a valid DOMOutputSpecArray
+      const child = ['div', { class: 'content' }, 0] as any
+      const result = h('section', { children: child })
+
+      expect(result).toEqual(['section', {}, ['div', { class: 'content' }, 0]])
+    })
+
+    it('should spread array of DOMOutputSpecArrays, not treat as single child', () => {
+      // Array of multiple DOMOutputSpecArrays should be spread
+      const children = [
+        ['span', {}, 'A'],
+        ['span', {}, 'B'],
+      ] as any
+      const result = h('div', { children })
+
+      expect(result).toEqual(['div', {}, ['span', {}, 'A'], ['span', {}, 'B']])
+    })
+
+    it('should handle DOMOutputSpecArray with nested child', () => {
+      // ['div', ['span', {}, 'text']] is valid - div with single child
+      const child = ['div', ['span', {}, 'text']] as any
+      const result = h('section', { children: child })
+
+      expect(result).toEqual(['section', {}, ['div', ['span', {}, 'text']]])
+    })
+  })
 })
