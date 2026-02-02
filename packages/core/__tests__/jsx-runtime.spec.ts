@@ -294,5 +294,21 @@ describe('JSX Runtime', () => {
 
       expect(result).toEqual(['section', {}, ['div', ['span', {}, 'text']]])
     })
+
+    it('should handle array starting with 0 as multiple children', () => {
+      // [0, 'text'] is NOT a DOMOutputSpec (those must start with string tag)
+      // This should be treated as multiple children and spread
+      const children = [0, 'text'] as any
+      const result = h('div', { children })
+
+      expect(result).toEqual(['div', {}, 0, 'text'])
+    })
+
+    it('should handle single 0 (content hole) as child', () => {
+      // Single 0 is the content hole marker
+      const result = h('div', { children: 0 })
+
+      expect(result).toEqual(['div', {}, 0])
+    })
   })
 })

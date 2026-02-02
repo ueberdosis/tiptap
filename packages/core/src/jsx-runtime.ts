@@ -64,6 +64,9 @@ export const h: JSXRenderer = (tag, attributes) => {
     // Check if this is a DOMOutputSpecArray (single child) or an array of children
     // DOMOutputSpecArray always starts with a string tag as the first element,
     // optionally followed by attributes object, 0 (content hole), or another DOMOutputSpecArray
+    // Note: We only check if firstElement is a string because per ProseMirror spec,
+    // DOMOutputSpec MUST start with a tag name (string). The 0 can only appear
+    // as a subsequent element to mark content insertion points.
     const firstElement = children[0]
     const secondElement = children.length > 1 ? children[1] : undefined
     const isDOMOutputSpec =
