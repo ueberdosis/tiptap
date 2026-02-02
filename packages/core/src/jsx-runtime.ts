@@ -73,6 +73,7 @@ export const h: JSXRenderer = (tag, attributes) => {
       typeof firstElement === 'string' &&
       (secondElement === undefined ||
         secondElement === 0 ||
+        typeof secondElement === 'string' ||
         (typeof secondElement === 'object' && secondElement !== null && !Array.isArray(secondElement)) ||
         (Array.isArray(secondElement) && typeof secondElement[0] === 'string'))
 

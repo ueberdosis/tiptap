@@ -310,5 +310,13 @@ describe('JSX Runtime', () => {
 
       expect(result).toEqual(['div', {}, 0])
     })
+
+    it('should handle DOMOutputSpecArray with text content as second element', () => {
+      // ['div', 'text'] is a valid DOMOutputSpec according to ProseMirror
+      const child = ['div', 'text content'] as any
+      const result = h('section', { children: child })
+
+      expect(result).toEqual(['section', {}, ['div', 'text content']])
+    })
   })
 })
