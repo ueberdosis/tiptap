@@ -1,5 +1,21 @@
 # Releases
 
+## v3.19.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Add `title` attribute to Link extension. The title can now be set via `setLink` and `toggleLink` commands and is rendered as an HTML title attribute.
+- Add title attribute support for markdown rendering. Links with titles are now serialized to markdown format `[text](url "title")`.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
 ## v3.18.0
 
 ### @tiptap/extension-bubble-menu
