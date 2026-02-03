@@ -1,7 +1,7 @@
 import { useTiptap, useTiptapState } from '@tiptap/react'
 import React from 'react'
 
-import { menuBarStateSelector } from './menuBarState.ts'
+import { menuBarStateSelector } from './menuBarState.js'
 
 /**
  * Menu bar component that uses useTiptap and useTiptapState hooks

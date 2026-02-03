@@ -104,7 +104,7 @@ export type TiptapWrapperProps = {
   editor?: Editor
 
   /**
-   * @deprecated Use `editor` instead.
+   * @deprecated Use `editor` instead. Will be removed in the next major version.
    */
   instance?: Editor
 
@@ -139,7 +139,12 @@ export type TiptapWrapperProps = {
  * ```
  */
 export function TiptapWrapper({ editor, instance, children }: TiptapWrapperProps) {
-  const resolvedEditor = (editor ?? instance) as Editor
+  const resolvedEditor = editor ?? instance
+
+  if (!resolvedEditor) {
+    throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')
+  }
+
   const tiptapContextValue = useMemo<TiptapContextType>(() => ({ editor: resolvedEditor }), [resolvedEditor])
 
   // Provide backwards compatibility with the legacy EditorContext
