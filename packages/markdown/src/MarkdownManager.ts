@@ -256,14 +256,6 @@ export class MarkdownManager {
       return ''
     }
 
-    // If an array of nodes was passed
-    if (Array.isArray(docOrContent)) {
-      const result = this.renderNodes(docOrContent, docOrContent)
-      // Return empty string if result is only whitespace entities or non-breaking spaces
-      return this.isEmptyOutput(result) ? '' : result
-    }
-
-    // Single node
     const result = this.renderNodes(docOrContent, docOrContent)
     // Return empty string if result is only whitespace entities or non-breaking spaces
     return this.isEmptyOutput(result) ? '' : result
