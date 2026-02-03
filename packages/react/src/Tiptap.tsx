@@ -205,7 +205,7 @@ TiptapContent.displayName = 'Tiptap.Content'
  *   return (
  *     <Tiptap editor={editor}>
  *       <Tiptap.Content />
- *       <BubbleMenu editor={editor}>
+ *       <BubbleMenu>
  *         <button onClick={() => editor.chain().focus().toggleBold().run()}>Bold</button>
  *       </BubbleMenu>
  *     </Tiptap>
