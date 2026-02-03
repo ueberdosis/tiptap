@@ -272,7 +272,10 @@ export class MarkdownManager {
     }
 
     // Check if the output is only &nbsp; entities or non-breaking space characters
-    const cleanedOutput = markdown.replace(/&nbsp;/g, '').replace(/\u00A0/g, '').trim()
+    const cleanedOutput = markdown
+      .replace(/&nbsp;/g, '')
+      .replace(/\u00A0/g, '')
+      .trim()
     return cleanedOutput === ''
   }
 
