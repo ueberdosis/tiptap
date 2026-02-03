@@ -141,6 +141,7 @@ declare module '@tiptap/core' {
         target?: string | null
         rel?: string | null
         class?: string | null
+        title?: string | null
       }) => ReturnType
       /**
        * Toggle a link mark
@@ -152,6 +153,7 @@ declare module '@tiptap/core' {
         target?: string | null
         rel?: string | null
         class?: string | null
+        title?: string | null
       }) => ReturnType
       /**
        * Unset a link mark
@@ -282,6 +284,9 @@ export const Link = Mark.create<LinkOptions>({
       class: {
         default: this.options.HTMLAttributes.class,
       },
+      title: {
+        default: null,
+      },
     }
   },
 
@@ -335,10 +340,11 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   renderMarkdown: (node, h) => {
-    const href = node.attrs?.href || ''
+    const href = node.attrs?.href ?? ''
+    const title = node.attrs?.title ?? ''
     const text = h.renderChildren(node)
 
-    return `[${text}](${href})`
+    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
   },
 
   addCommands() {
