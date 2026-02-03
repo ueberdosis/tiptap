@@ -256,13 +256,27 @@ export class MarkdownManager {
       return ''
     }
 
-    // If an array of nodes was passed
-    if (Array.isArray(docOrContent)) {
-      return this.renderNodes(docOrContent, docOrContent)
+    const result = this.renderNodes(docOrContent, docOrContent)
+    // Return empty string if result is only whitespace entities or non-breaking spaces
+    return this.isEmptyOutput(result) ? '' : result
+  }
+
+  /**
+   * Check if the markdown output represents an empty document.
+   * Empty documents may contain only &nbsp; entities or non-breaking space characters
+   * which are used by the Paragraph extension to preserve blank lines.
+   */
+  private isEmptyOutput(markdown: string): boolean {
+    if (!markdown || markdown.trim() === '') {
+      return true
     }
 
-    // Single node
-    return this.renderNodes(docOrContent, docOrContent)
+    // Check if the output is only &nbsp; entities or non-breaking space characters
+    const cleanedOutput = markdown
+      .replace(/&nbsp;/g, '')
+      .replace(/\u00A0/g, '')
+      .trim()
+    return cleanedOutput === ''
   }
 
   /**

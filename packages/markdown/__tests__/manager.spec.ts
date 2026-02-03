@@ -294,6 +294,46 @@ Final paragraph.`
       expect(markdown).toBe('Hello world')
     })
 
+    it('should return empty string when serializing empty document', () => {
+      // When the editor is empty, it contains a doc with an empty paragraph
+      const emptyDoc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(emptyDoc)
+      expect(markdown).toBe('')
+    })
+
+    it('should preserve blank lines between paragraphs with content', () => {
+      // Multiple paragraphs with content should preserve blank lines
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'First paragraph' }],
+          },
+          {
+            type: 'paragraph',
+            content: [],
+          },
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'Second paragraph' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('First paragraph\n\n&nbsp;\n\nSecond paragraph')
+    })
+
     it('should move trailing whitespace outside of mark closing (Issue #7180)', () => {
       // When text has trailing space and bold mark, output should be "**text** " not "**text **"
       const doc = {
