@@ -126,6 +126,52 @@ export class ReactNodeView<
   }
 
   /**
+   * Find the parent ReactRenderer ID by traversing up the ProseMirror document tree.
+   * This enables proper React Context propagation through nested NodeViews.
+   */
+  private findParentRendererId(): string | null {
+    const pos = this.getPos()
+    if (typeof pos !== 'number') {
+      return null
+    }
+
+    const { doc } = this.view.state
+    const $pos = doc.resolve(pos)
+
+    // Walk up the document tree to find parent nodes with React NodeViews
+    for (let depth = $pos.depth; depth > 0; depth -= 1) {
+      const parentPos = $pos.before(depth)
+
+      // Get the DOM node for this parent position
+      const parentDOMNode = this.view.nodeDOM(parentPos)
+      if (parentDOMNode) {
+        // Check if this DOM node is a React renderer element
+        const parentElement =
+          parentDOMNode instanceof HTMLElement ? parentDOMNode : (parentDOMNode as Element).parentElement
+
+        if (parentElement) {
+          // Look for the renderer ID stored as a data attribute
+          const reactRenderer = parentElement.querySelector('[data-renderer-id]')
+          if (reactRenderer) {
+            const parentRendererId = reactRenderer.getAttribute('data-renderer-id')
+            if (parentRendererId) {
+              return parentRendererId
+            }
+          }
+
+          // Also check if the parent element itself has the renderer ID
+          const parentRendererId = parentElement.getAttribute('data-renderer-id')
+          if (parentRendererId) {
+            return parentRendererId
+          }
+        }
+      }
+    }
+
+    return null
+  }
+
+  /**
    * Setup the React component.
    * Called on initialization.
    */
@@ -187,12 +233,19 @@ export class ReactNodeView<
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
 
+    // Find the parent renderer ID for proper context propagation
+    const parentId = this.findParentRendererId()
+
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
       props,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
+      parentId,
     })
+
+    // Store the renderer ID on the element for parent lookup
+    this.renderer.element.setAttribute('data-renderer-id', this.renderer.id)
 
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     this.updateElementAttributes()
