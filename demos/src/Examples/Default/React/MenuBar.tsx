@@ -2,7 +2,7 @@ import type { Editor } from '@tiptap/core'
 import { useEditorState } from '@tiptap/react'
 import React from 'react'
 
-import { menuBarStateSelector } from './menuBarState.ts'
+import { menuBarStateSelector } from './menuBarState.js'
 
 export const MenuBar = ({ editor }: { editor: Editor | null }) => {
   const editorState = useEditorState({
