@@ -1,19 +1,15 @@
 import { useTiptap, useTiptapState } from '@tiptap/react'
 import React from 'react'
 
-import { menuBarStateSelector } from './menuBarState.ts'
+import { menuBarStateSelector } from './menuBarState.js'
 
 /**
  * Menu bar component that uses useTiptap and useTiptapState hooks
  * to access the editor from context.
  */
 export function MenuBar() {
-  const { editor, isReady } = useTiptap()
+  const { editor } = useTiptap()
   const editorState = useTiptapState(menuBarStateSelector)
-
-  if (!isReady || !editor) {
-    return null
-  }
 
   return (
     <div className="control-group">
