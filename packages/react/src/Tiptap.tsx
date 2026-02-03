@@ -1,41 +1,40 @@
 import type { ReactNode } from 'react'
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useMemo } from 'react'
 
 import { EditorContext } from './Context.js'
 import type { Editor, EditorContentProps, EditorStateSnapshot } from './index.js'
 import { EditorContent, useEditorState } from './index.js'
-import { type BubbleMenuProps, BubbleMenu } from './menus/BubbleMenu.js'
-import { type FloatingMenuProps, FloatingMenu } from './menus/FloatingMenu.js'
 
 /**
  * The shape of the React context used by the `<Tiptap />` components.
  *
- * This object exposes the editor instance and a simple readiness flag.
+ * The editor instance is always available when using the default `useEditor`
+ * configuration. For SSR scenarios where `immediatelyRender: false` is used,
+ * consider using the legacy `EditorProvider` pattern instead.
  */
 export type TiptapContextType = {
-  /** The Tiptap editor instance. May be null during SSR or before initialization. */
-  editor: Editor | null
-
-  /** True when the editor has finished initializing and is ready for user interaction. */
-  isReady: boolean
+  /** The Tiptap editor instance. */
+  editor: Editor
 }
 
 /**
- * React context that stores the current editor instance and readiness flag.
+ * React context that stores the current editor instance.
  *
  * Use `useTiptap()` to read from this context in child components.
  */
 export const TiptapContext = createContext<TiptapContextType>({
-  editor: null,
-  isReady: false,
+  get editor(): Editor {
+    throw new Error('useTiptap must be used within a <Tiptap> provider')
+  },
 })
 
 TiptapContext.displayName = 'TiptapContext'
 
 /**
- * Hook to read the Tiptap context (`editor` + `isReady`).
+ * Hook to read the Tiptap context and access the editor instance.
  *
  * This is a small convenience wrapper around `useContext(TiptapContext)`.
+ * The editor is always available when used within a `<Tiptap>` provider.
  *
  * @returns The current `TiptapContextType` value from the provider.
  *
@@ -43,9 +42,14 @@ TiptapContext.displayName = 'TiptapContext'
  * ```tsx
  * import { useTiptap } from '@tiptap/react'
  *
- * function Status() {
- *   const { isReady } = useTiptap()
- *   return <div>{isReady ? 'Editor ready' : 'Loading editor...'}</div>
+ * function Toolbar() {
+ *   const { editor } = useTiptap()
+ *
+ *   return (
+ *     <button onClick={() => editor.chain().focus().toggleBold().run()}>
+ *       Bold
+ *     </button>
+ *   )
  * }
  * ```
  */
@@ -57,10 +61,6 @@ export const useTiptap = () => useContext(TiptapContext)
  * This is a thin wrapper around `useEditorState` that reads the `editor`
  * instance from `useTiptap()` so callers don't have to pass it manually.
  *
- * Important: This hook should only be used when the editor is available.
- * Use the `isReady` flag from `useTiptap()` to guard against null editor,
- * or ensure your component only renders after the editor is initialized.
- *
  * @typeParam TSelectorResult - The type returned by the selector.
  * @param selector - Function that receives the editor state snapshot and
  *                   returns the piece of state you want to subscribe to.
@@ -71,15 +71,10 @@ export const useTiptap = () => useContext(TiptapContext)
  * @example
  * ```tsx
  * function WordCount() {
- *   const { isReady } = useTiptap()
- *
- *   // Only use useTiptapState when the editor is ready
  *   const wordCount = useTiptapState(state => {
  *     const text = state.editor.state.doc.textContent
  *     return text.split(/\s+/).filter(Boolean).length
  *   })
- *
- *   if (!isReady) return null
  *
  *   return <span>{wordCount} words</span>
  * }
@@ -90,8 +85,9 @@ export function useTiptapState<TSelectorResult>(
   equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean,
 ) {
   const { editor } = useTiptap()
+
   return useEditorState({
-    editor: editor as Editor,
+    editor,
     selector,
     equalityFn,
   })
@@ -103,18 +99,21 @@ export function useTiptapState<TSelectorResult>(
 export type TiptapWrapperProps = {
   /**
    * The editor instance to provide to child components.
-   * Can be null during SSR or before initialization.
+   * Use `useEditor()` to create this instance.
    */
-  instance: Editor | null
+  editor?: Editor
+
+  /**
+   * @deprecated Use `editor` instead.
+   */
+  instance?: Editor
+
   children: ReactNode
 }
 
 /**
  * Top-level provider component that makes the editor instance available via
- * React context and tracks when the editor becomes ready.
- *
- * The component listens to the editor's `create` event and flips the
- * `isReady` flag once initialization completes.
+ * React context to all child components.
  *
  * This component also provides backwards compatibility with the legacy
  * `EditorContext`, so components using `useCurrentEditor()` will work
@@ -131,7 +130,7 @@ export type TiptapWrapperProps = {
  *   const editor = useEditor({ extensions: [...] })
  *
  *   return (
- *     <Tiptap instance={editor}>
+ *     <Tiptap editor={editor}>
  *       <Toolbar />
  *       <Tiptap.Content />
  *     </Tiptap>
@@ -139,38 +138,13 @@ export type TiptapWrapperProps = {
  * }
  * ```
  */
-export function TiptapWrapper({ instance, children }: TiptapWrapperProps) {
-  const [isReady, setIsReady] = useState(instance?.isInitialized ?? false)
-
-  useEffect(() => {
-    if (!instance) {
-      setIsReady(false)
-      return
-    }
-
-    // If the editor is already initialized, set isReady to true
-    if (instance.isInitialized) {
-      setIsReady(true)
-      return
-    }
-
-    const handleCreate = () => {
-      setIsReady(true)
-    }
-
-    instance.on('create', handleCreate)
-
-    return () => {
-      instance.off('create', handleCreate)
-    }
-  }, [instance])
-
-  // Memoize context values to prevent unnecessary re-renders
-  const tiptapContextValue = useMemo<TiptapContextType>(() => ({ editor: instance, isReady }), [instance, isReady])
+export function TiptapWrapper({ editor, instance, children }: TiptapWrapperProps) {
+  const resolvedEditor = (editor ?? instance) as Editor
+  const tiptapContextValue = useMemo<TiptapContextType>(() => ({ editor: resolvedEditor }), [resolvedEditor])
 
   // Provide backwards compatibility with the legacy EditorContext
   // so components using useCurrentEditor() work inside <Tiptap>
-  const legacyContextValue = useMemo(() => ({ editor: instance }), [instance])
+  const legacyContextValue = useMemo(() => ({ editor: resolvedEditor }), [resolvedEditor])
 
   return (
     <EditorContext.Provider value={legacyContextValue}>
@@ -202,128 +176,36 @@ export function TiptapContent({ ...rest }: Omit<EditorContentProps, 'editor' | '
 
 TiptapContent.displayName = 'Tiptap.Content'
 
-export type TiptapLoadingProps = {
-  children: ReactNode
-}
-
-/**
- * Component that renders its children only when the editor is not ready.
- *
- * This is useful for displaying loading states or placeholders during
- * editor initialization, especially with SSR.
- *
- * @param props - The props for the TiptapLoading component.
- * @returns The children when editor is not ready, or null when ready.
- *
- * @example
- * ```tsx
- * <Tiptap instance={editor}>
- *   <Tiptap.Loading>
- *     <div className="skeleton">Loading editor...</div>
- *   </Tiptap.Loading>
- *   <Tiptap.Content />
- * </Tiptap>
- * ```
- */
-export function TiptapLoading({ children }: TiptapLoadingProps) {
-  const { isReady } = useTiptap()
-
-  if (isReady) {
-    return null
-  }
-
-  return children
-}
-
-TiptapLoading.displayName = 'Tiptap.Loading'
-
-/**
- * A wrapper around the library `BubbleMenu` that injects the editor from
- * context so callers don't need to pass the `editor` prop.
- *
- * Returns `null` when the editor is not available (for example during SSR).
- *
- * @param props - Props for the underlying `BubbleMenu` (except `editor`).
- * @returns A `BubbleMenu` bound to the context editor, or `null`.
- *
- * @example
- * ```tsx
- * <Tiptap.BubbleMenu tippyOptions={{ duration: 100 }}>
- *   <button onClick={() => editor.chain().focus().toggleBold().run()}>Bold</button>
- * </Tiptap.BubbleMenu>
- * ```
- */
-export function TiptapBubbleMenu({ children, ...rest }: { children: ReactNode } & Omit<BubbleMenuProps, 'editor'>) {
-  const { editor } = useTiptap()
-
-  if (!editor) {
-    return null
-  }
-
-  return (
-    <BubbleMenu editor={editor} {...rest}>
-      {children}
-    </BubbleMenu>
-  )
-}
-
-TiptapBubbleMenu.displayName = 'Tiptap.BubbleMenu'
-
-/**
- * A wrapper around the library `FloatingMenu` that injects the editor from
- * context so callers don't need to pass the `editor` prop.
- *
- * Returns `null` when the editor is not available.
- *
- * @param props - Props for the underlying `FloatingMenu` (except `editor`).
- * @returns A `FloatingMenu` bound to the context editor, or `null`.
- *
- * @example
- * ```tsx
- * <Tiptap.FloatingMenu placement="top">
- *   <button onClick={() => editor.chain().focus().toggleItalic().run()}>Italic</button>
- * </Tiptap.FloatingMenu>
- * ```
- */
-export function TiptapFloatingMenu({ children, ...rest }: { children: ReactNode } & Omit<FloatingMenuProps, 'editor'>) {
-  const { editor } = useTiptap()
-
-  if (!editor) {
-    return null
-  }
-
-  return (
-    <FloatingMenu {...rest} editor={editor}>
-      {children}
-    </FloatingMenu>
-  )
-}
-
-TiptapFloatingMenu.displayName = 'Tiptap.FloatingMenu'
-
 /**
  * Root `Tiptap` component. Use it as the provider for all child components.
  *
- * The exported object includes several helper subcomponents for common use
- * cases: `Content`, `Loading`, `BubbleMenu`, and `FloatingMenu`.
+ * The exported object includes the `Content` subcomponent for rendering the
+ * editor content area.
  *
  * This component provides both the new `TiptapContext` (accessed via `useTiptap()`)
  * and the legacy `EditorContext` (accessed via `useCurrentEditor()`) for
  * backwards compatibility.
  *
+ * For bubble menus and floating menus, import them separately from
+ * `@tiptap/react/menus` to keep floating-ui as an optional dependency.
+ *
  * @example
  * ```tsx
- * const editor = useEditor({ extensions: [...] })
+ * import { Tiptap, useEditor } from '@tiptap/react'
+ * import { BubbleMenu } from '@tiptap/react/menus'
  *
- * return (
- *   <Tiptap instance={editor}>
- *     <Tiptap.Loading>Initializing editor...</Tiptap.Loading>
- *     <Tiptap.Content />
- *     <Tiptap.BubbleMenu>
- *       <button onClick={() => editor.chain().focus().toggleBold().run()}>Bold</button>
- *     </Tiptap.BubbleMenu>
- *   </Tiptap>
- * )
+ * function App() {
+ *   const editor = useEditor({ extensions: [...] })
+ *
+ *   return (
+ *     <Tiptap editor={editor}>
+ *       <Tiptap.Content />
+ *       <BubbleMenu editor={editor}>
+ *         <button onClick={() => editor.chain().focus().toggleBold().run()}>Bold</button>
+ *       </BubbleMenu>
+ *     </Tiptap>
+ *   )
+ * }
  * ```
  */
 export const Tiptap = Object.assign(TiptapWrapper, {
@@ -332,24 +214,6 @@ export const Tiptap = Object.assign(TiptapWrapper, {
    * @see TiptapContent
    */
   Content: TiptapContent,
-
-  /**
-   * The Tiptap Loading component that renders its children only when the editor is not ready.
-   * @see TiptapLoading
-   */
-  Loading: TiptapLoading,
-
-  /**
-   * The Tiptap BubbleMenu component that wraps the BubbleMenu from Tiptap and provides the editor instance from the context.
-   * @see TiptapBubbleMenu
-   */
-  BubbleMenu: TiptapBubbleMenu,
-
-  /**
-   * The Tiptap FloatingMenu component that wraps the FloatingMenu from Tiptap and provides the editor instance from the context.
-   * @see TiptapFloatingMenu
-   */
-  FloatingMenu: TiptapFloatingMenu,
 })
 
 export default Tiptap

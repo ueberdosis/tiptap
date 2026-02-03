@@ -45,7 +45,7 @@ export default () => {
   })
 
   return (
-    <Tiptap instance={editor}>
+    <Tiptap editor={editor}>
       <MenuBar />
       <Tiptap.Content />
     </Tiptap>

@@ -8,12 +8,8 @@ import { menuBarStateSelector } from './menuBarState.ts'
  * to access the editor from context.
  */
 export function MenuBar() {
-  const { editor, isReady } = useTiptap()
+  const { editor } = useTiptap()
   const editorState = useTiptapState(menuBarStateSelector)
-
-  if (!isReady || !editor) {
-    return null
-  }
 
   return (
     <div className="control-group">
