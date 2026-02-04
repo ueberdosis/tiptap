@@ -17,6 +17,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       resizeDelay,
       appendTo,
       shouldShow = null,
+      showOnMouseUp = false,
       getReferencedVirtualElement,
       options,
       children,
@@ -47,6 +48,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       appendTo,
       pluginKey,
       shouldShow,
+      showOnMouseUp,
       getReferencedVirtualElement,
       options,
     }
@@ -135,6 +137,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       updateDelay,
       resizeDelay,
       shouldShow,
+      showOnMouseUp,
       options,
       appendTo,
       getReferencedVirtualElement,

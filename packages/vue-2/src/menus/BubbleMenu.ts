@@ -12,6 +12,7 @@ export interface BubbleMenuInterface {
   resizeDelay: BubbleMenuPluginProps['resizeDelay']
   appendTo: BubbleMenuPluginProps['appendTo']
   shouldShow: BubbleMenuPluginProps['shouldShow']
+  showOnMouseUp: BubbleMenuPluginProps['showOnMouseUp']
   getReferencedVirtualElement: BubbleMenuPluginProps['getReferencedVirtualElement']
   options: BubbleMenuPluginProps['options']
 }
@@ -52,6 +53,11 @@ export const BubbleMenu: Component = {
       type: Function as PropType<Exclude<BubbleMenuPluginProps['shouldShow'], null>>,
       default: null,
     },
+
+    showOnMouseUp: {
+      type: Boolean as PropType<BubbleMenuPluginProps['showOnMouseUp']>,
+      default: false,
+    },
   },
 
   mounted(this: BubbleMenuInterface) {
@@ -79,6 +85,7 @@ export const BubbleMenu: Component = {
           pluginKey: this.pluginKey,
           appendTo: this.appendTo,
           shouldShow: this.shouldShow,
+          showOnMouseUp: this.showOnMouseUp,
           getReferencedVirtualElement: this.getReferencedVirtualElement,
         }),
       )

@@ -101,6 +101,17 @@ export interface BubbleMenuPluginProps {
   getReferencedVirtualElement?: () => VirtualElement | null
 
   /**
+   * When enabled, the bubble menu will only appear after the mouse button is released
+   * (on mouseup), similar to Notion's behavior. This prevents the menu from appearing
+   * and following the cursor while the user is still making a selection.
+   *
+   * When disabled (default), the menu appears immediately as the selection changes.
+   * @type {boolean}
+   * @default false
+   */
+  showOnMouseUp?: boolean
+
+  /**
    * The options for the bubble menu. Those are passed to Floating UI and include options for the placement, offset, flip, shift, arrow, size, autoPlacement,
    * hide, and inline middlewares.
    * @default {}
@@ -172,6 +183,12 @@ export class BubbleMenuView implements PluginView {
   private isVisible = false
 
   private scrollTarget: HTMLElement | Window = window
+
+  private showOnMouseUp = false
+
+  private isMouseDown = false
+
+  private pendingUpdate: { view: EditorView; oldState?: EditorState } | null = null
 
   private floatingUIOptions: NonNullable<BubbleMenuPluginProps['options']> = {
     strategy: 'absolute',
@@ -336,6 +353,7 @@ export class BubbleMenuView implements PluginView {
     shouldShow,
     appendTo,
     getReferencedVirtualElement,
+    showOnMouseUp = false,
     options,
   }: BubbleMenuViewProps) {
     this.editor = editor
@@ -346,6 +364,7 @@ export class BubbleMenuView implements PluginView {
     this.appendTo = appendTo
     this.scrollTarget = options?.scrollTarget ?? window
     this.getReferencedVirtualElement = getReferencedVirtualElement
+    this.showOnMouseUp = showOnMouseUp
 
     this.floatingUIOptions = {
       ...this.floatingUIOptions,
@@ -366,6 +385,11 @@ export class BubbleMenuView implements PluginView {
     window.addEventListener('resize', this.resizeHandler)
     this.scrollTarget.addEventListener('scroll', this.resizeHandler)
 
+    if (this.showOnMouseUp) {
+      this.view.dom.addEventListener('mousedown', this.editorMousedownHandler)
+      this.view.root.addEventListener('mouseup', this.editorMouseupHandler)
+    }
+
     this.update(view, view.state)
 
     if (this.getShouldShow()) {
@@ -380,6 +404,45 @@ export class BubbleMenuView implements PluginView {
 
   dragstartHandler = () => {
     this.hide()
+  }
+
+  /**
+   * Handles mousedown on the editor when showOnMouseUp is enabled.
+   * Sets the isMouseDown flag to defer menu display until mouseup.
+   * Only tracks left mouse button (button === 0) to avoid interfering with right-click.
+   */
+  editorMousedownHandler = (event: MouseEvent) => {
+    if (event.button !== 0) {
+      return
+    }
+
+    this.isMouseDown = true
+    this.hide()
+    this.pendingUpdate = null
+  }
+
+  /**
+   * Handles mouseup when showOnMouseUp is enabled.
+   * If there's a pending update, process it now to show the menu.
+   */
+  editorMouseupHandler = () => {
+    if (!this.isMouseDown) {
+      return
+    }
+
+    this.isMouseDown = false
+
+    if (this.pendingUpdate) {
+      const { view, oldState } = this.pendingUpdate
+      this.pendingUpdate = null
+
+      const selectionChanged = !oldState?.selection.eq(view.state.selection)
+      const docChanged = !oldState?.doc.eq(view.state.doc)
+
+      setTimeout(() => {
+        this.updateHandler(view, selectionChanged, docChanged, oldState)
+      }, 0)
+    }
   }
 
   /**
@@ -467,6 +530,11 @@ export class BubbleMenuView implements PluginView {
     const selectionChanged = !oldState?.selection.eq(view.state.selection)
     const docChanged = !oldState?.doc.eq(view.state.doc)
 
+    if (this.showOnMouseUp && this.isMouseDown) {
+      this.pendingUpdate = { view, oldState }
+      return
+    }
+
     this.updateHandler(view, selectionChanged, docChanged, oldState)
   }
 
@@ -483,6 +551,11 @@ export class BubbleMenuView implements PluginView {
     }
 
     this.updateDebounceTimer = window.setTimeout(() => {
+      if (this.showOnMouseUp && this.isMouseDown) {
+        this.pendingUpdate = { view, oldState }
+        return
+      }
+
       this.updateHandler(view, selectionChanged, docChanged, oldState)
     }, this.updateDelay)
   }
@@ -598,6 +671,22 @@ export class BubbleMenuView implements PluginView {
       }
     }
 
+    if (newProps.showOnMouseUp !== undefined) {
+      const wasEnabled = this.showOnMouseUp
+      this.showOnMouseUp = newProps.showOnMouseUp
+
+      if (newProps.showOnMouseUp && !wasEnabled) {
+        this.view.dom.addEventListener('mousedown', this.editorMousedownHandler)
+        this.view.root.addEventListener('mouseup', this.editorMouseupHandler)
+      } else if (!newProps.showOnMouseUp && wasEnabled) {
+        this.view.dom.removeEventListener('mousedown', this.editorMousedownHandler)
+        this.view.root.removeEventListener('mouseup', this.editorMouseupHandler)
+
+        this.isMouseDown = false
+        this.pendingUpdate = null
+      }
+    }
+
     if (newProps.options !== undefined) {
       // Handle scrollTarget change - need to remove old listener and add new one
       // Use nullish coalescing to default to window when scrollTarget is undefined/null
@@ -625,6 +714,11 @@ export class BubbleMenuView implements PluginView {
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
     this.editor.off('transaction', this.transactionHandler)
+
+    if (this.showOnMouseUp) {
+      this.view.dom.removeEventListener('mousedown', this.editorMousedownHandler)
+      this.view.root.removeEventListener('mouseup', this.editorMouseupHandler)
+    }
 
     if (this.floatingUIOptions.onDestroy) {
       this.floatingUIOptions.onDestroy()
