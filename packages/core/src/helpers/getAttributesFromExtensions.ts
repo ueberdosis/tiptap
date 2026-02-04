@@ -40,9 +40,11 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     }
 
     const globalAttributes = addGlobalAttributes()
+    const nodeExtensionTypes = nodeExtensions.filter(ext => ext.name !== 'text').map(ext => ext.name)
 
     globalAttributes.forEach(globalAttribute => {
-      globalAttribute.types.forEach(type => {
+      const types = globalAttribute.types || nodeExtensionTypes
+      types.forEach(type => {
         Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
           extensionAttributes.push({
             type,
