@@ -198,17 +198,18 @@ describe('getAttributesFromExtensions', () => {
     })
   })
 
-  describe('global attributes without types', () => {
-    it('should apply global attributes to all node extensions when types is not specified', () => {
+  describe('global attributes with shorthand types', () => {
+    it('should apply global attributes to all nodes and marks when types is "*"', () => {
       const NodeA = Node.create({ name: 'nodeA' })
       const NodeB = Node.create({ name: 'nodeB' })
+      const CustomMark = Mark.create({ name: 'customMark' })
 
       const GlobalExtension = Extension.create({
         name: 'globalExtension',
         addGlobalAttributes() {
           return [
             {
-              // No types specified - should apply to all nodes
+              types: '*',
               attributes: {
                 universalAttr: {
                   default: 'universal',
@@ -219,9 +220,9 @@ describe('getAttributesFromExtensions', () => {
         },
       })
 
-      const attributes = getAttributesFromExtensions([NodeA, NodeB, GlobalExtension])
+      const attributes = getAttributesFromExtensions([NodeA, NodeB, CustomMark, GlobalExtension])
 
-      // Should have the attribute for both nodeA and nodeB
+      // Should have the attribute for both nodes and mark
       expect(attributes).toContainEqual(
         expect.objectContaining({
           type: 'nodeA',
@@ -236,54 +237,30 @@ describe('getAttributesFromExtensions', () => {
           attribute: expect.objectContaining({ default: 'universal' }),
         }),
       )
-    })
-
-    it('should not apply global attributes to text nodes when types is not specified', () => {
-      const TextNode = Node.create({ name: 'text' })
-      const ParagraphNode = Node.create({ name: 'paragraph' })
-
-      const GlobalExtension = Extension.create({
-        name: 'globalExtension',
-        addGlobalAttributes() {
-          return [
-            {
-              attributes: {
-                universalAttr: {
-                  default: 'universal',
-                },
-              },
-            },
-          ]
-        },
-      })
-
-      const attributes = getAttributesFromExtensions([TextNode, ParagraphNode, GlobalExtension])
-
-      // Should NOT have the attribute for text node
-      const textAttrs = attributes.filter(a => a.type === 'text')
-      expect(textAttrs.find(a => a.name === 'universalAttr')).toBeUndefined()
-
-      // Should have the attribute for paragraph node
       expect(attributes).toContainEqual(
         expect.objectContaining({
-          type: 'paragraph',
+          type: 'customMark',
           name: 'universalAttr',
+          attribute: expect.objectContaining({ default: 'universal' }),
         }),
       )
     })
 
-    it('should apply global attributes to marks when types is not specified', () => {
+    it('should apply global attributes to all nodes when types is "nodes"', () => {
+      const TextNode = Node.create({ name: 'text' })
+      const ParagraphNode = Node.create({ name: 'paragraph' })
+      const HeadingNode = Node.create({ name: 'heading' })
       const CustomMark = Mark.create({ name: 'customMark' })
-      const CustomNode = Node.create({ name: 'customNode' })
 
       const GlobalExtension = Extension.create({
         name: 'globalExtension',
         addGlobalAttributes() {
           return [
             {
+              types: 'nodes',
               attributes: {
-                universalAttr: {
-                  default: 'universal',
+                nodeAttr: {
+                  default: 'nodeValue',
                 },
               },
             },
@@ -291,15 +268,77 @@ describe('getAttributesFromExtensions', () => {
         },
       })
 
-      const attributes = getAttributesFromExtensions([CustomMark, CustomNode, GlobalExtension])
+      const attributes = getAttributesFromExtensions([
+        TextNode,
+        ParagraphNode,
+        HeadingNode,
+        CustomMark,
+        GlobalExtension,
+      ])
 
-      // Check if marks also receive the global attribute
+      // Should NOT have the attribute for text node
+      const textAttrs = attributes.filter(a => a.type === 'text')
+      expect(textAttrs.find(a => a.name === 'nodeAttr')).toBeUndefined()
+
+      // Should have the attribute for other nodes
+      expect(attributes).toContainEqual(
+        expect.objectContaining({
+          type: 'paragraph',
+          name: 'nodeAttr',
+        }),
+      )
+      expect(attributes).toContainEqual(
+        expect.objectContaining({
+          type: 'heading',
+          name: 'nodeAttr',
+        }),
+      )
+
+      // Should NOT have the attribute for marks
+      const markAttrs = attributes.filter(a => a.type === 'customMark')
+      expect(markAttrs.find(a => a.name === 'nodeAttr')).toBeUndefined()
+    })
+
+    it('should apply global attributes to all marks when types is "marks"', () => {
+      const CustomNode = Node.create({ name: 'customNode' })
+      const BoldMark = Mark.create({ name: 'bold' })
+      const ItalicMark = Mark.create({ name: 'italic' })
+
+      const GlobalExtension = Extension.create({
+        name: 'globalExtension',
+        addGlobalAttributes() {
+          return [
+            {
+              types: 'marks',
+              attributes: {
+                markAttr: {
+                  default: 'markValue',
+                },
+              },
+            },
+          ]
+        },
+      })
+
+      const attributes = getAttributesFromExtensions([CustomNode, BoldMark, ItalicMark, GlobalExtension])
+
+      // Should have the attribute for marks
+      expect(attributes).toContainEqual(
+        expect.objectContaining({
+          type: 'bold',
+          name: 'markAttr',
+        }),
+      )
+      expect(attributes).toContainEqual(
+        expect.objectContaining({
+          type: 'italic',
+          name: 'markAttr',
+        }),
+      )
+
+      // Should NOT have the attribute for nodes
       const nodeAttrs = attributes.filter(a => a.type === 'customNode')
-
-      // Based on current implementation, global attributes without types
-      // use nodeExtensionTypes which filters by `instanceof Node`
-      // Marks may or may not be included depending on implementation
-      expect(nodeAttrs.find(a => a.name === 'universalAttr')).toBeDefined()
+      expect(nodeAttrs.find(a => a.name === 'markAttr')).toBeUndefined()
     })
   })
 
