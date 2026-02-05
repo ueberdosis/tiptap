@@ -1,7 +1,5 @@
-import { Extension, Mark, Node } from '@tiptap/core'
+import { Extension, getAttributesFromExtensions, Mark, Node } from '@tiptap/core'
 import { describe, expect, it } from 'vitest'
-
-import { getAttributesFromExtensions } from '../src/helpers/getAttributesFromExtensions.js'
 
 describe('getAttributesFromExtensions', () => {
   describe('node attributes', () => {
