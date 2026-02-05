@@ -439,6 +439,9 @@ export class BubbleMenuView implements PluginView {
       const selectionChanged = !oldState?.selection.eq(view.state.selection)
       const docChanged = !oldState?.doc.eq(view.state.doc)
 
+      // Defer the update to the next tick so the browser has fully applied the
+      // mouseup-triggered selection and DOM changes before we read and position
+      // the bubble menu.
       setTimeout(() => {
         this.updateHandler(view, selectionChanged, docChanged, oldState)
       }, 0)
