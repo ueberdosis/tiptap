@@ -404,6 +404,13 @@ export class FloatingMenuView {
         ...newProps.options,
       }
     }
+    if (meta === 'hide') {
+      this.hide()
+    }
+    if (meta === 'show') {
+      this.updatePosition()
+      this.show()
+    }
   }
 
   /**
