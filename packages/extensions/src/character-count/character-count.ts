@@ -119,14 +119,40 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const initialContentSize = this.storage.characters({ node: newState.doc })
 
           if (initialContentSize > limit) {
-            const over = initialContentSize - limit
-            const from = 0
-            const to = over
+            const doc = newState.doc
+            let charCount = 0
+            let limitPosition = doc.content.size
+
+            doc.nodesBetween(0, doc.content.size, (node, pos) => {
+              if (node.isText) {
+                const nodeText = node.text || ''
+                const nodeCharCount = this.options.textCounter(nodeText)
+
+                if (charCount + nodeCharCount <= limit) {
+                  charCount += nodeCharCount
+                } else {
+                  const remainingChars = limit - charCount
+                  let charIndex = 0
+
+                  for (let i = 0; i < nodeText.length; i++) {
+                    const substring = nodeText.slice(0, i + 1)
+                    const substringCharCount = this.options.textCounter(substring)
+                    if (substringCharCount > remainingChars) {
+                      break
+                    }
+                    charIndex = i + 1
+                  }
+
+                  limitPosition = pos + charIndex
+                  return false
+                }
+              }
+            })
 
             console.warn(
               `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
             )
-            const tr = newState.tr.deleteRange(from, to)
+            const tr = newState.tr.deleteRange(limitPosition, doc.content.size)
 
             initialEvaluationDone = true
             return tr
