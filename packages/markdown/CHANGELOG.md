@@ -1,5 +1,132 @@
 # @tiptap/markdown
 
+## 3.18.0
+
+### Patch Changes
+
+- 9b388ef: Upgrade marked.js from v15.0.12 to v17.0.1. Note that `**)**` requires whitespace when adjacent to alphanumeric text per CommonMark specification.
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- 62c6f15: Fixed markdown serialization doubling newlines and parsing collapsing multiple blank lines
+- 4bcacda: Fixed markdown HTML parsing when window object is unavailable in server-side environments
+- 5d267cb: Fixed ordered list numbering when list has a non-default start value
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- d63518a: Fix incorrect Markdown output when underline is mixed with bold or italic and their ranges do not fully overlap.
+- d63518a: Fix overlapping underline/bold/italic serialization and add tests
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- 7725052: Fixed trailing and leading whitespace handling in markdown serialization for inline marks
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- f3bb5c1: Fixed CommonJS compatibility by downgrading `marked` dependency from v16 to v15.
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
 ## 3.10.7
 
 ### Patch Changes

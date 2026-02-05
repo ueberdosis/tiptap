@@ -15,7 +15,14 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type {
+  Commands,
+  ExtensionConfig,
+  GetUpdatedPositionResult,
+  MappablePosition,
+  MarkConfig,
+  NodeConfig,
+} from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -257,6 +264,23 @@ export interface EditorEvents {
   )
 }
 
+/**
+ * Props passed to the `dispatchTransaction` hook in extensions.
+ */
+export type DispatchTransactionProps = {
+  /**
+   * The transaction that is about to be dispatched.
+   */
+  transaction: Transaction
+  /**
+   * A function that should be called to pass the transaction down to the next extension
+   * (or eventually to the editor).
+   *
+   * @param transaction The transaction to dispatch
+   */
+  next: (transaction: Transaction) => void
+}
+
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
@@ -292,6 +316,14 @@ export interface EditorOptions {
    * Whether the editor is editable
    */
   editable: boolean
+  /**
+   * The default text direction for all content in the editor.
+   * When set to 'ltr' or 'rtl', all nodes will have the corresponding dir attribute.
+   * When set to 'auto', the dir attribute will be set based on content detection.
+   * When undefined, no dir attribute will be added.
+   * @default undefined
+   */
+  textDirection?: 'ltr' | 'rtl' | 'auto'
   /**
    * The editor's props
    */
@@ -357,7 +389,8 @@ export interface EditorOptions {
           | 'tabindex'
           | 'drop'
           | 'paste'
-          | 'delete',
+          | 'delete'
+          | 'textDirection',
           false
         >
       >
@@ -434,6 +467,17 @@ export interface EditorOptions {
    * Called when content is deleted from the editor.
    */
   onDelete: (props: EditorEvents['delete']) => void
+  /**
+   * Whether to enable extension-level dispatching of transactions.
+   * If `false`, extensions cannot define their own `dispatchTransaction` hook.
+   *
+   * @default true
+   * @example
+   * new Editor({
+   *   enableExtensionDispatchTransaction: false,
+   * })
+   */
+  enableExtensionDispatchTransaction?: boolean
 }
 
 /**
@@ -964,4 +1008,31 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
+}
+
+export type Utils = {
+  /**
+   * Returns the new position after applying a transaction.
+   *
+   * @param position The position to update. A MappablePosition instance.
+   * @param transaction The transaction to apply.
+   * @returns The new position after applying the transaction.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
+   */
+  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+
+  /**
+   * Creates a MappablePosition from a position number. A mappable position can be used to track the
+   * next position after applying a transaction.
+   *
+   * @param position The position (as a number) where the MappablePosition will be created.
+   * @returns A new MappablePosition instance at the given position.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   */
+  createMappablePosition: (position: number) => MappablePosition
 }

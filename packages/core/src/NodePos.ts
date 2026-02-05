@@ -134,6 +134,7 @@ export class NodePos {
     this.node.content.forEach((node, offset) => {
       const isBlock = node.isBlock && !node.isTextblock
       const isNonTextAtom = node.isAtom && !node.isText
+      const isInline = node.isInline
 
       const targetPos = this.pos + offset + (isNonTextAtom ? 0 : 1)
 
@@ -144,17 +145,21 @@ export class NodePos {
 
       const $pos = this.resolvedPos.doc.resolve(targetPos)
 
-      if (!isBlock && $pos.depth <= this.depth) {
+      // Only apply depth check for non-block, non-inline nodes (i.e., textblocks)
+      // Inline nodes should always be included as children since we're iterating
+      // over direct children via this.node.content
+      if (!isBlock && !isInline && $pos.depth <= this.depth) {
         return
       }
 
-      const childNodePos = new NodePos($pos, this.editor, isBlock, isBlock ? node : null)
+      // Pass the node for both block and inline nodes to ensure correct node reference
+      const childNodePos = new NodePos($pos, this.editor, isBlock, isBlock || isInline ? node : null)
 
       if (isBlock) {
         childNodePos.actualDepth = this.depth + 1
       }
 
-      children.push(new NodePos($pos, this.editor, isBlock, isBlock ? node : null))
+      children.push(childNodePos)
     })
 
     return children

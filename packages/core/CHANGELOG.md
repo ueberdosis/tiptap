@@ -1,5 +1,131 @@
 # Change Log
 
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- aa9709e: Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- b46e66a: Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Minor Changes
+
+- e3b4f68: 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility. 2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles. 3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+### Patch Changes
+
+- 526365a: Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- f232c5a: Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### Patch Changes
+
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- d0c4264: Improve TypeScript generics for Node.extend
+
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+
+  This is a type-only change — there are no runtime behavior changes.
+
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Minor Changes
+
+- 541c93c: Add native text direction support for RTL and bidirectional content. The editor now includes a `textDirection` option that can be set to `'ltr'`, `'rtl'`, or `'auto'` to control the direction of all content globally. Additionally, new `setTextDirection` and `unsetTextDirection` commands allow for granular control of text direction on specific nodes. This enables proper rendering of right-to-left languages like Arabic and Hebrew, as well as bidirectional text mixing multiple languages.
+
+### Patch Changes
+
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- 8375241: Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
+- b7ead7c: Add documentation comments to Tiptap JSON types
+- 95d3e80: allow `undefined` as a value for the `default` attribute key
+- fd479bd: Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
+  - @tiptap/pm@3.10.8
+
 ## 3.10.7
 
 ### Patch Changes
