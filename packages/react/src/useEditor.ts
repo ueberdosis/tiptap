@@ -127,29 +127,30 @@ class EditorInstanceManager {
     return null
   }
 
+  private wrapOptionsWithCallbacks(options: Partial<EditorOptions>): Partial<EditorOptions> {
+    return {
+      ...options,
+      onBeforeCreate: (...args) => this.options.current?.onBeforeCreate?.(...args),
+      onBlur: (...args) => this.options.current?.onBlur?.(...args),
+      onCreate: (...args) => this.options.current?.onCreate?.(...args),
+      onDestroy: (...args) => this.options.current?.onDestroy?.(...args),
+      onFocus: (...args) => this.options.current?.onFocus?.(...args),
+      onSelectionUpdate: (...args) => this.options.current?.onSelectionUpdate?.(...args),
+      onTransaction: (...args) => this.options.current?.onTransaction?.(...args),
+      onUpdate: (...args) => this.options.current?.onUpdate?.(...args),
+      onContentError: (...args) => this.options.current?.onContentError?.(...args),
+      onDrop: (...args) => this.options.current?.onDrop?.(...args),
+      onPaste: (...args) => this.options.current?.onPaste?.(...args),
+      onDelete: (...args) => this.options.current?.onDelete?.(...args),
+    }
+  }
+
   /**
    * Create a new editor instance. And attach event listeners.
    */
   private createEditor(): Editor {
-    const optionsToApply: Partial<EditorOptions> = {
-      ...this.options.current,
-      // Always call the most recent version of the callback function by default
-      onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
-      onBlur: (...args) => this.options.current.onBlur?.(...args),
-      onCreate: (...args) => this.options.current.onCreate?.(...args),
-      onDestroy: (...args) => this.options.current.onDestroy?.(...args),
-      onFocus: (...args) => this.options.current.onFocus?.(...args),
-      onSelectionUpdate: (...args) => this.options.current.onSelectionUpdate?.(...args),
-      onTransaction: (...args) => this.options.current.onTransaction?.(...args),
-      onUpdate: (...args) => this.options.current.onUpdate?.(...args),
-      onContentError: (...args) => this.options.current.onContentError?.(...args),
-      onDrop: (...args) => this.options.current.onDrop?.(...args),
-      onPaste: (...args) => this.options.current.onPaste?.(...args),
-      onDelete: (...args) => this.options.current.onDelete?.(...args),
-    }
+    const optionsToApply = this.wrapOptionsWithCallbacks(this.options.current)
     const editor = new Editor(optionsToApply)
-
-    // no need to keep track of the event listeners, they will be removed when the editor is destroyed
 
     return editor
   }
@@ -237,10 +238,12 @@ class EditorInstanceManager {
         if (!EditorInstanceManager.compareOptions(this.options.current, this.editor.options)) {
           // But, the options are different, so we need to update the editor options
           // Still, this is faster than re-creating the editor
-          this.editor.setOptions({
-            ...this.options.current,
-            editable: this.editor.isEditable,
-          })
+          this.editor.setOptions(
+            this.wrapOptionsWithCallbacks({
+              ...this.options.current,
+              editable: this.editor.isEditable,
+            }),
+          )
         }
       } else {
         // When the editor:
@@ -304,7 +307,7 @@ class EditorInstanceManager {
         // If still mounted on the following tick, with the same instanceId, do not destroy the editor
         if (currentEditor) {
           // just re-apply options as they might have changed
-          currentEditor.setOptions(this.options.current)
+          currentEditor.setOptions(this.wrapOptionsWithCallbacks(this.options.current))
         }
         return
       }
@@ -342,9 +345,9 @@ export function useEditor(
 export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
 
 export function useEditor(options: UseEditorOptions = {}, deps: DependencyList = []): Editor | null {
-  const mostRecentOptions = useRef(options)
-
-  mostRecentOptions.current = options
+  const normalizedOptions = options ?? {}
+  const mostRecentOptions = useRef(normalizedOptions)
+  mostRecentOptions.current = normalizedOptions
 
   const [instanceManager] = useState(() => new EditorInstanceManager(mostRecentOptions))
 
@@ -365,13 +368,10 @@ export function useEditor(options: UseEditorOptions = {}, deps: DependencyList =
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
-        // This will prevent the editor from re-rendering on each transaction
+      if (normalizedOptions.shouldRerenderOnTransaction === false || normalizedOptions.shouldRerenderOnTransaction === undefined) {
         return null
       }
-
-      // This will avoid re-rendering on the first transaction when `immediatelyRender` is set to `true`
-      if (options.immediatelyRender && transactionNumber === 0) {
+      if (normalizedOptions.immediatelyRender && transactionNumber === 0) {
         return 0
       }
       return transactionNumber + 1
