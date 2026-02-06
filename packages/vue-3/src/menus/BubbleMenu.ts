@@ -44,6 +44,11 @@ export const BubbleMenu = defineComponent({
       default: null,
     },
 
+    showOnMouseUp: {
+      type: Boolean as PropType<BubbleMenuPluginProps['showOnMouseUp']>,
+      default: false,
+    },
+
     getReferencedVirtualElement: {
       type: Function as PropType<Exclude<Required<BubbleMenuPluginProps>['getReferencedVirtualElement'], null>>,
       default: undefined,
@@ -61,6 +66,7 @@ export const BubbleMenu = defineComponent({
         resizeDelay,
         appendTo,
         shouldShow,
+        showOnMouseUp,
         getReferencedVirtualElement,
         updateDelay,
       } = props
@@ -87,6 +93,7 @@ export const BubbleMenu = defineComponent({
             resizeDelay,
             appendTo,
             shouldShow,
+            showOnMouseUp,
             getReferencedVirtualElement,
             updateDelay,
           }),
