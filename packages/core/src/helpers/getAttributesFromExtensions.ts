@@ -21,6 +21,11 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     isRequired: false,
   }
 
+  // Precompute lists of extension types for global attribute resolution
+  const nodeExtensionTypes = nodeExtensions.filter(ext => ext.name !== 'text').map(ext => ext.name)
+  const markExtensionTypes = markExtensions.map(ext => ext.name)
+  const allExtensionTypes = [...nodeExtensionTypes, ...markExtensionTypes]
+
   extensions.forEach(extension => {
     const context = {
       name: extension.name,
@@ -42,7 +47,21 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
     const globalAttributes = addGlobalAttributes()
 
     globalAttributes.forEach(globalAttribute => {
-      globalAttribute.types.forEach(type => {
+      // Resolve the types based on the string shorthand or explicit array
+      let resolvedTypes: string[]
+      if (Array.isArray(globalAttribute.types)) {
+        resolvedTypes = globalAttribute.types
+      } else if (globalAttribute.types === '*') {
+        resolvedTypes = allExtensionTypes
+      } else if (globalAttribute.types === 'nodes') {
+        resolvedTypes = nodeExtensionTypes
+      } else if (globalAttribute.types === 'marks') {
+        resolvedTypes = markExtensionTypes
+      } else {
+        resolvedTypes = []
+      }
+
+      resolvedTypes.forEach(type => {
         Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
           extensionAttributes.push({
             type,
