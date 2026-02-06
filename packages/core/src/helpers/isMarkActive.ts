@@ -33,7 +33,7 @@ export function isMarkActive(
     const to = $to.pos
 
     state.doc.nodesBetween(from, to, (node, pos) => {
-      // ignore selected text that does not allow the mark due to its parent node's `marks` spec
+      // ignore selected text inside nodes whose schema disallows this mark type
       if (type && node.inlineContent && !node.type.allowsMarkType(type)) {
         return false
       }
