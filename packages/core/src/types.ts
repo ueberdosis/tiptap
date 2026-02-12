@@ -652,8 +652,18 @@ export type ExtensionAttribute = {
 export type GlobalAttributes = {
   /**
    * The node & mark types this attribute should be applied to.
+   * Can be a specific array of type names, or a shorthand string:
+   * - `'*'` applies to all nodes (excluding text) and all marks
+   * - `'nodes'` applies to all nodes (excluding the built-in text node)
+   * - `'marks'` applies to all marks
+   * - `string[]` applies to specific node/mark types by name
+   * @example
+   * types: '*'                                    // All nodes and marks
+   * types: 'nodes'                                // All nodes
+   * types: 'marks'                                // All marks
+   * types: ['heading', 'paragraph']               // Specific types
    */
-  types: string[]
+  types: string[] | 'nodes' | 'marks' | '*'
   /**
    * The attributes to add to the node or mark types.
    */
