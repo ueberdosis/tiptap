@@ -26,6 +26,7 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -40,6 +41,7 @@ import type {
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -113,6 +115,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
+    enableExtensionDispatchTransaction: true,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -534,14 +537,23 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates a ProseMirror view.
    */
   private createView(element: NonNullable<EditorOptions['element']>): void {
+    const { editorProps, enableExtensionDispatchTransaction } = this.options
+    // If a user provided a custom `dispatchTransaction` through `editorProps`,
+    // we use that as the base dispatch function.
+    // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
+    const baseDispatch = (editorProps as any).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const dispatch = enableExtensionDispatchTransaction
+      ? this.extensionManager.dispatchTransaction(baseDispatch)
+      : baseDispatch
+
     this.editorView = new EditorView(element, {
-      ...this.options.editorProps,
+      ...editorProps,
       attributes: {
         // add `role="textbox"` to the editor element
         role: 'textbox',
-        ...this.options.editorProps?.attributes,
+        ...editorProps?.attributes,
       },
-      dispatchTransaction: this.dispatchTransaction.bind(this),
+      dispatchTransaction: dispatch,
       state: this.editorState,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
@@ -795,5 +807,13 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  /**
+   * Returns a set of utilities for working with positions and ranges.
+   */
+  public utils: Utils = {
+    getUpdatedPosition,
+    createMappablePosition,
   }
 }

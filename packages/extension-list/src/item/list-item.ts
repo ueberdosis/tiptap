@@ -125,7 +125,8 @@ export const ListItem = Node.create<ListItemOptions>({
           return '- '
         }
         if (context.parentType === 'orderedList') {
-          return `${context.index + 1}. `
+          const start = context.meta?.parentAttrs?.start || 1
+          return `${start + context.index}. `
         }
         // Fallback to bullet list for unknown parent types
         return '- '

@@ -15,7 +15,14 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { Commands, ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type {
+  Commands,
+  ExtensionConfig,
+  GetUpdatedPositionResult,
+  MappablePosition,
+  MarkConfig,
+  NodeConfig,
+} from './index.js'
 import type { Mark } from './Mark.js'
 import type { Node } from './Node.js'
 
@@ -257,6 +264,23 @@ export interface EditorEvents {
   )
 }
 
+/**
+ * Props passed to the `dispatchTransaction` hook in extensions.
+ */
+export type DispatchTransactionProps = {
+  /**
+   * The transaction that is about to be dispatched.
+   */
+  transaction: Transaction
+  /**
+   * A function that should be called to pass the transaction down to the next extension
+   * (or eventually to the editor).
+   *
+   * @param transaction The transaction to dispatch
+   */
+  next: (transaction: Transaction) => void
+}
+
 export type EnableRules = (AnyExtension | string)[] | boolean
 
 export interface EditorOptions {
@@ -443,6 +467,17 @@ export interface EditorOptions {
    * Called when content is deleted from the editor.
    */
   onDelete: (props: EditorEvents['delete']) => void
+  /**
+   * Whether to enable extension-level dispatching of transactions.
+   * If `false`, extensions cannot define their own `dispatchTransaction` hook.
+   *
+   * @default true
+   * @example
+   * new Editor({
+   *   enableExtensionDispatchTransaction: false,
+   * })
+   */
+  enableExtensionDispatchTransaction?: boolean
 }
 
 /**
@@ -617,8 +652,18 @@ export type ExtensionAttribute = {
 export type GlobalAttributes = {
   /**
    * The node & mark types this attribute should be applied to.
+   * Can be a specific array of type names, or a shorthand string:
+   * - `'*'` applies to all nodes (excluding text) and all marks
+   * - `'nodes'` applies to all nodes (excluding the built-in text node)
+   * - `'marks'` applies to all marks
+   * - `string[]` applies to specific node/mark types by name
+   * @example
+   * types: '*'                                    // All nodes and marks
+   * types: 'nodes'                                // All nodes
+   * types: 'marks'                                // All marks
+   * types: ['heading', 'paragraph']               // Specific types
    */
-  types: string[]
+  types: string[] | 'nodes' | 'marks' | '*'
   /**
    * The attributes to add to the node or mark types.
    */
@@ -973,4 +1018,31 @@ export type MarkdownRendererHelpers = {
    * @returns The indented content
    */
   indent: (content: string) => string
+}
+
+export type Utils = {
+  /**
+   * Returns the new position after applying a transaction.
+   *
+   * @param position The position to update. A MappablePosition instance.
+   * @param transaction The transaction to apply.
+   * @returns The new position after applying the transaction.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
+   */
+  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+
+  /**
+   * Creates a MappablePosition from a position number. A mappable position can be used to track the
+   * next position after applying a transaction.
+   *
+   * @param position The position (as a number) where the MappablePosition will be created.
+   * @returns A new MappablePosition instance at the given position.
+   *
+   * @example
+   * const position = editor.utils.createMappablePosition(10)
+   */
+  createMappablePosition: (position: number) => MappablePosition
 }
