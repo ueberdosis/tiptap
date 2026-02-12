@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.19.0
+
+### Minor Changes
+
+- a1da626: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- a1da626: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Minor Changes

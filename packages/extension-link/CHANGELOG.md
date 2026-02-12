@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.19.0
+
+### Patch Changes
+
+- 9011aff: Add `title` attribute to Link extension. The title can now be set via `setLink` and `toggleLink` commands and is rendered as an HTML title attribute.
+- 9011aff: Add title attribute support for markdown rendering. Links with titles are now serialized to markdown format `[text](url "title")`.
+  - @tiptap/core@3.19.0
+  - @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes
