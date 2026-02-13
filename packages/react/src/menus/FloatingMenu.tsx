@@ -128,7 +128,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       }
 
       pluginEditor.view.dispatch(
-        pluginEditor.state.tr.setMeta('floatingMenu', {
+        pluginEditor.state.tr.setMeta(pluginKey, {
           type: 'updateOptions',
           options: floatingMenuPluginPropsRef.current,
         }),

@@ -124,7 +124,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       }
 
       pluginEditor.view.dispatch(
-        pluginEditor.state.tr.setMeta('bubbleMenu', {
+        pluginEditor.state.tr.setMeta(pluginKey, {
           type: 'updateOptions',
           options: bubbleMenuPluginPropsRef.current,
         }),

@@ -157,6 +157,8 @@ export class BubbleMenuView implements PluginView {
 
   public preventHide = false
 
+  public pluginKey: PluginKey | string
+
   public updateDelay: number
 
   public resizeDelay: number
@@ -331,6 +333,7 @@ export class BubbleMenuView implements PluginView {
     editor,
     element,
     view,
+    pluginKey = 'bubbleMenu',
     updateDelay = 250,
     resizeDelay = 60,
     shouldShow,
@@ -341,6 +344,7 @@ export class BubbleMenuView implements PluginView {
     this.editor = editor
     this.element = element
     this.view = view
+    this.pluginKey = pluginKey
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
@@ -567,7 +571,7 @@ export class BubbleMenuView implements PluginView {
   }
 
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
-    const meta = tr.getMeta('bubbleMenu')
+    const meta = tr.getMeta(this.pluginKey)
     if (meta === 'updatePosition') {
       this.updatePosition()
     } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
