@@ -1,5 +1,13 @@
 # Releases
 
+## v3.19.1
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed getMarkdown() returning `&nbsp;` instead of empty string when editor is empty
+
 ## v3.19.0
 
 ### @tiptap/extension-link

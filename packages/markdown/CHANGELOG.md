@@ -1,5 +1,13 @@
 # @tiptap/markdown
 
+## 3.19.1
+
+### Patch Changes
+
+- 6e3a0e8: Fixed getMarkdown() returning `&nbsp;` instead of empty string when editor is empty
+  - @tiptap/core@3.19.1
+  - @tiptap/pm@3.19.1
+
 ## 3.19.0
 
 ### Patch Changes
