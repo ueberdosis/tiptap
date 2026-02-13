@@ -64,7 +64,7 @@ const getPackageAliases = () => {
 export default defineConfig({
   test: {
     environment: 'happy-dom',
-    include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],
+    include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts', 'packages/**/*.test.tsx', 'packages/**/*.spec.tsx'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
     pool: 'forks',
   },
