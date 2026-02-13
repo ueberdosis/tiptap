@@ -1,5 +1,12 @@
 # @tiptap/extension-node-range
 
+## 3.19.1
+
+### Patch Changes
+
+- @tiptap/core@3.19.1
+- @tiptap/pm@3.19.1
+
 ## 3.19.0
 
 ### Patch Changes
