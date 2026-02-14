@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/core'
+import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -75,5 +76,23 @@ describe('isActive', () => {
     })
 
     expect(editor.isActive('textStyle', { fontFamily: 'Inter', color: 'green' })).toBe(false)
+  })
+
+  it('should skip code blocks when checking the current mark', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, TextStyle, FontFamily, CodeBlock],
+      content: `
+        <pre>code</pre>
+        <p><span style="font-family: Inter; color: red">text</span></p>
+      `,
+    })
+
+    // Selection that touches the code block and paragraph
+    editor.commands.setTextSelection({ from: 1, to: 9 })
+    expect(editor.isActive('textStyle', { fontFamily: /.*/ })).toBe(true)
+
+    // Selection that touches just the code block
+    editor.commands.setTextSelection({ from: 1, to: 3 })
+    expect(editor.isActive('textStyle', { fontFamily: /.*/ })).toBe(false)
   })
 })
