@@ -209,6 +209,12 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         }
 
         if (isAtStart || !$anchor.parent.textContent.length) {
+          if (this.editor.isActive('orderedList'))
+            return this.editor
+              .chain()
+              .insertContent('<p></p>')
+              .deleteNode(this.name)
+              .run()
           return this.editor.commands.clearNodes()
         }
 
