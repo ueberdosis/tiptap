@@ -183,8 +183,8 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     }
 
     if (this.editor.isEditorContentInitialized) {
-      // On first render, we need to flush the render synchronously
-      // Renders afterwards can be async, but this fixes a cursor positioning issue
+      // If EditorContent is mounted, flush synchronously to maintain cursor positioning consistency.
+      // Subsequent renders can be async without affecting cursor behavior.
       flushSync(() => {
         this.render()
       })
