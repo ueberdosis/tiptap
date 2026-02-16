@@ -49,8 +49,9 @@ function getDragHandleRanges(
   }
 
   // For non-nested mode, use depth 0 to select the outermost block
+  const offset = result.resultNode.isText ? 0 : -1
   const $from = doc.resolve(result.pos)
-  const $to = doc.resolve(result.pos + result.resultNode.nodeSize)
+  const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
   return getSelectionRanges($from, $to, 0)
 }
