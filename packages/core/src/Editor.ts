@@ -300,7 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Returns the editor state.
+   * Returns the editor view.
    */
   public get view(): EditorView {
     if (this.editorView) {
