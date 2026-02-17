@@ -38,12 +38,12 @@ export default () => {
           </tr>
         </thead>
         <tbody>
-          <tr></tr>
+          <tr>
             <td>Component-Based Architecture</td>
             <td>Breaks down the UI into reusable components.</td>
             <td><code>&lt;MyComponent /&gt;</code></td>
           </tr>
-          <tr></tr>
+          <tr>
             <td>Virtual DOM</td>
             <td>Improves performance by minimizing direct DOM manipulation.</td>
             <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
