@@ -87,7 +87,7 @@ describe('mergeAttributes', () => {
       { style: 'color: green; font-size;' },
     )
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'color: green; font-size: 14px',
     })
   })
@@ -95,7 +95,7 @@ describe('mergeAttributes', () => {
   it('should handle styles with only values', () => {
     const value = mergeAttributes({ style: ': red; color: green; : 100px;' }, { style: 'margin: 10px' })
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'color: green; margin: 10px',
     })
   })
@@ -106,7 +106,7 @@ describe('mergeAttributes', () => {
       { style: 'color: blue' },
     )
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style: 'font-family: Arial, "Helvetica Neue", sans-serif; color: blue',
     })
   })
@@ -117,7 +117,7 @@ describe('mergeAttributes', () => {
       { style: 'color: red' },
     )
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style:
         'background: url(https://example.com/image.jpg) center center no-repeat; background-size: cover; color: red',
     })
@@ -132,7 +132,7 @@ describe('mergeAttributes', () => {
       { style: 'color: red' },
     )
 
-    expect(value).to.deep.eq({
+    expect(value).toEqual({
       style:
         'background: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E") center center no-repeat; background-size: cover; color: red',
     })
