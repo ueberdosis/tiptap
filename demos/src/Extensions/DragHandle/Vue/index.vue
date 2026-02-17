@@ -24,6 +24,7 @@
 
 <script>
 import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -50,6 +51,7 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
+        Image.configure({ inline: false }),
         NodeRange.configure({
           // allow to select only on depth 0
           // depth: 0,
