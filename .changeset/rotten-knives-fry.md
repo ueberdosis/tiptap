@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-Fixed mergeAttributes correctness on complex styles
+Fix inline `style` parsing in `mergeAttributes` for values containing `:` (e.g. `url(https://...)`) and skip incomplete declarations
