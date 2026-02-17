@@ -570,6 +570,12 @@ export class BubbleMenuView implements PluginView {
     this.isVisible = false
   }
 
+  /**
+   * Handles the transaction event to update the position of the bubble menu.
+   * This allows external code to trigger a position update via:
+   * `editor.view.dispatch(editor.state.tr.setMeta(pluginKey, 'updatePosition'))`
+   * The `pluginKey` defaults to `bubbleMenu`
+   */
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
     const meta = tr.getMeta(this.pluginKey)
     if (meta === 'updatePosition') {
