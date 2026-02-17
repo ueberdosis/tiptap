@@ -127,14 +127,29 @@ describe('mergeAttributes', () => {
     const value = mergeAttributes(
       {
         style:
-          'background: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E") center center no-repeat;background-size: cover',
+          'background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E") center center no-repeat;background-size: cover',
       },
       { style: 'color: red' },
     )
 
     expect(value).toEqual({
       style:
-        'background: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E") center center no-repeat; background-size: cover; color: red',
+        'background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3C/svg%3E") center center no-repeat; background-size: cover; color: red',
+    })
+  })
+
+  it('should handle quoted style values', () => {
+    const value = mergeAttributes(
+      {
+        style:
+          '--test-var: "hello;test"; content:\'work in progress: come back later\'',
+      },
+      { style: 'color: red' },
+    )
+
+    expect(value).toEqual({
+      style:
+      '--test-var: "hello;test"; content: \'work in progress: come back later\'; color: red',
     })
   })
 })
