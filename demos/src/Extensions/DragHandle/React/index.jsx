@@ -2,6 +2,7 @@ import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
 import Image from '@tiptap/extension-image'
+import { TableKit } from '@tiptap/extension-table'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
@@ -12,7 +13,7 @@ export default () => {
   const [nested, setNested] = useState(true)
 
   const editor = useEditor({
-    extensions: [StarterKit, Image.configure({ inline: false })],
+    extensions: [StarterKit, Image.configure({ inline: false }), TableKit],
     content: `
       <h1>The Complete Guide to Modern Web Development</h1>
       <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
@@ -27,6 +28,28 @@ export default () => {
       </blockquote>
 
       <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr></tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr></tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
       <hr>
 

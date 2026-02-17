@@ -124,8 +124,17 @@ export function dragHandler(
   event.dataTransfer.clearData()
   event.dataTransfer.setDragImage(wrapper, 0, 0)
 
-  // tell ProseMirror the dragged content
-  view.dragging = { slice, move: true }
+  // Tell ProseMirror the dragged content.
+  // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
+  // to precisely delete the original node via `node.replace(tr)`. Without this,
+  // ProseMirror falls back to `tr.deleteSelection()` which relies on the current
+  // selection — but the browser may change the selection during drag, causing the
+  // original node to not be deleted on drop.
+  const nodeSelection = selection instanceof NodeSelection ? selection : undefined
+
+  // The `node` property is used at runtime by ProseMirror's drop handler but is
+  // not exposed in the public type declaration for `view.dragging`.
+  view.dragging = { slice, move: true, node: nodeSelection } as typeof view.dragging
 
   tr.setSelection(selection)
 
