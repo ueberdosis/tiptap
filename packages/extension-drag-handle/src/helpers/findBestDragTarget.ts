@@ -114,6 +114,41 @@ export function findBestDragTarget(
     })
     .filter((candidate): candidate is NonNullable<typeof candidate> => candidate !== null)
 
+  // Atom/leaf nodes (e.g. images) are not ancestors of $pos — they sit at $pos.nodeAfter.
+  // The depth loop above only walks ancestor nodes, so these are missed entirely.
+  // Check for a nodeAfter and evaluate it as an additional candidate.
+  const nodeAfter = $pos.nodeAfter
+
+  if (nodeAfter && nodeAfter.isAtom && !nodeAfter.isInline) {
+    const nodePos = posInfo.pos
+    const depth = $pos.depth + 1
+    const parent = $pos.parent
+    const index = $pos.index()
+    const siblingCount = parent.childCount
+
+    const context: RuleContext = {
+      node: nodeAfter,
+      pos: nodePos,
+      depth,
+      parent,
+      index,
+      isFirst: index === 0,
+      isLast: index === siblingCount - 1,
+      $pos,
+      view,
+    }
+
+    const score = calculateScore(context, rules, options.edgeDetection, coords)
+
+    if (score >= 0) {
+      const dom = view.nodeDOM(nodePos) as HTMLElement | null
+
+      if (dom) {
+        candidates.push({ node: nodeAfter, pos: nodePos, depth, score, dom })
+      }
+    }
+  }
+
   if (candidates.length === 0) {
     return null
   }
