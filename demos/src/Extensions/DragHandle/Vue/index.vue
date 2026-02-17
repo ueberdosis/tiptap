@@ -62,6 +62,8 @@ export default {
         <h1>The Complete Guide to Modern Web Development</h1>
         <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
 
+        <img src="https://unsplash.it/500/500" alt="Random Image" />
+
         <h2>Getting Started</h2>
         <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
 
