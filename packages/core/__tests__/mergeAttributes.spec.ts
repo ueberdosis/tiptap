@@ -149,7 +149,7 @@ describe('mergeAttributes', () => {
 
     expect(value).toEqual({
       style:
-      '--test-var: "hello;test"; content: \'work in progress: come back later\'; color: red',
+        '--test-var: "hello;test"; content: \'work in progress: come back later\'; color: red',
     })
   })
 })
