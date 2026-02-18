@@ -100,6 +100,7 @@ export const BubbleMenu = React.forwardRef<HTMLDivElement, BubbleMenuProps>(
       return () => {
         setPluginInitialized(false)
         pluginEditor.unregisterPlugin(createdPluginKey)
+        menuEl.current = document.createElement('div')
         window.requestAnimationFrame(() => {
           if (bubbleMenuElement.parentNode) {
             bubbleMenuElement.parentNode.removeChild(bubbleMenuElement)
