@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.20.0
+
+### Minor Changes
+
+- 0f28d9c: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- 0f28d9c: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- 253ca1c: Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
 ## 3.19.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @tiptap/extension-unique-id
 
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
 ## 3.19.0
 
 ### Patch Changes
