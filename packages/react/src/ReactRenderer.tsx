@@ -126,6 +126,13 @@ export interface ReactRendererOptions {
    * @example 'foo bar'
    */
   className?: string
+
+  /**
+   * The ID of the parent ReactRenderer (for context propagation).
+   * @type {string | null}
+   * @default null
+   */
+  parentId?: string | null
 }
 
 type ComponentType<R, P> =
@@ -159,6 +166,8 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   ref: R | null = null
 
+  parentId: string | null = null
+
   /**
    * Flag to track if the renderer has been destroyed, preventing queued or asynchronous renders from executing after teardown.
    */
@@ -169,12 +178,13 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    */
   constructor(
     component: ComponentType<R, P>,
-    { editor, props = {}, as = 'div', className = '' }: ReactRendererOptions,
+    { editor, props = {}, as = 'div', className = '', parentId = null }: ReactRendererOptions,
   ) {
     this.id = Math.floor(Math.random() * 0xffffffff).toString()
     this.component = component
     this.editor = editor as EditorWithContentComponent
     this.props = props as P
+    this.parentId = parentId
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
 
@@ -232,7 +242,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
     this.reactElement = <Component {...elementProps} />
 
-    editor?.contentComponent?.setRenderer(this.id, this)
+    editor?.contentComponent?.setRenderer(this.id, this, this.parentId)
   }
 
   /**
