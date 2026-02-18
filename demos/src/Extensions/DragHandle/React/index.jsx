@@ -3,7 +3,7 @@ import './styles.scss'
 import DragHandle from '@tiptap/extension-drag-handle-react'
 import Image from '@tiptap/extension-image'
 import { TableKit } from '@tiptap/extension-table'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
 
@@ -101,6 +101,13 @@ export default () => {
     `,
   })
 
+  const isEditable = useEditorState({
+    editor,
+    selector: context => {
+      return context.editor.isEditable
+    },
+  })
+
   const toggleEditable = () => {
     editor.setEditable(!editor.isEditable)
     editor.view.dispatch(editor.view.state.tr)
@@ -112,9 +119,15 @@ export default () => {
 
   return (
     <>
-      <div>
-        <button onClick={toggleEditable}>Toggle editable</button>
-        <button onClick={toggleNested}>Toggle nested</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button className={isEditable ? 'is-active' : ''} onClick={toggleEditable}>
+            Toggle editable
+          </button>
+          <button className={nested ? 'is-active' : ''} onClick={toggleNested}>
+            Toggle nested drag handle
+          </button>
+        </div>
       </div>
       <DragHandle editor={editor} nested={nested ? NESTED_CONFIG : false}>
         <div className="custom-drag-handle" />
