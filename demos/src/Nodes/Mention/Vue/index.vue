@@ -4,6 +4,16 @@
   </div>
 </template>
 
+<!--
+  Mention Extension Demo (Vue 3)
+  
+  Dependencies:
+  - @tiptap/extension-mention
+  - @tiptap/vue-3
+  - @floating-ui/dom (for suggestion positioning)
+  
+  Note: Tiptap v3 no longer uses tippy.js. Use @floating-ui/dom instead.
+-->
 <script>
 import Document from '@tiptap/extension-document'
 import Mention from '@tiptap/extension-mention'
