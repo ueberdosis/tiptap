@@ -51,6 +51,28 @@ export const listWrapperDeprioritize: DragHandleRule = {
 }
 
 /**
+ * Table rows, cells, and content inside table headers should never be drag targets.
+ * Table dragging is handled by table extensions. Only the table wrapper
+ * itself or content inside regular table cells should be draggable.
+ */
+export const tableStructure: DragHandleRule = {
+  id: 'tableStructure',
+  evaluate: ({ node, parent }) => {
+    const tableStructureTypes = ['tableRow', 'tableCell', 'tableHeader']
+
+    if (tableStructureTypes.includes(node.type.name)) {
+      return 1000
+    }
+
+    if (parent && parent.type.name === 'tableHeader') {
+      return 1000
+    }
+
+    return 0
+  },
+}
+
+/**
  * Inline nodes (text, marks, inline atoms) should never be drag targets.
  */
 export const inlineContent: DragHandleRule = {
@@ -68,4 +90,9 @@ export const inlineContent: DragHandleRule = {
  * All default rules.
  * Users can extend these or replace them entirely.
  */
-export const defaultRules: DragHandleRule[] = [listItemFirstChild, listWrapperDeprioritize, inlineContent]
+export const defaultRules: DragHandleRule[] = [
+  listItemFirstChild,
+  listWrapperDeprioritize,
+  tableStructure,
+  inlineContent,
+]

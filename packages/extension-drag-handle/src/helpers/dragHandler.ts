@@ -49,7 +49,9 @@ function getDragHandleRanges(
   }
 
   // For non-nested mode, use depth 0 to select the outermost block
-  const offset = result.resultNode.isText ? 0 : -1
+  // Atom nodes (e.g. images) have nodeSize=1 with no opening/closing tokens,
+  // so we must not subtract 1 or we'll create an empty range.
+  const offset = result.resultNode.isText || result.resultNode.isAtom ? 0 : -1
   const $from = doc.resolve(result.pos)
   const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
@@ -122,8 +124,17 @@ export function dragHandler(
   event.dataTransfer.clearData()
   event.dataTransfer.setDragImage(wrapper, 0, 0)
 
-  // tell ProseMirror the dragged content
-  view.dragging = { slice, move: true }
+  // Tell ProseMirror the dragged content.
+  // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
+  // to precisely delete the original node via `node.replace(tr)`. Without this,
+  // ProseMirror falls back to `tr.deleteSelection()` which relies on the current
+  // selection — but the browser may change the selection during drag, causing the
+  // original node to not be deleted on drop.
+  const nodeSelection = selection instanceof NodeSelection ? selection : undefined
+
+  // The `node` property is used at runtime by ProseMirror's drop handler but is
+  // not exposed in the public type declaration for `view.dragging`.
+  view.dragging = { slice, move: true, node: nodeSelection } as typeof view.dragging
 
   tr.setSelection(selection)
 
