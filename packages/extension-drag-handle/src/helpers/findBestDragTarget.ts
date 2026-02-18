@@ -126,25 +126,33 @@ export function findBestDragTarget(
     const index = $pos.index()
     const siblingCount = parent.childCount
 
-    const context: RuleContext = {
-      node: nodeAfter,
-      pos: nodePos,
-      depth,
-      parent,
-      index,
-      isFirst: index === 0,
-      isLast: index === siblingCount - 1,
-      $pos,
-      view,
+    let inAllowedContainer = true
+
+    if (options.allowedContainers) {
+      inAllowedContainer = hasAncestorOfType($pos, depth, options.allowedContainers)
     }
 
-    const score = calculateScore(context, rules, options.edgeDetection, coords)
+    if (inAllowedContainer) {
+      const context: RuleContext = {
+        node: nodeAfter,
+        pos: nodePos,
+        depth,
+        parent,
+        index,
+        isFirst: index === 0,
+        isLast: index === siblingCount - 1,
+        $pos,
+        view,
+      }
 
-    if (score >= 0) {
-      const dom = view.nodeDOM(nodePos) as HTMLElement | null
+      const score = calculateScore(context, rules, options.edgeDetection, coords)
 
-      if (dom) {
-        candidates.push({ node: nodeAfter, pos: nodePos, depth, score, dom })
+      if (score >= 0) {
+        const dom = view.nodeDOM(nodePos) as HTMLElement | null
+
+        if (dom) {
+          candidates.push({ node: nodeAfter, pos: nodePos, depth, score, dom })
+        }
       }
     }
   }
