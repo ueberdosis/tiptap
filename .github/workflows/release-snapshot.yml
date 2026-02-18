@@ -1,0 +1,60 @@
+name: Release Snapshot
+
+env:
+  PNPM_VERSION: 9.15.4
+
+on:
+  push:
+    branches:
+      - snapshot/*
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Prepare Snapshot Tag
+    runs-on: ubuntu-latest
+    outputs:
+      snapshot_tag: ${{ steps.extract_tag.outputs.tag }}
+    steps:
+      - name: Extract snapshot tag from branch
+        id: extract_tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref_name="${GITHUB_REF_NAME}"
+
+          if [[ "$ref_name" != snapshot/* ]]; then
+            echo "This workflow only supports snapshot/* branches. Got: $ref_name"
+            exit 1
+          fi
+
+          tag="${ref_name#snapshot/}"
+
+          if [[ -z "$tag" ]]; then
+            echo "Snapshot tag cannot be empty."
+            exit 1
+          fi
+
+          if [[ ! "$tag" =~ ^[a-z0-9][a-z0-9._-]*$ ]]; then
+            echo "Invalid snapshot tag: $tag"
+            echo "Allowed pattern: ^[a-z0-9][a-z0-9._-]*$"
+            exit 1
+          fi
+
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+  publish:
+    name: Publish Snapshot
+    needs: prepare
+    uses: ./.github/workflows/publish.yml
+    with:
+      release_type: snapshot
+      snapshot_tag: ${{ needs.prepare.outputs.snapshot_tag }}
+    secrets: inherit

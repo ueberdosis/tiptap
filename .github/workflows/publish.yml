@@ -4,12 +4,17 @@ env:
   PNPM_VERSION: 9.15.4
 
 on:
-  push:
-    branches:
-      - main
-      - release/*
-  # manual trigger for other branches
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      release_type:
+        description: stable|snapshot
+        required: true
+        type: string
+      snapshot_tag:
+        description: Snapshot dist-tag (required for snapshot releases)
+        required: false
+        default: ''
+        type: string
 
 permissions:
   id-token: write
@@ -17,17 +22,62 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.release_type }}
   cancel-in-progress: true
 
 jobs:
-  release:
-    name: Release
+  validate-inputs:
+    name: Validate Inputs
     runs-on: ubuntu-latest
+    outputs:
+      release_type: ${{ steps.validate.outputs.release_type }}
+      snapshot_tag: ${{ steps.validate.outputs.snapshot_tag }}
 
-    strategy:
-      matrix:
-        node-version: [20]
+    steps:
+      - name: Validate release inputs
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_type="${{ inputs.release_type }}"
+          snapshot_tag="${{ inputs.snapshot_tag }}"
+
+          case "$release_type" in
+            stable)
+              if [[ -n "$snapshot_tag" ]]; then
+                echo "snapshot_tag must be empty when release_type=stable"
+                exit 1
+              fi
+              ;;
+            snapshot)
+              if [[ -z "$snapshot_tag" ]]; then
+                echo "snapshot_tag is required when release_type=snapshot"
+                exit 1
+              fi
+              if [[ ! "$snapshot_tag" =~ ^[a-z0-9][a-z0-9._-]*$ ]]; then
+                echo "Invalid snapshot_tag: $snapshot_tag"
+                echo "Allowed pattern: ^[a-z0-9][a-z0-9._-]*$"
+                exit 1
+              fi
+              ;;
+            *)
+              echo "Invalid release_type: $release_type"
+              exit 1
+              ;;
+          esac
+
+          echo "release_type=$release_type" >> "$GITHUB_OUTPUT"
+          echo "snapshot_tag=$snapshot_tag" >> "$GITHUB_OUTPUT"
+
+  stable-release:
+    name: Publish stable
+    if: needs.validate-inputs.outputs.release_type == 'stable'
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout Repo
@@ -38,11 +88,11 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup Node ${{ matrix.node-version }}
+      - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: 20
+          cache: pnpm
 
       - name: Update npm for Trusted Publishing
         run: npm install -g npm@11.6.2
@@ -62,16 +112,16 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --strict-peer-dependencies
 
-      - name: Create Release PR or publish stable version to npm
+      - name: Release via Changesets Action
         id: changesets
         uses: changesets/action@v1
         with:
           createGithubReleases: false
           publish: pnpm run publish
           version: pnpm run version
-          title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
+          title: ${{ github.ref_name == 'main' && 'Publish a new stable version' || 'Publish a new pre-release version' }}
           commit: >-
-            ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
+            ${{ github.ref_name == 'main' && 'chore(release): publish a new release version' || 'chore(release): publish a new pre-release version' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
@@ -79,7 +129,6 @@ jobs:
 
       - name: Send release notification
         if: steps.changesets.outputs.published == 'true'
-        id: slack
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -88,19 +137,97 @@ jobs:
             {
               "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
             }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Send failure notification
+      - name: Send release failure notification
         if: failure()
-        id: slack_failure
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
             {
-              "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"
+              "message": "[Tiptap Editor Release]: There was an issue publishing a new version. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
+
+  snapshot-release:
+    name: Publish snapshot
+    if: needs.validate-inputs.outputs.release_type == 'snapshot'
+    needs: validate-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Update npm for Trusted Publishing
+        run: npm install -g npm@11.6.2
+
+      - name: Load turbo cache
+        uses: actions/cache@v5.0.2
+        id: turbo-cache
+        with:
+          path: |
+            .turbo
+            **/.eslintcache
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.sha }}
+            ${{ runner.os }}-turbo-
+
+      - name: Install Dependencies
+        run: pnpm install --strict-peer-dependencies
+
+      - name: Version snapshot packages
+        run: pnpm changeset version --snapshot ${{ needs.validate-inputs.outputs.snapshot_tag }}
+
+      - name: Build snapshot packages
+        run: pnpm build
+
+      - name: Publish snapshot packages
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          NPM_CONFIG_PROVENANCE: true
+          NPM_CONFIG_ACCESS: public
+        run: pnpm changeset publish --tag ${{ needs.validate-inputs.outputs.snapshot_tag }} --no-git-tag
+
+      - name: Discard snapshot versioning changes
+        if: always()
+        continue-on-error: true
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+
+      - name: Send snapshot release notification
+        if: success()
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "message": "New Snapshot Release: `${{ needs.validate-inputs.outputs.snapshot_tag }}` released"
+            }
+
+      - name: Send snapshot failure notification
+        if: failure()
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "message": "Snapshot release failed: `${{ needs.validate-inputs.outputs.snapshot_tag }}` was not able to be released as snapshot. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }
