@@ -1,5 +1,30 @@
 # @tiptap/extension-drag-handle
 
+## 3.20.0
+
+### Patch Changes
+
+- 536f452: Fix drag handle not appearing for atom/leaf nodes like images in both nested and non-nested modes
+- 536f452: Add table structure rules to prevent drag handle on table rows, cells, and headers, and fix ghost table rows when dragging tables
+- 5e04a73: Fix drag position resolving outside the document when dragging an empty text node at the end of the document
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/extension-collaboration@3.20.0
+  - @tiptap/extension-node-range@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/extension-collaboration@3.19.0
+- @tiptap/extension-node-range@3.19.0
+- @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes

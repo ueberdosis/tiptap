@@ -1,5 +1,84 @@
 # Releases
 
+## v3.20.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+#### Patch Changes
+
+- Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- Fixed a typo in the documentation of `editor.view`
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix drag handle not appearing for atom/leaf nodes like images in both nested and non-nested modes
+- Add table structure rules to prevent drag handle on table rows, cells, and headers, and fix ghost table rows when dragging tables
+- Fix drag position resolving outside the document when dragging an empty text node at the end of the document
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed getMarkdown() returning `&nbsp;` instead of empty string when editor is empty
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Fixed a runtime error when initializing `CodeBlockLowlight` by switching the `CodeBlock` import to a named export. This prevents `extend is not a function` errors caused by ESM/CJS interop issues.
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Added missing storage typings
+
+## v3.19.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Add `title` attribute to Link extension. The title can now be set via `setLink` and `toggleLink` commands and is rendered as an HTML title attribute.
+- Add title attribute support for markdown rendering. Links with titles are now serialized to markdown format `[text](url "title")`.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
 ## v3.18.0
 
 ### @tiptap/extension-bubble-menu

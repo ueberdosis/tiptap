@@ -1,5 +1,24 @@
 # Change Log
 
+## 3.20.0
+
+### Minor Changes
+
+- 57624a1: Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+### Patch Changes
+
+- 4b731e2: Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- 98546ac: Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- 76ce47d: Fixed a typo in the documentation of `editor.view`
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes

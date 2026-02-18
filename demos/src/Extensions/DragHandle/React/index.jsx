@@ -1,7 +1,9 @@
 import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Image from '@tiptap/extension-image'
+import { TableKit } from '@tiptap/extension-table'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
 
@@ -11,10 +13,12 @@ export default () => {
   const [nested, setNested] = useState(true)
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Image.configure({ inline: false }), TableKit],
     content: `
       <h1>The Complete Guide to Modern Web Development</h1>
       <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
+
+      <img src="https://unsplash.it/500/500" alt="Random Image" />
 
       <h2>Getting Started</h2>
       <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
@@ -24,6 +28,28 @@ export default () => {
       </blockquote>
 
       <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
       <hr>
 
@@ -75,6 +101,13 @@ export default () => {
     `,
   })
 
+  const isEditable = useEditorState({
+    editor,
+    selector: context => {
+      return context.editor.isEditable
+    },
+  })
+
   const toggleEditable = () => {
     editor.setEditable(!editor.isEditable)
     editor.view.dispatch(editor.view.state.tr)
@@ -86,9 +119,15 @@ export default () => {
 
   return (
     <>
-      <div>
-        <button onClick={toggleEditable}>Toggle editable</button>
-        <button onClick={toggleNested}>Toggle nested</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button className={isEditable ? 'is-active' : ''} onClick={toggleEditable}>
+            Toggle editable
+          </button>
+          <button className={nested ? 'is-active' : ''} onClick={toggleNested}>
+            Toggle nested drag handle
+          </button>
+        </div>
       </div>
       <DragHandle editor={editor} nested={nested ? NESTED_CONFIG : false}>
         <div className="custom-drag-handle" />
