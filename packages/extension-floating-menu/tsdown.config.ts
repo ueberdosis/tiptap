@@ -9,4 +9,5 @@ export default defineConfig({
   sourcemap: true,
   format: ['esm', 'cjs'],
   target: false,
+  external: [/^@floating-ui/],
 })
