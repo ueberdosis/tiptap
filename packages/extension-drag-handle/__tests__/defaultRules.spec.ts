@@ -7,6 +7,7 @@ import {
   inlineContent,
   listItemFirstChild,
   listWrapperDeprioritize,
+  tableStructure,
 } from '../src/helpers/defaultRules.js'
 import type { RuleContext } from '../src/types/rules.js'
 
@@ -281,6 +282,116 @@ describe('listWrapperDeprioritize', () => {
   })
 })
 
+describe('tableStructure', () => {
+  it('should have correct id', () => {
+    expect(tableStructure.id).toBe('tableStructure')
+  })
+
+  it('should exclude tableRow nodes', () => {
+    const node = {
+      type: { name: 'tableRow' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should exclude tableCell nodes', () => {
+    const node = {
+      type: { name: 'tableCell' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should exclude tableHeader nodes', () => {
+    const node = {
+      type: { name: 'tableHeader' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should not affect table wrapper nodes', () => {
+    const node = {
+      type: { name: 'table' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(0)
+  })
+
+  it('should exclude content inside tableHeader', () => {
+    const parent = {
+      type: { name: 'tableHeader' },
+    } as unknown as Node
+    const node = {
+      type: { name: 'paragraph' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node, parent })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(1000)
+  })
+
+  it('should not exclude content inside tableCell', () => {
+    const parent = {
+      type: { name: 'tableCell' },
+    } as unknown as Node
+    const node = {
+      type: { name: 'paragraph' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node, parent })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(0)
+  })
+
+  it('should not affect paragraph nodes', () => {
+    const node = {
+      type: { name: 'paragraph' },
+      isInline: false,
+      isText: false,
+    } as unknown as Node
+
+    const context = createMockContext({ node })
+
+    const result = tableStructure.evaluate(context)
+
+    expect(result).toBe(0)
+  })
+})
+
 describe('defaultRules', () => {
   it('should contain listItemFirstChild rule', () => {
     expect(defaultRules).toContain(listItemFirstChild)
@@ -290,11 +401,15 @@ describe('defaultRules', () => {
     expect(defaultRules).toContain(listWrapperDeprioritize)
   })
 
+  it('should contain tableStructure rule', () => {
+    expect(defaultRules).toContain(tableStructure)
+  })
+
   it('should contain inlineContent rule', () => {
     expect(defaultRules).toContain(inlineContent)
   })
 
-  it('should have exactly 3 rules', () => {
-    expect(defaultRules).toHaveLength(3)
+  it('should have exactly 4 rules', () => {
+    expect(defaultRules).toHaveLength(4)
   })
 })

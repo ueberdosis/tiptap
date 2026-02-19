@@ -24,7 +24,9 @@
 
 <script>
 import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
+import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
+import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
@@ -50,15 +52,19 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
+        Image.configure({ inline: false }),
         NodeRange.configure({
           // allow to select only on depth 0
           // depth: 0,
           key: null,
         }),
+        TableKit,
       ],
       content: `
         <h1>The Complete Guide to Modern Web Development</h1>
         <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
+
+        <img src="https://unsplash.it/500/500" alt="Random Image" />
 
         <h2>Getting Started</h2>
         <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
@@ -68,6 +74,28 @@ export default {
         </blockquote>
 
         <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+        <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
         <hr>
 
