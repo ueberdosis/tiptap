@@ -21,16 +21,16 @@
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/index.d.ts",
+        "import": "./dist/index.d.mts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "files": [
     "src",
     "dist"
@@ -49,7 +49,7 @@
     "vue-ts-types": "1.6.2"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

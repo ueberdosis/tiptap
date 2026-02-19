@@ -15,28 +15,28 @@
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/index.d.ts",
+        "import": "./dist/index.d.mts",
         "require": "./dist/index.d.cts"
       },
       "import": {
-        "browser": "./dist/index.js",
-        "node": "./dist/server/index.js",
-        "default": "./dist/index.js"
+        "browser": "./dist/index.mjs",
+        "node": "./dist/server/index.mjs",
+        "default": "./dist/index.mjs"
       },
       "require": "./dist/index.cjs"
     },
     "./server": {
       "types": {
-        "import": "./dist/server/index.d.ts",
+        "import": "./dist/server/index.d.mts",
         "require": "./dist/server/index.d.cts"
       },
-      "import": "./dist/server/index.js",
+      "import": "./dist/server/index.mjs",
       "require": "./dist/server/index.cjs"
     }
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "type": "module",
   "files": [
     "src",
@@ -59,7 +59,7 @@
     "directory": "packages/html"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

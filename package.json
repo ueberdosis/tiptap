@@ -79,7 +79,7 @@
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.20.3",
     "turbo": "2.3.3",
     "typescript": "^5.7.3",
     "vitest": "^4.0.7",
