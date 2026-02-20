@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.20.1
+
+### Patch Changes
+
+- f68388b: Fix tilde-fenced code blocks (`~~~`) being silently dropped when parsing markdown
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
 ## 3.20.0
 
 ### Patch Changes
