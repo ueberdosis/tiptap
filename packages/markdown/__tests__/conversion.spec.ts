@@ -1,5 +1,6 @@
 import type { Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
@@ -25,6 +26,7 @@ describe('Markdown Conversion Tests', () => {
     Link,
     Heading,
     HardBreak,
+    CodeBlock,
     BulletList,
     OrderedList,
     ListItem,
@@ -318,6 +320,62 @@ describe('Markdown Conversion Tests', () => {
       // Should serialize back to &nbsp; (normalized form)
       const serialized = markdownManager.serialize(json)
       expect(serialized).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+    })
+  })
+
+  describe('tilde fenced code blocks', () => {
+    const codeBlockJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'code block' }],
+        },
+      ],
+    }
+
+    const codeBlockWithLangJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'codeBlock',
+          attrs: { language: 'js' },
+          content: [{ type: 'text', text: 'console.log("hello")' }],
+        },
+      ],
+    }
+
+    it('should parse tilde fenced code blocks', () => {
+      const markdown = '~~~\ncode block\n~~~'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockJSON)
+    })
+
+    it('should parse tilde fenced code blocks with language', () => {
+      const markdown = '~~~js\nconsole.log("hello")\n~~~'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockWithLangJSON)
+    })
+
+    it('should parse backtick fenced code blocks', () => {
+      const markdown = '```\ncode block\n```'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockJSON)
+    })
+
+    it('should parse backtick fenced code blocks with language', () => {
+      const markdown = '```js\nconsole.log("hello")\n```'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockWithLangJSON)
+    })
+
+    it('should produce the same result for tilde and backtick fenced code blocks', () => {
+      const tildeMarkdown = '~~~\ncode block\n~~~'
+      const backtickMarkdown = '```\ncode block\n```'
+      const tildeJSON = markdownManager.parse(tildeMarkdown)
+      const backtickJSON = markdownManager.parse(backtickMarkdown)
+      expect(tildeJSON).toEqual(backtickJSON)
     })
   })
 })
