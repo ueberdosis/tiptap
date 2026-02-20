@@ -1,5 +1,13 @@
 # Releases
 
+## v3.20.1
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Fix tilde-fenced code blocks (`~~~`) being silently dropped when parsing markdown
+
 ## v3.20.0
 
 ### @tiptap/core
