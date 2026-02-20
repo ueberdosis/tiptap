@@ -28,6 +28,10 @@ export interface LinkProtocolOptions {
 export const pasteRegex =
   /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)/gi
 
+function filterUndefinedAttributes(attrs: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(attrs).filter(([, value]) => value !== undefined))
+}
+
 /**
  * @deprecated The default behavior is now to open links when the editor is not editable.
  */
@@ -276,13 +280,13 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
         default: null,
@@ -323,11 +327,12 @@ export const Link = Mark.create<LinkOptions>({
         defaultProtocol: this.options.defaultProtocol,
       })
     ) {
-      // strip out the href
-      return ['a', mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' }), 0]
+      const merged = mergeAttributes(this.options.HTMLAttributes, { ...HTMLAttributes, href: '' })
+      return ['a', filterUndefinedAttributes(merged), 0]
     }
 
-    return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+    return ['a', filterUndefinedAttributes(merged), 0]
   },
 
   markdownTokenName: 'link',
