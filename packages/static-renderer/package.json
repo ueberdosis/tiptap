@@ -17,56 +17,56 @@
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/index.d.ts",
+        "import": "./dist/index.d.mts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./json/react": {
       "types": {
-        "import": "./dist/json/react/index.d.ts",
+        "import": "./dist/json/react/index.d.mts",
         "require": "./dist/json/react/index.d.cts"
       },
-      "import": "./dist/json/react/index.js",
+      "import": "./dist/json/react/index.mjs",
       "require": "./dist/json/react/index.cjs"
     },
     "./json/html-string": {
       "types": {
-        "import": "./dist/json/html-string/index.d.ts",
+        "import": "./dist/json/html-string/index.d.mts",
         "require": "./dist/json/html-string/index.d.cts"
       },
-      "import": "./dist/json/html-string/index.js",
+      "import": "./dist/json/html-string/index.mjs",
       "require": "./dist/json/html-string/index.cjs"
     },
     "./pm/react": {
       "types": {
-        "import": "./dist/pm/react/index.d.ts",
+        "import": "./dist/pm/react/index.d.mts",
         "require": "./dist/pm/react/index.d.cts"
       },
-      "import": "./dist/pm/react/index.js",
+      "import": "./dist/pm/react/index.mjs",
       "require": "./dist/pm/react/index.cjs"
     },
     "./pm/html-string": {
       "types": {
-        "import": "./dist/pm/html-string/index.d.ts",
+        "import": "./dist/pm/html-string/index.d.mts",
         "require": "./dist/pm/html-string/index.d.cts"
       },
-      "import": "./dist/pm/html-string/index.js",
+      "import": "./dist/pm/html-string/index.mjs",
       "require": "./dist/pm/html-string/index.cjs"
     },
     "./pm/markdown": {
       "types": {
-        "import": "./dist/pm/markdown/index.d.ts",
+        "import": "./dist/pm/markdown/index.d.mts",
         "require": "./dist/pm/markdown/index.d.cts"
       },
-      "import": "./dist/pm/markdown/index.js",
+      "import": "./dist/pm/markdown/index.mjs",
       "require": "./dist/pm/markdown/index.cjs"
     }
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "files": [
     "src",
     "dist"
@@ -91,7 +91,7 @@
     "directory": "packages/static-renderer"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

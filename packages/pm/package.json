@@ -16,146 +16,146 @@
   "exports": {
     "./changeset": {
       "types": {
-        "import": "./dist/changeset/index.d.ts",
+        "import": "./dist/changeset/index.d.mts",
         "require": "./dist/changeset/index.d.cts"
       },
-      "import": "./dist/changeset/index.js",
+      "import": "./dist/changeset/index.mjs",
       "require": "./dist/changeset/index.cjs"
     },
     "./collab": {
       "types": {
-        "import": "./dist/collab/index.d.ts",
+        "import": "./dist/collab/index.d.mts",
         "require": "./dist/collab/index.d.cts"
       },
-      "import": "./dist/collab/index.js",
+      "import": "./dist/collab/index.mjs",
       "require": "./dist/collab/index.cjs"
     },
     "./commands": {
       "types": {
-        "import": "./dist/commands/index.d.ts",
+        "import": "./dist/commands/index.d.mts",
         "require": "./dist/commands/index.d.cts"
       },
-      "import": "./dist/commands/index.js",
+      "import": "./dist/commands/index.mjs",
       "require": "./dist/commands/index.cjs"
     },
     "./dropcursor": {
       "types": {
-        "import": "./dist/dropcursor/index.d.ts",
+        "import": "./dist/dropcursor/index.d.mts",
         "require": "./dist/dropcursor/index.d.cts"
       },
-      "import": "./dist/dropcursor/index.js",
+      "import": "./dist/dropcursor/index.mjs",
       "require": "./dist/dropcursor/index.cjs"
     },
     "./gapcursor": {
       "types": {
-        "import": "./dist/gapcursor/index.d.ts",
+        "import": "./dist/gapcursor/index.d.mts",
         "require": "./dist/gapcursor/index.d.cts"
       },
-      "import": "./dist/gapcursor/index.js",
+      "import": "./dist/gapcursor/index.mjs",
       "require": "./dist/gapcursor/index.cjs"
     },
     "./history": {
       "types": {
-        "import": "./dist/history/index.d.ts",
+        "import": "./dist/history/index.d.mts",
         "require": "./dist/history/index.d.cts"
       },
-      "import": "./dist/history/index.js",
+      "import": "./dist/history/index.mjs",
       "require": "./dist/history/index.cjs"
     },
     "./inputrules": {
       "types": {
-        "import": "./dist/inputrules/index.d.ts",
+        "import": "./dist/inputrules/index.d.mts",
         "require": "./dist/inputrules/index.d.cts"
       },
-      "import": "./dist/inputrules/index.js",
+      "import": "./dist/inputrules/index.mjs",
       "require": "./dist/inputrules/index.cjs"
     },
     "./keymap": {
       "types": {
-        "import": "./dist/keymap/index.d.ts",
+        "import": "./dist/keymap/index.d.mts",
         "require": "./dist/keymap/index.d.cts"
       },
-      "import": "./dist/keymap/index.js",
+      "import": "./dist/keymap/index.mjs",
       "require": "./dist/keymap/index.cjs"
     },
     "./markdown": {
       "types": {
-        "import": "./dist/markdown/index.d.ts",
+        "import": "./dist/markdown/index.d.mts",
         "require": "./dist/markdown/index.d.cts"
       },
-      "import": "./dist/markdown/index.js",
+      "import": "./dist/markdown/index.mjs",
       "require": "./dist/markdown/index.cjs"
     },
     "./menu": {
       "types": {
-        "import": "./dist/menu/index.d.ts",
+        "import": "./dist/menu/index.d.mts",
         "require": "./dist/menu/index.d.cts"
       },
-      "import": "./dist/menu/index.js",
+      "import": "./dist/menu/index.mjs",
       "require": "./dist/menu/index.cjs"
     },
     "./model": {
       "types": {
-        "import": "./dist/model/index.d.ts",
+        "import": "./dist/model/index.d.mts",
         "require": "./dist/model/index.d.cts"
       },
-      "import": "./dist/model/index.js",
+      "import": "./dist/model/index.mjs",
       "require": "./dist/model/index.cjs"
     },
     "./schema-basic": {
       "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
+        "import": "./dist/schema-basic/index.d.mts",
+        "require": "./dist/schema-basic/index.d.cts"
       },
-      "import": "./dist/schema-basic/index.js",
+      "import": "./dist/schema-basic/index.mjs",
       "require": "./dist/schema-basic/index.cjs"
     },
     "./schema-list": {
       "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
+        "import": "./dist/schema-list/index.d.mts",
+        "require": "./dist/schema-list/index.d.cts"
       },
-      "import": "./dist/schema-list/index.js",
+      "import": "./dist/schema-list/index.mjs",
       "require": "./dist/schema-list/index.cjs"
     },
     "./state": {
       "types": {
-        "import": "./dist/state/index.d.ts",
+        "import": "./dist/state/index.d.mts",
         "require": "./dist/state/index.d.cts"
       },
-      "import": "./dist/state/index.js",
+      "import": "./dist/state/index.mjs",
       "require": "./dist/state/index.cjs"
     },
     "./tables": {
       "types": {
-        "import": "./dist/tables/index.d.ts",
+        "import": "./dist/tables/index.d.mts",
         "require": "./dist/tables/index.d.cts"
       },
-      "import": "./dist/tables/index.js",
+      "import": "./dist/tables/index.mjs",
       "require": "./dist/tables/index.cjs"
     },
     "./trailing-node": {
       "types": {
-        "import": "./dist/trailing/index.d.ts",
-        "require": "./dist/trailing/index.d.cts"
+        "import": "./dist/trailing-node/index.d.mts",
+        "require": "./dist/trailing-node/index.d.cts"
       },
-      "import": "./dist/trailing-node/index.js",
+      "import": "./dist/trailing-node/index.mjs",
       "require": "./dist/trailing-node/index.cjs"
     },
     "./transform": {
       "types": {
-        "import": "./dist/transform/index.d.ts",
+        "import": "./dist/transform/index.d.mts",
         "require": "./dist/transform/index.d.cts"
       },
-      "import": "./dist/transform/index.js",
+      "import": "./dist/transform/index.mjs",
       "require": "./dist/transform/index.cjs"
     },
     "./view": {
       "types": {
-        "import": "./dist/view/index.d.ts",
+        "import": "./dist/view/index.d.mts",
         "require": "./dist/view/index.d.cts"
       },
-      "import": "./dist/view/index.js",
+      "import": "./dist/view/index.mjs",
       "require": "./dist/view/index.cjs"
     }
   },
@@ -206,6 +206,6 @@
     "directory": "packages/pm"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsdown"
   }
 }

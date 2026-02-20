@@ -16,72 +16,72 @@
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/index.d.ts",
+        "import": "./dist/index.d.mts",
         "require": "./dist/index.d.cts"
       },
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./bullet-list": {
       "types": {
-        "import": "./dist/bullet-list/index.d.ts",
+        "import": "./dist/bullet-list/index.d.mts",
         "require": "./dist/bullet-list/index.d.cts"
       },
-      "import": "./dist/bullet-list/index.js",
+      "import": "./dist/bullet-list/index.mjs",
       "require": "./dist/bullet-list/index.cjs"
     },
     "./item": {
       "types": {
-        "import": "./dist/item/index.d.ts",
+        "import": "./dist/item/index.d.mts",
         "require": "./dist/item/index.d.cts"
       },
-      "import": "./dist/item/index.js",
+      "import": "./dist/item/index.mjs",
       "require": "./dist/item/index.cjs"
     },
     "./keymap": {
       "types": {
-        "import": "./dist/keymap/index.d.ts",
+        "import": "./dist/keymap/index.d.mts",
         "require": "./dist/keymap/index.d.cts"
       },
-      "import": "./dist/keymap/index.js",
+      "import": "./dist/keymap/index.mjs",
       "require": "./dist/keymap/index.cjs"
     },
     "./kit": {
       "types": {
-        "import": "./dist/kit/index.d.ts",
+        "import": "./dist/kit/index.d.mts",
         "require": "./dist/kit/index.d.cts"
       },
-      "import": "./dist/kit/index.js",
+      "import": "./dist/kit/index.mjs",
       "require": "./dist/kit/index.cjs"
     },
     "./ordered-list": {
       "types": {
-        "import": "./dist/ordered-list/index.d.ts",
+        "import": "./dist/ordered-list/index.d.mts",
         "require": "./dist/ordered-list/index.d.cts"
       },
-      "import": "./dist/ordered-list/index.js",
+      "import": "./dist/ordered-list/index.mjs",
       "require": "./dist/ordered-list/index.cjs"
     },
     "./task-item": {
       "types": {
-        "import": "./dist/task-item/index.d.ts",
+        "import": "./dist/task-item/index.d.mts",
         "require": "./dist/task-item/index.d.cts"
       },
-      "import": "./dist/task-item/index.js",
+      "import": "./dist/task-item/index.mjs",
       "require": "./dist/task-item/index.cjs"
     },
     "./task-list": {
       "types": {
-        "import": "./dist/task-list/index.d.ts",
+        "import": "./dist/task-list/index.d.mts",
         "require": "./dist/task-list/index.d.cts"
       },
-      "import": "./dist/task-list/index.js",
+      "import": "./dist/task-list/index.mjs",
       "require": "./dist/task-list/index.cjs"
     }
   },
   "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "files": [
     "src",
     "dist"
@@ -100,7 +100,7 @@
     "directory": "packages/extension-list"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }
