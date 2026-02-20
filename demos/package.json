@@ -60,7 +60,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass": "^1.83.0",
-    "svelte": "^4.2.19",
+    "svelte": "^5.51.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "uuid": "^8.3.2",
