@@ -8,6 +8,6 @@ export default defineConfig(
     dts: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
-    external: [/^@floating-ui/],
+    external: [/^[^./]/],
   })),
 )
