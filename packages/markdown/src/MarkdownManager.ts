@@ -26,14 +26,14 @@ import {
 } from './utils.js'
 
 export class MarkdownManager {
-  private markedInstance: typeof marked
-  private lexer: Lexer
-  private registry: Map<string, MarkdownExtensionSpec[]>
-  private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
-  private indentStyle: 'space' | 'tab'
-  private indentSize: number
-  private baseExtensions: AnyExtension[] = []
-  private extensions: AnyExtension[] = []
+  protected markedInstance: typeof marked
+  protected lexer: Lexer
+  protected registry: Map<string, MarkdownExtensionSpec[]>
+  protected nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
+  protected indentStyle: 'space' | 'tab'
+  protected indentSize: number
+  protected baseExtensions: AnyExtension[] = []
+  protected extensions: AnyExtension[] = []
 
   /**
    * Create a MarkdownManager.
@@ -151,7 +151,7 @@ export class MarkdownManager {
   /**
    * Register a custom tokenizer with marked.js for parsing non-standard markdown syntax.
    */
-  private registerTokenizer(tokenizer: MarkdownTokenizer): void {
+  protected registerTokenizer(tokenizer: MarkdownTokenizer): void {
     if (!this.hasMarked()) {
       return
     }
@@ -217,7 +217,7 @@ export class MarkdownManager {
   }
 
   /** Get registered handlers for a token type and try each until one succeeds. */
-  private getHandlersForToken(type: string): MarkdownExtensionSpec[] {
+  protected getHandlersForToken(type: string): MarkdownExtensionSpec[] {
     try {
       return this.registry.get(type) || []
     } catch {
@@ -226,7 +226,7 @@ export class MarkdownManager {
   }
 
   /** Get the first handler for a token type (for backwards compatibility). */
-  private getHandlerForToken(type: string): MarkdownExtensionSpec | undefined {
+  protected getHandlerForToken(type: string): MarkdownExtensionSpec | undefined {
     // First try the markdown token registry (for parsing)
     const markdownHandlers = this.getHandlersForToken(type)
     if (markdownHandlers.length > 0) {
@@ -239,7 +239,7 @@ export class MarkdownManager {
   }
 
   /** Get registered handlers for a node type (for rendering). */
-  private getHandlersForNodeType(type: string): MarkdownExtensionSpec[] {
+  protected getHandlersForNodeType(type: string): MarkdownExtensionSpec[] {
     try {
       return this.nodeTypeRegistry.get(type) || []
     } catch {
@@ -303,7 +303,7 @@ export class MarkdownManager {
   /**
    * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
    */
-  private parseTokens(tokens: MarkdownToken[]): JSONContent[] {
+  protected parseTokens(tokens: MarkdownToken[]): JSONContent[] {
     return tokens
       .map(token => this.parseToken(token))
       .filter((parsed): parsed is JSONContent | JSONContent[] => parsed !== null)
@@ -313,7 +313,7 @@ export class MarkdownManager {
   /**
    * Parse a single token into Tiptap JSON using the appropriate registered handler.
    */
-  private parseToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  protected parseToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     if (!token.type) {
       return null
     }
@@ -356,7 +356,7 @@ export class MarkdownManager {
     return this.parseFallbackToken(token)
   }
 
-  private lastParseResult: JSONContent | JSONContent[] | null = null
+  protected lastParseResult: JSONContent | JSONContent[] | null = null
 
   /**
    * Parse a list token, handling mixed bullet and task list items by splitting them into separate lists.
@@ -523,7 +523,7 @@ export class MarkdownManager {
    * Creates helper functions for parsing markdown tokens.
    * @returns An object containing helper functions for parsing.
    */
-  private createParseHelpers(): MarkdownParseHelpers {
+  protected createParseHelpers(): MarkdownParseHelpers {
     return {
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
@@ -560,7 +560,7 @@ export class MarkdownManager {
   /**
    * Escape special regex characters in a string.
    */
-  private escapeRegex(str: string): string {
+  protected escapeRegex(str: string): string {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
@@ -568,7 +568,7 @@ export class MarkdownManager {
    * Parse inline tokens (bold, italic, links, etc.) into text nodes with marks.
    * This is the complex part that handles mark nesting and boundaries.
    */
-  private parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
+  protected parseInlineTokens(tokens: MarkdownToken[]): JSONContent[] {
     const result: JSONContent[] = []
 
     // Process tokens sequentially using an index so we can lookahead and
@@ -679,7 +679,7 @@ export class MarkdownManager {
   /**
    * Apply a mark to content nodes.
    */
-  private applyMarkToContent(markType: string, content: JSONContent[], attrs?: any): JSONContent[] {
+  protected applyMarkToContent(markType: string, content: JSONContent[], attrs?: any): JSONContent[] {
     return content.map(node => {
       if (node.type === 'text') {
         // Add the mark to existing marks or create new marks array
@@ -700,14 +700,14 @@ export class MarkdownManager {
   } /**
    * Check if a parse result represents a mark to be applied.
    */
-  private isMarkResult(result: any): result is { mark: string; content: JSONContent[]; attrs?: any } {
+  protected isMarkResult(result: any): result is { mark: string; content: JSONContent[]; attrs?: any } {
     return result && typeof result === 'object' && 'mark' in result
   }
 
   /**
    * Normalize parse results to ensure they're valid JSONContent.
    */
-  private normalizeParseResult(result: MarkdownParseResult): JSONContent | JSONContent[] | null {
+  protected normalizeParseResult(result: MarkdownParseResult): JSONContent | JSONContent[] | null {
     if (!result) {
       return null
     }
@@ -723,7 +723,7 @@ export class MarkdownManager {
   /**
    * Fallback parsing for common tokens when no specific handler is registered.
    */
-  private parseFallbackToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  protected parseFallbackToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     switch (token.type) {
       case 'paragraph':
         return {
@@ -764,7 +764,7 @@ export class MarkdownManager {
    * Parse HTML tokens using extensions' parseHTML methods.
    * This allows HTML within markdown to be parsed according to extension rules.
    */
-  private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  protected parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     const html = token.text || token.raw || ''
 
     if (!html.trim()) {
@@ -893,7 +893,7 @@ export class MarkdownManager {
    * Render an array of nodes while properly tracking mark boundaries.
    * This handles cases where marks span across multiple text nodes.
    */
-  private renderNodesWithMarkBoundaries(
+  protected renderNodesWithMarkBoundaries(
     nodes: JSONContent[],
     parentNode?: JSONContent,
     separator = '',
@@ -1023,7 +1023,7 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(markType: string, mark: any): string {
+  protected getMarkOpening(markType: string, mark: any): string {
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1062,7 +1062,7 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(markType: string, mark: any): string {
+  protected getMarkClosing(markType: string, mark: any): string {
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1101,7 +1101,7 @@ export class MarkdownManager {
   /**
    * Check if two mark sets are equal.
    */
-  private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
+  protected markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
     if (marks1.size !== marks2.size) {
       return false
     }
