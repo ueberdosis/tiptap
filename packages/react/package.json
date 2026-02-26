@@ -28,6 +28,14 @@
       },
       "import": "./dist/menus/index.js",
       "require": "./dist/menus/index.cjs"
+    },
+    "./drag-handle": {
+      "types": {
+        "import": "./dist/drag-handle/index.d.ts",
+        "require": "./dist/drag-handle/index.d.cts"
+      },
+      "import": "./dist/drag-handle/index.js",
+      "require": "./dist/drag-handle/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -53,7 +61,8 @@
   },
   "optionalDependencies": {
     "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
+    "@tiptap/extension-floating-menu": "workspace:^",
+    "@tiptap/extension-drag-handle": "workspace:^"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:^",

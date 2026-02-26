@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
 import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
 import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue'
+import { DragHandle } from '@tiptap/vue/drag-handle'
 
 const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
 
