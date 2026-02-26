@@ -7,7 +7,7 @@ import {
 } from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
 import type { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { Editor } from '@tiptap/vue-3'
+import type { Editor } from '@tiptap/vue'
 import type { PropType } from 'vue'
 import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 

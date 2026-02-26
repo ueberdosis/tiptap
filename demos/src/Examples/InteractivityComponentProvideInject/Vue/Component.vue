@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue'
 
 import ValidateInject from './ValidateInject.vue'
 

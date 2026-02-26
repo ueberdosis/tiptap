@@ -38,13 +38,13 @@
   "peerDependencies": {
     "@tiptap/extension-drag-handle": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-3": "workspace:^",
+    "@tiptap/vue": "workspace:^",
     "vue": "^3.0.0"
   },
   "devDependencies": {
     "@tiptap/extension-drag-handle": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-3": "workspace:^",
+    "@tiptap/vue": "workspace:^",
     "vue": "^3.0.0"
   },
   "scripts": {
