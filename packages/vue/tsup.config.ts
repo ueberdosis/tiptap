@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig(
-  ['src/menus/index.ts', 'src/index.ts'].map(entry => ({
+  ['src/menus/index.ts', 'src/drag-handle/index.ts', 'src/index.ts'].map(entry => ({
     entry: [entry],
     tsconfig: '../../tsconfig.build.json',
     outDir: `dist${entry.replace('src', '').split('/').slice(0, -1).join('/')}`,
