@@ -18,7 +18,7 @@ import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
 import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 
 const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
 
