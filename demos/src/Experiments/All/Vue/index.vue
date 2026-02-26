@@ -123,7 +123,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
 import { Dropcursor, Gapcursor, Placeholder, UndoRedo } from '@tiptap/extensions'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue'
 import { all, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(all)

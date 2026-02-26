@@ -1,5 +1,5 @@
 import { Mark } from '@tiptap/core'
-import { VueMarkViewRenderer } from '@tiptap/vue-3'
+import { VueMarkViewRenderer } from '@tiptap/vue'
 
 import Component from './Component.vue'
 
