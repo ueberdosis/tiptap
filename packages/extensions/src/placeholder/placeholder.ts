@@ -87,6 +87,17 @@ export interface PlaceholderOptions {
    * @default false
    */
   includeChildren: boolean
+
+  /**
+   * **Node types that should not show placeholders.**
+   *
+   * This is useful for excluding wrapper nodes like lists that should not
+   * display placeholders themselves, but their child nodes should.
+   *
+   * Common examples: 'bulletList', 'orderedList', 'taskList'
+   * @default []
+   */
+  excludedNodeTypes: string[]
 }
 
 /**
@@ -106,6 +117,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
       includeChildren: false,
+      excludedNodeTypes: [],
     }
   },
 
@@ -132,6 +144,12 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
               const isEmpty = !node.isLeaf && isNodeEmpty(node)
+
+              // Skip placeholder for excluded node types
+              // This prevents duplicate placeholders in wrapper nodes like lists
+              if (this.options.excludedNodeTypes.includes(node.type.name)) {
+                return this.options.includeChildren
+              }
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
