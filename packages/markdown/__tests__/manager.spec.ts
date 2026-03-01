@@ -334,6 +334,76 @@ Final paragraph.`
       expect(markdown).toBe('First paragraph\n\n&nbsp;\n\nSecond paragraph')
     })
 
+    it('should not produce &nbsp; for empty bullet list items (#7546)', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Item with content' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('- Item with content\n- ')
+    })
+
+    it('should not produce &nbsp; for empty ordered list items (#7546)', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            attrs: { start: 1 },
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'First' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [] }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('1. First\n2. ')
+    })
+
+    it('should not produce &nbsp; for all-empty bullet list items (#7546)', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              { type: 'listItem', content: [{ type: 'paragraph', content: [] }] },
+              { type: 'listItem', content: [{ type: 'paragraph', content: [] }] },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('- \n- ')
+    })
+
     it('should move trailing whitespace outside of mark closing (Issue #7180)', () => {
       // When text has trailing space and bold mark, output should be "**text** " not "**text **"
       const doc = {

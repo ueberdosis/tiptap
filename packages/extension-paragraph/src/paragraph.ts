@@ -88,7 +88,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return helpers.createNode('paragraph', undefined, content)
   },
 
-  renderMarkdown: (node, h) => {
+  renderMarkdown: (node, h, ctx) => {
     if (!node) {
       return ''
     }
@@ -98,6 +98,11 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
     // If the paragraph is empty, render a non-breaking space to preserve blank lines
     if (content.length === 0) {
+      // Inside list items, empty paragraphs should render as empty string
+      // (not &nbsp;) to avoid producing `- &nbsp;` in markdown output
+      if (ctx.parentType === 'listItem' || ctx.parentType === 'taskItem') {
+        return ''
+      }
       return EMPTY_PARAGRAPH_MARKDOWN
     }
 
