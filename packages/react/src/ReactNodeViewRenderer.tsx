@@ -72,6 +72,17 @@ export class ReactNodeView<
    */
   selectionRafId: number | null = null
 
+  /**
+   * The requestAnimationFrame ID used for editor update position checks.
+   */
+  editorUpdateRafId: number | null = null
+
+  /**
+   * The last known position of this node view, used to detect position-only
+   * changes that don't produce a new node object reference.
+   */
+  private currentPos: number | undefined
+
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
 
@@ -186,6 +197,7 @@ export class ReactNodeView<
     const { className = '' } = this.options
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
+    this.handleEditorUpdate = this.handleEditorUpdate.bind(this)
 
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
@@ -195,7 +207,9 @@ export class ReactNodeView<
     })
 
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    this.editor.on('update', this.handleEditorUpdate)
     this.updateElementAttributes()
+    this.currentPos = this.getPos()
   }
 
   /**
@@ -223,6 +237,40 @@ export class ReactNodeView<
     }
 
     return this.contentDOMElement
+  }
+
+  /**
+   * On any editor update (every transaction), check if this node's position
+   * in the document has changed. ProseMirror does not call `update()` on
+   * NodeViews whose content is identical but whose position shifted (e.g. a
+   * sibling was moved), so we need this fallback to keep the component in sync.
+   */
+  handleEditorUpdate() {
+    if (this.editorUpdateRafId) {
+      cancelAnimationFrame(this.editorUpdateRafId)
+      this.editorUpdateRafId = null
+    }
+
+    this.editorUpdateRafId = requestAnimationFrame(() => {
+      this.editorUpdateRafId = null
+      const newPos = this.getPos()
+
+      if (typeof newPos !== 'number' || newPos === this.currentPos) {
+        return
+      }
+
+      this.currentPos = newPos
+
+      // Pass a fresh getPos function reference so React's memo comparison
+      // detects a prop change and schedules a re-render.
+      this.renderer.updateProps({
+        getPos: () => this.getPos(),
+      })
+
+      if (typeof this.options.attrs === 'function') {
+        this.updateElementAttributes()
+      }
+    })
   }
 
   /**
@@ -296,13 +344,24 @@ export class ReactNodeView<
       })
     }
 
+    const newPos = this.getPos()
+
     if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+      if (newPos === this.currentPos) {
+        return true
+      }
+
+      // Position changed without a content/decoration change — trigger re-render
+      // so the component receives an up-to-date value from getPos().
+      this.currentPos = newPos
+      rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
       return true
     }
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = newPos
 
     rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
@@ -337,11 +396,17 @@ export class ReactNodeView<
   destroy() {
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+    this.editor.off('update', this.handleEditorUpdate)
     this.contentDOMElement = null
 
     if (this.selectionRafId) {
       cancelAnimationFrame(this.selectionRafId)
       this.selectionRafId = null
+    }
+
+    if (this.editorUpdateRafId) {
+      cancelAnimationFrame(this.editorUpdateRafId)
+      this.editorUpdateRafId = null
     }
   }
 
