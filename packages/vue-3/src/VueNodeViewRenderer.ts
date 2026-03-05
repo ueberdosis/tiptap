@@ -296,8 +296,15 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
       // Position changed without a content/decoration change — trigger re-render
       // so the component receives an up-to-date value from getPos().
+      // Pass a fresh getPos reference so Vue's reactivity detects a prop change.
       this.currentPos = newPos
-      rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
+      rerenderComponent({
+        node,
+        decorations,
+        innerDecorations,
+        extension: this.extensionWithSyncedStorage,
+        getPos: () => this.getPos(),
+      })
       return true
     }
 
