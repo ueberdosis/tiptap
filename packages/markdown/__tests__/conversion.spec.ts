@@ -381,7 +381,7 @@ describe('Markdown Conversion Tests', () => {
     })
   })
 
-  describe('HTML character escaping (issue #7539)', () => {
+  describe('HTML character escaping', () => {
     it('should decode &lt; and &gt; entities to literal < and > when parsing', () => {
       const markdown = 'foo &lt;bar&gt; baz'
       const json = markdownManager.parse(markdown)

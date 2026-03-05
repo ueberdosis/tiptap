@@ -1,15 +1,4 @@
-import { Node } from '@tiptap/core'
-
-/**
- * Decode common HTML entities so the editor displays the literal characters.
- */
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
-}
+import { decodeHtmlEntities, Node } from '@tiptap/core'
 
 /**
  * This extension allows you to create text nodes.
