@@ -4,6 +4,29 @@ import type { Fragment, Node } from '@tiptap/pm/model'
 import type { ContentType } from './types.js'
 
 /**
+ * Decode common HTML entities in text content so they display as literal
+ * characters inside the editor.  The decode order matters: `&amp;` must be
+ * decoded **last** so that doubly-encoded sequences like `&amp;lt;` first
+ * survive the `&lt;` pass and then correctly become `&lt;` (not `<`).
+ */
+export function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+}
+
+/**
+ * Encode HTML special characters so they roundtrip safely through markdown.
+ * `&` is encoded **first** to avoid double-encoding the ampersand in other
+ * entities (e.g. `<` → `&lt;`, not `&amp;lt;`).
+ */
+export function encodeHtmlEntities(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/**
  * Wraps each line of the content with the given prefix.
  * @param prefix The prefix to wrap each line with.
  * @param content The content to wrap.
