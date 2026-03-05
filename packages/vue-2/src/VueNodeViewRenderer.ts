@@ -37,6 +37,17 @@ export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
 class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
+  /**
+   * The last known position of this node view, used to detect position-only
+   * changes that don't produce a new node object reference.
+   */
+  private currentPos: number | undefined
+
+  /**
+   * The requestAnimationFrame ID used for editor update position checks.
+   */
+  private editorUpdateRafId: number | null = null
+
   decorationClasses!: {
     value: string
   }
@@ -76,7 +87,10 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     })
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
+    this.handleEditorUpdate = this.handleEditorUpdate.bind(this)
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+    this.editor.on('update', this.handleEditorUpdate)
+    this.currentPos = this.getPos()
 
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
@@ -106,6 +120,36 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     }
 
     return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
+  }
+
+  /**
+   * On any editor update (every transaction), check if this node's position
+   * in the document has changed. ProseMirror does not call `update()` on
+   * NodeViews whose content is identical but whose position shifted (e.g. a
+   * sibling was moved), so we need this fallback to keep the component in sync.
+   */
+  handleEditorUpdate() {
+    if (this.editorUpdateRafId) {
+      cancelAnimationFrame(this.editorUpdateRafId)
+      this.editorUpdateRafId = null
+    }
+
+    this.editorUpdateRafId = requestAnimationFrame(() => {
+      this.editorUpdateRafId = null
+      const newPos = this.getPos()
+
+      if (typeof newPos !== 'number' || newPos === this.currentPos) {
+        return
+      }
+
+      this.currentPos = newPos
+
+      // Pass a fresh getPos function reference so Vue's reactivity detects
+      // the prop change and schedules a re-render.
+      this.renderer.updateProps({
+        getPos: () => this.getPos(),
+      })
+    })
   }
 
   /**
@@ -169,13 +213,24 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return false
     }
 
+    const newPos = this.getPos()
+
     if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+      if (newPos === this.currentPos) {
+        return true
+      }
+
+      // Position changed without a content/decoration change — trigger re-render
+      // so the component receives an up-to-date value from getPos().
+      this.currentPos = newPos
+      rerenderComponent({ node, decorations, innerDecorations })
       return true
     }
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = newPos
 
     rerenderComponent({ node, decorations, innerDecorations })
 
@@ -216,6 +271,12 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
   destroy() {
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+    this.editor.off('update', this.handleEditorUpdate)
+
+    if (this.editorUpdateRafId) {
+      cancelAnimationFrame(this.editorUpdateRafId)
+      this.editorUpdateRafId = null
+    }
   }
 }
 
