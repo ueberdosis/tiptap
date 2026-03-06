@@ -93,7 +93,7 @@ describe('extension-placeholder', () => {
     editor!.destroy()
   })
 })
-describe('extension-placeholder with excludedNodeTypes', () => {
+describe('extension-placeholder with includeChildren and wrapper nodes', () => {
   let editor: Editor | null = null
 
   afterEach(() => {
@@ -102,7 +102,7 @@ describe('extension-placeholder with excludedNodeTypes', () => {
     }
   })
 
-  it('should not show placeholder on excluded node types', () => {
+  it('should not show placeholder on non-textblock wrapper nodes (bulletList, listItem)', () => {
     editor = new Editor({
       extensions: [
         Document,
@@ -113,7 +113,6 @@ describe('extension-placeholder with excludedNodeTypes', () => {
         Placeholder.configure({
           placeholder: 'Type something...',
           includeChildren: true,
-          excludedNodeTypes: ['bulletList', 'listItem'],
         }),
       ],
       content: '<ul><li><p></p></li></ul>',
@@ -123,45 +122,15 @@ describe('extension-placeholder with excludedNodeTypes', () => {
     const listItem = editor!.view.dom.querySelector('li') as HTMLElement
     const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
 
-    // bulletList should NOT have placeholder (excluded)
+    // bulletList is not a textblock, so it should NOT have a placeholder
     expect(bulletList.hasAttribute('data-placeholder')).toBe(false)
-    // listItem should NOT have placeholder (excluded)
+    // listItem is not a textblock, so it should NOT have a placeholder
     expect(listItem.hasAttribute('data-placeholder')).toBe(false)
-    // paragraph should have placeholder (empty)
+    // paragraph is a textblock, so it should have a placeholder
     expect(paragraph.hasAttribute('data-placeholder')).toBe(true)
   })
 
-  it('should show placeholder on empty nodes when excludedNodeTypes is empty', () => {
-    editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        BulletList,
-        ListItem,
-        Placeholder.configure({
-          placeholder: 'Type something...',
-          includeChildren: true,
-          excludedNodeTypes: [],
-        }),
-      ],
-      content: '<ul><li><p></p></li></ul>',
-    })
-
-    const bulletList = editor!.view.dom.querySelector('ul') as HTMLElement
-    const listItem = editor!.view.dom.querySelector('li') as HTMLElement
-    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
-
-    // All nodes with empty content will have placeholder when not excluded
-    // bulletList contains an empty listItem, so it is also considered empty
-    expect(bulletList.hasAttribute('data-placeholder')).toBe(true)
-    // listItem has an empty paragraph, so isNodeEmpty returns true
-    expect(listItem.hasAttribute('data-placeholder')).toBe(true)
-    // paragraph is empty
-    expect(paragraph.hasAttribute('data-placeholder')).toBe(true)
-  })
-
-  it('should support excluding multiple node types', () => {
+  it('should not show placeholder on non-textblock nodes for taskList structures', () => {
     editor = new Editor({
       extensions: [
         Document,
@@ -172,7 +141,6 @@ describe('extension-placeholder with excludedNodeTypes', () => {
         Placeholder.configure({
           placeholder: 'Type something...',
           includeChildren: true,
-          excludedNodeTypes: ['taskList', 'taskItem', 'orderedList', 'bulletList'],
         }),
       ],
       content: '<ul data-type="taskList"><li data-type="taskItem"><p></p></li></ul>',
@@ -182,15 +150,15 @@ describe('extension-placeholder with excludedNodeTypes', () => {
     const taskItem = editor!.view.dom.querySelector('li') as HTMLElement
     const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
 
-    // taskList should NOT have placeholder (excluded)
+    // taskList is not a textblock, so it should NOT have a placeholder
     expect(taskList.hasAttribute('data-placeholder')).toBe(false)
-    // taskItem should NOT have placeholder (excluded)
+    // taskItem is not a textblock, so it should NOT have a placeholder
     expect(taskItem.hasAttribute('data-placeholder')).toBe(false)
-    // paragraph should have placeholder (empty)
+    // paragraph is a textblock, so it should have a placeholder
     expect(paragraph.hasAttribute('data-placeholder')).toBe(true)
   })
 
-  it('should not traverse children when includeChildren is false and node is excluded', () => {
+  it('should not show placeholder on non-textblock nodes and not traverse their children when includeChildren is false', () => {
     editor = new Editor({
       extensions: [
         Document,
@@ -201,7 +169,6 @@ describe('extension-placeholder with excludedNodeTypes', () => {
         Placeholder.configure({
           placeholder: 'Type something...',
           includeChildren: false,
-          excludedNodeTypes: ['bulletList'],
         }),
       ],
       content: '<ul><li><p></p></li></ul>',
@@ -209,10 +176,13 @@ describe('extension-placeholder with excludedNodeTypes', () => {
 
     const bulletList = editor!.view.dom.querySelector('ul') as HTMLElement
     const listItem = editor!.view.dom.querySelector('li') as HTMLElement
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
 
-    // bulletList should NOT have placeholder (excluded)
+    // bulletList is not a textblock, so it should NOT have a placeholder
+    // (with the old implementation, bulletList was considered empty and would receive a placeholder)
     expect(bulletList.hasAttribute('data-placeholder')).toBe(false)
-    // listItem should NOT have placeholder (includeChildren is false, so children are not traversed)
+    // listItem and paragraph are not traversed because includeChildren is false
     expect(listItem.hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
   })
 })
