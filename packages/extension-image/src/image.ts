@@ -1,4 +1,4 @@
-import type { ResizableNodeViewDirection } from '@tiptap/core'
+import type { ResizableNodeViewDirection, ResizableNodeViewOptions } from '@tiptap/core'
 import { getRenderedAttributes, mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
@@ -168,6 +168,51 @@ export const Image = Node.create<ImageOptions>({
 
       el.src = HTMLAttributes.src
 
+      let previousHTMLAttributes = { ...HTMLAttributes }
+
+      const onUpdate: ResizableNodeViewOptions['onUpdate'] = (
+        updatedNode: Parameters<typeof getRenderedAttributes>[0],
+      ) => {
+        if (updatedNode.type !== node.type) {
+          return false
+        }
+
+        const extensionAttributes = editor.extensionManager.attributes.filter(
+          attribute => attribute.type === updatedNode.type.name,
+        )
+        const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+
+        // Remove attributes that were previously rendered but are no longer present
+        Object.keys(previousHTMLAttributes).forEach(key => {
+          if (key !== 'width' && key !== 'height' && !(key in newHTMLAttributes)) {
+            el.removeAttribute(key)
+          }
+        })
+
+        Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+          if (value != null) {
+            switch (key) {
+              case 'width':
+              case 'height':
+                break
+              default:
+                el.setAttribute(key, value)
+                break
+            }
+          } else {
+            el.removeAttribute(key)
+          }
+        })
+
+        if (newHTMLAttributes.src !== el.src) {
+          el.src = newHTMLAttributes.src
+        }
+
+        previousHTMLAttributes = newHTMLAttributes
+
+        return true
+      }
+
       const nodeView = new ResizableNodeView({
         element: el,
         editor,
@@ -192,37 +237,7 @@ export const Image = Node.create<ImageOptions>({
             })
             .run()
         },
-        onUpdate: (updatedNode: any) => {
-          if (updatedNode.type !== node.type) {
-            return false
-          }
-
-          const extensionAttributes = editor.extensionManager.attributes.filter(
-            attribute => attribute.type === updatedNode.type.name,
-          )
-          const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
-
-          Object.entries(newHTMLAttributes).forEach(([key, value]) => {
-            if (value != null) {
-              switch (key) {
-                case 'width':
-                case 'height':
-                  break
-                default:
-                  el.setAttribute(key, value)
-                  break
-              }
-            } else {
-              el.removeAttribute(key)
-            }
-          })
-
-          if (newHTMLAttributes.src !== el.src) {
-            el.src = newHTMLAttributes.src
-          }
-
-          return true
-        },
+        onUpdate,
         options: {
           directions,
           min: {
