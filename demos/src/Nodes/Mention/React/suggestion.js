@@ -1,3 +1,9 @@
+/**
+ * Mention Suggestion Configuration
+ * 
+ * Note: Tiptap v3 uses @floating-ui/dom for positioning, NOT tippy.js
+ * Required dependency: npm install @floating-ui/dom
+ */
 import { computePosition, flip, shift } from '@floating-ui/dom'
 import { posToDOMRect, ReactRenderer } from '@tiptap/react'
 
