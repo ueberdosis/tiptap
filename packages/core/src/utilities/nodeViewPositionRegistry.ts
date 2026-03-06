@@ -7,13 +7,13 @@ import type { Editor } from '../Editor.js'
  *
  * This is consumed by React, Vue 3, and Vue 2 NodeView renderers.
  */
-export interface PositionUpdateRegistry {
+interface PositionUpdateRegistry {
   callbacks: Set<() => void>
   rafId: number | null
   handler: () => void
 }
 
-export const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
+const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
 
 /**
  * Register a callback to be called (via a shared rAF) after every editor
