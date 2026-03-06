@@ -6,6 +6,21 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggestionMatch.js'
 
+/**
+ * Returns true if the transaction inserted any whitespace or newline character.
+ * Used to determine when a dismissed suggestion should become active again.
+ */
+function hasInsertedWhitespace(transaction: Transaction): boolean {
+  if (!transaction.docChanged) {return false}
+  return transaction.steps.some(step => {
+    const slice = (step as any).slice
+    if (!slice?.content) {return false}
+    // textBetween with '\n' as block separator catches both inline spaces and newlines
+    const inserted = slice.content.textBetween(0, slice.content.size, '\n')
+    return /\s/.test(inserted)
+  })
+}
+
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
@@ -381,6 +396,9 @@ export function Suggestion<I = any, TSelected = any>({
           text: null | string
           composing: boolean
           decorationId?: string | null
+          /** Position of the trigger char when the suggestion was dismissed via Escape.
+           * Non-null means "stay dismissed until the user leaves this word or inserts whitespace". */
+          dismissedFrom: number | null
         } = {
           active: false,
           range: {
@@ -390,6 +408,7 @@ export function Suggestion<I = any, TSelected = any>({
           query: null,
           text: null,
           composing: false,
+          dismissedFrom: null,
         }
 
         return state
@@ -414,6 +433,10 @@ export function Suggestion<I = any, TSelected = any>({
           next.range = { from: 0, to: 0 }
           next.query = null
           next.text = null
+          // Remember where the dismissed suggestion was so we can suppress re-activation
+          // within the same word. If somehow exit fires without an active suggestion, carry
+          // the existing dismissedFrom forward so it isn't accidentally cleared.
+          next.dismissedFrom = prev.active ? prev.range.from : prev.dismissedFrom
 
           return next
         }
@@ -458,12 +481,31 @@ export function Suggestion<I = any, TSelected = any>({
                 transaction,
               }))
           ) {
-            next.active = true
-            next.decorationId = prev.decorationId ? prev.decorationId : decorationId
-            next.range = match.range
-            next.query = match.query
-            next.text = match.text
+            // Resolve dismissed state before activating.
+            // Un-dismiss when: the match is at a different trigger position (different word),
+            // or the user inserted whitespace / a newline (deliberate continuation of input).
+            if (next.dismissedFrom !== null) {
+              const sameWord = match.range.from === next.dismissedFrom
+              if (!sameWord || hasInsertedWhitespace(transaction)) {
+                next.dismissedFrom = null
+              }
+            }
+
+            if (next.dismissedFrom === null) {
+              next.active = true
+              next.decorationId = prev.decorationId ? prev.decorationId : decorationId
+              next.range = match.range
+              next.query = match.query
+              next.text = match.text
+            } else {
+              next.active = false
+            }
           } else {
+            // No match means the cursor has left any trigger context entirely —
+            // safe to forget the dismissed position so the next trigger starts fresh.
+            if (!match) {
+              next.dismissedFrom = null
+            }
             next.active = false
           }
         } else {
