@@ -5,7 +5,7 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import { cancelPositionCheck, getRenderedAttributes, NodeView, schedulePositionCheck } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
@@ -16,64 +16,6 @@ import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
 import { ReactNodeViewContext } from './useReactNodeView.js'
-
-/**
- * Per-editor registry for centralized NodeView position-change checks.
- * A single editor.on('update') listener + rAF is shared across all NodeViews
- * for a given editor, keeping overhead bounded regardless of NodeView count.
- */
-interface PositionUpdateRegistry {
-  callbacks: Set<() => void>
-  rafId: number | null
-  handler: () => void
-}
-
-const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
-
-function schedulePositionCheck(editor: Editor, callback: () => void): void {
-  let registry = positionUpdateRegistries.get(editor)
-
-  if (!registry) {
-    const newRegistry: PositionUpdateRegistry = {
-      callbacks: new Set(),
-      rafId: null,
-      handler: () => {
-        if (newRegistry.rafId !== null) {
-          cancelAnimationFrame(newRegistry.rafId)
-        }
-        newRegistry.rafId = requestAnimationFrame(() => {
-          newRegistry.rafId = null
-          newRegistry.callbacks.forEach(cb => cb())
-        })
-      },
-    }
-
-    positionUpdateRegistries.set(editor, newRegistry)
-    editor.on('update', newRegistry.handler)
-    registry = newRegistry
-  }
-
-  registry.callbacks.add(callback)
-}
-
-function cancelPositionCheck(editor: Editor, callback: () => void): void {
-  const registry = positionUpdateRegistries.get(editor)
-
-  if (!registry) {
-    return
-  }
-
-  registry.callbacks.delete(callback)
-
-  if (registry.callbacks.size === 0) {
-    if (registry.rafId !== null) {
-      cancelAnimationFrame(registry.rafId)
-    }
-
-    editor.off('update', registry.handler)
-    positionUpdateRegistries.delete(editor)
-  }
-}
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
