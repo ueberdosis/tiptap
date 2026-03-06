@@ -1,5 +1,16 @@
 # @tiptap/extension-drag-handle
 
+## 3.20.1
+
+### Patch Changes
+
+- c288676: Fix Drag event listener is removed when a plugin is registered after the DragHandle plugin.
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/extension-collaboration@3.20.1
+  - @tiptap/extension-node-range@3.20.1
+  - @tiptap/pm@3.20.1
+
 ## 3.20.0
 
 ### Patch Changes
