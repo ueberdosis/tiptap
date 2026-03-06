@@ -11,10 +11,14 @@ import { findSuggestionMatch as defaultFindSuggestionMatch } from './findSuggest
  * Used to determine when a dismissed suggestion should become active again.
  */
 function hasInsertedWhitespace(transaction: Transaction): boolean {
-  if (!transaction.docChanged) {return false}
+  if (!transaction.docChanged) {
+    return false
+  }
   return transaction.steps.some(step => {
     const slice = (step as any).slice
-    if (!slice?.content) {return false}
+    if (!slice?.content) {
+      return false
+    }
     // textBetween with '\n' as block separator catches both inline spaces and newlines
     const inserted = slice.content.textBetween(0, slice.content.size, '\n')
     return /\s/.test(inserted)
