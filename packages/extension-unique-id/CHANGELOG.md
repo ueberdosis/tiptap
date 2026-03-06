@@ -1,5 +1,14 @@
 # @tiptap/extension-unique-id
 
+## 3.20.1
+
+### Patch Changes
+
+- db873d9: Add support for `types: 'all'` in `UniqueID` to target every node type except `doc` and `text`.
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
 ## 3.20.0
 
 ### Patch Changes

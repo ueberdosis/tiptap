@@ -1,5 +1,14 @@
 # @tiptap/extension-drag-handle-vue-2
 
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [c288676]
+  - @tiptap/extension-drag-handle@3.20.1
+  - @tiptap/vue-2@3.20.1
+  - @tiptap/pm@3.20.1
+
 ## 3.20.0
 
 ### Patch Changes
