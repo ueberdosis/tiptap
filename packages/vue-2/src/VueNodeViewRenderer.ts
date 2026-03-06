@@ -34,6 +34,64 @@ export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
     | null
 }
 
+/**
+ * Per-editor registry for centralized NodeView position-change checks.
+ * A single editor.on('update') listener + rAF is shared across all NodeViews
+ * for a given editor, keeping overhead bounded regardless of NodeView count.
+ */
+interface PositionUpdateRegistry {
+  callbacks: Set<() => void>
+  rafId: number | null
+  handler: () => void
+}
+
+const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
+
+function schedulePositionCheck(editor: Editor, callback: () => void): void {
+  let registry = positionUpdateRegistries.get(editor)
+
+  if (!registry) {
+    const newRegistry: PositionUpdateRegistry = {
+      callbacks: new Set(),
+      rafId: null,
+      handler: () => {
+        if (newRegistry.rafId !== null) {
+          cancelAnimationFrame(newRegistry.rafId)
+        }
+        newRegistry.rafId = requestAnimationFrame(() => {
+          newRegistry.rafId = null
+          newRegistry.callbacks.forEach(cb => cb())
+        })
+      },
+    }
+
+    positionUpdateRegistries.set(editor, newRegistry)
+    editor.on('update', newRegistry.handler)
+    registry = newRegistry
+  }
+
+  registry.callbacks.add(callback)
+}
+
+function cancelPositionCheck(editor: Editor, callback: () => void): void {
+  const registry = positionUpdateRegistries.get(editor)
+
+  if (!registry) {
+    return
+  }
+
+  registry.callbacks.delete(callback)
+
+  if (registry.callbacks.size === 0) {
+    if (registry.rafId !== null) {
+      cancelAnimationFrame(registry.rafId)
+    }
+
+    editor.off('update', registry.handler)
+    positionUpdateRegistries.delete(editor)
+  }
+}
+
 class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRendererOptions> {
   renderer!: VueRenderer
 
@@ -44,9 +102,10 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
   private currentPos: number | undefined
 
   /**
-   * The requestAnimationFrame ID used for editor update position checks.
+   * Callback registered with the per-editor position-update registry.
+   * Stored so it can be unregistered in destroy().
    */
-  private editorUpdateRafId: number | null = null
+  private positionCheckCallback: (() => void) | null = null
 
   decorationClasses!: {
     value: string
@@ -87,10 +146,28 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     })
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
-    this.handleEditorUpdate = this.handleEditorUpdate.bind(this)
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
-    this.editor.on('update', this.handleEditorUpdate)
     this.currentPos = this.getPos()
+
+    this.positionCheckCallback = () => {
+      // Guard against the callback firing before the renderer is fully initialized.
+      if (!this.renderer) {
+        return
+      }
+
+      const newPos = this.getPos()
+
+      if (typeof newPos !== 'number' || newPos === this.currentPos) {
+        return
+      }
+
+      this.currentPos = newPos
+
+      // Pass a fresh getPos reference so Vue's reactivity detects a prop change.
+      this.renderer.updateProps({ getPos: () => this.getPos() })
+    }
+
+    schedulePositionCheck(this.editor, this.positionCheckCallback)
 
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
@@ -120,36 +197,6 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     }
 
     return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
-  }
-
-  /**
-   * On any editor update (every transaction), check if this node's position
-   * in the document has changed. ProseMirror does not call `update()` on
-   * NodeViews whose content is identical but whose position shifted (e.g. a
-   * sibling was moved), so we need this fallback to keep the component in sync.
-   */
-  handleEditorUpdate() {
-    if (this.editorUpdateRafId) {
-      cancelAnimationFrame(this.editorUpdateRafId)
-      this.editorUpdateRafId = null
-    }
-
-    this.editorUpdateRafId = requestAnimationFrame(() => {
-      this.editorUpdateRafId = null
-      const newPos = this.getPos()
-
-      if (typeof newPos !== 'number' || newPos === this.currentPos) {
-        return
-      }
-
-      this.currentPos = newPos
-
-      // Pass a fresh getPos function reference so Vue's reactivity detects
-      // the prop change and schedules a re-render.
-      this.renderer.updateProps({
-        getPos: () => this.getPos(),
-      })
-    })
   }
 
   /**
@@ -197,6 +244,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
+      this.currentPos = this.getPos()
 
       return this.options.update({
         oldNode,
@@ -272,11 +320,10 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
   destroy() {
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
-    this.editor.off('update', this.handleEditorUpdate)
 
-    if (this.editorUpdateRafId) {
-      cancelAnimationFrame(this.editorUpdateRafId)
-      this.editorUpdateRafId = null
+    if (this.positionCheckCallback) {
+      cancelPositionCheck(this.editor, this.positionCheckCallback)
+      this.positionCheckCallback = null
     }
   }
 }
