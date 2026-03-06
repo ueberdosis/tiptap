@@ -32,6 +32,22 @@ export class MarkdownManager {
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
+  private blockLikeNodeNames: Set<string> = new Set([
+    'paragraph',
+    'heading',
+    'blockquote',
+    'bulletList',
+    'orderedList',
+    'listItem',
+    'taskList',
+    'taskItem',
+    'codeBlock',
+    'horizontalRule',
+    'table',
+    'tableRow',
+    'tableCell',
+    'tableHeader',
+  ])
   private baseExtensions: AnyExtension[] = []
   private extensions: AnyExtension[] = []
 
@@ -765,58 +781,66 @@ export class MarkdownManager {
    * This allows HTML within markdown to be parsed according to extension rules.
    */
   private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
-    const html = token.text || token.raw || ''
+    const html = (token.raw ?? token.text ?? '').toString()
 
     if (!html.trim()) {
       return null
     }
-
-    // Check if we're in a server-side environment (no window object)
-    // If so, fall back to treating HTML as plain text to avoid runtime errors
-    if (typeof window === 'undefined') {
-      // For block-level HTML, wrap in a paragraph to maintain valid document structure
-      if (token.block) {
-        return {
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: html,
-            },
-          ],
-        }
-      }
-      // For inline HTML, return plain text
-      return {
-        type: 'text',
-        text: html,
-      }
-    }
-
-    // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
       const parsed = generateJSON(html, this.baseExtensions)
 
-      // If the result is a doc node, extract its content
       if (parsed.type === 'doc' && parsed.content) {
-        // For block-level HTML, return the content array
         if (token.block) {
           return parsed.content
         }
 
-        // For inline HTML, we need to flatten the content appropriately
-        // If there's only one paragraph with content, unwrap it
-        if (parsed.content.length === 1 && parsed.content[0].type === 'paragraph' && parsed.content[0].content) {
-          return parsed.content[0].content
-        }
-
-        return parsed.content
+        const inlineNodes = this.extractInlineHTMLContent(parsed.content)
+        return inlineNodes ?? inlineFallback()
       }
 
       return parsed as JSONContent
     } catch (error) {
+      if (!token.block) {
+        return inlineFallback()
+      }
+
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Normalizes inline HTML output so that block-only nodes are not injected
+   * into inline contexts. Falls back to returning text when the HTML cannot
+   * be expressed as inline content.
+   */
+  private extractInlineHTMLContent(nodes: JSONContent[] | undefined): JSONContent[] | null {
+    if (!nodes || nodes.length === 0) {
+      return null
+    }
+
+    if (nodes.length === 1 && nodes[0].type === 'paragraph') {
+      const paragraph = nodes[0]
+      if (paragraph.content && paragraph.content.length > 0) {
+        // Check if unwrapped content contains any block nodes
+        const hasBlockLikeNode = paragraph.content.some(node => this.isBlockLikeNode(node))
+        if (hasBlockLikeNode) {
+          return null
+        }
+        return paragraph.content
+      }
+      return null
+    }
+
+    const hasBlockLikeNode = nodes.some(node => this.isBlockLikeNode(node))
+    return hasBlockLikeNode ? null : nodes
+  }
+
+  private isBlockLikeNode(node: JSONContent): boolean {
+    if (!node || typeof node !== 'object' || !node.type) {
+      return false
+    }
+
+    return this.blockLikeNodeNames.has(node.type)
   }
 
   renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
