@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.20.1
+
+### Patch Changes
+
+- 25f57e4: Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+  - @tiptap/pm@3.20.1
+
 ## 3.20.0
 
 ### Minor Changes
