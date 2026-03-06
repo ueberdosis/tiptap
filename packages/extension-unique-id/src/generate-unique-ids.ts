@@ -46,10 +46,13 @@ export function generateUniqueIds(doc: JSONContent, extensions: Extensions): JSO
   if (!uniqueIDExtension) {
     throw new Error('UniqueID extension not found in the extensions array')
   }
-  const { types, attributeName, generateID } = uniqueIDExtension.options
-
   // Convert the JSON content to a ProseMirror node
   const schema = getSchema([...extensions.filter(ext => ext.name !== 'uniqueID'), uniqueIDExtension])
+  const { types: configuredTypes, attributeName, generateID } = uniqueIDExtension.options
+  const types =
+    configuredTypes === 'all'
+      ? Object.keys(schema.nodes).filter(type => type !== 'doc' && type !== 'text')
+      : configuredTypes
   const contentNode = Node.fromJSON(schema, doc)
 
   // Find nodes that don't have a unique ID

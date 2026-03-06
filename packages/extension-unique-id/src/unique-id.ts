@@ -1,4 +1,12 @@
-import { combineTransactionSteps, Extension, findChildren, findChildrenInRange, getChangedRanges } from '@tiptap/core'
+import {
+  type Extensions,
+  combineTransactionSteps,
+  Extension,
+  findChildren,
+  findChildrenInRange,
+  getChangedRanges,
+  splitExtensions,
+} from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Fragment, Slice } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
@@ -20,9 +28,10 @@ export interface UniqueIDOptions {
   attributeName: string
   /**
    * The types of nodes to add unique IDs to.
+   * Use `"all"` to add IDs to every node type except `doc` and `text`.
    * @default []
    */
-  types: string[]
+  types: string[] | 'all'
   /**
    * The function that generates the unique ID. By default, a UUID v4 is
    * generated. However, you can provide your own function to generate the
@@ -45,6 +54,16 @@ export interface UniqueIDOptions {
   updateDocument: boolean
 }
 
+const resolveTypes = (types: UniqueIDOptions['types'], extensions: Extensions): string[] => {
+  if (types !== 'all') {
+    return types
+  }
+
+  const { nodeExtensions } = splitExtensions(extensions)
+
+  return nodeExtensions.map(extension => extension.name).filter(type => type !== 'doc' && type !== 'text')
+}
+
 export const UniqueID = Extension.create<UniqueIDOptions>({
   name: 'uniqueID',
 
@@ -63,9 +82,11 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   },
 
   addGlobalAttributes() {
+    const types = resolveTypes(this.options.types, this.extensions)
+
     return [
       {
-        types: this.options.types,
+        types,
         attributes: {
           [this.options.attributeName]: {
             default: null,
@@ -101,7 +122,8 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     const createIds = () => {
       const { view, state } = this.editor
       const { tr, doc } = state
-      const { types, attributeName, generateID } = this.options
+      const types = resolveTypes(this.options.types, this.editor.extensionManager.extensions)
+      const { attributeName, generateID } = this.options
       const nodesWithoutId = findChildren(doc, node => {
         return types.includes(node.type.name) && node.attrs[attributeName] === null
       })
@@ -145,6 +167,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
     let dragSourceElement: Element | null = null
     let transformPasted = false
+    const types = resolveTypes(this.options.types, this.editor.extensionManager.extensions)
 
     return [
       new Plugin({
@@ -168,7 +191,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
           const { tr } = newState
 
-          const { types, attributeName, generateID } = this.options
+          const { attributeName, generateID } = this.options
           const transform = combineTransactionSteps(oldState.doc, transactions as Transaction[])
           const { mapping } = transform
 
@@ -305,7 +328,7 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               return slice
             }
 
-            const { types, attributeName } = this.options
+            const { attributeName } = this.options
             const removeId = (fragment: Fragment): Fragment => {
               const list: ProseMirrorNode[] = []
 
