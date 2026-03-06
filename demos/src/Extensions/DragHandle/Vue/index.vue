@@ -1,24 +1,14 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">H1</button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">H2</button>
-    <button @click="editor.chain().focus().toggleBold().run()">Bold</button>
-    <button
-      @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }"
-    >
-      Bullet list
-    </button>
-    <button @click="editor.chain().focus().lockDragHandle().run()">Lock drag handle</button>
-    <button @click="editor.chain().focus().unlockDragHandle().run()">Unlock drag handle</button>
-    <button @click="editor.chain().focus().toggleDragHandle().run()">Toggle drag handle</button>
-    <button @click="editor.setEditable(!editor.isEditable)">Toggle editable</button>
-    <button @click="nested = !nested">Toggle nested</button>
-    <drag-handle :editor="editor" :nested="nestedOptions">
-      <div class="custom-drag-handle" />
-    </drag-handle>
+  <div class="control-group" v-if="editor">
+    <div class="button-group">
+      <button :class="{ 'is-active': editable }" @click="editable = !editable">Toggle editable</button>
+      <button :class="{ 'is-active': nested }" @click="nested = !nested">Toggle nested drag handle</button>
+    </div>
   </div>
 
+  <drag-handle v-if="editor" :editor="editor" :nested="nestedOptions">
+    <div class="custom-drag-handle" />
+  </drag-handle>
   <editor-content :editor="editor" />
 </template>
 
@@ -40,6 +30,7 @@ export default {
   data() {
     return {
       editor: null,
+      editable: true,
       nested: true,
     }
   },
@@ -48,8 +39,18 @@ export default {
       return this.nested ? NESTED_CONFIG : false
     },
   },
+  watch: {
+    editable(newValue) {
+      if (this.editor) {
+        this.editor.setEditable(newValue)
+      }
+    },
+  },
   mounted() {
     this.editor = new Editor({
+      onUpdate({ editor }) {
+        this.editable = editor.isEditable
+      },
       extensions: [
         StarterKit,
         Image.configure({ inline: false }),
