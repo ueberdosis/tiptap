@@ -1,5 +1,5 @@
 import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import { getRenderedAttributes, mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -192,9 +192,33 @@ export const Image = Node.create<ImageOptions>({
             })
             .run()
         },
-        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
+        onUpdate: (updatedNode: any) => {
           if (updatedNode.type !== node.type) {
             return false
+          }
+
+          const extensionAttributes = editor.extensionManager.attributes.filter(
+            attribute => attribute.type === updatedNode.type.name,
+          )
+          const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+
+          Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+            if (value != null) {
+              switch (key) {
+                case 'width':
+                case 'height':
+                  break
+                default:
+                  el.setAttribute(key, value)
+                  break
+              }
+            } else {
+              el.removeAttribute(key)
+            }
+          })
+
+          if (newHTMLAttributes.src !== el.src) {
+            el.src = newHTMLAttributes.src
           }
 
           return true
