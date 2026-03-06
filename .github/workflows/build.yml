@@ -68,100 +68,15 @@ jobs:
         id: build-packages
         run: pnpm run build
 
-      # Upload build outputs so downstream jobs can skip the build step
       - name: Pack build artifact
         run: tar -czf /tmp/build-output.tar.gz --exclude=node_modules packages/*/dist .turbo
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4.6.2
         with:
           name: build-output
           path: /tmp/build-output.tar.gz
           retention-days: 1
-
-  # Detect which paths changed to skip unnecessary Cypress jobs on PRs
-  changes:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    outputs:
-      test-matrix: ${{ steps.set-matrix.outputs.matrix }}
-      has-tests: ${{ steps.set-matrix.outputs.has-tests }}
-    steps:
-      - uses: actions/checkout@v6
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            packages:
-              - 'packages/**'
-            integration:
-              - 'tests/**'
-            demos-commands:
-              - 'demos/src/Commands/**'
-            demos-examples:
-              - 'demos/src/Examples/**'
-            demos-experiments:
-              - 'demos/src/Experiments/**'
-            demos-extensions:
-              - 'demos/src/Extensions/**'
-            demos-guidecontent:
-              - 'demos/src/GuideContent/**'
-            demos-guidegettingstarted:
-              - 'demos/src/GuideGettingStarted/**'
-            demos-marks:
-              - 'demos/src/Marks/**'
-            demos-nodes:
-              - 'demos/src/Nodes/**'
-
-      - name: Build test matrix from changed paths
-        id: set-matrix
-        run: |
-          ENTRIES=""
-          PACKAGES="${{ steps.filter.outputs.packages }}"
-
-          add_entry() {
-            local name="$1" spec="$2" filter="$3"
-            if [[ "$PACKAGES" == "true" || "$filter" == "true" ]]; then
-              [ -n "$ENTRIES" ] && ENTRIES+=","
-              ENTRIES+="{\"name\":\"${name}\",\"spec\":\"${spec}\"}"
-            fi
-          }
-
-          add_entry "Integration" \
-            "./tests/cypress/integration/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.integration }}"
-          add_entry "Demos/Commands" \
-            "./demos/src/Commands/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-commands }}"
-          add_entry "Demos/Examples" \
-            "./demos/src/Examples/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-examples }}"
-          add_entry "Demos/Experiments" \
-            "./demos/src/Experiments/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-experiments }}"
-          add_entry "Demos/Extensions" \
-            "./demos/src/Extensions/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-extensions }}"
-          add_entry "Demos/GuideContent" \
-            "./demos/src/GuideContent/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-guidecontent }}"
-          add_entry "Demos/GuideGettingStarted" \
-            "./demos/src/GuideGettingStarted/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-guidegettingstarted }}"
-          add_entry "Demos/Marks" \
-            "./demos/src/Marks/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-marks }}"
-          add_entry "Demos/Nodes" \
-            "./demos/src/Nodes/**/*.spec.{js,ts}" \
-            "${{ steps.filter.outputs.demos-nodes }}"
-
-          if [ -n "$ENTRIES" ]; then
-            echo "matrix={\"test-spec\":[${ENTRIES}],\"node-version\":[20]}" >> "$GITHUB_OUTPUT"
-            echo "has-tests=true" >> "$GITHUB_OUTPUT"
-          else
-            # Empty matrix — no tests needed
-            echo "matrix={\"test-spec\":[],\"node-version\":[20]}" >> "$GITHUB_OUTPUT"
-            echo "has-tests=false" >> "$GITHUB_OUTPUT"
-          fi
 
   unit-test:
     runs-on: ubuntu-latest
@@ -203,93 +118,12 @@ jobs:
         id: unit-tests
         run: pnpm run test:unit
 
-  # On pull_request: use filtered matrix from changes job
   test:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && needs.changes.outputs.has-tests == 'true'
-
-    needs: [build, unit-test, changes]
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.changes.outputs.test-matrix) }}
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Load build cache
-        uses: actions/cache@v5.0.2
-        id: cache
-        with:
-          path: |
-            ./demos/node_modules/.vite
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install --strict-peer-dependencies && pnpm exec cypress install
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4.3.0
-        with:
-          name: build-output
-          path: /tmp
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output.tar.gz
-
-      - name: Test ${{ matrix.test-spec.name }}
-        id: cypress
-        uses: cypress-io/github-action@v6.10.2
-        with:
-          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          start: pnpm run serve
-          wait-on: 'http://localhost:3000'
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
-
-      - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.6.2
-        if: failure()
-        with:
-          name: cypress-screenshots-${{ matrix.test-spec.name }}
-          path: tests/cypress/screenshots
-          retention-days: 7
-
-      - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.6.2
-        if: failure()
-        with:
-          name: cypress-videos-${{ matrix.test-spec.name }}
-          path: tests/cypress/videos
-          retention-days: 7
-
-  # On push: run all tests unconditionally (no paths-filter)
-  test-all:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     needs: [build, unit-test]
 
     strategy:
-      fail-fast: false
       matrix:
         node-version: [20]
         test-spec:
@@ -300,14 +134,13 @@ jobs:
           - { name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
           - { name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
           - { name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          #- { name: "Demos/GuideNodeViews", spec: "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
+          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
           - { name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
           - { name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
           #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
       - uses: actions/checkout@v6
-
       - name: Load build cache
         uses: actions/cache@v5.0.2
         id: cache
@@ -379,14 +212,7 @@ jobs:
       matrix:
         node-version: [20]
 
-    # Release needs whichever test job ran (test on PR, test-all on push)
-    needs: [unit-test, test, test-all]
-    # Always run if unit-test succeeded; test/test-all may be skipped depending on event type
-    if: |
-      always() &&
-      needs.unit-test.result == 'success' &&
-      (needs.test.result == 'success' || needs.test.result == 'skipped') &&
-      (needs.test-all.result == 'success' || needs.test-all.result == 'skipped')
+    needs: [test, unit-test]
 
     steps:
       - uses: actions/checkout@v6
