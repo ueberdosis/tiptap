@@ -69,7 +69,7 @@ jobs:
         run: pnpm run build
 
       - name: Pack build artifact
-        run: tar -czf /tmp/build-output.tar.gz --exclude=node_modules packages/*/dist .turbo
+        run: tar -czf /tmp/build-output.tar.gz --exclude=node_modules packages/*/dist packages-deprecated/*/dist
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4.6.2
@@ -127,17 +127,17 @@ jobs:
       matrix:
         node-version: [20]
         test-spec:
-          - { name: 'Integration', spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          #- { name: "Demos/GuideNodeViews", "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
-          - { name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
-          #- { name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
+          - { id: 'integration', name: 'Integration', spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
+          - { id: 'demos-commands', name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
+          - { id: 'demos-examples', name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
+          - { id: 'demos-experiments', name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
+          - { id: 'demos-extensions', name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
+          - { id: 'demos-guidecontent', name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
+          - { id: 'demos-guidegettingstarted', name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
+          #- { id: 'demos-guidenodeviews', name: "Demos/GuideNodeViews", spec: "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
+          - { id: 'demos-marks', name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
+          - { id: 'demos-nodes', name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
+          #- { id: 'demos-overview', name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
 
     steps:
       - uses: actions/checkout@v6
@@ -148,10 +148,10 @@ jobs:
           path: |
             ./demos/node_modules/.vite
             /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ matrix.test-spec.id }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-${{ github.sha }}
-            ${{ runner.os }}-build-${{ matrix.test-spec.name }}-
+            ${{ runner.os }}-build-${{ matrix.test-spec.id }}-${{ github.sha }}
+            ${{ runner.os }}-build-${{ matrix.test-spec.id }}-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -193,7 +193,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.test-spec.name }}
+          name: cypress-screenshots-${{ matrix.test-spec.id }}
           path: tests/cypress/screenshots
           retention-days: 7
 
@@ -201,7 +201,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.2
         if: failure()
         with:
-          name: cypress-videos-${{ matrix.test-spec.name }}
+          name: cypress-videos-${{ matrix.test-spec.id }}
           path: tests/cypress/videos
           retention-days: 7
 
