@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/core'
+import { decodeHtmlEntities, Node } from '@tiptap/core'
 
 /**
  * This extension allows you to create text nodes.
@@ -10,9 +10,10 @@ export const Text = Node.create({
 
   parseMarkdown: token => {
     // Convert 'text' token to text node - text nodes are special as they store text directly
+    // Decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
     return {
       type: 'text',
-      text: token.text || '',
+      text: decodeHtmlEntities(token.text || ''),
     }
   },
 

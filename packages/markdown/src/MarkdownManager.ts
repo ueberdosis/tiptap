@@ -17,6 +17,8 @@ import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
+  decodeHtmlEntities,
+  encodeHtmlEntities,
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
@@ -577,10 +579,10 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
-        // Create text node
+        // Create text node – decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
         result.push({
           type: 'text',
-          text: token.text || '',
+          text: decodeHtmlEntities(token.text || ''),
         })
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
@@ -741,7 +743,7 @@ export class MarkdownManager {
       case 'text':
         return {
           type: 'text',
-          text: token.text || '',
+          text: decodeHtmlEntities(token.text || ''),
         }
 
       case 'html':
@@ -823,7 +825,13 @@ export class MarkdownManager {
     // if node is a text node, we simply return it's text content
     // marks are handled at the array level in renderNodesWithMarkBoundaries
     if (node.type === 'text') {
-      return node.text || ''
+      const text = node.text || ''
+      // Encode HTML special characters so that e.g. `<` roundtrips as `&lt;` in markdown,
+      // except inside code blocks where literal characters should be preserved.
+      if (parentNode?.type === 'codeBlock') {
+        return text
+      }
+      return encodeHtmlEntities(text)
     }
 
     if (!node.type) {
@@ -912,6 +920,13 @@ export class MarkdownManager {
       if (node.type === 'text') {
         let textContent = node.text || ''
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
+
+        // Encode HTML special characters so they roundtrip correctly in markdown,
+        // but skip encoding for code marks and code block parents where literal chars are expected.
+        const isInsideCode = currentMarks.has('code') || parentNode?.type === 'codeBlock'
+        if (!isInsideCode) {
+          textContent = encodeHtmlEntities(textContent)
+        }
 
         // Find marks that need to be closed and opened
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)

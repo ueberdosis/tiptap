@@ -1,7 +1,10 @@
-import type { Content, MarkdownToken } from '@tiptap/core'
+import { type Content, type MarkdownToken, decodeHtmlEntities, encodeHtmlEntities } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
 import type { ContentType } from './types.js'
+
+// Re-export from core so existing imports from './utils.js' continue to work
+export { decodeHtmlEntities, encodeHtmlEntities }
 
 /**
  * Wraps each line of the content with the given prefix.
