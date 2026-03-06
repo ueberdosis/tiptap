@@ -1,5 +1,31 @@
 # Releases
 
+## v3.20.1
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Fix tilde-fenced code blocks (`~~~`) being silently dropped when parsing markdown
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix Drag event listener is removed when a plugin is registered after the DragHandle plugin.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Add support for `types: 'all'` in `UniqueID` to target every node type except `doc` and `text`.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+
 ## v3.20.0
 
 ### @tiptap/core
