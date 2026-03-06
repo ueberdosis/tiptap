@@ -2,7 +2,7 @@ import { Editor, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it, vi } from 'vitest'
 
-import { exitSuggestion,Suggestion, SuggestionPluginKey } from '../suggestion.js'
+import { exitSuggestion, Suggestion, SuggestionPluginKey } from '../suggestion.js'
 
 describe('suggestion integration', () => {
   it('should respect shouldShow returning false', async () => {
