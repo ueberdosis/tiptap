@@ -133,6 +133,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
               const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
+              if (!node.type.isTextblock) {
+                return this.options.includeChildren
+              }
+
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const classes = [this.options.emptyNodeClass]
 
