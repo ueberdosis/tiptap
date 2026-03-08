@@ -25,6 +25,9 @@ declare module '@tiptap/core' {
        * Unset a bold mark
        */
       unsetBold: () => ReturnType
+
+      setBackgroundImage: (url: string) => ReturnType
+      setBackgroundVideo: (url: string) => ReturnType
     }
   }
 }
@@ -117,6 +120,53 @@ export const Bold = Mark.create<BoldOptions>({
         () =>
         ({ commands }) => {
           return commands.unsetMark(this.name)
+        },
+      setBackgroundImage:
+        (url: string) =>
+        ({ editor }) => {
+          console.log('setimage')
+
+          const el = editor.view.dom
+          if (el.style.backgroundImage) {
+            el.style.backgroundImage = ''
+            return true
+          }
+          el.style.backgroundImage = `url(${url})`
+          el.style.backgroundSize = 'cover'
+          el.style.backgroundPosition = 'center'
+          return true
+        },
+
+      setBackgroundVideo:
+        (url: string) =>
+        ({ editor }) => {
+          const wrapper = editor.view.dom.parentElement
+
+          const existingVideo = wrapper.querySelector('.editor-bg-video')
+
+          if (existingVideo) {
+            existingVideo.remove()
+            return true
+          }
+
+          const video = document.createElement('video')
+          video.className = 'editor-bg-video'
+          video.src = url
+          video.autoplay = true
+          video.loop = true
+          video.muted = true
+
+          video.style.position = 'absolute'
+          video.style.top = '0'
+          video.style.left = '0'
+          video.style.width = '100%'
+          video.style.height = '100%'
+          video.style.objectFit = 'cover'
+          video.style.zIndex = '-1'
+
+          wrapper?.prepend(video)
+
+          return true
         },
     }
   },
