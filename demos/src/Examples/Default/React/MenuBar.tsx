@@ -118,8 +118,11 @@ export const MenuBar = ({ editor }: { editor: Editor | null }) => {
         <button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
           Undo
         </button>
-        <button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
-          Redo
+        <button onClick={() => editor.chain().setBackgroundImage('https://picsum.photos/200/300').run()}>
+          add background image
+        </button>
+        <button onClick={() => editor.chain().setBackgroundVideo('https://www.w3schools.com/html/mov_bbb.mp4').run()}>
+          add video
         </button>
       </div>
     </div>

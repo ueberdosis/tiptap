@@ -42,6 +42,7 @@ export interface StarterKitOptions {
    * @example bold: false
    */
   bold: Partial<BoldOptions> | false
+  background: Partial<BoldOptions> | false
 
   /**
    * If set to false, the bulletList extension will not be registered
@@ -174,6 +175,10 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
   addExtensions() {
     const extensions = []
+
+    // if (this.options.background !== false) {
+    //   extensions.push(Background.configure(this.options.background))
+    // }
 
     if (this.options.bold !== false) {
       extensions.push(Bold.configure(this.options.bold))

@@ -12,20 +12,7 @@ export interface BoldOptions {
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    bold: {
-      /**
-       * Set a bold mark
-       */
-      setBold: () => ReturnType
-      /**
-       * Toggle a bold mark
-       */
-      toggleBold: () => ReturnType
-      /**
-       * Unset a bold mark
-       */
-      unsetBold: () => ReturnType
-
+    bg: {
       setBackgroundImage: (url: string) => ReturnType
       setBackgroundVideo: (url: string) => ReturnType
     }
@@ -56,8 +43,8 @@ export const underscorePasteRegex = /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))
  * This extension allows you to mark text as bold.
  * @see https://tiptap.dev/api/marks/bold
  */
-export const Bold = Mark.create<BoldOptions>({
-  name: 'bold',
+export const Background = Mark.create<BoldOptions>({
+  name: 'bg',
 
   addOptions() {
     return {
@@ -123,49 +110,12 @@ export const Bold = Mark.create<BoldOptions>({
         },
       setBackgroundImage:
         (url: string) =>
-        ({ editor }) => {
+        ({ commands }) => {
           console.log('setimage')
 
-          const el = editor.view.dom
-          if (el.style.backgroundImage) {
-            el.style.backgroundImage = ''
-            return true
-          }
+          const el = commands.view.dom
           el.style.backgroundImage = `url(${url})`
           el.style.backgroundSize = 'cover'
-          el.style.backgroundPosition = 'center'
-          return true
-        },
-
-      setBackgroundVideo:
-        (url: string) =>
-        ({ editor }) => {
-          const wrapper = editor.view.dom.parentElement
-
-          const existingVideo = wrapper.querySelector('.editor-bg-video')
-
-          if (existingVideo) {
-            existingVideo.remove()
-            return true
-          }
-
-          const video = document.createElement('video')
-          video.className = 'editor-bg-video'
-          video.src = url
-          video.autoplay = true
-          video.loop = true
-          video.muted = true
-
-          video.style.position = 'absolute'
-          video.style.top = '0'
-          video.style.left = '0'
-          video.style.width = '100%'
-          video.style.height = '100%'
-          video.style.objectFit = 'cover'
-          video.style.zIndex = '-1'
-
-          wrapper?.prepend(video)
-
           return true
         },
     }
