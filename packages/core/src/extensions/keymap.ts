@@ -62,7 +62,9 @@ export const Keymap = Extension.create({
         () => commands.newlineInCode(),
         () => commands.createParagraphNear(),
         () => commands.liftEmptyBlock(),
-        () => commands.splitBlock(),
+        () => this.editor.options.resetMarksOnEnter
+          ? commands.splitBlock() && commands.unsetAllMarks()
+          : commands.splitBlock(),
       ])
 
     const baseKeymap = {
