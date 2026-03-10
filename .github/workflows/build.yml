@@ -72,7 +72,7 @@ jobs:
         run: tar -czf /tmp/build-output.tar.gz --exclude=node_modules packages/*/dist packages-deprecated/*/dist
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: build-output
           path: /tmp/build-output.tar.gz
@@ -190,7 +190,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7.0.0
         if: failure()
         with:
           name: cypress-screenshots-${{ matrix.test-spec.id }}
@@ -198,7 +198,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7.0.0
         if: failure()
         with:
           name: cypress-videos-${{ matrix.test-spec.id }}
