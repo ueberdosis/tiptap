@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish.yml
+    with:
+      release_type: stable
+    secrets: inherit
