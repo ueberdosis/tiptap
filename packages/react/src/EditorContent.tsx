@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
-import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import type { ContentComponent, EditorWithContentComponent, PortalNode } from './Editor.js'
 import type { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
@@ -20,18 +20,20 @@ const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> 
 }
 
 /**
- * This component renders all of the editor's node views.
+ * This component renders all of the editor's node views hierarchically.
+ * By nesting portals according to their parent-child relationships in the React tree,
+ * we preserve React Context flow from parent NodeViews to child NodeViews.
  */
 const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComponent }) => {
   // For performance reasons, we render the node view portals on state changes only
-  const renderers = useSyncExternalStore(
+  const portalNodes = useSyncExternalStore(
     contentComponent.subscribe,
     contentComponent.getSnapshot,
     contentComponent.getServerSnapshot,
   )
 
-  // This allows us to directly render the portals without any additional wrapper
-  return <>{Object.values(renderers)}</>
+  // Temporarily use the old flat rendering to debug
+  return <>{Object.values(portalNodes).map(node => node.portal)}</>
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
@@ -41,7 +43,7 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
 
 function getInstance(): ContentComponent {
   const subscribers = new Set<() => void>()
-  let renderers: Record<string, React.ReactPortal> = {}
+  let portalNodes: Record<string, PortalNode> = {}
 
   return {
     /**
@@ -54,30 +56,67 @@ function getInstance(): ContentComponent {
       }
     },
     getSnapshot() {
-      return renderers
+      return portalNodes
     },
     getServerSnapshot() {
-      return renderers
+      return portalNodes
     },
     /**
-     * Adds a new NodeView Renderer to the editor.
+     * Adds a new NodeView Renderer to the editor with optional parent tracking.
+     * This maintains the parent-child hierarchy needed for React Context propagation.
      */
-    setRenderer(id: string, renderer: ReactRenderer) {
-      renderers = {
-        ...renderers,
-        [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
+    setRenderer(id: string, renderer: ReactRenderer, parentId: string | null = null) {
+      const newPortalNode: PortalNode = {
+        id,
+        portal: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
+        parentId,
+        children: [],
+      }
+
+      portalNodes = {
+        ...portalNodes,
+        [id]: newPortalNode,
+      }
+
+      // If this node has a parent, add it to the parent's children array
+      if (parentId && portalNodes[parentId]) {
+        const parent = portalNodes[parentId]
+        if (!parent.children.includes(id)) {
+          portalNodes = {
+            ...portalNodes,
+            [parentId]: {
+              ...parent,
+              children: [...parent.children, id],
+            },
+          }
+        }
       }
 
       subscribers.forEach(subscriber => subscriber())
     },
     /**
-     * Removes a NodeView Renderer from the editor.
+     * Removes a NodeView Renderer from the editor and cleans up parent references.
      */
     removeRenderer(id: string) {
-      const nextRenderers = { ...renderers }
+      const nodeToRemove = portalNodes[id]
+      if (!nodeToRemove) {
+        return
+      }
 
-      delete nextRenderers[id]
-      renderers = nextRenderers
+      const nextPortalNodes = { ...portalNodes }
+
+      // Remove from parent's children array if it has a parent
+      if (nodeToRemove.parentId && nextPortalNodes[nodeToRemove.parentId]) {
+        const parent = nextPortalNodes[nodeToRemove.parentId]
+        nextPortalNodes[nodeToRemove.parentId] = {
+          ...parent,
+          children: parent.children.filter(childId => childId !== id),
+        }
+      }
+
+      // Remove the node itself
+      delete nextPortalNodes[id]
+      portalNodes = nextPortalNodes
       subscribers.forEach(subscriber => subscriber())
     },
   }
