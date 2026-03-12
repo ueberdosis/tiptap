@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { Editor, Extension } from '@tiptap/core'
+import { type Extensions, Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -17,7 +17,7 @@ function generateID() {
 
 function createEditor(options: { withCollaboration?: boolean } = {}) {
   idCounter = 0
-  const extensions = [
+  const extensions: Extensions = [
     Document,
     Paragraph,
     Text,
@@ -29,7 +29,7 @@ function createEditor(options: { withCollaboration?: boolean } = {}) {
   ]
 
   if (options.withCollaboration) {
-    extensions.push(Extension.create({ name: 'collaboration' }) as any)
+    extensions.push(Extension.create({ name: 'collaboration' }))
   }
 
   return new Editor({ extensions })
