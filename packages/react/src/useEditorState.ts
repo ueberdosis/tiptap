@@ -84,6 +84,19 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
   }
 
   /**
+   * Eagerly update the editor reference during render.
+   * This prevents selectors from running against a stale/destroyed editor
+   * when the editor instance is recreated (e.g., when useEditor deps change).
+   */
+  setEditorInstance(editor: TEditor) {
+    if (this.editor !== editor) {
+      this.editor = editor
+      // Bump transaction number so getSnapshot returns a fresh snapshot
+      this.transactionNumber += 1
+    }
+  }
+
+  /**
    * Watch the editor instance for changes.
    */
   watch(nextEditor: Editor | null): undefined | (() => void) {
@@ -158,6 +171,12 @@ export function useEditorState<TSelectorResult>(
     | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
+
+  // Eagerly sync the editor reference during render to prevent selectors from
+  // running against a stale/destroyed editor when the editor instance changes.
+  // Without this, the layout effect (watch) hasn't fired yet, so getSnapshot
+  // would return a snapshot with the old editor.
+  editorStateManager.setEditorInstance(options.editor)
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
