@@ -901,6 +901,13 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
+    // Track the actual nesting order: outermost first, innermost last
+    const nestingStack: string[] = []
+    // Track marks using alternate delimiters (e.g. _ instead of * for italic)
+    const useAlternateDelimiter = new Set<string>()
+    // Marks that need to be reopened with alternate syntax at the start of the next node
+    let marksToReopenWithAlt: Array<{ type: string; mark: any }> = []
+
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -917,33 +924,90 @@ export class MarkdownManager {
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
+        // Mark types that need alternate delimiters (from previous node's overlapping closure)
+        if (marksToReopenWithAlt.length > 0) {
+          marksToReopenWithAlt.forEach(({ type }) => {
+            if (currentMarks.has(type) && !activeMarks.has(type)) {
+              useAlternateDelimiter.add(type)
+            }
+          })
+          // Don't filter marksToOpen - they'll be opened normally with alternate delimiters
+          marksToReopenWithAlt = []
+        }
+
+        // Sort marksToOpen so that link-like marks (opening with '[') are prepended last (outermost)
+        const sortedMarksToOpen = this.sortMarksForOpening(marksToOpen)
+
+        // Compute effective nesting order for this node (outermost first, innermost last)
+        // Existing stack + new marks (prepend order reversed: last prepended = outermost)
+        const effectiveNesting = [...nestingStack, ...sortedMarksToOpen.map(m => m.type).reverse()]
+
+        // Identify inner continuing marks using the effective nesting
+        const innerContinuingMarks = this.findInnerContinuingMarks(effectiveNesting, marksToClose, currentMarks)
+
         let middleTrailingWhitespace = ''
 
-        if (marksToClose.length > 0) {
-          // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+        const hasAnyClosing = marksToClose.length > 0 || innerContinuingMarks.length > 0
+        if (hasAnyClosing) {
           const middleTrailingMatch = textContent.match(/(\s+)$/)
           if (middleTrailingMatch) {
             middleTrailingWhitespace = middleTrailingMatch[1]
             textContent = textContent.slice(0, -middleTrailingWhitespace.length)
           }
         }
-        // Close marks that are ending here
-        marksToClose.forEach(markType => {
-          const mark = currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
+
+        // Close inner continuing marks first (innermost first)
+        ;[...innerContinuingMarks].reverse().forEach(({ type, mark }) => {
+          const closeMarkdown = this.getMarkClosingWithAlt(type, mark, useAlternateDelimiter)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
-          // deleting closed marks from active marks
+        })
+
+        // Close marks that are ending here (innermost first based on effective nesting)
+        const sortedMarksToClose = this.sortMarksForClosingByStack(marksToClose, effectiveNesting)
+        sortedMarksToClose.forEach(markType => {
+          const mark = currentMarks.get(markType)
+          const closeMarkdown = this.getMarkClosingWithAlt(markType, mark, useAlternateDelimiter)
+          if (closeMarkdown) {
+            textContent += closeMarkdown
+          }
           if (activeMarks.has(markType)) {
             activeMarks.delete(markType)
           }
+          const stackIdx = nestingStack.indexOf(markType)
+          if (stackIdx >= 0) {
+            nestingStack.splice(stackIdx, 1)
+          }
         })
 
-        // Open new marks (should be at the beginning)
-        // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
+        // Track inner continuing marks for reopening in the next node
+        if (innerContinuingMarks.length > 0) {
+          const closingSequence = this.buildClosingSequenceFromStack(
+            innerContinuingMarks,
+            sortedMarksToClose,
+            currentMarks,
+            useAlternateDelimiter,
+          )
+          innerContinuingMarks.forEach(({ type, mark }) => {
+            activeMarks.delete(type)
+            const stackIdx = nestingStack.indexOf(type)
+            if (stackIdx >= 0) {
+              nestingStack.splice(stackIdx, 1)
+            }
+            const normalOpening = this.getMarkOpening(type, mark)
+            // Always push to reopen; alternate syntax used if delimiters would be ambiguous
+            if (this.wouldCreateAmbiguousRun(closingSequence, normalOpening)) {
+              marksToReopenWithAlt.push({ type, mark })
+            } else {
+              marksToReopenWithAlt.push({ type, mark })
+            }
+          })
+        }
+
+        // Open new marks
         let leadingWhitespace = ''
-        if (marksToOpen.length > 0) {
+        if (sortedMarksToOpen.length > 0) {
           const leadingMatch = textContent.match(/^(\s+)/)
           if (leadingMatch) {
             leadingWhitespace = leadingMatch[1]
@@ -951,17 +1015,34 @@ export class MarkdownManager {
           }
         }
 
-        marksToOpen.forEach(({ type, mark }) => {
-          const openMarkdown = this.getMarkOpening(type, mark)
+        // Inner continuing marks should open but NOT be added to activeMarks
+        // (they'll be reopened with alternate syntax in the next node)
+        const innerContinuingTypes = new Set(innerContinuingMarks.map(m => m.type))
+
+        sortedMarksToOpen.forEach(({ type, mark }) => {
+          const openMarkdown = this.getMarkOpeningWithAlt(type, mark, useAlternateDelimiter)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          if (!marksToClose.includes(type)) {
+          if (!marksToClose.includes(type) && !innerContinuingTypes.has(type)) {
             activeMarks.set(type, mark)
+            nestingStack.push(type)
           }
         })
+        // Fix nesting stack for prepend: last prepended = outermost, so reverse the newly added entries
+        if (sortedMarksToOpen.length > 0) {
+          const nonClosing = sortedMarksToOpen.filter(m => !marksToClose.includes(m.type))
+          if (nonClosing.length > 1) {
+            // The last N entries in nestingStack are the newly opened marks (in prepend order)
+            // Prepend order: first = innermost, last = outermost
+            // We need outermost first in the stack, so reverse them
+            const startIdx = nestingStack.length - nonClosing.length
+            const newEntries = nestingStack.splice(startIdx)
+            newEntries.reverse()
+            nestingStack.splice(startIdx, 0, ...newEntries)
+          }
+        }
 
-        // Add leading whitespace before the mark opening
         textContent = leadingWhitespace + textContent
 
         // Close marks at the end of this node if needed
@@ -972,9 +1053,12 @@ export class MarkdownManager {
           this.markSetsEqual.bind(this),
         )
 
-        // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
+        // For marksToCloseAtEnd, also handle inner continuing marks
+        const innerContinuingAtEnd = this.findInnerContinuingMarks(nestingStack, marksToCloseAtEnd, currentMarks)
+
         let trailingWhitespace = ''
-        if (marksToCloseAtEnd.length > 0) {
+        const hasAnyEndClosing = marksToCloseAtEnd.length > 0 || innerContinuingAtEnd.length > 0
+        if (hasAnyEndClosing) {
           const trailingMatch = textContent.match(/(\s+)$/)
           if (trailingMatch) {
             trailingWhitespace = trailingMatch[1]
@@ -982,38 +1066,81 @@ export class MarkdownManager {
           }
         }
 
-        marksToCloseAtEnd.forEach(markType => {
+        ;[...innerContinuingAtEnd].reverse().forEach(({ type, mark }) => {
+          const closeMarkdown = this.getMarkClosingWithAlt(type, mark, useAlternateDelimiter)
+          if (closeMarkdown) {
+            textContent += closeMarkdown
+          }
+        })
+
+        const sortedMarksToCloseAtEnd = this.sortMarksForClosingByStack(marksToCloseAtEnd, nestingStack)
+        sortedMarksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
+          const closeMarkdown = this.getMarkClosingWithAlt(markType, mark, useAlternateDelimiter)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
           activeMarks.delete(markType)
+          const stackIdx = nestingStack.indexOf(markType)
+          if (stackIdx >= 0) {
+            nestingStack.splice(stackIdx, 1)
+          }
         })
 
-        // Add trailing whitespace after the mark closing
+        if (innerContinuingAtEnd.length > 0) {
+          const closingSequence = this.buildClosingSequenceFromStack(
+            innerContinuingAtEnd,
+            sortedMarksToCloseAtEnd,
+            currentMarks,
+            useAlternateDelimiter,
+          )
+          innerContinuingAtEnd.forEach(({ type, mark }) => {
+            activeMarks.delete(type)
+            const stackIdx = nestingStack.indexOf(type)
+            if (stackIdx >= 0) {
+              nestingStack.splice(stackIdx, 1)
+            }
+            const normalOpening = this.getMarkOpening(type, mark)
+            if (this.wouldCreateAmbiguousRun(closingSequence, normalOpening)) {
+              marksToReopenWithAlt.push({ type, mark })
+            } else {
+              marksToReopenWithAlt.push({ type, mark })
+            }
+          })
+        }
+
         textContent += trailingWhitespace
         textContent += middleTrailingWhitespace
+
+        // Clear alternate delimiter flags for marks that are no longer active
+        Array.from(useAlternateDelimiter).forEach(type => {
+          if (!activeMarks.has(type)) {
+            useAlternateDelimiter.delete(type)
+          }
+        })
 
         result.push(textContent)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
+        const savedNestingStack = [...nestingStack]
 
         // Close all marks before the node
         const beforeMarkdown = closeMarksBeforeNode(activeMarks, this.getMarkClosing.bind(this))
+        nestingStack.length = 0
 
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
 
         // Reopen marks after the node, but NOT after a hard break
         // Hard breaks should terminate marks (they create a line break where marks don't continue)
-        const afterMarkdown =
-          node.type === 'hardBreak'
-            ? ''
-            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
-
-        result.push(beforeMarkdown + nodeContent + afterMarkdown)
+        if (node.type === 'hardBreak') {
+          result.push(beforeMarkdown + nodeContent)
+        } else {
+          const afterMarkdown = reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+          nestingStack.push(...savedNestingStack)
+          result.push(beforeMarkdown + nodeContent + afterMarkdown)
+        }
       }
     })
 
@@ -1107,6 +1234,133 @@ export class MarkdownManager {
     }
 
     return Array.from(marks1.keys()).every(type => marks2.has(type))
+  }
+
+  /**
+   * Sort marks for opening so that link-like marks (with '[' opening) are prepended last (outermost).
+   */
+  private sortMarksForOpening(marks: Array<{ type: string; mark: any }>): Array<{ type: string; mark: any }> {
+    return [...marks].sort((a, b) => {
+      const aOpening = this.getMarkOpening(a.type, a.mark)
+      const bOpening = this.getMarkOpening(b.type, b.mark)
+      const aIsLink = aOpening.includes('[')
+      const bIsLink = bOpening.includes('[')
+      if (aIsLink && !bIsLink) {
+        return 1
+      } // a goes later (outermost in prepend)
+      if (!aIsLink && bIsLink) {
+        return -1
+      }
+      return 0
+    })
+  }
+
+  /**
+   * Sort marks for closing based on nesting order: innermost first.
+   * Nesting array has outermost first (index 0), innermost last.
+   * Higher index = more inner = should close first.
+   */
+  private sortMarksForClosingByStack(marksToClose: string[], nesting: string[]): string[] {
+    return [...marksToClose].sort((a, b) => {
+      const aIdx = nesting.indexOf(a)
+      const bIdx = nesting.indexOf(b)
+      return bIdx - aIdx
+    })
+  }
+
+  /**
+   * Find marks that are inner to closing marks and continue to the next node.
+   * Uses a nesting array (outermost first, innermost last).
+   */
+  private findInnerContinuingMarks(
+    nesting: string[],
+    marksToClose: string[],
+    currentMarks: Map<string, any>,
+  ): Array<{ type: string; mark: any }> {
+    if (marksToClose.length === 0) {
+      return []
+    }
+
+    const closingIndices = marksToClose.map(t => nesting.indexOf(t)).filter(i => i >= 0)
+    if (closingIndices.length === 0) {
+      return []
+    }
+
+    const outermostClosingIdx = Math.min(...closingIndices)
+
+    const result: Array<{ type: string; mark: any }> = []
+    nesting.slice(outermostClosingIdx + 1).forEach(markType => {
+      if (!marksToClose.includes(markType) && currentMarks.has(markType)) {
+        result.push({ type: markType, mark: currentMarks.get(markType) })
+      }
+    })
+    return result
+  }
+
+  /**
+   * Get mark opening, using alternate delimiter if flagged.
+   */
+  private getMarkOpeningWithAlt(markType: string, mark: any, useAlt: Set<string>): string {
+    const normal = this.getMarkOpening(markType, mark)
+    if (useAlt.has(markType)) {
+      return this.toAlternateDelimiter(normal)
+    }
+    return normal
+  }
+
+  /**
+   * Get mark closing, using alternate delimiter if flagged.
+   */
+  private getMarkClosingWithAlt(markType: string, mark: any, useAlt: Set<string>): string {
+    const normal = this.getMarkClosing(markType, mark)
+    if (useAlt.has(markType)) {
+      return this.toAlternateDelimiter(normal)
+    }
+    return normal
+  }
+
+  /**
+   * Convert asterisk-based delimiters to underscore-based alternates.
+   * e.g. '*' -> '_', '**' -> '__'
+   */
+  private toAlternateDelimiter(delimiter: string): string {
+    if (/^\*+$/.test(delimiter)) {
+      return delimiter.replace(/\*/g, '_')
+    }
+    return delimiter
+  }
+
+  /**
+   * Build the full closing sequence string for detecting ambiguous delimiter runs.
+   */
+  private buildClosingSequenceFromStack(
+    innerContinuing: Array<{ type: string; mark: any }>,
+    outerClosing: string[],
+    currentMarks: Map<string, any>,
+    useAlt: Set<string>,
+  ): string {
+    let seq = ''
+    ;[...innerContinuing].reverse().forEach(({ type, mark }) => {
+      seq += this.getMarkClosingWithAlt(type, mark, useAlt)
+    })
+    outerClosing.forEach(markType => {
+      const mark = currentMarks.get(markType)
+      seq += this.getMarkClosingWithAlt(markType, mark, useAlt)
+    })
+    return seq
+  }
+
+  /**
+   * Check if appending an opening delimiter after a closing sequence would create
+   * an ambiguous run of the same character (e.g. '***' + '*' = '****').
+   */
+  private wouldCreateAmbiguousRun(closingSequence: string, opening: string): boolean {
+    if (!closingSequence || !opening) {
+      return false
+    }
+    const lastChar = closingSequence[closingSequence.length - 1]
+    const firstChar = opening[0]
+    return lastChar === firstChar
   }
 }
 
