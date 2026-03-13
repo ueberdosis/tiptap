@@ -84,13 +84,6 @@ export default {
       },
 
       onKeyDown(props) {
-        if (props.event.key === 'Escape') {
-          reactRenderer.destroy()
-          reactRenderer.element.remove()
-
-          return true
-        }
-
         return reactRenderer.ref?.onKeyDown(props)
       },
 
