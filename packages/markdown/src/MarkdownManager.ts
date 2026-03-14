@@ -9,9 +9,11 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  createDocument,
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
@@ -282,21 +284,29 @@ export class MarkdownManager {
   /**
    * Parse markdown string into Tiptap JSON document using registered extension handlers.
    */
+
   parse(markdown: string): JSONContent {
     if (!this.hasMarked()) {
       throw new Error('No marked instance available for parsing')
     }
 
-    // Use marked to tokenize the markdown
-    const tokens = this.markedInstance.lexer(markdown)
+    const schema = getSchema(this.baseExtensions)
+    if (!markdown || markdown.trim() === '') {
+      return createDocument([], schema).toJSON()
+    }
 
-    // Convert tokens to Tiptap JSON
-    const content = this.parseTokens(tokens)
+    try {
+      const tokens = this.markedInstance.lexer(markdown)
+      const content = this.parseTokens(tokens)
 
-    // Return a document node containing the parsed content
-    return {
-      type: 'doc',
-      content,
+      if (!content || content.length === 0) {
+        return createDocument([], schema).toJSON()
+      }
+
+      return createDocument(content, schema).toJSON()
+    } catch (err) {
+      console.warn('Markdown parse failed, using fallback empty document', err)
+      return createDocument([], schema).toJSON()
     }
   }
 
