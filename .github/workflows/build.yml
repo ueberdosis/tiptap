@@ -40,7 +40,7 @@ jobs:
           version: ${{ env.PNPM_VERSION }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -159,7 +159,7 @@ jobs:
           version: ${{ env.PNPM_VERSION }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -223,7 +223,7 @@ jobs:
           version: ${{ env.PNPM_VERSION }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
