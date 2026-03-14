@@ -928,17 +928,20 @@ export class MarkdownManager {
           }
         }
         // Close marks that are ending here
-        marksToClose.forEach(markType => {
-          const mark = currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
-          if (closeMarkdown) {
-            textContent += closeMarkdown
-          }
-          // deleting closed marks from active marks
-          if (activeMarks.has(markType)) {
-            activeMarks.delete(markType)
-          }
-        })
+        marksToClose
+          .slice()
+          .reverse()
+          .forEach(markType => {
+            const mark = currentMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark)
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            // deleting closed marks from active marks
+            if (activeMarks.has(markType)) {
+              activeMarks.delete(markType)
+            }
+          })
 
         // Open new marks (should be at the beginning)
         // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
@@ -982,14 +985,17 @@ export class MarkdownManager {
           }
         }
 
-        marksToCloseAtEnd.forEach(markType => {
-          const mark = activeMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
-          if (closeMarkdown) {
-            textContent += closeMarkdown
-          }
-          activeMarks.delete(markType)
-        })
+        marksToCloseAtEnd
+          .slice()
+          .reverse()
+          .forEach(markType => {
+            const mark = activeMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark)
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            activeMarks.delete(markType)
+          })
 
         // Add trailing whitespace after the mark closing
         textContent += trailingWhitespace
