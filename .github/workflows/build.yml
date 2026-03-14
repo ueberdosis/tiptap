@@ -25,6 +25,7 @@ jobs:
   install-node-dependencies:
     name: Install node dependencies
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v6
@@ -44,7 +45,7 @@ jobs:
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Install dependencies
-        run: pnpm install --strict-peer-dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
       - name: Install Cypress binary
         run: pnpm exec cypress install
@@ -67,6 +68,7 @@ jobs:
     name: Check linting & formatting
     runs-on: ubuntu-latest
     needs: build-packages
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v6
@@ -94,7 +96,7 @@ jobs:
         run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
-        run: pnpm install --offline --strict-peer-dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
       - name: Run linting and formatting checks
         run: pnpm run lint
@@ -103,6 +105,7 @@ jobs:
     name: Build packages
     runs-on: ubuntu-latest
     needs: install-node-dependencies
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v6
@@ -130,7 +133,7 @@ jobs:
         run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
-        run: pnpm install --offline --strict-peer-dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
       - name: Build packages
         run: pnpm run build && pnpm run build:demos
@@ -149,6 +152,7 @@ jobs:
     name: Run unit tests
     runs-on: ubuntu-latest
     needs: build-packages
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v6
@@ -176,7 +180,7 @@ jobs:
         run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
-        run: pnpm install --offline --strict-peer-dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4.3.0
@@ -194,8 +198,10 @@ jobs:
     name: Run e2e tests
     runs-on: ubuntu-latest
     needs: build-packages
+    timeout-minutes: 45
 
     strategy:
+      fail-fast: false
       matrix:
         test-spec:
           - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
@@ -234,7 +240,7 @@ jobs:
         run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
-        run: pnpm install --offline --strict-peer-dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
       - name: Restore Cypress cache
         run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
