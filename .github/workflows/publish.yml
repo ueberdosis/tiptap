@@ -1,6 +1,7 @@
 name: Publish
 
 env:
+  NODE_VERSION: 24
   PNPM_VERSION: 9.15.4
 
 on:
@@ -42,10 +43,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
       - name: Update npm for trusted publishing
@@ -111,7 +112,7 @@ jobs:
     needs:
       - release
       - notify-slack
-    if: always() && needs.release.result == 'success' && needs.release.outputs.published == 'true'
+    if: always() && needs.release.result == 'success' && needs.release.outputs.published == 'true' && needs.notify-slack.result == 'success'
     permissions: {}
 
     steps:
@@ -121,3 +122,23 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
           content: 'Published packages from branch ${{ github.event.workflow_run.head_branch }} with npm tag ${{ needs.release.outputs.dist_tag }}.'
           wait: true
+
+  notify-slack-failure:
+    name: Send failure notification to Slack
+    runs-on: ubuntu-latest
+    needs: release
+    if: always() && needs.release.result == 'failure'
+    permissions: {}
+
+    steps:
+      - name: Send Slack failure notification
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "message": "[Tiptap Editor Release]: There was an issue publishing packages from branch ${{ github.event.workflow_run.head_branch }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

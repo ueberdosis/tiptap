@@ -1,6 +1,7 @@
 name: Verify
 
 env:
+  NODE_VERSION: 24
   PNPM_VERSION: 9.15.4
 
 concurrency:
@@ -32,10 +33,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
       - name: Install dependencies
@@ -45,14 +46,20 @@ jobs:
         run: pnpm exec cypress install
 
       - name: Pack dependency artifacts
-        run: tar -czf /tmp/node-dependencies.tar.gz node_modules && tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
+        run: |
+          store_path="$(pnpm store path --silent)"
+          store_parent="$(dirname "$store_path")"
+          store_name="$(basename "$store_path")"
+
+          tar -czf /tmp/pnpm-store.tar.gz -C "$store_parent" "$store_name"
+          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
 
       - name: Upload dependency artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
           name: node-dependencies
           path: |
-            /tmp/node-dependencies.tar.gz
+            /tmp/pnpm-store.tar.gz
             /tmp/cypress-cache.tar.gz
           retention-days: 1
 
@@ -69,10 +76,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
@@ -80,8 +87,11 @@ jobs:
           name: node-dependencies
           path: /tmp/node-dependencies
 
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+
       - name: Restore dependencies
-        run: tar -xzf /tmp/node-dependencies/node-dependencies.tar.gz
+        run: pnpm install --offline --strict-peer-dependencies
 
       - name: Run linting and formatting checks
         run: pnpm run lint
@@ -99,10 +109,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
@@ -110,8 +120,11 @@ jobs:
           name: node-dependencies
           path: /tmp/node-dependencies
 
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+
       - name: Restore dependencies
-        run: tar -xzf /tmp/node-dependencies/node-dependencies.tar.gz
+        run: pnpm install --offline --strict-peer-dependencies
 
       - name: Build packages
         run: pnpm run build && pnpm run build:demos
@@ -139,10 +152,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
@@ -150,8 +163,11 @@ jobs:
           name: node-dependencies
           path: /tmp/node-dependencies
 
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+
       - name: Restore dependencies
-        run: tar -xzf /tmp/node-dependencies/node-dependencies.tar.gz
+        run: pnpm install --offline --strict-peer-dependencies
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4.3.0
@@ -191,10 +207,10 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js 20
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
@@ -202,8 +218,11 @@ jobs:
           name: node-dependencies
           path: /tmp/node-dependencies
 
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+
       - name: Restore dependencies
-        run: tar -xzf /tmp/node-dependencies/node-dependencies.tar.gz
+        run: pnpm install --offline --strict-peer-dependencies
 
       - name: Restore Cypress cache
         run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
