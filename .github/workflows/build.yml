@@ -3,6 +3,7 @@ name: Verify
 env:
   NODE_VERSION: 24
   PNPM_VERSION: 9.15.4
+  PNPM_STORE_DIR: .pnpm-store
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -39,6 +40,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
       - name: Install dependencies
         run: pnpm install --strict-peer-dependencies
 
@@ -47,11 +51,7 @@ jobs:
 
       - name: Pack dependency artifacts
         run: |
-          store_path="$(pnpm store path --silent)"
-          store_parent="$(dirname "$store_path")"
-          store_name="$(basename "$store_path")"
-
-          tar -czf /tmp/pnpm-store.tar.gz -C "$store_parent" "$store_name"
+          tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
           tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
 
       - name: Upload dependency artifacts
@@ -81,6 +81,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
         with:
@@ -88,7 +91,7 @@ jobs:
           path: /tmp/node-dependencies
 
       - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
         run: pnpm install --offline --strict-peer-dependencies
@@ -114,6 +117,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
         with:
@@ -121,7 +127,7 @@ jobs:
           path: /tmp/node-dependencies
 
       - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
         run: pnpm install --offline --strict-peer-dependencies
@@ -157,6 +163,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
         with:
@@ -164,7 +173,7 @@ jobs:
           path: /tmp/node-dependencies
 
       - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
         run: pnpm install --offline --strict-peer-dependencies
@@ -212,6 +221,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
       - name: Download dependency artifacts
         uses: actions/download-artifact@v4.3.0
         with:
@@ -219,7 +231,7 @@ jobs:
           path: /tmp/node-dependencies
 
       - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz -C "$(dirname "$(pnpm store path --silent)")"
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
 
       - name: Restore dependencies
         run: pnpm install --offline --strict-peer-dependencies
