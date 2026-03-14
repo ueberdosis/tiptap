@@ -158,4 +158,40 @@ describe('BubbleMenuView cross-contamination', () => {
     view.destroy()
     editor.destroy()
   })
+  it('should only process show for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'show')
+    const spy2 = vi.spyOn(view2, 'show')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'show'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process hide for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'hide')
+    const spy2 = vi.spyOn(view2, 'hide')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'hide'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
 })
