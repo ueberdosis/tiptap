@@ -69,7 +69,7 @@ export const ListItem = Node.create<ListItemOptions>({
 
       if (hasParagraphTokens) {
         // If we have paragraph tokens, parse them as block elements
-        content = helpers.parseChildren(token.tokens)
+        content = helpers.parseBlockChildren(token.tokens)
       } else {
         // Check if the first token is a text token with nested inline tokens
         const firstToken = token.tokens[0]
@@ -90,12 +90,12 @@ export const ListItem = Node.create<ListItemOptions>({
           // parse them as block elements and add them
           if (token.tokens.length > 1) {
             const remainingTokens = token.tokens.slice(1)
-            const additionalContent = helpers.parseChildren(remainingTokens)
+            const additionalContent = helpers.parseBlockChildren(remainingTokens)
             content.push(...additionalContent)
           }
         } else {
           // Fallback: parse all tokens as block elements
-          content = helpers.parseChildren(token.tokens)
+          content = helpers.parseBlockChildren(token.tokens)
         }
       }
     }

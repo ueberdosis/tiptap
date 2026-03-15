@@ -97,12 +97,13 @@ export const Paragraph = Node.create<ParagraphOptions>({
     const content = Array.isArray(node.content) ? node.content : []
 
     if (content.length === 0) {
-      // Only insert &nbsp; at the document root level to preserve blank lines
-      // between paragraphs. In nested contexts (list items, blockquotes, etc.)
-      // the &nbsp; would leak into the surrounding markdown syntax (e.g. "- &nbsp;").
-      const isTopLevel = !ctx?.parentType || ctx.parentType === 'doc'
+      // Emit &nbsp; for the second and later empty paragraphs in a consecutive
+      // run at the current nesting level. The first empty paragraph stays empty
+      // so markdown spacing is preserved naturally.
+      const previousContent = Array.isArray(ctx?.previousNode?.content) ? ctx.previousNode.content : []
+      const previousNodeIsEmptyParagraph = ctx?.previousNode?.type === 'paragraph' && previousContent.length === 0
 
-      return isTopLevel ? EMPTY_PARAGRAPH_MARKDOWN : ''
+      return previousNodeIsEmptyParagraph ? EMPTY_PARAGRAPH_MARKDOWN : ''
     }
 
     return h.renderChildren(content)
