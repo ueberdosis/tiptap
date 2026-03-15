@@ -88,7 +88,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return helpers.createNode('paragraph', undefined, content)
   },
 
-  renderMarkdown: (node, h) => {
+  renderMarkdown: (node, h, ctx) => {
     if (!node) {
       return ''
     }
@@ -96,9 +96,13 @@ export const Paragraph = Node.create<ParagraphOptions>({
     // Normalize content: treat undefined/null as empty array
     const content = Array.isArray(node.content) ? node.content : []
 
-    // If the paragraph is empty, render a non-breaking space to preserve blank lines
     if (content.length === 0) {
-      return EMPTY_PARAGRAPH_MARKDOWN
+      // Only insert &nbsp; at the document root level to preserve blank lines
+      // between paragraphs. In nested contexts (list items, blockquotes, etc.)
+      // the &nbsp; would leak into the surrounding markdown syntax (e.g. "- &nbsp;").
+      const isTopLevel = !ctx?.parentType || ctx.parentType === 'doc'
+
+      return isTopLevel ? EMPTY_PARAGRAPH_MARKDOWN : ''
     }
 
     return h.renderChildren(content)
