@@ -959,6 +959,10 @@ export interface MarkdownExtensionSpec {
   parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
   renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   isIndenting?: boolean
+  htmlReopen?: {
+    open: string
+    close: string
+  }
   /** Custom tokenizer for marked.js to handle non-standard markdown syntax */
   tokenizer?: MarkdownTokenizer
 }

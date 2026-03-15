@@ -114,6 +114,7 @@ export class MarkdownManager {
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
     const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
+    const htmlReopen = markdownCfg?.htmlReopen
 
     const spec: MarkdownExtensionSpec = {
       tokenName,
@@ -121,6 +122,7 @@ export class MarkdownManager {
       parseMarkdown,
       renderMarkdown,
       isIndenting,
+      htmlReopen,
       tokenizer,
     }
 
@@ -629,7 +631,6 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
-        // Create text node
         result.push({
           type: 'text',
           text: token.text || '',
@@ -970,6 +971,8 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
+    const reopenWithHtmlOnNextOpen = new Set<string>()
+    const markOpeningModes = new Map<string, 'markdown' | 'html'>()
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -986,9 +989,23 @@ export class MarkdownManager {
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
+        // When marks simultaneously close (old) AND open (new) at this boundary, the naive
+        // approach of appending old-close and prepending new-open produces interleaved
+        // delimiters like `*456**` (italic open, text, bold close) instead of properly
+        // nested `_456_**` (italic open, text, italic close, bold close).
+        //
+        // The fix: when both are present, defer old mark closings to the end of the node
+        // (after the new marks also close), ensuring correct inner-before-outer order.
+        //
+        // If an already-active mark ends on this node while another mark opens on this same
+        // node, we defer closing the active mark until the end of the node so nesting stays
+        // valid (`**...++abc++**` instead of `**...++abc**++`).
+        const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
+        const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
+
         let middleTrailingWhitespace = ''
 
-        if (marksToClose.length > 0) {
+        if (marksToClose.length > 0 && !hasCrossedBoundary) {
           // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
           const middleTrailingMatch = textContent.match(/(\s+)$/)
           if (middleTrailingMatch) {
@@ -996,18 +1013,25 @@ export class MarkdownManager {
             textContent = textContent.slice(0, -middleTrailingWhitespace.length)
           }
         }
-        // Close marks that are ending here
-        marksToClose.forEach(markType => {
-          const mark = currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
-          if (closeMarkdown) {
-            textContent += closeMarkdown
-          }
-          // deleting closed marks from active marks
-          if (activeMarks.has(markType)) {
-            activeMarks.delete(markType)
-          }
-        })
+
+        if (!hasCrossedBoundary) {
+          // Normal path: close marks that are ending here (no new marks opening simultaneously)
+          marksToClose.forEach(markType => {
+            if (!activeMarks.has(markType)) {
+              return
+            }
+
+            const mark = currentMarks.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            if (activeMarks.has(markType)) {
+              activeMarks.delete(markType)
+              markOpeningModes.delete(markType)
+            }
+          })
+        }
 
         // Open new marks (should be at the beginning)
         // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
@@ -1020,26 +1044,53 @@ export class MarkdownManager {
           }
         }
 
+        // Snapshot active mark types before opening new marks, so each new mark's delimiter
+        // is chosen based on what is already active (not including itself).
+        // When crossing a boundary, old marks are still in activeMarks here (not yet removed),
+        // so new marks correctly see them as active context.
         marksToOpen.forEach(({ type, mark }) => {
-          const openMarkdown = this.getMarkOpening(type, mark)
+          const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
+          const openMarkdown = this.getMarkOpening(type, mark, openingMode)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          if (!marksToClose.includes(type)) {
-            activeMarks.set(type, mark)
-          }
+          markOpeningModes.set(type, openingMode)
+          reopenWithHtmlOnNextOpen.delete(type)
         })
+
+        if (!hasCrossedBoundary) {
+          marksToOpen
+            .slice()
+            .reverse()
+            .forEach(({ type, mark }) => {
+              activeMarks.set(type, mark)
+            })
+        }
 
         // Add leading whitespace before the mark opening
         textContent = leadingWhitespace + textContent
 
-        // Close marks at the end of this node if needed
-        const marksToCloseAtEnd = findMarksToCloseAtEnd(
-          activeMarks,
-          currentMarks,
-          nextNode,
-          this.markSetsEqual.bind(this),
-        )
+        // Determine marks to close at the end of this node.
+        // On a crossed boundary, we close new marks (inner) first, then old marks (outer),
+        // ensuring correct nesting order. Both sets are removed from activeMarks so the
+        // next node's marksToOpen will reopen whichever ones continue.
+        let marksToCloseAtEnd: string[]
+        if (hasCrossedBoundary) {
+          const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+
+          marksToOpen.forEach(({ type }) => {
+            if (nextMarkTypes.has(type) && this.getHtmlReopenTags(type)) {
+              reopenWithHtmlOnNextOpen.add(type)
+            }
+          })
+
+          marksToCloseAtEnd = [
+            ...marksToOpen.map(m => m.type), // inner (opened here) — close first
+            ...activeMarksClosingHere, // outer (were active before) — close last
+          ]
+        } else {
+          marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+        }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
         let trailingWhitespace = ''
@@ -1052,12 +1103,13 @@ export class MarkdownManager {
         }
 
         marksToCloseAtEnd.forEach(markType => {
-          const mark = activeMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
+          const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
+          const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
           activeMarks.delete(markType)
+          markOpeningModes.delete(markType)
         })
 
         // Add trailing whitespace after the mark closing
@@ -1068,9 +1120,13 @@ export class MarkdownManager {
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
+        const openingModesToReopen = new Map(markOpeningModes)
 
         // Close all marks before the node
-        const beforeMarkdown = closeMarksBeforeNode(activeMarks, this.getMarkClosing.bind(this))
+        const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
+          return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+        })
+        markOpeningModes.clear()
 
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
@@ -1080,7 +1136,11 @@ export class MarkdownManager {
         const afterMarkdown =
           node.type === 'hardBreak'
             ? ''
-            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+            : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
+                const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
+                markOpeningModes.set(markType, openingMode)
+                return this.getMarkOpening(markType, mark, openingMode)
+              })
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
@@ -1092,7 +1152,11 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(markType: string, mark: any): string {
+  private getMarkOpening(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+    if (openingMode === 'html') {
+      return this.getHtmlReopenTags(markType)?.open || ''
+    }
+
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1132,7 +1196,11 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(markType: string, mark: any): string {
+  private getMarkClosing(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+    if (openingMode === 'html') {
+      return this.getHtmlReopenTags(markType)?.close || ''
+    }
+
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1167,6 +1235,17 @@ export class MarkdownManager {
     } catch (err) {
       throw new Error(`Failed to get mark closing for ${markType}: ${err}`)
     }
+  }
+
+  /**
+   * Returns the inline HTML tags an extension exposes for overlap-boundary
+   * reopen handling, if that mark explicitly opted into HTML reopen mode.
+   */
+  private getHtmlReopenTags(markType: string): { open: string; close: string } | undefined {
+    const handlers = this.getHandlersForNodeType(markType)
+    const handler = handlers.length > 0 ? handlers[0] : undefined
+
+    return handler?.htmlReopen
   }
 
   /**

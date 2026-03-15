@@ -291,6 +291,28 @@ export interface ExtendableConfig<
      * Defines if this markdown element should indent it's child elements
      */
     indentsContent?: boolean
+
+    /**
+     * Lets a mark tell the Markdown serializer which inline HTML tags it can
+     * safely use when plain markdown delimiters would become ambiguous.
+     *
+     * This is mainly useful for overlapping marks. For example, bold followed
+     * by bold+italic followed by italic cannot always be written back with only
+     * `*` and `**` in a way that still parses correctly. In that case, the
+     * serializer can close the overlapping section with markdown and reopen the
+     * remaining tail with HTML instead.
+     *
+     * Example:
+     * - desired formatting: `**123` + `*456*` + `789 italic`
+     * - serialized result: `**123*456***<em>789</em>`
+     *
+     * If your extension defines custom mark names, set `htmlReopen` on that
+     * extension so the serializer can reuse its HTML form for overlap cases.
+     */
+    htmlReopen?: {
+      open: string
+      close: string
+    }
   }
 
   /**

@@ -196,6 +196,14 @@ export default () => {
             ← Extract Markdown
           </button>
         </div>
+        <div className="button-group">
+          <button type="button" onClick={() => editor?.commands.toggleBold()}>
+            Bold
+          </button>
+          <button type="button" onClick={() => editor?.commands.toggleItalic()}>
+            Italic
+          </button>
+        </div>
       </div>
 
       {error && <div className="error">{error}</div>}
