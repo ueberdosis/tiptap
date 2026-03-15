@@ -577,15 +577,10 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
-        const parsedText = this.parseFallbackTextToken(token.text || '')
-
-        if (parsedText) {
-          if (Array.isArray(parsedText)) {
-            result.push(...parsedText)
-          } else {
-            result.push(parsedText)
-          }
-        }
+        result.push({
+          type: 'text',
+          text: token.text || '',
+        })
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
@@ -743,7 +738,10 @@ export class MarkdownManager {
         }
 
       case 'text':
-        return this.parseFallbackTextToken(token.text || '')
+        return {
+          type: 'text',
+          text: token.text || '',
+        }
 
       case 'html':
         // Parse HTML using extensions' parseHTML methods
@@ -759,56 +757,6 @@ export class MarkdownManager {
         }
         return null
     }
-  }
-
-  private parseFallbackTextToken(text: string): JSONContent | JSONContent[] | null {
-    if (!text) {
-      return null
-    }
-
-    const parts: JSONContent[] = []
-    const intrawordUnderscoreRegex = /(^|[^\w])_(?!_)([^_\s](?:[^_]*?[^_\s])?)_(?=\w)/g
-    let lastIndex = 0
-    let match = intrawordUnderscoreRegex.exec(text)
-
-    while (match !== null) {
-      const italicText = match[2]
-      const prefixLength = (match[1] || '').length
-      const matchIndex = match.index
-      const italicStart = matchIndex + prefixLength
-
-      if (italicStart > lastIndex) {
-        parts.push({
-          type: 'text',
-          text: text.slice(lastIndex, italicStart),
-        })
-      }
-
-      parts.push({
-        type: 'text',
-        text: italicText,
-        marks: [{ type: 'italic' }],
-      })
-
-      lastIndex = italicStart + match[0].slice(prefixLength).length
-      match = intrawordUnderscoreRegex.exec(text)
-    }
-
-    if (parts.length === 0) {
-      return {
-        type: 'text',
-        text,
-      }
-    }
-
-    if (lastIndex < text.length) {
-      parts.push({
-        type: 'text',
-        text: text.slice(lastIndex),
-      })
-    }
-
-    return parts
   }
 
   /**
@@ -952,13 +900,8 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
-    const preferAlternateDelimiterOnNextOpen = new Set<string>()
-    // Tracks the activeMarkTypes snapshot at the time each mark was opened.
-    // Used when closing marks so the delimiter matches the one chosen at open time.
-    const markOpeningContexts = new Map<
-      string,
-      { activeMarkTypes: ReadonlySet<string>; preferAlternateDelimiter: boolean }
-    >()
+    const reopenWithHtmlOnNextOpen = new Set<string>()
+    const markOpeningModes = new Map<string, 'markdown' | 'html'>()
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -1008,14 +951,12 @@ export class MarkdownManager {
             }
 
             const mark = currentMarks.get(markType)
-            const openingContext = markOpeningContexts.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark, openingContext)
+            const closeMarkdown = this.getMarkClosing(markType, mark)
             if (closeMarkdown) {
               textContent += closeMarkdown
             }
             if (activeMarks.has(markType)) {
               activeMarks.delete(markType)
-              markOpeningContexts.delete(markType)
             }
           })
         }
@@ -1035,20 +976,14 @@ export class MarkdownManager {
         // is chosen based on what is already active (not including itself).
         // When crossing a boundary, old marks are still in activeMarks here (not yet removed),
         // so new marks correctly see them as active context.
-        const activeMarkTypesBeforeOpen = new Set(activeMarks.keys())
-
         marksToOpen.forEach(({ type, mark }) => {
-          const openingContext = {
-            activeMarkTypes: activeMarkTypesBeforeOpen,
-            preferAlternateDelimiter: preferAlternateDelimiterOnNextOpen.has(type),
-          }
-          const openMarkdown = this.getMarkOpening(type, mark, openingContext)
+          const openingMode = reopenWithHtmlOnNextOpen.has(type) ? 'html' : 'markdown'
+          const openMarkdown = this.getMarkOpening(type, mark, openingMode)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          // Record the context at open time so closing uses the same delimiter.
-          markOpeningContexts.set(type, openingContext)
-          preferAlternateDelimiterOnNextOpen.delete(type)
+          markOpeningModes.set(type, openingMode)
+          reopenWithHtmlOnNextOpen.delete(type)
         })
 
         if (!hasCrossedBoundary) {
@@ -1073,7 +1008,7 @@ export class MarkdownManager {
 
           marksToOpen.forEach(({ type }) => {
             if (nextMarkTypes.has(type)) {
-              preferAlternateDelimiterOnNextOpen.add(type)
+              reopenWithHtmlOnNextOpen.add(type)
             }
           })
 
@@ -1097,15 +1032,12 @@ export class MarkdownManager {
 
         marksToCloseAtEnd.forEach(markType => {
           const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
-          // Use the context from when this mark was opened so the closing delimiter
-          // always matches the opening delimiter (e.g. italic opened with * closes with *).
-          const openingContext = markOpeningContexts.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark, openingContext)
+          const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
           activeMarks.delete(markType)
-          markOpeningContexts.delete(markType)
+          markOpeningModes.delete(markType)
         })
 
         // Add trailing whitespace after the mark closing
@@ -1116,9 +1048,13 @@ export class MarkdownManager {
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
         const marksToReopen = new Map(activeMarks)
+        const openingModesToReopen = new Map(markOpeningModes)
 
         // Close all marks before the node
-        const beforeMarkdown = closeMarksBeforeNode(activeMarks, this.getMarkClosing.bind(this))
+        const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
+          return this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+        })
+        markOpeningModes.clear()
 
         // Render the node
         const nodeContent = this.renderNodeToMarkdown(node, parentNode, i, level)
@@ -1128,7 +1064,11 @@ export class MarkdownManager {
         const afterMarkdown =
           node.type === 'hardBreak'
             ? ''
-            : reopenMarksAfterNode(marksToReopen, activeMarks, this.getMarkOpening.bind(this))
+            : reopenMarksAfterNode(marksToReopen, activeMarks, (markType, mark) => {
+                const openingMode = openingModesToReopen.get(markType) ?? 'markdown'
+                markOpeningModes.set(markType, openingMode)
+                return this.getMarkOpening(markType, mark, openingMode)
+              })
 
         result.push(beforeMarkdown + nodeContent + afterMarkdown)
       }
@@ -1140,11 +1080,11 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(
-    markType: string,
-    mark: any,
-    context?: { activeMarkTypes?: ReadonlySet<string>; preferAlternateDelimiter?: boolean },
-  ): string {
+  private getMarkOpening(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+    if (openingMode === 'html') {
+      return this.getHtmlTagForMark(markType, false)
+    }
+
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1169,14 +1109,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        {
-          index: 0,
-          level: 0,
-          parentType: 'text',
-          meta: {},
-          activeMarkTypes: context?.activeMarkTypes,
-          preferAlternateDelimiter: context?.preferAlternateDelimiter,
-        },
+        { index: 0, level: 0, parentType: 'text', meta: {} },
       )
 
       // Extract the opening part (everything before placeholder)
@@ -1190,11 +1123,11 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(
-    markType: string,
-    mark: any,
-    context?: { activeMarkTypes?: ReadonlySet<string>; preferAlternateDelimiter?: boolean },
-  ): string {
+  private getMarkClosing(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+    if (openingMode === 'html') {
+      return this.getHtmlTagForMark(markType, true)
+    }
+
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1218,14 +1151,7 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        {
-          index: 0,
-          level: 0,
-          parentType: 'text',
-          meta: {},
-          activeMarkTypes: context?.activeMarkTypes,
-          preferAlternateDelimiter: context?.preferAlternateDelimiter,
-        },
+        { index: 0, level: 0, parentType: 'text', meta: {} },
       )
 
       // Extract the closing part (everything after placeholder)
@@ -1235,6 +1161,18 @@ export class MarkdownManager {
     } catch (err) {
       throw new Error(`Failed to get mark closing for ${markType}: ${err}`)
     }
+  }
+
+  private getHtmlTagForMark(markType: string, isClosing: boolean): string {
+    if (markType === 'bold') {
+      return isClosing ? '</strong>' : '<strong>'
+    }
+
+    if (markType === 'italic') {
+      return isClosing ? '</em>' : '<em>'
+    }
+
+    return ''
   }
 
   /**

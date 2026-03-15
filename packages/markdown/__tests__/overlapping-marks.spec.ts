@@ -38,7 +38,7 @@ describe('Overlapping marks serialization', () => {
    *   6. Type "789"
    *   7. Toggle italic off
    *
-   * Expected: **123*456***_789_
+   * Expected: **123*456***<em>789</em>
    * Actual (buggy): **123*456**789*
    */
   it('should correctly serialize overlapping bold and italic marks', () => {
@@ -73,8 +73,8 @@ describe('Overlapping marks serialization', () => {
     // The output **123*456**789* is invalid markdown because bold closes
     // while italic is still open, breaking the nesting order.
     // The valid markdown closes the nested italic inside bold first, then
-    // reopens the remaining italic segment with `_` to avoid ambiguous `***` parsing.
-    expect(result).toBe('**123*456***_789_')
+    // reopens the remaining italic segment with inline HTML to avoid ambiguous `***` parsing.
+    expect(result).toBe('**123*456***<em>789</em>')
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
   })
 
@@ -113,8 +113,8 @@ describe('Overlapping marks serialization', () => {
     const result = markdownManager.serialize(json)
 
     // italic opens first with *, bold opens inside it, then the remaining bold span
-    // reopens with `__` after italic closes so the markdown remains unambiguous.
-    expect(result).toBe('*abc**def***__ghi__')
+    // reopens with inline HTML after italic closes so the markdown remains unambiguous.
+    expect(result).toBe('*abc**def***<strong>ghi</strong>')
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
   })
 

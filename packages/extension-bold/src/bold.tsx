@@ -97,9 +97,8 @@ export const Bold = Mark.create<BoldOptions>({
     return helpers.applyMark('bold', helpers.parseInline(token.tokens || []))
   },
 
-  renderMarkdown: (node, h, ctx) => {
-    const delimiter = ctx?.preferAlternateDelimiter ? '__' : '**'
-    return `${delimiter}${h.renderChildren(node)}${delimiter}`
+  renderMarkdown: (node, h) => {
+    return `**${h.renderChildren(node)}**`
   },
 
   addCommands() {
