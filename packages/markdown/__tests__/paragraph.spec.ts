@@ -69,7 +69,7 @@ describe('Paragraph Markdown Rendering', () => {
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('- ')
     })
 
     it('should not emit &nbsp; for an empty paragraph inside an ordered list item', () => {
@@ -89,7 +89,7 @@ describe('Paragraph Markdown Rendering', () => {
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('1. ')
     })
 
     it('should not emit &nbsp; for an empty paragraph inside a blockquote', () => {
@@ -104,7 +104,7 @@ describe('Paragraph Markdown Rendering', () => {
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).not.toContain('&nbsp;')
+      expect(markdown).toBe('>')
     })
 
     it('should not collapse multiple empty paragraphs inside a blockquote — separators use > not &nbsp;', () => {
