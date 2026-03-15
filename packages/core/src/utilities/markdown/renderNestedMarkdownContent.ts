@@ -57,6 +57,7 @@ export function renderNestedMarkdownContent(
   node: JSONContent,
   h: {
     renderChildren: (nodes: JSONContent[]) => string
+    renderChild?: (node: JSONContent, index: number) => string
     indent: (text: string) => string
   },
   prefixOrGenerator: string | ((ctx: any) => string),
@@ -73,22 +74,23 @@ export function renderNestedMarkdownContent(
 
   // Render the main content (typically a paragraph)
   const mainContent = h.renderChildren([content])
-  const output = [`${prefix}${mainContent}`]
+  let output = `${prefix}${mainContent}`
 
   // Handle nested children with proper indentation
   if (children && children.length > 0) {
-    children.forEach(child => {
-      const childContent = h.renderChildren([child])
-      if (childContent) {
+    children.forEach((child, index) => {
+      const childContent = h.renderChild?.(child, index + 1) ?? h.renderChildren([child])
+      if (childContent !== undefined && childContent !== null) {
         // Split the child content by lines and indent each line
         const indentedChild = childContent
           .split('\n')
-          .map(line => (line ? h.indent(line) : ''))
+          .map(line => (line ? h.indent(line) : h.indent('')))
           .join('\n')
-        output.push(indentedChild)
+
+        output += child.type === 'paragraph' ? `\n\n${indentedChild}` : `\n${indentedChild}`
       }
     })
   }
 
-  return output.join('\n')
+  return output
 }

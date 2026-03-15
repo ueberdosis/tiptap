@@ -1,6 +1,7 @@
 import type { AnyExtension } from '@tiptap/core'
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
+import { Heading } from '@tiptap/extension-heading'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
@@ -12,24 +13,33 @@ describe('Paragraph Markdown Rendering', () => {
 
   beforeEach(() => {
     markdownManager = new MarkdownManager()
-    const extensions: AnyExtension[] = [Document, Paragraph, Text, Blockquote, BulletList, OrderedList, ListItem]
+    const extensions: AnyExtension[] = [
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      Blockquote,
+      BulletList,
+      OrderedList,
+      ListItem,
+    ]
     extensions.forEach(extension => {
       markdownManager.registerExtension(extension)
     })
   })
 
   describe('empty paragraphs at doc level', () => {
-    it('should render an empty paragraph at doc root as &nbsp;', () => {
+    it('should omit a lone empty paragraph at doc root', () => {
       const doc = {
         type: 'doc',
         content: [{ type: 'paragraph', content: [] }],
       }
 
       const raw = markdownManager.renderNodes(doc)
-      expect(raw).toBe('&nbsp;')
+      expect(raw).toBe('')
     })
 
-    it('should use &nbsp; to preserve a blank line between two content paragraphs', () => {
+    it('should preserve a single empty paragraph between two content paragraphs as blank markdown lines', () => {
       const doc = {
         type: 'doc',
         content: [
@@ -40,14 +50,46 @@ describe('Paragraph Markdown Rendering', () => {
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('First\n\n&nbsp;\n\nSecond')
+      expect(markdown).toBe('First\n\n\n\nSecond')
     })
 
-    it('should roundtrip a blank line between two paragraphs', () => {
+    it('should use &nbsp; to preserve additional blank paragraphs between two content paragraphs', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          { type: 'paragraph', content: [{ type: 'text', text: 'First' }] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [{ type: 'text', text: 'Second' }] },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('First\n\n\n\n&nbsp;\n\nSecond')
+    })
+
+    it('should keep a preserved blank paragraph marker after the first blank paragraph', () => {
       const input = 'First\n\n&nbsp;\n\nSecond'
       const json = markdownManager.parse(input)
       const output = markdownManager.serialize(json)
-      expect(output.trim()).toBe(input)
+      expect(output.trim()).toBe('First\n\n\n\nSecond')
+    })
+
+    it('should preserve a trailing empty paragraph as trailing markdown spacing', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          { type: 'heading', attrs: { level: 1 }, content: [{ type: 'text', text: 'Markdown Test' }] },
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'Click "Parse Markdown" to load content from the left panel.' }],
+          },
+          { type: 'paragraph', content: [] },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('# Markdown Test\n\nClick "Parse Markdown" to load content from the left panel.\n\n')
     })
   })
 
@@ -92,7 +134,7 @@ describe('Paragraph Markdown Rendering', () => {
       expect(markdown).toBe('1. ')
     })
 
-    it('should not emit &nbsp; for an empty paragraph inside a blockquote', () => {
+    it('should keep the first empty paragraph inside a blockquote empty', () => {
       const doc = {
         type: 'doc',
         content: [
@@ -107,9 +149,7 @@ describe('Paragraph Markdown Rendering', () => {
       expect(markdown).toBe('>')
     })
 
-    it('should not collapse multiple empty paragraphs inside a blockquote — separators use > not &nbsp;', () => {
-      // Two empty paragraphs between content should produce bare ">" separator
-      // lines (blockquote's own blank-line mechanism), not "&nbsp;" markers.
+    it('should preserve multiple empty paragraphs inside a blockquote with &nbsp; after the first', () => {
       const doc = {
         type: 'doc',
         content: [
@@ -127,17 +167,38 @@ describe('Paragraph Markdown Rendering', () => {
 
       const markdown = markdownManager.serialize(doc)
 
-      // No &nbsp; should leak into blockquote output
-      expect(markdown).not.toContain('&nbsp;')
-
-      // Content paragraphs must be preserved
       expect(markdown).toContain('> First')
       expect(markdown).toContain('> Second')
+      expect(markdown).toContain('> &nbsp;')
+    })
 
-      // Empty paragraphs produce bare ">" separator lines, not empty strings
-      // e.g. "> First\n>\n>\n>\n>\n> Second"
-      const bareQuoteLines = markdown.split('\n').filter(line => line.trim() === '>')
-      expect(bareQuoteLines.length).toBeGreaterThan(0)
+    it('should roundtrip multiple empty paragraphs inside a blockquote without losing any', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'blockquote',
+            content: [
+              { type: 'paragraph', content: [{ type: 'text', text: 'First' }] },
+              { type: 'paragraph', content: [] },
+              { type: 'paragraph', content: [] },
+              { type: 'paragraph', content: [] },
+              { type: 'paragraph', content: [{ type: 'text', text: 'Second' }] },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      const parsed = markdownManager.parse(markdown)
+      const blockquote = parsed.content![0]
+
+      expect(markdown).toBe('> First\n>\n>\n>\n> &nbsp;\n>\n> &nbsp;\n>\n> Second')
+      expect(blockquote.type).toBe('blockquote')
+      expect(blockquote.content).toHaveLength(5)
+      expect(
+        blockquote.content!.slice(1, 4).every(node => node.type === 'paragraph' && node.content?.length === 0),
+      ).toBe(true)
     })
 
     it('should render content paragraphs inside bullet list items normally', () => {
@@ -156,6 +217,38 @@ describe('Paragraph Markdown Rendering', () => {
 
       const markdown = markdownManager.serialize(doc)
       expect(markdown).toBe('- Hello\n- World')
+    })
+
+    it('should roundtrip consecutive empty paragraphs inside a bullet list item', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'First' }] },
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Second' }] },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      const parsed = markdownManager.parse(markdown)
+      const listItem = parsed.content![0].content![0]
+
+      expect(markdown).toBe('- First\n\n  \n\n  &nbsp;\n\n  Second')
+      expect(listItem.type).toBe('listItem')
+      expect(listItem.content).toHaveLength(4)
+      expect(listItem.content![1].content).toEqual([])
+      expect(listItem.content![2].content).toEqual([])
     })
   })
 })

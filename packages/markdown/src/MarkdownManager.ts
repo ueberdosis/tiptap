@@ -291,7 +291,7 @@ export class MarkdownManager {
     const tokens = this.markedInstance.lexer(markdown)
 
     // Convert tokens to Tiptap JSON
-    const content = this.parseTokens(tokens)
+    const content = this.parseTokens(tokens, true)
 
     // Return a document node containing the parsed content
     return {
@@ -303,17 +303,68 @@ export class MarkdownManager {
   /**
    * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
    */
-  private parseTokens(tokens: MarkdownToken[]): JSONContent[] {
-    return tokens
-      .map(token => this.parseToken(token))
-      .filter((parsed): parsed is JSONContent | JSONContent[] => parsed !== null)
-      .flatMap(parsed => (Array.isArray(parsed) ? parsed : [parsed]))
+  private parseTokens(tokens: MarkdownToken[], parseImplicitEmptyParagraphs = false): JSONContent[] {
+    const nonSpaceTokenIndexes = tokens.reduce<number[]>((indexes, token, index) => {
+      if (token.type !== 'space') {
+        indexes.push(index)
+      }
+
+      return indexes
+    }, [])
+
+    let previousNonSpaceTokenIndex = -1
+    let nextNonSpaceTokenPointer = 0
+
+    return tokens.flatMap((token, index) => {
+      while (
+        nextNonSpaceTokenPointer < nonSpaceTokenIndexes.length &&
+        nonSpaceTokenIndexes[nextNonSpaceTokenPointer] < index
+      ) {
+        previousNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer]
+        nextNonSpaceTokenPointer += 1
+      }
+
+      if (parseImplicitEmptyParagraphs && token.type === 'space') {
+        const nextNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer] ?? -1
+
+        return this.createImplicitEmptyParagraphsFromSpace(token, previousNonSpaceTokenIndex, nextNonSpaceTokenIndex)
+      }
+
+      const parsed = this.parseToken(token, parseImplicitEmptyParagraphs)
+
+      if (parsed === null) {
+        return []
+      }
+
+      return Array.isArray(parsed) ? parsed : [parsed]
+    })
+  }
+
+  private createImplicitEmptyParagraphsFromSpace(
+    token: MarkdownToken,
+    previousNonSpaceTokenIndex: number,
+    nextNonSpaceTokenIndex: number,
+  ): JSONContent[] {
+    const separatorCount = this.countParagraphSeparators(token.raw || '')
+
+    if (separatorCount === 0) {
+      return []
+    }
+
+    const isBoundarySpace = previousNonSpaceTokenIndex === -1 || nextNonSpaceTokenIndex === -1
+    const emptyParagraphCount = Math.max(separatorCount - (isBoundarySpace ? 0 : 1), 0)
+
+    return Array.from({ length: emptyParagraphCount }, () => ({ type: 'paragraph', content: [] }))
+  }
+
+  private countParagraphSeparators(raw: string): number {
+    return (raw.replace(/\r\n/g, '\n').match(/\n\n/g) || []).length
   }
 
   /**
    * Parse a single token into Tiptap JSON using the appropriate registered handler.
    */
-  private parseToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  private parseToken(token: MarkdownToken, parseImplicitEmptyParagraphs = false): JSONContent | JSONContent[] | null {
     if (!token.type) {
       return null
     }
@@ -353,7 +404,7 @@ export class MarkdownManager {
     }
 
     // If no handler worked, try fallback parsing
-    return this.parseFallbackToken(token)
+    return this.parseFallbackToken(token, parseImplicitEmptyParagraphs)
   }
 
   private lastParseResult: JSONContent | JSONContent[] | null = null
@@ -527,6 +578,7 @@ export class MarkdownManager {
     return {
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
+      parseBlockChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens, true),
       createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => {
         const node = {
           type: 'text',
@@ -723,7 +775,10 @@ export class MarkdownManager {
   /**
    * Fallback parsing for common tokens when no specific handler is registered.
    */
-  private parseFallbackToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  private parseFallbackToken(
+    token: MarkdownToken,
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent | JSONContent[] | null {
     switch (token.type) {
       case 'paragraph':
         return {
@@ -754,7 +809,7 @@ export class MarkdownManager {
       default:
         // Unknown token type - try to parse children if they exist
         if (token.tokens) {
-          return this.parseTokens(token.tokens)
+          return this.parseTokens(token.tokens, parseImplicitEmptyParagraphs)
         }
         return null
     }
@@ -819,7 +874,13 @@ export class MarkdownManager {
     }
   }
 
-  renderNodeToMarkdown(node: JSONContent, parentNode?: JSONContent, index = 0, level = 0): string {
+  renderNodeToMarkdown(
+    node: JSONContent,
+    parentNode?: JSONContent,
+    index = 0,
+    level = 0,
+    meta: Record<string, any> = {},
+  ): string {
     // if node is a text node, we simply return it's text content
     // marks are handled at the array level in renderNodesWithMarkBoundaries
     if (node.type === 'text') {
@@ -835,6 +896,7 @@ export class MarkdownManager {
       return ''
     }
 
+    const previousNode = Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
@@ -844,6 +906,11 @@ export class MarkdownManager {
         }
 
         return this.renderNodes(nodes, node, separator || '', index, childLevel)
+      },
+      renderChild: (childNode, childIndex) => {
+        const childLevel = handler.isIndenting ? level + 1 : level
+
+        return this.renderNodeToMarkdown(childNode, node, childIndex, childLevel)
       },
       indent: content => {
         return this.indentString + content
@@ -855,8 +922,10 @@ export class MarkdownManager {
       index,
       level,
       parentType: parentNode?.type,
+      previousNode,
       meta: {
         parentAttrs: parentNode?.attrs,
+        ...meta,
       },
     }
 
@@ -1045,6 +1114,7 @@ export class MarkdownManager {
         syntheticNode,
         {
           renderChildren: () => placeholder,
+          renderChild: () => placeholder,
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
@@ -1083,6 +1153,7 @@ export class MarkdownManager {
         syntheticNode,
         {
           renderChildren: () => placeholder,
+          renderChild: () => placeholder,
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
