@@ -218,5 +218,37 @@ describe('Paragraph Markdown Rendering', () => {
       const markdown = markdownManager.serialize(doc)
       expect(markdown).toBe('- Hello\n- World')
     })
+
+    it('should roundtrip consecutive empty paragraphs inside a bullet list item', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'First' }] },
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [] },
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Second' }] },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      const parsed = markdownManager.parse(markdown)
+      const listItem = parsed.content![0].content![0]
+
+      expect(markdown).toBe('- First\n\n  \n\n  &nbsp;\n\n  Second')
+      expect(listItem.type).toBe('listItem')
+      expect(listItem.content).toHaveLength(4)
+      expect(listItem.content![1].content).toEqual([])
+      expect(listItem.content![2].content).toEqual([])
+    })
   })
 })

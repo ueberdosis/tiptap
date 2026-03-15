@@ -304,12 +304,33 @@ export class MarkdownManager {
    * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
    */
   private parseTokens(tokens: MarkdownToken[], parseImplicitEmptyParagraphs = false): JSONContent[] {
-    return tokens.flatMap((token, index) => {
-      if (parseImplicitEmptyParagraphs && token.type === 'space') {
-        return this.createImplicitEmptyParagraphsFromSpace(tokens, index)
+    const nonSpaceTokenIndexes = tokens.reduce<number[]>((indexes, token, index) => {
+      if (token.type !== 'space') {
+        indexes.push(index)
       }
 
-      const parsed = this.parseToken(token)
+      return indexes
+    }, [])
+
+    let previousNonSpaceTokenIndex = -1
+    let nextNonSpaceTokenPointer = 0
+
+    return tokens.flatMap((token, index) => {
+      while (
+        nextNonSpaceTokenPointer < nonSpaceTokenIndexes.length &&
+        nonSpaceTokenIndexes[nextNonSpaceTokenPointer] < index
+      ) {
+        previousNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer]
+        nextNonSpaceTokenPointer += 1
+      }
+
+      if (parseImplicitEmptyParagraphs && token.type === 'space') {
+        const nextNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer] ?? -1
+
+        return this.createImplicitEmptyParagraphsFromSpace(token, previousNonSpaceTokenIndex, nextNonSpaceTokenIndex)
+      }
+
+      const parsed = this.parseToken(token, parseImplicitEmptyParagraphs)
 
       if (parsed === null) {
         return []
@@ -319,17 +340,18 @@ export class MarkdownManager {
     })
   }
 
-  private createImplicitEmptyParagraphsFromSpace(tokens: MarkdownToken[], index: number): JSONContent[] {
-    const token = tokens[index]
+  private createImplicitEmptyParagraphsFromSpace(
+    token: MarkdownToken,
+    previousNonSpaceTokenIndex: number,
+    nextNonSpaceTokenIndex: number,
+  ): JSONContent[] {
     const separatorCount = this.countParagraphSeparators(token.raw || '')
 
     if (separatorCount === 0) {
       return []
     }
 
-    const hasPreviousContentToken = tokens.slice(0, index).some(item => item.type !== 'space')
-    const hasNextContentToken = tokens.slice(index + 1).some(item => item.type !== 'space')
-    const isBoundarySpace = !hasPreviousContentToken || !hasNextContentToken
+    const isBoundarySpace = previousNonSpaceTokenIndex === -1 || nextNonSpaceTokenIndex === -1
     const emptyParagraphCount = Math.max(separatorCount - (isBoundarySpace ? 0 : 1), 0)
 
     return Array.from({ length: emptyParagraphCount }, () => ({ type: 'paragraph', content: [] }))
@@ -342,7 +364,7 @@ export class MarkdownManager {
   /**
    * Parse a single token into Tiptap JSON using the appropriate registered handler.
    */
-  private parseToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  private parseToken(token: MarkdownToken, parseImplicitEmptyParagraphs = false): JSONContent | JSONContent[] | null {
     if (!token.type) {
       return null
     }
@@ -382,7 +404,7 @@ export class MarkdownManager {
     }
 
     // If no handler worked, try fallback parsing
-    return this.parseFallbackToken(token)
+    return this.parseFallbackToken(token, parseImplicitEmptyParagraphs)
   }
 
   private lastParseResult: JSONContent | JSONContent[] | null = null
@@ -753,7 +775,10 @@ export class MarkdownManager {
   /**
    * Fallback parsing for common tokens when no specific handler is registered.
    */
-  private parseFallbackToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
+  private parseFallbackToken(
+    token: MarkdownToken,
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent | JSONContent[] | null {
     switch (token.type) {
       case 'paragraph':
         return {
@@ -784,7 +809,7 @@ export class MarkdownManager {
       default:
         // Unknown token type - try to parse children if they exist
         if (token.tokens) {
-          return this.parseTokens(token.tokens)
+          return this.parseTokens(token.tokens, parseImplicitEmptyParagraphs)
         }
         return null
     }
