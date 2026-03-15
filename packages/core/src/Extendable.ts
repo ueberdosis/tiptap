@@ -291,6 +291,15 @@ export interface ExtendableConfig<
      * Defines if this markdown element should indent it's child elements
      */
     indentsContent?: boolean
+
+    /**
+     * Optional inline HTML tags used when markdown serialization needs to
+     * temporarily reopen this mark after an overlap boundary.
+     */
+    htmlReopen?: {
+      open: string
+      close: string
+    }
   }
 
   /**

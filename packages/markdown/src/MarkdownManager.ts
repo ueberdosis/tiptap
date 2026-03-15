@@ -114,6 +114,7 @@ export class MarkdownManager {
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
     const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
+    const htmlReopen = markdownCfg?.htmlReopen
 
     const spec: MarkdownExtensionSpec = {
       tokenName,
@@ -121,6 +122,7 @@ export class MarkdownManager {
       parseMarkdown,
       renderMarkdown,
       isIndenting,
+      htmlReopen,
       tokenizer,
     }
 
@@ -1008,7 +1010,7 @@ export class MarkdownManager {
           const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
 
           marksToOpen.forEach(({ type }) => {
-            if (nextMarkTypes.has(type) && this.canReopenWithHtml(type)) {
+            if (nextMarkTypes.has(type) && this.getHtmlReopenTags(type)) {
               reopenWithHtmlOnNextOpen.add(type)
             }
           })
@@ -1083,7 +1085,7 @@ export class MarkdownManager {
    */
   private getMarkOpening(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
     if (openingMode === 'html') {
-      return this.getHtmlTagForMark(markType, false)
+      return this.getHtmlReopenTags(markType)?.open || ''
     }
 
     const handlers = this.getHandlersForNodeType(markType)
@@ -1126,7 +1128,7 @@ export class MarkdownManager {
    */
   private getMarkClosing(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
     if (openingMode === 'html') {
-      return this.getHtmlTagForMark(markType, true)
+      return this.getHtmlReopenTags(markType)?.close || ''
     }
 
     const handlers = this.getHandlersForNodeType(markType)
@@ -1164,20 +1166,15 @@ export class MarkdownManager {
     }
   }
 
-  private getHtmlTagForMark(markType: string, isClosing: boolean): string {
-    if (markType === 'bold') {
-      return isClosing ? '</strong>' : '<strong>'
-    }
+  /**
+   * Returns the inline HTML tags an extension exposes for overlap-boundary
+   * reopen handling, if that mark explicitly opted into HTML reopen mode.
+   */
+  private getHtmlReopenTags(markType: string): { open: string; close: string } | undefined {
+    const handlers = this.getHandlersForNodeType(markType)
+    const handler = handlers.length > 0 ? handlers[0] : undefined
 
-    if (markType === 'italic') {
-      return isClosing ? '</em>' : '<em>'
-    }
-
-    return ''
-  }
-
-  private canReopenWithHtml(markType: string): boolean {
-    return markType === 'bold' || markType === 'italic'
+    return handler?.htmlReopen
   }
 
   /**
