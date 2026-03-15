@@ -66,7 +66,9 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   },
 
   parseMarkdown: (token, helpers) => {
-    return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
+    const parseBlockChildren = helpers.parseBlockChildren ?? helpers.parseChildren
+
+    return helpers.createNode('blockquote', undefined, parseBlockChildren(token.tokens || []))
   },
 
   renderMarkdown: (node, h) => {
@@ -79,9 +81,8 @@ export const Blockquote = Node.create<BlockquoteOptions>({
     const prefix = '>'
     const result: string[] = []
 
-    node.content.forEach(child => {
-      // Render each child node as an array so it gets processed properly
-      const childContent = h.renderChildren([child])
+    node.content.forEach((child, index) => {
+      const childContent = h.renderChild?.(child, index) ?? h.renderChildren([child])
       const lines = childContent.split('\n')
 
       const linesWithPrefix = lines.map(line => {

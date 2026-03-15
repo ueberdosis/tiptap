@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.20.2
+
+### Patch Changes
+
+- 269823d: Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+  - @tiptap/pm@3.20.2
+
 ## 3.20.1
 
 ### Patch Changes
