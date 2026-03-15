@@ -81,6 +81,18 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     }
   },
 
+  /**
+   * Extension storage for coordination between `onCreate` and `appendTransaction`.
+   * `needsInitialHashing` is set to `true` when the Collaboration extension is
+   * detected but no provider is available in its options, deferring ID creation
+   * to the first `y-sync$` transaction.
+   */
+  addStorage() {
+    return {
+      needsInitialHashing: false,
+    }
+  },
+
   addGlobalAttributes() {
     const types = resolveTypes(this.options.types, this.extensions)
 
@@ -149,12 +161,14 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
      * because we can't automatically add IDs when the provider is not yet synced
      * otherwise we end up with empty paragraphs
      */
-    if (collab) {
-      if (!provider) {
-        return createIds()
+    if (collaboration) {
+      if (provider) {
+        provider.on('synced', createIds)
+      } else {
+        // Collaboration is present but provider is not in extension options.
+        // Defer ID creation to appendTransaction after the first y-sync$ transaction.
+        this.storage.needsInitialHashing = true
       }
-
-      provider.on('synced', createIds)
     } else {
       return createIds()
     }
@@ -164,6 +178,11 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     if (!this.options.updateDocument) {
       return []
     }
+
+    // Capture storage via closure so appendTransaction can access `needsInitialHashing`.
+    // `extensionManager.extensions` returns different objects than `this` due to
+    // Tiptap's child-extension flattening, so we capture the reference directly.
+    const extensionStorage = this.storage
 
     let dragSourceElement: Element | null = null
     let transformPasted = false
@@ -182,6 +201,35 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
           const isCollabTransaction = transactions.find(tr => tr.getMeta('y-sync$'))
 
           if (isCollabTransaction) {
+            if (extensionStorage.needsInitialHashing) {
+              extensionStorage.needsInitialHashing = false
+
+              // Run full-document ID creation after the first Yjs sync
+              const { tr } = newState
+              const { attributeName, generateID } = this.options
+              const allNodes = findChildren(newState.doc, node => types.includes(node.type.name))
+              const allIds = allNodes.map(({ node }) => node.attrs[attributeName])
+              const duplicated = findDuplicates(allIds.filter((id): id is string => id !== null))
+
+              allNodes.forEach(({ node, pos }) => {
+                const currentId = node.attrs[attributeName]
+
+                if (currentId === null || duplicated.includes(currentId)) {
+                  tr.setNodeMarkup(pos, undefined, {
+                    ...node.attrs,
+                    [attributeName]: generateID({ node, pos }),
+                  })
+                }
+              })
+
+              if (!tr.steps.length) {
+                return
+              }
+
+              tr.setMeta('addToHistory', false)
+              return tr
+            }
+
             return
           }
 
