@@ -1,7 +1,4 @@
 ---
-'@tiptap/core': patch
-'@tiptap/extension-bold': patch
-'@tiptap/extension-italic': patch
 '@tiptap/markdown': patch
 ---
 

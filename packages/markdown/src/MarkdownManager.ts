@@ -951,12 +951,13 @@ export class MarkdownManager {
             }
 
             const mark = currentMarks.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark)
+            const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
             if (closeMarkdown) {
               textContent += closeMarkdown
             }
             if (activeMarks.has(markType)) {
               activeMarks.delete(markType)
+              markOpeningModes.delete(markType)
             }
           })
         }
@@ -1007,7 +1008,7 @@ export class MarkdownManager {
           const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
 
           marksToOpen.forEach(({ type }) => {
-            if (nextMarkTypes.has(type)) {
+            if (nextMarkTypes.has(type) && this.canReopenWithHtml(type)) {
               reopenWithHtmlOnNextOpen.add(type)
             }
           })
@@ -1173,6 +1174,10 @@ export class MarkdownManager {
     }
 
     return ''
+  }
+
+  private canReopenWithHtml(markType: string): boolean {
+    return markType === 'bold' || markType === 'italic'
   }
 
   /**
