@@ -1,10 +1,9 @@
-# Automate, customize, and execute your software development workflows right in your repository with GitHub Actions.
-# Documentation: https://docs.github.com/en/actions
-
-name: build
+name: Verify
 
 env:
+  NODE_VERSION: 24
   PNPM_VERSION: 9.15.4
+  PNPM_STORE_DIR: .pnpm-store
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,22 +13,19 @@ on:
   push:
     branches:
       - main
-      - develop
+      - next
       - release/*
-    tags:
-      - '*'
   pull_request:
     branches:
       - main
-      - develop
+      - next
+      - release/*
 
 jobs:
-  build:
+  install-node-dependencies:
+    name: Install node dependencies
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20]
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v6
@@ -39,53 +35,124 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
 
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
-        with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Lint code
+      - name: Install Cypress binary
+        run: pnpm exec cypress install
+
+      - name: Pack dependency artifacts
+        run: |
+          tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
+          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
+
+      - name: Upload dependency artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: node-dependencies
+          path: |
+            /tmp/pnpm-store.tar.gz
+            /tmp/cypress-cache.tar.gz
+          retention-days: 1
+
+  check-linting-formatting:
+    name: Check linting & formatting
+    runs-on: ubuntu-latest
+    needs: build-packages
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v4.3.0
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Run linting and formatting checks
         run: pnpm run lint
 
-      - name: Try to build the packages
-        id: build-packages
-        run: pnpm run build
+  build-packages:
+    name: Build packages
+    runs-on: ubuntu-latest
+    needs: install-node-dependencies
+    timeout-minutes: 20
 
-      - name: Pack build artifact
-        run: tar -czf /tmp/build-output.tar.gz --exclude=node_modules packages/*/dist packages-deprecated/*/dist
+    steps:
+      - uses: actions/checkout@v6
 
-      - name: Upload build artifact
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v4.3.0
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Build packages
+        run: pnpm run build && pnpm run build:demos
+
+      - name: Pack build artifacts
+        run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
+
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
           name: build-output
           path: /tmp/build-output.tar.gz
           retention-days: 1
 
-  unit-test:
+  run-unit-tests:
+    name: Run unit tests
     runs-on: ubuntu-latest
-
-    needs: build
-
-    strategy:
-      matrix:
-        node-version: [20]
+    needs: build-packages
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v6
@@ -95,95 +162,104 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
-      - name: Download build artifact
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v4.3.0
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v4.3.0
         with:
           name: build-output
-          path: /tmp
+          path: /tmp/build-output
 
       - name: Restore build output
-        run: tar -xzf /tmp/build-output.tar.gz
+        run: tar -xzf /tmp/build-output/build-output.tar.gz
 
       - name: Run unit tests
-        id: unit-tests
         run: pnpm run test:unit
 
-  test:
+  run-e2e-tests:
+    name: Run e2e tests
     runs-on: ubuntu-latest
-
-    needs: [build, unit-test]
+    needs: build-packages
+    timeout-minutes: 45
 
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [20]
         test-spec:
-          - { id: 'integration', name: 'Integration', spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { id: 'demos-commands', name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { id: 'demos-examples', name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { id: 'demos-experiments', name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { id: 'demos-extensions', name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { id: 'demos-guidecontent', name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { id: 'demos-guidegettingstarted', name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          #- { id: 'demos-guidenodeviews', name: "Demos/GuideNodeViews", spec: "./demos/src/GuideNodeViews/**/*.spec.{js,ts}" }
-          - { id: 'demos-marks', name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { id: 'demos-nodes', name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
-          #- { id: 'demos-overview', name: "Demos/Overview", spec: "./demos/src/Overview/**/*.spec.{js,ts}" }
+          - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
+          - { id: demos-commands, name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
+          - { id: demos-examples, name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
+          - { id: demos-experiments, name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
+          - { id: demos-extensions, name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
+          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
+          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
+          - { id: demos-marks, name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
+          - { id: demos-nodes, name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
 
     steps:
       - uses: actions/checkout@v6
-      - name: Load build cache
-        uses: actions/cache@v5.0.2
-        id: cache
-        with:
-          path: |
-            ./demos/node_modules/.vite
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-build-${{ matrix.test-spec.id }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.test-spec.id }}-${{ github.sha }}
-            ${{ runner.os }}-build-${{ matrix.test-spec.id }}-
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install --strict-peer-dependencies && pnpm exec cypress install
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
-      - name: Download build artifact
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v4.3.0
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Restore Cypress cache
+        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v4.3.0
         with:
           name: build-output
-          path: /tmp
+          path: /tmp/build-output
 
       - name: Restore build output
-        run: tar -xzf /tmp/build-output.tar.gz
+        run: tar -xzf /tmp/build-output/build-output.tar.gz
 
       - name: Test ${{ matrix.test-spec.name }}
-        id: cypress
         uses: cypress-io/github-action@v6.10.2
         with:
-          cache-key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          start: pnpm run serve
-          wait-on: 'http://localhost:3000'
+          install: false
+          start: pnpm exec http-server ./demos/dist -s -p 3000
+          wait-on: http://localhost:3000
           spec: ${{ matrix.test-spec.spec }}
           project: ./tests
           browser: chrome
@@ -204,43 +280,3 @@ jobs:
           name: cypress-videos-${{ matrix.test-spec.id }}
           path: tests/cypress/videos
           retention-days: 7
-
-  release:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20]
-
-    needs: [test, unit-test]
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.1.0
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        id: install-dependencies
-        run: pnpm install
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4.3.0
-        with:
-          name: build-output
-          path: /tmp
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output.tar.gz
-
-      - name: Soft release
-        id: soft-release
-        run: pnpm exec pkg-pr-new publish './packages/*' './packages-deprecated/*' --compact

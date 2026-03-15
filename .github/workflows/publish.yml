@@ -1,107 +1,152 @@
 name: Publish
 
 env:
+  NODE_VERSION: 24
   PNPM_VERSION: 9.15.4
 
 on:
-  push:
-    branches:
-      - main
-      - next
-      - release/*
-  # manual trigger for other branches
-  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Verify
+    types:
+      - completed
 
 permissions:
-  id-token: write
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
   cancel-in-progress: true
 
 jobs:
   release:
-    name: Release
+    name: Bump Versions OR Release to Registry
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && (github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'next' || startsWith(github.event.workflow_run.head_branch, 'release/'))
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
 
-    strategy:
-      matrix:
-        node-version: [20]
+    outputs:
+      dist_tag: ${{ steps.resolve_dist_tag.outputs.dist_tag }}
+      release_kind: ${{ steps.resolve_dist_tag.outputs.release_kind }}
+      published: ${{ steps.changesets.outputs.published }}
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout repo
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup Node ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
 
-      - name: Update npm for Trusted Publishing
+      - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
 
-      - name: Load turbo cache
-        uses: actions/cache@v5.0.2
-        id: turbo-cache
-        with:
-          path: |
-            .turbo
-            **/.eslintcache
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.sha }}
-            ${{ runner.os }}-turbo-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Dependencies
-        run: pnpm install --strict-peer-dependencies
+      - name: Resolve npm dist-tag
+        id: resolve_dist_tag
+        run: |
+          branch="${{ github.event.workflow_run.head_branch }}"
 
-      - name: Create Release PR or publish stable version to npm
+          if [ "$branch" = 'main' ]; then
+            echo 'NPM_DIST_TAG=latest' >> "$GITHUB_ENV"
+            echo 'dist_tag=latest' >> "$GITHUB_OUTPUT"
+            echo 'release_kind=stable' >> "$GITHUB_OUTPUT"
+          elif [ "$branch" = 'next' ]; then
+            echo 'NPM_DIST_TAG=next' >> "$GITHUB_ENV"
+            echo 'dist_tag=next' >> "$GITHUB_OUTPUT"
+            echo 'release_kind=prerelease' >> "$GITHUB_OUTPUT"
+          else
+            release_tag="${branch#release/}"
+            echo "NPM_DIST_TAG=${release_tag}-latest" >> "$GITHUB_ENV"
+            echo "dist_tag=${release_tag}-latest" >> "$GITHUB_OUTPUT"
+            echo 'release_kind=prerelease' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run changesets release flow
         id: changesets
         uses: changesets/action@v1
         with:
           createGithubReleases: false
-          publish: pnpm run publish
           version: pnpm run version
-          title: ${{ github.ref_name == 'main' && 'Publish a new stable version'  || 'Publish a new pre-release version' }}
-          commit: >-
-            ${{ github.ref_name == 'main' && 'chore(release): publish a new release version'  || 'chore(release): publish a new pre-release version' }}
+          publish: pnpm run build && pnpm run build:demos && pnpm changeset publish --tag $NPM_DIST_TAG
+          title: ${{ github.event.workflow_run.head_branch == 'main' && 'Publish a new stable version' || 'Publish a new release version' }}
+          commit: '${{ github.event.workflow_run.head_branch == ''main'' && ''chore(release): publish a new stable version'' || ''chore(release): publish a new release version'' }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
           NPM_CONFIG_ACCESS: public
 
-      - name: Send release notification
-        if: steps.changesets.outputs.published == 'true'
-        id: slack
+  notify-slack:
+    name: Send notification to Slack
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    timeout-minutes: 5
+    permissions: {}
+
+    steps:
+      - name: Send Slack notification
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
             {
-              "message": "[Tiptap Editor Release]: New Tiptap Editor version has been released to NPM."
+              "message": "[Tiptap Editor ${{ needs.release.outputs.release_kind == 'stable' && 'Release' || 'Pre-release' }}]: Published packages from branch ${{ github.event.workflow_run.head_branch }} with npm tag ${{ needs.release.outputs.dist_tag }}."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Send failure notification
-        if: failure()
-        id: slack_failure
+  notify-discord:
+    name: Send notification to Discord
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - release
+      - notify-slack
+    if: always() && needs.release.result == 'success' && needs.release.outputs.published == 'true' && needs.notify-slack.result == 'success'
+    permissions: {}
+
+    steps:
+      - name: Send Discord notification
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
+          content: '[Tiptap Editor ${{ needs.release.outputs.release_kind == ''stable'' && ''Release'' || ''Pre-release'' }}] Published packages from branch ${{ github.event.workflow_run.head_branch }} with npm tag ${{ needs.release.outputs.dist_tag }}.'
+          wait: true
+
+  notify-slack-failure:
+    name: Send failure notification to Slack
+    runs-on: ubuntu-latest
+    needs: release
+    if: always() && needs.release.result == 'failure'
+    timeout-minutes: 5
+    permissions: {}
+
+    steps:
+      - name: Send Slack failure notification
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
             {
-              "message": "[Tiptap Editor Release]: There was an issue publishing a new version. You can find the logs here: https://github.com/ueberdosis/tiptap/actions/runs/${{ github.run_id }}"
+              "message": "[Tiptap Editor Release]: There was an issue publishing packages from branch ${{ github.event.workflow_run.head_branch }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
