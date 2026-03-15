@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import { deepEqual } from 'fast-equals'
+import { circularDeepEqual } from 'fast-equals'
 import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
@@ -21,7 +21,7 @@ export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null
   selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult
   /**
    * A custom equality function to determine if the editor should re-render.
-   * @default `deepEqual` from `fast-deep-equal`
+   * @default `circularDeepEqual` from `fast-equals`
    */
   equalityFn?: (a: TSelectorResult, b: TSelectorResult | null) => boolean
 }
@@ -160,7 +160,7 @@ export function useEditorState<TSelectorResult>(
     editorStateManager.getSnapshot,
     editorStateManager.getServerSnapshot,
     options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
-    options.equalityFn ?? deepEqual,
+    options.equalityFn ?? circularDeepEqual,
   )
 
   useIsomorphicLayoutEffect(() => {
