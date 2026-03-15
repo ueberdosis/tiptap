@@ -114,8 +114,9 @@ export const Italic = Mark.create<ItalicOptions>({
     return helpers.applyMark('italic', helpers.parseInline(token.tokens || []))
   },
 
-  renderMarkdown: (node, h) => {
-    return `*${h.renderChildren(node)}*`
+  renderMarkdown: (node, h, ctx) => {
+    const delimiter = ctx?.preferAlternateDelimiter ? '_' : '*'
+    return `${delimiter}${h.renderChildren(node)}${delimiter}`
   },
 
   addKeyboardShortcuts() {

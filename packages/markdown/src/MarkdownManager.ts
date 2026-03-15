@@ -577,11 +577,15 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
-        // Create text node
-        result.push({
-          type: 'text',
-          text: token.text || '',
-        })
+        const parsedText = this.parseFallbackTextToken(token.text || '')
+
+        if (parsedText) {
+          if (Array.isArray(parsedText)) {
+            result.push(...parsedText)
+          } else {
+            result.push(parsedText)
+          }
+        }
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
@@ -739,10 +743,7 @@ export class MarkdownManager {
         }
 
       case 'text':
-        return {
-          type: 'text',
-          text: token.text || '',
-        }
+        return this.parseFallbackTextToken(token.text || '')
 
       case 'html':
         // Parse HTML using extensions' parseHTML methods
@@ -758,6 +759,56 @@ export class MarkdownManager {
         }
         return null
     }
+  }
+
+  private parseFallbackTextToken(text: string): JSONContent | JSONContent[] | null {
+    if (!text) {
+      return null
+    }
+
+    const parts: JSONContent[] = []
+    const intrawordUnderscoreRegex = /(^|[^\w])_(?!_)([^_\s](?:[^_]*?[^_\s])?)_(?=\w)/g
+    let lastIndex = 0
+    let match = intrawordUnderscoreRegex.exec(text)
+
+    while (match !== null) {
+      const italicText = match[2]
+      const prefixLength = (match[1] || '').length
+      const matchIndex = match.index
+      const italicStart = matchIndex + prefixLength
+
+      if (italicStart > lastIndex) {
+        parts.push({
+          type: 'text',
+          text: text.slice(lastIndex, italicStart),
+        })
+      }
+
+      parts.push({
+        type: 'text',
+        text: italicText,
+        marks: [{ type: 'italic' }],
+      })
+
+      lastIndex = italicStart + match[0].slice(prefixLength).length
+      match = intrawordUnderscoreRegex.exec(text)
+    }
+
+    if (parts.length === 0) {
+      return {
+        type: 'text',
+        text,
+      }
+    }
+
+    if (lastIndex < text.length) {
+      parts.push({
+        type: 'text',
+        text: text.slice(lastIndex),
+      })
+    }
+
+    return parts
   }
 
   /**
@@ -901,6 +952,13 @@ export class MarkdownManager {
   ): string {
     const result: string[] = []
     const activeMarks: Map<string, any> = new Map()
+    const preferAlternateDelimiterOnNextOpen = new Set<string>()
+    // Tracks the activeMarkTypes snapshot at the time each mark was opened.
+    // Used when closing marks so the delimiter matches the one chosen at open time.
+    const markOpeningContexts = new Map<
+      string,
+      { activeMarkTypes: ReadonlySet<string>; preferAlternateDelimiter: boolean }
+    >()
     nodes.forEach((node, i) => {
       // Lookahead to the next node to determine if marks need to be closed
       const nextNode = i < nodes.length - 1 ? nodes[i + 1] : null
@@ -917,9 +975,23 @@ export class MarkdownManager {
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
+        // When marks simultaneously close (old) AND open (new) at this boundary, the naive
+        // approach of appending old-close and prepending new-open produces interleaved
+        // delimiters like `*456**` (italic open, text, bold close) instead of properly
+        // nested `_456_**` (italic open, text, italic close, bold close).
+        //
+        // The fix: when both are present, defer old mark closings to the end of the node
+        // (after the new marks also close), ensuring correct inner-before-outer order.
+        //
+        // If an already-active mark ends on this node while another mark opens on this same
+        // node, we defer closing the active mark until the end of the node so nesting stays
+        // valid (`**...++abc++**` instead of `**...++abc**++`).
+        const activeMarksClosingHere = marksToClose.filter(markType => activeMarks.has(markType))
+        const hasCrossedBoundary = activeMarksClosingHere.length > 0 && marksToOpen.length > 0
+
         let middleTrailingWhitespace = ''
 
-        if (marksToClose.length > 0) {
+        if (marksToClose.length > 0 && !hasCrossedBoundary) {
           // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
           const middleTrailingMatch = textContent.match(/(\s+)$/)
           if (middleTrailingMatch) {
@@ -927,18 +999,26 @@ export class MarkdownManager {
             textContent = textContent.slice(0, -middleTrailingWhitespace.length)
           }
         }
-        // Close marks that are ending here
-        marksToClose.forEach(markType => {
-          const mark = currentMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
-          if (closeMarkdown) {
-            textContent += closeMarkdown
-          }
-          // deleting closed marks from active marks
-          if (activeMarks.has(markType)) {
-            activeMarks.delete(markType)
-          }
-        })
+
+        if (!hasCrossedBoundary) {
+          // Normal path: close marks that are ending here (no new marks opening simultaneously)
+          marksToClose.forEach(markType => {
+            if (!activeMarks.has(markType)) {
+              return
+            }
+
+            const mark = currentMarks.get(markType)
+            const openingContext = markOpeningContexts.get(markType)
+            const closeMarkdown = this.getMarkClosing(markType, mark, openingContext)
+            if (closeMarkdown) {
+              textContent += closeMarkdown
+            }
+            if (activeMarks.has(markType)) {
+              activeMarks.delete(markType)
+              markOpeningContexts.delete(markType)
+            }
+          })
+        }
 
         // Open new marks (should be at the beginning)
         // Extract leading whitespace before opening marks to prevent invalid markdown like "** text**"
@@ -951,26 +1031,59 @@ export class MarkdownManager {
           }
         }
 
+        // Snapshot active mark types before opening new marks, so each new mark's delimiter
+        // is chosen based on what is already active (not including itself).
+        // When crossing a boundary, old marks are still in activeMarks here (not yet removed),
+        // so new marks correctly see them as active context.
+        const activeMarkTypesBeforeOpen = new Set(activeMarks.keys())
+
         marksToOpen.forEach(({ type, mark }) => {
-          const openMarkdown = this.getMarkOpening(type, mark)
+          const openingContext = {
+            activeMarkTypes: activeMarkTypesBeforeOpen,
+            preferAlternateDelimiter: preferAlternateDelimiterOnNextOpen.has(type),
+          }
+          const openMarkdown = this.getMarkOpening(type, mark, openingContext)
           if (openMarkdown) {
             textContent = openMarkdown + textContent
           }
-          if (!marksToClose.includes(type)) {
-            activeMarks.set(type, mark)
-          }
+          // Record the context at open time so closing uses the same delimiter.
+          markOpeningContexts.set(type, openingContext)
+          preferAlternateDelimiterOnNextOpen.delete(type)
         })
+
+        if (!hasCrossedBoundary) {
+          marksToOpen
+            .slice()
+            .reverse()
+            .forEach(({ type, mark }) => {
+              activeMarks.set(type, mark)
+            })
+        }
 
         // Add leading whitespace before the mark opening
         textContent = leadingWhitespace + textContent
 
-        // Close marks at the end of this node if needed
-        const marksToCloseAtEnd = findMarksToCloseAtEnd(
-          activeMarks,
-          currentMarks,
-          nextNode,
-          this.markSetsEqual.bind(this),
-        )
+        // Determine marks to close at the end of this node.
+        // On a crossed boundary, we close new marks (inner) first, then old marks (outer),
+        // ensuring correct nesting order. Both sets are removed from activeMarks so the
+        // next node's marksToOpen will reopen whichever ones continue.
+        let marksToCloseAtEnd: string[]
+        if (hasCrossedBoundary) {
+          const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+
+          marksToOpen.forEach(({ type }) => {
+            if (nextMarkTypes.has(type)) {
+              preferAlternateDelimiterOnNextOpen.add(type)
+            }
+          })
+
+          marksToCloseAtEnd = [
+            ...marksToOpen.map(m => m.type), // inner (opened here) — close first
+            ...activeMarksClosingHere, // outer (were active before) — close last
+          ]
+        } else {
+          marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+        }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
         let trailingWhitespace = ''
@@ -983,12 +1096,16 @@ export class MarkdownManager {
         }
 
         marksToCloseAtEnd.forEach(markType => {
-          const mark = activeMarks.get(markType)
-          const closeMarkdown = this.getMarkClosing(markType, mark)
+          const mark = activeMarks.get(markType) ?? currentMarks.get(markType)
+          // Use the context from when this mark was opened so the closing delimiter
+          // always matches the opening delimiter (e.g. italic opened with * closes with *).
+          const openingContext = markOpeningContexts.get(markType)
+          const closeMarkdown = this.getMarkClosing(markType, mark, openingContext)
           if (closeMarkdown) {
             textContent += closeMarkdown
           }
           activeMarks.delete(markType)
+          markOpeningContexts.delete(markType)
         })
 
         // Add trailing whitespace after the mark closing
@@ -1023,7 +1140,11 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(markType: string, mark: any): string {
+  private getMarkOpening(
+    markType: string,
+    mark: any,
+    context?: { activeMarkTypes?: ReadonlySet<string>; preferAlternateDelimiter?: boolean },
+  ): string {
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1048,7 +1169,14 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        {
+          index: 0,
+          level: 0,
+          parentType: 'text',
+          meta: {},
+          activeMarkTypes: context?.activeMarkTypes,
+          preferAlternateDelimiter: context?.preferAlternateDelimiter,
+        },
       )
 
       // Extract the opening part (everything before placeholder)
@@ -1062,7 +1190,11 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(markType: string, mark: any): string {
+  private getMarkClosing(
+    markType: string,
+    mark: any,
+    context?: { activeMarkTypes?: ReadonlySet<string>; preferAlternateDelimiter?: boolean },
+  ): string {
     const handlers = this.getHandlersForNodeType(markType)
     const handler = handlers.length > 0 ? handlers[0] : undefined
     if (!handler || !handler.renderMarkdown) {
@@ -1086,7 +1218,14 @@ export class MarkdownManager {
           indent: (content: string) => content,
           wrapInBlock: (prefix: string, content: string) => prefix + content,
         },
-        { index: 0, level: 0, parentType: 'text', meta: {} },
+        {
+          index: 0,
+          level: 0,
+          parentType: 'text',
+          meta: {},
+          activeMarkTypes: context?.activeMarkTypes,
+          preferAlternateDelimiter: context?.preferAlternateDelimiter,
+        },
       )
 
       // Extract the closing part (everything after placeholder)

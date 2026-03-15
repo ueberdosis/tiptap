@@ -945,6 +945,10 @@ export type RenderContext = {
   level: number
   meta?: Record<string, any>
   parentType?: string | null
+  /** Mark type names that are concurrently active during mark boundary serialization. */
+  activeMarkTypes?: ReadonlySet<string>
+  /** Prefer the alternate markdown delimiter form for this mark when available. */
+  preferAlternateDelimiter?: boolean
 }
 
 /** Extension contract for markdown parsing/serialization. */

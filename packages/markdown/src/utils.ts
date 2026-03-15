@@ -77,14 +77,16 @@ export function findMarksToCloseAtEnd(
   if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
     if (nextNode && nextNode.type === 'text' && nextNode.marks) {
       const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
-      Array.from(activeMarks.keys()).forEach(markType => {
-        if (!nextMarks.has(markType)) {
-          marksToCloseAtEnd.push(markType)
-        }
-      })
+      Array.from(activeMarks.keys())
+        .reverse()
+        .forEach(markType => {
+          if (!nextMarks.has(markType)) {
+            marksToCloseAtEnd.push(markType)
+          }
+        })
     } else if (isLastNode || nextNodeHasNoMarks) {
       // Close all active marks
-      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()).reverse())
     }
   }
 
