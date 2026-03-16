@@ -25,6 +25,29 @@ function cleanUpSchemaItem<T>(data: T) {
 }
 
 /**
+ * Builds an attribute spec tuple for ProseMirror schema from an extension attribute.
+ * @param extensionAttribute The extension attribute to build the spec for
+ * @returns A tuple of [attributeName, spec]
+ */
+function buildAttributeSpec(
+  extensionAttribute: ReturnType<typeof getAttributesFromExtensions>[number],
+): [string, Record<string, any>] {
+  const spec: Record<string, any> = {}
+
+  // Only include 'default' if the attribute is not required and default is set on the attribute
+  if (!extensionAttribute?.attribute?.isRequired && 'default' in (extensionAttribute?.attribute || {})) {
+    spec.default = extensionAttribute.attribute.default
+  }
+
+  // Only include 'validate' if it's defined
+  if (extensionAttribute?.attribute?.validate !== undefined) {
+    spec.validate = extensionAttribute.attribute.validate
+  }
+
+  return [extensionAttribute.name, spec]
+}
+
+/**
  * Creates a new Prosemirror schema based on the given extensions.
  * @param extensions An array of Tiptap extensions
  * @param editor The editor instance
@@ -70,14 +93,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         ),
         defining: callOrReturn(getExtensionField<NodeConfig['defining']>(extension, 'defining', context)),
         isolating: callOrReturn(getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)),
-        attrs: Object.fromEntries(
-          extensionAttributes.map(extensionAttribute => {
-            return [
-              extensionAttribute.name,
-              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
-            ]
-          }),
-        ),
+        attrs: Object.fromEntries(extensionAttributes.map(buildAttributeSpec)),
       })
 
       const parseHTML = callOrReturn(getExtensionField<NodeConfig['parseHTML']>(extension, 'parseHTML', context))
@@ -134,14 +150,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         group: callOrReturn(getExtensionField<MarkConfig['group']>(extension, 'group', context)),
         spanning: callOrReturn(getExtensionField<MarkConfig['spanning']>(extension, 'spanning', context)),
         code: callOrReturn(getExtensionField<MarkConfig['code']>(extension, 'code', context)),
-        attrs: Object.fromEntries(
-          extensionAttributes.map(extensionAttribute => {
-            return [
-              extensionAttribute.name,
-              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
-            ]
-          }),
-        ),
+        attrs: Object.fromEntries(extensionAttributes.map(buildAttributeSpec)),
       })
 
       const parseHTML = callOrReturn(getExtensionField<MarkConfig['parseHTML']>(extension, 'parseHTML', context))

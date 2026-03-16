@@ -51,4 +51,15 @@ context('/src/Marks/Code/React/', () => {
   it('should make inline code from the markdown shortcut', () => {
     cy.get('.tiptap').type('`Example`').find('code').should('contain', 'Example')
   })
+
+  it('should not create inline code when using space', () => {
+    cy.get('.tiptap').type('``{leftArrow}$foobar{rightArrow} ').find('code').should('not.exist')
+  })
+
+  it('should create code when closing with backtick', () => {
+    cy.get('.tiptap')
+      .type('``{leftArrow}$foobar{rightArrow} {backSpace}{backSpace}`')
+      .find('code')
+      .should('contain', '$foobar')
+  })
 })

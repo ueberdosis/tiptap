@@ -60,6 +60,7 @@ body {
 .tiptap {
   caret-color: var(--purple);
   margin: 1.5rem;
+  padding-bottom: 2rem;
 
   &:focus {
     outline: none;
@@ -157,6 +158,95 @@ textarea {
       background-color: var(--purple-contrast);
       color: var(--white);
     }
+  }
+}
+
+/* Details */
+[data-type='details'] {
+  display: flex;
+  gap: 0.25rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--gray-3);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+
+  summary {
+    font-weight: 700;
+  }
+
+  > button {
+    align-items: center;
+    background: transparent;
+    border-radius: 4px;
+    display: flex;
+    font-size: 0.625rem;
+    height: 1.25rem;
+    justify-content: center;
+    line-height: 1;
+    margin-top: 0.1rem;
+    padding: 0;
+    width: 1.25rem;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &::before {
+      content: '\25B6';
+    }
+  }
+
+  &.is-open > button::before {
+    transform: rotate(90deg);
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+
+    > [data-type='detailsContent'] > :last-child {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .details {
+    margin: 0.5rem 0;
+  }
+}
+
+[data-type='taskList'] {
+  list-style: none;
+  padding: 0;
+
+  [data-type='taskList'] {
+    padding-left: 1.5rem;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  > li > div > p:first-child {
+    margin: 0;
+  }
+
+  > li {
+    &:not(:first-child) {
+      margin-top: 0.125rem;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0.125rem;
+    }
+  }
+
+  [data-checked='true'] > div > p:first-child {
+    text-decoration: line-through;
+    color: var(--gray-4);
   }
 }
 

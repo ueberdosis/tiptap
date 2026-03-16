@@ -37,11 +37,36 @@ declare module '@tiptap/core' {
   }
 }
 
+const MAX_FIND_CHILD_SPAN_DEPTH = 20
+
+/**
+ * Returns all next child spans, either direct children or nested deeper
+ * but won't traverse deeper into child spans found, will only go MAX_FIND_CHILD_SPAN_DEPTH levels deep (default: 20)
+ */
+const findChildSpans = (element: HTMLElement, depth = 0): HTMLElement[] => {
+  const childSpans: HTMLElement[] = []
+
+  if (!element.children.length || depth > MAX_FIND_CHILD_SPAN_DEPTH) {
+    return childSpans
+  }
+
+  Array.from(element.children).forEach(child => {
+    if (child.tagName === 'SPAN') {
+      childSpans.push(child as HTMLElement)
+    } else if (child.children.length) {
+      childSpans.push(...findChildSpans(child as HTMLElement, depth + 1))
+    }
+  })
+
+  return childSpans
+}
+
 const mergeNestedSpanStyles = (element: HTMLElement) => {
   if (!element.children.length) {
     return
   }
-  const childSpans = element.querySelectorAll('span')
+
+  const childSpans = findChildSpans(element)
 
   if (!childSpans) {
     return

@@ -5,7 +5,7 @@ import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React, { useCallback } from 'react'
 
 export default () => {
@@ -110,6 +110,13 @@ export default () => {
     }
   }, [editor])
 
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isLink: ctx.editor.isActive('link'),
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -118,10 +125,10 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
+          <button onClick={setLink} className={editorState.isLink ? 'is-active' : ''}>
             Set link
           </button>
-          <button onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}>
+          <button onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editorState.isLink}>
             Unset link
           </button>
         </div>

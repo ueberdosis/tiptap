@@ -17,9 +17,9 @@ export interface TrailingNodeOptions {
    * The node type that should be inserted at the end of the document.
    * @note the node will always be added to the `notAfter` lists to
    * prevent an infinite loop.
-   * @default 'paragraph'
+   * @default undefined
    */
-  node: string
+  node?: string
   /**
    * The node types after which the trailing node should not be inserted.
    * @default ['paragraph']
@@ -36,16 +36,19 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
 
   addOptions() {
     return {
-      node: 'paragraph',
+      node: undefined,
       notAfter: [],
     }
   },
 
   addProseMirrorPlugins() {
     const plugin = new PluginKey(this.name)
+    const defaultNode =
+      this.options.node || this.editor.schema.topNodeType.contentMatch.defaultType?.name || 'paragraph'
+
     const disabledNodes = Object.entries(this.editor.schema.nodes)
       .map(([, value]) => value)
-      .filter(node => (this.options.notAfter || []).concat(this.options.node).includes(node.name))
+      .filter(node => (this.options.notAfter || []).concat(defaultNode).includes(node.name))
 
     return [
       new Plugin({
@@ -54,7 +57,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
-          const type = schema.nodes[this.options.node]
+          const type = schema.nodes[defaultNode]
 
           if (!shouldInsertNodeAtEnd) {
             return
@@ -70,6 +73,12 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           },
           apply: (tr, value) => {
             if (!tr.docChanged) {
+              return value
+            }
+
+            // Ignore transactions from UniqueID extension to prevent infinite loops
+            // when UniqueID adds IDs to newly inserted trailing nodes
+            if (tr.getMeta('__uniqueIDTransaction')) {
               return value
             }
 

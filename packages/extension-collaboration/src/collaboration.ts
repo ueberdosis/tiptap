@@ -4,6 +4,8 @@ import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
+import { createMappablePosition, getUpdatedPosition } from './helpers/CollaborationMappablePosition.js'
+
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
 
@@ -57,6 +59,12 @@ export interface CollaborationOptions {
   fragment?: XmlFragment | null
 
   /**
+   * The collaboration provider.
+   * @default null
+   */
+  provider?: any | null
+
+  /**
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
   onFirstRender?: () => void
@@ -86,6 +94,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       document: null,
       field: 'default',
       fragment: null,
+      provider: null,
     }
   },
 
@@ -98,9 +107,15 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onCreate() {
     if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
       console.warn(
-        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-history".',
+        '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
       )
     }
+  },
+
+  onBeforeCreate() {
+    this.editor.utils.getUpdatedPosition = (position, transaction) =>
+      getUpdatedPosition(position, transaction, this.editor.state)
+    this.editor.utils.createMappablePosition = position => createMappablePosition(position, this.editor.state)
   },
 
   addCommands() {

@@ -1,5 +1,11 @@
 import type { KeyboardShortcutCommand } from '@tiptap/core'
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+import {
+  getRenderedAttributes,
+  mergeAttributes,
+  Node,
+  renderNestedMarkdownContent,
+  wrappingInputRule,
+} from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 export interface TaskItemOptions {
@@ -120,6 +126,38 @@ export const TaskItem = Node.create<TaskItemOptions>({
     ]
   },
 
+  parseMarkdown: (token, h) => {
+    // Parse the task item's text content into paragraph content
+    const content = []
+
+    // First, add the main paragraph content
+    if (token.tokens && token.tokens.length > 0) {
+      // If we have tokens, create a paragraph with the inline content
+      content.push(h.createNode('paragraph', {}, h.parseInline(token.tokens)))
+    } else if (token.text) {
+      // If we have raw text, create a paragraph with text node
+      content.push(h.createNode('paragraph', {}, [h.createNode('text', { text: token.text })]))
+    } else {
+      // Fallback: empty paragraph
+      content.push(h.createNode('paragraph', {}, []))
+    }
+
+    // Then, add any nested content (like nested task lists)
+    if (token.nestedTokens && token.nestedTokens.length > 0) {
+      const nestedContent = h.parseChildren(token.nestedTokens)
+      content.push(...nestedContent)
+    }
+
+    return h.createNode('taskItem', { checked: token.checked || false }, content)
+  },
+
+  renderMarkdown: (node, h) => {
+    const checkedChar = node.attrs?.checked ? 'x' : ' '
+    const prefix = `- [${checkedChar}] `
+
+    return renderNestedMarkdownContent(node, h, prefix)
+  },
+
   addKeyboardShortcuts() {
     const shortcuts: {
       [key: string]: KeyboardShortcutCommand
@@ -146,13 +184,13 @@ export const TaskItem = Node.create<TaskItemOptions>({
       const checkbox = document.createElement('input')
       const content = document.createElement('div')
 
-      const updateA11Y = () => {
+      const updateA11Y = (currentNode: ProseMirrorNode) => {
         checkbox.ariaLabel =
-          this.options.a11y?.checkboxLabel?.(node, checkbox.checked) ||
-          `Task item checkbox for ${node.textContent || 'empty task item'}`
+          this.options.a11y?.checkboxLabel?.(currentNode, checkbox.checked) ||
+          `Task item checkbox for ${currentNode.textContent || 'empty task item'}`
       }
 
-      updateA11Y()
+      updateA11Y(node)
 
       checkboxWrapper.contentEditable = 'false'
       checkbox.type = 'checkbox'
@@ -211,6 +249,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
         listItem.setAttribute(key, value)
       })
 
+      // Track the keys of previously rendered HTML attributes for proper removal
+      let prevRenderedAttributeKeys = new Set(Object.keys(HTMLAttributes))
+
       return {
         dom: listItem,
         contentDOM: content,
@@ -221,7 +262,43 @@ export const TaskItem = Node.create<TaskItemOptions>({
 
           listItem.dataset.checked = updatedNode.attrs.checked
           checkbox.checked = updatedNode.attrs.checked
-          updateA11Y()
+          updateA11Y(updatedNode)
+
+          // Sync all HTML attributes from the updated node
+          const extensionAttributes = editor.extensionManager.attributes
+          const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+          const newKeys = new Set(Object.keys(newHTMLAttributes))
+
+          // Remove attributes that were previously rendered but are no longer present
+          // If the attribute exists in static options, restore it instead of removing
+          const staticAttrs = this.options.HTMLAttributes
+
+          prevRenderedAttributeKeys.forEach(key => {
+            if (!newKeys.has(key)) {
+              if (key in staticAttrs) {
+                listItem.setAttribute(key, staticAttrs[key])
+              } else {
+                listItem.removeAttribute(key)
+              }
+            }
+          })
+
+          // Update or add new attributes
+          Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+            if (value === null || value === undefined) {
+              // If the attribute exists in static options, restore it instead of removing
+              if (key in staticAttrs) {
+                listItem.setAttribute(key, staticAttrs[key])
+              } else {
+                listItem.removeAttribute(key)
+              }
+            } else {
+              listItem.setAttribute(key, value)
+            }
+          })
+
+          // Update the tracked keys for next update
+          prevRenderedAttributeKeys = newKeys
 
           return true
         },

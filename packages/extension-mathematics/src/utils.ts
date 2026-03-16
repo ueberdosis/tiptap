@@ -13,7 +13,7 @@ import type { Transaction } from '@tiptap/pm/state'
  * - `This is $100$ dollars.` will not match (as it is not a math expression)
  * - `This is $x^2 + y^2 = z^2$ and $100$ dollars.` will match both math expressions
  */
-export const mathMigrationRegex = /(?<!\d)\$(?!\$)(?:[^$\n]|\\\$)*?(?<!\\)\$(?!\d)/g
+export const mathMigrationRegex = /\$(?!\d+\$)(.+?)\$(?!\d)/g
 
 /**
  * Creates a transaction that migrates existing math strings in the document to new math nodes.

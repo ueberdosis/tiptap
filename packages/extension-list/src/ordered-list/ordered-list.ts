@@ -1,5 +1,7 @@
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
+import { buildNestedStructure, collectOrderedListItems, parseListItems } from './utils.js'
+
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
 
@@ -103,6 +105,76 @@ export const OrderedList = Node.create<OrderedListOptions>({
     return start === 1
       ? ['ol', mergeAttributes(this.options.HTMLAttributes, attributesWithoutStart), 0]
       : ['ol', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+  },
+
+  markdownTokenName: 'list',
+
+  parseMarkdown: (token, helpers) => {
+    if (token.type !== 'list' || !token.ordered) {
+      return []
+    }
+
+    const startValue = token.start || 1
+    const content = token.items ? parseListItems(token.items, helpers) : []
+
+    if (startValue !== 1) {
+      return {
+        type: 'orderedList',
+        attrs: { start: startValue },
+        content,
+      }
+    }
+
+    return {
+      type: 'orderedList',
+      content,
+    }
+  },
+
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
+
+    return h.renderChildren(node.content, '\n')
+  },
+
+  markdownTokenizer: {
+    name: 'orderedList',
+    level: 'block',
+    start: (src: string) => {
+      const match = src.match(/^(\s*)(\d+)\.\s+/)
+      const index = match?.index
+      return index !== undefined ? index : -1
+    },
+    tokenize: (src: string, _tokens, lexer) => {
+      const lines = src.split('\n')
+      const [listItems, consumed] = collectOrderedListItems(lines)
+
+      if (listItems.length === 0) {
+        return undefined
+      }
+
+      const items = buildNestedStructure(listItems, 0, lexer)
+
+      if (items.length === 0) {
+        return undefined
+      }
+
+      const startValue = listItems[0]?.number || 1
+
+      return {
+        type: 'list',
+        ordered: true,
+        start: startValue,
+        items,
+        raw: lines.slice(0, consumed).join('\n'),
+      } as unknown as object
+    },
+  },
+
+  markdownOptions: {
+    indentsContent: true,
   },
 
   addCommands() {

@@ -1,5 +1,498 @@
 # Change Log
 
+## 3.20.2
+
+### Patch Changes
+
+- Updated dependencies [269823d]
+  - @tiptap/core@3.20.2
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/core@3.18.0
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- 5cdcc9e: Add a new `shouldShow` callback to the `Suggestion` utility. This allows developers to filter when suggestions are displayed, which is especially useful for collaborative environments to prevent suggestions from popping open for remote users.
+  - @tiptap/core@3.15.1
+  - @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+- @tiptap/pm@3.9.1
+
+## 3.9.0
+
+### Patch Changes
+
+- Updated dependencies [bbb8e16]
+  - @tiptap/core@3.9.0
+  - @tiptap/pm@3.9.0
+
+## 3.8.0
+
+### Patch Changes
+
+- @tiptap/core@3.8.0
+- @tiptap/pm@3.8.0
+
+## 3.7.2
+
+### Patch Changes
+
+- @tiptap/core@3.7.2
+- @tiptap/pm@3.7.2
+
+## 3.7.1
+
+### Patch Changes
+
+- @tiptap/core@3.7.1
+- @tiptap/pm@3.7.1
+
+## 3.7.0
+
+### Patch Changes
+
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+- Updated dependencies [35645d9]
+  - @tiptap/core@3.7.0
+  - @tiptap/pm@3.7.0
+
+## 3.6.7
+
+### Patch Changes
+
+- @tiptap/core@3.6.7
+- @tiptap/pm@3.6.7
+
+## 3.6.6
+
+### Patch Changes
+
+- @tiptap/core@3.6.6
+- @tiptap/pm@3.6.6
+
+## 3.6.5
+
+### Patch Changes
+
+- Updated dependencies [1e4caea]
+  - @tiptap/core@3.6.5
+  - @tiptap/pm@3.6.5
+
+## 3.6.4
+
+### Patch Changes
+
+- @tiptap/core@3.6.4
+- @tiptap/pm@3.6.4
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [67f7b4a]
+  - @tiptap/core@3.6.3
+  - @tiptap/pm@3.6.3
+
+## 3.6.2
+
+### Patch Changes
+
+- @tiptap/core@3.6.2
+- @tiptap/pm@3.6.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @tiptap/core@3.6.1
+- @tiptap/pm@3.6.1
+
+## 3.6.0
+
+### Patch Changes
+
+- Updated dependencies [c0190bd]
+  - @tiptap/core@3.6.0
+  - @tiptap/pm@3.6.0
+
+## 3.5.3
+
+### Patch Changes
+
+- @tiptap/core@3.5.3
+- @tiptap/pm@3.5.3
+
+## 3.5.2
+
+### Patch Changes
+
+- @tiptap/core@3.5.2
+- @tiptap/pm@3.5.2
+
+## 3.5.1
+
+### Patch Changes
+
+- @tiptap/core@3.5.1
+- @tiptap/pm@3.5.1
+
+## 3.5.0
+
+### Patch Changes
+
+- @tiptap/core@3.5.0
+- @tiptap/pm@3.5.0
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [968016f]
+  - @tiptap/core@3.4.6
+  - @tiptap/pm@3.4.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [0226d42]
+- Updated dependencies [37af83b]
+- Updated dependencies [f598ac7]
+  - @tiptap/core@3.4.5
+  - @tiptap/pm@3.4.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [00cf1d7]
+  - @tiptap/core@3.4.4
+  - @tiptap/pm@3.4.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [1ea8906]
+  - @tiptap/core@3.4.3
+  - @tiptap/pm@3.4.3
+
+## 3.4.2
+
+### Patch Changes
+
+- @tiptap/core@3.4.2
+- @tiptap/pm@3.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 59fb86f: Previously, `clientRect` was only obtained through `decorationNode`. If `decorationNode` could not be obtained, `clientRect` was set to `null`, which caused the suggestion not to render in some IME scenarios (notably Chinese IME).
+
+  This change adds a fallback method to compute `clientRect` from the editor's cursor position when `decorationNode` is not available. It generates a DOMRect based on the cursor coordinates so the suggestion can render even when the decoration node is missing.
+
+  - @tiptap/core@3.4.1
+  - @tiptap/pm@3.4.1
+
+## 3.4.0
+
+### Patch Changes
+
+- 3733bb9: Allow consumers to handle the Escape key via `render().onKeyDown` before the suggestion plugin auto-exits.
+
+  Previously the suggestion plugin intercepted Escape internally and immediately called `onExit`, preventing `render().onKeyDown` from receiving the event and stopping propagation. Now `render().onKeyDown` is invoked first for Escape; if it returns `true` the plugin assumes the consumer handled the event (so they can call `event.preventDefault()` / `event.stopPropagation()` and optionally call `exitSuggestion(view)` themselves). If it returns `false` (or is absent), the plugin will continue to call `onExit` and close the suggestion as before.
+
+  This change enables scenarios where the editor is inside a modal/drawer and the consumer needs to prevent the outer UI from reacting to Escape while still controlling the suggestion's lifecycle.
+
+- 90cbed5: Remove the global document `mousedown` handler that closed suggestion popups when clicking outside.
+
+  Previously the suggestion plugin listened for document `mousedown` events and closed suggestion UIs when the user clicked outside the editor or suggestion portal. That behavior has been removed to avoid framework-specific coupling (for example reliance on `.react-renderer`) and related compatibility issues.
+
+  Now suggestions are closed via other signals:
+
+  - pressing Escape (unchanged)
+  - selection/cursor changes
+  - renderer.onExit (renderers can call this)
+  - programmatic calls to `exitSuggestion(view)`
+
+- Updated dependencies [895c73f]
+- Updated dependencies [ad51daa]
+  - @tiptap/core@3.4.0
+  - @tiptap/pm@3.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- @tiptap/core@3.3.1
+- @tiptap/pm@3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- 5423726: Add a safe API to exit suggestions and remove decorations.
+
+  - Dispatching a metadata-only transaction with `{ exit: true }` will now reliably deactivate the suggestion plugin and remove inline decorations.
+  - Pressing Escape now triggers renderer.onExit and dispatches the exit meta, so suggestions close immediately without needing document edits.
+  - Clicking outside the editor will also close active suggestions.
+  - Exported `exitSuggestion(view, pluginKey?)` helper to programmatically close suggestions safely.
+
+- Updated dependencies [5423726]
+- Updated dependencies [5423726]
+  - @tiptap/core@3.3.0
+  - @tiptap/pm@3.3.0
+
+## 3.2.2
+
+### Patch Changes
+
+- @tiptap/core@3.2.2
+- @tiptap/pm@3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [6a2873f]
+  - @tiptap/core@3.2.1
+  - @tiptap/pm@3.2.1
+
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [5056e3e]
+  - @tiptap/core@3.2.0
+  - @tiptap/pm@3.2.0
+
+## 3.1.0
+
+### Patch Changes
+
+- @tiptap/core@3.1.0
+- @tiptap/pm@3.1.0
+
+## 3.0.9
+
+### Patch Changes
+
+- @tiptap/core@3.0.9
+- @tiptap/pm@3.0.9
+
+## 3.0.8
+
+### Patch Changes
+
+- @tiptap/core@3.0.8
+- @tiptap/pm@3.0.8
+
 ## 3.0.7
 
 ### Patch Changes

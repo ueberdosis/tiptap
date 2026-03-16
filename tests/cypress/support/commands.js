@@ -72,7 +72,15 @@ Cypress.Commands.overwrite('click', (originalFn, element, text, options) => {
 })
 
 Cypress.Commands.add('paste', { prevSubject: true }, (subject, pasteOptions) => {
-  const { pastePayload, pasteType } = pasteOptions
+  // Support both { pastePayload, pasteType } and shorthand { paste }
+  const pastePayload = pasteOptions?.paste ?? pasteOptions?.pastePayload
+  let pasteType = pasteOptions?.pasteType
+
+  if (!pasteType) {
+    // default to application/json for objects, text/plain for strings
+    pasteType = typeof pastePayload === 'string' ? 'text/plain' : 'application/json'
+  }
+
   const data = pasteType === 'application/json' ? JSON.stringify(pastePayload) : pastePayload
   // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer
   const clipboardData = new DataTransfer()

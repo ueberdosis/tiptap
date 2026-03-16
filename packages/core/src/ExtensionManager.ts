@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
 import type { Schema } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
-import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import type { Plugin, Transaction } from '@tiptap/pm/state'
+import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
@@ -18,10 +18,8 @@ import {
   splitExtensions,
 } from './helpers/index.js'
 import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
-import type { InputRule } from './InputRule.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
-import type { PasteRule } from './PasteRule.js'
 import { pasteRulesPlugin } from './PasteRule.js'
 import type { AnyConfig, Extensions, RawCommands } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
@@ -31,12 +29,21 @@ export class ExtensionManager {
 
   schema: Schema
 
+  /**
+   * A flattened and sorted array of all extensions
+   */
   extensions: Extensions
+
+  /**
+   * A non-flattened array of base extensions (no sub-extensions)
+   */
+  baseExtensions: Extensions
 
   splittableMarks: string[] = []
 
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
+    this.baseExtensions = extensions
     this.extensions = resolveExtensions(extensions)
     this.schema = getSchemaByResolvedExtensions(this.extensions, editor)
     this.setupExtensions()
@@ -89,87 +96,89 @@ export class ExtensionManager {
     // based on the `priority` option.
     const extensions = sortExtensions([...this.extensions].reverse())
 
-    const inputRules: InputRule[] = []
-    const pasteRules: PasteRule[] = []
+    const allPlugins = extensions.flatMap(extension => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
 
-    const allPlugins = extensions
-      .map(extension => {
-        const context = {
-          name: extension.name,
-          options: extension.options,
-          storage: this.editor.extensionStorage[extension.name as keyof Storage],
-          editor,
-          type: getSchemaTypeByName(extension.name, this.schema),
-        }
+      const plugins: Plugin[] = []
 
-        const plugins: Plugin[] = []
+      const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
+        extension,
+        'addKeyboardShortcuts',
+        context,
+      )
 
-        const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
-          extension,
-          'addKeyboardShortcuts',
-          context,
+      let defaultBindings: Record<string, () => boolean> = {}
+
+      // bind exit handling
+      if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
+        defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
+      }
+
+      if (addKeyboardShortcuts) {
+        const bindings = Object.fromEntries(
+          Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
+            return [shortcut, () => method({ editor })]
+          }),
         )
 
-        let defaultBindings: Record<string, () => boolean> = {}
+        defaultBindings = { ...defaultBindings, ...bindings }
+      }
 
-        // bind exit handling
-        if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
-          defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
+      const keyMapPlugin = keymap(defaultBindings)
+
+      plugins.push(keyMapPlugin)
+
+      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
+
+      if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
+        const rules = addInputRules()
+
+        if (rules && rules.length) {
+          const inputResult = inputRulesPlugin({
+            editor,
+            rules,
+          })
+
+          const inputPlugins = Array.isArray(inputResult) ? inputResult : [inputResult]
+
+          plugins.push(...inputPlugins)
         }
+      }
 
-        if (addKeyboardShortcuts) {
-          const bindings = Object.fromEntries(
-            Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
-              return [shortcut, () => method({ editor })]
-            }),
-          )
+      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
 
-          defaultBindings = { ...defaultBindings, ...bindings }
+      if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
+        const rules = addPasteRules()
+
+        if (rules && rules.length) {
+          const pasteRules = pasteRulesPlugin({ editor, rules })
+
+          plugins.push(...pasteRules)
         }
+      }
 
-        const keyMapPlugin = keymap(defaultBindings)
+      const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
+        extension,
+        'addProseMirrorPlugins',
+        context,
+      )
 
-        plugins.push(keyMapPlugin)
+      if (addProseMirrorPlugins) {
+        const proseMirrorPlugins = addProseMirrorPlugins()
 
-        const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
+        plugins.push(...proseMirrorPlugins)
+      }
 
-        if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
-          inputRules.push(...addInputRules())
-        }
+      return plugins
+    })
 
-        const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
-
-        if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
-          pasteRules.push(...addPasteRules())
-        }
-
-        const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
-          extension,
-          'addProseMirrorPlugins',
-          context,
-        )
-
-        if (addProseMirrorPlugins) {
-          const proseMirrorPlugins = addProseMirrorPlugins()
-
-          plugins.push(...proseMirrorPlugins)
-        }
-
-        return plugins
-      })
-      .flat()
-
-    return [
-      inputRulesPlugin({
-        editor,
-        rules: inputRules,
-      }),
-      ...pasteRulesPlugin({
-        editor,
-        rules: pasteRules,
-      }),
-      ...allPlugins,
-    ]
+    return allPlugins
   }
 
   /**
@@ -206,10 +215,16 @@ export class ExtensionManager {
             return []
           }
 
+          const nodeViewResult = addNodeView()
+
+          if (!nodeViewResult) {
+            return []
+          }
+
           const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
-            return addNodeView()({
+            return nodeViewResult({
               // pass-through
               node,
               view,
@@ -225,6 +240,81 @@ export class ExtensionManager {
 
           return [extension.name, nodeview]
         }),
+    )
+  }
+
+  /**
+   * Get the composed dispatchTransaction function from all extensions.
+   * @param baseDispatch The base dispatch function (e.g. from the editor or user props)
+   * @returns A composed dispatch function
+   */
+  dispatchTransaction(baseDispatch: (tr: Transaction) => void): (tr: Transaction) => void {
+    const { editor } = this
+    const extensions = sortExtensions([...this.extensions].reverse())
+
+    return extensions.reduceRight((next, extension) => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const dispatchTransaction = getExtensionField<AnyConfig['dispatchTransaction']>(
+        extension,
+        'dispatchTransaction',
+        context,
+      )
+
+      if (!dispatchTransaction) {
+        return next
+      }
+
+      return (transaction: Transaction) => {
+        dispatchTransaction.call(context, { transaction, next })
+      }
+    }, baseDispatch)
+  }
+
+  /**
+   * Get the composed transformPastedHTML function from all extensions.
+   * @param baseTransform The base transform function (e.g. from the editor props)
+   * @returns A composed transform function that chains all extension transforms
+   */
+  transformPastedHTML(
+    baseTransform?: (html: string, view?: any) => string,
+  ): (html: string, view?: EditorView) => string {
+    const { editor } = this
+    const extensions = sortExtensions([...this.extensions])
+
+    return extensions.reduce(
+      (transform, extension) => {
+        const context = {
+          name: extension.name,
+          options: extension.options,
+          storage: this.editor.extensionStorage[extension.name as keyof Storage],
+          editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        const extensionTransform = getExtensionField<AnyConfig['transformPastedHTML']>(
+          extension,
+          'transformPastedHTML',
+          context,
+        )
+
+        if (!extensionTransform) {
+          return transform
+        }
+
+        return (html: string, view?: any) => {
+          // Chain the transforms: pass the result of the previous transform to the next
+          const transformedHtml = transform(html, view)
+          return extensionTransform.call(context, transformedHtml)
+        }
+      },
+      baseTransform || ((html: string) => html),
     )
   }
 

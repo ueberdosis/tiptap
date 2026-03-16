@@ -177,6 +177,43 @@ export const BlockMath = Node.create<BlockMathOptions>({
     return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'block-math' })]
   },
 
+  parseMarkdown: (token: any) => {
+    return {
+      type: 'blockMath',
+      attrs: {
+        latex: token.latex,
+      },
+    }
+  },
+
+  renderMarkdown: node => {
+    const latex = node.attrs?.latex || ''
+
+    const output = ['$$', latex, '$$']
+    return output.join('\n')
+  },
+
+  markdownTokenizer: {
+    name: 'blockMath',
+    level: 'block',
+    start: (src: string) => src.indexOf('$$'),
+    tokenize: (src: string) => {
+      // Match $$latex$$ syntax for block math
+      const match = src.match(/^\$\$([^$]+)\$\$/)
+      if (!match) {
+        return undefined
+      }
+
+      const [fullMatch, latex] = match
+
+      return {
+        type: 'blockMath',
+        raw: fullMatch,
+        latex: latex.trim(),
+      }
+    },
+  },
+
   addInputRules() {
     return [
       new InputRule({

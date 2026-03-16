@@ -262,6 +262,11 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   onCreate() {
+    // Avoid mutating the document during server-side rendering.
+    if (typeof window === 'undefined' || !this.editor.view) {
+      return
+    }
+
     const { tr } = this.editor.state
     const existingIds: string[] = []
 

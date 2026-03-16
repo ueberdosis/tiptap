@@ -21,6 +21,7 @@ export function renderToMarkdown({
     content,
     extensions,
     options: {
+      ...options,
       nodeMapping: {
         bulletList({ children }) {
           return `\n${serializeChildrenToHTMLString(children)}`
@@ -78,7 +79,8 @@ export function renderToMarkdown({
             return `\n${serializeChildrenToHTMLString(children)}\n`
           }
 
-          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(node.childCount - 2).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
+          const columnCount = node.children[0].childCount
+          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(columnCount).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
         },
         tableRow({ children }) {
           if (Array.isArray(children)) {
@@ -128,15 +130,14 @@ export function renderToMarkdown({
         superscript({ children }) {
           return `<sup>${serializeChildrenToHTMLString(children)}</sup>`
         },
-        link({ node, children }) {
-          return `[${serializeChildrenToHTMLString(children)}](${node.attrs.href})`
+        link({ mark, children }) {
+          return `[${serializeChildrenToHTMLString(children)}](${mark.attrs.href})`
         },
         highlight({ children }) {
           return `==${serializeChildrenToHTMLString(children)}==`
         },
         ...options?.markMapping,
       },
-      ...options,
     },
   })
 }

@@ -2,7 +2,7 @@
 import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
+import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
@@ -17,6 +17,7 @@ import {
   Keymap,
   Paste,
   Tabindex,
+  TextDirection,
 } from './extensions/index.js'
 import { createDocument } from './helpers/createDocument.js'
 import { getAttributes } from './helpers/getAttributes.js'
@@ -25,6 +26,7 @@ import { getText } from './helpers/getText.js'
 import { getTextSerializersFromSchema } from './helpers/getTextSerializersFromSchema.js'
 import { isActive } from './helpers/isActive.js'
 import { isNodeEmpty } from './helpers/isNodeEmpty.js'
+import { createMappablePosition, getUpdatedPosition } from './helpers/MappablePosition.js'
 import { resolveFocusPosition } from './helpers/resolveFocusPosition.js'
 import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
@@ -39,6 +41,7 @@ import type {
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
+  Utils,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -56,6 +59,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   public extensionManager!: ExtensionManager
 
   private css: HTMLStyleElement | null = null
+
+  private className = 'tiptap'
 
   public schema!: Schema
 
@@ -85,6 +90,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     extensions: [],
     autofocus: false,
     editable: true,
+    textDirection: undefined,
     editorProps: {},
     parseOptions: {},
     coreExtensionOptions: {},
@@ -95,6 +101,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     emitContentError: false,
     onBeforeCreate: () => null,
     onCreate: () => null,
+    onMount: () => null,
+    onUnmount: () => null,
     onUpdate: () => null,
     onSelectionUpdate: () => null,
     onTransaction: () => null,
@@ -107,6 +115,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
+    enableExtensionDispatchTransaction: true,
   }
 
   constructor(options: Partial<EditorOptions> = {}) {
@@ -117,6 +126,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createSchema()
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
+    this.on('mount', this.options.onMount)
+    this.on('unmount', this.options.onUnmount)
     this.on('contentError', this.options.onContentError)
     this.on('create', this.options.onCreate)
     this.on('update', this.options.onUpdate)
@@ -154,13 +165,20 @@ export class Editor extends EventEmitter<EditorEvents> {
       )
     }
     this.createView(el)
+    this.emit('mount', { editor: this })
+
+    if (this.css && !document.head.contains(this.css)) {
+      document.head.appendChild(this.css)
+    }
 
     window.setTimeout(() => {
       if (this.isDestroyed) {
         return
       }
 
-      this.commands.focus(this.options.autofocus)
+      if (this.options.autofocus !== false && this.options.autofocus !== null) {
+        this.commands.focus(this.options.autofocus)
+      }
       this.emit('create', { editor: this })
       this.isInitialized = true
     }, 0)
@@ -182,8 +200,23 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
     this.editorView = null
     this.isInitialized = false
-    this.css?.remove()
+
+    // Safely remove CSS element with fallback for test environments
+    // Only remove CSS if no other editors exist in the document after unmount
+    if (this.css && !document.querySelectorAll(`.${this.className}`).length) {
+      try {
+        if (typeof this.css.remove === 'function') {
+          this.css.remove()
+        } else if (this.css.parentNode) {
+          this.css.parentNode.removeChild(this.css)
+        }
+      } catch (error) {
+        // Silently handle any unexpected DOM removal errors in test environments
+        console.warn('Failed to remove CSS element:', error)
+      }
+    }
     this.css = null
+    this.emit('unmount', { editor: this })
   }
 
   /**
@@ -267,7 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Returns the editor state.
+   * Returns the editor view.
    */
   public get view(): EditorView {
     if (this.editorView) {
@@ -281,7 +314,7 @@ export class Editor extends EventEmitter<EditorEvents> {
           this.editorState = state
         },
         dispatch: (tr: Transaction): ReturnType<EditorView['dispatch']> => {
-          this.editorState = this.state.apply(tr)
+          this.dispatchTransaction(tr)
         },
 
         // Stub some commonly accessed properties to prevent errors
@@ -292,6 +325,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       } as EditorView,
       {
         get: (obj, key) => {
+          if (this.editorView) {
+            // If the editor view is available, but the caller has a stale reference to the proxy,
+            // Just return what the editor view has.
+            return this.editorView[key as keyof EditorView]
+          }
           // Specifically always return the most recent editorState
           if (key === 'state') {
             return this.editorState
@@ -397,6 +435,9 @@ export class Editor extends EventEmitter<EditorEvents> {
           Drop,
           Paste,
           Delete,
+          TextDirection.configure({
+            direction: this.options.textDirection,
+          }),
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
@@ -477,16 +518,32 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Creates a ProseMirror view.
    */
-  private createView(element: NonNullable<EditorOptions['element']> & {}): void {
+  private createView(element: NonNullable<EditorOptions['element']>): void {
+    const { editorProps, enableExtensionDispatchTransaction } = this.options
+    // If a user provided a custom `dispatchTransaction` through `editorProps`,
+    // we use that as the base dispatch function.
+    // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
+    const baseDispatch = (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const dispatch = enableExtensionDispatchTransaction
+      ? this.extensionManager.dispatchTransaction(baseDispatch)
+      : baseDispatch
+
+    // Compose transformPastedHTML from extensions and user-provided editorProps
+    const baseTransformPastedHTML = (editorProps as DirectEditorProps).transformPastedHTML
+    const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
+
     this.editorView = new EditorView(element, {
-      ...this.options.editorProps,
+      ...editorProps,
       attributes: {
         // add `role="textbox"` to the editor element
         role: 'textbox',
-        ...this.options.editorProps?.attributes,
+        ...editorProps?.attributes,
       },
-      dispatchTransaction: this.dispatchTransaction.bind(this),
+      dispatchTransaction: dispatch,
+      transformPastedHTML,
       state: this.editorState,
+      markViews: this.extensionManager.markViews,
+      nodeViews: this.extensionManager.nodeViews,
     })
 
     // `editor.view` is not yet available at this time.
@@ -497,7 +554,6 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     this.view.updateState(newState)
 
-    this.createNodeViews()
     this.prependClass()
     this.injectCSS()
 
@@ -527,7 +583,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Prepend class name to element.
    */
   public prependClass(): void {
-    this.view.dom.className = `tiptap ${this.view.dom.className}`
+    this.view.dom.className = `${this.className} ${this.view.dom.className}`
   }
 
   public isCapturingTransaction = false
@@ -738,5 +794,13 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   get $doc() {
     return this.$pos(0)
+  }
+
+  /**
+   * Returns a set of utilities for working with positions and ranges.
+   */
+  public utils: Utils = {
+    getUpdatedPosition,
+    createMappablePosition,
   }
 }

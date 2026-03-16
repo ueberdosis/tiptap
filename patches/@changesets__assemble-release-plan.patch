@@ -1,0 +1,15 @@
+diff --git a/dist/changesets-assemble-release-plan.cjs.js b/dist/changesets-assemble-release-plan.cjs.js
+index e32a5e5d39c3bd920201b5694632d2b44c92d486..a829860f5e001ce610d7f93daf3da015528e6405 100644
+--- a/dist/changesets-assemble-release-plan.cjs.js
++++ b/dist/changesets-assemble-release-plan.cjs.js
+@@ -344,6 +344,10 @@ function shouldBumpMajor({
+   preInfo,
+   onlyUpdatePeerDependentsWhenOutOfRange
+ }) {
++  if (depType === "peerDependencies") {
++    return false;
++  }
++
+   // we check if it is a peerDependency because if it is, our dependent bump type might need to be major.
+   return depType === "peerDependencies" && nextRelease.type !== "none" && nextRelease.type !== "patch" && ( // 1. If onlyUpdatePeerDependentsWhenOutOfRange set to true, bump major if the version is leaving the range.
+   // 2. If onlyUpdatePeerDependentsWhenOutOfRange set to false, bump major regardless whether or not the version is leaving the range.

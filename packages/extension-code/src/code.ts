@@ -33,11 +33,11 @@ declare module '@tiptap/core' {
  *  It matches:
  *     - An opening backtick, followed by
  *     - Any text that doesn't include a backtick (captured for marking), followed by
- *     - A closing backtick.
+ *     - A closing backtick as the final character.
  *  This ensures that any text between backticks is formatted as code,
  *  regardless of the surrounding characters (exception being another backtick).
  */
-export const inputRegex = /(^|[^`])`([^`]+)`(?!`)/
+export const inputRegex = /(^|[^`])`([^`]+)`(?!`)$/
 
 /**
  * Matches inline code while pasting.
@@ -69,6 +69,22 @@ export const Code = Mark.create<CodeOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return ['code', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+  },
+
+  markdownTokenName: 'codespan',
+
+  parseMarkdown: (token, helpers) => {
+    // Convert 'codespan' token to code mark
+    // For codespan tokens, we use the raw text content, not tokens
+    return helpers.applyMark('code', [{ type: 'text', text: token.text || '' }])
+  },
+
+  renderMarkdown: (node, h) => {
+    if (!node.content) {
+      return ''
+    }
+
+    return `\`${h.renderChildren(node.content)}\``
   },
 
   addCommands() {

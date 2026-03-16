@@ -54,7 +54,7 @@ export default {
         <p>
           <span style="color: #00FF00;">
             <span style="font-family: serif;">green serif </span>
-            <span style="font-family: serif;color: #ff0000;">red serif</span>
+            <span style="font-family: serif;color: #FF0000;">red serif</span>
           </span>
         </p>
 

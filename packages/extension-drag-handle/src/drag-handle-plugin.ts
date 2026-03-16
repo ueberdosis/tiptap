@@ -1,5 +1,5 @@
-import { type ComputePositionConfig, computePosition } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
+import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
+import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
 import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
@@ -14,6 +14,7 @@ import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
+import type { NormalizedNestedOptions } from './types/options.js'
 
 type PluginState = {
   locked: boolean
@@ -60,7 +61,11 @@ export interface DragHandlePluginProps {
   editor: Editor
   element: HTMLElement
   onNodeChange?: (data: { editor: Editor; node: Node | null; pos: number }) => void
+  onElementDragStart?: (e: DragEvent) => void
+  onElementDragEnd?: (e: DragEvent) => void
   computePositionConfig?: ComputePositionConfig
+  getReferencedVirtualElement?: () => VirtualElement | null
+  nestedOptions: NormalizedNestedOptions
 }
 
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
@@ -70,7 +75,11 @@ export const DragHandlePlugin = ({
   element,
   editor,
   computePositionConfig,
+  getReferencedVirtualElement,
   onNodeChange,
+  onElementDragStart,
+  onElementDragEnd,
+  nestedOptions,
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
@@ -78,6 +87,8 @@ export const DragHandlePlugin = ({
   let currentNodePos = -1
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any
+  let rafId: number | null = null
+  let pendingMouseCoords: { x: number; y: number } | null = null
 
   function hideHandle() {
     if (!element) {
@@ -103,7 +114,7 @@ export const DragHandlePlugin = ({
   }
 
   function repositionDragHandle(dom: Element) {
-    const virtualElement = {
+    const virtualElement = getReferencedVirtualElement?.() || {
       getBoundingClientRect: () => dom.getBoundingClientRect(),
     }
 
@@ -117,10 +128,15 @@ export const DragHandlePlugin = ({
   }
 
   function onDragStart(e: DragEvent) {
+    onElementDragStart?.(e)
     // Push this to the end of the event cue
     // Fixes bug where incorrect drag pos is returned if drag handle has position: absolute
-    // @ts-ignore
-    dragHandler(e, editor)
+    // Pass the current node context to avoid recalculation issues during drag start
+    dragHandler(e, editor, nestedOptions, { node: currentNode, pos: currentNodePos })
+
+    if (element) {
+      element.dataset.dragging = 'true'
+    }
 
     setTimeout(() => {
       if (element) {
@@ -129,15 +145,31 @@ export const DragHandlePlugin = ({
     }, 0)
   }
 
-  function onDragEnd() {
+  function onDragEnd(e: DragEvent) {
+    onElementDragEnd?.(e)
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
+      element.dataset.dragging = 'false'
     }
   }
 
-  element.addEventListener('dragstart', onDragStart)
-  element.addEventListener('dragend', onDragEnd)
+  function onDrop() {
+    // Firefox has a bug where the caret becomes invisible after drag and drop.
+    // This workaround forces Firefox to re-render the caret by toggling contentEditable.
+    // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
+    if (isFirefox()) {
+      const editorElement = editor.view.dom
+
+      // Use requestAnimationFrame to ensure the drop operation has completed
+      requestAnimationFrame(() => {
+        if (editorElement.isContentEditable) {
+          editorElement.contentEditable = 'false'
+          editorElement.contentEditable = 'true'
+        }
+      })
+    }
+  }
 
   wrapper.appendChild(element)
 
@@ -145,6 +177,12 @@ export const DragHandlePlugin = ({
     unbind() {
       element.removeEventListener('dragstart', onDragStart)
       element.removeEventListener('dragend', onDragEnd)
+      document.removeEventListener('drop', onDrop)
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+        pendingMouseCoords = null
+      }
     },
     plugin: new Plugin({
       key: typeof pluginKey === 'string' ? new PluginKey(pluginKey) : pluginKey,
@@ -213,6 +251,7 @@ export const DragHandlePlugin = ({
       view: view => {
         element.draggable = true
         element.style.pointerEvents = 'auto'
+        element.dataset.dragging = 'false'
 
         editor.view.dom.parentElement?.appendChild(wrapper)
 
@@ -220,6 +259,10 @@ export const DragHandlePlugin = ({
         wrapper.style.position = 'absolute'
         wrapper.style.top = '0'
         wrapper.style.left = '0'
+
+        element.addEventListener('dragstart', onDragStart)
+        element.addEventListener('dragend', onDragEnd)
+        document.addEventListener('drop', onDrop)
 
         return {
           update(_, oldState) {
@@ -278,6 +321,16 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
+            element.removeEventListener('dragstart', onDragStart)
+            element.removeEventListener('dragend', onDragEnd)
+            document.removeEventListener('drop', onDrop)
+
+            if (rafId) {
+              cancelAnimationFrame(rafId)
+              rafId = null
+              pendingMouseCoords = null
+            }
+
             if (element) {
               removeNode(wrapper)
             }
@@ -329,51 +382,76 @@ export const DragHandlePlugin = ({
               return false
             }
 
-            const nodeData = findElementNextToCoords({
-              x: e.clientX,
-              y: e.clientY,
-              direction: 'right',
-              editor,
+            // Store latest mouse coords and schedule a single RAF per frame
+            pendingMouseCoords = { x: e.clientX, y: e.clientY }
+
+            if (rafId) {
+              return false
+            }
+
+            rafId = requestAnimationFrame(() => {
+              rafId = null
+
+              if (!pendingMouseCoords) {
+                return
+              }
+
+              const { x, y } = pendingMouseCoords
+              pendingMouseCoords = null
+
+              const nodeData = findElementNextToCoords({
+                x,
+                y,
+                direction: 'right',
+                editor,
+                nestedOptions,
+              })
+
+              // Skip if there is no node next to coords
+              if (!nodeData.resultElement) {
+                return
+              }
+
+              let domNode = nodeData.resultElement as HTMLElement
+              let targetNode = nodeData.resultNode
+              let targetPos = nodeData.pos
+
+              // In nested mode, the node data already contains the correct target
+              // In non-nested mode, traverse to the top-level block
+              if (!nestedOptions?.enabled) {
+                domNode = getOuterDomNode(view, domNode)
+
+                // Skip if domNode is editor dom.
+                if (domNode === view.dom) {
+                  return
+                }
+
+                // We only want `Element`.
+                if (domNode?.nodeType !== 1) {
+                  return
+                }
+
+                const domNodePos = view.posAtDOM(domNode, 0)
+
+                targetNode = getOuterNode(editor.state.doc, domNodePos)
+                targetPos = getOuterNodePos(editor.state.doc, domNodePos)
+              }
+
+              if (targetNode !== currentNode) {
+                currentNode = targetNode
+                currentNodePos = targetPos ?? -1
+
+                // Memorize relative position to retrieve absolute position in case of collaboration
+                currentNodeRelPos = getRelativePos(view.state, currentNodePos)
+
+                onNodeChange?.({ editor, node: currentNode, pos: currentNodePos })
+
+                // Set nodes clientRect.
+                repositionDragHandle(domNode as Element)
+
+                showHandle()
+              }
             })
-
-            // Skip if there is no node next to coords
-            if (!nodeData.resultElement) {
-              return false
-            }
-
-            let domNode = nodeData.resultElement as HTMLElement
-
-            domNode = getOuterDomNode(view, domNode)
-
-            // Skip if domNode is editor dom.
-            if (domNode === view.dom) {
-              return false
-            }
-
-            // We only want `Element`.
-            if (domNode?.nodeType !== 1) {
-              return false
-            }
-
-            const domNodePos = view.posAtDOM(domNode, 0)
-            const outerNode = getOuterNode(editor.state.doc, domNodePos)
-
-            if (outerNode !== currentNode) {
-              const outerNodePos = getOuterNodePos(editor.state.doc, domNodePos)
-
-              currentNode = outerNode
-              currentNodePos = outerNodePos
-
-              // Memorize relative position to retrieve absolute position in case of collaboration
-              currentNodeRelPos = getRelativePos(view.state, currentNodePos)
-
-              onNodeChange?.({ editor, node: currentNode, pos: currentNodePos })
-
-              // Set nodes clientRect.
-              repositionDragHandle(domNode as Element)
-
-              showHandle()
-            }
 
             return false
           },

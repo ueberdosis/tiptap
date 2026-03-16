@@ -58,7 +58,10 @@ export function updateColumns(
     nextDOM = after
   }
 
-  if (fixedWidth) {
+  // Check if user has set a width style on the table node
+  const hasUserWidth = node.attrs.style && typeof node.attrs.style === 'string' && /\bwidth\s*:/i.test(node.attrs.style)
+
+  if (fixedWidth && !hasUserWidth) {
     table.style.width = `${totalWidth}px`
     table.style.minWidth = ''
   } else {
@@ -86,6 +89,12 @@ export class TableView implements NodeView {
     this.dom = document.createElement('div')
     this.dom.className = 'tableWrapper'
     this.table = this.dom.appendChild(document.createElement('table'))
+
+    // Apply user styles to the table element
+    if (node.attrs.style) {
+      this.table.style.cssText = node.attrs.style
+    }
+
     this.colgroup = this.table.appendChild(document.createElement('colgroup'))
     updateColumns(node, this.colgroup, this.table, cellMinWidth)
     this.contentDOM = this.table.appendChild(document.createElement('tbody'))
@@ -103,6 +112,16 @@ export class TableView implements NodeView {
   }
 
   ignoreMutation(mutation: ViewMutationRecord) {
-    return mutation.type === 'attributes' && (mutation.target === this.table || this.colgroup.contains(mutation.target))
+    const target = mutation.target as Node
+    const isInsideWrapper = this.dom.contains(target)
+    const isInsideContent = this.contentDOM.contains(target)
+
+    if (isInsideWrapper && !isInsideContent) {
+      if (mutation.type === 'attributes' || mutation.type === 'childList' || mutation.type === 'characterData') {
+        return true
+      }
+    }
+
+    return false
   }
 }

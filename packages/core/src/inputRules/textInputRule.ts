@@ -6,7 +6,7 @@ import { InputRule } from '../InputRule.js'
  * matched text is typed into it.
  * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#input-rules
  */
-export function textInputRule(config: { find: InputRuleFinder; replace: string }) {
+export function textInputRule(config: { find: InputRuleFinder; replace: string; undoable?: boolean }) {
   return new InputRule({
     find: config.find,
     handler: ({ state, range, match }) => {
@@ -30,5 +30,6 @@ export function textInputRule(config: { find: InputRuleFinder; replace: string }
 
       state.tr.insertText(insert, start, end)
     },
+    undoable: config.undoable,
   })
 }

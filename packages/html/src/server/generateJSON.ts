@@ -17,26 +17,46 @@ import { Window } from 'happy-dom'
  * console.log(json) // { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Hello, world!' }] }] }
  */
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
-  if (typeof window !== 'undefined') {
+  // Use positive Node.js detection to allow for jsdom/happy-dom environments in tests
+  const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null
+
+  if (!isNode) {
     throw new Error(
       'generateJSON can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@tiptap/html` import instead.',
     )
   }
 
-  const localWindow = new Window()
+  const localWindow = new Window({
+    settings: {
+      disableJavaScriptEvaluation: true,
+      disableJavaScriptFileLoading: true,
+      disableCSSFileLoading: true,
+      disableIframePageLoading: true,
+      disableComputedStyleRendering: true,
+    },
+  })
   const localDOMParser = new localWindow.DOMParser()
+  let result: Record<string, any>
 
-  const schema = getSchema(extensions)
-  let doc: ReturnType<typeof localDOMParser.parseFromString> | null = null
+  try {
+    const schema = getSchema(extensions)
+    let doc: ReturnType<typeof localDOMParser.parseFromString> | null = null
 
-  const htmlString = `<!DOCTYPE html><html><body>${html}</body></html>`
-  doc = localDOMParser.parseFromString(htmlString, 'text/html')
+    const htmlString = `<!DOCTYPE html><html><body>${html}</body></html>`
+    doc = localDOMParser.parseFromString(htmlString, 'text/html')
 
-  if (!doc) {
-    throw new Error('Failed to parse HTML string')
+    if (!doc) {
+      throw new Error('Failed to parse HTML string')
+    }
+
+    result = PMDOMParser.fromSchema(schema)
+      .parse(doc.body as unknown as Node, options)
+      .toJSON()
+  } finally {
+    // clean up happy-dom to avoid memory leaks
+    localWindow.happyDOM.abort()
+    localWindow.happyDOM.close()
   }
 
-  return PMDOMParser.fromSchema(schema)
-    .parse(doc.body as unknown as Node, options)
-    .toJSON()
+  return result
 }

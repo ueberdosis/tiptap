@@ -23,13 +23,29 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
     return wrap.innerHTML
   }
 
-  const localWindow = new Window()
-
-  const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-    document: localWindow.document as unknown as Document,
+  const localWindow = new Window({
+    settings: {
+      disableJavaScriptEvaluation: true,
+      disableJavaScriptFileLoading: true,
+      disableCSSFileLoading: true,
+      disableIframePageLoading: true,
+      disableComputedStyleRendering: true,
+    },
   })
+  let result: string
 
-  const serializer = new localWindow.XMLSerializer()
+  try {
+    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
+      document: localWindow.document as unknown as Document,
+    })
 
-  return serializer.serializeToString(fragment as any)
+    const serializer = new localWindow.XMLSerializer()
+    result = serializer.serializeToString(fragment as any)
+  } finally {
+    // clean up happy-dom to avoid memory leaks
+    localWindow.happyDOM.abort()
+    localWindow.happyDOM.close()
+  }
+
+  return result
 }

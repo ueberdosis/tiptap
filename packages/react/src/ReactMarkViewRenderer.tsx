@@ -42,8 +42,7 @@ export interface ReactMarkViewRendererOptions extends MarkViewRendererOptions {
 
 export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, ReactMarkViewRendererOptions> {
   renderer: ReactRenderer
-  contentDOMElement: HTMLElement | null
-  didMountContentDomElement = false
+  contentDOMElement: HTMLElement
 
   constructor(
     component: React.ComponentType<MarkViewProps>,
@@ -58,9 +57,8 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     this.contentDOMElement = document.createElement('span')
 
     const markViewContentRef: MarkViewContextProps['markViewContentRef'] = el => {
-      if (el && this.contentDOMElement && el.firstChild !== this.contentDOMElement) {
+      if (el && !el.contains(this.contentDOMElement)) {
         el.appendChild(this.contentDOMElement)
-        this.didMountContentDomElement = true
       }
     }
     const context: MarkViewContextProps = {
@@ -77,7 +75,7 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
       )
     })
 
-    ReactMarkViewProvider.displayName = 'ReactNodeView'
+    ReactMarkViewProvider.displayName = 'ReactMarkView'
 
     this.renderer = new ReactRenderer(ReactMarkViewProvider, {
       editor: props.editor,
@@ -92,14 +90,11 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
   }
 
   get dom() {
-    return this.renderer.element as HTMLElement
+    return this.renderer.element
   }
 
   get contentDOM() {
-    if (!this.didMountContentDomElement) {
-      return null
-    }
-    return this.contentDOMElement as HTMLElement
+    return this.contentDOMElement
   }
 }
 

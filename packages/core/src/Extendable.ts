@@ -9,12 +9,20 @@ import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
+  DispatchTransactionProps,
   EditorEvents,
   Extensions,
   GlobalAttributes,
+  JSONContent,
   KeyboardShortcutCommand,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  MarkdownToken,
+  MarkdownTokenizer,
   ParentConfig,
   RawCommands,
+  RenderContext,
 } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
 import { mergeDeep } from './utilities/mergeDeep.js'
@@ -206,6 +214,30 @@ export interface ExtendableConfig<
   }) => Plugin[]
 
   /**
+   * This function transforms pasted HTML content before it's parsed.
+   * Extensions can use this to modify or clean up pasted HTML.
+   * The transformations are chained - each extension's transform receives
+   * the output from the previous extension's transform.
+   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#transform-pasted-html
+   * @example
+   * transformPastedHTML(html) {
+   *   // Remove all style attributes
+   *   return html.replace(/style="[^"]*"/g, '')
+   * }
+   */
+  transformPastedHTML?: (
+    this: {
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: PMType
+      parent: ParentConfig<Config>['transformPastedHTML']
+    },
+    html: string,
+  ) => string
+
+  /**
    * This function adds additional extensions to the editor. This is useful for
    * building extension kits.
    * @example
@@ -223,6 +255,65 @@ export interface ExtendableConfig<
     storage: Storage
     parent: ParentConfig<Config>['addExtensions']
   }) => Extensions
+
+  /**
+   * The markdown token name
+   *
+   * This is the name of the token that this extension uses to parse and render markdown and comes from the Marked Lexer.
+   *
+   * @see https://github.com/markedjs/marked/blob/master/src/Tokens.ts
+   *
+   */
+  markdownTokenName?: string
+
+  /**
+   * The parse function used by the markdown parser to convert markdown tokens to ProseMirror nodes.
+   */
+  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
+
+  /**
+   * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
+   */
+  renderMarkdown?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+
+  /**
+   * The markdown tokenizer responsible for turning a markdown string into tokens
+   *
+   * Custom tokenizers are only needed when you want to parse non-standard markdown token.
+   */
+  markdownTokenizer?: MarkdownTokenizer
+
+  /**
+   * Optional markdown options for indentation
+   */
+  markdownOptions?: {
+    /**
+     * Defines if this markdown element should indent it's child elements
+     */
+    indentsContent?: boolean
+
+    /**
+     * Lets a mark tell the Markdown serializer which inline HTML tags it can
+     * safely use when plain markdown delimiters would become ambiguous.
+     *
+     * This is mainly useful for overlapping marks. For example, bold followed
+     * by bold+italic followed by italic cannot always be written back with only
+     * `*` and `**` in a way that still parses correctly. In that case, the
+     * serializer can close the overlapping section with markdown and reopen the
+     * remaining tail with HTML instead.
+     *
+     * Example:
+     * - desired formatting: `**123` + `*456*` + `789 italic`
+     * - serialized result: `**123*456***<em>789</em>`
+     *
+     * If your extension defines custom mark names, set `htmlReopen` on that
+     * extension so the serializer can reuse its HTML form for overlap cases.
+     */
+    htmlReopen?: {
+      open: string
+      close: string
+    }
+  }
 
   /**
    * This function extends the schema of the node.
@@ -401,6 +492,33 @@ export interface ExtendableConfig<
           parent: ParentConfig<Config>['onDestroy']
         },
         event: EditorEvents['destroy'],
+      ) => void)
+    | null
+
+  /**
+   * This hook allows you to intercept and modify transactions before they are dispatched.
+   *
+   * Example
+   * ```ts
+   * dispatchTransaction({ transaction, next }) {
+   *   console.log('Dispatching transaction:', transaction)
+   *   next(transaction)
+   * }
+   * ```
+   *
+   * @param props - The dispatch transaction props
+   */
+  dispatchTransaction?:
+    | ((
+        this: {
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['dispatchTransaction']
+        },
+        props: DispatchTransactionProps,
       ) => void)
     | null
 }

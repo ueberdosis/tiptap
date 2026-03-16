@@ -29,9 +29,13 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
 
   if (cursor) {
     const currentMarks = state.storedMarks ?? cursor.marks()
+    const parentAllowsMarkType = cursor.parent.type.allowsMarkType(newMarkType)
 
-    // There can be no current marks that exclude the new mark
-    return !!newMarkType.isInSet(currentMarks) || !currentMarks.some(mark => mark.type.excludes(newMarkType))
+    // There can be no current marks that exclude the new mark, and the parent must allow this mark type
+    return (
+      parentAllowsMarkType &&
+      (!!newMarkType.isInSet(currentMarks) || !currentMarks.some(mark => mark.type.excludes(newMarkType)))
+    )
   }
 
   const { ranges } = selection

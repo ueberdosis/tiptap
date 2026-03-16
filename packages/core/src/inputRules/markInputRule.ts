@@ -14,6 +14,7 @@ import { callOrReturn } from '../utilities/callOrReturn.js'
 export function markInputRule(config: {
   find: InputRuleFinder
   type: MarkType
+  undoable?: boolean
   getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
 }) {
   return new InputRule({
@@ -62,5 +63,6 @@ export function markInputRule(config: {
         tr.removeStoredMark(config.type)
       }
     },
+    undoable: config.undoable,
   })
 }

@@ -8,7 +8,7 @@ import { callOrReturn } from '../utilities/index.js'
 /**
  * Build an paste rule that adds a node when the
  * matched text is pasted into it.
- * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#paste-rules
+ * @see https://tiptap.dev/docs/editor/api/paste-rules
  */
 export function nodePasteRule(config: {
   find: PasteRuleFinder

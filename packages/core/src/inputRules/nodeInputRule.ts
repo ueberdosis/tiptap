@@ -22,6 +22,12 @@ export function nodeInputRule(config: {
   type: NodeType
 
   /**
+   * Whether the input rule should be undoable
+   * when the user presses backspace.
+   */
+  undoable?: boolean
+
+  /**
    * A function that returns the attributes for the node
    * can also be an object of attributes
    */
@@ -62,5 +68,6 @@ export function nodeInputRule(config: {
 
       tr.scrollIntoView()
     },
+    undoable: config.undoable,
   })
 }

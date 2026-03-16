@@ -141,6 +141,7 @@ declare module '@tiptap/core' {
         target?: string | null
         rel?: string | null
         class?: string | null
+        title?: string | null
       }) => ReturnType
       /**
        * Toggle a link mark
@@ -152,6 +153,7 @@ declare module '@tiptap/core' {
         target?: string | null
         rel?: string | null
         class?: string | null
+        title?: string | null
       }) => ReturnType
       /**
        * Unset a link mark
@@ -201,6 +203,7 @@ export const Link = Mark.create<LinkOptions>({
   exitable: true,
 
   onCreate() {
+    // TODO: v4 - remove validate option
     if (this.options.validate && !this.options.shouldAutoLink) {
       // Copy the validate function to the shouldAutoLink option
       this.options.shouldAutoLink = this.options.validate
@@ -238,7 +241,29 @@ export const Link = Mark.create<LinkOptions>({
       },
       isAllowedUri: (url, ctx) => !!isAllowedUri(url, ctx.protocols),
       validate: url => !!url,
-      shouldAutoLink: url => !!url,
+      shouldAutoLink: url => {
+        // URLs with explicit protocols (e.g., https://) should be auto-linked
+        // But not if @ appears before :// (that would be userinfo like user:pass@host)
+        const hasProtocol = /^[a-z][a-z0-9+.-]*:\/\//i.test(url)
+        const hasMaybeProtocol = /^[a-z][a-z0-9+.-]*:/i.test(url)
+
+        if (hasProtocol || (hasMaybeProtocol && !url.includes('@'))) {
+          return true
+        }
+        // Strip userinfo (user:pass@) if present, then extract hostname
+        const urlWithoutUserinfo = url.includes('@') ? url.split('@').pop()! : url
+        const hostname = urlWithoutUserinfo.split(/[/?#:]/)[0]
+
+        // Don't auto-link IP addresses without protocol
+        if (/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) {
+          return false
+        }
+        // Don't auto-link single-word hostnames without TLD (e.g., "localhost")
+        if (!/\./.test(hostname)) {
+          return false
+        }
+        return true
+      },
     }
   },
 
@@ -258,6 +283,9 @@ export const Link = Mark.create<LinkOptions>({
       },
       class: {
         default: this.options.HTMLAttributes.class,
+      },
+      title: {
+        default: null,
       },
     }
   },
@@ -300,6 +328,23 @@ export const Link = Mark.create<LinkOptions>({
     }
 
     return ['a', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+  },
+
+  markdownTokenName: 'link',
+
+  parseMarkdown: (token, helpers) => {
+    return helpers.applyMark('link', helpers.parseInline(token.tokens || []), {
+      href: token.href,
+      title: token.title || null,
+    })
+  },
+
+  renderMarkdown: (node, h) => {
+    const href = node.attrs?.href ?? ''
+    const title = node.attrs?.title ?? ''
+    const text = h.renderChildren(node)
+
+    return title ? `[${text}](${href} "${title}")` : `[${text}](${href})`
   },
 
   addCommands() {
@@ -371,15 +416,19 @@ export const Link = Mark.create<LinkOptions>({
             )
 
             if (links.length) {
-              links.forEach(link =>
+              links.forEach(link => {
+                if (!this.options.shouldAutoLink(link.value)) {
+                  return
+                }
+
                 foundLinks.push({
                   text: link.value,
                   data: {
                     href: link.href,
                   },
                   index: link.start,
-                }),
-              )
+                })
+              })
             }
           }
 
@@ -415,15 +464,14 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
-    if (this.options.openOnClick === true) {
-      plugins.push(
-        clickHandler({
-          type: this.type,
-          editor: this.editor,
-          enableClickSelection: this.options.enableClickSelection,
-        }),
-      )
-    }
+    plugins.push(
+      clickHandler({
+        type: this.type,
+        editor: this.editor,
+        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
+        enableClickSelection: this.options.enableClickSelection,
+      }),
+    )
 
     if (this.options.linkOnPaste) {
       plugins.push(
@@ -431,6 +479,7 @@ export const Link = Mark.create<LinkOptions>({
           editor: this.editor,
           defaultProtocol: this.options.defaultProtocol,
           type: this.type,
+          shouldAutoLink: this.options.shouldAutoLink,
         }),
       )
     }

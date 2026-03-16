@@ -98,13 +98,13 @@ export const TextAlign = Extension.create<TextAlignOptions>({
 
           return this.options.types
             .map(type => commands.updateAttributes(type, { textAlign: alignment }))
-            .every(response => response)
+            .some(response => response)
         },
 
       unsetTextAlign:
         () =>
         ({ commands }) => {
-          return this.options.types.map(type => commands.resetAttributes(type, 'textAlign')).every(response => response)
+          return this.options.types.map(type => commands.resetAttributes(type, 'textAlign')).some(response => response)
         },
 
       toggleTextAlign:
