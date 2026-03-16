@@ -2,6 +2,9 @@ import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } fro
 
 import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
 
+export type { GetEmbedUrlOptions } from './utils.js'
+export { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl } from './utils.js'
+
 export interface YoutubeOptions {
   /**
    * Controls if the paste handler for youtube videos should be added.
