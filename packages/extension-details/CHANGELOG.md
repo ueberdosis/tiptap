@@ -1,5 +1,15 @@
 # @tiptap/extension-details
 
+## 3.20.3
+
+### Patch Changes
+
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/extension-text-style@3.20.3
+  - @tiptap/pm@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes

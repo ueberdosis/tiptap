@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.20.3
+
+### Patch Changes
+
+- c94fac4: Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- 6b9ea92: Fixed overlapping bold and italic markdown serialization and round-tripping.
+  - @tiptap/pm@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes
