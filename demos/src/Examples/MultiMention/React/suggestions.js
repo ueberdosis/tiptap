@@ -86,12 +86,6 @@ export default [
         },
 
         onKeyDown(props) {
-          if (props.event.key === 'Escape') {
-            component.destroy()
-
-            return true
-          }
-
           return component.ref?.onKeyDown(props)
         },
 
@@ -141,12 +135,6 @@ export default [
         },
 
         onKeyDown(props) {
-          if (props.event.key === 'Escape') {
-            component.destroy()
-
-            return true
-          }
-
           return component.ref?.onKeyDown(props)
         },
 
