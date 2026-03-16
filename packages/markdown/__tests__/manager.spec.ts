@@ -331,7 +331,7 @@ Final paragraph.`
       }
 
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('First paragraph\n\n&nbsp;\n\nSecond paragraph')
+      expect(markdown).toBe('First paragraph\n\n\n\nSecond paragraph')
     })
 
     it('should move trailing whitespace outside of mark closing (Issue #7180)', () => {
