@@ -31,6 +31,7 @@ import {
 } from '@tiptap/pm/tables'
 import type { EditorView, NodeView } from '@tiptap/pm/view'
 
+import { type TableCellAlign,normalizeTableCellAlign } from '../utilities/parseAlign.js'
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
@@ -38,18 +39,10 @@ import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllC
 import renderTableToMarkdown from './utilities/markdown.js'
 
 type MarkdownTableToken = {
-  align?: Array<'left' | 'right' | 'center' | null>
-  header?: { tokens: MarkdownToken[]; align?: 'left' | 'right' | 'center' | null }[]
-  rows?: { tokens: MarkdownToken[]; align?: 'left' | 'right' | 'center' | null }[][]
+  align?: Array<TableCellAlign | null>
+  header?: { tokens: MarkdownToken[]; align?: TableCellAlign | null }[]
+  rows?: { tokens: MarkdownToken[]; align?: TableCellAlign | null }[][]
 } & MarkdownToken
-
-function normalizeMarkdownAlignment(value: unknown): 'left' | 'right' | 'center' | null {
-  if (value === 'left' || value === 'right' || value === 'center') {
-    return value
-  }
-
-  return null
-}
 
 export interface TableOptions {
   /**
@@ -319,7 +312,7 @@ export const Table = Node.create<TableOptions>({
       const headerCells: JSONContent[] = []
 
       token.header.forEach((cell, index) => {
-        const align = normalizeMarkdownAlignment(alignments[index] ?? cell.align)
+        const align = normalizeTableCellAlign(alignments[index] ?? cell.align)
         const attrs = align ? { align } : {}
 
         headerCells.push(
@@ -334,7 +327,7 @@ export const Table = Node.create<TableOptions>({
       token.rows.forEach(row => {
         const bodyCells: JSONContent[] = []
         row.forEach((cell, index) => {
-          const align = normalizeMarkdownAlignment(alignments[index] ?? cell.align)
+          const align = normalizeTableCellAlign(alignments[index] ?? cell.align)
           const attrs = align ? { align } : {}
 
           bodyCells.push(h.createNode('tableCell', attrs, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))

@@ -2,6 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createAlignAttribute } from '../utilities/parseAlign.js'
+
 export interface TableHeaderOptions {
   /**
    * The HTML attributes for a table header node.
@@ -27,18 +29,6 @@ export const TableHeader = Node.create<TableHeaderOptions>({
   content: 'block+',
 
   addAttributes() {
-    const parseAlign = (element: HTMLElement) => {
-      const styleAlign = (element.style.textAlign || '').trim().toLowerCase()
-      const attrAlign = (element.getAttribute('align') || '').trim().toLowerCase()
-      const align = styleAlign || attrAlign
-
-      if (align === 'left' || align === 'right' || align === 'center') {
-        return align
-      }
-
-      return null
-    }
-
     return {
       colspan: {
         default: 1,
@@ -55,19 +45,7 @@ export const TableHeader = Node.create<TableHeaderOptions>({
           return value
         },
       },
-      align: {
-        default: null,
-        parseHTML: element => parseAlign(element as HTMLElement),
-        renderHTML: attributes => {
-          if (!attributes.align) {
-            return {}
-          }
-
-          return {
-            style: `text-align: ${attributes.align}`,
-          }
-        },
-      },
+      align: createAlignAttribute(),
     }
   },
 

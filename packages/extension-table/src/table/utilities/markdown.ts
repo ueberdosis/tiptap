@@ -1,5 +1,11 @@
 import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/core'
 
+import {
+  type TableCellAlign as TableCellAlignType,
+  normalizeTableCellAlign,
+  TableCellAlign,
+} from '../../utilities/parseAlign.js'
+
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
 function collapseWhitespace(s: string) {
@@ -18,10 +24,10 @@ export function renderTableToMarkdown(
   }
 
   // Build rows: each cell is { text, isHeader, align }
-  const rows: { text: string; isHeader: boolean; align: 'left' | 'right' | 'center' | null }[][] = []
+  const rows: { text: string; isHeader: boolean; align: TableCellAlignType | null }[][] = []
 
   node.content.forEach(rowNode => {
-    const cells: { text: string; isHeader: boolean; align: 'left' | 'right' | 'center' | null }[] = []
+    const cells: { text: string; isHeader: boolean; align: TableCellAlignType | null }[] = []
 
     if (rowNode.content) {
       rowNode.content.forEach(cellNode => {
@@ -37,10 +43,7 @@ export function renderTableToMarkdown(
 
         const text = collapseWhitespace(raw)
         const isHeader = cellNode.type === 'tableHeader'
-        const align =
-          cellNode.attrs?.align === 'left' || cellNode.attrs?.align === 'right' || cellNode.attrs?.align === 'center'
-            ? cellNode.attrs.align
-            : null
+        const align = normalizeTableCellAlign(cellNode.attrs?.align)
 
         cells.push({ text, isHeader, align })
       })
@@ -76,7 +79,7 @@ export function renderTableToMarkdown(
 
   const headerRow = rows[0]
   const hasHeader = headerRow.some(c => c.isHeader)
-  const colAlignments: Array<'left' | 'right' | 'center' | null> = new Array(columnCount).fill(null)
+  const colAlignments: Array<TableCellAlignType | null> = new Array(columnCount).fill(null)
 
   rows.forEach(r => {
     for (let i = 0; i < columnCount; i += 1) {
@@ -103,15 +106,15 @@ export function renderTableToMarkdown(
       const dashCount = Math.max(3, w)
       const alignment = colAlignments[index]
 
-      if (alignment === 'left') {
+      if (alignment === TableCellAlign.Left) {
         return `:${'-'.repeat(dashCount)}`
       }
 
-      if (alignment === 'right') {
+      if (alignment === TableCellAlign.Right) {
         return `${'-'.repeat(dashCount)}:`
       }
 
-      if (alignment === 'center') {
+      if (alignment === TableCellAlign.Center) {
         return `:${'-'.repeat(dashCount)}:`
       }
 
