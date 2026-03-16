@@ -58,7 +58,7 @@ Feel free to click "Parse Markdown" or upload a \`.md\` file to test parsing wit
 
 export default () => {
   const editor = useEditor({
-    extensions: [Markdown, StarterKit, Image, TableKit],
+    extensions: [Markdown, StarterKit, Image, TableKit.configure({ table: { cellMinWidth: 150 } })],
     content: `
       <p>In this demo you can parse Markdown content into Tiptap on the client-side via <code>@tiptap/markdown</code>.</p>
       <p>Click the button above or use your own markdown file to test it out.</p>
