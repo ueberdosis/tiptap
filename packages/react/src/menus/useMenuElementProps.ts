@@ -1,5 +1,7 @@
 import type { CSSProperties, HTMLAttributes } from 'react'
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 type MenuElementProps = HTMLAttributes<HTMLDivElement>
 type MenuSyntheticEvent = Event & {
@@ -333,7 +335,7 @@ export function useMenuElementProps(element: HTMLDivElement, props: MenuElementP
   const previousPropsRef = useRef<MenuElementProps>({})
   const listenersRef = useRef<EventListenerEntry[]>([])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const previousProps = previousPropsRef.current
 
     syncClassName(element, previousProps.className, props.className)
