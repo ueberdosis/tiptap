@@ -19,6 +19,7 @@ export interface BubbleMenuInterface {
   shouldShow: BubbleMenuPluginProps['shouldShow']
   getReferencedVirtualElement: BubbleMenuPluginProps['getReferencedVirtualElement']
   options: BubbleMenuPluginProps['options']
+  getPluginKey: () => BubbleMenuPluginProps['pluginKey']
 }
 
 export const BubbleMenu: Component = {
@@ -61,10 +62,6 @@ export const BubbleMenu: Component = {
     },
   },
 
-  beforeMount(this: BubbleMenuInterface) {
-    this.generatedPluginKey = this.pluginKey ?? new PluginKey('bubbleMenu')
-  },
-
   mounted(this: BubbleMenuInterface) {
     const editor = this.editor
     const el = this.$el as HTMLElement
@@ -87,7 +84,7 @@ export const BubbleMenu: Component = {
           options: this.options,
           editor,
           element: el,
-          pluginKey: this.generatedPluginKey as BubbleMenuPluginProps['pluginKey'],
+          pluginKey: this.getPluginKey(),
           appendTo: this.appendTo,
           shouldShow: this.shouldShow,
           getReferencedVirtualElement: this.getReferencedVirtualElement,
@@ -112,6 +109,16 @@ export const BubbleMenu: Component = {
   },
 
   beforeDestroy(this: BubbleMenuInterface) {
-    this.editor.unregisterPlugin(this.generatedPluginKey as BubbleMenuPluginProps['pluginKey'])
+    this.editor.unregisterPlugin(this.getPluginKey())
+  },
+
+  methods: {
+    getPluginKey(this: BubbleMenuInterface) {
+      if (!this.generatedPluginKey) {
+        this.generatedPluginKey = this.pluginKey ?? new PluginKey('bubbleMenu')
+      }
+
+      return this.generatedPluginKey
+    },
   },
 }

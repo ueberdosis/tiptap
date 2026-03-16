@@ -2,14 +2,23 @@ import type { CSSProperties, HTMLAttributes } from 'react'
 import { useLayoutEffect, useRef } from 'react'
 
 type MenuElementProps = HTMLAttributes<HTMLDivElement>
-type MenuEventListener = (event: Event) => void
+type MenuSyntheticEvent = Event & {
+  nativeEvent: Event
+  currentTarget: HTMLDivElement
+  target: EventTarget | null
+  persist: () => void
+  isDefaultPrevented: () => boolean
+  isPropagationStopped: () => boolean
+}
+type MenuEventListener = (event: MenuSyntheticEvent) => void
+type MenuNativeListener = (event: Event) => void
 type MenuEventListenerOptions = {
   capture?: boolean
 }
 
 type EventListenerEntry = {
   eventName: string
-  listener: MenuEventListener
+  listener: MenuNativeListener
   options?: MenuEventListenerOptions
 }
 
@@ -53,6 +62,32 @@ const UNITLESS_STYLE_PROPERTIES = new Set([
 ])
 const ATTRIBUTE_EXCLUSIONS = new Set(['children', 'className', 'style'])
 const DIRECT_PROPERTY_KEYS = new Set(['tabIndex'])
+const FORWARDED_ATTRIBUTE_KEYS = new Set([
+  'accessKey',
+  'autoCapitalize',
+  'contentEditable',
+  'contextMenu',
+  'dir',
+  'draggable',
+  'enterKeyHint',
+  'hidden',
+  'id',
+  'lang',
+  'nonce',
+  'role',
+  'slot',
+  'spellCheck',
+  'tabIndex',
+  'title',
+  'translate',
+])
+const SPECIAL_EVENT_NAMES: Record<string, string> = {
+  Blur: 'focusout',
+  DoubleClick: 'dblclick',
+  Focus: 'focusin',
+  MouseEnter: 'mouseenter',
+  MouseLeave: 'mouseleave',
+}
 
 function isEventProp(key: string, value: unknown): value is MenuEventListener {
   return /^on[A-Z]/.test(key) && typeof value === 'function'
@@ -64,6 +99,10 @@ function toAttributeName(key: string) {
   }
 
   return key
+}
+
+function isForwardedAttributeKey(key: string) {
+  return key.startsWith('aria-') || key.startsWith('data-') || FORWARDED_ATTRIBUTE_KEYS.has(key)
 }
 
 function toStylePropertyName(key: string) {
@@ -78,12 +117,41 @@ function toEventConfig(key: string) {
   const useCapture = key.endsWith('Capture')
   const baseKey = useCapture ? key.slice(0, -7) : key
   const reactEventName = baseKey.slice(2)
-  const eventName = reactEventName === 'DoubleClick' ? 'dblclick' : reactEventName.toLowerCase()
+  const eventName = SPECIAL_EVENT_NAMES[reactEventName] ?? reactEventName.toLowerCase()
 
   return {
     eventName,
     options: useCapture ? { capture: true } : undefined,
   }
+}
+
+function createSyntheticEvent(element: HTMLDivElement, nativeEvent: Event): MenuSyntheticEvent {
+  let defaultPrevented = nativeEvent.defaultPrevented
+  let propagationStopped = false
+  const syntheticEvent = Object.create(nativeEvent)
+
+  Object.defineProperties(syntheticEvent, {
+    nativeEvent: { value: nativeEvent },
+    currentTarget: { value: element },
+    target: { value: nativeEvent.target },
+    persist: { value: () => undefined },
+    isDefaultPrevented: { value: () => defaultPrevented },
+    isPropagationStopped: { value: () => propagationStopped },
+    preventDefault: {
+      value: () => {
+        defaultPrevented = true
+        nativeEvent.preventDefault()
+      },
+    },
+    stopPropagation: {
+      value: () => {
+        propagationStopped = true
+        nativeEvent.stopPropagation()
+      },
+    },
+  })
+
+  return syntheticEvent as MenuSyntheticEvent
 }
 
 function isDirectPropertyKey(key: string) {
@@ -155,6 +223,7 @@ function syncAttributes(element: HTMLDivElement, prevProps: MenuElementProps, ne
   allKeys.forEach(key => {
     if (
       ATTRIBUTE_EXCLUSIONS.has(key) ||
+      !isForwardedAttributeKey(key) ||
       isEventProp(key, prevProps[key as keyof MenuElementProps]) ||
       isEventProp(key, nextProps[key as keyof MenuElementProps])
     ) {
@@ -249,9 +318,12 @@ function syncEventListeners(element: HTMLDivElement, prevListeners: EventListene
     }
 
     const { eventName, options } = toEventConfig(key)
+    const listener: MenuNativeListener = event => {
+      value(createSyntheticEvent(element, event))
+    }
 
-    element.addEventListener(eventName, value, options)
-    nextListeners.push({ eventName, listener: value, options })
+    element.addEventListener(eventName, listener, options)
+    nextListeners.push({ eventName, listener, options })
   })
 
   return nextListeners

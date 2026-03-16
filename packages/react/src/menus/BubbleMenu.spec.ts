@@ -43,6 +43,7 @@ describe('BubbleMenu', () => {
     const editor = createEditor()
     const ref = createRef<HTMLDivElement>()
     const handleClick = vi.fn()
+    let lastEvent: any
     const handleClickCapture = vi.fn()
     const handleDoubleClick = vi.fn()
     const initialProps = {
@@ -51,9 +52,13 @@ describe('BubbleMenu', () => {
       'data-testid': 'menu-element',
       'aria-label': 'Bubble menu',
       style: { zIndex: 9999, marginTop: 8, position: 'relative' },
-      onClick: handleClick,
+      onClick: (event: unknown) => {
+        lastEvent = event
+        handleClick()
+      },
       onClickCapture: handleClickCapture,
       onDoubleClick: handleDoubleClick,
+      dangerouslySetInnerHTML: { __html: 'ignored' },
       pluginKey: 'bubbleMenu',
       tabIndex: 3,
       ref,
@@ -88,6 +93,7 @@ describe('BubbleMenu', () => {
     expect(element.style.zIndex).toBe('9999')
     expect(element.style.marginTop).toBe('8px')
     expect(element.style.position).toBe('absolute')
+    expect(element.getAttribute('dangerouslySetInnerHTML')).toBeNull()
 
     element.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     element.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }))
@@ -96,6 +102,10 @@ describe('BubbleMenu', () => {
     expect(handleClick).toHaveBeenCalledTimes(2)
     expect(handleDoubleClick).toHaveBeenCalledTimes(1)
     expect(handleClickCapture).toHaveBeenCalledTimes(2)
+    expect(lastEvent.nativeEvent).toBeInstanceOf(MouseEvent)
+    expect(lastEvent.currentTarget).toBe(element)
+    expect(lastEvent.target).toBeInstanceOf(Element)
+    expect(typeof lastEvent.persist).toBe('function')
     expect(element.textContent).toContain('Menu action')
 
     rerender(React.createElement(BubbleMenu, updatedProps))
