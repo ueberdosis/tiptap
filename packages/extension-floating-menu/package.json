@@ -37,8 +37,8 @@
   },
   "peerDependencies": {
     "@floating-ui/dom": "^1.0.0",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "repository": {
     "type": "git",

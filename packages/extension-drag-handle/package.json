@@ -36,10 +36,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@tiptap/extension-node-range": "workspace:*",
+    "@tiptap/core": "workspace:*",
+    "@tiptap/extension-collaboration": "workspace:*",
+    "@tiptap/pm": "workspace:*",
     "@tiptap/y-tiptap": "^3.0.2"
   },
   "dependencies": {

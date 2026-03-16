@@ -36,9 +36,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/react": "workspace:^",
+    "@tiptap/extension-drag-handle": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/react": "workspace:*",
     "react": "^16.8 || ^17 || ^18 || ^19",
     "react-dom": "^16.8 || ^17 || ^18 || ^19"
   },
