@@ -1,10 +1,14 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
+import { PluginKey } from '@tiptap/pm/state'
 import type { Component, CreateElement, PropType } from 'vue'
 import type Vue from 'vue'
 
 export interface FloatingMenuInterface extends Vue {
+  $attrs: Record<string, any>
+  $listeners: Record<string, (...args: any[]) => unknown>
   pluginKey: FloatingMenuPluginProps['pluginKey']
+  generatedPluginKey?: FloatingMenuPluginProps['pluginKey']
   editor: FloatingMenuPluginProps['editor']
   updateDelay: FloatingMenuPluginProps['updateDelay']
   resizeDelay: FloatingMenuPluginProps['resizeDelay']
@@ -16,10 +20,12 @@ export interface FloatingMenuInterface extends Vue {
 export const FloatingMenu: Component = {
   name: 'FloatingMenu',
 
+  inheritAttrs: false,
+
   props: {
     pluginKey: {
       type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['pluginKey'], string>>],
-      default: 'floatingMenu',
+      default: undefined,
     },
 
     editor: {
@@ -51,6 +57,10 @@ export const FloatingMenu: Component = {
     },
   },
 
+  beforeMount(this: FloatingMenuInterface) {
+    this.generatedPluginKey = this.pluginKey ?? new PluginKey('floatingMenu')
+  },
+
   watch: {
     editor: {
       immediate: true,
@@ -71,7 +81,7 @@ export const FloatingMenu: Component = {
         this.$nextTick(() => {
           editor.registerPlugin(
             FloatingMenuPlugin({
-              pluginKey: this.pluginKey,
+              pluginKey: this.generatedPluginKey as FloatingMenuPluginProps['pluginKey'],
               editor,
               element: this.$el as HTMLElement,
               updateDelay: this.updateDelay,
@@ -87,10 +97,21 @@ export const FloatingMenu: Component = {
   },
 
   render(this: FloatingMenuInterface, createElement: CreateElement) {
-    return createElement('div', {}, this.$slots.default)
+    const vnodeData = (this.$vnode?.data ?? {}) as any
+
+    return createElement(
+      'div',
+      {
+        attrs: this.$attrs,
+        on: this.$listeners,
+        class: [vnodeData.staticClass, vnodeData.class],
+        style: [vnodeData.staticStyle, vnodeData.style],
+      },
+      this.$slots.default,
+    )
   },
 
   beforeDestroy(this: FloatingMenuInterface) {
-    this.editor.unregisterPlugin(this.pluginKey)
+    this.editor.unregisterPlugin(this.generatedPluginKey as FloatingMenuPluginProps['pluginKey'])
   },
 }
