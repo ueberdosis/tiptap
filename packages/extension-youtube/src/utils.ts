@@ -158,7 +158,7 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   }
 
   if (params.length) {
-    outputUrl += `${matches[1] === 'v' ? '?' : '&'}${params.join('&')}`
+    outputUrl += `${matches[1] === 'list' ? '&' : '?'}${params.join('&')}`
   }
 
   return outputUrl

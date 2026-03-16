@@ -16,6 +16,10 @@ world that developers are civilized and selfless people.
 It's the duty of the maintainer to ensure that all submissions to the project are of sufficient
 quality to benefit the project. Many developers have different skillsets, strengths, and weaknesses. Respect the maintainer's decision, and do not be upset or abusive if your submission is not used.
 
+## Security
+
+If you discover a security vulnerability, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
+
 ## Viability
 
 When requesting or submitting new features, first consider whether it might be useful to others. Open
@@ -68,6 +72,17 @@ To make it easier to add new demos to the demos app we provide a small helper sc
 - Make sure to review the generated demo in `demos/` and run the demos app (`pnpm dev`) to verify it appears and works as expected.
 - If your demo changes package behaviour or exposes user-facing changes, follow the normal rule and add a changeset and tests as needed.
 - If you don't want your demo to be included in the Git repository, use the `Dev` category. Demos in this category are ignored by git via `.gitignore`.
+
+## Publishing New Packages
+
+When adding a new package to the repository that does not yet exist on NPM, additional setup is required before the automated publish CI can release it:
+
+1. **Manual initial publish** - The package must be published manually to NPM for the first time using normal user authentication. This is required because trusted publishing can only be configured for packages that already exist on the registry.
+   - For a single package, run `pnpm run build && pnpm publish` from the package directory (e.g., `packages/extension-audio/`).
+   - Alternatively, run `pnpm run publish` from the root directory to publish all packages.
+2. **Configure trusted publishing** - After the initial publish, set up [NPM trusted publishing](https://docs.npmjs.com/trusted-publishers) (also known as provenance) for the package on NPM. This allows the GitHub Actions workflow to publish subsequent versions automatically.
+
+Without this setup, the publish CI will fail when attempting to release a new package.
 
 ## Requirements
 

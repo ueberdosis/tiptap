@@ -16,6 +16,9 @@ export default () => {
       CustomDocument,
       StarterKit.configure({
         document: false,
+        trailingNode: {
+          node: 'paragraph',
+        },
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {

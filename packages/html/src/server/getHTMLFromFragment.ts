@@ -23,7 +23,15 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
     return wrap.innerHTML
   }
 
-  const localWindow = new Window()
+  const localWindow = new Window({
+    settings: {
+      disableJavaScriptEvaluation: true,
+      disableJavaScriptFileLoading: true,
+      disableCSSFileLoading: true,
+      disableIframePageLoading: true,
+      disableComputedStyleRendering: true,
+    },
+  })
   let result: string
 
   try {

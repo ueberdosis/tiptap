@@ -1,0 +1,45 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* Placeholder (at the top) */
+  p.is-editor-empty:first-child::before {
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+}
+
+.decoration {
+  background-color: red;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 1px;
+  vertical-align: middle;
+}
+
+.performance-log {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--gray-1);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.performance-log-entry {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--gray-2);
+}
+
+.performance-log-entry:last-child {
+  border-bottom: none;
+}

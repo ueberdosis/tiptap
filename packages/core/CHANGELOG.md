@@ -1,5 +1,236 @@
 # Change Log
 
+## 3.20.3
+
+### Patch Changes
+
+- c94fac4: Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- 6b9ea92: Fixed overlapping bold and italic markdown serialization and round-tripping.
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- 269823d: Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- 25f57e4: Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Minor Changes
+
+- 57624a1: Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+### Patch Changes
+
+- 4b731e2: Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- 98546ac: Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- 76ce47d: Fixed a typo in the documentation of `editor.view`
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/pm@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- aa9709e: Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- b46e66a: Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- 8f86f06: Fix Safari scrolling to top when using editor.chain().focus() commands
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Minor Changes
+
+- ac8361c: Add a new `dispatchTransaction` hook to extensions, allowing developers to intercept, modify, or block transactions before they are applied to the editor state.
+
+### Patch Changes
+
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Minor Changes
+
+- e3b4f68: 1. **Added** an optional `createCustomHandle` callback to `ResizableNodeView`, allowing developers to fully customize resize handles. When provided, it replaces the default handle creation and bypasses the built-in `positionHandle` logic, giving complete control over markup, styling, and positioning while preserving backward compatibility. 2. **Removed** predefined inline styles from the `wrapper` element to better support dynamic alignment. This eliminates the need for `!important` overrides in user styles. 3. **Added** an editor `update` event listener to dynamically attach or remove resize handles based on the editor’s editable state. The implementation tracks the previous editable state to avoid unnecessary re-renders.
+
+### Patch Changes
+
+- 526365a: Add 'mentionSuggestionChar' to allowedAttributes for Markdown serialization in multi-mention setups. The attribute is only serialized when it differs from the default '@' character, keeping markdown output clean for single-mention users.
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- f232c5a: Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
+
+  - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
+  - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
+  - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
+
+### Patch Changes
+
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- d0c4264: Improve TypeScript generics for Node.extend
+
+  The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
+  improving type inference when extending Node and Mark classes with additional config properties.
+
+  This is a type-only change — there are no runtime behavior changes.
+
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Minor Changes
+
+- 541c93c: Add native text direction support for RTL and bidirectional content. The editor now includes a `textDirection` option that can be set to `'ltr'`, `'rtl'`, or `'auto'` to control the direction of all content globally. Additionally, new `setTextDirection` and `unsetTextDirection` commands allow for granular control of text direction on specific nodes. This enables proper rendering of right-to-left languages like Arabic and Hebrew, as well as bidirectional text mixing multiple languages.
+
+### Patch Changes
+
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- 8375241: Fixed a bug that caused extra characters to be inserted after a parsed, nestable content block by accounting for leading newlines
+- b7ead7c: Add documentation comments to Tiptap JSON types
+- 95d3e80: allow `undefined` as a value for the `default` attribute key
+- fd479bd: Fix `updateAttributes` and `resetAttributes` commands to return accurate results when used with `.can()`. Previously, these commands would always return `true` even when they couldn't perform the operation. Now they correctly return `false` when no matching nodes or marks are found in the selection.
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- 92fae18: Fixed ProseMirror schema generation to properly respect `isRequired` attribute configuration. Previously, attributes marked with `isRequired: true` were incorrectly treated as optional because a `default` property was always included in the schema specification. ProseMirror determines attribute requirements by the absence of the `default` property, so now the `default` is only included when the attribute is not required and a default value is explicitly defined.
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- 64561c4: Fix autofocus behavior to prevent unwanted scrolling when disabled
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- 3564e7c: Use correct `ResizableNodeView` class name
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Minor Changes
+
+- 4aa9f57: Add a new ResizableNodeview NodeView to core that wraps elements (images, videos, iframes) with configurable resize handles. It provides live onResize/onCommit callbacks, min/max constraints, aspect-ratio support, and styling hooks (class names + data attributes) to improve UX when resizing media inside the editor.
+- 4aa9f57: the addNodeView function can now return `null` to dynamically disable rendering of a node view
+
+  While this should not directly cause any issues, it's noteworthy as it still could affect some behavior in some edge cases.
+
+### Patch Changes
+
+- @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/pm@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

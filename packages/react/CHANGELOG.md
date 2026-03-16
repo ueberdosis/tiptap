@@ -1,5 +1,303 @@
 # Change Log
 
+## 3.20.3
+
+### Patch Changes
+
+- f4f6be2: Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- f4f6be2: Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- Updated dependencies [269823d]
+  - @tiptap/core@3.20.2
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Minor Changes
+
+- 0f28d9c: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- 0f28d9c: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- 253ca1c: Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Minor Changes
+
+- a1da626: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- a1da626: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+
+## 3.18.0
+
+### Minor Changes
+
+- 328aedb: Introduce a new, optional React integration that provides a declarative `<Tiptap />` component for setting up editors in React apps.
+
+  Summary
+
+  - Add a new, ergonomic way to initialize and use Tiptap editors in React via `<Tiptap />` components. This is an additive change and does not remove or change existing APIs.
+
+  Why this change
+
+  - Improves ergonomics for React users by offering a component-first API that pairs well with React patterns (hooks, JSX composition and props-driven configuration).
+
+  Migration and usage
+
+  - The old programmatic setup remains supported for this major version — nothing breaks. We encourage consumers to try the new `<Tiptap />` component and migrate when convenient.
+
+  Example
+
+  ```tsx
+  import { Tiptap, useEditor } from '@tiptap/react'
+
+  function MyEditor() {
+    const editor = useEditor({ extensions: [StarterKit], content: '<h1>Hello from Tiptap</h1>' })
+
+    return (
+      <Tiptap instance={editor}>
+        <Tiptap.Content />
+        <Tiptap.BubbleMenu>My Bubble Menu</Tiptap.BubbleMenu>
+        <Tiptap.FloatingMenu>My Floating Menu</Tiptap.FloatingMenu>
+        <MenuBar /> {/* MenuBar can use the new `useTiptap` hook to read the editor instance from context */}
+      </Tiptap>
+    )
+  }
+  ```
+
+  Deprecation plan
+
+  - The old imperative setup will remain fully backward-compatible for this major release. We plan to deprecate (and remove) the legacy setup in the next major version — a deprecation notice and migration guide will be published ahead of that change.
+
+### Patch Changes
+
+- 3e446fb: Fix BubbleMenu and FloatingMenu props not updating after initialization
+- feac5c8: Fixed extension storage not updating in React and Vue node views
+  - @tiptap/core@3.18.0
+  - @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Minor Changes
+
+- 9516ee0: Add updateEvent support for FloatingMenu to allow programmatic position updates via `setMeta('floatingMenu', 'updatePosition')`
+
+### Patch Changes
+
+- @tiptap/core@3.16.0
+- @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- d8ca9bf: Fix race conditions in ReactRenderer causing destroyed renderers to be re-added in Strict Mode
+  - @tiptap/core@3.15.2
+  - @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- 383145e: Append all children of editors parent node to element
+
+  Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
+
+  - @tiptap/core@3.14.0
+  - @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Minor Changes
+
+- 5db9bc1: Replaced unmaintained `fast-deep-equal` dependency with maintained `fast-equals`
+
+### Patch Changes
+
+- 41601d1: Fix a bug where React node views could receive invalid positions from `this.getPos()` when ProseMirror and React render cycles got out of sync, which could cause errors during updates.
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- @tiptap/core@3.10.7
+- @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- @tiptap/core@3.10.6
+- @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [92fae18]
+  - @tiptap/core@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- Updated dependencies [64561c4]
+  - @tiptap/core@3.10.4
+  - @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/core@3.10.3
+- @tiptap/pm@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/core@3.10.2
+- @tiptap/pm@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- Updated dependencies [3564e7c]
+  - @tiptap/core@3.10.1
+  - @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- Updated dependencies [4aa9f57]
+- Updated dependencies [4aa9f57]
+  - @tiptap/core@3.10.0
+  - @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/core@3.9.1
+- @tiptap/pm@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes

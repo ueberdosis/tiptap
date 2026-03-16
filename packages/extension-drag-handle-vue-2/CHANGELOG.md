@@ -1,5 +1,259 @@
 # @tiptap/extension-drag-handle-vue-2
 
+## 3.20.3
+
+### Patch Changes
+
+- Updated dependencies [f4f6be2]
+- Updated dependencies [f4f6be2]
+  - @tiptap/vue-2@3.20.3
+  - @tiptap/extension-drag-handle@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.20.2
+- @tiptap/vue-2@3.20.2
+- @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [c288676]
+  - @tiptap/extension-drag-handle@3.20.1
+  - @tiptap/vue-2@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [536f452]
+- Updated dependencies [536f452]
+- Updated dependencies [5e04a73]
+  - @tiptap/extension-drag-handle@3.20.0
+  - @tiptap/vue-2@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.19.0
+- @tiptap/pm@3.19.0
+- @tiptap/vue-2@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/vue-2@3.18.0
+- @tiptap/extension-drag-handle@3.18.0
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [1a55fd0]
+  - @tiptap/extension-drag-handle@3.17.1
+  - @tiptap/vue-2@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Minor Changes
+
+- a7ab5df: Added nested drag handle support, allowing drag handles to appear for nested content like list items and blockquotes with configurable edge detection and custom rules.
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+- Updated dependencies [a7ab5df]
+  - @tiptap/extension-drag-handle@3.17.0
+  - @tiptap/vue-2@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- Updated dependencies [9516ee0]
+  - @tiptap/vue-2@3.16.0
+  - @tiptap/extension-drag-handle@3.16.0
+  - @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.3
+- @tiptap/vue-2@3.15.3
+- @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- Updated dependencies [7d5ce72]
+  - @tiptap/vue-2@3.15.2
+  - @tiptap/extension-drag-handle@3.15.2
+  - @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.1
+- @tiptap/pm@3.15.1
+- @tiptap/vue-2@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.15.0
+- @tiptap/vue-2@3.15.0
+- @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- Updated dependencies [383145e]
+- Updated dependencies [df277af]
+  - @tiptap/vue-2@3.14.0
+  - @tiptap/extension-drag-handle@3.14.0
+  - @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- 286820e: Added `data-dragging` attribute to drag handle elements to track drag state.
+- Updated dependencies [286820e]
+  - @tiptap/extension-drag-handle@3.13.0
+  - @tiptap/vue-2@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.12.1
+- @tiptap/pm@3.12.1
+- @tiptap/vue-2@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.12.0
+- @tiptap/vue-2@3.12.0
+- @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.11.1
+- @tiptap/vue-2@3.11.1
+- @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.11.0
+- @tiptap/vue-2@3.11.0
+- @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.8
+- @tiptap/vue-2@3.10.8
+- @tiptap/pm@3.10.8
+
+## 3.10.7
+
+### Patch Changes
+
+- Updated dependencies [470f422]
+  - @tiptap/vue-2@3.10.7
+  - @tiptap/extension-drag-handle@3.10.7
+  - @tiptap/pm@3.10.7
+
+## 3.10.6
+
+### Patch Changes
+
+- Updated dependencies [a7213b5]
+  - @tiptap/vue-2@3.10.6
+  - @tiptap/extension-drag-handle@3.10.6
+  - @tiptap/pm@3.10.6
+
+## 3.10.5
+
+### Patch Changes
+
+- Updated dependencies [50e8905]
+  - @tiptap/extension-drag-handle@3.10.5
+  - @tiptap/vue-2@3.10.5
+  - @tiptap/pm@3.10.5
+
+## 3.10.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.4
+- @tiptap/vue-2@3.10.4
+- @tiptap/pm@3.10.4
+
+## 3.10.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.3
+- @tiptap/pm@3.10.3
+- @tiptap/vue-2@3.10.3
+
+## 3.10.2
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.2
+- @tiptap/pm@3.10.2
+- @tiptap/vue-2@3.10.2
+
+## 3.10.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.1
+- @tiptap/vue-2@3.10.1
+- @tiptap/pm@3.10.1
+
+## 3.10.0
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.10.0
+- @tiptap/vue-2@3.10.0
+- @tiptap/pm@3.10.0
+
+## 3.9.1
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.9.1
+- @tiptap/pm@3.9.1
+- @tiptap/vue-2@3.9.1
+
 ## 3.9.0
 
 ### Patch Changes
