@@ -67,6 +67,11 @@ export class ReactNodeView<
    */
   contentDOMElement!: HTMLElement | null
 
+  /**
+   * The requestAnimationFrame ID used for selection updates.
+   */
+  selectionRafId: number | null = null
+
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
 
@@ -95,6 +100,31 @@ export class ReactNodeView<
     }
   }
 
+  private cachedExtensionWithSyncedStorage: NodeViewRendererProps['extension'] | null = null
+
+  /**
+   * Returns a proxy of the extension that redirects storage access to the editor's mutable storage.
+   * This preserves the original prototype chain (instanceof checks, methods like configure/extend work).
+   * Cached to avoid proxy creation on every update.
+   */
+  get extensionWithSyncedStorage(): NodeViewRendererProps['extension'] {
+    if (!this.cachedExtensionWithSyncedStorage) {
+      const editor = this.editor
+      const extension = this.extension
+
+      this.cachedExtensionWithSyncedStorage = new Proxy(extension, {
+        get(target, prop, receiver) {
+          if (prop === 'storage') {
+            return editor.storage[extension.name as keyof typeof editor.storage] ?? {}
+          }
+          return Reflect.get(target, prop, receiver)
+        },
+      })
+    }
+
+    return this.cachedExtensionWithSyncedStorage
+  }
+
   /**
    * Setup the React component.
    * Called on initialization.
@@ -107,7 +137,7 @@ export class ReactNodeView<
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
-      extension: this.extension,
+      extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
@@ -200,26 +230,33 @@ export class ReactNodeView<
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
-    const { from, to } = this.editor.state.selection
-    const pos = this.getPos()
-
-    if (typeof pos !== 'number') {
-      return
+    if (this.selectionRafId) {
+      cancelAnimationFrame(this.selectionRafId)
+      this.selectionRafId = null
     }
 
-    if (from <= pos && to >= pos + this.node.nodeSize) {
-      if (this.renderer.props.selected) {
+    this.selectionRafId = requestAnimationFrame(() => {
+      this.selectionRafId = null
+      const { from, to } = this.editor.state.selection
+      const pos = this.getPos()
+      if (typeof pos !== 'number') {
         return
       }
 
-      this.selectNode()
-    } else {
-      if (!this.renderer.props.selected) {
-        return
-      }
+      if (from <= pos && to >= pos + this.node.nodeSize) {
+        if (this.renderer.props.selected) {
+          return
+        }
 
-      this.deselectNode()
-    }
+        this.selectNode()
+      } else {
+        if (!this.renderer.props.selected) {
+          return
+        }
+
+        this.deselectNode()
+      }
+    })
   }
 
   /**
@@ -254,7 +291,8 @@ export class ReactNodeView<
         newDecorations: decorations,
         oldInnerDecorations,
         innerDecorations,
-        updateProps: () => rerenderComponent({ node, decorations, innerDecorations }),
+        updateProps: () =>
+          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
       })
     }
 
@@ -266,7 +304,7 @@ export class ReactNodeView<
     this.decorations = decorations
     this.innerDecorations = innerDecorations
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
     return true
   }
@@ -300,6 +338,11 @@ export class ReactNodeView<
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
     this.contentDOMElement = null
+
+    if (this.selectionRafId) {
+      cancelAnimationFrame(this.selectionRafId)
+      this.selectionRafId = null
+    }
   }
 
   /**

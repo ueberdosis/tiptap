@@ -1,6 +1,8 @@
 import type { Node as PMNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView } from '@tiptap/pm/view'
 
+import type { Editor } from '../Editor.js'
+
 const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
   return 'touches' in e
 }
@@ -72,6 +74,11 @@ export type ResizableNodeViewOptions = {
    * The ProseMirror node instance
    */
   node: PMNode
+
+  /**
+   * The Tiptap editor instance
+   */
+  editor: Editor
 
   /**
    * Function that returns the current position of the node in the document
@@ -204,6 +211,51 @@ export type ResizableNodeViewOptions = {
       /** Class added to container while actively resizing */
       resizing?: string
     }
+
+    /**
+     * Optional callback for creating custom resize handle elements.
+     *
+     * This function allows developers to define their own handle element
+     * (e.g., custom icons, classes, or styles) for a given resize direction.
+     * It is called internally for each handle direction.
+     *
+     * @param direction - The direction of the handle being created (e.g., 'top', 'bottom-right').
+     * @returns The custom handle HTMLElement.
+     *
+     * @example
+     * ```ts
+     * createCustomHandle: (direction) => {
+     *   const handle = document.createElement('div')
+     *   handle.dataset.resizeHandle = direction
+     *   handle.style.position = 'absolute'
+     *   handle.className = 'tiptap-custom-handle'
+     *
+     *   const isTop = direction.includes('top')
+     *   const isBottom = direction.includes('bottom')
+     *   const isLeft = direction.includes('left')
+     *   const isRight = direction.includes('right')
+     *
+     *   if (isTop) handle.style.top = '0'
+     *   if (isBottom) handle.style.bottom = '0'
+     *   if (isLeft) handle.style.left = '0'
+     *   if (isRight) handle.style.right = '0'
+     *
+     *   // Edge handles span the full width or height
+     *   if (direction === 'top' || direction === 'bottom') {
+     *     handle.style.left = '0'
+     *     handle.style.right = '0'
+     *   }
+     *
+     *   if (direction === 'left' || direction === 'right') {
+     *     handle.style.top = '0'
+     *     handle.style.bottom = '0'
+     *   }
+     *
+     *   return handle
+     * }
+     * ```
+     */
+    createCustomHandle?: (direction: ResizableNodeViewDirection) => HTMLElement
   }
 }
 
@@ -246,6 +298,9 @@ export type ResizableNodeViewOptions = {
 export class ResizableNodeView {
   /** The ProseMirror node instance */
   node: PMNode
+
+  /** The Tiptap editor instance */
+  editor: Editor
 
   /** The DOM element being made resizable */
   element: HTMLElement
@@ -294,6 +349,9 @@ export class ResizableNodeView {
     resizing: '',
   }
 
+  /** Optional callback for creating custom resize handles */
+  createCustomHandle?: (direction: ResizableNodeViewDirection) => HTMLElement
+
   /** Initial width of the element (for aspect ratio calculation) */
   private initialWidth: number = 0
 
@@ -324,6 +382,12 @@ export class ResizableNodeView {
   /** Whether Shift key is currently pressed (for temporary aspect ratio lock) */
   private isShiftKeyPressed: boolean = false
 
+  /** Last known editable state of the editor */
+  private lastEditableState: boolean | undefined = undefined
+
+  /** Map of handle elements by direction */
+  private handleMap = new Map<ResizableNodeViewDirection, HTMLElement>()
+
   /**
    * Creates a new ResizableNodeView instance.
    *
@@ -334,6 +398,7 @@ export class ResizableNodeView {
    */
   constructor(options: ResizableNodeViewOptions) {
     this.node = options.node
+    this.editor = options.editor
     this.element = options.element
     this.contentElement = options.contentElement
 
@@ -371,11 +436,17 @@ export class ResizableNodeView {
       }
     }
 
+    if (options.options?.createCustomHandle) {
+      this.createCustomHandle = options.options.createCustomHandle
+    }
+
     this.wrapper = this.createWrapper()
     this.container = this.createContainer()
 
     this.applyInitialSize()
     this.attachHandles()
+
+    this.editor.on('update', this.handleEditorUpdate.bind(this))
   }
 
   /**
@@ -390,8 +461,25 @@ export class ResizableNodeView {
     return this.container
   }
 
-  get contentDOM() {
-    return this.contentElement
+  get contentDOM(): HTMLElement | null {
+    return this.contentElement ?? null
+  }
+
+  private handleEditorUpdate() {
+    const isEditable = this.editor.isEditable
+
+    // Only if state actually changed
+    if (isEditable === this.lastEditableState) {
+      return
+    }
+
+    this.lastEditableState = isEditable
+
+    if (!isEditable) {
+      this.removeHandles()
+    } else if (isEditable && this.handleMap.size === 0) {
+      this.attachHandles()
+    }
   }
 
   /**
@@ -442,6 +530,8 @@ export class ResizableNodeView {
       this.activeHandle = null
     }
 
+    this.editor.off('update', this.handleEditorUpdate.bind(this))
+
     this.container.remove()
   }
 
@@ -459,8 +549,6 @@ export class ResizableNodeView {
     element.dataset.resizeContainer = ''
     element.dataset.node = this.node.type.name
     element.style.display = 'flex'
-    element.style.justifyContent = 'flex-start'
-    element.style.alignItems = 'flex-start'
 
     if (this.classNames.container) {
       element.className = this.classNames.container
@@ -567,12 +655,42 @@ export class ResizableNodeView {
    */
   private attachHandles(): void {
     this.directions.forEach(direction => {
-      const handle = this.createHandle(direction)
-      this.positionHandle(handle, direction)
+      let handle: HTMLElement
+
+      if (this.createCustomHandle) {
+        handle = this.createCustomHandle(direction)
+      } else {
+        handle = this.createHandle(direction)
+      }
+
+      if (!(handle instanceof HTMLElement)) {
+        console.warn(
+          `[ResizableNodeView] createCustomHandle("${direction}") did not return an HTMLElement. Falling back to default handle.`,
+        )
+        handle = this.createHandle(direction)
+      }
+
+      if (!this.createCustomHandle) {
+        this.positionHandle(handle, direction)
+      }
+
       handle.addEventListener('mousedown', event => this.handleResizeStart(event, direction))
       handle.addEventListener('touchstart', event => this.handleResizeStart(event as unknown as MouseEvent, direction))
+
+      this.handleMap.set(direction, handle)
+
       this.wrapper.appendChild(handle)
     })
+  }
+
+  /**
+   * Removes all resize handles from the wrapper.
+   *
+   * Cleans up the handle map and removes each handle element from the DOM.
+   */
+  private removeHandles(): void {
+    this.handleMap.forEach(el => el.remove())
+    this.handleMap.clear()
   }
 
   /**

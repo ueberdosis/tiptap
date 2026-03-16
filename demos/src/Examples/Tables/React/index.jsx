@@ -111,7 +111,7 @@ const MenuBar = ({ editor }) => {
           onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
           disabled={!editor.can().toggleHeaderColumn()}
         >
-          ToggleHeaderColumn
+          Toggle header column
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeaderRow().run()}

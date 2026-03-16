@@ -25,12 +25,13 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 }
 
 /**
- * Identifies marks that need to be closed (active but not in current node).
+ * Identifies marks that need to be closed, based on the marks in the next node.
  */
-export function findMarksToClose(activeMarks: Map<string, any>, currentMarks: Map<string, any>): string[] {
+export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any): string[] {
   const marksToClose: string[] = []
-  Array.from(activeMarks.keys()).forEach(markType => {
-    if (!currentMarks.has(markType)) {
+
+  Array.from(currentMarks.keys()).forEach(markType => {
+    if (!nextNode || !nextNode.marks || !nextNode.marks.map((mark: any) => mark.type).includes(markType)) {
       marksToClose.push(markType)
     }
   })
@@ -76,14 +77,16 @@ export function findMarksToCloseAtEnd(
   if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
     if (nextNode && nextNode.type === 'text' && nextNode.marks) {
       const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
-      Array.from(activeMarks.keys()).forEach(markType => {
-        if (!nextMarks.has(markType)) {
-          marksToCloseAtEnd.push(markType)
-        }
-      })
+      Array.from(activeMarks.keys())
+        .reverse()
+        .forEach(markType => {
+          if (!nextMarks.has(markType)) {
+            marksToCloseAtEnd.push(markType)
+          }
+        })
     } else if (isLastNode || nextNodeHasNoMarks) {
       // Close all active marks
-      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()).reverse())
     }
   }
 

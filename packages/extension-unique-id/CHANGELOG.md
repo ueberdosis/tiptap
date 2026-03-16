@@ -1,5 +1,171 @@
 # @tiptap/extension-unique-id
 
+## 3.20.3
+
+### Patch Changes
+
+- 6538ea5: Fixed a bug where empty paragraphs accumulated in the document on every page reload when using the UniqueID extension with the Collaboration extension and an externally created Yjs provider.
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- Updated dependencies [269823d]
+  - @tiptap/core@3.20.2
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- db873d9: Add support for `types: 'all'` in `UniqueID` to target every node type except `doc` and `text`.
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/core@3.18.0
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/pm@3.17.0
+
+## 3.16.0
+
+### Patch Changes
+
+- bb4989f: Improved `findDuplicates` helper performance from O(n²) to O(n) by using Set-based lookups instead of Array.indexOf
+  - @tiptap/core@3.16.0
+  - @tiptap/pm@3.16.0
+
+## 3.15.3
+
+### Patch Changes
+
+- Updated dependencies [8f86f06]
+  - @tiptap/core@3.15.3
+  - @tiptap/pm@3.15.3
+
+## 3.15.2
+
+### Patch Changes
+
+- @tiptap/core@3.15.2
+- @tiptap/pm@3.15.2
+
+## 3.15.1
+
+### Patch Changes
+
+- @tiptap/core@3.15.1
+- @tiptap/pm@3.15.1
+
+## 3.15.0
+
+### Patch Changes
+
+- c5cbea6: Fix unique ID assignment when handling empty nodes by checking next node's attribute state in the transaction document before modifying it, preventing incorrect ID assignments.
+- Updated dependencies [ac8361c]
+  - @tiptap/core@3.15.0
+  - @tiptap/pm@3.15.0
+
+## 3.14.0
+
+### Patch Changes
+
+- @tiptap/core@3.14.0
+- @tiptap/pm@3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- Updated dependencies [526365a]
+- Updated dependencies [e3b4f68]
+  - @tiptap/core@3.13.0
+  - @tiptap/pm@3.13.0
+
+## 3.12.1
+
+### Patch Changes
+
+- @tiptap/core@3.12.1
+- @tiptap/pm@3.12.1
+
+## 3.12.0
+
+### Patch Changes
+
+- Updated dependencies [f232c5a]
+  - @tiptap/core@3.12.0
+  - @tiptap/pm@3.12.0
+
+## 3.11.1
+
+### Patch Changes
+
+- Updated dependencies [d0c4264]
+  - @tiptap/core@3.11.1
+  - @tiptap/pm@3.11.1
+
+## 3.11.0
+
+### Patch Changes
+
+- Updated dependencies [541c93c]
+  - @tiptap/core@3.11.0
+  - @tiptap/pm@3.11.0
+
+## 3.10.8
+
+### Patch Changes
+
+- Updated dependencies [8375241]
+- Updated dependencies [b7ead7c]
+- Updated dependencies [95d3e80]
+- Updated dependencies [fd479bd]
+  - @tiptap/core@3.10.8
+  - @tiptap/pm@3.10.8
+
 ## 3.10.7
 
 ### Patch Changes

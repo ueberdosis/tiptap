@@ -160,6 +160,11 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   ref: R | null = null
 
   /**
+   * Flag to track if the renderer has been destroyed, preventing queued or asynchronous renders from executing after teardown.
+   */
+  destroyed = false
+
+  /**
    * Immediately creates element and renders the provided React component.
    */
   constructor(
@@ -186,6 +191,9 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       })
     } else {
       queueMicrotask(() => {
+        if (this.destroyed) {
+          return
+        }
         this.render()
       })
     }
@@ -195,6 +203,10 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Render the React component.
    */
   render(): void {
+    if (this.destroyed) {
+      return
+    }
+
     const Component = this.component
     const props = this.props
     const editor = this.editor as EditorWithContentComponent
@@ -227,6 +239,10 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Re-renders the React component with new props.
    */
   updateProps(props: Record<string, any> = {}): void {
+    if (this.destroyed) {
+      return
+    }
+
     this.props = {
       ...this.props,
       ...props,
@@ -239,6 +255,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Destroy the React component.
    */
   destroy(): void {
+    this.destroyed = true
     const editor = this.editor as EditorWithContentComponent
 
     editor?.contentComponent?.removeRenderer(this.id)
