@@ -2,7 +2,7 @@ import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/core'
 
 import {
   type TableCellAlign as TableCellAlignType,
-  normalizeTableCellAlign,
+  normalizeTableCellAlignFromAttributes,
   TableCellAlign,
 } from '../../utilities/parseAlign.js'
 
@@ -43,7 +43,7 @@ export function renderTableToMarkdown(
 
         const text = collapseWhitespace(raw)
         const isHeader = cellNode.type === 'tableHeader'
-        const align = normalizeTableCellAlign(cellNode.attrs?.align)
+        const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
 
         cells.push({ text, isHeader, align })
       })
