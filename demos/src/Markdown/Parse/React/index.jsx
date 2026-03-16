@@ -3,7 +3,6 @@ import { TableKit } from '@tiptap/extension-table'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
 
 const markdown = `# Markdown parsing demo
 
@@ -38,10 +37,11 @@ ${'```'}
 
 ## Table
 
-| Name | Feature |
-| ---- | ------- |
-| A    | Headings |
-| B    | Lists |
+| Name | Feature | Left Column | Center Column | Right Column |
+| ---- | ------- | :---------- | :-----------: | -----------: |
+| A    | Headings |left|centered|$1,600|
+| B    | Lists    |left|centered|$12|
+| C    | Markdown |left|centered|$1|
 
 ## Image (example)
 
