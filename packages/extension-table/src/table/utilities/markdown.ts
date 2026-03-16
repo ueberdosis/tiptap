@@ -17,11 +17,11 @@ export function renderTableToMarkdown(
     return ''
   }
 
-  // Build rows: each cell is { text, isHeader }
-  const rows: { text: string; isHeader: boolean }[][] = []
+  // Build rows: each cell is { text, isHeader, align }
+  const rows: { text: string; isHeader: boolean; align: 'left' | 'right' | 'center' | null }[][] = []
 
   node.content.forEach(rowNode => {
-    const cells: { text: string; isHeader: boolean }[] = []
+    const cells: { text: string; isHeader: boolean; align: 'left' | 'right' | 'center' | null }[] = []
 
     if (rowNode.content) {
       rowNode.content.forEach(cellNode => {
@@ -37,8 +37,12 @@ export function renderTableToMarkdown(
 
         const text = collapseWhitespace(raw)
         const isHeader = cellNode.type === 'tableHeader'
+        const align =
+          cellNode.attrs?.align === 'left' || cellNode.attrs?.align === 'right' || cellNode.attrs?.align === 'center'
+            ? cellNode.attrs.align
+            : null
 
-        cells.push({ text, isHeader })
+        cells.push({ text, isHeader, align })
       })
     }
 
@@ -72,6 +76,15 @@ export function renderTableToMarkdown(
 
   const headerRow = rows[0]
   const hasHeader = headerRow.some(c => c.isHeader)
+  const colAlignments: Array<'left' | 'right' | 'center' | null> = new Array(columnCount).fill(null)
+
+  rows.forEach(r => {
+    for (let i = 0; i < columnCount; i += 1) {
+      if (!colAlignments[i] && r[i]?.align) {
+        colAlignments[i] = r[i].align
+      }
+    }
+  })
 
   let out = '\n'
 
@@ -84,8 +97,27 @@ export function renderTableToMarkdown(
 
   out += `| ${headerTexts.map((t, i) => pad(t, colWidths[i])).join(' | ')} |\n`
 
-  // Separator (use at least 3 dashes per column)
-  out += `| ${colWidths.map(w => '-'.repeat(Math.max(3, w))).join(' | ')} |\n`
+  // Separator (use at least 3 dashes per column and include alignment markers)
+  out += `| ${colWidths
+    .map((w, index) => {
+      const dashCount = Math.max(3, w)
+      const alignment = colAlignments[index]
+
+      if (alignment === 'left') {
+        return `:${'-'.repeat(dashCount)}`
+      }
+
+      if (alignment === 'right') {
+        return `${'-'.repeat(dashCount)}:`
+      }
+
+      if (alignment === 'center') {
+        return `:${'-'.repeat(dashCount)}:`
+      }
+
+      return '-'.repeat(dashCount)
+    })
+    .join(' | ')} |\n`
 
   // Body rows: if we had a header, skip the first row; otherwise render all rows
   const body = hasHeader ? rows.slice(1) : rows
