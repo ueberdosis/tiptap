@@ -100,6 +100,9 @@ jobs:
       - name: Restore package dist artifacts
         run: tar -xf package-dist-artifacts.tar
 
+      - name: Verify package dist artifacts
+        run: bash ./scripts/check-package-dists.sh
+
       - name: Resolve npm dist-tag
         id: resolve_dist_tag
         run: |
