@@ -462,6 +462,37 @@ describe('Markdown Conversion Tests', () => {
       expect(serialized).toBe('foo &amp; bar')
     })
 
+    it('should decode &quot; entity to literal " when parsing', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+    })
+
+    it('should encode " back to &quot; when serializing', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo "bar" baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo &quot;bar&quot; baz')
+    })
+
+    it('should roundtrip &quot; correctly', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &quot;bar&quot; baz')
+    })
+
     it('should not encode entities inside code blocks', () => {
       const json = {
         type: 'doc',
