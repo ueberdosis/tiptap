@@ -10,6 +10,8 @@ import {
   type MarkdownTokenizer,
   type RenderContext,
   callOrReturn,
+  decodeHtmlEntities,
+  encodeHtmlEntities,
   flattenExtensions,
   generateJSON,
   getExtensionField,
@@ -18,8 +20,6 @@ import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
-  decodeHtmlEntities,
-  encodeHtmlEntities,
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
@@ -1011,8 +1011,8 @@ export class MarkdownManager {
         // Encode HTML special characters so they roundtrip correctly in markdown,
         // but skip encoding for code marks and code block parents where literal chars are expected.
         const isInsideCode =
-          [...currentMarks.keys()].some(t => this.codeTypes.has(t)) ||
-          (parentNode?.type != null && this.codeTypes.has(parentNode.type))
+          (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
+          (node.marks || []).some(m => this.codeTypes.has(m.type))
         if (!isInsideCode) {
           textContent = encodeHtmlEntities(textContent)
         }
