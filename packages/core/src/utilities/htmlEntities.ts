@@ -16,7 +16,11 @@ export function decodeHtmlEntities(text: string): string {
  * Encode HTML special characters so they roundtrip safely through markdown.
  * `&` is encoded **first** to avoid double-encoding the ampersand in other
  * entities (e.g. `<` → `&lt;`, not `&amp;lt;`).
+ *
+ * Note: `"` is intentionally NOT encoded here because double quotes are
+ * ordinary characters in markdown and do not need escaping.  The decode
+ * function still handles `&quot;` because markdown-it may emit it.
  */
 export function encodeHtmlEntities(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }

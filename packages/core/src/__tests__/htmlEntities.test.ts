@@ -33,8 +33,8 @@ describe('encodeHtmlEntities', () => {
     expect(encodeHtmlEntities('a & b')).toBe('a &amp; b')
   })
 
-  it('encodes " to &quot;', () => {
-    expect(encodeHtmlEntities('"hello"')).toBe('&quot;hello&quot;')
+  it('does not encode " (quotes are valid in markdown)', () => {
+    expect(encodeHtmlEntities('"hello"')).toBe('"hello"')
   })
 
   it('returns plain text unchanged', () => {
@@ -43,10 +43,13 @@ describe('encodeHtmlEntities', () => {
 })
 
 describe('roundtrip', () => {
-  it.each(['<div>', 'a & b', '"quoted"', '<a href="url">link</a>', 'x < y & y > z'])(
-    'encode then decode roundtrips: %s',
-    input => {
-      expect(decodeHtmlEntities(encodeHtmlEntities(input))).toBe(input)
-    },
-  )
+  it.each(['<div>', 'a & b', 'x < y & y > z'])('encode then decode roundtrips: %s', input => {
+    expect(decodeHtmlEntities(encodeHtmlEntities(input))).toBe(input)
+  })
+
+  it('decode is a superset of encode – &quot; decodes but " is not encoded', () => {
+    // " passes through encode unchanged, &quot; decodes to "
+    expect(encodeHtmlEntities('"hello"')).toBe('"hello"')
+    expect(decodeHtmlEntities('&quot;hello&quot;')).toBe('"hello"')
+  })
 })

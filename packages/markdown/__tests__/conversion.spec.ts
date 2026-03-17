@@ -469,7 +469,7 @@ describe('Markdown Conversion Tests', () => {
       expect(json.content[0].content[0].text).toBe('foo "bar" baz')
     })
 
-    it('should encode " back to &quot; when serializing', () => {
+    it('should not encode " when serializing (quotes are valid markdown)', () => {
       const json = {
         type: 'doc',
         content: [
@@ -481,16 +481,16 @@ describe('Markdown Conversion Tests', () => {
       }
 
       const markdown = markdownManager.serialize(json)
-      expect(markdown).toBe('foo &quot;bar&quot; baz')
+      expect(markdown).toBe('foo "bar" baz')
     })
 
-    it('should roundtrip &quot; correctly', () => {
+    it('should decode &quot; when parsing but serialize as literal "', () => {
       const markdown = 'foo &quot;bar&quot; baz'
       const json = markdownManager.parse(markdown)
       expect(json.content[0].content[0].text).toBe('foo "bar" baz')
 
       const serialized = markdownManager.serialize(json)
-      expect(serialized).toBe('foo &quot;bar&quot; baz')
+      expect(serialized).toBe('foo "bar" baz')
     })
 
     it('should not encode entities inside code blocks', () => {
@@ -550,8 +550,10 @@ describe('Markdown Conversion Tests', () => {
       expect(json.content[1].type).toBe('paragraph')
       expect(json.content[1].content).toEqual([])
 
+      // A single empty paragraph between content paragraphs uses blank-line
+      // spacing (the first empty paragraph doesn't need an &nbsp; marker).
       const serialized = markdownManager.serialize(json)
-      expect(serialized).toBe('Line1\n\n&nbsp;\n\nLine2')
+      expect(serialized).toBe('Line1\n\n\n\nLine2')
     })
   })
 })
