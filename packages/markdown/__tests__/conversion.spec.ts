@@ -555,5 +555,21 @@ describe('Markdown Conversion Tests', () => {
       const serialized = markdownManager.serialize(json)
       expect(serialized).toBe('Line1\n\n\n\nLine2')
     })
+
+    it('should roundtrip literal &amp;nbsp; without it being treated as an empty paragraph marker', () => {
+      // A user writing &amp;nbsp; in markdown intends for the text "&nbsp;" to display.
+      // decodeHtmlEntities decodes &amp; → &, producing text content "&nbsp;".
+      // On serialization, encodeHtmlEntities re-encodes & → &amp;, restoring &amp;nbsp;.
+      // The intermediate "&nbsp;" text must NOT be confused with the empty-paragraph marker.
+      const markdown = 'before &amp;nbsp; after'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content).toHaveLength(1)
+      expect(json.content[0].type).toBe('paragraph')
+      expect(json.content[0].content[0].text).toBe('before &nbsp; after')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('before &amp;nbsp; after')
+    })
   })
 })
