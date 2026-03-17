@@ -889,6 +889,18 @@ export class MarkdownManager {
     }
   }
 
+  /**
+   * Encode HTML entities in text unless the node is inside a code context
+   * (code mark or code-block parent) where literal characters should be preserved.
+   */
+  private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
+    const isInsideCode =
+      (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
+      (node.marks || []).some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
+
+    return isInsideCode ? text : encodeHtmlEntities(text)
+  }
+
   renderNodeToMarkdown(
     node: JSONContent,
     parentNode?: JSONContent,
@@ -899,16 +911,7 @@ export class MarkdownManager {
     // if node is a text node, we simply return it's text content
     // marks are handled at the array level in renderNodesWithMarkBoundaries
     if (node.type === 'text') {
-      const text = node.text || ''
-      // Encode HTML special characters so that e.g. `<` roundtrips as `&lt;` in markdown,
-      // except inside code blocks where literal characters should be preserved.
-      const isInsideCode =
-        (parentNode?.type && this.codeTypes.has(parentNode.type)) ||
-        node.marks?.some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
-      if (isInsideCode) {
-        return text
-      }
-      return encodeHtmlEntities(text)
+      return this.encodeTextForMarkdown(node.text || '', node, parentNode)
     }
 
     if (!node.type) {
@@ -1005,17 +1008,8 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        let textContent = node.text || ''
+        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
-
-        // Encode HTML special characters so they roundtrip correctly in markdown,
-        // but skip encoding for code marks and code block parents where literal chars are expected.
-        const isInsideCode =
-          (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
-          (node.marks || []).some(m => this.codeTypes.has(m.type))
-        if (!isInsideCode) {
-          textContent = encodeHtmlEntities(textContent)
-        }
 
         // Find marks that need to be closed and opened
         const marksToOpen = findMarksToOpen(activeMarks, currentMarks)

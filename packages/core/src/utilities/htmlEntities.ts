@@ -19,7 +19,7 @@ export function decodeHtmlEntities(text: string): string {
  *
  * Note: `"` is intentionally NOT encoded here because double quotes are
  * ordinary characters in markdown and do not need escaping.  The decode
- * function still handles `&quot;` because markdown-it may emit it.
+ * function still handles `&quot;` because the markdown tokenizer may emit it.
  */
 export function encodeHtmlEntities(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
