@@ -87,7 +87,7 @@ jobs:
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Download dependency artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: node-dependencies
           path: /tmp/node-dependencies
@@ -124,7 +124,7 @@ jobs:
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Download dependency artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: node-dependencies
           path: /tmp/node-dependencies
@@ -171,7 +171,7 @@ jobs:
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Download dependency artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: node-dependencies
           path: /tmp/node-dependencies
@@ -183,7 +183,7 @@ jobs:
         run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: /tmp/build-output
@@ -231,7 +231,7 @@ jobs:
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
 
       - name: Download dependency artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: node-dependencies
           path: /tmp/node-dependencies
@@ -246,7 +246,7 @@ jobs:
         run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: /tmp/build-output
