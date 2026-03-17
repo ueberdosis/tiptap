@@ -45,6 +45,16 @@ jobs:
       - name: Run build
         run: pnpm run build && pnpm run build:demos
 
+      - name: Archive package dist artifacts
+        run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
+
+      - name: Upload package dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-dist-artifacts
+          if-no-files-found: error
+          path: package-dist-artifacts.tar
+
   release:
     name: Bump Versions OR Release to Registry
     runs-on: ubuntu-latest
@@ -80,6 +90,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+      - name: Download package dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: package-dist-artifacts
+          path: .
+
+      - name: Restore package dist artifacts
+        run: tar -xf package-dist-artifacts.tar
 
       - name: Resolve npm dist-tag
         id: resolve_dist_tag
