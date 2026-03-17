@@ -1,8 +1,12 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
+import type { PluginKey } from '@tiptap/pm/state'
 import { useCurrentEditor } from '@tiptap/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+
+import { getAutoPluginKey } from './getAutoPluginKey.js'
+import { useMenuElementProps } from './useMenuElementProps.js'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -13,20 +17,13 @@ export type FloatingMenuProps = Omit<Optional<FloatingMenuPluginProps, 'pluginKe
 
 export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
   (
-    {
-      pluginKey = 'floatingMenu',
-      editor,
-      updateDelay,
-      resizeDelay,
-      appendTo,
-      shouldShow = null,
-      options,
-      children,
-      ...restProps
-    },
+    { pluginKey, editor, updateDelay, resizeDelay, appendTo, shouldShow = null, options, children, ...restProps },
     ref,
   ) => {
     const menuEl = useRef(document.createElement('div'))
+    const resolvedPluginKey = useRef<PluginKey | string>(getAutoPluginKey(pluginKey, 'floatingMenu')).current
+
+    useMenuElementProps(menuEl.current, restProps)
 
     if (typeof ref === 'function') {
       ref(menuEl.current)
@@ -47,7 +44,7 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       updateDelay,
       resizeDelay,
       appendTo,
-      pluginKey,
+      pluginKey: resolvedPluginKey,
       shouldShow,
       options,
     }
@@ -128,13 +125,13 @@ export const FloatingMenu = React.forwardRef<HTMLDivElement, FloatingMenuProps>(
       }
 
       pluginEditor.view.dispatch(
-        pluginEditor.state.tr.setMeta(pluginKey, {
+        pluginEditor.state.tr.setMeta(resolvedPluginKey, {
           type: 'updateOptions',
           options: floatingMenuPluginPropsRef.current,
         }),
       )
-    }, [pluginInitialized, pluginEditor, updateDelay, resizeDelay, shouldShow, options, appendTo])
+    }, [pluginInitialized, pluginEditor, updateDelay, resizeDelay, shouldShow, options, appendTo, resolvedPluginKey])
 
-    return createPortal(<div {...restProps}>{children}</div>, menuEl.current)
+    return createPortal(children, menuEl.current)
   },
 )

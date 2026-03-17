@@ -5,25 +5,51 @@ env:
   PNPM_VERSION: 9.15.4
 
 on:
-  workflow_run:
-    workflows:
-      - Verify
-    types:
-      - completed
+  push:
+    branches:
+      - main
+      - next
+      - 'release/*'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+      - name: Run build
+        run: pnpm run build && pnpm run build:demos
+
   release:
     name: Bump Versions OR Release to Registry
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && (github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'next' || startsWith(github.event.workflow_run.head_branch, 'release/'))
+    needs: build
     permissions:
       id-token: write
       contents: write
@@ -37,8 +63,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -60,7 +84,7 @@ jobs:
       - name: Resolve npm dist-tag
         id: resolve_dist_tag
         run: |
-          branch="${{ github.event.workflow_run.head_branch }}"
+          branch="${{ github.ref_name }}"
 
           if [ "$branch" = 'main' ]; then
             echo 'NPM_DIST_TAG=latest' >> "$GITHUB_ENV"
@@ -83,9 +107,9 @@ jobs:
         with:
           createGithubReleases: false
           version: pnpm run version
-          publish: pnpm run build && pnpm run build:demos && pnpm changeset publish --tag $NPM_DIST_TAG
-          title: ${{ github.event.workflow_run.head_branch == 'main' && 'Publish a new stable version' || 'Publish a new release version' }}
-          commit: '${{ github.event.workflow_run.head_branch == ''main'' && ''chore(release): publish a new stable version'' || ''chore(release): publish a new release version'' }}'
+          publish: pnpm changeset publish --tag $NPM_DIST_TAG
+          title: ${{ github.ref_name == 'main' && 'Publish a new stable version' || 'Publish a new release version' }}
+          commit: '${{ github.ref_name == ''main'' && ''chore(release): publish a new stable version'' || ''chore(release): publish a new release version'' }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
@@ -107,28 +131,10 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "message": "[Tiptap Editor ${{ needs.release.outputs.release_kind == 'stable' && 'Release' || 'Pre-release' }}]: Published packages from branch ${{ github.event.workflow_run.head_branch }} with npm tag ${{ needs.release.outputs.dist_tag }}."
+              "message": "[Tiptap Editor ${{ needs.release.outputs.release_kind == 'stable' && 'Release' || 'Pre-release' }}]: Published packages from branch ${{ github.ref_name }} with npm tag ${{ needs.release.outputs.dist_tag }}."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  notify-discord:
-    name: Send notification to Discord
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs:
-      - release
-      - notify-slack
-    if: always() && needs.release.result == 'success' && needs.release.outputs.published == 'true' && needs.notify-slack.result == 'success'
-    permissions: {}
-
-    steps:
-      - name: Send Discord notification
-        uses: tsickert/discord-webhook@v7.0.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
-          content: '[Tiptap Editor ${{ needs.release.outputs.release_kind == ''stable'' && ''Release'' || ''Pre-release'' }}] Published packages from branch ${{ github.event.workflow_run.head_branch }} with npm tag ${{ needs.release.outputs.dist_tag }}.'
-          wait: true
 
   notify-slack-failure:
     name: Send failure notification to Slack
@@ -146,7 +152,7 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "message": "[Tiptap Editor Release]: There was an issue publishing packages from branch ${{ github.event.workflow_run.head_branch }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              "message": "[Tiptap Editor Release]: There was an issue publishing packages from branch ${{ github.ref_name }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

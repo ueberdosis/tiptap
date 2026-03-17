@@ -1,5 +1,70 @@
 # Releases
 
+## v3.20.3
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fixed a bug where empty paragraphs accumulated in the document on every page reload when using the UniqueID extension with the Collaboration extension and an externally created Yjs provider.
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Export missing `getEmbedUrlFromYoutubeUrl` and `isValidYoutubeUrl` embed URL utility functions
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- Skip placeholder decorations on non-textblock nodes when `includeChildren` is enabled to prevent duplicate placeholders on wrapper nodes like lists.
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
 ## v3.20.2
 
 ### @tiptap/core

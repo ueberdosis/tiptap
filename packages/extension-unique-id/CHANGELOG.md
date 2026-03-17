@@ -1,5 +1,15 @@
 # @tiptap/extension-unique-id
 
+## 3.20.3
+
+### Patch Changes
+
+- 6538ea5: Fixed a bug where empty paragraphs accumulated in the document on every page reload when using the UniqueID extension with the Collaboration extension and an externally created Yjs provider.
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/pm@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes
