@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.20.4
+
+### Patch Changes
+
+- 0bcf3c2: Fixed Tiptap not publishing with build dist artifacts
+  - @tiptap/pm@3.20.4
+
 ## 3.20.3
 
 ### Patch Changes

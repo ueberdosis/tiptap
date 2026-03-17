@@ -1,5 +1,13 @@
 # Releases
 
+## v3.20.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed Tiptap not publishing with build dist artifacts
+
 ## v3.20.3
 
 ### @tiptap/react
