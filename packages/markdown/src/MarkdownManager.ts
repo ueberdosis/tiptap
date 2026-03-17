@@ -9,6 +9,7 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  callOrReturn,
   flattenExtensions,
   generateJSON,
   getExtensionField,
@@ -36,6 +37,8 @@ export class MarkdownManager {
   private indentSize: number
   private baseExtensions: AnyExtension[] = []
   private extensions: AnyExtension[] = []
+  /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
+  private codeTypes: Set<string> = new Set()
 
   /**
    * Create a MarkdownManager.
@@ -101,7 +104,15 @@ export class MarkdownManager {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
+    // Track extensions that declare `code: true` so we can skip HTML entity
+    // encoding inside code contexts without hardcoding specific type names.
+    const isCode = callOrReturn(getExtensionField(extension, 'code'))
+
     const name = extension.name
+
+    if (isCode) {
+      this.codeTypes.add(name)
+    }
     const tokenName =
       (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
     const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
@@ -892,7 +903,8 @@ export class MarkdownManager {
       // Encode HTML special characters so that e.g. `<` roundtrips as `&lt;` in markdown,
       // except inside code blocks where literal characters should be preserved.
       const isInsideCode =
-        parentNode?.type === 'codeBlock' || node.marks?.some(m => (typeof m === 'string' ? m : m.type) === 'code')
+        (parentNode?.type && this.codeTypes.has(parentNode.type)) ||
+        node.marks?.some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
       if (isInsideCode) {
         return text
       }
@@ -998,7 +1010,9 @@ export class MarkdownManager {
 
         // Encode HTML special characters so they roundtrip correctly in markdown,
         // but skip encoding for code marks and code block parents where literal chars are expected.
-        const isInsideCode = currentMarks.has('code') || parentNode?.type === 'codeBlock'
+        const isInsideCode =
+          [...currentMarks.keys()].some(t => this.codeTypes.has(t)) ||
+          (parentNode?.type != null && this.codeTypes.has(parentNode.type))
         if (!isInsideCode) {
           textContent = encodeHtmlEntities(textContent)
         }
