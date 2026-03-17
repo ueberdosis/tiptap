@@ -891,7 +891,9 @@ export class MarkdownManager {
       const text = node.text || ''
       // Encode HTML special characters so that e.g. `<` roundtrips as `&lt;` in markdown,
       // except inside code blocks where literal characters should be preserved.
-      if (parentNode?.type === 'codeBlock') {
+      const isInsideCode =
+        parentNode?.type === 'codeBlock' || node.marks?.some(m => (typeof m === 'string' ? m : m.type) === 'code')
+      if (isInsideCode) {
         return text
       }
       return encodeHtmlEntities(text)
