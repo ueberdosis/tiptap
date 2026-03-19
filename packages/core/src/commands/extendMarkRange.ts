@@ -31,7 +31,7 @@ declare module '@tiptap/core' {
 }
 
 export const extendMarkRange: RawCommands['extendMarkRange'] =
-  (typeOrName, attributes = {}) =>
+  (typeOrName, attributes) =>
   ({ tr, state, dispatch }) => {
     const type = getMarkType(typeOrName, state.schema)
     const { doc, selection } = tr
