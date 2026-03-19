@@ -389,9 +389,6 @@ describe('extendMarkRange', () => {
       extensions: [Document, Paragraph, Text, Link],
     })
 
-    // debug
-    // console.log(getDebugJSON(editor.state.doc))
-
     // set cursor in middle of first mark
     editor.chain().setTextSelection({ from: 7, to: 7 }).extendMarkRange('link', {}).run()
 
