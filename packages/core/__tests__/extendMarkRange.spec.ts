@@ -33,18 +33,6 @@ describe('extendMarkRange', () => {
             {
               type: 'text',
               text: 'text',
-              marks: [
-                {
-                  type: 'link',
-                  attrs: {
-                    href: 'bar',
-                  },
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: 'text',
             },
           ],
         },
@@ -60,13 +48,13 @@ describe('extendMarkRange', () => {
     // console.log(getDebugJSON(editor.state.doc))
 
     // set cursor in middle of first mark
-    editor.chain().setTextSelection({ from: 7, to: 7 }).extendMarkRange('link', {}).run()
+    editor.chain().setTextSelection({ from: 7, to: 7 }).extendMarkRange('link').run()
 
     const { from, to } = editor.state.selection
 
     const expectedSelection = {
       from: 5,
-      to: 13,
+      to: 9,
     }
 
     expect({ from, to }).toEqual(expectedSelection)
@@ -287,7 +275,7 @@ describe('extendMarkRange', () => {
     editor.destroy()
   })
 
-  it('should not extend across adjacent link marks with different hrefs', () => {
+  it('should not extend across adjacent marks with different attributes when attributes is omitted', () => {
     const content = {
       type: 'doc',
       content: [
@@ -345,6 +333,74 @@ describe('extendMarkRange', () => {
     const expectedSelection = {
       from: 5,
       to: 9,
+    }
+
+    expect({ from, to }).toEqual(expectedSelection)
+
+    editor.destroy()
+  })
+
+  it('should extend across adjacent marks with different attributes when attributes is {}', () => {
+    const content = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'text',
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'foo',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'bar',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: 'text',
+            },
+          ],
+        },
+      ],
+    }
+
+    const editor = new Editor({
+      content,
+      extensions: [Document, Paragraph, Text, Link],
+    })
+
+    // debug
+    // console.log(getDebugJSON(editor.state.doc))
+
+    // set cursor in middle of first mark
+    editor.chain().setTextSelection({ from: 7, to: 7 }).extendMarkRange('link', {}).run()
+
+    const { from, to } = editor.state.selection
+
+    // should extend to cover both links
+    const expectedSelection = {
+      from: 5,
+      to: 13,
     }
 
     expect({ from, to }).toEqual(expectedSelection)
