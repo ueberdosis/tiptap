@@ -11,7 +11,8 @@ declare module '@tiptap/core' {
       /**
        * Extends the text selection to the current mark by type or name.
        * @param typeOrName The type or name of the mark.
-       * @param attributes The attributes of the mark.
+       * @param attributes The attributes to match against.
+       * If not provided, only the first mark at the position will be matched.
        * @example editor.commands.extendMarkRange('bold')
        * @example editor.commands.extendMarkRange('mention', { userId: "1" })
        */
