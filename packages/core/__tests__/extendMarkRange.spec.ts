@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
