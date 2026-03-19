@@ -82,7 +82,7 @@ export const Color = Extension.create<ColorOptions>({
                 }
               }
 
-              return element.style.color?.replace(/['"]+/g, '')
+              return element.style.color?.replace(/['"]+/g, '') || null
             },
             renderHTML: attributes => {
               if (!attributes.color) {

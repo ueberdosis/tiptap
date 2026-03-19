@@ -123,6 +123,26 @@ export const TextStyle = Mark.create<TextStyleOptions>({
     return ['span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
   },
 
+  addMarkView() {
+    return ({ HTMLAttributes }) => {
+      const span = document.createElement('span')
+
+      // Use setAttribute instead of style.cssText to preserve original
+      // color format (e.g. hex #FF0000) and prevent browser normalization
+      // to rgb() which causes mark attribute mismatches during IME composition.
+      Object.entries(HTMLAttributes).forEach(([attr, value]) => {
+        if (value != null && value !== false) {
+          span.setAttribute(attr, String(value))
+        }
+      })
+
+      return {
+        dom: span,
+        contentDOM: span,
+      }
+    }
+  },
+
   addCommands() {
     return {
       toggleTextStyle:

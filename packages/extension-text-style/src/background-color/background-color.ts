@@ -82,7 +82,7 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
                 }
               }
 
-              return element.style.backgroundColor?.replace(/['"]+/g, '')
+              return element.style.backgroundColor?.replace(/['"]+/g, '') || null
             },
             renderHTML: attributes => {
               if (!attributes.backgroundColor) {
