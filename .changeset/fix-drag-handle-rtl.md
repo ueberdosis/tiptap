@@ -2,4 +2,4 @@
 '@tiptap/extension-drag-handle': patch
 ---
 
-Fixed drag handle ghost image rendering in RTL (right-to-left) mode. The drag ghost now inherits the editor's text direction and positions correctly relative to the cursor in RTL layouts.
+Fixed drag handle ghost image for RTL and mixed-direction content: the ghost wrapper now uses the dragged block’s computed `direction` (via `domAtPos`), and the drag image hotspot uses the cursor position relative to the ghost `wrapper` so the preview aligns with the pointer in both LTR and RTL.

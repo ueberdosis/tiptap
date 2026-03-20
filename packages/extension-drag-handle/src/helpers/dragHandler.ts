@@ -89,11 +89,16 @@ export function dragHandler(
 
   const { tr } = view.state
   const wrapper = document.createElement('div')
-  const isRTL = getComputedStyle(view.dom).direction === 'rtl'
 
-  if (isRTL) {
-    wrapper.setAttribute('dir', 'rtl')
-  }
+  const domNode = view.domAtPos(ranges[0].$from.pos).node
+  const draggedDom: Element | null =
+    domNode.nodeType === Node.TEXT_NODE
+      ? (domNode as Text).parentElement
+      : domNode instanceof Element
+        ? domNode
+        : null
+  const contentDir = draggedDom ? getComputedStyle(draggedDom).direction : getComputedStyle(view.dom).direction
+  wrapper.setAttribute('dir', contentDir || 'ltr')
 
   const from = ranges[0].$from.pos
   const to = ranges[ranges.length - 1].$to.pos
@@ -128,7 +133,9 @@ export function dragHandler(
   document.body.append(wrapper)
 
   event.dataTransfer.clearData()
-  event.dataTransfer.setDragImage(wrapper, isRTL ? wrapper.offsetWidth : 0, 0)
+  const wrapperRect = wrapper.getBoundingClientRect()
+  const dragImageX = event.clientX - wrapperRect.left
+  event.dataTransfer.setDragImage(wrapper, Math.max(0, Math.min(dragImageX, wrapperRect.width)), 0)
 
   // Tell ProseMirror the dragged content.
   // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
