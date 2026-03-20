@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.20.4
+
+### Patch Changes
+
+- Updated dependencies [0bcf3c2]
+  - @tiptap/core@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- a9bd09b: Export missing `getEmbedUrlFromYoutubeUrl` and `isValidYoutubeUrl` embed URL utility functions
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes
