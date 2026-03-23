@@ -255,7 +255,7 @@ jobs:
         run: tar -xzf /tmp/build-output/build-output.tar.gz
 
       - name: Test ${{ matrix.test-spec.name }}
-        uses: cypress-io/github-action@v6.10.2
+        uses: cypress-io/github-action@v7.1.8
         with:
           install: false
           start: pnpm exec http-server ./demos/dist -s -p 3000
