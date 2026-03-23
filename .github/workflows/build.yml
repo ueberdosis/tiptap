@@ -56,7 +56,7 @@ jobs:
           tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
 
       - name: Upload dependency artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: node-dependencies
           path: |
@@ -142,7 +142,7 @@ jobs:
         run: tar -czf /tmp/build-output.tar.gz packages/*/dist packages-deprecated/*/dist demos/dist
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: build-output
           path: /tmp/build-output.tar.gz
@@ -266,7 +266,7 @@ jobs:
           quiet: true
 
       - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots-${{ matrix.test-spec.id }}
@@ -274,7 +274,7 @@ jobs:
           retention-days: 7
 
       - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-videos-${{ matrix.test-spec.id }}
