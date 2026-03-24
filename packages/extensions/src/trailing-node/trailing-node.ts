@@ -2,6 +2,8 @@ import { Extension } from '@tiptap/core'
 import type { Node, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
+export const skipTrailingNodeMeta = 'skipTrailingNode'
+
 function nodeEqualsType({ types, node }: { types: NodeType | NodeType[]; node: Node | null | undefined }) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }
@@ -74,6 +76,10 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           apply: (tr, value) => {
             if (!tr.docChanged) {
               return value
+            }
+
+            if (tr.getMeta(skipTrailingNodeMeta)) {
+              return false
             }
 
             // Ignore transactions from UniqueID extension to prevent infinite loops
