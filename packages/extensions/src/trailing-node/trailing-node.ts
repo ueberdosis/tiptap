@@ -55,11 +55,15 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
     return [
       new Plugin({
         key: plugin,
-        appendTransaction: (_, __, state) => {
+        appendTransaction: (transactions, __, state) => {
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
           const type = schema.nodes[defaultNode]
+
+          if (transactions.some(transaction => transaction.getMeta(skipTrailingNodeMeta))) {
+            return
+          }
 
           if (!shouldInsertNodeAtEnd) {
             return
@@ -76,10 +80,6 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           apply: (tr, value) => {
             if (!tr.docChanged) {
               return value
-            }
-
-            if (tr.getMeta(skipTrailingNodeMeta)) {
-              return false
             }
 
             // Ignore transactions from UniqueID extension to prevent infinite loops
