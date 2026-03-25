@@ -2,6 +2,8 @@ import { Extension } from '@tiptap/core'
 import type { Node, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
+export const skipTrailingNodeMeta = 'skipTrailingNode'
+
 function nodeEqualsType({ types, node }: { types: NodeType | NodeType[]; node: Node | null | undefined }) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }
@@ -53,11 +55,15 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
     return [
       new Plugin({
         key: plugin,
-        appendTransaction: (_, __, state) => {
+        appendTransaction: (transactions, __, state) => {
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
           const type = schema.nodes[defaultNode]
+
+          if (transactions.some(transaction => transaction.getMeta(skipTrailingNodeMeta))) {
+            return
+          }
 
           if (!shouldInsertNodeAtEnd) {
             return

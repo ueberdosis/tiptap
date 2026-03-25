@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.20.5
+
+### Patch Changes
+
+- 0c2bbfe: Add support for skipping trailing node insertion on transactions by setting the `skipTrailingNode` meta flag.
+  - @tiptap/core@3.20.5
+  - @tiptap/pm@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- Updated dependencies [0bcf3c2]
+  - @tiptap/core@3.20.4
+  - @tiptap/pm@3.20.4
+
 ## 3.20.3
 
 ### Patch Changes
