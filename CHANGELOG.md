@@ -1,5 +1,13 @@
 # Releases
 
+## v3.20.5
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Add support for skipping trailing node insertion on transactions by setting the `skipTrailingNode` meta flag.
+
 ## v3.20.4
 
 ### @tiptap/core
