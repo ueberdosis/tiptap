@@ -31,7 +31,7 @@ export function injectExtensionAttributesToParseRule(
           ? item.attribute.parseHTML(node)
           : fromString(node.getAttribute(item.name))
 
-        if (value === null || value === undefined || value === '') {
+        if (value === null || value === undefined) {
           return items
         }
 
