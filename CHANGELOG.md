@@ -1,5 +1,31 @@
 # Releases
 
+## v3.21.0
+
+### @tiptap/extension-details
+
+#### Minor Changes
+
+- Add a `renderToggleButton` option to customize the details toggle button, including its accessible label.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix custom markdown tokenizer helper lexing to use Marked's active lexer so ordered list parsing no longer breaks inline tokenization in following paragraphs.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated `findElementNextToCoords` to fall back to `view.posAtCoords` when `elementsFromPoint` returns no matching block, resolving the position to the top-level block node.
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Update emoji dataset to include latest Unicode emojis.
+
 ## v3.20.6
 
 ### @tiptap/extension-drag-handle

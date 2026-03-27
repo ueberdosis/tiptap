@@ -1,5 +1,14 @@
 # @tiptap/extension-emoji
 
+## 3.21.0
+
+### Patch Changes
+
+- aa6062e: Update emoji dataset to include latest Unicode emojis.
+  - @tiptap/core@3.21.0
+  - @tiptap/pm@3.21.0
+  - @tiptap/suggestion@3.21.0
+
 ## 3.20.6
 
 ### Patch Changes

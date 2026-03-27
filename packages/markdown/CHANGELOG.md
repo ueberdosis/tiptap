@@ -1,5 +1,13 @@
 # @tiptap/markdown
 
+## 3.21.0
+
+### Patch Changes
+
+- 75a912a: Fix custom markdown tokenizer helper lexing to use Marked's active lexer so ordered list parsing no longer breaks inline tokenization in following paragraphs.
+  - @tiptap/core@3.21.0
+  - @tiptap/pm@3.21.0
+
 ## 3.20.6
 
 ### Patch Changes

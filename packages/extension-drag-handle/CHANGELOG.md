@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle
 
+## 3.21.0
+
+### Patch Changes
+
+- 0caf1f6: Updated `findElementNextToCoords` to fall back to `view.posAtCoords` when `elementsFromPoint` returns no matching block, resolving the position to the top-level block node.
+  - @tiptap/core@3.21.0
+  - @tiptap/extension-collaboration@3.21.0
+  - @tiptap/extension-node-range@3.21.0
+  - @tiptap/pm@3.21.0
+
 ## 3.20.6
 
 ### Patch Changes
