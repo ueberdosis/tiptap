@@ -237,7 +237,15 @@ export class NodeView<
     }
 
     // these events are handled by prosemirror
-    if (isDragging || isDropEvent || isCopyEvent || isPasteEvent || isCutEvent || (isClickEvent && isSelectable)) {
+    if (
+      isDragging ||
+      isDragEvent ||
+      isDropEvent ||
+      isCopyEvent ||
+      isPasteEvent ||
+      isCutEvent ||
+      (isClickEvent && isSelectable)
+    ) {
       return false
     }
 
