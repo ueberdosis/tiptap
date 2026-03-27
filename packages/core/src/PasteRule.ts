@@ -281,7 +281,7 @@ export function pasteRulesPlugin(props: { editor: Editor; rules: PasteRule[] }):
             isDroppedFromProseMirror = dragSourceElement === view.dom.parentElement
             dropEvent = event as DragEvent
 
-            if (!isDroppedFromProseMirror) {
+            if (dropEvent.dataTransfer?.dropEffect === 'move' && !isDroppedFromProseMirror) {
               const dragFromOtherEditor = tiptapDragFromOtherEditor
 
               if (dragFromOtherEditor?.isEditable) {
