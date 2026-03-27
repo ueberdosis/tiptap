@@ -173,6 +173,7 @@ export class NodeView<
     }
 
     const isDragEvent = event.type.startsWith('drag')
+    const isDragOverEnterEvent = event.type === 'dragenter' || event.type === 'dragover'
     const isDropEvent = event.type === 'drop'
     const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
 
@@ -239,7 +240,7 @@ export class NodeView<
     // these events are handled by prosemirror
     if (
       isDragging ||
-      isDragEvent ||
+      isDragOverEnterEvent ||
       isDropEvent ||
       isCopyEvent ||
       isPasteEvent ||
