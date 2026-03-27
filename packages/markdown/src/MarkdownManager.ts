@@ -3,6 +3,7 @@ import {
   type ExtendableConfig,
   type JSONContent,
   type MarkdownExtensionSpec,
+  type MarkdownLexerConfiguration,
   type MarkdownParseHelpers,
   type MarkdownParseResult,
   type MarkdownRendererHelpers,
@@ -13,7 +14,7 @@ import {
   generateJSON,
   getExtensionField,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
+import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -27,7 +28,6 @@ import {
 
 export class MarkdownManager {
   private markedInstance: typeof marked
-  private lexer: Lexer
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
@@ -49,7 +49,6 @@ export class MarkdownManager {
     extensions: AnyExtension[]
   }) {
     this.markedInstance = options?.marked ?? marked
-    this.lexer = new this.markedInstance.Lexer()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -65,9 +64,8 @@ export class MarkdownManager {
     if (options?.extensions) {
       this.baseExtensions = options.extensions
       const flattened = flattenExtensions(options.extensions)
-      flattened.forEach(ext => this.registerExtension(ext, false))
+      flattened.forEach(ext => this.registerExtension(ext))
     }
-    this.lexer = new this.markedInstance.Lexer() // Reset lexer to include all tokenizers
   }
 
   /** Returns the underlying marked instance. */
@@ -95,7 +93,7 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
+  registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
@@ -143,11 +141,22 @@ export class MarkdownManager {
     // Register custom tokenizer with marked.js
     if (tokenizer && this.hasMarked()) {
       this.registerTokenizer(tokenizer)
-
-      if (recreateLexer) {
-        this.lexer = new this.markedInstance.Lexer() // Reset lexer to include new tokenizer
-      }
     }
+  }
+
+  private createLexer(): Lexer {
+    return new this.markedInstance.Lexer()
+  }
+
+  private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
+    return {
+      inlineTokens: (src: string) => lexer.inlineTokens(src),
+      blockTokens: (src: string) => lexer.blockTokens(src),
+    }
+  }
+
+  private tokenizeInline(src: string): MarkdownToken[] {
+    return this.createLexer().inlineTokens(src) as MarkdownToken[]
   }
 
   /**
@@ -159,27 +168,15 @@ export class MarkdownManager {
     }
 
     const { name, start, level = 'inline', tokenize } = tokenizer
-
-    // Helper functions that use a fresh lexer instance with all registered extensions
-    const tokenizeInline = (src: string) => {
-      return this.lexer.inlineTokens(src)
-    }
-
-    const tokenizeBlock = (src: string) => {
-      return this.lexer.blockTokens(src)
-    }
-
-    const helper = {
-      inlineTokens: tokenizeInline,
-      blockTokens: tokenizeBlock,
-    }
+    const createTokenizerHelpers = this.createTokenizerHelpers.bind(this)
+    const createLexer = this.createLexer.bind(this)
 
     let startCb: (src: string) => number
 
     if (!start) {
       startCb = (src: string) => {
         // For other tokenizers, try to find a match and return its position
-        const result = tokenize(src, [], helper)
+        const result = tokenize(src, [], this.createTokenizerHelpers(this.createLexer()))
         if (result && result.raw) {
           const index = src.indexOf(result.raw)
           return index
@@ -195,7 +192,8 @@ export class MarkdownManager {
       name,
       level,
       start: startCb,
-      tokenizer: (src, tokens) => {
+      tokenizer (this: TokenizerThis, src, tokens) {
+        const helper = this.lexer ? createTokenizerHelpers(this.lexer) : createTokenizerHelpers(createLexer())
         const result = tokenize(src, tokens, helper)
 
         if (result && result.type) {
@@ -491,7 +489,7 @@ export class MarkdownManager {
           indentLevel,
           checked: checked ?? false,
           text: mainContent,
-          tokens: this.lexer.inlineTokens(mainContent),
+          tokens: this.tokenizeInline(mainContent),
           nestedTokens,
         }
       }
