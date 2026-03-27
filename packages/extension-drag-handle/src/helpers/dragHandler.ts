@@ -124,6 +124,19 @@ export function dragHandler(
   event.dataTransfer.clearData()
   event.dataTransfer.setDragImage(wrapper, 0, 0)
 
+  let cleanedUp = false
+
+  const cleanupDragPreview = () => {
+    if (cleanedUp) {
+      return
+    }
+
+    cleanedUp = true
+    removeNode(wrapper)
+    document.removeEventListener('drop', cleanupDragPreview)
+    document.removeEventListener('dragend', cleanupDragPreview)
+  }
+
   // Tell ProseMirror the dragged content.
   // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
   // to precisely delete the original node via `node.replace(tr)`. Without this,
@@ -140,6 +153,7 @@ export function dragHandler(
 
   view.dispatch(tr)
 
-  // clean up
-  document.addEventListener('drop', () => removeNode(wrapper), { once: true })
+  // Clean up the drag preview whether the drag results in a valid drop or not.
+  document.addEventListener('drop', cleanupDragPreview)
+  document.addEventListener('dragend', cleanupDragPreview)
 }
