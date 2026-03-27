@@ -93,7 +93,7 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  registerExtension(extension: AnyExtension): void {
+  registerExtension(extension: AnyExtension, _recreateLexer?: boolean): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
@@ -192,7 +192,7 @@ export class MarkdownManager {
       name,
       level,
       start: startCb,
-      tokenizer (this: TokenizerThis, src, tokens) {
+      tokenizer(this: TokenizerThis, src, tokens) {
         const helper = this.lexer ? createTokenizerHelpers(this.lexer) : createTokenizerHelpers(createLexer())
         const result = tokenize(src, tokens, helper)
 

@@ -12,7 +12,6 @@ import { Text } from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
-import type { marked } from 'marked'
 import { Marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -210,7 +209,7 @@ Second paragraph.`
 
 **After** ordered list`
       const isolatedManager = new MarkdownManager({
-        marked: new Marked() as unknown as typeof marked,
+        marked: new Marked() as unknown as typeof import('marked').marked,
         extensions: [],
       })
 
