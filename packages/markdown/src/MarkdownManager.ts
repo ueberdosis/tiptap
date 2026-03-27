@@ -28,6 +28,7 @@ import {
 
 export class MarkdownManager {
   private markedInstance: typeof marked
+  private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
@@ -156,7 +157,7 @@ export class MarkdownManager {
   }
 
   private tokenizeInline(src: string): MarkdownToken[] {
-    return this.createLexer().inlineTokens(src) as MarkdownToken[]
+    return (this.activeParseLexer ?? this.createLexer()).inlineTokens(src) as MarkdownToken[]
   }
 
   /**
@@ -287,16 +288,26 @@ export class MarkdownManager {
       throw new Error('No marked instance available for parsing')
     }
 
-    // Use marked to tokenize the markdown
-    const tokens = this.markedInstance.lexer(markdown)
+    const previousParseLexer = this.activeParseLexer
+    const parseLexer = this.createLexer()
 
-    // Convert tokens to Tiptap JSON
-    const content = this.parseTokens(tokens, true)
+    this.activeParseLexer = parseLexer
 
-    // Return a document node containing the parsed content
-    return {
-      type: 'doc',
-      content,
+    try {
+      // Use a parse-scoped lexer so follow-up inline tokenization can reuse
+      // the same configured lexer state without sharing it across parses.
+      const tokens = parseLexer.lex(markdown) as MarkdownToken[]
+
+      // Convert tokens to Tiptap JSON
+      const content = this.parseTokens(tokens, true)
+
+      // Return a document node containing the parsed content
+      return {
+        type: 'doc',
+        content,
+      }
+    } finally {
+      this.activeParseLexer = previousParseLexer
     }
   }
 
