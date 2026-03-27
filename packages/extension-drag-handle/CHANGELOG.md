@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle
 
+## 3.20.6
+
+### Patch Changes
+
+- dc6a4e5: Fix drag preview cleanup so cloned drag images are also removed when dragging ends without a valid drop.
+  - @tiptap/core@3.20.6
+  - @tiptap/extension-collaboration@3.20.6
+  - @tiptap/extension-node-range@3.20.6
+  - @tiptap/pm@3.20.6
+
 ## 3.20.5
 
 ### Patch Changes

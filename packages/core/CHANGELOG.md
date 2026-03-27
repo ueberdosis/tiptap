@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/pm@3.20.6
+
 ## 3.20.5
 
 ### Patch Changes

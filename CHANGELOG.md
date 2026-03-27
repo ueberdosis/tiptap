@@ -1,5 +1,13 @@
 # Releases
 
+## v3.20.6
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix drag preview cleanup so cloned drag images are also removed when dragging ends without a valid drop.
+
 ## v3.20.5
 
 ### @tiptap/extensions
