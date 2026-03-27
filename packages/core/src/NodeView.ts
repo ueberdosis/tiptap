@@ -173,7 +173,7 @@ export class NodeView<
     }
 
     const isDragEvent = event.type.startsWith('drag')
-    const isDragOverEnterEvent = event.type === 'dragenter' || event.type === 'dragover'
+    const isDragOverEnterEvent = event.type === 'dragover' || event.type === 'dragenter'
     const isDropEvent = event.type === 'drop'
     const isInput = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable
 
