@@ -7,6 +7,7 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
@@ -28,6 +29,15 @@ export interface DetailsOptions {
    */
   HTMLAttributes: {
     [key: string]: any
+  }
+  /**
+   * Accessibility options for the details node.
+   */
+  a11y?: {
+    /**
+     * Defines the aria-label for the toggle button.
+     */
+    toggleButtonLabel?: (node: ProseMirrorNode, isOpen: boolean) => string
   }
 }
 
@@ -65,6 +75,7 @@ export const Details = Node.create<DetailsOptions>({
       persist: false,
       openClassName: 'is-open',
       HTMLAttributes: {},
+      a11y: undefined,
     }
   },
 
@@ -107,6 +118,7 @@ export const Details = Node.create<DetailsOptions>({
 
   addNodeView() {
     return ({ editor, getPos, node, HTMLAttributes }) => {
+      let currentNode = node
       const dom = document.createElement('div')
       const attributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
         'data-type': this.name,
@@ -117,6 +129,14 @@ export const Details = Node.create<DetailsOptions>({
       const toggle = document.createElement('button')
 
       toggle.type = 'button'
+
+      const updateA11Y = (nodeToLabel: ProseMirrorNode, isOpen: boolean) => {
+        const toggleButtonLabel =
+          this.options.a11y?.toggleButtonLabel?.(nodeToLabel, isOpen) ||
+          (isOpen ? 'Collapse details content' : 'Expand details content')
+
+        toggle.setAttribute('aria-label', toggleButtonLabel)
+      }
 
       dom.append(toggle)
 
@@ -141,11 +161,17 @@ export const Details = Node.create<DetailsOptions>({
           dom.classList.toggle(this.options.openClassName)
         }
 
+        const isOpen = dom.classList.contains(this.options.openClassName)
+
+        updateA11Y(currentNode, isOpen)
+
         const event = new Event('toggleDetailsContent')
         const detailsContent = content.querySelector(':scope > div[data-type="detailsContent"]')
 
         detailsContent?.dispatchEvent(event)
       }
+
+      updateA11Y(currentNode, Boolean(node.attrs.open))
 
       if (node.attrs.open) {
         setTimeout(() => toggleDetailsContent())
@@ -172,14 +198,14 @@ export const Details = Node.create<DetailsOptions>({
                 return false
               }
 
-              const currentNode = tr.doc.nodeAt(pos)
+              const currentNodeAtPosition = tr.doc.nodeAt(pos)
 
-              if (currentNode?.type !== this.type) {
+              if (currentNodeAtPosition?.type !== this.type) {
                 return false
               }
 
               tr.setNodeMarkup(pos, undefined, {
-                open: !currentNode.attrs.open,
+                open: !currentNodeAtPosition.attrs.open,
               })
 
               return true
@@ -208,9 +234,13 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
+          currentNode = updatedNode
+
           // Only update the open state if set
           if (updatedNode.attrs.open !== undefined) {
             toggleDetailsContent(updatedNode.attrs.open)
+          } else {
+            updateA11Y(currentNode, dom.classList.contains(this.options.openClassName))
           }
 
           return true
