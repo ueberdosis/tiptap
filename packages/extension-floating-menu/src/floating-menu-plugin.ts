@@ -137,6 +137,8 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  public pluginKey: PluginKey | string
+
   /**
    * The delay in milliseconds before the menu should be updated.
    * @default 250
@@ -247,6 +249,7 @@ export class FloatingMenuView {
     editor,
     element,
     view,
+    pluginKey = 'floatingMenu',
     updateDelay = 250,
     resizeDelay = 60,
     options,
@@ -256,6 +259,7 @@ export class FloatingMenuView {
     this.editor = editor
     this.element = element
     this.view = view
+    this.pluginKey = pluginKey
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
@@ -358,10 +362,11 @@ export class FloatingMenuView {
   /**
    * Handles the transaction event to update the position of the floating menu.
    * This allows external code to trigger a position update via:
-   * `editor.view.dispatch(editor.state.tr.setMeta('floatingMenu', 'updatePosition'))`
+   * `editor.view.dispatch(editor.state.tr.setMeta(pluginKey, 'updatePosition'))`
+   * The `pluginKey` defaults to `floatingMenu`
    */
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
-    const meta = tr.getMeta('floatingMenu')
+    const meta = tr.getMeta(this.pluginKey)
     if (meta === 'updatePosition') {
       this.updatePosition()
     } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {

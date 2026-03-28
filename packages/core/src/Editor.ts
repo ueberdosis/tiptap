@@ -2,7 +2,7 @@
 import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
+import { type DirectEditorProps, EditorView } from '@tiptap/pm/view'
 
 import { CommandManager } from './CommandManager.js'
 import { EventEmitter } from './EventEmitter.js'
@@ -300,7 +300,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Returns the editor state.
+   * Returns the editor view.
    */
   public get view(): EditorView {
     if (this.editorView) {
@@ -523,10 +523,14 @@ export class Editor extends EventEmitter<EditorEvents> {
     // If a user provided a custom `dispatchTransaction` through `editorProps`,
     // we use that as the base dispatch function.
     // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
-    const baseDispatch = (editorProps as any).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const baseDispatch = (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
     const dispatch = enableExtensionDispatchTransaction
       ? this.extensionManager.dispatchTransaction(baseDispatch)
       : baseDispatch
+
+    // Compose transformPastedHTML from extensions and user-provided editorProps
+    const baseTransformPastedHTML = (editorProps as DirectEditorProps).transformPastedHTML
+    const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
 
     this.editorView = new EditorView(element, {
       ...editorProps,
@@ -536,6 +540,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         ...editorProps?.attributes,
       },
       dispatchTransaction: dispatch,
+      transformPastedHTML,
       state: this.editorState,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,

@@ -1,5 +1,7 @@
 import type { Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { Code } from '@tiptap/extension-code'
+import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Heading } from '@tiptap/extension-heading'
@@ -22,9 +24,11 @@ describe('Markdown Conversion Tests', () => {
     Text,
     Bold,
     Italic,
+    Code,
     Link,
     Heading,
     HardBreak,
+    CodeBlock,
     BulletList,
     OrderedList,
     ListItem,
@@ -183,8 +187,9 @@ describe('Markdown Conversion Tests', () => {
   })
 
   describe('multiple empty paragraphs', () => {
-    // Multiple newlines should be preserved correctly when serializing and parsing
-    it('should preserve multiple empty paragraphs when converting to markdown', () => {
+    // The first top-level empty paragraph stays empty markdown spacing.
+    // Additional consecutive empty paragraphs are preserved with &nbsp; markers.
+    it('should preserve two empty paragraphs with blank spacing plus one &nbsp; marker when converting to markdown', () => {
       const json = {
         type: 'doc',
         content: [
@@ -209,28 +214,24 @@ describe('Markdown Conversion Tests', () => {
 
       const markdown = markdownManager.serialize(json)
 
-      // Empty paragraphs should render as &nbsp; to preserve blank lines
-      // (2 empty paragraphs with &nbsp;: Line1 + \n\n + &nbsp; + \n\n + &nbsp; + \n\n + Line2)
-      expect(markdown).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+      expect(markdown).toBe('Line1\n\n\n\n&nbsp;\n\nLine2')
     })
 
-    it('should parse markdown with &nbsp; blank lines back correctly', () => {
-      const markdown = 'Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2'
+    it('should parse markdown with one preserved blank paragraph back correctly', () => {
+      const markdown = 'Line1\n\n&nbsp;\n\nLine2'
       const json = markdownManager.parse(markdown)
+      const content = json.content!
 
-      // After parsing, we should get back the original structure with 2 empty paragraphs
-      expect(json.content).toHaveLength(4)
-      expect(json.content[0].type).toBe('paragraph')
-      expect(json.content[0].content[0].text).toBe('Line1')
-      expect(json.content[1].type).toBe('paragraph')
-      expect(json.content[1].content).toEqual([])
-      expect(json.content[2].type).toBe('paragraph')
-      expect(json.content[2].content).toEqual([])
-      expect(json.content[3].type).toBe('paragraph')
-      expect(json.content[3].content[0].text).toBe('Line2')
+      expect(content).toHaveLength(3)
+      expect(content[0].type).toBe('paragraph')
+      expect(content[0].content![0].text).toBe('Line1')
+      expect(content[1].type).toBe('paragraph')
+      expect(content[1].content).toEqual([])
+      expect(content[2].type).toBe('paragraph')
+      expect(content[2].content![0].text).toBe('Line2')
     })
 
-    it('should roundtrip multiple empty paragraphs correctly', () => {
+    it('should reserialize parsed empty paragraphs using blank spacing plus preserved markers', () => {
       const json = {
         type: 'doc',
         content: [
@@ -253,20 +254,39 @@ describe('Markdown Conversion Tests', () => {
         ],
       }
 
-      // Serialize to markdown
       const markdown = markdownManager.serialize(json)
-
-      // Parse back to JSON
       const parsed = markdownManager.parse(markdown)
+      const content = parsed.content!
 
-      // Should match the original structure
-      expect(parsed.content).toHaveLength(4)
-      expect(parsed.content[1].content).toEqual([])
-      expect(parsed.content[2].content).toEqual([])
+      expect(content).toHaveLength(4)
+      expect(content[1].content).toEqual([])
+      expect(content[2].content).toEqual([])
 
-      // Serialize again to ensure consistency
       const remarked = markdownManager.serialize(parsed)
       expect(remarked).toBe(markdown)
+    })
+
+    it('should roundtrip five consecutive empty paragraphs without losing one', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          { type: 'paragraph', content: [{ type: 'text', text: 'Line1' }] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [] },
+          { type: 'paragraph', content: [{ type: 'text', text: 'Line2' }] },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      const parsed = markdownManager.parse(markdown)
+      const content = parsed.content!
+
+      expect(markdown).toBe('Line1\n\n\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+      expect(content).toHaveLength(7)
+      expect(content.slice(1, 6).every(node => node.type === 'paragraph' && node.content?.length === 0)).toBe(true)
     })
 
     it('should handle empty paragraphs without content field (real editor output)', () => {
@@ -295,29 +315,274 @@ describe('Markdown Conversion Tests', () => {
 
       const markdown = markdownManager.serialize(json)
 
-      // Should still render as &nbsp; for empty paragraphs
-      expect(markdown).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+      expect(markdown).toBe('Line1\n\n\n\n&nbsp;\n\nLine2')
     })
 
     it('should parse literal NBSP character (\\u00A0) as empty paragraph', () => {
       // Some markdown parsers may convert &nbsp; entity to the literal NBSP character
-      const markdown = 'Line1\n\n\u00A0\n\n\u00A0\n\nLine2'
+      const markdown = 'Line1\n\n\u00A0\n\nLine2'
+      const json = markdownManager.parse(markdown)
+      const content = json.content!
+
+      expect(content).toHaveLength(3)
+      expect(content[0].type).toBe('paragraph')
+      expect(content[0].content![0].text).toBe('Line1')
+      expect(content[1].type).toBe('paragraph')
+      expect(content[1].content).toEqual([])
+      expect(content[2].type).toBe('paragraph')
+      expect(content[2].content![0].text).toBe('Line2')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('Line1\n\n\n\nLine2')
+    })
+  })
+
+  describe('tilde fenced code blocks', () => {
+    const codeBlockJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'codeBlock',
+          attrs: { language: null },
+          content: [{ type: 'text', text: 'code block' }],
+        },
+      ],
+    }
+
+    const codeBlockWithLangJSON = {
+      type: 'doc',
+      content: [
+        {
+          type: 'codeBlock',
+          attrs: { language: 'js' },
+          content: [{ type: 'text', text: 'console.log("hello")' }],
+        },
+      ],
+    }
+
+    it('should parse tilde fenced code blocks', () => {
+      const markdown = '~~~\ncode block\n~~~'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockJSON)
+    })
+
+    it('should parse tilde fenced code blocks with language', () => {
+      const markdown = '~~~js\nconsole.log("hello")\n~~~'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockWithLangJSON)
+    })
+
+    it('should parse backtick fenced code blocks', () => {
+      const markdown = '```\ncode block\n```'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockJSON)
+    })
+
+    it('should parse backtick fenced code blocks with language', () => {
+      const markdown = '```js\nconsole.log("hello")\n```'
+      const json = markdownManager.parse(markdown)
+      expect(json).toEqual(codeBlockWithLangJSON)
+    })
+
+    it('should produce the same result for tilde and backtick fenced code blocks', () => {
+      const tildeMarkdown = '~~~\ncode block\n~~~'
+      const backtickMarkdown = '```\ncode block\n```'
+      const tildeJSON = markdownManager.parse(tildeMarkdown)
+      const backtickJSON = markdownManager.parse(backtickMarkdown)
+      expect(tildeJSON).toEqual(backtickJSON)
+    })
+  })
+
+  describe('HTML character escaping', () => {
+    it('should decode &lt; and &gt; entities to literal < and > when parsing', () => {
+      const markdown = 'foo &lt;bar&gt; baz'
       const json = markdownManager.parse(markdown)
 
-      // After parsing, should get empty paragraphs (not text nodes with NBSP)
-      expect(json.content).toHaveLength(4)
+      expect(json.content).toHaveLength(1)
       expect(json.content[0].type).toBe('paragraph')
-      expect(json.content[0].content[0].text).toBe('Line1')
+      expect(json.content[0].content).toHaveLength(1)
+      expect(json.content[0].content[0].text).toBe('foo <bar> baz')
+    })
+
+    it('should decode &amp; entity to literal & when parsing', () => {
+      const markdown = 'foo &amp; bar'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe('foo & bar')
+    })
+
+    it('should encode < and > back to entities when serializing', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo <bar> baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo &lt;bar&gt; baz')
+    })
+
+    it('should encode & back to &amp; when serializing', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo & bar' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo &amp; bar')
+    })
+
+    it('should roundtrip &lt;bar&gt; correctly', () => {
+      const markdown = 'foo &lt;bar&gt; baz'
+      const json = markdownManager.parse(markdown)
+
+      // Editor should show literal <bar>
+      expect(json.content[0].content[0].text).toBe('foo <bar> baz')
+
+      // Serialize back should produce the entity form
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &lt;bar&gt; baz')
+    })
+
+    it('should roundtrip &amp; correctly', () => {
+      const markdown = 'foo &amp; bar'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo & bar')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &amp; bar')
+    })
+
+    it('should decode &quot; entity to literal " when parsing', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+    })
+
+    it('should not encode " when serializing (quotes are valid markdown)', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo "bar" baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo "bar" baz')
+    })
+
+    it('should decode &quot; when parsing but serialize as literal "', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo "bar" baz')
+    })
+
+    it('should not encode entities inside code blocks', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'codeBlock',
+            attrs: { language: null },
+            content: [{ type: 'text', text: 'foo <bar> & baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('```\nfoo <bar> & baz\n```')
+    })
+
+    it('should not encode entities inside inline code marks', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: '<tag>',
+                marks: [{ type: 'code' }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('`<tag>`')
+    })
+
+    it('should handle doubly-encoded entities correctly', () => {
+      // &amp;lt; should decode to &lt; (not to <)
+      const markdown = 'foo &amp;lt; bar'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo &lt; bar')
+
+      // Serializing should re-encode the & in &lt;
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &amp;lt; bar')
+    })
+
+    it('should preserve &nbsp; empty paragraph behavior', () => {
+      const markdown = 'Line1\n\n&nbsp;\n\nLine2'
+      const json = markdownManager.parse(markdown)
+
+      // Empty paragraph check should still work
+      expect(json.content).toHaveLength(3)
       expect(json.content[1].type).toBe('paragraph')
       expect(json.content[1].content).toEqual([])
-      expect(json.content[2].type).toBe('paragraph')
-      expect(json.content[2].content).toEqual([])
-      expect(json.content[3].type).toBe('paragraph')
-      expect(json.content[3].content[0].text).toBe('Line2')
 
-      // Should serialize back to &nbsp; (normalized form)
+      // A single empty paragraph between content paragraphs uses blank-line
+      // spacing (the first empty paragraph doesn't need an &nbsp; marker).
       const serialized = markdownManager.serialize(json)
-      expect(serialized).toBe('Line1\n\n&nbsp;\n\n&nbsp;\n\nLine2')
+      expect(serialized).toBe('Line1\n\n\n\nLine2')
+    })
+
+    it('should roundtrip literal &amp;nbsp; without it being treated as an empty paragraph marker', () => {
+      // A user writing &amp;nbsp; in markdown intends for the text "&nbsp;" to display.
+      // decodeHtmlEntities decodes &amp; → &, producing text content "&nbsp;".
+      // On serialization, encodeHtmlEntities re-encodes & → &amp;, restoring &amp;nbsp;.
+      // The intermediate "&nbsp;" text must NOT be confused with the empty-paragraph marker.
+      const markdown = 'before &amp;nbsp; after'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content).toHaveLength(1)
+      expect(json.content[0].type).toBe('paragraph')
+      expect(json.content[0].content[0].text).toBe('before &nbsp; after')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('before &amp;nbsp; after')
+    })
+
+    it('should preserve a standalone literal &amp;nbsp; paragraph as text', () => {
+      const markdown = '&amp;nbsp;'
+      const json = markdownManager.parse(markdown)
+      const content = json.content!
+
+      expect(content).toHaveLength(1)
+      expect(content[0].type).toBe('paragraph')
+      expect(content[0].content).toEqual([{ type: 'text', text: '&nbsp;' }])
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('&amp;nbsp;')
     })
   })
 })

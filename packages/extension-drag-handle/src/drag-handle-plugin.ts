@@ -171,10 +171,6 @@ export const DragHandlePlugin = ({
     }
   }
 
-  element.addEventListener('dragstart', onDragStart)
-  element.addEventListener('dragend', onDragEnd)
-  document.addEventListener('drop', onDrop)
-
   wrapper.appendChild(element)
 
   return {
@@ -263,6 +259,10 @@ export const DragHandlePlugin = ({
         wrapper.style.position = 'absolute'
         wrapper.style.top = '0'
         wrapper.style.left = '0'
+
+        element.addEventListener('dragstart', onDragStart)
+        element.addEventListener('dragend', onDragEnd)
+        document.addEventListener('drop', onDrop)
 
         return {
           update(_, oldState) {

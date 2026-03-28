@@ -1,5 +1,71 @@
 # Change Log
 
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/pm@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/pm@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/pm@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- 0bcf3c2: Fixed Tiptap not publishing with build dist artifacts
+  - @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- c94fac4: Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- 6b9ea92: Fixed overlapping bold and italic markdown serialization and round-tripping.
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- 269823d: Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- 25f57e4: Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Minor Changes
+
+- 57624a1: Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+### Patch Changes
+
+- 4b731e2: Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- 98546ac: Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- 76ce47d: Fixed a typo in the documentation of `editor.view`
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Patch Changes

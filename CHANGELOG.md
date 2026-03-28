@@ -1,5 +1,257 @@
 # Releases
 
+## v3.21.0
+
+### @tiptap/extension-details
+
+#### Minor Changes
+
+- Add a `renderToggleButton` option to customize the details toggle button, including its accessible label.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix custom markdown tokenizer helper lexing to use Marked's active lexer so ordered list parsing no longer breaks inline tokenization in following paragraphs.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated `findElementNextToCoords` to fall back to `view.posAtCoords` when `elementsFromPoint` returns no matching block, resolving the position to the top-level block node.
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Update emoji dataset to include latest Unicode emojis.
+
+## v3.20.6
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix drag preview cleanup so cloned drag images are also removed when dragging ends without a valid drop.
+
+## v3.20.5
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Add support for skipping trailing node insertion on transactions by setting the `skipTrailingNode` meta flag.
+
+## v3.20.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed Tiptap not publishing with build dist artifacts
+
+## v3.20.3
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Fixed a bug where empty paragraphs accumulated in the document on every page reload when using the UniqueID extension with the Collaboration extension and an externally created Yjs provider.
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Export missing `getEmbedUrlFromYoutubeUrl` and `isValidYoutubeUrl` embed URL utility functions
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- Skip placeholder decorations on non-textblock nodes when `includeChildren` is enabled to prevent duplicate placeholders on wrapper nodes like lists.
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed overlapping bold and italic markdown serialization and round-tripping.
+
+## v3.20.2
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+
+## v3.20.1
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Fix tilde-fenced code blocks (`~~~`) being silently dropped when parsing markdown
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix Drag event listener is removed when a plugin is registered after the DragHandle plugin.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Add support for `types: 'all'` in `UniqueID` to target every node type except `doc` and `text`.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+
+## v3.20.0
+
+### @tiptap/core
+
+#### Minor Changes
+
+- Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+#### Patch Changes
+
+- Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- Fixed a typo in the documentation of `editor.view`
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix drag handle not appearing for atom/leaf nodes like images in both nested and non-nested modes
+- Add table structure rules to prevent drag handle on table rows, cells, and headers, and fix ghost table rows when dragging tables
+- Fix drag position resolving outside the document when dragging an empty text node at the end of the document
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fixed getMarkdown() returning `&nbsp;` instead of empty string when editor is empty
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+#### Patch Changes
+
+- Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Fixed a runtime error when initializing `CodeBlockLowlight` by switching the `CodeBlock` import to a named export. This prevents `extend is not a function` errors caused by ESM/CJS interop issues.
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Added missing storage typings
+
+## v3.19.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Add `title` attribute to Link extension. The title can now be set via `setLink` and `toggleLink` commands and is rendered as an HTML title attribute.
+- Add title attribute support for markdown rendering. Links with titles are now serialized to markdown format `[text](url "title")`.
+
+### @tiptap/react
+
+#### Minor Changes
+
+- Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
 ## v3.18.0
 
 ### @tiptap/extension-bubble-menu
@@ -19,24 +271,27 @@
 #### Minor Changes
 
 - Introduce a new, optional React integration that provides a declarative `<Tiptap />` component for setting up editors in React apps.
-  
+
   Summary
+
   - Add a new, ergonomic way to initialize and use Tiptap editors in React via `<Tiptap />` components. This is an additive change and does not remove or change existing APIs.
-  
+
   Why this change
+
   - Improves ergonomics for React users by offering a component-first API that pairs well with React patterns (hooks, JSX composition and props-driven configuration).
-  
+
   Migration and usage
+
   - The old programmatic setup remains supported for this major version — nothing breaks. We encourage consumers to try the new `<Tiptap />` component and migrate when convenient.
-  
+
   Example
-  
+
   ```tsx
   import { Tiptap, useEditor } from '@tiptap/react'
-  
+
   function MyEditor() {
     const editor = useEditor({ extensions: [StarterKit], content: '<h1>Hello from Tiptap</h1>' })
-  
+
     return (
       <Tiptap instance={editor}>
         <Tiptap.Content />
@@ -47,8 +302,9 @@
     )
   }
   ```
-  
+
   Deprecation plan
+
   - The old imperative setup will remain fully backward-compatible for this major release. We plan to deprecate (and remove) the legacy setup in the next major version — a deprecation notice and migration guide will be published ahead of that change.
 
 #### Patch Changes
@@ -320,7 +576,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/vue-2
@@ -328,7 +584,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/vue-3
@@ -336,7 +592,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/extension-drag-handle
@@ -431,7 +687,7 @@
 #### Minor Changes
 
 - Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
-  
+
   - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
@@ -441,7 +697,7 @@
 #### Minor Changes
 
 - Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
-  
+
   - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
@@ -469,10 +725,10 @@
 #### Patch Changes
 
 - Improve TypeScript generics for Node.extend
-  
+
   The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
   improving type inference when extending Node and Mark classes with additional config properties.
-  
+
   This is a type-only change — there are no runtime behavior changes.
 
 ### @tiptap/extensions

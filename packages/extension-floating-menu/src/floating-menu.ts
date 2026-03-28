@@ -49,7 +49,7 @@ export const FloatingMenu = Extension.create<FloatingMenuOptions>({
         () =>
         ({ tr, dispatch }) => {
           if (dispatch) {
-            tr.setMeta('floatingMenu', 'updatePosition')
+            tr.setMeta(this.options.pluginKey, 'updatePosition')
           }
           return true
         },

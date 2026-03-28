@@ -55,7 +55,8 @@ export const Delete = Extension.create({
           const oldStart = mapping.invert().map(newStart, -1)
           const oldEnd = mapping.invert().map(newEnd)
 
-          const foundBeforeMark = nextTransaction.doc.nodeAt(newStart - 1)?.marks.some(mark => mark.eq(step.mark))
+          const foundBeforeMark =
+            newStart > 0 ? nextTransaction.doc.nodeAt(newStart - 1)?.marks.some(mark => mark.eq(step.mark)) : false
           const foundAfterMark = nextTransaction.doc.nodeAt(newEnd)?.marks.some(mark => mark.eq(step.mark))
 
           this.editor.emit('delete', {

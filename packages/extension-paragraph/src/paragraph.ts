@@ -76,7 +76,16 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
     // Special case: if paragraph contains only &nbsp; (non-breaking space),
     // treat it as an empty paragraph to preserve blank lines
+    const hasExplicitEmptyParagraphMarker =
+      tokens.length === 1 &&
+      tokens[0].type === 'text' &&
+      (tokens[0].raw === EMPTY_PARAGRAPH_MARKDOWN ||
+        tokens[0].text === EMPTY_PARAGRAPH_MARKDOWN ||
+        tokens[0].raw === NBSP_CHAR ||
+        tokens[0].text === NBSP_CHAR)
+
     if (
+      hasExplicitEmptyParagraphMarker &&
       content.length === 1 &&
       content[0].type === 'text' &&
       (content[0].text === EMPTY_PARAGRAPH_MARKDOWN || content[0].text === NBSP_CHAR)
@@ -88,7 +97,7 @@ export const Paragraph = Node.create<ParagraphOptions>({
     return helpers.createNode('paragraph', undefined, content)
   },
 
-  renderMarkdown: (node, h) => {
+  renderMarkdown: (node, h, ctx) => {
     if (!node) {
       return ''
     }
@@ -96,9 +105,14 @@ export const Paragraph = Node.create<ParagraphOptions>({
     // Normalize content: treat undefined/null as empty array
     const content = Array.isArray(node.content) ? node.content : []
 
-    // If the paragraph is empty, render a non-breaking space to preserve blank lines
     if (content.length === 0) {
-      return EMPTY_PARAGRAPH_MARKDOWN
+      // Emit &nbsp; for the second and later empty paragraphs in a consecutive
+      // run at the current nesting level. The first empty paragraph stays empty
+      // so markdown spacing is preserved naturally.
+      const previousContent = Array.isArray(ctx?.previousNode?.content) ? ctx.previousNode.content : []
+      const previousNodeIsEmptyParagraph = ctx?.previousNode?.type === 'paragraph' && previousContent.length === 0
+
+      return previousNodeIsEmptyParagraph ? EMPTY_PARAGRAPH_MARKDOWN : ''
     }
 
     return h.renderChildren(content)

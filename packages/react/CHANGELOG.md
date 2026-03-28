@@ -1,5 +1,90 @@
 # Change Log
 
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/core@3.21.0
+- @tiptap/pm@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/core@3.20.6
+- @tiptap/pm@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/core@3.20.5
+- @tiptap/pm@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- Updated dependencies [0bcf3c2]
+  - @tiptap/core@3.20.4
+  - @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- f4f6be2: Forward BubbleMenu and FloatingMenu HTML props to the actual menu element so attributes like `className`, `style`, `data-*`, and event handlers bind to the positioned menu container.
+- f4f6be2: Generate a stable per-instance menu plugin key automatically when `pluginKey` is omitted, so multiple BubbleMenu or FloatingMenu components can be mounted without colliding.
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- Updated dependencies [269823d]
+  - @tiptap/core@3.20.2
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Minor Changes
+
+- 0f28d9c: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- 0f28d9c: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- 253ca1c: Fix `BubbleMenu`/`FloatingMenu` to use `pluginKey` as the transaction meta key so that multiple instances can be updated independently without affecting each other
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Minor Changes
+
+- a1da626: Moved BubbleMenu and FloatingMenu to separate `@tiptap/react/menus` entrypoint to keep floating-ui optional
+- a1da626: Simplified Tiptap component API with guaranteed non-null editor instance from useTiptap hook
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+
 ## 3.18.0
 
 ### Minor Changes

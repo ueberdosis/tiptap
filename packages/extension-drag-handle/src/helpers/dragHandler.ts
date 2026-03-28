@@ -49,8 +49,11 @@ function getDragHandleRanges(
   }
 
   // For non-nested mode, use depth 0 to select the outermost block
+  // Atom nodes (e.g. images) have nodeSize=1 with no opening/closing tokens,
+  // so we must not subtract 1 or we'll create an empty range.
+  const offset = result.resultNode.isText || result.resultNode.isAtom ? 0 : -1
   const $from = doc.resolve(result.pos)
-  const $to = doc.resolve(result.pos + result.resultNode.nodeSize)
+  const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
   return getSelectionRanges($from, $to, 0)
 }
@@ -121,13 +124,36 @@ export function dragHandler(
   event.dataTransfer.clearData()
   event.dataTransfer.setDragImage(wrapper, 0, 0)
 
-  // tell ProseMirror the dragged content
-  view.dragging = { slice, move: true }
+  let cleanedUp = false
+
+  const cleanupDragPreview = () => {
+    if (cleanedUp) {
+      return
+    }
+
+    cleanedUp = true
+    removeNode(wrapper)
+    document.removeEventListener('drop', cleanupDragPreview)
+    document.removeEventListener('dragend', cleanupDragPreview)
+  }
+
+  // Tell ProseMirror the dragged content.
+  // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
+  // to precisely delete the original node via `node.replace(tr)`. Without this,
+  // ProseMirror falls back to `tr.deleteSelection()` which relies on the current
+  // selection — but the browser may change the selection during drag, causing the
+  // original node to not be deleted on drop.
+  const nodeSelection = selection instanceof NodeSelection ? selection : undefined
+
+  // The `node` property is used at runtime by ProseMirror's drop handler but is
+  // not exposed in the public type declaration for `view.dragging`.
+  view.dragging = { slice, move: true, node: nodeSelection } as typeof view.dragging
 
   tr.setSelection(selection)
 
   view.dispatch(tr)
 
-  // clean up
-  document.addEventListener('drop', () => removeNode(wrapper), { once: true })
+  // Clean up the drag preview whether the drag results in a valid drop or not.
+  document.addEventListener('drop', cleanupDragPreview)
+  document.addEventListener('dragend', cleanupDragPreview)
 }
