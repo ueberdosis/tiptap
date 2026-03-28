@@ -571,5 +571,18 @@ describe('Markdown Conversion Tests', () => {
       const serialized = markdownManager.serialize(json)
       expect(serialized).toBe('before &amp;nbsp; after')
     })
+
+    it('should preserve a standalone literal &amp;nbsp; paragraph as text', () => {
+      const markdown = '&amp;nbsp;'
+      const json = markdownManager.parse(markdown)
+      const content = json.content!
+
+      expect(content).toHaveLength(1)
+      expect(content[0].type).toBe('paragraph')
+      expect(content[0].content).toEqual([{ type: 'text', text: '&nbsp;' }])
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('&amp;nbsp;')
+    })
   })
 })
