@@ -3,17 +3,21 @@ import {
   type ExtendableConfig,
   type JSONContent,
   type MarkdownExtensionSpec,
+  type MarkdownLexerConfiguration,
   type MarkdownParseHelpers,
   type MarkdownParseResult,
   type MarkdownRendererHelpers,
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  callOrReturn,
+  decodeHtmlEntities,
+  encodeHtmlEntities,
   flattenExtensions,
   generateJSON,
   getExtensionField,
 } from '@tiptap/core'
-import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
+import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
   closeMarksBeforeNode,
@@ -27,13 +31,15 @@ import {
 
 export class MarkdownManager {
   private markedInstance: typeof marked
-  private lexer: Lexer
+  private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
   private baseExtensions: AnyExtension[] = []
   private extensions: AnyExtension[] = []
+  /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
+  private codeTypes: Set<string> = new Set()
 
   /**
    * Create a MarkdownManager.
@@ -49,7 +55,6 @@ export class MarkdownManager {
     extensions: AnyExtension[]
   }) {
     this.markedInstance = options?.marked ?? marked
-    this.lexer = new this.markedInstance.Lexer()
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
@@ -65,9 +70,8 @@ export class MarkdownManager {
     if (options?.extensions) {
       this.baseExtensions = options.extensions
       const flattened = flattenExtensions(options.extensions)
-      flattened.forEach(ext => this.registerExtension(ext, false))
+      flattened.forEach(ext => this.registerExtension(ext))
     }
-    this.lexer = new this.markedInstance.Lexer() // Reset lexer to include all tokenizers
   }
 
   /** Returns the underlying marked instance. */
@@ -95,11 +99,19 @@ export class MarkdownManager {
    * `markdownName`, `parseMarkdown`, `renderMarkdown` and `priority` from the
    * extension config (using the same resolution used across the codebase).
    */
-  registerExtension(extension: AnyExtension, recreateLexer: boolean = true): void {
+  registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
 
+    // Track extensions that declare `code: true` so we can skip HTML entity
+    // encoding inside code contexts without hardcoding specific type names.
+    const isCode = callOrReturn(getExtensionField(extension, 'code'))
+
     const name = extension.name
+
+    if (isCode) {
+      this.codeTypes.add(name)
+    }
     const tokenName =
       (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
     const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
@@ -143,11 +155,22 @@ export class MarkdownManager {
     // Register custom tokenizer with marked.js
     if (tokenizer && this.hasMarked()) {
       this.registerTokenizer(tokenizer)
-
-      if (recreateLexer) {
-        this.lexer = new this.markedInstance.Lexer() // Reset lexer to include new tokenizer
-      }
     }
+  }
+
+  private createLexer(): Lexer {
+    return new this.markedInstance.Lexer()
+  }
+
+  private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
+    return {
+      inlineTokens: (src: string) => lexer.inlineTokens(src),
+      blockTokens: (src: string) => lexer.blockTokens(src),
+    }
+  }
+
+  private tokenizeInline(src: string): MarkdownToken[] {
+    return (this.activeParseLexer ?? this.createLexer()).inlineTokens(src) as MarkdownToken[]
   }
 
   /**
@@ -159,27 +182,15 @@ export class MarkdownManager {
     }
 
     const { name, start, level = 'inline', tokenize } = tokenizer
-
-    // Helper functions that use a fresh lexer instance with all registered extensions
-    const tokenizeInline = (src: string) => {
-      return this.lexer.inlineTokens(src)
-    }
-
-    const tokenizeBlock = (src: string) => {
-      return this.lexer.blockTokens(src)
-    }
-
-    const helper = {
-      inlineTokens: tokenizeInline,
-      blockTokens: tokenizeBlock,
-    }
+    const createTokenizerHelpers = this.createTokenizerHelpers.bind(this)
+    const createLexer = this.createLexer.bind(this)
 
     let startCb: (src: string) => number
 
     if (!start) {
       startCb = (src: string) => {
         // For other tokenizers, try to find a match and return its position
-        const result = tokenize(src, [], helper)
+        const result = tokenize(src, [], this.createTokenizerHelpers(this.createLexer()))
         if (result && result.raw) {
           const index = src.indexOf(result.raw)
           return index
@@ -195,7 +206,8 @@ export class MarkdownManager {
       name,
       level,
       start: startCb,
-      tokenizer: (src, tokens) => {
+      tokenizer(this: TokenizerThis, src, tokens) {
+        const helper = this.lexer ? createTokenizerHelpers(this.lexer) : createTokenizerHelpers(createLexer())
         const result = tokenize(src, tokens, helper)
 
         if (result && result.type) {
@@ -289,16 +301,26 @@ export class MarkdownManager {
       throw new Error('No marked instance available for parsing')
     }
 
-    // Use marked to tokenize the markdown
-    const tokens = this.markedInstance.lexer(markdown)
+    const previousParseLexer = this.activeParseLexer
+    const parseLexer = this.createLexer()
 
-    // Convert tokens to Tiptap JSON
-    const content = this.parseTokens(tokens, true)
+    this.activeParseLexer = parseLexer
 
-    // Return a document node containing the parsed content
-    return {
-      type: 'doc',
-      content,
+    try {
+      // Use a parse-scoped lexer so follow-up inline tokenization can reuse
+      // the same configured lexer state without sharing it across parses.
+      const tokens = parseLexer.lex(markdown) as MarkdownToken[]
+
+      // Convert tokens to Tiptap JSON
+      const content = this.parseTokens(tokens, true)
+
+      // Return a document node containing the parsed content
+      return {
+        type: 'doc',
+        content,
+      }
+    } finally {
+      this.activeParseLexer = previousParseLexer
     }
   }
 
@@ -491,7 +513,7 @@ export class MarkdownManager {
           indentLevel,
           checked: checked ?? false,
           text: mainContent,
-          tokens: this.lexer.inlineTokens(mainContent),
+          tokens: this.tokenizeInline(mainContent),
           nestedTokens,
         }
       }
@@ -631,9 +653,10 @@ export class MarkdownManager {
       const token = tokens[i]
 
       if (token.type === 'text') {
+        // Create text node – decode HTML entities so that e.g. `&lt;` displays as `<` in the editor
         result.push({
           type: 'text',
-          text: token.text || '',
+          text: decodeHtmlEntities(token.text || ''),
         })
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
@@ -797,7 +820,7 @@ export class MarkdownManager {
       case 'text':
         return {
           type: 'text',
-          text: token.text || '',
+          text: decodeHtmlEntities(token.text || ''),
         }
 
       case 'html':
@@ -875,6 +898,18 @@ export class MarkdownManager {
     }
   }
 
+  /**
+   * Encode HTML entities in text unless the node is inside a code context
+   * (code mark or code-block parent) where literal characters should be preserved.
+   */
+  private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
+    const isInsideCode =
+      (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
+      (node.marks || []).some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
+
+    return isInsideCode ? text : encodeHtmlEntities(text)
+  }
+
   renderNodeToMarkdown(
     node: JSONContent,
     parentNode?: JSONContent,
@@ -885,7 +920,7 @@ export class MarkdownManager {
     // if node is a text node, we simply return it's text content
     // marks are handled at the array level in renderNodesWithMarkBoundaries
     if (node.type === 'text') {
-      return node.text || ''
+      return this.encodeTextForMarkdown(node.text || '', node, parentNode)
     }
 
     if (!node.type) {
@@ -982,7 +1017,7 @@ export class MarkdownManager {
       }
 
       if (node.type === 'text') {
-        let textContent = node.text || ''
+        let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened

@@ -1,5 +1,6 @@
 import type { Extension } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
+import { Code } from '@tiptap/extension-code'
 import { CodeBlock } from '@tiptap/extension-code-block'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
@@ -23,6 +24,7 @@ describe('Markdown Conversion Tests', () => {
     Text,
     Bold,
     Italic,
+    Code,
     Link,
     Heading,
     HardBreak,
@@ -388,6 +390,199 @@ describe('Markdown Conversion Tests', () => {
       const tildeJSON = markdownManager.parse(tildeMarkdown)
       const backtickJSON = markdownManager.parse(backtickMarkdown)
       expect(tildeJSON).toEqual(backtickJSON)
+    })
+  })
+
+  describe('HTML character escaping', () => {
+    it('should decode &lt; and &gt; entities to literal < and > when parsing', () => {
+      const markdown = 'foo &lt;bar&gt; baz'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content).toHaveLength(1)
+      expect(json.content[0].type).toBe('paragraph')
+      expect(json.content[0].content).toHaveLength(1)
+      expect(json.content[0].content[0].text).toBe('foo <bar> baz')
+    })
+
+    it('should decode &amp; entity to literal & when parsing', () => {
+      const markdown = 'foo &amp; bar'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe('foo & bar')
+    })
+
+    it('should encode < and > back to entities when serializing', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo <bar> baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo &lt;bar&gt; baz')
+    })
+
+    it('should encode & back to &amp; when serializing', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo & bar' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo &amp; bar')
+    })
+
+    it('should roundtrip &lt;bar&gt; correctly', () => {
+      const markdown = 'foo &lt;bar&gt; baz'
+      const json = markdownManager.parse(markdown)
+
+      // Editor should show literal <bar>
+      expect(json.content[0].content[0].text).toBe('foo <bar> baz')
+
+      // Serialize back should produce the entity form
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &lt;bar&gt; baz')
+    })
+
+    it('should roundtrip &amp; correctly', () => {
+      const markdown = 'foo &amp; bar'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo & bar')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &amp; bar')
+    })
+
+    it('should decode &quot; entity to literal " when parsing', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+    })
+
+    it('should not encode " when serializing (quotes are valid markdown)', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'foo "bar" baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('foo "bar" baz')
+    })
+
+    it('should decode &quot; when parsing but serialize as literal "', () => {
+      const markdown = 'foo &quot;bar&quot; baz'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo "bar" baz')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo "bar" baz')
+    })
+
+    it('should not encode entities inside code blocks', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'codeBlock',
+            attrs: { language: null },
+            content: [{ type: 'text', text: 'foo <bar> & baz' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('```\nfoo <bar> & baz\n```')
+    })
+
+    it('should not encode entities inside inline code marks', () => {
+      const json = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: '<tag>',
+                marks: [{ type: 'code' }],
+              },
+            ],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(json)
+      expect(markdown).toBe('`<tag>`')
+    })
+
+    it('should handle doubly-encoded entities correctly', () => {
+      // &amp;lt; should decode to &lt; (not to <)
+      const markdown = 'foo &amp;lt; bar'
+      const json = markdownManager.parse(markdown)
+      expect(json.content[0].content[0].text).toBe('foo &lt; bar')
+
+      // Serializing should re-encode the & in &lt;
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('foo &amp;lt; bar')
+    })
+
+    it('should preserve &nbsp; empty paragraph behavior', () => {
+      const markdown = 'Line1\n\n&nbsp;\n\nLine2'
+      const json = markdownManager.parse(markdown)
+
+      // Empty paragraph check should still work
+      expect(json.content).toHaveLength(3)
+      expect(json.content[1].type).toBe('paragraph')
+      expect(json.content[1].content).toEqual([])
+
+      // A single empty paragraph between content paragraphs uses blank-line
+      // spacing (the first empty paragraph doesn't need an &nbsp; marker).
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('Line1\n\n\n\nLine2')
+    })
+
+    it('should roundtrip literal &amp;nbsp; without it being treated as an empty paragraph marker', () => {
+      // A user writing &amp;nbsp; in markdown intends for the text "&nbsp;" to display.
+      // decodeHtmlEntities decodes &amp; → &, producing text content "&nbsp;".
+      // On serialization, encodeHtmlEntities re-encodes & → &amp;, restoring &amp;nbsp;.
+      // The intermediate "&nbsp;" text must NOT be confused with the empty-paragraph marker.
+      const markdown = 'before &amp;nbsp; after'
+      const json = markdownManager.parse(markdown)
+
+      expect(json.content).toHaveLength(1)
+      expect(json.content[0].type).toBe('paragraph')
+      expect(json.content[0].content[0].text).toBe('before &nbsp; after')
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('before &amp;nbsp; after')
+    })
+
+    it('should preserve a standalone literal &amp;nbsp; paragraph as text', () => {
+      const markdown = '&amp;nbsp;'
+      const json = markdownManager.parse(markdown)
+      const content = json.content!
+
+      expect(content).toHaveLength(1)
+      expect(content[0].type).toBe('paragraph')
+      expect(content[0].content).toEqual([{ type: 'text', text: '&nbsp;' }])
+
+      const serialized = markdownManager.serialize(json)
+      expect(serialized).toBe('&amp;nbsp;')
     })
   })
 })

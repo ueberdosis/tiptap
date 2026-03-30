@@ -1,5 +1,39 @@
 # Releases
 
+## v3.21.0
+
+### @tiptap/extension-details
+
+#### Minor Changes
+
+- Add a `renderToggleButton` option to customize the details toggle button, including its accessible label.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix custom markdown tokenizer helper lexing to use Marked's active lexer so ordered list parsing no longer breaks inline tokenization in following paragraphs.
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated `findElementNextToCoords` to fall back to `view.posAtCoords` when `elementsFromPoint` returns no matching block, resolving the position to the top-level block node.
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Update emoji dataset to include latest Unicode emojis.
+
+## v3.20.6
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fix drag preview cleanup so cloned drag images are also removed when dragging ends without a valid drop.
+
 ## v3.20.5
 
 ### @tiptap/extensions
@@ -237,24 +271,27 @@
 #### Minor Changes
 
 - Introduce a new, optional React integration that provides a declarative `<Tiptap />` component for setting up editors in React apps.
-  
+
   Summary
+
   - Add a new, ergonomic way to initialize and use Tiptap editors in React via `<Tiptap />` components. This is an additive change and does not remove or change existing APIs.
-  
+
   Why this change
+
   - Improves ergonomics for React users by offering a component-first API that pairs well with React patterns (hooks, JSX composition and props-driven configuration).
-  
+
   Migration and usage
+
   - The old programmatic setup remains supported for this major version — nothing breaks. We encourage consumers to try the new `<Tiptap />` component and migrate when convenient.
-  
+
   Example
-  
+
   ```tsx
   import { Tiptap, useEditor } from '@tiptap/react'
-  
+
   function MyEditor() {
     const editor = useEditor({ extensions: [StarterKit], content: '<h1>Hello from Tiptap</h1>' })
-  
+
     return (
       <Tiptap instance={editor}>
         <Tiptap.Content />
@@ -265,8 +302,9 @@
     )
   }
   ```
-  
+
   Deprecation plan
+
   - The old imperative setup will remain fully backward-compatible for this major release. We plan to deprecate (and remove) the legacy setup in the next major version — a deprecation notice and migration guide will be published ahead of that change.
 
 #### Patch Changes
@@ -538,7 +576,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/vue-2
@@ -546,7 +584,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/vue-3
@@ -554,7 +592,7 @@
 #### Patch Changes
 
 - Append all children of editors parent node to element
-  
+
   Fixes a regression introduced by #6972, that resulted in elements that got appended to the editors parent node staying detached. E.g. the drag handle plugin is affected by this regression.
 
 ### @tiptap/extension-drag-handle
@@ -649,7 +687,7 @@
 #### Minor Changes
 
 - Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
-  
+
   - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
@@ -659,7 +697,7 @@
 #### Minor Changes
 
 - Implement position mapping using the `MappablePosition` class. This enables position mapping in collaborative editing scenarios.
-  
+
   - Introduce `MappablePosition` class in core with `position`, `fromJSON`, and `toJSON` methods
   - Add `editor.utils` property with `getUpdatedPosition(position, transaction)` and `createMappablePosition()` methods
   - Create `CollaborationMappablePosition` subclass that extends `MappablePosition` with Y.js relative position support
@@ -687,10 +725,10 @@
 #### Patch Changes
 
 - Improve TypeScript generics for Node.extend
-  
+
   The Node.extend method's TypeScript signature was updated so that ExtendedConfig can extend NodeConfig and MarkConfig,
   improving type inference when extending Node and Mark classes with additional config properties.
-  
+
   This is a type-only change — there are no runtime behavior changes.
 
 ### @tiptap/extensions

@@ -4,7 +4,7 @@ description: Helps coding agents integrate and work with the Tiptap rich text ed
 compatibility: Requires git
 metadata:
   author: tiptap
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Tiptap Integration Skill
@@ -14,6 +14,7 @@ Instructions for coding agents integrating the Tiptap rich text editor
 ## Reference Repositories
 
 Clone the tiptap and tiptap-docs repositories so you can search the source code and documentation.
+
 - https://github.com/ueberdosis/tiptap
 - https://github.com/ueberdosis/tiptap-docs
 

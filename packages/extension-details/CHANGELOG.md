@@ -1,5 +1,25 @@
 # @tiptap/extension-details
 
+## 3.21.0
+
+### Minor Changes
+
+- 1c675c1: Add a `renderToggleButton` option to customize the details toggle button, including its accessible label.
+
+### Patch Changes
+
+- @tiptap/core@3.21.0
+- @tiptap/extension-text-style@3.21.0
+- @tiptap/pm@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/core@3.20.6
+- @tiptap/extension-text-style@3.20.6
+- @tiptap/pm@3.20.6
+
 ## 3.20.5
 
 ### Patch Changes

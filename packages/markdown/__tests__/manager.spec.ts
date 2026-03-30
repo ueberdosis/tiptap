@@ -1,4 +1,4 @@
-import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Node } from '@tiptap/core'
+import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Extension, Node } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -12,6 +12,7 @@ import { Text } from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
+import { Marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 // Create test extensions
@@ -54,6 +55,39 @@ const TestTag = Node.create({
     selfClosing: true,
     allowedAttributes: ['label'],
   }),
+})
+
+const TestProbe = Extension.create({
+  name: 'probeBlock',
+
+  markdownTokenName: 'probeBlock',
+
+  parseMarkdown: (token, helpers) => {
+    return {
+      type: 'paragraph',
+      content: helpers.parseInline(token.tokens || []),
+    }
+  },
+
+  markdownTokenizer: {
+    name: 'probeBlock',
+    level: 'block',
+    start: ':::probe ',
+    tokenize: (src, _tokens, lexer) => {
+      const match = src.match(/^:::probe\s+(.+?)\s+:::/)
+
+      if (!match) {
+        return undefined
+      }
+
+      return {
+        type: 'probeBlock',
+        raw: match[0],
+        text: match[1],
+        tokens: lexer.inlineTokens(match[1]),
+      }
+    },
+  },
 })
 
 describe('MarkdownManager Direct Tests', () => {
@@ -141,6 +175,88 @@ Second paragraph.`
       expect(doc.content![0].content![0].text).toBe('First paragraph.')
       expect(doc.content![1].type).toBe('paragraph')
       expect(doc.content![1].content![0].text).toBe('Second paragraph.')
+    })
+
+    it('keeps inline tokens after ordered list tokenization', () => {
+      const markdown = `1. Item 1
+   - Nested bullet item
+
+**After** ordered list`
+
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content).toHaveLength(2)
+      expect(doc.content![0].type).toBe('orderedList')
+      expect(doc.content![1]).toEqual({
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'After',
+            marks: [{ type: 'bold' }],
+          },
+          {
+            type: 'text',
+            text: ' ordered list',
+          },
+        ],
+      })
+    })
+
+    it('matches isolated Marked instance output for ordered-list parsing', () => {
+      const markdown = `1. Item 1
+   - Nested bullet item
+
+**After** ordered list`
+      const isolatedManager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: [],
+      })
+
+      basicExtensions.forEach(ext => isolatedManager.registerExtension(ext))
+
+      expect(markdownManager.parse(markdown)).toEqual(isolatedManager.parse(markdown))
+    })
+
+    it('keeps later inline parsing stable after a custom tokenizer uses inlineTokens', () => {
+      const manager = new MarkdownManager()
+      ;[...basicExtensions, TestProbe].forEach(ext => manager.registerExtension(ext))
+
+      const markdown = `:::probe **Probe** text :::
+
+**After** custom tokenizer`
+      const doc = manager.parse(markdown)
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Probe',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' text',
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'After',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' custom tokenizer',
+            },
+          ],
+        },
+      ])
     })
   })
   describe('simple nested Marks parsing', () => {

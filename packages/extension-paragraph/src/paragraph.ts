@@ -76,7 +76,16 @@ export const Paragraph = Node.create<ParagraphOptions>({
 
     // Special case: if paragraph contains only &nbsp; (non-breaking space),
     // treat it as an empty paragraph to preserve blank lines
+    const hasExplicitEmptyParagraphMarker =
+      tokens.length === 1 &&
+      tokens[0].type === 'text' &&
+      (tokens[0].raw === EMPTY_PARAGRAPH_MARKDOWN ||
+        tokens[0].text === EMPTY_PARAGRAPH_MARKDOWN ||
+        tokens[0].raw === NBSP_CHAR ||
+        tokens[0].text === NBSP_CHAR)
+
     if (
+      hasExplicitEmptyParagraphMarker &&
       content.length === 1 &&
       content[0].type === 'text' &&
       (content[0].text === EMPTY_PARAGRAPH_MARKDOWN || content[0].text === NBSP_CHAR)

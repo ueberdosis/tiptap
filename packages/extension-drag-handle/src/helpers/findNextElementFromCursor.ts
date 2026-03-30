@@ -146,6 +146,29 @@ export const findElementNextToCoords = (
   })
 
   if (!block) {
+    // elementsFromPoint may return nothing if the coordinates land outside an element
+    // (e.g., in margins, overlays, gaps, or indented nodes). posAtCoords uses the
+    // caret API, so it still resolves to the nearest text position.
+    const coords = view.posAtCoords({ left: clampedX, top: clampedY })
+
+    if (coords) {
+      const $pos = state.doc.resolve(coords.pos)
+      // Walk up to the top-level block
+      const depth = Math.min($pos.depth, 1)
+      const blockPos = depth > 0 ? $pos.before(depth) : $pos.pos
+      const blockNode = state.doc.nodeAt(blockPos)
+
+      if (blockNode) {
+        const dom = view.nodeDOM(blockPos)
+
+        return {
+          resultElement: dom instanceof HTMLElement ? dom : null,
+          resultNode: blockNode,
+          pos: blockPos,
+        }
+      }
+    }
+
     return { resultElement: null, resultNode: null, pos: null }
   }
 
