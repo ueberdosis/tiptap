@@ -56,7 +56,7 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
         attributes: {
           fontFamily: {
             default: null,
-            parseHTML: element => element.style.fontFamily || null,
+            parseHTML: element => element.style.fontFamily,
             renderHTML: attributes => {
               if (!attributes.fontFamily) {
                 return {}

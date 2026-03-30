@@ -56,7 +56,7 @@ export const FontSize = Extension.create<FontSizeOptions>({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: element => element.style.fontSize || null,
+            parseHTML: element => element.style.fontSize,
             renderHTML: attributes => {
               if (!attributes.fontSize) {
                 return {}
