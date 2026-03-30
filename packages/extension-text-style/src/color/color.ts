@@ -2,6 +2,8 @@ import '../text-style/index.js'
 
 import { Extension, getStyleProperty } from '@tiptap/core'
 
+import { normalizeColor } from '../utilities/normalize-color.js'
+
 export type ColorOptions = {
   /**
    * The types where the color can be applied
@@ -61,8 +63,13 @@ export const Color = Extension.create<ColorOptions>({
               // Prefer the raw inline `style` attribute so we preserve the
               // original format (e.g. `#rrggbb`) instead of the canonicalized
               // `rgb(...)` value returned by `element.style.color`.
-              const value = getStyleProperty(element, 'color') ?? element.style.color
-              return value?.replace(/['"]+/g, '')
+              const color = getStyleProperty(element, 'color') ?? element.style.color
+
+              if (!color) {
+                return null
+              }
+
+              return normalizeColor(color.replace(/['"]+/g, ''))
             },
             renderHTML: attributes => {
               if (!attributes.color) {
@@ -84,7 +91,9 @@ export const Color = Extension.create<ColorOptions>({
       setColor:
         color =>
         ({ chain }) => {
-          return chain().setMark('textStyle', { color }).run()
+          return chain()
+            .setMark('textStyle', { color: normalizeColor(color) })
+            .run()
         },
       unsetColor:
         () =>
