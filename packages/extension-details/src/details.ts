@@ -245,7 +245,17 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
-          return !dom.contains(mutation.target) || dom === mutation.target
+          const target = mutation.target as Node
+          const isInsideWrapper = dom.contains(target)
+          const isInsideContent = content.contains(target)
+
+          if (isInsideWrapper && !isInsideContent) {
+            if (mutation.type === 'attributes' || mutation.type === 'childList' || mutation.type === 'characterData') {
+              return true
+            }
+          }
+
+          return !isInsideWrapper || dom === target
         },
         update: updatedNode => {
           if (updatedNode.type !== this.type) {
