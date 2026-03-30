@@ -377,9 +377,21 @@ export function ReactNodeViewRenderer<T = HTMLElement>(
   return props => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
-    // maybe it’s `undefined` because <editor-content> isn’t rendered yet
+    // maybe it's `undefined` because <editor-content> isn't rendered yet
     if (!(props.editor as EditorWithContentComponent).contentComponent) {
-      return {} as unknown as ProseMirrorNodeView
+      // Return a minimal valid NodeView with a placeholder DOM element
+      // to prevent ProseMirror from crashing when calling hasAttribute on undefined
+      const placeholder = document.createElement('span')
+      return {
+        dom: placeholder,
+        contentDOM: null,
+        update: () => false,
+        destroy: () => {},
+        selectNode: () => {},
+        deselectNode: () => {},
+        stopEvent: () => false,
+        ignoreMutation: () => true,
+      } as unknown as ProseMirrorNodeView
     }
 
     return new ReactNodeView<T>(component, props, options)
