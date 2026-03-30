@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor, Extension } from '@tiptap/core'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Document from '@tiptap/extension-document'
@@ -8,7 +8,8 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Text from '@tiptap/extension-text'
-import { describe, expect, it } from 'vitest'
+import { yCursorPluginKey } from '@tiptap/y-tiptap'
+import { describe, expect, it, vi } from 'vitest'
 import * as Y from 'yjs'
 
 /**
@@ -17,6 +18,30 @@ import * as Y from 'yjs'
  */
 describe('extension-collaboration-caret', () => {
   const editorElClass = 'tiptap'
+
+  class MockAwareness {
+    public states = new Map()
+
+    private listeners = new Set<() => void>()
+
+    setLocalStateField = () => {}
+
+    on = (_event: string, listener: () => void) => {
+      this.listeners.add(listener)
+    }
+
+    off = (_event: string, listener: () => void) => {
+      this.listeners.delete(listener)
+    }
+
+    getStates = () => this.states
+
+    getLocalState = () => ({})
+
+    emitUpdate = () => {
+      this.listeners.forEach(listener => listener())
+    }
+  }
 
   const createEditorEl = () => {
     const editorEl = document.createElement('div')
@@ -184,5 +209,62 @@ describe('extension-collaboration-caret', () => {
     }).not.toThrow()
 
     getEditorEl()?.remove()
+  })
+
+  it('should ignore stale awareness-only cursor transactions', async () => {
+    vi.useFakeTimers()
+
+    const ydoc = new Y.Doc()
+    const awareness = new MockAwareness()
+    const mockProvider = { awareness }
+    const editorEl = createEditorEl()
+    let insertedContent = false
+    let editor: Editor
+
+    const staleCursorTransactionExtension = Extension.create({
+      name: 'staleCursorTransaction',
+      priority: 1001,
+      dispatchTransaction({ transaction, next }) {
+        const cursorMeta = transaction.getMeta(yCursorPluginKey)
+
+        if (!insertedContent && cursorMeta?.awarenessUpdated) {
+          insertedContent = true
+          editor.view.dispatch(editor.state.tr.insertText('x', 1))
+        }
+
+        next(transaction)
+      },
+    })
+
+    editor = new Editor({
+      element: editorEl,
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        staleCursorTransactionExtension,
+        Collaboration.configure({
+          document: ydoc,
+        }),
+        CollaborationCaret.configure({
+          provider: mockProvider,
+          user: {
+            name: 'Test User',
+            color: '#ff0000',
+          },
+        }),
+      ],
+      content: '<p>Hello world</p>',
+    })
+
+    awareness.emitUpdate()
+    await vi.runAllTimersAsync()
+
+    expect(editor.isDestroyed).toBe(false)
+    expect(editor.getText()).toBe('x')
+
+    editor.destroy()
+    getEditorEl()?.remove()
+    vi.useRealTimers()
   })
 })

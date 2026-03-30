@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import type { DecorationAttrs } from '@tiptap/pm/view'
-import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
+import { defaultSelectionBuilder, yCursorPlugin, yCursorPluginKey } from '@tiptap/y-tiptap'
 
 type CollaborationCaretStorage = {
   users: { clientId: number; [key: string]: any }[]
@@ -143,6 +143,28 @@ export const CollaborationCaret = Extension.create<CollaborationCaretOptions, Co
   addStorage() {
     return {
       users: [],
+    }
+  },
+
+  dispatchTransaction({ transaction, next }) {
+    const cursorMeta = transaction.getMeta(yCursorPluginKey)
+
+    if (!cursorMeta?.awarenessUpdated || transaction.steps.length > 0) {
+      next(transaction)
+      return
+    }
+
+    try {
+      next(transaction)
+    } catch (error) {
+      // y-tiptap batches awareness-only cursor transactions asynchronously.
+      // If editor state changes before they are applied, dropping the stale
+      // decoration refresh is safer than crashing the editor.
+      if (error instanceof RangeError && error.message === 'Applying a mismatched transaction') {
+        return
+      }
+
+      throw error
     }
   },
 
