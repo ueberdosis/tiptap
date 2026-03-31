@@ -430,6 +430,10 @@ export class BubbleMenuView implements PluginView {
   }
 
   updatePosition() {
+    if (!this.isVisible) {
+      return
+    }
+
     const virtualElement = this.virtualElement
 
     if (!virtualElement) {
@@ -530,8 +534,8 @@ export class BubbleMenuView implements PluginView {
       return
     }
 
-    this.updatePosition()
     this.show()
+    this.updatePosition()
   }
 
   show() {
