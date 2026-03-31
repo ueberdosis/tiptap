@@ -39,7 +39,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
 
       - name: Configure pnpm store
         run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
