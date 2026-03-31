@@ -89,12 +89,6 @@ export default {
       },
 
       onKeyDown(props) {
-        if (props.event.key === 'Escape') {
-          component.destroy()
-
-          return true
-        }
-
         return component.ref?.onKeyDown(props)
       },
 

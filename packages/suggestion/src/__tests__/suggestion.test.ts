@@ -124,4 +124,52 @@ describe('suggestion integration', () => {
 
     editor.destroy()
   })
+
+  it('should call onExit exactly once when Escape is pressed', async () => {
+    const onExit = vi.fn()
+    const onStart = vi.fn()
+    const items = vi.fn().mockReturnValue([])
+
+    const MentionExtension = Extension.create({
+      name: 'mention-escape',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+            render: () => ({
+              onStart,
+              onExit,
+            }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+
+    // Flush microtasks because plugin view update is async
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledTimes(1)
+
+    // Simulate pressing Escape on the editor DOM element
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+
+    editor.view.dom.dispatchEvent(escapeEvent)
+
+    // Flush microtasks
+    await Promise.resolve()
+
+    // onExit should be called exactly once, not multiple times
+    expect(onExit).toHaveBeenCalledTimes(1)
+
+    editor.destroy()
+  })
 })
