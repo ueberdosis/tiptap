@@ -100,4 +100,53 @@ describe('Details', () => {
 
     expect(getToggleButton()?.getAttribute('aria-label')).toBe('Collapse SummaryContent')
   })
+
+  it('ignores button attribute mutations triggered by renderToggleButton', async () => {
+    let renderToggleButtonCallCount = 0
+
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Details.configure({
+          renderToggleButton: ({ element, isOpen }) => {
+            renderToggleButtonCallCount += 1
+            element.setAttribute('aria-label', isOpen ? 'Collapse details content' : 'Expand details content')
+          },
+        }),
+        DetailsSummary,
+        DetailsContent,
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'details',
+            content: [
+              {
+                type: 'detailsSummary',
+                content: [{ type: 'text', text: 'Summary' }],
+              },
+              {
+                type: 'detailsContent',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Content' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    await new Promise<void>(resolve => {
+      setTimeout(resolve, 0)
+    })
+
+    expect(renderToggleButtonCallCount).toBe(1)
+  })
 })

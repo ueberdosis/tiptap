@@ -245,7 +245,11 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
-          return !dom.contains(mutation.target) || dom === mutation.target
+          const target = mutation.target
+          const isInsideWrapper = dom.contains(target)
+          const isInsideToggleButton = toggle.contains(target)
+
+          return isInsideToggleButton || !isInsideWrapper || dom === target
         },
         update: updatedNode => {
           if (updatedNode.type !== this.type) {
