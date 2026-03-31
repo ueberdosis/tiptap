@@ -13,8 +13,9 @@ let dragSourceEditor: Editor | null = null
 // Copy dragMoves function from prosemirror-view (not exported) so that we make the same
 // choice that ProseMirror does when dragging within a single editor.
 // Based on https://github.com/ProseMirror/prosemirror-view/blob/5bcfa0ebd4cff7f13c936bcde6d39b4d7df22b75/src/input.ts#L673
-const dragCopyModifier: keyof DragEvent = isiOS() || isMacOS() ? 'altKey' : 'ctrlKey'
+
 function dragMoves(view: EditorView, event: DragEvent) {
+  const dragCopyModifier: keyof DragEvent = isiOS() || isMacOS() ? 'altKey' : 'ctrlKey'
   // @ts-expect-error dragCopies is not in our list of props
   const moves = view.someProp('dragCopies', test => !test(event))
   return moves != null ? moves : !event[dragCopyModifier]
@@ -47,6 +48,9 @@ export const Drop = Extension.create({
 
           return {
             destroy() {
+              if (dragSourceEditor === editor) {
+                dragSourceEditor = null
+              }
               window.removeEventListener('dragstart', handleDragstart)
               window.removeEventListener('dragend', handleDragend)
             },
