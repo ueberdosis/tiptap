@@ -205,4 +205,49 @@ describe('BubbleMenuView cross-contamination', () => {
     view.destroy()
     editor.destroy()
   })
+
+  it('should ignore late position updates after the menu is hidden', async () => {
+    const editor = createEditor()
+    const view = createBubbleMenuView(editor, {
+      getReferencedVirtualElement: () => virtualElement,
+    })
+
+    let resolvePosition:
+      | ((value: {
+          x: number
+          y: number
+          strategy: 'absolute'
+          placement: 'top'
+          middlewareData: Record<string, never>
+        }) => void)
+      | undefined
+
+    computePositionMock.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolvePosition = resolve
+        }),
+    )
+
+    view.show()
+    view.updatePosition()
+    view.hide()
+
+    resolvePosition?.({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+    await Promise.resolve()
+
+    expect(view.element.style.visibility).toBe('hidden')
+    expect(view.element.style.left).toBe('')
+    expect(view.element.style.top).toBe('')
+
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+  })
 })

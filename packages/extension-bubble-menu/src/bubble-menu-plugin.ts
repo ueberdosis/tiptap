@@ -445,6 +445,10 @@ export class BubbleMenuView implements PluginView {
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
     }).then(({ x, y, strategy, middlewareData }) => {
+      if (!this.isVisible || this.editor.isDestroyed || !this.element.isConnected) {
+        return
+      }
+
       // Handle hide middleware - hide element if reference is hidden or element has escaped
       if (middlewareData.hide?.referenceHidden || middlewareData.hide?.escaped) {
         this.element.style.visibility = 'hidden'
