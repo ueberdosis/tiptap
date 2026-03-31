@@ -1,5 +1,76 @@
 # Releases
 
+## v3.22.0
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Use a named import for Suggestion from `@tiptap/suggestion` to avoid bundler ESM/CJS interop
+  wrapping (`__toESM`) that caused CJS consumers to receive a module object instead of the
+  callable plugin factory.
+  
+  This is a non-breaking internal fix identical to the one applied to `@tiptap/extension-mention`
+  in #6994.
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Moved content validation from Yjs `beforeTransaction` (whose return value was ignored) to ProseMirror `filterTransaction`, so invalid collaborative changes are now properly blocked.
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Prevent hidden bubble menus from reappearing during scroll and resize updates. Bubble menu positioning now only runs for menus that are already shown, so default text-selection menus stay hidden until they should actually open.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix HTML character escaping in markdown roundtrip. HTML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`) are now decoded to literal characters when parsing markdown into the editor. `<`, `>`, and `&` are re-encoded when serializing back to markdown, while `"` is preserved as a literal character since double quotes are ordinary in markdown. Code detection for skipping encoding now uses the `code: true` extension spec instead of hardcoded type names. Literal characters inside code blocks and inline code are always preserved.
+- Fix ResizableNodeView ignoring node's inline setting by using `inline-flex` for inline nodes and `flex` for block nodes
+- extendMarkRange defaults to using the attributes of the first mark of the given type, instead of `attributes = {}`. In particular, `extendMarkRange('link')` no longer extends to adjacent links with different hrefs; restore the previous behavior with `extendMarkRange('link', {})`.
+- Fix getMarkRange attributes default to consider the first mark _of the given type_
+- Guard mark delete event handling when `unsetMark` removes a mark from inline content that starts at position `0`, preventing a `RangeError` during the before-node lookup.
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- Fix HTML character escaping in markdown roundtrip. HTML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`) are now decoded to literal characters when parsing markdown into the editor. `<`, `>`, and `&` are re-encoded when serializing back to markdown, while `"` is preserved as a literal character since double quotes are ordinary in markdown. Code detection for skipping encoding now uses the `code: true` extension spec instead of hardcoded type names. Literal characters inside code blocks and inline code are always preserved.
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Prevent inline math input rule from capturing previous character. Changed input rule to utilize negative lookbehind to prevent matching previous character. Ensures the range's `from` position is correctly at the start of the double `$` signs.
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Suggestions dismissed via Escape no longer reappear when the user keeps typing in the same word — they only come back after inserting whitespace, a newline, or moving the cursor to a different trigger.
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Fix a rerender loop in the Details node view when the toggle button updates its DOM attributes through `renderToggleButton`.
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated happy-dom to 20.8.9
+
+### @tiptap/extension-table
+
+#### Minor Changes
+
+- Added Markdown table alignment support. The `TableCell` and `TableHeader` nodes now have an `align` attribute (`left`, `center`, `right`) that is parsed from Markdown column alignment markers (`:---`, `---:`, `:---:`) and serialized back when rendering to Markdown. Alignment is also parsed from and rendered to HTML via `style="text-align: ..."`.
+
 ## v3.21.0
 
 ### @tiptap/extension-details

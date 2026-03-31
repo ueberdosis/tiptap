@@ -1,5 +1,18 @@
 # @tiptap/extension-mathematics
 
+## 3.22.0
+
+### Patch Changes
+
+- 23bc11d: Prevent inline math input rule from capturing previous character. Changed input rule to utilize negative lookbehind to prevent matching previous character. Ensures the range's `from` position is correctly at the start of the double `# @tiptap/extension-mathematics signs.
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes
