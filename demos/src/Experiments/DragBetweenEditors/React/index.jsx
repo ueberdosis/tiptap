@@ -11,12 +11,12 @@ const EditorPane = () => {
     extensions: [StarterKit, Recommendation],
     content: `
       <h1>
-        This is a very unique heading.
+        This is a heading.
       </h1>
       <p>
-        This is a unique paragraph. It’s so unique, it even has an ID attached to it.
+        This is a paragraph.
       </p>
-      <div class="node-recommendation" data-id="123"></div>
+      <div class="node-recommendation"></div>
       <p>
         And this one, too.
       </p>
