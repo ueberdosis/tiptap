@@ -1,10 +1,14 @@
 .editors {
   display: flex;
-  margin: 1rem;
-  gap: 4rem;
+  flex-direction: row;
+}
+
+.editor-wrapper {
+  width: 50%;
 }
 
 .editor-pane {
+  margin: 1rem;
   border: solid 1px black;
 }
 
