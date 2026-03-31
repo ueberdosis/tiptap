@@ -1,7 +1,7 @@
-import type { Editor } from '@tiptap/core'
+import { type Editor,getHTMLFromFragment } from '@tiptap/core'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
 import type { Node } from '@tiptap/pm/model'
-import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
+import { type SelectionRange,NodeSelection } from '@tiptap/pm/state'
 
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { cloneElement } from './cloneElement.js'
@@ -123,6 +123,8 @@ export function dragHandler(
 
   event.dataTransfer.clearData()
   event.dataTransfer.setDragImage(wrapper, 0, 0)
+  event.dataTransfer.setData('text/html', getHTMLFromFragment(slice.content, editor.schema))
+  event.dataTransfer.setData('text/plain', slice.content.textBetween(0, slice.content.size, '\n\n'))
 
   let cleanedUp = false
 
