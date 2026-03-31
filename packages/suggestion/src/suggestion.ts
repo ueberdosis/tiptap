@@ -201,6 +201,14 @@ export interface SuggestionKeyDownProps {
 export const SuggestionPluginKey = new PluginKey('suggestion')
 
 /**
+ * Shared meta key used by all Suggestion plugin instances to signal that
+ * the current transaction is an exit. Other instances skip match logic
+ * when this meta is present so exiting one suggestion cannot accidentally
+ * activate another.
+ */
+const SUGGESTION_EXIT_META = 'suggestionExit'
+
+/**
  * This utility allows you to create suggestions.
  * @see https://tiptap.dev/api/utilities/suggestion
  */
@@ -284,7 +292,7 @@ export function Suggestion<I = any, TSelected = any>({
       // ignore errors from consumer renderers
     }
 
-    const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
+    const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true }).setMeta(SUGGESTION_EXIT_META, true)
     // Dispatch a metadata-only transaction to signal the plugin to exit
     view.dispatch(tr)
   }
@@ -416,6 +424,12 @@ export function Suggestion<I = any, TSelected = any>({
           next.text = null
 
           return next
+        }
+
+        // Another suggestion plugin is exiting — keep our current state
+        // unchanged so we don't accidentally activate from the exit transaction.
+        if (transaction.getMeta(SUGGESTION_EXIT_META)) {
+          return prev
         }
 
         next.composing = composing
@@ -580,6 +594,6 @@ export function Suggestion<I = any, TSelected = any>({
  * decorations without touching the document or causing mapping errors.
  */
 export function exitSuggestion(view: EditorView, pluginKeyRef: PluginKey = SuggestionPluginKey) {
-  const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
+  const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true }).setMeta(SUGGESTION_EXIT_META, true)
   view.dispatch(tr)
 }

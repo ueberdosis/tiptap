@@ -1,8 +1,9 @@
 import { Editor, Extension } from '@tiptap/core'
+import { PluginKey } from '@tiptap/pm/state'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it, vi } from 'vitest'
 
-import { Suggestion } from '../suggestion.js'
+import { exitSuggestion, Suggestion } from '../suggestion.js'
 
 describe('suggestion integration', () => {
   it('should respect shouldShow returning false', async () => {
@@ -121,6 +122,68 @@ describe('suggestion integration', () => {
     expect(capturedProps.text).toBe('@')
     // Check that we receive the correct editor instance
     expect(capturedProps.editor).toBe(editor)
+
+    editor.destroy()
+  })
+
+  it('should not activate another suggestion when exitSuggestion is called', async () => {
+    const pluginKeyA = new PluginKey('suggestionA')
+    const pluginKeyB = new PluginKey('suggestionB')
+
+    const onStartB = vi.fn()
+
+    const SuggestionA = Extension.create({
+      name: 'suggestion-a',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            pluginKey: pluginKeyA,
+            char: '@',
+          }),
+        ]
+      },
+    })
+
+    const SuggestionB = Extension.create({
+      name: 'suggestion-b',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            pluginKey: pluginKeyB,
+            char: '#',
+            render: () => ({
+              onStart: onStartB,
+            }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, SuggestionA, SuggestionB],
+      content: '<p>#tag</p>',
+    })
+
+    // Place cursor at end of "#tag" — this activates suggestion B
+    editor.commands.setTextSelection(5)
+    await Promise.resolve()
+    expect(pluginKeyB.getState(editor.state).active).toBe(true)
+
+    // Exit suggestion B programmatically
+    exitSuggestion(editor.view, pluginKeyB)
+    await Promise.resolve()
+    expect(pluginKeyB.getState(editor.state).active).toBe(false)
+
+    onStartB.mockClear()
+
+    // Now exit suggestion A (not active) — this should NOT re-activate B
+    exitSuggestion(editor.view, pluginKeyA)
+    await Promise.resolve()
+
+    expect(pluginKeyB.getState(editor.state).active).toBe(false)
+    expect(onStartB).not.toHaveBeenCalled()
 
     editor.destroy()
   })
