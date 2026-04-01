@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.22.0
+
+### Patch Changes
+
+- 7f6d63c: Suggestions dismissed via Escape no longer reappear when the user keeps typing in the same word — they only come back after inserting whitespace, a newline, or moving the cursor to a different trigger.
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes

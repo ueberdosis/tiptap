@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "browserslist": [
     "defaults",
@@ -52,11 +52,11 @@
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.19.0",
-    "@typescript-eslint/parser": "^8.19.0",
-    "@vitest/ui": "^4.0.7",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
-    "cypress": "^15.9.0",
+    "cypress": "^15.13.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -68,13 +68,13 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^9.32.0",
     "fast-glob": "^3.3.2",
-    "happy-dom": "^20.8.8",
+    "happy-dom": "^20.8.9",
     "http-server": "14.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.3.0",
     "lowlight": "^3.3.0",
     "minimist": "^1.2.8",
-    "pkg-pr-new": "0.0.32",
+    "pkg-pr-new": "0.0.66",
     "prettier": "3.3.3",
     "react": "^19.0.0",
     "tinyglobby": "0.2.10",
@@ -82,13 +82,25 @@
     "tsup": "^8.5.1",
     "turbo": "2.3.3",
     "typescript": "^5.7.3",
-    "vitest": "^4.0.7",
+    "vitest": "^4.1.2",
     "webpack": "^5.97.1"
   },
   "overrides": {
     "@rollup/pluginutils": "^5.1.4",
+    "@rollup/pluginutils>picomatch": "2.3.2",
+    "@octokit/action>undici": "6.24.1",
+    "anymatch>picomatch": "2.3.2",
     "glob": "^10.5.0",
-    "qs": "^6.14.1"
+    "micromatch>picomatch": "2.3.2",
+    "minimatch@^3.0.5": "3.1.4",
+    "minimatch@^3.1.2": "3.1.4",
+    "qs": "^6.14.1",
+    "rollup": "4.60.1",
+    "readdirp>picomatch": "2.3.2",
+    "sass>immutable": "5.1.5",
+    "terser-webpack-plugin>serialize-javascript": "7.0.5",
+    "tinyglobby>picomatch": "4.0.4",
+    "vitest>picomatch": "4.0.4"
   },
   "publishConfig": {
     "provenance": true
@@ -104,8 +116,20 @@
       "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
     },
     "overrides": {
+      "@rollup/pluginutils>picomatch": "2.3.2",
+      "@octokit/action>undici": "6.24.1",
+      "anymatch>picomatch": "2.3.2",
       "glob": "^10.5.0",
-      "qs": "^6.14.1"
+      "micromatch>picomatch": "2.3.2",
+      "minimatch@^3.0.5": "3.1.4",
+      "minimatch@^3.1.2": "3.1.4",
+      "qs": "^6.14.1",
+      "rollup": "4.60.1",
+      "readdirp>picomatch": "2.3.2",
+      "sass>immutable": "5.1.5",
+      "terser-webpack-plugin>serialize-javascript": "7.0.5",
+      "tinyglobby>picomatch": "4.0.4",
+      "vitest>picomatch": "4.0.4"
     }
   }
 }

@@ -1,5 +1,26 @@
 # @tiptap/extension-emoji
 
+## 3.22.0
+
+### Patch Changes
+
+- 9124bc3: Use a named import for Suggestion from `@tiptap/suggestion` to avoid bundler ESM/CJS interop
+  wrapping (`__toESM`) that caused CJS consumers to receive a module object instead of the
+  callable plugin factory.
+
+  This is a non-breaking internal fix identical to the one applied to `@tiptap/extension-mention`
+  in #6994.
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [7f6d63c]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/suggestion@3.22.0
+  - @tiptap/pm@3.22.0
+
 ## 3.21.0
 
 ### Patch Changes
