@@ -3,6 +3,7 @@ import '../text-style/index.js'
 import { Extension, getStyleProperty } from '@tiptap/core'
 
 import { normalizeColor } from '../utilities/normalize-color.js'
+import { isNormalizationTransaction, normalizeDocColorAttrs } from '../utilities/normalize-color-attrs.js'
 
 export type BackgroundColorOptions = {
   /**
@@ -78,13 +79,23 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
               }
 
               return {
-                style: `background-color: ${attributes.backgroundColor}`,
+                style: `background-color: ${normalizeColor(attributes.backgroundColor)}`,
               }
             },
           },
         },
       },
     ]
+  },
+
+  onCreate() {
+    normalizeDocColorAttrs(this.editor, 'backgroundColor')
+  },
+
+  onTransaction({ transaction }) {
+    if (transaction.docChanged && !isNormalizationTransaction(transaction)) {
+      normalizeDocColorAttrs(this.editor, 'backgroundColor')
+    }
   },
 
   addCommands() {
