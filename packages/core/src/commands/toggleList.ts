@@ -138,7 +138,7 @@ export const toggleList: RawCommands['toggleList'] =
     if ((isInsideExistingList || hasWholeDocSelectedList) && currentList) {
       // remove list
       if (currentList.node.type === listType) {
-        if (isAllSelection && hasWholeDocSelectedList && dispatch) {
+        if (isAllSelection && hasWholeDocSelectedList) {
           return chain()
             .command(({ tr: trx, dispatch: disp }) => {
               // Ctrl/Cmd+A creates an AllSelection at the document root.

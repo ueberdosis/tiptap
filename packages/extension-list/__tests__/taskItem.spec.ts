@@ -429,4 +429,64 @@ describe('TaskItem', () => {
       ],
     })
   })
+  it('reports ordered list toggle as available when the whole ordered list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            attrs: {
+              start: 1,
+              type: null,
+            },
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleOrderedList()).toBe(true)
+  })
+  it('reports bullet list toggle as available when the whole bullet list document is selected', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().toggleBulletList()).toBe(true)
+  })
 })
