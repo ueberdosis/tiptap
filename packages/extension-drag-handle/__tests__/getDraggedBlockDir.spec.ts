@@ -143,6 +143,29 @@ describe('getDraggedBlockDir', () => {
 
       expect(getDraggedBlockDir(view, 0)).toBe('rtl')
     })
+
+    it('should normalize a Text node from domAtPos to its parentElement instead of falling back to editor root', () => {
+      const editorRoot = document.createElement('div')
+      const rtlParagraph = document.createElement('p')
+      const textNode = document.createTextNode('مرحبا')
+
+      rtlParagraph.appendChild(textNode)
+
+      const dirMap = new Map<Element, string>([
+        [editorRoot, 'ltr'],
+        [rtlParagraph, 'rtl'],
+      ])
+
+      mockDirection(dirMap)
+
+      const view = createMockView({
+        dom: editorRoot,
+        nodeDOM: vi.fn(() => null),
+        domAtPos: vi.fn(() => ({ node: textNode, offset: 3 })),
+      })
+
+      expect(getDraggedBlockDir(view, 0)).toBe('rtl')
+    })
   })
 
   describe('ultimate fallback to editor root', () => {

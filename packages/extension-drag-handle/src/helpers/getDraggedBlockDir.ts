@@ -21,6 +21,8 @@ export function getDraggedBlockDir(view: EditorView, pos: number): string {
       draggedDom = child
     } else if (node instanceof Element) {
       draggedDom = node
+    } else if (node.nodeType === Node.TEXT_NODE && node.parentElement) {
+      draggedDom = node.parentElement
     }
   }
 
