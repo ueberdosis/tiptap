@@ -1,4 +1,5 @@
 ---
+'@tiptap/core': patch
 '@tiptap/react': patch
 '@tiptap/vue-3': patch
 '@tiptap/vue-2': patch
