@@ -1,5 +1,6 @@
 import type { NodeType } from '@tiptap/pm/model'
-import { type Transaction, TextSelection } from '@tiptap/pm/state'
+import type { Transaction } from '@tiptap/pm/state'
+import { TextSelection } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode.js'
