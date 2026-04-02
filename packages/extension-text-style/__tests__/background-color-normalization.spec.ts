@@ -25,7 +25,7 @@ vi.mock('../src/utilities/normalize-color.js', () => ({
   normalizeColor: fakeNormalizeColor,
 }))
 
-function waitForCreate(): Promise<void> {
+function flushPluginInit(): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, 0)
   })
@@ -61,7 +61,7 @@ describe('background-color normalization from JSON content', () => {
       },
     })
 
-    await waitForCreate()
+    await flushPluginInit()
 
     const marks = editor.state.doc.firstChild!.firstChild!.marks
 
