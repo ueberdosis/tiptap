@@ -270,7 +270,8 @@ export class ReactNodeView<
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
       const { from, to } = this.editor.state.selection
-      const pos = this.getPos()
+      // Avoid resolving getPos() after ProseMirror has detached this node view.
+      const pos = this.currentPos
       if (typeof pos !== 'number') {
         return
       }
