@@ -3,7 +3,7 @@ import '../text-style/index.js'
 import { Extension } from '@tiptap/core'
 
 import { normalizeColor } from '../utilities/normalize-color.js'
-import { normalizeDocColorAttrs } from '../utilities/normalize-color-attrs.js'
+import { createColorNormalizationPlugin } from '../utilities/normalize-color-plugin.js'
 
 export type BackgroundColorOptions = {
   /**
@@ -84,8 +84,8 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
     ]
   },
 
-  onCreate() {
-    normalizeDocColorAttrs(this.editor, 'backgroundColor')
+  addProseMirrorPlugins() {
+    return [createColorNormalizationPlugin('backgroundColor')]
   },
 
   addCommands() {

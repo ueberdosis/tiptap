@@ -27,8 +27,8 @@ vi.mock('../src/utilities/normalize-color.js', () => ({
   normalizeColor: fakeNormalizeColor,
 }))
 
-/** Wait for tiptap's async onCreate (setTimeout(0)) to fire. */
-function waitForCreate(): Promise<void> {
+/** Wait for the plugin's async initial normalization (setTimeout(0)) to fire. */
+function flushPluginInit(): Promise<void> {
   return new Promise(resolve => {
     setTimeout(resolve, 0)
   })
@@ -64,7 +64,7 @@ describe('color normalization from JSON content', () => {
       },
     })
 
-    await waitForCreate()
+    await flushPluginInit()
 
     const marks = editor.state.doc.firstChild!.firstChild!.marks
 
@@ -92,11 +92,31 @@ describe('color normalization from JSON content', () => {
       },
     })
 
-    await waitForCreate()
+    await flushPluginInit()
 
     const marks = editor.state.doc.firstChild!.firstChild!.marks
 
     expect(marks).toHaveLength(1)
     expect(marks[0].attrs.color).toBe('rgb(255, 0, 0)')
+  })
+
+  it('normalizes hex colors inserted via programmatic update (appendTransaction)', async () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, TextStyle, Color],
+      content: '<p>hello</p>',
+    })
+
+    await flushPluginInit()
+
+    // Simulate a programmatic or collaborative update that inserts un-normalized color
+    const { state } = editor
+    const tr = state.tr.addMark(1, 6, state.schema.marks.textStyle.create({ color: '#0000ff' }))
+
+    editor.view.dispatch(tr)
+
+    const marks = editor.state.doc.firstChild!.firstChild!.marks
+
+    expect(marks).toHaveLength(1)
+    expect(marks[0].attrs.color).toBe('rgb(0, 0, 255)')
   })
 })

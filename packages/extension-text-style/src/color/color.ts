@@ -3,7 +3,7 @@ import '../text-style/index.js'
 import { Extension } from '@tiptap/core'
 
 import { normalizeColor } from '../utilities/normalize-color.js'
-import { normalizeDocColorAttrs } from '../utilities/normalize-color-attrs.js'
+import { createColorNormalizationPlugin } from '../utilities/normalize-color-plugin.js'
 
 export type ColorOptions = {
   /**
@@ -84,8 +84,8 @@ export const Color = Extension.create<ColorOptions>({
     ]
   },
 
-  onCreate() {
-    normalizeDocColorAttrs(this.editor, 'color')
+  addProseMirrorPlugins() {
+    return [createColorNormalizationPlugin('color')]
   },
 
   addCommands() {
