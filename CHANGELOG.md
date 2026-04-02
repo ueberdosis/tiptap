@@ -1,5 +1,39 @@
 # Releases
 
+## v3.22.1
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Fixed drag handle ghost image for RTL and mixed-direction content: the ghost wrapper now uses the dragged block’s computed `direction` (via `domAtPos`), and the drag image hotspot uses the cursor position relative to the ghost `wrapper` so the preview aligns with the pointer in both LTR and RTL.
+
+### @tiptap/core
+
+#### Patch Changes
+
+- Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+- Don't stop dragover/dragenter events in NodeViews, to prevent spurious drag-copy cursors
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+- Prevent React node views from crashing during deferred selection updates when ProseMirror has already detached the node view position lookup.
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+
 ## v3.22.0
 
 ### @tiptap/extension-emoji
