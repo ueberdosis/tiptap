@@ -64,6 +64,7 @@ export function findMarksToCloseAtEnd(
   currentMarks: Map<string, any>,
   nextNode: any,
   markSetsEqual: (a: Map<string, any>, b: Map<string, any>) => boolean,
+  marksEqual: (a: any, b: any) => boolean,
 ): string[] {
   const isLastNode = !nextNode
   const nextNodeHasNoMarks = nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
@@ -80,7 +81,10 @@ export function findMarksToCloseAtEnd(
       Array.from(activeMarks.keys())
         .reverse()
         .forEach(markType => {
-          if (!nextMarks.has(markType)) {
+          const activeMark = activeMarks.get(markType)
+          const nextMark = nextMarks.get(markType)
+
+          if (!nextMark || !marksEqual(activeMark, nextMark)) {
             marksToCloseAtEnd.push(markType)
           }
         })

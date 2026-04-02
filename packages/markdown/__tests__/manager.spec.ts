@@ -535,6 +535,42 @@ Final paragraph.`
       expect(markdown).toBe('before **bold** after')
     })
 
+    it('keeps adjacent same-type marks separate when their attrs differ', () => {
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'example',
+                marks: [{ type: 'link', attrs: { href: 'https://example.com', target: '_blank' } }],
+              },
+              {
+                type: 'text',
+                text: 'github',
+                marks: [{ type: 'link', attrs: { href: 'https://github.com', target: '_blank' } }],
+              },
+              {
+                type: 'text',
+                text: 'tiptap',
+                marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev', target: '_blank' } }],
+              },
+              {
+                type: 'text',
+                text: '.',
+              },
+            ],
+          },
+        ],
+      }
+
+      expect(markdownManager.serialize(doc)).toBe(
+        '[example](https://example.com)[github](https://github.com)[tiptap](https://tiptap.dev).',
+      )
+    })
+
     it('should handle trailing whitespace in italic marks (Issue #7180)', () => {
       const doc = {
         type: 'doc',
