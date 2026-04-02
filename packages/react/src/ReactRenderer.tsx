@@ -186,9 +186,21 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
     // synchronously render the component to ensure it renders
     // together with Prosemirror's rendering.
     if (this.editor.isInitialized) {
-      flushSync(() => {
-        this.render()
-      })
+      try {
+        flushSync(() => {
+          this.render()
+        })
+      } catch {
+        // flushSync throws when called during React's render/commit phase
+        // (e.g. React 19 remounting components during a state update).
+        // Fall back to async render — same path used for non-initialized editors.
+        queueMicrotask(() => {
+          if (this.destroyed) {
+            return
+          }
+          this.render()
+        })
+      }
     } else {
       queueMicrotask(() => {
         if (this.destroyed) {
