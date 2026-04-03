@@ -2,8 +2,8 @@
 "@tiptap/extension-list": patch
 ---
 
-Preserve lazy continuation lines in ordered lists per CommonMark §5.3.
+Treat non-indented continuation lines following an ordered list marker as part of the same list item.
 
-Non-indented continuation lines that appear immediately after a list item marker (and before a blank line)
-are now treated as part of the current list item instead of terminating the list. Adds a focused regression
-test (markdown) that enables `marked`'s `breaks: true` option to ensure inline hard-breaks are preserved.
+This aligns ordered list parsing with CommonMark behavior: lines immediately after a list item (before a
+blank line) are considered lazy continuation and remain inside the list item rather than ending it.
+
