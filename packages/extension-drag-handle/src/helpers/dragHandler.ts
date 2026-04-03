@@ -56,7 +56,7 @@ function getDragHandleRanges(
   const $from = doc.resolve(result.pos)
   const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
-  return getSelectionRanges($from, $to, 0)
+  return getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
 }
 
 export function dragHandler(
@@ -75,7 +75,7 @@ export function dragHandler(
 
   const dragHandleRanges = getDragHandleRanges(event, editor, nestedOptions, dragContext)
 
-  const selectionRanges = getSelectionRanges($from, $to, 0)
+  const selectionRanges = getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
   const isDragHandleWithinSelection = selectionRanges.some(range => {
     return dragHandleRanges.find(dragHandleRange => {
       return dragHandleRange.$from === range.$from && dragHandleRange.$to === range.$to
