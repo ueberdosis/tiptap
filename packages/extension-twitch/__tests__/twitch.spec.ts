@@ -486,4 +486,66 @@ describe('extension-twitch', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  it.each([
+    'https://www.twitch.tv/videos/1234567890',
+    'https://clips.twitch.tv/ExampleClipName-ABC123',
+    'https://www.twitch.tv/examplechannel',
+  ])('preserves the twitch src when content is loaded back from rendered HTML for %s', originalSrc => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Twitch.configure({
+          parent: 'example.com',
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'twitch',
+            attrs: {
+              src: originalSrc,
+            },
+          },
+        ],
+      },
+    })
+
+    const html = editor.getHTML()
+
+    editor.destroy()
+    getEditorEl()?.remove()
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Twitch.configure({
+          parent: 'example.com',
+        }),
+      ],
+      content: html,
+    })
+
+    expect(editor.getJSON()).toMatchObject({
+      type: 'doc',
+      content: [
+        {
+          type: 'twitch',
+          attrs: {
+            src: originalSrc,
+          },
+        },
+      ],
+    })
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })

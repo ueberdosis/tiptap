@@ -1,6 +1,33 @@
 import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedUrlFromTwitchUrl, isValidTwitchUrl, TWITCH_REGEX_GLOBAL } from './utils.js'
+import {
+  getAttributesFromTwitchEmbedUrl,
+  getEmbedUrlFromTwitchUrl,
+  isValidTwitchUrl,
+  TWITCH_REGEX_GLOBAL,
+} from './utils.js'
+
+const getParsedTwitchAttributes = (element: HTMLElement) => {
+  const src = element.getAttribute('src')
+
+  if (!src) {
+    return null
+  }
+
+  const embedAttributes = getAttributesFromTwitchEmbedUrl(src)
+
+  if (embedAttributes) {
+    return embedAttributes
+  }
+
+  if (isValidTwitchUrl(src)) {
+    return {
+      src,
+    }
+  }
+
+  return null
+}
 
 export interface TwitchOptions {
   /**
@@ -154,21 +181,35 @@ export const Twitch = Node.create<TwitchOptions>({
     return {
       src: {
         default: null,
+        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.src,
       },
       width: {
         default: this.options.width,
+        parseHTML: element => {
+          const width = (element as HTMLElement).getAttribute('width')
+
+          return width ? Number.parseInt(width, 10) : null
+        },
       },
       height: {
         default: this.options.height,
+        parseHTML: element => {
+          const height = (element as HTMLElement).getAttribute('height')
+
+          return height ? Number.parseInt(height, 10) : null
+        },
       },
       autoplay: {
         default: this.options.autoplay,
+        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.autoplay,
       },
       muted: {
         default: this.options.muted,
+        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.muted,
       },
       time: {
         default: this.options.time,
+        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.time,
       },
     }
   },
