@@ -7,6 +7,16 @@ import {
   TWITCH_REGEX_GLOBAL,
 } from './utils.js'
 
+const getParsedDimension = (value: string | null) => {
+  if (!value) {
+    return null
+  }
+
+  const parsedValue = Number.parseInt(value, 10)
+
+  return Number.isNaN(parsedValue) ? null : parsedValue
+}
+
 const getParsedTwitchAttributes = (element: HTMLElement) => {
   const src = element.getAttribute('src')
 
@@ -26,7 +36,9 @@ const getParsedTwitchAttributes = (element: HTMLElement) => {
     }
   }
 
-  return null
+  return {
+    src,
+  }
 }
 
 export interface TwitchOptions {
@@ -185,19 +197,11 @@ export const Twitch = Node.create<TwitchOptions>({
       },
       width: {
         default: this.options.width,
-        parseHTML: element => {
-          const width = (element as HTMLElement).getAttribute('width')
-
-          return width ? Number.parseInt(width, 10) : null
-        },
+        parseHTML: element => getParsedDimension((element as HTMLElement).getAttribute('width')),
       },
       height: {
         default: this.options.height,
-        parseHTML: element => {
-          const height = (element as HTMLElement).getAttribute('height')
-
-          return height ? Number.parseInt(height, 10) : null
-        },
+        parseHTML: element => getParsedDimension((element as HTMLElement).getAttribute('height')),
       },
       autoplay: {
         default: this.options.autoplay,

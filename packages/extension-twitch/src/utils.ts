@@ -285,5 +285,9 @@ export const getAttributesFromTwitchEmbedUrl = (url: string): TwitchEmbedAttribu
     result.time = time
   }
 
+  if (!isValidTwitchUrl(result.src)) {
+    return null
+  }
+
   return result
 }

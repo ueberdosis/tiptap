@@ -5,6 +5,8 @@ import Text from '@tiptap/extension-text'
 import Twitch from '@tiptap/extension-twitch'
 import { describe, expect, it } from 'vitest'
 
+import { getAttributesFromTwitchEmbedUrl } from '../src/utils.js'
+
 /**
  * Most Twitch tests should actually exist in the demo/ app folder
  */
@@ -547,5 +549,54 @@ describe('extension-twitch', () => {
 
     editor?.destroy()
     getEditorEl()?.remove()
+  })
+
+  it('does not persist NaN width or height when parsing iframe dimensions from HTML', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Twitch.configure({
+          parent: 'example.com',
+        }),
+      ],
+      content:
+        '<div data-twitch-video><iframe src="https://player.twitch.tv/?video=1234567890&parent=example.com" width="100%" height="auto"></iframe></div>',
+    })
+
+    const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+    const html = editor.getHTML()
+
+    expect(Number.isNaN(attrs.width)).toBe(false)
+    expect(Number.isNaN(attrs.height)).toBe(false)
+    expect(html).not.toContain('width="NaN"')
+    expect(html).not.toContain('height="NaN"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('renders invalid Twitch content without crashing when parsed HTML contains an unsupported src', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Twitch],
+      content: '<div data-twitch-video><iframe src="https://example.com/not-a-twitch-url"></iframe></div>',
+    })
+
+    expect(() => editor?.getHTML()).not.toThrow()
+    expect(editor.getHTML()).toContain('Invalid Twitch URL')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it.each([
+    'https://player.twitch.tv/?video=abc&parent=example.com',
+    'https://player.twitch.tv/?channel=foo%2Fbar&parent=example.com',
+    'https://clips.twitch.tv/embed?clip=bad%20clip&parent=example.com',
+  ])('returns null for malformed embed identifiers: %s', embedUrl => {
+    expect(getAttributesFromTwitchEmbedUrl(embedUrl)).toBeNull()
   })
 })
