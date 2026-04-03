@@ -167,11 +167,7 @@ export const toggleList: RawCommands['toggleList'] =
       }
 
       // change list type
-      if (
-        isList(currentList.node.type.name, extensions) &&
-        listType.validContent(currentList.node.content) &&
-        dispatch
-      ) {
+      if (isList(currentList.node.type.name, extensions) && listType.validContent(currentList.node.content)) {
         return chain()
           .command(() => {
             tr.setNodeMarkup(currentList.pos, listType)
