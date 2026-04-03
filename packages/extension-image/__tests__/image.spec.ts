@@ -207,6 +207,78 @@ describe('extension-image', () => {
       expect(img?.getAttribute('src')).toBe('https://tiptap.dev/new-image.png')
     })
 
+    it('should clear src on the resizable image when src is set to null', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Image.configure({
+            resize: { enabled: true },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'image',
+              attrs: {
+                src: 'https://tiptap.dev/placeholder.png',
+              },
+            },
+          ],
+        },
+      })
+
+      const container = editor.view.dom.querySelector('[data-resize-container]')
+      const img = container?.querySelector('img')
+
+      expect(img?.getAttribute('src')).toBe('https://tiptap.dev/placeholder.png')
+
+      editor.commands.updateAttributes('image', { src: null })
+
+      expect(img?.hasAttribute('src')).toBe(false)
+      expect(img?.getAttribute('src')).toBeNull()
+      expect(img?.src).toBe('')
+    })
+
+    it('should clear src on the resizable image when src is set to an empty string', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Image.configure({
+            resize: { enabled: true },
+          }),
+        ],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'image',
+              attrs: {
+                src: 'https://tiptap.dev/placeholder.png',
+              },
+            },
+          ],
+        },
+      })
+
+      const container = editor.view.dom.querySelector('[data-resize-container]')
+      const img = container?.querySelector('img')
+
+      expect(img?.getAttribute('src')).toBe('https://tiptap.dev/placeholder.png')
+
+      editor.commands.updateAttributes('image', { src: '' })
+
+      expect(img?.hasAttribute('src')).toBe(false)
+      expect(img?.getAttribute('src')).toBeNull()
+      expect(img?.src).toBe('')
+    })
+
     it('should remove attributes from the resizable image when set to null', () => {
       editor = new Editor({
         element: createEditorEl(),
