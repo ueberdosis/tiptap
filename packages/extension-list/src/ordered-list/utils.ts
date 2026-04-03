@@ -29,7 +29,6 @@ function isBlockContentLine(line: string): boolean {
 
   return (
     /^[-+*]\s+/.test(trimmedLine) ||
-    /^[-+*]\s+\[[ xX]\]\s+/.test(trimmedLine) ||
     /^\d+\.\s+/.test(trimmedLine) ||
     /^>\s?/.test(trimmedLine) ||
     /^```/.test(trimmedLine) ||
