@@ -1,0 +1,148 @@
+/* Container Node Styles */
+.container-node {
+  margin: 1.5rem 0;
+  border: 3px dashed;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+
+  &.theme-light {
+    background: #f9fafb;
+  }
+
+  &.theme-dark {
+    background: #1f2937;
+  }
+
+  .container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+    .container-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #334155;
+
+      .theme-dark & {
+        color: #f1f5f9;
+      }
+    }
+
+    .container-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  }
+
+  .container-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Themed Card Styles */
+.themed-card {
+  border-left: 4px solid;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  &.theme-light {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  &.theme-dark {
+    background: #374151;
+    color: #f3f4f6;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .card-counter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .counter-btn {
+        width: 28px;
+        height: 28px;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+
+        &:hover {
+          transform: scale(1.1);
+          background: currentColor;
+          color: white !important;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .counter-value {
+        min-width: 32px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .card-body {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    .card-badge {
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+}
