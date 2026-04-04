@@ -12,6 +12,7 @@ Key locations:
 - `demos/` contains the demo app and example implementations used for development, manual verification, and end-to-end testing.
 - `tests/` contains end-to-end tests that run against the demos.
 - `.changeset/` contains Changesets used for versioning and release notes.
+- `CONTRIBUTING.md` contains the repository contribution policy. Read it before opening issues or pull requests, especially for issue assignment, Changesets, AI usage, and PR requirements.
 
 ## How to think about the codebase
 
