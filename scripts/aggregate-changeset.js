@@ -1,18 +1,16 @@
 /* eslint-disable */
 
-import { execFile as execFileCallback } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { promisify } from 'node:util'
 import fg from 'fast-glob'
 import getReleasePlan from '@changesets/get-release-plan'
 
-const execFile = promisify(execFileCallback)
 const require = createRequire(import.meta.url)
 const resolveFromWorkspace = request =>
   require.resolve(request, { paths: [process.cwd(), require.resolve('@changesets/cli/changelog')] })
+const { getCommitsThatAddFiles } = require(resolveFromWorkspace('@changesets/git'))
 const semverSatisfies = require(resolveFromWorkspace('semver/functions/satisfies'))
 const validRange = require(resolveFromWorkspace('semver/ranges/valid'))
 
@@ -74,30 +72,18 @@ async function loadChangelogGenerator(cwd) {
   }
 }
 
-async function getChangesetCommit(cwd, changesetId) {
-  const candidates = [`.changeset/${changesetId}.md`, `.changeset/${changesetId}/changes.json`]
-
-  for (const filePath of candidates) {
-    try {
-      const { stdout } = await execFile('git', ['log', '--diff-filter=A', '--format=%H', '-n', '1', '--', filePath], {
-        cwd,
-      })
-      const commit = stdout.trim()
-
-      if (commit) return commit
-    } catch {}
-  }
-
-  return undefined
-}
-
 async function addCommitsToChangesets(cwd, changesets) {
-  return Promise.all(
-    changesets.map(async changeset => ({
-      ...changeset,
-      commit: await getChangesetCommit(cwd, changeset.id),
-    })),
-  )
+  const markdownPaths = changesets.map(changeset => `.changeset/${changeset.id}.md`)
+  const markdownCommits = await getCommitsThatAddFiles(markdownPaths, { cwd })
+  const legacyIndexes = markdownCommits.flatMap((commit, index) => (commit ? [] : [index]))
+  const legacyPaths = legacyIndexes.map(index => `.changeset/${changesets[index].id}/changes.json`)
+  const legacyCommits = legacyPaths.length > 0 ? await getCommitsThatAddFiles(legacyPaths, { cwd }) : []
+  const legacyCommitByIndex = new Map(legacyIndexes.map((index, offset) => [index, legacyCommits[offset]]))
+
+  return changesets.map((changeset, index) => ({
+    ...changeset,
+    commit: markdownCommits[index] ?? legacyCommitByIndex.get(index),
+  }))
 }
 
 async function loadWorkspacePackages(cwd) {
