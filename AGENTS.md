@@ -14,6 +14,15 @@ Key locations:
 - `.changeset/` contains Changesets used for versioning and release notes.
 - `CONTRIBUTING.md` contains the repository contribution policy. Read it before opening issues or pull requests, especially for issue assignment, Changesets, AI usage, and PR requirements.
 
+## Tooling conventions
+
+- Use `pnpm` for package management and workspace scripts.
+- Use ESLint for semantic correctness, code quality, and avoiding logical issues.
+- Use Prettier for code formatting.
+- Use Cypress for end-to-end testing.
+- Use Vitest for unit testing.
+- When GitHub is involved, check whether the `gh` CLI is available and use it for GitHub-related tasks.
+
 ## How to think about the codebase
 
 Treat Tiptap as a collection of small, focused building blocks.
@@ -114,7 +123,7 @@ Pull requests are expected to follow the repository contribution policy:
 
 - PRs must be linked to an issue
 - contributors should request assignment or maintainer approval on the issue before opening a PR
-- use the repository pull request template
+- if an agent creates a PR, always use `.github/pull_request_template.md` as the base and fill it out as completely and accurately as possible
 - include a Changeset when required
 
 ## General implementation style
