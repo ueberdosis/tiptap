@@ -44,6 +44,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
+    "@changesets/changelog-github": "^0.6.0",
     "@changesets/cli": "^2.27.11",
     "@changesets/get-release-plan": "^4.0.13",
     "@commitlint/cli": "^19.6.1",

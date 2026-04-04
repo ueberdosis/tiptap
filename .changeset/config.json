@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.1/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": ["@changesets/changelog-github", { "repo": "ueberdosis/tiptap" }],
   "commit": false,
   "fixed": [["@tiptap/*"]],
   "linked": [],
