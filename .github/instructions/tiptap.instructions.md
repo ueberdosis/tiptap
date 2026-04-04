@@ -29,9 +29,8 @@ Key points for AI assistants:
 │  ├─ extension-*/           # Individual extensions
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
-├─ demos/                    # Vite app for live examples
-│  ├─ react/                 # React demos
-│  └─ vue/                   # Vue demos
+├─ demos/                    # Demo app and runnable examples
+│  └─ src/                   # Example categories and demo implementations
 ├─ tests/                    # Cypress e2e tests that run against the demos
 ├─ .changeset/               # Changesets for versioning and changelogs
 └─ .github/                  # Workflows and docs like this file
@@ -51,11 +50,11 @@ Scripts defined at the repo root:
 * `pnpm build` - build all packages via Turborepo
 * `pnpm lint` - run eslint checks
 * `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:open` - open Cypress against `tests/`
-* `pnpm test:run` - run Cypress in headless mode
+* `pnpm test:e2e:open` - open Cypress against `tests/`
+* `pnpm test:e2e` - run Cypress in headless mode
 * `pnpm test` - build then run all tests
 * `pnpm serve` - build and serve the demos on port 3000
-* `pnpm publish` - build and publish with Changesets
+* `pnpm publish` - build and publish with Changesets for repository-controlled release workflows
 * `pnpm reset` - remove caches, build artifacts, and reinstall deps
 
 ---
@@ -77,8 +76,8 @@ pnpm lint:fix
 
 ## Demos
 
-* Demos are a Vite app in `demos/`.
-* React and Vue examples live in `demos/react` and `demos/vue`. They are automatically parsed into the app.
+* Demos live in `demos/`.
+* Example implementations live under `demos/src/` in grouped categories such as `Examples`, `Extensions`, `Marks`, and `Nodes`.
 * Start in dev mode:
 
   ```bash
@@ -102,14 +101,14 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 Workflow:
 
 ```bash
-pnpm dev         # terminal A
-pnpm test:open   # terminal B
+pnpm dev              # terminal A
+pnpm test:e2e:open    # terminal B
 ```
 
 or for headless CI runs:
 
 ```bash
-pnpm test:run
+pnpm test:e2e
 ```
 
 ---
@@ -123,6 +122,12 @@ We focus heavily on **User Experience** and **Developer Experience**. Every publ
 * At least one runnable example
 
 This ensures our automated API docs are complete and examples are usable without extra context.
+
+When adding or changing user-facing behavior:
+
+* Prefer meaningful option names over vague ones.
+* Expose options or explicit APIs instead of hardcoding one workflow when a configurable design is possible.
+* Provide escape hatches where reasonable so users can adapt behavior without patching internals.
 
 Example:
 
@@ -149,7 +154,8 @@ export function toggleBold(editor: Editor): boolean {
 
 * Run `pnpm changeset` to create a new changeset (choose packages + bump type).
 * Run `pnpm version` to update versions and changelogs.
-* Maintainers publish with `pnpm publish`.
+* Publishing is handled by the repository's automated workflow using trusted publishing.
+* Do not manually publish packages from local machines as part of normal contribution flow.
 
 Changelogs must describe **user-facing changes**. Avoid internal noise.
 
