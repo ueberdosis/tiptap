@@ -1,6 +1,6 @@
 ---
-'@tiptap/extension-floating-menu': minor
-'@tiptap/extension-bubble-menu': minor
+'@tiptap/extension-floating-menu': patch
+'@tiptap/extension-bubble-menu': patch
 ---
 
-Add "events" to programmatically show & hide the floating & bubble menus
+Add new transaction meta handlers to programmatically show & hide the floating & bubble menus via `transaction.setMeta('menuKey', 'show')` and `transaction.setMeta('menuKey', 'hide')`
