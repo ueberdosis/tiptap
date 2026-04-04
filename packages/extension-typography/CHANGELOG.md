@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.22.2
+
+### Patch Changes
+
+- 18fbb42: Added RTL smart quote support
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+
 ## 3.22.1
 
 ### Patch Changes

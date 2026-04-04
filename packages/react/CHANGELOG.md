@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.22.2
+
+### Patch Changes
+
+- 8ab8bee: Fixed an error where `flushSync()` would run in `<EditorContent />` lifecycle
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/pm@3.22.2
+
 ## 3.22.1
 
 ### Patch Changes

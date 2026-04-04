@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.22.2
+
+### Patch Changes
+
+- f1d504c: Fix incorrect selection placement when pasting at the end of a marked text node, ensuring inclusive marks are respected
+- 404c683: Fixes list toggling when the entire document is selected
+  - @tiptap/pm@3.22.2
+
 ## 3.22.1
 
 ### Patch Changes

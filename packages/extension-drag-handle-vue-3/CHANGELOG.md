@@ -1,5 +1,14 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.22.2
+
+### Patch Changes
+
+- b3391ce: Fixed an issue causing drag handle visibility not to update dynamically in Vue 3 components.
+  - @tiptap/extension-drag-handle@3.22.2
+  - @tiptap/vue-3@3.22.2
+  - @tiptap/pm@3.22.2
+
 ## 3.22.1
 
 ### Patch Changes

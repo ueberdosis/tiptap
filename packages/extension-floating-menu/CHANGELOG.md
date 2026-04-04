@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.22.2
+
+### Patch Changes
+
+- 22b1527: Add new transaction meta handlers to programmatically show & hide the floating & bubble menus via `transaction.setMeta('menuKey', 'show')` and `transaction.setMeta('menuKey', 'hide')`
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/pm@3.22.2
+
 ## 3.22.1
 
 ### Patch Changes
