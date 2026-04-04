@@ -57,9 +57,7 @@ export interface PlaceholderOptions {
    * You can use a function to return a dynamic placeholder or a string.
    * @default 'Write something …'
    */
-  placeholder:
-    | ((props: { editor: Editor; node: ProseMirrorNode; pos: number; hasAnchor: boolean }) => string)
-    | string
+  placeholder: ((props: { editor: Editor; node: ProseMirrorNode; pos: number; hasAnchor: boolean }) => string) | string
 
   /**
    * **Checks if the placeholder should be only shown when the editor is editable.**
@@ -144,9 +142,7 @@ function collectPlaceholdersFullScan(
       return options.includeChildren
     }
 
-    decorations.push(
-      createPlaceholderDecoration(editor, options, node, pos, hasAnchor, dataAttributeKey),
-    )
+    decorations.push(createPlaceholderDecoration(editor, options, node, pos, hasAnchor, dataAttributeKey))
 
     return options.includeChildren
   })
@@ -186,9 +182,7 @@ function collectPlaceholdersShowOnlyCurrent(
     const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
     if (hasAnchor && isEmpty) {
-      decorations.push(
-        createPlaceholderDecoration(editor, options, node, pos, hasAnchor, dataAttributeKey),
-      )
+      decorations.push(createPlaceholderDecoration(editor, options, node, pos, hasAnchor, dataAttributeKey))
     }
   }
 
