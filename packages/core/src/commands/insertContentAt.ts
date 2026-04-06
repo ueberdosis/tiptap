@@ -187,7 +187,7 @@ export const insertContentAt: RawCommands['insertContentAt'] =
         const isTextSelection = $fromNode.isText || $fromNode.isTextblock
         const hasContent = $fromNode.content.size > 0
 
-        if (fromSelectionAtStart && isTextSelection && hasContent) {
+        if (fromSelectionAtStart && isTextSelection && hasContent && isOnlyBlockContent) {
           from = Math.max(0, from - 1)
         }
 

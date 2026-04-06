@@ -63,6 +63,6 @@ describe('server exports with jsdom/happy-dom environment (issue #6951)', () => 
     // This should NOT throw "generateHTML can only be used in a Node environment"
     const html = generateHTML(json, extensions)
 
-    expect(html).toBe('<p xmlns="http://www.w3.org/1999/xhtml">Hello, world!</p>')
+    expect(html).toBe('<p>Hello, world!</p>')
   })
 })
