@@ -115,7 +115,7 @@ context('/src/Examples/NodePos/React/', () => {
       cy.get('button[data-testid="find-first-node"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')
       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      cy.get('div[data-testid="found-node"]').should('contain', 'heading').should('contain', '{"level":1}')
+      cy.get('div[data-testid="found-node"]').should('contain', 'heading').should('contain', '"level":1')
 
       cy.get('button[data-testid="find-last-node"]').click()
       cy.get('div[data-testid="found-nodes"]').should('exist')

@@ -18,6 +18,7 @@ context('/src/Nodes/Document/Vue/', () => {
         content: [
           {
             type: 'paragraph',
+            attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
           },
         ],
       })
