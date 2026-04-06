@@ -32,6 +32,13 @@ describe('server exports with jsdom/happy-dom environment (issue #6951)', () => 
       content: [
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',

@@ -209,7 +209,13 @@ describe('unmounted', () => {
 
     expect(editor.state.doc.toJSON()).toEqual({
       type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Test' }] }],
+      content: [
+        {
+          type: 'paragraph',
+          attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
+          content: [{ type: 'text', text: 'Test' }],
+        },
+      ],
     })
   })
 
@@ -225,7 +231,13 @@ describe('unmounted', () => {
 
     expect(editor.state.doc.toJSON()).toEqual({
       type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Test 2' }] }],
+      content: [
+        {
+          type: 'paragraph',
+          attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
+          content: [{ type: 'text', text: 'Test 2' }],
+        },
+      ],
     })
   })
 
@@ -238,7 +250,13 @@ describe('unmounted', () => {
     editor.chain().setContent('<p>Test</p>').run()
     expect(editor.view.state.doc.toJSON()).toEqual({
       type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Test' }] }],
+      content: [
+        {
+          type: 'paragraph',
+          attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
+          content: [{ type: 'text', text: 'Test' }],
+        },
+      ],
     })
   })
 

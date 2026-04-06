@@ -1,5 +1,7 @@
 import { mergeAttributes, Node, textblockTypeInputRule } from '@tiptap/core'
 
+import { createSpacingAttributes } from './utilities/create-spacing-attributes.js'
+
 /**
  * The heading level options.
  */
@@ -66,6 +68,7 @@ export const Heading = Node.create<HeadingOptions>({
         default: 1,
         rendered: false,
       },
+      ...createSpacingAttributes(),
     }
   },
 

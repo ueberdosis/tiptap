@@ -11,7 +11,14 @@ const headingDocument = {
   content: [
     {
       type: 'heading',
-      attrs: { level: 1 },
+      attrs: {
+        level: 1,
+        spacingBefore: null,
+        spacingAfter: null,
+        lineHeight: null,
+        indent: null,
+        firstLineIndent: null,
+      },
       content: [{ type: 'text', text: 'Title' }],
     },
   ],
@@ -22,11 +29,19 @@ const headingWithTrailingParagraphDocument = {
   content: [
     {
       type: 'heading',
-      attrs: { level: 1 },
+      attrs: {
+        level: 1,
+        spacingBefore: null,
+        spacingAfter: null,
+        lineHeight: null,
+        indent: null,
+        firstLineIndent: null,
+      },
       content: [{ type: 'text', text: 'Title' }],
     },
     {
       type: 'paragraph',
+      attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
     },
   ],
 }

@@ -38,6 +38,13 @@ describe('InlineMath', () => {
       content: [
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',

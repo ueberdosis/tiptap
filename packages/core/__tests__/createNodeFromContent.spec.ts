@@ -13,6 +13,13 @@ describe('createNodeFromContent', () => {
     expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',
@@ -33,6 +40,13 @@ describe('createNodeFromContent', () => {
     expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',
@@ -58,6 +72,13 @@ describe('createNodeFromContent', () => {
 
     expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
+      attrs: {
+        spacingBefore: null,
+        spacingAfter: null,
+        lineHeight: null,
+        indent: null,
+        firstLineIndent: null,
+      },
       content: [
         {
           type: 'text',
@@ -84,6 +105,13 @@ describe('createNodeFromContent', () => {
 
     expect(fragment.toJSON()).toEqual({
       type: 'paragraph',
+      attrs: {
+        spacingBefore: null,
+        spacingAfter: null,
+        lineHeight: null,
+        indent: null,
+        firstLineIndent: null,
+      },
       content: [
         {
           type: 'text',
@@ -120,6 +148,13 @@ describe('createNodeFromContent', () => {
     expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',
@@ -129,6 +164,13 @@ describe('createNodeFromContent', () => {
       },
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',
@@ -168,6 +210,13 @@ describe('createNodeFromContent', () => {
     expect(fragment.toJSON()).toEqual([
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',
@@ -177,6 +226,13 @@ describe('createNodeFromContent', () => {
       },
       {
         type: 'paragraph',
+        attrs: {
+          spacingBefore: null,
+          spacingAfter: null,
+          lineHeight: null,
+          indent: null,
+          firstLineIndent: null,
+        },
         content: [
           {
             type: 'text',

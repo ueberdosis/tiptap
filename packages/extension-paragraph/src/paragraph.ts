@@ -1,5 +1,7 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createSpacingAttributes } from './utilities/create-spacing-attributes.js'
+
 export interface ParagraphOptions {
   /**
    * The HTML attributes for a paragraph node.
@@ -52,6 +54,12 @@ export const Paragraph = Node.create<ParagraphOptions>({
   group: 'block',
 
   content: 'inline*',
+
+  addAttributes() {
+    return {
+      ...createSpacingAttributes(),
+    }
+  },
 
   parseHTML() {
     return [{ tag: 'p' }]

@@ -42,6 +42,13 @@ describe('generateHTML', () => {
       content: [
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',
@@ -106,6 +113,11 @@ describe('generateHTML', () => {
           type: 'heading',
           attrs: {
             level: 2,
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
           },
           content: [
             {
@@ -116,6 +128,13 @@ describe('generateHTML', () => {
         },
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',
@@ -157,6 +176,13 @@ describe('generateHTML', () => {
               content: [
                 {
                   type: 'paragraph',
+                  attrs: {
+                    spacingBefore: null,
+                    spacingAfter: null,
+                    lineHeight: null,
+                    indent: null,
+                    firstLineIndent: null,
+                  },
                   content: [
                     {
                       type: 'text',
@@ -171,6 +197,13 @@ describe('generateHTML', () => {
               content: [
                 {
                   type: 'paragraph',
+                  attrs: {
+                    spacingBefore: null,
+                    spacingAfter: null,
+                    lineHeight: null,
+                    indent: null,
+                    firstLineIndent: null,
+                  },
                   content: [
                     {
                       type: 'text',
@@ -184,6 +217,13 @@ describe('generateHTML', () => {
         },
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',
@@ -205,6 +245,13 @@ describe('generateHTML', () => {
         },
         {
           type: 'paragraph',
+          attrs: {
+            spacingBefore: null,
+            spacingAfter: null,
+            lineHeight: null,
+            indent: null,
+            firstLineIndent: null,
+          },
           content: [
             {
               type: 'text',
@@ -217,6 +264,13 @@ describe('generateHTML', () => {
           content: [
             {
               type: 'paragraph',
+              attrs: {
+                spacingBefore: null,
+                spacingAfter: null,
+                lineHeight: null,
+                indent: null,
+                firstLineIndent: null,
+              },
               content: [
                 {
                   type: 'text',
