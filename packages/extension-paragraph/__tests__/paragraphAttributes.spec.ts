@@ -84,13 +84,13 @@ describe('paragraph spacing attributes', () => {
   })
 
   describe('lineHeight', () => {
-    it('should parse line-height from inline style', () => {
+    it('should parse line-height as a string from inline style', () => {
       createEditor('<p style="line-height: 1.5">Hello</p>')
 
-      expect(getFirstParagraphAttrs().lineHeight).toBe(1.5)
+      expect(getFirstParagraphAttrs().lineHeight).toBe('1.5')
     })
 
-    it('should render multiplier line-height without units', () => {
+    it('should render line-height as inline style', () => {
       createEditor('<p style="line-height: 1.5">Hello</p>')
 
       expect(getFirstParagraphElement()?.style.lineHeight).toBe('1.5')
@@ -157,7 +157,7 @@ describe('paragraph spacing attributes', () => {
 
       expect(attrs.spacingBefore).toBe(28)
       expect(attrs.spacingAfter).toBe(13)
-      expect(attrs.lineHeight).toBe(1.6)
+      expect(attrs.lineHeight).toBe('1.6')
       expect(attrs.indent).toBe(48)
       expect(attrs.firstLineIndent).toBe(32)
     })

@@ -85,13 +85,13 @@ describe('heading spacing attributes', () => {
   })
 
   describe('lineHeight', () => {
-    it('should parse line-height from inline style', () => {
+    it('should parse line-height as a string from inline style', () => {
       createEditor('<h1 style="line-height: 1.3">Title</h1>')
 
-      expect(getFirstHeadingAttrs().lineHeight).toBe(1.3)
+      expect(getFirstHeadingAttrs().lineHeight).toBe('1.3')
     })
 
-    it('should render multiplier line-height without units', () => {
+    it('should render line-height as inline style', () => {
       createEditor('<h1 style="line-height: 1.3">Title</h1>')
 
       expect(getFirstHeadingElement()?.getAttribute('style')).toContain('line-height: 1.3')
@@ -171,7 +171,7 @@ describe('heading spacing attributes', () => {
       expect(attrs.level).toBe(1)
       expect(attrs.spacingBefore).toBe(56)
       expect(attrs.spacingAfter).toBe(24)
-      expect(attrs.lineHeight).toBe(1.3)
+      expect(attrs.lineHeight).toBe('1.3')
       expect(attrs.indent).toBe(48)
       expect(attrs.firstLineIndent).toBe(32)
     })

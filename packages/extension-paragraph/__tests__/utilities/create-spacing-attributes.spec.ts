@@ -91,7 +91,7 @@ describe('createSpacingAttributes', () => {
   })
 
   describe('lineHeight', () => {
-    it('should parse line-height from element style', () => {
+    it('should parse line-height as a string from element style', () => {
       const el = document.createElement('p')
 
       el.style.lineHeight = '1.5'
@@ -99,21 +99,32 @@ describe('createSpacingAttributes', () => {
       const parse = attrs.lineHeight?.parseHTML
       const result = typeof parse === 'function' ? parse(el) : null
 
-      expect(result).toBe(1.5)
+      expect(result).toBe('1.5')
     })
 
-    it('should render multiplier values without units', () => {
+    it('should preserve px units when parsing', () => {
+      const el = document.createElement('p')
+
+      el.style.lineHeight = '24px'
+
+      const parse = attrs.lineHeight?.parseHTML
+      const result = typeof parse === 'function' ? parse(el) : null
+
+      expect(result).toBe('24px')
+    })
+
+    it('should render the value as-is without modifying units', () => {
       const render = attrs.lineHeight?.renderHTML
 
-      expect(typeof render === 'function' ? render({ lineHeight: 1.5 }) : {}).toEqual({
+      expect(typeof render === 'function' ? render({ lineHeight: '1.5' }) : {}).toEqual({
         style: 'line-height: 1.5',
       })
     })
 
-    it('should render absolute values with px units', () => {
+    it('should render px values faithfully', () => {
       const render = attrs.lineHeight?.renderHTML
 
-      expect(typeof render === 'function' ? render({ lineHeight: 24 }) : {}).toEqual({
+      expect(typeof render === 'function' ? render({ lineHeight: '24px' }) : {}).toEqual({
         style: 'line-height: 24px',
       })
     })

@@ -17,8 +17,3 @@ Add support for more attributes across paragraph, and heading extensions
 
 - Add the same 5 spacing and indentation attributes as the paragraph extension (`spacingBefore`, `spacingAfter`, `lineHeight`, `indent`, `firstLineIndent`)
 - All attributes coexist with the existing `level` attribute
-
-**Unit tests**
-
-- Updated 9 existing test files to include the new null-default attributes in expected JSON shapes: `createNodeFromContent`, `generateJSON`, `unmounted`, `taskItem`, `inlineMath`, `trailing-node`, `generateHTML`, `server-with-jsdom`
-- Added new test suites for paragraph attributes (16 tests), heading attributes (16 tests), and `createSpacingAttributes` utility (22 tests)

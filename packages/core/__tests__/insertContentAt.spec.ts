@@ -76,6 +76,7 @@ describe('insertContentAt', () => {
         content: [
           {
             type: 'paragraph',
+            attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
             content: [
               { type: 'text', marks: [{ type: 'bold' }], text: 'hello' },
               { type: 'text', text: 'existing text' },
@@ -100,10 +101,12 @@ describe('insertContentAt', () => {
         content: [
           {
             type: 'paragraph',
+            attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
             content: [{ type: 'text', text: 'new paragraph' }],
           },
           {
             type: 'paragraph',
+            attrs: { spacingBefore: null, spacingAfter: null, lineHeight: null, indent: null, firstLineIndent: null },
             content: [{ type: 'text', text: 'existing text' }],
           },
         ],
