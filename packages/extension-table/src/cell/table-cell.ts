@@ -2,6 +2,9 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createBackgroundAttribute } from '../utilities/create-background-attribute.js'
+import { createBorderAttributes } from '../utilities/create-border-attributes.js'
+import { createVerticalAlignAttribute } from '../utilities/create-vertical-align-attribute.js'
 import { createAlignAttribute } from '../utilities/parseAlign.js'
 
 export interface TableCellOptions {
@@ -57,6 +60,9 @@ export const TableCell = Node.create<TableCellOptions>({
         },
       },
       align: createAlignAttribute(),
+      background: createBackgroundAttribute(),
+      verticalAlign: createVerticalAlignAttribute(),
+      ...createBorderAttributes(),
     }
   },
 
