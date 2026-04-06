@@ -43,10 +43,19 @@ export function createBorderAttributes(): Attributes {
       default: null,
       parseHTML: (element: HTMLElement) => parseCssLength(element.style.getPropertyValue(`border-${cssSide}-width`)),
       renderHTML: (attributes: Record<string, unknown>) => {
-        if (attributes[widthKey] == null) {
+        const raw = attributes[widthKey]
+
+        if (raw == null) {
           return {}
         }
-        return { style: `border-${cssSide}-width: ${attributes[widthKey]}px` }
+
+        const num = typeof raw === 'number' ? raw : parseFloat(String(raw))
+
+        if (!Number.isFinite(num)) {
+          return {}
+        }
+
+        return { style: `border-${cssSide}-width: ${num}px` }
       },
     }
 
