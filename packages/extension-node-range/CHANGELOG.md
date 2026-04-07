@@ -1,5 +1,14 @@
 # @tiptap/extension-node-range
 
+## 3.22.3
+
+### Patch Changes
+
+- ac994c5: Add an option to control whether node ranges extend when a selection only touches a node boundary.
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/pm@3.22.3
+
 ## 3.22.2
 
 ### Patch Changes

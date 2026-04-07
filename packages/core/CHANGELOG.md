@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.22.3
+
+### Patch Changes
+
+- cb28e7b: Fixed `insertContentAt` corrupting the document when inserting inline content with marks at the start of a paragraph. The `from - 1` position adjustment now only applies to block-level content.
+  - @tiptap/pm@3.22.3
+
 ## 3.22.2
 
 ### Patch Changes
