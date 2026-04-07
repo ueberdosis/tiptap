@@ -47,24 +47,9 @@ ${'```'}
 
 ![Alt text](https://unsplash.it/800/500)
 
-## HTML
-
-<div class="label">test<div>
-
-Inline HTML: hello <em>world</em> and <strong>friends</strong>.
-
-Nested block HTML:
-
-<section class="card">
-  <h4>Card title</h4>
-  <p>Card body with <code>inline code</code>.</p>
-</section>
-
-Self-closing HTML:
-
-<br />
-
 ## Hidden HTML Comments
+
+Test with following hidden comment <!-- i am the comment -->
 
 <!-- This is a hidden comment that should be preserved in the editor document -->
 
