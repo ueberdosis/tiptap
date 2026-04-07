@@ -572,6 +572,9 @@ describe('TaskItem', () => {
     })
 
     editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
     editor.commands.toggleOrderedList()
 
     const { from, to } = editor.state.selection
@@ -605,6 +608,9 @@ describe('TaskItem', () => {
     })
 
     editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
     editor.commands.toggleBulletList()
 
     const { from, to } = editor.state.selection
@@ -647,6 +653,9 @@ describe('TaskItem', () => {
     })
 
     editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
     editor.commands.toggleOrderedList()
 
     const { from, to } = editor.state.selection
