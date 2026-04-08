@@ -1,9 +1,42 @@
 import { createAtomBlockMarkdownSpec, mergeAttributes, Node, nodePasteRule } from '@tiptap/core'
 
-import { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl, YOUTUBE_REGEX_GLOBAL } from './utils.js'
+import {
+  getAttributesFromYoutubeEmbedUrl,
+  getEmbedUrlFromYoutubeUrl,
+  isValidYoutubeUrl,
+  YOUTUBE_REGEX_GLOBAL,
+} from './utils.js'
+
+const getParsedDimension = (value: string | null) => {
+  if (!value) {
+    return null
+  }
+
+  const parsedValue = Number.parseInt(value, 10)
+
+  return Number.isNaN(parsedValue) ? null : parsedValue
+}
+
+const getParsedYoutubeAttributes = (element: HTMLElement) => {
+  const src = element.getAttribute('src')
+
+  if (!src) {
+    return null
+  }
+
+  const embedAttributes = getAttributesFromYoutubeEmbedUrl(src)
+
+  if (embedAttributes) {
+    return embedAttributes
+  }
+
+  return {
+    src,
+  }
+}
 
 export type { GetEmbedUrlOptions } from './utils.js'
-export { getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl } from './utils.js'
+export { getAttributesFromYoutubeEmbedUrl, getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl } from './utils.js'
 
 export interface YoutubeOptions {
   /**
@@ -227,15 +260,19 @@ export const Youtube = Node.create<YoutubeOptions>({
     return {
       src: {
         default: null,
+        parseHTML: element => getParsedYoutubeAttributes(element)?.src,
       },
       start: {
         default: 0,
+        parseHTML: element => getParsedYoutubeAttributes(element)?.start,
       },
       width: {
         default: this.options.width,
+        parseHTML: element => getParsedDimension(element.getAttribute('width')),
       },
       height: {
         default: this.options.height,
+        parseHTML: element => getParsedDimension(element.getAttribute('height')),
       },
     }
   },

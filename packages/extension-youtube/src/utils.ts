@@ -29,6 +29,11 @@ export interface GetEmbedUrlOptions {
   rel?: number
 }
 
+export interface YoutubeEmbedAttributes {
+  src: string
+  start?: number
+}
+
 export const getYoutubeEmbedUrl = (nocookie?: boolean, isPlaylist?: boolean) => {
   if (isPlaylist) {
     return 'https://www.youtube-nocookie.com/embed/videoseries?list='
@@ -162,4 +167,57 @@ export const getEmbedUrlFromYoutubeUrl = (options: GetEmbedUrlOptions) => {
   }
 
   return outputUrl
+}
+
+export const getAttributesFromYoutubeEmbedUrl = (url: string): YoutubeEmbedAttributes | null => {
+  let parsedUrl: URL
+
+  try {
+    parsedUrl = new URL(url)
+  } catch {
+    return null
+  }
+
+  const hostname = parsedUrl.hostname.replace(/^www\./, '')
+
+  if (hostname !== 'youtube.com' && hostname !== 'youtube-nocookie.com') {
+    return null
+  }
+
+  let src: string | null = null
+
+  if (parsedUrl.pathname === '/embed/videoseries') {
+    const list = parsedUrl.searchParams.get('list')
+
+    if (!list) {
+      return null
+    }
+
+    src = `https://www.youtube.com/playlist?list=${list}`
+  } else {
+    const matches = parsedUrl.pathname.match(/^\/embed\/([\w-]+)$/)
+
+    if (!matches?.[1]) {
+      return null
+    }
+
+    src = `https://www.youtube.com/watch?v=${matches[1]}`
+  }
+
+  if (!isValidYoutubeUrl(src)) {
+    return null
+  }
+
+  const attributes: YoutubeEmbedAttributes = { src }
+  const start = parsedUrl.searchParams.get('start')
+
+  if (start) {
+    const parsedStart = Number.parseInt(start, 10)
+
+    if (!Number.isNaN(parsedStart)) {
+      attributes.start = parsedStart
+    }
+  }
+
+  return attributes
 }

@@ -1,5 +1,6 @@
 ---
 '@tiptap/extension-twitch': patch
+'@tiptap/extension-youtube': patch
 ---
 
-Fix Twitch embeds losing their original video, clip, or channel URL when HTML content is loaded back into the editor.
+Fix Twitch and YouTube embeds losing their canonical video, clip, channel, or playlist URL when HTML content is loaded back into the editor.

@@ -193,27 +193,27 @@ export const Twitch = Node.create<TwitchOptions>({
     return {
       src: {
         default: null,
-        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.src,
+        parseHTML: element => getParsedTwitchAttributes(element)?.src,
       },
       width: {
         default: this.options.width,
-        parseHTML: element => getParsedDimension((element as HTMLElement).getAttribute('width')),
+        parseHTML: element => getParsedDimension(element.getAttribute('width')),
       },
       height: {
         default: this.options.height,
-        parseHTML: element => getParsedDimension((element as HTMLElement).getAttribute('height')),
+        parseHTML: element => getParsedDimension(element.getAttribute('height')),
       },
       autoplay: {
         default: this.options.autoplay,
-        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.autoplay,
+        parseHTML: element => getParsedTwitchAttributes(element)?.autoplay,
       },
       muted: {
         default: this.options.muted,
-        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.muted,
+        parseHTML: element => getParsedTwitchAttributes(element)?.muted,
       },
       time: {
         default: this.options.time,
-        parseHTML: element => getParsedTwitchAttributes(element as HTMLElement)?.time,
+        parseHTML: element => getParsedTwitchAttributes(element)?.time,
       },
     }
   },
