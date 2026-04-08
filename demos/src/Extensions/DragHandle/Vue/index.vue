@@ -21,8 +21,8 @@ import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, direction: 'left' } }
-const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, direction: 'right' } }
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default {
   components: {

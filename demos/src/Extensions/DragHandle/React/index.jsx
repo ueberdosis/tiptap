@@ -7,8 +7,8 @@ import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useState } from 'react'
 
-const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, direction: 'left' } }
-const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, direction: 'right' } }
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default () => {
   const [nested, setNested] = useState(true)

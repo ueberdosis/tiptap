@@ -1,8 +1,12 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { cloneElement } from '../src/helpers/cloneElement.js'
 
 describe('cloneElement', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('copies computed styles to the clone', () => {
     const element = document.createElement('p')
     const child = document.createElement('span')
