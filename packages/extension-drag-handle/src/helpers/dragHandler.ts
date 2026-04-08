@@ -6,12 +6,16 @@ import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { cloneElement } from './cloneElement.js'
 import { findElementNextToCoords } from './findNextElementFromCursor.js'
-import { getDraggedBlockDir } from './getDraggedBlockDir.js'
+import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir.js'
 import { removeNode } from './removeNode.js'
 
 export interface DragContext {
   node: Node | null
   pos: number
+}
+
+export function getDragImageOffset(direction: string, wrapperWidth: number): number {
+  return direction === 'rtl' ? wrapperWidth : 0
 }
 
 function getDragHandleRanges(
@@ -93,8 +97,9 @@ export function dragHandler(
 
   const from = ranges[0].$from.pos
   const to = ranges[ranges.length - 1].$to.pos
+  const direction = getDraggedBlockDir(view, from)
 
-  wrapper.setAttribute('dir', getDraggedBlockDir(view, from))
+  wrapper.setAttribute('dir', direction)
 
   // For nested mode, create slice directly to avoid NodeRangeSelection expanding to parent
   const isNestedDrag = nestedOptions?.enabled && dragContext?.node
@@ -115,8 +120,15 @@ export function dragHandler(
   }
 
   ranges.forEach(range => {
-    const element = view.nodeDOM(range.$from.pos) as HTMLElement
+    const element = getDraggedBlockElement(view, range.$from.pos) as HTMLElement | null
+
+    if (!element) {
+      return
+    }
+
     const clonedElement = cloneElement(element)
+
+    clonedElement.style.margin = '0'
 
     wrapper.append(clonedElement)
   })
@@ -127,8 +139,9 @@ export function dragHandler(
 
   event.dataTransfer.clearData()
   const wrapperRect = wrapper.getBoundingClientRect()
-  const dragImageX = event.clientX - wrapperRect.left
-  event.dataTransfer.setDragImage(wrapper, Math.max(0, Math.min(dragImageX, wrapperRect.width)), 0)
+  const dragImageX = getDragImageOffset(direction, wrapperRect.width)
+
+  event.dataTransfer.setDragImage(wrapper, dragImageX, 0)
 
   let cleanedUp = false
 
