@@ -546,4 +546,121 @@ describe('TaskItem', () => {
 
     expect(editor.can().toggleBulletList()).toBe(true)
   })
+
+  it('preserves text selection after toggling off an ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a bullet list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Test item' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleBulletList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(10)
+  })
+
+  it('preserves text selection after toggling off a multi-item ordered list with AllSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, OrderedList, BulletList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'orderedList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'First' }],
+                  },
+                ],
+              },
+              {
+                type: 'listItem',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Second' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    expect(editor.state.selection.from).toBe(0)
+    expect(editor.state.selection.to).toBe(editor.state.doc.content.size)
+
+    editor.commands.toggleOrderedList()
+
+    const { from, to } = editor.state.selection
+
+    expect(from).toBe(1)
+    expect(to).toBe(14)
+  })
 })

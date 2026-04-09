@@ -89,10 +89,13 @@ function createInnerSelectionForWholeDocList(tr: Transaction) {
 
   // Place the selection inside the list node so that ProseMirror's
   // liftListItem command can operate. AllSelection sits at the doc root.
-  const from = 1
-  const to = list.nodeSize - 1
+  // Use TextSelection.between to resolve positions into valid inline
+  // content positions, so the selection survives position mapping after
+  // liftListItem removes list/item wrappers.
+  const $start = doc.resolve(1)
+  const $end = doc.resolve(list.nodeSize - 1)
 
-  return TextSelection.create(doc, from, to)
+  return TextSelection.between($start, $end)
 }
 export const toggleList: RawCommands['toggleList'] =
   (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) =>

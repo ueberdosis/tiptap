@@ -1,5 +1,17 @@
 # @tiptap/extension-drag-handle
 
+## 3.22.3
+
+### Patch Changes
+
+- ac994c5: Fix drag selections so crossing a node boundary does not incorrectly include the next node.
+- Updated dependencies [cb28e7b]
+- Updated dependencies [ac994c5]
+  - @tiptap/core@3.22.3
+  - @tiptap/extension-node-range@3.22.3
+  - @tiptap/extension-collaboration@3.22.3
+  - @tiptap/pm@3.22.3
+
 ## 3.22.2
 
 ### Patch Changes

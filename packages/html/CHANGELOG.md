@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.22.3
+
+### Patch Changes
+
+- 5812fde: Remove unnecessary `xmlns="http://www.w3.org/1999/xhtml"` attribute from `generateHTML` output by using `innerHTML` instead of `XMLSerializer` for HTML serialization.
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/pm@3.22.3
+
 ## 3.22.2
 
 ### Patch Changes

@@ -10,7 +10,7 @@
   }
 
   > * {
-    margin-left: 3rem;
+    margin-inline-start: 3rem;
   }
 
   .ProseMirror-widget * {
@@ -19,7 +19,7 @@
 
   ul,
   ol {
-    padding: 0 1rem;
+    padding-inline: 1rem;
   }
 }
 

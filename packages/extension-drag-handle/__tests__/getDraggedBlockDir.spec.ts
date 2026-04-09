@@ -1,7 +1,7 @@
 import type { EditorView } from '@tiptap/pm/view'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getDraggedBlockDir } from '../src/helpers/getDraggedBlockDir.js'
+import { getDraggedBlockDir, getDraggedBlockElement } from '../src/helpers/getDraggedBlockDir.js'
 
 function createMockView(overrides: Partial<EditorView> = {}): EditorView {
   const editorDom = document.createElement('div')
@@ -31,6 +31,23 @@ function mockDirection(map: Map<Element, string>) {
 describe('getDraggedBlockDir', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
+  })
+
+  describe('getDraggedBlockElement', () => {
+    it('should prefer the child at domAtPos when nodeDOM resolves to the editor root', () => {
+      const editorRoot = document.createElement('div')
+      const paragraph = document.createElement('p')
+
+      editorRoot.appendChild(paragraph)
+
+      const view = createMockView({
+        dom: editorRoot,
+        nodeDOM: vi.fn(() => editorRoot),
+        domAtPos: vi.fn(() => ({ node: editorRoot, offset: 0 })),
+      })
+
+      expect(getDraggedBlockElement(view, 0)).toBe(paragraph)
+    })
   })
 
   afterEach(() => {
