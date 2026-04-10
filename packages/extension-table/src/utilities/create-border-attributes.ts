@@ -1,32 +1,22 @@
 import type { Attributes } from '@tiptap/core'
 
+import { extractStyleProperty } from './extract-style-property.js'
+
 /**
  * Border sides supported by the table cell schema.
  */
 const BORDER_SIDES = ['Top', 'Bottom', 'Left', 'Right'] as const
 
 /**
- * Parses a CSS length value into a number of pixels.
- * Handles "1px", "2px", bare numbers, etc.
- *
- * @param value - A CSS length string (e.g. "1px", "2")
- * @return The numeric pixel value, or null if unparseable
- */
-function parseCssLength(value: string | undefined | null): number | null {
-  if (!value) {
-    return null
-  }
-  const num = parseFloat(value)
-  return Number.isNaN(num) ? null : num
-}
-
-/**
  * Creates Tiptap attribute definitions for all 12 table cell border properties.
  *
  * Each side (top, bottom, left, right) gets three attributes:
- * - `border{Side}Width` — numeric pixel value (parsed from `element.style.border{Side}Width`)
- * - `border{Side}Style` — CSS border style string (parsed from `element.style.border{Side}Style`)
- * - `border{Side}Color` — CSS color string (parsed from `element.style.border{Side}Color`)
+ * - `border{Side}Width` — CSS width string preserving the original token (e.g. `"2px"`, `"0.5rem"`, `"thin"`)
+ * - `border{Side}Style` — CSS border style string (e.g. `"solid"`, `"dashed"`)
+ * - `border{Side}Color` — CSS color string preserving the original format (e.g. `"#000000"`)
+ *
+ * Parsing reads from the raw `style` attribute first to preserve the original
+ * CSS values, falling back to the CSSOM computed value.
  *
  * All attributes render as inline styles on the `<td>`/`<th>` element.
  *
@@ -41,7 +31,13 @@ export function createBorderAttributes(): Attributes {
 
     attrs[widthKey] = {
       default: null,
-      parseHTML: (element: HTMLElement) => parseCssLength(element.style.getPropertyValue(`border-${cssSide}-width`)),
+      parseHTML: (element: HTMLElement) => {
+        return (
+          extractStyleProperty(element.getAttribute('style'), `border-${cssSide}-width`) ||
+          element.style.getPropertyValue(`border-${cssSide}-width`) ||
+          null
+        )
+      },
       renderHTML: (attributes: Record<string, unknown>) => {
         const raw = attributes[widthKey]
 
@@ -49,21 +45,21 @@ export function createBorderAttributes(): Attributes {
           return {}
         }
 
-        const num = typeof raw === 'number' ? raw : parseFloat(String(raw))
+        // Support numeric values from JSON (backward compat) by coercing to px
+        const value = typeof raw === 'number' ? `${raw}px` : String(raw)
 
-        if (!Number.isFinite(num)) {
-          return {}
-        }
-
-        return { style: `border-${cssSide}-width: ${num}px` }
+        return { style: `border-${cssSide}-width: ${value}` }
       },
     }
 
     attrs[styleKey] = {
       default: null,
       parseHTML: (element: HTMLElement) => {
-        const val = element.style.getPropertyValue(`border-${cssSide}-style`)
-        return val || null
+        return (
+          extractStyleProperty(element.getAttribute('style'), `border-${cssSide}-style`) ||
+          element.style.getPropertyValue(`border-${cssSide}-style`) ||
+          null
+        )
       },
       renderHTML: (attributes: Record<string, unknown>) => {
         if (!attributes[styleKey]) {
@@ -76,8 +72,11 @@ export function createBorderAttributes(): Attributes {
     attrs[colorKey] = {
       default: null,
       parseHTML: (element: HTMLElement) => {
-        const val = element.style.getPropertyValue(`border-${cssSide}-color`)
-        return val || null
+        return (
+          extractStyleProperty(element.getAttribute('style'), `border-${cssSide}-color`) ||
+          element.style.getPropertyValue(`border-${cssSide}-color`) ||
+          null
+        )
       },
       renderHTML: (attributes: Record<string, unknown>) => {
         if (!attributes[colorKey]) {

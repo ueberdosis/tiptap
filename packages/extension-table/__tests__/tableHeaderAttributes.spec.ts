@@ -120,10 +120,10 @@ describe('table header attributes', () => {
 
       const attrs = getFirstHeaderAttrs()
 
-      expect(attrs.borderTopWidth).toBe(2)
-      expect(attrs.borderBottomWidth).toBe(1)
-      expect(attrs.borderLeftWidth).toBe(3)
-      expect(attrs.borderRightWidth).toBe(1)
+      expect(attrs.borderTopWidth).toBe('2px')
+      expect(attrs.borderBottomWidth).toBe('1px')
+      expect(attrs.borderLeftWidth).toBe('3px')
+      expect(attrs.borderRightWidth).toBe('1px')
     })
 
     it('should parse all four border styles from inline styles', () => {
@@ -190,7 +190,7 @@ describe('table header attributes', () => {
 
       editor!.commands.setContent(json)
 
-      expect(getFirstHeaderAttrs().borderTopWidth).toBe(2)
+      expect(getFirstHeaderAttrs().borderTopWidth).toBe('2px')
       expect(getFirstHeaderAttrs().borderTopStyle).toBe('solid')
     })
 
@@ -201,7 +201,7 @@ describe('table header attributes', () => {
 
       const attrs = getFirstHeaderAttrs()
 
-      expect(attrs.borderBottomWidth).toBe(3)
+      expect(attrs.borderBottomWidth).toBe('3px')
       expect(attrs.borderBottomStyle).toBe('double')
       expect(attrs.borderTopWidth).toBeNull()
       expect(attrs.borderLeftWidth).toBeNull()
@@ -219,7 +219,7 @@ describe('table header attributes', () => {
 
       expect(attrs.background).toBe('#ECF0E9')
       expect(attrs.verticalAlign).toBe('middle')
-      expect(attrs.borderTopWidth).toBe(1)
+      expect(attrs.borderTopWidth).toBe('1px')
       expect(attrs.borderTopStyle).toBe('solid')
     })
 
@@ -233,7 +233,7 @@ describe('table header attributes', () => {
       expect(attrs.colspan).toBe(2)
       expect(attrs.align).toBe('center')
       expect(attrs.background).toBe('#F0F0F0')
-      expect(attrs.borderBottomWidth).toBe(2)
+      expect(attrs.borderBottomWidth).toBe('2px')
       expect(attrs.borderBottomStyle).toBe('solid')
     })
   })

@@ -137,10 +137,10 @@ describe('table cell attributes', () => {
 
       const attrs = getFirstCellAttrs()
 
-      expect(attrs.borderTopWidth).toBe(2)
-      expect(attrs.borderBottomWidth).toBe(1)
-      expect(attrs.borderLeftWidth).toBe(3)
-      expect(attrs.borderRightWidth).toBe(1)
+      expect(attrs.borderTopWidth).toBe('2px')
+      expect(attrs.borderBottomWidth).toBe('1px')
+      expect(attrs.borderLeftWidth).toBe('3px')
+      expect(attrs.borderRightWidth).toBe('1px')
     })
 
     it('should parse all four border styles from inline styles', () => {
@@ -206,13 +206,13 @@ describe('table cell attributes', () => {
       const json = editor!.getJSON()
 
       // @ts-expect-error content is not guaranteed to be this shape
-      expect(json.content[0].content[0].content[0].attrs.borderTopWidth).toBe(2)
+      expect(json.content[0].content[0].content[0].attrs.borderTopWidth).toBe('2px')
       // @ts-expect-error content is not guaranteed to be this shape
       expect(json.content[0].content[0].content[0].attrs.borderTopStyle).toBe('solid')
 
       editor!.commands.setContent(json)
 
-      expect(getFirstCellAttrs().borderTopWidth).toBe(2)
+      expect(getFirstCellAttrs().borderTopWidth).toBe('2px')
       expect(getFirstCellAttrs().borderTopStyle).toBe('solid')
     })
 
@@ -232,7 +232,7 @@ describe('table cell attributes', () => {
 
       const attrs = getFirstCellAttrs()
 
-      expect(attrs.borderTopWidth).toBe(1)
+      expect(attrs.borderTopWidth).toBe('1px')
       expect(attrs.borderTopStyle).toBe('solid')
       expect(attrs.borderBottomWidth).toBeNull()
       expect(attrs.borderLeftWidth).toBeNull()
@@ -250,7 +250,7 @@ describe('table cell attributes', () => {
 
       expect(attrs.background).toBe('#ECF0E9')
       expect(attrs.verticalAlign).toBe('middle')
-      expect(attrs.borderTopWidth).toBe(1)
+      expect(attrs.borderTopWidth).toBe('1px')
       expect(attrs.borderTopStyle).toBe('solid')
     })
 
@@ -264,7 +264,7 @@ describe('table cell attributes', () => {
       expect(attrs.colspan).toBe(2)
       expect(attrs.align).toBe('center')
       expect(attrs.background).toBe('#F0F0F0')
-      expect(attrs.borderBottomWidth).toBe(2)
+      expect(attrs.borderBottomWidth).toBe('2px')
       expect(attrs.borderBottomStyle).toBe('solid')
     })
   })

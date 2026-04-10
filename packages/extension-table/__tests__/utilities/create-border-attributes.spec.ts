@@ -24,15 +24,26 @@ describe('createBorderAttributes', () => {
   })
 
   describe('parseHTML', () => {
-    it('should parse border width from element style', () => {
+    it('should parse border width as raw CSS string from style attribute', () => {
       const el = document.createElement('td')
 
-      el.style.borderTopWidth = '2px'
+      el.setAttribute('style', 'border-top-width: 2px')
 
       const parse = attrs.borderTopWidth?.parseHTML
       const result = typeof parse === 'function' ? parse(el) : null
 
-      expect(result).toBe(2)
+      expect(result).toBe('2px')
+    })
+
+    it('should preserve non-px units for border width', () => {
+      const el = document.createElement('td')
+
+      el.setAttribute('style', 'border-top-width: 0.5rem')
+
+      const parse = attrs.borderTopWidth?.parseHTML
+      const result = typeof parse === 'function' ? parse(el) : null
+
+      expect(result).toBe('0.5rem')
     })
 
     it('should return null for empty border width', () => {
@@ -43,10 +54,10 @@ describe('createBorderAttributes', () => {
       expect(result).toBeNull()
     })
 
-    it('should parse border style from element style', () => {
+    it('should parse border style from style attribute', () => {
       const el = document.createElement('td')
 
-      el.style.borderLeftStyle = 'dashed'
+      el.setAttribute('style', 'border-left-style: dashed')
 
       const parse = attrs.borderLeftStyle?.parseHTML
       const result = typeof parse === 'function' ? parse(el) : null
@@ -62,15 +73,15 @@ describe('createBorderAttributes', () => {
       expect(result).toBeNull()
     })
 
-    it('should parse border color from element style', () => {
+    it('should parse border color preserving original format', () => {
       const el = document.createElement('td')
 
-      el.style.borderRightColor = 'red'
+      el.setAttribute('style', 'border-right-color: #FF0000')
 
       const parse = attrs.borderRightColor?.parseHTML
       const result = typeof parse === 'function' ? parse(el) : null
 
-      expect(result).toBeTruthy()
+      expect(result).toBe('#FF0000')
     })
 
     it('should return null for empty border color', () => {
@@ -83,11 +94,27 @@ describe('createBorderAttributes', () => {
   })
 
   describe('renderHTML', () => {
-    it('should render border width as inline style', () => {
+    it('should render border width string as inline style', () => {
+      const render = attrs.borderTopWidth?.renderHTML
+
+      expect(typeof render === 'function' ? render({ borderTopWidth: '2px' }) : {}).toEqual({
+        style: 'border-top-width: 2px',
+      })
+    })
+
+    it('should render numeric border width with px suffix (backward compat)', () => {
       const render = attrs.borderTopWidth?.renderHTML
 
       expect(typeof render === 'function' ? render({ borderTopWidth: 2 }) : {}).toEqual({
         style: 'border-top-width: 2px',
+      })
+    })
+
+    it('should preserve non-px units when rendering border width', () => {
+      const render = attrs.borderTopWidth?.renderHTML
+
+      expect(typeof render === 'function' ? render({ borderTopWidth: '0.5rem' }) : {}).toEqual({
+        style: 'border-top-width: 0.5rem',
       })
     })
 
