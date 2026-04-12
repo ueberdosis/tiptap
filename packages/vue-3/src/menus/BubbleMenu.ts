@@ -1,5 +1,6 @@
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import { PluginKey } from '@tiptap/pm/state'
 import type { PropType } from 'vue'
 import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
@@ -11,7 +12,7 @@ export const BubbleMenu = defineComponent({
   props: {
     pluginKey: {
       type: [String, Object] as PropType<BubbleMenuPluginProps['pluginKey']>,
-      default: 'bubbleMenu',
+      default: undefined,
     },
 
     editor: {
@@ -52,18 +53,10 @@ export const BubbleMenu = defineComponent({
 
   setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
+    const resolvedPluginKey = props.pluginKey ?? new PluginKey('bubbleMenu')
 
     onMounted(() => {
-      const {
-        editor,
-        options,
-        pluginKey,
-        resizeDelay,
-        appendTo,
-        shouldShow,
-        getReferencedVirtualElement,
-        updateDelay,
-      } = props
+      const { editor, options, resizeDelay, appendTo, shouldShow, getReferencedVirtualElement, updateDelay } = props
 
       const el = root.value
 
@@ -83,7 +76,7 @@ export const BubbleMenu = defineComponent({
             editor,
             element: el,
             options,
-            pluginKey,
+            pluginKey: resolvedPluginKey,
             resizeDelay,
             appendTo,
             shouldShow,
@@ -95,9 +88,9 @@ export const BubbleMenu = defineComponent({
     })
 
     onBeforeUnmount(() => {
-      const { pluginKey, editor } = props
+      const { editor } = props
 
-      editor.unregisterPlugin(pluginKey)
+      editor.unregisterPlugin(resolvedPluginKey)
     })
 
     // Vue owns this element; attrs are applied reactively by Vue

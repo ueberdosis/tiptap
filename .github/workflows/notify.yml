@@ -1,0 +1,40 @@
+name: Notify
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  discord_notify:
+    name: Send release to Discord
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Post release to Discord (tsickert/discord-webhook)
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_RELEASES_STABLE_WEBHOOK }}
+          embed-title: ${{ github.event.release.name || github.event.release.tag_name }}
+          embed-description: ${{ github.event.release.body }}
+          embed-url: ${{ github.event.release.html_url }}
+          wait: true
+
+  slack_release_notify:
+    name: Send release to Slack
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Send Slack release notification
+        uses: slackapi/slack-github-action@v3.0.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            {
+              "message": ${{ toJSON(format('[Tiptap Editor {0}]: {1}\nRelease title: {2}\n{3}', github.event.release.prerelease && 'Pre-release' || 'Release', github.event.release.name || github.event.release.tag_name, github.event.release.html_url, github.event.release.body || 'No release notes provided.')) }}
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

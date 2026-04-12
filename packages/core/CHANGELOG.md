@@ -1,5 +1,126 @@
 # Change Log
 
+## 3.22.3
+
+### Patch Changes
+
+- cb28e7b: Fixed `insertContentAt` corrupting the document when inserting inline content with marks at the start of a paragraph. The `from - 1` position adjustment now only applies to block-level content.
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- f1d504c: Fix incorrect selection placement when pasting at the end of a marked text node, ensuring inclusive marks are respected
+- 404c683: Fixes list toggling when the entire document is selected
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- ee03ac0: Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+- b88f9ed: Don't stop dragover/dragenter events in NodeViews, to prevent spurious drag-copy cursors
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- 912a49b: Fix HTML character escaping in markdown roundtrip. HTML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`) are now decoded to literal characters when parsing markdown into the editor. `<`, `>`, and `&` are re-encoded when serializing back to markdown, while `"` is preserved as a literal character since double quotes are ordinary in markdown. Code detection for skipping encoding now uses the `code: true` extension spec instead of hardcoded type names. Literal characters inside code blocks and inline code are always preserved.
+- 7d4fb9a: Fix ResizableNodeView ignoring node's inline setting by using `inline-flex` for inline nodes and `flex` for block nodes
+- 0c1c112: extendMarkRange defaults to using the attributes of the first mark of the given type, instead of `attributes = {}`. In particular, `extendMarkRange('link')` no longer extends to adjacent links with different hrefs; restore the previous behavior with `extendMarkRange('link', {})`.
+- 0c1c112: Fix getMarkRange attributes default to consider the first mark _of the given type_
+- f99bdc2: Guard mark delete event handling when `unsetMark` removes a mark from inline content that starts at position `0`, preventing a `RangeError` during the before-node lookup.
+  - @tiptap/pm@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/pm@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/pm@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/pm@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- 0bcf3c2: Fixed Tiptap not publishing with build dist artifacts
+  - @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- c94fac4: Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- 6b9ea92: Fixed overlapping bold and italic markdown serialization and round-tripping.
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- 269823d: Improved markdown empty-paragraph roundtripping across top-level and nested block content. Empty paragraphs now serialize with natural blank-line spacing for the first paragraph in a run and `&nbsp;` markers for subsequent empty paragraphs at the same level, while parsing preserves those empty paragraphs when converting markdown back to JSON.
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- 25f57e4: Fix inline `style` parsing in `mergeAttributes` for values containing `:` or `;` (e.g. `url(https://...)` or `url(data:...;charset=...,)`) and skip incomplete declarations
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Minor Changes
+
+- 57624a1: Add `transformPastedHTML` extension API that allows extensions to transform pasted HTML content before it's parsed into the editor, enabling cleanup of styles, removal of dangerous content, and modification of pasted HTML through a chainable transform system.
+
+### Patch Changes
+
+- 4b731e2: Fix checking if mark is active and toggling off marks when part of the selection does not allow the mark (e.g. a code block)
+- 98546ac: Global attributes now support shorthand string values for `types`: use `'*'` to apply to all nodes and marks, `'nodes'` for all nodes (excluding text), or `'marks'` for all marks.
+- 76ce47d: Fixed a typo in the documentation of `editor.view`
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/pm@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/pm@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- aa9709e: Fixed `$nodes()` method to correctly return inline nodes (like text, mention, etc.) by fixing the `children` getter in `NodePos` class
+- b46e66a: Fixed ResizableNodeView contentDOM getter to return null instead of undefined for proper TypeScript compatibility
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- eecf1c9: Added `isFirefox` utility to core
+  - @tiptap/pm@3.17.0
+
 ## 3.16.0
 
 ### Patch Changes

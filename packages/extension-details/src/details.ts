@@ -7,12 +7,28 @@ import {
   mergeAttributes,
   Node,
 } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
 import { findClosestVisibleNode } from './helpers/findClosestVisibleNode.js'
 import { isNodeVisible } from './helpers/isNodeVisible.js'
 import { setGapCursor } from './helpers/setGapCursor.js'
+
+export interface DetailsRenderToggleButtonOptions {
+  /**
+   * The toggle button element rendered by the node view.
+   */
+  element: HTMLButtonElement
+  /**
+   * The current open state of the details node.
+   */
+  isOpen: boolean
+  /**
+   * The current node used to derive toggle button state.
+   */
+  node: ProseMirrorNode
+}
 
 export interface DetailsOptions {
   /**
@@ -29,6 +45,10 @@ export interface DetailsOptions {
   HTMLAttributes: {
     [key: string]: any
   }
+  /**
+   * Customizes the rendered toggle button.
+   */
+  renderToggleButton: (options: DetailsRenderToggleButtonOptions) => void
 }
 
 declare module '@tiptap/core' {
@@ -65,6 +85,9 @@ export const Details = Node.create<DetailsOptions>({
       persist: false,
       openClassName: 'is-open',
       HTMLAttributes: {},
+      renderToggleButton: ({ element, isOpen }) => {
+        element.setAttribute('aria-label', isOpen ? 'Collapse details content' : 'Expand details content')
+      },
     }
   },
 
@@ -118,13 +141,22 @@ export const Details = Node.create<DetailsOptions>({
 
       toggle.type = 'button'
 
+      const renderToggleButton = (options: Omit<DetailsRenderToggleButtonOptions, 'element'>) => {
+        this.options.renderToggleButton({
+          element: toggle,
+          ...options,
+        })
+      }
+
       dom.append(toggle)
 
       const content = document.createElement('div')
 
       dom.append(content)
 
-      const toggleDetailsContent = (setToValue?: boolean) => {
+      const toggleDetailsContent = (options?: { setToValue?: boolean; node?: ProseMirrorNode }) => {
+        const { setToValue, node: currentNode = node } = options || {}
+
         if (setToValue !== undefined) {
           if (setToValue) {
             if (dom.classList.contains(this.options.openClassName)) {
@@ -141,11 +173,23 @@ export const Details = Node.create<DetailsOptions>({
           dom.classList.toggle(this.options.openClassName)
         }
 
+        const isOpen = dom.classList.contains(this.options.openClassName)
+
+        renderToggleButton({
+          isOpen,
+          node: currentNode,
+        })
+
         const event = new Event('toggleDetailsContent')
         const detailsContent = content.querySelector(':scope > div[data-type="detailsContent"]')
 
         detailsContent?.dispatchEvent(event)
       }
+
+      renderToggleButton({
+        isOpen: Boolean(node.attrs.open),
+        node,
+      })
 
       if (node.attrs.open) {
         setTimeout(() => toggleDetailsContent())
@@ -201,7 +245,11 @@ export const Details = Node.create<DetailsOptions>({
             return false
           }
 
-          return !dom.contains(mutation.target) || dom === mutation.target
+          const target = mutation.target
+          const isInsideWrapper = dom.contains(target)
+          const isInsideToggleButton = toggle.contains(target)
+
+          return isInsideToggleButton || !isInsideWrapper || dom === target
         },
         update: updatedNode => {
           if (updatedNode.type !== this.type) {
@@ -210,7 +258,15 @@ export const Details = Node.create<DetailsOptions>({
 
           // Only update the open state if set
           if (updatedNode.attrs.open !== undefined) {
-            toggleDetailsContent(updatedNode.attrs.open)
+            toggleDetailsContent({
+              setToValue: updatedNode.attrs.open,
+              node: updatedNode,
+            })
+          } else {
+            renderToggleButton({
+              isOpen: dom.classList.contains(this.options.openClassName),
+              node: updatedNode,
+            })
           }
 
           return true

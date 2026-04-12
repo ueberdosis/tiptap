@@ -5,7 +5,7 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import { cancelPositionCheck, getRenderedAttributes, NodeView, schedulePositionCheck } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
@@ -72,6 +72,18 @@ export class ReactNodeView<
    */
   selectionRafId: number | null = null
 
+  /**
+   * The last known position of this node view, used to detect position-only
+   * changes that don't produce a new node object reference.
+   */
+  private currentPos: number | undefined
+
+  /**
+   * Callback registered with the per-editor position-update registry.
+   * Stored so it can be unregistered in destroy().
+   */
+  private positionCheckCallback: (() => void) | null = null
+
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
 
@@ -100,6 +112,31 @@ export class ReactNodeView<
     }
   }
 
+  private cachedExtensionWithSyncedStorage: NodeViewRendererProps['extension'] | null = null
+
+  /**
+   * Returns a proxy of the extension that redirects storage access to the editor's mutable storage.
+   * This preserves the original prototype chain (instanceof checks, methods like configure/extend work).
+   * Cached to avoid proxy creation on every update.
+   */
+  get extensionWithSyncedStorage(): NodeViewRendererProps['extension'] {
+    if (!this.cachedExtensionWithSyncedStorage) {
+      const editor = this.editor
+      const extension = this.extension
+
+      this.cachedExtensionWithSyncedStorage = new Proxy(extension, {
+        get(target, prop, receiver) {
+          if (prop === 'storage') {
+            return editor.storage[extension.name as keyof typeof editor.storage] ?? {}
+          }
+          return Reflect.get(target, prop, receiver)
+        },
+      })
+    }
+
+    return this.cachedExtensionWithSyncedStorage
+  }
+
   /**
    * Setup the React component.
    * Called on initialization.
@@ -112,7 +149,7 @@ export class ReactNodeView<
       innerDecorations: this.innerDecorations,
       view: this.view,
       selected: false,
-      extension: this.extension,
+      extension: this.extensionWithSyncedStorage,
       HTMLAttributes: this.HTMLAttributes,
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
@@ -171,6 +208,26 @@ export class ReactNodeView<
 
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     this.updateElementAttributes()
+    this.currentPos = this.getPos()
+
+    this.positionCheckCallback = () => {
+      const newPos = this.getPos()
+
+      if (typeof newPos !== 'number' || newPos === this.currentPos) {
+        return
+      }
+
+      this.currentPos = newPos
+
+      // Pass a fresh getPos reference so React's memo detects a prop change.
+      this.renderer.updateProps({ getPos: () => this.getPos() })
+
+      if (typeof this.options.attrs === 'function') {
+        this.updateElementAttributes()
+      }
+    }
+
+    schedulePositionCheck(this.editor, this.positionCheckCallback)
   }
 
   /**
@@ -213,7 +270,8 @@ export class ReactNodeView<
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
       const { from, to } = this.editor.state.selection
-      const pos = this.getPos()
+      // Avoid resolving getPos() after ProseMirror has detached this node view.
+      const pos = this.currentPos
       if (typeof pos !== 'number') {
         return
       }
@@ -258,6 +316,7 @@ export class ReactNodeView<
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
+      this.currentPos = this.getPos()
 
       return this.options.update({
         oldNode,
@@ -266,19 +325,38 @@ export class ReactNodeView<
         newDecorations: decorations,
         oldInnerDecorations,
         innerDecorations,
-        updateProps: () => rerenderComponent({ node, decorations, innerDecorations }),
+        updateProps: () =>
+          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
       })
     }
 
+    const newPos = this.getPos()
+
     if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+      if (newPos === this.currentPos) {
+        return true
+      }
+
+      // Position changed without a content/decoration change — trigger re-render
+      // so the component receives an up-to-date value from getPos().
+      // Pass a fresh getPos reference so React's memo detects a prop change.
+      this.currentPos = newPos
+      rerenderComponent({
+        node,
+        decorations,
+        innerDecorations,
+        extension: this.extensionWithSyncedStorage,
+        getPos: () => this.getPos(),
+      })
       return true
     }
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = newPos
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
     return true
   }
@@ -311,6 +389,12 @@ export class ReactNodeView<
   destroy() {
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+
+    if (this.positionCheckCallback) {
+      cancelPositionCheck(this.editor, this.positionCheckCallback)
+      this.positionCheckCallback = null
+    }
+
     this.contentDOMElement = null
 
     if (this.selectionRafId) {

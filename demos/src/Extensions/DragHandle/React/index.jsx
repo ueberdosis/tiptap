@@ -1,24 +1,115 @@
 import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
-import { EditorContent, useEditor } from '@tiptap/react'
+import Image from '@tiptap/extension-image'
+import { TableKit } from '@tiptap/extension-table'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import { useEffect, useState } from 'react'
+
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default () => {
+  const [nested, setNested] = useState(true)
+  const [rtl, setRtl] = useState(false)
+
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Image.configure({ inline: false }), TableKit],
     content: `
-      <h1>
-        This is a very unique heading.
-      </h1>
-      <p>
-        This is a unique paragraph. It’s so unique, it even has an ID attached to it.
-      </p>
-      <p>
-        And this one, too.
-      </p>
+      <h1>The Complete Guide to Modern Web Development</h1>
+      <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
+
+        <img src="https://unsplash.it/500/500" alt="Random Image" />
+
+        <p dir="rtl">تجربة سحب هذا النص توضح كيف يجب أن يلتصق شبح السحب بالمؤشر حتى داخل المحتوى من اليمين إلى اليسار.</p>
+
+        <h2>Getting Started</h2>
+      <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
+
+      <blockquote>
+        <p>"The best code is no code at all. Every new line of code you willingly bring into the world is code that has to be debugged, code that has to be read and understood." - Jeff Atwood</p>
+      </blockquote>
+
+      <p>This philosophy guides much of modern development practices, emphasizing simplicity and maintainability over complexity.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Component-Based Architecture</td>
+            <td>Breaks down the UI into reusable components.</td>
+            <td><code>&lt;MyComponent /&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Virtual DOM</td>
+            <td>Improves performance by minimizing direct DOM manipulation.</td>
+            <td><code>&lt;VirtualDOMComponent /&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <h2>Key Technologies</h2>
+      <p>Here are the essential technologies every web developer should be familiar with:</p>
+
+      <ul>
+        <li>HTML5 and semantic markup</li>
+        <li>CSS3 with modern layout techniques
+          <ul>
+            <li>Flexbox for one-dimensional layouts</li>
+            <li>Grid for two-dimensional layouts</li>
+            <li>Custom properties (CSS variables)</li>
+          </ul>
+        </li>
+        <li>JavaScript (ES6+)</li>
+        <li>TypeScript for type safety</li>
+      </ul>
+
+      <h3>Framework Comparison</h3>
+      <p>Choosing the right framework depends on your project requirements:</p>
+
+      <ol>
+        <li>React - Component-based UI library</li>
+        <li>Vue - Progressive framework</li>
+        <li>Angular - Full-featured platform</li>
+        <li>Svelte - Compile-time framework</li>
+      </ol>
+
+      <hr>
+
+      <h2>Best Practices</h2>
+      <p>Following established best practices ensures your code remains maintainable and scalable.</p>
+
+      <blockquote>
+        <p>Always write code as if the person who ends up maintaining it is a violent psychopath who knows where you live.</p>
+      </blockquote>
+
+      <h3>Code Organization</h3>
+      <p>A well-organized codebase is crucial for long-term project success. Consider these principles:</p>
+
+      <ul>
+        <li>Separation of concerns</li>
+        <li>DRY (Don't Repeat Yourself)</li>
+        <li>KISS (Keep It Simple, Stupid)</li>
+      </ul>
+
+      <p>By following these guidelines, you'll create applications that are easier to maintain, test, and extend over time.</p>
     `,
+  })
+
+  const isEditable = useEditorState({
+    editor,
+    selector: context => {
+      return context.editor.isEditable
+    },
   })
 
   const toggleEditable = () => {
@@ -26,15 +117,51 @@ export default () => {
     editor.view.dispatch(editor.view.state.tr)
   }
 
+  const toggleNested = () => {
+    setNested(!nested)
+  }
+
+  const toggleRtl = () => {
+    setRtl(!rtl)
+  }
+
+  let nestedConfig = false
+
+  if (nested) {
+    nestedConfig = rtl ? NESTED_CONFIG_RTL : NESTED_CONFIG_LTR
+  }
+
+  const computePositionConfig = { placement: rtl ? 'right-start' : 'left-start' }
+
+  useEffect(() => {
+    if (!editor) {
+      return
+    }
+
+    if (rtl) {
+      editor.view.dom.setAttribute('dir', 'rtl')
+    } else {
+      editor.view.dom.removeAttribute('dir')
+    }
+  }, [editor, rtl])
+
   return (
     <>
-      <div>
-        <button onClick={toggleEditable}>Toggle editable</button>
+      <div className="control-group">
+        <div className="button-group">
+          <button className={isEditable ? 'is-active' : ''} onClick={toggleEditable}>
+            Toggle editable
+          </button>
+          <button className={nested ? 'is-active' : ''} onClick={toggleNested}>
+            Toggle nested drag handle
+          </button>
+          <button className={rtl ? 'is-active' : ''} onClick={toggleRtl}>
+            Toggle RTL editor
+          </button>
+        </div>
       </div>
-      <DragHandle editor={editor}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-        </svg>
+      <DragHandle editor={editor} nested={nestedConfig} computePositionConfig={computePositionConfig}>
+        <div className="custom-drag-handle" />
       </DragHandle>
       <EditorContent editor={editor} />
     </>

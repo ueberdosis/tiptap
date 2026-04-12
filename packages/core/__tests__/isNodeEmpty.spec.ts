@@ -24,6 +24,12 @@ describe('isNodeEmpty', () => {
       expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(true)
     })
 
+    it('should return false when multi-line text contains non-whitespace content', () => {
+      const node = schema.nodeFromJSON({ type: 'text', text: 'Hello\n\nWorld' })
+
+      expect(isNodeEmpty(node, { ignoreWhitespace: true })).toBe(false)
+    })
+
     it('should return true when a paragraph has only whitespace', () => {
       const node = schema.nodeFromJSON({
         type: 'paragraph',
