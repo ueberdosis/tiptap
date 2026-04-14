@@ -247,7 +247,10 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
                   fragment.doc?.destroy()
                 },
               })
-              return false
+              // Allow the transaction so ProseMirror state stays in sync with Yjs
+              // (Yjs transactions cannot be cancelled). Returning false would cause
+              // a state mismatch and prevent onContentError from working properly.
+              return true
             }
           },
         }),

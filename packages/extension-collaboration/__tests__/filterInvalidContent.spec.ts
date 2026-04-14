@@ -70,7 +70,7 @@ describe('filterInvalidContent', () => {
 
     const result = plugin!.spec.filterTransaction!(tr, ed.state)
 
-    expect(result).toBe(false)
+    expect(result).toBe(true)
     expect(contentErrorCalled).toBe(true)
     expect(ed.storage.collaboration.isDisabled).toBe(true)
   })
