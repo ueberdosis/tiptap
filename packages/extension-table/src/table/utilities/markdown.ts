@@ -9,7 +9,12 @@ import {
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
 function collapseWhitespace(s: string) {
-  return (s || '').replace(/\s+/g, ' ').trim()
+  // Table cells cannot contain real newlines (that would break the row syntax),
+  // so hardBreak ("  \n") is converted to an inline <br> tag instead.
+  return (s || '')
+    .replace(/ {2}\n/g, '<br>')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 export function renderTableToMarkdown(
