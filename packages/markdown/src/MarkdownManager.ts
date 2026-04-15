@@ -1050,8 +1050,10 @@ export class MarkdownManager {
         }
 
         if (!hasCrossedBoundary) {
-          // Normal path: close marks that are ending here (no new marks opening simultaneously)
-          marksToClose.forEach(markType => {
+          // Normal path: close marks that are ending here (no new marks opening simultaneously).
+          // Reverse so the last-opened mark closes first (LIFO), matching how findMarksToCloseAtEnd
+          // and closeMarksBeforeNode (utils.ts) already handle their respective paths.
+          ;[...marksToClose].reverse().forEach(markType => {
             if (!activeMarks.has(markType)) {
               return
             }

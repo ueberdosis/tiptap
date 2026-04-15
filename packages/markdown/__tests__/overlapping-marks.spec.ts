@@ -211,6 +211,40 @@ describe('Overlapping marks serialization', () => {
     expect(normalizeMarks(markdownManagerWithBreak.parse(result))).toEqual(normalizeMarks(json))
   })
 
+  /**
+   * Regression test for #7728.
+   *
+   * Bold opens first, italic second, strikethrough last — all three are
+   * active on the final text node.  Marks must close in LIFO order
+   * (strikethrough → italic → bold) to produce valid markdown.
+   *
+   * Buggy output:  **bold *italics ~~strike***~~
+   * Fixed output:  **bold *italics ~~strike~~***
+   */
+  it('closes marks in LIFO order when strikethrough is nested inside bold+italic', () => {
+    const markdownManagerWithStrike = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, Bold, Italic, Strike],
+    })
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'bold ', marks: [{ type: 'bold' }] },
+            { type: 'text', text: 'italics ', marks: [{ type: 'bold' }, { type: 'italic' }] },
+            { type: 'text', text: 'strike', marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'strike' }] },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManagerWithStrike.serialize(json)
+
+    // Strike (last opened) must close first: ~~strike~~ then ***
+    expect(result).toBe('**bold *italics ~~strike~~***')
+  })
+
   it('does not switch non-bold-italic marks to html reopen mode', () => {
     const markdownManagerWithStrike = new MarkdownManager({
       extensions: [Document, Paragraph, Text, Italic, Strike],
