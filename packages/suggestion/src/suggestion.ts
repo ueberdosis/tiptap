@@ -1,3 +1,5 @@
+import type { Middleware, Placement } from '@floating-ui/dom'
+import { autoUpdate, computePosition } from '@floating-ui/dom'
 import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
@@ -136,6 +138,52 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   decorationEmptyClass?: string
 
   /**
+   * Minimum query length before items() is called.
+   */
+  minQueryLength?: number
+
+  /**
+   * Debounce time in milliseconds for items() fetching.
+   */
+  debounce?: number
+
+  /**
+   * Initial items to show synchronously when suggestion is first triggered.
+   */
+  initialItems?: (props: { editor: Editor }) => I[] | Promise<I[]>
+
+  /**
+   * Floating UI Placement for the popup. If provided along with `setPopupElement`,
+   * Tiptap will automatically position the element.
+   * @default 'bottom-start'
+   */
+  placement?: Placement
+
+  /**
+   * Floating UI middlewares for the popup positioning.
+   */
+  middlewares?: Middleware[]
+
+  /**
+   * Whether to capture the Escape key at the document level to prevent
+   * dialogs from intercepting it before Tiptap.
+   * @default false
+   */
+  captureEscape?: boolean
+
+  /**
+   * Whether to dismiss the suggestion when clicking outside the editor and the popup.
+   * @default false
+   */
+  dismissOnOutsideClick?: boolean
+
+  /**
+   * Nodes that are allowed to be clicked without dismissing the suggestion.
+   * Use this when `dismissOnOutsideClick` is true.
+   */
+  allowedNodes?: HTMLElement[] | (() => HTMLElement[])
+
+  /**
    * A function that is called when a suggestion is selected.
    * @param props The props object.
    * @param props.editor The editor instance.
@@ -151,10 +199,11 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props The props object.
    * @param props.editor The editor instance.
    * @param props.query The current suggestion query.
+   * @param props.signal An AbortSignal you can attach to your fetch requests to cancel stale requests.
    * @returns An array of suggestion items.
    * @example ({ editor, query }) => [{ id: 1, label: 'John Doe' }]
    */
-  items?: (props: { query: string; editor: Editor }) => I[] | Promise<I[]>
+  items?: (props: { query: string; editor: Editor; signal?: AbortSignal }) => I[] | Promise<I[]>
 
   /**
    * The render function for the suggestion.
@@ -167,6 +216,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
     onUpdate?: (props: SuggestionProps<I, TSelected>) => void
     onExit?: (props: SuggestionProps<I, TSelected>) => void
     onKeyDown?: (props: SuggestionKeyDownProps) => boolean
+    onReposition?: (props: SuggestionProps<I, TSelected>) => void
   }
 
   /**
@@ -223,6 +273,26 @@ export interface SuggestionProps<I = any, TSelected = any> {
    * @example () => new DOMRect(0, 0, 0, 0)
    */
   clientRect?: (() => DOMRect | null) | null
+
+  /**
+   * Whether the items() query is too short based on minQueryLength.
+   */
+  queryTooShort?: boolean
+
+  /**
+   * Whether the items are from the initialItems fetch.
+   */
+  isInitial?: boolean
+
+  /**
+   * Whether items() is currently fetching data.
+   */
+  loading?: boolean
+
+  /**
+   * Set the UI popup element for automatic floating-ui positioning.
+   */
+  setPopupElement?: (element: HTMLElement | null) => void
 }
 
 export interface SuggestionKeyDownProps {
@@ -256,10 +326,23 @@ export function Suggestion<I = any, TSelected = any>({
   findSuggestionMatch = defaultFindSuggestionMatch,
   shouldShow,
   shouldResetDismissed,
+  minQueryLength,
+  debounce,
+  initialItems,
+  placement = 'bottom-start',
+  middlewares = [],
+  captureEscape = false,
+  dismissOnOutsideClick = false,
+  allowedNodes = [],
 }: SuggestionOptions<I, TSelected>) {
   let props: SuggestionProps<I, TSelected> | undefined
   const renderer = render?.()
   const effectiveAllowSpaces = allowSpaces && !allowToIncludeChar
+
+  let abortController: AbortController | null = null
+  let debounceTimeout: ReturnType<typeof setTimeout> | null = null
+  let popupElement: HTMLElement | null = null
+  let floatingCleanup: (() => void) | null = null
 
   // Gets the DOM rectangle corresponding to the current editor cursor anchor position
   // Calculates screen coordinates based on Tiptap's cursor position and converts to a DOMRect object
@@ -273,6 +356,34 @@ export function Suggestion<I = any, TSelected = any>({
     } catch {
       return null
     }
+  }
+
+  const updatePopupPosition = (rectFactory: () => DOMRect | null) => {
+    if (!popupElement) {
+      return
+    }
+    const rect = rectFactory()
+    if (!rect) {
+      return
+    }
+
+    const virtualNode = {
+      getBoundingClientRect: () => rect,
+      contextElement: editor.view.dom,
+    }
+
+    computePosition(virtualNode, popupElement, {
+      placement,
+      middleware: middlewares,
+    }).then(({ x, y, strategy }: { x: number; y: number; strategy: string }) => {
+      if (popupElement) {
+        Object.assign(popupElement.style, {
+          position: strategy,
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      }
+    })
   }
 
   // Helper to create a clientRect callback for a given decoration node.
@@ -326,31 +437,6 @@ export function Suggestion<I = any, TSelected = any>({
 
   // small helper used internally by the view to dispatch an exit
   function dispatchExit(view: EditorView, pluginKeyRef: PluginKey) {
-    try {
-      const state = pluginKey.getState(view.state)
-      const decorationNode = state?.decorationId
-        ? view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
-        : null
-
-      const exitProps: SuggestionProps = {
-        // @ts-ignore editor is available in closure
-        editor,
-        range: state?.range || { from: 0, to: 0 },
-        query: state?.query || null,
-        text: state?.text || null,
-        items: [],
-        command: commandProps => {
-          return command({ editor, range: state?.range || { from: 0, to: 0 }, props: commandProps as any })
-        },
-        decorationNode,
-        clientRect: clientRectFor(view, decorationNode),
-      }
-
-      renderer?.onExit?.(exitProps)
-    } catch {
-      // ignore errors from consumer renderers
-    }
-
     const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
     // Dispatch a metadata-only transaction to signal the plugin to exit
     view.dispatch(tr)
@@ -360,6 +446,31 @@ export function Suggestion<I = any, TSelected = any>({
     key: pluginKey,
 
     view() {
+      const handleEscape = (event: KeyboardEvent) => {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+          event.stopPropagation()
+          event.preventDefault()
+          dispatchExit(editor.view, pluginKey)
+        }
+      }
+
+      const handleOutsideClick = (event: PointerEvent) => {
+        const isInsideEditor = editor.view.dom.contains(event.target as Node)
+        const isInsidePopup = popupElement?.contains(event.target as Node)
+
+        let isAllowedNode = false
+        if (typeof allowedNodes === 'function') {
+          isAllowedNode = allowedNodes().some(node => node.contains(event.target as Node))
+        } else {
+          isAllowedNode = allowedNodes.some(node => node.contains(event.target as Node))
+        }
+
+        if (!isInsideEditor && !isInsidePopup && !isAllowedNode) {
+          editor.commands.blur()
+          dispatchExit(editor.view, pluginKey)
+        }
+      }
+
       return {
         update: async (view, prevState) => {
           const prev = this.key?.getState(prevState)
@@ -398,9 +509,53 @@ export function Suggestion<I = any, TSelected = any>({
             },
             decorationNode,
             clientRect: clientRectFor(view, decorationNode),
+            loading: false,
+            queryTooShort: false,
+            isInitial: false,
+            setPopupElement: (el: HTMLElement | null) => {
+              // Cleanup previous floating UI if exists
+              if (floatingCleanup) {
+                floatingCleanup()
+                floatingCleanup = null
+              }
+              popupElement = el
+              if (el) {
+                floatingCleanup = autoUpdate(editor.view.dom, el, () => {
+                  updatePopupPosition(clientRectFor(view, decorationNode))
+                })
+              }
+            },
+          }
+
+          // Abort stale requests and clear debouncer
+          abortController?.abort()
+          if (debounceTimeout) {
+            clearTimeout(debounceTimeout)
+            debounceTimeout = null
+          }
+
+          if (handleExit) {
+            if (floatingCleanup) {
+              floatingCleanup()
+              floatingCleanup = null
+            }
+            if (captureEscape) {
+              document.removeEventListener('keydown', handleEscape, { capture: true })
+            }
+            if (dismissOnOutsideClick) {
+              document.removeEventListener('pointerdown', handleOutsideClick, { capture: true })
+            }
+            renderer?.onExit?.(props)
+            return
           }
 
           if (handleStart) {
+            if (captureEscape) {
+              document.addEventListener('keydown', handleEscape, { capture: true })
+            }
+            if (dismissOnOutsideClick) {
+              document.addEventListener('pointerdown', handleOutsideClick, { capture: true })
+            }
             renderer?.onBeforeStart?.(props)
           }
 
@@ -409,26 +564,102 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           if (handleChange || handleStart) {
-            props.items = await items({
-              editor,
-              query: state.query,
-            })
-          }
+            abortController = typeof AbortController !== 'undefined' ? new AbortController() : null
 
-          if (handleExit) {
-            renderer?.onExit?.(props)
-          }
+            let isFirstLifecycleCall = true
+            const triggerRenderer = (updateProps: typeof props) => {
+              if (!updateProps) {
+                return
+              }
+              if (handleStart && isFirstLifecycleCall) {
+                renderer?.onStart?.(updateProps)
+              } else if (handleChange || !isFirstLifecycleCall) {
+                renderer?.onUpdate?.(updateProps)
+              }
+              isFirstLifecycleCall = false
+            }
 
-          if (handleChange) {
-            renderer?.onUpdate?.(props)
-          }
+            const isInitialTrigger = state.query.length === 0 && initialItems !== undefined
+            const isBelowMinLength = minQueryLength !== undefined && state.query.length < minQueryLength
 
-          if (handleStart) {
-            renderer?.onStart?.(props)
+            if (isInitialTrigger && initialItems) {
+              props.isInitial = true
+              props.loading = true
+              triggerRenderer(props)
+
+              props.items = await initialItems({ editor })
+              props.loading = false
+              triggerRenderer(props)
+              return
+            }
+
+            if (isBelowMinLength) {
+              props.items = []
+              props.queryTooShort = true
+              props.loading = false
+              triggerRenderer(props)
+              return
+            }
+
+            // Standard Data fetch
+            const executeFetch = async (signal?: AbortSignal) => {
+              if (signal?.aborted) {
+                return
+              }
+
+              if (props) {
+                props.loading = true
+                triggerRenderer(props)
+              }
+
+              try {
+                const fetchedItems = await items({
+                  editor,
+                  query: state.query,
+                  signal,
+                })
+
+                if (signal?.aborted) {
+                  return
+                }
+
+                if (props) {
+                  props.items = fetchedItems
+                  props.loading = false
+                  triggerRenderer(props)
+                }
+              } catch (e) {
+                if (e instanceof Error && e.name === 'AbortError') {
+                  return
+                }
+                throw e
+              }
+            }
+
+            if (debounce && debounce > 0) {
+              props.loading = true
+              triggerRenderer(props)
+
+              debounceTimeout = setTimeout(() => {
+                executeFetch(abortController?.signal)
+              }, debounce)
+            } else {
+              executeFetch(abortController?.signal)
+            }
           }
         },
 
         destroy: () => {
+          if (floatingCleanup) {
+            floatingCleanup()
+          }
+          if (captureEscape) {
+            document.removeEventListener('keydown', handleEscape, { capture: true })
+          }
+          if (dismissOnOutsideClick) {
+            document.removeEventListener('pointerdown', handleOutsideClick, { capture: true })
+          }
+
           if (!props) {
             return
           }

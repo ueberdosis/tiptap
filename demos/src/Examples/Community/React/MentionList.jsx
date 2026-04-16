@@ -48,21 +48,22 @@ export const MentionList = forwardRef((props, ref) => {
     },
   }))
 
-  return (
-    <div className="dropdown-menu">
-      {props.items.length ? (
-        props.items.map((item, index) => (
-          <button
-            className={index === selectedIndex ? 'is-selected' : ''}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            {item}
-          </button>
-        ))
-      ) : (
-        <div className="item">No result</div>
-      )}
-    </div>
-  )
+  const renderContent = () => {
+    if (props.loading) {
+      return <div className="item">Loading...</div>
+    }
+    if (props.queryTooShort) {
+      return <div className="item">Keep typing (min 1 character)...</div>
+    }
+    if (props.items.length) {
+      return props.items.map((item, index) => (
+        <button className={index === selectedIndex ? 'is-selected' : ''} key={index} onClick={() => selectItem(index)}>
+          {item}
+        </button>
+      ))
+    }
+    return <div className="item">No result</div>
+  }
+
+  return <div className="dropdown-menu">{renderContent()}</div>
 })

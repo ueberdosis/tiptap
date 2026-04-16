@@ -1,6 +1,6 @@
 import { Editor, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { exitSuggestion, Suggestion, SuggestionPluginKey } from '../suggestion.js'
 
@@ -403,6 +403,205 @@ describe('suggestion dismissal', () => {
 
     expect(shouldResetDismissed).toHaveBeenCalled()
     expect(onStart.mock.calls.length).toBeGreaterThan(startCallsBefore)
+
+    editor.destroy()
+  })
+})
+
+describe('suggestion enhancements (async & UX)', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+  })
+
+  function setupEnhancements(options: any = {}) {
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+    const onExit = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-enhancements',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            render: () => ({ onStart, onUpdate, onExit }),
+            ...options,
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    return { editor, onStart, onUpdate, onExit }
+  }
+
+  it('respects minQueryLength by flagging queryTooShort and avoiding items evaluation', async () => {
+    const itemsMock = vi.fn().mockReturnValue([])
+    const { editor, onStart, onUpdate } = setupEnhancements({
+      minQueryLength: 2,
+      items: itemsMock,
+    })
+
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    expect(itemsMock).not.toHaveBeenCalled()
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ queryTooShort: true }))
+
+    editor.chain().insertContent('b').run()
+    await Promise.resolve()
+
+    expect(itemsMock).toHaveBeenCalled()
+    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ queryTooShort: false }))
+
+    editor.destroy()
+  })
+
+  it('triggers initialItems when query is empty and sets isInitial flag', async () => {
+    const itemsMock = vi.fn().mockReturnValue([])
+    let resolveInitial: any
+    const initialItemsMock = vi.fn().mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveInitial = resolve
+        }),
+    )
+
+    const { editor, onStart, onUpdate } = setupEnhancements({
+      initialItems: initialItemsMock,
+      items: itemsMock,
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(initialItemsMock).toHaveBeenCalled()
+    expect(itemsMock).not.toHaveBeenCalled()
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ isInitial: true, loading: true }))
+
+    // Resume and evaluate async initialItems resolution (await initialItems())
+    resolveInitial(['Mock Initial'])
+    await Promise.resolve()
+    await Promise.resolve() // extra flush for promise chained assignments
+
+    expect(onUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        isInitial: true,
+        items: ['Mock Initial'],
+        loading: false,
+      }),
+    )
+
+    editor.destroy()
+  })
+
+  it('debounces item fetches according to configuration', async () => {
+    const itemsMock = vi.fn().mockReturnValue([])
+    const { editor, onStart, onUpdate } = setupEnhancements({
+      debounce: 250,
+      items: itemsMock,
+    })
+
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+    expect(itemsMock).not.toHaveBeenCalled()
+
+    // Fast typing scenario: hit 'b' before timeout evaluates
+    vi.advanceTimersByTime(100)
+    editor.chain().insertContent('b').run()
+    await Promise.resolve()
+
+    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+    expect(itemsMock).not.toHaveBeenCalled()
+
+    // Let the second timeout complete
+    vi.advanceTimersByTime(250)
+    await Promise.resolve()
+
+    expect(itemsMock).toHaveBeenCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+
+    editor.destroy()
+  })
+
+  it('cancels stale fetches using AbortSignal', async () => {
+    let capturedSignal: AbortSignal | null = null
+    const itemsMock = vi.fn().mockImplementation(async ({ signal }: any) => {
+      capturedSignal = signal
+      return new Promise(() => {}) // pending hook simulates lag
+    })
+
+    const { editor } = setupEnhancements({
+      items: itemsMock,
+    })
+
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    expect(capturedSignal?.aborted).toBe(false)
+    const firstSignal = capturedSignal
+
+    // Type a second character immediately overwriting state
+    editor.chain().insertContent('b').run()
+    await Promise.resolve()
+
+    expect(firstSignal?.aborted).toBe(true)
+    expect(capturedSignal).not.toBe(firstSignal)
+    expect(capturedSignal?.aborted).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('listens for pointerdown events if dismissOnOutsideClick is active', async () => {
+    const { editor, onStart, onExit } = setupEnhancements({
+      dismissOnOutsideClick: true,
+      items: () => [],
+    })
+
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledTimes(1)
+
+    // Simulate an external click
+    document.dispatchEvent(new PointerEvent('pointerdown'))
+    await Promise.resolve()
+
+    expect(onExit).toHaveBeenCalledTimes(1)
+
+    editor.destroy()
+  })
+
+  it('binds capture phase Escape listeners correctly', async () => {
+    const { editor, onStart, onExit } = setupEnhancements({
+      captureEscape: true,
+      items: () => [],
+    })
+
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+    expect(onStart).toHaveBeenCalledTimes(1)
+
+    // Dispatch a fake escape to the document level capturing phase
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' })
+    document.dispatchEvent(escapeEvent)
+    await Promise.resolve()
+
+    // Note: dispatchExit clears the plugin Key state, which might evaluate exit hook natively
+    // We confirm the event handler captured the keystroke globally
+    expect(onExit).toHaveBeenCalledTimes(1)
 
     editor.destroy()
   })
