@@ -38,6 +38,11 @@ declare module '@tiptap/core' {
 export const Underline = Mark.create<UnderlineOptions>({
   name: 'underline',
 
+  /**
+   * Increase the priority to ensure that u elements are rendered within spans, so their text colors are applied.
+   */
+  priority: 101,
+
   addOptions() {
     return {
       HTMLAttributes: {},

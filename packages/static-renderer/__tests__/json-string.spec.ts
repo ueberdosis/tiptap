@@ -3,6 +3,8 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { TextStyleKit } from '@tiptap/extension-text-style'
+import { Underline } from '@tiptap/extension-underline'
 import Youtube from '@tiptap/extension-youtube'
 import { Mark, Node } from '@tiptap/pm/model'
 import { renderJSONContentToString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/json/html-string'
@@ -245,6 +247,49 @@ describe('static render json to string (with prosemirror)', () => {
     })
 
     expect(html).toBe('<doc><p><b>Example Text</b></p></doc>')
+  })
+
+  it('supports underline and color spans', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          attrs: {
+            textAlign: null,
+          },
+          content: [
+            {
+              type: 'text',
+              marks: [
+                {
+                  type: 'textStyle',
+                  attrs: {
+                    backgroundColor: null,
+                    color: '#ED1F1F',
+                    fontFamily: null,
+                    fontSize: null,
+                    lineHeight: null,
+                  },
+                },
+                {
+                  type: 'underline',
+                },
+              ],
+              text: 'Underlined',
+            },
+          ],
+        },
+      ],
+      attrs: {},
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, TextStyleKit, Underline],
+    })
+
+    expect(html).toBe('<p><span style="color: #ED1F1F"><u>Underlined</u></span></p>')
   })
 
   it('gives access to a prosemirror node or mark instance', () => {
