@@ -34,7 +34,7 @@
     "@tiptap/extensions": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extensions": "workspace:^"
+    "@tiptap/extensions": "workspace:*"
   },
   "repository": {
     "type": "git",

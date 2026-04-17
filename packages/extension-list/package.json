@@ -91,8 +91,8 @@
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "repository": {
     "type": "git",
