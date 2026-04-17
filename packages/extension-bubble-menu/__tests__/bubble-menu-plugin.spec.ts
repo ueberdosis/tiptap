@@ -7,6 +7,24 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { BubbleMenuView } from '../src/bubble-menu-plugin.js'
 
+const { computePositionMock } = vi.hoisted(() => ({
+  computePositionMock: vi.fn(),
+}))
+
+vi.mock('@floating-ui/dom', async importOriginal => {
+  const actual = await importOriginal<typeof import('@floating-ui/dom')>()
+
+  return {
+    ...actual,
+    computePosition: computePositionMock,
+  }
+})
+
+const virtualElement = {
+  getBoundingClientRect: () => new DOMRect(0, 0, 10, 10),
+  getClientRects: () => [new DOMRect(0, 0, 10, 10)],
+}
+
 function createEditor(content = '<p>Hello world</p>') {
   return new Editor({
     extensions: [Document, Paragraph, Text],
@@ -21,6 +39,7 @@ function createBubbleMenuView(
   return new BubbleMenuView({
     editor,
     element: document.createElement('div'),
+    pluginKey: 'bubbleMenu',
     view: editor.view,
     shouldShow: () => false,
     ...overrides,
@@ -156,6 +175,115 @@ describe('BubbleMenuView cross-contamination', () => {
     expect(spy).toHaveBeenCalledWith(newOptions)
 
     view.destroy()
+    editor.destroy()
+  })
+
+  it('should not make a hidden menu visible when updating its position', async () => {
+    const editor = createEditor()
+    const view = createBubbleMenuView(editor, {
+      getReferencedVirtualElement: () => virtualElement,
+    })
+
+    computePositionMock.mockResolvedValue({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+
+    view.element.style.visibility = 'hidden'
+
+    view.updatePosition()
+    await Promise.resolve()
+
+    expect(view.element.style.visibility).toBe('hidden')
+    expect(view.element.style.left).toBe('')
+    expect(view.element.style.top).toBe('')
+
+    computePositionMock.mockReset()
+    view.destroy()
+    editor.destroy()
+  })
+
+  it('should ignore late position updates after the menu is hidden', async () => {
+    const editor = createEditor()
+    const view = createBubbleMenuView(editor, {
+      getReferencedVirtualElement: () => virtualElement,
+    })
+
+    let resolvePosition:
+      | ((value: {
+          x: number
+          y: number
+          strategy: 'absolute'
+          placement: 'top'
+          middlewareData: Record<string, never>
+        }) => void)
+      | undefined
+
+    computePositionMock.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolvePosition = resolve
+        }),
+    )
+
+    view.show()
+    view.updatePosition()
+    view.hide()
+
+    resolvePosition?.({
+      x: 10,
+      y: 20,
+      strategy: 'absolute',
+      placement: 'top',
+      middlewareData: {},
+    })
+    await Promise.resolve()
+
+    expect(view.element.style.visibility).toBe('hidden')
+    expect(view.element.style.left).toBe('')
+    expect(view.element.style.top).toBe('')
+
+    computePositionMock.mockReset()
+    view.destroy()
+  })
+
+  it('should only process show for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'show')
+    const spy2 = vi.spyOn(view2, 'show')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'show'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
+    editor.destroy()
+  })
+  it('should only process hide for its own pluginKey', () => {
+    const editor = createEditor()
+
+    const view1 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu1' })
+    const view2 = createBubbleMenuView(editor, { pluginKey: 'bubbleMenu2' })
+
+    const spy1 = vi.spyOn(view1, 'hide')
+    const spy2 = vi.spyOn(view2, 'hide')
+
+    editor.view.dispatch(editor.state.tr.setMeta('bubbleMenu1', 'hide'))
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).not.toHaveBeenCalled()
+
+    view1.destroy()
+    view2.destroy()
     editor.destroy()
   })
 })

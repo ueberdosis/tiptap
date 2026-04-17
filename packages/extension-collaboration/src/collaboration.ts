@@ -1,10 +1,11 @@
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
-import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey, yXmlFragmentToProsemirrorJSON } from '@tiptap/y-tiptap'
+import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
 import { createMappablePosition, getUpdatedPosition } from './helpers/CollaborationMappablePosition.js'
+import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
@@ -217,31 +218,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
     const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
 
-    if (this.editor.options.enableContentCheck) {
-      fragment.doc?.on('beforeTransaction', () => {
-        try {
-          const jsonContent = yXmlFragmentToProsemirrorJSON(fragment)
-
-          if (jsonContent.content.length === 0) {
-            return
-          }
-
-          this.editor.schema.nodeFromJSON(jsonContent).check()
-        } catch (error) {
-          this.editor.emit('contentError', {
-            error: error as Error,
-            editor: this.editor,
-            disableCollaboration: () => {
-              fragment.doc?.destroy()
-              this.storage.isDisabled = true
-            },
-          })
-          // If the content is invalid, return false to prevent the transaction from being applied
-          return false
-        }
-      })
-    }
-
     return [
       ySyncPluginInstance,
       yUndoPluginInstance,
@@ -249,17 +225,30 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       this.editor.options.enableContentCheck &&
         new Plugin({
           key: new PluginKey('filterInvalidContent'),
-          filterTransaction: () => {
-            // When collaboration is disabled, prevent any sync transactions from being applied
-            if (this.storage.isDisabled !== false) {
-              // Destroy the Yjs document to prevent any further sync transactions
-              fragment.doc?.destroy()
-
+          filterTransaction: transaction => {
+            if (!isChangeOrigin(transaction)) {
               return true
             }
-            // TODO should we be returning false when the transaction is a collaboration transaction?
-
-            return true
+            if (this.storage.isDisabled) {
+              return false
+            }
+            if (!transaction.docChanged) {
+              return true
+            }
+            try {
+              transaction.doc.check()
+              return true
+            } catch (error) {
+              this.storage.isDisabled = true
+              this.editor.emit('contentError', {
+                error: error as Error,
+                editor: this.editor,
+                disableCollaboration: () => {
+                  fragment.doc?.destroy()
+                },
+              })
+              return false
+            }
           },
         }),
     ].filter(Boolean)

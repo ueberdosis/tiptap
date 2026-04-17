@@ -1,5 +1,6 @@
 import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -162,5 +163,52 @@ describe('getMarkRange', () => {
     const nextRange = getMarkRange(doc.resolve(28), schema.marks.link)
 
     expect(nextRange).toEqual({ from: 28, to: 40 })
+  })
+
+  it('defaults to attributes of the first mark of the given type', () => {
+    const schemaWithHighlight = getSchemaByResolvedExtensions([
+      Document,
+      Paragraph,
+      Text,
+      Highlight.configure({ multicolor: true }),
+      Link.configure({ openOnClick: false }),
+    ])
+
+    const testDocument = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Highlighted ',
+              marks: [
+                { type: 'highlight', attrs: { color: 'red' } },
+                { type: 'link', attrs: { href: 'https://tiptap.dev' } },
+              ],
+            },
+            {
+              type: 'text',
+              text: 'link.',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }],
+            },
+            {
+              type: 'text',
+              text: 'another link',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev/invalid' } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const doc = Node.fromJSON(schemaWithHighlight, testDocument)
+    const $pos = doc.resolve(5)
+    const range = getMarkRange($pos, schemaWithHighlight.marks.link)
+
+    // range should include both text nodes with href 'https://tiptap.dev'.
+    // It should not get confused by the highlight mark with different attributes.
+    expect(range).toEqual({ from: 1, to: 18 })
   })
 })

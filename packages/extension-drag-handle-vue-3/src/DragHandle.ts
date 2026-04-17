@@ -88,6 +88,9 @@ export const DragHandle = defineComponent({
         return
       }
 
+      // Set initial visibility to hidden (let the plugin control it from here)
+      root.value.style.visibility = 'hidden'
+
       const nestedOptions = normalizeNestedOptions(nested)
 
       const init = DragHandlePlugin({
@@ -143,7 +146,7 @@ export const DragHandle = defineComponent({
         {
           ref: root,
           class: props.class,
-          style: { visibility: 'hidden', position: 'absolute' },
+          style: { position: 'absolute' },
           'data-dragging': 'false',
         },
         slots.default?.(),

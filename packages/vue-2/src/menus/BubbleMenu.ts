@@ -1,12 +1,17 @@
 import type { BubbleMenuPluginProps } from '@tiptap/extension-bubble-menu'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
+import { PluginKey } from '@tiptap/pm/state'
 import type { Component, CreateElement, PropType, VNode } from 'vue'
 
 export interface BubbleMenuInterface {
   $el: HTMLElement
+  $attrs: Record<string, any>
+  $listeners: Record<string, (...args: any[]) => unknown>
   $nextTick: (callback: () => void) => void
   $slots: { default?: VNode[] }
+  $vnode?: VNode
   pluginKey: BubbleMenuPluginProps['pluginKey']
+  generatedPluginKey?: BubbleMenuPluginProps['pluginKey']
   editor: BubbleMenuPluginProps['editor']
   updateDelay: BubbleMenuPluginProps['updateDelay']
   resizeDelay: BubbleMenuPluginProps['resizeDelay']
@@ -14,15 +19,18 @@ export interface BubbleMenuInterface {
   shouldShow: BubbleMenuPluginProps['shouldShow']
   getReferencedVirtualElement: BubbleMenuPluginProps['getReferencedVirtualElement']
   options: BubbleMenuPluginProps['options']
+  getPluginKey: () => BubbleMenuPluginProps['pluginKey']
 }
 
 export const BubbleMenu: Component = {
   name: 'BubbleMenu',
 
+  inheritAttrs: false,
+
   props: {
     pluginKey: {
       type: [String, Object as PropType<Exclude<BubbleMenuPluginProps['pluginKey'], string>>],
-      default: 'bubbleMenu',
+      default: undefined,
     },
 
     editor: {
@@ -76,7 +84,7 @@ export const BubbleMenu: Component = {
           options: this.options,
           editor,
           element: el,
-          pluginKey: this.pluginKey,
+          pluginKey: this.getPluginKey(),
           appendTo: this.appendTo,
           shouldShow: this.shouldShow,
           getReferencedVirtualElement: this.getReferencedVirtualElement,
@@ -86,10 +94,31 @@ export const BubbleMenu: Component = {
   },
 
   render(this: BubbleMenuInterface, createElement: CreateElement) {
-    return createElement('div', {}, this.$slots.default)
+    const vnodeData = (this.$vnode?.data ?? {}) as any
+
+    return createElement(
+      'div',
+      {
+        attrs: this.$attrs,
+        on: this.$listeners,
+        class: [vnodeData.staticClass, vnodeData.class],
+        style: [vnodeData.staticStyle, vnodeData.style],
+      },
+      this.$slots.default,
+    )
   },
 
   beforeDestroy(this: BubbleMenuInterface) {
-    this.editor.unregisterPlugin(this.pluginKey)
+    this.editor.unregisterPlugin(this.getPluginKey())
+  },
+
+  methods: {
+    getPluginKey(this: BubbleMenuInterface) {
+      if (!this.generatedPluginKey) {
+        this.generatedPluginKey = this.pluginKey ?? new PluginKey('bubbleMenu')
+      }
+
+      return this.generatedPluginKey
+    },
   },
 }

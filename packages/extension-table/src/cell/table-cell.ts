@@ -2,6 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createAlignAttribute } from '../utilities/parseAlign.js'
+
 export interface TableCellOptions {
   /**
    * The HTML attributes for a table cell node.
@@ -54,6 +56,7 @@ export const TableCell = Node.create<TableCellOptions>({
           return value
         },
       },
+      align: createAlignAttribute(),
     }
   },
 

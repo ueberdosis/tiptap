@@ -6,11 +6,16 @@ import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
 import type { NormalizedNestedOptions } from '../types/options.js'
 import { cloneElement } from './cloneElement.js'
 import { findElementNextToCoords } from './findNextElementFromCursor.js'
+import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir.js'
 import { removeNode } from './removeNode.js'
 
 export interface DragContext {
   node: Node | null
   pos: number
+}
+
+export function getDragImageOffset(direction: string, wrapperWidth: number): number {
+  return direction === 'rtl' ? wrapperWidth : 0
 }
 
 function getDragHandleRanges(
@@ -55,7 +60,7 @@ function getDragHandleRanges(
   const $from = doc.resolve(result.pos)
   const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
-  return getSelectionRanges($from, $to, 0)
+  return getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
 }
 
 export function dragHandler(
@@ -74,7 +79,7 @@ export function dragHandler(
 
   const dragHandleRanges = getDragHandleRanges(event, editor, nestedOptions, dragContext)
 
-  const selectionRanges = getSelectionRanges($from, $to, 0)
+  const selectionRanges = getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
   const isDragHandleWithinSelection = selectionRanges.some(range => {
     return dragHandleRanges.find(dragHandleRange => {
       return dragHandleRange.$from === range.$from && dragHandleRange.$to === range.$to
@@ -89,8 +94,12 @@ export function dragHandler(
 
   const { tr } = view.state
   const wrapper = document.createElement('div')
+
   const from = ranges[0].$from.pos
   const to = ranges[ranges.length - 1].$to.pos
+  const direction = getDraggedBlockDir(view, from)
+
+  wrapper.setAttribute('dir', direction)
 
   // For nested mode, create slice directly to avoid NodeRangeSelection expanding to parent
   const isNestedDrag = nestedOptions?.enabled && dragContext?.node
@@ -111,8 +120,15 @@ export function dragHandler(
   }
 
   ranges.forEach(range => {
-    const element = view.nodeDOM(range.$from.pos) as HTMLElement
+    const element = getDraggedBlockElement(view, range.$from.pos) as HTMLElement | null
+
+    if (!element) {
+      return
+    }
+
     const clonedElement = cloneElement(element)
+
+    clonedElement.style.margin = '0'
 
     wrapper.append(clonedElement)
   })
@@ -122,7 +138,23 @@ export function dragHandler(
   document.body.append(wrapper)
 
   event.dataTransfer.clearData()
-  event.dataTransfer.setDragImage(wrapper, 0, 0)
+  const wrapperRect = wrapper.getBoundingClientRect()
+  const dragImageX = getDragImageOffset(direction, wrapperRect.width)
+
+  event.dataTransfer.setDragImage(wrapper, dragImageX, 0)
+
+  let cleanedUp = false
+
+  const cleanupDragPreview = () => {
+    if (cleanedUp) {
+      return
+    }
+
+    cleanedUp = true
+    removeNode(wrapper)
+    document.removeEventListener('drop', cleanupDragPreview)
+    document.removeEventListener('dragend', cleanupDragPreview)
+  }
 
   // Tell ProseMirror the dragged content.
   // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
@@ -140,6 +172,7 @@ export function dragHandler(
 
   view.dispatch(tr)
 
-  // clean up
-  document.addEventListener('drop', () => removeNode(wrapper), { once: true })
+  // Clean up the drag preview whether the drag results in a valid drop or not.
+  document.addEventListener('drop', cleanupDragPreview)
+  document.addEventListener('dragend', cleanupDragPreview)
 }

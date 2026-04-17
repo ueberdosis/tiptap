@@ -81,6 +81,18 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     }
   },
 
+  /**
+   * Extension storage for coordination between `addProseMirrorPlugins` and `appendTransaction`.
+   * `needsInitialIdGeneration` is set to `true` when the Collaboration extension is
+   * detected but no provider is available in its options, deferring ID creation
+   * to the first `y-sync$` transaction.
+   */
+  addStorage() {
+    return {
+      needsInitialIdGeneration: false,
+    }
+  },
+
   addGlobalAttributes() {
     const types = resolveTypes(this.options.types, this.extensions)
 
@@ -149,12 +161,14 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
      * because we can't automatically add IDs when the provider is not yet synced
      * otherwise we end up with empty paragraphs
      */
-    if (collab) {
-      if (!provider) {
-        return createIds()
+    if (collaboration) {
+      if (provider) {
+        provider.on('synced', createIds)
       }
-
-      provider.on('synced', createIds)
+      // When collaboration is present but no provider is in extension options,
+      // needsInitialIdGeneration was already set in addProseMirrorPlugins
+      // (which runs synchronously during editor construction, before any
+      // y-sync$ transaction can arrive).
     } else {
       return createIds()
     }
@@ -163,6 +177,24 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
   addProseMirrorPlugins() {
     if (!this.options.updateDocument) {
       return []
+    }
+
+    // Capture storage via closure so appendTransaction can access `needsInitialIdGeneration`.
+    // `extensionManager.extensions` returns different objects than `this` due to
+    // Tiptap's child-extension flattening, so we capture the reference directly.
+    const extensionStorage = this.storage
+
+    // Detect collaboration early — before any y-sync$ transaction can arrive.
+    // onCreate runs on a deferred setTimeout(0), so a y-sync$ transaction could
+    // be applied before it. Setting the flag here (synchronous during editor
+    // construction) ensures the first y-sync$ is always handled.
+    const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
+    const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
+    const collabExtensions = [collaboration, collaborationCaret].filter(Boolean)
+    const collabWithProvider = collabExtensions.find(ext => ext?.options?.provider)
+
+    if (collaboration && !collabWithProvider) {
+      extensionStorage.needsInitialIdGeneration = true
     }
 
     let dragSourceElement: Element | null = null
@@ -182,6 +214,43 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
           const isCollabTransaction = transactions.find(tr => tr.getMeta('y-sync$'))
 
           if (isCollabTransaction) {
+            if (extensionStorage.needsInitialIdGeneration) {
+              extensionStorage.needsInitialIdGeneration = false
+
+              // Run full-document ID creation after the first Yjs sync.
+              // Use a seen-set so only the second+ occurrence of a duplicated
+              // ID is regenerated, preserving one existing ID per value.
+              const { tr } = newState
+              const { attributeName, generateID } = this.options
+              const allNodes = findChildren(newState.doc, node => types.includes(node.type.name))
+              const seen = new Set<string>()
+
+              allNodes.forEach(({ node, pos }) => {
+                const currentId = node.attrs[attributeName]
+
+                if (currentId === null || seen.has(currentId)) {
+                  tr.setNodeMarkup(pos, undefined, {
+                    ...node.attrs,
+                    [attributeName]: generateID({ node, pos }),
+                  })
+                } else {
+                  seen.add(currentId)
+                }
+              })
+
+              if (!tr.steps.length) {
+                return
+              }
+
+              // Restore stored marks since setNodeMarkup resets them
+              tr.setStoredMarks(newState.tr.storedMarks)
+              // Mark this transaction as coming from UniqueID to prevent
+              // infinite loops with other extensions (e.g., TrailingNode)
+              tr.setMeta('__uniqueIDTransaction', true)
+              tr.setMeta('addToHistory', false)
+              return tr
+            }
+
             return
           }
 

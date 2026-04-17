@@ -1,5 +1,61 @@
 # Change Log
 
+## 3.22.3
+
+### Patch Changes
+
+- @tiptap/extensions@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- @tiptap/extensions@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- @tiptap/extensions@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/extensions@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- Updated dependencies [0c2bbfe]
+  - @tiptap/extensions@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- @tiptap/extensions@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- eaf34a3: Skip placeholder decorations on non-textblock nodes when `includeChildren` is enabled to prevent duplicate placeholders on wrapper nodes like lists.
+  - @tiptap/extensions@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes

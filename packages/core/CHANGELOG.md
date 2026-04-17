@@ -1,5 +1,72 @@
 # Change Log
 
+## 3.22.3
+
+### Patch Changes
+
+- cb28e7b: Fixed `insertContentAt` corrupting the document when inserting inline content with marks at the start of a paragraph. The `from - 1` position adjustment now only applies to block-level content.
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- f1d504c: Fix incorrect selection placement when pasting at the end of a marked text node, ensuring inclusive marks are respected
+- 404c683: Fixes list toggling when the entire document is selected
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- ee03ac0: Fix NodeView not re-rendering when a node's position changes without content or decoration changes (e.g. when a sibling node is moved within the same parent)
+- b88f9ed: Don't stop dragover/dragenter events in NodeViews, to prevent spurious drag-copy cursors
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- 912a49b: Fix HTML character escaping in markdown roundtrip. HTML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`) are now decoded to literal characters when parsing markdown into the editor. `<`, `>`, and `&` are re-encoded when serializing back to markdown, while `"` is preserved as a literal character since double quotes are ordinary in markdown. Code detection for skipping encoding now uses the `code: true` extension spec instead of hardcoded type names. Literal characters inside code blocks and inline code are always preserved.
+- 7d4fb9a: Fix ResizableNodeView ignoring node's inline setting by using `inline-flex` for inline nodes and `flex` for block nodes
+- 0c1c112: extendMarkRange defaults to using the attributes of the first mark of the given type, instead of `attributes = {}`. In particular, `extendMarkRange('link')` no longer extends to adjacent links with different hrefs; restore the previous behavior with `extendMarkRange('link', {})`.
+- 0c1c112: Fix getMarkRange attributes default to consider the first mark _of the given type_
+- f99bdc2: Guard mark delete event handling when `unsetMark` removes a mark from inline content that starts at position `0`, preventing a `RangeError` during the before-node lookup.
+  - @tiptap/pm@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- @tiptap/pm@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/pm@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/pm@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- 0bcf3c2: Fixed Tiptap not publishing with build dist artifacts
+  - @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- c94fac4: Fixed `isNodeEmpty()` so multi-line text with non-whitespace content is no longer treated as empty when `ignoreWhitespace` is enabled.
+- 6b9ea92: Fixed overlapping bold and italic markdown serialization and round-tripping.
+  - @tiptap/pm@3.20.3
+
 ## 3.20.2
 
 ### Patch Changes

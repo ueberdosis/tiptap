@@ -111,7 +111,9 @@ describe('findBestDragTarget', () => {
         nodeAfter: mockImage,
         parent: mockDoc,
         node: vi.fn((d: number) => {
-          if (d === 0) {return mockDoc}
+          if (d === 0) {
+            return mockDoc
+          }
           throw new Error(`unexpected depth ${d}`)
         }),
         before: vi.fn(),
@@ -281,16 +283,24 @@ describe('findBestDragTarget', () => {
         nodeAfter: mockImage,
         parent: mockBlockquote,
         node: vi.fn((d: number) => {
-          if (d === 0) {return mockDoc}
-          if (d === 1) {return mockBlockquote}
+          if (d === 0) {
+            return mockDoc
+          }
+          if (d === 1) {
+            return mockBlockquote
+          }
           throw new Error(`unexpected depth ${d}`)
         }),
         before: vi.fn((d: number) => {
-          if (d === 1) {return 0}
+          if (d === 1) {
+            return 0
+          }
           return 0
         }),
         index: vi.fn((d?: number) => {
-          if (d === 0) {return 0}
+          if (d === 0) {
+            return 0
+          }
           return 1
         }),
       } as unknown as ResolvedPos
@@ -299,7 +309,9 @@ describe('findBestDragTarget', () => {
         posAtCoords: vi.fn(() => ({ pos: 10 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => {
-          if (pos === 10) {return mockDom}
+          if (pos === 10) {
+            return mockDom
+          }
           return document.createElement('blockquote')
         }),
       } as unknown as EditorView
@@ -338,16 +350,24 @@ describe('findBestDragTarget', () => {
         nodeAfter: mockImage,
         parent: mockBlockquote,
         node: vi.fn((d: number) => {
-          if (d === 0) {return mockDoc}
-          if (d === 1) {return mockBlockquote}
+          if (d === 0) {
+            return mockDoc
+          }
+          if (d === 1) {
+            return mockBlockquote
+          }
           throw new Error(`unexpected depth ${d}`)
         }),
         before: vi.fn((d: number) => {
-          if (d === 1) {return 0}
+          if (d === 1) {
+            return 0
+          }
           return 0
         }),
         index: vi.fn((d?: number) => {
-          if (d === 0) {return 0}
+          if (d === 0) {
+            return 0
+          }
           return 1
         }),
       } as unknown as ResolvedPos
@@ -356,8 +376,12 @@ describe('findBestDragTarget', () => {
         posAtCoords: vi.fn(() => ({ pos: 10 })),
         state: { doc: { resolve: vi.fn(() => mock$pos) } },
         nodeDOM: vi.fn((pos: number) => {
-          if (pos === 10) {return mockImgDom}
-          if (pos === 0) {return mockBqDom}
+          if (pos === 10) {
+            return mockImgDom
+          }
+          if (pos === 0) {
+            return mockBqDom
+          }
           return null
         }),
       } as unknown as EditorView

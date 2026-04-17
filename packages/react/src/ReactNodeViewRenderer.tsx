@@ -5,7 +5,7 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { getRenderedAttributes, NodeView } from '@tiptap/core'
+import { cancelPositionCheck, getRenderedAttributes, NodeView, schedulePositionCheck } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
@@ -71,6 +71,18 @@ export class ReactNodeView<
    * The requestAnimationFrame ID used for selection updates.
    */
   selectionRafId: number | null = null
+
+  /**
+   * The last known position of this node view, used to detect position-only
+   * changes that don't produce a new node object reference.
+   */
+  private currentPos: number | undefined
+
+  /**
+   * Callback registered with the per-editor position-update registry.
+   * Stored so it can be unregistered in destroy().
+   */
+  private positionCheckCallback: (() => void) | null = null
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
@@ -196,6 +208,26 @@ export class ReactNodeView<
 
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     this.updateElementAttributes()
+    this.currentPos = this.getPos()
+
+    this.positionCheckCallback = () => {
+      const newPos = this.getPos()
+
+      if (typeof newPos !== 'number' || newPos === this.currentPos) {
+        return
+      }
+
+      this.currentPos = newPos
+
+      // Pass a fresh getPos reference so React's memo detects a prop change.
+      this.renderer.updateProps({ getPos: () => this.getPos() })
+
+      if (typeof this.options.attrs === 'function') {
+        this.updateElementAttributes()
+      }
+    }
+
+    schedulePositionCheck(this.editor, this.positionCheckCallback)
   }
 
   /**
@@ -238,7 +270,8 @@ export class ReactNodeView<
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
       const { from, to } = this.editor.state.selection
-      const pos = this.getPos()
+      // Avoid resolving getPos() after ProseMirror has detached this node view.
+      const pos = this.currentPos
       if (typeof pos !== 'number') {
         return
       }
@@ -283,6 +316,7 @@ export class ReactNodeView<
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
+      this.currentPos = this.getPos()
 
       return this.options.update({
         oldNode,
@@ -296,13 +330,31 @@ export class ReactNodeView<
       })
     }
 
+    const newPos = this.getPos()
+
     if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+      if (newPos === this.currentPos) {
+        return true
+      }
+
+      // Position changed without a content/decoration change — trigger re-render
+      // so the component receives an up-to-date value from getPos().
+      // Pass a fresh getPos reference so React's memo detects a prop change.
+      this.currentPos = newPos
+      rerenderComponent({
+        node,
+        decorations,
+        innerDecorations,
+        extension: this.extensionWithSyncedStorage,
+        getPos: () => this.getPos(),
+      })
       return true
     }
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = newPos
 
     rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
 
@@ -337,6 +389,12 @@ export class ReactNodeView<
   destroy() {
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
+
+    if (this.positionCheckCallback) {
+      cancelPositionCheck(this.editor, this.positionCheckCallback)
+      this.positionCheckCallback = null
+    }
+
     this.contentDOMElement = null
 
     if (this.selectionRafId) {

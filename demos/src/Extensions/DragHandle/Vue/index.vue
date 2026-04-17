@@ -3,10 +3,11 @@
     <div class="button-group">
       <button :class="{ 'is-active': editable }" @click="editable = !editable">Toggle editable</button>
       <button :class="{ 'is-active': nested }" @click="nested = !nested">Toggle nested drag handle</button>
+      <button :class="{ 'is-active': rtl }" @click="rtl = !rtl">Toggle RTL editor</button>
     </div>
   </div>
 
-  <drag-handle v-if="editor" :editor="editor" :nested="nestedOptions">
+  <drag-handle v-if="editor" :editor="editor" :nested="nestedOptions" :compute-position-config="computePositionConfig">
     <div class="custom-drag-handle" />
   </drag-handle>
   <editor-content :editor="editor" />
@@ -20,7 +21,8 @@ import { TableKit } from '@tiptap/extension-table'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-const NESTED_CONFIG = { edgeDetection: { threshold: -16 } }
+const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }
+const NESTED_CONFIG_RTL = { edgeDetection: { threshold: -16, edges: ['right'] } }
 
 export default {
   components: {
@@ -32,17 +34,38 @@ export default {
       editor: null,
       editable: true,
       nested: true,
+      rtl: false,
     }
   },
   computed: {
+    computePositionConfig() {
+      return {
+        placement: this.rtl ? 'right-start' : 'left-start',
+      }
+    },
     nestedOptions() {
-      return this.nested ? NESTED_CONFIG : false
+      if (!this.nested) {
+        return false
+      }
+
+      return this.rtl ? NESTED_CONFIG_RTL : NESTED_CONFIG_LTR
     },
   },
   watch: {
     editable(newValue) {
       if (this.editor) {
         this.editor.setEditable(newValue)
+      }
+    },
+    rtl(newValue) {
+      if (!this.editor) {
+        return
+      }
+
+      if (newValue) {
+        this.editor.view.dom.setAttribute('dir', 'rtl')
+      } else {
+        this.editor.view.dom.removeAttribute('dir')
       }
     },
   },
@@ -66,6 +89,8 @@ export default {
         <p>Web development has evolved significantly over the past decade. What once required multiple tools and complex setups can now be accomplished with modern frameworks and libraries that prioritize developer experience.</p>
 
         <img src="https://unsplash.it/500/500" alt="Random Image" />
+
+        <p dir="rtl">تجربة سحب هذا النص توضح كيف يجب أن يلتصق شبح السحب بالمؤشر حتى داخل المحتوى من اليمين إلى اليسار.</p>
 
         <h2>Getting Started</h2>
         <p>Before diving into the technical details, it's important to understand the foundational concepts that make modern web development possible.</p>
@@ -147,6 +172,10 @@ export default {
         <p>By following these guidelines, you'll create applications that are easier to maintain, test, and extend over time.</p>
       `,
     })
+
+    if (this.rtl) {
+      this.editor.view.dom.setAttribute('dir', 'rtl')
+    }
   },
   beforeUnmount() {
     this.editor?.destroy()
@@ -167,7 +196,7 @@ export default {
   }
 
   > * {
-    margin-left: 3rem;
+    margin-inline-start: 3rem;
   }
 
   .ProseMirror-widget * {
@@ -176,7 +205,7 @@ export default {
 
   ul,
   ol {
-    padding: 0 1rem;
+    padding-inline: 1rem;
   }
 }
 

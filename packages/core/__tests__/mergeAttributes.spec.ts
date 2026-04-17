@@ -141,15 +141,13 @@ describe('mergeAttributes', () => {
   it('should handle quoted style values', () => {
     const value = mergeAttributes(
       {
-        style:
-          '--test-var: "hello;test"; content:\'work in progress: come back later\'',
+        style: '--test-var: "hello;test"; content:\'work in progress: come back later\'',
       },
       { style: 'color: red' },
     )
 
     expect(value).toEqual({
-      style:
-        '--test-var: "hello;test"; content: \'work in progress: come back later\'; color: red',
+      style: '--test-var: "hello;test"; content: \'work in progress: come back later\'; color: red',
     })
   })
 })
