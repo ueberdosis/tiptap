@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+  - @tiptap/extension-text-style@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes

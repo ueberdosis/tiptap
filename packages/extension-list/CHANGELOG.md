@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 5ca9902: Treat non-indented continuation lines following an ordered list marker as part of the same list item.
+
+  This aligns ordered list parsing with CommonMark behavior: lines immediately after a list item (before a
+  blank line) are considered lazy continuation and remain inside the list item rather than ending it.
+
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes

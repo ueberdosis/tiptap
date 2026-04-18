@@ -1,5 +1,17 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [040da0d]
+- Updated dependencies [27ea931]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/vue-3@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes

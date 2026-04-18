@@ -988,9 +988,6 @@ importers:
       prosemirror-changeset:
         specifier: ^2.3.0
         version: 2.3.0
-      prosemirror-collab:
-        specifier: ^1.3.1
-        version: 1.3.1
       prosemirror-commands:
         specifier: ^1.6.2
         version: 1.6.2
@@ -1003,24 +1000,12 @@ importers:
       prosemirror-history:
         specifier: ^1.4.1
         version: 1.4.1
-      prosemirror-inputrules:
-        specifier: ^1.4.0
-        version: 1.4.0
       prosemirror-keymap:
         specifier: ^1.2.2
         version: 1.2.2
-      prosemirror-markdown:
-        specifier: ^1.13.1
-        version: 1.13.1
-      prosemirror-menu:
-        specifier: ^1.2.4
-        version: 1.2.4
       prosemirror-model:
         specifier: ^1.24.1
         version: 1.24.1
-      prosemirror-schema-basic:
-        specifier: ^1.2.3
-        version: 1.2.3
       prosemirror-schema-list:
         specifier: ^1.5.0
         version: 1.5.0
@@ -1030,9 +1015,6 @@ importers:
       prosemirror-tables:
         specifier: ^1.6.4
         version: 1.6.4
-      prosemirror-trailing-node:
-        specifier: ^3.0.0
-        version: 3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)
       prosemirror-transform:
         specifier: ^1.10.2
         version: 1.10.2

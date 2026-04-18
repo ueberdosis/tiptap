@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/pm",
   "description": "prosemirror wrapper package for tiptap",
-  "version": "3.22.3",
+  "version": "3.22.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -21,14 +21,6 @@
       },
       "import": "./dist/changeset/index.js",
       "require": "./dist/changeset/index.cjs"
-    },
-    "./collab": {
-      "types": {
-        "import": "./dist/collab/index.d.ts",
-        "require": "./dist/collab/index.d.cts"
-      },
-      "import": "./dist/collab/index.js",
-      "require": "./dist/collab/index.cjs"
     },
     "./commands": {
       "types": {
@@ -62,14 +54,6 @@
       "import": "./dist/history/index.js",
       "require": "./dist/history/index.cjs"
     },
-    "./inputrules": {
-      "types": {
-        "import": "./dist/inputrules/index.d.ts",
-        "require": "./dist/inputrules/index.d.cts"
-      },
-      "import": "./dist/inputrules/index.js",
-      "require": "./dist/inputrules/index.cjs"
-    },
     "./keymap": {
       "types": {
         "import": "./dist/keymap/index.d.ts",
@@ -78,22 +62,6 @@
       "import": "./dist/keymap/index.js",
       "require": "./dist/keymap/index.cjs"
     },
-    "./markdown": {
-      "types": {
-        "import": "./dist/markdown/index.d.ts",
-        "require": "./dist/markdown/index.d.cts"
-      },
-      "import": "./dist/markdown/index.js",
-      "require": "./dist/markdown/index.cjs"
-    },
-    "./menu": {
-      "types": {
-        "import": "./dist/menu/index.d.ts",
-        "require": "./dist/menu/index.d.cts"
-      },
-      "import": "./dist/menu/index.js",
-      "require": "./dist/menu/index.cjs"
-    },
     "./model": {
       "types": {
         "import": "./dist/model/index.d.ts",
@@ -101,14 +69,6 @@
       },
       "import": "./dist/model/index.js",
       "require": "./dist/model/index.cjs"
-    },
-    "./schema-basic": {
-      "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
-      },
-      "import": "./dist/schema-basic/index.js",
-      "require": "./dist/schema-basic/index.cjs"
     },
     "./schema-list": {
       "types": {
@@ -134,14 +94,6 @@
       "import": "./dist/tables/index.js",
       "require": "./dist/tables/index.cjs"
     },
-    "./trailing-node": {
-      "types": {
-        "import": "./dist/trailing/index.d.ts",
-        "require": "./dist/trailing/index.d.cts"
-      },
-      "import": "./dist/trailing-node/index.js",
-      "require": "./dist/trailing-node/index.cjs"
-    },
     "./transform": {
       "types": {
         "import": "./dist/transform/index.d.ts",
@@ -162,41 +114,29 @@
   "files": [
     "dist/**",
     "changeset/**",
-    "collab/**",
     "commands/**",
     "dropcursor/**",
     "gapcursor/**",
     "history/**",
-    "inputrules/**",
     "keymap/**",
-    "markdown/**",
-    "menu/**",
     "model/**",
-    "schema-basic/**",
     "schema-list/**",
     "state/**",
     "tables/**",
-    "trailing-node/**",
     "transform/**",
     "view/**"
   ],
   "dependencies": {
     "prosemirror-changeset": "^2.3.0",
-    "prosemirror-collab": "^1.3.1",
     "prosemirror-commands": "^1.6.2",
     "prosemirror-dropcursor": "^1.8.1",
     "prosemirror-gapcursor": "^1.3.2",
     "prosemirror-history": "^1.4.1",
-    "prosemirror-inputrules": "^1.4.0",
     "prosemirror-keymap": "^1.2.2",
-    "prosemirror-markdown": "^1.13.1",
-    "prosemirror-menu": "^1.2.4",
     "prosemirror-model": "^1.24.1",
-    "prosemirror-schema-basic": "^1.2.3",
     "prosemirror-schema-list": "^1.5.0",
     "prosemirror-state": "^1.4.3",
     "prosemirror-tables": "^1.6.4",
-    "prosemirror-trailing-node": "^3.0.0",
     "prosemirror-transform": "^1.10.2",
     "prosemirror-view": "^1.38.1"
   },
