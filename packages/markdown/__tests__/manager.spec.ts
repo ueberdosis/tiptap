@@ -131,6 +131,91 @@ describe('MarkdownManager Direct Tests', () => {
     ]
   })
 
+  describe('parseMarkdown handler fallthrough', () => {
+    let manager: MarkdownManager
+
+    beforeEach(() => {
+      manager = new MarkdownManager()
+    })
+
+    it('continues to the next handler when parseMarkdown returns false', () => {
+      const FirstHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => false,
+      }
+
+      const SecondHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => ({
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Handled by second' }],
+        }),
+      }
+
+      manager.registerExtension(FirstHandler as any)
+      manager.registerExtension(SecondHandler as any)
+
+      const doc = manager.parse('Hello')
+
+      expect(doc.content![0]).toEqual({
+        type: 'paragraph',
+        content: [{ type: 'text', text: 'Handled by second' }],
+      })
+    })
+
+    it('continues to the next handler when parseMarkdown returns undefined', () => {
+      const FirstHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => undefined,
+      }
+
+      const SecondHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => ({
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Handled by second' }],
+        }),
+      }
+
+      manager.registerExtension(FirstHandler as any)
+      manager.registerExtension(SecondHandler as any)
+
+      const doc = manager.parse('Hello')
+
+      expect(doc.content![0]).toEqual({
+        type: 'paragraph',
+        content: [{ type: 'text', text: 'Handled by second' }],
+      })
+    })
+
+    it('uses the first handler that returns a valid result', () => {
+      const FirstHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => ({
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'First handler' }],
+        }),
+      }
+
+      const SecondHandler = {
+        markdownTokenName: 'paragraph',
+        parseMarkdown: () => ({
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Second handler' }],
+        }),
+      }
+
+      manager.registerExtension(FirstHandler as any)
+      manager.registerExtension(SecondHandler as any)
+
+      const doc = manager.parse('Hello')
+
+      expect(doc.content![0]).toEqual({
+        type: 'paragraph',
+        content: [{ type: 'text', text: 'First handler' }],
+      })
+    })
+  })
   describe('Basic Markdown Parsing', () => {
     beforeEach(() => {
       markdownManager = new MarkdownManager()
@@ -259,6 +344,7 @@ Second paragraph.`
       ])
     })
   })
+
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
       markdownManager = new MarkdownManager()
