@@ -36,9 +36,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/suggestion": "workspace:^"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/suggestion": "workspace:*"
   },
   "dependencies": {
     "emoji-regex": "^10.6.0",

@@ -49,8 +49,8 @@
     "happy-dom": "^20.8.9"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
     "happy-dom": "^20.8.9"
   },
   "repository": {
