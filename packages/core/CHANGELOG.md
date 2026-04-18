@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 64f36b8: Fix text selection collapsing after toggling off a list with AllSelection
+- Updated dependencies [27ea931]
+- Updated dependencies [032f8f1]
+  - @tiptap/pm@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes
