@@ -22,30 +22,32 @@ describe('useEditor', () => {
   it('should not replace Vue-owned DOM on unmount', async () => {
     const replaceChildSpy = vi.spyOn(Node.prototype, 'replaceChild')
 
-    const TestComponent = defineComponent({
-      setup() {
-        const editor = useEditor({
-          extensions: [Document, Paragraph, Text],
-          content: '<p>Hello World</p>',
-        })
+    try {
+      const TestComponent = defineComponent({
+        setup() {
+          const editor = useEditor({
+            extensions: [Document, Paragraph, Text],
+            content: '<p>Hello World</p>',
+          })
 
-        return () => h(EditorContent, { editor: editor.value })
-      },
-    })
+          return () => h(EditorContent, { editor: editor.value })
+        },
+      })
 
-    const app = createApp(TestComponent)
-    const target = document.createElement('div')
+      const app = createApp(TestComponent)
+      const target = document.createElement('div')
 
-    document.body.appendChild(target)
-    mountedElements.push(target)
+      document.body.appendChild(target)
+      mountedElements.push(target)
 
-    app.mount(target)
-    await nextTick()
-    await nextTick()
+      app.mount(target)
+      await nextTick()
+      await nextTick()
 
-    expect(() => app.unmount()).not.toThrow()
-    expect(replaceChildSpy).not.toHaveBeenCalled()
-
-    replaceChildSpy.mockRestore()
+      expect(() => app.unmount()).not.toThrow()
+      expect(replaceChildSpy).not.toHaveBeenCalled()
+    } finally {
+      replaceChildSpy.mockRestore()
+    }
   })
 })
