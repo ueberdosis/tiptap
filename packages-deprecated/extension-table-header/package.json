@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/extension-table-header",
   "description": "table cell extension for tiptap",
-  "version": "3.22.3",
+  "version": "3.22.4",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -34,7 +34,7 @@
     "@tiptap/extension-table": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-table": "workspace:^"
+    "@tiptap/extension-table": "workspace:*"
   },
   "repository": {
     "type": "git",

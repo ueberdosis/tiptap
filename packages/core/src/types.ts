@@ -719,6 +719,13 @@ export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
   contentDOMElementTag: string
+  /**
+   * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
+   * is fully inside the node's range (e.g. the cursor is placed within the
+   * node's content), not only when there is a `NodeSelection` on the node.
+   * Defaults to `false` to preserve existing behavior.
+   */
+  selectedOnTextSelection?: boolean
 }
 
 export interface NodeViewRendererProps {

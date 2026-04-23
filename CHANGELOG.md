@@ -1,5 +1,751 @@
 # Releases
 
+## v3.22.4
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- 032f8f1: Fix drag handle ghost image alignment when dragging blocks inside offset layouts, and preserve correct ghost image behavior for RTL content.
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-collaboration@3.22.4
+  - @tiptap/extension-node-range@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 032f8f1: Fix text selection collapsing after toggling off a list with AllSelection
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-code-block@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-text-style@3.22.4
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-text-style@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/react@3.22.4
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/vue-2@3.22.4
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-drag-handle@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/vue-3@3.22.4
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/suggestion@3.22.4
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-text-style@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-text-style@3.22.4
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-text-style@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 032f8f1: Treat non-indented continuation lines following an ordered list marker as part of the same list item.
+
+  This aligns ordered list parsing with CommonMark behavior: lines immediately after a list item (before a
+  blank line) are considered lazy continuation and remain inside the list item rather than ending it.
+
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/suggestion@3.22.4
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/html
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 032f8f1: Remove unused ProseMirror packages from @tiptap/pm to reduce bundle size
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-blockquote@3.22.4
+  - @tiptap/extension-bold@3.22.4
+  - @tiptap/extension-bullet-list@3.22.4
+  - @tiptap/extension-code@3.22.4
+  - @tiptap/extension-code-block@3.22.4
+  - @tiptap/extension-document@3.22.4
+  - @tiptap/extension-hard-break@3.22.4
+  - @tiptap/extension-heading@3.22.4
+  - @tiptap/extension-horizontal-rule@3.22.4
+  - @tiptap/extension-italic@3.22.4
+  - @tiptap/extension-link@3.22.4
+  - @tiptap/extension-list@3.22.4
+  - @tiptap/extension-ordered-list@3.22.4
+  - @tiptap/extension-paragraph@3.22.4
+  - @tiptap/extension-strike@3.22.4
+  - @tiptap/extension-text@3.22.4
+  - @tiptap/extension-underline@3.22.4
+  - @tiptap/extensions@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/extension-dropcursor@3.22.4
+  - @tiptap/extension-gapcursor@3.22.4
+  - @tiptap/extension-list-item@3.22.4
+  - @tiptap/extension-list-keymap@3.22.4
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extensions@3.22.4
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-table@3.22.4
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-table@3.22.4
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-table@3.22.4
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- 032f8f1: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [032f8f1]
+- Updated dependencies [032f8f1]
+  - @tiptap/extension-list@3.22.4
+
 ## v3.22.3
 
 ### @tiptap/core
@@ -169,7 +915,7 @@
 - Use a named import for Suggestion from `@tiptap/suggestion` to avoid bundler ESM/CJS interop
   wrapping (`__toESM`) that caused CJS consumers to receive a module object instead of the
   callable plugin factory.
-  
+
   This is a non-breaking internal fix identical to the one applied to `@tiptap/extension-mention`
   in #6994.
 
