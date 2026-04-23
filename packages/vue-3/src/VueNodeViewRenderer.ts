@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
-import { cancelPositionCheck, NodeView, schedulePositionCheck } from '@tiptap/core'
+import { cancelPositionCheck, isNodeViewSelected, NodeView, schedulePositionCheck } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { Component, PropType, Ref } from 'vue'
@@ -219,14 +219,20 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
-    const { from, to } = this.editor.state.selection
     const pos = this.getPos()
 
     if (typeof pos !== 'number') {
       return
     }
 
-    if (from <= pos && to >= pos + this.node.nodeSize) {
+    const isSelected = isNodeViewSelected({
+      selection: this.editor.state.selection,
+      pos,
+      nodeSize: this.node.nodeSize,
+      selectedOnTextSelection: this.options.selectedOnTextSelection,
+    })
+
+    if (isSelected) {
       if (this.renderer.props.selected) {
         return
       }

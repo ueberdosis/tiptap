@@ -1,5 +1,39 @@
 # Change Log
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [5ca9902]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/extension-blockquote@3.22.4
+  - @tiptap/extension-bold@3.22.4
+  - @tiptap/extension-bullet-list@3.22.4
+  - @tiptap/extension-code@3.22.4
+  - @tiptap/extension-code-block@3.22.4
+  - @tiptap/extension-document@3.22.4
+  - @tiptap/extension-hard-break@3.22.4
+  - @tiptap/extension-heading@3.22.4
+  - @tiptap/extension-horizontal-rule@3.22.4
+  - @tiptap/extension-italic@3.22.4
+  - @tiptap/extension-link@3.22.4
+  - @tiptap/extension-list@3.22.4
+  - @tiptap/extension-ordered-list@3.22.4
+  - @tiptap/extension-paragraph@3.22.4
+  - @tiptap/extension-strike@3.22.4
+  - @tiptap/extension-text@3.22.4
+  - @tiptap/extension-underline@3.22.4
+  - @tiptap/extensions@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/extension-dropcursor@3.22.4
+  - @tiptap/extension-gapcursor@3.22.4
+  - @tiptap/extension-list-item@3.22.4
+  - @tiptap/extension-list-keymap@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes

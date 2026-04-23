@@ -1,5 +1,16 @@
 # @tiptap/extension-unique-id
 
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+
 ## 3.22.3
 
 ### Patch Changes
