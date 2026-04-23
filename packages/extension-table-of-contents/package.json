@@ -36,7 +36,7 @@
     "dist"
   ],
   "dependencies": {
-    "uuid": "^10.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
