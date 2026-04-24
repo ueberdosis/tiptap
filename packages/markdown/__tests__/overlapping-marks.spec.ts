@@ -243,9 +243,7 @@ describe('Overlapping marks serialization', () => {
 
     // Strike (last opened) must close first: ~~strike~~ then ***
     expect(result).toBe('**bold *italics ~~strike~~***')
-    expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(
-      normalizeMarks(json),
-    )
+    expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
   })
 
   it('does not switch non-bold-italic marks to html reopen mode', () => {
