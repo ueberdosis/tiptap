@@ -5,7 +5,13 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import { cancelPositionCheck, getRenderedAttributes, NodeView, schedulePositionCheck } from '@tiptap/core'
+import {
+  cancelPositionCheck,
+  getRenderedAttributes,
+  isNodeViewSelected,
+  NodeView,
+  schedulePositionCheck,
+} from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
@@ -269,14 +275,20 @@ export class ReactNodeView<
 
     this.selectionRafId = requestAnimationFrame(() => {
       this.selectionRafId = null
-      const { from, to } = this.editor.state.selection
       // Avoid resolving getPos() after ProseMirror has detached this node view.
       const pos = this.currentPos
       if (typeof pos !== 'number') {
         return
       }
 
-      if (from <= pos && to >= pos + this.node.nodeSize) {
+      const isSelected = isNodeViewSelected({
+        selection: this.editor.state.selection,
+        pos,
+        nodeSize: this.node.nodeSize,
+        selectedOnTextSelection: this.options.selectedOnTextSelection,
+      })
+
+      if (isSelected) {
         if (this.renderer.props.selected) {
           return
         }
