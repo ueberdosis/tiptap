@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.22.5
+
+### Patch Changes
+
+- a375002: Add `selectedOnTextSelection` option to node view renderers. When enabled, the `selected` prop also becomes true when a TextSelection is fully inside the node's range, not only on NodeSelection.
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
 ## 3.22.4
 
 ### Patch Changes

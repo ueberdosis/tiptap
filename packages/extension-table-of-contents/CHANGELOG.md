@@ -1,5 +1,14 @@
 # @tiptap/extension-table-of-contents
 
+## 3.22.5
+
+### Patch Changes
+
+- e12994c: Fix duplicate `onUpdate` invocation per document change in the `TableOfContents` extension.
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
 ## 3.22.4
 
 ### Patch Changes

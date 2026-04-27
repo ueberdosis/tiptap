@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.22.5
+
+### Patch Changes
+
+- 13b5894: Escape HTML string renderer text content and attribute values to prevent injected markup from untrusted content.
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/pm@3.22.5
+
 ## 3.22.4
 
 ### Patch Changes
