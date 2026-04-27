@@ -3,6 +3,7 @@ import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
 import {
+  escapeHTML,
   renderJSONContentToString,
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
@@ -25,7 +26,7 @@ const NON_SELF_CLOSING_TAGS = new Set(['iframe', 'script', 'style', 'title', 'te
  */
 export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: string | string[]) => string {
   if (typeof content === 'string') {
-    return () => content
+    return () => escapeHTML(content)
   }
   if (typeof content === 'object' && 'length' in content) {
     const [_tag, attrs, children, ...rest] = content as DOMOutputSpecArray
@@ -105,7 +106,7 @@ export function renderToHTMLString({
       // Map a doc node to concatenated children
       doc: ({ children }) => serializeChildrenToHTMLString(children),
       // Map a text node to its text content
-      text: ({ node }) => node.text ?? '',
+      text: ({ node }) => escapeHTML(node.text ?? ''),
     },
     content,
     extensions,
