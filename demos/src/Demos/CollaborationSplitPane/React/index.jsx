@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import * as Y from 'yjs'
 
 import Editor from './Editor.jsx'
@@ -13,7 +13,7 @@ const room = `room.${new Date()
 
 // ydoc and provider for Editor A
 const ydocA = new Y.Doc()
-const providerA = new TiptapCollabProvider({
+const providerA = new HocuspocusProvider({
   appId,
   name: room,
   document: ydocA,
@@ -21,7 +21,7 @@ const providerA = new TiptapCollabProvider({
 
 // ydoc and provider for Editor B
 const ydocB = new Y.Doc()
-const providerB = new TiptapCollabProvider({
+const providerB = new HocuspocusProvider({
   appId,
   name: room,
   document: ydocB,

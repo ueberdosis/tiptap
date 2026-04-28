@@ -1,6 +1,6 @@
 import './styles.css'
 
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import { LexicalCollaboration } from '@lexical/react/LexicalCollaborationContext'
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
@@ -39,7 +39,7 @@ export default ({ note }: { note: TNote }) => {
 
             yjsDocMap.set(id, doc)
 
-            const provider = new TiptapCollabProvider({
+            const provider = new HocuspocusProvider({
               name: note.id, // any identifier - all connections sharing the same identifier will be synced
               appId: '7j9y6m10', // replace with YOUR_APP_ID
               token: 'notoken', // replace with your JWT

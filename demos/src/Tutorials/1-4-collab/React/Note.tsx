@@ -1,4 +1,4 @@
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
@@ -11,7 +11,7 @@ export default ({ note }: { note: TNote }) => {
   const doc = new Y.Doc()
 
   useEffect(() => {
-    const provider = new TiptapCollabProvider({
+    const provider = new HocuspocusProvider({
       name: note.id, // any identifier - all connections sharing the same identifier will be synced
       appId: '7j9y6m10', // replace with YOUR_APP_ID
       token: 'notoken', // replace with your JWT

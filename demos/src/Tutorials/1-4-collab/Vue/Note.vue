@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import { Collaboration } from '@tiptap/extension-collaboration'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
@@ -10,12 +10,12 @@ import type { TNote } from './types.js'
 
 const props = defineProps<{ note: TNote }>()
 
-let provider: TiptapCollabProvider | undefined
+let provider: HocuspocusProvider | undefined
 
 const doc = new Y.Doc()
 
 onMounted(() => {
-  provider = new TiptapCollabProvider({
+  provider = new HocuspocusProvider({
     name: props.note.id, // any identifier - all connections sharing the same identifier will be synced
     appId: '7j9y6m10', // replace with YOUR_APP_ID
     token: 'notoken', // replace with your JWT

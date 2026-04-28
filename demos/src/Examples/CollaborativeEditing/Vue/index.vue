@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
@@ -67,7 +67,7 @@ export default {
   mounted() {
     const ydoc = new Y.Doc()
 
-    this.provider = new TiptapCollabProvider({
+    this.provider = new HocuspocusProvider({
       appId: '7j9y6m10',
       name: this.room,
       document: ydoc,

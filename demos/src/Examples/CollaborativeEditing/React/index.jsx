@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
@@ -56,7 +56,7 @@ const getRandomName = () => getRandomElement(names)
 const room = getRandomRoom()
 
 const ydoc = new Y.Doc()
-const websocketProvider = new TiptapCollabProvider({
+const websocketProvider = new HocuspocusProvider({
   appId: '7j9y6m10',
   name: room,
   document: ydoc,
