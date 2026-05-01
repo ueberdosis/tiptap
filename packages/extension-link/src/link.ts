@@ -464,12 +464,14 @@ export const Link = Mark.create<LinkOptions>({
       )
     }
 
+
+    // Always add click handler to control link behavior
     plugins.push(
       clickHandler({
         type: this.type,
         editor: this.editor,
-        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
         enableClickSelection: this.options.enableClickSelection,
+        openOnClick: this.options.openOnClick,
       }),
     )
 

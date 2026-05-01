@@ -8,6 +8,7 @@ type ClickHandlerOptions = {
   editor: Editor
   openOnClick?: boolean
   enableClickSelection?: boolean
+  openOnClick?: boolean | 'whenNotEditable'
 }
 
 export function clickHandler(options: ClickHandlerOptions): Plugin {
@@ -55,10 +56,26 @@ export function clickHandler(options: ClickHandlerOptions): Plugin {
           handled = commandResult
         }
 
-        if (options.openOnClick) {
-          const attrs = getAttributes(view.state, options.type.name)
-          const href = link.href ?? attrs.href
-          const target = link.target ?? attrs.target
+        if (link && href) {
+          // Always prevent default behavior for links
+          event.preventDefault()
+
+          // Determine if we should open the link based on openOnClick option
+          let shouldOpen = false
+
+          if (options.openOnClick === true) {
+            shouldOpen = true
+          } else if (options.openOnClick === 'whenNotEditable') {
+            // Legacy option: open when editor is not editable
+            shouldOpen = !view.editable
+          } else {
+            // openOnClick === false or undefined
+            shouldOpen = false
+          }
+
+          if (shouldOpen) {
+            window.open(href, target)
+          }
 
           if (href) {
             window.open(href, target)
