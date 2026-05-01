@@ -601,6 +601,7 @@ export class MarkdownManager {
   private createParseHelpers(): MarkdownParseHelpers {
     return {
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
+      tokenizeInline: (src: string) => this.tokenizeInline(src),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
       parseBlockChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens, true),
       createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => {
