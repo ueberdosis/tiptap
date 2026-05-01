@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  objectIncludes,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
@@ -1124,7 +1125,13 @@ export class MarkdownManager {
             ...activeMarksClosingHere, // outer (were active before) — close last
           ]
         } else {
-          marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+          marksToCloseAtEnd = findMarksToCloseAtEnd(
+            activeMarks,
+            currentMarks,
+            nextNode,
+            this.markSetsEqual.bind(this),
+            this.marksEqual.bind(this),
+          )
         }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
@@ -1284,6 +1291,24 @@ export class MarkdownManager {
   }
 
   /**
+   * Check if two marks have the same type and attributes.
+   */
+  private marksEqual(mark1: any, mark2: any): boolean {
+    if (mark1?.type !== mark2?.type) {
+      return false
+    }
+
+    const attrs1 = mark1?.attrs ?? {}
+    const attrs2 = mark2?.attrs ?? {}
+
+    return (
+      Object.keys(attrs1).length === Object.keys(attrs2).length &&
+      objectIncludes(attrs1, attrs2) &&
+      objectIncludes(attrs2, attrs1)
+    )
+  }
+
+  /**
    * Check if two mark sets are equal.
    */
   private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
@@ -1291,7 +1316,11 @@ export class MarkdownManager {
       return false
     }
 
-    return Array.from(marks1.keys()).every(type => marks2.has(type))
+    return Array.from(marks1.entries()).every(([type, mark]) => {
+      const otherMark = marks2.get(type)
+
+      return !!otherMark && this.marksEqual(mark, otherMark)
+    })
   }
 }
 
