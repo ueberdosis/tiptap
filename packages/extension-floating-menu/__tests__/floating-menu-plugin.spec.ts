@@ -232,13 +232,17 @@ describe('FloatingMenuView destroy safety', () => {
     const view = createFloatingMenuView(editor)
     const coordsSpy = vi.spyOn(editor.view, 'coordsAtPos')
 
-    // Simulate the real-world teardown race: the editor is destroyed while a
-    // pending updatePosition call (debounced resize/scroll) is still in flight.
-    // ProseMirror's destroy removes view.dom from its parent and nulls docView;
-    // without a guard, posToDOMRect -> coordsAtPos throws on the null docView.
-    editor.destroy()
+    try {
+      // Simulate the real-world teardown race: the editor is destroyed while a
+      // pending updatePosition call (debounced resize/scroll) is still in flight.
+      // ProseMirror's destroy removes view.dom from its parent and nulls docView;
+      // without a guard, posToDOMRect -> coordsAtPos throws on the null docView.
+      editor.destroy()
 
-    expect(() => view.updatePosition()).not.toThrow()
-    expect(coordsSpy).not.toHaveBeenCalled()
+      expect(() => view.updatePosition()).not.toThrow(/Cannot read properties of null \(reading 'domFromPos'\)/)
+      expect(coordsSpy).not.toHaveBeenCalled()
+    } finally {
+      view.destroy()
+    }
   })
 })
