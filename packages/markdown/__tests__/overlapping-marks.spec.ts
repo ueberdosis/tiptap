@@ -1,16 +1,19 @@
+import { Editor } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { HardBreak } from '@tiptap/extension-hard-break'
 import { Italic } from '@tiptap/extension-italic'
+import { Link } from '@tiptap/extension-link'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import Strike from '@tiptap/extension-strike'
 import { Text } from '@tiptap/extension-text'
+import { Markdown } from '@tiptap/markdown'
 import { describe, expect, it } from 'vitest'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
 describe('Overlapping marks serialization', () => {
-  const extensions = [Document, Paragraph, Text, Bold, Italic]
+  const extensions = [Document, Paragraph, Text, Bold, Italic, Link]
   const markdownManager = new MarkdownManager({ extensions })
   const normalizeMarks = (node: any): any => {
     if (Array.isArray(node)) {
@@ -233,5 +236,164 @@ describe('Overlapping marks serialization', () => {
 
     expect(result).toBe('*abc~~def~~*~~ghi~~')
     expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  it('serializes italic on the leading subset of link text inside the link label', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'google',
+              marks: [
+                { type: 'italic' },
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: ' search',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    expect(result).toBe('[*google* search](https://google.com)')
+    expect(result).not.toBe('*[google* search](https://google.com)')
+    expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  it('serializes bold on the leading subset of link text inside the link label', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'google',
+              marks: [
+                { type: 'bold' },
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: ' search',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    expect(result).toBe('[**google** search](https://google.com)')
+    expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  it('serializes partial italic in link text correctly from editor commands', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Bold, Italic, Link, Markdown],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'google search' }],
+          },
+        ],
+      },
+    })
+
+    editor.commands.selectAll()
+    editor.commands.setLink({ href: 'https://google.com' })
+    editor.commands.setTextSelection({ from: 1, to: 7 })
+    editor.commands.setItalic()
+
+    const json = editor.getJSON()
+    const result = editor.getMarkdown()
+    const directResult = markdownManager.serialize(json)
+    const expectedRoundtripJson = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'google',
+              marks: [
+                { type: 'italic' },
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'text',
+              text: ' search',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    expect(result).toBe('[*google* search](https://google.com)')
+    expect(result).not.toBe('*[google* search](https://google.com)')
+    expect(directResult).toBe(result)
+    expect(normalizeMarks(editor.markdown?.parse(result))).toEqual(normalizeMarks(expectedRoundtripJson))
+
+    editor.destroy()
   })
 })
