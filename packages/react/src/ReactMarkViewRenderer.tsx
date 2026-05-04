@@ -28,7 +28,7 @@ export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 's
 
   return (
     // @ts-ignore
-    <Tag {...rest} ref={markViewContentRef} />
+    <Tag {...rest} ref={markViewContentRef} data-mark-view-content="" />
   )
 }
 
@@ -56,7 +56,6 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
 
     this.contentDOMElement = document.createElement('span')
-    this.contentDOMElement.dataset.markViewContent = ''
 
     const markViewContentRef: MarkViewContextProps['markViewContentRef'] = el => {
       if (el && !el.contains(this.contentDOMElement)) {
