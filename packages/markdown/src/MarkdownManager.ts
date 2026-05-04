@@ -1069,22 +1069,26 @@ export class MarkdownManager {
         }
 
         if (!hasCrossedBoundary) {
-          // Normal path: close marks that are ending here (no new marks opening simultaneously)
-          marksToClose.forEach(markType => {
-            if (!activeMarks.has(markType)) {
-              return
-            }
+          // Normal path: close marks that are ending here (no new marks opening simultaneously).
+          // Reverse so the last-opened mark closes first (LIFO), preserving valid nesting.
+          marksToClose
+            .slice()
+            .reverse()
+            .forEach(markType => {
+              if (!activeMarks.has(markType)) {
+                return
+              }
 
-            const mark = currentMarks.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
-            if (closeMarkdown) {
-              textContent += closeMarkdown
-            }
-            if (activeMarks.has(markType)) {
-              activeMarks.delete(markType)
-              markOpeningModes.delete(markType)
-            }
-          })
+              const mark = currentMarks.get(markType)
+              const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+              if (closeMarkdown) {
+                textContent += closeMarkdown
+              }
+              if (activeMarks.has(markType)) {
+                activeMarks.delete(markType)
+                markOpeningModes.delete(markType)
+              }
+            })
         }
 
         // Open new marks (should be at the beginning)

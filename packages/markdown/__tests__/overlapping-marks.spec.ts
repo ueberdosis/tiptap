@@ -464,4 +464,33 @@ describe('Overlapping marks serialization', () => {
 
     editor.destroy()
   })
+
+  /**
+   * Regression test for issue #7728.
+   * When bold, italic, and strike all close on the same node they must close
+   * LIFO (last-opened first-closed) to produce valid nesting.
+   */
+  it('closes multiple simultaneously-ending marks in LIFO order', () => {
+    const markdownManagerWithStrike = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, Bold, Italic, Strike],
+    })
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'bold ', marks: [{ type: 'bold' }] },
+            { type: 'text', text: 'italics ', marks: [{ type: 'bold' }, { type: 'italic' }] },
+            { type: 'text', text: 'strike', marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'strike' }] },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManagerWithStrike.serialize(json)
+
+    expect(result).toBe('**bold *italics ~~strike~~***')
+    expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
+  })
 })
