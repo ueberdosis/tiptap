@@ -470,7 +470,7 @@ describe('Overlapping marks serialization', () => {
    * When bold, italic, and strike all close on the same node they must close
    * LIFO (last-opened first-closed) to produce valid nesting.
    */
-  it('closes multiple simultaneously-ending marks in LIFO order', () => {
+  it('closes multiple simultaneously-ending marks in LIFO order (simple path)', () => {
     const markdownManagerWithStrike = new MarkdownManager({
       extensions: [Document, Paragraph, Text, Bold, Italic, Strike],
     })
@@ -491,6 +491,43 @@ describe('Overlapping marks serialization', () => {
     const result = markdownManagerWithStrike.serialize(json)
 
     expect(result).toBe('**bold *italics ~~strike~~***')
+    expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  /**
+   * Regression test for the crossed-boundary LIFO bug.
+   * Bold (outer) and strike (inner) are both active; italic opens while both
+   * close at the same boundary. Previously-active marks must still close in
+   * LIFO order (strike first, bold last) even though a new mark is opening.
+   *
+   * Buggy output:  **~~abc*def***~~*ghi*  (bold closes before strike — invalid)
+   * Correct output: **~~abc*def*~~***ghi* (strike closes before bold — valid)
+   */
+  it('closes previously-active marks in LIFO order on a crossed boundary', () => {
+    const markdownManagerWithStrike = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, Bold, Italic, Strike],
+    })
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'abc', marks: [{ type: 'bold' }, { type: 'strike' }] },
+            { type: 'text', text: 'def', marks: [{ type: 'bold' }, { type: 'strike' }, { type: 'italic' }] },
+            { type: 'text', text: 'ghi', marks: [{ type: 'italic' }] },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManagerWithStrike.serialize(json)
+
+    // Strike must close before bold (LIFO). Bold then closes, and italic for
+    // "ghi" reopens with <em> to avoid the ambiguous *** sequence.
+    expect(result).toBe('**~~abc*def*~~**<em>ghi</em>')
+    // Buggy output (bold closes before strike): '**~~abc*def***~~<em>ghi</em>'
+    expect(result).not.toBe('**~~abc*def***~~<em>ghi</em>')
     expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
   })
 })
