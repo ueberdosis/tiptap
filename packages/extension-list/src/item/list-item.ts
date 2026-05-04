@@ -1,4 +1,5 @@
-import { type MarkdownToken, mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
+import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
 
 export interface ListItemOptions {
   /**
@@ -33,6 +34,20 @@ function isSameLineOrderedListToken(token: MarkdownToken): boolean {
       nestedToken.ordered &&
       nestedToken.raw === token.text,
   )
+}
+
+function parseSameLineOrderedListText(text: string, helpers: MarkdownParseHelpers): JSONContent[] {
+  if (helpers.tokenizeInline) {
+    return helpers.parseInline(helpers.tokenizeInline(text))
+  }
+
+  return helpers.parseInline([
+    {
+      type: 'text',
+      raw: text,
+      text,
+    },
+  ])
 }
 
 /**
@@ -83,7 +98,7 @@ export const ListItem = Node.create<ListItemOptions>({
           content: [
             {
               type: 'paragraph',
-              content: helpers.parseInline(helpers.tokenizeInline(token.text || '')),
+              content: parseSameLineOrderedListText(token.text || '', helpers),
             },
           ],
         }

@@ -903,8 +903,8 @@ export type MarkdownHelpers = {
 export type MarkdownParseHelpers = {
   /** Parse an array of inline tokens into text nodes with marks */
   parseInline: (tokens: MarkdownToken[]) => JSONContent[]
-  /** Tokenize source text as inline markdown */
-  tokenizeInline: (src: string) => MarkdownToken[]
+  /** Tokenize source text as inline markdown when supported by the markdown parser */
+  tokenizeInline?: (src: string) => MarkdownToken[]
   /** Parse an array of block-level tokens */
   parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
   /** Parse block-level tokens while preserving implicit empty paragraphs from blank lines */
