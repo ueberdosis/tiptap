@@ -133,9 +133,7 @@ describe('MarkdownManager Direct Tests', () => {
 
   describe('Basic Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
 
     it('should parse simple text', () => {
@@ -210,17 +208,14 @@ Second paragraph.`
 **After** ordered list`
       const isolatedManager = new MarkdownManager({
         marked: new Marked() as unknown as typeof import('marked').marked,
-        extensions: [],
+        extensions: basicExtensions,
       })
-
-      basicExtensions.forEach(ext => isolatedManager.registerExtension(ext))
 
       expect(markdownManager.parse(markdown)).toEqual(isolatedManager.parse(markdown))
     })
 
     it('keeps later inline parsing stable after a custom tokenizer uses inlineTokens', () => {
-      const manager = new MarkdownManager()
-      ;[...basicExtensions, TestProbe].forEach(ext => manager.registerExtension(ext))
+      const manager = new MarkdownManager({ extensions: [...basicExtensions, TestProbe] })
 
       const markdown = `:::probe **Probe** text :::
 
@@ -261,9 +256,7 @@ Second paragraph.`
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...++abc++**`
 
@@ -299,9 +292,7 @@ Second paragraph.`
   })
   describe('complex nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...~~++abc*abc*++~~**`
 
@@ -342,8 +333,7 @@ Second paragraph.`
   })
   describe('Extended Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should parse mentions', () => {
@@ -391,8 +381,7 @@ Final paragraph.`
 
   describe('Markdown Rendering', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should render simple text', () => {
@@ -700,8 +689,7 @@ Final paragraph.`
 
   describe('Round-trip Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     const testCases = [
@@ -745,15 +733,13 @@ Final paragraph.`
     it('should work with different extension combinations', () => {
       // Test with minimal extensions
       const minimalExtensions = [Document, Paragraph, Text]
-      const minimalManager = new MarkdownManager()
-      minimalExtensions.forEach(ext => minimalManager.registerExtension(ext))
+      const minimalManager = new MarkdownManager({ extensions: minimalExtensions })
 
       const simpleDoc = minimalManager.parse('Hello world')
       expect(simpleDoc.content![0].type).toBe('paragraph')
 
       // Test with extended extensions
-      const extendedManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => extendedManager.registerExtension(ext))
+      const extendedManager = new MarkdownManager({ extensions: extendedExtensions })
 
       const complexDoc = extendedManager.parse('# Title\n\n[@ id="user" label="User"]')
       expect(complexDoc.content![0].type).toBe('heading')
@@ -761,8 +747,7 @@ Final paragraph.`
     })
 
     it('should handle unknown markdown gracefully', () => {
-      const manager = new MarkdownManager()
-      basicExtensions.forEach(ext => manager.registerExtension(ext))
+      const manager = new MarkdownManager({ extensions: basicExtensions })
 
       // Test various unknown markdown patterns that should be preserved as text
       const testCases = [
@@ -784,8 +769,7 @@ Final paragraph.`
 
   describe('Performance Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should handle large documents efficiently', () => {

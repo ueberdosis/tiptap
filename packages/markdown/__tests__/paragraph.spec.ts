@@ -1,4 +1,3 @@
-import type { AnyExtension } from '@tiptap/core'
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -12,19 +11,8 @@ describe('Paragraph Markdown Rendering', () => {
   let markdownManager: MarkdownManager
 
   beforeEach(() => {
-    markdownManager = new MarkdownManager()
-    const extensions: AnyExtension[] = [
-      Document,
-      Paragraph,
-      Text,
-      Heading,
-      Blockquote,
-      BulletList,
-      OrderedList,
-      ListItem,
-    ]
-    extensions.forEach(extension => {
-      markdownManager.registerExtension(extension)
+    markdownManager = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, Heading, Blockquote, BulletList, OrderedList, ListItem],
     })
   })
 
