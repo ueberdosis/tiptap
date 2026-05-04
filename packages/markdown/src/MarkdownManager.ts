@@ -34,7 +34,6 @@ export class MarkdownManager {
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
-  private extensionRanks: Map<string, number>
   private indentStyle: 'space' | 'tab'
   private indentSize: number
   private baseExtensions: AnyExtension[] = []
@@ -66,7 +65,6 @@ export class MarkdownManager {
 
     this.registry = new Map()
     this.nodeTypeRegistry = new Map()
-    this.extensionRanks = new Map()
 
     // If extensions were provided, register them now
     if (options?.extensions) {
@@ -129,10 +127,6 @@ export class MarkdownManager {
     const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
     const htmlReopen = markdownCfg?.htmlReopen
-
-    if (!this.extensionRanks.has(name)) {
-      this.extensionRanks.set(name, this.extensionRanks.size)
-    }
 
     const spec: MarkdownExtensionSpec = {
       tokenName,
@@ -1024,10 +1018,10 @@ export class MarkdownManager {
 
       if (node.type === 'text') {
         let textContent = this.encodeTextForMarkdown(node.text || '', node, parentNode)
-        const currentMarks = new Map(this.sortMarksForSerialization(node.marks).map(mark => [mark.type, mark]))
+        const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive
@@ -1300,21 +1294,21 @@ export class MarkdownManager {
     return Array.from(marks1.keys()).every(type => marks2.has(type))
   }
 
-  private sortMarksForSerialization(marks?: any[]): any[] {
-    if (!marks?.length) {
-      return []
+  private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
+    const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+
+    if (marksToOpen.length <= 1 || !nextNode?.marks?.length) {
+      return marksToOpen
     }
 
-    return [...marks].sort((markA, markB) => {
-      const rankA = this.extensionRanks.get(markA.type) ?? Number.MAX_SAFE_INTEGER
-      const rankB = this.extensionRanks.get(markB.type) ?? Number.MAX_SAFE_INTEGER
+    const nextMarkTypes = new Set(nextNode.marks.map((mark: any) => mark.type))
 
-      if (rankA !== rankB) {
-        return rankA - rankB
-      }
-
-      return markA.type.localeCompare(markB.type)
-    })
+    // Marks that end on this node need to open first so marks that continue
+    // into the next node become the outer wrapper around them.
+    return [
+      ...marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)),
+      ...marksToOpen.filter(mark => nextMarkTypes.has(mark.type)),
+    ]
   }
 }
 
