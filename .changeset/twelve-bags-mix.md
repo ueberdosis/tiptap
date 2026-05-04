@@ -2,4 +2,4 @@
 '@tiptap/markdown': patch
 ---
 
-Fixed a bug that caused Marks to be applied in incorrect order. Now the Markdown manager will rank mark extensions based off their priorities & schema initialization order
+Fixed a bug that caused marks to be applied in the incorrect order. The Markdown manager now ranks mark extensions by schema initialization order.
