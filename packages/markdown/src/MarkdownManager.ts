@@ -112,13 +112,16 @@ export class MarkdownManager {
     if (isCode) {
       this.codeTypes.add(name)
     }
+    const extensionContext = { name, options: extension.options, storage: extension.storage }
     const tokenName =
       (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
-    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
-    const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown', extensionContext) as
+      | ExtendableConfig['parseMarkdown']
+      | undefined
+    const renderMarkdown = getExtensionField(extension, 'renderMarkdown', extensionContext) as
       | ExtendableConfig['renderMarkdown']
       | undefined
-    const tokenizer = getExtensionField(extension, 'markdownTokenizer') as
+    const tokenizer = getExtensionField(extension, 'markdownTokenizer', extensionContext) as
       | ExtendableConfig['markdownTokenizer']
       | undefined
 

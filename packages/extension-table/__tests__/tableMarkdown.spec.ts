@@ -1,4 +1,5 @@
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
@@ -7,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('table markdown alignment', () => {
   const markdownManager = new MarkdownManager({
-    extensions: [Document, Paragraph, Text, TableKit],
+    extensions: [Document, HardBreak, Paragraph, Text, TableKit],
   })
 
   it('should parse and serialize left/right/center table alignment', () => {
@@ -30,5 +31,15 @@ describe('table markdown alignment', () => {
 
     expect(serialized).toContain('| left | right | center |')
     expect(serialized).toMatch(/\|\s*:[-]+\s*\|\s*[-]+:\s*\|\s*:[-]+:\s*\|/)
+  })
+
+  it('should preserve <br> line breaks inside table cells (round-trip)', () => {
+    const markdown = `| desc |
+| --- |
+| a<br>b<br>c |`
+
+    const serialized = markdownManager.serialize(markdownManager.parse(markdown))
+
+    expect(serialized).toContain('a<br>b<br>c')
   })
 })

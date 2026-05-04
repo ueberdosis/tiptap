@@ -108,7 +108,11 @@ export default () => {
         parent: window.location.hostname,
       }),
       Image,
-      TableKit,
+      TableKit.configure({
+        table: {
+          cellLineSeparator: '<br>',
+        },
+      }),
       Highlight,
       Mention.configure({
         HTMLAttributes: {

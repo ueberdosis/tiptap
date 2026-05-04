@@ -36,7 +36,7 @@ import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
-import renderTableToMarkdown from './utilities/markdown.js'
+import renderTableToMarkdown, { DEFAULT_CELL_LINE_SEPARATOR } from './utilities/markdown.js'
 
 type MarkdownTableToken = {
   align?: Array<TableCellAlign | null>
@@ -100,6 +100,14 @@ export interface TableOptions {
    * @example true
    */
   allowTableNodeSelection: boolean
+
+  /**
+   * The separator used to join multiple paragraphs inside a table cell
+   * when serializing to Markdown. Defaults to U+001F (Unit Separator).
+   * @default '\u001F'
+   * @example '<br>'
+   */
+  cellLineSeparator: string
 }
 
 declare module '@tiptap/core' {
@@ -264,6 +272,7 @@ export const Table = Node.create<TableOptions>({
       View: TableView,
       lastColumnResizable: true,
       allowTableNodeSelection: false,
+      cellLineSeparator: DEFAULT_CELL_LINE_SEPARATOR,
     }
   },
 
@@ -339,8 +348,10 @@ export const Table = Node.create<TableOptions>({
     return h.createNode('table', undefined, rows)
   },
 
-  renderMarkdown: (node, h) => {
-    return renderTableToMarkdown(node, h)
+  renderMarkdown(this: { options: TableOptions }, node, h) {
+    return renderTableToMarkdown(node, h, {
+      cellLineSeparator: this.options.cellLineSeparator,
+    })
   },
 
   addCommands() {
