@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
+import type { Mark } from '@tiptap/pm/model'
 import React from 'react'
 
 // import { flushSync } from 'react-dom'
@@ -27,7 +28,7 @@ export const MarkViewContent = <T extends keyof React.JSX.IntrinsicElements = 's
 
   return (
     // @ts-ignore
-    <Tag {...rest} ref={markViewContentRef} data-mark-view-content="" />
+    <Tag {...rest} ref={markViewContentRef} />
   )
 }
 
@@ -55,6 +56,7 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
 
     this.contentDOMElement = document.createElement('span')
+    this.contentDOMElement.dataset.markViewContent = ''
 
     const markViewContentRef: MarkViewContextProps['markViewContentRef'] = el => {
       if (el && !el.contains(this.contentDOMElement)) {
@@ -76,13 +78,22 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     })
 
     ReactMarkViewProvider.displayName = 'ReactMarkView'
+    const tag = props.mark.type.name === 'link' ? 'a' : as
 
     this.renderer = new ReactRenderer(ReactMarkViewProvider, {
       editor: props.editor,
       props: componentProps,
-      as,
+      as: tag,
       className: `mark-${props.mark.type.name} ${className}`.trim(),
     })
+
+    if (props.mark.type.name === 'link') {
+      this.renderer.updateAttributes({
+        href: props.mark.attrs.href,
+        target: props.mark.attrs.target,
+        rel: props.mark.attrs.rel,
+      })
+    }
 
     if (attrs) {
       this.renderer.updateAttributes(attrs)
@@ -95,6 +106,28 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
 
   get contentDOM() {
     return this.contentDOMElement
+  }
+
+  update(mark: Mark) {
+    if (mark.type !== this.mark.type) {
+      return false
+    }
+
+    this.mark = mark
+
+    this.renderer.updateProps({
+      mark,
+    })
+
+    if (mark.type.name === 'link') {
+      this.renderer.updateAttributes({
+        href: mark.attrs.href,
+        target: mark.attrs.target,
+        rel: mark.attrs.rel,
+      })
+    }
+
+    return true
   }
 }
 

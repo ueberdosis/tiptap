@@ -273,9 +273,14 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   /**
    * Update the attributes of the element that holds the React component.
    */
-  updateAttributes(attributes: Record<string, string>): void {
-    Object.keys(attributes).forEach(key => {
-      this.element.setAttribute(key, attributes[key])
+  updateAttributes(attributes: Record<string, string | null | undefined>): void {
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (value == null) {
+        this.element.removeAttribute(key)
+        return
+      }
+
+      this.element.setAttribute(key, value)
     })
   }
 }
