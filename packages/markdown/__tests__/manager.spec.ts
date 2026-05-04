@@ -584,7 +584,10 @@ Final paragraph.`
     })
 
     it('should render nested marks with correct tag order', () => {
-      // Test case: bold inside strike should render as ~~**text**~~
+      // Marks come in ProseMirror's canonical order (rank ascending) — Bold is
+      // registered before Strike so it gets the lower rank. The serializer
+      // places lower-rank marks outermost, mirroring how a real editor would
+      // wrap the text: bold outer, strike inner.
       const doc = {
         type: 'doc',
         content: [
@@ -633,8 +636,8 @@ Final paragraph.`
         ],
       }
 
-      expect(markdownManager.renderNodes(doc)).to.equal('Test: ~~**abcd**~~ end.')
-      expect(markdownManager.renderNodes(docAtEnd)).to.equal('~~**abcd**~~')
+      expect(markdownManager.renderNodes(doc)).to.equal('Test: **~~abcd~~** end.')
+      expect(markdownManager.renderNodes(docAtEnd)).to.equal('**~~abcd~~**')
     })
 
     it('should render headings', () => {

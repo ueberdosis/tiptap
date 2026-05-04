@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
@@ -34,6 +35,17 @@ export class MarkdownManager {
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
+  /**
+   * Order in which extensions were registered. Used to resolve mark nesting
+   * deterministically when several marks open on the same text node.
+   *
+   * The flattened extensions passed to the manager are pre-sorted by Tiptap's
+   * extension priority (descending), which is also the order ProseMirror uses
+   * to assign mark ranks. Recording that index here lets the serializer place
+   * higher-priority / lower-rank marks (e.g. link with priority 1000) on the
+   * outside without inspecting any rendered markdown output.
+   */
+  private extensionRanks: Map<string, number> = new Map()
   private indentStyle: 'space' | 'tab'
   private indentSize: number
   private baseExtensions: AnyExtension[] = []
@@ -66,10 +78,13 @@ export class MarkdownManager {
     this.registry = new Map()
     this.nodeTypeRegistry = new Map()
 
-    // If extensions were provided, register them now
+    // If extensions were provided, register them now. Sort by Tiptap priority
+    // first (matching how the editor builds its schema) so the registration
+    // index lines up with ProseMirror's mark rank — this is what the
+    // serializer relies on to nest higher-priority marks like link outermost.
     if (options?.extensions) {
       this.baseExtensions = options.extensions
-      const flattened = flattenExtensions(options.extensions)
+      const flattened = sortExtensions(flattenExtensions(options.extensions))
       flattened.forEach(ext => this.registerExtension(ext))
     }
   }
@@ -111,6 +126,10 @@ export class MarkdownManager {
 
     if (isCode) {
       this.codeTypes.add(name)
+    }
+
+    if (!this.extensionRanks.has(name)) {
+      this.extensionRanks.set(name, this.extensionRanks.size)
     }
     const tokenName =
       (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
@@ -1297,16 +1316,20 @@ export class MarkdownManager {
   /**
    * Decide the order in which marks open on the current text node.
    *
-   * The mark array on a node is assumed to be in ProseMirror's canonical
-   * order (rank ascending, where rank = extension registration index).
-   * This serializer treats array-last as outermost, so a higher-rank mark
-   * naturally becomes the outer wrapper — link, registered after bold/italic
-   * in any reasonable inline-mark stack, ends up outside other delimiters
-   * without inspecting rendered markdown.
+   * The returned array is iterated head-first when prepending opening
+   * delimiters, so the first entry becomes the innermost mark in the emitted
+   * markdown and the last becomes the outermost. Two stable signals drive
+   * the order — neither one inspects any rendered markdown:
    *
-   * The only adjustment is partitioning by lifetime: marks that end on this
-   * node must be inner relative to marks that continue into the next node,
-   * otherwise the delimiters interleave instead of nesting.
+   *   1. Marks that end on this node must be inner relative to marks that
+   *      continue into the next node, otherwise the delimiters interleave
+   *      instead of nesting.
+   *   2. Within each lifetime group, marks are sorted so that lower
+   *      registration ranks (i.e. higher Tiptap extension priorities) end up
+   *      outermost. ProseMirror assigns mark ranks in the same priority-aware
+   *      order Tiptap uses when building the schema, so link (priority 1000)
+   *      naturally wraps bold/italic without the serializer needing to peek
+   *      at how any particular mark renders.
    */
   private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
@@ -1317,10 +1340,24 @@ export class MarkdownManager {
 
     const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
 
-    return [
-      ...marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)),
-      ...marksToOpen.filter(mark => nextMarkTypes.has(mark.type)),
-    ]
+    // Higher rank → earlier in the array → innermost mark. Marks without a
+    // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
+    // matching the implicit "registered last" assumption for ad-hoc marks.
+    const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {
+      const rankA = this.extensionRanks.get(a.type) ?? Number.MAX_SAFE_INTEGER
+      const rankB = this.extensionRanks.get(b.type) ?? Number.MAX_SAFE_INTEGER
+
+      if (rankA !== rankB) {
+        return rankB - rankA
+      }
+
+      return a.type.localeCompare(b.type)
+    }
+
+    const endingHere = marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+    const continuing = marksToOpen.filter(mark => nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+
+    return [...endingHere, ...continuing]
   }
 }
 

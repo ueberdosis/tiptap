@@ -150,6 +150,9 @@ describe('Overlapping marks serialization', () => {
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
   })
 
+  // Mark order matches what a real editor emits: Link has priority 1000, so
+  // ProseMirror assigns it the lowest rank and stores it first in the marks
+  // array. The serializer must still place link as the outermost wrapper.
   it('serializes italic inside a same-node link label', () => {
     const json = {
       type: 'doc',
@@ -161,7 +164,6 @@ describe('Overlapping marks serialization', () => {
               type: 'text',
               text: 'google',
               marks: [
-                { type: 'italic' },
                 {
                   type: 'link',
                   attrs: {
@@ -169,6 +171,7 @@ describe('Overlapping marks serialization', () => {
                     title: null,
                   },
                 },
+                { type: 'italic' },
               ],
             },
           ],
@@ -194,7 +197,6 @@ describe('Overlapping marks serialization', () => {
               type: 'text',
               text: 'google',
               marks: [
-                { type: 'bold' },
                 {
                   type: 'link',
                   attrs: {
@@ -202,6 +204,7 @@ describe('Overlapping marks serialization', () => {
                     title: null,
                   },
                 },
+                { type: 'bold' },
               ],
             },
           ],
