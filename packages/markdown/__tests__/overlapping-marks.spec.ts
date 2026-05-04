@@ -150,6 +150,119 @@ describe('Overlapping marks serialization', () => {
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
   })
 
+  it('serializes italic inside a same-node link label when link mark comes first', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'google',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+                { type: 'italic' },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    expect(result).toBe('[*google*](https://google.com)')
+    expect(result).not.toBe('*[google](https://google.com)*')
+    expect(normalizeMarks(markdownManager.parse(result))).toEqual(
+      normalizeMarks({
+        ...json,
+        content: [
+          {
+            ...json.content[0],
+            content: [
+              {
+                ...json.content[0].content[0],
+                marks: [
+                  { type: 'italic' },
+                  {
+                    type: 'link',
+                    attrs: {
+                      href: 'https://google.com',
+                      title: null,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    )
+  })
+
+  it('serializes bold inside a same-node link label when link mark comes first', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'google',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://google.com',
+                    title: null,
+                  },
+                },
+                { type: 'bold' },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    expect(result).toBe('[**google**](https://google.com)')
+    expect(normalizeMarks(markdownManager.parse(result))).toEqual(
+      normalizeMarks({
+        ...json,
+        content: [
+          {
+            ...json.content[0],
+            content: [
+              {
+                ...json.content[0].content[0],
+                marks: [
+                  { type: 'bold' },
+                  {
+                    type: 'link',
+                    attrs: {
+                      href: 'https://google.com',
+                      title: null,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    )
+  })
+
   it('keeps html-reopened italic open across later text nodes before closing', () => {
     const json = {
       type: 'doc',

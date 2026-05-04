@@ -1297,18 +1297,30 @@ export class MarkdownManager {
   private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
-    if (marksToOpen.length <= 1 || !nextNode?.marks?.length) {
+    if (marksToOpen.length <= 1) {
       return marksToOpen
     }
 
-    const nextMarkTypes = new Set(nextNode.marks.map((mark: any) => mark.type))
+    const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+
+    const orderedMarksToOpen = [
+      ...marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)),
+      ...marksToOpen.filter(mark => nextMarkTypes.has(mark.type)),
+    ]
 
     // Marks that end on this node need to open first so marks that continue
     // into the next node become the outer wrapper around them.
     return [
-      ...marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)),
-      ...marksToOpen.filter(mark => nextMarkTypes.has(mark.type)),
+      ...orderedMarksToOpen.filter(mark => !this.shouldOpenMarkAfterSiblings(mark.type, mark.mark)),
+      ...orderedMarksToOpen.filter(mark => this.shouldOpenMarkAfterSiblings(mark.type, mark.mark)),
     ]
+  }
+
+  private shouldOpenMarkAfterSiblings(markType: string, mark: any): boolean {
+    const opening = this.getMarkOpening(markType, mark)
+    const closing = this.getMarkClosing(markType, mark)
+
+    return opening.endsWith('[') && /^\]\([^\s].*\)$/.test(closing)
   }
 }
 
