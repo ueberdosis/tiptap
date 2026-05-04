@@ -1294,6 +1294,20 @@ export class MarkdownManager {
     return Array.from(marks1.keys()).every(type => marks2.has(type))
   }
 
+  /**
+   * Decide the order in which marks open on the current text node.
+   *
+   * The mark array on a node is assumed to be in ProseMirror's canonical
+   * order (rank ascending, where rank = extension registration index).
+   * This serializer treats array-last as outermost, so a higher-rank mark
+   * naturally becomes the outer wrapper — link, registered after bold/italic
+   * in any reasonable inline-mark stack, ends up outside other delimiters
+   * without inspecting rendered markdown.
+   *
+   * The only adjustment is partitioning by lifetime: marks that end on this
+   * node must be inner relative to marks that continue into the next node,
+   * otherwise the delimiters interleave instead of nesting.
+   */
   private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
@@ -1303,24 +1317,10 @@ export class MarkdownManager {
 
     const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
 
-    const orderedMarksToOpen = [
+    return [
       ...marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)),
       ...marksToOpen.filter(mark => nextMarkTypes.has(mark.type)),
     ]
-
-    // Marks that end on this node need to open first so marks that continue
-    // into the next node become the outer wrapper around them.
-    return [
-      ...orderedMarksToOpen.filter(mark => !this.shouldOpenMarkAfterSiblings(mark.type, mark.mark)),
-      ...orderedMarksToOpen.filter(mark => this.shouldOpenMarkAfterSiblings(mark.type, mark.mark)),
-    ]
-  }
-
-  private shouldOpenMarkAfterSiblings(markType: string, mark: any): boolean {
-    const opening = this.getMarkOpening(markType, mark)
-    const closing = this.getMarkClosing(markType, mark)
-
-    return opening.endsWith('[') && /^\]\([^\s].*\)$/.test(closing)
   }
 }
 
