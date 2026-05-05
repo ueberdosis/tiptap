@@ -782,6 +782,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.extensionManager = null as any
     this.schema = null as any
     this.commandManager = null as any
+    this.extensionStorage = {} as Storage
   }
 
   /**
