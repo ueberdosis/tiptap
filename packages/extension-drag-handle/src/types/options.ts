@@ -6,13 +6,13 @@ import type { DragHandleRule } from './rules.js'
  * Edge detection helps you grab parent containers (lists, blockquotes, etc.)
  * by moving the cursor near the edge of a nested element. When the cursor is
  * within the `threshold` zone of a configured edge, the scoring system deducts
- * `strength * depth` from deeper nodes — making the outer container the easier
+ * `strength * depth` from deeper nodes, making the outer container the easier
  * target.
  *
- * In short: **cursor near edge → parent preferred; cursor centered → child preferred.**
+ * In short: cursor near edge prefers parent; cursor centered prefers child.
  *
  * @example
- * // Left/top edges — natural for LTR layouts (default)
+ * // Left/top edges, natural for LTR layouts (default)
  * DragHandle.configure({
  *   nested: {
  *     edgeDetection: 'left',
@@ -20,7 +20,7 @@ import type { DragHandleRule } from './rules.js'
  * })
  *
  * @example
- * // Right/top edges — for RTL layouts
+ * // Right/top edges, for RTL layouts
  * DragHandle.configure({
  *   nested: {
  *     edgeDetection: 'right',
@@ -28,7 +28,7 @@ import type { DragHandleRule } from './rules.js'
  * })
  *
  * @example
- * // No edge detection — cursor position doesn't affect scoring
+ * // No edge detection, cursor position does not affect scoring
  * DragHandle.configure({
  *   nested: {
  *     edgeDetection: 'none',
@@ -39,28 +39,16 @@ export type EdgeDetectionPreset =
   | 'left' // Prefer parent when cursor near left or top edge (LTR default)
   | 'right' // Prefer parent when cursor near right or top edge (RTL support)
   | 'both' // Prefer parent when cursor near any horizontal edge or top edge
-  | 'none' // Disable edge detection entirely — cursor position does not affect scoring
+  | 'none' // Disable edge detection entirely, cursor position does not affect scoring
 
 /**
  * Advanced edge detection configuration for fine-grained control.
  *
- * Use this interface when the preset strings (`'left'`, `'right'`, etc.) aren't
+ * Use this interface when the preset strings (\`'left'\`, \`'right'\`, etc.) aren't
  * enough and you need to customize **which edges**, **how wide the zone is**,
  * or **how aggressive** the parent preference should be.
  *
- * **How it works:**
- * ```
- *              ← threshold →                 ← threshold →
- *   ┌───────────────────────────────────────────────────────┐
- *   │   edge zone    │      inner area      │   edge zone    │
- *   │  (deduction!)  │   (no deduction)     │  (deduction!)  │
- *   └───────────────────────────────────────────────────────┘
- *   ←─ left edge ─→                                     ←─ right edge ─→
- * ```
- * When the cursor is in an **edge zone**, `strength * depth` is deducted from
- * the child's score. Further from edges, parent/child are scored neutrally.
- *
- * Most users should use `EdgeDetectionPreset` strings instead of this interface.
+ * Most users should use \`EdgeDetectionPreset\` strings instead of this interface.
  * Only reach for this when you need precise control.
  *
  * @example
@@ -106,10 +94,10 @@ export interface EdgeDetectionConfig {
    * When the cursor is inside this zone, `strength * depth` is deducted from
    * deeper nodes, making parent containers easier to grab.
    *
-   * - **Higher value** (e.g., 24): The zone is wider — edge detection triggers
+   * - **Higher value** (e.g., 24): The zone is wider, edge detection triggers
    *   even when the cursor is relatively far from the element's edge. Parent
    *   selection feels more "eager."
-   * - **Lower value** (e.g., 6): The zone is narrower — the cursor must be
+   * - **Lower value** (e.g., 6): The zone is narrower, the cursor must be
    *   very close to the edge before parent preference kicks in. You need to be
    *   more deliberate to grab a parent container.
    *
@@ -127,27 +115,27 @@ export interface EdgeDetectionConfig {
    *
    * The deduction formula is: `strength * depth`. This means the penalty grows
    * linearly with nesting depth, making deeply nested children less attractive
-   * targets when you're near an edge — exactly what you want when trying to
+   * targets when you're near an edge, exactly what you want when trying to
    * grab the outer list rather than the inner paragraph.
    *
-   * **Visual guide — default strength (500):**
+   * **Visual guide, default strength (500):**
    * ```
    * Depth | Deduction | Eligible?
    * ──────┼───────────┼──────────
-   *   1   |    500    │ ✅ Yes — still a valid target
-   *   2   |   1000    │ ❌ Excluded — penalty matches base score
-   *   3   |   1500    │ ❌ Excluded — penalty exceeds base score
-   *   4   |   2000    │ ❌ Excluded — deeply buried
+   *   1   |    500    │ Yes, still a valid target
+   *   2   |   1000    │ No, penalty matches base score
+   *   3   |   1500    │ No, penalty exceeds base score
+   *   4   |   2000    │ No, deeply buried
    * ```
    *
    * **Lower strength (200):**
    * ```
    * Depth | Deduction | Eligible?
    * ──────┼───────────┼──────────
-   *   1   |    200    │ ✅ Yes
-   *   2   |    400    │ ✅ Yes
-   *   3   |    600    │ ✅ Yes
-   *   4   |    800    │ ✅ Yes (but parent still preferred)
+   *   1   |    200    │ Yes
+   *   2   |    400    │ Yes
+   *   3   |    600    │ Yes
+   *   4   |    800    │ Yes (but parent still preferred)
    * ```
    * Good when you want edge detection to merely nudge, not exclude.
    *
@@ -155,7 +143,7 @@ export interface EdgeDetectionConfig {
    * ```
    * Depth | Deduction | Eligible?
    * ──────┼───────────┼──────────
-   *   1   |   1000    │ ❌ Excluded — one level deep is too far
+   *   1   |   1000    │ No, one level deep is too far
    * ```
    * Only the immediate parent stays eligible; everything deeper is excluded.
    * Use when you want a strong "grab the outermost" behavior.
@@ -209,8 +197,8 @@ export interface NestedOptions {
    *
    * Rules are evaluated AFTER the default rules. Each rule receives a
    * `RuleContext` and returns a score deduction:
-   * - `0`: No effect — node remains fully eligible
-   * - `1-999`: Partial deduction — node is less preferred but still eligible
+   * - `0`: No effect, node remains fully eligible
+   * - `1-999`: Partial deduction, node is less preferred but still eligible
    * - `>= 1000`: Node is **excluded** from being a drag target
    *
    * Common use cases for custom rules:
@@ -257,13 +245,13 @@ export interface NestedOptions {
    * Whether to include the built-in default rules before your custom rules.
    *
    * The default rules handle common editor patterns:
-   * - `listItemFirstChild` — Excludes the first child of listItem/taskItem
+   * - \`listItemFirstChild\` -- Excludes the first child of listItem/taskItem
    *   (the content paragraph), so the list item itself is the drag target
-   * - `listWrapperDeprioritize` — Deprioritizes bulletList/orderedList wrappers,
+   * - \`listWrapperDeprioritize\` -- Deprioritizes bulletList/orderedList wrappers,
    *   making individual list items the default drag target
-   * - `tableStructure` — Excludes tableRow, tableCell, tableHeader from dragging
+   * - \`tableStructure\` -- Excludes tableRow, tableCell, tableHeader from dragging
    *   (table extensions handle their own drag behavior)
-   * - `inlineContent` — Excludes inline nodes and text from being drag targets
+   * - \`inlineContent\` -- Excludes inline nodes and text from being drag targets
    *
    * Set to `false` to disable all default rules and use only your custom `rules`.
    * This is useful when the default behavior conflicts with your custom setup.
@@ -309,14 +297,14 @@ export interface NestedOptions {
    * child node, based on cursor proximity to element edges.
    *
    * When the cursor is near a configured edge of a nested element, the scoring
-   * system deducts `strength * depth` from deeper nodes — making the parent
+   * system deducts \`strength * depth\` from deeper nodes, making the parent
    * container (like an entire list) easier to grab.
    *
    * **Presets (quick and simple):**
    * - `'left'` (default): Cursor near left or top edge → prefer parent (LTR)
    * - `'right'`: Cursor near right or top edge → prefer parent (RTL)
    * - `'both'`: Cursor near left, right, or top edge → prefer parent
-   * - `'none'`: Disabled — cursor position does not affect scoring at all
+   * - \`'none'\`: Disabled, cursor position does not affect scoring at all
    *
    * **Fine-tuned object (full control):**
    * Pass a partial `EdgeDetectionConfig` to override only what you need:
@@ -325,7 +313,7 @@ export interface NestedOptions {
    * - `strength`: Deduction multiplier per depth level (default: `500`). Higher = stronger parent preference.
    *
    * The effective deduction when near an edge is `strength * depth`, so deeper
-   * nesting always gets penalized more — you naturally grab the outer wrapper.
+   * nesting always gets penalized more, you naturally grab the outer wrapper.
    *
    * @default 'left'
    *
@@ -342,7 +330,7 @@ export interface NestedOptions {
    * }
    *
    * @example
-   * // Gentle edge detection — subtle nudge, no exclusions
+   * // Gentle edge detection, subtle nudge, no exclusions
    * edgeDetection: {
    *   threshold: 6,
    *   strength: 200,
