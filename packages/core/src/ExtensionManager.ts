@@ -369,7 +369,22 @@ export class ExtensionManager {
    */
   destroy() {
     this.extensions.forEach(extension => {
-      let current: any = extension
+      // Break the forward link from extension's parent, but only if it
+      // actually points to this extension (another editor may have since
+      // called extend/configure on the same singleton, overwriting .child).
+      if (extension.parent?.child === extension) {
+        extension.parent.child = null
+      }
+
+      // Clear references on the extension itself
+      extension.parent = null
+      extension.child = null
+
+      // Walk up the ancestor chain to clean back-references.
+      // We do NOT null ancestor.child here — that pointer may belong
+      // to a different editor's extension chain created from the same
+      // module-scope singleton.
+      let current = extension.parent
 
       while (current) {
         const parent = current.parent
@@ -379,7 +394,6 @@ export class ExtensionManager {
         }
 
         current.parent = null
-        current.child = null
         current = parent
       }
     })
