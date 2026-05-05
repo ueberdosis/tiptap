@@ -364,6 +364,33 @@ export class ExtensionManager {
   }
 
   /**
+   * Destroy the extension manager and clean up all extension references
+   * to prevent memory leaks through parent/child extension chains.
+   */
+  destroy() {
+    this.extensions.forEach(extension => {
+      let current: any = extension
+
+      while (current) {
+        const parent = current.parent
+
+        if (parent?.child === current) {
+          parent.child = null
+        }
+
+        current.parent = null
+        current.child = null
+        current = parent
+      }
+    })
+
+    this.extensions = []
+    this.baseExtensions = []
+    this.schema = null as any
+    this.editor = null as any
+  }
+
+  /**
    * Go through all extensions, create extension storages & setup marks
    * & bind editor event listener.
    */

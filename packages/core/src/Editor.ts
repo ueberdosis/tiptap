@@ -769,6 +769,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.unmount()
 
     this.removeAllListeners()
+
+    this.extensionManager.destroy()
+    this.extensionManager = null as any
+    this.schema = null as any
+    this.commandManager = null as any
   }
 
   /**

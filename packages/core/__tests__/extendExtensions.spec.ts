@@ -1,4 +1,7 @@
-import { Extension, getExtensionField, Mark, Node } from '@tiptap/core'
+import { Editor, Extension, getExtensionField, Mark, Node } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vitest'
 
 declare module '@tiptap/core' {
@@ -413,6 +416,82 @@ describe('extend extensions', () => {
           overwrite: 'child',
         })
       })
+    })
+  })
+})
+
+describe('parent/child cleanup on destroy', () => {
+  it('should not leak child reference when configure() is called on a singleton', () => {
+    const singleton = Extension.create({
+      name: 'testExtension',
+      addOptions() {
+        return { foo: 'bar' }
+      },
+    })
+
+    const configuredExtension = singleton.configure({ foo: 'baz' })
+
+    expect(singleton.child).toBeNull()
+    expect(configuredExtension.parent).toBeNull()
+  })
+
+  it('should break parent/child chain when editor is destroyed (extend path)', () => {
+    const singleton = Extension.create({
+      name: 'testExtension',
+      addOptions() {
+        return { foo: 'bar' }
+      },
+    })
+
+    const childExtension = singleton.extend({
+      addOptions() {
+        return { ...this.parent?.(), foo: 'baz' }
+      },
+    })
+
+    expect(singleton.child).toBe(childExtension)
+    expect(childExtension.parent).toBe(singleton)
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, childExtension],
+    })
+
+    editor.destroy()
+
+    expect(singleton.child).toBeNull()
+    expect(childExtension.parent).toBeNull()
+  })
+
+  it('should clear parent/child on all extensions after editor.destroy()', () => {
+    const singletonA = Extension.create({
+      name: 'extA',
+      addOptions() {
+        return { value: 'a' }
+      },
+    })
+    const singletonB = Extension.create({
+      name: 'extB',
+      addOptions() {
+        return { value: 'b' }
+      },
+    })
+
+    const configuredA = singletonA.configure({ value: 'a-configured' })
+    const childB = singletonB.extend({ name: 'extB-child' })
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, configuredA, childB],
+    })
+
+    const { extensions } = editor.extensionManager
+
+    editor.destroy()
+
+    extensions.forEach(ext => {
+      expect(ext.parent).toBeNull()
+      expect(ext.child).toBeNull()
     })
   })
 })
