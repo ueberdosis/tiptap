@@ -368,12 +368,14 @@ export class ExtensionManager {
    * to prevent memory leaks through parent/child extension chains.
    *
    * Walks each extension's full parent chain and nulls every forward
-   * `parent.child → current` link. This breaks the retention path from
-   * module-scope singleton roots through deep extend() chains.
+   * `parent.child → current` link where the parent still points to the
+   * current node. This breaks the retention path from module-scope
+   * singleton roots through deep extend() chains.
    *
-   * Does NOT mutate `extension.parent`/`extension.child` on the extensions
-   * themselves — they may be shared across live editors, so their own
-   * fields must remain intact.
+   * Only ancestor `.child` links matching the current chain are cleared.
+   * The `.parent` pointer on ancestors is never touched — extensions
+   * may be shared across live editors, so their own backward references
+   * and non-matching forward links must remain intact.
    */
   destroy() {
     this.extensions.forEach(extension => {
