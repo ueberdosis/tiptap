@@ -68,6 +68,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public isFocused = false
 
+  private destroyed = false
+
   private editorState!: EditorState
 
   /**
@@ -764,6 +766,12 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Destroy the editor.
    */
   public destroy(): void {
+    if (this.destroyed) {
+      return
+    }
+
+    this.destroyed = true
+
     this.emit('destroy')
 
     this.unmount()
