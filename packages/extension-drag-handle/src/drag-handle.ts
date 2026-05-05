@@ -45,24 +45,14 @@ export interface DragHandleOptions {
   /**
    * Enable drag handles for nested content (list items, blockquotes, etc.).
    *
-   * When enabled, the drag handle will appear for nested blocks, not just
-   * top-level blocks. A rule-based scoring system determines which node
-   * to target based on cursor position and configured rules.
+   * When enabled, the drag handle appears for block nodes at any depth, not just
+   * top-level blocks. A rule-based scoring system evaluates all ancestor nodes
+   * at the cursor position and selects the best drag target.
    *
    * **Values:**
    * - `false` (default): Only root-level blocks show drag handles
    * - `true`: Enable with sensible defaults (left edge detection, default rules)
-   * - `NestedOptions`: Enable with custom configuration
-   *
-   * **Configuration options:**
-   * - `rules`: Custom rules to determine which nodes are draggable
-   * - `defaultRules`: Whether to include default rules (default: true)
-   * - `allowedContainers`: Restrict nested dragging to specific container types
-   * - `edgeDetection`: Control when to prefer parent over nested node
-   *   - `'left'` (default): Prefer parent near left/top edges
-   *   - `'right'`: Prefer parent near right/top edges (for RTL)
-   *   - `'both'`: Prefer parent near any horizontal edge
-   *   - `'none'`: Disable edge detection
+   * - `NestedOptions`: Enable with full custom configuration
    *
    * @default false
    *
@@ -81,7 +71,7 @@ export interface DragHandleOptions {
    * })
    *
    * @example
-   * // With custom rules
+   * // With custom rules and edge detection disabled
    * DragHandle.configure({
    *   nested: {
    *     rules: [{
@@ -89,6 +79,20 @@ export interface DragHandleOptions {
    *       evaluate: ({ node }) => node.type.name === 'codeBlock' ? 1000 : 0,
    *     }],
    *     edgeDetection: 'none',
+   *   },
+   * })
+   *
+   * @example
+   * // Full configuration
+   * DragHandle.configure({
+   *   nested: {
+   *     defaultRules: true,
+   *     allowedContainers: ['bulletList', 'orderedList', 'blockquote'],
+   *     edgeDetection: { threshold: 20 },
+   *     rules: [{
+   *       id: 'preferShallow',
+   *       evaluate: ({ depth }) => depth * 200,
+   *     }],
    *   },
    * })
    */
