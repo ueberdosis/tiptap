@@ -102,9 +102,8 @@ export interface EdgeDetectionConfig {
    *   more deliberate to grab a parent container.
    *
    * @example
-   * // threshold: 12 → cursor within 12px of edge triggers deduction
-   * // threshold: 24 → cursor within 24px of edge triggers deduction (double zone)
-   * // threshold: 0  → only exact edge triggers (effectively disables edge help)
+   * // threshold: 12 means the cursor must be within 12px of the edge
+   * // threshold: 24 doubles the trigger zone
    *
    * @default 12
    */
@@ -136,17 +135,20 @@ export interface EdgeDetectionConfig {
    *   2   |    400    │ Yes
    *   3   |    600    │ Yes
    *   4   |    800    │ Yes (but parent still preferred)
+   *   5   |   1000    │ No, excluded at threshold
    * ```
-   * Good when you want edge detection to merely nudge, not exclude.
+   * Good when you want edge detection to nudge toward parents without
+   * excluding typical nesting depths.
    *
    * **Higher strength (1000):**
    * ```
    * Depth | Deduction | Eligible?
    * ──────┼───────────┼──────────
-   *   1   |   1000    │ No, one level deep is too far
+   *   1   |   1000    │ No, excluded at threshold
    * ```
-   * Only the immediate parent stays eligible; everything deeper is excluded.
-   * Use when you want a strong "grab the outermost" behavior.
+   * Every non-doc candidate near the edge is excluded from being a drag
+   * target. Use when you want edge detection to completely disable nested
+   * dragging near the edges and force root-level handles.
    *
    * @default 500
    */
@@ -247,8 +249,8 @@ export interface NestedOptions {
    * The default rules handle common editor patterns:
    * - \`listItemFirstChild\` -- Excludes the first child of listItem/taskItem
    *   (the content paragraph), so the list item itself is the drag target
-   * - \`listWrapperDeprioritize\` -- Deprioritizes bulletList/orderedList wrappers,
-   *   making individual list items the default drag target
+   * - \`listWrapperDeprioritize\` -- Excludes bulletList/orderedList wrappers,
+   *   so individual list items are the default drag target
    * - \`tableStructure\` -- Excludes tableRow, tableCell, tableHeader from dragging
    *   (table extensions handle their own drag behavior)
    * - \`inlineContent\` -- Excludes inline nodes and text from being drag targets
@@ -275,8 +277,9 @@ export interface NestedOptions {
    * Restrict nested drag handles to specific container node types.
    *
    * When set, nested dragging only activates when the cursor is inside one of
-   * the specified node types (at any ancestor level). Cursor positions in other
-   * containers fall back to the default top-level drag handle behavior.
+   * the specified node types (at any ancestor level). When the cursor is
+   * outside these containers, the drag handle hides entirely for nested
+   * content positioned inside those regions.
    *
    * This is useful for scoping nested drag handles to specific editor regions
    * (e.g., lists and blockquotes) while keeping simpler blocks (headings,
@@ -330,7 +333,7 @@ export interface NestedOptions {
    * }
    *
    * @example
-   * // Gentle edge detection, subtle nudge, no exclusions
+   * // Gentle edge detection, nudges toward parents without blocking typical depths
    * edgeDetection: {
    *   threshold: 6,
    *   strength: 200,
