@@ -495,4 +495,40 @@ describe('parent/child cleanup on destroy', () => {
       }
     })
   })
+
+  it('should break all ancestor child links in a multi-level extend chain after editor.destroy()', () => {
+    const root = Extension.create({
+      name: 'root',
+      addOptions() {
+        return { level: 0 }
+      },
+    })
+
+    const child = root.extend({
+      addOptions() {
+        return { ...this.parent?.(), level: 1 }
+      },
+    })
+
+    const grandchild = child.extend({
+      addOptions() {
+        return { ...this.parent?.(), level: 2 }
+      },
+    })
+
+    expect(root.child).toBe(child)
+    expect(child.child).toBe(grandchild)
+    expect(grandchild.parent).toBe(child)
+    expect(child.parent).toBe(root)
+
+    const editor = new Editor({
+      element: null,
+      extensions: [Document, Paragraph, Text, grandchild],
+    })
+
+    editor.destroy()
+
+    expect(root.child).toBeNull()
+    expect(child.child).toBeNull()
+  })
 })

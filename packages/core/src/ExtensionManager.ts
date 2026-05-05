@@ -367,15 +367,26 @@ export class ExtensionManager {
    * Destroy the extension manager and clean up all extension references
    * to prevent memory leaks through parent/child extension chains.
    *
-   * Only nulls the forward `parent.child → extension` link, which is the
-   * leak anchor (module-scope singletons holding child references prevents
-   * GC). Does NOT mutate `extension.parent`/`extension.child` — extensions
-   * may be shared across live editors, so their own fields must remain intact.
+   * Walks each extension's full parent chain and nulls every forward
+   * `parent.child → current` link. This breaks the retention path from
+   * module-scope singleton roots through deep extend() chains.
+   *
+   * Does NOT mutate `extension.parent`/`extension.child` on the extensions
+   * themselves — they may be shared across live editors, so their own
+   * fields must remain intact.
    */
   destroy() {
     this.extensions.forEach(extension => {
-      if (extension.parent?.child === extension) {
-        extension.parent.child = null
+      let current: any = extension
+
+      while (current.parent) {
+        const parent = current.parent
+
+        if (parent.child === current) {
+          parent.child = null
+        }
+
+        current = parent
       }
     })
 
