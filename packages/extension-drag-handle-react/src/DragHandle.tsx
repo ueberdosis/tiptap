@@ -7,9 +7,9 @@ import {
   normalizeNestedOptions,
 } from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
 import type { Editor } from '@tiptap/react'
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -74,56 +74,58 @@ export const DragHandle = (props: DragHandleProps) => {
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const [element, setElement] = useState<HTMLDivElement | null>(null)
-  const plugin = useRef<Plugin | null>(null)
+  const [element] = useState<HTMLDivElement | null>(() => {
+    if (typeof document === 'undefined') {
+      return null
+    }
+
+    return document.createElement('div')
+  })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
-    let initPlugin: {
-      plugin: Plugin
-      unbind: () => void
-    } | null = null
-
     if (!element) {
-      return () => {
-        plugin.current = null
-      }
+      return
+    }
+
+    element.className = className
+    element.style.visibility = 'hidden'
+    element.style.position = 'absolute'
+    element.dataset.dragging = 'false'
+  }, [className, element])
+
+  useEffect(() => {
+    if (!element) {
+      return
     }
 
     if (editor.isDestroyed) {
-      return () => {
-        plugin.current = null
-      }
+      return
     }
 
-    if (!plugin.current) {
-      initPlugin = DragHandlePlugin({
-        editor,
-        element,
-        pluginKey,
-        computePositionConfig: {
-          ...defaultComputePositionConfig,
-          ...computePositionConfig,
-        },
-        onElementDragStart,
-        onElementDragEnd,
-        onNodeChange,
-        nestedOptions,
-      })
-      plugin.current = initPlugin.plugin
+    const { plugin, unbind } = DragHandlePlugin({
+      editor,
+      element,
+      pluginKey,
+      computePositionConfig: {
+        ...defaultComputePositionConfig,
+        ...computePositionConfig,
+      },
+      onElementDragStart,
+      onElementDragEnd,
+      onNodeChange,
+      nestedOptions,
+    })
 
-      editor.registerPlugin(plugin.current)
-    }
+    editor.registerPlugin(plugin)
 
     return () => {
-      editor.unregisterPlugin(pluginKey)
-      plugin.current = null
-      if (initPlugin) {
-        initPlugin.unbind()
-        initPlugin = null
+      if (!editor.isDestroyed) {
+        editor.unregisterPlugin(pluginKey)
       }
+      unbind()
     }
   }, [
     element,
@@ -136,14 +138,9 @@ export const DragHandle = (props: DragHandleProps) => {
     nestedOptions,
   ])
 
-  return (
-    <div
-      className={className}
-      style={{ visibility: 'hidden', position: 'absolute' }}
-      data-dragging="false"
-      ref={setElement}
-    >
-      {children}
-    </div>
-  )
+  if (!element) {
+    return null
+  }
+
+  return createPortal(children, element)
 }
