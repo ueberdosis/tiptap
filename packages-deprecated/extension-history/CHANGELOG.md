@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.23.0
+
+### Patch Changes
+
+- @tiptap/extensions@3.23.0
+
 ## 3.22.5
 
 ### Patch Changes

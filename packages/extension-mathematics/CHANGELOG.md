@@ -1,5 +1,17 @@
 # @tiptap/extension-mathematics
 
+## 3.23.0
+
+### Patch Changes
+
+- 2cd78b8: Fix `$$...$# @tiptap/extension-mathematics input rule leaving an empty paragraph above the inserted block math node when the match consumes the entire host paragraph.
+- a8a5857: Fix `updateBlockMath` silently ignoring `latex: ''`. The command used a falsy fallback (`latex || node.attrs.latex`) that treated an explicit empty string the same as `undefined`, leaving the node unchanged. It now uses `latex ?? node.attrs.latex`, so callers can clear the rendered LaTeX with an empty string.
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
 ## 3.22.5
 
 ### Patch Changes

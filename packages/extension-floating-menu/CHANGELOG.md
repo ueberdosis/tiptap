@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.23.0
+
+### Patch Changes
+
+- 94ecb30: Added a safeguard to avoid `TypeError: Cannot read properties of null (reading 'domFromPos')` being thrown when the editor was being destroyed
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
 ## 3.22.5
 
 ### Patch Changes

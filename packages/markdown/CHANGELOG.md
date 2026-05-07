@@ -1,5 +1,18 @@
 # @tiptap/markdown
 
+## 3.23.0
+
+### Patch Changes
+
+- 0e6a6e4: Fix editor becoming unresponsive when initialized with empty markdown content and `contentType: 'markdown'`
+- 57f8d66: Fix markdown parsing for bullet list items whose text looks like an ordered-list marker, such as `- 123.`, so extraction no longer loses the item content.
+- 4796013: Fixed two Markdown serialization bugs: overlapping marks (e.g. bold+italic that start and end at different positions) now serialize with the correct delimiter order, and marks that all close on the same node now close in LIFO order to produce valid nesting.
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/pm@3.23.0
+
 ## 3.22.5
 
 ### Patch Changes
