@@ -25,6 +25,9 @@ patchedDependencies:
   '@changesets/assemble-release-plan':
     hash: k7lv6yvbsp2zaevp6zj5au6glm
     path: patches/@changesets__assemble-release-plan.patch
+  '@changesets/assemble-release-plan@6.0.9':
+    hash: njjlls2wu6n4t5jd4qm33hyp5a
+    path: patches/@changesets__assemble-release-plan@6.0.9.patch
 
 importers:
 
@@ -8274,7 +8277,7 @@ snapshots:
       '@manypkg/get-packages': 1.1.3
       semver: 7.6.3
 
-  '@changesets/assemble-release-plan@6.0.9(patch_hash=k7lv6yvbsp2zaevp6zj5au6glm)':
+  '@changesets/assemble-release-plan@6.0.9(patch_hash=njjlls2wu6n4t5jd4qm33hyp5a)':
     dependencies:
       '@changesets/errors': 0.2.0
       '@changesets/get-dependents-graph': 2.1.3
@@ -8373,7 +8376,7 @@ snapshots:
 
   '@changesets/get-release-plan@4.0.13':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.9(patch_hash=k7lv6yvbsp2zaevp6zj5au6glm)
+      '@changesets/assemble-release-plan': 6.0.9(patch_hash=njjlls2wu6n4t5jd4qm33hyp5a)
       '@changesets/config': 3.1.1
       '@changesets/pre': 2.0.2
       '@changesets/read': 0.6.5
