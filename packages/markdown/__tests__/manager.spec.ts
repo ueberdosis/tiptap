@@ -139,18 +139,23 @@ describe('MarkdownManager Direct Tests', () => {
     })
 
     it('continues to the next handler when parseMarkdown returns false', () => {
-      const FirstHandler = {
+      const FirstHandler = Node.create({
+        name: 'firstParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => false,
-      }
-
-      const SecondHandler = {
+      })
+      const SecondHandler = Node.create({
+        name: 'secondParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => ({
           type: 'paragraph',
           content: [{ type: 'text', text: 'Handled by second' }],
         }),
-      }
+      })
 
       manager.registerExtension(FirstHandler as any)
       manager.registerExtension(SecondHandler as any)
@@ -164,18 +169,24 @@ describe('MarkdownManager Direct Tests', () => {
     })
 
     it('continues to the next handler when parseMarkdown returns undefined', () => {
-      const FirstHandler = {
+      const FirstHandler = Node.create({
+        name: 'firstParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => undefined,
-      }
+      })
 
-      const SecondHandler = {
+      const SecondHandler = Node.create({
+        name: 'secondParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => ({
           type: 'paragraph',
           content: [{ type: 'text', text: 'Handled by second' }],
         }),
-      }
+      })
 
       manager.registerExtension(FirstHandler as any)
       manager.registerExtension(SecondHandler as any)
@@ -189,21 +200,27 @@ describe('MarkdownManager Direct Tests', () => {
     })
 
     it('uses the first handler that returns a valid result', () => {
-      const FirstHandler = {
+      const FirstHandler = Node.create({
+        name: 'firstWinningParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => ({
           type: 'paragraph',
           content: [{ type: 'text', text: 'First handler' }],
         }),
-      }
+      })
 
-      const SecondHandler = {
+      const SecondHandler = Node.create({
+        name: 'secondWinningParagraphHandler',
+        group: 'block',
+        content: 'inline*',
         markdownTokenName: 'paragraph',
         parseMarkdown: () => ({
           type: 'paragraph',
           content: [{ type: 'text', text: 'Second handler' }],
         }),
-      }
+      })
 
       manager.registerExtension(FirstHandler as any)
       manager.registerExtension(SecondHandler as any)

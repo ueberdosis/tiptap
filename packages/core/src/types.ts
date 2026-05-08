@@ -950,6 +950,7 @@ export type MarkdownParseResult =
   | { mark: string; content: JSONContent[]; attrs?: any }
   | false
   | undefined
+  | null
 
 export type RenderContext = {
   index: number
