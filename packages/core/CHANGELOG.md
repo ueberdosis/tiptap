@@ -1,5 +1,30 @@
 # Change Log
 
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/pm@3.23.1
+
+## 3.23.0
+
+### Minor Changes
+
+- e64e5a7: Add configurable tabindex option to allow customizing the tabindex attribute on the editor element via coreExtensionOptions
+
+### Patch Changes
+
+- 57f8d66: Fix markdown parsing for bullet list items whose text looks like an ordered-list marker, such as `- 123.`, so extraction no longer loses the item content.
+- 207a2bc: Fixed a memory leak where `Editor.destroy()` did not release the Extension parent/child graph. Module-scope extension singletons retained references to configured extensions, preventing garbage collection of extension options (including DOM closures). The fix also cleans up `ExtensionManager`, `schema`, and `commandManager` references on destroy.
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- a375002: Add `selectedOnTextSelection` option to node view renderers. When enabled, the `selected` prop also becomes true when a TextSelection is fully inside the node's range, not only on NodeSelection.
+  - @tiptap/pm@3.22.5
+
 ## 3.22.4
 
 ### Patch Changes

@@ -510,6 +510,20 @@ export const Table = Node.create<TableOptions>({
     ]
   },
 
+  addNodeView() {
+    // When resizable, the columnResizing plugin registers its own NodeView.
+    // We only register one here for the non-resizable case so that
+    // <colgroup> stays in sync with column changes (issue #7015).
+    const isResizable = this.options.resizable && this.editor.isEditable
+    const View = this.options.View
+
+    if (isResizable || !View) {
+      return null
+    }
+
+    return ({ node, view }) => new View(node, this.options.cellMinWidth, view)
+  },
+
   extendNodeSchema(extension) {
     const context = {
       name: extension.name,

@@ -24,13 +24,31 @@ export function renderJSONContentToString<
 }
 
 /**
+ * Escape text for HTML text content.
+ * @param value The text to escape
+ * @returns The escaped text
+ */
+export function escapeHTML(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/**
+ * Escape values for quoted HTML attributes.
+ * @param value The attribute value to escape
+ * @returns The escaped attribute value
+ */
+export function escapeHTMLAttribute(value: string): string {
+  return escapeHTML(value).replace(/"/g, '&quot;')
+}
+
+/**
  * Serialize the attributes of a node or mark to a string
  * @param attrs The attributes to serialize
  * @returns The serialized attributes as a string
  */
 export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefined | null): string {
   const output = Object.entries(attrs || {})
-    .map(([key, value]) => `${key.split(' ').at(-1)}=${JSON.stringify(value)}`)
+    .map(([key, value]) => `${key.split(' ').at(-1)}="${escapeHTMLAttribute(String(value))}"`)
     .join(' ')
 
   return output ? ` ${output}` : ''

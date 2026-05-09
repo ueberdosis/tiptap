@@ -208,6 +208,12 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
     }
 
     const json = this.editor.markdown.parse(this.editor.options.content as string)
-    this.editor.options.content = json
+
+    // If the parsed markdown produced no content, leave options.content
+    // as-is (empty string) so that createDoc / DOMParser.parse can fill in
+    // the required block node via ProseMirror's ContentMatch.fillBefore.
+    if (json.content?.length) {
+      this.editor.options.content = json
+    }
   },
 })

@@ -1,5 +1,35 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.23.1
+
+### Patch Changes
+
+- e2c909b: Fix `DragHandle` unmounts by rendering children into the plugin-managed drag handle element with a React portal.
+
+  This avoids React trying to remove a host node after the drag handle plugin has moved it into its own wrapper.
+
+  - @tiptap/extension-drag-handle@3.23.1
+  - @tiptap/pm@3.23.1
+  - @tiptap/react@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [1852c73]
+  - @tiptap/extension-drag-handle@3.23.0
+  - @tiptap/react@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/react@3.22.5
+  - @tiptap/extension-drag-handle@3.22.5
+  - @tiptap/pm@3.22.5
+
 ## 3.22.4
 
 ### Patch Changes

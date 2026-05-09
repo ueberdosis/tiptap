@@ -1,4 +1,5 @@
 export * as bulletList from './bullet-list.js'
+export * as bulletListNumericPunctuation from './bullet-list-numeric-punctuation.js'
 export * as customAtom from './custom-atom.js'
 export * as customBlock from './custom-block.js'
 export * as customInline from './custom-inline.js'

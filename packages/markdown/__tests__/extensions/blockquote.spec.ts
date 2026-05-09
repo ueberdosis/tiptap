@@ -1,4 +1,3 @@
-import type { Extension } from '@tiptap/core'
 import { Blockquote } from '@tiptap/extension-blockquote'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -11,10 +10,8 @@ describe('Blockquote Markdown Conversion', () => {
   let markdownManager: MarkdownManager
 
   beforeEach(() => {
-    markdownManager = new MarkdownManager()
-    const extensions = [Document, Paragraph, Text, Blockquote, Heading]
-    extensions.forEach(extension => {
-      markdownManager.registerExtension(extension as Extension)
+    markdownManager = new MarkdownManager({
+      extensions: [Document, Paragraph, Text, Blockquote, Heading],
     })
   })
 

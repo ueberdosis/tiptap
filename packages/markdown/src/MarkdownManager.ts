@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
@@ -34,6 +35,17 @@ export class MarkdownManager {
   private activeParseLexer: Lexer | null = null
   private registry: Map<string, MarkdownExtensionSpec[]>
   private nodeTypeRegistry: Map<string, MarkdownExtensionSpec[]>
+  /**
+   * Order in which extensions were registered. Used to resolve mark nesting
+   * deterministically when several marks open on the same text node.
+   *
+   * The flattened extensions passed to the manager are pre-sorted by Tiptap's
+   * extension priority (descending), which is also the order ProseMirror uses
+   * to assign mark ranks. Recording that index here lets the serializer place
+   * higher-priority / lower-rank marks (e.g. link with priority 1000) on the
+   * outside without inspecting any rendered markdown output.
+   */
+  private extensionRanks: Map<string, number> = new Map()
   private indentStyle: 'space' | 'tab'
   private indentSize: number
   private baseExtensions: AnyExtension[] = []
@@ -66,10 +78,13 @@ export class MarkdownManager {
     this.registry = new Map()
     this.nodeTypeRegistry = new Map()
 
-    // If extensions were provided, register them now
+    // If extensions were provided, register them now. Sort by Tiptap priority
+    // first (matching how the editor builds its schema) so the registration
+    // index lines up with ProseMirror's mark rank — this is what the
+    // serializer relies on to nest higher-priority marks like link outermost.
     if (options?.extensions) {
       this.baseExtensions = options.extensions
-      const flattened = flattenExtensions(options.extensions)
+      const flattened = sortExtensions(flattenExtensions(options.extensions))
       flattened.forEach(ext => this.registerExtension(ext))
     }
   }
@@ -111,6 +126,10 @@ export class MarkdownManager {
 
     if (isCode) {
       this.codeTypes.add(name)
+    }
+
+    if (!this.extensionRanks.has(name)) {
+      this.extensionRanks.set(name, this.extensionRanks.size)
     }
     const tokenName =
       (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
@@ -601,6 +620,7 @@ export class MarkdownManager {
   private createParseHelpers(): MarkdownParseHelpers {
     return {
       parseInline: (tokens: MarkdownToken[]) => this.parseInlineTokens(tokens),
+      tokenizeInline: (src: string) => this.tokenizeInline(src),
       parseChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens),
       parseBlockChildren: (tokens: MarkdownToken[]) => this.parseTokens(tokens, true),
       createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => {
@@ -1021,7 +1041,7 @@ export class MarkdownManager {
         const currentMarks = new Map((node.marks || []).map(mark => [mark.type, mark]))
 
         // Find marks that need to be closed and opened
-        const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+        const marksToOpen = this.getMarksToOpenForSerialization(activeMarks, currentMarks, nextNode)
         const marksToClose = findMarksToClose(currentMarks, nextNode)
 
         // When marks simultaneously close (old) AND open (new) at this boundary, the naive
@@ -1050,22 +1070,26 @@ export class MarkdownManager {
         }
 
         if (!hasCrossedBoundary) {
-          // Normal path: close marks that are ending here (no new marks opening simultaneously)
-          marksToClose.forEach(markType => {
-            if (!activeMarks.has(markType)) {
-              return
-            }
+          // Normal path: close marks that are ending here (no new marks opening simultaneously).
+          // Reverse so the last-opened mark closes first (LIFO), preserving valid nesting.
+          marksToClose
+            .slice()
+            .reverse()
+            .forEach(markType => {
+              if (!activeMarks.has(markType)) {
+                return
+              }
 
-            const mark = currentMarks.get(markType)
-            const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
-            if (closeMarkdown) {
-              textContent += closeMarkdown
-            }
-            if (activeMarks.has(markType)) {
-              activeMarks.delete(markType)
-              markOpeningModes.delete(markType)
-            }
-          })
+              const mark = currentMarks.get(markType)
+              const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+              if (closeMarkdown) {
+                textContent += closeMarkdown
+              }
+              if (activeMarks.has(markType)) {
+                activeMarks.delete(markType)
+                markOpeningModes.delete(markType)
+              }
+            })
         }
 
         // Open new marks (should be at the beginning)
@@ -1119,9 +1143,17 @@ export class MarkdownManager {
             }
           })
 
+          // Sort the previously-active closures in LIFO order: the mark that
+          // was opened last (innermost) must close first. activeMarks preserves
+          // insertion order, so a higher indexOf means opened later = inner.
+          const activeMarkKeys = Array.from(activeMarks.keys())
+          const activeMarksClosingHereLifo = activeMarksClosingHere
+            .slice()
+            .sort((a, b) => activeMarkKeys.indexOf(b) - activeMarkKeys.indexOf(a))
+
           marksToCloseAtEnd = [
             ...marksToOpen.map(m => m.type), // inner (opened here) — close first
-            ...activeMarksClosingHere, // outer (were active before) — close last
+            ...activeMarksClosingHereLifo, // outer (were active before) — close last, LIFO
           ]
         } else {
           marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
@@ -1292,6 +1324,53 @@ export class MarkdownManager {
     }
 
     return Array.from(marks1.keys()).every(type => marks2.has(type))
+  }
+
+  /**
+   * Decide the order in which marks open on the current text node.
+   *
+   * The returned array is iterated head-first when prepending opening
+   * delimiters, so the first entry becomes the innermost mark in the emitted
+   * markdown and the last becomes the outermost. Two stable signals drive
+   * the order — neither one inspects any rendered markdown:
+   *
+   *   1. Marks that end on this node must be inner relative to marks that
+   *      continue into the next node, otherwise the delimiters interleave
+   *      instead of nesting.
+   *   2. Within each lifetime group, marks are sorted so that lower
+   *      registration ranks (i.e. higher Tiptap extension priorities) end up
+   *      outermost. ProseMirror assigns mark ranks in the same priority-aware
+   *      order Tiptap uses when building the schema, so link (priority 1000)
+   *      naturally wraps bold/italic without the serializer needing to peek
+   *      at how any particular mark renders.
+   */
+  private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
+    const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
+
+    if (marksToOpen.length <= 1) {
+      return marksToOpen
+    }
+
+    const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+
+    // Higher rank → earlier in the array → innermost mark. Marks without a
+    // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
+    // matching the implicit "registered last" assumption for ad-hoc marks.
+    const byRankInnerFirst = (a: { type: string }, b: { type: string }) => {
+      const rankA = this.extensionRanks.get(a.type) ?? Number.MAX_SAFE_INTEGER
+      const rankB = this.extensionRanks.get(b.type) ?? Number.MAX_SAFE_INTEGER
+
+      if (rankA !== rankB) {
+        return rankB - rankA
+      }
+
+      return a.type.localeCompare(b.type)
+    }
+
+    const endingHere = marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+    const continuing = marksToOpen.filter(mark => nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+
+    return [...endingHere, ...continuing]
   }
 }
 
