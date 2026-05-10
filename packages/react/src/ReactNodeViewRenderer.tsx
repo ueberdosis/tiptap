@@ -1,10 +1,4 @@
-import type {
-  DecorationWithType,
-  Editor,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
-  NodeViewRendererProps,
-} from '@tiptap/core'
+import type { DecorationWithType, NodeViewRenderer, NodeViewRendererOptions, NodeViewRendererProps } from '@tiptap/core'
 import {
   cancelPositionCheck,
   getRenderedAttributes,
@@ -17,7 +11,7 @@ import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } fr
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
-import type { EditorWithContentComponent } from './Editor.js'
+import type { Editor as ReactEditor, EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
@@ -60,7 +54,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
 export class ReactNodeView<
   T = HTMLElement,
   Component extends ComponentType<ReactNodeViewProps<T>> = ComponentType<ReactNodeViewProps<T>>,
-  NodeEditor extends Editor = Editor,
+  NodeEditor extends ReactEditor = ReactEditor,
   Options extends ReactNodeViewRendererOptions = ReactNodeViewRendererOptions,
 > extends NodeView<Component, NodeEditor, Options> {
   /**

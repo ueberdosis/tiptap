@@ -1,10 +1,9 @@
-import type { Editor } from '@tiptap/core'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
 import ReactDOM, { flushSync } from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
-import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import type { ContentComponent, Editor as ReactEditor, EditorWithContentComponent } from './Editor.js'
 import type { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
@@ -35,7 +34,7 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComp
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null
+  editor: ReactEditor | null
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
