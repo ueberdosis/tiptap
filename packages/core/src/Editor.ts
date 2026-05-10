@@ -277,7 +277,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.view.setProps(this.options.editorProps)
     }
 
-    this.view.updateState(this.state)
+    this.updateViewState(this.state)
   }
 
   /**
@@ -377,7 +377,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     const state = this.state.reconfigure({ plugins })
 
-    this.view.updateState(state)
+    this.updateViewState(state)
 
     return state
   }
@@ -415,7 +415,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       plugins,
     })
 
-    this.view.updateState(state)
+    this.updateViewState(state)
 
     return state
   }
@@ -556,7 +556,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       plugins: this.extensionManager.plugins,
     })
 
-    this.view.updateState(newState)
+    this.updateViewState(newState)
 
     this.prependClass()
     this.injectCSS()
@@ -607,6 +607,15 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Updates the editor view state.
+   * This method exists as an override point for framework-specific editor
+   * subclasses that need to coordinate work around ProseMirror view updates.
+   */
+  protected updateViewState(state: EditorState): void {
+    this.view.updateState(state)
+  }
+
+  /**
    * The callback over which to send transactions (state updates) produced by the view.
    *
    * @param transaction An editor state transaction
@@ -647,7 +656,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       return
     }
 
-    this.view.updateState(state)
+    this.updateViewState(state)
 
     // Emit transaction event with appended transactions info
     this.emit('transaction', {
