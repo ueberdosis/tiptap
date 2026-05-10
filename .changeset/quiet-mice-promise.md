@@ -1,5 +1,5 @@
 ---
-'@tiptap/react': patch
+'@tiptap/react': minor
 ---
 
 Batch React NodeView portal updates for each ProseMirror view update instead of triggering a separate `flushSync`-driven portal update for every NodeView.
