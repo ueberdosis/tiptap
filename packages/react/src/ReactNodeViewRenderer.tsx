@@ -108,13 +108,11 @@ export class ReactNodeView<
       // See: https://github.com/ueberdosis/tiptap/issues/1197
       this.contentDOMElement.style.whiteSpace = 'inherit'
 
-      const contentTarget = this.dom.querySelector('[data-node-view-content]')
-
-      if (!contentTarget) {
-        return
-      }
-
-      contentTarget.appendChild(this.contentDOMElement)
+      // Attach the editable content container immediately so ProseMirror can
+      // place the selection into the new node view during the same view update.
+      // Once the React component mounts, NodeViewContent will move this element
+      // into its final position inside the wrapper.
+      this.dom.appendChild(this.contentDOMElement)
     }
   }
 

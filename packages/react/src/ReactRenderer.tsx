@@ -1,4 +1,3 @@
-import type { Editor } from '@tiptap/core'
 import type {
   ComponentClass,
   ForwardRefExoticComponent,
@@ -101,9 +100,8 @@ function isReact19Plus(): boolean {
 export interface ReactRendererOptions {
   /**
    * The editor instance.
-   * @type {Editor}
    */
-  editor: Editor
+  editor: EditorWithContentComponent
 
   /**
    * The props for the component.
