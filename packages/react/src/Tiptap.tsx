@@ -2,7 +2,8 @@ import type { ReactNode } from 'react'
 import { createContext, useContext, useMemo } from 'react'
 
 import { EditorContext } from './Context.js'
-import type { Editor, EditorContentProps, EditorStateSnapshot } from './index.js'
+import type { Editor } from './Editor.js'
+import type { EditorContentProps, EditorStateSnapshot } from './index.js'
 import { EditorContent, useEditorState } from './index.js'
 
 /**
