@@ -1,4 +1,9 @@
+import type { Fragment, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Transaction } from '@tiptap/pm/state'
+import { ReplaceStep } from '@tiptap/pm/transform'
+
 import type { Editor } from '../Editor.js'
+import type { EditorEvents } from '../types.js'
 
 /**
  * Per-editor registry for centralized NodeView position-change checks.
@@ -10,10 +15,51 @@ import type { Editor } from '../Editor.js'
 interface PositionUpdateRegistry {
   callbacks: Set<() => void>
   rafId: number | null
-  handler: () => void
+  handler: (props: EditorEvents['update']) => void
 }
 
 const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
+
+function getDocBeforeStep(transaction: Transaction, stepIndex: number): ProseMirrorNode {
+  return (transaction as Transaction & { docs?: ProseMirrorNode[] }).docs?.[stepIndex] ?? transaction.before
+}
+
+function containsOnlyText(fragment: Fragment): boolean {
+  let onlyText = true
+
+  fragment.forEach(node => {
+    if (!node.isText) {
+      onlyText = false
+    }
+  })
+
+  return onlyText
+}
+
+function isTextblockTextChange(transaction: Transaction, stepIndex: number): boolean {
+  const step = transaction.steps[stepIndex]
+
+  if (!(step instanceof ReplaceStep)) {
+    return false
+  }
+
+  const doc = getDocBeforeStep(transaction, stepIndex)
+  const { from, to, slice } = step
+  const $from = doc.resolve(from)
+  const $to = doc.resolve(to)
+
+  if ($from.parent !== $to.parent || !$from.parent.isTextblock) {
+    return false
+  }
+
+  return containsOnlyText(slice.content) && containsOnlyText(doc.slice(from, to).content)
+}
+
+function shouldCheckPositions(transaction: Transaction, appendedTransactions: Transaction[]): boolean {
+  return [transaction, ...appendedTransactions].some(currentTransaction => {
+    return currentTransaction.steps.some((_, index) => !isTextblockTextChange(currentTransaction, index))
+  })
+}
 
 /**
  * Register a callback to be called (via a shared rAF) after every editor
@@ -27,7 +73,11 @@ export function schedulePositionCheck(editor: Editor, callback: () => void): voi
     const newRegistry: PositionUpdateRegistry = {
       callbacks: new Set(),
       rafId: null,
-      handler: () => {
+      handler: ({ transaction, appendedTransactions }) => {
+        if (!shouldCheckPositions(transaction, appendedTransactions)) {
+          return
+        }
+
         if (newRegistry.rafId !== null) {
           cancelAnimationFrame(newRegistry.rafId)
         }
