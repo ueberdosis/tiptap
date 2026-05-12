@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/extension-code-block@3.23.2
+  - @tiptap/pm@3.23.2
+
 ## 3.23.1
 
 ### Patch Changes

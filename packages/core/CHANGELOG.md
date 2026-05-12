@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.23.2
+
+### Patch Changes
+
+- f98eaaf: Fix `&quot;` HTML entity encoding in `getHTML()` output for inline style attributes. Adds a `getStyleProperty` utility to `@tiptap/core` and migrates `Color`, `BackgroundColor`, `FontFamily`, `FontSize`, `LineHeight`, and `Highlight` extensions to use it (#7016)
+  - @tiptap/pm@3.23.2
+
 ## 3.23.1
 
 ### Patch Changes
