@@ -1,5 +1,13 @@
 # @tiptap/extension-twitch
 
+## 3.23.2
+
+### Patch Changes
+
+- 79fc8b7: Fix Twitch and YouTube embeds losing their canonical video, clip, channel, or playlist URL when HTML content is loaded back into the editor.
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+
 ## 3.23.1
 
 ### Patch Changes
