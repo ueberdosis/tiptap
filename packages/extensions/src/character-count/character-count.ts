@@ -18,7 +18,7 @@ export interface CharacterCountOptions {
   mode: 'textSize' | 'nodeSize'
   /**
    * Sets whether the content will be automatically trimmed when programatically setting content over the limit.
-   * If set to false, the user will be able to trim the text manually.\
+   * If set to false, the user will be able to trim the text manually.
    * @default true
    * @example false
    */
