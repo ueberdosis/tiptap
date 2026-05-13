@@ -580,6 +580,8 @@ export class Extendable<
     extension.name = this.name
     extension.parent = this.parent
 
+    this.child = null
+
     return extension
   }
 

@@ -9,9 +9,16 @@ metadata:
 
 # Tiptap Integration Skill
 
-Instructions for coding agents integrating the Tiptap rich text editor
+This skill contains instructions for integrating the Tiptap rich text editor into an app and
+developing new features with it.
 
-## Reference Repositories
+This is not the Tiptap editor you know. Before you implement any feature with Tiptap, reference
+the Tiptap code and documentation to make sure you implement it correctly. Make sure any decision
+you make is in accordance to the "Best Practices" section and is grounded in the tiptap documentation
+and source code. Do not guess or invent patterns, make sure the code you write matches the library
+source code and the documentation.
+
+## Initial setup
 
 Clone the tiptap and tiptap-docs repositories so you can search the source code and documentation.
 
@@ -22,7 +29,12 @@ If the workspace already has a reference folder with other repositories, clone t
 
 Otherwise, clone the repositories in a new `.reference` folder. The reference folder should be git-ignored.
 
-Before you start a task, make sure the repositories are updated to the latest version.
+## Referencing the Tiptap documentation
+
+Before doing any task that involves the Tiptap editor:
+
+1. Pull the latest changes of the `main` branch in the local tiptap and tiptap-docs repositories
+2. Research the documentation and source code to see how to implement it
 
 ## Best Practices
 
@@ -41,17 +53,79 @@ Before you start a task, make sure the repositories are updated to the latest ve
 
 When the user asks you to implement one of these features, read the corresponding section in tiptap-docs for guidance.
 
-- **Real-time collaboration** — Multiple users editing a document simultaneously. See `tiptap-docs/src/content/collaboration/`.
-- **Comments** — Thread-based inline and document comments. See `tiptap-docs/src/content/comments/`.
-- **Tracked changes** — Track, accept, and reject document edits. See `tiptap-docs/src/content/tracked-changes/`.
-- **Import/Export** — Convert documents to and from DOCX, PDF, Markdown, and other formats. See `tiptap-docs/src/content/conversion/`.
-- **AI content generation** — Generate text content into the document using AI. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/workflows/insert-content.mdx`.
-- **AI agent document editing** — Give an AI agent the ability to edit Tiptap documents. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/`.
-- **AI review and proofreading** — Review, proofread, and suggest style improvements. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/workflows/proofreader.mdx`.
-- **AI server-side processing** — Run AI workflows that edit rich text documents on the server. See `tiptap-docs/src/content/content-ai/capabilities/server-ai-toolkit/`.
-- **Version history** — Save and restore document snapshots. See `tiptap-docs/src/content/collaboration/documents/snapshot.mdx`.
-- **Snapshot compare** — Highlight differences between document versions. See `tiptap-docs/src/content/collaboration/documents/snapshot-compare.mdx`.
-- **Pages** — Print-ready page layout with headers, footers, and page breaks. See `tiptap-docs/src/content/pages/`.
+### Real-time collaboration
+
+Multiple users editing a document simultaneously. See `tiptap-docs/src/content/collaboration/`.
+
+Use Tiptap Cloud to implement real-time collaboration. Use the Collaboration extension:
+
+```
+const doc = new Y.Doc()
+
+const editor = new Editor({
+  extensions: [
+    Collaboration.configure({
+      document: doc,
+    }),
+  ],
+})
+```
+
+Use the TiptapCollabProvider:
+
+```
+const provider = new TiptapCollabProvider({
+  name: 'unique_document_name',
+  appId: 'APP_ID', // Your document server ID from the Cloud dashboard
+  token: 'JWT_TOKEN', // Your JWT token
+  document: doc,
+})
+```
+
+If it's the first time setting up collaboration and the Tiptap Cloud account is not set up, explain
+to the user how to set up a Tiptap Cloud account and obtain the environment variables.
+
+### Comments
+
+Implement comments with the Comments extension.
+
+Thread-based inline and document comments. See `tiptap-docs/src/content/comments/`.
+
+### Tracked changes
+
+Track, accept, and reject document edits. See `tiptap-docs/src/content/tracked-changes/`.
+
+### Import/Export
+
+Convert documents to and from DOCX, PDF, Markdown, and other formats. See `tiptap-docs/src/content/conversion/`.
+
+### AI content generation
+
+Generate text content into the document using AI. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/workflows/insert-content.mdx`.
+
+### AI agent document editing
+
+Give an AI agent the ability to edit Tiptap documents. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/`.
+
+### AI review and proofreading
+
+Review, proofread, and suggest style improvements. See `tiptap-docs/src/content/content-ai/capabilities/ai-toolkit/workflows/proofreader.mdx`.
+
+### AI server-side processing
+
+Run AI workflows that edit rich text documents on the server. See `tiptap-docs/src/content/content-ai/capabilities/server-ai-toolkit/`.
+
+### Version history
+
+Save and restore document snapshots. See `tiptap-docs/src/content/collaboration/documents/snapshot.mdx`.
+
+### Snapshot compare
+
+Highlight differences between document versions. See `tiptap-docs/src/content/collaboration/documents/snapshot-compare.mdx`.
+
+### Pages
+
+Print-ready page layout with headers, footers, and page breaks. See `tiptap-docs/src/content/pages/`.
 
 ## Pro Extensions
 

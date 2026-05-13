@@ -339,6 +339,15 @@ export interface EditorOptions {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
+    /**
+     * Options for the `tabindex` core extension.
+     */
+    tabindex?: {
+      /**
+       * The value for the `tabindex` attribute on the editor element.
+       */
+      value?: string
+    }
     delete?: {
       /**
        * Whether the `delete` extension should be called asynchronously to avoid blocking the editor while processing deletions
@@ -719,6 +728,13 @@ export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
   contentDOMElementTag: string
+  /**
+   * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
+   * is fully inside the node's range (e.g. the cursor is placed within the
+   * node's content), not only when there is a `NodeSelection` on the node.
+   * Defaults to `false` to preserve existing behavior.
+   */
+  selectedOnTextSelection?: boolean
 }
 
 export interface NodeViewRendererProps {
@@ -896,6 +912,8 @@ export type MarkdownHelpers = {
 export type MarkdownParseHelpers = {
   /** Parse an array of inline tokens into text nodes with marks */
   parseInline: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Tokenize source text as inline markdown when supported by the markdown parser */
+  tokenizeInline?: (src: string) => MarkdownToken[]
   /** Parse an array of block-level tokens */
   parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
   /** Parse block-level tokens while preserving implicit empty paragraphs from blank lines */

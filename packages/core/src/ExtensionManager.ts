@@ -364,6 +364,41 @@ export class ExtensionManager {
   }
 
   /**
+   * Destroy the extension manager and clean up all extension references
+   * to prevent memory leaks through parent/child extension chains.
+   *
+   * Walks each extension's full parent chain and nulls every forward
+   * `parent.child → current` link where the parent still points to the
+   * current node. This breaks the retention path from module-scope
+   * singleton roots through deep extend() chains.
+   *
+   * Only ancestor `.child` links matching the current chain are cleared.
+   * The `.parent` pointer on ancestors is never touched — extensions
+   * may be shared across live editors, so their own backward references
+   * and non-matching forward links must remain intact.
+   */
+  destroy() {
+    this.extensions.forEach(extension => {
+      let current: any = extension
+
+      while (current.parent) {
+        const parent = current.parent
+
+        if (parent.child === current) {
+          parent.child = null
+        }
+
+        current = parent
+      }
+    })
+
+    this.extensions = []
+    this.baseExtensions = []
+    this.schema = null as any
+    this.editor = null as any
+  }
+
+  /**
    * Go through all extensions, create extension storages & setup marks
    * & bind editor event listener.
    */

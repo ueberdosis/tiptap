@@ -432,6 +432,10 @@ export class FloatingMenuView {
   }
 
   updatePosition() {
+    if (!this.view?.dom?.parentNode) {
+      return
+    }
+
     const { selection } = this.editor.state
 
     const domRect = posToDOMRect(this.view, selection.from, selection.to)

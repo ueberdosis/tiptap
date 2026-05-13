@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
 import { describe, expect, it } from 'vitest'
 
-import { getEmbedUrlFromYoutubeUrl } from '../src/utils.ts'
+import { getAttributesFromYoutubeEmbedUrl, getEmbedUrlFromYoutubeUrl } from '../src/utils.ts'
 
 /**
  * Most youtube tests should actually exist in the demo/ app folder
@@ -146,5 +146,94 @@ describe('extension-youtube', () => {
         'https://www.youtube-nocookie.com/embed/videoseries?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf&autoplay=1',
       )
     })
+  })
+
+  it.each([
+    ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 42],
+    ['https://youtu.be/dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 0],
+    [
+      'https://www.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf',
+      'https://www.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf',
+      0,
+    ],
+  ])(
+    'preserves canonical youtube attrs when content is loaded back from rendered HTML for %s',
+    (originalSrc, expectedSrc, start) => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'youtube',
+              attrs: {
+                src: originalSrc,
+                start,
+                width: 720,
+                height: 405,
+              },
+            },
+          ],
+        },
+      })
+
+      const html = editor.getHTML()
+
+      editor.destroy()
+      getEditorEl()?.remove()
+
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content: html,
+      })
+
+      expect(editor.getJSON()).toMatchObject({
+        type: 'doc',
+        content: [
+          {
+            type: 'youtube',
+            attrs: {
+              src: expectedSrc,
+              start,
+              width: 720,
+              height: 405,
+            },
+          },
+        ],
+      })
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    },
+  )
+
+  it('does not persist NaN width or height when parsing iframe dimensions from HTML', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [Document, Text, Paragraph, Youtube],
+      content:
+        '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="100%" height="auto"></iframe></div>',
+    })
+
+    const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+    const html = editor.getHTML()
+
+    expect(Number.isNaN(attrs.width)).toBe(false)
+    expect(Number.isNaN(attrs.height)).toBe(false)
+    expect(html).not.toContain('width="NaN"')
+    expect(html).not.toContain('height="NaN"')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it.each([
+    'https://www.youtube.com/embed/',
+    'https://www.youtube.com/embed/videoseries',
+    'https://example.com/embed/dQw4w9WgXcQ',
+  ])('returns null for unsupported youtube embed urls: %s', embedUrl => {
+    expect(getAttributesFromYoutubeEmbedUrl(embedUrl)).toBeNull()
   })
 })

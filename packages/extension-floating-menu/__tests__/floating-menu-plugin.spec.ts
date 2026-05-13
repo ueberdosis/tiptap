@@ -225,3 +225,24 @@ describe('FloatingMenuView cross-contamination', () => {
     editor.destroy()
   })
 })
+
+describe('FloatingMenuView destroy safety', () => {
+  it('updatePosition should not call coordsAtPos when the editor view is detached from the DOM', () => {
+    const editor = createEditor()
+    const view = createFloatingMenuView(editor)
+    const coordsSpy = vi.spyOn(editor.view, 'coordsAtPos')
+
+    try {
+      // Simulate the real-world teardown race: the editor is destroyed while a
+      // pending updatePosition call (debounced resize/scroll) is still in flight.
+      // ProseMirror's destroy removes view.dom from its parent and nulls docView;
+      // without a guard, posToDOMRect -> coordsAtPos throws on the null docView.
+      editor.destroy()
+
+      expect(() => view.updatePosition()).not.toThrow(/Cannot read properties of null \(reading 'domFromPos'\)/)
+      expect(coordsSpy).not.toHaveBeenCalled()
+    } finally {
+      view.destroy()
+    }
+  })
+})

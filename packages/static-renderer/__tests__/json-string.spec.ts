@@ -1,12 +1,17 @@
 import type { TextType } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
+import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Youtube from '@tiptap/extension-youtube'
 import { Mark, Node } from '@tiptap/pm/model'
-import { renderJSONContentToString, serializeChildrenToHTMLString } from '@tiptap/static-renderer/json/html-string'
-import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
+import {
+  renderJSONContentToString,
+  serializeAttrsToHTMLString,
+  serializeChildrenToHTMLString,
+} from '@tiptap/static-renderer/json/html-string'
+import { domOutputSpecToHTMLString, renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 import { describe, expect, it } from 'vitest'
 
 describe('static render json to string (no prosemirror)', () => {
@@ -88,6 +93,17 @@ describe('static render json to string (no prosemirror)', () => {
     })({ content: json })
 
     expect(html).toBe('<doc><p><strong>Example Text</strong></p></doc>')
+  })
+
+  it('escapes serialized HTML attributes', () => {
+    const attrs = serializeAttrsToHTMLString({
+      href: 'x"><img src=x onerror=alert(document.cookie)>',
+      title: 'Tom & "Jerry"',
+    })
+
+    expect(attrs).toBe(
+      ' href="x&quot;&gt;&lt;img src=x onerror=alert(document.cookie)&gt;" title="Tom &amp; &quot;Jerry&quot;"',
+    )
   })
 
   it('gives access to the original JSON node or mark', () => {
@@ -245,6 +261,69 @@ describe('static render json to string (with prosemirror)', () => {
     })
 
     expect(html).toBe('<doc><p><b>Example Text</b></p></doc>')
+  })
+
+  it('escapes text node content', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: '<img src=x onerror=alert(document.cookie)> Tom & Jerry',
+            },
+          ],
+        },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text],
+    })
+
+    expect(html).toBe('<p>&lt;img src=x onerror=alert(document.cookie)&gt; Tom &amp; Jerry</p>')
+  })
+
+  it('escapes attribute values in the ProseMirror HTML string renderer', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Click here',
+              marks: [
+                {
+                  type: 'link',
+                  attrs: {
+                    href: 'https://tiptap.dev/?q="><img src=x onerror=alert(document.cookie)>',
+                    target: '_blank',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, Link],
+    })
+
+    expect(html).toContain('href="https://tiptap.dev/?q=&quot;&gt;&lt;img src=x onerror=alert(document.cookie)&gt;"')
+  })
+
+  it('escapes string DOM output specs as text content', () => {
+    const html = domOutputSpecToHTMLString('<img src=x onerror=alert(document.cookie)>')()
+
+    expect(html).toBe('&lt;img src=x onerror=alert(document.cookie)&gt;')
   })
 
   it('gives access to a prosemirror node or mark instance', () => {

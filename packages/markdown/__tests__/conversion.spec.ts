@@ -49,12 +49,7 @@ describe('Markdown Conversion Tests', () => {
     }),
   ]
 
-  const markdownManager = new MarkdownManager()
-  extensions.forEach(extension => {
-    markdownManager.registerExtension(extension as Extension)
-  })
-
-  const conversionExtensions = [] as Extension[]
+  const conversionExtensions: Extension[] = []
 
   Object.values(conversionfiles).forEach((file: any) => {
     if (!file?.extensions) {
@@ -64,9 +59,7 @@ describe('Markdown Conversion Tests', () => {
     conversionExtensions.push(...file.extensions)
   })
 
-  conversionExtensions.forEach(extension => {
-    markdownManager.registerExtension(extension as Extension)
-  })
+  const markdownManager = new MarkdownManager({ extensions: [...extensions, ...conversionExtensions] })
 
   describe('convert simple taskList from and to markdown', () => {
     const simpleMarkdown = `

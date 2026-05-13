@@ -157,7 +157,7 @@ export const BlockMath = Node.create<BlockMathOptions>({
 
           tr.setNodeMarkup(pos, this.type, {
             ...node.attrs,
-            latex: latex || node.attrs.latex,
+            latex: latex ?? node.attrs.latex,
           })
 
           return true
@@ -221,10 +221,18 @@ export const BlockMath = Node.create<BlockMathOptions>({
         handler: ({ state, range, match }) => {
           const [, latex] = match
           const { tr } = state
-          const start = range.from
-          const end = range.to
+          const $from = state.doc.resolve(range.from)
+          const node = this.type.create({ latex })
 
-          tr.replaceWith(start, end, this.type.create({ latex }))
+          const consumesHostTextblock =
+            $from.depth > 0 && $from.parent.isTextblock && range.from === $from.start() && range.to === $from.end()
+          // Whether the node containing the host textblock can replace it with a blockMath node.
+          const canReplaceHostTextblock =
+            consumesHostTextblock && $from.node(-1).canReplaceWith($from.index(-1), $from.indexAfter(-1), this.type)
+
+          const replacementRange = canReplaceHostTextblock ? { from: $from.before(), to: $from.after() } : range
+
+          tr.replaceWith(replacementRange.from, replacementRange.to, node)
         },
       }),
     ]
