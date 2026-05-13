@@ -20,7 +20,55 @@ export interface OrderedListItem {
   indent: number
   number: number
   content: string
+  contentLines: string[]
   raw: string
+}
+
+function isBlockContentLine(line: string): boolean {
+  const trimmedLine = line.trimStart()
+
+  return (
+    /^[-+*]\s+/.test(trimmedLine) ||
+    /^\d+\.\s+/.test(trimmedLine) ||
+    /^>\s?/.test(trimmedLine) ||
+    /^```/.test(trimmedLine) ||
+    /^~~~/.test(trimmedLine)
+  )
+}
+
+function splitItemContent(contentLines: string[]): {
+  paragraphLines: string[]
+  blockLines: string[]
+} {
+  const paragraphLines: string[] = []
+  const blockLines: string[] = []
+  let reachedBlockBoundary = false
+
+  contentLines.forEach(line => {
+    if (reachedBlockBoundary) {
+      blockLines.push(line)
+      return
+    }
+
+    if (line.trim() === '') {
+      reachedBlockBoundary = true
+      blockLines.push(line)
+      return
+    }
+
+    if (paragraphLines.length > 0 && isBlockContentLine(line)) {
+      reachedBlockBoundary = true
+      blockLines.push(line)
+      return
+    }
+
+    paragraphLines.push(line)
+  })
+
+  return {
+    paragraphLines,
+    blockLines,
+  }
 }
 
 /**
@@ -46,9 +94,10 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     const [, indent, number, content] = match
     const indentLevel = indent.length
-    let itemContent = content
+    const itemContentLines = [content]
     let nextLineIndex = currentLineIndex + 1
     const itemLines = [line]
+    let sawBlankLine = false
 
     // Collect continuation lines for this item (but NOT nested list items)
     while (nextLineIndex < lines.length) {
@@ -64,23 +113,30 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
       if (nextLine.trim() === '') {
         // Empty line
         itemLines.push(nextLine)
-        itemContent += '\n'
+        itemContentLines.push('')
+        sawBlankLine = true
         nextLineIndex += 1
       } else if (nextLine.match(INDENTED_LINE_REGEX)) {
         // Indented content - part of this item (but not a list item)
         itemLines.push(nextLine)
-        itemContent += `\n${nextLine.slice(indentLevel + 2)}` // Remove list marker indent
+        itemContentLines.push(nextLine.slice(indentLevel + 2))
         nextLineIndex += 1
       } else {
-        // Non-indented line means end of list
-        break
+        if (sawBlankLine) {
+          break
+        }
+
+        itemLines.push(nextLine)
+        itemContentLines.push(nextLine)
+        nextLineIndex += 1
       }
     }
 
     listItems.push({
       indent: indentLevel,
       number: parseInt(number, 10),
-      content: itemContent.trim(),
+      content: itemContentLines.join('\n').trim(),
+      contentLines: itemContentLines,
       raw: itemLines.join('\n'),
     })
 
@@ -114,8 +170,8 @@ export function buildNestedStructure(
 
     if (item.indent === baseIndent) {
       // This item belongs at the current level
-      const contentLines = item.content.split('\n')
-      const mainText = contentLines[0]?.trim() || ''
+      const { paragraphLines, blockLines } = splitItemContent(item.contentLines)
+      const mainText = paragraphLines.join('\n').trim()
 
       const tokens = []
 
@@ -128,10 +184,8 @@ export function buildNestedStructure(
         })
       }
 
-      // Handle additional content after the main text
-      const additionalContent = contentLines.slice(1).join('\n').trim()
+      const additionalContent = blockLines.join('\n').trim()
       if (additionalContent) {
-        // Parse as block tokens (handles mixed unordered lists, etc.)
         const blockTokens = lexer.blockTokens(additionalContent)
         tokens.push(...blockTokens)
       }

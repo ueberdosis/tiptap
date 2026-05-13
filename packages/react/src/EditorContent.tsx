@@ -89,18 +89,9 @@ export class PureEditorContent extends React.Component<
 > {
   editorContentRef: React.RefObject<any>
 
-  initialized: boolean
-
-  unsubscribeToContentComponent?: () => void
-
   constructor(props: EditorContentProps) {
     super(props)
     this.editorContentRef = React.createRef()
-    this.initialized = false
-
-    this.state = {
-      hasContentComponentInitialized: Boolean((props.editor as EditorWithContentComponent | null)?.contentComponent),
-    }
   }
 
   componentDidMount() {
@@ -114,14 +105,14 @@ export class PureEditorContent extends React.Component<
   init() {
     const editor = this.props.editor as EditorWithContentComponent | null
 
-    if (editor && !editor.isDestroyed && editor.options.element) {
+    if (editor && !editor.isDestroyed && editor.view.dom?.parentNode) {
       if (editor.contentComponent) {
         return
       }
 
       const element = this.editorContentRef.current
 
-      element.append(editor.view.dom)
+      element.append(...editor.view.dom.parentNode.childNodes)
 
       editor.setOptions({
         element,
@@ -129,29 +120,11 @@ export class PureEditorContent extends React.Component<
 
       editor.contentComponent = getInstance()
 
-      // Has the content component been initialized?
-      if (!this.state.hasContentComponentInitialized) {
-        // Subscribe to the content component
-        this.unsubscribeToContentComponent = editor.contentComponent.subscribe(() => {
-          this.setState(prevState => {
-            if (!prevState.hasContentComponentInitialized) {
-              return {
-                hasContentComponentInitialized: true,
-              }
-            }
-            return prevState
-          })
-
-          // Unsubscribe to previous content component
-          if (this.unsubscribeToContentComponent) {
-            this.unsubscribeToContentComponent()
-          }
-        })
-      }
-
       editor.createNodeViews()
 
-      this.initialized = true
+      editor.isEditorContentInitialized = true
+
+      this.forceUpdate()
     }
   }
 
@@ -162,7 +135,7 @@ export class PureEditorContent extends React.Component<
       return
     }
 
-    this.initialized = false
+    editor.isEditorContentInitialized = false
 
     if (!editor.isDestroyed) {
       editor.view.setProps({
@@ -170,23 +143,19 @@ export class PureEditorContent extends React.Component<
       })
     }
 
-    if (this.unsubscribeToContentComponent) {
-      this.unsubscribeToContentComponent()
-    }
-
     editor.contentComponent = null
 
     // try to reset the editor element
     // may fail if this editor's view.dom was never initialized/mounted yet
     try {
-      if (!editor.view.dom?.firstChild) {
+      if (!editor.view.dom?.parentNode) {
         return
       }
 
       // TODO using the new editor.mount method might allow us to remove this
       const newElement = document.createElement('div')
 
-      newElement.append(editor.view.dom)
+      newElement.append(...editor.view.dom.parentNode.childNodes)
 
       editor.setOptions({
         element: newElement,

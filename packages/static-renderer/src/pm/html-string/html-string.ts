@@ -3,6 +3,7 @@ import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
 import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
 
 import {
+  escapeHTML,
   renderJSONContentToString,
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
@@ -13,13 +14,19 @@ import { renderToElement } from '../extensionRenderer.js'
 export { serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'
 
 /**
+ * HTML elements that cannot be self-closing and must always have a closing tag.
+ * These elements must be rendered as <tag></tag> even when empty, not <tag />.
+ */
+const NON_SELF_CLOSING_TAGS = new Set(['iframe', 'script', 'style', 'title', 'textarea', 'div', 'span', 'a', 'button'])
+
+/**
  * Take a DOMOutputSpec and return a function that can render it to a string
  * @param content The DOMOutputSpec to convert to a string
  * @returns A function that can render the DOMOutputSpec to a string
  */
 export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: string | string[]) => string {
   if (typeof content === 'string') {
-    return () => content
+    return () => escapeHTML(content)
   }
   if (typeof content === 'object' && 'length' in content) {
     const [_tag, attrs, children, ...rest] = content as DOMOutputSpecArray
@@ -50,6 +57,9 @@ export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: s
             .map(a => domOutputSpecToHTMLString(a)(child))}</${tag}>`
       }
       if (children === undefined) {
+        if (NON_SELF_CLOSING_TAGS.has(tag)) {
+          return () => `<${tag}${serializeAttrsToHTMLString(attrs)}></${tag}>`
+        }
         return () => `<${tag}${serializeAttrsToHTMLString(attrs)}/>`
       }
       if (children === 0) {
@@ -96,7 +106,7 @@ export function renderToHTMLString({
       // Map a doc node to concatenated children
       doc: ({ children }) => serializeChildrenToHTMLString(children),
       // Map a text node to its text content
-      text: ({ node }) => node.text ?? '',
+      text: ({ node }) => escapeHTML(node.text ?? ''),
     },
     content,
     extensions,

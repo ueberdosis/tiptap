@@ -2,6 +2,8 @@ import { Extension } from '@tiptap/core'
 import type { Node, NodeType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
+export const skipTrailingNodeMeta = 'skipTrailingNode'
+
 function nodeEqualsType({ types, node }: { types: NodeType | NodeType[]; node: Node | null | undefined }) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }
@@ -17,7 +19,7 @@ export interface TrailingNodeOptions {
    * The node type that should be inserted at the end of the document.
    * @note the node will always be added to the `notAfter` lists to
    * prevent an infinite loop.
-   * @default 'paragraph'
+   * @default undefined
    */
   node?: string
   /**
@@ -44,7 +46,7 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
   addProseMirrorPlugins() {
     const plugin = new PluginKey(this.name)
     const defaultNode =
-      this.editor.schema.topNodeType.contentMatch.defaultType?.name || this.options.node || 'paragraph'
+      this.options.node || this.editor.schema.topNodeType.contentMatch.defaultType?.name || 'paragraph'
 
     const disabledNodes = Object.entries(this.editor.schema.nodes)
       .map(([, value]) => value)
@@ -53,11 +55,15 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
     return [
       new Plugin({
         key: plugin,
-        appendTransaction: (_, __, state) => {
+        appendTransaction: (transactions, __, state) => {
           const { doc, tr, schema } = state
           const shouldInsertNodeAtEnd = plugin.getState(state)
           const endPosition = doc.content.size
           const type = schema.nodes[defaultNode]
+
+          if (transactions.some(transaction => transaction.getMeta(skipTrailingNodeMeta))) {
+            return
+          }
 
           if (!shouldInsertNodeAtEnd) {
             return
@@ -73,6 +79,12 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
           },
           apply: (tr, value) => {
             if (!tr.docChanged) {
+              return value
+            }
+
+            // Ignore transactions from UniqueID extension to prevent infinite loops
+            // when UniqueID adds IDs to newly inserted trailing nodes
+            if (tr.getMeta('__uniqueIDTransaction')) {
               return value
             }
 

@@ -77,7 +77,7 @@ const setTocData = (options: {
   storage: TableOfContentsStorage
   onUpdate?: (data: TableOfContentData, isCreate?: boolean) => void | undefined
 }) => {
-  const { editor, onUpdate } = options
+  const { editor } = options
 
   if (editor.isDestroyed) {
     return
@@ -155,12 +155,6 @@ const setTocData = (options: {
   })
 
   anchors = addTocActiveStatesAndGetItems(anchors, options)
-
-  if (onUpdate) {
-    const isInitialCreation = options.storage.content.length === 0
-
-    onUpdate(anchors, isInitialCreation)
-  }
 
   options.storage.anchors = anchorEls
   options.storage.content = anchors
@@ -262,6 +256,11 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   onCreate() {
+    // Avoid mutating the document during server-side rendering.
+    if (typeof window === 'undefined' || !this.editor.view) {
+      return
+    }
+
     const { tr } = this.editor.state
     const existingIds: string[] = []
 

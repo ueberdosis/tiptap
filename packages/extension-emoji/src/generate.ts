@@ -1,13 +1,18 @@
-import dataSource from 'emoji-datasource/emoji.json'
-import data from 'emojibase-data/en/data.json'
-import messages from 'emojibase-data/en/messages.json'
-import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json'
-import gitHubShortcodes from 'emojibase-data/en/shortcodes/github.json'
+import dataSource from 'emoji-datasource/emoji.json' with { type: 'json' }
+import data from 'emojibase-data/en/data.json' with { type: 'json' }
+import messages from 'emojibase-data/en/messages.json' with { type: 'json' }
+import emojibaseShortcodesJson from 'emojibase-data/en/shortcodes/emojibase.json' with { type: 'json' }
+import gitHubShortcodesJson from 'emojibase-data/en/shortcodes/github.json' with { type: 'json' }
 import fs from 'fs'
 import json5 from 'json5'
 
 import type { EmojiItem } from './emoji.js'
 import { removeVariationSelector } from './helpers/removeVariationSelector.js'
+
+type Shortcodes = Record<string, string | string[]>
+
+const emojibaseShortcodes = emojibaseShortcodesJson as Shortcodes
+const gitHubShortcodes = gitHubShortcodesJson as Shortcodes
 
 const emojis: EmojiItem[] = data
   // .filter(emoji => emoji.version > 0 && emoji.version < 14)

@@ -1,7 +1,7 @@
 {
   "name": "@tiptap/markdown",
   "description": "markdown parser and serializer for tiptap",
-  "version": "3.7.2",
+  "version": "3.23.2",
   "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
@@ -34,15 +34,15 @@
     "dist"
   ],
   "dependencies": {
-    "marked": "^16.1.2"
+    "marked": "^17.0.1"
   },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   },
   "repository": {
     "type": "git",

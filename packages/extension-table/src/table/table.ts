@@ -31,6 +31,7 @@ import {
 } from '@tiptap/pm/tables'
 import type { EditorView, NodeView } from '@tiptap/pm/view'
 
+import { type TableCellAlign, normalizeTableCellAlign } from '../utilities/parseAlign.js'
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
@@ -38,8 +39,9 @@ import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllC
 import renderTableToMarkdown from './utilities/markdown.js'
 
 type MarkdownTableToken = {
-  header?: { tokens: MarkdownToken[] }[]
-  rows?: { tokens: MarkdownToken[] }[][]
+  align?: Array<TableCellAlign | null>
+  header?: { tokens: MarkdownToken[]; align?: TableCellAlign | null }[]
+  rows?: { tokens: MarkdownToken[]; align?: TableCellAlign | null }[][]
 } & MarkdownToken
 
 export interface TableOptions {
@@ -56,6 +58,14 @@ export interface TableOptions {
    * @example true
    */
   resizable: boolean
+
+  /**
+   * Controls whether the table should be wrapped in a div with class "tableWrapper" when rendered.
+   * In editable mode with resizable tables, this wrapper is always present via TableView.
+   * @default false
+   * @example true
+   */
+  renderWrapper: boolean
 
   /**
    * The width of the resize handle.
@@ -247,6 +257,7 @@ export const Table = Node.create<TableOptions>({
     return {
       HTMLAttributes: {},
       resizable: false,
+      renderWrapper: false,
       handleWidth: 5,
       cellMinWidth: 25,
       // TODO: fix
@@ -271,26 +282,42 @@ export const Table = Node.create<TableOptions>({
   renderHTML({ node, HTMLAttributes }) {
     const { colgroup, tableWidth, tableMinWidth } = createColGroup(node, this.options.cellMinWidth)
 
+    const userStyles = HTMLAttributes.style as string | undefined
+
+    function getTableStyle() {
+      if (userStyles) {
+        return userStyles
+      }
+
+      return tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`
+    }
+
     const table: DOMOutputSpec = [
       'table',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        style: tableWidth ? `width: ${tableWidth}` : `min-width: ${tableMinWidth}`,
+        style: getTableStyle(),
       }),
       colgroup,
       ['tbody', 0],
     ]
 
-    return table
+    return this.options.renderWrapper ? ['div', { class: 'tableWrapper' }, table] : table
   },
 
   parseMarkdown: (token: MarkdownTableToken, h) => {
     const rows = []
+    const alignments = Array.isArray(token.align) ? token.align : []
 
     if (token.header) {
       const headerCells: JSONContent[] = []
 
-      token.header.forEach(cell => {
-        headerCells.push(h.createNode('tableHeader', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
+      token.header.forEach((cell, index) => {
+        const align = normalizeTableCellAlign(alignments[index] ?? cell.align)
+        const attrs = align ? { align } : {}
+
+        headerCells.push(
+          h.createNode('tableHeader', attrs, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]),
+        )
       })
 
       rows.push(h.createNode('tableRow', {}, headerCells))
@@ -299,8 +326,11 @@ export const Table = Node.create<TableOptions>({
     if (token.rows) {
       token.rows.forEach(row => {
         const bodyCells: JSONContent[] = []
-        row.forEach(cell => {
-          bodyCells.push(h.createNode('tableCell', {}, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
+        row.forEach((cell, index) => {
+          const align = normalizeTableCellAlign(alignments[index] ?? cell.align)
+          const attrs = align ? { align } : {}
+
+          bodyCells.push(h.createNode('tableCell', attrs, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
         })
         rows.push(h.createNode('tableRow', {}, bodyCells))
       })
@@ -478,6 +508,20 @@ export const Table = Node.create<TableOptions>({
         allowTableNodeSelection: this.options.allowTableNodeSelection,
       }),
     ]
+  },
+
+  addNodeView() {
+    // When resizable, the columnResizing plugin registers its own NodeView.
+    // We only register one here for the non-resizable case so that
+    // <colgroup> stays in sync with column changes (issue #7015).
+    const isResizable = this.options.resizable && this.editor.isEditable
+    const View = this.options.View
+
+    if (isResizable || !View) {
+      return null
+    }
+
+    return ({ node, view }) => new View(node, this.options.cellMinWidth, view)
   },
 
   extendNodeSchema(extension) {

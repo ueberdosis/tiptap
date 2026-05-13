@@ -147,7 +147,7 @@ type ComponentType<R, P> =
 export class ReactRenderer<R = unknown, P extends Record<string, any> = object> {
   id: string
 
-  editor: Editor
+  editor: EditorWithContentComponent
 
   component: any
 
@@ -160,6 +160,11 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   ref: R | null = null
 
   /**
+   * Flag to track if the renderer has been destroyed, preventing queued or asynchronous renders from executing after teardown.
+   */
+  destroyed = false
+
+  /**
    * Immediately creates element and renders the provided React component.
    */
   constructor(
@@ -168,7 +173,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
   ) {
     this.id = Math.floor(Math.random() * 0xffffffff).toString()
     this.component = component
-    this.editor = editor as EditorWithContentComponent
+    this.editor = editor
     this.props = props as P
     this.element = document.createElement(as)
     this.element.classList.add('react-renderer')
@@ -177,15 +182,17 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
       this.element.classList.add(...className.split(' '))
     }
 
-    // If the editor is already initialized, we will need to
-    // synchronously render the component to ensure it renders
-    // together with Prosemirror's rendering.
-    if (this.editor.isInitialized) {
+    if (this.editor.isEditorContentInitialized) {
+      // If EditorContent is mounted, flush synchronously to maintain cursor positioning consistency.
+      // Subsequent renders can be async without affecting cursor behavior.
       flushSync(() => {
         this.render()
       })
     } else {
       queueMicrotask(() => {
+        if (this.destroyed) {
+          return
+        }
         this.render()
       })
     }
@@ -195,6 +202,10 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Render the React component.
    */
   render(): void {
+    if (this.destroyed) {
+      return
+    }
+
     const Component = this.component
     const props = this.props
     const editor = this.editor as EditorWithContentComponent
@@ -227,6 +238,10 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Re-renders the React component with new props.
    */
   updateProps(props: Record<string, any> = {}): void {
+    if (this.destroyed) {
+      return
+    }
+
     this.props = {
       ...this.props,
       ...props,
@@ -239,6 +254,7 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
    * Destroy the React component.
    */
   destroy(): void {
+    this.destroyed = true
     const editor = this.editor as EditorWithContentComponent
 
     editor?.contentComponent?.removeRenderer(this.id)

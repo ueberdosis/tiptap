@@ -1,5 +1,6 @@
 import type { FloatingMenuPluginProps } from '@tiptap/extension-floating-menu'
 import { FloatingMenuPlugin } from '@tiptap/extension-floating-menu'
+import { PluginKey } from '@tiptap/pm/state'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 
@@ -13,12 +14,22 @@ export const FloatingMenu = defineComponent({
       // TODO: TypeScript breaks :(
       // type: [String, Object as PropType<Exclude<FloatingMenuPluginProps['pluginKey'], string>>],
       type: null,
-      default: 'floatingMenu',
+      default: undefined,
     },
 
     editor: {
       type: Object as PropType<FloatingMenuPluginProps['editor']>,
       required: true,
+    },
+
+    updateDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['updateDelay']>,
+      default: undefined,
+    },
+
+    resizeDelay: {
+      type: Number as PropType<FloatingMenuPluginProps['resizeDelay']>,
+      default: undefined,
     },
 
     options: {
@@ -27,7 +38,7 @@ export const FloatingMenu = defineComponent({
     },
 
     appendTo: {
-      type: Object as PropType<FloatingMenuPluginProps['appendTo']>,
+      type: [Object, Function] as PropType<FloatingMenuPluginProps['appendTo']>,
       default: undefined,
     },
 
@@ -39,9 +50,10 @@ export const FloatingMenu = defineComponent({
 
   setup(props, { slots, attrs }) {
     const root = ref<HTMLElement | null>(null)
+    const resolvedPluginKey = props.pluginKey ?? new PluginKey('floatingMenu')
 
     onMounted(() => {
-      const { pluginKey, editor, options, appendTo, shouldShow } = props
+      const { editor, updateDelay, resizeDelay, options, appendTo, shouldShow } = props
 
       const el = root.value
 
@@ -57,9 +69,11 @@ export const FloatingMenu = defineComponent({
 
       editor.registerPlugin(
         FloatingMenuPlugin({
-          pluginKey,
+          pluginKey: resolvedPluginKey,
           editor,
           element: el,
+          updateDelay,
+          resizeDelay,
           options,
           appendTo,
           shouldShow,
@@ -68,9 +82,9 @@ export const FloatingMenu = defineComponent({
     })
 
     onBeforeUnmount(() => {
-      const { pluginKey, editor } = props
+      const { editor } = props
 
-      editor.unregisterPlugin(pluginKey)
+      editor.unregisterPlugin(resolvedPluginKey)
     })
 
     // Vue owns this element; attrs are applied reactively by Vue

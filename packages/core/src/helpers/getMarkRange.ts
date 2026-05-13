@@ -57,8 +57,13 @@ export function getMarkRange(
     return
   }
 
-  // Default to only matching against the first mark's attributes
-  attributes = attributes || start.node.marks[0]?.attrs
+  // Default to only matching against the attributes of the first mark with the given type
+  if (!attributes) {
+    const firstMark = start.node.marks.find(mark => mark.type === type)
+    if (firstMark) {
+      attributes = firstMark.attrs
+    }
+  }
 
   // We now know that the cursor is either at the start, middle or end of a text node with the specified mark
   // so we can look it up on the targeted mark

@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import deepEqual from 'fast-deep-equal/es6/react.js'
+import { deepEqual } from 'fast-equals'
 import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 

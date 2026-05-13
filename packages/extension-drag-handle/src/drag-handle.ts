@@ -3,6 +3,8 @@ import { type Editor, Extension } from '@tiptap/core'
 import type { Node } from '@tiptap/pm/model'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
+import { normalizeNestedOptions } from './helpers/normalizeOptions.js'
+import type { NestedOptions } from './types/options.js'
 
 export const defaultComputePositionConfig: ComputePositionConfig = {
   placement: 'left-start',
@@ -40,6 +42,61 @@ export interface DragHandleOptions {
    * The callback function that will be called when drag end.
    */
   onElementDragEnd?: (e: DragEvent) => void
+  /**
+   * Enable drag handles for nested content (list items, blockquotes, etc.).
+   *
+   * When enabled, the drag handle appears for block nodes at any depth, not just
+   * top-level blocks. A rule-based scoring system evaluates all ancestor nodes
+   * at the cursor position and selects the best drag target.
+   *
+   * **Values:**
+   * - `false` (default): Only root-level blocks show drag handles
+   * - `true`: Enable with sensible defaults (left edge detection, default rules)
+   * - `NestedOptions`: Enable with full custom configuration
+   *
+   * @default false
+   *
+   * @example
+   * // Simple enable with sensible defaults
+   * DragHandle.configure({
+   *   nested: true,
+   * })
+   *
+   * @example
+   * // Restrict to specific containers
+   * DragHandle.configure({
+   *   nested: {
+   *     allowedContainers: ['bulletList', 'orderedList'],
+   *   },
+   * })
+   *
+   * @example
+   * // With custom rules and edge detection disabled
+   * DragHandle.configure({
+   *   nested: {
+   *     rules: [{
+   *       id: 'excludeCodeBlocks',
+   *       evaluate: ({ node }) => node.type.name === 'codeBlock' ? 1000 : 0,
+   *     }],
+   *     edgeDetection: 'none',
+   *   },
+   * })
+   *
+   * @example
+   * // Full configuration
+   * DragHandle.configure({
+   *   nested: {
+   *     defaultRules: true,
+   *     allowedContainers: ['bulletList', 'orderedList', 'blockquote'],
+   *     edgeDetection: { threshold: 20 },
+   *     rules: [{
+   *       id: 'preferShallow',
+   *       evaluate: ({ depth }) => depth * 200,
+   *     }],
+   *   },
+   * })
+   */
+  nested?: boolean | NestedOptions
 }
 
 declare module '@tiptap/core' {
@@ -80,6 +137,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
       },
       onElementDragStart: undefined,
       onElementDragEnd: undefined,
+      nested: false,
     }
   },
 
@@ -108,6 +166,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
   addProseMirrorPlugins() {
     const element = this.options.render()
+    const nestedOptions = normalizeNestedOptions(this.options.nested)
 
     return [
       DragHandlePlugin({
@@ -118,6 +177,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
         onNodeChange: this.options.onNodeChange,
         onElementDragStart: this.options.onElementDragStart,
         onElementDragEnd: this.options.onElementDragEnd,
+        nestedOptions,
       }).plugin,
     ]
   },

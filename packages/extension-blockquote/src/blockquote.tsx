@@ -66,7 +66,9 @@ export const Blockquote = Node.create<BlockquoteOptions>({
   },
 
   parseMarkdown: (token, helpers) => {
-    return helpers.createNode('blockquote', undefined, helpers.parseChildren(token.tokens || []))
+    const parseBlockChildren = helpers.parseBlockChildren ?? helpers.parseChildren
+
+    return helpers.createNode('blockquote', undefined, parseBlockChildren(token.tokens || []))
   },
 
   renderMarkdown: (node, h) => {
@@ -74,20 +76,31 @@ export const Blockquote = Node.create<BlockquoteOptions>({
       return ''
     }
 
-    const lines: string[] = []
+    // Use a single '>' prefix regardless of nesting level
+    // Nested blockquotes will add their own '>' prefix recursively
+    const prefix = '>'
+    const result: string[] = []
 
-    node.content.forEach(child => {
-      const lineContent = h.renderChildren(child)
-      const withPrefix = lineContent
-        .split('\n')
-        .map(line => `> ${line}`)
-        .join('\n')
-      lines.push(withPrefix)
+    node.content.forEach((child, index) => {
+      const childContent = h.renderChild?.(child, index) ?? h.renderChildren([child])
+      const lines = childContent.split('\n')
+
+      const linesWithPrefix = lines.map(line => {
+        // Don't add prefix to empty lines
+        if (line.trim() === '') {
+          return prefix
+        }
+
+        // Nested blockquotes will already have their own prefixes
+        // We just need to add our own prefix at the start
+        return `${prefix} ${line}`
+      })
+
+      result.push(linesWithPrefix.join('\n'))
     })
 
-    const linesWithSeparators = lines.flatMap(line => [line, '> '])
-
-    return linesWithSeparators.slice(0, -1).join('\n')
+    // Add separator lines between children
+    return result.join(`\n${prefix}\n`)
   },
 
   addCommands() {

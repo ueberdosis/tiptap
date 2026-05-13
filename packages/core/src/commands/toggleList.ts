@@ -1,5 +1,6 @@
 import type { NodeType } from '@tiptap/pm/model'
 import type { Transaction } from '@tiptap/pm/state'
+import { TextSelection } from '@tiptap/pm/state'
 import { canJoin } from '@tiptap/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode.js'
@@ -78,6 +79,24 @@ declare module '@tiptap/core' {
   }
 }
 
+function createInnerSelectionForWholeDocList(tr: Transaction) {
+  const doc = tr.doc
+  const list = doc.firstChild
+
+  if (!list) {
+    return null
+  }
+
+  // Place the selection inside the list node so that ProseMirror's
+  // liftListItem command can operate. AllSelection sits at the doc root.
+  // Use TextSelection.between to resolve positions into valid inline
+  // content positions, so the selection survives position mapping after
+  // liftListItem removes list/item wrappers.
+  const $start = doc.resolve(1)
+  const $end = doc.resolve(list.nodeSize - 1)
+
+  return TextSelection.between($start, $end)
+}
 export const toggleList: RawCommands['toggleList'] =
   (listTypeOrName, itemTypeOrName, keepMarks, attributes = {}) =>
   ({ editor, tr, state, dispatch, chain, commands, can }) => {
@@ -96,17 +115,65 @@ export const toggleList: RawCommands['toggleList'] =
 
     const parentList = findParentNode(node => isList(node.type.name, extensions))(selection)
 
-    if (range.depth >= 1 && parentList && range.depth - parentList.depth <= 1) {
+    // When the user presses Ctrl/Cmd+A, ProseMirror creates an `AllSelection`
+    // covering the entire document (0..doc.content.size). In that case
+    // `findParentNode` cannot detect the surrounding list because the
+    // selection sits at the document root. If the document consists of a
+    // single top-level list node, treat that list as the active list so the
+    // toggle logic can correctly lift or change it.
+    const isAllSelection = selection.from === 0 && selection.to === state.doc.content.size
+    const topLevelNodes = state.doc.content.content
+    const soleTopLevelNode = topLevelNodes.length === 1 ? topLevelNodes[0] : null
+    const allSelectionList =
+      isAllSelection && soleTopLevelNode && isList(soleTopLevelNode.type.name, extensions)
+        ? {
+            node: soleTopLevelNode,
+            pos: 0,
+            depth: 0,
+          }
+        : null
+
+    const currentList = parentList ?? allSelectionList
+
+    const isInsideExistingList = !!parentList && range.depth >= 1 && range.depth - parentList.depth <= 1
+
+    const hasWholeDocSelectedList = !!allSelectionList
+    if ((isInsideExistingList || hasWholeDocSelectedList) && currentList) {
       // remove list
-      if (parentList.node.type === listType) {
+      if (currentList.node.type === listType) {
+        if (isAllSelection && hasWholeDocSelectedList) {
+          return chain()
+            .command(({ tr: trx, dispatch: disp }) => {
+              // Ctrl/Cmd+A creates an AllSelection at the document root.
+              // When the whole document is a single top-level list, normalize the
+              // selection into that list before lifting, since liftListItem expects
+              // a selection inside a list item.
+              const nextSelection = createInnerSelectionForWholeDocList(trx)
+
+              if (!nextSelection) {
+                return false
+              }
+
+              trx.setSelection(nextSelection)
+
+              if (disp) {
+                disp(trx)
+              }
+
+              return true
+            })
+            .liftListItem(itemType)
+            .run()
+        }
+
         return commands.liftListItem(itemType)
       }
 
       // change list type
-      if (isList(parentList.node.type.name, extensions) && listType.validContent(parentList.node.content) && dispatch) {
+      if (isList(currentList.node.type.name, extensions) && listType.validContent(currentList.node.content)) {
         return chain()
           .command(() => {
-            tr.setNodeMarkup(parentList.pos, listType)
+            tr.setNodeMarkup(currentList.pos, listType)
 
             return true
           })
@@ -115,17 +182,16 @@ export const toggleList: RawCommands['toggleList'] =
           .run()
       }
     }
+
     if (!keepMarks || !marks || !dispatch) {
       return (
         chain()
           // try to convert node to default node if needed
           .command(() => {
             const canWrapInList = can().wrapInList(listType, attributes)
-
             if (canWrapInList) {
               return true
             }
-
             return commands.clearNodes()
           })
           .wrapInList(listType, attributes)
@@ -148,7 +214,6 @@ export const toggleList: RawCommands['toggleList'] =
           if (canWrapInList) {
             return true
           }
-
           return commands.clearNodes()
         })
         .wrapInList(listType, attributes)
