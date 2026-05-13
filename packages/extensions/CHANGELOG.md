@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.23.4
+
+### Patch Changes
+
+- 57e53c1: Add a new `autoTrim` option to `CharacterCount` which can be used to allow exceeding the character limit and either trim or validate the content length manually
+  - @tiptap/core@3.23.4
+  - @tiptap/pm@3.23.4
+
 ## 3.23.3
 
 ### Patch Changes
