@@ -120,7 +120,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const limit = this.options.limit
           const autoTrim = this.options.autoTrim
 
-          if (limit === null || limit === undefined || limit === 0 || !autoTrim) {
+          if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
             initialEvaluationDone = true
             return
           }
