@@ -772,8 +772,8 @@ importers:
   packages/extension-link:
     dependencies:
       linkifyjs:
-        specifier: ^4.3.2
-        version: 4.3.2
+        specifier: ^4.3.3
+        version: 4.3.3
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^
@@ -5467,6 +5467,9 @@ packages:
 
   linkifyjs@4.3.2:
     resolution: {integrity: sha512-NT1CJtq3hHIreOianA8aSXn6Cw0JzYOuDQbOrSPe7gqFnCpKP++MQe3ODgO3oh2GJFORkAAdqredOa60z63GbA==}
+
+  linkifyjs@4.3.3:
+    resolution: {integrity: sha512-P8aEP5U/D1/IlTY2OeYsErdwh9bGuLE30NcXtKEjgdHcahveQoQwM2yZNsioQHsWFz0P7KKudisbrzCgR0sDHg==}
 
   lint-staged@15.4.1:
     resolution: {integrity: sha512-P8yJuVRyLrm5KxCtFx+gjI5Bil+wO7wnTl7C3bXhvtTaAFGirzeB24++D0wGoUwxrUKecNiehemgCob9YL39NA==}
@@ -12271,6 +12274,8 @@ snapshots:
       uc.micro: 2.1.0
 
   linkifyjs@4.3.2: {}
+
+  linkifyjs@4.3.3: {}
 
   lint-staged@15.4.1:
     dependencies:
