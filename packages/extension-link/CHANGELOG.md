@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.23.3
+
+### Patch Changes
+
+- 968675d: Bumped linkify to ^4.3.3 to improve link recognition & fix a bug with chinese character encoding breaking the links when followed by parentheses
+  - @tiptap/core@3.23.3
+  - @tiptap/pm@3.23.3
+
 ## 3.23.2
 
 ### Patch Changes
