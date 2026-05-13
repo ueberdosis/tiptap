@@ -4,11 +4,14 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+const POSITION_CHECK_DEBOUNCE_MS = 32
+
 describe('nodeViewPositionRegistry', () => {
   let editor: Editor | null = null
   let animationFrameCallbacks: FrameRequestCallback[] = []
 
   beforeEach(() => {
+    vi.useFakeTimers()
     animationFrameCallbacks = []
 
     vi.stubGlobal(
@@ -24,6 +27,7 @@ describe('nodeViewPositionRegistry', () => {
   afterEach(() => {
     editor?.destroy()
     editor = null
+    vi.useRealTimers()
     vi.unstubAllGlobals()
   })
 
@@ -43,15 +47,34 @@ describe('nodeViewPositionRegistry', () => {
     callbacks.forEach(callback => callback(performance.now()))
   }
 
-  it('does not run position checks for plain text edits', () => {
+  function flushScheduledPositionChecks() {
+    vi.advanceTimersByTime(POSITION_CHECK_DEBOUNCE_MS)
+    flushAnimationFrames()
+  }
+
+  it('runs position checks for plain text edits', () => {
     const currentEditor = createEditor()
     const callback = vi.fn()
 
     schedulePositionCheck(currentEditor, callback)
     currentEditor.view.dispatch(currentEditor.state.tr.insertText('x', 2))
-    flushAnimationFrames()
+    flushScheduledPositionChecks()
 
-    expect(callback).not.toHaveBeenCalled()
+    expect(callback).toHaveBeenCalledOnce()
+
+    cancelPositionCheck(currentEditor, callback)
+  })
+
+  it('debounces position checks during rapid document changes', () => {
+    const currentEditor = createEditor()
+    const callback = vi.fn()
+
+    schedulePositionCheck(currentEditor, callback)
+    currentEditor.view.dispatch(currentEditor.state.tr.insertText('x', 2))
+    currentEditor.view.dispatch(currentEditor.state.tr.insertText('y', 3))
+    flushScheduledPositionChecks()
+
+    expect(callback).toHaveBeenCalledOnce()
 
     cancelPositionCheck(currentEditor, callback)
   })
@@ -63,7 +86,7 @@ describe('nodeViewPositionRegistry', () => {
 
     schedulePositionCheck(currentEditor, callback)
     currentEditor.view.dispatch(currentEditor.state.tr.insert(0, paragraph))
-    flushAnimationFrames()
+    flushScheduledPositionChecks()
 
     expect(callback).toHaveBeenCalledOnce()
 
