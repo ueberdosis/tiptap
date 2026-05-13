@@ -22,7 +22,7 @@ export interface CharacterCountOptions {
    * @default true
    * @example false
    */
-  autoTrim: boolean
+  autoTrim?: boolean
   /**
    * The text counter function to use. Defaults to a simple character count.
    * @default (text) => text.length
