@@ -1,5 +1,12 @@
 # @tiptap/server-ai-toolkit
 
+## 0.1.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/pm@3.23.3
+
 ## 0.1.0
 
 ### Minor Changes
