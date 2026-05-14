@@ -1,10 +1,6 @@
----
-applyTo: '**'
----
-
 # Tiptap
 
-This document explains how to work on the Tiptap monorepo in VS Code. It covers repo layout, local dev, linting and formatting, tests, docs, and release workflow. It is written to be friendly for both humans and AI coding assistants.
+This document explains how to work on the Tiptap monorepo. It covers repo layout, local dev, linting and formatting, tests, docs, and release workflow. It is written to be friendly for both humans and AI coding assistants.
 
 ---
 
@@ -63,7 +59,7 @@ Scripts defined at the repo root:
 ## Linting & formatting
 
 * ESLint config is at **`.eslintrc.js`** in the repo root.
-* Prettier config is at **`.prettierrc`** (or `prettier.config.json`).
+* Prettier config is at **`.prettierrc`**.
 * Husky and lint-staged run automatically on commits.
 
 Run manually:
@@ -124,25 +120,6 @@ We focus heavily on **User Experience** and **Developer Experience**. Every publ
 
 This ensures our automated API docs are complete and examples are usable without extra context.
 
-Example:
-
-````ts
-/**
- * Toggle bold mark on the current selection.
- *
- * Example
- * ```ts
- * editor.chain().focus().toggleBold().run()
- * ```
- *
- * @param editor - The editor instance
- * @returns true if the command was applied
- */
-export function toggleBold(editor: Editor): boolean {
-  // ...
-}
-````
-
 ---
 
 ## Versioning and releases with Changesets
@@ -174,8 +151,6 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 ## Extra guidance (short additions)
 
-To make these instructions easier for automated agents and new contributors, the sections below add a few operational details and guardrails that speed up safe, repeatable changes.
-
 ### Environment
 
 - Recommended Node version: >=18.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime.
@@ -184,12 +159,6 @@ To make these instructions easier for automated agents and new contributors, the
 ### Where to edit packages
 
 Packages live under `packages/*`. Public entry points are typically `packages/<name>/src/index.ts` and are referenced by the package's `package.json` (`main`/`module`/`exports`). Prefer editing `src/` files and keep package diffs focused. For framework bindings check `packages/react/` and `packages/vue-2/` or `packages/vue-3/`.
-
-### Demos auto-discovery rules
-
-The demos app discovers examples automatically. When adding a demo:
-- Keep demo files small and self-contained. Import from published package names (for example `@tiptap/extension-foo`).
-- Name demo files clearly; follow existing naming conventions in `demos/`.
 
 ### Validation checklist (run locally before opening a PR)
 
@@ -223,7 +192,3 @@ If a single package is failing types, run a targeted build for that package (e.g
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
 - For flaky Cypress tests, run the demo locally with `pnpm dev` and reproduce the failing test in `pnpm test:open`.
-
----
-
-These additions are intentionally short so they are easy to follow and scriptable by tools and agents. If you'd like, I can apply a slightly different tone or expand any section into more detail (for example, exact node/pnpm version pinning or demo naming patterns).

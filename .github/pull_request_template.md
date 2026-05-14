@@ -18,6 +18,11 @@
 
 <!-- Add any other notes or screenshots about the PR here. -->
 
+## AI Usage
+
+- [ ] I have used AI tools (e.g., ChatGPT, Claude, Copilot) in creating this PR.
+- [ ] If yes, describe how: <!-- optional -->
+
 ## Checklist
 
 - [ ] I have created a [changeset](https://github.com/changesets/changesets) for this PR if necessary.
@@ -28,4 +33,4 @@
 
 ## Related Issues
 
-<!-- Link any related issues here -->
+<!-- Link the issue this PR addresses. PRs without a linked issue (except for trivial fixes) may be closed. -->
