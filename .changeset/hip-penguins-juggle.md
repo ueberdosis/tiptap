@@ -5,9 +5,10 @@
 "@tiptap/vue-3": patch
 ---
 
-fix(nodeview): reduce unnecessary NodeView re-renders on unrelated transactions
+fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
 
-React and Vue NodeViews no longer re-render when the editor creates new
-decoration objects for an unrelated transaction. Added a shallow prop
-comparison in ReactRenderer.updateProps() to skip portal updates when
-props are unchanged.
+NodeViews no longer re-render when decorations or the document position change
+without the node's content changing. Added `trackNodeViewPosition` option to
+opt into reactive `position` prop updates (at the cost of re-rendering on every
+position shift). Removed the internal `nodeViewPositionRegistry`. Added shallow
+prop comparison in `ReactRenderer.updateProps()`.

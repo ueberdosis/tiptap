@@ -722,6 +722,11 @@ export interface NodeViewProps extends NodeViewRendererProps {
   selected: boolean
   updateAttributes: (attributes: Record<string, any>) => void
   deleteNode: () => void
+  /**
+   * The current position of the node in the document.
+   * Only present when `trackNodeViewPosition` is enabled on the renderer.
+   */
+  position?: number
 }
 
 export interface NodeViewRendererOptions {
@@ -735,6 +740,15 @@ export interface NodeViewRendererOptions {
    * Defaults to `false` to preserve existing behavior.
    */
   selectedOnTextSelection?: boolean
+  /**
+   * When `true`, the node view receives a reactive `position` prop that
+   * updates every time the node's position in the document changes.
+   * This causes the component to re-render on every position shift.
+   * The `getPos` prop (a dynamic closure) works regardless and is the
+   * recommended way to access the position for imperative use.
+   * @default false
+   */
+  trackNodeViewPosition?: boolean
 }
 
 export interface NodeViewRendererProps {
