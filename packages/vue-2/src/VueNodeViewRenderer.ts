@@ -210,17 +210,16 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     }
 
     const newPos = this.getPos()
+    const nodeChanged = node !== this.node
+    const positionChanged = newPos !== this.currentPos
 
-    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
-      if (newPos === this.currentPos) {
-        return true
-      }
-
-      // Position changed without a content/decoration change — trigger re-render
-      // so the component receives an up-to-date value from getPos().
-      // Pass a fresh getPos reference so Vue's reactivity detects a prop change.
-      this.currentPos = newPos
-      rerenderComponent({ node, decorations, innerDecorations, getPos: () => this.getPos() })
+    // Neither the node reference nor the position changed. Decorations might
+    // be fresh reference-equality objects, but they are semantically unchanged.
+    // Update internal refs and skip the Vue re-render entirely.
+    if (!nodeChanged && !positionChanged) {
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
       return true
     }
 
@@ -229,7 +228,18 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.innerDecorations = innerDecorations
     this.currentPos = newPos
 
-    rerenderComponent({ node, decorations, innerDecorations })
+    // Only pass a fresh getPos if the position actually changed
+    const extraProps: Record<string, any> = {
+      node,
+      decorations,
+      innerDecorations,
+    }
+
+    if (positionChanged) {
+      extraProps.getPos = () => this.getPos()
+    }
+
+    rerenderComponent(extraProps)
 
     return true
   }

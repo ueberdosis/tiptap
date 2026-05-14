@@ -11,6 +11,7 @@ interface PositionUpdateRegistry {
   callbacks: Set<() => void>
   rafId: number | null
   handler: () => void
+  pendingTransaction: boolean
 }
 
 const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
@@ -36,6 +37,7 @@ export function schedulePositionCheck(editor: Editor, callback: () => void): voi
           newRegistry.callbacks.forEach(cb => cb())
         })
       },
+      pendingTransaction: false,
     }
 
     positionUpdateRegistries.set(editor, newRegistry)
