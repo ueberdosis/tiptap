@@ -89,6 +89,10 @@ export class ReactNodeView<
     }
     this.currentPos = newPos
     this.renderer.updateProps({ getPos: () => this.getPos() })
+
+    if (typeof this.options.attrs === 'function') {
+      this.updateElementAttributes()
+    }
   }
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
@@ -330,7 +334,6 @@ export class ReactNodeView<
       })
     }
 
-    const newPos = this.getPos()
     const nodeChanged = node !== this.node
 
     // Node reference unchanged — only decorations may have changed.
@@ -346,6 +349,8 @@ export class ReactNodeView<
       this.innerDecorations = innerDecorations
       return true
     }
+
+    const newPos = this.getPos()
 
     this.node = node
     this.decorations = decorations

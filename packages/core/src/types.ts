@@ -736,11 +736,11 @@ export interface NodeViewRendererOptions {
    */
   selectedOnTextSelection?: boolean
   /**
-   * When `true`, the node view receives a reactive `position` prop that
-   * updates every time the node's position in the document changes.
-   * This causes the component to re-render on every position shift.
-   * The `getPos` prop (a dynamic closure) works regardless and is the
-   * recommended way to access the position for imperative use.
+   * When `true`, the component re-renders on every position shift so calls
+   * to `getPos()` stay current in render output.
+   * Without this option, `getPos()` is still always current for imperative
+   * use (click handlers, commands) — it only becomes stale when directly
+   * rendered in JSX or used in reactive template expressions.
    * @default false
    */
   trackNodeViewPosition?: boolean
