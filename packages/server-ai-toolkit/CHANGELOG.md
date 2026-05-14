@@ -1,5 +1,11 @@
 # @tiptap/server-ai-toolkit
 
+## 0.1.3
+
+### Patch Changes
+
+- 13edfe9: Relax peer dependency requirements so that the library is compatible with any version of Tiptap 3
+
 ## 0.1.2
 
 ### Patch Changes
