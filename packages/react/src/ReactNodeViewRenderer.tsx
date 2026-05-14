@@ -342,11 +342,12 @@ export class ReactNodeView<
     // and the getPos closure (bound in mount()) calls through to
     // ProseMirror's position function at call time, so it is always
     // current. Update internal refs and skip the React re-render.
+    // Keep currentPos unchanged here so the editor update listener can
+    // still detect and publish a position shift for tracked node views.
     if (!nodeChanged) {
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
-      this.currentPos = newPos
       return true
     }
 
