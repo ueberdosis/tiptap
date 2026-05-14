@@ -31,7 +31,7 @@ Key points for AI assistants:
 │     └─ vue/                # Vue demos
 ├─ tests/                    # Cypress e2e tests that run against the demos
 ├─ .changeset/               # Changesets for versioning and changelogs
-└─ .github/                  # Workflows and docs like this file
+└─ .github/                  # Workflows and GitHub-related config/docs
 ```
 
 Notes:
