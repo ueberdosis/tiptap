@@ -60,10 +60,6 @@ export const nodeViewProps = {
     type: Object as PropType<NodeViewProps['HTMLAttributes']>,
     required: true as const,
   },
-  position: {
-    type: Number as PropType<NonNullable<NodeViewProps['position']>>,
-    required: false,
-  },
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
@@ -135,10 +131,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       deleteNode: () => this.deleteNode(),
     }
 
-    if (this.options.trackNodeViewPosition) {
-      props.position = this.getPos()
-    }
-
     const mountProps = props as NodeViewProps
 
     const onDragStart = this.onDragStart.bind(this)
@@ -195,7 +187,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return
     }
     this.currentPos = newPos
-    this.renderer.updateProps({ position: newPos })
+    this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
   /**
@@ -290,7 +282,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return false
     }
 
-    const newPos = this.getPos()
     const nodeChanged = node !== this.node
 
     // Node reference unchanged — only decorations may have changed.
@@ -317,7 +308,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     }
 
     if (this.options.trackNodeViewPosition) {
-      extraProps.position = newPos
+      extraProps.getPos = () => this.getPos()
     }
 
     rerenderComponent(extraProps)

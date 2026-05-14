@@ -722,11 +722,6 @@ export interface NodeViewProps extends NodeViewRendererProps {
   selected: boolean
   updateAttributes: (attributes: Record<string, any>) => void
   deleteNode: () => void
-  /**
-   * The current position of the node in the document.
-   * Only present when `trackNodeViewPosition` is enabled on the renderer.
-   */
-  position?: number
 }
 
 export interface NodeViewRendererOptions {

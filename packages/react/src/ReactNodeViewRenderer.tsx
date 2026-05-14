@@ -88,7 +88,7 @@ export class ReactNodeView<
       return
     }
     this.currentPos = newPos
-    this.renderer.updateProps({ position: newPos })
+    this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
@@ -166,10 +166,6 @@ export class ReactNodeView<
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
       ref: createRef<T>(),
-    }
-
-    if (this.options.trackNodeViewPosition) {
-      props.position = this.getPos()
     }
 
     const mountProps = props as ReactNodeViewProps<T>
@@ -364,7 +360,7 @@ export class ReactNodeView<
     }
 
     if (this.options.trackNodeViewPosition) {
-      extraProps.position = newPos
+      extraProps.getPos = () => this.getPos()
     }
 
     rerenderComponent(extraProps)

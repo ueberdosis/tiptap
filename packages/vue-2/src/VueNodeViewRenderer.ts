@@ -24,10 +24,6 @@ export const nodeViewProps = {
   getPos: functionProp<NodeViewProps['getPos']>().required,
   updateAttributes: functionProp<NodeViewProps['updateAttributes']>().required,
   deleteNode: functionProp<NodeViewProps['deleteNode']>().required,
-  position: {
-    type: Number,
-    required: false,
-  },
 }
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
@@ -71,7 +67,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return
     }
     this.currentPos = newPos
-    this.renderer.updateProps({ position: newPos })
+    this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
   mount() {
@@ -87,10 +83,6 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-    }
-
-    if (this.options.trackNodeViewPosition) {
-      props.position = this.getPos()
     }
 
     const mountProps = props as NodeViewProps
@@ -216,7 +208,6 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return false
     }
 
-    const newPos = this.getPos()
     const nodeChanged = node !== this.node
 
     // Node reference unchanged — only decorations may have changed.
@@ -242,7 +233,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     }
 
     if (this.options.trackNodeViewPosition) {
-      extraProps.position = newPos
+      extraProps.getPos = () => this.getPos()
     }
 
     rerenderComponent(extraProps)

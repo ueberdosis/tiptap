@@ -7,8 +7,8 @@
 
 fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
 
-NodeViews no longer re-render when decorations or the document position change
-without the node's content changing. Added `trackNodeViewPosition` option to
-opt into reactive `position` prop updates (at the cost of re-rendering on every
-position shift). Removed the internal `nodeViewPositionRegistry`. Added shallow
-prop comparison in `ReactRenderer.updateProps()`.
+NodeViews no longer re-render when decorations or position change without
+content changes. Added `trackNodeViewPosition` option — when enabled, the
+component re-renders on every position shift so calls to `getPos()` stay
+current in render output. Removed the internal `nodeViewPositionRegistry`.
+Added shallow prop comparison in `ReactRenderer.updateProps()`.
