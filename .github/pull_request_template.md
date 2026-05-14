@@ -21,7 +21,8 @@
 ## AI Usage
 
 - [ ] I have used AI tools (e.g., ChatGPT, Claude, Copilot) in creating this PR.
-- [ ] If yes, describe how: <!-- optional -->
+- [ ] If yes, describe which tools were used and how they contributed to this PR:
+  <!-- Required if AI tools were used. Include enough detail for reviewers to understand the scope of the AI-generated contribution. -->
 
 ## Checklist
 
