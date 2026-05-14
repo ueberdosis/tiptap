@@ -687,10 +687,6 @@ Final paragraph.`
     })
   })
 
-  /**
-   * Regression: bold text before inline atom node must not reopen bold after atom.
-   * @see https://github.com/ueberdosis/tiptap/issues/7827
-   */
   it('does not reopen marks after inline atom that does not carry them', () => {
     const doc = {
       type: 'doc',
