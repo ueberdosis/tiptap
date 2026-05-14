@@ -137,7 +137,7 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 * `pnpm run clean:packages` - remove build artifacts
 * `pnpm run clean:packs` - remove generated tarballs
-* `pnpm reset` - full reset of caches, node\_modules, and lockfiles
+* `pnpm reset` - full reset of caches, node\_modules, and dependencies
 
 ---
 
