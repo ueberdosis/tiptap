@@ -34,4 +34,4 @@
 
 ## Related Issues
 
-<!-- Link the issue this PR addresses. PRs without a linked issue (except for trivial fixes) may be closed. -->
+<!-- Link the issue this PR addresses. The linked issue should also be assigned to you. PRs without a linked issue (except for trivial fixes) may be closed. -->
