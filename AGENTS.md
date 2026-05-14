@@ -48,8 +48,8 @@ Scripts defined at the repo root:
 * `pnpm build` - build all packages via Turborepo
 * `pnpm lint` - run eslint checks
 * `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:open` - open Cypress against `tests/`
-* `pnpm test:run` - run Cypress in headless mode
+* `pnpm test:e2e:open` - open Cypress against `tests/`
+* `pnpm test:e2e` - run Cypress in headless mode
 * `pnpm test` - build then run all tests
 * `pnpm serve` - build and serve the demos on port 3000
 * `pnpm publish` - build and publish with Changesets
