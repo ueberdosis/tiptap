@@ -26,8 +26,9 @@ Key points for AI assistants:
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
 ├─ demos/                    # Vite app for live examples
-│  ├─ react/                 # React demos
-│  └─ vue/                   # Vue demos
+│  └─ src/
+│     ├─ react/              # React demos
+│     └─ vue/                # Vue demos
 ├─ tests/                    # Cypress e2e tests that run against the demos
 ├─ .changeset/               # Changesets for versioning and changelogs
 └─ .github/                  # Workflows and docs like this file
