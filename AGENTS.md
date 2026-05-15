@@ -154,7 +154,7 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 ### Environment
 
-- Recommended Node version: >=18.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime.
+- Recommended Node version: >=24.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime that matches the root `package.json` `engines.node` requirement.
 - Recommended package manager: pnpm (use the repo's lockfile). If you see unexpected errors, run `pnpm reset`.
 
 ### Where to edit packages
