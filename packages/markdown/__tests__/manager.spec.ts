@@ -687,6 +687,26 @@ Final paragraph.`
     })
   })
 
+  it('does not reopen marks after inline atom that does not carry them', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'Bold ', marks: [{ type: 'bold' }] },
+            { type: 'tag', attrs: { label: 'node' } },
+            { type: 'text', text: ' some text' },
+          ],
+        },
+      ],
+    }
+
+    const markdown = markdownManager.renderNodes(doc)
+    // Trailing space is moved outside bold markers (per Issue #7180 whitespace convention)
+    expect(markdown).toBe('**Bold** [tag label="node"] some text')
+  })
+
   describe('Round-trip Tests', () => {
     beforeEach(() => {
       markdownManager = new MarkdownManager({ extensions: extendedExtensions })

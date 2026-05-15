@@ -1186,8 +1186,16 @@ export class MarkdownManager {
         result.push(textContent)
       } else {
         // For non-text nodes, close all active marks before rendering, then reopen after
-        const marksToReopen = new Map(activeMarks)
-        const openingModesToReopen = new Map(markOpeningModes)
+        // Only reopen marks that the node itself carries — marks don't skip over inline atoms.
+        const nodeMarkTypes = new Set((node.marks || []).map((mark: { type: string }) => mark.type))
+        const marksToReopen = new Map<string, { type: string; attrs?: Record<string, any> }>()
+        const openingModesToReopen = new Map<string, 'markdown' | 'html'>()
+        activeMarks.forEach((mark, type) => {
+          if (nodeMarkTypes.has(type)) {
+            marksToReopen.set(type, mark)
+            openingModesToReopen.set(type, markOpeningModes.get(type) ?? 'markdown')
+          }
+        })
 
         // Close all marks before the node
         const beforeMarkdown = closeMarksBeforeNode(activeMarks, (markType, mark) => {
