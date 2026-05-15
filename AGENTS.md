@@ -1,10 +1,6 @@
----
-applyTo: '**'
----
-
 # Tiptap
 
-This document explains how to work on the Tiptap monorepo in VS Code. It covers repo layout, local dev, linting and formatting, tests, docs, and release workflow. It is written to be friendly for both humans and AI coding assistants.
+This document explains how to work on the Tiptap monorepo. It covers repo layout, local dev, linting and formatting, tests, docs, and release workflow. It is written to be friendly for both humans and AI coding assistants.
 
 ---
 
@@ -30,11 +26,12 @@ Key points for AI assistants:
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
 ├─ demos/                    # Vite app for live examples
-│  ├─ react/                 # React demos
-│  └─ vue/                   # Vue demos
+│  └─ src/
+│     ├─ react/              # React demos
+│     └─ vue/                # Vue demos
 ├─ tests/                    # Cypress e2e tests that run against the demos
 ├─ .changeset/               # Changesets for versioning and changelogs
-└─ .github/                  # Workflows and docs like this file
+└─ .github/                  # Workflows and GitHub-related config/docs
 ```
 
 Notes:
@@ -51,8 +48,8 @@ Scripts defined at the repo root:
 * `pnpm build` - build all packages via Turborepo
 * `pnpm lint` - run eslint checks
 * `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:open` - open Cypress against `tests/`
-* `pnpm test:run` - run Cypress in headless mode
+* `pnpm test:e2e:open` - open Cypress against `tests/`
+* `pnpm test:e2e` - run Cypress in headless mode
 * `pnpm test` - build then run all tests
 * `pnpm serve` - build and serve the demos on port 3000
 * `pnpm publish` - build and publish with Changesets
@@ -63,7 +60,7 @@ Scripts defined at the repo root:
 ## Linting & formatting
 
 * ESLint config is at **`.eslintrc.js`** in the repo root.
-* Prettier config is at **`.prettierrc`** (or `prettier.config.json`).
+* Prettier config is at **`.prettierrc`**.
 * Husky and lint-staged run automatically on commits.
 
 Run manually:
@@ -124,25 +121,6 @@ We focus heavily on **User Experience** and **Developer Experience**. Every publ
 
 This ensures our automated API docs are complete and examples are usable without extra context.
 
-Example:
-
-````ts
-/**
- * Toggle bold mark on the current selection.
- *
- * Example
- * ```ts
- * editor.chain().focus().toggleBold().run()
- * ```
- *
- * @param editor - The editor instance
- * @returns true if the command was applied
- */
-export function toggleBold(editor: Editor): boolean {
-  // ...
-}
-````
-
 ---
 
 ## Versioning and releases with Changesets
@@ -159,7 +137,7 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 * `pnpm run clean:packages` - remove build artifacts
 * `pnpm run clean:packs` - remove generated tarballs
-* `pnpm reset` - full reset of caches, node\_modules, and lockfiles
+* `pnpm reset` - full reset of caches, node\_modules, and dependencies
 
 ---
 
@@ -174,22 +152,14 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 ## Extra guidance (short additions)
 
-To make these instructions easier for automated agents and new contributors, the sections below add a few operational details and guardrails that speed up safe, repeatable changes.
-
 ### Environment
 
-- Recommended Node version: >=18.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime.
+- Recommended Node version: >=24.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime that matches the root `package.json` `engines.node` requirement.
 - Recommended package manager: pnpm (use the repo's lockfile). If you see unexpected errors, run `pnpm reset`.
 
 ### Where to edit packages
 
 Packages live under `packages/*`. Public entry points are typically `packages/<name>/src/index.ts` and are referenced by the package's `package.json` (`main`/`module`/`exports`). Prefer editing `src/` files and keep package diffs focused. For framework bindings check `packages/react/` and `packages/vue-2/` or `packages/vue-3/`.
-
-### Demos auto-discovery rules
-
-The demos app discovers examples automatically. When adding a demo:
-- Keep demo files small and self-contained. Import from published package names (for example `@tiptap/extension-foo`).
-- Name demo files clearly; follow existing naming conventions in `demos/`.
 
 ### Validation checklist (run locally before opening a PR)
 
@@ -213,7 +183,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 
 ### Guidance for automated agents and AI assistants
 
-- Disclose when AI tools are used to generate any part of a contribution, including code, documentation, tests, and other content — the PR template includes an AI usage disclosure checkbox. Follow the project's guidelines on AI disclosure.
+- Disclose when AI tools are used to generate any part of a contribution, including code, docs, tests, or other changes — the PR template includes an AI usage disclosure checkbox. Follow the project's guidelines on AI disclosure.
 - Make single-purpose, small diffs. Avoid sweeping changes in one PR.
 - Always run the validation checklist above after edits.
 - Add or update a demo and tests for user-visible behavior. For deterministic behaviour, favour unit tests over fragile e2e tests where possible.
@@ -223,7 +193,3 @@ If a single package is failing types, run a targeted build for that package (e.g
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
 - For flaky Cypress tests, run the demo locally with `pnpm dev` and reproduce the failing test in `pnpm test:open`.
-
----
-
-These additions are intentionally short so they are easy to follow and scriptable by tools and agents. If you'd like, I can apply a slightly different tone or expand any section into more detail (for example, exact node/pnpm version pinning or demo naming patterns).
