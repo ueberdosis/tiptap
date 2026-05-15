@@ -8,7 +8,7 @@ import {
   Node,
 } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
+import { Plugin, PluginKey, Selection, TextSelection, NodeSelection } from '@tiptap/pm/state'
 import type { ViewMutationRecord } from '@tiptap/pm/view'
 
 import { findClosestVisibleNode } from './helpers/findClosestVisibleNode.js'
@@ -443,6 +443,54 @@ export const Details = Node.create<DetailsOptions>({
       // The cursor is moved to the next visible position.
       new Plugin({
         key: new PluginKey('detailsSelection'),
+        // Ensure dragging from a summary moves the entire details node
+        props: {
+          handleDOMEvents: {
+            dragstart: (view, event) => {
+              const target = event.target
+
+              const element =
+                target instanceof HTMLElement
+                  ? target
+                  : target instanceof Text
+                    ? target.parentElement
+                    : null
+
+              if (!element) {
+                return false
+              }
+
+              const summary = element.closest('summary')
+
+              if (!summary) {
+                return false
+              }
+
+              const { $from } = view.state.selection
+
+              for (let depth = $from.depth; depth > 0; depth--) {
+                const node = $from.node(depth)
+
+                if (node.type.name === 'details') {
+                  const detailsPos = $from.before(depth)
+
+                  const selection = NodeSelection.create(
+                    view.state.doc,
+                    detailsPos,
+                  )
+
+                  view.dispatch(
+                    view.state.tr.setSelection(selection),
+                  )
+
+                  break
+                }
+              }
+
+              return false
+            },
+          },
+        },
         appendTransaction: (transactions, oldState, newState) => {
           const { editor, type } = this
           const isComposing = editor.view.composing
