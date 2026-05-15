@@ -227,6 +227,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
+    this.currentPos = this.getPos()
 
     const extraProps: Record<string, any> = {
       node,
