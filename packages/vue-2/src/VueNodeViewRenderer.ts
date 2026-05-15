@@ -214,11 +214,13 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     // ProseMirror renders decorations independently on the contentDOM,
     // and the getPos closure (bound in mount()) calls through to
     // ProseMirror's position function at call time, so it is always
-    // current. Update internal refs and skip the Vue re-render.
+    // current. Update internal refs, refresh decoration classes for
+    // the wrapper component, and skip the Vue re-render.
     if (!nodeChanged) {
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
+      this.decorationClasses.value = this.getDecorationClasses()
       return true
     }
 
