@@ -71,6 +71,7 @@ export const DragHandle = (props: DragHandleProps) => {
     onNodeChange,
     onElementDragStart,
     onElementDragEnd,
+    getReferencedVirtualElement,
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
@@ -116,6 +117,7 @@ export const DragHandle = (props: DragHandleProps) => {
       onElementDragStart,
       onElementDragEnd,
       onNodeChange,
+      getReferencedVirtualElement,
       nestedOptions,
     })
 
@@ -131,6 +133,7 @@ export const DragHandle = (props: DragHandleProps) => {
     element,
     editor,
     onNodeChange,
+    getReferencedVirtualElement,
     pluginKey,
     computePositionConfig,
     onElementDragStart,
