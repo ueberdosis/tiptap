@@ -32,7 +32,7 @@ Key points for AI assistants:
 ├─ demos/                    # Vite app for live examples
 │  ├─ react/                 # React demos
 │  └─ vue/                   # Vue demos
-├─ tests/                    # Cypress e2e tests that run against the demos
+├─ tests/                    # Playwright e2e tests + helpers (see tests/e2e/)
 ├─ .changeset/               # Changesets for versioning and changelogs
 └─ .github/                  # Workflows and docs like this file
 ```
@@ -41,7 +41,7 @@ Notes:
 
 * All packages we publish or use live under `packages/*`.
 * The `demos/` folder contains a Vite app. It automatically discovers and parses React and Vue demos so they appear in the UI without manual wiring.
-* Cypress tests in `tests/` expect the demos to be available on `http://localhost:3000`.
+* Playwright tests live colocated with the demos (`demos/src/**/*.spec.ts`) and in `tests/e2e/`. They expect the demos to be available on `http://localhost:3000` and are launched via `playwright.config.ts` which manages the dev server automatically.
 
 ## NPM scripts
 
@@ -51,8 +51,10 @@ Scripts defined at the repo root:
 * `pnpm build` - build all packages via Turborepo
 * `pnpm lint` - run eslint checks
 * `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:open` - open Cypress against `tests/`
-* `pnpm test:run` - run Cypress in headless mode
+* `pnpm test:e2e` - run Playwright in headless mode
+* `pnpm test:e2e:ui` - open Playwright UI mode
+* `pnpm test:e2e:debug` - run Playwright in inspector/debug mode
+* `pnpm test:e2e:report` - open the last Playwright HTML report
 * `pnpm test` - build then run all tests
 * `pnpm serve` - build and serve the demos on port 3000
 * `pnpm publish` - build and publish with Changesets
@@ -94,22 +96,31 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 ---
 
-## Testing with Cypress
+## Testing with Playwright
 
-* Cypress lives in `tests/` and drives the demos in a browser.
-* Tests assume the app is running on `http://localhost:3000`.
+* End-to-end tests run with [Playwright](https://playwright.dev) and live
+  colocated with the demos (`demos/src/**/*.spec.ts`). Cross-cutting
+  integration specs live under `tests/e2e/`.
+* Shared helpers live in `tests/e2e/support/` (`setEditorContent`,
+  `getEditorHTML`, `pressShortcut`, `pasteIntoEditor`, `typeText`,
+  `editorEval`, …) and replace the former Cypress custom commands.
+* `playwright.config.ts` at the repo root starts the demos dev server
+  automatically via the `webServer` option, so you don't have to start it
+  yourself.
 
 Workflow:
 
 ```bash
-pnpm dev         # terminal A
-pnpm test:open   # terminal B
+pnpm test:e2e            # headless run
+pnpm test:e2e:ui         # interactive UI mode
+pnpm test:e2e:debug      # step-through debugger
+pnpm test:e2e:report     # open the last HTML report
 ```
 
-or for headless CI runs:
+The first time you run Playwright locally, install browsers with:
 
 ```bash
-pnpm test:run
+pnpm exec playwright install --with-deps chromium
 ```
 
 ---
@@ -198,7 +209,7 @@ Run the following to validate changes quickly:
 ```bash
 pnpm lint
 pnpm build
-pnpm test       # runs unit and/or cypress where configured
+pnpm test       # runs unit + Playwright e2e tests
 pnpm dev        # optionally run the demos and open http://localhost:3000
 ```
 
@@ -222,7 +233,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### Troubleshooting notes
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
-- For flaky Cypress tests, run the demo locally with `pnpm dev` and reproduce the failing test in `pnpm test:open`.
+- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:ui` or by running a single spec, e.g. `pnpm test:e2e demos/src/Marks/Bold/React/index.spec.ts --headed`. Traces and screenshots from failed runs land in `test-results/` and `playwright-report/`.
 
 ---
 

@@ -30,8 +30,10 @@ yarn-error.log*
 .rts2_cache_es
 .rts2_cache_umd
 
-tests/cypress/videos
-/tests/cypress/screenshots
+# Playwright outputs
+/playwright-report
+/test-results
+/playwright/.cache
 # Ignore intellij project files
 .idea
 

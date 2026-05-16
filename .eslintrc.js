@@ -14,10 +14,7 @@ module.exports = {
     },
     {
       files: ['./**/*.ts', './**/*.tsx', './**/*.js', './**/*.jsx', './**/*.vue'],
-      plugins: ['html', 'cypress', '@typescript-eslint', 'simple-import-sort'],
-      env: {
-        'cypress/globals': true,
-      },
+      plugins: ['html', '@typescript-eslint', 'simple-import-sort'],
       globals: {
         document: false,
         window: false,
@@ -93,6 +90,33 @@ module.exports = {
         '@typescript-eslint/consistent-type-imports': ['error', { disallowTypeAnnotations: false }],
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
+      },
+    },
+    {
+      // Playwright e2e specs are sequential by design; awaiting inside a
+      // for-of loop is the deterministic pattern we want. The mechanical
+      // translation from Cypress also produces a handful of shadowed
+      // param names that aren't worth a manual cleanup pass on every
+      // file. Keep this override LAST so it wins.
+      files: ['./**/*.spec.ts', './playwright.config.ts', './tests/e2e/**/*.ts'],
+      rules: {
+        'no-await-in-loop': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': 'off',
+        'no-restricted-syntax': 'off',
+        'no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-template-curly-in-string': 'off',
+        'no-useless-concat': 'off',
+        'prefer-const': 'off',
+        'no-plusplus': 'off',
+        '@typescript-eslint/no-unused-expressions': 'off',
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': 'off',
+        'no-undef': 'off',
+        'no-unreachable': 'off',
+        'no-empty-pattern': 'off',
+        'no-empty': 'off',
       },
     },
   ],

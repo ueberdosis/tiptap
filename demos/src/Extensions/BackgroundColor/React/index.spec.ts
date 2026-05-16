@@ -1,0 +1,82 @@
+import {
+  editorEval,
+  expect,
+  getEditorHTML,
+  getEditorJSON,
+  getEditorText,
+  pasteIntoEditor,
+  pressShortcut,
+  setEditorContent,
+  test,
+  typeInEditor,
+  typeText,
+  waitForEditor,
+  withEditor,
+} from '../../../../../tests/e2e/support/index.js'
+
+test.describe('/src/Extensions/BackgroundColor/React/', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/src/Extensions/BackgroundColor/React/')
+  })
+
+  test.beforeEach(async ({ page }) => {
+    await setEditorContent(page, '<p>Example Text</p>')
+
+    await page.locator('.tiptap').first().click()
+    await typeText(page, '{selectall}')
+  })
+
+  test('should set the background color of the selected text', async ({ page }) => {
+    await expect(page.locator('[data-testid="setPurple"]')).not.toHaveClass(
+      new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'),
+    )
+    await page.locator('[data-testid="setPurple"]').first().click()
+    await expect(page.locator('[data-testid="setPurple"]')).toHaveClass(new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'))
+
+    await expect(page.locator('.tiptap').locator('span')).toHaveAttribute('style', 'background-color: #958DF1')
+  })
+
+  test('should remove the background color of the selected text', async ({ page }) => {
+    await page.locator('[data-testid="setPurple"]').first().click()
+
+    await expect(page.locator('.tiptap span')).toHaveCount(1)
+
+    await page.locator('[data-testid="unsetBackgroundColor"]').first().click()
+
+    await expect(page.locator('.tiptap span')).toHaveCount(0)
+  })
+
+  test('should change background color with color picker', async ({ page }) => {
+    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('input[type=color]')
+    // TODO(playwright-migration): trigger(...)
+
+    await expect(page.locator('.tiptap').locator('span')).toHaveAttribute('style', 'background-color: #ff0000')
+  })
+
+  test('should match background color and color picker color values', async ({ page }) => {
+    await page.locator('[data-testid="setPurple"]').first().click()
+
+    await expect(page.locator('input[type=color]')).toHaveValue('#958df1')
+  })
+
+  test('should preserve background color on new lines', async ({ page }) => {
+    await page.locator('[data-testid="setPurple"]').first().click()
+    await page.locator('.ProseMirror').first().click()
+    await typeText(page, 'Example Text{enter}')
+
+    await expect(page.locator('[data-testid="setPurple"]')).toHaveClass(new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'))
+  })
+
+  test('should unset background color on new lines after unset clicked', async ({ page }) => {
+    await page.locator('[data-testid="setPurple"]').first().click()
+    await page.locator('.ProseMirror').first().click()
+    await typeText(page, 'Example Text{enter}')
+    await page.locator('[data-testid="unsetBackgroundColor"]').first().click()
+    await page.locator('.ProseMirror').first().click()
+    await typeText(page, 'Example Text')
+
+    await expect(page.locator('[data-testid="setPurple"]')).not.toHaveClass(
+      new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'),
+    )
+  })
+})

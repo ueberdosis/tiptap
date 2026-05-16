@@ -46,13 +46,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Cypress binary
-        run: pnpm exec cypress install
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Pack dependency artifacts
         run: |
           tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
+          tar -czf /tmp/playwright-cache.tar.gz -C "$HOME/.cache" ms-playwright
 
       - name: Upload dependency artifacts
         uses: actions/upload-artifact@v7
@@ -60,7 +60,7 @@ jobs:
           name: node-dependencies
           path: |
             /tmp/pnpm-store.tar.gz
-            /tmp/cypress-cache.tar.gz
+            /tmp/playwright-cache.tar.gz
           retention-days: 1
 
   check-linting-formatting:
@@ -203,15 +203,17 @@ jobs:
       fail-fast: false
       matrix:
         test-spec:
-          - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { id: demos-commands, name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { id: demos-examples, name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { id: demos-experiments, name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { id: demos-extensions, name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          - { id: demos-marks, name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { id: demos-nodes, name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
+          - { id: integration, name: Integration, spec: 'tests/e2e' }
+          - { id: demos-commands, name: 'Demos/Commands', spec: 'demos/src/Commands' }
+          - { id: demos-examples, name: 'Demos/Examples', spec: 'demos/src/Examples' }
+          - { id: demos-experiments, name: 'Demos/Experiments', spec: 'demos/src/Experiments' }
+          - { id: demos-extensions, name: 'Demos/Extensions', spec: 'demos/src/Extensions' }
+          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: 'demos/src/GuideContent' }
+          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: 'demos/src/GuideGettingStarted' }
+          - { id: demos-guidemarkviews, name: 'Demos/GuideMarkViews', spec: 'demos/src/GuideMarkViews' }
+          - { id: demos-marks, name: 'Demos/Marks', spec: 'demos/src/Marks' }
+          - { id: demos-nodes, name: 'Demos/Nodes', spec: 'demos/src/Nodes' }
+          - { id: demos-demos, name: 'Demos/Demos', spec: 'demos/src/Demos' }
 
     steps:
       - uses: actions/checkout@v6
@@ -241,8 +243,11 @@ jobs:
       - name: Restore dependencies
         run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
-      - name: Restore Cypress cache
-        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
+      - name: Restore Playwright browsers
+        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/playwright-cache.tar.gz -C "$HOME/.cache"
+
+      - name: Install Playwright OS dependencies
+        run: pnpm exec playwright install-deps chromium
 
       - name: Download build artifacts
         uses: actions/download-artifact@v8
@@ -254,28 +259,23 @@ jobs:
         run: tar -xzf /tmp/build-output/build-output.tar.gz
 
       - name: Test ${{ matrix.test-spec.name }}
-        uses: cypress-io/github-action@v7.3.0
-        with:
-          install: false
-          start: pnpm exec http-server ./demos/dist -s -p 3000
-          wait-on: http://localhost:3000
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
+        env:
+          CI: '1'
+          PLAYWRIGHT_USE_BUILD: '1'
+        run: pnpm exec playwright test ${{ matrix.test-spec.spec }} --project=chromium
 
-      - name: Export screenshots (on failure only)
+      - name: Upload Playwright report (on failure only)
         uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.test-spec.id }}
-          path: tests/cypress/screenshots
+          name: playwright-report-${{ matrix.test-spec.id }}
+          path: playwright-report
           retention-days: 7
 
-      - name: Export screen recordings (on failure only)
+      - name: Upload Playwright test results (on failure only)
         uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: cypress-videos-${{ matrix.test-spec.id }}
-          path: tests/cypress/videos
+          name: playwright-test-results-${{ matrix.test-spec.id }}
+          path: test-results
           retention-days: 7

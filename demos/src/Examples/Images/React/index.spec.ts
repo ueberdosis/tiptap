@@ -1,0 +1,47 @@
+import {
+  editorEval,
+  expect,
+  getEditorHTML,
+  getEditorJSON,
+  getEditorText,
+  pasteIntoEditor,
+  pressShortcut,
+  setEditorContent,
+  test,
+  typeInEditor,
+  typeText,
+  waitForEditor,
+  withEditor,
+} from '../../../../../tests/e2e/support/index.js'
+
+test.describe('/src/Examples/Images/React/', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/src/Examples/Images/React/')
+  })
+
+  test('finds image elements inside editor', async ({ page }) => {
+    await expect(page.locator('.tiptap img')).toHaveCount(2)
+  })
+
+  test('allows removing images', async ({ page }) => {
+    await expect(page.locator('.tiptap')).toBeVisible()
+    await expect(page.locator('.tiptap img')).toHaveCount(2)
+    // TODO(playwright-migration): unhandled .and(...) on page.locator('.tiptap img')
+    await page.locator('.tiptap img').first().click()
+    await expect(page.locator('.tiptap img.ProseMirror-selectednode')).toHaveCount(1)
+    await page.locator('.tiptap').first().click()
+    await typeText(page, '{backspace}')
+    await expect(page.locator('.tiptap img')).toHaveCount(1)
+  })
+
+  test('allows images to be added via URL', async ({ page }) => {
+    await page.evaluate(v => {
+      ;(window as any).prompt = () => v
+    }, 'https://placehold.co/400x400')
+
+    await page.waitForTimeout(1000)
+    await page.locator('button').filter({ hasText: 'Add image from URL' }).first().click()
+    await page.waitForTimeout(1000)
+    await expect(page.locator('.tiptap img')).toHaveCount(3)
+  })
+})

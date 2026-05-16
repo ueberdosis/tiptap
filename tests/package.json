@@ -1,3 +1,5 @@
 {
+  "name": "tiptap-tests",
+  "private": true,
   "type": "module"
 }
