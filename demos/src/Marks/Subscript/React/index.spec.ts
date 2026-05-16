@@ -38,7 +38,7 @@ test.describe('/src/Marks/Subscript/React/', () => {
   test('the button should make the selected text bold', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('sub')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('sub').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the selected text bold', async ({ page }) => {

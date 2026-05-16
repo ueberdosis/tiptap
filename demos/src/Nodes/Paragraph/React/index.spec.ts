@@ -41,7 +41,7 @@ test.describe('/src/Nodes/Paragraph/React/', () => {
   test('text should be wrapped in a paragraph by default', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'Example Text')
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('enter should make a new paragraph', async ({ page }) => {
@@ -49,9 +49,13 @@ test.describe('/src/Nodes/Paragraph/React/', () => {
     await typeText(page, 'First Paragraph{enter}Second Paragraph')
     await expect(page.locator('.tiptap').locator('p')).toHaveCount(2)
 
-    await expect(page.locator('.tiptap').locator('p:first')).toContainText('First Paragraph')
+    await expect(
+      page.locator('.tiptap').locator('p').first().filter({ hasText: 'First Paragraph' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('p:nth-child(2)')).toContainText('Second Paragraph')
+    await expect(
+      page.locator('.tiptap').locator('p:nth-child(2)').filter({ hasText: 'Second Paragraph' }).first(),
+    ).toBeAttached()
   })
 
   test('backspace should remove the second paragraph', async ({ page }) => {

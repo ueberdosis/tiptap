@@ -34,12 +34,12 @@ test.describe('/src/Experiments/Commands/Vue/', () => {
     for (const item of items) {
       await page.locator('.tiptap').first().click()
       await typeText(page, '{selectall}{backspace}/')
-      await expect(page.locator('.dropdown-menu')).toHaveCount(1)
+      await expect(page.locator('.dropdown-menu').first()).toBeAttached()
       await page.locator('.dropdown-menu button').nth(i).click()
       await page.locator('.tiptap').first().click()
       await typeText(page, `I am a ${item.tag}`)
-      await expect(page.locator(`.tiptap ${item.tag}`)).toHaveCount(1)
-      await expect(page.locator(`.tiptap ${item.tag}`)).toHaveText(`I am a ${item.tag}`)
+      await expect(page.locator(`.tiptap ${item.tag}`).first()).toBeAttached()
+      await expect(page.locator(`.tiptap ${item.tag}`).first()).toHaveText(`I am a ${item.tag}`)
       i++
     }
   })
@@ -47,7 +47,7 @@ test.describe('/src/Experiments/Commands/Vue/', () => {
   test('should close the popup without any command via esc', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}{backspace}/')
-    await expect(page.locator('.dropdown-menu')).toHaveCount(1)
+    await expect(page.locator('.dropdown-menu').first()).toBeAttached()
     await page.locator('.tiptap').first().click()
     await typeText(page, '{esc}')
     await expect(page.locator('.dropdown-menu')).toHaveCount(0)
@@ -56,12 +56,12 @@ test.describe('/src/Experiments/Commands/Vue/', () => {
   test('should open the popup when the cursor is after a slash', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}{backspace}/')
-    await expect(page.locator('.dropdown-menu')).toHaveCount(1)
+    await expect(page.locator('.dropdown-menu').first()).toBeAttached()
     await page.locator('.tiptap').first().click()
     await typeText(page, '{leftArrow}')
     await expect(page.locator('.dropdown-menu')).toHaveCount(0)
     await page.locator('.tiptap').first().click()
     await typeText(page, '{rightArrow}')
-    await expect(page.locator('.dropdown-menu')).toHaveCount(1)
+    await expect(page.locator('.dropdown-menu').first()).toBeAttached()
   })
 })

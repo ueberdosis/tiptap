@@ -20,8 +20,10 @@ test.describe('/src/GuideContent/GenerateHTML/React/', () => {
   })
 
   test('should render the content as an HTML string', async ({ page }) => {
-    await expect(page.locator('pre code')).toHaveCount(1)
+    await expect(page.locator('pre code').first()).toBeAttached()
 
-    await expect(page.locator('pre code')).toContainText('<p>Example <strong>Text</strong></p>')
+    await expect(
+      page.locator('pre code').filter({ hasText: '<p>Example <strong>Text</strong></p>' }).first(),
+    ).toBeAttached()
   })
 })

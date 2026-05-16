@@ -29,12 +29,20 @@ test.describe('/src/Examples/InteractivityComponent/React/', () => {
   })
 
   test('should handle count click inside custom node', async ({ page }) => {
-    await expect(page.locator('.tiptap .react-component button')).toHaveText('This button has been clicked 0 times.')
+    await expect(page.locator('.tiptap .react-component button').first()).toHaveText(
+      'This button has been clicked 0 times.',
+    )
     await page.locator('.tiptap .react-component button').first().click()
-    await expect(page.locator('.tiptap .react-component button')).toHaveText('This button has been clicked 1 times.')
+    await expect(page.locator('.tiptap .react-component button').first()).toHaveText(
+      'This button has been clicked 1 times.',
+    )
     await page.locator('.tiptap .react-component button').first().click()
-    await expect(page.locator('.tiptap .react-component button')).toHaveText('This button has been clicked 2 times.')
+    await expect(page.locator('.tiptap .react-component button').first()).toHaveText(
+      'This button has been clicked 2 times.',
+    )
     await page.locator('.tiptap .react-component button').first().click()
-    await expect(page.locator('.tiptap .react-component button')).toHaveText('This button has been clicked 3 times.')
+    await expect(page.locator('.tiptap .react-component button').first()).toHaveText(
+      'This button has been clicked 3 times.',
+    )
   })
 })

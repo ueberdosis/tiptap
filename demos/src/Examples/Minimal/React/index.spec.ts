@@ -30,7 +30,7 @@ test.describe('/src/Examples/Minimal/React/', () => {
   test('text should be wrapped in a paragraph by default', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'Example Text')
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should parse paragraphs correctly', async ({ page }) => {

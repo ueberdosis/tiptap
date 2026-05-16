@@ -43,7 +43,7 @@ test.describe('/src/Marks/Italic/Vue/', () => {
   test('the button should make the selected text italic', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('em')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('em').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the selected text italic', async ({ page }) => {
@@ -59,7 +59,7 @@ test.describe('/src/Marks/Italic/Vue/', () => {
 
   test('the keyboard shortcut should make the selected text italic', async ({ page }) => {
     await pressShortcut(page, { modKey: true, key: 'i' })
-    await expect(page.locator('.tiptap').locator('em')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('em').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the keyboard shortcut should toggle the selected text italic', async ({ page }) => {

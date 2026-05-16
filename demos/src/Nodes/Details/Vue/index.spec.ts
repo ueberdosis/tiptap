@@ -43,14 +43,18 @@ test.describe('/src/Nodes/Details/Vue/', () => {
     await page.locator('button').first().click()
 
     await expect(
-      page.locator('.ProseMirror').locator('[data-type="details"] [data-type="detailsContent"]'),
-    ).toContainText('Example Text')
+      page
+        .locator('.ProseMirror')
+        .locator('[data-type="details"] [data-type="detailsContent"]')
+        .filter({ hasText: 'Example Text' })
+        .first(),
+    ).toBeAttached()
   })
 
   test('unsetDetails should make the selected line a paragraph node', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.ProseMirror [data-type="details"]')).toHaveCount(1)
+    await expect(page.locator('.ProseMirror [data-type="details"]').first()).toBeAttached()
 
     await page.locator('button:nth-child(2)').first().click()
 

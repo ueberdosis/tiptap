@@ -41,7 +41,8 @@ test.describe('/src/GuideContent/ReadOnly/Vue/', () => {
 
   test('should be editable', async ({ page }) => {
     await page.locator('#editable').first().click()
-    // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
+    // arrow:
     // () => {
     //       cy.get('.tiptap').type('Edited: ')
     //

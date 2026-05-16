@@ -44,7 +44,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('h1')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h1').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should make the selected line a h2', async ({ page }) => {
@@ -52,7 +52,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('button:nth-child(2)').first().click()
 
-    await expect(page.locator('.tiptap').locator('h2')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h2').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should make the selected line a h3', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('button:nth-child(3)').first().click()
 
-    await expect(page.locator('.tiptap').locator('h3')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h3').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the heading', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('h1')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h1').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await page.locator('button:nth-child(1)').first().click()
 
@@ -77,17 +77,17 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
   test('should make the paragraph a h1 keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, altKey: true, key: '1' })
-    await expect(page.locator('.tiptap').locator('h1')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h1').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should make the paragraph a h2 keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, altKey: true, key: '2' })
-    await expect(page.locator('.tiptap').locator('h2')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h2').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should make the paragraph a h3 keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, altKey: true, key: '3' })
-    await expect(page.locator('.tiptap').locator('h3')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('h3').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should make a h1 from the default markdown shortcut', async ({ page }) => {
@@ -99,7 +99,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '# Headline')
-    await expect(page.locator('.tiptap').locator('h1')).toContainText('Headline')
+    await expect(page.locator('.tiptap').locator('h1').filter({ hasText: 'Headline' }).first()).toBeAttached()
   })
 
   test('should make a h2 from the default markdown shortcut', async ({ page }) => {
@@ -111,7 +111,7 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '## Headline')
-    await expect(page.locator('.tiptap').locator('h2')).toContainText('Headline')
+    await expect(page.locator('.tiptap').locator('h2').filter({ hasText: 'Headline' }).first()).toBeAttached()
   })
 
   test('should make a h3 from the default markdown shortcut', async ({ page }) => {
@@ -123,6 +123,6 @@ test.describe('/src/Nodes/Heading/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '### Headline')
-    await expect(page.locator('.tiptap').locator('h3')).toContainText('Headline')
+    await expect(page.locator('.tiptap').locator('h3').filter({ hasText: 'Headline' }).first()).toBeAttached()
   })
 })

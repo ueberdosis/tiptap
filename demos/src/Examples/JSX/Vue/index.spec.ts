@@ -25,6 +25,6 @@ test.describe('/src/Examples/JSX/Vue/', () => {
   })
 
   test('should have paragraphs colored as red', async ({ page }) => {
-    await expect(page.locator('.tiptap p')).toHaveCSS('color', 'rgb(255, 0, 0)')
+    await expect(page.locator('.tiptap p').first()).toHaveCSS('color', 'rgb(255, 0, 0)')
   })
 })

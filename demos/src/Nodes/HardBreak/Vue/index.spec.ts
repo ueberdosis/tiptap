@@ -38,7 +38,7 @@ test.describe('/src/Nodes/HardBreak/Vue/', () => {
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap br')).toHaveCount(1)
+    await expect(page.locator('.tiptap br').first()).toBeAttached()
   })
 
   test('the default keyboard shortcut should add a line break', async ({ page }) => {
@@ -46,7 +46,7 @@ test.describe('/src/Nodes/HardBreak/Vue/', () => {
 
     await pressShortcut(page, { shiftKey: true, key: 'Enter' })
 
-    await expect(page.locator('.tiptap br')).toHaveCount(1)
+    await expect(page.locator('.tiptap br').first()).toBeAttached()
   })
 
   test('the alternative keyboard shortcut should add a line break', async ({ page }) => {
@@ -54,6 +54,6 @@ test.describe('/src/Nodes/HardBreak/Vue/', () => {
 
     await pressShortcut(page, { modKey: true, key: 'Enter' })
 
-    await expect(page.locator('.tiptap br')).toHaveCount(1)
+    await expect(page.locator('.tiptap br').first()).toBeAttached()
   })
 })

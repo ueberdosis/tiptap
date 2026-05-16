@@ -20,14 +20,16 @@ test.describe('/src/Examples/CodeBlockLanguage/React/', () => {
   })
 
   test('should have hljs classes for syntax highlighting', async ({ page }) => {
-    // TODO(playwright-migration): translate cy.get('[class^=hljs]').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('[class^=hljs]').then(arrow):
+    // arrow:
     // elements => {
     //       expect(elements.length).toBeGreaterThan(0)
     //     }
   })
 
   test('should have different count of hljs classes after switching language', async ({ page }) => {
-    // TODO(playwright-migration): translate cy.get('[class^=hljs]').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('[class^=hljs]').then(arrow):
+    // arrow:
     // elements => {
     //       const initialCount = elements.length
     //
@@ -37,11 +39,12 @@ test.describe('/src/Examples/CodeBlockLanguage/React/', () => {
     //       cy.get('.tiptap select').select('java')
     //       cy.wait(500)
     //
-    //       cy.get('[class^=hljs]').then(newElements => {
-    //         const newCount = newElements.length
-    //
-    //         expect(newCount).not.toBe(initialCount)
-    //       })
+    //       // TODO(playwright-migration): translate cy.get('[class^=hljs]').then(arrow):
+    // newElements => {
+    // //         const newCount = newElements.length
+    // //
+    // //         expect(newCount).not.toBe(initialCount)
+    // //       }
     //     }
   })
 })

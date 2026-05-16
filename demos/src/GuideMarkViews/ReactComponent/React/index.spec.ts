@@ -25,26 +25,34 @@ test.describe('/src/GuideMarkViews/ReactComponent/React/', () => {
   })
 
   test('should show the markview', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view"]').first()).toBeAttached()
   })
 
   test('should show the markview content in the markview', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view-content-wrapper"]')).toHaveCount(1)
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view-content-wrapper"]')).toContainText(
-      'Mark View Text',
-    )
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view-content-wrapper"]').first()).toBeAttached()
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('[data-test-id="mark-view-content-wrapper"]')
+        .filter({ hasText: 'Mark View Text' })
+        .first(),
+    ).toBeAttached()
   })
 
   test('should allow clicking the button', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="count-button"]')).toContainText(
-      'This button has been clicked 0 times.',
-    )
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('[data-test-id="count-button"]')
+        .filter({ hasText: 'This button has been clicked 0 times.' })
+        .first(),
+    ).toBeAttached()
     await page.locator('.tiptap').locator('[data-test-id="count-button"]').first().click()
     // TODO(playwright-migration): .then() chain on locator
   })
 
   test('should update the attributes of the mark on button click', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view')).toHaveAttribute('data-count', '0')
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view').first()).toHaveAttribute('data-count', '0')
 
     // click on the button
     await page.locator('.tiptap').locator('[data-test-id="update-attributes-button"]').first().click()

@@ -24,7 +24,7 @@ test.describe('/src/GuideContent/ExportJSON/React/', () => {
   })
 
   test('should return json', async ({ page }) => {
-    const json = await editorEval(page, '(await getEditorJSON(page))', '.tiptap')
+    const json = await editorEval(page, 'editor.getJSON()', '.tiptap')
 
     expect(json).toEqual({
       type: 'doc',

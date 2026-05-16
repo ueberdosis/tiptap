@@ -38,13 +38,14 @@ test.describe('/src/GuideContent/ReadOnly/React/', () => {
 
     await expect(page.locator('.tiptap p').first().first()).not.toContainText('Edited: ')
 
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap')
+    /* invoke('attr') value */ await page.locator('.tiptap').first().getAttribute('tabindex')
     await expect(page.locator('.tiptap')).toHaveCount(0)
   })
 
   test('should be editable', async ({ page }) => {
     await page.locator('#editable').first().click()
-    // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
+    // arrow:
     // () => {
     //       cy.get('.tiptap').type('Edited: ')
     //

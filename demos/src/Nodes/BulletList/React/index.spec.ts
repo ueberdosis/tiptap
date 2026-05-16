@@ -42,9 +42,9 @@ test.describe('/src/Nodes/BulletList/React/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ul')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ul').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('ul li')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ul li').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the bullet list', async ({ page }) => {
@@ -52,7 +52,7 @@ test.describe('/src/Nodes/BulletList/React/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ul')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ul').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await page.locator('button:nth-child(1)').first().click()
 
@@ -69,15 +69,14 @@ test.describe('/src/Nodes/BulletList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '- List Item 1{enter}{enter}Paragraph')
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('li')
     expect(await page.locator('.tiptap').locator('li').count()).toBe(1)
 
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Paragraph')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Paragraph' }).first()).toBeAttached()
   })
 
   test('should make the paragraph a bullet list keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, shiftKey: true, key: '8' })
-    await expect(page.locator('.tiptap').locator('ul li')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ul li').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should make a bullet list from an asterisk', async ({ page }) => {
@@ -90,9 +89,13 @@ test.describe('/src/Nodes/BulletList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '* List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
   })
 
   test('should make a bullet list from a dash', async ({ page }) => {
@@ -105,9 +108,13 @@ test.describe('/src/Nodes/BulletList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '- List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
   })
 
   test('should make a bullet list from a plus', async ({ page }) => {
@@ -120,9 +127,13 @@ test.describe('/src/Nodes/BulletList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '+ List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
   })
 
   test('should remove the bullet list after pressing backspace', async ({ page }) => {
@@ -135,6 +146,6 @@ test.describe('/src/Nodes/BulletList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '* {backspace}Example')
 
-    await expect(page.locator('.tiptap').locator('p')).toContainText('* Example')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: '* Example' }).first()).toBeAttached()
   })
 })

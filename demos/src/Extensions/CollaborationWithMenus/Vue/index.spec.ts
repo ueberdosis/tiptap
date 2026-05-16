@@ -20,8 +20,9 @@ test.describe('/src/Extensions/CollaborationWithMenus/Vue/', () => {
   })
 
   test('should have a working tiptap instance', async ({ page }) => {
-    // eslint-disable-next-line
-    expect(editor).to.not.be.null
+    await waitForEditor(page, '.tiptap')
+    const hasEditor = await editorEval<boolean>(page, 'editor != null')
+    expect(hasEditor).toBe(true)
   })
 
   test('should have menu plugins initiated', async ({ page }) => {
@@ -38,16 +39,10 @@ test.describe('/src/Extensions/CollaborationWithMenus/Vue/', () => {
   })
 
   test('should have a ydoc', async ({ page }) => {
-    /**
-     * @type {import('yjs').Doc}
-     */
-    const yDoc = await editorEval(
+    const yDocHasValue = await editorEval<boolean>(
       page,
-      "editor.extensionManager.extensions.find(a => a.name === 'collaboration').options.document",
-      '.tiptap',
+      "editor.extensionManager.extensions.find(a => a.name === 'collaboration').options.document != null",
     )
-
-    // eslint-disable-next-line
-    expect(yDoc).to.not.be.null
+    expect(yDocHasValue).toBe(true)
   })
 })

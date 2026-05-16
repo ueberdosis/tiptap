@@ -29,21 +29,29 @@ test.describe('/src/Examples/InteractivityComponentContent/Vue/', () => {
   })
 
   test('should allow text editing inside component', async ({ page }) => {
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap .vue-component .content')
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap .vue-component .content')
+    /* invoke('attr') value */ await page
+      .locator('.tiptap .vue-component .content')
+      .first()
+      .getAttribute('contentEditable')(
+      /* invoke('text') value */ await page.locator('.tiptap .vue-component .content').first().innerText(),
+    )
     await page.locator('.tiptap .vue-component .content').first().click()
     await typeText(page, 'Hello World!')
-    await expect(page.locator('.tiptap .vue-component .content')).toHaveText('Hello World!')
+    await expect(page.locator('.tiptap .vue-component .content').first()).toHaveText('Hello World!')
   })
 
   test('should allow text editing inside component with markdown text', async ({ page }) => {
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap .vue-component .content')
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap .vue-component .content')
+    /* invoke('attr') value */ await page
+      .locator('.tiptap .vue-component .content')
+      .first()
+      .getAttribute('contentEditable')(
+      /* invoke('text') value */ await page.locator('.tiptap .vue-component .content').first().innerText(),
+    )
     await page.locator('.tiptap .vue-component .content').first().click()
     await typeText(page, 'Hello World! This is **bold**.')
-    await expect(page.locator('.tiptap .vue-component .content')).toHaveText('Hello World! This is bold.')
+    await expect(page.locator('.tiptap .vue-component .content').first()).toHaveText('Hello World! This is bold.')
 
-    await expect(page.locator('.tiptap .vue-component .content strong')).toHaveCount(1)
+    await expect(page.locator('.tiptap .vue-component .content strong').first()).toBeAttached()
   })
 
   test('should remove node via selectall', async ({ page }) => {

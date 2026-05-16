@@ -36,7 +36,7 @@ test.describe('/src/Experiments/CollaborationAnnotation/Vue/', () => {
       await page.locator('.editor-1 .tiptap').first().click()
       await typeText(page, '{end}')
       await expect(page.locator('.tiptap .annotation')).toHaveCount(2)
-      await expect(page.locator('.comment')).toHaveCount(1)
+      await expect(page.locator('.comment').first()).toBeAttached()
     
   }) */
 
@@ -64,10 +64,10 @@ test.describe('/src/Experiments/CollaborationAnnotation/Vue/', () => {
       await page.locator('button').filter({ hasText: 'Comment' }).nth(0).click()
       await page.waitForTimeout(1000)
       await page.locator('.editor-1 .tiptap').locator('.annotation').first().click()
-      await expect(page.locator('.comment')).toHaveCount(1)
+      await expect(page.locator('.comment').first()).toBeAttached()
       await page.locator('button').filter({ hasText: 'Update' }).first().click()
       await page.waitForTimeout(1000)
-      await expect(page.locator('.comment')).toHaveCount(1)
+      await expect(page.locator('.comment').first()).toBeAttached()
     
   }) */
 
@@ -80,7 +80,7 @@ test.describe('/src/Experiments/CollaborationAnnotation/Vue/', () => {
       await page.locator('button').filter({ hasText: 'Comment' }).nth(0).click()
       await page.waitForTimeout(1000)
       await page.locator('.editor-1 .tiptap').locator('.annotation').first().click()
-      await expect(page.locator('.comment')).toHaveCount(1)
+      await expect(page.locator('.comment').first()).toBeAttached()
       await page.locator('button').filter({ hasText: 'Remove' }).first().click()
       await expect(page.locator('.tiptap .annotation')).toHaveCount(0)
       await page.waitForTimeout(1000)

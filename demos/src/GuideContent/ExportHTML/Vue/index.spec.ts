@@ -24,7 +24,7 @@ test.describe('/src/GuideContent/ExportHTML/Vue/', () => {
   })
 
   test('should return html', async ({ page }) => {
-    const html = await editorEval(page, '(await getEditorHTML(page))', '.tiptap')
+    const html = await editorEval(page, 'editor.getHTML()', '.tiptap')
 
     expect(html).toBe('<p>Example Text</p>')
   })

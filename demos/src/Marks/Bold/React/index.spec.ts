@@ -52,7 +52,7 @@ test.describe('/src/Marks/Bold/React/', () => {
   test('the button should make the selected text bold', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('strong')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('strong').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the selected text bold', async ({ page }) => {
@@ -65,12 +65,12 @@ test.describe('/src/Marks/Bold/React/', () => {
 
   test('should make the selected text bold when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, key: 'b' })
-    await expect(page.locator('.tiptap').locator('strong')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('strong').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should toggle the selected text bold when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, key: 'b' })
-    await expect(page.locator('.tiptap').locator('strong')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('strong').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await pressShortcut(page, { modKey: true, key: 'b' })
 
@@ -80,12 +80,12 @@ test.describe('/src/Marks/Bold/React/', () => {
   test('should make a bold text from the default markdown shortcut', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '**Bold**')
-    await expect(page.locator('.tiptap').locator('strong')).toContainText('Bold')
+    await expect(page.locator('.tiptap').locator('strong').filter({ hasText: 'Bold' }).first()).toBeAttached()
   })
 
   test('should make a bold text from the alternative markdown shortcut', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '__Bold__')
-    await expect(page.locator('.tiptap').locator('strong')).toContainText('Bold')
+    await expect(page.locator('.tiptap').locator('strong').filter({ hasText: 'Bold' }).first()).toBeAttached()
   })
 })

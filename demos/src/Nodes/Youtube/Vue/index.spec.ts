@@ -30,7 +30,7 @@ test.describe('/src/Nodes/Youtube/Vue/', () => {
     }, 'https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
     await page.locator('#add').nth(0).click()
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap div[data-youtube-video] iframe')
+    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
     // TODO(playwright-migration): .then() chain on locator
   })
 
@@ -44,9 +44,9 @@ test.describe('/src/Nodes/Youtube/Vue/', () => {
     await typeText(page, '{selectall}{backspace}240')
     await page.locator('#add').nth(0).click()
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCSS('width', '320px')
-    await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCSS('height', '240px')
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap div[data-youtube-video] iframe')
+    await expect(page.locator('.tiptap div[data-youtube-video] iframe').first()).toHaveCSS('width', '320px')
+    await expect(page.locator('.tiptap div[data-youtube-video] iframe').first()).toHaveCSS('height', '240px')
+    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
     // TODO(playwright-migration): .then() chain on locator
   })
 
@@ -57,7 +57,7 @@ test.describe('/src/Nodes/Youtube/Vue/', () => {
 
     await page.locator('#add').nth(0).click()
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap div[data-youtube-video] iframe')
+    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
     // TODO(playwright-migration): .then() chain on locator
 
     await page.locator('.tiptap div[data-youtube-video] iframe').first().click()
@@ -65,7 +65,7 @@ test.describe('/src/Nodes/Youtube/Vue/', () => {
     await page.locator('#add').nth(0).click()
 
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap div[data-youtube-video] iframe')
+    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
     // TODO(playwright-migration): .then() chain on locator
   })
 })

@@ -48,7 +48,7 @@ test.describe('/src/Marks/Strike/React/', () => {
   test('the button should strike the selected text', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('s')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('s').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the selected text striked', async ({ page }) => {
@@ -64,7 +64,7 @@ test.describe('/src/Marks/Strike/React/', () => {
 
   test('should strike the selected text when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, shiftKey: true, key: 's' })
-    await expect(page.locator('.tiptap').locator('s')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('s').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should toggle the selected text striked when the keyboard shortcut is pressed', async ({ page }) => {
@@ -76,6 +76,6 @@ test.describe('/src/Marks/Strike/React/', () => {
   test('should make a striked text from the markdown shortcut', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '~~Strike~~')
-    await expect(page.locator('.tiptap').locator('s')).toContainText('Strike')
+    await expect(page.locator('.tiptap').locator('s').filter({ hasText: 'Strike' }).first()).toBeAttached()
   })
 })

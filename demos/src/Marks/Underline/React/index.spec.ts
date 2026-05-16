@@ -38,7 +38,7 @@ test.describe('/src/Marks/Underline/React/', () => {
   test('the button should underline the selected text', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('u')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('u').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the selected text underline', async ({ page }) => {
@@ -54,7 +54,7 @@ test.describe('/src/Marks/Underline/React/', () => {
 
   test('should underline the selected text when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, key: 'u' })
-    await expect(page.locator('.tiptap').locator('u')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('u').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should toggle the selected text underline when the keyboard shortcut is pressed', async ({ page }) => {

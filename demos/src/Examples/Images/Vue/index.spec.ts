@@ -25,12 +25,12 @@ test.describe('/src/Examples/Images/Vue/', () => {
   })
 
   test('allows removing images', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toBeVisible()
+    await expect(page.locator('.tiptap').first()).toBeVisible()
     await expect(page.locator('.tiptap img')).toHaveCount(2)
     // TODO(playwright-migration): unhandled .and(...) on page.locator('.tiptap img')
     // TODO(playwright-migration): unhandled should('$img => { expect($img[0].naturalWidth).toBeGreaterThan(0) }', ...) on page.locator('.tiptap img').first()
     await page.locator('.tiptap img').first().click()
-    await expect(page.locator('.tiptap img.ProseMirror-selectednode')).toHaveCount(1)
+    await expect(page.locator('.tiptap img.ProseMirror-selectednode').first()).toBeAttached()
     await page.locator('.tiptap').first().click()
     await typeText(page, '{backspace}')
     await expect(page.locator('.tiptap img')).toHaveCount(1)

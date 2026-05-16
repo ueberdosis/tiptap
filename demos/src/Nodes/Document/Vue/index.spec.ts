@@ -24,7 +24,7 @@ test.describe('/src/Nodes/Document/Vue/', () => {
   })
 
   test('should return the document in as json', async ({ page }) => {
-    const json = await editorEval(page, '(await getEditorJSON(page))', '.tiptap')
+    const json = await editorEval(page, 'editor.getJSON()', '.tiptap')
 
     expect(json).toEqual({ type: 'doc', content: [{ type: 'paragraph' }] })
   })

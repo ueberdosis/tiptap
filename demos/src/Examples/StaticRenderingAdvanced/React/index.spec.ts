@@ -20,6 +20,6 @@ test.describe('/src/Examples/StaticRenderingAdvanced/React/', () => {
   })
 
   test('should render the content as HTML', async ({ page }) => {
-    await expect(page.locator('p')).toHaveCount(1)
+    await expect(page.locator('p').first()).toBeAttached()
   })
 })

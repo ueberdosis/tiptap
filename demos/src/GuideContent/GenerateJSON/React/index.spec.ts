@@ -20,10 +20,15 @@ test.describe('/src/GuideContent/GenerateJSON/React/', () => {
   })
 
   test('should render the content as an HTML string', async ({ page }) => {
-    await expect(page.locator('pre code')).toHaveCount(1)
+    await expect(page.locator('pre code').first()).toBeAttached()
 
-    await expect(page.locator('pre code')).toContainText(
-      `{ "type": "doc", "content": [ { "type": "paragraph", "content": [ { "type": "text", "text": "Example " }, { "type": "text", "marks": [ { "type": "bold" } ], "text": "Text" } ] } ] }`,
-    )
+    await expect(
+      page
+        .locator('pre code')
+        .filter({
+          hasText: `{ "type": "doc", "content": [ { "type": "paragraph", "content": [ { "type": "text", "text": "Example " }, { "type": "text", "marks": [ { "type": "bold" } ], "text": "Text" } ] } ] }`,
+        })
+        .first(),
+    ).toBeAttached()
   })
 })

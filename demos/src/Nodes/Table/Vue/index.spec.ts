@@ -34,9 +34,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: false })
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('td')
     expect(await page.locator('.tiptap').locator('td').count()).toBe(1)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('tr')
     expect(await page.locator('.tiptap').locator('tr').count()).toBe(1)
   })
 
@@ -47,9 +45,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 3, rows: 1, withHeaderRow: false })
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('td')
     expect(await page.locator('.tiptap').locator('td').count()).toBe(3)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('tr')
     expect(await page.locator('.tiptap').locator('tr').count()).toBe(1)
   })
 
@@ -60,9 +56,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 1, rows: 3, withHeaderRow: false })
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('td')
     expect(await page.locator('.tiptap').locator('td').count()).toBe(3)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('tr')
     expect(await page.locator('.tiptap').locator('tr').count()).toBe(3)
   })
 
@@ -73,11 +67,8 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 1, rows: 3, withHeaderRow: true })
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('th')
     expect(await page.locator('.tiptap').locator('th').count()).toBe(1)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('td')
     expect(await page.locator('.tiptap').locator('td').count()).toBe(2)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('tr')
     expect(await page.locator('.tiptap').locator('tr').count()).toBe(3)
   })
 
@@ -88,11 +79,8 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable()
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('th')
     expect(await page.locator('.tiptap').locator('th').count()).toBe(3)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('td')
     expect(await page.locator('.tiptap').locator('td').count()).toBe(6)
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('tr')
     expect(await page.locator('.tiptap').locator('tr').count()).toBe(3)
   })
 
@@ -103,8 +91,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 3, rows: 1, withHeaderRow: false })
     }, undefined)
 
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.tiptap').locator('col')
-    expect(await page.locator('.tiptap').locator('col').count()).toBe('min-width: 25px;')
+    expect(await page.locator('.tiptap').locator('col').first().getAttribute('style')).toBe('min-width: 25px;')
   })
 
   test('generates correct markup for a table (1x1)', async ({ page }) => {
@@ -114,7 +101,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: false })
     }, undefined)
 
-    const html = await editorEval(page, '(await getEditorHTML(page))', '.tiptap')
+    const html = await editorEval(page, 'editor.getHTML()', '.tiptap')
 
     expect(html).toBe(
       '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><td colspan="1" rowspan="1"><p></p></td></tr></tbody></table>',
@@ -128,7 +115,7 @@ test.describe('/src/Nodes/Table/Vue/', () => {
       editor.commands.insertTable({ cols: 1, rows: 1, withHeaderRow: true })
     }, undefined)
 
-    const html = await editorEval(page, '(await getEditorHTML(page))', '.tiptap')
+    const html = await editorEval(page, 'editor.getHTML()', '.tiptap')
 
     expect(html).toBe(
       '<table style="min-width: 25px"><colgroup><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th></tr></tbody></table>',

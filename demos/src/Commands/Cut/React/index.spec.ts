@@ -24,9 +24,9 @@ test.describe('/src/Commands/Cut/React/', () => {
   })
 
   test('should apply the paragraph style when the keyboard shortcut is pressed', async ({ page }) => {
-    await expect(page.locator('.tiptap h1')).toHaveCount(1)
+    await expect(page.locator('.tiptap h1').first()).toBeAttached()
 
     await pressShortcut(page, { modKey: true, altKey: true, key: '0' })
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 })

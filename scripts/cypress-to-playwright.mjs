@@ -67,55 +67,62 @@ function translateShould(locExpr, shouldArgs) {
   const rest = args.slice(1)
   const val = rest[0]
   const val2 = rest[1]
+  // Cypress matches "at least one element" semantics across most
+  // assertions, while Playwright's `expect(locator).X()` enforces strict
+  // mode against multiple matches. Anchor most assertions to `.first()`
+  // to keep behaviour aligned and avoid spurious strict-mode failures.
   switch (head) {
     case 'exist':
-      return `await expect(${locExpr}).toHaveCount(1)`
+      // `should('exist')` only requires at least one matching element.
+      return `await expect(${locExpr}.first()).toBeAttached()`
     case 'not.exist':
       return `await expect(${locExpr}).toHaveCount(0)`
     case 'be.visible':
-      return `await expect(${locExpr}).toBeVisible()`
+      return `await expect(${locExpr}.first()).toBeVisible()`
     case 'not.be.visible':
-      return `await expect(${locExpr}).toBeHidden()`
+      return `await expect(${locExpr}.first()).toBeHidden()`
     case 'be.checked':
-      return `await expect(${locExpr}).toBeChecked()`
+      return `await expect(${locExpr}.first()).toBeChecked()`
     case 'not.be.checked':
-      return `await expect(${locExpr}).not.toBeChecked()`
+      return `await expect(${locExpr}.first()).not.toBeChecked()`
     case 'be.disabled':
-      return `await expect(${locExpr}).toBeDisabled()`
+      return `await expect(${locExpr}.first()).toBeDisabled()`
     case 'be.enabled':
-      return `await expect(${locExpr}).toBeEnabled()`
+      return `await expect(${locExpr}.first()).toBeEnabled()`
     case 'contain':
-      return `await expect(${locExpr}).toContainText(${val})`
+      // `should('contain', X)` passes when any matched element contains
+      // the substring. Filter by hasText and assert at least one match.
+      return `await expect(${locExpr}.filter({ hasText: ${val} }).first()).toBeAttached()`
     case 'not.contain':
       return `await expect(${locExpr}.first()).not.toContainText(${val})`
     case 'have.text':
-      return `await expect(${locExpr}).toHaveText(${val})`
+      return `await expect(${locExpr}.first()).toHaveText(${val})`
     case 'not.have.text':
-      return `await expect(${locExpr}).not.toHaveText(${val})`
+      return `await expect(${locExpr}.first()).not.toHaveText(${val})`
     case 'have.length':
       return `await expect(${locExpr}).toHaveCount(${val})`
     case 'have.class':
-      return `await expect(${locExpr}).toHaveClass(new RegExp('(^|\\\\s)' + ${val} + '(\\\\s|$)'))`
+      return `await expect(${locExpr}.first()).toHaveClass(new RegExp('(^|\\\\s)' + ${val} + '(\\\\s|$)'))`
     case 'not.have.class':
-      return `await expect(${locExpr}).not.toHaveClass(new RegExp('(^|\\\\s)' + ${val} + '(\\\\s|$)'))`
+      return `await expect(${locExpr}.first()).not.toHaveClass(new RegExp('(^|\\\\s)' + ${val} + '(\\\\s|$)'))`
     case 'have.attr':
       if (val2 !== undefined) {
-        return `await expect(${locExpr}).toHaveAttribute(${val}, ${val2})`
+        return `await expect(${locExpr}.first()).toHaveAttribute(${val}, ${val2})`
       }
-      return `await expect(${locExpr}).toHaveAttribute(${val}, /.*/)`
+      return `await expect(${locExpr}.first()).toHaveAttribute(${val}, /.*/)`
     case 'not.have.attr':
       if (val2 !== undefined) {
-        return `await expect(${locExpr}).not.toHaveAttribute(${val}, ${val2})`
+        return `await expect(${locExpr}.first()).not.toHaveAttribute(${val}, ${val2})`
       }
-      return `await expect(${locExpr}).not.toHaveAttribute(${val}, /.*/)`
+      return `await expect(${locExpr}.first()).not.toHaveAttribute(${val}, /.*/)`
     case 'have.value':
-      return `await expect(${locExpr}).toHaveValue(${val})`
+      return `await expect(${locExpr}.first()).toHaveValue(${val})`
     case 'have.css':
-      return `await expect(${locExpr}).toHaveCSS(${val}, ${val2})`
+      return `await expect(${locExpr}.first()).toHaveCSS(${val}, ${val2})`
     case 'be.empty':
-      return `await expect(${locExpr}).toBeEmpty()`
+      return `await expect(${locExpr}.first()).toBeEmpty()`
     case 'contain.text':
-      return `await expect(${locExpr}).toContainText(${val})`
+      return `await expect(${locExpr}.filter({ hasText: ${val} }).first()).toBeAttached()`
     case 'contain.html':
       return `expect(await ${locExpr}.first().innerHTML()).toContain(${val})`
     case 'not.contain.html':
@@ -123,11 +130,11 @@ function translateShould(locExpr, shouldArgs) {
     case 'not.contain.text':
       return `await expect(${locExpr}.first()).not.toContainText(${val})`
     case 'have.descendants':
-      return `await expect(${locExpr}.locator(${val})).toHaveCount(1)`
+      return `await expect(${locExpr}.first().locator(${val})).toBeAttached()`
     case 'not.have.descendants':
       return `await expect(${locExpr}.locator(${val})).toHaveCount(0)`
     case 'be.called':
-      return `/* be.called assertion dropped during migration */`
+      return `// be.called assertion dropped during migration`
     case 'eq':
       return `expect((await ${locExpr}.count())).toBe(${val})`
     default:
@@ -378,8 +385,23 @@ function translateChain(chain, indent) {
     }
     const { name, args } = call
     if (name === 'find') {
-      // Compose into locator chain
-      locExpr = `${locExpr}.locator(${args})`
+      // Compose into a locator chain. Strip jQuery pseudo-selectors
+      // (`:first`, `:last`) that Playwright's CSS engine rejects.
+      let sub = args
+      const cleaned = stripQuotes(sub).replace(/:first\b/g, '').replace(/:last\b/g, '')
+      let extra = ''
+      if (/:first\b/.test(stripQuotes(sub))) {
+        extra = '.first()'
+      }
+      if (/:last\b/.test(stripQuotes(sub))) {
+        extra = '.last()'
+      }
+      if (extra) {
+        // Re-quote with the original quote style.
+        const quote = sub.trim().startsWith('"') ? '"' : "'"
+        sub = `${quote}${cleaned}${quote}`
+      }
+      locExpr = `${locExpr}.locator(${sub})${extra}`
       i++
       continue
     }
@@ -487,6 +509,80 @@ function translateChain(chain, indent) {
     }
     if (name === 'paste') {
       out.push(`await pasteIntoEditor(page, ${args})`)
+      i++
+      continue
+    }
+    if (name === 'invoke') {
+      // `.invoke('attr', 'src')` → await loc.getAttribute('src')
+      // `.invoke('text')` → await loc.innerText()
+      const a = splitArgs(args)
+      const fn = stripQuotes(a[0])
+      const cont = segments.slice(i + 1)
+      let next = cont[0] ? parseCall(cont[0]) : null
+      let value = null
+      if (fn === 'attr' && a[1]) {
+        value = `await ${locExpr}.first().getAttribute(${a[1]})`
+      } else if (fn === 'text') {
+        value = `(await ${locExpr}.first().innerText())`
+      } else if (fn === 'val') {
+        value = `await ${locExpr}.first().inputValue()`
+      } else {
+        out.push(`// TODO(playwright-migration): unhandled .invoke(${args}) on ${locExpr}`)
+        i++
+        continue
+      }
+      if (next && next.name === 'should') {
+        // Compose with the following should() into a single expect.
+        const sargs = splitArgs(next.args)
+        const head = stripQuotes(sargs[0])
+        const v = sargs[1]
+        if (head === 'eq' || head === 'equal') {
+          out.push(`expect(${value}).toBe(${v})`)
+          i += 2
+          continue
+        }
+        if (head === 'contain' || head === 'include') {
+          out.push(`expect(${value}).toContain(${v})`)
+          i += 2
+          continue
+        }
+        if (head === 'match') {
+          out.push(`expect(${value}).toMatch(${v})`)
+          i += 2
+          continue
+        }
+      }
+      out.push(`/* invoke('${fn}') value */ ${value}`)
+      i++
+      continue
+    }
+    if (name === 'its') {
+      // `.its('length')` → await loc.count(); `.its('foo')` → unsupported.
+      const prop = stripQuotes(args)
+      if (prop === 'length') {
+        const cont = segments.slice(i + 1)
+        const next = cont[0] ? parseCall(cont[0]) : null
+        const value = `(await ${locExpr}.count())`
+        if (next && next.name === 'should') {
+          const sargs = splitArgs(next.args)
+          const head = stripQuotes(sargs[0])
+          const v = sargs[1]
+          if (head === 'eq' || head === 'equal') {
+            out.push(`expect(${value}).toBe(${v})`)
+            i += 2
+            continue
+          }
+          if (head === 'be.greaterThan' || head === 'be.gt') {
+            out.push(`expect(${value}).toBeGreaterThan(${v})`)
+            i += 2
+            continue
+          }
+        }
+        out.push(`/* its('length') value */ ${value}`)
+        i++
+        continue
+      }
+      out.push(`// TODO(playwright-migration): unhandled .its(${args}) on ${locExpr}`)
       i++
       continue
     }
@@ -1067,14 +1163,60 @@ function translateBareEditorCalls(src) {
   // Convert leftover `editor.getHTML()` / `editor.getJSON()` / `editor.getText()`
   // calls that escaped the structured editor-then translation. They appear
   // in nested closures (forEach/map). We replace them with helper calls.
-  let s = src
-  s = s.replace(/editor\.getHTML\(\)/g, '(await getEditorHTML(page))')
-  s = s.replace(/editor\.getJSON\(\)/g, '(await getEditorJSON(page))')
-  s = s.replace(/editor\.getText\(\)/g, '(await getEditorText(page))')
-  s = s.replace(/editor\.commands\.setContent\(/g, 'await setEditorContent(page, ')
-  // `.to.not.include(X)` → `).not.toContain(X)`
+  //
+  // Skip occurrences inside string literals — `editorEval(page, 'editor.X()')`
+  // already routes the call through the browser context.
+  const replacements = [
+    [/editor\.getHTML\(\)/g, '(await getEditorHTML(page))'],
+    [/editor\.getJSON\(\)/g, '(await getEditorJSON(page))'],
+    [/editor\.getText\(\)/g, '(await getEditorText(page))'],
+    [/editor\.commands\.setContent\(/g, 'await setEditorContent(page, '],
+  ]
+  let s = replaceOutsideStrings(src, replacements)
+  // `.to.not.include(X)` → `).not.toContain(X)` — safe everywhere.
   s = s.replace(/\)\.to\.not\.include\(/g, ').not.toContain(')
   return s
+}
+
+function replaceOutsideStrings(src, replacements) {
+  // Walk the source and apply each regex on the regions that are NOT
+  // inside a single/double/backtick string. Quoted strings are passed
+  // through verbatim. Comments are not handled specially.
+  let out = ''
+  let i = 0
+  const n = src.length
+  while (i < n) {
+    const ch = src[i]
+    if (ch === "'" || ch === '"' || ch === '`') {
+      let j = i + 1
+      while (j < n) {
+        if (src[j] === '\\') {
+          j += 2
+          continue
+        }
+        if (src[j] === ch) {
+          j += 1
+          break
+        }
+        j += 1
+      }
+      out += src.slice(i, j)
+      i = j
+      continue
+    }
+    // Find the next quote char so we know how far to apply replacements.
+    let next = i
+    while (next < n && src[next] !== "'" && src[next] !== '"' && src[next] !== '`') {
+      next += 1
+    }
+    let chunk = src.slice(i, next)
+    for (const [re, replacement] of replacements) {
+      chunk = chunk.replace(re, replacement)
+    }
+    out += chunk
+    i = next
+  }
+  return out
 }
 
 function translateChaiAssertions(src) {

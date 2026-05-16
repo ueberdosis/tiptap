@@ -29,12 +29,12 @@ test.describe('/src/Nodes/Emoji/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, ':smile:')
     // after typing the shortcode the emoji should be rendered as a node
-    await expect(page.locator('.tiptap').locator('[data-type="emoji"][data-name="smile"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap').locator('[data-type="emoji"][data-name="smile"]').first()).toBeAttached()
   })
 
   test('insert button inserts an emoji node', async ({ page }) => {
     await page.locator('button').filter({ hasText: 'Insert ⚡' }).first().click()
-    await expect(page.locator('.tiptap').locator('[data-type="emoji"][data-name="zap"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap').locator('[data-type="emoji"][data-name="zap"]').first()).toBeAttached()
   })
 
   test('pasting a URL containing :x: does not convert the shortcode', async ({ page }) => {
@@ -47,6 +47,6 @@ test.describe('/src/Nodes/Emoji/React/', () => {
 
   test('pasting a standalone shortcode converts to an emoji node', async ({ page }) => {
     await pasteIntoEditor(page, { paste: ':smile:' })
-    await expect(page.locator('.tiptap').locator('[data-type="emoji"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap').locator('[data-type="emoji"]').first()).toBeAttached()
   })
 })

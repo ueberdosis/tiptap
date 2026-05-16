@@ -34,6 +34,6 @@ test.describe('/src/Nodes/Image/Vue/', () => {
 
     /* prompt was called (assertion dropped during migration) */
 
-    await expect(page.locator('.tiptap').locator('img')).toHaveAttribute('src', 'foobar.png')
+    await expect(page.locator('.tiptap').locator('img').first()).toHaveAttribute('src', 'foobar.png')
   })
 })

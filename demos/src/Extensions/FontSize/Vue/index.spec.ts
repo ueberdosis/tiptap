@@ -27,16 +27,20 @@ test.describe('/src/Extensions/FontSize/Vue/', () => {
   })
 
   test('should set the font-size of the selected text', async ({ page }) => {
-    await expect(page.locator('[data-test-id="28px"]')).not.toHaveClass(new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'))
+    await expect(page.locator('[data-test-id="28px"]').first()).not.toHaveClass(
+      new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'),
+    )
     await page.locator('[data-test-id="28px"]').first().click()
-    await expect(page.locator('[data-test-id="28px"]')).toHaveClass(new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'))
+    await expect(page.locator('[data-test-id="28px"]').first()).toHaveClass(
+      new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'),
+    )
 
-    await expect(page.locator('.tiptap').locator('span')).toHaveAttribute('style', 'font-size: 28px')
+    await expect(page.locator('.tiptap').locator('span').first()).toHaveAttribute('style', 'font-size: 28px')
   })
 
   test('should remove the font-size of the selected text', async ({ page }) => {
     await page.locator('[data-test-id="28px"]').first().click()
-    await expect(page.locator('.tiptap').locator('span')).toHaveAttribute('style', 'font-size: 28px')
+    await expect(page.locator('.tiptap').locator('span').first()).toHaveAttribute('style', 'font-size: 28px')
     await page.locator('[data-test-id="unsetFontSize"]').first().click()
     // TODO(playwright-migration): unhandled .get(...) on page.locator('.tiptap')
     await expect(page.locator('.tiptap')).toHaveCount(0)

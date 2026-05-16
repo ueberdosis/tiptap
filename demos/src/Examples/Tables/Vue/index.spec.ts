@@ -29,15 +29,15 @@ test.describe('/src/Examples/Tables/Vue/', () => {
   })
 
   test('adds a table with three columns and three rows', async ({ page }) => {
-    await expect(page.locator('.tiptap table')).toHaveCount(1)
+    await expect(page.locator('.tiptap table').first()).toBeAttached()
 
-    await expect(page.locator('.tiptap table tr')).toHaveCount(1)
+    await expect(page.locator('.tiptap table tr').first()).toBeAttached()
     await expect(page.locator('.tiptap table tr')).toHaveCount(3)
 
-    await expect(page.locator('.tiptap table th')).toHaveCount(1)
+    await expect(page.locator('.tiptap table th').first()).toBeAttached()
     await expect(page.locator('.tiptap table th')).toHaveCount(3)
 
-    await expect(page.locator('.tiptap table td')).toHaveCount(1)
+    await expect(page.locator('.tiptap table td').first()).toBeAttached()
     await expect(page.locator('.tiptap table td')).toHaveCount(6)
   })
 
@@ -108,7 +108,7 @@ test.describe('/src/Examples/Tables/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{shift}{rightArrow}')
     await page.locator('button').filter({ hasText: 'Merge cells' }).first().click()
-    await expect(page.locator('.tiptap th[colspan="2"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap th[colspan="2"]').first()).toBeAttached()
     await page.locator('button').filter({ hasText: 'Merge or split' }).first().click()
     await expect(page.locator('.tiptap th[colspan="2"]')).toHaveCount(0)
   })
@@ -117,7 +117,7 @@ test.describe('/src/Examples/Tables/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{downArrow}')
     await page.locator('button').filter({ hasText: 'Set cell attribute' }).first().click()
-    await expect(page.locator('.tiptap table td[style]')).toHaveAttribute('style', 'background-color: #FAF594')
+    await expect(page.locator('.tiptap table td[style]').first()).toHaveAttribute('style', 'background-color: #FAF594')
   })
 
   test('should move focus to next or prev cell', async ({ page }) => {
@@ -128,7 +128,8 @@ test.describe('/src/Examples/Tables/Vue/', () => {
     await typeText(page, 'Column 2')
     await page.locator('button').filter({ hasText: 'Go to previous cell' }).first().click()
 
-    // TODO(playwright-migration): translate cy.get('.tiptap th').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap th').then(arrow):
+    // arrow:
     // elements => {
     //       expect(elements[0].innerText).toBe('Column 1')
     //       expect(elements[1].innerText).toBe('Column 2')

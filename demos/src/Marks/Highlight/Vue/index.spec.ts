@@ -30,7 +30,7 @@ test.describe('/src/Marks/Highlight/Vue/', () => {
   test('the button should highlight the selected text', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('mark')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('mark').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should highlight the text in a specific color', async ({ page }) => {
@@ -40,8 +40,8 @@ test.describe('/src/Marks/Highlight/Vue/', () => {
       editor.commands.toggleHighlight({ color: 'red' })
     }, undefined)
 
-    await expect(page.locator('.tiptap').locator('mark')).toContainText('Example Text')
-    await expect(page.locator('.tiptap').locator('mark')).toHaveAttribute('data-color', 'red')
+    await expect(page.locator('.tiptap').locator('mark').filter({ hasText: 'Example Text' }).first()).toBeAttached()
+    await expect(page.locator('.tiptap').locator('mark').first()).toHaveAttribute('data-color', 'red')
   })
 
   test('should update the attributes of existing marks', async ({ page }) => {
@@ -56,7 +56,7 @@ test.describe('/src/Marks/Highlight/Vue/', () => {
         .run()
     }, undefined)
 
-    await expect(page.locator('.tiptap').locator('mark')).toHaveCSS('background-color', 'rgb(255, 0, 0)')
+    await expect(page.locator('.tiptap').locator('mark').first()).toHaveCSS('background-color', 'rgb(255, 0, 0)')
   })
 
   test('should remove existing marks with the same attributes', async ({ page }) => {
@@ -129,7 +129,7 @@ test.describe('/src/Marks/Highlight/Vue/', () => {
 
   test('should highlight the selected text when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, shiftKey: true, key: 'h' })
-    await expect(page.locator('.tiptap').locator('mark')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('mark').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should toggle the selected text highlighted when the keyboard shortcut is pressed', async ({ page }) => {

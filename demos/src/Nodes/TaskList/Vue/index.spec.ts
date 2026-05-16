@@ -52,9 +52,13 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ul[data-type="taskList"]')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('ul[data-type="taskList"]').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('ul[data-type="taskList"] li')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('ul[data-type="taskList"] li').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
   })
 
   test('the button should toggle the task list', async ({ page }) => {
@@ -62,7 +66,9 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ul[data-type="taskList"]')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('ul[data-type="taskList"]').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
 
     await page.locator('button:nth-child(1)').first().click()
 
@@ -71,7 +77,7 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
 
   test('should make the paragraph a task list when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, shiftKey: true, key: '9' })
-    await expect(page.locator('.tiptap').locator('ul li')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ul li').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should leave the list with double enter', async ({ page }) => {
@@ -84,10 +90,9 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '[ ] List Item 1{enter}{enter}Paragraph')
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('li')
     expect(await page.locator('.tiptap').locator('li').count()).toBe(1)
 
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Paragraph')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Paragraph' }).first()).toBeAttached()
   })
 
   test('should make a task list from square brackets', async ({ page }) => {
@@ -100,11 +105,15 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '[ ] List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toHaveAttribute('data-checked', 'false')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('li:nth-child(1)').first()).toHaveAttribute('data-checked', 'false')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toHaveAttribute('data-checked', 'false')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('li:nth-child(2)').first()).toHaveAttribute('data-checked', 'false')
   })
 
   test('should make a task list from checked square brackets', async ({ page }) => {
@@ -117,10 +126,14 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '[x] List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toHaveAttribute('data-checked', 'true')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('li:nth-child(1)').first()).toHaveAttribute('data-checked', 'true')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toHaveAttribute('data-checked', 'false')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('li:nth-child(2)').first()).toHaveAttribute('data-checked', 'false')
   })
 })

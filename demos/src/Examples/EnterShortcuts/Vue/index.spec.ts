@@ -23,16 +23,16 @@ test.describe('/src/Examples/EnterShortcuts/Vue/', () => {
 
   test('should update the hint html when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { metaKey: true, key: 'Enter' })
-    await expect(page.locator('.hint')).toContainText('Meta-Enter was the last shortcut')
+    await expect(page.locator('.hint').filter({ hasText: 'Meta-Enter was the last shortcut' }).first()).toBeAttached()
   })
 
   test('should update the hint html when the keyboard shortcut is pressed (2)', async ({ page }) => {
     await pressShortcut(page, { shiftKey: true, key: 'Enter' })
-    await expect(page.locator('.hint')).toContainText('Shift-Enter was the last shortcut')
+    await expect(page.locator('.hint').filter({ hasText: 'Shift-Enter was the last shortcut' }).first()).toBeAttached()
   })
 
   test('should update the hint html when the keyboard shortcut is pressed (3)', async ({ page }) => {
     await pressShortcut(page, { ctrlKey: true, key: 'Enter' })
-    await expect(page.locator('.hint')).toContainText('Ctrl-Enter was the last shortcut')
+    await expect(page.locator('.hint').filter({ hasText: 'Ctrl-Enter was the last shortcut' }).first()).toBeAttached()
   })
 })

@@ -20,22 +20,22 @@ test.describe('/src/Examples/TextDirection/React/', () => {
   })
 
   test('should apply text direction attributes', async ({ page }) => {
-    await expect(page.locator('.tiptap p').first()).toHaveAttribute('dir', 'auto')
+    await expect(page.locator('.tiptap p').first().first()).toHaveAttribute('dir', 'auto')
   })
 
   test('should change global direction', async ({ page }) => {
     await page.locator('button').filter({ hasText: 'RTL' }).first().click()
-    await expect(page.locator('.tiptap p').first()).toHaveAttribute('dir', 'rtl')
+    await expect(page.locator('.tiptap p').first().first()).toHaveAttribute('dir', 'rtl')
   })
 
   test('should set direction on selection', async ({ page }) => {
     await page.locator('.tiptap p').first().click()
     await page.locator('button').filter({ hasText: 'Set LTR' }).first().click()
-    await expect(page.locator('.tiptap p').first()).toHaveAttribute('dir', 'ltr')
+    await expect(page.locator('.tiptap p').first().first()).toHaveAttribute('dir', 'ltr')
   })
 
   test('should unset direction', async ({ page }) => {
     await page.locator('button').filter({ hasText: 'None' }).first().click()
-    await expect(page.locator('.tiptap p').first()).not.toHaveAttribute('dir', /.*/)
+    await expect(page.locator('.tiptap p').first().first()).not.toHaveAttribute('dir', /.*/)
   })
 })

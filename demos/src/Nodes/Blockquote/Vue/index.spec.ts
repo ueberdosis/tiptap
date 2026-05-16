@@ -40,7 +40,9 @@ test.describe('/src/Nodes/Blockquote/Vue/', () => {
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('blockquote')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('blockquote').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
   })
 
   test('the button should wrap all nodes in one blockquote', async ({ page }) => {
@@ -58,7 +60,9 @@ test.describe('/src/Nodes/Blockquote/Vue/', () => {
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('blockquote')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('blockquote').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}')
@@ -70,14 +74,18 @@ test.describe('/src/Nodes/Blockquote/Vue/', () => {
 
   test('should make the selected line a blockquote when the keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { shiftKey: true, modKey: true, key: 'b' })
-    await expect(page.locator('.tiptap').locator('blockquote')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('blockquote').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
   })
 
   test('should toggle the blockquote when the keyboard shortcut is pressed', async ({ page }) => {
     await expect(page.locator('.tiptap blockquote')).toHaveCount(0)
 
     await pressShortcut(page, { shiftKey: true, modKey: true, key: 'b' })
-    await expect(page.locator('.tiptap').locator('blockquote')).toContainText('Example Text')
+    await expect(
+      page.locator('.tiptap').locator('blockquote').filter({ hasText: 'Example Text' }).first(),
+    ).toBeAttached()
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}')
@@ -89,6 +97,6 @@ test.describe('/src/Nodes/Blockquote/Vue/', () => {
   test('should make a blockquote from markdown shortcuts', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '> Quote')
-    await expect(page.locator('.tiptap').locator('blockquote')).toContainText('Quote')
+    await expect(page.locator('.tiptap').locator('blockquote').filter({ hasText: 'Quote' }).first()).toBeAttached()
   })
 })

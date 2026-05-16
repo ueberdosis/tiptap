@@ -29,21 +29,31 @@ test.describe('/src/Examples/InteractivityComponentContent/React/', () => {
   })
 
   test('should allow text editing inside component', async ({ page }) => {
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.ProseMirror .react-component .content div')
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.ProseMirror .react-component .content div')
+    /* invoke('attr') value */ await page
+      .locator('.ProseMirror .react-component .content div')
+      .first()
+      .getAttribute('contentEditable')(
+      /* invoke('text') value */ await page.locator('.ProseMirror .react-component .content div').first().innerText(),
+    )
     await page.locator('.ProseMirror .react-component .content div').first().click()
     await typeText(page, 'Hello World!')
-    await expect(page.locator('.ProseMirror .react-component .content div')).toHaveText('Hello World!')
+    await expect(page.locator('.ProseMirror .react-component .content div').first()).toHaveText('Hello World!')
   })
 
   test('should allow text editing inside component with markdown text', async ({ page }) => {
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.ProseMirror .react-component .content div')
-    // TODO(playwright-migration): unhandled .invoke(...) on page.locator('.ProseMirror .react-component .content div')
+    /* invoke('attr') value */ await page
+      .locator('.ProseMirror .react-component .content div')
+      .first()
+      .getAttribute('contentEditable')(
+      /* invoke('text') value */ await page.locator('.ProseMirror .react-component .content div').first().innerText(),
+    )
     await page.locator('.ProseMirror .react-component .content div').first().click()
     await typeText(page, 'Hello World! This is **bold**.')
-    await expect(page.locator('.ProseMirror .react-component .content div')).toHaveText('Hello World! This is bold.')
+    await expect(page.locator('.ProseMirror .react-component .content div').first()).toHaveText(
+      'Hello World! This is bold.',
+    )
 
-    await expect(page.locator('.ProseMirror .react-component .content strong')).toHaveCount(1)
+    await expect(page.locator('.ProseMirror .react-component .content strong').first()).toBeAttached()
   })
 
   test('should remove node via selectall', async ({ page }) => {

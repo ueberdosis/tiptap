@@ -20,6 +20,6 @@ test.describe('/src/Extensions/Focus/Vue/', () => {
   })
 
   test('should have class', async ({ page }) => {
-    await expect(page.locator('.tiptap p').first()).toHaveClass(new RegExp('(^|\\s)' + 'has-focus' + '(\\s|$)'))
+    await expect(page.locator('.tiptap p').first().first()).toHaveClass(new RegExp('(^|\\s)' + 'has-focus' + '(\\s|$)'))
   })
 })

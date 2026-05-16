@@ -22,9 +22,9 @@ test.describe('/src/Extensions/UndoRedo/Vue/', () => {
   })
 
   test('should make the last change undone', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
 
-    await expect(page.locator('button').first()).not.toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).not.toHaveAttribute('disabled', /.*/)
 
     await page.locator('button').first().click()
 
@@ -38,7 +38,7 @@ test.describe('/src/Extensions/UndoRedo/Vue/', () => {
   })
 
   test('should make the last change undone with the keyboard shortcut (russian)', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
 
     await pressShortcut(page, { modKey: true, key: 'я' })
 
@@ -52,7 +52,7 @@ test.describe('/src/Extensions/UndoRedo/Vue/', () => {
 
     await pressShortcut(page, { modKey: true, shiftKey: true, key: 'z' })
 
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
   })
 
   test('should apply the last undone change again with the keyboard shortcut (russian)', async ({ page }) => {
@@ -62,44 +62,44 @@ test.describe('/src/Extensions/UndoRedo/Vue/', () => {
 
     await pressShortcut(page, { modKey: true, shiftKey: true, key: 'я' })
 
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
   })
 
   test('should apply the last undone change again', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
 
-    await expect(page.locator('button').first()).not.toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).not.toHaveAttribute('disabled', /.*/)
 
     await page.locator('button').first().click()
 
     await expect(page.locator('.tiptap').first()).not.toContainText('Mistake')
 
-    await expect(page.locator('button').first()).toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).toHaveAttribute('disabled', /.*/)
 
     await page.locator('button:nth-child(2)').first().click()
 
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
   })
 
   test('should disable undo button when there are no more changes to undo', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
 
-    await expect(page.locator('button').first()).not.toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).not.toHaveAttribute('disabled', /.*/)
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('button').first()).toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).toHaveAttribute('disabled', /.*/)
   })
 
   test('should disable redo button when there are no more changes to redo', async ({ page }) => {
-    await expect(page.locator('.tiptap')).toContainText('Mistake')
+    await expect(page.locator('.tiptap').filter({ hasText: 'Mistake' }).first()).toBeAttached()
 
-    await expect(page.locator('button:nth-child(2)')).toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button:nth-child(2)').first()).toHaveAttribute('disabled', /.*/)
 
-    await expect(page.locator('button').first()).not.toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button').first().first()).not.toHaveAttribute('disabled', /.*/)
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('button:nth-child(2)')).not.toHaveAttribute('disabled', /.*/)
+    await expect(page.locator('button:nth-child(2)').first()).not.toHaveAttribute('disabled', /.*/)
   })
 })

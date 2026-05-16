@@ -25,15 +25,16 @@ test.describe('/src/Examples/Drawing/Vue/', () => {
   })
 
   test('should have a svg canvas', async ({ page }) => {
-    await expect(page.locator('.tiptap svg')).toHaveCount(1)
+    await expect(page.locator('.tiptap svg').first()).toBeAttached()
   })
 
   test('should draw on the svg canvas', async ({ page }) => {
-    await expect(page.locator('.tiptap svg')).toHaveCount(1)
+    await expect(page.locator('.tiptap svg').first()).toBeAttached()
 
     await page.waitForTimeout(500)
 
-    // TODO(playwright-migration): translate cy.get('input').then(arrow):
+    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('input').then(arrow):
+    // arrow:
     // inputs => {
     //       const color = inputs[0].value
     //       const size = inputs[1].value

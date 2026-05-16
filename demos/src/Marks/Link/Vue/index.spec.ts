@@ -53,8 +53,8 @@ test.describe('/src/Marks/Link/Vue/', () => {
 
     /* prompt was called (assertion dropped during migration) */
 
-    await expect(page.locator('.tiptap').locator('a')).toContainText('Example TextDEFAULT')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://tiptap.dev')
+    await expect(page.locator('.tiptap').locator('a').filter({ hasText: 'Example TextDEFAULT' }).first()).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://tiptap.dev')
   })
 
   test('detects a pasted URL within a text', async ({ page }) => {
@@ -62,16 +62,20 @@ test.describe('/src/Marks/Link/Vue/', () => {
       pastePayload: 'some text https://example1.com around an url',
       pasteType: 'text/plain',
     })
-    await expect(page.locator('.tiptap').locator('a')).toContainText('https://example1.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://example1.com')
+    await expect(
+      page.locator('.tiptap').locator('a').filter({ hasText: 'https://example1.com' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://example1.com')
   })
 
   test('detects a pasted URL', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{backspace}')
     await pasteIntoEditor(page, { pastePayload: 'https://example2.com', pasteType: 'text/plain' })
-    await expect(page.locator('.tiptap').locator('a')).toContainText('https://example2.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://example2.com')
+    await expect(
+      page.locator('.tiptap').locator('a').filter({ hasText: 'https://example2.com' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://example2.com')
   })
 
   test('should allow exiting the link once set', async ({ page }) => {
@@ -79,35 +83,39 @@ test.describe('/src/Marks/Link/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '{rightArrow}')
 
-    await expect(page.locator('button').first()).not.toHaveClass(new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'))
+    await expect(page.locator('button').first().first()).not.toHaveClass(
+      new RegExp('(^|\\s)' + 'is-active' + '(\\s|$)'),
+    )
   })
 
   test('detects autolinking', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'https://example.com ')
-    await expect(page.locator('.tiptap').locator('a')).toContainText('https://example.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://example.com')
+    await expect(page.locator('.tiptap').locator('a').filter({ hasText: 'https://example.com' }).first()).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://example.com')
   })
 
   test('detects autolinking with numbers', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'https://tiptap4u.com ')
-    await expect(page.locator('.tiptap').locator('a')).toContainText('https://tiptap4u.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://tiptap4u.com')
+    await expect(
+      page.locator('.tiptap').locator('a').filter({ hasText: 'https://tiptap4u.com' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://tiptap4u.com')
   })
 
   test('uses the default protocol', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'example.com ')
-    await expect(page.locator('.tiptap').locator('a')).toContainText('example.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'https://example.com')
+    await expect(page.locator('.tiptap').locator('a').filter({ hasText: 'example.com' }).first()).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'https://example.com')
   })
 
   test('uses a non-default protocol if present', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, 'http://example.com ')
-    await expect(page.locator('.tiptap').locator('a')).toContainText('http://example.com')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute('href', 'http://example.com')
+    await expect(page.locator('.tiptap').locator('a').filter({ hasText: 'http://example.com' }).first()).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute('href', 'http://example.com')
   })
 
   test('detects a pasted URL with query params', async ({ page }) => {
@@ -117,8 +125,10 @@ test.describe('/src/Marks/Link/Vue/', () => {
       pastePayload: 'https://example.com?paramA=nice&paramB=cool',
       pasteType: 'text/plain',
     })
-    await expect(page.locator('.tiptap').locator('a')).toContainText('https://example.com?paramA=nice&paramB=cool')
-    await expect(page.locator('.tiptap').locator('a')).toHaveAttribute(
+    await expect(
+      page.locator('.tiptap').locator('a').filter({ hasText: 'https://example.com?paramA=nice&paramB=cool' }).first(),
+    ).toBeAttached()
+    await expect(page.locator('.tiptap').locator('a').first()).toHaveAttribute(
       'href',
       'https://example.com?paramA=nice&paramB=cool',
     )
@@ -130,16 +140,28 @@ test.describe('/src/Marks/Link/Vue/', () => {
       pasteType: 'text/plain',
     })
 
-    await expect(page.locator('.tiptap').locator('a[href="https://example1.com"]')).toContainText(
-      'https://example1.com',
-    )
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('a[href="https://example1.com"]')
+        .filter({ hasText: 'https://example1.com' })
+        .first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('a[href="https://example2.com/foobar"]')).toContainText(
-      'https://example2.com/foobar',
-    )
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('a[href="https://example2.com/foobar"]')
+        .filter({ hasText: 'https://example2.com/foobar' })
+        .first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('a[href="http://example3.com/foobar"]')).toContainText(
-      'http://example3.com/foobar',
-    )
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('a[href="http://example3.com/foobar"]')
+        .filter({ hasText: 'http://example3.com/foobar' })
+        .first(),
+    ).toBeAttached()
   })
 })

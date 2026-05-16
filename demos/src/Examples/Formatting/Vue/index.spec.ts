@@ -31,7 +31,7 @@ test.describe('/src/Examples/Formatting/Vue/', () => {
       await page.locator('.tiptap').first().click()
       await typeText(page, 'Hello world.{selectall}')
       await page.locator('button').filter({ hasText: m.label }).first().click()
-      await expect(page.locator('.tiptap mark')).toHaveCount(1)
+      await expect(page.locator('.tiptap mark').first()).toBeAttached()
     })
   }
 
@@ -48,7 +48,7 @@ test.describe('/src/Examples/Formatting/Vue/', () => {
       await typeText(page, 'Hello world.{selectall}')
       await page.locator('button').filter({ hasText: a.label }).first().click()
       if (a.alignment !== 'left') {
-        await expect(page.locator('.tiptap p')).toHaveCSS('text-align', a.alignment)
+        await expect(page.locator('.tiptap p').first()).toHaveCSS('text-align', a.alignment)
       }
     })
   }

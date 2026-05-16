@@ -20,6 +20,8 @@ test.describe('/src/Extensions/Selection/Vue/', () => {
   })
 
   test('should have class', async ({ page }) => {
-    await expect(page.locator('.tiptap span').first()).toHaveClass(new RegExp('(^|\\s)' + 'selection' + '(\\s|$)'))
+    await expect(page.locator('.tiptap span').first().first()).toHaveClass(
+      new RegExp('(^|\\s)' + 'selection' + '(\\s|$)'),
+    )
   })
 })

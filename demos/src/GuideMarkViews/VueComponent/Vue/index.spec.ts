@@ -25,19 +25,23 @@ test.describe('/src/GuideMarkViews/VueComponent/Vue/', () => {
   })
 
   test('should show the markview', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view"]')).toHaveCount(1)
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view"]').first()).toBeAttached()
   })
 
   test('should allow clicking the button', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="count-button"]')).toContainText(
-      'This button has been clicked 0 times.',
-    )
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('[data-test-id="count-button"]')
+        .filter({ hasText: 'This button has been clicked 0 times.' })
+        .first(),
+    ).toBeAttached()
     await page.locator('.tiptap').locator('[data-test-id="count-button"]').first().click()
     // TODO(playwright-migration): .then() chain on locator
   })
 
   test('should update the attributes of the mark on button click', async ({ page }) => {
-    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view')).toHaveAttribute('data-count', '0')
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view').first()).toHaveAttribute('data-count', '0')
 
     // click on the button
     await page.locator('.tiptap').locator('[data-test-id="update-attributes-button"]').first().click()

@@ -38,13 +38,13 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
   test('the button should make the selected line a code block', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('pre')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('pre').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the code block', async ({ page }) => {
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap').locator('pre')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('pre').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}')
@@ -56,12 +56,12 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
   test('the keyboard shortcut should make the selected line a code block', async ({ page }) => {
     await pressShortcut(page, { modKey: true, altKey: true, key: 'c' })
-    await expect(page.locator('.tiptap').locator('pre')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('pre').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the keyboard shortcut should toggle the code block', async ({ page }) => {
     await pressShortcut(page, { modKey: true, altKey: true, key: 'c' })
-    await expect(page.locator('.tiptap').locator('pre')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('pre').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '{selectall}')
@@ -85,7 +85,7 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '``` Code')
-    await expect(page.locator('.tiptap').locator('pre>code')).toContainText('Code')
+    await expect(page.locator('.tiptap').locator('pre>code').filter({ hasText: 'Code' }).first()).toBeAttached()
   })
 
   test('should make a code block from tilde markdown shortcuts', async ({ page }) => {
@@ -97,7 +97,7 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '~~~ Code')
-    await expect(page.locator('.tiptap').locator('pre>code')).toContainText('Code')
+    await expect(page.locator('.tiptap').locator('pre>code').filter({ hasText: 'Code' }).first()).toBeAttached()
   })
 
   test('should make a code block for js with backticks', async ({ page }) => {
@@ -109,7 +109,9 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '```js Code')
-    await expect(page.locator('.tiptap').locator('pre>code.language-js')).toContainText('Code')
+    await expect(
+      page.locator('.tiptap').locator('pre>code.language-js').filter({ hasText: 'Code' }).first(),
+    ).toBeAttached()
   })
 
   test('should make a code block for js with tildes', async ({ page }) => {
@@ -121,7 +123,9 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '~~~js Code')
-    await expect(page.locator('.tiptap').locator('pre>code.language-js')).toContainText('Code')
+    await expect(
+      page.locator('.tiptap').locator('pre>code.language-js').filter({ hasText: 'Code' }).first(),
+    ).toBeAttached()
   })
 
   test('should make a code block from backtick markdown shortcuts followed by enter', async ({ page }) => {
@@ -133,7 +137,7 @@ test.describe('/src/Nodes/CodeBlock/Vue/', () => {
 
     await page.locator('.tiptap').first().click()
     await typeText(page, '```{enter}Code')
-    await expect(page.locator('.tiptap').locator('pre>code')).toContainText('Code')
+    await expect(page.locator('.tiptap').locator('pre>code').filter({ hasText: 'Code' }).first()).toBeAttached()
   })
 
   test('reverts the markdown shortcut when pressing backspace', async ({ page }) => {

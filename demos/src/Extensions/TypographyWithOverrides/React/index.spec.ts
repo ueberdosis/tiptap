@@ -30,6 +30,6 @@ test.describe('/src/Extensions/TypographyWithOverrides/React/', () => {
   test('should use correct override for rightArrow', async ({ page }) => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '-> Hello!')
-    await expect(page.locator('.tiptap')).toContainText('=====> Hello!')
+    await expect(page.locator('.tiptap').filter({ hasText: '=====> Hello!' }).first()).toBeAttached()
   })
 })

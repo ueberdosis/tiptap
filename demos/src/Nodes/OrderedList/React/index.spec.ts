@@ -42,9 +42,9 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ol')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ol').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('ol li')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ol li').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('the button should toggle the ordered list', async ({ page }) => {
@@ -52,7 +52,7 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
 
     await page.locator('button:nth-child(1)').first().click()
 
-    await expect(page.locator('.tiptap').locator('ol')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ol').filter({ hasText: 'Example Text' }).first()).toBeAttached()
 
     await page.locator('button:nth-child(1)').first().click()
 
@@ -61,7 +61,7 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
 
   test('should make the paragraph an ordered list keyboard shortcut is pressed', async ({ page }) => {
     await pressShortcut(page, { modKey: true, shiftKey: true, key: '7' })
-    await expect(page.locator('.tiptap').locator('ol li')).toContainText('Example Text')
+    await expect(page.locator('.tiptap').locator('ol li').filter({ hasText: 'Example Text' }).first()).toBeAttached()
   })
 
   test('should leave the list with double enter', async ({ page }) => {
@@ -74,10 +74,9 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '1. List Item 1{enter}{enter}Paragraph')
 
-    // TODO(playwright-migration): unhandled .its(...) on page.locator('.tiptap').locator('li')
     expect(await page.locator('.tiptap').locator('li').count()).toBe(1)
 
-    await expect(page.locator('.tiptap').locator('p')).toContainText('Paragraph')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: 'Paragraph' }).first()).toBeAttached()
   })
 
   test('should make a ordered list from a number', async ({ page }) => {
@@ -90,9 +89,13 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '1. List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
   })
 
   test('should make a ordered list from a number other than number one', async ({ page }) => {
@@ -105,8 +108,12 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '2. List Item 1{enter}List Item 2')
 
-    await expect(page.locator('.tiptap').locator('li:nth-child(1)')).toContainText('List Item 1')
-    await expect(page.locator('.tiptap').locator('li:nth-child(2)')).toContainText('List Item 2')
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(1)').filter({ hasText: 'List Item 1' }).first(),
+    ).toBeAttached()
+    await expect(
+      page.locator('.tiptap').locator('li:nth-child(2)').filter({ hasText: 'List Item 2' }).first(),
+    ).toBeAttached()
   })
 
   test('should remove the ordered list after pressing backspace', async ({ page }) => {
@@ -119,6 +126,6 @@ test.describe('/src/Nodes/OrderedList/React/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '1. {backspace}Example')
 
-    await expect(page.locator('.tiptap').locator('p')).toContainText('1. Example')
+    await expect(page.locator('.tiptap').locator('p').filter({ hasText: '1. Example' }).first()).toBeAttached()
   })
 })

@@ -20,6 +20,6 @@ test.describe('/src/Extensions/InvisibleCharacters/Vue/', () => {
   })
 
   test('should have invisible characters', async ({ page }) => {
-    await expect(page.locator('[class*="tiptap-invisible-character"]')).toHaveCount(1)
+    await expect(page.locator('[class*="tiptap-invisible-character"]').first()).toBeAttached()
   })
 })

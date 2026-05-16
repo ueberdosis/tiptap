@@ -20,10 +20,10 @@ test.describe('/src/GuideContent/StaticRenderReact/React/', () => {
   })
 
   test('should render the content as HTML', async ({ page }) => {
-    await expect(page.locator('p')).toHaveCount(1)
-    await expect(page.locator('p')).toContainText('Example')
+    await expect(page.locator('p').first()).toBeAttached()
+    await expect(page.locator('p').filter({ hasText: 'Example' }).first()).toBeAttached()
 
-    await expect(page.locator('p strong')).toHaveCount(1)
-    await expect(page.locator('p strong')).toContainText('Text')
+    await expect(page.locator('p strong').first()).toBeAttached()
+    await expect(page.locator('p strong').filter({ hasText: 'Text' }).first()).toBeAttached()
   })
 })

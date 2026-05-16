@@ -44,7 +44,7 @@ test.describe('/src/Examples/Savvy/Vue/', () => {
     test(`should parse ${input} correctly`, async ({ page }) => {
       await page.locator('.tiptap').first().click()
       await typeText(page, `${input} `)
-      await expect(page.locator('.tiptap')).toContainText(output)
+      await expect(page.locator('.tiptap').filter({ hasText: output }).first()).toBeAttached()
     })
   }
 

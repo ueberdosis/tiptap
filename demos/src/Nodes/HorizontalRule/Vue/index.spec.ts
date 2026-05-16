@@ -38,7 +38,7 @@ test.describe('/src/Nodes/HorizontalRule/Vue/', () => {
 
     await page.locator('button').first().click()
 
-    await expect(page.locator('.tiptap hr')).toHaveCount(1)
+    await expect(page.locator('.tiptap hr').first()).toBeAttached()
   })
 
   test('the default markdown shortcut should add a horizontal rule', async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe('/src/Nodes/HorizontalRule/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '---')
 
-    await expect(page.locator('.tiptap hr')).toHaveCount(1)
+    await expect(page.locator('.tiptap hr').first()).toBeAttached()
   })
 
   test('the alternative markdown shortcut should add a horizontal rule', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('/src/Nodes/HorizontalRule/Vue/', () => {
     await page.locator('.tiptap').first().click()
     await typeText(page, '___ ')
 
-    await expect(page.locator('.tiptap hr')).toHaveCount(1)
+    await expect(page.locator('.tiptap hr').first()).toBeAttached()
   })
 
   test('should replace selection correctly', async ({ page }) => {
