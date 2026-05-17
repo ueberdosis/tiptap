@@ -428,6 +428,67 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/editor:
+    dependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/extension-blockquote':
+        specifier: workspace:^
+        version: link:../extension-blockquote
+      '@tiptap/extension-bold':
+        specifier: workspace:^
+        version: link:../extension-bold
+      '@tiptap/extension-code':
+        specifier: workspace:^
+        version: link:../extension-code
+      '@tiptap/extension-code-block':
+        specifier: workspace:^
+        version: link:../extension-code-block
+      '@tiptap/extension-document':
+        specifier: workspace:^
+        version: link:../extension-document
+      '@tiptap/extension-heading':
+        specifier: workspace:^
+        version: link:../extension-heading
+      '@tiptap/extension-italic':
+        specifier: workspace:^
+        version: link:../extension-italic
+      '@tiptap/extension-link':
+        specifier: workspace:^
+        version: link:../extension-link
+      '@tiptap/extension-list':
+        specifier: workspace:^
+        version: link:../extension-list
+      '@tiptap/extension-paragraph':
+        specifier: workspace:^
+        version: link:../extension-paragraph
+      '@tiptap/extension-strike':
+        specifier: workspace:^
+        version: link:../extension-strike
+      '@tiptap/extension-text':
+        specifier: workspace:^
+        version: link:../extension-text
+      '@tiptap/extensions':
+        specifier: workspace:^
+        version: link:../extensions
+      react-dom:
+        specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
+        version: 19.1.0(react@19.1.0)
+    devDependencies:
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+      '@tiptap/react':
+        specifier: workspace:^
+        version: link:../react
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.1.6
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+
   packages/extension-audio:
     devDependencies:
       '@tiptap/core':

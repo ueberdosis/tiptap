@@ -1,0 +1,252 @@
+{
+  "name": "@tiptap/editor",
+  "description": "Unified Tiptap editor package with subpath exports for nodes, marks, extensions, kits, and framework adapters",
+  "version": "4.0.0-alpha.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "editor",
+    "prosemirror",
+    "rich-text"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./react": {
+      "types": {
+        "import": "./dist/react/index.d.ts",
+        "require": "./dist/react/index.d.cts"
+      },
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./nodes/document": {
+      "types": {
+        "import": "./dist/nodes/document.d.ts",
+        "require": "./dist/nodes/document.d.cts"
+      },
+      "import": "./dist/nodes/document.js",
+      "require": "./dist/nodes/document.cjs"
+    },
+    "./nodes/paragraph": {
+      "types": {
+        "import": "./dist/nodes/paragraph.d.ts",
+        "require": "./dist/nodes/paragraph.d.cts"
+      },
+      "import": "./dist/nodes/paragraph.js",
+      "require": "./dist/nodes/paragraph.cjs"
+    },
+    "./nodes/text": {
+      "types": {
+        "import": "./dist/nodes/text.d.ts",
+        "require": "./dist/nodes/text.d.cts"
+      },
+      "import": "./dist/nodes/text.js",
+      "require": "./dist/nodes/text.cjs"
+    },
+    "./nodes/heading": {
+      "types": {
+        "import": "./dist/nodes/heading.d.ts",
+        "require": "./dist/nodes/heading.d.cts"
+      },
+      "import": "./dist/nodes/heading.js",
+      "require": "./dist/nodes/heading.cjs"
+    },
+    "./nodes/blockquote": {
+      "types": {
+        "import": "./dist/nodes/blockquote.d.ts",
+        "require": "./dist/nodes/blockquote.d.cts"
+      },
+      "import": "./dist/nodes/blockquote.js",
+      "require": "./dist/nodes/blockquote.cjs"
+    },
+    "./nodes/code-block": {
+      "types": {
+        "import": "./dist/nodes/code-block.d.ts",
+        "require": "./dist/nodes/code-block.d.cts"
+      },
+      "import": "./dist/nodes/code-block.js",
+      "require": "./dist/nodes/code-block.cjs"
+    },
+    "./nodes/bullet-list": {
+      "types": {
+        "import": "./dist/nodes/bullet-list.d.ts",
+        "require": "./dist/nodes/bullet-list.d.cts"
+      },
+      "import": "./dist/nodes/bullet-list.js",
+      "require": "./dist/nodes/bullet-list.cjs"
+    },
+    "./nodes/ordered-list": {
+      "types": {
+        "import": "./dist/nodes/ordered-list.d.ts",
+        "require": "./dist/nodes/ordered-list.d.cts"
+      },
+      "import": "./dist/nodes/ordered-list.js",
+      "require": "./dist/nodes/ordered-list.cjs"
+    },
+    "./nodes/list-item": {
+      "types": {
+        "import": "./dist/nodes/list-item.d.ts",
+        "require": "./dist/nodes/list-item.d.cts"
+      },
+      "import": "./dist/nodes/list-item.js",
+      "require": "./dist/nodes/list-item.cjs"
+    },
+    "./marks/bold": {
+      "types": {
+        "import": "./dist/marks/bold.d.ts",
+        "require": "./dist/marks/bold.d.cts"
+      },
+      "import": "./dist/marks/bold.js",
+      "require": "./dist/marks/bold.cjs"
+    },
+    "./marks/italic": {
+      "types": {
+        "import": "./dist/marks/italic.d.ts",
+        "require": "./dist/marks/italic.d.cts"
+      },
+      "import": "./dist/marks/italic.js",
+      "require": "./dist/marks/italic.cjs"
+    },
+    "./marks/strike": {
+      "types": {
+        "import": "./dist/marks/strike.d.ts",
+        "require": "./dist/marks/strike.d.cts"
+      },
+      "import": "./dist/marks/strike.js",
+      "require": "./dist/marks/strike.cjs"
+    },
+    "./marks/code": {
+      "types": {
+        "import": "./dist/marks/code.d.ts",
+        "require": "./dist/marks/code.d.cts"
+      },
+      "import": "./dist/marks/code.js",
+      "require": "./dist/marks/code.cjs"
+    },
+    "./marks/link": {
+      "types": {
+        "import": "./dist/marks/link.d.ts",
+        "require": "./dist/marks/link.d.cts"
+      },
+      "import": "./dist/marks/link.js",
+      "require": "./dist/marks/link.cjs"
+    },
+    "./extensions/history": {
+      "types": {
+        "import": "./dist/extensions/history.d.ts",
+        "require": "./dist/extensions/history.d.cts"
+      },
+      "import": "./dist/extensions/history.js",
+      "require": "./dist/extensions/history.cjs"
+    },
+    "./extensions/dropcursor": {
+      "types": {
+        "import": "./dist/extensions/dropcursor.d.ts",
+        "require": "./dist/extensions/dropcursor.d.cts"
+      },
+      "import": "./dist/extensions/dropcursor.js",
+      "require": "./dist/extensions/dropcursor.cjs"
+    },
+    "./extensions/gapcursor": {
+      "types": {
+        "import": "./dist/extensions/gapcursor.d.ts",
+        "require": "./dist/extensions/gapcursor.d.cts"
+      },
+      "import": "./dist/extensions/gapcursor.js",
+      "require": "./dist/extensions/gapcursor.cjs"
+    },
+    "./extensions/placeholder": {
+      "types": {
+        "import": "./dist/extensions/placeholder.d.ts",
+        "require": "./dist/extensions/placeholder.d.cts"
+      },
+      "import": "./dist/extensions/placeholder.js",
+      "require": "./dist/extensions/placeholder.cjs"
+    },
+    "./extensions/character-count": {
+      "types": {
+        "import": "./dist/extensions/character-count.d.ts",
+        "require": "./dist/extensions/character-count.d.cts"
+      },
+      "import": "./dist/extensions/character-count.js",
+      "require": "./dist/extensions/character-count.cjs"
+    },
+    "./kits/starter": {
+      "types": {
+        "import": "./dist/kits/starter.d.ts",
+        "require": "./dist/kits/starter.d.cts"
+      },
+      "import": "./dist/kits/starter.js",
+      "require": "./dist/kits/starter.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@tiptap/core": "workspace:^",
+    "@tiptap/extension-blockquote": "workspace:^",
+    "@tiptap/extension-bold": "workspace:^",
+    "@tiptap/extension-code": "workspace:^",
+    "@tiptap/extension-code-block": "workspace:^",
+    "@tiptap/extension-document": "workspace:^",
+    "@tiptap/extension-heading": "workspace:^",
+    "@tiptap/extension-italic": "workspace:^",
+    "@tiptap/extension-link": "workspace:^",
+    "@tiptap/extension-list": "workspace:^",
+    "@tiptap/extension-paragraph": "workspace:^",
+    "@tiptap/extension-strike": "workspace:^",
+    "@tiptap/extension-text": "workspace:^",
+    "@tiptap/extensions": "workspace:^"
+  },
+  "devDependencies": {
+    "@tiptap/pm": "workspace:^",
+    "@tiptap/react": "workspace:^",
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0"
+  },
+  "peerDependencies": {
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/react": "workspace:*",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tiptap/react": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/editor"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

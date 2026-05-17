@@ -49,6 +49,24 @@ const getPackageAliases = () => {
             aliases[`@tiptap/${name}/${subPkgName}`] = resolve(`${path}/${name}/src/${subPkgName}/index.ts`)
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
+        } else if (name === 'editor') {
+          // @tiptap/editor uses FLAT leaf files inside subpath directories
+          // (e.g. src/nodes/heading.ts → @tiptap/editor/nodes/heading), so
+          // resolve subpaths to .ts files rather than directory index.ts.
+          fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subDir => {
+            const subDirName = subDir.replace(`${path}/${name}/src/`, '')
+
+            if (subDirName === 'react') {
+              aliases[`@tiptap/${name}/${subDirName}`] = resolve(`${path}/${name}/src/${subDirName}/index.ts`)
+              return
+            }
+
+            fg.sync(`${subDir}/*.ts`).forEach(leafPath => {
+              const leafName = leafPath.replace(`${subDir}/`, '').replace(/\.ts$/, '')
+              aliases[`@tiptap/${name}/${subDirName}/${leafName}`] = resolve(leafPath)
+            })
+          })
+          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         } else {
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         }
