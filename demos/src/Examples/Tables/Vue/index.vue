@@ -81,7 +81,7 @@
 
 <script>
 import { TableCell, TableKit } from '@tiptap/extension-table'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const CustomTableCell = TableCell.extend({

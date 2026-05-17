@@ -1,5 +1,5 @@
 import { Node, NodeViewContent, ReactNodeViewContentProvider, ReactNodeViewRenderer } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { renderToReactElement } from '@tiptap/static-renderer'
 import React, { useMemo } from 'react'
 

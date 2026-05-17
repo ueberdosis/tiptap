@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { type Extensions, Editor, Extension } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { UniqueID } from '../src/unique-id.js'

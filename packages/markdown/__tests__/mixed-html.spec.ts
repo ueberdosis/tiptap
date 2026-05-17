@@ -2,11 +2,11 @@
  * @vitest-environment happy-dom
  */
 
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
-import { Italic } from '@tiptap/extension-italic'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
+import { Document } from '@tiptap/editor/nodes/document'
+import { Heading } from '@tiptap/editor/nodes/heading'
+import { Italic } from '@tiptap/editor/marks/italic'
+import { Paragraph } from '@tiptap/editor/nodes/paragraph'
+import { Text } from '@tiptap/editor/nodes/text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vitest'
 

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Link from '@tiptap/extension-link'
-import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/editor/marks/link'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

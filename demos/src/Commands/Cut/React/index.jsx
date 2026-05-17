@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React, { useCallback } from 'react'
 
 const MenuBar = ({ editor }) => {

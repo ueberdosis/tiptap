@@ -3,7 +3,7 @@ import './styles.scss'
 import Highlight from '@tiptap/extension-highlight'
 import Typography from '@tiptap/extension-typography'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 export default () => {

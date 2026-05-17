@@ -1,8 +1,8 @@
 import { getSchema, isNodeEmpty } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
+import Document from '@tiptap/editor/nodes/document'
 import Image from '@tiptap/extension-image'
 import Mention from '@tiptap/extension-mention'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { describe, expect, it } from 'vitest'
 
 const schema = getSchema([StarterKit, Mention])

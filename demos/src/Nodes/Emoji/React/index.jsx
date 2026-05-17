@@ -2,7 +2,7 @@ import './styles.scss'
 
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 import suggestion from './suggestion.js'

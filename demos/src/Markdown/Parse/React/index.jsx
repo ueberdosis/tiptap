@@ -2,7 +2,7 @@ import Image from '@tiptap/extension-image'
 import { TableKit } from '@tiptap/extension-table'
 import { Markdown } from '@tiptap/markdown'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 
 const markdown = `# Markdown parsing demo
 

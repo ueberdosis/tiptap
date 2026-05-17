@@ -1,6 +1,6 @@
 /** @jsxImportSource @tiptap/core */
 import { mergeAttributes } from '@tiptap/core'
-import { Paragraph as BaseParagraph } from '@tiptap/extension-paragraph'
+import { Paragraph as BaseParagraph } from '@tiptap/editor/nodes/paragraph'
 
 export const Paragraph = BaseParagraph.extend({
   renderHTML({ HTMLAttributes }) {

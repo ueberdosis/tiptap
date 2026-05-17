@@ -9,7 +9,7 @@
 
 <script>
 import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import { Recommendation } from './extensions/recommendation/Recommendation.js'

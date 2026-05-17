@@ -1,4 +1,4 @@
-import { Paragraph as BaseParagraph } from '@tiptap/extension-paragraph'
+import { Paragraph as BaseParagraph } from '@tiptap/editor/nodes/paragraph'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 
 import Component from './Component.vue'

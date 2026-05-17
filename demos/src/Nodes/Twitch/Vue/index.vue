@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import { ListKit } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import Heading from '@tiptap/editor/nodes/heading'
+import { ListKit } from '@tiptap/editor/kits/list'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import Twitch from '@tiptap/extension-twitch'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 

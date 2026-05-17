@@ -3,10 +3,11 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import { TaskItem } from '@tiptap/editor/nodes/task-item'
+import { TaskList } from '@tiptap/editor/nodes/task-list'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const CustomDocument = Document.extend({

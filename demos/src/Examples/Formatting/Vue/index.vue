@@ -80,7 +80,7 @@
 <script>
 import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

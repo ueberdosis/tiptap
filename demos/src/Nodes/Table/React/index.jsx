@@ -1,10 +1,10 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
 import { TableKit } from '@tiptap/extension-table'
-import Text from '@tiptap/extension-text'
-import { Gapcursor } from '@tiptap/extensions'
+import Text from '@tiptap/editor/nodes/text'
+import { Gapcursor } from '@tiptap/editor/extensions/gapcursor'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

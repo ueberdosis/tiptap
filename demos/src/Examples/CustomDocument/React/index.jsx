@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import { Placeholder } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 const CustomDocument = Document.extend({

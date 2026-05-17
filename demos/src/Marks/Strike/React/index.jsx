@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Strike from '@tiptap/extension-strike'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Strike from '@tiptap/editor/marks/strike'
+import Text from '@tiptap/editor/nodes/text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

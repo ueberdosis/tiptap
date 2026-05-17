@@ -50,20 +50,31 @@ const getPackageAliases = () => {
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         } else if (name === 'editor') {
-          // @tiptap/editor uses FLAT leaf files inside subpath directories
-          // (e.g. src/nodes/heading.ts → @tiptap/editor/nodes/heading), so
-          // resolve subpaths to .ts files rather than directory index.ts.
+          // @tiptap/editor uses FLAT leaf files for most subpaths
+          // (src/nodes/heading.ts → @tiptap/editor/nodes/heading) but also
+          // supports nested directories with index.ts for modules that need
+          // helper files (src/marks/link/, src/extensions/list-keymap/,
+          // src/nodes/ordered-list/).
           fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subDir => {
             const subDirName = subDir.replace(`${path}/${name}/src/`, '')
 
-            if (subDirName === 'react') {
-              aliases[`@tiptap/${name}/${subDirName}`] = resolve(`${path}/${name}/src/${subDirName}/index.ts`)
+            if (subDirName === 'react' || subDirName === '__tests__') {
+              if (subDirName === 'react') {
+                aliases[`@tiptap/${name}/${subDirName}`] = resolve(`${path}/${name}/src/${subDirName}/index.ts`)
+              }
               return
             }
 
-            fg.sync(`${subDir}/*.ts`).forEach(leafPath => {
-              const leafName = leafPath.replace(`${subDir}/`, '').replace(/\.ts$/, '')
+            // Flat .ts/.tsx leaves in this subDir.
+            fg.sync(`${subDir}/*.{ts,tsx}`).forEach(leafPath => {
+              const leafName = leafPath.replace(`${subDir}/`, '').replace(/\.tsx?$/, '')
               aliases[`@tiptap/${name}/${subDirName}/${leafName}`] = resolve(leafPath)
+            })
+
+            // Nested directories with their own index.ts.
+            fg.sync(`${subDir}/*`, { onlyDirectories: true }).forEach(nestedDir => {
+              const nestedName = nestedDir.replace(`${subDir}/`, '')
+              aliases[`@tiptap/${name}/${subDirName}/${nestedName}`] = resolve(`${nestedDir}/index.ts`)
             })
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
@@ -74,7 +85,6 @@ const getPackageAliases = () => {
   }
 
   collectPackageInformation('./packages')
-  collectPackageInformation('./packages-deprecated')
 
   return aliases
 }

@@ -12,7 +12,7 @@ import {
   Node,
   useEditor,
 } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { useState } from 'react'
 
 const CustomNode = Node.create({

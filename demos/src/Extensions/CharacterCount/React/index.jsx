@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { CharacterCount } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { CharacterCount } from '@tiptap/editor/extensions/character-count'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 
 const limit = 280

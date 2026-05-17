@@ -1,5 +1,5 @@
 import { Editor, Extension } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { describe, expect, it, vi } from 'vitest'
 
 import { exitSuggestion, Suggestion, SuggestionPluginKey } from '../suggestion.js'

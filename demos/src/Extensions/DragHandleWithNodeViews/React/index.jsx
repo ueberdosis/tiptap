@@ -2,7 +2,7 @@ import './styles.scss'
 
 import DragHandle from '@tiptap/extension-drag-handle-react'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 import { Recommendation } from './extensions/recommendation/index.jsx'

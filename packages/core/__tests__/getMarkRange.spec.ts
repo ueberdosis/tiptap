@@ -1,9 +1,9 @@
 import { getMarkRange, getSchemaByResolvedExtensions } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
+import Document from '@tiptap/editor/nodes/document'
 import Highlight from '@tiptap/extension-highlight'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Link from '@tiptap/editor/marks/link'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { Node } from '@tiptap/pm/model'
 import { describe, expect, it } from 'vitest'
 

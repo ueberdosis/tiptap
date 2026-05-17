@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { LineHeight, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 export default () => {

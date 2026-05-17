@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import { Placeholder } from '@tiptap/extensions'
-import StarterKit from '@tiptap/starter-kit'
+import Document from '@tiptap/editor/nodes/document'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const CustomDocument = Document.extend({

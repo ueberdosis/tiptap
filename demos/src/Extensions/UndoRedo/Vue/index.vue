@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { UndoRedo } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { UndoRedo } from '@tiptap/editor/extensions/history'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

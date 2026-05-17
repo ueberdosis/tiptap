@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
 import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
-import Text from '@tiptap/extension-text'
+import Text from '@tiptap/editor/nodes/text'
 import { afterEach, describe, expect, it } from 'vitest'
 
 describe('colgroup updates after column commands', () => {

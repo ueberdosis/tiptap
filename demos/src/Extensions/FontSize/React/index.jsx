@@ -1,6 +1,6 @@
 import { FontSize, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 
 export default () => {
   const editor = useEditor({

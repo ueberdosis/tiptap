@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import { ListItem } from '@tiptap/extension-list'
+import { ListItem } from '@tiptap/editor/nodes/list-item'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, Node, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 import { content } from '../content.ts'

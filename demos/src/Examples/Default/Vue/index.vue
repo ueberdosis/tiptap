@@ -119,9 +119,9 @@
 </template>
 
 <script>
-import { ListItem } from '@tiptap/extension-list'
+import { ListItem } from '@tiptap/editor/nodes/list-item'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

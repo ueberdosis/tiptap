@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React, { useState } from 'react'
 
 const MenuBar = () => {

@@ -49,7 +49,7 @@ Tiptap supports \`inline code\` and full code blocks:
 
 \`\`\`javascript
 import { Editor } from '@tiptap/core'
-import { StarterKit } from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 
 const editor = new Editor({
   extensions: [StarterKit],

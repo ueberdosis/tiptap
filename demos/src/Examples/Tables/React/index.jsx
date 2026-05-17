@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { TableCell, TableKit } from '@tiptap/extension-table'
 import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import React from 'react'
 
 const CustomTableCell = TableCell.extend({

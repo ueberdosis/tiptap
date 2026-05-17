@@ -18,7 +18,7 @@ import { DragHandle } from '@tiptap/extension-drag-handle-vue-3'
 import Image from '@tiptap/extension-image'
 import NodeRange from '@tiptap/extension-node-range'
 import { TableKit } from '@tiptap/extension-table'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const NESTED_CONFIG_LTR = { edgeDetection: { threshold: -16, edges: ['left'] } }

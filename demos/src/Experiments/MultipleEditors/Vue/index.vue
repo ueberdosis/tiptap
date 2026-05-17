@@ -29,14 +29,15 @@
 </template>
 
 <script>
-import Bold from '@tiptap/extension-bold'
+import Bold from '@tiptap/editor/marks/bold'
 import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Dropcursor } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import Heading from '@tiptap/editor/nodes/heading'
+import { TaskItem } from '@tiptap/editor/nodes/task-item'
+import { TaskList } from '@tiptap/editor/nodes/task-list'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { Dropcursor } from '@tiptap/editor/extensions/dropcursor'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { yDocToProsemirrorJSON } from '@tiptap/y-tiptap'
 import * as Y from 'yjs'

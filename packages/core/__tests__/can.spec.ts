@@ -1,11 +1,11 @@
 import { Editor } from '@tiptap/core'
-import Bold from '@tiptap/extension-bold'
-import Code from '@tiptap/extension-code'
-import CodeBlock from '@tiptap/extension-code-block'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { UndoRedo } from '@tiptap/extensions'
+import Bold from '@tiptap/editor/marks/bold'
+import Code from '@tiptap/editor/marks/code'
+import CodeBlock from '@tiptap/editor/nodes/code-block'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { UndoRedo } from '@tiptap/editor/extensions/history'
 import { afterEach, describe, expect, it } from 'vitest'
 
 describe('can', () => {

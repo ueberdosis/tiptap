@@ -1,6 +1,6 @@
 import { Collaboration } from '@tiptap/extension-collaboration'
 import { EditorContent, useEditor } from '@tiptap/react'
-import { StarterKit } from '@tiptap/starter-kit'
+import { StarterKit } from '@tiptap/editor/kits/starter'
 import React from 'react'
 import * as Y from 'yjs'
 

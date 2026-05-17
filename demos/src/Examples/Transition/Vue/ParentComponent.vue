@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { ref } from 'vue'
 

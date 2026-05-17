@@ -1,9 +1,9 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { UndoRedo } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { UndoRedo } from '@tiptap/editor/extensions/history'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 

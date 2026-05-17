@@ -1,10 +1,10 @@
 import { Editor, Node } from '@tiptap/core'
-import Blockquote from '@tiptap/extension-blockquote'
-import BulletList from '@tiptap/extension-bullet-list'
-import Document from '@tiptap/extension-document'
-import ListItem from '@tiptap/extension-list-item'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Blockquote from '@tiptap/editor/nodes/blockquote'
+import BulletList from '@tiptap/editor/nodes/bullet-list'
+import Document from '@tiptap/editor/nodes/document'
+import ListItem from '@tiptap/editor/nodes/list-item'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { afterEach, describe, expect, it } from 'vitest'
 
 // Simple inline node for testing (similar to mention)

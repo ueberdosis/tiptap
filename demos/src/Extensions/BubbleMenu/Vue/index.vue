@@ -56,7 +56,7 @@
 
 <script>
 import { findParentNode, posToDOMRect } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { BubbleMenu } from '@tiptap/vue-3/menus'
 

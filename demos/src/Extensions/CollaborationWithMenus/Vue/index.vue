@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import Bold from '@tiptap/extension-bold'
+import Bold from '@tiptap/editor/marks/bold'
 import Collaboration from '@tiptap/extension-collaboration'
-import Document from '@tiptap/extension-document'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Placeholder } from '@tiptap/extensions'
+import Document from '@tiptap/editor/nodes/document'
+import Heading from '@tiptap/editor/nodes/heading'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { BubbleMenu, FloatingMenu } from '@tiptap/vue-3/menus'
 import { WebrtcProvider } from 'y-webrtc'

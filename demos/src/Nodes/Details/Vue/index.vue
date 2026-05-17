@@ -16,8 +16,8 @@
 
 <script>
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details'
-import { Placeholder } from '@tiptap/extensions'
-import StarterKit from '@tiptap/starter-kit'
+import { Placeholder } from '@tiptap/editor/extensions/placeholder'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

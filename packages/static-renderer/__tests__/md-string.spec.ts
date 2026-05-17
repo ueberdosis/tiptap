@@ -1,5 +1,5 @@
 import { TableKit } from '@tiptap/extension-table'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
 import { describe, expect, it } from 'vitest'
 

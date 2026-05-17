@@ -1,11 +1,11 @@
 import './styles.scss'
 
-import Document from '@tiptap/extension-document'
+import Document from '@tiptap/editor/nodes/document'
 import FileHandler from '@tiptap/extension-file-handler'
-import Heading from '@tiptap/extension-heading'
+import Heading from '@tiptap/editor/nodes/heading'
 import Image from '@tiptap/extension-image'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React from 'react'
 

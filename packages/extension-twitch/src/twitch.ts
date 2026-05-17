@@ -146,7 +146,7 @@ declare module '@tiptap/core' {
  * @example
  * ```ts
  * import { useEditor, EditorContent } from '@tiptap/react'
- * import { StarterKit } from '@tiptap/starter-kit'
+ * import { StarterKit } from '@tiptap/editor/kits/starter'
  * import { Twitch } from '@tiptap/extension-twitch'
  *
  * const editor = useEditor({

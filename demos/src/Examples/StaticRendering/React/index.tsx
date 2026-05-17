@@ -2,7 +2,7 @@ import './styles.scss'
 
 import type { JSONContent } from '@tiptap/react'
 import { EditorProvider, useCurrentEditor, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { renderToHTMLString, renderToMarkdown, renderToReactElement } from '@tiptap/static-renderer'
 import React, { useState } from 'react'
 

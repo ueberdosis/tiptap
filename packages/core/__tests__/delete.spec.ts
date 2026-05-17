@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
-import Bold from '@tiptap/extension-bold'
-import Document from '@tiptap/extension-document'
-import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/editor/marks/bold'
+import Document from '@tiptap/editor/nodes/document'
+import Text from '@tiptap/editor/nodes/text'
 import { describe, expect, it, vi } from 'vitest'
 
 const InlineDocument = Document.extend({

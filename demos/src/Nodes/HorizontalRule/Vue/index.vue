@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import Document from '@tiptap/extension-document'
-import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import HorizontalRule from '@tiptap/editor/nodes/horizontal-rule'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

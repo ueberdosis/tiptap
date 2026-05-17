@@ -1,10 +1,10 @@
 import './styles.scss'
 
-import Code from '@tiptap/extension-code'
-import Document from '@tiptap/extension-document'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Code from '@tiptap/editor/marks/code'
+import Document from '@tiptap/editor/nodes/document'
+import Link from '@tiptap/editor/marks/link'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React, { useCallback } from 'react'
 

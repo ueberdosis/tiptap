@@ -3,12 +3,13 @@
 </template>
 
 <script>
-import Code from '@tiptap/extension-code'
-import Document from '@tiptap/extension-document'
-import { BulletList, ListItem } from '@tiptap/extension-list'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { Selection } from '@tiptap/extensions'
+import Code from '@tiptap/editor/marks/code'
+import Document from '@tiptap/editor/nodes/document'
+import { BulletList } from '@tiptap/editor/nodes/bullet-list'
+import { ListItem } from '@tiptap/editor/nodes/list-item'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
+import { Selection } from '@tiptap/editor/extensions/selection'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {

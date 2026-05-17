@@ -1,10 +1,10 @@
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import Document from '@tiptap/editor/nodes/document'
+import Paragraph from '@tiptap/editor/nodes/paragraph'
+import Text from '@tiptap/editor/nodes/text'
 import { TextStyle } from '@tiptap/extension-text-style'
 import Youtube from '@tiptap/extension-youtube'
 import { generateHTML, generateJSON } from '@tiptap/html'
-import StarterKit from '@tiptap/starter-kit'
+import StarterKit from '@tiptap/editor/kits/starter'
 import { describe, expect, it } from 'vitest'
 
 describe('generateHTML', () => {

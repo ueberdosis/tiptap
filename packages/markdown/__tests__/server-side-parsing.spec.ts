@@ -2,12 +2,12 @@
  * @vitest-environment node
  */
 
-import { Code } from '@tiptap/extension-code'
-import { Document } from '@tiptap/extension-document'
-import { Heading } from '@tiptap/extension-heading'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Strike } from '@tiptap/extension-strike'
-import { Text } from '@tiptap/extension-text'
+import { Code } from '@tiptap/editor/marks/code'
+import { Document } from '@tiptap/editor/nodes/document'
+import { Heading } from '@tiptap/editor/nodes/heading'
+import { Paragraph } from '@tiptap/editor/nodes/paragraph'
+import { Strike } from '@tiptap/editor/marks/strike'
+import { Text } from '@tiptap/editor/nodes/text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { beforeEach, describe, expect, it } from 'vitest'
 

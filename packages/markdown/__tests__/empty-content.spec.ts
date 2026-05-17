@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/core'
-import { Bold } from '@tiptap/extension-bold'
-import { Document } from '@tiptap/extension-document'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Text } from '@tiptap/extension-text'
+import { Bold } from '@tiptap/editor/marks/bold'
+import { Document } from '@tiptap/editor/nodes/document'
+import { Paragraph } from '@tiptap/editor/nodes/paragraph'
+import { Text } from '@tiptap/editor/nodes/text'
 import { Markdown } from '@tiptap/markdown'
 import { afterEach, describe, expect, it } from 'vitest'
 
