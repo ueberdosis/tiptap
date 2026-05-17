@@ -27,14 +27,14 @@ test.describe('/src/Marks/Link/Vue/', () => {
 
   test('should parse a tags correctly', async ({ page }) => {
     await setEditorContent(page, '<p><a href="#">Example Text1</a></p>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<p><a target="_blank" rel="noopener noreferrer nofollow" href="#">Example Text1</a></p>',
     )
   })
 
   test('should parse a tags with target attribute correctly', async ({ page }) => {
     await setEditorContent(page, '<p><a href="#" target="_self">Example Text2</a></p>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<p><a target="_self" rel="noopener noreferrer nofollow" href="#">Example Text2</a></p>',
     )
   })

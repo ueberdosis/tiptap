@@ -26,7 +26,29 @@ test.describe('/src/GuideContent/GenerateJSON/React/', () => {
       page
         .locator('pre code')
         .filter({
-          hasText: `{ "type": "doc", "content": [ { "type": "paragraph", "content": [ { "type": "text", "text": "Example " }, { "type": "text", "marks": [ { "type": "bold" } ], "text": "Text" } ] } ] }`,
+          hasText: `{
+"type": "doc",
+"content": [
+{
+"type": "paragraph",
+"content": [
+{
+"type": "text",
+"text": "Example "
+},
+{
+"type": "text",
+"marks": [
+{
+"type": "bold"
+}
+],
+"text": "Text"
+}
+]
+}
+]
+}`,
         })
         .first(),
     ).toBeAttached()

@@ -41,7 +41,9 @@ test.describe('/src/Examples/MultiMention/React/', () => {
       await expect(
         page.locator('.dropdown-menu button:nth-child(1)').filter({ hasText: 'Lea Thompson' }).first(),
       ).toBeAttached()
-      // TODO(playwright-migration): unhandled .and(...) on page.locator('.dropdown-menu button:nth-child(1)')
+      await expect(page.locator('.dropdown-menu button:nth-child(1)').first()).toHaveClass(
+        new RegExp('(^|\\s)' + 'is-selected' + '(\\s|$)'),
+      )
       await expect(
         page.locator('.dropdown-menu button:nth-child(2)').filter({ hasText: 'Cyndi Lauper' }).first(),
       ).toBeAttached()
@@ -132,10 +134,13 @@ test.describe('/src/Examples/MultiMention/React/', () => {
 
   test.describe('Movie mentions (#)', () => {
     test('should insert a movie mention', async ({ page }) => {
-      await setEditorContent(
-        page,
-        '<p><span data-type="mention" data-id="The Matrix" data-mention-suggestion-char="#">#The Matrix</span></p>',
-      )
+      await waitForEditor(page, '.tiptap')
+      await page.evaluate(__expr => {
+        const editor = (document.querySelector('.tiptap') as any).editor
+        editor.commands.setContent(
+          '<p><span data-type="mention" data-id="The Matrix" data-mention-suggestion-char="#">#The Matrix</span></p>',
+        )
+      }, undefined)
       expect(await page.locator('.tiptap').first().innerHTML()).toContain(
         '<span class="mention" data-type="mention" data-id="The Matrix" data-mention-suggestion-char="#" contenteditable="false">#The Matrix</span>',
       )
@@ -155,7 +160,9 @@ test.describe('/src/Examples/MultiMention/React/', () => {
       await expect(
         page.locator('.dropdown-menu button:nth-child(1)').filter({ hasText: 'Dirty Dancing' }).first(),
       ).toBeAttached()
-      // TODO(playwright-migration): unhandled .and(...) on page.locator('.dropdown-menu button:nth-child(1)')
+      await expect(page.locator('.dropdown-menu button:nth-child(1)').first()).toHaveClass(
+        new RegExp('(^|\\s)' + 'is-selected' + '(\\s|$)'),
+      )
       await expect(
         page.locator('.dropdown-menu button:nth-child(2)').filter({ hasText: 'Pirates of the Caribbean' }).first(),
       ).toBeAttached()
@@ -244,10 +251,13 @@ test.describe('/src/Examples/MultiMention/React/', () => {
 
   test.describe('Interaction between mention types', () => {
     test('should support both mention types in the same document', async ({ page }) => {
-      await setEditorContent(
-        page,
-        '<p><span data-type="mention" data-id="Madonna">@Madonna</span> starred in <span data-type="mention" data-id="Dirty Dancing" data-mention-suggestion-char="#">#Dirty Dancing</span></p>',
-      )
+      await waitForEditor(page, '.tiptap')
+      await page.evaluate(__expr => {
+        const editor = (document.querySelector('.tiptap') as any).editor
+        editor.commands.setContent(
+          '<p><span data-type="mention" data-id="Madonna">@Madonna</span> starred in <span data-type="mention" data-id="Dirty Dancing" data-mention-suggestion-char="#">#Dirty Dancing</span></p>',
+        )
+      }, undefined)
 
       expect(await page.locator('.tiptap').first().innerHTML()).toContain(
         '<span class="mention" data-type="mention" data-id="Madonna" data-mention-suggestion-char="@" contenteditable="false">@Madonna</span>',

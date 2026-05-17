@@ -95,7 +95,11 @@ test.describe('/src/Marks/Highlight/React/', () => {
         .run()
     }, undefined)
 
-    const isActive = await editorEval(page, "editor.isActive('highlight', { color: 'rgb(255, 0, 0)', })", '.tiptap')
+    const isActive = await editorEval(
+      page,
+      "editor.isActive('highlight', {\n        color: 'rgb(255, 0, 0)',\n      })",
+      '.tiptap',
+    )
 
     expect(isActive).toBe(true)
   })
@@ -111,7 +115,11 @@ test.describe('/src/Marks/Highlight/React/', () => {
         .run()
     }, undefined)
 
-    const isActive = await editorEval(page, "editor.isActive('highlight', { color: 'rgb(0, 0, 0)', })", '.tiptap')
+    const isActive = await editorEval(
+      page,
+      "editor.isActive('highlight', {\n        color: 'rgb(0, 0, 0)',\n      })",
+      '.tiptap',
+    )
 
     expect(isActive).toBe(false)
   })

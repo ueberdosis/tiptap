@@ -20,14 +20,12 @@ test.describe('/src/Extensions/Mathematics/Vue/', () => {
   })
 
   test('should include katex-rendered inline and block nodes', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('.tiptap span[data-type="inline-math"]').should('have.length', 21)
-    //       cy.get('.tiptap div[data-type="block-math"]').should('have.length', 1)
-    //
-    //       cy.get('.tiptap span[data-type="inline-math"] .katex').should('have.length', 21)
-    //       cy.get('.tiptap div[data-type="block-math"] .katex').should('have.length', 1)
-    //     }
+    page.locator('.tiptap')
+
+    await expect(page.locator('.tiptap span[data-type="inline-math"]')).toHaveCount(21)
+    await expect(page.locator('.tiptap div[data-type="block-math"]')).toHaveCount(1)
+
+    await expect(page.locator('.tiptap span[data-type="inline-math"] .katex')).toHaveCount(21)
+    await expect(page.locator('.tiptap div[data-type="block-math"] .katex')).toHaveCount(1)
   })
 })

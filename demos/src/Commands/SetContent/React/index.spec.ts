@@ -35,16 +35,22 @@ test.describe('/src/Commands/SetContent/React/', () => {
   })
 
   test('should insert a Prosemirror Node as content', async ({ page }) => {
-    await setEditorContent(page, editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
+    await setEditorContent(
+      page,
+      await editorEval(page, `editor.schema.node('paragraph', null, editor.schema.text('Hello World.'))`),
+    )
     expect(await page.locator('.tiptap').first().innerHTML()).toContain('<p>Hello World.</p>')
   })
 
   test('should insert a Prosemirror Fragment as content', async ({ page }) => {
-    await setEditorContent(
-      page,
-      editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
-        .content,
-    )
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent(
+        editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
+          .content,
+      )
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain('<p>Hello World.</p>')
   })
 
@@ -75,10 +81,13 @@ test.describe('/src/Commands/SetContent/React/', () => {
   })
 
   test('should insert more complex html content', async ({ page }) => {
-    await setEditorContent(
-      page,
-      '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>',
-    )
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent(
+        '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>',
+      )
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain(
       '<h1>Welcome to Tiptap</h1><p>This is a paragraph.</p><ul><li><p>List Item A</p></li><li><p>List Item B</p><ul><li><p>Subchild</p></li></ul></li></ul>',
     )
@@ -90,9 +99,13 @@ test.describe('/src/Commands/SetContent/React/', () => {
   })
 
   test('should keep newlines and tabs when preserveWhitespace = full', async ({ page }) => {
-    await setEditorContent(page, '<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>', {
-      parseOptions: { preserveWhitespace: 'full' },
-    })
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>', {
+        parseOptions: { preserveWhitespace: 'full' },
+      })
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain('<p>Hello\n\tworld\n\t\thow\n\t\t\tnice.</p>')
   })
 
@@ -124,9 +137,13 @@ test.describe('/src/Commands/SetContent/React/', () => {
   // TODO I'm not certain about this behavior and what it should do...
   // This exists in insertContentAt as well
   test('should keep newlines and tabs between html fragments when preserveWhitespace = full', async ({ page }) => {
-    await setEditorContent(page, '<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', {
-      parseOptions: { preserveWhitespace: 'full' },
-    })
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', {
+        parseOptions: { preserveWhitespace: 'full' },
+      })
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain(
       '<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>',
     )
@@ -179,9 +196,13 @@ test.describe('/src/Commands/SetContent/React/', () => {
   })
 
   test('should remove newlines and tabs when parseOptions.preserveWhitespace=false', async ({ page }) => {
-    await setEditorContent(page, '\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', {
-      parseOptions: { preserveWhitespace: false },
-    })
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent('\n<h1>Tiptap</h1><p><strong>Hello\n World</strong>\n</p>\n', {
+        parseOptions: { preserveWhitespace: false },
+      })
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain(
       '<h1>Tiptap</h1><p><strong>Hello World</strong></p>',
     )

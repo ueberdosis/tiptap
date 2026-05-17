@@ -27,10 +27,13 @@ test.describe('/src/Nodes/Mention/React/', () => {
   })
 
   test('should insert multiple mentions', async ({ page }) => {
-    await setEditorContent(
-      page,
-      '<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span> and <span data-type="mention" data-id="2" data-label="Jane Smith">@Jane Smith</span></p>',
-    )
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent(
+        '<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span> and <span data-type="mention" data-id="2" data-label="Jane Smith">@Jane Smith</span></p>',
+      )
+    }, undefined)
     expect(await page.locator('.tiptap').first().innerHTML()).toContain(
       '<span class="mention" data-type="mention" data-id="1" data-label="John Doe" data-mention-suggestion-char="@" contenteditable="false">@John Doe</span> and <span class="mention" data-type="mention" data-id="2" data-label="Jane Smith" data-mention-suggestion-char="@" contenteditable="false">@Jane Smith</span>',
     )
@@ -50,7 +53,9 @@ test.describe('/src/Nodes/Mention/React/', () => {
     await expect(
       page.locator('.dropdown-menu button:nth-child(1)').filter({ hasText: 'Lea Thompson' }).first(),
     ).toBeAttached()
-    // TODO(playwright-migration): unhandled .and(...) on page.locator('.dropdown-menu button:nth-child(1)')
+    await expect(page.locator('.dropdown-menu button:nth-child(1)').first()).toHaveClass(
+      new RegExp('(^|\\s)' + 'is-selected' + '(\\s|$)'),
+    )
     await expect(
       page.locator('.dropdown-menu button:nth-child(2)').filter({ hasText: 'Cyndi Lauper' }).first(),
     ).toBeAttached()

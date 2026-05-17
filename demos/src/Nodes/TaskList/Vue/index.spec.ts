@@ -26,21 +26,27 @@ test.describe('/src/Nodes/TaskList/Vue/', () => {
   })
 
   test('should parse unordered lists correctly', async ({ page }) => {
-    await setEditorContent(
-      page,
-      '<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>',
-    )
-    expect(await getEditorHTML(page)).toBe(
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent(
+        '<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><p>Example Text</p></li></ul>',
+      )
+    }, undefined)
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<ul data-type="taskList"><li data-checked="true" data-type="taskItem"><label><input type="checkbox" checked="checked"><span></span></label><div><p>Example Text</p></div></li></ul>',
     )
   })
 
   test('should parse unordered lists without paragraphs correctly', async ({ page }) => {
-    await setEditorContent(
-      page,
-      '<ul data-type="taskList"><li data-checked="false" data-type="taskItem">Example Text</li></ul>',
-    )
-    expect(await getEditorHTML(page)).toBe(
+    await waitForEditor(page, '.tiptap')
+    await page.evaluate(__expr => {
+      const editor = (document.querySelector('.tiptap') as any).editor
+      editor.commands.setContent(
+        '<ul data-type="taskList"><li data-checked="false" data-type="taskItem">Example Text</li></ul>',
+      )
+    }, undefined)
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<ul data-type="taskList"><li data-checked="false" data-type="taskItem"><label><input type="checkbox"><span></span></label><div><p>Example Text</p></div></li></ul>',
     )
   })

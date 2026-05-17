@@ -51,7 +51,7 @@ test.describe('/src/Examples/Default/React/', () => {
       await typeText(page, '{selectall}Hello world')
       await page.locator('button').filter({ hasText: 'Code' }).first().click()
       await page.locator('button').filter({ hasText: 'Code' }).first().click()
-      // TODO(playwright-migration): unhandled should('not.be.disabled', ...) on page.locator('button').filter({ hasText: m.label })
+      await expect(page.locator('button').filter({ hasText: m.label }).first()).toBeEnabled()
     }
   })
 
@@ -72,7 +72,7 @@ test.describe('/src/Examples/Default/React/', () => {
       await typeText(page, '{selectall}Hello world{selectall}')
       await page.locator('button').filter({ hasText: 'Code' }).first().click()
       await page.locator('button').filter({ hasText: 'Code' }).first().click()
-      // TODO(playwright-migration): unhandled should('not.be.disabled', ...) on page.locator('button').filter({ hasText: m.label })
+      await expect(page.locator('button').filter({ hasText: m.label }).first()).toBeEnabled()
     }
   })
 

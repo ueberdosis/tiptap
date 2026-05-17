@@ -20,164 +20,166 @@ test.describe('/src/Examples/NodePos/React/', () => {
   })
 
   test('should get paragraphs', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-paragraphs"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 16)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-paragraphs"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(16)
   })
 
   test('should get list items', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-listitems"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 12)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-listitems"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(12)
   })
 
   test('should get bullet lists', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-bulletlists"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 3)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-bulletlists"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(3)
   })
 
   test('should get ordered lists', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-orderedlists"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-orderedlists"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
   })
 
   test('should get blockquotes', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-blockquotes"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 3)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-blockquotes"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(3)
   })
 
   test('should get images', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-images"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 4)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-images"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(4)
   })
 
   test('should get first blockquote', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-first-blockquote"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-    //       cy.get('div[data-testid="found-node"]')
-    //         .should('contain', 'Here we have a paragraph inside a blockquote.')
-    //         .should('not.contain', 'Here we have another paragraph inside a blockquote.')
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-first-blockquote"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+    await expect(
+      page
+        .locator('div[data-testid="found-node"]')
+        .filter({ hasText: 'Here we have a paragraph inside a blockquote.' })
+        .first(),
+    ).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]').first()).not.toContainText(
+      'Here we have another paragraph inside a blockquote.',
+    )
   })
 
   test.describe('when querying by attribute', () => {
     test('should get square image', async ({ page }) => {
-      // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-      // arrow:
-      // () => {
-      //         cy.get('button[data-testid="find-squared-image"]').click()
-      //         cy.get('div[data-testid="found-nodes"]').should('exist')
-      //         cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      //         cy.get('div[data-testid="found-node"]').should('contain', 'https://placehold.co/200x200')
-      //       }
+      page.locator('.tiptap')
+
+      await page.locator('button[data-testid="find-squared-image"]').first().click()
+      await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+      await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+      await expect(
+        page.locator('div[data-testid="found-node"]').filter({ hasText: 'https://placehold.co/200x200' }).first(),
+      ).toBeAttached()
     })
 
     test('should get landsape image', async ({ page }) => {
-      // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-      // arrow:
-      // () => {
-      //         cy.get('button[data-testid="find-landscape-image"]').click()
-      //         cy.get('div[data-testid="found-nodes"]').should('exist')
-      //         cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      //         cy.get('div[data-testid="found-node"]').should('contain', 'https://placehold.co/260x200')
-      //       }
+      page.locator('.tiptap')
+
+      await page.locator('button[data-testid="find-landscape-image"]').first().click()
+      await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+      await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+      await expect(
+        page.locator('div[data-testid="found-node"]').filter({ hasText: 'https://placehold.co/260x200' }).first(),
+      ).toBeAttached()
     })
 
     test('should get all landscape images', async ({ page }) => {
-      // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-      // arrow:
-      // () => {
-      //         cy.get('button[data-testid="find-all-landscape-images"]').click()
-      //         cy.get('div[data-testid="found-nodes"]').should('exist')
-      //         cy.get('div[data-testid="found-node"]').should('have.length', 2)
-      //         cy.get('div[data-testid="found-node"]').eq(0).should('contain', 'https://placehold.co/260x200')
-      //         cy.get('div[data-testid="found-node"]').eq(1).should('contain', 'https://placehold.co/260x200')
-      //       }
+      page.locator('.tiptap')
+
+      await page.locator('button[data-testid="find-all-landscape-images"]').first().click()
+      await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+      await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(2)
+      await expect(
+        page
+          .locator('div[data-testid="found-node"]')
+          .nth(0)
+          .filter({ hasText: 'https://placehold.co/260x200' })
+          .first(),
+      ).toBeAttached()
+      await expect(
+        page
+          .locator('div[data-testid="found-node"]')
+          .nth(1)
+          .filter({ hasText: 'https://placehold.co/260x200' })
+          .first(),
+      ).toBeAttached()
     })
 
     test('should get first landscape image with querySelectorAll', async ({ page }) => {
-      // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-      // arrow:
-      // () => {
-      //         cy.get('button[data-testid="find-first-landscape-image-with-all-query"]').click()
-      //         cy.get('div[data-testid="found-nodes"]').should('exist')
-      //         cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      //         cy.get('div[data-testid="found-node"]').should('contain', 'https://placehold.co/260x200')
-      //       }
+      page.locator('.tiptap')
+
+      await page.locator('button[data-testid="find-first-landscape-image-with-all-query"]').first().click()
+      await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+      await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+      await expect(
+        page.locator('div[data-testid="found-node"]').filter({ hasText: 'https://placehold.co/260x200' }).first(),
+      ).toBeAttached()
     })
 
     test('should get portrait image inside blockquote', async ({ page }) => {
-      // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-      // arrow:
-      // () => {
-      //         cy.get('button[data-testid="find-portrait-image-inside-blockquote"]').click()
-      //         cy.get('div[data-testid="found-nodes"]').should('exist')
-      //         cy.get('div[data-testid="found-node"]').should('have.length', 1)
-      //         cy.get('div[data-testid="found-node"]').should('contain', 'https://placehold.co/100x200')
-      //       }
+      page.locator('.tiptap')
+
+      await page.locator('button[data-testid="find-portrait-image-inside-blockquote"]').first().click()
+      await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+      await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+      await expect(
+        page.locator('div[data-testid="found-node"]').filter({ hasText: 'https://placehold.co/100x200' }).first(),
+      ).toBeAttached()
     })
   })
 
   test('should find complex nodes', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-first-node"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-    //       cy.get('div[data-testid="found-node"]').should('contain', 'heading').should('contain', '{"level":1}')
-    //
-    //       cy.get('button[data-testid="find-last-node"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-    //       cy.get('div[data-testid="found-node"]').should('contain', 'image')
-    //
-    //       cy.get('button[data-testid="find-last-node-of-first-bullet-list"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 1)
-    //       cy.get('div[data-testid="found-node"]').should('contain', 'listItem').should('contain', 'Unsorted 3')
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-first-node"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+    await expect(page.locator('div[data-testid="found-node"]').filter({ hasText: 'heading' }).first()).toBeAttached()
+    await expect(
+      page.locator('div[data-testid="found-node"]').filter({ hasText: '{"level":1}' }).first(),
+    ).toBeAttached()
+
+    await page.locator('button[data-testid="find-last-node"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+    await expect(page.locator('div[data-testid="found-node"]').filter({ hasText: 'image' }).first()).toBeAttached()
+
+    await page.locator('button[data-testid="find-last-node-of-first-bullet-list"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]').first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(1)
+    await expect(page.locator('div[data-testid="found-node"]').filter({ hasText: 'listItem' }).first()).toBeAttached()
+    await expect(page.locator('div[data-testid="found-node"]').filter({ hasText: 'Unsorted 3' }).first()).toBeAttached()
   })
 
   test('should not find nodes that do not exist in document', async ({ page }) => {
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('button[data-testid="find-nonexistent-node"]').click()
-    //       cy.get('div[data-testid="found-nodes"]').should('not.exist')
-    //       cy.get('div[data-testid="found-node"]').should('have.length', 0)
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('button[data-testid="find-nonexistent-node"]').first().click()
+    await expect(page.locator('div[data-testid="found-nodes"]')).toHaveCount(0)
+    await expect(page.locator('div[data-testid="found-node"]')).toHaveCount(0)
   })
 })

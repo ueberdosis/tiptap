@@ -48,7 +48,14 @@ test.describe('/src/GuideMarkViews/ReactComponent/React/', () => {
         .first(),
     ).toBeAttached()
     await page.locator('.tiptap').locator('[data-test-id="count-button"]').first().click()
-    // TODO(playwright-migration): .then() chain on locator
+
+    await expect(
+      page
+        .locator('.tiptap')
+        .locator('[data-test-id="count-button"]')
+        .filter({ hasText: 'This button has been clicked 1 times.' })
+        .first(),
+    ).toBeAttached()
   })
 
   test('should update the attributes of the mark on button click', async ({ page }) => {
@@ -56,6 +63,12 @@ test.describe('/src/GuideMarkViews/ReactComponent/React/', () => {
 
     // click on the button
     await page.locator('.tiptap').locator('[data-test-id="update-attributes-button"]').first().click()
-    // TODO(playwright-migration): .then() chain on locator
+    // Playwright `expect` retries until the assertion settles, so the
+    // original `requestAnimationFrame` paint-deadline wrapper is no
+    // longer needed.
+    await expect(page.locator('.tiptap').locator('[data-test-id="mark-view"]').first()).toHaveAttribute(
+      'data-count',
+      '1',
+    )
   })
 })

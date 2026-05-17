@@ -48,7 +48,7 @@ test.describe('/src/Extensions/Color/Vue/', () => {
 
   test('should change text color with color picker', async ({ page }) => {
     /* invoke('val') value */ await page.locator('input[type=color]').first().inputValue()
-    // TODO(playwright-migration): trigger(...)
+    await page.locator('input[type=color]').first().dispatchEvent('input', {})
 
     await expect(page.locator('.tiptap').locator('span').first()).toHaveAttribute('style', 'color: #ff0000')
   })

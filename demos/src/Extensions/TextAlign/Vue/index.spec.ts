@@ -54,8 +54,10 @@ test.describe('/src/Extensions/TextAlign/Vue/', () => {
 
     for (const alignment of alignments) {
       for (const level of headings) {
-        await setEditorContent(page, `<p style="text-align: ${alignment}">Example Text</p>`)
-        await editorEval(page, `editor.commands.toggleHeading({ level: ${level} })`)
+        await setEditorContent(
+          page,
+          `<p style="text-align: ${alignment}">Example Text</p>`,
+        )(await editorEval(page, `editor.commands.toggleHeading({ level })`))
         expect(await getEditorHTML(page)).toBe(`<h${level} style="text-align: ${alignment}">Example Text</h${level}>`)
       }
     }
@@ -88,7 +90,7 @@ test.describe('/src/Extensions/TextAlign/Vue/', () => {
   test('aligns the text default on the 5th button', async ({ page }) => {
     await page.locator('button:nth-child(5)').first().click()
 
-    // TODO(playwright-migration): unhandled should('not.have.css', ...) on page.locator('.tiptap').locator('p')
+    await expect(page.locator('.tiptap').locator('p').first()).not.toHaveCSS('text-align', 'left')
   })
 
   test('toggle the text to right on the 6th button', async ({ page }) => {
@@ -108,7 +110,7 @@ test.describe('/src/Extensions/TextAlign/Vue/', () => {
 
     await page.locator('button:nth-child(6)').first().click()
 
-    // TODO(playwright-migration): unhandled should('not.have.css', ...) on page.locator('.tiptap').locator('p')
+    await expect(page.locator('.tiptap').locator('p').first()).not.toHaveCSS('text-align', 'right')
   })
 
   test('aligns the text left when pressing the keyboard shortcut', async ({ page }) => {

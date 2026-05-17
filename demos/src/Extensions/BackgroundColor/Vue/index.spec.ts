@@ -50,7 +50,7 @@ test.describe('/src/Extensions/BackgroundColor/Vue/', () => {
 
   test('should change background color with color picker', async ({ page }) => {
     /* invoke('val') value */ await page.locator('input[type=color]').first().inputValue()
-    // TODO(playwright-migration): trigger(...)
+    await page.locator('input[type=color]').first().dispatchEvent('input', {})
 
     await expect(page.locator('.tiptap').locator('span').first()).toHaveAttribute('style', 'background-color: #ff0000')
   })

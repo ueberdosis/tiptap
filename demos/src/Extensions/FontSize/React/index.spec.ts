@@ -42,7 +42,6 @@ test.describe('/src/Extensions/FontSize/React/', () => {
     await page.locator('[data-test-id="28px"]').first().click()
     await expect(page.locator('.tiptap').locator('span').first()).toHaveAttribute('style', 'font-size: 28px')
     await page.locator('[data-test-id="unsetFontSize"]').first().click()
-    // TODO(playwright-migration): unhandled .get(...) on page.locator('.tiptap')
-    await expect(page.locator('.tiptap')).toHaveCount(0)
+    await expect(page.locator('span')).toHaveCount(0)
   })
 })

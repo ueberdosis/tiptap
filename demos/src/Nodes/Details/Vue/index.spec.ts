@@ -25,14 +25,14 @@ test.describe('/src/Nodes/Details/Vue/', () => {
 
   test('should parse details tags correctly', async ({ page }) => {
     await setEditorContent(page, '<details><summary>Summary</summary><p>Content</p></details>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.ProseMirror')).toBe(
       '<details class="details"><summary>Summary</summary><div data-type="detailsContent"><p>Content</p></div></details><p></p>',
     )
   })
 
   test('should parse details tags without paragraphs correctly', async ({ page }) => {
     await setEditorContent(page, '<details><summary>Summary</summary>Content</details>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.ProseMirror')).toBe(
       '<details class="details"><summary>Summary</summary><div data-type="detailsContent"><p>Content</p></div></details><p></p>',
     )
   })

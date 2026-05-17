@@ -42,6 +42,12 @@ test.describe('/src/Examples/Community/Vue/', () => {
     await expect(page.locator('.dropdown-menu').first()).toBeVisible()
 
     // select the first user
-    // TODO(playwright-migration): .then() chain on locator
+    const $el = page.locator('.dropdown-menu button').first()
+    const name = (await $el.innerText()).trim()
+    await $el.click()
+
+    // check if the user is mentioned
+    await expect(page.locator('.tiptap').first()).toHaveText(`@${name} `)
+    await expect(page.locator('.character-count').filter({ hasText: '2 / 280 characters' }).first()).toBeAttached()
   })
 })

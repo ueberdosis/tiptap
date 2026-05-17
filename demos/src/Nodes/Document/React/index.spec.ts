@@ -26,6 +26,13 @@ test.describe('/src/Nodes/Document/React/', () => {
   test('should return the document in as json', async ({ page }) => {
     const json = await editorEval(page, 'editor.getJSON()', '.tiptap')
 
-    expect(json).toEqual({ type: 'doc', content: [{ type: 'paragraph' }] })
+    expect(json).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+        },
+      ],
+    })
   })
 })

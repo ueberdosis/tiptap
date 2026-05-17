@@ -27,21 +27,21 @@ test.describe('/src/Marks/Link/React/', () => {
 
   test('should parse a tags correctly', async ({ page }) => {
     await setEditorContent(page, '<p><a href="https://example.com">Example Text1</a></p>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://example.com">Example Text1</a></p>',
     )
   })
 
   test('should parse a tags with target attribute correctly', async ({ page }) => {
     await setEditorContent(page, '<p><a href="https://example.com" target="_self">Example Text2</a></p>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<p><a target="_self" rel="noopener noreferrer nofollow" href="https://example.com">Example Text2</a></p>',
     )
   })
 
   test('should parse a tags with rel attribute correctly', async ({ page }) => {
     await setEditorContent(page, '<p><a href="https://example.com" rel="follow">Example Text3</a></p>')
-    expect(await getEditorHTML(page)).toBe(
+    expect(await editorEval(page, 'editor.getHTML()', '.tiptap')).toBe(
       '<p><a target="_blank" rel="follow" href="https://example.com">Example Text3</a></p>',
     )
   })

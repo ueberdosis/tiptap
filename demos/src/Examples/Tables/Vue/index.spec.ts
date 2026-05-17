@@ -128,11 +128,24 @@ test.describe('/src/Examples/Tables/Vue/', () => {
     await typeText(page, 'Column 2')
     await page.locator('button').filter({ hasText: 'Go to previous cell' }).first().click()
 
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap th').then(arrow):
-    // arrow:
-    // elements => {
-    //       expect(elements[0].innerText).toBe('Column 1')
-    //       expect(elements[1].innerText).toBe('Column 2')
-    //     }
+    {
+      const elements = await page
+        .locator('.tiptap th')
+        .evaluateAll(els =>
+          els.map(el => ({
+            innerText: (el as HTMLElement).innerText,
+            textContent: el.textContent ?? '',
+            outerHTML: el.outerHTML,
+            className: (el as HTMLElement).className,
+            tagName: el.tagName,
+            value: (el as HTMLInputElement).value ?? null,
+            src: (el as HTMLImageElement).src ?? null,
+            href: (el as HTMLAnchorElement).href ?? null,
+          })),
+        )
+
+      expect(elements[0].innerText).toBe('Column 1')
+      expect(elements[1].innerText).toBe('Column 2')
+    }
   })
 })

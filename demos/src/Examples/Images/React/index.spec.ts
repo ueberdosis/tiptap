@@ -26,7 +26,7 @@ test.describe('/src/Examples/Images/React/', () => {
   test('allows removing images', async ({ page }) => {
     await expect(page.locator('.tiptap').first()).toBeVisible()
     await expect(page.locator('.tiptap img')).toHaveCount(2)
-    // TODO(playwright-migration): unhandled .and(...) on page.locator('.tiptap img')
+    await expect(page.locator('.tiptap img').first()).toBeVisible()
     await page.locator('.tiptap img').first().click()
     await expect(page.locator('.tiptap img.ProseMirror-selectednode').first()).toBeAttached()
     await page.locator('.tiptap').first().click()

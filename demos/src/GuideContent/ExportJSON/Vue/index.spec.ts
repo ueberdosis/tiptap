@@ -28,7 +28,17 @@ test.describe('/src/GuideContent/ExportJSON/Vue/', () => {
 
     expect(json).toEqual({
       type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Example Text' }] }],
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Example Text',
+            },
+          ],
+        },
+      ],
     })
   })
 })

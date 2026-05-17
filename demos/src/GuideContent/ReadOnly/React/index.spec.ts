@@ -44,14 +44,13 @@ test.describe('/src/GuideContent/ReadOnly/React/', () => {
 
   test('should be editable', async ({ page }) => {
     await page.locator('#editable').first().click()
-    // TODO(playwright-migration): translate // TODO(playwright-migration): translate cy.get('.tiptap').then(arrow):
-    // arrow:
-    // () => {
-    //       cy.get('.tiptap').type('Edited: ')
-    //
-    //       cy.get('.tiptap p:first').should('contain', 'Edited: ')
-    //
-    //       cy.get('.tiptap').invoke('attr', 'tabindex').should('eq', '0')
-    //     }
+    page.locator('.tiptap')
+
+    await page.locator('.tiptap').first().click()
+    await typeText(page, 'Edited: ')
+
+    await expect(page.locator('.tiptap p').first().filter({ hasText: 'Edited: ' }).first()).toBeAttached()
+
+    expect(await page.locator('.tiptap').first().getAttribute('tabindex')).toBe('0')
   })
 })

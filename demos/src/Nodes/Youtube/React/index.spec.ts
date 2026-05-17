@@ -30,8 +30,15 @@ test.describe('/src/Nodes/Youtube/React/', () => {
     }, 'https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
     await page.locator('#add').nth(0).click()
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
-    // TODO(playwright-migration): .then() chain on locator
+    {
+      const src = await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
+      const url = new URL(src)
+
+      expect(`${url.origin}${url.pathname}`).toBe('https://www.youtube-nocookie.com/embed/hBp4dgE7Bho')
+      expect([...url.searchParams.keys()]).toEqual(expect.arrayContaining(['controls', 'rel']))
+      expect(url.searchParams.get('controls')).toBe('0')
+      expect(url.searchParams.get('rel')).toBe('1')
+    }
   })
 
   test('adds a video with 320 width and 240 height', async ({ page }) => {
@@ -46,26 +53,51 @@ test.describe('/src/Nodes/Youtube/React/', () => {
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
     await expect(page.locator('.tiptap div[data-youtube-video] iframe').first()).toHaveCSS('width', '320px')
     await expect(page.locator('.tiptap div[data-youtube-video] iframe').first()).toHaveCSS('height', '240px')
-    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
-    // TODO(playwright-migration): .then() chain on locator
+    {
+      const src = await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
+      const url = new URL(src)
+
+      expect(`${url.origin}${url.pathname}`).toBe('https://www.youtube-nocookie.com/embed/hBp4dgE7Bho')
+      expect([...url.searchParams.keys()]).toEqual(expect.arrayContaining(['controls', 'rel']))
+      expect(url.searchParams.get('controls')).toBe('0')
+      expect(url.searchParams.get('rel')).toBe('1')
+    }
   })
 
   test('replaces a video', async ({ page }) => {
-    const promptStub = /* TODO(playwright-migration): cy.stub(win, 'prompt')
-     */ promptStub.onFirstCall().returns('https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share')
-    promptStub.onSecondCall().returns('https://music.youtube.com/watch?v=wRakoMYVHm8')
+    await page.evaluate(
+      values => {
+        let __i = 0
+        ;(window as any).prompt = () => values[__i++] ?? values[values.length - 1]
+      },
+      ['https://music.youtube.com/watch?v=hBp4dgE7Bho&feature=share', 'https://music.youtube.com/watch?v=wRakoMYVHm8'],
+    )
 
     await page.locator('#add').nth(0).click()
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
-    // TODO(playwright-migration): .then() chain on locator
+    {
+      const src = await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
+      const url = new URL(src)
+
+      expect(`${url.origin}${url.pathname}`).toBe('https://www.youtube-nocookie.com/embed/hBp4dgE7Bho')
+      expect([...url.searchParams.keys()]).toEqual(expect.arrayContaining(['controls', 'rel']))
+      expect(url.searchParams.get('controls')).toBe('0')
+      expect(url.searchParams.get('rel')).toBe('1')
+    }
 
     await page.locator('.tiptap div[data-youtube-video] iframe').first().click()
 
     await page.locator('#add').nth(0).click()
 
     await expect(page.locator('.tiptap div[data-youtube-video] iframe')).toHaveCount(1)
-    /* invoke('attr') value */ await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
-    // TODO(playwright-migration): .then() chain on locator
+    {
+      const src = await page.locator('.tiptap div[data-youtube-video] iframe').first().getAttribute('src')
+      const url = new URL(src)
+
+      expect(`${url.origin}${url.pathname}`).toBe('https://www.youtube-nocookie.com/embed/wRakoMYVHm8')
+      expect([...url.searchParams.keys()]).toEqual(expect.arrayContaining(['controls', 'rel']))
+      expect(url.searchParams.get('controls')).toBe('0')
+      expect(url.searchParams.get('rel')).toBe('1')
+    }
   })
 })

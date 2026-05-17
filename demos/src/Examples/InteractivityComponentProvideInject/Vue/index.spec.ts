@@ -1,18 +1,4 @@
-import {
-  editorEval,
-  expect,
-  getEditorHTML,
-  getEditorJSON,
-  getEditorText,
-  pasteIntoEditor,
-  pressShortcut,
-  setEditorContent,
-  test,
-  typeInEditor,
-  typeText,
-  waitForEditor,
-  withEditor,
-} from '../../../../../tests/e2e/support/index.js'
+import { editorEval, expect, test, waitForEditor } from '../../../../../tests/e2e/support/index.js'
 
 test.describe('/src/Examples/InteractivityComponentProvideInject/Vue/', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,8 +6,9 @@ test.describe('/src/Examples/InteractivityComponentProvideInject/Vue/', () => {
   })
 
   test('should have a working tiptap instance', async ({ page }) => {
-    // eslint-disable-next-line
-    expect(editor).to.not.be.null
+    await waitForEditor(page, '.tiptap')
+    const hasEditor = await editorEval<boolean>(page, 'editor != null')
+    expect(hasEditor).toBe(true)
   })
 
   test('should render a custom node', async ({ page }) => {
@@ -30,7 +17,10 @@ test.describe('/src/Examples/InteractivityComponentProvideInject/Vue/', () => {
 
   test('should have global and all injected values', async ({ page }) => {
     const expectedTexts = ['globalValue', 'appValue', 'indexValue', 'editorValue']
-
-    // TODO(playwright-migration): unhandled .each(...) on page.locator('.tiptap .vue-component p')
+    const paragraphs = page.locator('.tiptap .vue-component p')
+    await expect(paragraphs).toHaveCount(expectedTexts.length)
+    for (let i = 0; i < expectedTexts.length; i++) {
+      await expect(paragraphs.nth(i)).toHaveText(expectedTexts[i])
+    }
   })
 })

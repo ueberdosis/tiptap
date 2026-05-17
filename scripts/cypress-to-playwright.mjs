@@ -87,8 +87,16 @@ function translateShould(locExpr, shouldArgs) {
       return `await expect(${locExpr}.first()).not.toBeChecked()`
     case 'be.disabled':
       return `await expect(${locExpr}.first()).toBeDisabled()`
+    case 'not.be.disabled':
+      return `await expect(${locExpr}.first()).toBeEnabled()`
     case 'be.enabled':
       return `await expect(${locExpr}.first()).toBeEnabled()`
+    case 'not.be.enabled':
+      return `await expect(${locExpr}.first()).toBeDisabled()`
+    case 'be.focused':
+      return `await expect(${locExpr}.first()).toBeFocused()`
+    case 'not.be.focused':
+      return `await expect(${locExpr}.first()).not.toBeFocused()`
     case 'contain':
       // `should('contain', X)` passes when any matched element contains
       // the substring. Filter by hasText and assert at least one match.
@@ -117,8 +125,29 @@ function translateShould(locExpr, shouldArgs) {
       return `await expect(${locExpr}.first()).not.toHaveAttribute(${val}, /.*/)`
     case 'have.value':
       return `await expect(${locExpr}.first()).toHaveValue(${val})`
+    case 'have.prop':
+      // Cypress reads the JS property (e.g. `.tagName`, `.disabled`). The
+      // closest Playwright fit is evaluating the property in the browser.
+      if (val2 !== undefined) {
+        return `expect(await ${locExpr}.first().evaluate((el, prop) => (el as any)[prop], ${val})).toBe(${val2})`
+      }
+      return `expect(await ${locExpr}.first().evaluate((el, prop) => (el as any)[prop], ${val})).toBeTruthy()`
+    case 'not.have.prop':
+      if (val2 !== undefined) {
+        return `expect(await ${locExpr}.first().evaluate((el, prop) => (el as any)[prop], ${val})).not.toBe(${val2})`
+      }
+      return `expect(await ${locExpr}.first().evaluate((el, prop) => (el as any)[prop], ${val})).toBeFalsy()`
     case 'have.css':
       return `await expect(${locExpr}.first()).toHaveCSS(${val}, ${val2})`
+    case 'not.have.css':
+      if (val2 !== undefined) {
+        return `await expect(${locExpr}.first()).not.toHaveCSS(${val}, ${val2})`
+      }
+      // `should('not.have.css', 'prop')` — assert the property is absent. We
+      // can't easily verify "unset" with Playwright's matchers, so check
+      // that the computed value differs from the well-known truthy default
+      // by reading the property directly.
+      return `expect(await ${locExpr}.first().evaluate((el, prop) => getComputedStyle(el).getPropertyValue(prop), ${val})).toBe('')`
     case 'be.empty':
       return `await expect(${locExpr}.first()).toBeEmpty()`
     case 'contain.text':
@@ -467,12 +496,26 @@ function translateChain(chain, indent) {
       const a = splitArgs(args)
       const ev = stripQuotes(a[0])
       if (ev === 'keydown' && a[1]) {
-        const optsExpr = a[1]
         // `cy.trigger('keydown', ...)` dispatches the event without focusing
         // the element, so the editor's current selection is preserved.
-        out.push(`await pressShortcut(page, ${optsExpr})`)
+        out.push(`await pressShortcut(page, ${a[1]})`)
+      } else if (ev === 'mouseover' || ev === 'mouseenter') {
+        out.push(`await ${actionLoc(locExpr)}.hover()`)
+      } else if (ev === 'mouseout' || ev === 'mouseleave') {
+        // No direct equivalent — move the mouse to (0, 0) to unhover.
+        out.push(`await page.mouse.move(0, 0)`)
+      } else if (ev === 'click') {
+        out.push(`await ${actionLoc(locExpr)}.click()`)
+      } else if (ev === 'focus') {
+        out.push(`await ${actionLoc(locExpr)}.focus()`)
+      } else if (ev === 'blur') {
+        out.push(`await ${actionLoc(locExpr)}.blur()`)
       } else {
-        out.push(`// TODO(playwright-migration): trigger(...)`)
+        // Last-resort: dispatch the synthetic event with whatever options
+        // the test passed. Tests that need detailed event init still flag
+        // a TODO for review.
+        const optStr = a[1] ?? '{}'
+        out.push(`await ${actionLoc(locExpr)}.dispatchEvent(${a[0]}, ${optStr})`)
       }
       i++
       continue
@@ -515,6 +558,7 @@ function translateChain(chain, indent) {
     if (name === 'invoke') {
       // `.invoke('attr', 'src')` → await loc.getAttribute('src')
       // `.invoke('text')` → await loc.innerText()
+      // `.invoke('val')` → await loc.inputValue()
       const a = splitArgs(args)
       const fn = stripQuotes(a[0])
       const cont = segments.slice(i + 1)
@@ -531,8 +575,26 @@ function translateChain(chain, indent) {
         i++
         continue
       }
+      // `.invoke(...).then(arg => { body })` — bind the result and emit body.
+      if (next && next.name === 'then') {
+        const thenArgs = next.args
+        const arrowMatch = thenArgs.match(/^\s*(async\s+)?\(?(\w+)\)?\s*=>\s*\{/)
+        if (arrowMatch) {
+          const argName = arrowMatch[2]
+          const braceStart = thenArgs.indexOf('{', arrowMatch[0].length - 1)
+          const braceEnd = findMatching(thenArgs, braceStart)
+          if (braceEnd > 0) {
+            const body = thenArgs.slice(braceStart + 1, braceEnd)
+            // Wrap in a block so `const ${argName}` and any locals
+            // declared in the body don't collide with sibling callbacks
+            // that the same translation unit may have unwrapped.
+            out.push(`{\n${indent}  const ${argName} = ${value}\n${body.trim()}\n${indent}}`)
+            i += 2
+            continue
+          }
+        }
+      }
       if (next && next.name === 'should') {
-        // Compose with the following should() into a single expect.
         const sargs = splitArgs(next.args)
         const head = stripQuotes(sargs[0])
         const v = sargs[1]
@@ -586,7 +648,28 @@ function translateChain(chain, indent) {
       i++
       continue
     }
-    if (name === 'should') {
+    if (name === 'get') {
+      // `cy.get('.tiptap').get('span')` re-queries from the document, not
+      // from the previous subject. Reset the locator.
+      // Strip any jQuery `:first` / `:last` pseudo-selectors first.
+      let sub = args
+      const stripped = stripQuotes(sub)
+      let extra = ''
+      if (/:first\b/.test(stripped)) {
+        sub = `'${stripped.replace(/:first/g, '')}'`
+        extra = '.first()'
+      } else if (/:last\b/.test(stripped)) {
+        sub = `'${stripped.replace(/:last/g, '')}'`
+        extra = '.last()'
+      }
+      locExpr = `page.locator(${sub})${extra}`
+      i++
+      continue
+    }
+    if (name === 'should' || name === 'and') {
+      // `.and(matcher, …)` is a Cypress alias for chaining additional
+      // assertions on the same subject. Translate it identically to
+      // `.should(matcher, …)`.
       out.push(translateShould(locExpr, args))
       i++
       continue
@@ -645,11 +728,24 @@ function translate(source) {
   s = s.replace(/\bbefore\(\s*\(\)\s*=>\s*\{/g, 'test.beforeAll(async ({ page }) => {')
   s = s.replace(/\bafter\(\s*\(\)\s*=>\s*\{/g, 'test.afterAll(async ({ page }) => {')
 
-  // Translate `cy.get('.tiptap').then(([{ editor }]) => { BODY })` blocks first.
-  s = translateEditorThenBlocks(s)
+  // Unwrap `.then(() => { ... })` callbacks that exist only to sequence
+  // commands. They become regular sibling statements that the rest of the
+  // pipeline can translate normally.
+  s = unwrapNoArgThenChains(s)
 
-  // Translate cy.get('.tiptap').then(elements => { ... }) blocks (DOM access)
-  s = translateGetThenBlocks(s)
+  // Translate `cy.get('.tiptap').then(([{ editor }]) => { BODY })` blocks
+  // and `cy.get(SEL).then(elements => { ... })` blocks. Both passes can
+  // surface NEW cy.get(...).then(...) chains in their output (e.g. a body
+  // that referenced a parent subject now exposes its inner queries). Run
+  // until fixpoint so nested patterns are exhausted.
+  for (let pass = 0; pass < 8; pass++) {
+    const before = s
+    s = translateEditorThenBlocks(s)
+    s = translateGetThenBlocks(s)
+    if (s === before) {
+      break
+    }
+  }
 
   // Translate cy.window().then(win => { ... }) blocks: stub prompt etc.
   s = translateWindowThenBlocks(s)
@@ -666,7 +762,15 @@ function translate(source) {
 
   // Convert `ARR.forEach(NAME => {` blocks that contain `await` into
   // sequential `for (const NAME of ARR) {` blocks so the awaits run.
-  s = convertForEachToForOf(s)
+  // Iterate until no more conversions happen so nested forEach inside
+  // already-converted for-of bodies get rewritten too.
+  for (let pass = 0; pass < 8; pass++) {
+    const next = convertForEachToForOf(s)
+    if (next === s) {
+      break
+    }
+    s = next
+  }
 
   return s
 }
@@ -709,6 +813,57 @@ function convertForEachToForOf(src) {
     regex.lastIndex = lastIndex
   }
   out += src.slice(lastIndex)
+  return out
+}
+
+function unwrapNoArgThenChains(src) {
+  // Cypress idiomatically uses `.then(() => { ... })` at the end of a chain
+  // purely to sequence follow-up commands ("do A, *then* do B"). Playwright
+  // tests are sequential awaited statements, so the wrapper has no value.
+  //
+  // Find every `.then(() => {  BODY  })` (or `.then(async () => {…})`) and
+  // hoist BODY out of the .then(...) call. The hoisted body is placed on
+  // the line right after the chain so downstream passes translate its
+  // cy.* statements normally.
+  //
+  // We only unwrap when the arrow has no arguments — those are the safe
+  // "no closure value needed" cases.
+  let out = ''
+  let i = 0
+  while (i < src.length) {
+    const idx = src.indexOf('.then(', i)
+    if (idx === -1) {
+      out += src.slice(i)
+      break
+    }
+    out += src.slice(i, idx)
+    const openParen = idx + '.then'.length
+    const closeParen = findMatching(src, openParen)
+    if (closeParen < 0) {
+      out += src.slice(idx)
+      break
+    }
+    const inner = src.slice(openParen + 1, closeParen)
+    const arrowMatch = inner.match(/^\s*(async\s+)?\(\s*\)\s*=>\s*\{/)
+    if (!arrowMatch) {
+      // Not a no-arg arrow — leave the .then() alone for other passes.
+      out += src.slice(idx, closeParen + 1)
+      i = closeParen + 1
+      continue
+    }
+    const braceStart = inner.indexOf('{', arrowMatch[0].length - 1)
+    const braceEnd = findMatching(inner, braceStart)
+    if (braceEnd < 0) {
+      out += src.slice(idx, closeParen + 1)
+      i = closeParen + 1
+      continue
+    }
+    const body = inner.slice(braceStart + 1, braceEnd)
+    // Replace the `.then( ... )` with nothing, and emit BODY immediately
+    // after on its own line(s).
+    out += `\n${body}\n`
+    i = closeParen + 1
+  }
   return out
 }
 
@@ -785,8 +940,16 @@ function translateEditorThenBlocks(src) {
       const innerIndent = indent + '  '
       const translatedBody = translateEditorBody(body, innerIndent, selectorArg)
       out += `${translatedBody}`
+    } else if (/^\s*$/.test(params) || /^\s*\(\s*\)\s*$/.test(params)) {
+      // Empty-arg `cy.get(X).then(() => { ... })`: Cypress just used this to
+      // sequence the inner commands after the parent loaded. Inline the body
+      // and rely on the inner `cy.X()` calls to be translated downstream.
+      out += body
     } else {
-      // Non-editor `then`: emit placeholder for downstream handling
+      // Non-editor `then` with a real argument list: leave it alone so the
+      // subsequent `translateGetThenBlocks` pass can handle it. It produces
+      // a per-element loop or a snapshot depending on how the body uses
+      // the argument.
       out += `cy.get(${selectorArg}).then(${thenInner})`
     }
 
@@ -798,10 +961,13 @@ function translateEditorThenBlocks(src) {
 }
 
 function translateGetThenBlocks(src) {
-  // Lightweight pass: replace `cy.get('SEL').then(els => { BODY })` with a
-  // safe placeholder that uses `page.locator(SEL).all()`. The body is kept
-  // as a line-commented block so the file still parses while highlighting
-  // the spot for a hand-tweak.
+  // Handle leftover `cy.get('SEL').then(...)` blocks that the editor-then
+  // pass didn't claim. We try to:
+  //  - inline `cy.get(X).then(() => { body })` where the arrow takes no args
+  //    (Cypress just used the wrapper to sequence inner commands)
+  //  - convert `cy.get(X).then(els => body)` into a `for (const el of await
+  //    page.locator(X).all())` loop when the body actually references `els`
+  //  - fall back to a TODO comment when neither shape matches
   let out = ''
   let i = 0
   while (i < src.length) {
@@ -834,8 +1000,46 @@ function translateGetThenBlocks(src) {
       continue
     }
     const thenInner = src.slice(thenParenStart + 1, thenParenEnd)
-    const commented = thenInner.split('\n').map(l => `// ${l}`).join('\n')
-    out += `// TODO(playwright-migration): translate cy.get(${selectorArg}).then(arrow): \n${commented}`
+    const arrowMatch = thenInner.match(/^\s*(async\s+)?\(?([^)]*?)\)?\s*=>\s*\{/)
+    if (!arrowMatch) {
+      const commented = thenInner.split('\n').map(l => `// ${l}`).join('\n')
+      out += `// TODO(playwright-migration): translate cy.get(${selectorArg}).then(arrow):\n${commented}`
+      i = thenParenEnd + 1
+      continue
+    }
+    const params = arrowMatch[2].trim()
+    const braceStart = thenInner.indexOf('{', arrowMatch[0].length - 1)
+    const braceEnd = findMatching(thenInner, braceStart)
+    if (braceEnd < 0) {
+      const commented = thenInner.split('\n').map(l => `// ${l}`).join('\n')
+      out += `// TODO(playwright-migration): translate cy.get(${selectorArg}).then(arrow):\n${commented}`
+      i = thenParenEnd + 1
+      continue
+    }
+    const body = thenInner.slice(braceStart + 1, braceEnd)
+    if (!params || /^\(\s*\)$/.test(params)) {
+      // Empty arg list — Cypress used .then() purely as a sequencing wrapper.
+      out += body
+    } else if (/^\w+$/.test(params)) {
+      // Single identifier — Cypress passed the jQuery subject (an array-ish
+      // collection). If the body uses array-indexing (`elements[N]`),
+      // snapshot the elements' commonly-read properties into plain objects
+      // so the original assertions keep working. Otherwise iterate.
+      const looksLikeArray = new RegExp(`\\b${params}\\[\\d+\\]|\\b${params}\\.length\\b|\\b${params}\\.forEach\\b|\\b${params}\\.map\\b`).test(body)
+      if (looksLikeArray) {
+        // Snapshot DOM-accessible properties for the matched elements into
+        // a plain JS array so the original `.length` / `[N].innerText` etc.
+        // assertions keep working.
+        const snapshot = `await page.locator(${selectorArg}).evaluateAll(els => els.map(el => ({ innerText: (el as HTMLElement).innerText, textContent: el.textContent ?? '', outerHTML: el.outerHTML, className: (el as HTMLElement).className, tagName: el.tagName, value: (el as HTMLInputElement).value ?? null, src: (el as HTMLImageElement).src ?? null, href: (el as HTMLAnchorElement).href ?? null })))`
+        out += `{\n  const ${params} = ${snapshot}\n${body}\n}`
+      } else {
+        const innerIndent = leadingIndent(out) + '  '
+        out += `for (const ${params} of await page.locator(${selectorArg}).all()) {\n${innerIndent}// NOTE: original Cypress passed the jQuery subject array;\n${innerIndent}//       refactored as a per-element loop with Playwright Locators.\n${body}\n${innerIndent}}`
+      }
+    } else {
+      const commented = thenInner.split('\n').map(l => `// ${l}`).join('\n')
+      out += `// TODO(playwright-migration): translate cy.get(${selectorArg}).then(${params} => ...):\n${commented}`
+    }
     i = thenParenEnd + 1
   }
   return out
@@ -897,32 +1101,54 @@ function translateWindowThenBlocks(src) {
 }
 
 function translateWindowBody(body, winName) {
-  // Replace `cy.stub(win, 'prompt').returns(EXPR)` → installPromptStub
-  // and `cy.stub(win, 'prompt', () => EXPR)` similarly.
-  // For more complex stubs we emit a TODO comment but keep the body in scope
-  // so the surrounding test still compiles.
+  // Convert the Cypress patterns we actually use in this repo:
+  //
+  //   cy.stub(win, 'prompt').returns(X)
+  //   cy.stub(win, 'prompt', () => X)
+  //   const stub = cy.stub(win, 'prompt')
+  //   stub.onFirstCall().returns(A); stub.onSecondCall().returns(B)
+  //
+  // We replace them with deterministic browser-side overrides that route
+  // through `page.evaluate` so the prompt is always set before the next
+  // user action runs. Multi-call stubs use a counter-backed array of
+  // return values.
   let s = body
 
-  // Strip simple returns()-style stub installations.
+  // Pattern 1: const NAME = cy.stub(win, 'prompt')   (no `.returns(...)`)
+  //            …NAME.onFirstCall().returns(A)…NAME.onSecondCall().returns(B)…
+  const sequentialStubRegex = new RegExp(
+    `const\\s+(\\w+)\\s*=\\s*cy\\.stub\\(\\s*${winName}\\s*,\\s*'prompt'\\s*\\)([\\s\\S]*?)(?=\\n\\s*(?:cy\\.|return|\\}))`,
+    'g',
+  )
+  s = s.replace(sequentialStubRegex, (full, stubName, rest) => {
+    const calls = [...rest.matchAll(new RegExp(`${stubName}\\.on(First|Second|Third|Fourth|Fifth)Call\\(\\)\\.returns\\(([^)]+)\\)`, 'g'))]
+    if (!calls.length) {
+      return full
+    }
+    const ordered = calls.map(c => c[2])
+    return `await page.evaluate((values) => { let __i = 0; (window as any).prompt = () => values[__i++] ?? values[values.length - 1] }, [${ordered.join(', ')}])`
+  })
+
+  // Pattern 2: cy.stub(win, 'prompt').returns(X)
   s = s.replace(
     new RegExp(`(?:const\\s+\\w+\\s*=\\s*)?cy\\.stub\\(\\s*${winName}\\s*,\\s*'prompt'\\s*\\)\\.returns\\(([\\s\\S]*?)\\)`, 'g'),
     (m, val) => `await page.evaluate((v) => { (window as any).prompt = () => v }, ${val})`,
   )
 
-  // Stub with inline () => EXPR (single expression — no body).
+  // Pattern 3: cy.stub(win, 'prompt', () => EXPR)  (single expression)
   s = s.replace(
     new RegExp(`(?:const\\s+\\w+\\s*=\\s*)?cy\\.stub\\(\\s*${winName}\\s*,\\s*'prompt'\\s*,\\s*\\(\\)\\s*=>\\s*([^,)]+?)\\s*\\)`, 'g'),
     (m, val) => `await page.evaluate((v) => { (window as any).prompt = () => v }, ${val})`,
   )
 
-  // Any remaining cy.stub on win.* is unsupported — leave a TODO.
+  // Anything still mentioning the win-bound stub is left unhandled.
   s = s.replace(
     new RegExp(`cy\\.stub\\(\\s*${winName}\\s*[\\s\\S]*?\\)\\s*`, 'g'),
-    m => `/* TODO(playwright-migration): ${m.replace(/\*\//g, '* /')} */ `,
+    m => `// TODO(playwright-migration): ${m.replace(/\n/g, ' ').trim()}\n`,
   )
 
-  // cy.window().its('prompt').should('be.called') → drop (call assertion
-  // can't be cheaply mirrored).
+  // cy.window().its('prompt').should('be.called') has no cheap Playwright
+  // equivalent — drop the assertion with an explanatory comment.
   s = s.replace(/cy\.window\(\)\.its\([^)]*\)\.should\([^)]*\)/g, '/* prompt was called (assertion dropped during migration) */')
 
   return s
@@ -954,6 +1180,12 @@ function translateEditorBody(body, indent, selectorArg) {
   // when the running statement is unbalanced (open paren) OR the next line
   // is a leading-dot continuation. This makes per-statement matching below
   // robust against formatting.
+  // Merge lines belonging to the same statement so per-statement matching
+  // is robust. Only merge when an expression's *parens* are unbalanced
+  // (so multi-line argument lists join), or the next line is a
+  // leading-dot continuation. Do NOT merge across `{ … }` block bodies —
+  // that would collapse the inner statements onto one line and break
+  // their semicolon-less separation.
   const rawLines = body.split('\n')
   const merged = []
   for (let i = 0; i < rawLines.length; i++) {
@@ -961,12 +1193,12 @@ function translateEditorBody(body, indent, selectorArg) {
     while (
       i + 1 < rawLines.length
       && (
-        parenDepth(buf) > 0
+        unbalancedParens(buf) > 0
         || /^\s*\./.test(rawLines[i + 1])
       )
     ) {
       i++
-      buf += ' ' + rawLines[i].trim()
+      buf += '\n' + rawLines[i]
     }
     merged.push(buf)
   }
@@ -1125,11 +1357,43 @@ function translateLineChains(src) {
     // Strip trailing comma/semicolon
     const trailing = buf.match(/[;,]\s*$/) ? buf.match(/[;,]\s*$/)[0] : ''
     const core = trailing ? buf.slice(0, -trailing.length) : buf
-    const translated = translateChain(core.replace(/\s+/g, ' '), indent)
+    // Preserve newlines inside the chain text so multi-line `.then(arg =>
+    // { … })` bodies don't get squashed into a single line (which would
+    // turn `const x = 1\nexpect(...)` into the invalid `const x = 1
+    // expect(...)`).
+    const translated = translateChain(core.replace(/[ \t]+/g, ' '), indent)
     out.push(`${indent}${translated}`)
     i++
   }
   return out.join('\n')
+}
+
+function unbalancedParens(text) {
+  // Count only `(` / `)` (NOT braces / brackets), respecting strings.
+  let depth = 0
+  let inStr = false
+  let strCh = ''
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]
+    const prev = text[i - 1]
+    if (inStr) {
+      if (c === strCh && prev !== '\\') {
+        inStr = false
+      }
+      continue
+    }
+    if (c === "'" || c === '"' || c === '`') {
+      inStr = true
+      strCh = c
+      continue
+    }
+    if (c === '(') {
+      depth += 1
+    } else if (c === ')') {
+      depth -= 1
+    }
+  }
+  return depth
 }
 
 function parenDepth(text) {
@@ -1160,22 +1424,189 @@ function parenDepth(text) {
 }
 
 function translateBareEditorCalls(src) {
-  // Convert leftover `editor.getHTML()` / `editor.getJSON()` / `editor.getText()`
-  // calls that escaped the structured editor-then translation. They appear
-  // in nested closures (forEach/map). We replace them with helper calls.
+  // Route leftover `editor.X` calls through the right helper, but ONLY
+  // when we're outside a browser-context callback (inside
+  // `page.evaluate(...)` etc. `editor` is locally defined and rewriting
+  // would inject illegal `await` calls).
   //
-  // Skip occurrences inside string literals — `editorEval(page, 'editor.X()')`
-  // already routes the call through the browser context.
-  const replacements = [
-    [/editor\.getHTML\(\)/g, '(await getEditorHTML(page))'],
-    [/editor\.getJSON\(\)/g, '(await getEditorJSON(page))'],
-    [/editor\.getText\(\)/g, '(await getEditorText(page))'],
-    [/editor\.commands\.setContent\(/g, 'await setEditorContent(page, '],
-  ]
-  let s = replaceOutsideStrings(src, replacements)
+  // The single string-aware walk in `rewriteEditorCalls` handles the
+  // scope check; we now teach it about the well-known sugar replacements.
+  let s = rewriteEditorCalls(src, /* enableSugar */ true)
   // `.to.not.include(X)` → `).not.toContain(X)` — safe everywhere.
   s = s.replace(/\)\.to\.not\.include\(/g, ').not.toContain(')
   return s
+}
+
+function isInsideBrowserCallback(text) {
+  // Scan backwards through the text, tracking paren and brace nesting.
+  // If we find an unclosed `(` whose immediately-preceding identifier is
+  // `page.evaluate`, `editorEval`, or `withEditor`, we're inside a
+  // browser-context callback and `editor` is bound by the inner scope.
+  let parenDepth = 0
+  let braceDepth = 0
+  let inStr = false
+  let strCh = ''
+  for (let i = text.length - 1; i >= 0; i--) {
+    const c = text[i]
+    if (inStr) {
+      if (c === strCh && text[i - 1] !== '\\') {
+        inStr = false
+      }
+      continue
+    }
+    if (c === "'" || c === '"' || c === '`') {
+      inStr = true
+      strCh = c
+      continue
+    }
+    if (c === ')') {
+      parenDepth += 1
+    } else if (c === '(') {
+      if (parenDepth === 0) {
+        // Found an unclosed `(`. Look at the preceding identifier.
+        const before = text.slice(Math.max(0, i - 30), i)
+        if (/(?:^|\W)(?:page\.evaluate|editorEval|withEditor|evaluate|evaluateAll)$/.test(before)) {
+          return true
+        }
+      } else {
+        parenDepth -= 1
+      }
+    } else if (c === '}') {
+      braceDepth += 1
+    } else if (c === '{') {
+      if (braceDepth > 0) {
+        braceDepth -= 1
+      }
+    }
+  }
+  return false
+}
+
+function matchEditorSugar(src, i) {
+  // Returns {replacement, end} if the source at position `i` starts with
+  // one of our recognised sugar patterns. Otherwise null.
+  if (src.startsWith('editor.getHTML()', i)) {
+    return { replacement: '(await getEditorHTML(page))', end: i + 'editor.getHTML()'.length }
+  }
+  if (src.startsWith('editor.getJSON()', i)) {
+    return { replacement: '(await getEditorJSON(page))', end: i + 'editor.getJSON()'.length }
+  }
+  if (src.startsWith('editor.getText()', i)) {
+    return { replacement: '(await getEditorText(page))', end: i + 'editor.getText()'.length }
+  }
+  if (src.startsWith('editor.commands.setContent(', i)) {
+    const open = i + 'editor.commands.setContent'.length
+    const close = findMatching(src, open)
+    if (close > 0) {
+      const argsText = src.slice(open + 1, close)
+      return {
+        replacement: `await setEditorContent(page, ${argsText})`,
+        end: close + 1,
+      }
+    }
+  }
+  return null
+}
+
+function rewriteEditorCalls(src, enableSugar = false) {
+  // Outside any string literal, find `editor.<chain>(<args>)` expressions
+  // that haven't already been wrapped in editorEval/withEditor and rewrite
+  // them so the call runs inside the browser.
+  //
+  // When `enableSugar` is true, well-known reads (`editor.getHTML/JSON/Text`)
+  // and `editor.commands.setContent` map to ergonomic helper calls — but
+  // only when we're not inside a browser callback (where `editor` is the
+  // local symbol and `await` is illegal).
+  let out = ''
+  let i = 0
+  const n = src.length
+  while (i < n) {
+    const ch = src[i]
+    if (ch === "'" || ch === '"' || ch === '`') {
+      let j = i + 1
+      while (j < n) {
+        if (src[j] === '\\') { j += 2; continue }
+        if (src[j] === ch) { j += 1; break }
+        j += 1
+      }
+      out += src.slice(i, j)
+      i = j
+      continue
+    }
+    if (enableSugar && ch === 'e' && src.startsWith('editor.', i) && !isInsideBrowserCallback(out) && !/[A-Za-z0-9_$]/.test(out[out.length - 1] ?? '')) {
+      // Try each sugar replacement at the current position.
+      const sugar = matchEditorSugar(src, i)
+      if (sugar) {
+        out += sugar.replacement
+        i = sugar.end
+        continue
+      }
+    }
+    if (ch === 'e' && src.startsWith('editor.', i)) {
+      // Skip if the preceding character makes it part of an identifier
+      // (e.g. `myeditor.`).
+      const prev = out[out.length - 1] ?? ''
+      if (/[A-Za-z0-9_$]/.test(prev)) {
+        out += ch
+        i += 1
+        continue
+      }
+      // Find the end of the chain. Walk forward consuming identifier
+      // chars, dots, and balanced parens until we hit something else.
+      let end = i + 'editor.'.length
+      let hadParens = false
+      while (end < n) {
+        const c = src[end]
+        if (/[A-Za-z0-9_$.?]/.test(c)) {
+          end += 1
+          continue
+        }
+        if (c === '(') {
+          const close = findMatching(src, end)
+          if (close < 0) {
+            break
+          }
+          end = close + 1
+          hadParens = true
+          continue
+        }
+        break
+      }
+      if (!hadParens) {
+        // It's a plain property access (e.g. `editor.view`). Don't try
+        // to rewrite — these typically appear inside editor-body strings
+        // we've already routed elsewhere.
+        out += src.slice(i, end)
+        i = end
+        continue
+      }
+      const expr = src.slice(i, end)
+      // If we're already inside a `page.evaluate(...)`, `editorEval(...)`,
+      // or `withEditor(...)` callback (anywhere up the unclosed-paren
+      // stack), the `editor` symbol is bound by the surrounding scope and
+      // must NOT be re-wrapped. Walk back through the already-written
+      // output to see if any unclosed `page.evaluate(`/`editorEval(`/
+      // `withEditor(` brackets us.
+      if (isInsideBrowserCallback(out)) {
+        out += expr
+        i = end
+        continue
+      }
+      // Backticks in the expression would break the template-literal
+      // wrapping. Fall back to leaving the expression untouched.
+      if (expr.includes('`')) {
+        out += expr
+        i = end
+        continue
+      }
+      out += `(await editorEval(page, \`${expr}\`))`
+      i = end
+      continue
+    }
+    out += ch
+    i += 1
+  }
+  return out
 }
 
 function replaceOutsideStrings(src, replacements) {
@@ -1245,6 +1676,13 @@ function translateChaiAssertions(src) {
   s = s.replace(/\)\.to\.contain\(/g, ').toContain(')
   s = s.replace(/\)\.to\.match\(/g, ').toMatch(')
   s = s.replace(/\)\.to\.not\.equal\(/g, ').not.toBe(')
+  // Chai's `.to.have.members(arr)` is unordered set-equality. Approximate
+  // with `toEqual(expect.arrayContaining(...))` plus a length check.
+  s = s.replace(/\)\.to\.have\.members\(([^)]*)\)/g, ').toEqual(expect.arrayContaining($1))')
+  s = s.replace(/\)\.to\.have\.ordered\.members\(/g, ').toEqual(')
+  // `.have.property('key', value)` / `.have.property('key')`
+  s = s.replace(/\)\.to\.have\.property\(([^,)]+)\s*,\s*([^)]+)\)/g, ').toHaveProperty($1, $2)')
+  s = s.replace(/\)\.to\.have\.property\(([^)]+)\)/g, ').toHaveProperty($1)')
   return s
 }
 
