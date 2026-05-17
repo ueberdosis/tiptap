@@ -64,7 +64,16 @@ export function markPasteRule(config: {
 
         tr.addMark(range.from + startSpaces, markEnd, config.type.create(attributes || {}))
 
-        tr.removeStoredMark(config.type)
+        // Only remove the stored mark if the match is not at the end of the
+        // pasted text. When a mark extends to the end of the content, removing
+        // it overrides the mark's `inclusive` behavior and incorrectly places
+        // the cursor outside the mark.
+        const isMatchAtEndOfText =
+          match.index !== undefined && match.input !== undefined && match.index + match[0].length >= match.input.length
+
+        if (!isMatchAtEndOfText) {
+          tr.removeStoredMark(config.type)
+        }
       }
     },
   })

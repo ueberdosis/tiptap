@@ -1,4 +1,4 @@
-import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Node } from '@tiptap/core'
+import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Extension, Node } from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -12,6 +12,7 @@ import { Text } from '@tiptap/extension-text'
 import Underline from '@tiptap/extension-underline'
 import { Youtube } from '@tiptap/extension-youtube'
 import { MarkdownManager } from '@tiptap/markdown'
+import { Marked } from 'marked'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 // Create test extensions
@@ -54,6 +55,39 @@ const TestTag = Node.create({
     selfClosing: true,
     allowedAttributes: ['label'],
   }),
+})
+
+const TestProbe = Extension.create({
+  name: 'probeBlock',
+
+  markdownTokenName: 'probeBlock',
+
+  parseMarkdown: (token, helpers) => {
+    return {
+      type: 'paragraph',
+      content: helpers.parseInline(token.tokens || []),
+    }
+  },
+
+  markdownTokenizer: {
+    name: 'probeBlock',
+    level: 'block',
+    start: ':::probe ',
+    tokenize: (src, _tokens, lexer) => {
+      const match = src.match(/^:::probe\s+(.+?)\s+:::/)
+
+      if (!match) {
+        return undefined
+      }
+
+      return {
+        type: 'probeBlock',
+        raw: match[0],
+        text: match[1],
+        tokens: lexer.inlineTokens(match[1]),
+      }
+    },
+  },
 })
 
 describe('MarkdownManager Direct Tests', () => {
@@ -99,9 +133,7 @@ describe('MarkdownManager Direct Tests', () => {
 
   describe('Basic Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
 
     it('should parse simple text', () => {
@@ -142,12 +174,89 @@ Second paragraph.`
       expect(doc.content![1].type).toBe('paragraph')
       expect(doc.content![1].content![0].text).toBe('Second paragraph.')
     })
+
+    it('keeps inline tokens after ordered list tokenization', () => {
+      const markdown = `1. Item 1
+   - Nested bullet item
+
+**After** ordered list`
+
+      const doc = markdownManager.parse(markdown)
+
+      expect(doc.content).toHaveLength(2)
+      expect(doc.content![0].type).toBe('orderedList')
+      expect(doc.content![1]).toEqual({
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: 'After',
+            marks: [{ type: 'bold' }],
+          },
+          {
+            type: 'text',
+            text: ' ordered list',
+          },
+        ],
+      })
+    })
+
+    it('matches isolated Marked instance output for ordered-list parsing', () => {
+      const markdown = `1. Item 1
+   - Nested bullet item
+
+**After** ordered list`
+      const isolatedManager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: basicExtensions,
+      })
+
+      expect(markdownManager.parse(markdown)).toEqual(isolatedManager.parse(markdown))
+    })
+
+    it('keeps later inline parsing stable after a custom tokenizer uses inlineTokens', () => {
+      const manager = new MarkdownManager({ extensions: [...basicExtensions, TestProbe] })
+
+      const markdown = `:::probe **Probe** text :::
+
+**After** custom tokenizer`
+      const doc = manager.parse(markdown)
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Probe',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' text',
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'After',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' custom tokenizer',
+            },
+          ],
+        },
+      ])
+    })
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...++abc++**`
 
@@ -183,9 +292,7 @@ Second paragraph.`
   })
   describe('complex nested Marks parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-
-      basicExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: basicExtensions })
     })
     const nestedMarkdown = `**...~~++abc*abc*++~~**`
 
@@ -226,8 +333,7 @@ Second paragraph.`
   })
   describe('Extended Markdown Parsing', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should parse mentions', () => {
@@ -275,8 +381,7 @@ Final paragraph.`
 
   describe('Markdown Rendering', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should render simple text', () => {
@@ -292,6 +397,46 @@ Final paragraph.`
 
       const markdown = markdownManager.renderNodes(doc)
       expect(markdown).toBe('Hello world')
+    })
+
+    it('should return empty string when serializing empty document', () => {
+      // When the editor is empty, it contains a doc with an empty paragraph
+      const emptyDoc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(emptyDoc)
+      expect(markdown).toBe('')
+    })
+
+    it('should preserve blank lines between paragraphs with content', () => {
+      // Multiple paragraphs with content should preserve blank lines
+      const doc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'First paragraph' }],
+          },
+          {
+            type: 'paragraph',
+            content: [],
+          },
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'Second paragraph' }],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(doc)
+      expect(markdown).toBe('First paragraph\n\n\n\nSecond paragraph')
     })
 
     it('should move trailing whitespace outside of mark closing (Issue #7180)', () => {
@@ -428,7 +573,10 @@ Final paragraph.`
     })
 
     it('should render nested marks with correct tag order', () => {
-      // Test case: bold inside strike should render as ~~**text**~~
+      // Marks come in ProseMirror's canonical order (rank ascending) — Bold is
+      // registered before Strike so it gets the lower rank. The serializer
+      // places lower-rank marks outermost, mirroring how a real editor would
+      // wrap the text: bold outer, strike inner.
       const doc = {
         type: 'doc',
         content: [
@@ -477,8 +625,8 @@ Final paragraph.`
         ],
       }
 
-      expect(markdownManager.renderNodes(doc)).to.equal('Test: ~~**abcd**~~ end.')
-      expect(markdownManager.renderNodes(docAtEnd)).to.equal('~~**abcd**~~')
+      expect(markdownManager.renderNodes(doc)).to.equal('Test: **~~abcd~~** end.')
+      expect(markdownManager.renderNodes(docAtEnd)).to.equal('**~~abcd~~**')
     })
 
     it('should render headings', () => {
@@ -539,10 +687,29 @@ Final paragraph.`
     })
   })
 
+  it('does not reopen marks after inline atom that does not carry them', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'Bold ', marks: [{ type: 'bold' }] },
+            { type: 'tag', attrs: { label: 'node' } },
+            { type: 'text', text: ' some text' },
+          ],
+        },
+      ],
+    }
+
+    const markdown = markdownManager.renderNodes(doc)
+    // Trailing space is moved outside bold markers (per Issue #7180 whitespace convention)
+    expect(markdown).toBe('**Bold** [tag label="node"] some text')
+  })
+
   describe('Round-trip Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     const testCases = [
@@ -586,15 +753,13 @@ Final paragraph.`
     it('should work with different extension combinations', () => {
       // Test with minimal extensions
       const minimalExtensions = [Document, Paragraph, Text]
-      const minimalManager = new MarkdownManager()
-      minimalExtensions.forEach(ext => minimalManager.registerExtension(ext))
+      const minimalManager = new MarkdownManager({ extensions: minimalExtensions })
 
       const simpleDoc = minimalManager.parse('Hello world')
       expect(simpleDoc.content![0].type).toBe('paragraph')
 
       // Test with extended extensions
-      const extendedManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => extendedManager.registerExtension(ext))
+      const extendedManager = new MarkdownManager({ extensions: extendedExtensions })
 
       const complexDoc = extendedManager.parse('# Title\n\n[@ id="user" label="User"]')
       expect(complexDoc.content![0].type).toBe('heading')
@@ -602,8 +767,7 @@ Final paragraph.`
     })
 
     it('should handle unknown markdown gracefully', () => {
-      const manager = new MarkdownManager()
-      basicExtensions.forEach(ext => manager.registerExtension(ext))
+      const manager = new MarkdownManager({ extensions: basicExtensions })
 
       // Test various unknown markdown patterns that should be preserved as text
       const testCases = [
@@ -625,8 +789,7 @@ Final paragraph.`
 
   describe('Performance Tests', () => {
     beforeEach(() => {
-      markdownManager = new MarkdownManager()
-      extendedExtensions.forEach(ext => markdownManager.registerExtension(ext))
+      markdownManager = new MarkdownManager({ extensions: extendedExtensions })
     })
 
     it('should handle large documents efficiently', () => {

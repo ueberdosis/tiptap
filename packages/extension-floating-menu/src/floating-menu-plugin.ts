@@ -137,6 +137,8 @@ export class FloatingMenuView {
 
   public preventHide = false
 
+  public pluginKey: PluginKey | string
+
   /**
    * The delay in milliseconds before the menu should be updated.
    * @default 250
@@ -247,6 +249,7 @@ export class FloatingMenuView {
     editor,
     element,
     view,
+    pluginKey = 'floatingMenu',
     updateDelay = 250,
     resizeDelay = 60,
     options,
@@ -256,6 +259,7 @@ export class FloatingMenuView {
     this.editor = editor
     this.element = element
     this.view = view
+    this.pluginKey = pluginKey
     this.updateDelay = updateDelay
     this.resizeDelay = resizeDelay
     this.appendTo = appendTo
@@ -358,12 +362,57 @@ export class FloatingMenuView {
   /**
    * Handles the transaction event to update the position of the floating menu.
    * This allows external code to trigger a position update via:
-   * `editor.view.dispatch(editor.state.tr.setMeta('floatingMenu', 'updatePosition'))`
+   * `editor.view.dispatch(editor.state.tr.setMeta(pluginKey, 'updatePosition'))`
+   * The `pluginKey` defaults to `floatingMenu`
    */
   transactionHandler = ({ transaction: tr }: { transaction: Transaction }) => {
-    const meta = tr.getMeta('floatingMenu')
+    const meta = tr.getMeta(this.pluginKey)
     if (meta === 'updatePosition') {
       this.updatePosition()
+    } else if (meta && typeof meta === 'object' && meta.type === 'updateOptions') {
+      this.updateOptions(meta.options)
+    } else if (meta === 'hide') {
+      this.hide()
+    } else if (meta === 'show') {
+      this.updatePosition()
+      this.show()
+    }
+  }
+
+  updateOptions(newProps: Partial<Omit<FloatingMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+    if (newProps.updateDelay !== undefined) {
+      this.updateDelay = newProps.updateDelay
+    }
+
+    if (newProps.resizeDelay !== undefined) {
+      this.resizeDelay = newProps.resizeDelay
+    }
+
+    if (newProps.appendTo !== undefined) {
+      this.appendTo = newProps.appendTo
+    }
+
+    if (newProps.shouldShow !== undefined) {
+      if (newProps.shouldShow) {
+        this.shouldShow = newProps.shouldShow
+      }
+    }
+
+    if (newProps.options !== undefined) {
+      // Handle scrollTarget change - need to remove old listener and add new one
+      // Use nullish coalescing to default to window when scrollTarget is undefined/null
+      const newScrollTarget = newProps.options.scrollTarget ?? window
+
+      if (newScrollTarget !== this.scrollTarget) {
+        this.scrollTarget.removeEventListener('scroll', this.resizeHandler)
+        this.scrollTarget = newScrollTarget
+        this.scrollTarget.addEventListener('scroll', this.resizeHandler)
+      }
+
+      this.floatingUIOptions = {
+        ...this.floatingUIOptions,
+        ...newProps.options,
+      }
     }
   }
 
@@ -383,6 +432,10 @@ export class FloatingMenuView {
   }
 
   updatePosition() {
+    if (!this.view?.dom?.parentNode) {
+      return
+    }
+
     const { selection } = this.editor.state
 
     const domRect = posToDOMRect(this.view, selection.from, selection.to)
@@ -396,7 +449,14 @@ export class FloatingMenuView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy }) => {
+    }).then(({ x, y, strategy, middlewareData }) => {
+      // Handle hide middleware - hide element if reference is hidden or element has escaped
+      if (middlewareData.hide?.referenceHidden || middlewareData.hide?.escaped) {
+        this.element.style.visibility = 'hidden'
+        return
+      }
+
+      this.element.style.visibility = 'visible'
       this.element.style.width = 'max-content'
       this.element.style.position = strategy
       this.element.style.left = `${x}px`

@@ -93,38 +93,16 @@ class EditorInstanceManager {
   }
 
   private getInitialEditor() {
-    if (this.options.current.immediatelyRender === undefined) {
-      if (isSSR || isNext) {
-        if (isDev) {
-          /**
-           * Throw an error in development, to make sure the developer is aware that tiptap cannot be SSR'd
-           * and that they need to set `immediatelyRender` to `false` to avoid hydration mismatches.
-           */
-          throw new Error(
-            'Tiptap Error: SSR has been detected, please set `immediatelyRender` explicitly to `false` to avoid hydration mismatches.',
-          )
-        }
+    let immediatelyRender = this.options.current.immediatelyRender ?? true
 
-        // Best faith effort in production, run the code in the legacy mode to avoid hydration mismatches and errors in production
-        return null
+    if (immediatelyRender && (isSSR || isNext)) {
+      immediatelyRender = false
+      if (isDev) {
+        console.warn('SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches')
       }
-
-      // Default to immediately rendering when client-side rendering
-      return this.createEditor()
     }
 
-    if (this.options.current.immediatelyRender && isSSR && isDev) {
-      // Warn in development, to make sure the developer is aware that tiptap cannot be SSR'd, set `immediatelyRender` to `false` to avoid hydration mismatches.
-      throw new Error(
-        'Tiptap Error: SSR has been detected, and `immediatelyRender` has been set to `true` this is an unsupported configuration that may result in errors, explicitly set `immediatelyRender` to `false` to avoid hydration mismatches.',
-      )
-    }
-
-    if (this.options.current.immediatelyRender) {
-      return this.createEditor()
-    }
-
-    return null
+    return immediatelyRender ? this.createEditor() : null
   }
 
   /**

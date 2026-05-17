@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension } from '@tiptap/core'
+import { Extension, getStyleProperty } from '@tiptap/core'
 
 export type FontSizeOptions = {
   /**
@@ -56,7 +56,10 @@ export const FontSize = Extension.create<FontSizeOptions>({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: element => element.style.fontSize,
+            // Prefer the raw inline `style` attribute so the original format
+            // is preserved instead of the canonicalized value returned by
+            // `element.style.fontSize`.
+            parseHTML: element => getStyleProperty(element, 'font-size') ?? element.style.fontSize,
             renderHTML: attributes => {
               if (!attributes.fontSize) {
                 return {}

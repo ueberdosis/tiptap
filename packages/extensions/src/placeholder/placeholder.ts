@@ -4,6 +4,33 @@ import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
+/**
+ * The default data attribute label
+ */
+const DEFAULT_DATA_ATTRIBUTE = 'placeholder'
+
+/**
+ * Prepares the placeholder attribute by ensuring it is properly formatted.
+ * @param attr - The placeholder attribute string.
+ * @returns The prepared placeholder attribute string.
+ */
+export function preparePlaceholderAttribute(attr: string): string {
+  return (
+    attr
+      // replace whitespace with dashes
+      .replace(/\s+/g, '-')
+      // replace non-alphanumeric  characters
+      // or special chars like $, %, &, etc.
+      // but not dashes
+      .replace(/[^a-zA-Z0-9-]/g, '')
+      // and replace any numeric character at the start
+      .replace(/^[0-9-]+/, '')
+      // and finally replace any stray, leading dashes
+      .replace(/^-+/, '')
+      .toLowerCase()
+  )
+}
+
 export interface PlaceholderOptions {
   /**
    * **The class name for the empty editor**
@@ -20,6 +47,13 @@ export interface PlaceholderOptions {
   emptyNodeClass:
     | ((EmptyNodeClassProps: { editor: Editor; node: ProsemirrorNode; pos: number; hasAnchor: boolean }) => string)
     | string
+
+  /**
+   * **The data-attribute used for the placeholder label**
+   * Will be prepended with `data-` and converted to kebab-case and cleaned of special characters.
+   * @default 'placeholder'
+   */
+  dataAttribute: string
 
   /**
    * **The placeholder content**
@@ -71,6 +105,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
     return {
       emptyEditorClass: 'is-editor-empty',
       emptyNodeClass: 'is-empty',
+      dataAttribute: DEFAULT_DATA_ATTRIBUTE,
       placeholder: 'Write something …',
       showOnlyWhenEditable: true,
       showOnlyCurrent: true,
@@ -79,6 +114,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
   },
 
   addProseMirrorPlugins() {
+    const dataAttribute = this.options.dataAttribute
+      ? `data-${preparePlaceholderAttribute(this.options.dataAttribute)}`
+      : `data-${DEFAULT_DATA_ATTRIBUTE}`
+
     return [
       new Plugin({
         key: new PluginKey('placeholder'),
@@ -97,6 +136,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             doc.descendants((node, pos) => {
               const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
               const isEmpty = !node.isLeaf && isNodeEmpty(node)
+
+              if (!node.type.isTextblock) {
+                return this.options.includeChildren
+              }
 
               if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                 const emptyNodeClass =
@@ -117,7 +160,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
                 const decoration = Decoration.node(pos, pos + node.nodeSize, {
                   class: classes.join(' '),
-                  'data-placeholder':
+                  [dataAttribute]:
                     typeof this.options.placeholder === 'function'
                       ? this.options.placeholder({
                           editor: this.editor,

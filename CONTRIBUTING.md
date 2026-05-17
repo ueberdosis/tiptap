@@ -73,6 +73,17 @@ To make it easier to add new demos to the demos app we provide a small helper sc
 - If your demo changes package behaviour or exposes user-facing changes, follow the normal rule and add a changeset and tests as needed.
 - If you don't want your demo to be included in the Git repository, use the `Dev` category. Demos in this category are ignored by git via `.gitignore`.
 
+## Publishing New Packages
+
+When adding a new package to the repository that does not yet exist on NPM, additional setup is required before the automated publish CI can release it:
+
+1. **Manual initial publish** - The package must be published manually to NPM for the first time using normal user authentication. This is required because trusted publishing can only be configured for packages that already exist on the registry.
+   - For a single package, run `pnpm run build && pnpm publish` from the package directory (e.g., `packages/extension-audio/`).
+   - Alternatively, run `pnpm run publish` from the root directory to publish all packages.
+2. **Configure trusted publishing** - After the initial publish, set up [NPM trusted publishing](https://docs.npmjs.com/trusted-publishers) (also known as provenance) for the package on NPM. This allows the GitHub Actions workflow to publish subsequent versions automatically.
+
+Without this setup, the publish CI will fail when attempting to release a new package.
+
 ## Requirements
 
 If the project maintainer has any additional requirements, you will find them listed here.
@@ -82,5 +93,11 @@ If the project maintainer has any additional requirements, you will find them li
 - **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
 
 - **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
+
+- **Disclose AI usage** — If you used AI tools (e.g., ChatGPT, Claude, GitHub Copilot) to generate any part of your contribution, you must clearly disclose this in your pull request description.
+
+- **Link your pull request to an issue** — Pull requests must be linked to an existing issue that has been assigned to you. Before opening a PR, ensure there is an issue describing the bug or feature you're addressing. Trivial fixes (e.g., typos, broken links) are exempt.
+
+- **Respond to feedback** — Maintainers may ask follow-up questions or request changes on your pull request. If you do not respond within 30 days, your PR may be closed. You are welcome to reopen it or submit a new PR once you're able to address the feedback.
 
 **Happy coding**!

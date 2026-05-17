@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension } from '@tiptap/core'
+import { Extension, getStyleProperty } from '@tiptap/core'
 
 export type BackgroundColorOptions = {
   /**
@@ -58,31 +58,11 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
           backgroundColor: {
             default: null,
             parseHTML: element => {
-              // Prefer the raw inline `style` attribute so we preserve
-              // the original format (e.g. `#rrggbb`) instead of the
-              // computed `rgb(...)` value returned by `element.style.backgroundColor`.
-              // When nested spans are merged the style attribute may contain
-              // multiple `background-color:` declarations (parent;child). We should pick
-              // the last declaration so the child's background color takes priority.
-              const styleAttr = element.getAttribute('style')
-              if (styleAttr) {
-                const decls = styleAttr
-                  .split(';')
-                  .map(s => s.trim())
-                  .filter(Boolean)
-                for (let i = decls.length - 1; i >= 0; i -= 1) {
-                  const parts = decls[i].split(':')
-                  if (parts.length >= 2) {
-                    const prop = parts[0].trim().toLowerCase()
-                    const val = parts.slice(1).join(':').trim()
-                    if (prop === 'background-color') {
-                      return val.replace(/['"]+/g, '')
-                    }
-                  }
-                }
-              }
-
-              return element.style.backgroundColor?.replace(/['"]+/g, '')
+              // Prefer the raw inline `style` attribute so we preserve the
+              // original format (e.g. `#rrggbb`) instead of the canonicalized
+              // `rgb(...)` value returned by `element.style.backgroundColor`.
+              const value = getStyleProperty(element, 'background-color') ?? element.style.backgroundColor
+              return value?.replace(/['"]+/g, '')
             },
             renderHTML: attributes => {
               if (!attributes.backgroundColor) {

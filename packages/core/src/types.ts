@@ -339,6 +339,15 @@ export interface EditorOptions {
     clipboardTextSerializer?: {
       blockSeparator?: string
     }
+    /**
+     * Options for the `tabindex` core extension.
+     */
+    tabindex?: {
+      /**
+       * The value for the `tabindex` attribute on the editor element.
+       */
+      value?: string
+    }
     delete?: {
       /**
        * Whether the `delete` extension should be called asynchronously to avoid blocking the editor while processing deletions
@@ -652,8 +661,18 @@ export type ExtensionAttribute = {
 export type GlobalAttributes = {
   /**
    * The node & mark types this attribute should be applied to.
+   * Can be a specific array of type names, or a shorthand string:
+   * - `'*'` applies to all nodes (excluding text) and all marks
+   * - `'nodes'` applies to all nodes (excluding the built-in text node)
+   * - `'marks'` applies to all marks
+   * - `string[]` applies to specific node/mark types by name
+   * @example
+   * types: '*'                                    // All nodes and marks
+   * types: 'nodes'                                // All nodes
+   * types: 'marks'                                // All marks
+   * types: ['heading', 'paragraph']               // Specific types
    */
-  types: string[]
+  types: string[] | 'nodes' | 'marks' | '*'
   /**
    * The attributes to add to the node or mark types.
    */
@@ -709,6 +728,13 @@ export interface NodeViewRendererOptions {
   stopEvent: ((props: { event: Event }) => boolean) | null
   ignoreMutation: ((props: { mutation: ViewMutationRecord }) => boolean) | null
   contentDOMElementTag: string
+  /**
+   * When `true`, the `selected` prop also becomes `true` if a `TextSelection`
+   * is fully inside the node's range (e.g. the cursor is placed within the
+   * node's content), not only when there is a `NodeSelection` on the node.
+   * Defaults to `false` to preserve existing behavior.
+   */
+  selectedOnTextSelection?: boolean
 }
 
 export interface NodeViewRendererProps {
@@ -886,8 +912,12 @@ export type MarkdownHelpers = {
 export type MarkdownParseHelpers = {
   /** Parse an array of inline tokens into text nodes with marks */
   parseInline: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Tokenize source text as inline markdown when supported by the markdown parser */
+  tokenizeInline?: (src: string) => MarkdownToken[]
   /** Parse an array of block-level tokens */
   parseChildren: (tokens: MarkdownToken[]) => JSONContent[]
+  /** Parse block-level tokens while preserving implicit empty paragraphs from blank lines */
+  parseBlockChildren?: (tokens: MarkdownToken[]) => JSONContent[]
   /** Create a text node with optional marks */
   createTextNode: (text: string, marks?: Array<{ type: string; attrs?: any }>) => JSONContent
   /** Create any node type with attributes and content */
@@ -935,6 +965,7 @@ export type RenderContext = {
   level: number
   meta?: Record<string, any>
   parentType?: string | null
+  previousNode?: JSONContent | null
 }
 
 /** Extension contract for markdown parsing/serialization. */
@@ -946,6 +977,10 @@ export interface MarkdownExtensionSpec {
   parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
   renderMarkdown?: (node: any, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
   isIndenting?: boolean
+  htmlReopen?: {
+    open: string
+    close: string
+  }
   /** Custom tokenizer for marked.js to handle non-standard markdown syntax */
   tokenizer?: MarkdownTokenizer
 }
@@ -993,6 +1028,9 @@ export type MarkdownRendererHelpers = {
    * @returns The rendered markdown string
    */
   renderChildren: (nodes: JSONContent | JSONContent[], separator?: string) => string
+
+  /** Render a single child node with its sibling index preserved */
+  renderChild?: (node: JSONContent, index: number) => string
 
   /**
    * Render a text token to a markdown string

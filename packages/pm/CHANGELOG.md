@@ -1,5 +1,56 @@
 # Change Log
 
+## 3.23.4
+
+## 3.23.3
+
+## 3.23.2
+
+## 3.23.1
+
+## 3.23.0
+
+## 3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- 032f8f1: Remove unused ProseMirror packages from @tiptap/pm to reduce bundle size
+
+## 3.22.3
+
+## 3.22.2
+
+## 3.22.1
+
+## 3.22.0
+
+## 3.21.0
+
+## 3.20.6
+
+## 3.20.5
+
+## 3.20.4
+
+## 3.20.3
+
+## 3.20.2
+
+## 3.20.1
+
+## 3.20.0
+
+## 3.19.0
+
+## 3.18.0
+
+## 3.17.1
+
+## 3.17.0
+
 ## 3.16.0
 
 ## 3.15.3

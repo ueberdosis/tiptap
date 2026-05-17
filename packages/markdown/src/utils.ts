@@ -63,28 +63,29 @@ export function findMarksToCloseAtEnd(
   activeMarks: Map<string, any>,
   currentMarks: Map<string, any>,
   nextNode: any,
-  markSetsEqual: (a: Map<string, any>, b: Map<string, any>) => boolean,
+  markSetsEqual: (a: Map<string, { type: string }>, b: Map<string, { type: string }>) => boolean,
 ): string[] {
   const isLastNode = !nextNode
-  const nextNodeHasNoMarks = nextNode && nextNode.type === 'text' && (!nextNode.marks || nextNode.marks.length === 0)
+  const nextNodeHasNoMarks = nextNode && (!nextNode.marks || nextNode.marks.length === 0)
   const nextNodeHasDifferentMarks =
     nextNode &&
-    nextNode.type === 'text' &&
     nextNode.marks &&
     !markSetsEqual(currentMarks, new Map(nextNode.marks.map((mark: any) => [mark.type, mark])))
 
   const marksToCloseAtEnd: string[] = []
   if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
-    if (nextNode && nextNode.type === 'text' && nextNode.marks) {
+    if (nextNode && nextNode.marks) {
       const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
-      Array.from(activeMarks.keys()).forEach(markType => {
-        if (!nextMarks.has(markType)) {
-          marksToCloseAtEnd.push(markType)
-        }
-      })
+      Array.from(activeMarks.keys())
+        .reverse()
+        .forEach(markType => {
+          if (!nextMarks.has(markType)) {
+            marksToCloseAtEnd.push(markType)
+          }
+        })
     } else if (isLastNode || nextNodeHasNoMarks) {
       // Close all active marks
-      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()))
+      marksToCloseAtEnd.push(...Array.from(activeMarks.keys()).reverse())
     }
   }
 

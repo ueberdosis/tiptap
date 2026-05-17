@@ -1,50 +1,74 @@
 import type { Editor } from '@tiptap/core'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
-import type { SelectionRange } from '@tiptap/pm/state'
+import type { Node } from '@tiptap/pm/model'
+import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
 
+import type { NormalizedNestedOptions } from '../types/options.js'
 import { cloneElement } from './cloneElement.js'
 import { findElementNextToCoords } from './findNextElementFromCursor.js'
-import { getInnerCoords } from './getInnerCoords.js'
+import { getDraggedBlockDir, getDraggedBlockElement } from './getDraggedBlockDir.js'
 import { removeNode } from './removeNode.js'
 
-function getDragHandleRanges(event: DragEvent, editor: Editor): SelectionRange[] {
+export interface DragContext {
+  node: Node | null
+  pos: number
+}
+
+export function getDragImageOffset(direction: string, wrapperWidth: number): number {
+  return direction === 'rtl' ? wrapperWidth : 0
+}
+
+function getDragHandleRanges(
+  event: DragEvent,
+  editor: Editor,
+  nestedOptions?: NormalizedNestedOptions,
+  dragContext?: DragContext,
+): SelectionRange[] {
   const { doc } = editor.view.state
 
+  // In nested mode with known context, use the pre-calculated position
+  // This prevents recalculation issues when mouse position shifts during drag start
+  if (nestedOptions?.enabled && dragContext?.node && dragContext.pos >= 0) {
+    const nodeStart = dragContext.pos
+    const nodeEnd = dragContext.pos + dragContext.node.nodeSize
+
+    return [
+      {
+        $from: doc.resolve(nodeStart),
+        $to: doc.resolve(nodeEnd),
+      },
+    ]
+  }
+
+  // Fallback: recalculate from mouse position (used in non-nested mode)
   const result = findElementNextToCoords({
     editor,
     x: event.clientX,
     y: event.clientY,
     direction: 'right',
+    nestedOptions,
   })
 
   if (!result.resultNode || result.pos === null) {
     return []
   }
 
-  const x = event.clientX
-
-  // @ts-ignore
-  const coords = getInnerCoords(editor.view, x, event.clientY)
-  const posAtCoords = editor.view.posAtCoords(coords)
-
-  if (!posAtCoords) {
-    return []
-  }
-
-  const { pos } = posAtCoords
-  const nodeAt = doc.resolve(pos).parent
-
-  if (!nodeAt) {
-    return []
-  }
-
+  // For non-nested mode, use depth 0 to select the outermost block
+  // Atom nodes (e.g. images) have nodeSize=1 with no opening/closing tokens,
+  // so we must not subtract 1 or we'll create an empty range.
+  const offset = result.resultNode.isText || result.resultNode.isAtom ? 0 : -1
   const $from = doc.resolve(result.pos)
-  const $to = doc.resolve(result.pos + 1)
+  const $to = doc.resolve(result.pos + result.resultNode.nodeSize + offset)
 
-  return getSelectionRanges($from, $to, 0)
+  return getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
 }
 
-export function dragHandler(event: DragEvent, editor: Editor) {
+export function dragHandler(
+  event: DragEvent,
+  editor: Editor,
+  nestedOptions?: NormalizedNestedOptions,
+  dragContext?: DragContext,
+) {
   const { view } = editor
 
   if (!event.dataTransfer) {
@@ -53,9 +77,9 @@ export function dragHandler(event: DragEvent, editor: Editor) {
 
   const { empty, $from, $to } = view.state.selection
 
-  const dragHandleRanges = getDragHandleRanges(event, editor)
+  const dragHandleRanges = getDragHandleRanges(event, editor, nestedOptions, dragContext)
 
-  const selectionRanges = getSelectionRanges($from, $to, 0)
+  const selectionRanges = getSelectionRanges($from, $to, 0, { extendOnBoundaryOverlap: false })
   const isDragHandleWithinSelection = selectionRanges.some(range => {
     return dragHandleRanges.find(dragHandleRange => {
       return dragHandleRange.$from === range.$from && dragHandleRange.$to === range.$to
@@ -70,15 +94,41 @@ export function dragHandler(event: DragEvent, editor: Editor) {
 
   const { tr } = view.state
   const wrapper = document.createElement('div')
+
   const from = ranges[0].$from.pos
   const to = ranges[ranges.length - 1].$to.pos
+  const direction = getDraggedBlockDir(view, from)
 
-  const selection = NodeRangeSelection.create(view.state.doc, from, to)
-  const slice = selection.content()
+  wrapper.setAttribute('dir', direction)
+
+  // For nested mode, create slice directly to avoid NodeRangeSelection expanding to parent
+  const isNestedDrag = nestedOptions?.enabled && dragContext?.node
+
+  let slice
+  let selection
+
+  if (isNestedDrag) {
+    // Create slice directly from the exact positions
+    slice = view.state.doc.slice(from, to)
+
+    // Use NodeSelection for nested mode to select exactly the target node
+    // NodeRangeSelection would expand to the parent
+    selection = NodeSelection.create(view.state.doc, from)
+  } else {
+    selection = NodeRangeSelection.create(view.state.doc, from, to)
+    slice = selection.content()
+  }
 
   ranges.forEach(range => {
-    const element = view.nodeDOM(range.$from.pos) as HTMLElement
+    const element = getDraggedBlockElement(view, range.$from.pos) as HTMLElement | null
+
+    if (!element) {
+      return
+    }
+
     const clonedElement = cloneElement(element)
+
+    clonedElement.style.margin = '0'
 
     wrapper.append(clonedElement)
   })
@@ -88,15 +138,41 @@ export function dragHandler(event: DragEvent, editor: Editor) {
   document.body.append(wrapper)
 
   event.dataTransfer.clearData()
-  event.dataTransfer.setDragImage(wrapper, 0, 0)
+  const wrapperRect = wrapper.getBoundingClientRect()
+  const dragImageX = getDragImageOffset(direction, wrapperRect.width)
 
-  // tell ProseMirror the dragged content
-  view.dragging = { slice, move: true }
+  event.dataTransfer.setDragImage(wrapper, dragImageX, 0)
+
+  let cleanedUp = false
+
+  const cleanupDragPreview = () => {
+    if (cleanedUp) {
+      return
+    }
+
+    cleanedUp = true
+    removeNode(wrapper)
+    document.removeEventListener('drop', cleanupDragPreview)
+    document.removeEventListener('dragend', cleanupDragPreview)
+  }
+
+  // Tell ProseMirror the dragged content.
+  // Pass the NodeSelection as `node` so ProseMirror's drop handler can use it
+  // to precisely delete the original node via `node.replace(tr)`. Without this,
+  // ProseMirror falls back to `tr.deleteSelection()` which relies on the current
+  // selection — but the browser may change the selection during drag, causing the
+  // original node to not be deleted on drop.
+  const nodeSelection = selection instanceof NodeSelection ? selection : undefined
+
+  // The `node` property is used at runtime by ProseMirror's drop handler but is
+  // not exposed in the public type declaration for `view.dragging`.
+  view.dragging = { slice, move: true, node: nodeSelection } as typeof view.dragging
 
   tr.setSelection(selection)
 
   view.dispatch(tr)
 
-  // clean up
-  document.addEventListener('drop', () => removeNode(wrapper), { once: true })
+  // Clean up the drag preview whether the drag results in a valid drop or not.
+  document.addEventListener('drop', cleanupDragPreview)
+  document.addEventListener('dragend', cleanupDragPreview)
 }

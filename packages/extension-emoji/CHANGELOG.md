@@ -1,5 +1,229 @@
 # @tiptap/extension-emoji
 
+## 3.23.4
+
+### Patch Changes
+
+- @tiptap/core@3.23.4
+- @tiptap/pm@3.23.4
+- @tiptap/suggestion@3.23.4
+
+## 3.23.3
+
+### Patch Changes
+
+- @tiptap/core@3.23.3
+- @tiptap/pm@3.23.3
+- @tiptap/suggestion@3.23.3
+
+## 3.23.2
+
+### Patch Changes
+
+- Updated dependencies [f98eaaf]
+  - @tiptap/core@3.23.2
+  - @tiptap/suggestion@3.23.2
+  - @tiptap/pm@3.23.2
+
+## 3.23.1
+
+### Patch Changes
+
+- @tiptap/core@3.23.1
+- @tiptap/pm@3.23.1
+- @tiptap/suggestion@3.23.1
+
+## 3.23.0
+
+### Patch Changes
+
+- Updated dependencies [57f8d66]
+- Updated dependencies [e64e5a7]
+- Updated dependencies [207a2bc]
+  - @tiptap/core@3.23.0
+  - @tiptap/suggestion@3.23.0
+  - @tiptap/pm@3.23.0
+
+## 3.22.5
+
+### Patch Changes
+
+- Updated dependencies [a375002]
+  - @tiptap/core@3.22.5
+  - @tiptap/suggestion@3.22.5
+  - @tiptap/pm@3.22.5
+
+## 3.22.4
+
+### Patch Changes
+
+- 27ea931: Fix dependencies installation after packages updates producing peer dependency resolution conflicts
+- Updated dependencies [27ea931]
+- Updated dependencies [64f36b8]
+- Updated dependencies [032f8f1]
+  - @tiptap/core@3.22.4
+  - @tiptap/pm@3.22.4
+  - @tiptap/suggestion@3.22.4
+
+## 3.22.3
+
+### Patch Changes
+
+- Updated dependencies [cb28e7b]
+  - @tiptap/core@3.22.3
+  - @tiptap/suggestion@3.22.3
+  - @tiptap/pm@3.22.3
+
+## 3.22.2
+
+### Patch Changes
+
+- Updated dependencies [f1d504c]
+- Updated dependencies [404c683]
+  - @tiptap/core@3.22.2
+  - @tiptap/suggestion@3.22.2
+  - @tiptap/pm@3.22.2
+
+## 3.22.1
+
+### Patch Changes
+
+- Updated dependencies [ee03ac0]
+- Updated dependencies [b88f9ed]
+  - @tiptap/core@3.22.1
+  - @tiptap/suggestion@3.22.1
+  - @tiptap/pm@3.22.1
+
+## 3.22.0
+
+### Patch Changes
+
+- 9124bc3: Use a named import for Suggestion from `@tiptap/suggestion` to avoid bundler ESM/CJS interop
+  wrapping (`__toESM`) that caused CJS consumers to receive a module object instead of the
+  callable plugin factory.
+
+  This is a non-breaking internal fix identical to the one applied to `@tiptap/extension-mention`
+  in #6994.
+
+- Updated dependencies [912a49b]
+- Updated dependencies [7d4fb9a]
+- Updated dependencies [7f6d63c]
+- Updated dependencies [0c1c112]
+- Updated dependencies [0c1c112]
+- Updated dependencies [f99bdc2]
+  - @tiptap/core@3.22.0
+  - @tiptap/suggestion@3.22.0
+  - @tiptap/pm@3.22.0
+
+## 3.21.0
+
+### Patch Changes
+
+- aa6062e: Update emoji dataset to include latest Unicode emojis.
+  - @tiptap/core@3.21.0
+  - @tiptap/pm@3.21.0
+  - @tiptap/suggestion@3.21.0
+
+## 3.20.6
+
+### Patch Changes
+
+- @tiptap/core@3.20.6
+- @tiptap/pm@3.20.6
+- @tiptap/suggestion@3.20.6
+
+## 3.20.5
+
+### Patch Changes
+
+- @tiptap/core@3.20.5
+- @tiptap/pm@3.20.5
+- @tiptap/suggestion@3.20.5
+
+## 3.20.4
+
+### Patch Changes
+
+- Updated dependencies [0bcf3c2]
+  - @tiptap/core@3.20.4
+  - @tiptap/suggestion@3.20.4
+  - @tiptap/pm@3.20.4
+
+## 3.20.3
+
+### Patch Changes
+
+- Updated dependencies [c94fac4]
+- Updated dependencies [6b9ea92]
+  - @tiptap/core@3.20.3
+  - @tiptap/suggestion@3.20.3
+  - @tiptap/pm@3.20.3
+
+## 3.20.2
+
+### Patch Changes
+
+- Updated dependencies [269823d]
+  - @tiptap/core@3.20.2
+  - @tiptap/suggestion@3.20.2
+  - @tiptap/pm@3.20.2
+
+## 3.20.1
+
+### Patch Changes
+
+- Updated dependencies [25f57e4]
+  - @tiptap/core@3.20.1
+  - @tiptap/suggestion@3.20.1
+  - @tiptap/pm@3.20.1
+
+## 3.20.0
+
+### Patch Changes
+
+- Updated dependencies [4b731e2]
+- Updated dependencies [98546ac]
+- Updated dependencies [57624a1]
+- Updated dependencies [76ce47d]
+  - @tiptap/core@3.20.0
+  - @tiptap/suggestion@3.20.0
+  - @tiptap/pm@3.20.0
+
+## 3.19.0
+
+### Patch Changes
+
+- @tiptap/core@3.19.0
+- @tiptap/pm@3.19.0
+- @tiptap/suggestion@3.19.0
+
+## 3.18.0
+
+### Patch Changes
+
+- @tiptap/core@3.18.0
+- @tiptap/pm@3.18.0
+- @tiptap/suggestion@3.18.0
+
+## 3.17.1
+
+### Patch Changes
+
+- Updated dependencies [aa9709e]
+- Updated dependencies [b46e66a]
+  - @tiptap/core@3.17.1
+  - @tiptap/suggestion@3.17.1
+  - @tiptap/pm@3.17.1
+
+## 3.17.0
+
+### Patch Changes
+
+- Updated dependencies [eecf1c9]
+  - @tiptap/core@3.17.0
+  - @tiptap/suggestion@3.17.0
+  - @tiptap/pm@3.17.0
+
 ## 3.16.0
 
 ### Patch Changes

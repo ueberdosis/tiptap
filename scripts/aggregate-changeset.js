@@ -1,117 +1,270 @@
 /* eslint-disable */
 
+import { execFile as execFileCallback } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { promisify } from 'node:util'
+import fg from 'fast-glob'
 import getReleasePlan from '@changesets/get-release-plan'
 
-const TITLE_MAP = new Map([
-  ['major', 'Major Changes'],
-  ['minor', 'Minor Changes'],
-  ['patch', 'Patch Changes'],
-  ['none', 'Other Changes'],
-])
+const execFile = promisify(execFileCallback)
+const require = createRequire(import.meta.url)
+const resolveFromWorkspace = request =>
+  require.resolve(request, { paths: [process.cwd(), require.resolve('@changesets/cli/changelog')] })
+const semverSatisfies = require(resolveFromWorkspace('semver/functions/satisfies'))
+const validRange = require(resolveFromWorkspace('semver/ranges/valid'))
 
-const CHANGE_TYPE_ORDER = ['major', 'minor', 'patch', 'none']
+function normalizeChangelogOption(changelog) {
+  if (changelog === false) return false
+  if (typeof changelog === 'string') return [changelog, null]
+  return changelog
+}
 
-/**
- * Small container for a package's accumulated changes.
- */
-class PackageChanges {
-  constructor(name) {
-    this.name = name
-    /** @type {Map<string, Array<ChangeEntry>>} */
-    this.changes = new Map()
-  }
+async function readChangesetConfig() {
+  const content = await readFile('.changeset/config.json', 'utf-8')
+  const json = JSON.parse(content)
 
-  addChange(type, summary) {
-    if (!this.changes.has(type)) this.changes.set(type, [])
-    const summaryLines = summary.split('\n')
-    // indent each line but not the first
-    const indentedSummary = summaryLines.map((line, index) => (index === 0 ? line : `  ${line}`)).join('\n')
-    this.changes.get(type).push(new ChangeEntry(type, indentedSummary))
+  return {
+    ...json,
+    changelog: normalizeChangelogOption(json.changelog === undefined ? '@changesets/cli/changelog' : json.changelog),
   }
 }
 
-/**
- * Represents a single change summary for a package.
- */
-class ChangeEntry {
-  constructor(type, summary) {
-    this.type = type
-    this.summary = summary
+function resolveModuleFrom(fromDir, request) {
+  const fromRequire = createRequire(path.join(fromDir, '__changeset_resolver__.js'))
+  return fromRequire.resolve(request)
+}
+
+async function loadChangelogGenerator(cwd) {
+  const config = await readChangesetConfig()
+
+  if (!config.changelog) {
+    return {
+      config,
+      changelogFunctions: null,
+      changelogOpts: null,
+    }
   }
 
-  toString() {
-    return `- ${this.summary}`
+  const [modulePath, changelogOpts] = config.changelog
+  const changesetDir = path.join(cwd, '.changeset')
+
+  let resolvedPath
+
+  try {
+    resolvedPath = resolveModuleFrom(changesetDir, modulePath)
+  } catch {
+    resolvedPath = resolveModuleFrom(cwd, modulePath)
+  }
+
+  let mod = await import(pathToFileURL(resolvedPath).href)
+  mod = mod.default ?? mod
+  mod = mod.default ?? mod
+
+  if (typeof mod.getReleaseLine !== 'function' || typeof mod.getDependencyReleaseLine !== 'function') {
+    throw new Error(`Could not resolve changelog generation functions from ${modulePath}`)
+  }
+
+  return {
+    config,
+    changelogFunctions: mod,
+    changelogOpts,
   }
 }
 
-/**
- * Represents a release with a version and a set of packages.
- */
-class ReleaseData {
-  constructor(version) {
-    this.version = version
-    /** @type {Map<string, PackageChanges>} */
-    this.packages = new Map()
+async function getChangesetCommit(cwd, changesetId) {
+  const candidates = [`.changeset/${changesetId}.md`, `.changeset/${changesetId}/changes.json`]
+
+  for (const filePath of candidates) {
+    try {
+      const { stdout } = await execFile('git', ['log', '--diff-filter=A', '--format=%H', '-n', '1', '--', filePath], {
+        cwd,
+      })
+      const commit = stdout.trim()
+
+      if (commit) return commit
+    } catch {}
   }
 
-  addPackage(pkg) {
-    this.packages.set(pkg.name, pkg)
-  }
+  return undefined
 }
 
-/**
- * Build a map of package name => PackageChanges from the changeset plan.
- * @param {object} plan - result from getReleasePlan
- * @returns {Map<string, PackageChanges>}
- */
-function buildPackagesMap(plan) {
+async function addCommitsToChangesets(cwd, changesets) {
+  return Promise.all(
+    changesets.map(async changeset => ({
+      ...changeset,
+      commit: await getChangesetCommit(cwd, changeset.id),
+    })),
+  )
+}
+
+async function loadWorkspacePackages(cwd) {
+  const packageFiles = await fg(['packages/*/package.json', 'packages-deprecated/*/package.json'], {
+    cwd,
+    absolute: true,
+  })
+
   const packages = new Map()
 
-  for (const changeset of plan.changesets) {
-    const { summary } = changeset
+  for (const packageFile of packageFiles) {
+    const packageJson = JSON.parse(await readFile(packageFile, 'utf-8'))
 
-    for (const csRelease of changeset.releases) {
-      const { name: pkgName, type } = csRelease
+    if (!packageJson.name) continue
 
-      if (!packages.has(pkgName)) packages.set(pkgName, new PackageChanges(pkgName))
-
-      packages.get(pkgName).addChange(type, summary)
-    }
+    packages.set(packageJson.name, {
+      dir: path.dirname(packageFile),
+      packageJson,
+    })
   }
 
   return packages
 }
 
-/**
- * Render the final release notes as an array of lines.
- * @param {ReleaseData} releaseData
- */
-function renderReleaseNotes(releaseData) {
-  const lines = []
+function getBumpLevel(type) {
+  const level = ['none', 'patch', 'minor', 'major'].indexOf(type)
 
-  lines.push('# Releases', '')
-  lines.push(`## v${releaseData.version}`, '')
+  if (level < 0) {
+    throw new Error(`Unrecognised bump type ${type}`)
+  }
 
-  for (const pkg of releaseData.packages.values()) {
-    lines.push(`### ${pkg.name}`, '')
+  return level
+}
 
-    const types = Array.from(pkg.changes.keys()).sort(
-      (a, b) => CHANGE_TYPE_ORDER.indexOf(a) - CHANGE_TYPE_ORDER.indexOf(b),
-    )
+function shouldUpdateDependencyBasedOnConfig(cwd, release, dependency, config) {
+  let { depVersionRange } = dependency
+  const usesWorkspaceRange = depVersionRange.startsWith('workspace:')
 
-    for (const type of types) {
-      lines.push(`#### ${TITLE_MAP.get(type)}`, '')
+  if (usesWorkspaceRange) {
+    depVersionRange = depVersionRange.replace(/^workspace:/, '')
 
-      for (const change of pkg.changes.get(type)) {
-        lines.push(change.toString())
-      }
-
-      lines.push('')
+    switch (depVersionRange) {
+      case '*':
+        return true
+      case '^':
+      case '~':
+        depVersionRange = `${depVersionRange}${release.oldVersion}`
+        break
+      default:
+        if (!validRange(depVersionRange)) {
+          return path.posix.normalize(depVersionRange) === path.relative(cwd, release.dir).replaceAll('\\', '/')
+        }
     }
   }
 
-  return lines
+  if (!semverSatisfies(release.version, depVersionRange)) {
+    return true
+  }
+
+  let shouldUpdate = getBumpLevel(release.type) >= getBumpLevel(config.minReleaseType)
+
+  if (dependency.depType === 'peerDependencies') {
+    shouldUpdate = !config.onlyUpdatePeerDependentsWhenOutOfRange
+  }
+
+  return shouldUpdate
+}
+
+async function getPackageChangelogEntry(cwd, release, releases, changesets, changelogFunctions, changelogOpts, config) {
+  if (release.type === 'none') return null
+
+  const changelogLines = {
+    major: [],
+    minor: [],
+    patch: [],
+  }
+
+  for (const changeset of changesets) {
+    const changesetRelease = changeset.releases.find(item => item.name === release.name)
+
+    if (changesetRelease && changesetRelease.type !== 'none') {
+      changelogLines[changesetRelease.type].push(
+        changelogFunctions.getReleaseLine(changeset, changesetRelease.type, changelogOpts),
+      )
+    }
+  }
+
+  const dependentReleases = releases.filter(otherRelease => {
+    const dependencyVersionRange = release.packageJson.dependencies?.[otherRelease.name]
+    const peerDependencyVersionRange = release.packageJson.peerDependencies?.[otherRelease.name]
+    const versionRange = dependencyVersionRange || peerDependencyVersionRange
+    const usesWorkspaceRange = versionRange?.startsWith('workspace:')
+
+    return (
+      versionRange &&
+      (usesWorkspaceRange || validRange(versionRange) !== null) &&
+      shouldUpdateDependencyBasedOnConfig(
+        cwd,
+        {
+          type: otherRelease.type,
+          version: otherRelease.newVersion,
+          oldVersion: otherRelease.oldVersion,
+          dir: otherRelease.dir,
+        },
+        {
+          depVersionRange: versionRange,
+          depType: dependencyVersionRange ? 'dependencies' : 'peerDependencies',
+        },
+        {
+          minReleaseType: config.updateInternalDependencies,
+          onlyUpdatePeerDependentsWhenOutOfRange: config.onlyUpdatePeerDependentsWhenOutOfRange,
+        },
+      )
+    )
+  })
+
+  const relevantChangesetIds = new Set()
+
+  for (const dependentRelease of dependentReleases) {
+    for (const changesetId of dependentRelease.changesets) {
+      relevantChangesetIds.add(changesetId)
+    }
+  }
+
+  const relevantChangesets = changesets.filter(changeset => relevantChangesetIds.has(changeset.id))
+
+  changelogLines.patch.push(
+    changelogFunctions.getDependencyReleaseLine(relevantChangesets, dependentReleases, changelogOpts),
+  )
+
+  const sections = []
+
+  for (const type of ['major', 'minor', 'patch']) {
+    const lines = (await Promise.all(changelogLines[type])).map(line => line?.trim()).filter(Boolean)
+
+    if (lines.length > 0) {
+      sections.push(`### ${type[0].toUpperCase()}${type.slice(1)} Changes\n\n${lines.join('\n')}\n`)
+    }
+  }
+
+  if (sections.length === 0) return null
+
+  return [`## ${release.newVersion}`, ...sections].join('\n')
+}
+
+function renderPackageSection(name, entry) {
+  const body = entry
+    .replace(/^##\s+.*\n+/, '')
+    .split('\n')
+    .map(line => line.replace(/^(#{1,5})\s/, '$1# '))
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+
+  return `### ${name}\n\n${body}`
+}
+
+function renderReleaseNotes(version, sections) {
+  return (
+    [
+      '# Releases',
+      '',
+      `## v${version}`,
+      '',
+      ...sections.flatMap((section, index) => (index === sections.length - 1 ? [section] : [section, ''])),
+    ].join('\n') + '\n'
+  )
 }
 
 /**
@@ -124,51 +277,34 @@ function renderReleaseNotes(releaseData) {
  * @returns {string} updated changelog body including the new or replaced section
  */
 function replaceOrPrependVersionSection(body, newSection, version) {
-  // helper: escape regexp special chars for the version string
   function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
   const existing = body || ''
   const newTrim = newSection.trim()
 
   if (!existing.trim()) {
-    return newTrim + '\n\n'
+    return `${newTrim}\n\n`
   }
 
-  // Find the first occurrence of the current version header at line start
   const headerRe = new RegExp(`^## v${escapeRegExp(version)}\\b`, 'm')
   const headerMatch = headerRe.exec(existing)
 
   if (!headerMatch) {
-    // Not present: prepend
     return `${newTrim}\n\n${existing}`
   }
 
   const startIndex = headerMatch.index
-
-  // Find the next header after startIndex. Stop at the next H1 or H2 header
-  // (lines starting with '#' or '##') so we don't clobber content that uses
-  // a different heading convention.
   const rest = existing.slice(startIndex + headerMatch[0].length)
   const nextHeaderRe = /^#{1,2}\s.*$/m
   const nextMatch = nextHeaderRe.exec(rest)
 
-  let endIndex
-  if (nextMatch) {
-    // endIndex is relative to the original string
-    endIndex = startIndex + headerMatch[0].length + nextMatch.index
-  } else {
-    // no next header: replace until EOF
-    endIndex = existing.length
-  }
-
+  const endIndex = nextMatch ? startIndex + headerMatch[0].length + nextMatch.index : existing.length
   const before = existing.slice(0, startIndex)
   const after = existing.slice(endIndex)
 
-  // Insert the new section at the position of the first header and keep everything after the next header
-  const result = `${before}${newTrim}\n\n${after}`
-  return result
+  return `${before}${newTrim}\n\n${after}`
 }
 
 /**
@@ -177,10 +313,8 @@ function replaceOrPrependVersionSection(body, newSection, version) {
 async function readChangelogBody() {
   try {
     const content = await readFile('CHANGELOG.md', 'utf-8')
-    // remove a leading '# Releases' heading if present
     return content.replace(/^# Releases\n\n/, '')
   } catch (err) {
-    // if the file doesn't exist, return empty string so we create it later
     if (err && err.code === 'ENOENT') return ''
     throw err
   }
@@ -188,37 +322,78 @@ async function readChangelogBody() {
 
 async function main() {
   try {
-    const plan = await getReleasePlan(process.cwd())
+    const cwd = process.cwd()
+    const plan = await getReleasePlan(cwd)
 
-    // If there are no changesets, do nothing — avoid touching CHANGELOG.md
     if (!plan || !Array.isArray(plan.changesets) || plan.changesets.length === 0) {
       console.log('No changesets found — skipping changelog generation')
       return
     }
 
     const version = plan.releases && plan.releases[0] ? plan.releases[0].newVersion : 'unreleased'
+    const { config, changelogFunctions, changelogOpts } = await loadChangelogGenerator(cwd)
 
-    const packages = buildPackagesMap(plan)
+    if (!changelogFunctions) {
+      console.log(
+        'Changelog generation is disabled in .changeset/config.json — skipping aggregate changelog generation',
+      )
+      return
+    }
 
-    const releaseData = new ReleaseData(version)
-    for (const pkg of packages.values()) releaseData.addPackage(pkg)
+    const packageMap = await loadWorkspacePackages(cwd)
+    const releasesWithPackages = plan.releases
+      .map(release => {
+        const pkg = packageMap.get(release.name)
 
-    const outputLines = renderReleaseNotes(releaseData)
+        if (!pkg) {
+          throw new Error(`Could not find package metadata for ${release.name}`)
+        }
 
+        return {
+          ...release,
+          ...pkg,
+        }
+      })
+      .filter(release => release.type !== 'none')
+
+    const changesetsWithCommits = await addCommitsToChangesets(cwd, plan.changesets)
+    const aggregateConfig = {
+      updateInternalDependencies: config.updateInternalDependencies === 'minor' ? 'minor' : 'patch',
+      onlyUpdatePeerDependentsWhenOutOfRange: Boolean(
+        config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH?.onlyUpdatePeerDependentsWhenOutOfRange,
+      ),
+    }
+
+    const sections = []
+
+    for (const release of releasesWithPackages) {
+      const entry = await getPackageChangelogEntry(
+        cwd,
+        release,
+        releasesWithPackages,
+        changesetsWithCommits,
+        changelogFunctions,
+        changelogOpts,
+        aggregateConfig,
+      )
+
+      if (entry) {
+        sections.push(renderPackageSection(release.name, entry))
+      }
+    }
+
+    if (sections.length === 0) {
+      console.log('No package changelog entries generated — skipping aggregate changelog generation')
+      return
+    }
+
+    const output = renderReleaseNotes(version, sections)
     const existingBody = await readChangelogBody()
-
-    // We only want the `## vX.Y.Z` section (skip the top '# Releases' heading
-    // that renderReleaseNotes includes). The section starts at the third line.
-    const sectionLines = outputLines.slice(2)
-    const newSection = sectionLines.join('\n') + '\n'
-
+    const newSection = output.split('\n').slice(2).join('\n').trimEnd() + '\n'
     const updatedBody = replaceOrPrependVersionSection(existingBody, newSection, version)
+    await writeFile('CHANGELOG.md', `# Releases\n\n${updatedBody}`, 'utf-8')
 
-    // write the global Releases heading plus the updated body
-    const combined = '# Releases\n\n' + updatedBody
-    await writeFile('CHANGELOG.md', combined, 'utf-8')
-
-    console.log('Release notes written to CHANGELOG.md (prepended)')
+    console.log('Release notes written to CHANGELOG.md')
   } catch (err) {
     console.error('Failed to aggregate changesets:', err)
     process.exit(1)

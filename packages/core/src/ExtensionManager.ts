@@ -1,7 +1,7 @@
 import { keymap } from '@tiptap/pm/keymap'
 import type { Schema } from '@tiptap/pm/model'
 import type { Plugin, Transaction } from '@tiptap/pm/state'
-import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
 import type { Editor } from './Editor.js'
 import {
@@ -277,6 +277,47 @@ export class ExtensionManager {
     }, baseDispatch)
   }
 
+  /**
+   * Get the composed transformPastedHTML function from all extensions.
+   * @param baseTransform The base transform function (e.g. from the editor props)
+   * @returns A composed transform function that chains all extension transforms
+   */
+  transformPastedHTML(
+    baseTransform?: (html: string, view?: any) => string,
+  ): (html: string, view?: EditorView) => string {
+    const { editor } = this
+    const extensions = sortExtensions([...this.extensions])
+
+    return extensions.reduce(
+      (transform, extension) => {
+        const context = {
+          name: extension.name,
+          options: extension.options,
+          storage: this.editor.extensionStorage[extension.name as keyof Storage],
+          editor,
+          type: getSchemaTypeByName(extension.name, this.schema),
+        }
+
+        const extensionTransform = getExtensionField<AnyConfig['transformPastedHTML']>(
+          extension,
+          'transformPastedHTML',
+          context,
+        )
+
+        if (!extensionTransform) {
+          return transform
+        }
+
+        return (html: string, view?: any) => {
+          // Chain the transforms: pass the result of the previous transform to the next
+          const transformedHtml = transform(html, view)
+          return extensionTransform.call(context, transformedHtml)
+        }
+      },
+      baseTransform || ((html: string) => html),
+    )
+  }
+
   get markViews(): Record<string, MarkViewConstructor> {
     const { editor } = this
     const { markExtensions } = splitExtensions(this.extensions)
@@ -320,6 +361,41 @@ export class ExtensionManager {
           return [extension.name, markView]
         }),
     )
+  }
+
+  /**
+   * Destroy the extension manager and clean up all extension references
+   * to prevent memory leaks through parent/child extension chains.
+   *
+   * Walks each extension's full parent chain and nulls every forward
+   * `parent.child → current` link where the parent still points to the
+   * current node. This breaks the retention path from module-scope
+   * singleton roots through deep extend() chains.
+   *
+   * Only ancestor `.child` links matching the current chain are cleared.
+   * The `.parent` pointer on ancestors is never touched — extensions
+   * may be shared across live editors, so their own backward references
+   * and non-matching forward links must remain intact.
+   */
+  destroy() {
+    this.extensions.forEach(extension => {
+      let current: any = extension
+
+      while (current.parent) {
+        const parent = current.parent
+
+        if (parent.child === current) {
+          parent.child = null
+        }
+
+        current = parent
+      }
+    })
+
+    this.extensions = []
+    this.baseExtensions = []
+    this.schema = null as any
+    this.editor = null as any
   }
 
   /**

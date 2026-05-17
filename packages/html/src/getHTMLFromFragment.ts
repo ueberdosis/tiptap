@@ -27,11 +27,15 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
     return wrap.innerHTML
   }
 
-  const fragment = DOMSerializer.fromSchema(schema).serializeFragment(doc.content, {
-    document: window.document as unknown as Document,
-  })
+  const wrap = window.document.createElement('div')
 
-  const serializer = new XMLSerializer()
+  DOMSerializer.fromSchema(schema).serializeFragment(
+    doc.content,
+    {
+      document: window.document as unknown as Document,
+    },
+    wrap,
+  )
 
-  return serializer.serializeToString(fragment as any)
+  return wrap.innerHTML
 }

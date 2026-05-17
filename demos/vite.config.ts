@@ -69,6 +69,14 @@ const dedupeDeps = fs
   .filter(value => value)
 
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
+
   server: {
     port: 3000,
   },

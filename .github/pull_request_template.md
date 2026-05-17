@@ -18,6 +18,12 @@
 
 <!-- Add any other notes or screenshots about the PR here. -->
 
+## AI Usage
+
+- [ ] I have used AI tools (e.g., ChatGPT, Claude, Copilot) in creating this PR.
+- [ ] If yes, describe which tools were used and how they contributed to this PR:
+  <!-- Required if AI tools were used. Include enough detail for reviewers to understand the scope of the AI-generated contribution. -->
+
 ## Checklist
 
 - [ ] I have created a [changeset](https://github.com/changesets/changesets) for this PR if necessary.
@@ -28,4 +34,4 @@
 
 ## Related Issues
 
-<!-- Link any related issues here -->
+<!-- Link the issue this PR addresses. The linked issue should also be assigned to you. PRs without a linked issue (except for trivial fixes) may be closed. -->

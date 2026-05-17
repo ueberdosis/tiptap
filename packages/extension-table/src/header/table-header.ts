@@ -2,6 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
+import { createAlignAttribute } from '../utilities/parseAlign.js'
+
 export interface TableHeaderOptions {
   /**
    * The HTML attributes for a table header node.
@@ -43,6 +45,7 @@ export const TableHeader = Node.create<TableHeaderOptions>({
           return value
         },
       },
+      align: createAlignAttribute(),
     }
   },
 

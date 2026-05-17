@@ -44,6 +44,13 @@ export interface GetEmbedUrlOptions {
   parent?: string
 }
 
+export interface TwitchEmbedAttributes {
+  src: string
+  autoplay?: boolean
+  muted?: boolean
+  time?: string
+}
+
 /**
  * Extracts the video, clip or channel identifier from a Twitch URL
  *
@@ -210,4 +217,77 @@ export const getEmbedUrlFromTwitchUrl = (options: GetEmbedUrlOptions): string | 
   }
 
   return null
+}
+
+/**
+ * Parses a Twitch embed URL into canonical Twitch node attributes.
+ *
+ * @param url - The Twitch embed URL
+ * @returns Canonical node attributes or null if the URL is not a supported Twitch embed URL
+ *
+ * @example
+ * ```ts
+ * getAttributesFromTwitchEmbedUrl('https://player.twitch.tv/?video=1234567890&parent=example.com&muted=true')
+ * // Returns: { src: 'https://www.twitch.tv/videos/1234567890', muted: true }
+ *
+ * getAttributesFromTwitchEmbedUrl('https://clips.twitch.tv/embed?clip=ExampleClipName-ABC123&parent=example.com')
+ * // Returns: { src: 'https://clips.twitch.tv/ExampleClipName-ABC123' }
+ * ```
+ */
+export const getAttributesFromTwitchEmbedUrl = (url: string): TwitchEmbedAttributes | null => {
+  let parsedUrl: URL
+
+  try {
+    parsedUrl = new URL(url)
+  } catch {
+    return null
+  }
+
+  const hostname = parsedUrl.hostname.replace(/^www\./, '')
+  const result: TwitchEmbedAttributes = {
+    src: '',
+  }
+
+  if (hostname === 'player.twitch.tv') {
+    const videoId = parsedUrl.searchParams.get('video')
+    const channelName = parsedUrl.searchParams.get('channel')
+
+    if (videoId) {
+      result.src = `https://www.twitch.tv/videos/${videoId}`
+    } else if (channelName) {
+      result.src = `https://www.twitch.tv/${channelName}`
+    } else {
+      return null
+    }
+  } else if (hostname === 'clips.twitch.tv' && parsedUrl.pathname === '/embed') {
+    const clipId = parsedUrl.searchParams.get('clip')
+
+    if (!clipId) {
+      return null
+    }
+
+    result.src = `https://clips.twitch.tv/${clipId}`
+  } else {
+    return null
+  }
+
+  if (parsedUrl.searchParams.get('autoplay') === 'true') {
+    result.autoplay = true
+  }
+
+  if (parsedUrl.searchParams.get('muted') === 'true') {
+    result.muted = true
+  }
+
+  const time = parsedUrl.searchParams.get('time')
+
+  if (time) {
+    result.time = time
+  }
+
+  if (!isValidTwitchUrl(result.src)) {
+    return null
+  }
+
+  return result
 }

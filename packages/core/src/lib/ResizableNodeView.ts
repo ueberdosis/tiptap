@@ -461,8 +461,8 @@ export class ResizableNodeView {
     return this.container
   }
 
-  get contentDOM() {
-    return this.contentElement
+  get contentDOM(): HTMLElement | null {
+    return this.contentElement ?? null
   }
 
   private handleEditorUpdate() {
@@ -548,7 +548,7 @@ export class ResizableNodeView {
     const element = document.createElement('div')
     element.dataset.resizeContainer = ''
     element.dataset.node = this.node.type.name
-    element.style.display = 'flex'
+    element.style.display = this.node.type.isInline ? 'inline-flex' : 'flex'
 
     if (this.classNames.container) {
       element.className = this.classNames.container
