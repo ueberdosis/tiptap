@@ -1,5 +1,35 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
+function preserveTrailingHardBreaks(html: string): string {
+  if (!html.includes('data-pm-slice') || !/<br[\s>]/i.test(html) || typeof window === 'undefined') {
+    return html
+  }
+
+  const document = new window.DOMParser().parseFromString(html, 'text/html')
+
+  if (!document.body.querySelector('[data-pm-slice]')) {
+    return html
+  }
+
+  const preserveTrailingBreaks = (element: Element | HTMLElement) => {
+    Array.from(element.children).forEach(child => preserveTrailingBreaks(child))
+
+    const lastChild = element.lastChild
+
+    if (
+      lastChild?.nodeType === 1 &&
+      (lastChild as Element).tagName === 'BR' &&
+      !(lastChild as Element).classList.contains('ProseMirror-trailingBreak')
+    ) {
+      element.appendChild(document.createComment('tiptap-preserve-trailing-hard-break'))
+    }
+  }
+
+  preserveTrailingBreaks(document.body)
+
+  return document.body.innerHTML
+}
+
 export interface HardBreakOptions {
   /**
    * Controls if marks should be kept after being split by a hard break.
@@ -58,6 +88,10 @@ export const HardBreak = Node.create<HardBreakOptions>({
 
   renderHTML({ HTMLAttributes }) {
     return ['br', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
+  },
+
+  transformPastedHTML(html) {
+    return preserveTrailingHardBreaks(html)
   },
 
   renderText() {
