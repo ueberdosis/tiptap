@@ -93,12 +93,20 @@ class EditorInstanceManager {
   }
 
   private getInitialEditor() {
-    let immediatelyRender = this.options.current.immediatelyRender ?? true
+    const explicit = this.options.current.immediatelyRender
+    let immediatelyRender = explicit ?? true
 
-    if (immediatelyRender && (isSSR || isNext)) {
+    if (isSSR) {
+      if (immediatelyRender && isDev) {
+        console.warn('SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches')
+      }
+      immediatelyRender = false
+    } else if (isNext && explicit === undefined) {
       immediatelyRender = false
       if (isDev) {
-        console.warn('SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches')
+        console.warn(
+          'Next.js detected. `immediatelyRender` defaults to false to avoid hydration mismatches. Pass `immediatelyRender: true` explicitly if you are rendering the editor only on the client.',
+        )
       }
     }
 
