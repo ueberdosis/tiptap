@@ -1,10 +1,9 @@
-import type { Editor } from '@tiptap/core'
 import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
 import React, { forwardRef } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM, { flushSync } from 'react-dom'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
-import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import type { ContentComponent, Editor as ReactEditor, EditorWithContentComponent } from './Editor.js'
 import type { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
@@ -35,15 +34,55 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComp
 }
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null
+  editor: ReactEditor | null
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
 function getInstance(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
+  let batchDepth = 0
+  let hasPendingSnapshot = false
+
+  const notifySubscribers = () => {
+    subscribers.forEach(subscriber => subscriber())
+  }
+
+  const flushSubscribers = () => {
+    if (batchDepth > 0 || !hasPendingSnapshot) {
+      return
+    }
+
+    hasPendingSnapshot = false
+    flushSync(() => {
+      notifySubscribers()
+    })
+  }
+
+  const scheduleSubscribers = () => {
+    if (batchDepth > 0) {
+      hasPendingSnapshot = true
+      return
+    }
+
+    notifySubscribers()
+  }
 
   return {
+    beginTransactionRenderBatch() {
+      batchDepth += 1
+    },
+    isTransactionRenderBatchActive() {
+      return batchDepth > 0
+    },
+    endTransactionRenderBatch() {
+      if (batchDepth === 0) {
+        return
+      }
+
+      batchDepth -= 1
+      flushSubscribers()
+    },
     /**
      * Subscribe to the editor instance's changes.
      */
@@ -68,7 +107,7 @@ function getInstance(): ContentComponent {
         [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
       }
 
-      subscribers.forEach(subscriber => subscriber())
+      scheduleSubscribers()
     },
     /**
      * Removes a NodeView Renderer from the editor.
@@ -78,7 +117,7 @@ function getInstance(): ContentComponent {
 
       delete nextRenderers[id]
       renderers = nextRenderers
-      subscribers.forEach(subscriber => subscriber())
+      scheduleSubscribers()
     },
   }
 }

@@ -4,6 +4,7 @@ import { MarkView } from '@tiptap/core'
 import React from 'react'
 
 // import { flushSync } from 'react-dom'
+import type { Editor as ReactEditor } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 
 export interface MarkViewContextProps {
@@ -78,7 +79,7 @@ export class ReactMarkView extends MarkView<React.ComponentType<MarkViewProps>, 
     ReactMarkViewProvider.displayName = 'ReactMarkView'
 
     this.renderer = new ReactRenderer(ReactMarkViewProvider, {
-      editor: props.editor,
+      editor: props.editor as ReactEditor,
       props: componentProps,
       as,
       className: `mark-${props.mark.type.name} ${className}`.trim(),

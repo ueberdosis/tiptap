@@ -1,10 +1,4 @@
-import type {
-  DecorationWithType,
-  Editor,
-  NodeViewRenderer,
-  NodeViewRendererOptions,
-  NodeViewRendererProps,
-} from '@tiptap/core'
+import type { DecorationWithType, NodeViewRenderer, NodeViewRendererOptions, NodeViewRendererProps } from '@tiptap/core'
 import {
   cancelPositionCheck,
   getRenderedAttributes,
@@ -17,7 +11,7 @@ import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } fr
 import type { ComponentType, NamedExoticComponent } from 'react'
 import { createElement, createRef, memo } from 'react'
 
-import type { EditorWithContentComponent } from './Editor.js'
+import type { Editor as ReactEditor, EditorWithContentComponent } from './Editor.js'
 import { ReactRenderer } from './ReactRenderer.js'
 import type { ReactNodeViewProps } from './types.js'
 import type { ReactNodeViewContextProps } from './useReactNodeView.js'
@@ -60,7 +54,7 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
 export class ReactNodeView<
   T = HTMLElement,
   Component extends ComponentType<ReactNodeViewProps<T>> = ComponentType<ReactNodeViewProps<T>>,
-  NodeEditor extends Editor = Editor,
+  NodeEditor extends ReactEditor = ReactEditor,
   Options extends ReactNodeViewRendererOptions = ReactNodeViewRendererOptions,
 > extends NodeView<Component, NodeEditor, Options> {
   /**
@@ -108,13 +102,11 @@ export class ReactNodeView<
       // See: https://github.com/ueberdosis/tiptap/issues/1197
       this.contentDOMElement.style.whiteSpace = 'inherit'
 
-      const contentTarget = this.dom.querySelector('[data-node-view-content]')
-
-      if (!contentTarget) {
-        return
-      }
-
-      contentTarget.appendChild(this.contentDOMElement)
+      // Attach the editable content container immediately so ProseMirror can
+      // place the selection into the new node view during the same view update.
+      // Once the React component mounts, NodeViewContent will move this element
+      // into its final position inside the wrapper.
+      this.dom.appendChild(this.contentDOMElement)
     }
   }
 

@@ -1,4 +1,6 @@
 export * from './Context.js'
+export type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+export { Editor } from './Editor.js'
 export * from './EditorContent.js'
 export * from './NodeViewContent.js'
 export * from './NodeViewWrapper.js'

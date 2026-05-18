@@ -1,7 +1,7 @@
-import type { Editor } from '@tiptap/core'
 import type { HTMLAttributes, ReactNode } from 'react'
 import React, { createContext, useContext, useMemo } from 'react'
 
+import type { Editor } from './Editor.js'
 import { EditorContent } from './EditorContent.js'
 import type { UseEditorOptions } from './useEditor.js'
 import { useEditor } from './useEditor.js'
