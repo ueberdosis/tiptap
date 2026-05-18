@@ -10,10 +10,12 @@ import type { Editor } from '../Editor.js'
 interface PositionUpdateRegistry {
   callbacks: Set<() => void>
   rafId: number | null
+  timerId: ReturnType<typeof setTimeout> | null
   handler: () => void
 }
 
 const positionUpdateRegistries = new WeakMap<Editor, PositionUpdateRegistry>()
+const POSITION_CHECK_DEBOUNCE_MS = 32
 
 /**
  * Register a callback to be called (via a shared rAF) after every editor
@@ -27,14 +29,24 @@ export function schedulePositionCheck(editor: Editor, callback: () => void): voi
     const newRegistry: PositionUpdateRegistry = {
       callbacks: new Set(),
       rafId: null,
+      timerId: null,
       handler: () => {
-        if (newRegistry.rafId !== null) {
-          cancelAnimationFrame(newRegistry.rafId)
+        if (newRegistry.timerId !== null) {
+          return
         }
-        newRegistry.rafId = requestAnimationFrame(() => {
-          newRegistry.rafId = null
-          newRegistry.callbacks.forEach(cb => cb())
-        })
+
+        newRegistry.timerId = setTimeout(() => {
+          newRegistry.timerId = null
+
+          if (newRegistry.rafId !== null) {
+            cancelAnimationFrame(newRegistry.rafId)
+          }
+
+          newRegistry.rafId = requestAnimationFrame(() => {
+            newRegistry.rafId = null
+            newRegistry.callbacks.forEach(cb => cb())
+          })
+        }, POSITION_CHECK_DEBOUNCE_MS)
       },
     }
 
@@ -60,6 +72,10 @@ export function cancelPositionCheck(editor: Editor, callback: () => void): void 
   registry.callbacks.delete(callback)
 
   if (registry.callbacks.size === 0) {
+    if (registry.timerId !== null) {
+      clearTimeout(registry.timerId)
+    }
+
     if (registry.rafId !== null) {
       cancelAnimationFrame(registry.rafId)
     }
