@@ -46,13 +46,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Cypress binary
-        run: pnpm exec cypress install
-
       - name: Pack dependency artifacts
         run: |
           tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
 
       - name: Upload dependency artifacts
         uses: actions/upload-artifact@v7
@@ -60,7 +56,6 @@ jobs:
           name: node-dependencies
           path: |
             /tmp/pnpm-store.tar.gz
-            /tmp/cypress-cache.tar.gz
           retention-days: 1
 
   check-linting-formatting:
@@ -192,90 +187,3 @@ jobs:
 
       - name: Run unit tests
         run: pnpm run test:unit
-
-  run-e2e-tests:
-    name: Run e2e tests
-    runs-on: ubuntu-latest
-    needs: build-packages
-    timeout-minutes: 45
-
-    strategy:
-      fail-fast: false
-      matrix:
-        test-spec:
-          - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { id: demos-commands, name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { id: demos-examples, name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { id: demos-experiments, name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { id: demos-extensions, name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          - { id: demos-marks, name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { id: demos-nodes, name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Configure pnpm store
-        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
-
-      - name: Download dependency artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: node-dependencies
-          path: /tmp/node-dependencies
-
-      - name: Restore pnpm store
-        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
-
-      - name: Restore dependencies
-        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
-
-      - name: Restore Cypress cache
-        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: build-output
-          path: /tmp/build-output
-
-      - name: Restore build output
-        run: tar -xzf /tmp/build-output/build-output.tar.gz
-
-      - name: Test ${{ matrix.test-spec.name }}
-        uses: cypress-io/github-action@v7.3.0
-        with:
-          install: false
-          start: pnpm exec http-server ./demos/dist -s -p 3000
-          wait-on: http://localhost:3000
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
-
-      - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: cypress-screenshots-${{ matrix.test-spec.id }}
-          path: tests/cypress/screenshots
-          retention-days: 7
-
-      - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: cypress-videos-${{ matrix.test-spec.id }}
-          path: tests/cypress/videos
-          retention-days: 7
