@@ -17,11 +17,9 @@ export async function getEditor(page: Page) {
  * @param content The HTML content to set
  */
 export async function setEditorContent(page: Page, content: string) {
-  await page.evaluate(html => {
-    const editor = (window as any).editor
-    if (editor) {
-      editor.commands.setContent(html)
-    }
+  const editor = await getEditor(page)
+  await editor.evaluate((el: any, innerContent: string) => {
+    el.editor.commands.setContent(innerContent)
   }, content)
 }
 
