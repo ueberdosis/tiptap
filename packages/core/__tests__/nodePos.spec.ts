@@ -503,6 +503,47 @@ describe('NodePos', () => {
     })
   })
 
+  describe('$pos', () => {
+    it('should return the correct node when pointing at a non-text atom node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomInlineNode],
+        content: '<p><span data-type="custom-inline" id="atom"></span></p>',
+      })
+
+      const inlineNode = editor.$node('customInline')
+
+      expect(inlineNode).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(inlineNode!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customInline')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+
+    it('should return doc node when resolving pos 0', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hello</p>',
+      })
+
+      const docPos = editor.$pos(0)
+
+      expect(docPos.node.type.name).toBe('doc')
+    })
+
+    it('should return the correct node for a top-level non-text block atom when depth > 0', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomInlineNode],
+        content: '<p><span data-type="custom-inline" id="top"></span>text</p>',
+      })
+
+      const inlineNode = editor.$node('customInline')!
+      const nodeAtPos = editor.$pos(inlineNode.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customInline')
+    })
+  })
+
   describe('$doc', () => {
     it('should correctly traverse $doc children', () => {
       editor = new Editor({
