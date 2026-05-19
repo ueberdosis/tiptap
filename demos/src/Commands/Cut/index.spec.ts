@@ -19,27 +19,15 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = page.locator('.tiptap')
 
         await setEditorContent(page, '<p>Hello world</p>')
-
-        // Wait for content to be set
         await expect(editor).toContainText('Hello world')
 
-        // Click in the paragraph to focus
-        await page.locator('.tiptap p').click()
+        // Select "world" (positions 7..12 in "Hello world")
+        await editor.evaluate((el: any) => {
+          el.editor.commands.setTextSelection({ from: 7, to: 12 })
+        })
 
-        // Move cursor to end of "world" using keyboard
-        await page.keyboard.press('End')
-
-        // Select "world" by moving left with Shift
-        await page.keyboard.press('Shift+ArrowLeft')
-        await page.keyboard.press('Shift+ArrowLeft')
-        await page.keyboard.press('Shift+ArrowLeft')
-        await page.keyboard.press('Shift+ArrowLeft')
-        await page.keyboard.press('Shift+ArrowLeft')
-
-        // Click "Cut content to start of document"
         await clickButton(page, 'Cut content to start of document')
 
-        // Verify content is cut - should be empty
         await expect(editor.locator('p').first()).toHaveText('worldHello ')
       })
 
@@ -47,27 +35,15 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = page.locator('.tiptap')
 
         await setEditorContent(page, '<p>Hello world</p>')
-
-        // Wait for content to be set
         await expect(editor).toContainText('Hello world')
 
-        // Click in the paragraph to focus
-        await page.locator('.tiptap p').click()
+        // Select "Hello" (positions 1..6 in "Hello world")
+        await editor.evaluate((el: any) => {
+          el.editor.commands.setTextSelection({ from: 1, to: 6 })
+        })
 
-        // Move cursor to start using keyboard
-        await page.keyboard.press('Home')
-
-        // Select "Hello" by moving right with Shift
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
-        await page.keyboard.press('Shift+ArrowRight')
-
-        // Click "Cut content to end of document"
         await clickButton(page, 'Cut content to end of document')
 
-        // Verify content is cut - first paragraph has " world", second has "Hello"
         await expect(editor.locator('p').nth(0)).toHaveText(' world')
         await expect(editor.locator('p').nth(1)).toHaveText('Hello')
       })

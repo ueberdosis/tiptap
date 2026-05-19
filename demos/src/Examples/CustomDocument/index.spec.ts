@@ -62,9 +62,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
 
         await editor.evaluate((el: any) => {
-          el.editor.chain().focus().clearContent().run()
+          el.editor.chain().focus().clearContent().insertContent('Hello world').run()
         })
-        await page.keyboard.type('Hello world')
+        await editor.click()
+        await page.keyboard.press('End')
         await page.keyboard.press('Enter')
 
         await expect(page.locator('.tiptap h1')).toHaveText('Hello world')
