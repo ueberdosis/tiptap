@@ -12,24 +12,30 @@ import { describe, expect, it } from 'vitest'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
+/**
+ * Normalize marks order for deterministic comparison. Marks in the same position
+ * can be stored in any order by ProseMirror; sorting by type ensures
+ * deep-equality assertions don't flake on array ordering.
+ */
+const normalizeMarks = (node: any): any => {
+  if (Array.isArray(node)) {
+    return node.map(normalizeMarks)
+  }
+
+  if (!node || typeof node !== 'object') {
+    return node
+  }
+
+  return {
+    ...node,
+    marks: node.marks ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type)) : node.marks,
+    content: node.content ? node.content.map(normalizeMarks) : node.content,
+  }
+}
+
 describe('Overlapping marks serialization', () => {
   const extensions = [Document, Paragraph, Text, Bold, Italic, Link]
   const markdownManager = new MarkdownManager({ extensions })
-  const normalizeMarks = (node: any): any => {
-    if (Array.isArray(node)) {
-      return node.map(normalizeMarks)
-    }
-
-    if (!node || typeof node !== 'object') {
-      return node
-    }
-
-    return {
-      ...node,
-      marks: node.marks ? [...node.marks].sort((a, b) => a.type.localeCompare(b.type)) : node.marks,
-      content: node.content ? node.content.map(normalizeMarks) : node.content,
-    }
-  }
 
   /**
    * Regression test for the original bug report.
@@ -541,19 +547,6 @@ describe('Overlapping marks serialization', () => {
 describe('adjacent marks with different attributes', () => {
   const extensions = [Document, Paragraph, Text, Link]
   const markdownManager = new MarkdownManager({ extensions })
-  const normalizeMarks = (node: any): any => {
-    if (Array.isArray(node)) {
-      return node.map(normalizeMarks)
-    }
-    if (!node || typeof node !== 'object') {
-      return node
-    }
-    return {
-      ...node,
-      marks: node.marks ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type)) : node.marks,
-      content: node.content ? node.content.map(normalizeMarks) : node.content,
-    }
-  }
 
   it('should serialize adjacent links with different href values as separate links', () => {
     const json = {

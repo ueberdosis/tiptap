@@ -26,7 +26,8 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 
 /**
  * Compare two attribute objects for equality.
- * Handles null/undefined and compares all keys.
+ * Handles null/undefined and asserts key presence in both objects so that
+ * `{ foo: undefined }` and `{ bar: undefined }` are not treated as equal.
  */
 export function attrsEqual(
   a: Record<string, any> | null | undefined,
@@ -46,7 +47,7 @@ export function attrsEqual(
     return false
   }
 
-  return keysA.every(key => a[key] === b[key])
+  return keysA.every(key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]))
 }
 
 /**
