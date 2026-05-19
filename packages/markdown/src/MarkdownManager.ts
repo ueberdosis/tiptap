@@ -21,6 +21,7 @@ import {
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
+  attrsEqual,
   closeMarksBeforeNode,
   findMarksToClose,
   findMarksToCloseAtEnd,
@@ -1326,12 +1327,18 @@ export class MarkdownManager {
   /**
    * Check if two mark sets are equal.
    */
+  /**
+   * Check if two mark sets are equal (same types and matching attributes).
+   */
   private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
     if (marks1.size !== marks2.size) {
       return false
     }
 
-    return Array.from(marks1.keys()).every(type => marks2.has(type))
+    return Array.from(marks1.entries()).every(([type, mark]) => {
+      const otherMark = marks2.get(type)
+      return otherMark && attrsEqual(mark.attrs, otherMark.attrs)
+    })
   }
 
   /**
