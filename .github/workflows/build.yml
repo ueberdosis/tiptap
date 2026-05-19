@@ -187,3 +187,133 @@ jobs:
 
       - name: Run unit tests
         run: pnpm run test:unit
+
+  run-e2e-tests:
+    name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
+    runs-on: ubuntu-latest
+    needs: build-packages
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+        total: [2]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: build-output
+          path: /tmp/build-output
+
+      - name: Restore build output
+        run: tar -xzf /tmp/build-output/build-output.tar.gz
+
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Run Playwright tests
+        run: pnpm exec playwright test --shard=${{ matrix.shard }}/${{ matrix.total }}
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-blob-report-${{ matrix.shard }}
+          path: blob-report
+          retention-days: 7
+
+  merge-e2e-reports:
+    name: Merge e2e reports
+    runs-on: ubuntu-latest
+    needs: run-e2e-tests
+    if: always()
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v8
+        with:
+          path: all-blob-reports
+          pattern: e2e-blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML report
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-html-report
+          path: playwright-report
+          retention-days: 14
