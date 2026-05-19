@@ -808,9 +808,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     // other atom), nodeAfter is that node but resolvedPos.node() would return
     // the parent (often the doc at depth 0). Pass nodeAfter as the explicit node
     // so NodePos.node returns the expected node instead of the parent.
-    // Only do this when depth > 0 (i.e. not at the document root boundary)
-    // so that $pos(0) still correctly returns the doc node itself.
-    const node = $pos.depth > 0 && $pos.nodeAfter && !$pos.nodeAfter.isText ? $pos.nodeAfter : null
+    // Keep $pos(0) returning the doc node; for other positions, prefer nodeAfter
+    // when it points at a non-text node.
+    const node = pos > 0 && $pos.nodeAfter && !$pos.nodeAfter.isText ? $pos.nodeAfter : null
 
     return new NodePos($pos, this, false, node)
   }

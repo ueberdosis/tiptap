@@ -35,6 +35,32 @@ const CustomInlineNode = Node.create({
   },
 })
 
+const CustomBlockAtomNode = Node.create({
+  name: 'customBlockAtom',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      id: {
+        default: null,
+      },
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-type="custom-block-atom"]',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', { 'data-type': 'custom-block-atom', ...HTMLAttributes }]
+  },
+})
+
 describe('NodePos', () => {
   let editor: Editor
 
@@ -531,16 +557,20 @@ describe('NodePos', () => {
       expect(docPos.node.type.name).toBe('doc')
     })
 
-    it('should return the correct node for a top-level non-text block atom when depth > 0', () => {
+    it('should return the top-level block atom node for positions before non-text block atoms', () => {
       editor = new Editor({
-        extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="top"></span>text</p>',
+        extensions: [Document, Paragraph, Text, CustomBlockAtomNode],
+        content: '<p>Before</p><div data-type="custom-block-atom" id="top"></div>',
       })
 
-      const inlineNode = editor.$node('customInline')!
-      const nodeAtPos = editor.$pos(inlineNode.pos)
+      const blockAtom = editor.$node('customBlockAtom')
 
-      expect(nodeAtPos.node.type.name).toBe('customInline')
+      expect(blockAtom).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(blockAtom!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customBlockAtom')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
     })
   })
 
