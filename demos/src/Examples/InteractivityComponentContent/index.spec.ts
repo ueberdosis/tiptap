@@ -35,7 +35,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any, name: string) => {
           const e = el.editor
           e.state.doc.descendants((node: any, pos: number) => {
-            if (node.type.name !== name) {return true}
+            if (node.type.name !== name) {
+              return true
+            }
             const from = pos + 1
             const to = pos + node.nodeSize - 1
             e.chain().focus().setTextSelection({ from, to }).deleteSelection().insertContent('Hello World!').run()
@@ -53,7 +55,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any, name: string) => {
           const e = el.editor
           e.state.doc.descendants((node: any, pos: number) => {
-            if (node.type.name !== name) {return true}
+            if (node.type.name !== name) {
+              return true
+            }
             const from = pos + 1
             const to = pos + node.nodeSize - 1
             e.chain().focus().setTextSelection({ from, to }).deleteSelection().run()

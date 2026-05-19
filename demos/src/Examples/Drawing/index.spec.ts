@@ -36,7 +36,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const svg = page.locator('.tiptap svg')
         const box = await svg.boundingBox()
 
-        if (!box) {throw new Error('SVG bounding box not found')}
+        if (!box) {
+          throw new Error('SVG bounding box not found')
+        }
 
         await page.mouse.move(box.x + 50, box.y + 50)
         await page.mouse.down()

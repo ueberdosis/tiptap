@@ -13,7 +13,9 @@ async function selectFirstTwoHeaderCells(editor: Locator) {
     const positions: number[] = []
 
     e.state.doc.descendants((node: any, pos: number) => {
-      if (node.type.name === 'tableHeader') {positions.push(pos)}
+      if (node.type.name === 'tableHeader') {
+        positions.push(pos)
+      }
     })
 
     e.chain().focus().setCellSelection({ anchorCell: positions[0], headCell: positions[1] }).run()
@@ -131,7 +133,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           let firstCellPos = -1
 
           e.state.doc.descendants((node: any, pos: number) => {
-            if (node.type.name === 'tableCell' && firstCellPos === -1) {firstCellPos = pos}
+            if (node.type.name === 'tableCell' && firstCellPos === -1) {
+              firstCellPos = pos
+            }
           })
 
           e.chain()
@@ -155,7 +159,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           let firstHeaderPos = -1
 
           e.state.doc.descendants((node: any, pos: number) => {
-            if (node.type.name === 'tableHeader' && firstHeaderPos === -1) {firstHeaderPos = pos}
+            if (node.type.name === 'tableHeader' && firstHeaderPos === -1) {
+              firstHeaderPos = pos
+            }
           })
 
           e.chain()
