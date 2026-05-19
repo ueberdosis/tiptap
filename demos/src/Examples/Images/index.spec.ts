@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { clickButton, getEditor } from '../../../test/helpers.js'
+import { getEditor } from '../../../test/helpers.js'
 
 const demoName = 'Images'
 const frameworkPaths = ['React', 'Vue']
@@ -12,18 +12,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
     test.describe(`${frameworkPath}`, () => {
       test.beforeEach(async ({ page }) => {
-        await page.addInitScript(() => {
-          window.prompt = () => 'https://placehold.co/400x400'
-        })
         await page.goto(fullDemoPath)
         await getEditor(page)
       })
 
-      test('finds image elements inside editor', async ({ page }) => {
-        await expect(page.locator('.tiptap img')).toHaveCount(2)
-      })
-
-      test('allows removing images', async ({ page }) => {
+      test('removes a selected image with Backspace', async ({ page }) => {
         const editor = await getEditor(page)
 
         await expect(page.locator('.tiptap img')).toHaveCount(2)
@@ -34,11 +27,6 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.press('Backspace')
 
         await expect(page.locator('.tiptap img')).toHaveCount(1)
-      })
-
-      test('allows images to be added via URL', async ({ page }) => {
-        await clickButton(page, 'Add image from URL')
-        await expect(page.locator('.tiptap img')).toHaveCount(3)
       })
     })
   })

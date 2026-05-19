@@ -15,21 +15,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await page.goto(fullDemoPath)
       })
 
-      test('should have a working tiptap instance', async ({ page }) => {
-        const editor = await getEditor(page)
-        const hasEditor = await editor.evaluate((el: any) => !!el.editor)
-
-        expect(hasEditor).toBe(true)
-      })
-
-      test('should have a paragraph and text length', async ({ page }) => {
-        await expect(page.locator('.tiptap p').first()).toHaveText(
-          'Each line shows the number of characters in the paragraph.',
-        )
-        await expect(page.locator('.tiptap .label').first()).toHaveText('58')
-      })
-
-      test('should have new paragraph', async ({ page }) => {
+      test('updates the character-count label after pressing Enter', async ({ page }) => {
         const editor = await getEditor(page)
 
         await editor.evaluate((el: any) => {

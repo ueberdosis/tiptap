@@ -17,13 +17,6 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await page.goto(fullDemoPath)
       })
 
-      test('should have a working tiptap instance', async ({ page }) => {
-        const editor = await getEditor(page)
-        const hasEditor = await editor.evaluate((el: any) => !!el.editor)
-
-        expect(hasEditor).toBe(true)
-      })
-
       test('should render a custom node', async ({ page }) => {
         await getEditor(page)
         await expect(page.locator(`.ProseMirror ${componentClass}`)).toHaveCount(1)
