@@ -256,7 +256,7 @@ jobs:
         run: pnpm exec playwright install-deps chromium
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test --shard=${{ matrix.shard }}/${{ matrix.total }}
+        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
 
       - name: Upload blob report
         if: always()
