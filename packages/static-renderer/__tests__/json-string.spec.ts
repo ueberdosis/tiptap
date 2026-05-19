@@ -444,15 +444,19 @@ describe('static render json to string (with prosemirror)', () => {
     expect(html).not.toContain('dir=')
   })
 
-  it('lets the top-level textDirection override an explicit TextDirection extension (last-wins)', () => {
+  it('a user-supplied TextDirection wins over the top-level textDirection option (matches Editor precedence)', () => {
+    // Editor.ts prepends its `textDirection`-driven TextDirection to
+    // `this.options.extensions`, so a user-supplied TextDirection — coming
+    // later in the array — wins via tiptap's last-defined precedence for
+    // duplicate `addGlobalAttributes`. The static renderer mirrors that.
     const html = renderToHTMLString({
       content: headingDoc,
       extensions: [Document, Paragraph, Text, Heading, coreExtensions.TextDirection.configure({ direction: 'ltr' })],
       textDirection: 'rtl',
     })
 
-    expect(html).toContain('dir="rtl"')
-    expect(html).not.toContain('dir="ltr"')
+    expect(html).toContain('dir="ltr"')
+    expect(html).not.toContain('dir="rtl"')
   })
 
   it('omits null and undefined attribute values instead of serializing them as strings', () => {

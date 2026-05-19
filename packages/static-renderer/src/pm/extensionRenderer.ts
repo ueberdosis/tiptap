@@ -34,8 +34,10 @@ export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: 
 export type StaticEditorOptions = {
   /**
    * Sets the text direction for all non-text nodes. Matches the `textDirection`
-   * editor option on `Editor`. When set, a `TextDirection` extension is
-   * appended (and any user-supplied `TextDirection` is replaced — last wins).
+   * editor option on `Editor`. The configured `TextDirection` extension is
+   * prepended to the user-supplied `extensions`; if a user-supplied
+   * `TextDirection` is also present, the user's wins (last-defined precedence —
+   * same as Editor).
    */
   textDirection?: 'ltr' | 'rtl' | 'auto'
 }
@@ -43,9 +45,14 @@ export type StaticEditorOptions = {
 /**
  * Apply editor-level options to the user's extension array.
  *
- * Mirrors how `new Editor({ textDirection })` auto-registers the `TextDirection`
- * core extension, so static-renderer callers can pass the same option and get
- * the same `dir` attribute in the output.
+ * Mirrors `new Editor({ textDirection })`: the option-driven `TextDirection`
+ * extension is prepended so a user-supplied `TextDirection` (which comes after)
+ * can override it via tiptap's last-defined precedence for duplicate extensions.
+ *
+ * Known limitation: this only inspects top-level extensions. A `TextDirection`
+ * bundled inside a kit (e.g. `StarterKit`) is not detected for override
+ * purposes — today no shipped kit includes `TextDirection`, so this is purely
+ * theoretical.
  */
 export function applyStaticEditorOptionsToExtensions(
   extensions: Extensions,
@@ -55,9 +62,7 @@ export function applyStaticEditorOptionsToExtensions(
     return extensions
   }
 
-  const withoutTextDirection = extensions.filter(ext => ext.name !== 'textDirection')
-
-  return [...withoutTextDirection, coreExtensions.TextDirection.configure({ direction: options.textDirection })]
+  return [coreExtensions.TextDirection.configure({ direction: options.textDirection }), ...extensions]
 }
 
 /**
