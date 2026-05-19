@@ -29,10 +29,11 @@ Key points for AI assistants:
 │  ├─ extension-*/           # Individual extensions
 │  ├─ pm/                    # ProseMirror related internals and helpers
 │  └─ ...                    # Shared utilities, framework bindings, etc.
-├─ demos/                    # Vite app for live examples
-│  ├─ react/                 # React demos
-│  └─ vue/                   # Vue demos
-├─ tests/                    # Cypress e2e tests that run against the demos
+├─ demos/                    # Vite app for live examples and colocated e2e specs
+│  ├─ src/
+│  │  ├─ react/              # React demos
+│  │  └─ vue/                # Vue demos
+│  └─ test/                  # Playwright helpers (getEditor, setEditorContent, ...)
 ├─ .changeset/               # Changesets for versioning and changelogs
 └─ .github/                  # Workflows and docs like this file
 ```
@@ -41,7 +42,7 @@ Notes:
 
 * All packages we publish or use live under `packages/*`.
 * The `demos/` folder contains a Vite app. It automatically discovers and parses React and Vue demos so they appear in the UI without manual wiring.
-* Cypress tests in `tests/` expect the demos to be available on `http://localhost:3000`.
+* Playwright e2e specs live alongside their demos as `demos/src/**/index.spec.ts`. `playwright.config.ts` auto-starts the Vite dev server on `http://127.0.0.1:4080` — no need to launch it manually.
 
 ## NPM scripts
 
@@ -51,8 +52,10 @@ Scripts defined at the repo root:
 * `pnpm build` - build all packages via Turborepo
 * `pnpm lint` - run eslint checks
 * `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:open` - open Cypress against `tests/`
-* `pnpm test:run` - run Cypress in headless mode
+* `pnpm test:e2e` - run Playwright e2e tests headlessly
+* `pnpm test:e2e:open` - run Playwright in UI mode
+* `pnpm test:e2e:report` - open the HTML report from the last run
+* `pnpm test:unit` - run Vitest unit tests in `packages/**/__tests__/`
 * `pnpm test` - build then run all tests
 * `pnpm serve` - build and serve the demos on port 3000
 * `pnpm publish` - build and publish with Changesets
@@ -94,23 +97,23 @@ When adding a demo, keep it small and self-contained, with imports from publishe
 
 ---
 
-## Testing with Cypress
+## Testing
 
-* Cypress lives in `tests/` and drives the demos in a browser.
-* Tests assume the app is running on `http://localhost:3000`.
+Two layers:
 
-Workflow:
+* **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
+* **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
-```bash
-pnpm dev         # terminal A
-pnpm test:open   # terminal B
-```
-
-or for headless CI runs:
+Run them:
 
 ```bash
-pnpm test:run
+pnpm test:unit       # Vitest
+pnpm test:e2e        # Playwright headless
+pnpm test:e2e:open   # Playwright UI mode for debugging
+pnpm test:e2e:report # open the HTML report from the last run
 ```
+
+Playwright auto-starts the demo dev server (`pnpm -C demos run start:demos` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
 
 ---
 
@@ -198,7 +201,8 @@ Run the following to validate changes quickly:
 ```bash
 pnpm lint
 pnpm build
-pnpm test       # runs unit and/or cypress where configured
+pnpm test:unit  # Vitest
+pnpm test:e2e   # Playwright (auto-starts the demo server)
 pnpm dev        # optionally run the demos and open http://localhost:3000
 ```
 
@@ -222,7 +226,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### Troubleshooting notes
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
-- For flaky Cypress tests, run the demo locally with `pnpm dev` and reproduce the failing test in `pnpm test:open`.
+- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`.
 
 ---
 
