@@ -1,6 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
-import { cancelPositionCheck, isNodeViewSelected, NodeView, schedulePositionCheck } from '@tiptap/core'
+import type {
+  DecorationWithType,
+  NodeViewProps,
+  NodeViewRenderer,
+  NodeViewRendererOptions,
+  NodeViewRendererProps,
+} from '@tiptap/core'
+import { isNodeViewSelected, NodeView } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { Component, PropType, Ref } from 'vue'
@@ -75,19 +81,17 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
   decorationClasses!: Ref<string>
 
-  /**
-   * The last known position of this node view, used to detect position-only
-   * changes that don't produce a new node object reference.
-   */
   private currentPos: number | undefined
 
-  /**
-   * Callback registered with the per-editor position-update registry.
-   * Stored so it can be unregistered in destroy().
-   */
-  private positionCheckCallback: (() => void) | null = null
-
   private cachedExtensionWithSyncedStorage: NodeViewProps['extension'] | null = null
+
+  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<VueNodeViewRendererOptions>) {
+    super(component, props, options)
+
+    if (this.options.trackNodeViewPosition) {
+      this.editor.on('update', this.handlePositionUpdate)
+    }
+  }
 
   /**
    * Returns a proxy of the extension that redirects storage access to the editor's mutable storage.
@@ -113,7 +117,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   }
 
   mount() {
-    const props = {
+    const props: Record<string, any> = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations as DecorationWithType[],
@@ -125,7 +129,9 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-    } satisfies NodeViewProps
+    }
+
+    const mountProps = props as NodeViewProps
 
     const onDragStart = this.onDragStart.bind(this)
 
@@ -162,32 +168,26 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
     this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
+
     this.currentPos = this.getPos()
-
-    this.positionCheckCallback = () => {
-      // Guard against the callback firing before the renderer is fully initialized.
-      if (!this.renderer) {
-        return
-      }
-
-      const newPos = this.getPos()
-
-      if (typeof newPos !== 'number' || newPos === this.currentPos) {
-        return
-      }
-
-      this.currentPos = newPos
-
-      // Pass a fresh getPos reference so Vue's reactivity detects a prop change.
-      this.renderer.updateProps({ getPos: () => this.getPos() })
-    }
-
-    schedulePositionCheck(this.editor, this.positionCheckCallback)
 
     this.renderer = new VueRenderer(extendedComponent, {
       editor: this.editor,
-      props,
+      props: mountProps,
     })
+  }
+
+  /**
+   * Fires on editor updates when trackNodeViewPosition is enabled.
+   * Detects position shifts where update() is NOT called.
+   */
+  private handlePositionUpdate = () => {
+    const newPos = this.getPos()
+    if (typeof newPos !== 'number' || newPos === this.currentPos) {
+      return
+    }
+    this.currentPos = newPos
+    this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
   /**
@@ -265,7 +265,6 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       this.node = node
       this.decorations = decorations
       this.innerDecorations = innerDecorations
-      this.currentPos = this.getPos()
 
       return this.options.update({
         oldNode,
@@ -283,34 +282,39 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return false
     }
 
-    const newPos = this.getPos()
+    const nodeChanged = node !== this.node
 
-    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
-      if (newPos === this.currentPos) {
-        return true
-      }
-
-      // Position changed without a content/decoration change — trigger re-render
-      // so the component receives an up-to-date value from getPos().
-      // Pass a fresh getPos reference so Vue's reactivity detects a prop change.
-      this.currentPos = newPos
-      rerenderComponent({
-        node,
-        decorations,
-        innerDecorations,
-        extension: this.extensionWithSyncedStorage,
-        getPos: () => this.getPos(),
-      })
+    // Node reference unchanged — only decorations may have changed.
+    // ProseMirror renders decorations independently on the contentDOM,
+    // and the getPos closure (bound in mount()) calls through to
+    // ProseMirror's position function at call time, so it is always
+    // current. Update internal refs, refresh decoration classes for
+    // the wrapper component, and skip the Vue re-render.
+    if (!nodeChanged) {
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
+      this.decorationClasses.value = this.getDecorationClasses()
       return true
     }
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
-    this.currentPos = newPos
+    this.currentPos = this.getPos()
 
-    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
+    const extraProps: Record<string, any> = {
+      node,
+      decorations,
+      innerDecorations,
+      extension: this.extensionWithSyncedStorage,
+    }
 
+    if (this.options.trackNodeViewPosition) {
+      extraProps.getPos = () => this.getPos()
+    }
+
+    rerenderComponent(extraProps)
     return true
   }
 
@@ -353,9 +357,8 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
 
-    if (this.positionCheckCallback) {
-      cancelPositionCheck(this.editor, this.positionCheckCallback)
-      this.positionCheckCallback = null
+    if (this.options.trackNodeViewPosition) {
+      this.editor.off('update', this.handlePositionUpdate)
     }
   }
 }
