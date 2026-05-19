@@ -5,13 +5,7 @@ import type {
   NodeViewRendererOptions,
   NodeViewRendererProps,
 } from '@tiptap/core'
-import {
-  cancelPositionCheck,
-  getRenderedAttributes,
-  isNodeViewSelected,
-  NodeView,
-  schedulePositionCheck,
-} from '@tiptap/core'
+import { getRenderedAttributes, isNodeViewSelected, NodeView } from '@tiptap/core'
 import type { Node, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
 import type { ComponentType, NamedExoticComponent } from 'react'
@@ -85,10 +79,21 @@ export class ReactNodeView<
   private currentPos: number | undefined
 
   /**
-   * Callback registered with the per-editor position-update registry.
-   * Stored so it can be unregistered in destroy().
+   * Fires on editor updates when trackNodeViewPosition is enabled.
+   * Detects position shifts where update() is NOT called (e.g. typing above).
    */
-  private positionCheckCallback: (() => void) | null = null
+  private handlePositionUpdate = () => {
+    const newPos = this.getPos()
+    if (typeof newPos !== 'number' || newPos === this.currentPos) {
+      return
+    }
+    this.currentPos = newPos
+    this.renderer.updateProps({ getPos: () => this.getPos() })
+
+    if (typeof this.options.attrs === 'function') {
+      this.updateElementAttributes()
+    }
+  }
 
   constructor(component: Component, props: NodeViewRendererProps, options?: Partial<Options>) {
     super(component, props, options)
@@ -115,6 +120,10 @@ export class ReactNodeView<
       }
 
       contentTarget.appendChild(this.contentDOMElement)
+    }
+
+    if (this.options.trackNodeViewPosition) {
+      this.editor.on('update', this.handlePositionUpdate)
     }
   }
 
@@ -148,7 +157,7 @@ export class ReactNodeView<
    * Called on initialization.
    */
   mount() {
-    const props = {
+    const props: Record<string, any> = {
       editor: this.editor,
       node: this.node,
       decorations: this.decorations as DecorationWithType[],
@@ -161,7 +170,9 @@ export class ReactNodeView<
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
       ref: createRef<T>(),
-    } satisfies ReactNodeViewProps<T>
+    }
+
+    const mountProps = props as ReactNodeViewProps<T>
 
     if (!(this.component as any).displayName) {
       const capitalizeFirstChar = (string: string): string => {
@@ -207,7 +218,7 @@ export class ReactNodeView<
 
     this.renderer = new ReactRenderer(ReactNodeViewProvider, {
       editor: this.editor,
-      props,
+      props: mountProps,
       as,
       className: `node-${this.node.type.name} ${className}`.trim(),
     })
@@ -215,25 +226,6 @@ export class ReactNodeView<
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
     this.updateElementAttributes()
     this.currentPos = this.getPos()
-
-    this.positionCheckCallback = () => {
-      const newPos = this.getPos()
-
-      if (typeof newPos !== 'number' || newPos === this.currentPos) {
-        return
-      }
-
-      this.currentPos = newPos
-
-      // Pass a fresh getPos reference so React's memo detects a prop change.
-      this.renderer.updateProps({ getPos: () => this.getPos() })
-
-      if (typeof this.options.attrs === 'function') {
-        this.updateElementAttributes()
-      }
-    }
-
-    schedulePositionCheck(this.editor, this.positionCheckCallback)
   }
 
   /**
@@ -342,34 +334,41 @@ export class ReactNodeView<
       })
     }
 
-    const newPos = this.getPos()
+    const nodeChanged = node !== this.node
 
-    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
-      if (newPos === this.currentPos) {
-        return true
-      }
-
-      // Position changed without a content/decoration change — trigger re-render
-      // so the component receives an up-to-date value from getPos().
-      // Pass a fresh getPos reference so React's memo detects a prop change.
-      this.currentPos = newPos
-      rerenderComponent({
-        node,
-        decorations,
-        innerDecorations,
-        extension: this.extensionWithSyncedStorage,
-        getPos: () => this.getPos(),
-      })
+    // Node reference unchanged — only decorations may have changed.
+    // ProseMirror renders decorations independently on the contentDOM,
+    // and the getPos closure (bound in mount()) calls through to
+    // ProseMirror's position function at call time, so it is always
+    // current. Update internal refs and skip the React re-render.
+    // Keep currentPos unchanged here so the editor update listener can
+    // still detect and publish a position shift for tracked node views.
+    if (!nodeChanged) {
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
       return true
     }
+
+    const newPos = this.getPos()
 
     this.node = node
     this.decorations = decorations
     this.innerDecorations = innerDecorations
     this.currentPos = newPos
 
-    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
+    const extraProps: Record<string, any> = {
+      node,
+      decorations,
+      innerDecorations,
+      extension: this.extensionWithSyncedStorage,
+    }
 
+    if (this.options.trackNodeViewPosition) {
+      extraProps.getPos = () => this.getPos()
+    }
+
+    rerenderComponent(extraProps)
     return true
   }
 
@@ -402,9 +401,8 @@ export class ReactNodeView<
     this.renderer.destroy()
     this.editor.off('selectionUpdate', this.handleSelectionUpdate)
 
-    if (this.positionCheckCallback) {
-      cancelPositionCheck(this.editor, this.positionCheckCallback)
-      this.positionCheckCallback = null
+    if (this.options.trackNodeViewPosition) {
+      this.editor.off('update', this.handlePositionUpdate)
     }
 
     this.contentDOMElement = null

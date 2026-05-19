@@ -735,6 +735,15 @@ export interface NodeViewRendererOptions {
    * Defaults to `false` to preserve existing behavior.
    */
   selectedOnTextSelection?: boolean
+  /**
+   * When `true`, the component re-renders on every position shift so calls
+   * to `getPos()` stay current in render output.
+   * Without this option, `getPos()` is still always current for imperative
+   * use (click handlers, commands) — it only becomes stale when directly
+   * rendered in JSX or used in reactive template expressions.
+   * @default false
+   */
+  trackNodeViewPosition?: boolean
 }
 
 export interface NodeViewRendererProps {

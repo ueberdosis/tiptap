@@ -35,6 +35,32 @@ const CustomInlineNode = Node.create({
   },
 })
 
+const CustomBlockAtomNode = Node.create({
+  name: 'customBlockAtom',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      id: {
+        default: null,
+      },
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-type="custom-block-atom"]',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', { 'data-type': 'custom-block-atom', ...HTMLAttributes }]
+  },
+})
+
 describe('NodePos', () => {
   let editor: Editor
 
@@ -500,6 +526,51 @@ describe('NodePos', () => {
 
       expect(parent).not.toBeNull()
       expect(parent!.node.type.name).toBe('blockquote')
+    })
+  })
+
+  describe('$pos', () => {
+    it('should return the correct node when pointing at a non-text atom node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomInlineNode],
+        content: '<p><span data-type="custom-inline" id="atom"></span></p>',
+      })
+
+      const inlineNode = editor.$node('customInline')
+
+      expect(inlineNode).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(inlineNode!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customInline')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+
+    it('should return doc node when resolving pos 0', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hello</p>',
+      })
+
+      const docPos = editor.$pos(0)
+
+      expect(docPos.node.type.name).toBe('doc')
+    })
+
+    it('should return the top-level block atom node for positions before non-text block atoms', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomBlockAtomNode],
+        content: '<p>Before</p><div data-type="custom-block-atom" id="top"></div>',
+      })
+
+      const blockAtom = editor.$node('customBlockAtom')
+
+      expect(blockAtom).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(blockAtom!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customBlockAtom')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
     })
   })
 
