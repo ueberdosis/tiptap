@@ -18,7 +18,7 @@ export default defineConfig({
     { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
   ],
   webServer: {
-    command: 'pnpm -C demos run start:demos',
+    command: 'pnpm -C demos run start:e2e',
     url: 'http://127.0.0.1:4080',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

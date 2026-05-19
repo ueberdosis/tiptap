@@ -121,7 +121,7 @@ pnpm test:e2e:open:all      # UI mode, switch between browsers in the project pi
 pnpm test:e2e:report        # open the HTML report from the last run
 ```
 
-Playwright auto-starts the demo dev server (`pnpm -C demos run start:demos` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
+Playwright auto-starts the demo dev server (`pnpm -C demos run start:e2e` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
 
 Browser setup:
 

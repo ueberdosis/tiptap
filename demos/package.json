@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite --host",
-    "start:demos": "vite --host --port 4080",
+    "start:e2e": "vite --host --port 4080",
     "build:demos": "vite build",
     "preview": "vite preview"
   },
