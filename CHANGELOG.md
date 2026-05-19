@@ -1,5 +1,637 @@
 # Releases
 
+## v3.23.5
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 7bf0e73: Fix extra mark tokens after inline atom nodes during Markdown serialization
+- 7bf0e73: Fix adjacent marks of the same type with different attributes being merged during Markdown serialization
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 7bf0e73: Fix $pos() returning correct node for non-text atom nodes instead of doc node
+- 7bf0e73: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+  
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+- @tiptap/pm@3.23.5
+
+### @tiptap/react
+
+#### Patch Changes
+
+- 7bf0e73: Respect explicit `immediatelyRender: true` in client-side Next.js. Previously, when running under Next.js (`window.next` present), the `immediatelyRender` option was forced to `false` even when the user explicitly passed `true`, breaking client-only Next.js apps that rely on the editor existing on the first render. The hook now only forces `false` when actual SSR is detected (`typeof window === 'undefined'`), or when running under Next.js with no explicit value.
+- 7bf0e73: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+  
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- 7bf0e73: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+  
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 7bf0e73: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+  
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- 7bf0e73: Fix missing forwarding of getReferencedVirtualElement in DragHandle React component
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/react@3.23.5
+  - @tiptap/extension-drag-handle@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-code-block@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-text-style@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-collaboration@3.23.5
+  - @tiptap/extension-node-range@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/suggestion@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-text-style@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-text-style@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-list
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/suggestion@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+
+### @tiptap/extensions
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+  - @tiptap/vue-2@3.23.5
+  - @tiptap/extension-drag-handle@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+  - @tiptap/vue-3@3.23.5
+  - @tiptap/extension-drag-handle@3.23.5
+  - @tiptap/pm@3.23.5
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- @tiptap/extension-list@3.23.5
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.23.5
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.23.5
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- @tiptap/extension-table@3.23.5
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.23.5
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.23.5
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- @tiptap/extensions@3.23.5
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [7bf0e73]
+- Updated dependencies [7bf0e73]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-blockquote@3.23.5
+  - @tiptap/extension-bold@3.23.5
+  - @tiptap/extension-code@3.23.5
+  - @tiptap/extension-code-block@3.23.5
+  - @tiptap/extension-document@3.23.5
+  - @tiptap/extension-hard-break@3.23.5
+  - @tiptap/extension-heading@3.23.5
+  - @tiptap/extension-horizontal-rule@3.23.5
+  - @tiptap/extension-italic@3.23.5
+  - @tiptap/extension-link@3.23.5
+  - @tiptap/extension-list@3.23.5
+  - @tiptap/extension-paragraph@3.23.5
+  - @tiptap/extension-strike@3.23.5
+  - @tiptap/extension-text@3.23.5
+  - @tiptap/extension-underline@3.23.5
+  - @tiptap/extensions@3.23.5
+  - @tiptap/extension-list-item@3.23.5
+  - @tiptap/extension-list-keymap@3.23.5
+  - @tiptap/extension-bullet-list@3.23.5
+  - @tiptap/extension-ordered-list@3.23.5
+  - @tiptap/extension-dropcursor@3.23.5
+  - @tiptap/extension-gapcursor@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## v0.1.3
 
 ### @tiptap/server-ai-toolkit

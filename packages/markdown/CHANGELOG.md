@@ -1,5 +1,16 @@
 # @tiptap/markdown
 
+## 3.23.5
+
+### Patch Changes
+
+- 6abd10c: Fix extra mark tokens after inline atom nodes during Markdown serialization
+- 7bf0e73: Fix adjacent marks of the same type with different attributes being merged during Markdown serialization
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes
