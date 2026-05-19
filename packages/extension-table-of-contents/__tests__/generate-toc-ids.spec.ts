@@ -21,7 +21,22 @@ const docWithHeadings = (...texts: string[]): JSONContent => ({
 describe('generateTocIds', () => {
   it('throws when TableOfContents extension is missing', () => {
     expect(() => generateTocIds(docWithHeadings('a'), baseExtensions)).toThrow(
-      'TableOfContents extension not found in the extensions array',
+      'TableOfContents extension (name: "tableOfContents") not found in the extensions array',
+    )
+  })
+
+  it('accepts a custom extension name for users who extend TableOfContents', () => {
+    const CustomToc = TableOfContents.extend({ name: 'myCustomToc' })
+    const result = generateTocIds(docWithHeadings('Intro'), [...baseExtensions, CustomToc], 'myCustomToc')
+    const heading = result.content?.[0]
+
+    expect(heading?.attrs?.id).toEqual(expect.any(String))
+    expect(heading?.attrs?.['data-toc-id']).toEqual(expect.any(String))
+  })
+
+  it('reports the requested name in the not-found error when a custom name is missing', () => {
+    expect(() => generateTocIds(docWithHeadings('a'), baseExtensions, 'myCustomToc')).toThrow(
+      'TableOfContents extension (name: "myCustomToc") not found in the extensions array',
     )
   })
 

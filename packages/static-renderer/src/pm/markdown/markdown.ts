@@ -12,23 +12,23 @@ import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-strin
  * Limitations: see `renderToHTMLString` — extensions that mutate the document
  * via plugins/onCreate (UniqueID, TableOfContents) need to be pre-processed.
  *
- * @param textDirection Optional text direction — mirrors the `textDirection` editor option
+ * @param staticEditorOptions Optional editor-level options that affect rendered output — mirrors a subset of `EditorOptions`.
  */
 export function renderToMarkdown({
   content,
   extensions,
-  textDirection,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
-  textDirection?: StaticEditorOptions['textDirection']
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }) {
   return renderToHTMLString({
     content,
     extensions,
-    textDirection,
+    staticEditorOptions,
     options: {
       ...options,
       nodeMapping: {

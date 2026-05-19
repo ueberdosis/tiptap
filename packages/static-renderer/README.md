@@ -38,13 +38,13 @@ doc = generateTocIds(doc, extensions)    // if using TableOfContents
 const html = renderToHTMLString({
   content: doc,
   extensions,
-  textDirection: 'auto', // mirrors the editor option
+  staticEditorOptions: { textDirection: 'auto' }, // mirrors a subset of EditorOptions
 })
 ```
 
-Editor-level options that affect output are accepted as top-level arguments
-(currently `textDirection`). Other editor options that depend on a runtime
-view or transaction stream are out of scope.
+Editor-level options that affect output are accepted via the
+`staticEditorOptions` object (currently `textDirection`). Other editor options
+that depend on a runtime view or transaction stream are out of scope.
 
 ## License
 

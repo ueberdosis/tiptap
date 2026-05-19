@@ -409,11 +409,6 @@ describe('static render json to string (with prosemirror)', () => {
     expect(html).to.include('<p>text after youtube</p>')
   })
 
-  // ── issue #7637 ────────────────────────────────────────────────────────────
-  // Parity gaps between renderToHTMLString and editor.getHTML() for the
-  // textDirection editor option, null-attribute serialization, and the
-  // pre-process helpers (`generateUniqueIds`, `generateTocIds`).
-
   const headingDoc = {
     type: 'doc',
     content: [
@@ -425,17 +420,17 @@ describe('static render json to string (with prosemirror)', () => {
     ],
   }
 
-  it.each(['ltr', 'rtl', 'auto'] as const)('honors textDirection=%s as a top-level option', direction => {
+  it.each(['ltr', 'rtl', 'auto'] as const)('honors textDirection=%s via staticEditorOptions', direction => {
     const html = renderToHTMLString({
       content: headingDoc,
       extensions: [Document, Paragraph, Text, Heading],
-      textDirection: direction,
+      staticEditorOptions: { textDirection: direction },
     })
 
     expect(html).toContain(`dir="${direction}"`)
   })
 
-  it('does not add a dir attribute when textDirection is unset', () => {
+  it('does not add a dir attribute when staticEditorOptions is unset', () => {
     const html = renderToHTMLString({
       content: headingDoc,
       extensions: [Document, Paragraph, Text, Heading],
@@ -444,7 +439,7 @@ describe('static render json to string (with prosemirror)', () => {
     expect(html).not.toContain('dir=')
   })
 
-  it('a user-supplied TextDirection wins over the top-level textDirection option (matches Editor precedence)', () => {
+  it('a user-supplied TextDirection wins over staticEditorOptions.textDirection (matches Editor precedence)', () => {
     // Editor.ts prepends its `textDirection`-driven TextDirection to
     // `this.options.extensions`, so a user-supplied TextDirection — coming
     // later in the array — wins via tiptap's last-defined precedence for
@@ -452,7 +447,7 @@ describe('static render json to string (with prosemirror)', () => {
     const html = renderToHTMLString({
       content: headingDoc,
       extensions: [Document, Paragraph, Text, Heading, coreExtensions.TextDirection.configure({ direction: 'ltr' })],
-      textDirection: 'rtl',
+      staticEditorOptions: { textDirection: 'rtl' },
     })
 
     expect(html).toContain('dir="ltr"')

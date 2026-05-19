@@ -31,17 +31,22 @@ import type { TableOfContents } from './tableOfContents.js'
  * const html = renderToHTMLString({ content: docWithIds, extensions: [...] })
  *
  * @param doc - A Tiptap JSON document to add anchor IDs to.
- * @param extensions - The extensions to use. Must include `TableOfContents`.
+ * @param extensions - The extensions to use. Must include the `TableOfContents` extension (or one extending it).
+ * @param extensionName - Optional name of the `TableOfContents` extension to look up. Defaults to `'tableOfContents'`. Override this if you have extended the base extension and changed its `name`.
  * @returns The updated Tiptap JSON document.
  */
-export function generateTocIds(doc: JSONContent, extensions: Extensions): JSONContent {
-  const tocExtension = extensions.find(ext => ext.name === 'tableOfContents') as typeof TableOfContents | undefined
+export function generateTocIds(
+  doc: JSONContent,
+  extensions: Extensions,
+  extensionName = 'tableOfContents',
+): JSONContent {
+  const tocExtension = extensions.find(ext => ext.name === extensionName) as typeof TableOfContents | undefined
 
   if (!tocExtension) {
-    throw new Error('TableOfContents extension not found in the extensions array')
+    throw new Error(`TableOfContents extension (name: "${extensionName}") not found in the extensions array`)
   }
 
-  const schema = getSchema([...extensions.filter(ext => ext.name !== 'tableOfContents'), tocExtension])
+  const schema = getSchema([...extensions.filter(ext => ext.name !== extensionName), tocExtension])
   const anchorTypes = tocExtension.options.anchorTypes ?? ['heading']
   const getId = tocExtension.options.getId ?? (() => uuidv4())
 

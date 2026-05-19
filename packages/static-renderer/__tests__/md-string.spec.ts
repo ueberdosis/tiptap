@@ -259,8 +259,7 @@ describe('static render json to string (no prosemirror)', () => {
     )
   })
 
-  // ── issue #7637 ────────────────────────────────────────────────────────────
-  it('accepts the textDirection editor option without crashing', () => {
+  it('accepts staticEditorOptions.textDirection without crashing', () => {
     const json = {
       type: 'doc',
       content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hello' }] }],
@@ -269,7 +268,7 @@ describe('static render json to string (no prosemirror)', () => {
     const md = renderToMarkdown({
       content: json,
       extensions: [StarterKit, TableKit],
-      textDirection: 'rtl',
+      staticEditorOptions: { textDirection: 'rtl' },
     })
 
     expect(md).toBe('\nhello\n')

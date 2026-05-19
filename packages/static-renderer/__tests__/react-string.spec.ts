@@ -181,8 +181,7 @@ describe('static render json to react elements (with prosemirror)', () => {
 </div>`)
   })
 
-  // ── issue #7637 ────────────────────────────────────────────────────────────
-  it('honors textDirection as a top-level option', () => {
+  it('honors textDirection via staticEditorOptions', () => {
     const json = {
       type: 'doc',
       content: [
@@ -198,7 +197,7 @@ describe('static render json to react elements (with prosemirror)', () => {
       renderToReactElement({
         content: json,
         extensions: [Document, Paragraph, Text, Heading],
-        textDirection: 'rtl',
+        staticEditorOptions: { textDirection: 'rtl' },
       }),
     )
 

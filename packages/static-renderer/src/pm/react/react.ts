@@ -146,19 +146,19 @@ export function domOutputSpecToReactElement(
  *
  * @param content The content to render to a React component
  * @param extensions The extensions to use for rendering
- * @param textDirection Optional text direction — mirrors the `textDirection` editor option
+ * @param staticEditorOptions Optional editor-level options that affect rendered output — mirrors a subset of `EditorOptions`.
  * @param options The options to use for rendering
  * @returns The React element that represents the rendered content
  */
 export function renderToReactElement({
   content,
   extensions,
-  textDirection,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
-  textDirection?: StaticEditorOptions['textDirection']
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
@@ -171,7 +171,7 @@ export function renderToReactElement({
       text: ({ node }) => node.text ?? '',
     },
     content,
-    extensions: applyStaticEditorOptionsToExtensions(extensions, { textDirection }),
+    extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
   })
 }

@@ -96,19 +96,19 @@ export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: s
  *
  * @param content The content to render to HTML
  * @param extensions The extensions to use for rendering
- * @param textDirection Optional text direction (`'ltr' | 'rtl' | 'auto'`) — mirrors the `textDirection` editor option
+ * @param staticEditorOptions Optional editor-level options that affect rendered output, currently `{ textDirection }`. Mirrors a subset of `EditorOptions`.
  * @param options The options to use for rendering
  * @returns The rendered HTML string
  */
 export function renderToHTMLString({
   content,
   extensions,
-  textDirection,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
-  textDirection?: StaticEditorOptions['textDirection']
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }): string {
   return renderToElement<string>({
@@ -121,7 +121,7 @@ export function renderToHTMLString({
       text: ({ node }) => escapeHTML(node.text ?? ''),
     },
     content,
-    extensions: applyStaticEditorOptionsToExtensions(extensions, { textDirection }),
+    extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
   })
 }
