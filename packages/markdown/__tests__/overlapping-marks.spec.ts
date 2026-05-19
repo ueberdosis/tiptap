@@ -12,24 +12,30 @@ import { describe, expect, it } from 'vitest'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
+/**
+ * Normalize marks order for deterministic comparison. Marks in the same position
+ * can be stored in any order by ProseMirror; sorting by type ensures
+ * deep-equality assertions don't flake on array ordering.
+ */
+const normalizeMarks = (node: any): any => {
+  if (Array.isArray(node)) {
+    return node.map(normalizeMarks)
+  }
+
+  if (!node || typeof node !== 'object') {
+    return node
+  }
+
+  return {
+    ...node,
+    marks: node.marks ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type)) : node.marks,
+    content: node.content ? node.content.map(normalizeMarks) : node.content,
+  }
+}
+
 describe('Overlapping marks serialization', () => {
   const extensions = [Document, Paragraph, Text, Bold, Italic, Link]
   const markdownManager = new MarkdownManager({ extensions })
-  const normalizeMarks = (node: any): any => {
-    if (Array.isArray(node)) {
-      return node.map(normalizeMarks)
-    }
-
-    if (!node || typeof node !== 'object') {
-      return node
-    }
-
-    return {
-      ...node,
-      marks: node.marks ? [...node.marks].sort((a, b) => a.type.localeCompare(b.type)) : node.marks,
-      content: node.content ? node.content.map(normalizeMarks) : node.content,
-    }
-  }
 
   /**
    * Regression test for the original bug report.
@@ -529,5 +535,117 @@ describe('Overlapping marks serialization', () => {
     // Buggy output (bold closes before strike): '**~~abc*def***~~<em>ghi</em>'
     expect(result).not.toBe('**~~abc*def***~~<em>ghi</em>')
     expect(normalizeMarks(markdownManagerWithStrike.parse(result))).toEqual(normalizeMarks(json))
+  })
+})
+
+/**
+ * Regression tests for issue #7682.
+ *
+ * Adjacent marks of the same type (e.g. links) with different attributes must
+ * be serialized as separate marks instead of being merged into one.
+ */
+describe('adjacent marks with different attributes', () => {
+  const extensions = [Document, Paragraph, Text, Link]
+  const markdownManager = new MarkdownManager({ extensions })
+
+  it('should serialize adjacent links with different href values as separate links', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'example',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: null } }],
+            },
+            {
+              type: 'text',
+              text: 'github',
+              marks: [{ type: 'link', attrs: { href: 'https://github.com', title: null } }],
+            },
+            {
+              type: 'text',
+              text: 'tiptap',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev', title: null } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    // Each adjacent link must be rendered with its own URL — not merged into one
+    expect(result).toBe('[example](https://example.com)[github](https://github.com)[tiptap](https://tiptap.dev)')
+    // Verify round-trip fidelity
+    expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
+  })
+
+  it('should keep links with the same href and attributes merged', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'the same',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: null } }],
+            },
+            {
+              type: 'text',
+              text: ' link',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: null } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    // Links with the same href and attributes are merged into one
+    expect(result).toBe('[the same link](https://example.com)')
+
+    // Verify re-serialization stability: parse then re-serialize produces the same output
+    const parsed = markdownManager.parse(result)
+    expect(markdownManager.serialize(parsed)).toBe(result)
+  })
+
+  it('should handle adjacent links with titles alongside links without titles', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'with title',
+              marks: [{ type: 'link', attrs: { href: 'https://example.com', title: 'Example' } }],
+            },
+            {
+              type: 'text',
+              text: ' no title',
+              marks: [{ type: 'link', attrs: { href: 'https://example.org', title: null } }],
+            },
+          ],
+        },
+      ],
+    }
+
+    const result = markdownManager.serialize(json)
+
+    // Note: the leading space in " no title" is extracted outside the link
+    // brackets by the serializer's whitespace handling, resulting in a space
+    // between the two link markdown fragments.
+    expect(result).toBe('[with title](https://example.com "Example") [no title](https://example.org)')
+
+    // Verify re-serialization stability: parse then re-serialize produces the same output
+    const parsed = markdownManager.parse(result)
+    expect(markdownManager.serialize(parsed)).toBe(result)
   })
 })

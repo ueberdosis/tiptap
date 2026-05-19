@@ -25,13 +25,51 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 }
 
 /**
+ * Compare two attribute objects for equality.
+ * Handles null/undefined and asserts key presence in both objects so that
+ * `{ foo: undefined }` and `{ bar: undefined }` are not treated as equal.
+ */
+export function attrsEqual(
+  a: Record<string, any> | null | undefined,
+  b: Record<string, any> | null | undefined,
+): boolean {
+  if (a === b) {
+    return true
+  }
+  if (!a || !b) {
+    return false
+  }
+
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+
+  if (keysA.length !== keysB.length) {
+    return false
+  }
+
+  return keysA.every(key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]))
+}
+
+/**
  * Identifies marks that need to be closed, based on the marks in the next node.
+ * Compares both mark type and attributes — two marks of the same type with
+ * different attributes are treated as distinct and need to be closed/reopened.
  */
 export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any): string[] {
   const marksToClose: string[] = []
 
-  Array.from(currentMarks.keys()).forEach(markType => {
-    if (!nextNode || !nextNode.marks || !nextNode.marks.map((mark: any) => mark.type).includes(markType)) {
+  Array.from(currentMarks.entries()).forEach(([markType, currentMark]) => {
+    if (!nextNode) {
+      marksToClose.push(markType)
+      return
+    }
+
+    // Check if the next node has a mark of the same type with matching attributes
+    const nextMark = (nextNode.marks || []).find(
+      (mark: any) => mark.type === markType && attrsEqual(mark.attrs, currentMark.attrs),
+    )
+
+    if (!nextMark) {
       marksToClose.push(markType)
     }
   })
@@ -39,7 +77,10 @@ export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any):
 }
 
 /**
- * Identifies marks that need to be opened (in current node but not active).
+ * Identifies marks that need to be opened (in current node but not active, or
+ * active with different attributes). Two marks of the same type with different
+ * attributes are treated as distinct — the old one must be closed and the new
+ * one reopened.
  */
 export function findMarksToOpen(
   activeMarks: Map<string, any>,
@@ -47,7 +88,10 @@ export function findMarksToOpen(
 ): Array<{ type: string; mark: any }> {
   const marksToOpen: Array<{ type: string; mark: any }> = []
   Array.from(currentMarks.entries()).forEach(([markType, mark]) => {
-    if (!activeMarks.has(markType)) {
+    const activeMark = activeMarks.get(markType)
+
+    // Open if the mark type is not active, or if the attributes differ
+    if (!activeMark || !attrsEqual(activeMark.attrs, mark.attrs)) {
       marksToOpen.push({ type: markType, mark })
     }
   })
@@ -58,6 +102,8 @@ export function findMarksToOpen(
  * Determines which marks need to be closed at the end of the current text node.
  * This handles cases where marks end at node boundaries or when transitioning
  * to nodes with different mark sets.
+ * Compares both mark type and attributes — two marks of the same type with
+ * different attributes are treated as distinct and trigger a close/reopen.
  */
 export function findMarksToCloseAtEnd(
   activeMarks: Map<string, any>,
@@ -75,11 +121,12 @@ export function findMarksToCloseAtEnd(
   const marksToCloseAtEnd: string[] = []
   if (isLastNode || nextNodeHasNoMarks || nextNodeHasDifferentMarks) {
     if (nextNode && nextNode.marks) {
-      const nextMarks = new Map(nextNode.marks.map((mark: any) => [mark.type, mark]))
-      Array.from(activeMarks.keys())
+      Array.from(activeMarks.entries())
         .reverse()
-        .forEach(markType => {
-          if (!nextMarks.has(markType)) {
+        .forEach(([markType, activeMark]) => {
+          // Check if nextNode has a mark of the same type with matching attrs
+          const nextMark = nextNode.marks.find((m: any) => m.type === markType && attrsEqual(m.attrs, activeMark.attrs))
+          if (!nextMark) {
             marksToCloseAtEnd.push(markType)
           }
         })

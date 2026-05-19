@@ -21,6 +21,7 @@ import {
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
+  attrsEqual,
   closeMarksBeforeNode,
   findMarksToClose,
   findMarksToCloseAtEnd,
@@ -1324,14 +1325,17 @@ export class MarkdownManager {
   }
 
   /**
-   * Check if two mark sets are equal.
+   * Check if two mark sets are equal (same types and matching attributes).
    */
   private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
     if (marks1.size !== marks2.size) {
       return false
     }
 
-    return Array.from(marks1.keys()).every(type => marks2.has(type))
+    return Array.from(marks1.entries()).every(([type, mark]) => {
+      const otherMark = marks2.get(type)
+      return otherMark && attrsEqual(mark.attrs, otherMark.attrs)
+    })
   }
 
   /**
@@ -1359,7 +1363,13 @@ export class MarkdownManager {
       return marksToOpen
     }
 
-    const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+    const nextMarks = nextNode?.marks || []
+
+    // Helper: check if the next node has a mark with the same type AND
+    // matching attributes. Two marks of the same type but with different
+    // attributes are logically distinct and must not be treated as continuing.
+    const continuesInNextNode = (markType: string, attrs: any) =>
+      nextMarks.some((m: any) => m.type === markType && attrsEqual(m.attrs, attrs))
 
     // Higher rank → earlier in the array → innermost mark. Marks without a
     // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
@@ -1375,8 +1385,12 @@ export class MarkdownManager {
       return a.type.localeCompare(b.type)
     }
 
-    const endingHere = marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
-    const continuing = marksToOpen.filter(mark => nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+    const endingHere = marksToOpen
+      .filter(mark => !continuesInNextNode(mark.type, mark.mark.attrs))
+      .sort(byRankInnerFirst)
+    const continuing = marksToOpen
+      .filter(mark => continuesInNextNode(mark.type, mark.mark.attrs))
+      .sort(byRankInnerFirst)
 
     return [...endingHere, ...continuing]
   }
