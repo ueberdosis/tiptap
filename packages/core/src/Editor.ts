@@ -92,6 +92,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     extensions: [],
     autofocus: false,
     editable: true,
+    crossEditorDrop: 'move',
     textDirection: undefined,
     editorProps: {},
     parseOptions: {},

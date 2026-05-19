@@ -317,6 +317,14 @@ export interface EditorOptions {
    */
   editable: boolean
   /**
+   * Controls whether dragging content from another editor instance removes it
+   * from the source editor when dropped into this editor.
+   * - `'move'`: remove content from the source editor after dropping
+   * - `'copy'`: keep content in the source editor
+   * @default 'move'
+   */
+  crossEditorDrop: 'move' | 'copy'
+  /**
    * The default text direction for all content in the editor.
    * When set to 'ltr' or 'rtl', all nodes will have the corresponding dir attribute.
    * When set to 'auto', the dir attribute will be set based on content detection.
