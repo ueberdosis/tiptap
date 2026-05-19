@@ -196,8 +196,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
-        total: [2]
+        shard: [1, 2, 3, 4]
+        total: [4]
 
     steps:
       - uses: actions/checkout@v6

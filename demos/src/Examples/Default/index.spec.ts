@@ -45,7 +45,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.click()
         await editor.evaluate((el: any) => el.editor.commands.selectAll())
-        await editor.press('Meta+Alt+0')
+        await editor.press(process.platform === 'darwin' ? 'Meta+Alt+0' : 'Control+Alt+0')
 
         await expect(page.locator('.tiptap p').first()).toContainText('Example Text')
       })
