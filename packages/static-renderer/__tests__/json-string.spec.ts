@@ -1,9 +1,14 @@
 import type { TextType } from '@tiptap/core'
+import { extensions as coreExtensions } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
+import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
+import { generateTocIds, TableOfContents } from '@tiptap/extension-table-of-contents'
 import Text from '@tiptap/extension-text'
+import { generateUniqueIds, UniqueID } from '@tiptap/extension-unique-id'
 import Youtube from '@tiptap/extension-youtube'
 import { Mark, Node } from '@tiptap/pm/model'
 import {
@@ -402,5 +407,113 @@ describe('static render json to string (with prosemirror)', () => {
 
     expect(html).to.include('data-youtube-video')
     expect(html).to.include('<p>text after youtube</p>')
+  })
+
+  // ── issue #7637 ────────────────────────────────────────────────────────────
+  // Parity gaps between renderToHTMLString and editor.getHTML() for the
+  // textDirection editor option, null-attribute serialization, and the
+  // pre-process helpers (`generateUniqueIds`, `generateTocIds`).
+
+  const headingDoc = {
+    type: 'doc',
+    content: [
+      {
+        type: 'heading',
+        attrs: { level: 1 },
+        content: [{ type: 'text', text: 'test' }],
+      },
+    ],
+  }
+
+  it.each(['ltr', 'rtl', 'auto'] as const)('honors textDirection=%s as a top-level option', direction => {
+    const html = renderToHTMLString({
+      content: headingDoc,
+      extensions: [Document, Paragraph, Text, Heading],
+      textDirection: direction,
+    })
+
+    expect(html).toContain(`dir="${direction}"`)
+  })
+
+  it('does not add a dir attribute when textDirection is unset', () => {
+    const html = renderToHTMLString({
+      content: headingDoc,
+      extensions: [Document, Paragraph, Text, Heading],
+    })
+
+    expect(html).not.toContain('dir=')
+  })
+
+  it('lets the top-level textDirection override an explicit TextDirection extension (last-wins)', () => {
+    const html = renderToHTMLString({
+      content: headingDoc,
+      extensions: [Document, Paragraph, Text, Heading, coreExtensions.TextDirection.configure({ direction: 'ltr' })],
+      textDirection: 'rtl',
+    })
+
+    expect(html).toContain('dir="rtl"')
+    expect(html).not.toContain('dir="ltr"')
+  })
+
+  it('omits null and undefined attribute values instead of serializing them as strings', () => {
+    expect(serializeAttrsToHTMLString({ class: null, id: undefined, dir: 'auto' })).toBe(' dir="auto"')
+  })
+
+  it('preserves false attribute values (matches ProseMirror DOMSerializer)', () => {
+    expect(serializeAttrsToHTMLString({ contenteditable: false })).toBe(' contenteditable="false"')
+  })
+
+  it('does not emit class="null" for a CodeBlock without language', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'codeBlock',
+          content: [{ type: 'text', text: 'hello' }],
+        },
+      ],
+    }
+
+    const html = renderToHTMLString({
+      content: json,
+      extensions: [Document, Paragraph, Text, CodeBlock],
+    })
+
+    expect(html).toBe('<pre><code>hello</code></pre>')
+  })
+
+  it('does not emit id="null" / data-toc-id="null" for TableOfContents nodes without IDs', () => {
+    const html = renderToHTMLString({
+      content: headingDoc,
+      extensions: [Document, Paragraph, Text, Heading, TableOfContents],
+    })
+
+    expect(html).not.toContain('id="null"')
+    expect(html).not.toContain('data-toc-id="null"')
+  })
+
+  it('renders UniqueID data-id attributes when JSON is pre-processed with generateUniqueIds', () => {
+    const extensionsWithUid = [Document, Paragraph, Text, Heading, UniqueID.configure({ types: ['heading'] })]
+    const docWithIds = generateUniqueIds(headingDoc, extensionsWithUid)
+
+    const html = renderToHTMLString({ content: docWithIds, extensions: extensionsWithUid })
+
+    expect(html).toMatch(/data-id="[^"]+"/)
+  })
+
+  it('renders TableOfContents anchor IDs when JSON is pre-processed with generateTocIds', () => {
+    const extensionsWithToc = [
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      TableOfContents.configure({ anchorTypes: ['heading'] }),
+    ]
+    const docWithIds = generateTocIds(headingDoc, extensionsWithToc)
+
+    const html = renderToHTMLString({ content: docWithIds, extensions: extensionsWithToc })
+
+    expect(html).toMatch(/\bid="[^"]+"/)
+    expect(html).toMatch(/data-toc-id="[^"]+"/)
   })
 })

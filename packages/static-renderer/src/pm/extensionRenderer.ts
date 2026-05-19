@@ -11,6 +11,7 @@ import type {
   NodeConfig,
 } from '@tiptap/core'
 import {
+  extensions as coreExtensions,
   getAttributesFromExtensions,
   getExtensionField,
   getSchemaByResolvedExtensions,
@@ -24,6 +25,40 @@ import { getHTMLAttributes } from '../helpers.js'
 import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'
 
 export type DomOutputSpecToElement<T> = (content: DOMOutputSpec) => (children?: T | T[]) => T
+
+/**
+ * Options that mirror a subset of `EditorOptions` and affect rendered output.
+ * Kept narrow on purpose: only options whose effect is reproducible without an
+ * `Editor` instance belong here.
+ */
+export type StaticEditorOptions = {
+  /**
+   * Sets the text direction for all non-text nodes. Matches the `textDirection`
+   * editor option on `Editor`. When set, a `TextDirection` extension is
+   * appended (and any user-supplied `TextDirection` is replaced — last wins).
+   */
+  textDirection?: 'ltr' | 'rtl' | 'auto'
+}
+
+/**
+ * Apply editor-level options to the user's extension array.
+ *
+ * Mirrors how `new Editor({ textDirection })` auto-registers the `TextDirection`
+ * core extension, so static-renderer callers can pass the same option and get
+ * the same `dir` attribute in the output.
+ */
+export function applyStaticEditorOptionsToExtensions(
+  extensions: Extensions,
+  options?: StaticEditorOptions,
+): Extensions {
+  if (!options?.textDirection) {
+    return extensions
+  }
+
+  const withoutTextDirection = extensions.filter(ext => ext.name !== 'textDirection')
+
+  return [...withoutTextDirection, coreExtensions.TextDirection.configure({ direction: options.textDirection })]
+}
 
 /**
  * This takes a NodeExtension and maps it to a React component

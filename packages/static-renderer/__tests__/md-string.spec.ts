@@ -258,4 +258,20 @@ describe('static render json to string (no prosemirror)', () => {
       '\n| Col 1 | Col 2 | Col 3 |\n| --- | --- | --- |\n| Row 1 1 | 112 | 1334 |\n| Row 2 1 | 115 | 4 |\n\n',
     )
   })
+
+  // ── issue #7637 ────────────────────────────────────────────────────────────
+  it('accepts the textDirection editor option without crashing', () => {
+    const json = {
+      type: 'doc',
+      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hello' }] }],
+    }
+
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+      textDirection: 'rtl',
+    })
+
+    expect(md).toBe('\nhello\n')
+  })
 })
