@@ -170,8 +170,9 @@ Run the following to validate changes quickly:
 ```bash
 pnpm lint
 pnpm build
-pnpm test       # runs unit and/or cypress where configured
-pnpm dev        # optionally run the demos and open http://localhost:3000
+pnpm test:unit  # Vitest
+pnpm test:e2e   # Playwright (auto-starts the demo server)
+pnpm dev        # optionally run the demos locally for manual verification
 ```
 
 If a single package is failing types, run a targeted build for that package (e.g. `pnpm -w -F @tiptap/core build`), or run `pnpm build` at the repo root.
@@ -194,4 +195,4 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### Troubleshooting notes
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
-- For flaky Cypress tests, run the demo locally with `pnpm dev` and reproduce the failing test in `pnpm test:open`.
+- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`.
