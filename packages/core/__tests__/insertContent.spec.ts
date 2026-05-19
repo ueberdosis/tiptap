@@ -11,7 +11,7 @@ describe('insertContent', () => {
     editor?.destroy()
   })
 
-  it('inserts plain text object {type: "text", text: "whatever"}', () => {
+  it('inserts plain text object {type: "text", text: "world"}', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text],
       content: '<p>hello</p>',
