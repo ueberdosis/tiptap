@@ -30,11 +30,20 @@ export function createPlaceholderDecoration(options: {
   }
   placeholder: PlaceholderOptions['placeholder']
 }) {
-  const { editor, placeholder, dataAttribute, pos, node, isEmptyDoc, hasAnchor } = options
-  const classes = [options.classes.emptyNode]
+  const {
+    editor,
+    placeholder,
+    dataAttribute,
+    pos,
+    node,
+    isEmptyDoc,
+    hasAnchor,
+    classes: { emptyNode, emptyEditor },
+  } = options
+  const classes = [emptyNode]
 
   if (isEmptyDoc) {
-    classes.push(options.classes.emptyEditor)
+    classes.push(emptyEditor)
   }
 
   return Decoration.node(pos, pos + node.nodeSize, {

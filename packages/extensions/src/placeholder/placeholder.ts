@@ -141,7 +141,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             const decorations: Decoration[] = []
             const isEmptyDoc = this.editor.isEmpty
 
-            if (this.options.showOnlyCurrent && !this.options.includeChildren) {
+            const useResolvedPath = this.options.showOnlyCurrent && !this.options.includeChildren
+
+            if (useResolvedPath) {
               const resolved = doc.resolve(anchor)
 
               if (resolved.depth > 0) {
