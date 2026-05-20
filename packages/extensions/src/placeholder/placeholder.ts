@@ -5,6 +5,9 @@ import { DecorationSet } from '@tiptap/pm/view'
 
 import type { PlaceholderOptions } from './types.js'
 import { createPlaceholderDecoration } from './utils/createPlaceholderDecoration.js'
+import { findScrollParent } from './utils/findScrollParent.js'
+import { getViewportBoundaryPositions } from './utils/getViewportBoundaryPositions.js'
+import { throttle } from './utils/throttle.js'
 
 /**
  * The default data attribute label
@@ -33,6 +36,8 @@ export function preparePlaceholderAttribute(attr: string): string {
   )
 }
 
+export const PLUGIN_KEY = new PluginKey('tiptap__placeholder')
+
 /**
  * This extension allows you to add a placeholder to your editor.
  * A placeholder is a text that appears when the editor or a node is empty.
@@ -60,7 +65,70 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
     return [
       new Plugin({
-        key: new PluginKey('placeholder'),
+        state: {
+          init() {
+            return {
+              // null means "no viewport info yet" — decoration callback falls
+              // back to full document scan until the scroll handler fires.
+              topPos: null as number | null,
+              bottomPos: null as number | null,
+            }
+          },
+          apply(tr, prev) {
+            const meta = tr.getMeta(PLUGIN_KEY) as { positions?: { top: number; bottom: number } } | undefined
+
+            if (meta?.positions) {
+              return {
+                topPos: meta.positions.top,
+                bottomPos: meta.positions.bottom,
+              }
+            }
+
+            // Preserve last known viewport positions across transactions.
+            // Without this, every keystroke resets back to a full document
+            // scan, defeating the viewport optimisation.
+            return prev
+          },
+        },
+        key: PLUGIN_KEY,
+        view(view) {
+          const computeAndDispatch = () => {
+            const positions = getViewportBoundaryPositions({
+              view,
+              doc: view.state.doc,
+            })
+
+            const prev = PLUGIN_KEY.getState(view.state)
+            if (prev.topPos === positions.top && prev.bottomPos === positions.bottom) {
+              return
+            }
+
+            const tr = view.state.tr.setMeta(PLUGIN_KEY, { positions })
+            view.dispatch(tr)
+          }
+
+          const { call: throttledUpdate, cancel: cancelThrottle } = throttle(computeAndDispatch, 250)
+          const scrollParent = findScrollParent(view.dom)
+
+          scrollParent.addEventListener('scroll', throttledUpdate, { passive: true })
+
+          // Fire once to populate initial viewport (bypass throttle)
+          computeAndDispatch()
+
+          return {
+            update(_, prevState) {
+              // After content changes (Enter, paste, delete, …) the stored
+              // viewport positions refer to old document coordinates so we update it
+              if (view.state.doc.content.size !== prevState.doc.content.size) {
+                computeAndDispatch()
+              }
+            },
+            destroy: () => {
+              cancelThrottle()
+              scrollParent.removeEventListener('scroll', throttledUpdate)
+            },
+          }
+        },
         props: {
           decorations: ({ doc, selection }) => {
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable
@@ -98,7 +166,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                 }
               }
             } else {
-              doc.descendants((node, pos) => {
+              const pluginState = PLUGIN_KEY.getState(this.editor.state)
+              const from = pluginState.topPos ?? 0
+              const to = pluginState.bottomPos ?? doc.content.size
+
+              doc.nodesBetween(from, to, (node, pos) => {
                 const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
                 const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
