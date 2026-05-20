@@ -68,6 +68,7 @@ export function dragHandler(
   editor: Editor,
   nestedOptions?: NormalizedNestedOptions,
   dragContext?: DragContext,
+  dragImageProperties?: string[],
 ) {
   const { view } = editor
 
@@ -126,7 +127,7 @@ export function dragHandler(
       return
     }
 
-    const clonedElement = cloneElement(element)
+    const clonedElement = cloneElement(element, dragImageProperties)
 
     clonedElement.style.margin = '0'
 
