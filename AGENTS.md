@@ -6,7 +6,7 @@ This document explains how to work on the Tiptap monorepo. It covers repo layout
 
 ## What is Tiptap
 
-Tiptap is a headless rich text editor toolkit built on ProseMirror. It ships a small Core and many opt-in Extensions so you can compose exactly the editor you need for React, Vue, or vanilla apps. The project is optimized for user experience and developer experience. APIs are predictable, behavior is testable, and everything should be documented with JSDoc and runnable examples so we can generate API docs automatically.
+Tiptap is a headless rich text editor toolkit built on ProseMirror. It ships a small Core and many opt-in Extensions so you can compose exactly the editor you need for React, Vue, or vanilla apps. The project is optimized for user experience and developer experience. APIs are predictable, behavior is testable, and everything worth to be document should be documented with JSDoc and runnable examples so we can generate API docs automatically. Just make sure, that the JSDoc lenght is not becoming to much or is added to properties or values that maybe fine with a one-liner comment explanation.
 
 Key points for AI assistants:
 
@@ -113,13 +113,21 @@ pnpm test:run
 
 ## Documentation style
 
-We focus heavily on **User Experience** and **Developer Experience**. Every public API must be documented with JSDoc, including:
+Public, user-facing APIs get JSDoc with `@param`, `@returns`, and at least one runnable example — that feeds the generated docs.
 
-* `@param` and `@returns` annotations
-* Argument descriptions
-* At least one runnable example
+Everything else: **keep comments short.** Code is read more often than written; long comments slow that down.
 
-This ensures our automated API docs are complete and examples are usable without extra context.
+Rules:
+
+* **One sentence per JSDoc.** Say what it does. Don't restate the type, don't explain the implementation, don't recap history.
+* **Skip `@param` / `@returns` when the name says it.** `addChild(desc, index)` doesn't need `@param desc — the descriptor to add`.
+* **File headers: 2–4 lines max.** Not an architecture essay.
+* **No "why we did this" in code.** That belongs in commit messages or progress notes, not above a function.
+* **Trivial methods need no comment.** A matcher that returns `false` is self-explanatory.
+* **Inline comments only when the code can't speak for itself** — regex, non-obvious algorithms, deliberate gotchas. Not "// loop over children".
+* **If you're tempted to write a long comment, you're probably writing the wrong code.** Refactor the code instead.
+
+Rule of thumb: if there are more lines of comment than code, the comment is wrong.
 
 ---
 
