@@ -91,18 +91,23 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             // Preserve last known viewport positions across transactions.
             // Without this, every keystroke resets back to a full document
             // scan, defeating the viewport optimisation.
+            // Only map when we have actual positions — null means "no viewport
+            // info yet" and should stay null to fall back to full doc scan.
             return {
-              topPos: tr.mapping.map(prev.topPos ?? 0),
-              bottomPos: tr.mapping.map(prev.bottomPos ?? tr.doc.content.size),
+              topPos: prev.topPos !== null ? tr.mapping.map(prev.topPos) : null,
+              bottomPos: prev.bottomPos !== null ? tr.mapping.map(prev.bottomPos) : null,
             }
           },
         },
         key: PLUGIN_KEY,
         view(view) {
+          const scrollContainer = findScrollParent(view.dom)
+
           const computeAndDispatch = () => {
             const positions = getViewportBoundaryPositions({
               view,
               doc: view.state.doc,
+              scrollContainer,
             })
 
             const prev = PLUGIN_KEY.getState(view.state)
@@ -110,12 +115,16 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               return
             }
 
-            const tr = view.state.tr.setMeta(PLUGIN_KEY, { positions })
+            const tr = view.state.tr
+              .setMeta(PLUGIN_KEY, { positions })
+              // Flag this transaction so the update() method can detect
+              // it and avoid re-entrant computation.
+              .setMeta('tiptap__viewportUpdate', true)
             view.dispatch(tr)
           }
 
           const { call: throttledUpdate, cancel: cancelThrottle } = throttle(computeAndDispatch, 250)
-          const scrollParent = findScrollParent(view.dom)
+          const scrollParent = scrollContainer
 
           scrollParent.addEventListener('scroll', throttledUpdate, { passive: true })
 
@@ -124,8 +133,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
           return {
             update(_, prevState) {
-              // After content changes (Enter, paste, delete, …) the stored
-              // viewport positions refer to old document coordinates so we update it
+              // Skip re-entry: the dispatch inside computeAndDispatch would
+              // trigger this update again, but the doc didn't change so the
+              // size guard catches that. The meta flag is an extra safeguard.
               if (view.state.doc.content.size !== prevState.doc.content.size) {
                 computeAndDispatch()
               }
@@ -155,9 +165,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
               if (resolved.depth > 0) {
                 const node = resolved.node(1)
+                const nodeStart = resolved.before(1)
 
                 if (node.type.isTextblock && isNodeEmpty(node)) {
-                  const hasAnchor = anchor >= resolved.pos && anchor <= resolved.pos + node.nodeSize
+                  const hasAnchor = anchor >= nodeStart && anchor <= nodeStart + node.nodeSize
                   const decoration = createPlaceholderDecoration({
                     node,
                     dataAttribute,
