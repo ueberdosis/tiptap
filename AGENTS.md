@@ -168,7 +168,7 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 ## Extra guidance (short additions)
 
-### Scopes (for Conventional Commits)n
+### Scopes (for Conventional Commits)
 
 Git conventional commit scopes live in [SCOPES.md](./SCOPES.md). Use it to pick the right scope when committing.
 
@@ -213,4 +213,4 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### Troubleshooting notes
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
-- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`.n
+- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`
