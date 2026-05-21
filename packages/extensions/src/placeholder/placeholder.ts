@@ -87,7 +87,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             // Preserve last known viewport positions across transactions.
             // Without this, every keystroke resets back to a full document
             // scan, defeating the viewport optimisation.
-            return prev
+            return {
+              topPos: tr.mapping.map(prev.topPos ?? 0),
+              bottomPos: tr.mapping.map(prev.bottomPos ?? tr.doc.content.size),
+            }
           },
         },
         key: PLUGIN_KEY,
@@ -150,10 +153,11 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
                 const node = resolved.node(1)
 
                 if (node.type.isTextblock && isNodeEmpty(node)) {
+                  const hasAnchor = anchor >= resolved.pos && anchor <= resolved.pos + node.nodeSize
                   const decoration = createPlaceholderDecoration({
                     node,
                     dataAttribute,
-                    hasAnchor: false,
+                    hasAnchor,
                     placeholder: this.options.placeholder,
                     classes: {
                       emptyEditor: this.options.emptyEditorClass,
