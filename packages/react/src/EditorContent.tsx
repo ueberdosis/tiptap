@@ -6,6 +6,8 @@ import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
 import type { ReactRenderer } from './ReactRenderer.js'
+import { EditorContentReact } from './renderer/components/EditorContentReact.js'
+import { ReactEditorView } from './renderer/ReactEditorView.js'
 
 const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
   return (node: T) => {
@@ -185,6 +187,11 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
       return Math.floor(Math.random() * 0xffffffff).toString()
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.editor])
+
+    // When the experimental React renderer is on, branch to the React-native path.
+    if (props.editor?.options.editorViewClass === ReactEditorView) {
+      return React.createElement(EditorContentReact, { key, ...props })
+    }
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
     return React.createElement(PureEditorContent, {

@@ -6,5 +6,7 @@
  */
 
 export { DocNodeView } from './components/DocNodeView.js'
+export { EditorContentReact } from './components/EditorContentReact.js'
 export { NodeView } from './components/NodeView.js'
 export { TextNodeView } from './components/TextNodeView.js'
+export { ReactEditorView } from './ReactEditorView.js'
