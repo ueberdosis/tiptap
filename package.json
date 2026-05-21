@@ -16,11 +16,16 @@
     "lint": "turbo run lint",
     "lint:fix": "prettier -w --log-level warn . && eslint --fix --cache --quiet --no-error-on-unmatched-pattern .",
     "lint:staged": "lint-staged",
-    "test:e2e:open": "cypress open --project tests",
-    "test:e2e": "cypress run --project tests",
     "test:unit": "vitest run",
     "test:unit:dev": "vitest",
-    "test": "turbo run build && pnpm run test:e2e && pnpm run test:unit",
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:firefox": "playwright test --project=firefox",
+    "test:e2e:all": "playwright test",
+    "test:e2e:open": "playwright test --ui --project=chromium",
+    "test:e2e:open:firefox": "playwright test --ui --project=firefox",
+    "test:e2e:open:all": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test": "turbo run build && pnpm run test:unit",
     "build": "turbo build",
     "build:demos": "pnpm --prefix demos run build:demos",
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
@@ -49,7 +54,7 @@
     "@changesets/get-release-plan": "^4.0.13",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
-    "@cypress/webpack-preprocessor": "^6.0.2",
+    "@playwright/test": "^1.54.2",
     "@testing-library/react": "16.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -57,12 +62,10 @@
     "@typescript-eslint/parser": "^8.58.0",
     "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
-    "cypress": "^15.13.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react-hooks": "4.6.2",
@@ -78,6 +81,7 @@
     "pkg-pr-new": "0.0.66",
     "prettier": "3.3.3",
     "react": "^19.0.0",
+    "tsconfig-paths": "^4.2.0",
     "tinyglobby": "0.2.10",
     "ts-loader": "9.3.1",
     "tsup": "^8.5.1",
@@ -90,7 +94,6 @@
     "@rollup/pluginutils": "^5.1.4",
     "@rollup/pluginutils>picomatch": "2.3.2",
     "@octokit/action>undici": "6.24.1",
-    "@cypress/request>uuid": "14.0.0",
     "anymatch>picomatch": "2.3.2",
     "glob": "^10.5.0",
     "micromatch>picomatch": "2.3.2",
@@ -107,12 +110,6 @@
   "publishConfig": {
     "provenance": true
   },
-  "lint-staged": {
-    "./**/*.{ts,tsx,js,jsx,vue}": [
-      "prettier --write",
-      "eslint --fix --quiet --no-error-on-unmatched-pattern"
-    ]
-  },
   "pnpm": {
     "patchedDependencies": {
       "@changesets/assemble-release-plan@6.0.5": "patches/@changesets__assemble-release-plan.patch",
@@ -121,7 +118,6 @@
     "overrides": {
       "@rollup/pluginutils>picomatch": "2.3.2",
       "@octokit/action>undici": "6.24.1",
-      "@cypress/request>uuid": "14.0.0",
       "anymatch>picomatch": "2.3.2",
       "glob": "^10.5.0",
       "micromatch>picomatch": "2.3.2",

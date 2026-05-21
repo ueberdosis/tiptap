@@ -14,10 +14,7 @@ module.exports = {
     },
     {
       files: ['./**/*.ts', './**/*.tsx', './**/*.js', './**/*.jsx', './**/*.vue'],
-      plugins: ['html', 'cypress', '@typescript-eslint', 'simple-import-sort'],
-      env: {
-        'cypress/globals': true,
-      },
+      plugins: ['html', '@typescript-eslint', 'simple-import-sort'],
       globals: {
         document: false,
         window: false,
