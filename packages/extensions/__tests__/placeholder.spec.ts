@@ -443,69 +443,81 @@ describe('placeholder utility: findScrollParent', () => {
 })
 
 describe('placeholder utility: throttle', () => {
-  beforeEach(() => {
-    vi.useFakeTimers()
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
-  })
-
   it('calls the function immediately on the first invocation (leading-edge)', () => {
-    const fn = vi.fn()
-    const { call } = throttle(fn, 250)
-
+    let called = false
+    const { call } = throttle(() => {
+      called = true
+    }, 250)
     call()
-    expect(fn).toHaveBeenCalledTimes(1)
+    expect(called).toBe(true)
   })
 
   it('ignores subsequent calls within the delay window', () => {
-    const fn = vi.fn()
-    const { call } = throttle(fn, 250)
+    let count = 0
+    const { call } = throttle(() => {
+      count += 1
+    }, 250)
 
     call()
     call()
     call()
-    expect(fn).toHaveBeenCalledTimes(1)
+    // Leading-edge fires immediately, subsequent calls within the delay are blocked
+    expect(count).toBe(1)
   })
 
   it('allows a call after the delay has elapsed', () => {
-    const fn = vi.fn()
-    const { call } = throttle(fn, 250)
+    vi.useFakeTimers()
+    let count = 0
+    const { call } = throttle(() => {
+      count += 1
+    }, 250)
 
     call()
-    expect(fn).toHaveBeenCalledTimes(1)
+    expect(count).toBe(1)
 
     vi.advanceTimersByTime(250)
     call()
-    expect(fn).toHaveBeenCalledTimes(2)
+    expect(count).toBe(2)
+    vi.useRealTimers()
   })
 
   it('resets the timer on each call within the window', () => {
-    const fn = vi.fn()
-    const { call } = throttle(fn, 250)
+    vi.useFakeTimers()
+    let count = 0
+    const { call } = throttle(() => {
+      count += 1
+    }, 250)
 
     call() // fires immediately
+    expect(count).toBe(1)
+
     vi.advanceTimersByTime(100)
     call() // ignored (within 250ms window)
     vi.advanceTimersByTime(100)
     call() // ignored
     vi.advanceTimersByTime(100)
     // 300ms elapsed total, but the window extends 250ms from the last call
-    expect(fn).toHaveBeenCalledTimes(1)
+    expect(count).toBe(1)
 
     vi.advanceTimersByTime(150)
     call() // 250ms has passed since last call
-    expect(fn).toHaveBeenCalledTimes(2)
+    expect(count).toBe(2)
+    vi.useRealTimers()
   })
 
   it('cancel() clears the timer and allows immediate re-call', () => {
-    const fn = vi.fn()
-    const { call, cancel } = throttle(fn, 250)
+    vi.useFakeTimers()
+    let count = 0
+    const { call, cancel } = throttle(() => {
+      count += 1
+    }, 250)
 
     call() // fires, starts timer
+    expect(count).toBe(1)
+
     cancel() // clears timer
     call() // fires again because timer was cancelled
-    expect(fn).toHaveBeenCalledTimes(2)
+    expect(count).toBe(2)
+    vi.useRealTimers()
   })
 })

@@ -1,17 +1,16 @@
-export function throttle<T extends (...args: Parameters<T>) => void>(
-  fn: T,
-  delay: number,
-): { call: T; cancel: () => void } {
+export function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): { call: T; cancel: () => void } {
   let timer: ReturnType<typeof setTimeout> | null = null
 
-  const call = ((...args: Parameters<T>) => {
+  const call = ((...args: any[]) => {
     if (timer) {
       return
     }
 
+    // Leading-edge: fire immediately, then prevent subsequent calls
+    // until the timer fires and resets.
+    fn(...args)
     timer = setTimeout(() => {
       timer = null
-      fn(...args)
     }, delay)
   }) as T
 
