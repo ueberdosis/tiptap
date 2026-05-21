@@ -9,7 +9,7 @@ import type { PlaceholderOptions } from '../types.js'
  * CSS class and data attribute to an empty node.
  * @param options.editor - The editor instance
  * @param options.pos - The position of the node in the document
- * @param options.node - The Prosemirror node
+ * @param options.node - The ProseMirror node
  * @param options.isEmptyDoc - Whether the entire document is empty
  * @param options.hasAnchor - Whether the selection anchor is within the node
  * @param options.dataAttribute - The data attribute name (e.g. `data-placeholder`)
