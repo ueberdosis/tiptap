@@ -3,10 +3,10 @@
 /**
  * Mount point for the experimental React-native renderer.
  *
- * Drop-in replacement for `<EditorContent>` when
- * `experimentalReactRenderer` is on. Owns the DOM element PM mounts
- * into; renders the doc tree through `<DocNodeView>`; swaps PM's
- * docView for the React-built tree.
+ * Mounts PM directly onto the React-owned container (`{ mount }`
+ * form so view.dom IS our React div, with no intermediate PM div).
+ * Wipes PM's initial DOM render and lets `<DocNodeView>` paint the
+ * content. `attachReactRoot` swaps PM's docView for the React tree.
  */
 
 import type { Editor } from '@tiptap/core'
@@ -21,36 +21,57 @@ export interface EditorContentReactProps extends HTMLAttributes<HTMLDivElement> 
   editor: Editor | null
 }
 
+/** Read the editor's private editorView field without going through the proxy. */
+function getView(editor: Editor): ReactEditorView | null {
+  return (editor as unknown as { editorView: ReactEditorView | null }).editorView
+}
+
 export function EditorContentReact({ editor, ...rest }: EditorContentReactProps) {
-  const mountRef = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [ready, setReady] = useState(false)
   const attachedRef = useRef(false)
 
-  // Mount the editor onto our React-owned div once both are ready.
   useEffect(() => {
-    if (!editor || !mountRef.current || mounted) {
+    if (!editor || !containerRef.current) {
       return
     }
-    editor.mount(mountRef.current)
-    setMounted(true)
-  }, [editor, mounted])
+    if (getView(editor)) {
+      // Already mounted (HMR / re-effect).
+      setReady(true)
+      return
+    }
+    // Mount with `{ mount }` so PM uses our React-owned div AS view.dom
+    // (no intermediate PM-owned wrapper element).
+    editor.mount({ mount: containerRef.current } as unknown as HTMLElement)
+    // PM just rendered the doc into view.dom. Wipe — React will paint.
+    const view = getView(editor)
+    if (view) {
+      const internals = view as unknown as { domObserver: { start(): void; stop(): void } }
+      internals.domObserver.stop()
+      view.dom.replaceChildren()
+      internals.domObserver.start()
+    }
+    setReady(true)
+  }, [editor])
 
-  // Subscribe to the live doc so React re-renders on every transaction.
   const doc = useEditorState({
     editor,
     selector: ({ editor: e }) => e?.state.doc ?? null,
   })
 
+  const view = editor ? getView(editor) : null
+
   return (
-    <div ref={mountRef} {...rest}>
-      {mounted && doc && (
+    <div ref={containerRef} {...rest}>
+      {ready && doc && view && (
         <DocNodeView
           doc={doc}
+          dom={view.dom}
           onDocDesc={desc => {
-            if (!desc || !editor || attachedRef.current) {
+            if (!desc || attachedRef.current) {
               return
             }
-            ;(editor.view as ReactEditorView).attachReactRoot(desc)
+            view.attachReactRoot(desc)
             attachedRef.current = true
           }}
         />

@@ -3,8 +3,10 @@
 /**
  * Root of the React-rendered ProseMirror document.
  *
- * Owns the top-level descriptor registry and renders the doc node
- * itself as a `<div>`. Each PM child node is rendered by `<NodeView>`.
+ * When `dom` is provided (editor-integrated mode), the desc's `dom`
+ * is that external element and we render children directly into it.
+ * When omitted (standalone/preview mode), we render our own wrapping
+ * `<div>` and use it as the desc's dom.
  */
 
 import type { Node as PMNode } from '@tiptap/pm/model'
@@ -18,15 +20,29 @@ import type { ReactNodeViewDesc } from '../viewdesc/index.js'
 import { NodeView } from './NodeView.js'
 
 export interface DocNodeViewProps {
-  /** The PM doc node to render. */
   doc: PMNode
-  /** Optional callback that fires once the root desc is built. */
+  /** External DOM element to use as the doc's dom (= view.dom). */
+  dom?: HTMLElement
+  /** Callback that fires once the root desc is built. */
   onDocDesc?: (desc: ReactNodeViewDesc | null) => void
 }
 
 export function DocNodeView(props: DocNodeViewProps) {
-  const { doc, onDocDesc } = props
-  const domRef = useRef<HTMLDivElement>(null)
+  const { doc, dom, onDocDesc } = props
+
+  const domRef = useRef<HTMLElement | null>(dom ?? null)
+  // When an external `dom` is provided, keep the ref synced each render.
+  if (dom) {
+    domRef.current = dom
+  }
+
+  // Callback ref for the standalone (own div) case: assigns into domRef
+  // synchronously when the div mounts, so the first layout effect sees it.
+  const setOwnRef = (el: HTMLDivElement | null) => {
+    if (!dom) {
+      domRef.current = el
+    }
+  }
 
   const { childContext, descRef } = useNodeViewDescription({
     node: doc,
@@ -37,8 +53,6 @@ export function DocNodeView(props: DocNodeViewProps) {
     index: 0,
   })
 
-  // Expose the root desc after each commit. Real wiring goes through
-  // `view.docView` later; this is for tests + early demos.
   useEffect(() => {
     onDocDesc?.(descRef.current)
   })
@@ -50,7 +64,7 @@ export function DocNodeView(props: DocNodeViewProps) {
 
   return (
     <ChildDescriptionsContext.Provider value={childContext}>
-      <div ref={domRef}>{children}</div>
+      {dom ? children : <div ref={setOwnRef}>{children}</div>}
     </ChildDescriptionsContext.Provider>
   )
 }

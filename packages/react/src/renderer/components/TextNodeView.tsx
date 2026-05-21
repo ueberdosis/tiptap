@@ -3,15 +3,16 @@
 /**
  * Renders a ProseMirror text node.
  *
- * React can't give us a ref to a raw text node, so we wrap the text
- * in a `<span>` and point `nodeDOM` at the text node inside. This
- * adds an extra DOM element compared to plain ProseMirror — we'll
- * remove it later when we route decorated text through marks.
+ * The text is seeded into the DOM via JSX on first mount, then frozen
+ * — subsequent re-renders use a layout effect to update `nodeValue`
+ * imperatively, but only when the text actually differs from what's
+ * already in the DOM. This avoids React clobbering the browser's
+ * contentEditable selection during typing.
  */
 
 import type { Node as PMNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 import { useTextViewDescription } from '../hooks/useTextViewDescription.js'
 import type { DOMNode } from '../viewdesc/index.js'
@@ -20,6 +21,8 @@ export function TextNodeView(props: { node: PMNode; index: number }) {
   const { node, index } = props
   const spanRef = useRef<HTMLSpanElement>(null)
   const textDOMRef = useRef<DOMNode | null>(null)
+  // Snapshot the initial text so React's reconciler never re-writes it.
+  const initialText = useRef(node.text ?? '')
 
   useTextViewDescription({
     node,
@@ -30,6 +33,19 @@ export function TextNodeView(props: { node: PMNode; index: number }) {
     index,
   })
 
+  useLayoutEffect(() => {
+    const span = spanRef.current
+    if (!span) {
+      return
+    }
+    const text = node.text ?? ''
+    const textNode = span.firstChild as Text | null
+    if (textNode && textNode.nodeValue !== text) {
+      textNode.nodeValue = text
+    }
+    textDOMRef.current = span.firstChild ?? null
+  })
+
   return (
     <span
       ref={el => {
@@ -37,7 +53,7 @@ export function TextNodeView(props: { node: PMNode; index: number }) {
         textDOMRef.current = el?.firstChild ?? null
       }}
     >
-      {node.text}
+      {initialText.current}
     </span>
   )
 }

@@ -128,8 +128,14 @@ class EditorInstanceManager {
     const opts = this.options.current
     const editorViewClass = opts.experimentalReactRenderer ? ReactEditorView : opts.editorViewClass
 
+    // Under the React renderer, suppress the auto-mount that
+    // happens via Editor's default `element`. `EditorContentReact`
+    // mounts the editor explicitly once its container ref is ready.
+    const elementOverride = opts.experimentalReactRenderer ? { element: null as unknown as undefined } : {}
+
     const optionsToApply: Partial<EditorOptions> = {
       ...opts,
+      ...elementOverride,
       editorViewClass,
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
