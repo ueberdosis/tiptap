@@ -50,9 +50,9 @@ export interface PlaceholderOptions {
   showOnlyCurrent: boolean
 
   /**
-   * **Controls if the placeholder should be shown for all descendents.**
+   * **Controls if the placeholder should be shown for all descendants.**
    *
-   * If true, the placeholder will be shown for all descendents.
+   * If true, the placeholder will be shown for all descendants.
    * If false, the placeholder will only be shown for the current node.
    * @default false
    */
