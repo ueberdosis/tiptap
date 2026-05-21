@@ -1,10 +1,10 @@
-export function throttle<T extends (...args: unknown[]) => void>(
+export function throttle<T extends (...args: Parameters<T>) => void>(
   fn: T,
   delay: number,
 ): { call: T; cancel: () => void } {
   let timer: ReturnType<typeof setTimeout> | null = null
 
-  const call = ((...args: unknown[]) => {
+  const call = ((...args: Parameters<T>) => {
     if (timer) {
       return
     }
