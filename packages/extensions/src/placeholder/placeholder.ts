@@ -84,6 +84,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
               }
             }
 
+            if (!tr.docChanged) {
+              return prev
+            }
+
             // Preserve last known viewport positions across transactions.
             // Without this, every keystroke resets back to a full document
             // scan, defeating the viewport optimisation.
