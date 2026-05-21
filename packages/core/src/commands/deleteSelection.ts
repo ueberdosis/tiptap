@@ -71,7 +71,7 @@ declare module '@tiptap/core' {
 
 export const deleteSelection: RawCommands['deleteSelection'] =
   () =>
-  ({ state, tr }) => {
+  ({ state, dispatch }) => {
     const { $from, $to } = state.selection
     if (state.selection.empty) {
       return false
@@ -79,7 +79,10 @@ export const deleteSelection: RawCommands['deleteSelection'] =
 
     const { from, to } = expandSelectionForInlineText($from, $to, state.schema)
 
-    tr.deleteRange(from, to).scrollIntoView()
+    if (dispatch) {
+      state.tr.deleteRange(from, to).scrollIntoView()
+      dispatch(state.tr)
+    }
 
     return true
   }
