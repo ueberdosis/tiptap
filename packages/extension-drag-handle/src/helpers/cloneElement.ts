@@ -2,7 +2,10 @@ function getCSSText(element: Element, properties?: string[]) {
   const style = getComputedStyle(element)
 
   if (properties) {
-    return properties.map(p => `${p}:${style.getPropertyValue(p)};`).join('')
+    return properties
+      .filter(p => p.trim().length > 0)
+      .map(p => `${p}:${style.getPropertyValue(p)};`)
+      .join('')
   }
 
   let value = ''
