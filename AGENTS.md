@@ -168,6 +168,10 @@ Changelogs must describe **user-facing changes**. Avoid internal noise.
 
 ## Extra guidance (short additions)
 
+### Scopes (for Conventional Commits)n
+
+Git conventional commit scopes live in [SCOPES.md](./SCOPES.md). Use it to pick the right scope when committing.
+
 ### Environment
 
 - Recommended Node version: >=24.x. Use a node version manager (nvm, fnm) or Corepack to pin a runtime that matches the root `package.json` `engines.node` requirement.
@@ -209,4 +213,4 @@ If a single package is failing types, run a targeted build for that package (e.g
 ### Troubleshooting notes
 
 - If CI fails with dependency or lockfile errors, run `pnpm reset` locally and re-run the build.
-- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`.
+- For flaky Playwright tests, reproduce locally with `pnpm test:e2e:open` (UI mode) or rerun with `--trace on` and inspect via `pnpm test:e2e:report`.n
