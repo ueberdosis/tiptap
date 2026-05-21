@@ -3,6 +3,7 @@ import type { DependencyList, MutableRefObject } from 'react'
 import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
+import { ReactEditorView } from './renderer/ReactEditorView.js'
 import { useEditorState } from './useEditorState.js'
 
 // @ts-ignore
@@ -27,6 +28,13 @@ export type UseEditorOptions = Partial<EditorOptions> & {
    * @default false
    */
   shouldRerenderOnTransaction?: boolean
+  /**
+   * Opt into the experimental React-native renderer. Wires
+   * `ReactEditorView` as the `editorViewClass`. Not yet a full
+   * replacement — current behaviour is identical to the default
+   * renderer.
+   */
+  experimentalReactRenderer?: boolean
 }
 
 /**
@@ -117,8 +125,12 @@ class EditorInstanceManager {
    * Create a new editor instance. And attach event listeners.
    */
   private createEditor(): Editor {
+    const opts = this.options.current
+    const editorViewClass = opts.experimentalReactRenderer ? ReactEditorView : opts.editorViewClass
+
     const optionsToApply: Partial<EditorOptions> = {
-      ...this.options.current,
+      ...opts,
+      editorViewClass,
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
       onBlur: (...args) => this.options.current.onBlur?.(...args),
