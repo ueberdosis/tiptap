@@ -54,45 +54,44 @@ describe('cloneElement', () => {
 
       element.appendChild(child)
 
-      vi.spyOn(window, 'getComputedStyle').mockImplementation(
-        () =>
-          ({
-            length: 6,
-            0: 'margin-top',
-            1: 'color',
-            2: 'font-weight',
-            3: 'background-color',
-            4: 'opacity',
-            5: 'font-size',
-            getPropertyValue: (property: string) => {
-              if (property === 'margin-top') {
-                return '24px'
-              }
+      vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+        return {
+          length: 6,
+          0: 'margin-top',
+          1: 'color',
+          2: 'font-weight',
+          3: 'background-color',
+          4: 'opacity',
+          5: 'font-size',
+          getPropertyValue: (property: string) => {
+            if (property === 'margin-top') {
+              return '24px'
+            }
 
-              if (property === 'color') {
-                return 'rgb(1, 2, 3)'
-              }
+            if (property === 'color') {
+              return 'rgb(1, 2, 3)'
+            }
 
-              if (property === 'font-weight') {
-                return '700'
-              }
+            if (property === 'font-weight') {
+              return '700'
+            }
 
-              if (property === 'background-color') {
-                return 'rgb(255, 0, 0)'
-              }
+            if (property === 'background-color') {
+              return 'rgb(255, 0, 0)'
+            }
 
-              if (property === 'opacity') {
-                return '0.5'
-              }
+            if (property === 'opacity') {
+              return '0.5'
+            }
 
-              if (property === 'font-size') {
-                return '16px'
-              }
+            if (property === 'font-size') {
+              return '16px'
+            }
 
-              return ''
-            },
-          }) as unknown as CSSStyleDeclaration,
-      )
+            return ''
+          },
+        } as unknown as CSSStyleDeclaration
+      })
 
       const clone = cloneElement(element, ['margin-top', 'color'])
 
@@ -110,14 +109,13 @@ describe('cloneElement', () => {
     it('returns an empty cssText when the properties list is empty', () => {
       const element = document.createElement('p')
 
-      vi.spyOn(window, 'getComputedStyle').mockImplementation(
-        () =>
-          ({
-            length: 1,
-            0: 'color',
-            getPropertyValue: () => 'red',
-          }) as unknown as CSSStyleDeclaration,
-      )
+      vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+        return {
+          length: 1,
+          0: 'color',
+          getPropertyValue: () => 'red',
+        } as unknown as CSSStyleDeclaration
+      })
 
       const clone = cloneElement(element, [])
 
