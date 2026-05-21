@@ -536,7 +536,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     const baseTransformPastedHTML = (editorProps as DirectEditorProps).transformPastedHTML
     const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
 
-    this.editorView = new EditorView(element, {
+    const EditorViewClass = this.options.editorViewClass || EditorView
+
+    this.editorView = new EditorViewClass(element, {
       ...editorProps,
       attributes: {
         // add `role="textbox"` to the editor element

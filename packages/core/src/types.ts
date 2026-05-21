@@ -487,6 +487,12 @@ export interface EditorOptions {
    * })
    */
   enableExtensionDispatchTransaction?: boolean
+  /**
+   * A custom EditorView class to use instead of the default prosemirror-view EditorView.
+   * This allows framework-specific renderers (e.g. React) to subclass EditorView
+   * and replace ProseMirror's default DOM-mutating render cycle.
+   */
+  editorViewClass?: typeof EditorView
 }
 
 /**
