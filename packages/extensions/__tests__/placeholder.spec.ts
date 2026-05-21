@@ -7,7 +7,10 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
 import { type PlaceholderOptions, Placeholder, preparePlaceholderAttribute } from '@tiptap/extensions'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'
+import { throttle } from '../src/placeholder/utils/throttle.js'
 
 describe('extension-placeholder', () => {
   let editor: Editor | null = null
@@ -184,5 +187,325 @@ describe('extension-placeholder with includeChildren and wrapper nodes', () => {
     // listItem and paragraph are not traversed because includeChildren is false
     expect(listItem.hasAttribute('data-placeholder')).toBe(false)
     expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
+  })
+})
+
+describe('extension-placeholder: fast path (default config)', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
+  })
+
+  it('shows placeholder in the current empty paragraph via the fast path', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
+    expect(paragraph.classList.contains('is-empty')).toBe(true)
+  })
+
+  it('hides placeholder when the cursor is in a non-empty paragraph', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p>Hello</p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraph.classList.contains('is-empty')).toBe(false)
+  })
+
+  it('shows placeholder only for the current empty node when multiple paragraphs exist', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Write here...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    // Cursor is in the first paragraph by default (start of doc)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    // Only the first paragraph (where the cursor is) should have a placeholder
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Write here...')
+    // The second paragraph should not have a placeholder since showOnlyCurrent is true
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
+  })
+
+  it('removes placeholder when user types into the empty paragraph', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
+
+    // Insert text into the paragraph
+    editor!.commands.insertContent('Hello')
+    expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraph.classList.contains('is-empty')).toBe(false)
+  })
+})
+
+describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
+  })
+
+  it('shows placeholder on all empty textblocks when showOnlyCurrent is false', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Fill me in...',
+          showOnlyCurrent: false,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p></p><p>Content</p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    // First paragraph (empty) should have placeholder
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Fill me in...')
+    // Second paragraph (has content) should not
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
+    // Third paragraph (empty) should have placeholder
+    expect(paragraphs[2].getAttribute('data-placeholder')).toBe('Fill me in...')
+  })
+})
+
+describe('extension-placeholder — empty editor class', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
+  })
+
+  it('adds is-editor-empty class when the entire document is empty', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.classList.contains('is-editor-empty')).toBe(true)
+  })
+
+  it('removes is-editor-empty class when content is added', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.classList.contains('is-editor-empty')).toBe(true)
+
+    editor!.commands.insertContent('Hello')
+    expect(paragraph.classList.contains('is-editor-empty')).toBe(false)
+  })
+
+  it('uses custom emptyEditorClass option', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          emptyEditorClass: 'my-empty-editor',
+          emptyNodeClass: 'my-empty-node',
+        }),
+      ],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.classList.contains('my-empty-editor')).toBe(true)
+    expect(paragraph.classList.contains('my-empty-node')).toBe(true)
+  })
+})
+
+describe('placeholder utility: findScrollParent', () => {
+  let container: HTMLElement
+
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+  })
+
+  it('returns the window when no scroll parent exists', () => {
+    const el = document.createElement('span')
+    container.appendChild(el)
+    expect(findScrollParent(el)).toBe(window)
+  })
+
+  it('finds a scrollable parent element with overflow: auto', () => {
+    const scrollable = document.createElement('div')
+    scrollable.style.overflow = 'auto'
+    const child = document.createElement('span')
+    scrollable.appendChild(child)
+    container.appendChild(scrollable)
+
+    expect(findScrollParent(child)).toBe(scrollable)
+  })
+
+  it('finds a scrollable parent element with overflow: scroll', () => {
+    const scrollable = document.createElement('div')
+    scrollable.style.overflow = 'scroll'
+    const child = document.createElement('span')
+    scrollable.appendChild(child)
+    container.appendChild(scrollable)
+
+    expect(findScrollParent(child)).toBe(scrollable)
+  })
+
+  it('does not return elements with overflow: hidden or overflow: clip', () => {
+    const hidden = document.createElement('div')
+    hidden.style.overflow = 'hidden'
+    const clip = document.createElement('div')
+    clip.style.overflow = 'clip'
+    const child = document.createElement('span')
+    hidden.appendChild(clip)
+    clip.appendChild(child)
+    container.appendChild(hidden)
+
+    expect(findScrollParent(child)).toBe(window)
+  })
+
+  it('finds the nearest scrollable ancestor', () => {
+    const outer = document.createElement('div')
+    outer.style.overflow = 'scroll'
+    const middle = document.createElement('div')
+    middle.style.overflow = 'hidden'
+    const child = document.createElement('span')
+    middle.appendChild(child)
+    outer.appendChild(middle)
+    container.appendChild(outer)
+
+    // Should find `outer`, not stop at `middle` (which is hidden, not scrollable)
+    expect(findScrollParent(child)).toBe(outer)
+  })
+})
+
+describe('placeholder utility: throttle', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('calls the function immediately on the first invocation (leading-edge)', () => {
+    const fn = vi.fn()
+    const { call } = throttle(fn, 250)
+
+    call()
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('ignores subsequent calls within the delay window', () => {
+    const fn = vi.fn()
+    const { call } = throttle(fn, 250)
+
+    call()
+    call()
+    call()
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('allows a call after the delay has elapsed', () => {
+    const fn = vi.fn()
+    const { call } = throttle(fn, 250)
+
+    call()
+    expect(fn).toHaveBeenCalledTimes(1)
+
+    vi.advanceTimersByTime(250)
+    call()
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('resets the timer on each call within the window', () => {
+    const fn = vi.fn()
+    const { call } = throttle(fn, 250)
+
+    call() // fires immediately
+    vi.advanceTimersByTime(100)
+    call() // ignored (within 250ms window)
+    vi.advanceTimersByTime(100)
+    call() // ignored
+    vi.advanceTimersByTime(100)
+    // 300ms elapsed total, but the window extends 250ms from the last call
+    expect(fn).toHaveBeenCalledTimes(1)
+
+    vi.advanceTimersByTime(150)
+    call() // 250ms has passed since last call
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('cancel() clears the timer and allows immediate re-call', () => {
+    const fn = vi.fn()
+    const { call, cancel } = throttle(fn, 250)
+
+    call() // fires, starts timer
+    cancel() // clears timer
+    call() // fires again because timer was cancelled
+    expect(fn).toHaveBeenCalledTimes(2)
   })
 })
