@@ -57,7 +57,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsdown && mkdir -p dist/menus && cp src/components/*.svelte dist/ && cp src/hooks/*.svelte.ts dist/ && cp src/components/menus/*.svelte dist/menus/",
+    "build": "tsdown && mkdir -p dist/menus && cp src/components/*.svelte dist/ && cp src/hooks/*.svelte.ts src/renderers/*.svelte.ts dist/ && cp src/components/menus/*.svelte dist/menus/",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

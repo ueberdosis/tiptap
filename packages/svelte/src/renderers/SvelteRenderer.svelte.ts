@@ -11,43 +11,42 @@ export class SvelteRenderer {
 
   private component: any
 
+  private store = $state<Record<string, any>>({})
+
   destroyed = false
 
   el: Element | null = null
 
-  props: Record<string, any>
-
   constructor(component: any, { props = {} }: SvelteRendererOptions = {}) {
     this.component = component
-    this.props = { ...props }
     this.container = document.createElement('div')
-    this.renderComponent()
+    Object.assign(this.store, props)
+    this.mountComponent()
   }
 
   get element(): Element | null {
     return this.el
   }
 
+  get props(): Record<string, any> {
+    return this.store
+  }
+
   get ref(): any {
     return this.componentInstance
   }
 
-  renderComponent() {
+  private mountComponent() {
     if (this.destroyed) {
       return
     }
 
-    if (this.componentInstance) {
-      unmount(this.componentInstance)
-      this.componentInstance = null
-    }
-
     this.componentInstance = mount(this.component, {
       target: this.container,
-      props: this.props,
+      props: this.store,
     })
 
-    this.el = this.container.firstElementChild
+    this.el = this.container.firstElementChild as Element | null
   }
 
   updateProps(props: Record<string, any> = {}): void {
@@ -55,8 +54,7 @@ export class SvelteRenderer {
       return
     }
 
-    Object.assign(this.props, props)
-    this.renderComponent()
+    Object.assign(this.store, props)
   }
 
   destroy(): void {
