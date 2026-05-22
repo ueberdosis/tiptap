@@ -1,8 +1,19 @@
 <script lang="ts">
-  let { component: Component, ...props }: {
+  import { setContext } from 'svelte'
+
+  let {
+    component: Component,
+    extension,
+    ...props
+  }: {
     component: any
+    extension?: { name?: string }
     [key: string]: any
   } = $props()
+
+  let className = `svelte-renderer mark-${extension?.name || 'unknown'}`
 </script>
 
-<Component {...props} />
+<div class={className} data-mark-view-wrapper="">
+  <Component extension={extension} {...props} />
+</div>

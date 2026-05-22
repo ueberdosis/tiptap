@@ -1,7 +1,7 @@
 <script lang="ts">
-  let { as = 'div' }: { as?: string } = $props()
+  let { as = 'div', class: className }: { as?: string; class?: string } = $props()
 </script>
 
-<svelte:element this={as} data-node-view-content="" style="white-space: pre-wrap">
-  <slot />
-</svelte:element>
+{#key 'nvc'}
+  <svelte:element this={as} class={className} data-node-view-content="" style="white-space: pre-wrap"></svelte:element>
+{/key}

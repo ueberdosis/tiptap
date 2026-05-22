@@ -1,6 +1,7 @@
 <script lang="ts">
   import StarterKit from '@tiptap/starter-kit'
-  import { useEditor, Tiptap, BubbleMenu, FloatingMenu } from '@tiptap/svelte'
+  import { useEditor, Tiptap } from '@tiptap/svelte'
+  import { BubbleMenu, FloatingMenu } from '@tiptap/svelte/menus'
 
   const editor = useEditor({
     extensions: [StarterKit],
