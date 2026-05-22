@@ -1,0 +1,63 @@
+{
+  "name": "@tiptap/svelte",
+  "description": "Svelte components for tiptap",
+  "version": "3.20.0",
+  "homepage": "https://tiptap.dev",
+  "keywords": [
+    "tiptap",
+    "tiptap svelte components"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.mts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./menus": {
+      "types": {
+        "import": "./dist/menus/index.d.mts",
+        "require": "./dist/menus/index.d.cts"
+      },
+      "import": "./dist/menus/index.mjs",
+      "require": "./dist/menus/index.cjs"
+    }
+  },
+  "type": "module",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "svelte": "^5.55.9"
+  },
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
+  },
+  "peerDependencies": {
+    "@floating-ui/dom": "^1.0.0",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "svelte": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/svelte"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown && mkdir -p dist/menus && cp src/components/*.svelte dist/ && cp src/hooks/*.svelte.ts dist/ && cp src/components/menus/*.svelte dist/menus/",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}
