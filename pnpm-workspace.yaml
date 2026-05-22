@@ -7,9 +7,13 @@ allowBuilds:
   esbuild: true
   iframe-resizer: true
 minimumReleaseAgeExclude:
+  - '@tiptap/core@3.27.1'
+  - '@tiptap/core@3.28.0'
+  - '@tiptap/pm@3.27.1'
+  - '@tiptap/pm@3.28.0'
   - '@tiptap/y-tiptap@3.0.7'
-  - '@tiptap/core@3.27.4'
-  - '@tiptap/pm@3.27.4'
+  - '@tiptap/core@3.29.2'
+  - '@tiptap/pm@3.29.2'
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   'prosemirror-model': '^1.25.11'
