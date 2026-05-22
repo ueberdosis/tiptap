@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.23.6
+
+### Patch Changes
+
+- d168376: Fix deleteSelection to properly handle inline nodes with `text*` content. The selection is now expanded to include the entire inline node boundaries when deleting, preventing incorrect collapse of inline text nodes.
+  - @tiptap/pm@3.23.6
+
 ## 3.23.5
 
 ### Patch Changes

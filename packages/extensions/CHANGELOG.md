@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.23.6
+
+### Patch Changes
+
+- 937ff2e: **Placeholder**: Replaced full-document `doc.descendants()` traversal with a cursor-resolved fast path for the default config and viewport-limited scanning for the non-default config, significantly reducing decoration overhead on large documents.
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
 ## 3.23.5
 
 ### Patch Changes

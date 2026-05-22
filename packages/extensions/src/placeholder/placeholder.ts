@@ -1,8 +1,13 @@
-import type { Editor } from '@tiptap/core'
 import { Extension, isNodeEmpty } from '@tiptap/core'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { Decoration } from '@tiptap/pm/view'
+import { DecorationSet } from '@tiptap/pm/view'
+
+import type { PlaceholderOptions } from './types.js'
+import { createPlaceholderDecoration } from './utils/createPlaceholderDecoration.js'
+import { findScrollParent } from './utils/findScrollParent.js'
+import { getViewportBoundaryPositions } from './utils/getViewportBoundaryPositions.js'
+import { throttle } from './utils/throttle.js'
 
 /**
  * The default data attribute label
@@ -31,63 +36,7 @@ export function preparePlaceholderAttribute(attr: string): string {
   )
 }
 
-export interface PlaceholderOptions {
-  /**
-   * **The class name for the empty editor**
-   * @default 'is-editor-empty'
-   */
-  emptyEditorClass: string
-
-  /**
-   * **The class name for empty nodes**
-   * @default 'is-empty'
-   */
-  emptyNodeClass: string
-
-  /**
-   * **The data-attribute used for the placeholder label**
-   * Will be prepended with `data-` and converted to kebab-case and cleaned of special characters.
-   * @default 'placeholder'
-   */
-  dataAttribute: string
-
-  /**
-   * **The placeholder content**
-   *
-   * You can use a function to return a dynamic placeholder or a string.
-   * @default 'Write something …'
-   */
-  placeholder:
-    | ((PlaceholderProps: { editor: Editor; node: ProsemirrorNode; pos: number; hasAnchor: boolean }) => string)
-    | string
-
-  /**
-   * **Checks if the placeholder should be only shown when the editor is editable.**
-   *
-   * If true, the placeholder will only be shown when the editor is editable.
-   * If false, the placeholder will always be shown.
-   * @default true
-   */
-  showOnlyWhenEditable: boolean
-
-  /**
-   * **Checks if the placeholder should be only shown when the current node is empty.**
-   *
-   * If true, the placeholder will only be shown when the current node is empty.
-   * If false, the placeholder will be shown when any node is empty.
-   * @default true
-   */
-  showOnlyCurrent: boolean
-
-  /**
-   * **Controls if the placeholder should be shown for all descendents.**
-   *
-   * If true, the placeholder will be shown for all descendents.
-   * If false, the placeholder will only be shown for the current node.
-   * @default false
-   */
-  includeChildren: boolean
-}
+export const PLUGIN_KEY = new PluginKey('tiptap__placeholder')
 
 /**
  * This extension allows you to add a placeholder to your editor.
@@ -116,52 +65,157 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
     return [
       new Plugin({
-        key: new PluginKey('placeholder'),
+        state: {
+          init() {
+            return {
+              // null means "no viewport info yet" — decoration callback falls
+              // back to full document scan until the scroll handler fires.
+              topPos: null as number | null,
+              bottomPos: null as number | null,
+            }
+          },
+          apply(tr, prev) {
+            const meta = tr.getMeta(PLUGIN_KEY) as { positions?: { top: number; bottom: number } } | undefined
+
+            if (meta?.positions) {
+              return {
+                topPos: meta.positions.top,
+                bottomPos: meta.positions.bottom,
+              }
+            }
+
+            if (!tr.docChanged) {
+              return prev
+            }
+
+            // Preserve last known viewport positions across transactions.
+            // Without this, every keystroke resets back to a full document
+            // scan, defeating the viewport optimisation.
+            // Only map when we have actual positions — null means "no viewport
+            // info yet" and should stay null to fall back to full doc scan.
+            return {
+              topPos: prev.topPos !== null ? tr.mapping.map(prev.topPos) : null,
+              bottomPos: prev.bottomPos !== null ? tr.mapping.map(prev.bottomPos) : null,
+            }
+          },
+        },
+        key: PLUGIN_KEY,
+        view(view) {
+          const scrollContainer = findScrollParent(view.dom)
+
+          const computeAndDispatch = () => {
+            const positions = getViewportBoundaryPositions({
+              view,
+              doc: view.state.doc,
+              scrollContainer,
+            })
+
+            const prev = PLUGIN_KEY.getState(view.state)
+            if (prev.topPos === positions.top && prev.bottomPos === positions.bottom) {
+              return
+            }
+
+            const tr = view.state.tr
+              .setMeta(PLUGIN_KEY, { positions })
+              // Flag this transaction so the update() method can detect
+              // it and avoid re-entrant computation.
+              .setMeta('tiptap__viewportUpdate', true)
+            view.dispatch(tr)
+          }
+
+          const { call: throttledUpdate, cancel: cancelThrottle } = throttle(computeAndDispatch, 250)
+          const scrollParent = scrollContainer
+
+          scrollParent.addEventListener('scroll', throttledUpdate, { passive: true })
+
+          // Fire once to populate initial viewport (bypass throttle)
+          computeAndDispatch()
+
+          return {
+            update(_, prevState) {
+              // Skip re-entry: the dispatch inside computeAndDispatch would
+              // trigger this update again, but the doc didn't change so the
+              // size guard catches that. The meta flag is an extra safeguard.
+              if (view.state.doc.content.size !== prevState.doc.content.size) {
+                computeAndDispatch()
+              }
+            },
+            destroy: () => {
+              cancelThrottle()
+              scrollParent.removeEventListener('scroll', throttledUpdate)
+            },
+          }
+        },
         props: {
           decorations: ({ doc, selection }) => {
             const active = this.editor.isEditable || !this.options.showOnlyWhenEditable
-            const { anchor } = selection
-            const decorations: Decoration[] = []
 
             if (!active) {
               return null
             }
 
+            const { anchor } = selection
+            const decorations: Decoration[] = []
             const isEmptyDoc = this.editor.isEmpty
 
-            doc.descendants((node, pos) => {
-              const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
-              const isEmpty = !node.isLeaf && isNodeEmpty(node)
+            const useResolvedPath = this.options.showOnlyCurrent && !this.options.includeChildren
 
-              if (!node.type.isTextblock) {
-                return this.options.includeChildren
+            if (useResolvedPath) {
+              const resolved = doc.resolve(anchor)
+
+              if (resolved.depth > 0) {
+                const node = resolved.node(1)
+                const nodeStart = resolved.before(1)
+
+                if (node.type.isTextblock && isNodeEmpty(node)) {
+                  const hasAnchor = anchor >= nodeStart && anchor <= nodeStart + node.nodeSize
+                  const decoration = createPlaceholderDecoration({
+                    node,
+                    dataAttribute,
+                    hasAnchor,
+                    placeholder: this.options.placeholder,
+                    classes: {
+                      emptyEditor: this.options.emptyEditorClass,
+                      emptyNode: this.options.emptyNodeClass,
+                    },
+                    editor: this.editor,
+                    isEmptyDoc,
+                    pos: resolved.before(1),
+                  })
+
+                  decorations.push(decoration)
+                }
               }
+            } else {
+              const pluginState = PLUGIN_KEY.getState(this.editor.state)
+              const from = pluginState.topPos ?? 0
+              const to = pluginState.bottomPos ?? doc.content.size
 
-              if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
-                const classes = [this.options.emptyNodeClass]
+              doc.nodesBetween(from, to, (node, pos) => {
+                const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
+                const isEmpty = !node.isLeaf && isNodeEmpty(node)
 
-                if (isEmptyDoc) {
-                  classes.push(this.options.emptyEditorClass)
+                if (!node.type.isTextblock) {
+                  return this.options.includeChildren
                 }
 
-                const decoration = Decoration.node(pos, pos + node.nodeSize, {
-                  class: classes.join(' '),
-                  [dataAttribute]:
-                    typeof this.options.placeholder === 'function'
-                      ? this.options.placeholder({
-                          editor: this.editor,
-                          node,
-                          pos,
-                          hasAnchor,
-                        })
-                      : this.options.placeholder,
-                })
+                if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
+                  const decoration = createPlaceholderDecoration({
+                    classes: { emptyEditor: this.options.emptyEditorClass, emptyNode: this.options.emptyNodeClass },
+                    editor: this.editor,
+                    isEmptyDoc,
+                    dataAttribute,
+                    hasAnchor,
+                    placeholder: this.options.placeholder,
+                    node,
+                    pos,
+                  })
+                  decorations.push(decoration)
+                }
 
-                decorations.push(decoration)
-              }
-
-              return this.options.includeChildren
-            })
+                return this.options.includeChildren
+              })
+            }
 
             return DecorationSet.create(doc, decorations)
           },
