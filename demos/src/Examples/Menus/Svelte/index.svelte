@@ -1,7 +1,6 @@
 <script lang="ts">
   import StarterKit from '@tiptap/starter-kit'
-  import { useEditor, EditorContent } from '@tiptap/svelte'
-  import { BubbleMenu, FloatingMenu } from '@tiptap/svelte/menus'
+  import { useEditor, Tiptap, BubbleMenu, FloatingMenu } from '@tiptap/svelte'
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -12,23 +11,25 @@
   })
 </script>
 
-<BubbleMenu {editor}>
-  <div class="bubble-menu">
-    <button onclick={() => editor.chain().focus().toggleBold().run()} class={editor.isActive('bold') ? 'is-active' : ''}>Bold</button>
-    <button onclick={() => editor.chain().focus().toggleItalic().run()} class={editor.isActive('italic') ? 'is-active' : ''}>Italic</button>
-    <button onclick={() => editor.chain().focus().toggleStrike().run()} class={editor.isActive('strike') ? 'is-active' : ''}>Strike</button>
-  </div>
-</BubbleMenu>
+<Tiptap {editor}>
+  <BubbleMenu {editor}>
+    <div class="bubble-menu">
+      <button onclick={() => editor.chain().focus().toggleBold().run()} class={editor.isActive('bold') ? 'is-active' : ''}>Bold</button>
+      <button onclick={() => editor.chain().focus().toggleItalic().run()} class={editor.isActive('italic') ? 'is-active' : ''}>Italic</button>
+      <button onclick={() => editor.chain().focus().toggleStrike().run()} class={editor.isActive('strike') ? 'is-active' : ''}>Strike</button>
+    </div>
+  </BubbleMenu>
 
-<FloatingMenu {editor}>
-  <div class="floating-menu">
-    <button onclick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} class={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}>H1</button>
-    <button onclick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} class={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}>H2</button>
-    <button onclick={() => editor.chain().focus().toggleBulletList().run()} class={editor.isActive('bulletList') ? 'is-active' : ''}>Bullet list</button>
-  </div>
-</FloatingMenu>
+  <FloatingMenu {editor}>
+    <div class="floating-menu">
+      <button onclick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} class={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}>H1</button>
+      <button onclick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} class={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}>H2</button>
+      <button onclick={() => editor.chain().focus().toggleBulletList().run()} class={editor.isActive('bulletList') ? 'is-active' : ''}>Bullet list</button>
+    </div>
+  </FloatingMenu>
 
-<EditorContent {editor} />
+  <Tiptap.Content />
+</Tiptap>
 
 <style lang="scss">
   :global(.tiptap :first-child) { margin-top: 0; }
