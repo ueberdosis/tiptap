@@ -8,6 +8,8 @@ export default defineConfig(
     dts: true,
     sourcemap: true,
     format: ['esm', 'cjs'],
-    external: [/^[^./]/, /\.svelte(\.(ts|js))?$/],
+    deps: {
+      neverBundle: [/^[^./]/, /\.svelte(\.(ts|js))?$/],
+    },
   })),
 )
