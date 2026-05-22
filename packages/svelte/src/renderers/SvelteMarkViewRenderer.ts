@@ -2,7 +2,7 @@ import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@
 import { MarkView } from '@tiptap/core'
 
 import MarkViewFrame from '../components/MarkViewFrame.svelte'
-import { SvelteRenderer } from './SvelteRenderer.js'
+import { SvelteRenderer } from './SvelteRenderer.svelte.js'
 
 export interface SvelteMarkViewRendererOptions extends MarkViewRendererOptions {
   as?: string

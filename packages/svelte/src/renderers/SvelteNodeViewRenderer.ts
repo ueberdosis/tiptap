@@ -5,7 +5,7 @@ import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 
 import NodeViewFrame from '../components/NodeViewFrame.svelte'
 import type { Editor } from '../Editor.js'
-import { SvelteRenderer } from './SvelteRenderer.js'
+import { SvelteRenderer } from './SvelteRenderer.svelte.js'
 
 export interface SvelteNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
