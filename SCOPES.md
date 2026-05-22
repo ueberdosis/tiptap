@@ -15,6 +15,7 @@
 - starter-kit
 - static-renderer
 - suggestion
+- svelte
 - vue-2
 - vue-3
 
@@ -76,5 +77,8 @@
 - tests
 - ci
 - config
+<<<<<<< HEAD
 - docs
 - changeset
+=======
+>>>>>>> dd2bbb82d (feat(svelte): add Tiptap context provider with getEditor() and Tiptap.Content)
