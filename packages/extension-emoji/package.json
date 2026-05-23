@@ -1,23 +1,30 @@
 {
   "name": "@tiptap/extension-emoji",
-  "description": "emoji extension for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev/api/nodes/emoji",
+  "description": "emoji extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev/api/nodes/emoji",
   "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-emoji"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -28,17 +35,8 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
-  "peerDependencies": {
-    "@tiptap/core": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/suggestion": "workspace:*"
+  "scripts": {
+    "build": "tsup"
   },
   "dependencies": {
     "emoji-regex": "^10.6.0",
@@ -53,7 +51,9 @@
     "json5": "^2.2.3",
     "tsm": "^2.3.0"
   },
-  "scripts": {
-    "build": "tsup"
+  "peerDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/suggestion": "workspace:*"
   }
 }

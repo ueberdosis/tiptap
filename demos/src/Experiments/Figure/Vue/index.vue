@@ -3,10 +3,16 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="addFigure">Add image with caption</button>
-        <button @click="editor.chain().focus().imageToFigure().run()" :disabled="!editor.can().imageToFigure()">
+        <button
+          @click="editor.chain().focus().imageToFigure().run()"
+          :disabled="!editor.can().imageToFigure()"
+        >
           Add caption to image
         </button>
-        <button @click="editor.chain().focus().figureToImage().run()" :disabled="!editor.can().figureToImage()">
+        <button
+          @click="editor.chain().focus().figureToImage().run()"
+          :disabled="!editor.can().figureToImage()"
+        >
           Remove caption from image
         </button>
       </div>

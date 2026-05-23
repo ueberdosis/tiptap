@@ -18,7 +18,11 @@ import type { EditorWithContentComponent } from './Editor.js'
  * @returns {boolean}
  */
 function isClassComponent(Component: any) {
-  return !!(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent)
+  return !!(
+    typeof Component === 'function' &&
+    Component.prototype &&
+    Component.prototype.isReactComponent
+  )
 }
 
 /**
@@ -44,7 +48,8 @@ function isMemoComponent(Component: any) {
   return !!(
     typeof Component === 'object' &&
     Component.$$typeof &&
-    (Component.$$typeof.toString() === 'Symbol(react.memo)' || Component.$$typeof.description === 'react.memo')
+    (Component.$$typeof.toString() === 'Symbol(react.memo)' ||
+      Component.$$typeof.description === 'react.memo')
   )
 }
 

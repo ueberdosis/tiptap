@@ -27,7 +27,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.waitFor()
 
         const hasYDoc = await editor.evaluate((el: any) => {
-          const extension = el.editor.extensionManager.extensions.find((a: any) => a.name === 'collaboration')
+          const extension = el.editor.extensionManager.extensions.find(
+            (a: any) => a.name === 'collaboration',
+          )
 
           return !!extension?.options.document
         })

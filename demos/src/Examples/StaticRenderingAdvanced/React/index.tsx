@@ -3,57 +3,57 @@ import {
   NodeViewContent,
   ReactNodeViewContentProvider,
   ReactNodeViewRenderer,
-} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { renderToReactElement } from "@tiptap/static-renderer";
-import React, { useMemo } from "react";
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { renderToReactElement } from '@tiptap/static-renderer'
+import React, { useMemo } from 'react'
 
 // This component does not have a NodeViewContent, so it does not render it's children's rich text content
 function MyCustomComponentWithoutContent() {
-  const [count, setCount] = React.useState(200);
+  const [count, setCount] = React.useState(200)
 
   return (
     <div className="custom-component-without-content">
-      <button onClick={() => setCount((a) => a + 1)}>Click me</button>
+      <button onClick={() => setCount(a => a + 1)}>Click me</button>
       {count} Custom component without content in React!
     </div>
-  );
+  )
 }
 
 // This component does have a NodeViewContent, so it will render it's children's rich text content
 function MyCustomComponentWithContent() {
-  const [count, setCount] = React.useState(200);
+  const [count, setCount] = React.useState(200)
   return (
     <div className="custom-component-with-content">
-      <button onClick={() => setCount((a) => a + 1)}>Click me</button>
+      <button onClick={() => setCount(a => a + 1)}>Click me</button>
       {count} Custom component with content in React!
       <NodeViewContent />
     </div>
-  );
+  )
 }
 
 const CustomNodeExtensionWithContent = Node.create({
-  name: "customNodeExtensionWithContent",
-  content: "text*",
-  group: "block",
+  name: 'customNodeExtensionWithContent',
+  content: 'text*',
+  group: 'block',
   renderHTML() {
-    return ["div", { class: "my-custom-component-with-content" }, 0] as const;
+    return ['div', { class: 'my-custom-component-with-content' }, 0] as const
   },
   addNodeView() {
-    return ReactNodeViewRenderer(MyCustomComponentWithContent);
+    return ReactNodeViewRenderer(MyCustomComponentWithContent)
   },
-});
+})
 
 const CustomNodeExtensionWithoutContent = Node.create({
-  name: "customNodeExtensionWithoutContent",
+  name: 'customNodeExtensionWithoutContent',
   atom: true,
   renderHTML() {
-    return ["div", { class: "my-custom-component-without-content" }] as const;
+    return ['div', { class: 'my-custom-component-without-content' }] as const
   },
   addNodeView() {
-    return ReactNodeViewRenderer(MyCustomComponentWithoutContent);
+    return ReactNodeViewRenderer(MyCustomComponentWithoutContent)
   },
-});
+})
 
 /**
  * This example demonstrates how to render a Prosemirror Node (or JSON Content) to a React Element.
@@ -71,16 +71,16 @@ export default () => {
           // You can replace the rendering of a node with a custom react component
           heading({ node, children }) {
             // oxlint-disable-next-line react-hooks/rules-of-hooks
-            const [show, setEnabled] = React.useState(false);
+            const [show, setEnabled] = React.useState(false)
 
             return (
               <h1 {...node.attrs} onClick={() => setEnabled(true)}>
                 {show
                   ? `100% you can use React hooks!`
-                  : `Can you use React hooks? Click to find out!`}{" "}
+                  : `Can you use React hooks? Click to find out!`}{' '}
                 {children}
               </h1>
-            );
+            )
           },
           // Node views are not supported in the static renderer, so you need to supply the custom component yourself
           customNodeExtensionWithContent({ children }) {
@@ -88,21 +88,21 @@ export default () => {
               <ReactNodeViewContentProvider content={children}>
                 <MyCustomComponentWithContent />
               </ReactNodeViewContentProvider>
-            );
+            )
           },
           customNodeExtensionWithoutContent() {
-            return <MyCustomComponentWithoutContent />;
+            return <MyCustomComponentWithoutContent />
           },
         },
         markMapping: {},
       },
       content: {
-        type: "doc",
+        type: 'doc',
         from: 0,
         to: 574,
         content: [
           {
-            type: "heading",
+            type: 'heading',
             from: 0,
             to: 11,
             attrs: {
@@ -110,120 +110,120 @@ export default () => {
             },
             content: [
               {
-                type: "text",
+                type: 'text',
                 from: 1,
                 to: 10,
-                text: "Hi there,",
+                text: 'Hi there,',
               },
             ],
           },
           // This is a custom node extension with content
           {
-            type: "customNodeExtensionWithContent",
+            type: 'customNodeExtensionWithContent',
             content: [
               {
-                type: "text",
-                text: "MY CUSTOM COMPONENT CONTENT!!!",
+                type: 'text',
+                text: 'MY CUSTOM COMPONENT CONTENT!!!',
               },
             ],
           },
           // This is a custom node extension without content
           {
-            type: "customNodeExtensionWithoutContent",
+            type: 'customNodeExtensionWithoutContent',
           },
           {
-            type: "paragraph",
+            type: 'paragraph',
             from: 11,
             to: 169,
             content: [
               {
-                type: "text",
+                type: 'text',
                 from: 12,
                 to: 22,
-                text: "this is a ",
+                text: 'this is a ',
               },
               {
-                type: "text",
+                type: 'text',
                 from: 22,
                 to: 27,
                 marks: [
                   {
-                    type: "italic",
+                    type: 'italic',
                   },
                 ],
-                text: "basic",
+                text: 'basic',
               },
               {
-                type: "text",
+                type: 'text',
                 from: 27,
                 to: 39,
-                text: " example of ",
+                text: ' example of ',
               },
               {
-                type: "text",
+                type: 'text',
                 from: 39,
                 to: 45,
                 marks: [
                   {
-                    type: "bold",
+                    type: 'bold',
                   },
                 ],
-                text: "Tiptap",
+                text: 'Tiptap',
               },
               {
-                type: "text",
+                type: 'text',
                 from: 45,
                 to: 168,
-                text: ". Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:",
+                text: '. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:',
               },
             ],
           },
           {
-            type: "bulletList",
+            type: 'bulletList',
             from: 169,
             to: 230,
             content: [
               {
-                type: "listItem",
+                type: 'listItem',
                 from: 170,
                 to: 205,
                 attrs: {
-                  color: "",
+                  color: '',
                 },
                 content: [
                   {
-                    type: "paragraph",
+                    type: 'paragraph',
                     from: 171,
                     to: 204,
                     content: [
                       {
-                        type: "text",
+                        type: 'text',
                         from: 172,
                         to: 203,
-                        text: "That’s a bullet list with one …",
+                        text: 'That’s a bullet list with one …',
                       },
                     ],
                   },
                 ],
               },
               {
-                type: "listItem",
+                type: 'listItem',
                 from: 205,
                 to: 229,
                 attrs: {
-                  color: "",
+                  color: '',
                 },
                 content: [
                   {
-                    type: "paragraph",
+                    type: 'paragraph',
                     from: 206,
                     to: 228,
                     content: [
                       {
-                        type: "text",
+                        type: 'text',
                         from: 207,
                         to: 227,
-                        text: "… or two list items.",
+                        text: '… or two list items.',
                       },
                     ],
                   },
@@ -232,73 +232,73 @@ export default () => {
             ],
           },
           {
-            type: "paragraph",
+            type: 'paragraph',
             from: 230,
             to: 326,
             content: [
               {
-                type: "text",
+                type: 'text',
                 from: 231,
                 to: 325,
-                text: "Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:",
+                text: 'Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:',
               },
             ],
           },
           {
-            type: "codeBlock",
+            type: 'codeBlock',
             from: 326,
             to: 353,
             attrs: {
-              language: "css",
+              language: 'css',
             },
             content: [
               {
-                type: "text",
+                type: 'text',
                 from: 327,
                 to: 352,
-                text: "body {\n  display: none;\n}",
+                text: 'body {\n  display: none;\n}',
               },
             ],
           },
           {
-            type: "paragraph",
+            type: 'paragraph',
             from: 353,
             to: 522,
             content: [
               {
-                type: "text",
+                type: 'text',
                 from: 354,
                 to: 521,
-                text: "I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.",
+                text: 'I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.',
               },
             ],
           },
           {
-            type: "blockquote",
+            type: 'blockquote',
             from: 522,
             to: 572,
             content: [
               {
-                type: "paragraph",
+                type: 'paragraph',
                 from: 523,
                 to: 571,
                 content: [
                   {
-                    type: "text",
+                    type: 'text',
                     from: 524,
                     to: 564,
-                    text: "Wow, that’s amazing. Good work, boy! 👏 ",
+                    text: 'Wow, that’s amazing. Good work, boy! 👏 ',
                   },
                   {
-                    type: "hardBreak",
+                    type: 'hardBreak',
                     from: 564,
                     to: 565,
                   },
                   {
-                    type: "text",
+                    type: 'text',
                     from: 565,
                     to: 570,
-                    text: "— Mom",
+                    text: '— Mom',
                   },
                 ],
               },
@@ -306,8 +306,8 @@ export default () => {
           },
         ],
       },
-    });
-  }, []);
+    })
+  }, [])
 
-  return <div className="tiptap">{output}</div>;
-};
+  return <div className="tiptap">{output}</div>
+}

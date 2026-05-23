@@ -1,18 +1,31 @@
 {
   "name": "@tiptap/extension-bubble-menu",
-  "description": "bubble-menu extension for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev",
+  "description": "bubble-menu extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-bubble-menu"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -23,31 +36,18 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-bubble-menu"
-  },
-  "sideEffects": false,
-  "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+  "scripts": {
+    "build": "tsup"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.0.0"
   },
+  "devDependencies": {
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
+  },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*"
-  },
-  "scripts": {
-    "build": "tsup"
   }
 }

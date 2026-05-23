@@ -1,43 +1,43 @@
-import type { VueConstructor } from "vue";
+import type { VueConstructor } from 'vue'
 
-import { Vue } from "./Vue.js";
+import { Vue } from './Vue.js'
 
 /**
  * The VueRenderer class is responsible for rendering a Vue component as a ProseMirror node view.
  */
 export class VueRenderer {
-  ref!: Vue;
+  ref!: Vue
 
   constructor(component: Vue | VueConstructor, props: any) {
-    const Component = typeof component === "function" ? component : Vue.extend(component);
+    const Component = typeof component === 'function' ? component : Vue.extend(component)
 
-    this.ref = new Component(props).$mount();
+    this.ref = new Component(props).$mount()
   }
 
   get element(): Element {
-    return this.ref.$el;
+    return this.ref.$el
   }
 
   updateProps(props: Record<string, any> = {}): void {
     if (!this.ref.$props) {
-      return;
+      return
     }
 
     // prevents `Avoid mutating a prop directly` error message
     // Fix: `VueNodeViewRenderer` change vue Constructor `config.silent` not working
-    const currentVueConstructor = this.ref.$props.editor?.contentComponent?.$options._base ?? Vue; // oxlint-disable-line
-    const originalSilent = currentVueConstructor.config.silent;
+    const currentVueConstructor = this.ref.$props.editor?.contentComponent?.$options._base ?? Vue // oxlint-disable-line
+    const originalSilent = currentVueConstructor.config.silent
 
-    currentVueConstructor.config.silent = true;
+    currentVueConstructor.config.silent = true
 
     Object.entries(props).forEach(([key, value]) => {
-      this.ref.$props[key] = value;
-    });
+      this.ref.$props[key] = value
+    })
 
-    currentVueConstructor.config.silent = originalSilent;
+    currentVueConstructor.config.silent = originalSilent
   }
 
   destroy(): void {
-    this.ref.$destroy();
+    this.ref.$destroy()
   }
 }

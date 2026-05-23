@@ -69,7 +69,9 @@ export interface TwitchEmbedAttributes {
  * // { type: 'channel', id: 'examplechannel' }
  * ```
  */
-export const getTwitchIdentifier = (url: string): { type: 'video' | 'clip' | 'channel'; id: string } | null => {
+export const getTwitchIdentifier = (
+  url: string,
+): { type: 'video' | 'clip' | 'channel'; id: string } | null => {
   if (!isValidTwitchUrl(url)) {
     return null
   }

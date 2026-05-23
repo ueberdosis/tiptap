@@ -34,7 +34,9 @@ describe('Details commands', () => {
   it('setDetails wraps the selection in a details node', () => {
     expect(editor.view.dom.querySelectorAll('[data-type="details"]').length).toBe(0)
     editor.commands.setDetails()
-    const content = editor.view.dom.querySelector('[data-type="details"] [data-type="detailsContent"]')
+    const content = editor.view.dom.querySelector(
+      '[data-type="details"] [data-type="detailsContent"]',
+    )
     expect(content?.textContent).toContain('Example Text')
   })
 

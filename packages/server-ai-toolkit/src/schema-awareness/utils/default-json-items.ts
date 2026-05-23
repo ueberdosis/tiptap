@@ -135,7 +135,9 @@ export const defaultJsonItems: JsonItem[] = [
     attributes: {
       name: z
         .string()
-        .describe('The unique name/shortcode identifier for the emoji (e.g., "smile", "heart", "thumbs_up")'),
+        .describe(
+          'The unique name/shortcode identifier for the emoji (e.g., "smile", "heart", "thumbs_up")',
+        ),
     },
   },
   {
@@ -143,7 +145,10 @@ export const defaultJsonItems: JsonItem[] = [
     name: 'YouTube',
     attributes: {
       src: z.string(),
-      start: z.number().optional().describe('Start time in seconds for when the video should begin playing'),
+      start: z
+        .number()
+        .optional()
+        .describe('Start time in seconds for when the video should begin playing'),
       width: z.number().optional(),
       height: z.number().optional(),
     },

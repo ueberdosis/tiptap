@@ -52,7 +52,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any) => {
           el.editor
             .chain()
-            .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+            .setContent(
+              '<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>',
+            )
             .selectAll()
             .toggleHighlight({ color: 'rgb(255, 0, 0)' })
             .run()
@@ -63,7 +65,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('isActive: any attributes', async ({ page }) => {
         const editor = await getEditor(page)
         const isActive = await editor.evaluate((el: any) => {
-          el.editor.chain().setContent('<p><mark data-color="red">Example Text</mark></p>').selectAll().run()
+          el.editor
+            .chain()
+            .setContent('<p><mark data-color="red">Example Text</mark></p>')
+            .selectAll()
+            .run()
           return el.editor.isActive('highlight')
         })
         expect(isActive).toBe(true)
@@ -74,7 +80,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const isActive = await editor.evaluate((el: any) => {
           el.editor
             .chain()
-            .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+            .setContent(
+              '<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>',
+            )
             .selectAll()
             .run()
           return el.editor.isActive('highlight', { color: 'rgb(255, 0, 0)' })
@@ -87,7 +95,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const isActive = await editor.evaluate((el: any) => {
           el.editor
             .chain()
-            .setContent('<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>')
+            .setContent(
+              '<p><mark style="background-color: rgb(255, 0, 0);">Example Text</mark></p>',
+            )
             .selectAll()
             .run()
           return el.editor.isActive('highlight', { color: 'rgb(0, 0, 0)' })

@@ -37,7 +37,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('button makes selected line a task list item', async ({ page }) => {
         await expect(page.locator('.tiptap ul')).toHaveCount(0)
         await page.locator('button').first().click()
-        await expect(page.locator('.tiptap ul[data-type="taskList"] li')).toContainText('Example Text')
+        await expect(page.locator('.tiptap ul[data-type="taskList"] li')).toContainText(
+          'Example Text',
+        )
       })
 
       test('button toggles the task list', async ({ page }) => {

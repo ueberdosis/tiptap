@@ -1,4 +1,7 @@
-export function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): { call: T; cancel: () => void } {
+export function throttle<T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number,
+): { call: T; cancel: () => void } {
   let timer: ReturnType<typeof setTimeout> | null = null
 
   const call = ((...args: any[]) => {

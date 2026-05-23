@@ -4,7 +4,7 @@ import {
   type MarkType,
   type NodeType,
   mergeAttributes,
-} from "@tiptap/core";
+} from '@tiptap/core'
 
 /**
  * This function returns the attributes of a node or mark that are defined by the given extension attributes.
@@ -17,32 +17,32 @@ export function getAttributes(
   extensionAttributes: ExtensionAttribute[],
   onlyRenderedAttributes?: boolean,
 ): Record<string, any> {
-  const nodeOrMarkAttributes = nodeOrMark.attrs;
+  const nodeOrMarkAttributes = nodeOrMark.attrs
 
   if (!nodeOrMarkAttributes) {
-    return {};
+    return {}
   }
 
   return extensionAttributes
-    .filter((item) => {
+    .filter(item => {
       if (
-        item.type !== (typeof nodeOrMark.type === "string" ? nodeOrMark.type : nodeOrMark.type.name)
+        item.type !== (typeof nodeOrMark.type === 'string' ? nodeOrMark.type : nodeOrMark.type.name)
       ) {
-        return false;
+        return false
       }
       if (onlyRenderedAttributes) {
-        return item.attribute.rendered;
+        return item.attribute.rendered
       }
-      return true;
+      return true
     })
-    .map((item) => {
+    .map(item => {
       if (!item.attribute.renderHTML) {
         return {
           [item.name]:
             item.name in nodeOrMarkAttributes
               ? nodeOrMarkAttributes[item.name]
               : item.attribute.default,
-        };
+        }
       }
 
       return (
@@ -52,9 +52,9 @@ export function getAttributes(
               ? nodeOrMarkAttributes[item.name]
               : item.attribute.default,
         }
-      );
+      )
     })
-    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {});
+    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
 }
 
 /**
@@ -66,5 +66,5 @@ export function getHTMLAttributes(
   nodeOrMark: NodeType | MarkType,
   extensionAttributes: ExtensionAttribute[],
 ) {
-  return getAttributes(nodeOrMark, extensionAttributes, true);
+  return getAttributes(nodeOrMark, extensionAttributes, true)
 }

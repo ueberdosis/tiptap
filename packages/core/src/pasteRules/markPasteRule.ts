@@ -69,7 +69,9 @@ export function markPasteRule(config: {
         // it overrides the mark's `inclusive` behavior and incorrectly places
         // the cursor outside the mark.
         const isMatchAtEndOfText =
-          match.index !== undefined && match.input !== undefined && match.index + match[0].length >= match.input.length
+          match.index !== undefined &&
+          match.input !== undefined &&
+          match.index + match[0].length >= match.input.length
 
         if (!isMatchAtEndOfText) {
           tr.removeStoredMark(config.type)

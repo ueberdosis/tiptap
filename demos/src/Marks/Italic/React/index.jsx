@@ -32,10 +32,16 @@ export default () => {
           >
             Toggle italic
           </button>
-          <button onClick={() => editor.chain().focus().setItalic().run()} disabled={editor.isActive('italic')}>
+          <button
+            onClick={() => editor.chain().focus().setItalic().run()}
+            disabled={editor.isActive('italic')}
+          >
             Set italic
           </button>
-          <button onClick={() => editor.chain().focus().unsetItalic().run()} disabled={!editor.isActive('italic')}>
+          <button
+            onClick={() => editor.chain().focus().unsetItalic().run()}
+            disabled={!editor.isActive('italic')}
+          >
             Unset italic
           </button>
         </div>

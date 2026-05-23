@@ -16,7 +16,8 @@ describe('InvisibleCharacters', () => {
     editor = new Editor({
       element,
       extensions: [Document, Paragraph, Heading, Text, InvisibleCharacters, HardBreak],
-      content: '<h1>This is a heading.</h1><p>This<br>is<br>a<br>paragraph.</p><p>Another paragraph.</p>',
+      content:
+        '<h1>This is a heading.</h1><p>This<br>is<br>a<br>paragraph.</p><p>Another paragraph.</p>',
     })
   })
 

@@ -100,7 +100,11 @@ export const insertContentAt: RawCommands['insertContentAt'] =
 
       // If `emitContentError` is enabled, we want to check the content for errors
       // but ignore them (do not remove the invalid content from the document)
-      if (!options.errorOnInvalidContent && !editor.options.enableContentCheck && editor.options.emitContentError) {
+      if (
+        !options.errorOnInvalidContent &&
+        !editor.options.enableContentCheck &&
+        editor.options.emitContentError
+      ) {
         try {
           createNodeFromContent(value, editor.schema, {
             parseOptions,
@@ -122,7 +126,9 @@ export const insertContentAt: RawCommands['insertContentAt'] =
       }
 
       let { from, to } =
-        typeof position === 'number' ? { from: position, to: position } : { from: position.from, to: position.to }
+        typeof position === 'number'
+          ? { from: position, to: position }
+          : { from: position.from, to: position.to }
 
       let isOnlyTextContent = true
       let isOnlyBlockContent = true

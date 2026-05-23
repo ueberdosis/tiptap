@@ -1,6 +1,9 @@
 import { isPlainObject } from './isPlainObject.js'
 
-export function mergeDeep(target: Record<string, any>, source: Record<string, any>): Record<string, any> {
+export function mergeDeep(
+  target: Record<string, any>,
+  source: Record<string, any>,
+): Record<string, any> {
   const output = { ...target }
 
   if (isPlainObject(target) && isPlainObject(source)) {

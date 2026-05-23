@@ -44,7 +44,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const results = await editor.evaluate((el: any) => {
           const styles = ['bold', 'bolder', '500', '900']
           return styles.map(s => {
-            el.editor.commands.setContent(`<p><span style="font-weight: ${s}">Example Text</span></p>`)
+            el.editor.commands.setContent(
+              `<p><span style="font-weight: ${s}">Example Text</span></p>`,
+            )
             return el.editor.getHTML()
           })
         })

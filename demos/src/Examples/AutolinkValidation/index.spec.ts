@@ -70,7 +70,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await editor.type('http://www.example.com/ ')
 
           await expect(page.locator('.tiptap a')).toHaveCount(1)
-          await expect(page.locator('.tiptap a').first()).toHaveAttribute('href', 'http://www.example.com/')
+          await expect(page.locator('.tiptap a').first()).toHaveAttribute(
+            'href',
+            'http://www.example.com/',
+          )
         })
 
         test('should not relink unset links after hitting next paragraph', async ({ page }) => {
@@ -85,7 +88,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await expect(page.locator('.tiptap a')).toHaveCount(0)
 
           await editor.press('End')
-          await editor.type('typing other text should prevent the link from relinking when hitting enter')
+          await editor.type(
+            'typing other text should prevent the link from relinking when hitting enter',
+          )
           await editor.press('Enter')
 
           await expect(page.locator('.tiptap a')).toHaveCount(0)
@@ -121,7 +126,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await editor.press('Enter')
 
           await expect(page.locator('.tiptap a')).toHaveCount(1)
-          await expect(page.locator('.tiptap a').first()).toHaveAttribute('href', 'https://tiptap.dev')
+          await expect(page.locator('.tiptap a').first()).toHaveAttribute(
+            'href',
+            'https://tiptap.dev',
+          )
         })
 
         test('should autolink after hitting shift-enter (hardbreak)', async ({ page }) => {
@@ -132,7 +140,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await editor.press('Shift+Enter')
 
           await expect(page.locator('.tiptap a')).toHaveCount(1)
-          await expect(page.locator('.tiptap a').first()).toHaveAttribute('href', 'https://tiptap.dev')
+          await expect(page.locator('.tiptap a').first()).toHaveAttribute(
+            'href',
+            'https://tiptap.dev',
+          )
         })
       }
     })

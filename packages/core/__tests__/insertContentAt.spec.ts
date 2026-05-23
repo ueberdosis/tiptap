@@ -30,7 +30,9 @@ describe('insertContentAt', () => {
       }
 
       // Position 8 is at parentOffset 0 inside the second paragraph
-      editor.commands.insertContentAt(8, [{ type: 'text', text: 'hello', marks: [{ type: 'bold' }] }])
+      editor.commands.insertContentAt(8, [
+        { type: 'text', text: 'hello', marks: [{ type: 'bold' }] },
+      ])
 
       // The from position should NOT be adjusted (should remain 8, not 7)
       expect(stepFrom).toBe(8)
@@ -53,7 +55,9 @@ describe('insertContentAt', () => {
       }
 
       // Inserting block content at parentOffset 0 should use from-1
-      editor.commands.insertContentAt(8, [{ type: 'paragraph', content: [{ type: 'text', text: 'new' }] }])
+      editor.commands.insertContentAt(8, [
+        { type: 'paragraph', content: [{ type: 'text', text: 'new' }] },
+      ])
 
       // The from position SHOULD be adjusted (8 -> 7)
       expect(stepFrom).toBe(7)
@@ -67,7 +71,9 @@ describe('insertContentAt', () => {
         content: '<p>existing text</p>',
       })
 
-      editor.commands.insertContentAt(1, [{ type: 'text', text: 'hello', marks: [{ type: 'bold' }] }])
+      editor.commands.insertContentAt(1, [
+        { type: 'text', text: 'hello', marks: [{ type: 'bold' }] },
+      ])
 
       const json = editor.getJSON()
 
@@ -91,7 +97,9 @@ describe('insertContentAt', () => {
         content: '<p>existing text</p>',
       })
 
-      editor.commands.insertContentAt(1, [{ type: 'paragraph', content: [{ type: 'text', text: 'new paragraph' }] }])
+      editor.commands.insertContentAt(1, [
+        { type: 'paragraph', content: [{ type: 'text', text: 'new paragraph' }] },
+      ])
 
       const json = editor.getJSON()
 

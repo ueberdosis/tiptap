@@ -10,7 +10,9 @@ export const setGapCursor = (editor: Editor, direction: 'down' | 'right') => {
   const { state, view, extensionManager } = editor
   const { schema, selection } = state
   const { empty, $anchor } = selection
-  const hasGapCursorExtension = !!extensionManager.extensions.find(extension => extension.name === 'gapCursor')
+  const hasGapCursorExtension = !!extensionManager.extensions.find(
+    extension => extension.name === 'gapCursor',
+  )
 
   if (!empty || $anchor.parent.type !== schema.nodes.detailsSummary || !hasGapCursorExtension) {
     return false
@@ -26,7 +28,10 @@ export const setGapCursor = (editor: Editor, direction: 'down' | 'right') => {
     return false
   }
 
-  const detailsContent = findChildren(details.node, node => node.type === schema.nodes.detailsContent)
+  const detailsContent = findChildren(
+    details.node,
+    node => node.type === schema.nodes.detailsContent,
+  )
 
   if (!detailsContent.length) {
     return false

@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import StarterKit from "@tiptap/starter-kit";
-import { Editor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import DragHandle from "./DragHandle.js";
+import DragHandle from './DragHandle.js'
 
 export default {
   components: {
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       editor: null,
-    };
+    }
   },
 
   mounted() {
@@ -36,15 +36,15 @@ export default {
       `,
       onUpdate: () => {
         // oxlint-disable-next-line
-        console.log(this.editor.getHTML());
+        console.log(this.editor.getHTML())
       },
-    });
+    })
   },
 
   beforeUnmount() {
-    this.editor.destroy();
+    this.editor.destroy()
   },
-};
+}
 </script>
 
 <style lang="scss">
@@ -57,7 +57,7 @@ export default {
     justify-content: center;
     width: 1rem;
     height: 1.25rem;
-    content: "⠿";
+    content: '⠿';
     font-weight: 700;
     cursor: grab;
     background: #0d0d0d10;
@@ -97,7 +97,7 @@ export default {
   pre {
     background: #0d0d0d;
     color: #fff;
-    font-family: "JetBrainsMono", monospace;
+    font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 

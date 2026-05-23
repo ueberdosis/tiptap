@@ -75,7 +75,9 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             }
           },
           apply(tr, prev) {
-            const meta = tr.getMeta(PLUGIN_KEY) as { positions?: { top: number; bottom: number } } | undefined
+            const meta = tr.getMeta(PLUGIN_KEY) as
+              | { positions?: { top: number; bottom: number } }
+              | undefined
 
             if (meta?.positions) {
               return {
@@ -123,7 +125,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
             view.dispatch(tr)
           }
 
-          const { call: throttledUpdate, cancel: cancelThrottle } = throttle(computeAndDispatch, 250)
+          const { call: throttledUpdate, cancel: cancelThrottle } = throttle(
+            computeAndDispatch,
+            250,
+          )
           const scrollParent = scrollContainer
 
           scrollParent.addEventListener('scroll', throttledUpdate, { passive: true })
@@ -201,7 +206,10 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
 
                 if ((hasAnchor || !this.options.showOnlyCurrent) && isEmpty) {
                   const decoration = createPlaceholderDecoration({
-                    classes: { emptyEditor: this.options.emptyEditorClass, emptyNode: this.options.emptyNodeClass },
+                    classes: {
+                      emptyEditor: this.options.emptyEditorClass,
+                      emptyNode: this.options.emptyNodeClass,
+                    },
                     editor: this.editor,
                     isEmptyDoc,
                     dataAttribute,

@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
-process.env.NODE_OPTIONS = [process.env.NODE_OPTIONS, '--require tsconfig-paths/register'].filter(Boolean).join(' ')
+process.env.NODE_OPTIONS = [process.env.NODE_OPTIONS, '--require tsconfig-paths/register']
+  .filter(Boolean)
+  .join(' ')
 
 export default defineConfig({
   testDir: './demos',

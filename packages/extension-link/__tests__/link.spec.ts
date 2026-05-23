@@ -1,53 +1,53 @@
-import { Editor } from "@tiptap/core";
-import Document from "@tiptap/extension-document";
-import Image from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import { describe, expect, it } from "vitest";
+import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { describe, expect, it } from 'vitest'
 
 /**
  * Most link tests should actually exist in the demo/ app folder
  */
-describe("extension-link", () => {
-  const editorElClass = "tiptap";
-  let editor: Editor | null = null;
+describe('extension-link', () => {
+  const editorElClass = 'tiptap'
+  let editor: Editor | null = null
 
   const createEditorEl = () => {
-    const editorEl = document.createElement("div");
+    const editorEl = document.createElement('div')
 
-    editorEl.classList.add(editorElClass);
-    document.body.appendChild(editorEl);
-    return editorEl;
-  };
-  const getEditorEl = () => document.querySelector(`.${editorElClass}`);
+    editorEl.classList.add(editorElClass)
+    document.body.appendChild(editorEl)
+    return editorEl
+  }
+  const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   const validUrls = [
-    "https://example.com",
-    "http://example.com",
-    "/same-site/index.html",
-    "../relative.html",
-    "mailto:info@example.com",
-    "ftp://info@example.com",
-  ];
+    'https://example.com',
+    'http://example.com',
+    '/same-site/index.html',
+    '../relative.html',
+    'mailto:info@example.com',
+    'ftp://info@example.com',
+  ]
 
-  it("does output href tag for valid JSON schemas", () => {
-    validUrls.forEach((url) => {
+  it('does output href tag for valid JSON schemas', () => {
+    validUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
         content: {
-          type: "doc",
+          type: 'doc',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "hello world!",
+                  type: 'text',
+                  text: 'hello world!',
                   marks: [
                     {
-                      type: "link",
+                      type: 'link',
                       attrs: {
                         href: url,
                       },
@@ -58,143 +58,143 @@ describe("extension-link", () => {
             },
           ],
         },
-      });
+      })
 
-      expect(editor.getHTML()).toContain(url);
-      expect(JSON.stringify(editor.getJSON())).toContain(url);
+      expect(editor.getHTML()).toContain(url)
+      expect(JSON.stringify(editor.getJSON())).toContain(url)
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 
-  it("does output href tag for valid HTML schemas", () => {
-    validUrls.forEach((url) => {
+  it('does output href tag for valid HTML schemas', () => {
+    validUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
         content: `<p><a href="${url}">hello world!</a></p>`,
-      });
+      })
 
-      expect(editor.getHTML()).toContain(url);
-      expect(JSON.stringify(editor.getJSON())).toContain(url);
+      expect(editor.getHTML()).toContain(url)
+      expect(JSON.stringify(editor.getJSON())).toContain(url)
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 
   // We have to disable the oxlint rule here because we're trying to purposely test eval urls
   // Examples inspired by: https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#protocols
   const invalidUrls = [
     // A standard JavaScript protocol
     // oxlint-disable-next-line no-script-url
-    "javascript:alert(window.origin)",
+    'javascript:alert(window.origin)',
 
     // The protocol is not case sensitive
     // oxlint-disable-next-line no-script-url
-    "jAvAsCrIpT:alert(window.origin)",
+    'jAvAsCrIpT:alert(window.origin)',
 
     // Characters \x01-\x20 are allowed before the protocol
     // oxlint-disable-next-line no-script-url
-    "\x00javascript:alert(window.origin)",
+    '\x00javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x01javascript:alert(window.origin)",
+    '\x01javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x02javascript:alert(window.origin)",
+    '\x02javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x03javascript:alert(window.origin)",
+    '\x03javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x04javascript:alert(window.origin)",
+    '\x04javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x05javascript:alert(window.origin)",
+    '\x05javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x06javascript:alert(window.origin)",
+    '\x06javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x07javascript:alert(window.origin)",
+    '\x07javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x08javascript:alert(window.origin)",
+    '\x08javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x09javascript:alert(window.origin)",
+    '\x09javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0ajavascript:alert(window.origin)",
+    '\x0ajavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0bjavascript:alert(window.origin)",
+    '\x0bjavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0cjavascript:alert(window.origin)",
+    '\x0cjavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0djavascript:alert(window.origin)",
+    '\x0djavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0ejavascript:alert(window.origin)",
+    '\x0ejavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x0fjavascript:alert(window.origin)",
+    '\x0fjavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x10javascript:alert(window.origin)",
+    '\x10javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x11javascript:alert(window.origin)",
+    '\x11javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x12javascript:alert(window.origin)",
+    '\x12javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x13javascript:alert(window.origin)",
+    '\x13javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x14javascript:alert(window.origin)",
+    '\x14javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x15javascript:alert(window.origin)",
+    '\x15javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x16javascript:alert(window.origin)",
+    '\x16javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x17javascript:alert(window.origin)",
+    '\x17javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x18javascript:alert(window.origin)",
+    '\x18javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x19javascript:alert(window.origin)",
+    '\x19javascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1ajavascript:alert(window.origin)",
+    '\x1ajavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1bjavascript:alert(window.origin)",
+    '\x1bjavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1cjavascript:alert(window.origin)",
+    '\x1cjavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1djavascript:alert(window.origin)",
+    '\x1djavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1ejavascript:alert(window.origin)",
+    '\x1ejavascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "\x1fjavascript:alert(window.origin)",
+    '\x1fjavascript:alert(window.origin)',
 
     // Characters \x09,\x0a,\x0d are allowed inside the protocol
     // oxlint-disable-next-line no-script-url
-    "java\x09script:alert(window.origin)",
+    'java\x09script:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "java\x0ascript:alert(window.origin)",
+    'java\x0ascript:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "java\x0dscript:alert(window.origin)",
+    'java\x0dscript:alert(window.origin)',
 
     // Characters \x09,\x0a,\x0d are allowed after protocol name before the colon
     // oxlint-disable-next-line no-script-url
-    "javascript\x09:alert(window.origin)",
+    'javascript\x09:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "javascript\x0a:alert(window.origin)",
+    'javascript\x0a:alert(window.origin)',
     // oxlint-disable-next-line no-script-url
-    "javascript\x0d:alert(window.origin)",
-  ];
+    'javascript\x0d:alert(window.origin)',
+  ]
 
-  it("does not output href for :javascript links in JSON schema", () => {
-    invalidUrls.forEach((url) => {
+  it('does not output href for :javascript links in JSON schema', () => {
+    invalidUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
         content: {
-          type: "doc",
+          type: 'doc',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "hello world!",
+                  type: 'text',
+                  text: 'hello world!',
                   marks: [
                     {
-                      type: "link",
+                      type: 'link',
                       attrs: {
                         href: url,
                       },
@@ -205,37 +205,37 @@ describe("extension-link", () => {
             },
           ],
         },
-      });
+      })
 
-      expect(editor.getHTML()).not.toContain(url);
+      expect(editor.getHTML()).not.toContain(url)
       // Unfortunately, if the content is provided as JSON, it stays in the editor instance until it's destroyed
       // At least, it cannot be outputted as HTML into a page
       // expect(JSON.stringify(editor.getJSON())).not.toContain(url)
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 
-  it("does not output href for :javascript links in HTML schema", () => {
-    invalidUrls.forEach((url) => {
+  it('does not output href for :javascript links in HTML schema', () => {
+    invalidUrls.forEach(url => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
         content: `<p><a href="${url}">hello world!</a></p>`,
-      });
+      })
 
-      expect(editor.getHTML()).not.toContain(url);
-      expect(JSON.stringify(editor.getJSON())).not.toContain(url);
+      expect(editor.getHTML()).not.toContain(url)
+      expect(JSON.stringify(editor.getJSON())).not.toContain(url)
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 
-  describe("custom protocols", () => {
-    it("allows using additional custom protocols", () => {
-      ["custom://test.css", "another-custom://protocol.html", ...validUrls].forEach((url) => {
+  describe('custom protocols', () => {
+    it('allows using additional custom protocols', () => {
+      ;['custom://test.css', 'another-custom://protocol.html', ...validUrls].forEach(url => {
         editor = new Editor({
           element: createEditorEl(),
           extensions: [
@@ -243,22 +243,22 @@ describe("extension-link", () => {
             Text,
             Paragraph,
             Link.configure({
-              protocols: ["custom", { scheme: "another-custom" }],
+              protocols: ['custom', { scheme: 'another-custom' }],
             }),
           ],
           content: `<p><a href="${url}">hello world!</a></p>`,
-        });
+        })
 
-        expect(editor.getHTML()).toContain(url);
-        expect(JSON.stringify(editor.getJSON())).toContain(url);
+        expect(editor.getHTML()).toContain(url)
+        expect(JSON.stringify(editor.getJSON())).toContain(url)
 
-        editor?.destroy();
-        getEditorEl()?.remove();
-      });
-    });
-  });
+        editor?.destroy()
+        getEditorEl()?.remove()
+      })
+    })
+  })
 
-  it("should return false when clicking on non-link elements", () => {
+  it('should return false when clicking on non-link elements', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -271,111 +271,111 @@ describe("extension-link", () => {
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "paragraph",
+            type: 'paragraph',
             content: [
               {
-                type: "image",
+                type: 'image',
                 attrs: {
-                  src: "https://placehold.co/400",
+                  src: 'https://placehold.co/400',
                 },
               },
             ],
           },
         ],
       },
-    });
+    })
 
-    const editorEl = getEditorEl();
-    const img = editorEl?.querySelector("img");
+    const editorEl = getEditorEl()
+    const img = editorEl?.querySelector('img')
 
-    expect(img).toBeTruthy();
+    expect(img).toBeTruthy()
 
-    const clickEvent = new MouseEvent("click", {
+    const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       button: 0,
-    });
+    })
 
-    const wasDefaultPrevented = !img?.dispatchEvent(clickEvent);
+    const wasDefaultPrevented = !img?.dispatchEvent(clickEvent)
 
     // The event should not be prevented by the link handler
-    expect(wasDefaultPrevented).toBe(false);
+    expect(wasDefaultPrevented).toBe(false)
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  describe("shouldAutoLink", () => {
-    it("default shouldAutoLink rejects bare hostnames without TLD", () => {
+  describe('shouldAutoLink', () => {
+    it('default shouldAutoLink rejects bare hostnames without TLD', () => {
       // Test using Link extension's default options
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
-      });
+      })
 
       // Access the default shouldAutoLink function through the extension options
-      const linkExtension = editor.extensionManager.extensions.find((ext) => ext.name === "link");
-      const shouldAutoLink = linkExtension?.options?.shouldAutoLink;
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
 
-      expect(shouldAutoLink).toBeDefined();
+      expect(shouldAutoLink).toBeDefined()
       if (shouldAutoLink) {
         // Should reject bare hostnames without TLD
-        expect(shouldAutoLink("localhost")).toBe(false);
-        expect(shouldAutoLink("myserver")).toBe(false);
-        expect(shouldAutoLink("intranet")).toBe(false);
+        expect(shouldAutoLink('localhost')).toBe(false)
+        expect(shouldAutoLink('myserver')).toBe(false)
+        expect(shouldAutoLink('intranet')).toBe(false)
 
         // Should allow URLs with protocols
-        expect(shouldAutoLink("http://localhost")).toBe(true);
-        expect(shouldAutoLink("https://localhost")).toBe(true);
-        expect(shouldAutoLink("http://127.0.0.1")).toBe(true);
-        expect(shouldAutoLink("ftp://myserver")).toBe(true);
+        expect(shouldAutoLink('http://localhost')).toBe(true)
+        expect(shouldAutoLink('https://localhost')).toBe(true)
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('ftp://myserver')).toBe(true)
 
         // Should allow URLs with TLD
-        expect(shouldAutoLink("example.com")).toBe(true);
-        expect(shouldAutoLink("test.example.com")).toBe(true);
-        expect(shouldAutoLink("https://example.com")).toBe(true);
+        expect(shouldAutoLink('example.com')).toBe(true)
+        expect(shouldAutoLink('test.example.com')).toBe(true)
+        expect(shouldAutoLink('https://example.com')).toBe(true)
 
         // Should correctly handle URLs with userinfo (user:pass@host)
-        expect(shouldAutoLink("user:pass@example.com")).toBe(true);
-        expect(shouldAutoLink("user@example.com")).toBe(true);
-        expect(shouldAutoLink("user:pass@localhost")).toBe(false);
+        expect(shouldAutoLink('user:pass@example.com')).toBe(true)
+        expect(shouldAutoLink('user@example.com')).toBe(true)
+        expect(shouldAutoLink('user:pass@localhost')).toBe(false)
       }
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
 
-    it("default shouldAutoLink rejects bare IP addresses", () => {
+    it('default shouldAutoLink rejects bare IP addresses', () => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Link],
-      });
+      })
 
-      const linkExtension = editor.extensionManager.extensions.find((ext) => ext.name === "link");
-      const shouldAutoLink = linkExtension?.options?.shouldAutoLink;
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
 
-      expect(shouldAutoLink).toBeDefined();
+      expect(shouldAutoLink).toBeDefined()
       if (shouldAutoLink) {
         // Should reject bare IP addresses
-        expect(shouldAutoLink("127.0.0.1")).toBe(false);
-        expect(shouldAutoLink("192.168.1.1")).toBe(false);
-        expect(shouldAutoLink("10.0.0.1")).toBe(false);
-        expect(shouldAutoLink("0.0.0.0")).toBe(false);
+        expect(shouldAutoLink('127.0.0.1')).toBe(false)
+        expect(shouldAutoLink('192.168.1.1')).toBe(false)
+        expect(shouldAutoLink('10.0.0.1')).toBe(false)
+        expect(shouldAutoLink('0.0.0.0')).toBe(false)
 
         // Should allow IP addresses with protocols
-        expect(shouldAutoLink("http://127.0.0.1")).toBe(true);
-        expect(shouldAutoLink("https://192.168.1.1")).toBe(true);
-        expect(shouldAutoLink("http://10.0.0.1:8080")).toBe(true);
+        expect(shouldAutoLink('http://127.0.0.1')).toBe(true)
+        expect(shouldAutoLink('https://192.168.1.1')).toBe(true)
+        expect(shouldAutoLink('http://10.0.0.1:8080')).toBe(true)
       }
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
 
-    it("allows custom shouldAutoLink to override default behavior", () => {
+    it('allows custom shouldAutoLink to override default behavior', () => {
       // Custom shouldAutoLink that allows all URLs (old behavior)
       editor = new Editor({
         element: createEditorEl(),
@@ -387,20 +387,20 @@ describe("extension-link", () => {
             shouldAutoLink: () => true,
           }),
         ],
-      });
+      })
 
-      const linkExtension = editor.extensionManager.extensions.find((ext) => ext.name === "link");
-      const shouldAutoLink = linkExtension?.options?.shouldAutoLink;
+      const linkExtension = editor.extensionManager.extensions.find(ext => ext.name === 'link')
+      const shouldAutoLink = linkExtension?.options?.shouldAutoLink
 
-      expect(shouldAutoLink).toBeDefined();
+      expect(shouldAutoLink).toBeDefined()
       if (shouldAutoLink) {
         // With custom shouldAutoLink, localhost should be allowed
-        expect(shouldAutoLink("localhost")).toBe(true);
-        expect(shouldAutoLink("127.0.0.1")).toBe(true);
+        expect(shouldAutoLink('localhost')).toBe(true)
+        expect(shouldAutoLink('127.0.0.1')).toBe(true)
       }
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
-});
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
+})

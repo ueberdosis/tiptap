@@ -34,7 +34,8 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
     // There can be no current marks that exclude the new mark, and the parent must allow this mark type
     return (
       parentAllowsMarkType &&
-      (!!newMarkType.isInSet(currentMarks) || !currentMarks.some(mark => mark.type.excludes(newMarkType)))
+      (!!newMarkType.isInSet(currentMarks) ||
+        !currentMarks.some(mark => mark.type.excludes(newMarkType)))
     )
   }
 
@@ -42,7 +43,9 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
 
   return ranges.some(({ $from, $to }) => {
     let someNodeSupportsMark =
-      $from.depth === 0 ? state.doc.inlineContent && state.doc.type.allowsMarkType(newMarkType) : false
+      $from.depth === 0
+        ? state.doc.inlineContent && state.doc.type.allowsMarkType(newMarkType)
+        : false
 
     state.doc.nodesBetween($from.pos, $to.pos, (node, _pos, parent) => {
       // If we already found a mark that we can enable, return false to bypass the remaining search
@@ -53,7 +56,8 @@ function canSetMark(state: EditorState, tr: Transaction, newMarkType: MarkType) 
       if (node.isInline) {
         const parentAllowsMarkType = !parent || parent.type.allowsMarkType(newMarkType)
         const currentMarksAllowMarkType =
-          !!newMarkType.isInSet(node.marks) || !node.marks.some(otherMark => otherMark.type.excludes(newMarkType))
+          !!newMarkType.isInSet(node.marks) ||
+          !node.marks.some(otherMark => otherMark.type.excludes(newMarkType))
 
         someNodeSupportsMark = parentAllowsMarkType && currentMarksAllowMarkType
       }

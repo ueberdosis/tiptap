@@ -33,7 +33,12 @@ test.describe(`${demoPath}/${demoName}`, () => {
             }
             const from = pos + 1
             const to = pos + node.nodeSize - 1
-            e.chain().focus().setTextSelection({ from, to }).deleteSelection().insertContent('Hello World!').run()
+            e.chain()
+              .focus()
+              .setTextSelection({ from, to })
+              .deleteSelection()
+              .insertContent('Hello World!')
+              .run()
             return false
           })
         }, nodeName)

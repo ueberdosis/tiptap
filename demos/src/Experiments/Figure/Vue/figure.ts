@@ -10,7 +10,12 @@ declare module '@tiptap/core' {
       /**
        * Add a figure element
        */
-      setFigure: (options: { src: string; alt?: string; title?: string; caption?: string }) => ReturnType
+      setFigure: (options: {
+        src: string
+        alt?: string
+        title?: string
+        caption?: string
+      }) => ReturnType
 
       /**
        * Converts an image to a figure
@@ -143,7 +148,11 @@ export const Figure = Node.create<FigureOptions>({
         ({ tr, commands }) => {
           const { doc, selection } = tr
           const { from, to } = selection
-          const figures = findChildrenInRange(doc, { from, to }, node => node.type.name === this.name)
+          const figures = findChildrenInRange(
+            doc,
+            { from, to },
+            node => node.type.name === this.name,
+          )
 
           if (!figures.length) {
             return false

@@ -3,34 +3,34 @@ import type {
   MarkdownLexerConfiguration,
   MarkdownParseHelpers,
   MarkdownToken,
-} from "@tiptap/core";
+} from '@tiptap/core'
 
 /**
  * Matches an ordered list item line with optional leading whitespace.
  * Captures: (1) indentation spaces, (2) item number, (3) content after marker
  * Example matches: "1. Item", "  2. Nested item", "    3. Deeply nested"
  */
-const ORDERED_LIST_ITEM_REGEX = /^(\s*)(\d+)\.\s+(.*)$/;
+const ORDERED_LIST_ITEM_REGEX = /^(\s*)(\d+)\.\s+(.*)$/
 
 /**
  * Matches any line that starts with whitespace (indented content).
  * Used to identify continuation content that belongs to a list item.
  */
-const INDENTED_LINE_REGEX = /^\s/;
+const INDENTED_LINE_REGEX = /^\s/
 
 /**
  * Represents a parsed ordered list item with indentation information
  */
 export interface OrderedListItem {
-  indent: number;
-  number: number;
-  content: string;
-  contentLines: string[];
-  raw: string;
+  indent: number
+  number: number
+  content: string
+  contentLines: string[]
+  raw: string
 }
 
 function isBlockContentLine(line: string): boolean {
-  const trimmedLine = line.trimStart();
+  const trimmedLine = line.trimStart()
 
   return (
     // oxlint-disable-next-line prefer-string-starts-ends-with
@@ -43,42 +43,42 @@ function isBlockContentLine(line: string): boolean {
     /^```/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^~~~/.test(trimmedLine)
-  );
+  )
 }
 
 function splitItemContent(contentLines: string[]): {
-  paragraphLines: string[];
-  blockLines: string[];
+  paragraphLines: string[]
+  blockLines: string[]
 } {
-  const paragraphLines: string[] = [];
-  const blockLines: string[] = [];
-  let reachedBlockBoundary = false;
+  const paragraphLines: string[] = []
+  const blockLines: string[] = []
+  let reachedBlockBoundary = false
 
-  contentLines.forEach((line) => {
+  contentLines.forEach(line => {
     if (reachedBlockBoundary) {
-      blockLines.push(line);
-      return;
+      blockLines.push(line)
+      return
     }
 
-    if (line.trim() === "") {
-      reachedBlockBoundary = true;
-      blockLines.push(line);
-      return;
+    if (line.trim() === '') {
+      reachedBlockBoundary = true
+      blockLines.push(line)
+      return
     }
 
     if (paragraphLines.length > 0 && isBlockContentLine(line)) {
-      reachedBlockBoundary = true;
-      blockLines.push(line);
-      return;
+      reachedBlockBoundary = true
+      blockLines.push(line)
+      return
     }
 
-    paragraphLines.push(line);
-  });
+    paragraphLines.push(line)
+  })
 
   return {
     paragraphLines,
     blockLines,
-  };
+  }
 }
 
 /**
@@ -90,71 +90,71 @@ function splitItemContent(contentLines: string[]): {
  * @returns Tuple of [listItems array, number of lines consumed]
  */
 export function collectOrderedListItems(lines: string[]): [OrderedListItem[], number] {
-  const listItems: OrderedListItem[] = [];
-  let currentLineIndex = 0;
-  let consumed = 0;
+  const listItems: OrderedListItem[] = []
+  let currentLineIndex = 0
+  let consumed = 0
 
   while (currentLineIndex < lines.length) {
-    const line = lines[currentLineIndex];
-    const match = line.match(ORDERED_LIST_ITEM_REGEX);
+    const line = lines[currentLineIndex]
+    const match = line.match(ORDERED_LIST_ITEM_REGEX)
 
     if (!match) {
-      break;
+      break
     }
 
-    const [, indent, number, content] = match;
-    const indentLevel = indent.length;
-    const itemContentLines = [content];
-    let nextLineIndex = currentLineIndex + 1;
-    const itemLines = [line];
-    let sawBlankLine = false;
+    const [, indent, number, content] = match
+    const indentLevel = indent.length
+    const itemContentLines = [content]
+    let nextLineIndex = currentLineIndex + 1
+    const itemLines = [line]
+    let sawBlankLine = false
 
     // Collect continuation lines for this item (but NOT nested list items)
     while (nextLineIndex < lines.length) {
-      const nextLine = lines[nextLineIndex];
-      const nextMatch = nextLine.match(ORDERED_LIST_ITEM_REGEX);
+      const nextLine = lines[nextLineIndex]
+      const nextMatch = nextLine.match(ORDERED_LIST_ITEM_REGEX)
 
       // If it's another list item (nested or not), stop collecting
       if (nextMatch) {
-        break;
+        break
       }
 
       // Check for continuation content (non-list content)
-      if (nextLine.trim() === "") {
+      if (nextLine.trim() === '') {
         // Empty line
-        itemLines.push(nextLine);
-        itemContentLines.push("");
-        sawBlankLine = true;
-        nextLineIndex += 1;
+        itemLines.push(nextLine)
+        itemContentLines.push('')
+        sawBlankLine = true
+        nextLineIndex += 1
       } else if (nextLine.match(INDENTED_LINE_REGEX)) {
         // Indented content - part of this item (but not a list item)
-        itemLines.push(nextLine);
-        itemContentLines.push(nextLine.slice(indentLevel + 2));
-        nextLineIndex += 1;
+        itemLines.push(nextLine)
+        itemContentLines.push(nextLine.slice(indentLevel + 2))
+        nextLineIndex += 1
       } else {
         if (sawBlankLine) {
-          break;
+          break
         }
 
-        itemLines.push(nextLine);
-        itemContentLines.push(nextLine);
-        nextLineIndex += 1;
+        itemLines.push(nextLine)
+        itemContentLines.push(nextLine)
+        nextLineIndex += 1
       }
     }
 
     listItems.push({
       indent: indentLevel,
       number: parseInt(number, 10),
-      content: itemContentLines.join("\n").trim(),
+      content: itemContentLines.join('\n').trim(),
       contentLines: itemContentLines,
-      raw: itemLines.join("\n"),
-    });
+      raw: itemLines.join('\n'),
+    })
 
-    consumed = nextLineIndex;
-    currentLineIndex = nextLineIndex;
+    consumed = nextLineIndex
+    currentLineIndex = nextLineIndex
   }
 
-  return [listItems, consumed];
+  return [listItems, consumed]
 }
 
 /**
@@ -172,78 +172,78 @@ export function buildNestedStructure(
   baseIndent: number,
   lexer: MarkdownLexerConfiguration,
 ): unknown[] {
-  const result: unknown[] = [];
-  let currentIndex = 0;
+  const result: unknown[] = []
+  let currentIndex = 0
 
   while (currentIndex < items.length) {
-    const item = items[currentIndex];
+    const item = items[currentIndex]
 
     if (item.indent === baseIndent) {
       // This item belongs at the current level
-      const { paragraphLines, blockLines } = splitItemContent(item.contentLines);
-      const mainText = paragraphLines.join("\n").trim();
+      const { paragraphLines, blockLines } = splitItemContent(item.contentLines)
+      const mainText = paragraphLines.join('\n').trim()
 
-      const tokens = [];
+      const tokens = []
 
       // Always wrap the main text in a paragraph token
       if (mainText) {
         tokens.push({
-          type: "paragraph",
+          type: 'paragraph',
           raw: mainText,
           tokens: lexer.inlineTokens(mainText),
-        });
+        })
       }
 
-      const additionalContent = blockLines.join("\n").trim();
+      const additionalContent = blockLines.join('\n').trim()
       if (additionalContent) {
-        const blockTokens = lexer.blockTokens(additionalContent);
-        tokens.push(...blockTokens);
+        const blockTokens = lexer.blockTokens(additionalContent)
+        tokens.push(...blockTokens)
       }
 
       // Look ahead to find nested items at deeper indent levels
-      let lookAheadIndex = currentIndex + 1;
-      const nestedItems = [];
+      let lookAheadIndex = currentIndex + 1
+      const nestedItems = []
 
       while (lookAheadIndex < items.length && items[lookAheadIndex].indent > baseIndent) {
-        nestedItems.push(items[lookAheadIndex]);
-        lookAheadIndex += 1;
+        nestedItems.push(items[lookAheadIndex])
+        lookAheadIndex += 1
       }
 
       // If we have nested items, recursively build their structure
       if (nestedItems.length > 0) {
         // Find the next indent level (immediate children)
-        const nextIndent = Math.min(...nestedItems.map((nestedItem) => nestedItem.indent));
+        const nextIndent = Math.min(...nestedItems.map(nestedItem => nestedItem.indent))
 
         // Build the nested list recursively with all nested items
         // The recursive call will handle further nesting
-        const nestedListItems = buildNestedStructure(nestedItems, nextIndent, lexer);
+        const nestedListItems = buildNestedStructure(nestedItems, nextIndent, lexer)
 
         // Create a nested list token
         tokens.push({
-          type: "list",
+          type: 'list',
           ordered: true,
           start: nestedItems[0].number,
           items: nestedListItems,
-          raw: nestedItems.map((nestedItem) => nestedItem.raw).join("\n"),
-        });
+          raw: nestedItems.map(nestedItem => nestedItem.raw).join('\n'),
+        })
       }
 
       result.push({
-        type: "list_item",
+        type: 'list_item',
         raw: item.raw,
         tokens,
-      });
+      })
 
       // Skip the nested items we just processed
-      currentIndex = lookAheadIndex;
+      currentIndex = lookAheadIndex
     } else {
       // This item has deeper indent than we're currently processing
       // It should be handled by a recursive call
-      currentIndex += 1;
+      currentIndex += 1
     }
   }
 
-  return result;
+  return result
 }
 
 /**
@@ -258,44 +258,44 @@ export function parseListItems(
   items: MarkdownToken[],
   helpers: MarkdownParseHelpers,
 ): JSONContent[] {
-  return items.map((item) => {
-    if (item.type !== "list_item") {
-      return helpers.parseChildren([item])[0];
+  return items.map(item => {
+    if (item.type !== 'list_item') {
+      return helpers.parseChildren([item])[0]
     }
 
     // Parse the tokens within the list item
-    const content: JSONContent[] = [];
+    const content: JSONContent[] = []
 
     if (item.tokens && item.tokens.length > 0) {
-      item.tokens.forEach((itemToken) => {
+      item.tokens.forEach(itemToken => {
         // If it's already a proper block node (paragraph, list, etc.), parse it directly
         if (
-          itemToken.type === "paragraph" ||
-          itemToken.type === "list" ||
-          itemToken.type === "blockquote" ||
-          itemToken.type === "code"
+          itemToken.type === 'paragraph' ||
+          itemToken.type === 'list' ||
+          itemToken.type === 'blockquote' ||
+          itemToken.type === 'code'
         ) {
-          content.push(...helpers.parseChildren([itemToken]));
-        } else if (itemToken.type === "text" && itemToken.tokens) {
+          content.push(...helpers.parseChildren([itemToken]))
+        } else if (itemToken.type === 'text' && itemToken.tokens) {
           // If it's inline text tokens, wrap them in a paragraph
-          const inlineContent = helpers.parseChildren([itemToken]);
+          const inlineContent = helpers.parseChildren([itemToken])
           content.push({
-            type: "paragraph",
+            type: 'paragraph',
             content: inlineContent,
-          });
+          })
         } else {
           // For any other content, try to parse it
-          const parsed = helpers.parseChildren([itemToken]);
+          const parsed = helpers.parseChildren([itemToken])
           if (parsed.length > 0) {
-            content.push(...parsed);
+            content.push(...parsed)
           }
         }
-      });
+      })
     }
 
     return {
-      type: "listItem",
+      type: 'listItem',
       content,
-    };
-  });
+    }
+  })
 }

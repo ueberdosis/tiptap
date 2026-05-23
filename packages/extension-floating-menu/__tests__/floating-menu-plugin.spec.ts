@@ -239,7 +239,9 @@ describe('FloatingMenuView destroy safety', () => {
       // without a guard, posToDOMRect -> coordsAtPos throws on the null docView.
       editor.destroy()
 
-      expect(() => view.updatePosition()).not.toThrow(/Cannot read properties of null \(reading 'domFromPos'\)/)
+      expect(() => view.updatePosition()).not.toThrow(
+        /Cannot read properties of null \(reading 'domFromPos'\)/,
+      )
       expect(coordsSpy).not.toHaveBeenCalled()
     } finally {
       view.destroy()

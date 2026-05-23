@@ -52,7 +52,11 @@ function EditorInstance({ shouldOptimizeRendering }) {
       if (!next) {
         return false
       }
-      return prev.isBold === next.isBold && prev.isItalic === next.isItalic && prev.isStrike === next.isStrike
+      return (
+        prev.isBold === next.isBold &&
+        prev.isItalic === next.isItalic &&
+        prev.isStrike === next.isStrike
+      )
     },
   })
 

@@ -66,7 +66,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('parses language from HTML code block', async ({ page }) => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) =>
-          el.editor.commands.setContent('<pre><code class="language-css">body { display: none; }</code></pre>'),
+          el.editor.commands.setContent(
+            '<pre><code class="language-css">body { display: none; }</code></pre>',
+          ),
         )
         await expect(page.locator('.tiptap pre>code.language-css')).toHaveCount(1)
       })

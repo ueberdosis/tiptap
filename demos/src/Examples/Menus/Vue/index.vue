@@ -2,7 +2,10 @@
   <div v-if="editor">
     <bubble-menu :editor="editor">
       <div class="bubble-menu">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button

@@ -1,12 +1,12 @@
-import type { Plugin } from "@tiptap/pm/state";
+import type { Plugin } from '@tiptap/pm/state'
 
-import type { Editor } from "./Editor.js";
-import { getExtensionField } from "./helpers/getExtensionField.js";
-import type { ExtensionConfig, MarkConfig, NodeConfig } from "./index.js";
-import type { InputRule } from "./InputRule.js";
-import type { Mark } from "./Mark.js";
-import type { Node } from "./Node.js";
-import type { PasteRule } from "./PasteRule.js";
+import type { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type { InputRule } from './InputRule.js'
+import type { Mark } from './Mark.js'
+import type { Node } from './Node.js'
+import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
   DispatchTransactionProps,
@@ -23,9 +23,9 @@ import type {
   ParentConfig,
   RawCommands,
   RenderContext,
-} from "./types.js";
-import { callOrReturn } from "./utilities/callOrReturn.js";
-import { mergeDeep } from "./utilities/mergeDeep.js";
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 export interface ExtendableConfig<
   Options = any,
@@ -43,7 +43,7 @@ export interface ExtendableConfig<
    *
    * @example 'myExtension'
    */
-  name: string;
+  name: string
 
   /**
    * The priority of your extension. The higher, the earlier it will be called
@@ -51,7 +51,7 @@ export interface ExtendableConfig<
    * @default 100
    * @example 101
    */
-  priority?: number;
+  priority?: number
 
   /**
    * This method will add options to this extension
@@ -63,7 +63,7 @@ export interface ExtendableConfig<
    *    myOtherOption: 10,
    * }
    */
-  addOptions?: (this: { name: string; parent: ParentConfig<Config>["addOptions"] }) => Options;
+  addOptions?: (this: { name: string; parent: ParentConfig<Config>['addOptions'] }) => Options
 
   /**
    * The default storage this extension can save data to.
@@ -75,10 +75,10 @@ export interface ExtendableConfig<
    * }
    */
   addStorage?: (this: {
-    name: string;
-    options: Options;
-    parent: ParentConfig<Config>["addStorage"];
-  }) => Storage;
+    name: string
+    options: Options
+    parent: ParentConfig<Config>['addStorage']
+  }) => Storage
 
   /**
    * This function adds globalAttributes to specific nodes.
@@ -107,12 +107,12 @@ export interface ExtendableConfig<
    * }
    */
   addGlobalAttributes?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    extensions: (Node | Mark)[];
-    parent: ParentConfig<Config>["addGlobalAttributes"];
-  }) => GlobalAttributes;
+    name: string
+    options: Options
+    storage: Storage
+    extensions: (Node | Mark)[]
+    parent: ParentConfig<Config>['addGlobalAttributes']
+  }) => GlobalAttributes
 
   /**
    * This function adds commands to the editor
@@ -125,13 +125,13 @@ export interface ExtendableConfig<
    * }
    */
   addCommands?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    editor: Editor;
-    type: PMType;
-    parent: ParentConfig<Config>["addCommands"];
-  }) => Partial<RawCommands>;
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addCommands']
+  }) => Partial<RawCommands>
 
   /**
    * This function registers keyboard shortcuts.
@@ -144,15 +144,15 @@ export interface ExtendableConfig<
    * },
    */
   addKeyboardShortcuts?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    editor: Editor;
-    type: PMType;
-    parent: ParentConfig<Config>["addKeyboardShortcuts"];
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addKeyboardShortcuts']
   }) => {
-    [key: string]: KeyboardShortcutCommand;
-  };
+    [key: string]: KeyboardShortcutCommand
+  }
 
   /**
    * This function adds input rules to the editor.
@@ -168,13 +168,13 @@ export interface ExtendableConfig<
    * },
    */
   addInputRules?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    editor: Editor;
-    type: PMType;
-    parent: ParentConfig<Config>["addInputRules"];
-  }) => InputRule[];
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addInputRules']
+  }) => InputRule[]
 
   /**
    * This function adds paste rules to the editor.
@@ -190,13 +190,13 @@ export interface ExtendableConfig<
    * },
    */
   addPasteRules?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    editor: Editor;
-    type: PMType;
-    parent: ParentConfig<Config>["addPasteRules"];
-  }) => PasteRule[];
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addPasteRules']
+  }) => PasteRule[]
 
   /**
    * This function adds Prosemirror plugins to the editor
@@ -209,13 +209,13 @@ export interface ExtendableConfig<
    * }
    */
   addProseMirrorPlugins?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    editor: Editor;
-    type: PMType;
-    parent: ParentConfig<Config>["addProseMirrorPlugins"];
-  }) => Plugin[];
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addProseMirrorPlugins']
+  }) => Plugin[]
 
   /**
    * This function transforms pasted HTML content before it's parsed.
@@ -231,15 +231,15 @@ export interface ExtendableConfig<
    */
   transformPastedHTML?: (
     this: {
-      name: string;
-      options: Options;
-      storage: Storage;
-      editor: Editor;
-      type: PMType;
-      parent: ParentConfig<Config>["transformPastedHTML"];
+      name: string
+      options: Options
+      storage: Storage
+      editor: Editor
+      type: PMType
+      parent: ParentConfig<Config>['transformPastedHTML']
     },
     html: string,
-  ) => string;
+  ) => string
 
   /**
    * This function adds additional extensions to the editor. This is useful for
@@ -254,11 +254,11 @@ export interface ExtendableConfig<
    * }
    */
   addExtensions?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    parent: ParentConfig<Config>["addExtensions"];
-  }) => Extensions;
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<Config>['addExtensions']
+  }) => Extensions
 
   /**
    * The markdown token name
@@ -268,12 +268,12 @@ export interface ExtendableConfig<
    * @see https://github.com/markedjs/marked/blob/master/src/Tokens.ts
    *
    */
-  markdownTokenName?: string;
+  markdownTokenName?: string
 
   /**
    * The parse function used by the markdown parser to convert markdown tokens to ProseMirror nodes.
    */
-  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult;
+  parseMarkdown?: (token: MarkdownToken, helpers: MarkdownParseHelpers) => MarkdownParseResult
 
   /**
    * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
@@ -282,14 +282,14 @@ export interface ExtendableConfig<
     node: JSONContent,
     helpers: MarkdownRendererHelpers,
     ctx: RenderContext,
-  ) => string;
+  ) => string
 
   /**
    * The markdown tokenizer responsible for turning a markdown string into tokens
    *
    * Custom tokenizers are only needed when you want to parse non-standard markdown token.
    */
-  markdownTokenizer?: MarkdownTokenizer;
+  markdownTokenizer?: MarkdownTokenizer
 
   /**
    * Optional markdown options for indentation
@@ -298,7 +298,7 @@ export interface ExtendableConfig<
     /**
      * Defines if this markdown element should indent it's child elements
      */
-    indentsContent?: boolean;
+    indentsContent?: boolean
 
     /**
      * Lets a mark tell the Markdown serializer which inline HTML tags it can
@@ -318,10 +318,10 @@ export interface ExtendableConfig<
      * extension so the serializer can reuse its HTML form for overlap cases.
      */
     htmlReopen?: {
-      open: string;
-      close: string;
-    };
-  };
+      open: string
+      close: string
+    }
+  }
 
   /**
    * This function extends the schema of the node.
@@ -336,14 +336,14 @@ export interface ExtendableConfig<
   extendNodeSchema?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          parent: ParentConfig<Config>["extendNodeSchema"];
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<Config>['extendNodeSchema']
         },
         extension: Node,
       ) => Record<string, any>)
-    | null;
+    | null
 
   /**
    * This function extends the schema of the mark.
@@ -358,14 +358,14 @@ export interface ExtendableConfig<
   extendMarkSchema?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          parent: ParentConfig<Config>["extendMarkSchema"];
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<Config>['extendMarkSchema']
         },
         extension: Mark,
       ) => Record<string, any>)
-    | null;
+    | null
 
   /**
    * The editor is not ready yet.
@@ -373,16 +373,16 @@ export interface ExtendableConfig<
   onBeforeCreate?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onBeforeCreate"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onBeforeCreate']
         },
-        event: EditorEvents["beforeCreate"],
+        event: EditorEvents['beforeCreate'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The editor is ready.
@@ -390,16 +390,16 @@ export interface ExtendableConfig<
   onCreate?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onCreate"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onCreate']
         },
-        event: EditorEvents["create"],
+        event: EditorEvents['create'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The content has changed.
@@ -407,16 +407,16 @@ export interface ExtendableConfig<
   onUpdate?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onUpdate"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onUpdate']
         },
-        event: EditorEvents["update"],
+        event: EditorEvents['update'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The selection has changed.
@@ -424,16 +424,16 @@ export interface ExtendableConfig<
   onSelectionUpdate?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onSelectionUpdate"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onSelectionUpdate']
         },
-        event: EditorEvents["selectionUpdate"],
+        event: EditorEvents['selectionUpdate'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The editor state has changed.
@@ -441,16 +441,16 @@ export interface ExtendableConfig<
   onTransaction?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onTransaction"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onTransaction']
         },
-        event: EditorEvents["transaction"],
+        event: EditorEvents['transaction'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The editor is focused.
@@ -458,16 +458,16 @@ export interface ExtendableConfig<
   onFocus?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onFocus"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onFocus']
         },
-        event: EditorEvents["focus"],
+        event: EditorEvents['focus'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The editor isn’t focused anymore.
@@ -475,16 +475,16 @@ export interface ExtendableConfig<
   onBlur?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onBlur"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onBlur']
         },
-        event: EditorEvents["blur"],
+        event: EditorEvents['blur'],
       ) => void)
-    | null;
+    | null
 
   /**
    * The editor is destroyed.
@@ -492,16 +492,16 @@ export interface ExtendableConfig<
   onDestroy?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["onDestroy"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['onDestroy']
         },
-        event: EditorEvents["destroy"],
+        event: EditorEvents['destroy'],
       ) => void)
-    | null;
+    | null
 
   /**
    * This hook allows you to intercept and modify transactions before they are dispatched.
@@ -519,16 +519,16 @@ export interface ExtendableConfig<
   dispatchTransaction?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          editor: Editor;
-          type: PMType;
-          parent: ParentConfig<Config>["dispatchTransaction"];
+          name: string
+          options: Options
+          storage: Storage
+          editor: Editor
+          type: PMType
+          parent: ParentConfig<Config>['dispatchTransaction']
         },
         props: DispatchTransactionProps,
       ) => void)
-    | null;
+    | null
 }
 
 export class Extendable<
@@ -539,61 +539,61 @@ export class Extendable<
     | NodeConfig<Options, Storage>
     | MarkConfig<Options, Storage>,
 > {
-  type = "extendable";
-  parent: Extendable | null = null;
+  type = 'extendable'
+  parent: Extendable | null = null
 
-  child: Extendable | null = null;
+  child: Extendable | null = null
 
-  name = "";
+  name = ''
 
   config: Config = {
     name: this.name,
-  } as Config;
+  } as Config
 
   constructor(config: Partial<Config> = {}) {
     this.config = {
       ...this.config,
       ...config,
-    };
+    }
 
-    this.name = (this.config as any).name;
+    this.name = (this.config as any).name
   }
 
   get options(): Options {
     return {
       ...callOrReturn(
-        getExtensionField<AnyConfig["addOptions"]>(this as any, "addOptions", {
+        getExtensionField<AnyConfig['addOptions']>(this as any, 'addOptions', {
           name: this.name,
         }),
       ),
-    };
+    }
   }
 
   get storage(): Readonly<Storage> {
     return {
       ...callOrReturn(
-        getExtensionField<AnyConfig["addStorage"]>(this as any, "addStorage", {
+        getExtensionField<AnyConfig['addStorage']>(this as any, 'addStorage', {
           name: this.name,
           options: this.options,
         }),
       ),
-    };
+    }
   }
 
   configure(options: Partial<Options> = {}) {
     const extension = this.extend<Options, Storage, Config>({
       ...this.config,
       addOptions: () => {
-        return mergeDeep(this.options as Record<string, any>, options) as Options;
+        return mergeDeep(this.options as Record<string, any>, options) as Options
       },
-    });
+    })
 
-    extension.name = this.name;
-    extension.parent = this.parent;
+    extension.name = this.name
+    extension.parent = this.parent
 
-    this.child = null;
+    this.child = null
 
-    return extension;
+    return extension
   }
 
   extend<
@@ -604,12 +604,12 @@ export class Extendable<
       | NodeConfig<ExtendedOptions, ExtendedStorage>
       | MarkConfig<ExtendedOptions, ExtendedStorage>,
   >(extendedConfig: Partial<ExtendedConfig> = {}): Extendable<ExtendedOptions, ExtendedStorage> {
-    const extension = new (this.constructor as any)({ ...this.config, ...extendedConfig });
+    const extension = new (this.constructor as any)({ ...this.config, ...extendedConfig })
 
-    extension.parent = this;
-    this.child = extension;
-    extension.name = "name" in extendedConfig ? extendedConfig.name : extension.parent.name;
+    extension.parent = this
+    this.child = extension
+    extension.name = 'name' in extendedConfig ? extendedConfig.name : extension.parent.name
 
-    return extension;
+    return extension
   }
 }

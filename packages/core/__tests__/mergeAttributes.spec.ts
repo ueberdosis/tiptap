@@ -46,7 +46,10 @@ describe('mergeAttributes', () => {
   })
 
   it('should merge classes and styles', () => {
-    const value = mergeAttributes({ class: 'foo', style: 'color: red' }, { class: 'bar', style: 'background: green' })
+    const value = mergeAttributes(
+      { class: 'foo', style: 'color: red' },
+      { class: 'bar', style: 'background: green' },
+    )
 
     expect(value).toEqual({
       class: 'foo bar',
@@ -93,7 +96,10 @@ describe('mergeAttributes', () => {
   })
 
   it('should handle styles with only values', () => {
-    const value = mergeAttributes({ style: ': red; color: green; : 100px;' }, { style: 'margin: 10px' })
+    const value = mergeAttributes(
+      { style: ': red; color: green; : 100px;' },
+      { style: 'margin: 10px' },
+    )
 
     expect(value).toEqual({
       style: 'color: green; margin: 10px',
@@ -113,7 +119,10 @@ describe('mergeAttributes', () => {
 
   it('should handle styles with HTTP URLs', () => {
     const value = mergeAttributes(
-      { style: 'background: url(https://example.com/image.jpg) center center no-repeat;background-size: cover' },
+      {
+        style:
+          'background: url(https://example.com/image.jpg) center center no-repeat;background-size: cover',
+      },
       { style: 'color: red' },
     )
 

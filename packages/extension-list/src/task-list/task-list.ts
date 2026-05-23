@@ -58,7 +58,11 @@ export const TaskList = Node.create<TaskListOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['ul', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }), 0]
+    return [
+      'ul',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 'data-type': this.name }),
+      0,
+    ]
   },
 
   parseMarkdown: (token, h) => {

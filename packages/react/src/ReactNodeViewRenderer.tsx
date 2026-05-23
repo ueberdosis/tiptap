@@ -48,7 +48,10 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
    */
   attrs?:
     | Record<string, string>
-    | ((props: { node: ProseMirrorNode; HTMLAttributes: Record<string, any> }) => Record<string, string>)
+    | ((props: {
+        node: ProseMirrorNode
+        HTMLAttributes: Record<string, any>
+      }) => Record<string, string>)
 }
 
 export class ReactNodeView<
@@ -196,13 +199,15 @@ export class ReactNodeView<
     const Component = this.component
     // For performance reasons, we memoize the provider component
     // And all of the things it requires are declared outside of the component, so it doesn't need to re-render
-    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(componentProps => {
-      return (
-        <ReactNodeViewContext.Provider value={context}>
-          {createElement(Component, componentProps)}
-        </ReactNodeViewContext.Provider>
-      )
-    })
+    const ReactNodeViewProvider: NamedExoticComponent<ReactNodeViewProps<T>> = memo(
+      componentProps => {
+        return (
+          <ReactNodeViewContext.Provider value={context}>
+            {createElement(Component, componentProps)}
+          </ReactNodeViewContext.Provider>
+        )
+      },
+    )
 
     ReactNodeViewProvider.displayName = 'ReactNodeView'
 
@@ -300,7 +305,11 @@ export class ReactNodeView<
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: Node,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.renderer.updateProps(props)
       if (typeof this.options.attrs === 'function') {
@@ -330,7 +339,12 @@ export class ReactNodeView<
         oldInnerDecorations,
         innerDecorations,
         updateProps: () =>
-          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
+          rerenderComponent({
+            node,
+            decorations,
+            innerDecorations,
+            extension: this.extensionWithSyncedStorage,
+          }),
       })
     }
 

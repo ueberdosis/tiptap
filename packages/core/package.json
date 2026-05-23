@@ -1,21 +1,36 @@
 {
   "name": "@tiptap/core",
-  "description": "headless rich text editor",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev",
+  "description": "headless rich text editor",
   "keywords": [
-    "tiptap",
     "headless",
-    "wysiwyg",
+    "prosemirror",
     "text editor",
-    "prosemirror"
+    "tiptap",
+    "wysiwyg"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/core"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist",
+    "jsx-runtime",
+    "jsx-dev-runtime"
+  ],
   "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -42,28 +57,13 @@
       "require": "./jsx-dev-runtime/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist",
-    "jsx-runtime",
-    "jsx-dev-runtime"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/core"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsup"
   }
 }

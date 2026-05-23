@@ -111,7 +111,11 @@ declare module '@tiptap/core' {
        * @returns True if the command was successful, otherwise false
        * @example editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })
        */
-      insertTable: (options?: { rows?: number; cols?: number; withHeaderRow?: boolean }) => ReturnType
+      insertTable: (options?: {
+        rows?: number
+        cols?: number
+        withHeaderRow?: boolean
+      }) => ReturnType
 
       /**
        * Add a column before the current column
@@ -316,7 +320,9 @@ export const Table = Node.create<TableOptions>({
         const attrs = align ? { align } : {}
 
         headerCells.push(
-          h.createNode('tableHeader', attrs, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]),
+          h.createNode('tableHeader', attrs, [
+            { type: 'paragraph', content: h.parseInline(cell.tokens) },
+          ]),
         )
       })
 
@@ -330,7 +336,11 @@ export const Table = Node.create<TableOptions>({
           const align = normalizeTableCellAlign(alignments[index] ?? cell.align)
           const attrs = align ? { align } : {}
 
-          bodyCells.push(h.createNode('tableCell', attrs, [{ type: 'paragraph', content: h.parseInline(cell.tokens) }]))
+          bodyCells.push(
+            h.createNode('tableCell', attrs, [
+              { type: 'paragraph', content: h.parseInline(cell.tokens) },
+            ]),
+          )
         })
         rows.push(h.createNode('tableRow', {}, bodyCells))
       })

@@ -61,7 +61,9 @@ const resolveTypes = (types: UniqueIDOptions['types'], extensions: Extensions): 
 
   const { nodeExtensions } = splitExtensions(extensions)
 
-  return nodeExtensions.map(extension => extension.name).filter(type => type !== 'doc' && type !== 'text')
+  return nodeExtensions
+    .map(extension => extension.name)
+    .filter(type => type !== 'doc' && type !== 'text')
 }
 
 export const UniqueID = Extension.create<UniqueIDOptions>({
@@ -124,8 +126,12 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
       return
     }
 
-    const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
-    const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
+    const collaboration = this.editor.extensionManager.extensions.find(
+      ext => ext.name === 'collaboration',
+    )
+    const collaborationCaret = this.editor.extensionManager.extensions.find(
+      ext => ext.name === 'collaborationCaret',
+    )
 
     const collabExtensions = [collaboration, collaborationCaret].filter(Boolean)
     const collab = collabExtensions.find(ext => ext?.options?.provider)
@@ -188,8 +194,12 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     // onCreate runs on a deferred setTimeout(0), so a y-sync$ transaction could
     // be applied before it. Setting the flag here (synchronous during editor
     // construction) ensures the first y-sync$ is always handled.
-    const collaboration = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaboration')
-    const collaborationCaret = this.editor.extensionManager.extensions.find(ext => ext.name === 'collaborationCaret')
+    const collaboration = this.editor.extensionManager.extensions.find(
+      ext => ext.name === 'collaboration',
+    )
+    const collaborationCaret = this.editor.extensionManager.extensions.find(
+      ext => ext.name === 'collaborationCaret',
+    )
     const collabExtensions = [collaboration, collaborationCaret].filter(Boolean)
     const collabWithProvider = collabExtensions.find(ext => ext?.options?.provider)
 
@@ -207,9 +217,11 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
         appendTransaction: (transactions, oldState, newState) => {
           const hasDocChanges =
-            transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+            transactions.some(transaction => transaction.docChanged) &&
+            !oldState.doc.eq(newState.doc)
           const filterTransactions =
-            this.options.filterTransaction && transactions.some(tr => !this.options.filterTransaction?.(tr))
+            this.options.filterTransaction &&
+            transactions.some(tr => !this.options.filterTransaction?.(tr))
 
           const isCollabTransaction = transactions.find(tr => tr.getMeta('y-sync$'))
 
@@ -272,7 +284,9 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
               return types.includes(node.type.name)
             })
 
-            const newIds = newNodes.map(({ node }) => node.attrs[attributeName]).filter(id => id !== null)
+            const newIds = newNodes
+              .map(({ node }) => node.attrs[attributeName])
+              .filter(id => id !== null)
 
             newNodes.forEach(({ node, pos }, i) => {
               // instead of checking `node.attrs[attributeName]` directly
@@ -294,7 +308,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
 
               if (nextNode && node.content.size === 0) {
                 const nextNodeInTr = tr.doc.nodeAt(nextNode.pos)
-                if (nextNodeInTr?.attrs[attributeName] && nextNodeInTr.attrs[attributeName] !== id) {
+                if (
+                  nextNodeInTr?.attrs[attributeName] &&
+                  nextNodeInTr.attrs[attributeName] !== id
+                ) {
                   return
                 }
 

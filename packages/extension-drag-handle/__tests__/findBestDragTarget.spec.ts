@@ -8,7 +8,9 @@ import type { NormalizedNestedOptions } from '../src/types/options.js'
 /**
  * Creates default normalized options for testing.
  */
-function createDefaultOptions(overrides: Partial<NormalizedNestedOptions> = {}): NormalizedNestedOptions {
+function createDefaultOptions(
+  overrides: Partial<NormalizedNestedOptions> = {},
+): NormalizedNestedOptions {
   return {
     enabled: true,
     rules: [],

@@ -5,7 +5,8 @@ import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-const countCells = (editor: Editor, selector: string) => editor.view.dom.querySelectorAll(selector).length
+const countCells = (editor: Editor, selector: string) =>
+  editor.view.dom.querySelectorAll(selector).length
 
 const selectFirstTwoHeaderCells = (editor: Editor) => {
   const positions: number[] = []
@@ -14,7 +15,11 @@ const selectFirstTwoHeaderCells = (editor: Editor) => {
       positions.push(pos)
     }
   })
-  editor.chain().focus().setCellSelection({ anchorCell: positions[0], headCell: positions[1] }).run()
+  editor
+    .chain()
+    .focus()
+    .setCellSelection({ anchorCell: positions[0], headCell: positions[1] })
+    .run()
 }
 
 describe('Table commands', () => {

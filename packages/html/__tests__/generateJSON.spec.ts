@@ -33,7 +33,12 @@ describe('generateJSON', () => {
   it('generate JSON with style attributes', () => {
     const html = '<p style="text-align: center;">Example Text</p>'
 
-    const json = generateJSON(html, [Document, Paragraph, Text, TextAlign.configure({ types: ['paragraph'] })])
+    const json = generateJSON(html, [
+      Document,
+      Paragraph,
+      Text,
+      TextAlign.configure({ types: ['paragraph'] }),
+    ])
 
     expect(JSON.stringify(json)).toBe(
       JSON.stringify({

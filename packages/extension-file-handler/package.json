@@ -1,18 +1,30 @@
 {
   "name": "@tiptap/extension-file-handler",
-  "description": "file handler extension for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/filehandler",
+  "description": "file handler extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/filehandler",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-file-handler"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -23,13 +35,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/extension-text-style": "workspace:^",
@@ -39,13 +47,5 @@
     "@tiptap/core": "workspace:*",
     "@tiptap/extension-text-style": "workspace:*",
     "@tiptap/pm": "workspace:*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-file-handler"
-  },
-  "scripts": {
-    "build": "tsup"
   }
 }

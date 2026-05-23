@@ -5,99 +5,95 @@ import type {
   NodeViewRenderer,
   NodeViewRendererOptions,
   NodeViewRendererProps,
-} from "@tiptap/core";
-import { isNodeViewSelected, NodeView } from "@tiptap/core";
-import type { Node as ProseMirrorNode } from "@tiptap/pm/model";
-import type {
-  Decoration,
-  DecorationSource,
-  NodeView as ProseMirrorNodeView,
-} from "@tiptap/pm/view";
-import type { Component, PropType, Ref } from "vue";
-import { defineComponent, provide, ref } from "vue";
+} from '@tiptap/core'
+import { isNodeViewSelected, NodeView } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, NodeView as ProseMirrorNodeView } from '@tiptap/pm/view'
+import type { Component, PropType, Ref } from 'vue'
+import { defineComponent, provide, ref } from 'vue'
 
-import type { Editor } from "./Editor.js";
-import { VueRenderer } from "./VueRenderer.js";
+import type { Editor } from './Editor.js'
+import { VueRenderer } from './VueRenderer.js'
 
 export const nodeViewProps = {
   editor: {
-    type: Object as PropType<NodeViewProps["editor"]>,
+    type: Object as PropType<NodeViewProps['editor']>,
     required: true as const,
   },
   node: {
-    type: Object as PropType<NodeViewProps["node"]>,
+    type: Object as PropType<NodeViewProps['node']>,
     required: true as const,
   },
   decorations: {
-    type: Object as PropType<NodeViewProps["decorations"]>,
+    type: Object as PropType<NodeViewProps['decorations']>,
     required: true as const,
   },
   selected: {
-    type: Boolean as PropType<NodeViewProps["selected"]>,
+    type: Boolean as PropType<NodeViewProps['selected']>,
     required: true as const,
   },
   extension: {
-    type: Object as PropType<NodeViewProps["extension"]>,
+    type: Object as PropType<NodeViewProps['extension']>,
     required: true as const,
   },
   getPos: {
-    type: Function as PropType<NodeViewProps["getPos"]>,
+    type: Function as PropType<NodeViewProps['getPos']>,
     required: true as const,
   },
   updateAttributes: {
-    type: Function as PropType<NodeViewProps["updateAttributes"]>,
+    type: Function as PropType<NodeViewProps['updateAttributes']>,
     required: true as const,
   },
   deleteNode: {
-    type: Function as PropType<NodeViewProps["deleteNode"]>,
+    type: Function as PropType<NodeViewProps['deleteNode']>,
     required: true as const,
   },
   view: {
-    type: Object as PropType<NodeViewProps["view"]>,
+    type: Object as PropType<NodeViewProps['view']>,
     required: true as const,
   },
   innerDecorations: {
-    type: Object as PropType<NodeViewProps["innerDecorations"]>,
+    type: Object as PropType<NodeViewProps['innerDecorations']>,
     required: true as const,
   },
   HTMLAttributes: {
-    type: Object as PropType<NodeViewProps["HTMLAttributes"]>,
+    type: Object as PropType<NodeViewProps['HTMLAttributes']>,
     required: true as const,
   },
-};
+}
 
 export interface VueNodeViewRendererOptions extends NodeViewRendererOptions {
   update:
     | ((props: {
-        oldNode: ProseMirrorNode;
-        oldDecorations: readonly Decoration[];
-        oldInnerDecorations: DecorationSource;
-        newNode: ProseMirrorNode;
-        newDecorations: readonly Decoration[];
-        innerDecorations: DecorationSource;
-        updateProps: () => void;
+        oldNode: ProseMirrorNode
+        oldDecorations: readonly Decoration[]
+        oldInnerDecorations: DecorationSource
+        newNode: ProseMirrorNode
+        newDecorations: readonly Decoration[]
+        innerDecorations: DecorationSource
+        updateProps: () => void
       }) => boolean)
-    | null;
+    | null
 }
 
 class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions> {
-  renderer!: VueRenderer;
+  renderer!: VueRenderer
 
-  decorationClasses!: Ref<string>;
+  decorationClasses!: Ref<string>
 
-  private currentPos: number | undefined;
+  private currentPos: number | undefined
 
-  private cachedExtensionWithSyncedStorage: NodeViewProps["extension"] | null = null;
+  private cachedExtensionWithSyncedStorage: NodeViewProps['extension'] | null = null
 
   constructor(
     component: Component,
     props: NodeViewRendererProps,
     options?: Partial<VueNodeViewRendererOptions>,
   ) {
-    super(component, props, options);
+    super(component, props, options)
 
     if (this.options.trackNodeViewPosition) {
-      this.editor.on("update", this.handlePositionUpdate);
+      this.editor.on('update', this.handlePositionUpdate)
     }
   }
 
@@ -106,22 +102,22 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * This preserves the original prototype chain (instanceof checks, methods like configure/extend work).
    * Cached to avoid proxy creation on every update.
    */
-  get extensionWithSyncedStorage(): NodeViewProps["extension"] {
+  get extensionWithSyncedStorage(): NodeViewProps['extension'] {
     if (!this.cachedExtensionWithSyncedStorage) {
-      const editor = this.editor;
-      const extension = this.extension;
+      const editor = this.editor
+      const extension = this.extension
 
       this.cachedExtensionWithSyncedStorage = new Proxy(extension, {
         get(target, prop, receiver) {
-          if (prop === "storage") {
-            return editor.storage[extension.name as keyof typeof editor.storage] ?? {};
+          if (prop === 'storage') {
+            return editor.storage[extension.name as keyof typeof editor.storage] ?? {}
           }
-          return Reflect.get(target, prop, receiver);
+          return Reflect.get(target, prop, receiver)
         },
-      });
+      })
     }
 
-    return this.cachedExtensionWithSyncedStorage;
+    return this.cachedExtensionWithSyncedStorage
   }
 
   mount() {
@@ -137,25 +133,25 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       getPos: () => this.getPos(),
       updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
       deleteNode: () => this.deleteNode(),
-    };
+    }
 
-    const mountProps = props as NodeViewProps;
+    const mountProps = props as NodeViewProps
 
-    const onDragStart = this.onDragStart.bind(this);
+    const onDragStart = this.onDragStart.bind(this)
 
-    this.decorationClasses = ref(this.getDecorationClasses());
+    this.decorationClasses = ref(this.getDecorationClasses())
 
     const extendedComponent = defineComponent({
       extends: { ...this.component },
       props: Object.keys(props),
       template: (this.component as any).template,
-      setup: (reactiveProps) => {
-        provide("onDragStart", onDragStart);
-        provide("decorationClasses", this.decorationClasses);
+      setup: reactiveProps => {
+        provide('onDragStart', onDragStart)
+        provide('decorationClasses', this.decorationClasses)
 
         return (this.component as any).setup?.(reactiveProps, {
           expose: () => undefined,
-        });
+        })
       },
       // add support for scoped styles
       // @ts-ignore
@@ -172,17 +168,17 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // @ts-ignore
       // oxlint-disable-next-line
       __file: this.component.__file,
-    });
+    })
 
-    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this);
-    this.editor.on("selectionUpdate", this.handleSelectionUpdate);
+    this.handleSelectionUpdate = this.handleSelectionUpdate.bind(this)
+    this.editor.on('selectionUpdate', this.handleSelectionUpdate)
 
-    this.currentPos = this.getPos();
+    this.currentPos = this.getPos()
 
     this.renderer = new VueRenderer(extendedComponent, {
       editor: this.editor,
       props: mountProps,
-    });
+    })
   }
 
   /**
@@ -190,24 +186,24 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * Detects position shifts where update() is NOT called.
    */
   private handlePositionUpdate = () => {
-    const newPos = this.getPos();
-    if (typeof newPos !== "number" || newPos === this.currentPos) {
-      return;
+    const newPos = this.getPos()
+    if (typeof newPos !== 'number' || newPos === this.currentPos) {
+      return
     }
-    this.currentPos = newPos;
-    this.renderer.updateProps({ getPos: () => this.getPos() });
-  };
+    this.currentPos = newPos
+    this.renderer.updateProps({ getPos: () => this.getPos() })
+  }
 
   /**
    * Return the DOM element.
    * This is the element that will be used to display the node view.
    */
   get dom() {
-    if (!this.renderer.element || !this.renderer.element.hasAttribute("data-node-view-wrapper")) {
-      throw Error("Please use the NodeViewWrapper component for your node view.");
+    if (!this.renderer.element || !this.renderer.element.hasAttribute('data-node-view-wrapper')) {
+      throw Error('Please use the NodeViewWrapper component for your node view.')
     }
 
-    return this.renderer.element as HTMLElement;
+    return this.renderer.element as HTMLElement
   }
 
   /**
@@ -216,10 +212,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    */
   get contentDOM() {
     if (this.node.isLeaf) {
-      return null;
+      return null
     }
 
-    return this.dom.querySelector("[data-node-view-content]") as HTMLElement | null;
+    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
   }
 
   /**
@@ -227,10 +223,10 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * If it is, call `selectNode`, otherwise call `deselectNode`.
    */
   handleSelectionUpdate() {
-    const pos = this.getPos();
+    const pos = this.getPos()
 
-    if (typeof pos !== "number") {
-      return;
+    if (typeof pos !== 'number') {
+      return
     }
 
     const isSelected = isNodeViewSelected({
@@ -238,20 +234,20 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       pos,
       nodeSize: this.node.nodeSize,
       selectedOnTextSelection: this.options.selectedOnTextSelection,
-    });
+    })
 
     if (isSelected) {
       if (this.renderer.props.selected) {
-        return;
+        return
       }
 
-      this.selectNode();
+      this.selectNode()
     } else {
       if (!this.renderer.props.selected) {
-        return;
+        return
       }
 
-      this.deselectNode();
+      this.deselectNode()
     }
   }
 
@@ -265,18 +261,18 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     innerDecorations: DecorationSource,
   ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
-      this.decorationClasses.value = this.getDecorationClasses();
-      this.renderer.updateProps(props);
-    };
+      this.decorationClasses.value = this.getDecorationClasses()
+      this.renderer.updateProps(props)
+    }
 
-    if (typeof this.options.update === "function") {
-      const oldNode = this.node;
-      const oldDecorations = this.decorations;
-      const oldInnerDecorations = this.innerDecorations;
+    if (typeof this.options.update === 'function') {
+      const oldNode = this.node
+      const oldDecorations = this.decorations
+      const oldInnerDecorations = this.innerDecorations
 
-      this.node = node;
-      this.decorations = decorations;
-      this.innerDecorations = innerDecorations;
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
 
       return this.options.update({
         oldNode,
@@ -292,14 +288,14 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
             innerDecorations,
             extension: this.extensionWithSyncedStorage,
           }),
-      });
+      })
     }
 
     if (node.type !== this.node.type) {
-      return false;
+      return false
     }
 
-    const nodeChanged = node !== this.node;
+    const nodeChanged = node !== this.node
 
     // Node reference unchanged — only decorations may have changed.
     // ProseMirror renders decorations independently on the contentDOM,
@@ -308,31 +304,31 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     // current. Update internal refs, refresh decoration classes for
     // the wrapper component, and skip the Vue re-render.
     if (!nodeChanged) {
-      this.node = node;
-      this.decorations = decorations;
-      this.innerDecorations = innerDecorations;
-      this.decorationClasses.value = this.getDecorationClasses();
-      return true;
+      this.node = node
+      this.decorations = decorations
+      this.innerDecorations = innerDecorations
+      this.decorationClasses.value = this.getDecorationClasses()
+      return true
     }
 
-    this.node = node;
-    this.decorations = decorations;
-    this.innerDecorations = innerDecorations;
-    this.currentPos = this.getPos();
+    this.node = node
+    this.decorations = decorations
+    this.innerDecorations = innerDecorations
+    this.currentPos = this.getPos()
 
     const extraProps: Record<string, any> = {
       node,
       decorations,
       innerDecorations,
       extension: this.extensionWithSyncedStorage,
-    };
-
-    if (this.options.trackNodeViewPosition) {
-      extraProps.getPos = () => this.getPos();
     }
 
-    rerenderComponent(extraProps);
-    return true;
+    if (this.options.trackNodeViewPosition) {
+      extraProps.getPos = () => this.getPos()
+    }
+
+    rerenderComponent(extraProps)
+    return true
   }
 
   /**
@@ -342,9 +338,9 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   selectNode() {
     this.renderer.updateProps({
       selected: true,
-    });
+    })
     if (this.renderer.element) {
-      this.renderer.element.classList.add("ProseMirror-selectednode");
+      this.renderer.element.classList.add('ProseMirror-selectednode')
     }
   }
 
@@ -355,9 +351,9 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
   deselectNode() {
     this.renderer.updateProps({
       selected: false,
-    });
+    })
     if (this.renderer.element) {
-      this.renderer.element.classList.remove("ProseMirror-selectednode");
+      this.renderer.element.classList.remove('ProseMirror-selectednode')
     }
   }
 
@@ -365,17 +361,17 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     return (
       this.decorations
         // @ts-ignore
-        .flatMap((item) => item.type.attrs.class)
-        .join(" ")
-    );
+        .flatMap(item => item.type.attrs.class)
+        .join(' ')
+    )
   }
 
   destroy() {
-    this.renderer.destroy();
-    this.editor.off("selectionUpdate", this.handleSelectionUpdate);
+    this.renderer.destroy()
+    this.editor.off('selectionUpdate', this.handleSelectionUpdate)
 
     if (this.options.trackNodeViewPosition) {
-      this.editor.off("update", this.handlePositionUpdate);
+      this.editor.off('update', this.handlePositionUpdate)
     }
   }
 }
@@ -384,19 +380,19 @@ export function VueNodeViewRenderer(
   component: Component<NodeViewProps>,
   options?: Partial<VueNodeViewRendererOptions>,
 ): NodeViewRenderer {
-  return (props) => {
+  return props => {
     // try to get the parent component
     // this is important for vue devtools to show the component hierarchy correctly
     // maybe it’s `undefined` because <editor-content> isn’t rendered yet
     if (!(props.editor as Editor).contentComponent) {
-      return {} as unknown as ProseMirrorNodeView;
+      return {} as unknown as ProseMirrorNodeView
     }
     // check for class-component and normalize if neccessary
     const normalizedComponent =
-      typeof component === "function" && "__vccOpts" in component
+      typeof component === 'function' && '__vccOpts' in component
         ? (component.__vccOpts as Component)
-        : component;
+        : component
 
-    return new VueNodeView(normalizedComponent, props, options);
-  };
+    return new VueNodeView(normalizedComponent, props, options)
+  }
 }

@@ -54,7 +54,10 @@ export default () => {
           >
             Line height 4.0
           </button>
-          <button onClick={() => editor.chain().focus().unsetLineHeight().run()} data-test-id="unsetLineHeight">
+          <button
+            onClick={() => editor.chain().focus().unsetLineHeight().run()}
+            data-test-id="unsetLineHeight"
+          >
             Unset line height
           </button>
         </div>

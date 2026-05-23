@@ -95,7 +95,9 @@ export const HardBreak = Node.create<HardBreakOptions>({
                   .insertContent({ type: this.name })
                   .command(({ tr, dispatch }) => {
                     if (dispatch && marks && keepMarks) {
-                      const filteredMarks = marks.filter(mark => splittableMarks.includes(mark.type.name))
+                      const filteredMarks = marks.filter(mark =>
+                        splittableMarks.includes(mark.type.name),
+                      )
 
                       tr.ensureMarks(filteredMarks)
                     }

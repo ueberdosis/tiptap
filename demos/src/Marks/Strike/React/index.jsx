@@ -33,10 +33,16 @@ export default () => {
           >
             Toggle strike
           </button>
-          <button onClick={() => editor.chain().focus().setStrike().run()} disabled={editor.isActive('strike')}>
+          <button
+            onClick={() => editor.chain().focus().setStrike().run()}
+            disabled={editor.isActive('strike')}
+          >
             Set strike
           </button>
-          <button onClick={() => editor.chain().focus().unsetStrike().run()} disabled={!editor.isActive('strike')}>
+          <button
+            onClick={() => editor.chain().focus().unsetStrike().run()}
+            disabled={!editor.isActive('strike')}
+          >
             Unset strike
           </button>
         </div>

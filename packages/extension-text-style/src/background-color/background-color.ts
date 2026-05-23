@@ -61,7 +61,8 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
               // Prefer the raw inline `style` attribute so we preserve the
               // original format (e.g. `#rrggbb`) instead of the canonicalized
               // `rgb(...)` value returned by `element.style.backgroundColor`.
-              const value = getStyleProperty(element, 'background-color') ?? element.style.backgroundColor
+              const value =
+                getStyleProperty(element, 'background-color') ?? element.style.backgroundColor
               return value?.replace(/['"]+/g, '')
             },
             renderHTML: attributes => {
@@ -89,7 +90,10 @@ export const BackgroundColor = Extension.create<BackgroundColorOptions>({
       unsetBackgroundColor:
         () =>
         ({ chain }) => {
-          return chain().setMark('textStyle', { backgroundColor: null }).removeEmptyTextStyle().run()
+          return chain()
+            .setMark('textStyle', { backgroundColor: null })
+            .removeEmptyTextStyle()
+            .run()
         },
     }
   },

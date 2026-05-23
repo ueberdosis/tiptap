@@ -192,7 +192,12 @@ export class BubbleMenuView implements PluginView {
     onDestroy: undefined,
   }
 
-  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({ view, state, from, to }) => {
+  public shouldShow: Exclude<BubbleMenuPluginProps['shouldShow'], null> = ({
+    view,
+    state,
+    from,
+    to,
+  }) => {
     const { doc, selection } = state
     const { empty } = selection
 
@@ -219,18 +224,32 @@ export class BubbleMenuView implements PluginView {
     const middlewares: Middleware[] = []
 
     if (this.floatingUIOptions.flip) {
-      middlewares.push(flip(typeof this.floatingUIOptions.flip !== 'boolean' ? this.floatingUIOptions.flip : undefined))
+      middlewares.push(
+        flip(
+          typeof this.floatingUIOptions.flip !== 'boolean'
+            ? this.floatingUIOptions.flip
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.shift) {
       middlewares.push(
-        shift(typeof this.floatingUIOptions.shift !== 'boolean' ? this.floatingUIOptions.shift : undefined),
+        shift(
+          typeof this.floatingUIOptions.shift !== 'boolean'
+            ? this.floatingUIOptions.shift
+            : undefined,
+        ),
       )
     }
 
     if (this.floatingUIOptions.offset) {
       middlewares.push(
-        offset(typeof this.floatingUIOptions.offset !== 'boolean' ? this.floatingUIOptions.offset : undefined),
+        offset(
+          typeof this.floatingUIOptions.offset !== 'boolean'
+            ? this.floatingUIOptions.offset
+            : undefined,
+        ),
       )
     }
 
@@ -239,24 +258,42 @@ export class BubbleMenuView implements PluginView {
     }
 
     if (this.floatingUIOptions.size) {
-      middlewares.push(size(typeof this.floatingUIOptions.size !== 'boolean' ? this.floatingUIOptions.size : undefined))
+      middlewares.push(
+        size(
+          typeof this.floatingUIOptions.size !== 'boolean'
+            ? this.floatingUIOptions.size
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.autoPlacement) {
       middlewares.push(
         autoPlacement(
-          typeof this.floatingUIOptions.autoPlacement !== 'boolean' ? this.floatingUIOptions.autoPlacement : undefined,
+          typeof this.floatingUIOptions.autoPlacement !== 'boolean'
+            ? this.floatingUIOptions.autoPlacement
+            : undefined,
         ),
       )
     }
 
     if (this.floatingUIOptions.hide) {
-      middlewares.push(hide(typeof this.floatingUIOptions.hide !== 'boolean' ? this.floatingUIOptions.hide : undefined))
+      middlewares.push(
+        hide(
+          typeof this.floatingUIOptions.hide !== 'boolean'
+            ? this.floatingUIOptions.hide
+            : undefined,
+        ),
+      )
     }
 
     if (this.floatingUIOptions.inline) {
       middlewares.push(
-        inline(typeof this.floatingUIOptions.inline !== 'boolean' ? this.floatingUIOptions.inline : undefined),
+        inline(
+          typeof this.floatingUIOptions.inline !== 'boolean'
+            ? this.floatingUIOptions.inline
+            : undefined,
+        ),
       )
     }
 
@@ -284,7 +321,9 @@ export class BubbleMenuView implements PluginView {
     if (selection instanceof NodeSelection) {
       let node = this.view.nodeDOM(selection.from) as HTMLElement
 
-      const nodeViewWrapper = node.dataset.nodeViewWrapper ? node : node.querySelector('[data-node-view-wrapper]')
+      const nodeViewWrapper = node.dataset.nodeViewWrapper
+        ? node
+        : node.querySelector('[data-node-view-wrapper]')
 
       if (nodeViewWrapper) {
         node = nodeViewWrapper as HTMLElement
@@ -521,7 +560,12 @@ export class BubbleMenuView implements PluginView {
     return shouldShow || false
   }
 
-  updateHandler = (view: EditorView, selectionChanged: boolean, docChanged: boolean, oldState?: EditorState) => {
+  updateHandler = (
+    view: EditorView,
+    selectionChanged: boolean,
+    docChanged: boolean,
+    oldState?: EditorState,
+  ) => {
     const { composing } = view
 
     const isSame = !selectionChanged && !docChanged
@@ -598,7 +642,9 @@ export class BubbleMenuView implements PluginView {
     }
   }
 
-  updateOptions(newProps: Partial<Omit<BubbleMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>) {
+  updateOptions(
+    newProps: Partial<Omit<BubbleMenuPluginProps, 'editor' | 'element' | 'pluginKey'>>,
+  ) {
     if (newProps.updateDelay !== undefined) {
       this.updateDelay = newProps.updateDelay
     }
@@ -657,7 +703,8 @@ export class BubbleMenuView implements PluginView {
 
 export const BubbleMenuPlugin = (options: BubbleMenuPluginProps) => {
   return new Plugin({
-    key: typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
+    key:
+      typeof options.pluginKey === 'string' ? new PluginKey(options.pluginKey) : options.pluginKey,
     view: view => new BubbleMenuView({ view, ...options }),
   })
 }

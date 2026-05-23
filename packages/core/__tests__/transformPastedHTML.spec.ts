@@ -204,7 +204,10 @@ describe('transformPastedHTML', () => {
       ],
     })
 
-    const result = editor.view.props.transformPastedHTML?.('<p style="color: red;">test</p>', editor.view)
+    const result = editor.view.props.transformPastedHTML?.(
+      '<p style="color: red;">test</p>',
+      editor.view,
+    )
 
     expect(result).toBe('<p class="clean">test</p>')
   })

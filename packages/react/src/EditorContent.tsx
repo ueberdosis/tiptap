@@ -1,25 +1,25 @@
-import type { Editor } from "@tiptap/core";
-import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from "react";
-import React, { forwardRef } from "react";
-import ReactDOM from "react-dom";
-import { useSyncExternalStore } from "use-sync-external-store/shim/index.js";
+import type { Editor } from '@tiptap/core'
+import type { ForwardedRef, HTMLProps, LegacyRef, MutableRefObject } from 'react'
+import React, { forwardRef } from 'react'
+import ReactDOM from 'react-dom'
+import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
-import type { ContentComponent, EditorWithContentComponent } from "./Editor.js";
-import type { ReactRenderer } from "./ReactRenderer.js";
+import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
+import type { ReactRenderer } from './ReactRenderer.js'
 
 const mergeRefs = <T extends HTMLDivElement>(
   ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
 ) => {
   return (node: T) => {
-    refs.forEach((ref) => {
-      if (typeof ref === "function") {
-        ref(node);
+    refs.forEach(ref => {
+      if (typeof ref === 'function') {
+        ref(node)
       } else if (ref) {
-        (ref as MutableRefObject<T | null>).current = node;
+        ;(ref as MutableRefObject<T | null>).current = node
       }
-    });
-  };
-};
+    })
+  }
+}
 
 /**
  * This component renders all of the editor's node views.
@@ -30,36 +30,36 @@ const Portals: React.FC<{ contentComponent: ContentComponent }> = ({ contentComp
     contentComponent.subscribe,
     contentComponent.getSnapshot,
     contentComponent.getServerSnapshot,
-  );
+  )
 
   // This allows us to directly render the portals without any additional wrapper
-  return <>{Object.values(renderers)}</>;
-};
+  return <>{Object.values(renderers)}</>
+}
 
 export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
-  editor: Editor | null;
-  innerRef?: ForwardedRef<HTMLDivElement | null>;
+  editor: Editor | null
+  innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
 function getInstance(): ContentComponent {
-  const subscribers = new Set<() => void>();
-  let renderers: Record<string, React.ReactPortal> = {};
+  const subscribers = new Set<() => void>()
+  let renderers: Record<string, React.ReactPortal> = {}
 
   return {
     /**
      * Subscribe to the editor instance's changes.
      */
     subscribe(callback: () => void) {
-      subscribers.add(callback);
+      subscribers.add(callback)
       return () => {
-        subscribers.delete(callback);
-      };
+        subscribers.delete(callback)
+      }
     },
     getSnapshot() {
-      return renderers;
+      return renderers
     },
     getServerSnapshot() {
-      return renderers;
+      return renderers
     },
     /**
      * Adds a new NodeView Renderer to the editor.
@@ -68,107 +68,107 @@ function getInstance(): ContentComponent {
       renderers = {
         ...renderers,
         [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
-      };
+      }
 
-      subscribers.forEach((subscriber) => subscriber());
+      subscribers.forEach(subscriber => subscriber())
     },
     /**
      * Removes a NodeView Renderer from the editor.
      */
     removeRenderer(id: string) {
-      const nextRenderers = { ...renderers };
+      const nextRenderers = { ...renderers }
 
-      delete nextRenderers[id];
-      renderers = nextRenderers;
-      subscribers.forEach((subscriber) => subscriber());
+      delete nextRenderers[id]
+      renderers = nextRenderers
+      subscribers.forEach(subscriber => subscriber())
     },
-  };
+  }
 }
 
 export class PureEditorContent extends React.Component<
   EditorContentProps,
   { hasContentComponentInitialized: boolean }
 > {
-  editorContentRef: React.RefObject<any>;
+  editorContentRef: React.RefObject<any>
 
   constructor(props: EditorContentProps) {
-    super(props);
-    this.editorContentRef = React.createRef();
+    super(props)
+    this.editorContentRef = React.createRef()
   }
 
   componentDidMount() {
-    this.init();
+    this.init()
   }
 
   componentDidUpdate() {
-    this.init();
+    this.init()
   }
 
   init() {
-    const editor = this.props.editor as EditorWithContentComponent | null;
+    const editor = this.props.editor as EditorWithContentComponent | null
 
     if (editor && !editor.isDestroyed && editor.view.dom?.parentNode) {
       if (editor.contentComponent) {
-        return;
+        return
       }
 
-      const element = this.editorContentRef.current;
+      const element = this.editorContentRef.current
 
-      element.append(...editor.view.dom.parentNode.childNodes);
+      element.append(...editor.view.dom.parentNode.childNodes)
 
       editor.setOptions({
         element,
-      });
+      })
 
-      editor.contentComponent = getInstance();
+      editor.contentComponent = getInstance()
 
-      editor.createNodeViews();
+      editor.createNodeViews()
 
-      editor.isEditorContentInitialized = true;
+      editor.isEditorContentInitialized = true
 
-      this.forceUpdate();
+      this.forceUpdate()
     }
   }
 
   componentWillUnmount() {
-    const editor = this.props.editor as EditorWithContentComponent | null;
+    const editor = this.props.editor as EditorWithContentComponent | null
 
     if (!editor) {
-      return;
+      return
     }
 
-    editor.isEditorContentInitialized = false;
+    editor.isEditorContentInitialized = false
 
     if (!editor.isDestroyed) {
       editor.view.setProps({
         nodeViews: {},
-      });
+      })
     }
 
-    editor.contentComponent = null;
+    editor.contentComponent = null
 
     // try to reset the editor element
     // may fail if this editor's view.dom was never initialized/mounted yet
     try {
       if (!editor.view.dom?.parentNode) {
-        return;
+        return
       }
 
       // TODO using the new editor.mount method might allow us to remove this
-      const newElement = document.createElement("div");
+      const newElement = document.createElement('div')
 
-      newElement.append(...editor.view.dom.parentNode.childNodes);
+      newElement.append(...editor.view.dom.parentNode.childNodes)
 
       editor.setOptions({
         element: newElement,
-      });
+      })
     } catch {
       // do nothing, nothing to reset
     }
   }
 
   render() {
-    const { editor, innerRef, ...rest } = this.props;
+    const { editor, innerRef, ...rest } = this.props
 
     return (
       <>
@@ -176,25 +176,25 @@ export class PureEditorContent extends React.Component<
         {/* @ts-ignore */}
         {editor?.contentComponent && <Portals contentComponent={editor.contentComponent} />}
       </>
-    );
+    )
   }
 }
 
 // EditorContent should be re-created whenever the Editor instance changes
 const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
-  (props: Omit<EditorContentProps, "innerRef">, ref) => {
+  (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
-      return Math.floor(Math.random() * 0xffffffff).toString();
+      return Math.floor(Math.random() * 0xffffffff).toString()
       // oxlint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.editor]);
+    }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement
     return React.createElement(PureEditorContent, {
       key,
       innerRef: ref,
       ...props,
-    });
+    })
   },
-);
+)
 
-export const EditorContent = React.memo(EditorContentWithKey);
+export const EditorContent = React.memo(EditorContentWithKey)

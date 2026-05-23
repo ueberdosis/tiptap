@@ -21,7 +21,15 @@ describe('colgroup updates after column commands', () => {
   const createEditor = (resizable: boolean) =>
     new Editor({
       element: createEditorEl(),
-      extensions: [Document, Text, Paragraph, TableCell, TableHeader, TableRow, Table.configure({ resizable })],
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({ resizable }),
+      ],
     })
 
   const countCols = (e: Editor) => e.view.dom.querySelectorAll('colgroup > col').length
@@ -169,7 +177,9 @@ describe('colgroup updates after column commands', () => {
       )
 
       const widthsOf = () =>
-        Array.from(editor!.view.dom.querySelectorAll<HTMLTableColElement>('colgroup > col')).map(c => c.style.width)
+        Array.from(editor!.view.dom.querySelectorAll<HTMLTableColElement>('colgroup > col')).map(
+          c => c.style.width,
+        )
 
       expect(widthsOf()).toEqual(['100px', '200px', '300px'])
 

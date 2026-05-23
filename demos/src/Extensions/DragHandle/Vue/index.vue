@@ -1,13 +1,22 @@
 <template>
   <div class="control-group" v-if="editor">
     <div class="button-group">
-      <button :class="{ 'is-active': editable }" @click="editable = !editable">Toggle editable</button>
-      <button :class="{ 'is-active': nested }" @click="nested = !nested">Toggle nested drag handle</button>
+      <button :class="{ 'is-active': editable }" @click="editable = !editable">
+        Toggle editable
+      </button>
+      <button :class="{ 'is-active': nested }" @click="nested = !nested">
+        Toggle nested drag handle
+      </button>
       <button :class="{ 'is-active': rtl }" @click="rtl = !rtl">Toggle RTL editor</button>
     </div>
   </div>
 
-  <drag-handle v-if="editor" :editor="editor" :nested="nestedOptions" :compute-position-config="computePositionConfig">
+  <drag-handle
+    v-if="editor"
+    :editor="editor"
+    :nested="nestedOptions"
+    :compute-position-config="computePositionConfig"
+  >
     <div class="custom-drag-handle" />
   </drag-handle>
   <editor-content :editor="editor" />

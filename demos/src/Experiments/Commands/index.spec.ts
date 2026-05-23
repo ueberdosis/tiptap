@@ -29,7 +29,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await editor.type('/')
           await expect(dropdown).toBeVisible()
           await dropdown.locator('button').nth(i).click()
-          await editor.evaluate((el: any, text: string) => el.editor.commands.insertContent(text), `I am a ${item.tag}`)
+          await editor.evaluate(
+            (el: any, text: string) => el.editor.commands.insertContent(text),
+            `I am a ${item.tag}`,
+          )
           await expect(page.locator(`.tiptap ${item.tag}`)).toHaveText(`I am a ${item.tag}`)
         }, Promise.resolve())
       })

@@ -1,33 +1,33 @@
-import "./styles.scss";
+import './styles.scss'
 
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import { EditorContent, ReactNodeViewRenderer, useEditor } from "@tiptap/react";
-import css from "highlight.js/lib/languages/css";
-import js from "highlight.js/lib/languages/javascript";
-import ts from "highlight.js/lib/languages/typescript";
-import html from "highlight.js/lib/languages/xml";
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
 // load all languages with "all" or common languages with "common"
-import { all, createLowlight } from "lowlight";
-import React from "react";
+import { all, createLowlight } from 'lowlight'
+import React from 'react'
 
 // oxlint-disable-next-line
-import CodeBlockComponent from "./CodeBlockComponent";
+import CodeBlockComponent from './CodeBlockComponent'
 
 // create a lowlight instance
-const lowlight = createLowlight(all);
+const lowlight = createLowlight(all)
 
 // you can also register individual languages
-lowlight.register("html", html);
-lowlight.register("css", css);
-lowlight.register("js", js);
-lowlight.register("ts", ts);
+lowlight.register('html', html)
+lowlight.register('css', css)
+lowlight.register('js', js)
+lowlight.register('ts', ts)
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
-    return null;
+    return null
   }
 
   return (
@@ -35,14 +35,14 @@ const MenuBar = ({ editor }) => {
       <div className="button-group">
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive("codeBlock") ? "is-active" : ""}
+          className={editor.isActive('codeBlock') ? 'is-active' : ''}
         >
           Toggle code block
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default () => {
   const editor = useEditor({
@@ -52,7 +52,7 @@ export default () => {
       Text,
       CodeBlockLowlight.extend({
         addNodeView() {
-          return ReactNodeViewRenderer(CodeBlockComponent);
+          return ReactNodeViewRenderer(CodeBlockComponent)
         },
       }).configure({ lowlight }),
     ],
@@ -75,12 +75,12 @@ export default () => {
           Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.
         </p>
       `,
-  });
+  })
 
   return (
     <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </>
-  );
-};
+  )
+}

@@ -31,7 +31,10 @@ export default () => {
           >
             Toggle subscript
           </button>
-          <button onClick={() => editor.chain().focus().setSubscript().run()} disabled={editor.isActive('subscript')}>
+          <button
+            onClick={() => editor.chain().focus().setSubscript().run()}
+            disabled={editor.isActive('subscript')}
+          >
             Set subscript
           </button>
           <button

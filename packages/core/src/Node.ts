@@ -1,9 +1,9 @@
-import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from "@tiptap/pm/model";
+import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from '@tiptap/pm/model'
 
-import type { Editor } from "./Editor.js";
-import type { ExtendableConfig } from "./Extendable.js";
-import { Extendable } from "./Extendable.js";
-import type { Attributes, NodeViewRenderer, ParentConfig } from "./types.js";
+import type { Editor } from './Editor.js'
+import type { ExtendableConfig } from './Extendable.js'
+import { Extendable } from './Extendable.js'
+import type { Attributes, NodeViewRenderer, ParentConfig } from './types.js'
 
 export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,
@@ -16,21 +16,21 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    */
   addNodeView?:
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        editor: Editor;
-        type: NodeType;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["addNodeView"];
+        name: string
+        options: Options
+        storage: Storage
+        editor: Editor
+        type: NodeType
+        parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
       }) => NodeViewRenderer | null)
-    | null;
+    | null
 
   /**
    * Defines if this node should be a top level node (doc)
    * @default false
    * @example true
    */
-  topNode?: boolean;
+  topNode?: boolean
 
   /**
    * The content expression for this node, as described in the [schema
@@ -44,14 +44,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example content: 'headline paragraph block*'
    */
   content?:
-    | NodeSpec["content"]
+    | NodeSpec['content']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["content"];
-        editor?: Editor;
-      }) => NodeSpec["content"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['content']
+        editor?: Editor
+      }) => NodeSpec['content'])
 
   /**
    * The marks that are allowed inside of this node. May be a
@@ -63,14 +63,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example marks: 'strong em'
    */
   marks?:
-    | NodeSpec["marks"]
+    | NodeSpec['marks']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["marks"];
-        editor?: Editor;
-      }) => NodeSpec["marks"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['marks']
+        editor?: Editor
+      }) => NodeSpec['marks'])
 
   /**
    * The group or space-separated groups to which this node belongs,
@@ -85,27 +85,27 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example group: 'customBlock' // this uses a custom group
    */
   group?:
-    | NodeSpec["group"]
+    | NodeSpec['group']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["group"];
-        editor?: Editor;
-      }) => NodeSpec["group"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['group']
+        editor?: Editor
+      }) => NodeSpec['group'])
 
   /**
    * Should be set to true for inline nodes. (Implied for text nodes.)
    */
   inline?:
-    | NodeSpec["inline"]
+    | NodeSpec['inline']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["inline"];
-        editor?: Editor;
-      }) => NodeSpec["inline"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['inline']
+        editor?: Editor
+      }) => NodeSpec['inline'])
 
   /**
    * Can be set to true to indicate that, though this isn't a [leaf
@@ -115,14 +115,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example atom: true
    */
   atom?:
-    | NodeSpec["atom"]
+    | NodeSpec['atom']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["atom"];
-        editor?: Editor;
-      }) => NodeSpec["atom"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['atom']
+        editor?: Editor
+      }) => NodeSpec['atom'])
 
   /**
    * Controls whether nodes of this type can be selected as a [node
@@ -133,14 +133,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example selectable: false
    */
   selectable?:
-    | NodeSpec["selectable"]
+    | NodeSpec['selectable']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["selectable"];
-        editor?: Editor;
-      }) => NodeSpec["selectable"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['selectable']
+        editor?: Editor
+      }) => NodeSpec['selectable'])
 
   /**
    * Determines whether nodes of this type can be dragged without
@@ -150,28 +150,28 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example: draggable: true
    */
   draggable?:
-    | NodeSpec["draggable"]
+    | NodeSpec['draggable']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["draggable"];
-        editor?: Editor;
-      }) => NodeSpec["draggable"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['draggable']
+        editor?: Editor
+      }) => NodeSpec['draggable'])
 
   /**
    * Can be used to indicate that this node contains code, which
    * causes some commands to behave differently.
    */
   code?:
-    | NodeSpec["code"]
+    | NodeSpec['code']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["code"];
-        editor?: Editor;
-      }) => NodeSpec["code"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['code']
+        editor?: Editor
+      }) => NodeSpec['code'])
 
   /**
    * Controls way whitespace in this a node is parsed. The default is
@@ -185,14 +185,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * and/or styling.
    */
   whitespace?:
-    | NodeSpec["whitespace"]
+    | NodeSpec['whitespace']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["whitespace"];
-        editor?: Editor;
-      }) => NodeSpec["whitespace"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace']
+        editor?: Editor
+      }) => NodeSpec['whitespace'])
 
   /**
    * Allows a **single** node to be set as linebreak equivalent (e.g. hardBreak).
@@ -204,14 +204,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * See [linebreakReplacement](https://prosemirror.net/docs/ref/#model.NodeSpec.linebreakReplacement).
    */
   linebreakReplacement?:
-    | NodeSpec["linebreakReplacement"]
+    | NodeSpec['linebreakReplacement']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["linebreakReplacement"];
-        editor?: Editor;
-      }) => NodeSpec["linebreakReplacement"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['linebreakReplacement']
+        editor?: Editor
+      }) => NodeSpec['linebreakReplacement'])
 
   /**
    * When enabled, enables both
@@ -222,14 +222,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example isolating: true
    */
   defining?:
-    | NodeSpec["defining"]
+    | NodeSpec['defining']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["defining"];
-        editor?: Editor;
-      }) => NodeSpec["defining"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['defining']
+        editor?: Editor
+      }) => NodeSpec['defining'])
 
   /**
    * When enabled (default is false), the sides of nodes of this type
@@ -238,14 +238,14 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * should probably have this enabled is a table cell.
    */
   isolating?:
-    | NodeSpec["isolating"]
+    | NodeSpec['isolating']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<NodeConfig<Options, Storage>>["isolating"];
-        editor?: Editor;
-      }) => NodeSpec["isolating"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['isolating']
+        editor?: Editor
+      }) => NodeSpec['isolating'])
 
   /**
    * Associates DOM parser information with this node, which can be
@@ -258,12 +258,12 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
    * @example parseHTML: [{ tag: 'div', attrs: { 'data-id': 'my-block' } }]
    */
   parseHTML?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    parent: ParentConfig<NodeConfig<Options, Storage>>["parseHTML"];
-    editor?: Editor;
-  }) => NodeSpec["parseDOM"];
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML']
+    editor?: Editor
+  }) => NodeSpec['parseDOM']
 
   /**
    * A description of a DOM structure. Can be either a string, which is
@@ -288,18 +288,18 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
   renderHTML?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          parent: ParentConfig<NodeConfig<Options, Storage>>["renderHTML"];
-          editor?: Editor;
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML']
+          editor?: Editor
         },
         props: {
-          node: ProseMirrorNode;
-          HTMLAttributes: Record<string, any>;
+          node: ProseMirrorNode
+          HTMLAttributes: Record<string, any>
         },
       ) => DOMOutputSpec)
-    | null;
+    | null
 
   /**
    * renders the node as text
@@ -308,33 +308,33 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
   renderText?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          parent: ParentConfig<NodeConfig<Options, Storage>>["renderText"];
-          editor?: Editor;
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['renderText']
+          editor?: Editor
         },
         props: {
-          node: ProseMirrorNode;
-          pos: number;
-          parent: ProseMirrorNode;
-          index: number;
+          node: ProseMirrorNode
+          pos: number
+          parent: ProseMirrorNode
+          index: number
         },
       ) => string)
-    | null;
+    | null
 
   /**
    * Add attributes to the node
    * @example addAttributes: () => ({ class: 'foo' })
    */
   addAttributes?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    parent: ParentConfig<NodeConfig<Options, Storage>>["addAttributes"];
-    editor?: Editor;
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
+    editor?: Editor
     // oxlint-disable-next-lineno-empty-object-type
-  }) => Attributes | {};
+  }) => Attributes | {}
 }
 
 /**
@@ -346,7 +346,7 @@ export class Node<Options = any, Storage = any> extends Extendable<
   Storage,
   NodeConfig<Options, Storage>
 > {
-  type = "node";
+  type = 'node'
 
   /**
    * Create a new Node instance
@@ -356,12 +356,12 @@ export class Node<Options = any, Storage = any> extends Extendable<
     config: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>) = {},
   ) {
     // If the config is a function, execute it to get the configuration object
-    const resolvedConfig = typeof config === "function" ? config() : config;
-    return new Node<O, S>(resolvedConfig);
+    const resolvedConfig = typeof config === 'function' ? config() : config
+    return new Node<O, S>(resolvedConfig)
   }
 
   configure(options?: Partial<Options>) {
-    return super.configure(options) as Node<Options, Storage>;
+    return super.configure(options) as Node<Options, Storage>
   }
 
   extend<
@@ -376,15 +376,15 @@ export class Node<Options = any, Storage = any> extends Extendable<
       | (() => Partial<ExtendedConfig>)
       | (Partial<ExtendedConfig> &
           ThisType<{
-            name: string;
-            options: ExtendedOptions;
-            storage: ExtendedStorage;
-            editor: Editor;
-            type: NodeType;
+            name: string
+            options: ExtendedOptions
+            storage: ExtendedStorage
+            editor: Editor
+            type: NodeType
           }>),
   ): Node<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
-    const resolvedConfig = typeof extendedConfig === "function" ? extendedConfig() : extendedConfig;
-    return super.extend(resolvedConfig) as Node<ExtendedOptions, ExtendedStorage>;
+    const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
+    return super.extend(resolvedConfig) as Node<ExtendedOptions, ExtendedStorage>
   }
 }

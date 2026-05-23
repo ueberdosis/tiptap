@@ -2,13 +2,6 @@
   "name": "tiptap",
   "private": true,
   "packageManager": "pnpm@11.2.2",
-  "engines": {
-    "node": ">=24"
-  },
-  "browserslist": [
-    "defaults",
-    "not IE 11"
-  ],
   "scripts": {
     "cz": "cz",
     "start": "pnpm --prefix ./demos run start",
@@ -86,17 +79,17 @@
     "webpack": "^5.97.1"
   },
   "overrides": {
+    "@octokit/action>undici": "6.24.1",
     "@rollup/pluginutils": "^5.1.4",
     "@rollup/pluginutils>picomatch": "2.3.2",
-    "@octokit/action>undici": "6.24.1",
     "anymatch>picomatch": "2.3.2",
     "glob": "^10.5.0",
     "micromatch>picomatch": "2.3.2",
     "minimatch@^3.0.5": "3.1.4",
     "minimatch@^3.1.2": "3.1.4",
     "qs": "^6.14.1",
-    "rollup": "4.60.1",
     "readdirp>picomatch": "2.3.2",
+    "rollup": "4.60.1",
     "sass>immutable": "5.1.5",
     "terser-webpack-plugin>serialize-javascript": "7.0.5",
     "tinyglobby>picomatch": "4.0.4",
@@ -104,5 +97,34 @@
   },
   "publishConfig": {
     "provenance": true
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@changesets/assemble-release-plan@6.0.5": "patches/@changesets__assemble-release-plan.patch",
+      "@changesets/assemble-release-plan@6.0.9": "patches/@changesets__assemble-release-plan@6.0.9.patch"
+    },
+    "overrides": {
+      "@rollup/pluginutils>picomatch": "2.3.2",
+      "@octokit/action>undici": "6.24.1",
+      "anymatch>picomatch": "2.3.2",
+      "glob": "^10.5.0",
+      "micromatch>picomatch": "2.3.2",
+      "minimatch@^3.0.5": "3.1.4",
+      "minimatch@^3.1.2": "3.1.4",
+      "qs": "^6.14.1",
+      "rollup": "4.60.1",
+      "readdirp>picomatch": "2.3.2",
+      "sass>immutable": "5.1.5",
+      "terser-webpack-plugin>serialize-javascript": "7.0.5",
+      "tinyglobby>picomatch": "4.0.4",
+      "vitest>picomatch": "4.0.4"
+    }
   }
 }

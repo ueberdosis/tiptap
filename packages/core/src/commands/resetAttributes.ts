@@ -15,7 +15,10 @@ declare module '@tiptap/core' {
        * @param attributes The attributes of the node to reset.
        * @example editor.commands.resetAttributes('heading', 'level')
        */
-      resetAttributes: (typeOrName: string | NodeType | MarkType, attributes: string | string[]) => ReturnType
+      resetAttributes: (
+        typeOrName: string | NodeType | MarkType,
+        attributes: string | string[],
+      ) => ReturnType
     }
   }
 }
@@ -61,7 +64,11 @@ export const resetAttributes: RawCommands['resetAttributes'] =
               canReset = true
 
               if (dispatch) {
-                tr.addMark(pos, pos + node.nodeSize, markType.create(deleteProps(mark.attrs, attributes)))
+                tr.addMark(
+                  pos,
+                  pos + node.nodeSize,
+                  markType.create(deleteProps(mark.attrs, attributes)),
+                )
               }
             }
           })

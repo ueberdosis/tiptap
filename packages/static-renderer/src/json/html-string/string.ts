@@ -1,8 +1,8 @@
 /* oslint-disableno-explicit-any */
-import type { MarkType, NodeType } from "@tiptap/core";
+import type { MarkType, NodeType } from '@tiptap/core'
 
-import type { TiptapStaticRendererOptions } from "../renderer.js";
-import { TiptapStaticRenderer } from "../renderer.js";
+import type { TiptapStaticRendererOptions } from '../renderer.js'
+import { TiptapStaticRenderer } from '../renderer.js'
 
 export function renderJSONContentToString<
   /**
@@ -13,14 +13,14 @@ export function renderJSONContentToString<
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
-    content?: { forEach: (cb: (node: TNodeType) => void) => void };
-    marks?: readonly TMarkType[];
-    type: string | { name: string };
+    content?: { forEach: (cb: (node: TNodeType) => void) => void }
+    marks?: readonly TMarkType[]
+    type: string | { name: string }
   } = NodeType,
 >(options: TiptapStaticRendererOptions<string, TMarkType, TNodeType>) {
-  return TiptapStaticRenderer((ctx) => {
-    return ctx.component(ctx.props as any);
-  }, options);
+  return TiptapStaticRenderer(ctx => {
+    return ctx.component(ctx.props as any)
+  }, options)
 }
 
 /**
@@ -29,7 +29,7 @@ export function renderJSONContentToString<
  * @returns The escaped text
  */
 export function escapeHTML(value: string): string {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
 /**
@@ -38,7 +38,7 @@ export function escapeHTML(value: string): string {
  * @returns The escaped attribute value
  */
 export function escapeHTMLAttribute(value: string): string {
-  return escapeHTML(value).replace(/"/g, "&quot;");
+  return escapeHTML(value).replace(/"/g, '&quot;')
 }
 
 /**
@@ -54,7 +54,7 @@ export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefine
     .map(([key, value]) => `${key.split(' ').at(-1)}="${escapeHTMLAttribute(String(value))}"`)
     .join(' ')
 
-  return output ? ` ${output}` : "";
+  return output ? ` ${output}` : ''
 }
 
 /**
@@ -64,7 +64,7 @@ export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefine
  */
 export function serializeChildrenToHTMLString(children?: string | string[]): string {
   return ([] as string[])
-    .concat(children || "")
+    .concat(children || '')
     .filter(Boolean)
-    .join("");
+    .join('')
 }

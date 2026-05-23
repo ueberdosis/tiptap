@@ -21,7 +21,8 @@ export function updateColumns(
       const { colspan, colwidth } = row.child(i).attrs
 
       for (let j = 0; j < colspan; j += 1, col += 1) {
-        const hasWidth = overrideCol === col ? overrideValue : ((colwidth && colwidth[j]) as number | undefined)
+        const hasWidth =
+          overrideCol === col ? overrideValue : ((colwidth && colwidth[j]) as number | undefined)
         const cssWidth = hasWidth ? `${hasWidth}px` : ''
 
         totalWidth += hasWidth || cellMinWidth
@@ -59,7 +60,10 @@ export function updateColumns(
   }
 
   // Check if user has set a width style on the table node
-  const hasUserWidth = node.attrs.style && typeof node.attrs.style === 'string' && /\bwidth\s*:/i.test(node.attrs.style)
+  const hasUserWidth =
+    node.attrs.style &&
+    typeof node.attrs.style === 'string' &&
+    /\bwidth\s*:/i.test(node.attrs.style)
 
   if (fixedWidth && !hasUserWidth) {
     table.style.width = `${totalWidth}px`
@@ -117,7 +121,11 @@ export class TableView implements NodeView {
     const isInsideContent = this.contentDOM.contains(target)
 
     if (isInsideWrapper && !isInsideContent) {
-      if (mutation.type === 'attributes' || mutation.type === 'childList' || mutation.type === 'characterData') {
+      if (
+        mutation.type === 'attributes' ||
+        mutation.type === 'childList' ||
+        mutation.type === 'characterData'
+      ) {
         return true
       }
     }

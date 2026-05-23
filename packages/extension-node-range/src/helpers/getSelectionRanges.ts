@@ -10,7 +10,11 @@ export interface GetSelectionRangesOptions {
   extendOnBoundaryOverlap?: boolean
 }
 
-function getNodeContentBounds(nodeStart: number, nodeSize: number, node: { isText: boolean; isAtom: boolean }) {
+function getNodeContentBounds(
+  nodeStart: number,
+  nodeSize: number,
+  node: { isText: boolean; isAtom: boolean },
+) {
   const contentOffset = node.isText || node.isAtom ? 0 : 1
 
   return {

@@ -17,7 +17,12 @@
 
     <div class="control">
       <label for="controlsList">controlslist</label>
-      <input id="controlsList" v-model="controlsList" type="text" placeholder="nodownload noplaybackrate" />
+      <input
+        id="controlsList"
+        v-model="controlsList"
+        type="text"
+        placeholder="nodownload noplaybackrate"
+      />
     </div>
 
     <div class="control">
@@ -63,7 +68,9 @@
     </div>
   </div>
 
-  <button class="insert" type="button" @click="insertAudio" :disabled="!editor">Insert audio</button>
+  <button class="insert" type="button" @click="insertAudio" :disabled="!editor">
+    Insert audio
+  </button>
 
   <editor-content :editor="editor" />
 </template>

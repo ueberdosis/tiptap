@@ -97,7 +97,10 @@ const defaultOnUpdate = () => null
  * This extension allows you to add collaboration carets to your editor.
  * @see https://tiptap.dev/api/extensions/collaboration-caret
  */
-export const CollaborationCaret = Extension.create<CollaborationCaretOptions, CollaborationCaretStorage>({
+export const CollaborationCaret = Extension.create<
+  CollaborationCaretOptions,
+  CollaborationCaretStorage
+>({
   name: 'collaborationCaret',
 
   priority: 999,

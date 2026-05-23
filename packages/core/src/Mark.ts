@@ -1,9 +1,9 @@
-import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from "@tiptap/pm/model";
+import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from '@tiptap/pm/model'
 
-import type { Editor } from "./Editor.js";
-import type { ExtendableConfig } from "./Extendable.js";
-import { Extendable } from "./Extendable.js";
-import type { Attributes, MarkViewRenderer, ParentConfig } from "./types.js";
+import type { Editor } from './Editor.js'
+import type { ExtendableConfig } from './Extendable.js'
+import { Extendable } from './Extendable.js'
+import type { Attributes, MarkViewRenderer, ParentConfig } from './types.js'
 
 export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,
@@ -16,76 +16,76 @@ export interface MarkConfig<Options = any, Storage = any> extends ExtendableConf
    */
   addMarkView?:
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        editor: Editor;
-        type: MarkType;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["addMarkView"];
+        name: string
+        options: Options
+        storage: Storage
+        editor: Editor
+        type: MarkType
+        parent: ParentConfig<MarkConfig<Options, Storage>>['addMarkView']
       }) => MarkViewRenderer)
-    | null;
+    | null
 
   /**
    * Keep mark after split node
    */
-  keepOnSplit?: boolean | (() => boolean);
+  keepOnSplit?: boolean | (() => boolean)
 
   /**
    * Inclusive
    */
   inclusive?:
-    | MarkSpec["inclusive"]
+    | MarkSpec['inclusive']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["inclusive"];
-        editor?: Editor;
-      }) => MarkSpec["inclusive"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['inclusive']
+        editor?: Editor
+      }) => MarkSpec['inclusive'])
 
   /**
    * Excludes
    */
   excludes?:
-    | MarkSpec["excludes"]
+    | MarkSpec['excludes']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["excludes"];
-        editor?: Editor;
-      }) => MarkSpec["excludes"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['excludes']
+        editor?: Editor
+      }) => MarkSpec['excludes'])
 
   /**
    * Marks this Mark as exitable
    */
-  exitable?: boolean | (() => boolean);
+  exitable?: boolean | (() => boolean)
 
   /**
    * Group
    */
   group?:
-    | MarkSpec["group"]
+    | MarkSpec['group']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["group"];
-        editor?: Editor;
-      }) => MarkSpec["group"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['group']
+        editor?: Editor
+      }) => MarkSpec['group'])
 
   /**
    * Spanning
    */
   spanning?:
-    | MarkSpec["spanning"]
+    | MarkSpec['spanning']
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["spanning"];
-        editor?: Editor;
-      }) => MarkSpec["spanning"]);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['spanning']
+        editor?: Editor
+      }) => MarkSpec['spanning'])
 
   /**
    * Code
@@ -93,23 +93,23 @@ export interface MarkConfig<Options = any, Storage = any> extends ExtendableConf
   code?:
     | boolean
     | ((this: {
-        name: string;
-        options: Options;
-        storage: Storage;
-        parent: ParentConfig<MarkConfig<Options, Storage>>["code"];
-        editor?: Editor;
-      }) => boolean);
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['code']
+        editor?: Editor
+      }) => boolean)
 
   /**
    * Parse HTML
    */
   parseHTML?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    parent: ParentConfig<MarkConfig<Options, Storage>>["parseHTML"];
-    editor?: Editor;
-  }) => MarkSpec["parseDOM"];
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<MarkConfig<Options, Storage>>['parseHTML']
+    editor?: Editor
+  }) => MarkSpec['parseDOM']
 
   /**
    * Render HTML
@@ -117,30 +117,30 @@ export interface MarkConfig<Options = any, Storage = any> extends ExtendableConf
   renderHTML?:
     | ((
         this: {
-          name: string;
-          options: Options;
-          storage: Storage;
-          parent: ParentConfig<MarkConfig<Options, Storage>>["renderHTML"];
-          editor?: Editor;
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<MarkConfig<Options, Storage>>['renderHTML']
+          editor?: Editor
         },
         props: {
-          mark: ProseMirrorMark;
-          HTMLAttributes: Record<string, any>;
+          mark: ProseMirrorMark
+          HTMLAttributes: Record<string, any>
         },
       ) => DOMOutputSpec)
-    | null;
+    | null
 
   /**
    * Attributes
    */
   addAttributes?: (this: {
-    name: string;
-    options: Options;
-    storage: Storage;
-    parent: ParentConfig<MarkConfig<Options, Storage>>["addAttributes"];
-    editor?: Editor;
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
+    editor?: Editor
     // oxlint-disable-next-lineno-empty-object-type
-  }) => Attributes | {};
+  }) => Attributes | {}
 }
 
 /**
@@ -152,7 +152,7 @@ export class Mark<Options = any, Storage = any> extends Extendable<
   Storage,
   MarkConfig<Options, Storage>
 > {
-  type = "mark";
+  type = 'mark'
 
   /**
    * Create a new Mark instance
@@ -162,40 +162,40 @@ export class Mark<Options = any, Storage = any> extends Extendable<
     config: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>) = {},
   ) {
     // If the config is a function, execute it to get the configuration object
-    const resolvedConfig = typeof config === "function" ? config() : config;
-    return new Mark<O, S>(resolvedConfig);
+    const resolvedConfig = typeof config === 'function' ? config() : config
+    return new Mark<O, S>(resolvedConfig)
   }
 
   static handleExit({ editor, mark }: { editor: Editor; mark: Mark }) {
-    const { tr } = editor.state;
-    const currentPos = editor.state.selection.$from;
-    const isAtEnd = currentPos.pos === currentPos.end();
+    const { tr } = editor.state
+    const currentPos = editor.state.selection.$from
+    const isAtEnd = currentPos.pos === currentPos.end()
 
     if (isAtEnd) {
-      const currentMarks = currentPos.marks();
-      const isInMark = !!currentMarks.find((m) => m?.type.name === mark.name);
+      const currentMarks = currentPos.marks()
+      const isInMark = !!currentMarks.find(m => m?.type.name === mark.name)
 
       if (!isInMark) {
-        return false;
+        return false
       }
 
-      const removeMark = currentMarks.find((m) => m?.type.name === mark.name);
+      const removeMark = currentMarks.find(m => m?.type.name === mark.name)
 
       if (removeMark) {
-        tr.removeStoredMark(removeMark);
+        tr.removeStoredMark(removeMark)
       }
-      tr.insertText(" ", currentPos.pos);
+      tr.insertText(' ', currentPos.pos)
 
-      editor.view.dispatch(tr);
+      editor.view.dispatch(tr)
 
-      return true;
+      return true
     }
 
-    return false;
+    return false
   }
 
   configure(options?: Partial<Options>) {
-    return super.configure(options) as Mark<Options, Storage>;
+    return super.configure(options) as Mark<Options, Storage>
   }
 
   extend<
@@ -210,15 +210,15 @@ export class Mark<Options = any, Storage = any> extends Extendable<
       | (() => Partial<ExtendedConfig>)
       | (Partial<ExtendedConfig> &
           ThisType<{
-            name: string;
-            options: ExtendedOptions;
-            storage: ExtendedStorage;
-            editor: Editor;
-            type: MarkType;
+            name: string
+            options: ExtendedOptions
+            storage: ExtendedStorage
+            editor: Editor
+            type: MarkType
           }>),
   ): Mark<ExtendedOptions, ExtendedStorage> {
     // If the extended config is a function, execute it to get the configuration object
-    const resolvedConfig = typeof extendedConfig === "function" ? extendedConfig() : extendedConfig;
-    return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>;
+    const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
+    return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>
   }
 }

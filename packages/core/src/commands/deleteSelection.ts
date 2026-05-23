@@ -23,7 +23,11 @@ const hasTextContent = (nodeSpec: { content?: string }): boolean => {
  * @param side - Which side to expand ('left' or 'right')
  * @returns The expanded position for deletion
  */
-const expandSelectionForSide = ($pos: ResolvedPos, schema: Schema, side: 'left' | 'right'): number => {
+const expandSelectionForSide = (
+  $pos: ResolvedPos,
+  schema: Schema,
+  side: 'left' | 'right',
+): number => {
   if (!$pos.parent.isInline) {
     return $pos.pos
   }

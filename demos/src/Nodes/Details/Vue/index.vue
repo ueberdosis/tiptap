@@ -2,10 +2,16 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setDetails().run()" :disabled="!editor.can().setDetails()">
+        <button
+          @click="editor.chain().focus().setDetails().run()"
+          :disabled="!editor.can().setDetails()"
+        >
           Set details
         </button>
-        <button @click="editor.chain().focus().unsetDetails().run()" :disabled="!editor.can().unsetDetails()">
+        <button
+          @click="editor.chain().focus().unsetDetails().run()"
+          :disabled="!editor.can().unsetDetails()"
+        >
           Unset details
         </button>
       </div>

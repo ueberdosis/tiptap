@@ -1,64 +1,64 @@
-import { Editor } from "@tiptap/core";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import Twitch from "@tiptap/extension-twitch";
-import { describe, expect, it } from "vitest";
+import { Editor } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Twitch from '@tiptap/extension-twitch'
+import { describe, expect, it } from 'vitest'
 
-import { getAttributesFromTwitchEmbedUrl } from "../src/utils.js";
+import { getAttributesFromTwitchEmbedUrl } from '../src/utils.js'
 
 /**
  * Most Twitch tests should actually exist in the demo/ app folder
  */
-describe("extension-twitch", () => {
-  const editorElClass = "tiptap";
-  let editor: Editor | null = null;
+describe('extension-twitch', () => {
+  const editorElClass = 'tiptap'
+  let editor: Editor | null = null
 
   const createEditorEl = () => {
-    const editorEl = document.createElement("div");
+    const editorEl = document.createElement('div')
 
-    editorEl.classList.add(editorElClass);
-    document.body.appendChild(editorEl);
-    return editorEl;
-  };
+    editorEl.classList.add(editorElClass)
+    document.body.appendChild(editorEl)
+    return editorEl
+  }
 
-  const getEditorEl = () => document.querySelector(`.${editorElClass}`);
+  const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   const invalidUrls = [
     // We have to disable the oxlint rule here because we're trying to purposely test eval urls
     // oxlint-disable-next-line no-script-url
-    "javascript:alert(window.origin)//embed/",
-    "https://twitch.google.com/videos/1234567890",
-    "https://twitch.com.bad/videos/1234567890",
-    "https://www.twtich.tv/videos/1234567890",
-  ];
+    'javascript:alert(window.origin)//embed/',
+    'https://twitch.google.com/videos/1234567890',
+    'https://twitch.com.bad/videos/1234567890',
+    'https://www.twtich.tv/videos/1234567890',
+  ]
 
-  invalidUrls.forEach((url) => {
+  invalidUrls.forEach(url => {
     it(`does not output html for javascript schema or non-twitch links for url ${url}`, () => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Twitch],
         content: {
-          type: "doc",
+          type: 'doc',
           content: [
             {
-              type: "twitch",
+              type: 'twitch',
               attrs: {
                 src: url,
               },
             },
           ],
         },
-      });
+      })
 
-      expect(editor.getHTML()).not.toContain(url);
+      expect(editor.getHTML()).not.toContain(url)
 
-      editor?.destroy();
-      getEditorEl()?.remove();
-    });
-  });
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
 
-  it("outputs html with iframe for valid twitch video id", () => {
+  it('outputs html with iframe for valid twitch video id', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -66,31 +66,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
             },
           },
         ],
       },
-    });
+    })
 
-    expect(editor.getHTML()).toContain("player.twitch.tv");
-    expect(editor.getHTML()).toContain("1234567890");
-    expect(editor.getHTML()).toContain("example.com");
+    expect(editor.getHTML()).toContain('player.twitch.tv')
+    expect(editor.getHTML()).toContain('1234567890')
+    expect(editor.getHTML()).toContain('example.com')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("outputs html with iframe for twitch clip url", () => {
+  it('outputs html with iframe for twitch clip url', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -98,31 +98,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://clips.twitch.tv/ExampleClipName-ABC123",
+              src: 'https://clips.twitch.tv/ExampleClipName-ABC123',
             },
           },
         ],
       },
-    });
+    })
 
-    expect(editor.getHTML()).toContain("clips.twitch.tv/embed");
-    expect(editor.getHTML()).toContain("ExampleClipName-ABC123");
-    expect(editor.getHTML()).toContain("example.com");
+    expect(editor.getHTML()).toContain('clips.twitch.tv/embed')
+    expect(editor.getHTML()).toContain('ExampleClipName-ABC123')
+    expect(editor.getHTML()).toContain('example.com')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("outputs html with iframe for twitch channel url", () => {
+  it('outputs html with iframe for twitch channel url', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -130,30 +130,30 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/examplechannel",
+              src: 'https://www.twitch.tv/examplechannel',
             },
           },
         ],
       },
-    });
+    })
 
-    expect(editor.getHTML()).toContain("player.twitch.tv");
-    expect(editor.getHTML()).toContain("examplechannel");
+    expect(editor.getHTML()).toContain('player.twitch.tv')
+    expect(editor.getHTML()).toContain('examplechannel')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects allowFullscreen option", () => {
+  it('respects allowFullscreen option', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -161,31 +161,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
           allowFullscreen: true,
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain('allowfullscreen="true"');
+    const html = editor.getHTML()
+    expect(html).toContain('allowfullscreen="true"')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects custom width and height", () => {
+  it('respects custom width and height', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -193,35 +193,35 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
           width: 800,
           height: 600,
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
               width: 800,
               height: 600,
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain('width="800"');
-    expect(html).toContain('height="600"');
+    const html = editor.getHTML()
+    expect(html).toContain('width="800"')
+    expect(html).toContain('height="600"')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("can insert a video using the setTwitchVideo command", () => {
+  it('can insert a video using the setTwitchVideo command', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -229,38 +229,38 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
-    });
+    })
 
     editor.commands.setTwitchVideo({
-      src: "https://www.twitch.tv/videos/1234567890",
-    });
+      src: 'https://www.twitch.tv/videos/1234567890',
+    })
 
-    expect(editor.getHTML()).toContain("data-twitch-video");
+    expect(editor.getHTML()).toContain('data-twitch-video')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("does not insert video with invalid URL using setTwitchVideo command", () => {
+  it('does not insert video with invalid URL using setTwitchVideo command', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [Document, Text, Paragraph, Twitch],
-    });
+    })
 
     const result = editor.commands.setTwitchVideo({
-      src: "https://invalid.com/video",
-    });
+      src: 'https://invalid.com/video',
+    })
 
-    expect(result).toBe(false);
+    expect(result).toBe(false)
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("handles video URL with search parameters", () => {
+  it('handles video URL with search parameters', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -268,31 +268,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890?filter=archives&sort=time",
+              src: 'https://www.twitch.tv/videos/1234567890?filter=archives&sort=time',
             },
           },
         ],
       },
-    });
+    })
 
-    expect(editor.getHTML()).toContain("player.twitch.tv");
-    expect(editor.getHTML()).toContain("1234567890");
-    expect(editor.getHTML()).not.toContain("filter=archives");
+    expect(editor.getHTML()).toContain('player.twitch.tv')
+    expect(editor.getHTML()).toContain('1234567890')
+    expect(editor.getHTML()).not.toContain('filter=archives')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("handles clip URL with search parameters", () => {
+  it('handles clip URL with search parameters', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -300,31 +300,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://clips.twitch.tv/ExampleClipName-ABC123?foo=bar&baz=qux",
+              src: 'https://clips.twitch.tv/ExampleClipName-ABC123?foo=bar&baz=qux',
             },
           },
         ],
       },
-    });
+    })
 
-    expect(editor.getHTML()).toContain("clips.twitch.tv/embed");
-    expect(editor.getHTML()).toContain("ExampleClipName-ABC123");
-    expect(editor.getHTML()).not.toContain("foo=bar");
+    expect(editor.getHTML()).toContain('clips.twitch.tv/embed')
+    expect(editor.getHTML()).toContain('ExampleClipName-ABC123')
+    expect(editor.getHTML()).not.toContain('foo=bar')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects muted option", () => {
+  it('respects muted option', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -332,31 +332,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
           muted: true,
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain("muted=true");
+    const html = editor.getHTML()
+    expect(html).toContain('muted=true')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects time option for videos", () => {
+  it('respects time option for videos', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -364,31 +364,31 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
-          time: "1h2m3s",
+          parent: 'example.com',
+          time: '1h2m3s',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain("time=1h2m3s");
+    const html = editor.getHTML()
+    expect(html).toContain('time=1h2m3s')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects attribute overrides for autoplay", () => {
+  it('respects attribute overrides for autoplay', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -396,33 +396,33 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
           autoplay: true,
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
               autoplay: false,
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
+    const html = editor.getHTML()
     // Should NOT have autoplay=true since attribute overrides option
-    expect(html).not.toContain("autoplay=true");
+    expect(html).not.toContain('autoplay=true')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects attribute overrides for muted", () => {
+  it('respects attribute overrides for muted', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -430,32 +430,32 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
           muted: false,
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
+              src: 'https://www.twitch.tv/videos/1234567890',
               muted: true,
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain("muted=true");
+    const html = editor.getHTML()
+    expect(html).toContain('muted=true')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("respects attribute overrides for time", () => {
+  it('respects attribute overrides for time', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -463,39 +463,39 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
-          time: "1h0m0s",
+          parent: 'example.com',
+          time: '1h0m0s',
         }),
       ],
       content: {
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
-              src: "https://www.twitch.tv/videos/1234567890",
-              time: "2h30m15s",
+              src: 'https://www.twitch.tv/videos/1234567890',
+              time: '2h30m15s',
             },
           },
         ],
       },
-    });
+    })
 
-    const html = editor.getHTML();
-    expect(html).toContain("time=2h30m15s");
-    expect(html).not.toContain("1h0m0s");
+    const html = editor.getHTML()
+    expect(html).toContain('time=2h30m15s')
+    expect(html).not.toContain('1h0m0s')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
   it.each([
-    "https://www.twitch.tv/videos/1234567890",
-    "https://clips.twitch.tv/ExampleClipName-ABC123",
-    "https://www.twitch.tv/examplechannel",
+    'https://www.twitch.tv/videos/1234567890',
+    'https://clips.twitch.tv/ExampleClipName-ABC123',
+    'https://www.twitch.tv/examplechannel',
   ])(
-    "preserves the twitch src when content is loaded back from rendered HTML for %s",
-    (originalSrc) => {
+    'preserves the twitch src when content is loaded back from rendered HTML for %s',
+    originalSrc => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [
@@ -503,26 +503,26 @@ describe("extension-twitch", () => {
           Text,
           Paragraph,
           Twitch.configure({
-            parent: "example.com",
+            parent: 'example.com',
           }),
         ],
         content: {
-          type: "doc",
+          type: 'doc',
           content: [
             {
-              type: "twitch",
+              type: 'twitch',
               attrs: {
                 src: originalSrc,
               },
             },
           ],
         },
-      });
+      })
 
-      const html = editor.getHTML();
+      const html = editor.getHTML()
 
-      editor.destroy();
-      getEditorEl()?.remove();
+      editor.destroy()
+      getEditorEl()?.remove()
 
       editor = new Editor({
         element: createEditorEl(),
@@ -531,30 +531,30 @@ describe("extension-twitch", () => {
           Text,
           Paragraph,
           Twitch.configure({
-            parent: "example.com",
+            parent: 'example.com',
           }),
         ],
         content: html,
-      });
+      })
 
       expect(editor.getJSON()).toMatchObject({
-        type: "doc",
+        type: 'doc',
         content: [
           {
-            type: "twitch",
+            type: 'twitch',
             attrs: {
               src: originalSrc,
             },
           },
         ],
-      });
+      })
 
-      editor?.destroy();
-      getEditorEl()?.remove();
+      editor?.destroy()
+      getEditorEl()?.remove()
     },
-  );
+  )
 
-  it("does not persist NaN width or height when parsing iframe dimensions from HTML", () => {
+  it('does not persist NaN width or height when parsing iframe dimensions from HTML', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [
@@ -562,45 +562,45 @@ describe("extension-twitch", () => {
         Text,
         Paragraph,
         Twitch.configure({
-          parent: "example.com",
+          parent: 'example.com',
         }),
       ],
       content:
         '<div data-twitch-video><iframe src="https://player.twitch.tv/?video=1234567890&parent=example.com" width="100%" height="auto"></iframe></div>',
-    });
+    })
 
-    const attrs = editor.getJSON().content?.[0]?.attrs ?? {};
-    const html = editor.getHTML();
+    const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+    const html = editor.getHTML()
 
-    expect(Number.isNaN(attrs.width)).toBe(false);
-    expect(Number.isNaN(attrs.height)).toBe(false);
-    expect(html).not.toContain('width="NaN"');
-    expect(html).not.toContain('height="NaN"');
+    expect(Number.isNaN(attrs.width)).toBe(false)
+    expect(Number.isNaN(attrs.height)).toBe(false)
+    expect(html).not.toContain('width="NaN"')
+    expect(html).not.toContain('height="NaN"')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
-  it("renders invalid Twitch content without crashing when parsed HTML contains an unsupported src", () => {
+  it('renders invalid Twitch content without crashing when parsed HTML contains an unsupported src', () => {
     editor = new Editor({
       element: createEditorEl(),
       extensions: [Document, Text, Paragraph, Twitch],
       content:
         '<div data-twitch-video><iframe src="https://example.com/not-a-twitch-url"></iframe></div>',
-    });
+    })
 
-    expect(() => editor?.getHTML()).not.toThrow();
-    expect(editor.getHTML()).toContain("Invalid Twitch URL");
+    expect(() => editor?.getHTML()).not.toThrow()
+    expect(editor.getHTML()).toContain('Invalid Twitch URL')
 
-    editor?.destroy();
-    getEditorEl()?.remove();
-  });
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 
   it.each([
-    "https://player.twitch.tv/?video=abc&parent=example.com",
-    "https://player.twitch.tv/?channel=foo%2Fbar&parent=example.com",
-    "https://clips.twitch.tv/embed?clip=bad%20clip&parent=example.com",
-  ])("returns null for malformed embed identifiers: %s", (embedUrl) => {
-    expect(getAttributesFromTwitchEmbedUrl(embedUrl)).toBeNull();
-  });
-});
+    'https://player.twitch.tv/?video=abc&parent=example.com',
+    'https://player.twitch.tv/?channel=foo%2Fbar&parent=example.com',
+    'https://clips.twitch.tv/embed?clip=bad%20clip&parent=example.com',
+  ])('returns null for malformed embed identifiers: %s', embedUrl => {
+    expect(getAttributesFromTwitchEmbedUrl(embedUrl)).toBeNull()
+  })
+})

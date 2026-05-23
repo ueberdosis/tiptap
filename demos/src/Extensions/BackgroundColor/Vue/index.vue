@@ -57,7 +57,10 @@
         >
           Green
         </button>
-        <button @click="editor.chain().focus().unsetBackgroundColor().run()" data-testid="unsetBackgroundColor">
+        <button
+          @click="editor.chain().focus().unsetBackgroundColor().run()"
+          data-testid="unsetBackgroundColor"
+        >
           Unset color
         </button>
       </div>

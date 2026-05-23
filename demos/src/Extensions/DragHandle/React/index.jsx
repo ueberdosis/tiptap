@@ -160,7 +160,11 @@ export default () => {
           </button>
         </div>
       </div>
-      <DragHandle editor={editor} nested={nestedConfig} computePositionConfig={computePositionConfig}>
+      <DragHandle
+        editor={editor}
+        nested={nestedConfig}
+        computePositionConfig={computePositionConfig}
+      >
         <div className="custom-drag-handle" />
       </DragHandle>
       <EditorContent editor={editor} />

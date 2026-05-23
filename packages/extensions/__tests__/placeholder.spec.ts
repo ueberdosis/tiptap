@@ -6,7 +6,11 @@ import Paragraph from '@tiptap/extension-paragraph'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Text from '@tiptap/extension-text'
-import { type PlaceholderOptions, Placeholder, preparePlaceholderAttribute } from '@tiptap/extensions'
+import {
+  type PlaceholderOptions,
+  Placeholder,
+  preparePlaceholderAttribute,
+} from '@tiptap/extensions'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'

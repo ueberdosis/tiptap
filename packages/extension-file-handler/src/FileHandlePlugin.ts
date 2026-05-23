@@ -2,7 +2,13 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import type { FileHandlePluginOptions } from './types.js'
 
-export const FileHandlePlugin = ({ key, editor, onPaste, onDrop, allowedMimeTypes }: FileHandlePluginOptions) => {
+export const FileHandlePlugin = ({
+  key,
+  editor,
+  onPaste,
+  onDrop,
+  allowedMimeTypes,
+}: FileHandlePluginOptions) => {
   return new Plugin({
     key: key || new PluginKey('fileHandler'),
 

@@ -383,7 +383,10 @@ describe('extend extensions', () => {
           },
         })
 
-        const childExtension = parentExtension.configure({ child: 'exists-too', overwrite: 'child' })
+        const childExtension = parentExtension.configure({
+          child: 'exists-too',
+          overwrite: 'child',
+        })
 
         expect(childExtension.options).toEqual({
           parent: 'exists',

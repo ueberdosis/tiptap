@@ -34,14 +34,19 @@ describe('setContent command', () => {
   })
 
   it('inserts a Prosemirror Node as content', () => {
-    editor.commands.setContent(editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
+    editor.commands.setContent(
+      editor.schema.node('paragraph', null, editor.schema.text('Hello World.')),
+    )
     expect(editor.getHTML()).toContain('<p>Hello World.</p>')
   })
 
   it('inserts a Prosemirror Fragment as content', () => {
     editor.commands.setContent(
-      editor.schema.node('doc', null, editor.schema.node('paragraph', null, editor.schema.text('Hello World.')))
-        .content,
+      editor.schema.node(
+        'doc',
+        null,
+        editor.schema.node('paragraph', null, editor.schema.text('Hello World.')),
+      ).content,
     )
     expect(editor.getHTML()).toContain('<p>Hello World.</p>')
   })
@@ -98,7 +103,9 @@ describe('setContent command', () => {
   })
 
   it('inserts mentions', () => {
-    editor.commands.setContent('<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span></p>')
+    editor.commands.setContent(
+      '<p><span data-type="mention" data-id="1" data-label="John Doe">@John Doe</span></p>',
+    )
     expect(editor.getHTML()).toContain(
       '<span data-type="mention" data-id="1" data-label="John Doe" data-mention-suggestion-char="@">@John Doe</span>',
     )
@@ -113,7 +120,9 @@ describe('setContent command', () => {
     editor.commands.setContent('<h1>Tiptap</h1>\n\t<p><strong>Hello World</strong></p>', {
       parseOptions: { preserveWhitespace: 'full' },
     })
-    expect(editor.getHTML()).toContain('<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>')
+    expect(editor.getHTML()).toContain(
+      '<h1>Tiptap</h1><p>\n\t</p><p><strong>Hello World</strong></p>',
+    )
   })
 
   it('allows inserting nothing', () => {

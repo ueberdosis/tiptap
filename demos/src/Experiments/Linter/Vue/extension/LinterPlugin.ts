@@ -1,20 +1,20 @@
-import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
+import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 
 export interface Result {
-  message: string;
-  from: number;
-  to: number;
+  message: string
+  from: number
+  to: number
   // oxlint-disable-next-lineno-unsafe-function-type
-  fix?: Function;
+  fix?: Function
 }
 
 export default class LinterPlugin {
-  protected doc;
+  protected doc
 
-  private results: Array<Result> = [];
+  private results: Array<Result> = []
 
   constructor(doc: ProsemirrorNode) {
-    this.doc = doc;
+    this.doc = doc
   }
 
   // oxlint-disable-next-lineno-unsafe-function-type
@@ -24,14 +24,14 @@ export default class LinterPlugin {
       from,
       to,
       fix,
-    });
+    })
   }
 
   scan() {
-    return this;
+    return this
   }
 
   getResults() {
-    return this.results;
+    return this.results
   }
 }

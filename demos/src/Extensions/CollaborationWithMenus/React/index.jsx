@@ -1,22 +1,22 @@
-import "./styles.scss";
+import './styles.scss'
 
-import Bold from "@tiptap/extension-bold";
-import Collaboration from "@tiptap/extension-collaboration";
-import Document from "@tiptap/extension-document";
-import Heading from "@tiptap/extension-heading";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
-import { Placeholder } from "@tiptap/extensions";
-import { EditorContent, useEditor } from "@tiptap/react";
-import { BubbleMenu, FloatingMenu } from "@tiptap/react/menus";
-import React from "react";
-import { WebrtcProvider } from "y-webrtc";
-import * as Y from "yjs";
+import Bold from '@tiptap/extension-bold'
+import Collaboration from '@tiptap/extension-collaboration'
+import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { Placeholder } from '@tiptap/extensions'
+import { EditorContent, useEditor } from '@tiptap/react'
+import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus'
+import React from 'react'
+import { WebrtcProvider } from 'y-webrtc'
+import * as Y from 'yjs'
 
-const ydoc = new Y.Doc();
+const ydoc = new Y.Doc()
 
 // oxlint-disable-next-line no-unused-vars
-const provider = new WebrtcProvider("tiptap-collaboration-extension", ydoc);
+const provider = new WebrtcProvider('tiptap-collaboration-extension', ydoc)
 
 export default () => {
   const editor = useEditor({
@@ -31,10 +31,10 @@ export default () => {
       }),
       Placeholder.configure({
         placeholder:
-          "Write something … It’ll be shared with everyone else looking at this example.",
+          'Write something … It’ll be shared with everyone else looking at this example.',
       }),
     ],
-  });
+  })
 
   return (
     <>
@@ -44,7 +44,7 @@ export default () => {
             <div className="bubble-menu">
               <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive("bold") ? "is-active" : ""}
+                className={editor.isActive('bold') ? 'is-active' : ''}
               >
                 Bold
               </button>
@@ -54,7 +54,7 @@ export default () => {
             <div className="floating-menu">
               <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
+                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
               >
                 H1
               </button>
@@ -64,5 +64,5 @@ export default () => {
       )}
       <EditorContent editor={editor} />
     </>
-  );
-};
+  )
+}

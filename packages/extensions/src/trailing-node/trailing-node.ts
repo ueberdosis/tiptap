@@ -4,7 +4,13 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const skipTrailingNodeMeta = 'skipTrailingNode'
 
-function nodeEqualsType({ types, node }: { types: NodeType | NodeType[]; node: Node | null | undefined }) {
+function nodeEqualsType({
+  types,
+  node,
+}: {
+  types: NodeType | NodeType[]
+  node: Node | null | undefined
+}) {
   return (node && Array.isArray(types) && types.includes(node.type)) || node?.type === types
 }
 
@@ -46,7 +52,9 @@ export const TrailingNode = Extension.create<TrailingNodeOptions>({
   addProseMirrorPlugins() {
     const plugin = new PluginKey(this.name)
     const defaultNode =
-      this.options.node || this.editor.schema.topNodeType.contentMatch.defaultType?.name || 'paragraph'
+      this.options.node ||
+      this.editor.schema.topNodeType.contentMatch.defaultType?.name ||
+      'paragraph'
 
     const disabledNodes = Object.entries(this.editor.schema.nodes)
       .map(([, value]) => value)

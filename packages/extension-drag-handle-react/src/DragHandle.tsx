@@ -5,21 +5,21 @@ import {
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
   normalizeNestedOptions,
-} from "@tiptap/extension-drag-handle";
-import type { Node } from "@tiptap/pm/model";
-import type { Editor } from "@tiptap/react";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
+} from '@tiptap/extension-drag-handle'
+import type { Node } from '@tiptap/pm/model'
+import type { Editor } from '@tiptap/react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type DragHandleProps = Omit<
-  Optional<DragHandlePluginProps, "pluginKey">,
-  "element" | "nestedOptions"
+  Optional<DragHandlePluginProps, 'pluginKey'>,
+  'element' | 'nestedOptions'
 > & {
-  className?: string;
-  onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void;
-  children: ReactNode;
+  className?: string
+  onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
+  children: ReactNode
 
   /**
    * Enable drag handles for nested content (list items, blockquotes, etc.).
@@ -62,12 +62,12 @@ export type DragHandleProps = Omit<
    *   <GripIcon />
    * </DragHandle>
    */
-  nested?: boolean | NestedOptions;
-};
+  nested?: boolean | NestedOptions
+}
 
 export const DragHandle = (props: DragHandleProps) => {
   const {
-    className = "drag-handle",
+    className = 'drag-handle',
     children,
     editor,
     pluginKey = dragHandlePluginDefaultKey,
@@ -77,36 +77,36 @@ export const DragHandle = (props: DragHandleProps) => {
     getReferencedVirtualElement,
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
-  } = props;
+  } = props
   const [element] = useState<HTMLDivElement | null>(() => {
-    if (typeof document === "undefined") {
-      return null;
+    if (typeof document === 'undefined') {
+      return null
     }
 
-    return document.createElement("div");
-  });
+    return document.createElement('div')
+  })
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps
-  const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)]);
+  const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
     if (!element) {
-      return;
+      return
     }
 
-    element.className = className;
-    element.style.visibility = "hidden";
-    element.style.position = "absolute";
-    element.dataset.dragging = "false";
-  }, [className, element]);
+    element.className = className
+    element.style.visibility = 'hidden'
+    element.style.position = 'absolute'
+    element.dataset.dragging = 'false'
+  }, [className, element])
 
   useEffect(() => {
     if (!element) {
-      return;
+      return
     }
 
     if (editor.isDestroyed) {
-      return;
+      return
     }
 
     const { plugin, unbind } = DragHandlePlugin({
@@ -122,16 +122,16 @@ export const DragHandle = (props: DragHandleProps) => {
       onNodeChange,
       getReferencedVirtualElement,
       nestedOptions,
-    });
+    })
 
-    editor.registerPlugin(plugin);
+    editor.registerPlugin(plugin)
 
     return () => {
       if (!editor.isDestroyed) {
-        editor.unregisterPlugin(pluginKey);
+        editor.unregisterPlugin(pluginKey)
       }
-      unbind();
-    };
+      unbind()
+    }
   }, [
     element,
     editor,
@@ -142,11 +142,11 @@ export const DragHandle = (props: DragHandleProps) => {
     onElementDragStart,
     onElementDragEnd,
     nestedOptions,
-  ]);
+  ])
 
   if (!element) {
-    return null;
+    return null
   }
 
-  return createPortal(children, element);
-};
+  return createPortal(children, element)
+}

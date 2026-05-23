@@ -37,7 +37,10 @@ export default () => {
           >
             Font size 32px
           </button>
-          <button onClick={() => editor.chain().focus().unsetFontSize().run()} data-test-id="unsetFontSize">
+          <button
+            onClick={() => editor.chain().focus().unsetFontSize().run()}
+            data-test-id="unsetFontSize"
+          >
             Unset font size
           </button>
         </div>

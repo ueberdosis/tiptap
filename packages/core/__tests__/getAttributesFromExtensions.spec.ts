@@ -187,8 +187,12 @@ describe('getAttributesFromExtensions', () => {
       const attributes = getAttributesFromExtensions([NodeA, NodeB, NodeC, GlobalExtension])
 
       // Should have the attribute for nodeA and nodeB
-      expect(attributes).toContainEqual(expect.objectContaining({ type: 'nodeA', name: 'sharedAttr' }))
-      expect(attributes).toContainEqual(expect.objectContaining({ type: 'nodeB', name: 'sharedAttr' }))
+      expect(attributes).toContainEqual(
+        expect.objectContaining({ type: 'nodeA', name: 'sharedAttr' }),
+      )
+      expect(attributes).toContainEqual(
+        expect.objectContaining({ type: 'nodeB', name: 'sharedAttr' }),
+      )
 
       // Should NOT have the attribute for nodeC
       const nodeCAttrs = attributes.filter(a => a.type === 'nodeC')
@@ -318,7 +322,12 @@ describe('getAttributesFromExtensions', () => {
         },
       })
 
-      const attributes = getAttributesFromExtensions([CustomNode, BoldMark, ItalicMark, GlobalExtension])
+      const attributes = getAttributesFromExtensions([
+        CustomNode,
+        BoldMark,
+        ItalicMark,
+        GlobalExtension,
+      ])
 
       // Should have the attribute for marks
       expect(attributes).toContainEqual(
@@ -375,10 +384,16 @@ describe('getAttributesFromExtensions', () => {
 
       expect(customNodeAttrs).toHaveLength(2)
       expect(customNodeAttrs).toContainEqual(
-        expect.objectContaining({ name: 'nodeAttr', attribute: expect.objectContaining({ default: 'nodeValue' }) }),
+        expect.objectContaining({
+          name: 'nodeAttr',
+          attribute: expect.objectContaining({ default: 'nodeValue' }),
+        }),
       )
       expect(customNodeAttrs).toContainEqual(
-        expect.objectContaining({ name: 'globalAttr', attribute: expect.objectContaining({ default: 'globalValue' }) }),
+        expect.objectContaining({
+          name: 'globalAttr',
+          attribute: expect.objectContaining({ default: 'globalValue' }),
+        }),
       )
     })
   })
