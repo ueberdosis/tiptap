@@ -2,4 +2,4 @@
 '@tiptap/pm': patch
 ---
 
-Added licensing information & missing prosemirror-inputrules
+Add missing `@tiptap/pm/inputrules` export
