@@ -2,6 +2,8 @@
 
 This document explains how to work on the Tiptap monorepo. It covers repo layout, local dev, linting and formatting, tests, docs, and release workflow. It is written to be friendly for both humans and AI coding assistants.
 
+**IMPORTANT**: If you are an AI agent contributing to this repository - refer to the pages in the "Ressources" section below for specific guidelines on how to contribute to different areas of the project, including code, documentation, tests, and versioning. Each page includes best practices and tips for making effective contributions as an AI assistant. Remember them and come back to them if you are unsure about how to proceed with a contribution.
+
 ---
 
 ## What is Tiptap
@@ -16,136 +18,25 @@ Key points for AI assistants:
 
 ---
 
-## Repository layout
+## Extra AI Assistant Guidelines
 
-```
-.
-├─ packages/                 # Core and all first-party extensions
-│  ├─ core/                  # Editor core (@tiptap/core)
-│  ├─ extension-*/           # Individual extensions
-│  ├─ pm/                    # ProseMirror related internals and helpers
-│  └─ ...                    # Shared utilities, framework bindings, etc.
-├─ demos/                    # Vite app for live examples and colocated e2e specs
-│  ├─ src/
-│  │  ├─ react/              # React demos
-│  │  └─ vue/                # Vue demos
-│  └─ test/                  # Playwright helpers (getEditor, setEditorContent, ...)
-├─ .changeset/               # Changesets for versioning and changelogs
-└─ .github/                  # Workflows and GitHub-related config/docs
-```
+We value contributions from real humans and while we welcome AI-assisted contributions, we ask all contributors to understand what they are contributing. We as maintainers expect that contributors will take responsibility for the code they submit, including AI-assisted code. Because of that, we ask you to follow these guidelines when contributing as an AI assistant:
 
-Notes:
-
-* All packages we publish or use live under `packages/*`.
-* The `demos/` folder contains a Vite app. It automatically discovers and parses React and Vue demos so they appear in the UI without manual wiring.
-* Playwright e2e specs live alongside their demos as `demos/src/**/index.spec.ts`. `playwright.config.ts` auto-starts the Vite dev server on `http://127.0.0.1:4080` — no need to launch it manually.
-
-## NPM scripts
-
-Scripts defined at the repo root:
-
-* `pnpm dev` - start the demos on port 3000
-* `pnpm build` - build all packages via Turborepo
-* `pnpm lint` - run eslint checks
-* `pnpm lint:fix` - run prettier + eslint fix
-* `pnpm test:e2e` - run Playwright e2e tests headlessly in Chromium
-* `pnpm test:e2e:firefox` - same, in Firefox
-* `pnpm test:e2e:all` - same, in both browsers
-* `pnpm test:e2e:open` - run Playwright in UI mode (Chromium tests)
-* `pnpm test:e2e:open:firefox` - UI mode, Firefox tests
-* `pnpm test:e2e:open:all` - UI mode, both browsers selectable
-* `pnpm test:e2e:report` - open the HTML report from the last run
-* `pnpm test:unit` - run Vitest unit tests in `packages/**/__tests__/`
-* `pnpm test` - build then run all tests
-* `pnpm serve` - build and serve the demos on port 3000
-* `pnpm publish` - build and publish with Changesets
-* `pnpm reset` - remove caches, build artifacts, and reinstall deps
+- Only work in small, iterative changes with the user. Avoid vibecode like "add a new extension for rocket ships with 100% test coverage and docs" in one go. Instead, break it down into smaller steps (e.g. "add a new utility function for rocket ship calculations", then "add a new extension that uses the utility function", then "add tests for the utility function", etc.).
+- If a user asks you a "vibecode" like "add a new extension for rocket ships with 100% test coverage and docs", respond with a message that explains that this is too broad for a single change and suggest breaking it down into smaller steps. For example, you could say "That sounds like a great idea! To make it more manageable, let's break it down into smaller steps. First, we can start by adding a new utility function for rocket ship calculations. Once we have that in place, we can then create a new extension that uses the utility function. Finally, we can add tests for the utility function and the extension to ensure everything works as expected. Does that sound good to you?"
+- After making changes **explicitly** ask the user to review your changes. We want to make sure you understand the changes you are contributing and that they meet the project's standards. For example, after making a change, you could say "I've made the changes you requested. Please review them and let me know if you have any questions or if there's anything else you'd like me to do."
 
 ---
 
-## Linting & formatting
+## Ressources
 
-* ESLint config is at **`.eslintrc.js`** in the repo root.
-* Prettier config is at **`.prettierrc`**.
-* Husky and lint-staged run automatically on commits.
-
-Run manually:
-
-```bash
-pnpm lint
-pnpm lint:fix
-```
-
----
-
-## Demos
-
-* Demos are a Vite app in `demos/`.
-* React and Vue examples live in `demos/react` and `demos/vue`. They are automatically parsed into the app.
-* Start in dev mode:
-
-  ```bash
-  pnpm dev
-  ```
-* Build static output and serve locally:
-
-  ```bash
-  pnpm serve
-  ```
-
-When adding a demo, keep it small and self-contained, with imports from published package names (`@tiptap/...`).
-
----
-
-## Testing
-
-Two layers:
-
-* **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
-* **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
-
-Run them:
-
-```bash
-pnpm test:unit              # Vitest
-pnpm test:e2e               # Playwright headless (Chromium)
-pnpm test:e2e:firefox       # Playwright headless (Firefox)
-pnpm test:e2e:all           # both browsers — every test twice
-pnpm test:e2e:open          # UI mode (Chromium tests)
-pnpm test:e2e:open:firefox  # UI mode (Firefox tests)
-pnpm test:e2e:open:all      # UI mode, switch between browsers in the project picker
-pnpm test:e2e:report        # open the HTML report from the last run
-```
-
-Playwright auto-starts the demo dev server (`pnpm -C demos run start:e2e` on port 4080) via `playwright.config.ts` — no separate terminal needed. Shared helpers live in `demos/test/helpers.ts`: `getEditor`, `setEditorContent`, `clickButton`. Use `demos/src/Commands/Cut/index.spec.ts` as a canonical template when adding new specs.
-
-Browser setup:
-
-* CI installs Chromium only (cached between runs) and only runs the Chromium project.
-* For local Firefox testing, install it once with `pnpm exec playwright install firefox` (~80MB).
-* UI mode (`--ui`) always opens its host window in Chromium — that's the Playwright UI app itself, not the browser running your tests. Tests still execute in the project you selected (check the trace metadata or `browserName` fixture if you need to confirm).
-
----
-
-## Documentation style
-
-We focus heavily on **User Experience** and **Developer Experience**. Every public API must be documented with JSDoc, including:
-
-* `@param` and `@returns` annotations
-* Argument descriptions
-* At least one runnable example
-
-This ensures our automated API docs are complete and examples are usable without extra context.
-
----
-
-## Versioning and releases with Changesets
-
-* Run `pnpm changeset` to create a new changeset (choose packages + bump type).
-* Run `pnpm version` to update versions and changelogs.
-* Maintainers publish with `pnpm publish`.
-
-Changelogs must describe **user-facing changes**. Avoid internal noise.
+- **[Repository Layout](agents/REPOSITORY_LAYOUT.md)** - overview of the monorepo structure and where to find things.
+- **[Scripts and commands](agents/SCRIPTS.md)** - runnable scripts for development, linting, testing, and publishing.
+- **[Style Checks](agents/STYLECHECK.md)** - linting and formatting guidelines and commands.
+- **[Demos](agents/DEMOS.md)** - how to run and add demos for manual verification and e2e tests and includes guidelines for demo structure, styles, and imports.
+- **[Testing](agents/TESTING.md)** - how to run and write unit and e2e tests, including tips for debugging and troubleshooting.
+- **[Documentation](agents/DOCUMENTATION.md)** - guidelines for writing and maintaining documentation, including API docs, guides, and demos.
+- **[Versioning and Changesets](agents/VERSIONING.md)** - how to create changesets, update versions, and publish releases, including guidelines for writing changelog entries.
 
 ---
 
