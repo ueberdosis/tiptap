@@ -991,6 +991,9 @@ importers:
       prosemirror-history:
         specifier: ^1.4.1
         version: 1.4.1
+      prosemirror-inputrules:
+        specifier: ^1.4.0
+        version: 1.4.0
       prosemirror-keymap:
         specifier: ^1.2.2
         version: 1.2.2

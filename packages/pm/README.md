@@ -11,7 +11,7 @@ Tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 
 ## What is this `pm` package?
 
-The `pm` package is a wrapper package for [ProseMirror](https://ProseMirror.net). This includes all ProseMirror packages that are required to run Tiptap.
+The `pm` package re-exports [ProseMirror](https://ProseMirror.net) packages under a single version range. It bundles all ProseMirror packages that are required to run Tiptap into one consistent dependency, so you don't need to install and align multiple ProseMirror packages yourself.
 
 ## Official Documentation
 
