@@ -37,8 +37,13 @@ Scripts defined at the repo root:
 
 - `pnpm dev` - start the demos on port 3000
 - `pnpm build` - build all packages via Turborepo
-- `pnpm lint` - run eslint checks
-- `pnpm lint:fix` - run prettier + eslint fix
+- `pnpm check` - run format check + lint
+- `pnpm check:fix` - run format:fix + lint:fix
+- `pnpm format` - run oxfmt formatter check
+- `pnpm format:fix` - run oxfmt formatter
+- `pnpm lint` - run oxlint checks
+- `pnpm lint:fix` - run oxlint with auto-fix
+- `pnpm lint:staged` - run lint-staged on staged files
 - `pnpm test:e2e` - run Playwright e2e tests headlessly in Chromium
 - `pnpm test:e2e:firefox` - same, in Firefox
 - `pnpm test:e2e:all` - same, in both browsers
