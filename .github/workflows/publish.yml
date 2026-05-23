@@ -2,7 +2,7 @@ name: Publish
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 9.15.4
+  PNPM_VERSION: 11.2.2
 
 on:
   push:
