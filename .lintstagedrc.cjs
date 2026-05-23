@@ -8,7 +8,7 @@ module.exports = files => {
   const fileList = filteredFiles.join(' ')
 
   return [
-    `prettier --write ${fileList}`,
-    `eslint --fix --quiet --no-error-on-unmatched-pattern ${fileList}`,
+    `oxfmt ${fileList}`,
+    `oxlint --fix --quiet --no-error-on-unmatched-pattern ${fileList}`,
   ]
 }

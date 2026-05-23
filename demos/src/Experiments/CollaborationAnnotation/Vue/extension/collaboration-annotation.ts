@@ -1,94 +1,94 @@
-import { Extension } from '@tiptap/core'
-import type * as Y from 'yjs'
+import { Extension } from "@tiptap/core";
+import type * as Y from "yjs";
 
-import { AnnotationPlugin, AnnotationPluginKey } from './AnnotationPlugin.js'
+import { AnnotationPlugin, AnnotationPluginKey } from "./AnnotationPlugin.js";
 
 export interface AddAnnotationAction {
-  type: 'addAnnotation'
-  data: any
-  from: number
-  to: number
+  type: "addAnnotation";
+  data: any;
+  from: number;
+  to: number;
 }
 
 export interface UpdateAnnotationAction {
-  type: 'updateAnnotation'
-  id: string
-  data: any
+  type: "updateAnnotation";
+  id: string;
+  data: any;
 }
 
 export interface DeleteAnnotationAction {
-  type: 'deleteAnnotation'
-  id: string
+  type: "deleteAnnotation";
+  id: string;
 }
 
 export interface AnnotationOptions {
   HTMLAttributes: {
-    [key: string]: any
-  }
+    [key: string]: any;
+  };
   /**
    * An event listener which receives annotations for the current selection.
    */
-  onUpdate: (items: any[]) => object
+  onUpdate: (items: any[]) => object;
   /**
    * An initialized Y.js document.
    */
-  document: Y.Doc | null
+  document: Y.Doc | null;
   /**
    * Name of a Y.js map, can be changed to sync multiple fields with one Y.js document.
    */
-  field: string
+  field: string;
   /**
    * A raw Y.js map, can be used instead of `document` and `field`.
    */
-  map: Y.Map<any> | null
-  instance: string
+  map: Y.Map<any> | null;
+  instance: string;
 }
 
 function getMapFromOptions(options: AnnotationOptions): Y.Map<any> {
-  return options.map ? options.map : (options.document?.getMap(options.field) as Y.Map<any>)
+  return options.map ? options.map : (options.document?.getMap(options.field) as Y.Map<any>);
 }
 
-declare module '@tiptap/core' {
+declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     annotation: {
-      addAnnotation: (data: any) => ReturnType
-      updateAnnotation: (id: string, data: any) => ReturnType
-      deleteAnnotation: (id: string) => ReturnType
-    }
+      addAnnotation: (data: any) => ReturnType;
+      updateAnnotation: (id: string, data: any) => ReturnType;
+      deleteAnnotation: (id: string) => ReturnType;
+    };
   }
 }
 
 export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
-  name: 'annotation',
+  name: "annotation",
 
   priority: 1000,
 
   addOptions() {
     return {
       HTMLAttributes: {
-        class: 'annotation',
+        class: "annotation",
       },
-      onUpdate: decorations => decorations,
+      onUpdate: (decorations) => decorations,
       document: null,
-      field: 'annotations',
+      field: "annotations",
       map: null,
-      instance: '',
-    }
+      instance: "",
+    };
   },
 
   onCreate() {
-    const map = getMapFromOptions(this.options)
+    const map = getMapFromOptions(this.options);
 
     map.observe(() => {
-      // eslint-disable-next-line
-      console.log(`[${this.options.instance}] map updated  → createDecorations`)
+      // oxlint-disable-next-line
+      console.log(`[${this.options.instance}] map updated  → createDecorations`);
 
       const transaction = this.editor.state.tr.setMeta(AnnotationPluginKey, {
-        type: 'createDecorations',
-      })
+        type: "createDecorations",
+      });
 
-      this.editor.view.dispatch(transaction)
-    })
+      this.editor.view.dispatch(transaction);
+    });
   },
 
   addCommands() {
@@ -96,49 +96,49 @@ export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
       addAnnotation:
         (data: any) =>
         ({ dispatch, state }) => {
-          const { selection } = state
+          const { selection } = state;
 
           if (selection.empty) {
-            return false
+            return false;
           }
 
           if (dispatch && data) {
             state.tr.setMeta(AnnotationPluginKey, <AddAnnotationAction>{
-              type: 'addAnnotation',
+              type: "addAnnotation",
               from: selection.from,
               to: selection.to,
               data,
-            })
+            });
           }
 
-          return true
+          return true;
         },
       updateAnnotation:
         (id: string, data: any) =>
         ({ dispatch, state }) => {
           if (dispatch) {
             state.tr.setMeta(AnnotationPluginKey, <UpdateAnnotationAction>{
-              type: 'updateAnnotation',
+              type: "updateAnnotation",
               id,
               data,
-            })
+            });
           }
 
-          return true
+          return true;
         },
       deleteAnnotation:
-        id =>
+        (id) =>
         ({ dispatch, state }) => {
           if (dispatch) {
             state.tr.setMeta(AnnotationPluginKey, <DeleteAnnotationAction>{
-              type: 'deleteAnnotation',
+              type: "deleteAnnotation",
               id,
-            })
+            });
           }
 
-          return true
+          return true;
         },
-    }
+    };
   },
 
   addProseMirrorPlugins() {
@@ -149,6 +149,6 @@ export const CollaborationAnnotation = Extension.create<AnnotationOptions>({
         map: getMapFromOptions(this.options),
         instance: this.options.instance,
       }),
-    ]
+    ];
   },
-})
+});

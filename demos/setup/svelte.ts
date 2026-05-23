@@ -1,20 +1,20 @@
-import 'iframe-resizer/js/iframeResizer.contentWindow'
-import './style.scss'
+import "iframe-resizer/js/iframeResizer.contentWindow";
+import "./style.scss";
 
-import { debug, splitName } from './helper.js'
+import { debug, splitName } from "./helper.js";
 
 export default function init(name: string, source: any) {
   // @ts-ignore
-  window.source = source
-  document.title = name
+  window.source = source;
+  document.title = name;
 
-  const [demoCategory, demoName, frameworkName] = splitName(name)
+  const [demoCategory, demoName, frameworkName] = splitName(name);
 
-  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`).then(Module => {
-    const Component = Module.default
+  import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`).then((Module) => {
+    const Component = Module.default;
 
-    new Component({ target: document.querySelector('#app') }) // eslint-disable-line
+    new Component({ target: document.querySelector("#app") }); // oxlint-disable-line
 
-    debug()
-  })
+    debug();
+  });
 }

@@ -3,16 +3,22 @@
     <ToCEmptyState />
   </template>
   <template v-else>
-    <ToCItem v-for="(item, i) in items" :key="item.id" :item="item" :index="i + 1" @item-click="onItemClick" />
+    <ToCItem
+      v-for="(item, i) in items"
+      :key="item.id"
+      :item="item"
+      :index="i + 1"
+      @item-click="onItemClick"
+    />
   </template>
 </template>
 
 <script>
-import { TextSelection } from '@tiptap/pm/state'
-import { defineComponent } from 'vue'
+import { TextSelection } from "@tiptap/pm/state";
+import { defineComponent } from "vue";
 
-import ToCEmptyState from './ToCEmptyState.vue'
-import ToCItem from './ToCItem.vue'
+import ToCEmptyState from "./ToCEmptyState.vue";
+import ToCItem from "./ToCItem.vue";
 
 export default defineComponent({
   components: {
@@ -34,30 +40,30 @@ export default defineComponent({
   methods: {
     onItemClick(e, id) {
       if (this.editor) {
-        const element = this.editor.view.dom.querySelector(`[data-toc-id="${id}"`)
-        const pos = this.editor.view.posAtDOM(element, 0)
+        const element = this.editor.view.dom.querySelector(`[data-toc-id="${id}"`);
+        const pos = this.editor.view.posAtDOM(element, 0);
 
         // set focus
-        const tr = this.editor.view.state.tr
+        const tr = this.editor.view.state.tr;
 
-        tr.setSelection(new TextSelection(tr.doc.resolve(pos)))
+        tr.setSelection(new TextSelection(tr.doc.resolve(pos)));
 
-        this.editor.view.dispatch(tr)
+        this.editor.view.dispatch(tr);
 
-        this.editor.view.focus()
+        this.editor.view.focus();
 
-        // eslint-disable-next-line
+        // oxlint-disable-next-line
         if (history.pushState) {
-          // eslint-disable-next-line
-          history.pushState(null, null, `#${id}`)
+          // oxlint-disable-next-line
+          history.pushState(null, null, `#${id}`);
         }
 
         window.scrollTo({
           top: element.getBoundingClientRect().top + window.scrollY,
-          behavior: 'smooth',
-        })
+          behavior: "smooth",
+        });
       }
     },
   },
-})
+});
 </script>

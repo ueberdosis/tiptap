@@ -1,7 +1,7 @@
-/* eslint-disable no-plusplus, @typescript-eslint/no-explicit-any */
-import type { DOMOutputSpecArray, Extensions, JSONContent } from '@tiptap/core'
-import type { DOMOutputSpec, Mark, Node } from '@tiptap/pm/model'
-import React from 'react'
+/* oslint-disable no-plusplus,no-explicit-any */
+import type { DOMOutputSpecArray, Extensions, JSONContent } from "@tiptap/core";
+import type { DOMOutputSpec, Mark, Node } from "@tiptap/pm/model";
+import React from "react";
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
@@ -14,36 +14,39 @@ import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extens
  * @param key The key to use for the React element
  * @returns The mapped HTML attributes as an object
  */
-export function mapAttrsToHTMLAttributes(attrs?: Record<string, any>, key?: string): Record<string, any> {
+export function mapAttrsToHTMLAttributes(
+  attrs?: Record<string, any>,
+  key?: string,
+): Record<string, any> {
   if (!attrs) {
-    return { key }
+    return { key };
   }
   return Object.entries(attrs).reduce(
     (acc, [name, value]) => {
-      if (name === 'class') {
-        return Object.assign(acc, { className: value })
+      if (name === "class") {
+        return Object.assign(acc, { className: value });
       }
 
       // React expects styles to be a object
       // so we need to convert it from string to object
-      if (name === 'style' && typeof value === 'string') {
-        const styleObject: Record<string, string> = {}
-        value.split(';').forEach(style => {
-          const [styleKey, val] = style.split(':')
+      if (name === "style" && typeof value === "string") {
+        const styleObject: Record<string, string> = {};
+        value.split(";").forEach((style) => {
+          const [styleKey, val] = style.split(":");
           if (styleKey && val) {
             // we need to turn the key into camelCase
-            const camelCaseKey = styleKey.trim().replace(/-([a-z])/g, g => g[1].toUpperCase())
-            styleObject[camelCaseKey] = val.trim()
+            const camelCaseKey = styleKey.trim().replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            styleObject[camelCaseKey] = val.trim();
           }
-        })
+        });
 
-        return Object.assign(acc, { style: styleObject })
+        return Object.assign(acc, { style: styleObject });
       }
 
-      return Object.assign(acc, { [name]: value })
+      return Object.assign(acc, { [name]: value });
     },
     { key },
-  )
+  );
 }
 
 /**
@@ -55,87 +58,93 @@ export function domOutputSpecToReactElement(
   content: DOMOutputSpec,
   key = 0,
 ): (children?: React.ReactNode) => React.ReactNode {
-  if (typeof content === 'string') {
-    return () => content
+  if (typeof content === "string") {
+    return () => content;
   }
-  if (typeof content === 'object' && 'length' in content) {
-    // eslint-disable-next-line prefer-const
-    let [tag, attrs, children, ...rest] = content as DOMOutputSpecArray
-    const parts = tag.split(' ')
+  if (typeof content === "object" && "length" in content) {
+    // oxlint-disable-next-line prefer-const
+    let [tag, attrs, children, ...rest] = content as DOMOutputSpecArray;
+    const parts = tag.split(" ");
 
     if (parts.length > 1) {
-      tag = parts[1]
+      tag = parts[1];
       if (attrs === undefined) {
         attrs = {
           xmlns: parts[0],
-        }
+        };
       }
       if (attrs === 0) {
         attrs = {
           xmlns: parts[0],
-        }
-        children = 0
+        };
+        children = 0;
       }
-      if (typeof attrs === 'object') {
-        attrs = Object.assign(attrs, { xmlns: parts[0] })
+      if (typeof attrs === "object") {
+        attrs = Object.assign(attrs, { xmlns: parts[0] });
       }
     }
 
     if (attrs === undefined) {
-      return () => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()))
+      return () => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()));
     }
     if (attrs === 0) {
-      return child => React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()), child)
+      return (child) =>
+        React.createElement(tag, mapAttrsToHTMLAttributes(undefined, key.toString()), child);
     }
-    if (typeof attrs === 'object') {
+    if (typeof attrs === "object") {
       if (Array.isArray(attrs)) {
         if (children === undefined) {
-          return child =>
+          return (child) =>
             React.createElement(
               tag,
               mapAttrsToHTMLAttributes(undefined, key.toString()),
               domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
-            )
+            );
         }
         if (children === 0) {
-          return child =>
+          return (child) =>
             React.createElement(
               tag,
               mapAttrsToHTMLAttributes(undefined, key.toString()),
               domOutputSpecToReactElement(attrs as DOMOutputSpecArray, key++)(child),
-            )
+            );
         }
-        return child =>
+        return (child) =>
           React.createElement(
             tag,
             mapAttrsToHTMLAttributes(undefined, key.toString()),
             domOutputSpecToReactElement(attrs as DOMOutputSpecArray)(child),
-            [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
-          )
+            [children]
+              .concat(rest)
+              .map((outputSpec) => domOutputSpecToReactElement(outputSpec, key++)(child)),
+          );
       }
       if (children === undefined) {
-        return () => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()))
+        return () => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()));
       }
       if (children === 0) {
-        return child => React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child)
+        return (child) =>
+          React.createElement(tag, mapAttrsToHTMLAttributes(attrs, key.toString()), child);
       }
 
-      return child =>
+      return (child) =>
         React.createElement(
           tag,
           mapAttrsToHTMLAttributes(attrs, key.toString()),
-          [children].concat(rest).map(outputSpec => domOutputSpecToReactElement(outputSpec, key++)(child)),
-        )
+          [children]
+            .concat(rest)
+            .map((outputSpec) => domOutputSpecToReactElement(outputSpec, key++)(child)),
+        );
     }
   }
 
   // TODO support DOM elements? How to handle them?
   throw new Error(
-    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping',
+    "[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping",
     {
       cause: content,
     },
-  )
+  );
 }
 
 /**
@@ -168,10 +177,10 @@ export function renderToReactElement({
       // Map a doc node to concatenated children
       doc: ({ children }) => React.createElement(React.Fragment, {}, children),
       // Map a text node to its text content
-      text: ({ node }) => node.text ?? '',
+      text: ({ node }) => node.text ?? "",
     },
     content,
     extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
-  })
+  });
 }

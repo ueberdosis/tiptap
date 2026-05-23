@@ -1,10 +1,10 @@
-import './styles.scss'
+import "./styles.scss";
 
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
-import React from 'react'
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import { EditorContent, useEditor } from "@tiptap/react";
+import React from "react";
 
 const TiptapComponent = ({ onUpdate }) => {
   const editor = useEditor({
@@ -18,17 +18,17 @@ const TiptapComponent = ({ onUpdate }) => {
       </p>
     `,
     onUpdate,
-  })
+  });
 
-  return <EditorContent editor={editor} />
-}
+  return <EditorContent editor={editor} />;
+};
 
 export default () => {
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(0);
 
   const handleUpdate = ({ editor: currentEditor }) => {
-    console.log(index, 'onUpdate', currentEditor.getHTML()) // eslint-disable-line no-console
-  }
+    console.log(index, "onUpdate", currentEditor.getHTML()); // oxlint-disable-line no-console
+  };
 
   return (
     <>
@@ -39,5 +39,5 @@ export default () => {
       </div>
       <TiptapComponent onUpdate={handleUpdate} />
     </>
-  )
-}
+  );
+};

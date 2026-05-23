@@ -1,41 +1,44 @@
-import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
-import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
-import type { Doc, UndoManager, XmlFragment } from 'yjs'
+import { Extension } from "@tiptap/core";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import type { EditorView } from "@tiptap/pm/view";
+import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from "@tiptap/y-tiptap";
+import type { Doc, UndoManager, XmlFragment } from "yjs";
 
-import { createMappablePosition, getUpdatedPosition } from './helpers/CollaborationMappablePosition.js'
-import { isChangeOrigin } from './helpers/isChangeOrigin.js'
+import {
+  createMappablePosition,
+  getUpdatedPosition,
+} from "./helpers/CollaborationMappablePosition.js";
+import { isChangeOrigin } from "./helpers/isChangeOrigin.js";
 
-type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
-type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
+type YSyncOpts = Parameters<typeof ySyncPlugin>[1];
+type YUndoOpts = Parameters<typeof yUndoPlugin>[0];
 
 export interface CollaborationStorage {
   /**
    * Whether collaboration is currently disabled.
    * Disabling collaboration will prevent any changes from being synced with other users.
    */
-  isDisabled: boolean
+  isDisabled: boolean;
 }
 
-declare module '@tiptap/core' {
+declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     collaboration: {
       /**
        * Undo recent changes
        * @example editor.commands.undo()
        */
-      undo: () => ReturnType
+      undo: () => ReturnType;
       /**
        * Reapply reverted changes
        * @example editor.commands.redo()
        */
-      redo: () => ReturnType
-    }
+      redo: () => ReturnType;
+    };
   }
 
   interface Storage {
-    collaboration: CollaborationStorage
+    collaboration: CollaborationStorage;
   }
 }
 
@@ -44,41 +47,41 @@ export interface CollaborationOptions {
    * An initialized Y.js document.
    * @example new Y.Doc()
    */
-  document?: Doc | null
+  document?: Doc | null;
 
   /**
    * Name of a Y.js fragment, can be changed to sync multiple fields with one Y.js document.
    * @default 'default'
    * @example 'my-custom-field'
    */
-  field?: string
+  field?: string;
 
   /**
    * A raw Y.js fragment, can be used instead of `document` and `field`.
    * @example new Y.Doc().getXmlFragment('body')
    */
-  fragment?: XmlFragment | null
+  fragment?: XmlFragment | null;
 
   /**
    * The collaboration provider.
    * @default null
    */
-  provider?: any | null
+  provider?: any | null;
 
   /**
    * Fired when the content from Yjs is initially rendered to Tiptap.
    */
-  onFirstRender?: () => void
+  onFirstRender?: () => void;
 
   /**
    * Options for the Yjs sync plugin.
    */
-  ySyncOptions?: YSyncOpts
+  ySyncOptions?: YSyncOpts;
 
   /**
    * Options for the Yjs undo plugin.
    */
-  yUndoOptions?: YUndoOpts
+  yUndoOptions?: YUndoOpts;
 }
 
 /**
@@ -86,37 +89,40 @@ export interface CollaborationOptions {
  * @see https://tiptap.dev/api/extensions/collaboration
  */
 export const Collaboration = Extension.create<CollaborationOptions, CollaborationStorage>({
-  name: 'collaboration',
+  name: "collaboration",
 
   priority: 1000,
 
   addOptions() {
     return {
       document: null,
-      field: 'default',
+      field: "default",
       fragment: null,
       provider: null,
-    }
+    };
   },
 
   addStorage() {
     return {
       isDisabled: false,
-    }
+    };
   },
 
   onCreate() {
-    if (this.editor.extensionManager.extensions.find(extension => extension.name === 'undoRedo')) {
+    if (
+      this.editor.extensionManager.extensions.find((extension) => extension.name === "undoRedo")
+    ) {
       console.warn(
         '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
-      )
+      );
     }
   },
 
   onBeforeCreate() {
     this.editor.utils.getUpdatedPosition = (position, transaction) =>
-      getUpdatedPosition(position, transaction, this.editor.state)
-    this.editor.utils.createMappablePosition = position => createMappablePosition(position, this.editor.state)
+      getUpdatedPosition(position, transaction, this.editor.state);
+    this.editor.utils.createMappablePosition = (position) =>
+      createMappablePosition(position, this.editor.state);
   },
 
   addCommands() {
@@ -124,99 +130,99 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       undo:
         () =>
         ({ tr, state, dispatch }) => {
-          tr.setMeta('preventDispatch', true)
+          tr.setMeta("preventDispatch", true);
 
-          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager;
 
           if (undoManager.undoStack.length === 0) {
-            return false
+            return false;
           }
 
           if (!dispatch) {
-            return true
+            return true;
           }
 
-          return undo(state)
+          return undo(state);
         },
       redo:
         () =>
         ({ tr, state, dispatch }) => {
-          tr.setMeta('preventDispatch', true)
+          tr.setMeta("preventDispatch", true);
 
-          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager
+          const undoManager: UndoManager = yUndoPluginKey.getState(state).undoManager;
 
           if (undoManager.redoStack.length === 0) {
-            return false
+            return false;
           }
 
           if (!dispatch) {
-            return true
+            return true;
           }
 
-          return redo(state)
+          return redo(state);
         },
-    }
+    };
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-z': () => this.editor.commands.undo(),
-      'Mod-y': () => this.editor.commands.redo(),
-      'Shift-Mod-z': () => this.editor.commands.redo(),
-    }
+      "Mod-z": () => this.editor.commands.undo(),
+      "Mod-y": () => this.editor.commands.redo(),
+      "Shift-Mod-z": () => this.editor.commands.redo(),
+    };
   },
 
   addProseMirrorPlugins() {
     const fragment = this.options.fragment
       ? this.options.fragment
-      : (this.options.document as Doc).getXmlFragment(this.options.field)
+      : (this.options.document as Doc).getXmlFragment(this.options.field);
 
     // Quick fix until there is an official implementation (thanks to @hamflx).
     // See https://github.com/yjs/y-prosemirror/issues/114 and https://github.com/yjs/y-prosemirror/issues/102
-    const yUndoPluginInstance = yUndoPlugin(this.options.yUndoOptions)
-    const originalUndoPluginView = yUndoPluginInstance.spec.view
+    const yUndoPluginInstance = yUndoPlugin(this.options.yUndoOptions);
+    const originalUndoPluginView = yUndoPluginInstance.spec.view;
 
     yUndoPluginInstance.spec.view = (view: EditorView) => {
-      const { undoManager } = yUndoPluginKey.getState(view.state)
+      const { undoManager } = yUndoPluginKey.getState(view.state);
 
       if (undoManager.restore) {
-        undoManager.restore()
+        undoManager.restore();
         undoManager.restore = () => {
           // noop
-        }
+        };
       }
 
-      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined
+      const viewRet = originalUndoPluginView ? originalUndoPluginView(view) : undefined;
 
       return {
         destroy: () => {
-          const hasUndoManSelf = undoManager.trackedOrigins.has(undoManager)
-          // eslint-disable-next-line no-underscore-dangle
-          const observers = undoManager._observers
+          const hasUndoManSelf = undoManager.trackedOrigins.has(undoManager);
+          // oxlint-disable-next-line no-underscore-dangle
+          const observers = undoManager._observers;
 
           undoManager.restore = () => {
             if (hasUndoManSelf) {
-              undoManager.trackedOrigins.add(undoManager)
+              undoManager.trackedOrigins.add(undoManager);
             }
 
-            undoManager.doc.on('afterTransaction', undoManager.afterTransactionHandler)
-            // eslint-disable-next-line no-underscore-dangle
-            undoManager._observers = observers
-          }
+            undoManager.doc.on("afterTransaction", undoManager.afterTransactionHandler);
+            // oxlint-disable-next-line no-underscore-dangle
+            undoManager._observers = observers;
+          };
 
           if (viewRet?.destroy) {
-            viewRet.destroy()
+            viewRet.destroy();
           }
         },
-      }
-    }
+      };
+    };
 
     const ySyncPluginOptions: YSyncOpts = {
       ...this.options.ySyncOptions,
       onFirstRender: this.options.onFirstRender,
-    }
+    };
 
-    const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions)
+    const ySyncPluginInstance = ySyncPlugin(fragment, ySyncPluginOptions);
 
     return [
       ySyncPluginInstance,
@@ -224,33 +230,33 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       // Only add the filterInvalidContent plugin if content checking is enabled
       this.editor.options.enableContentCheck &&
         new Plugin({
-          key: new PluginKey('filterInvalidContent'),
-          filterTransaction: transaction => {
+          key: new PluginKey("filterInvalidContent"),
+          filterTransaction: (transaction) => {
             if (!isChangeOrigin(transaction)) {
-              return true
+              return true;
             }
             if (this.storage.isDisabled) {
-              return false
+              return false;
             }
             if (!transaction.docChanged) {
-              return true
+              return true;
             }
             try {
-              transaction.doc.check()
-              return true
+              transaction.doc.check();
+              return true;
             } catch (error) {
-              this.storage.isDisabled = true
-              this.editor.emit('contentError', {
+              this.storage.isDisabled = true;
+              this.editor.emit("contentError", {
                 error: error as Error,
                 editor: this.editor,
                 disableCollaboration: () => {
-                  fragment.doc?.destroy()
+                  fragment.doc?.destroy();
                 },
-              })
-              return false
+              });
+              return false;
             }
           },
         }),
-    ].filter(Boolean)
+    ].filter(Boolean);
   },
-})
+});

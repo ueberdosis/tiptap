@@ -1,5 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { type ExtensionAttribute, type MarkType, type NodeType, mergeAttributes } from '@tiptap/core'
+/* oslint-disableno-explicit-any */
+import {
+  type ExtensionAttribute,
+  type MarkType,
+  type NodeType,
+  mergeAttributes,
+} from "@tiptap/core";
 
 /**
  * This function returns the attributes of a node or mark that are defined by the given extension attributes.
@@ -12,36 +17,44 @@ export function getAttributes(
   extensionAttributes: ExtensionAttribute[],
   onlyRenderedAttributes?: boolean,
 ): Record<string, any> {
-  const nodeOrMarkAttributes = nodeOrMark.attrs
+  const nodeOrMarkAttributes = nodeOrMark.attrs;
 
   if (!nodeOrMarkAttributes) {
-    return {}
+    return {};
   }
 
   return extensionAttributes
-    .filter(item => {
-      if (item.type !== (typeof nodeOrMark.type === 'string' ? nodeOrMark.type : nodeOrMark.type.name)) {
-        return false
+    .filter((item) => {
+      if (
+        item.type !== (typeof nodeOrMark.type === "string" ? nodeOrMark.type : nodeOrMark.type.name)
+      ) {
+        return false;
       }
       if (onlyRenderedAttributes) {
-        return item.attribute.rendered
+        return item.attribute.rendered;
       }
-      return true
+      return true;
     })
-    .map(item => {
+    .map((item) => {
       if (!item.attribute.renderHTML) {
         return {
-          [item.name]: item.name in nodeOrMarkAttributes ? nodeOrMarkAttributes[item.name] : item.attribute.default,
-        }
+          [item.name]:
+            item.name in nodeOrMarkAttributes
+              ? nodeOrMarkAttributes[item.name]
+              : item.attribute.default,
+        };
       }
 
       return (
         item.attribute.renderHTML(nodeOrMarkAttributes) || {
-          [item.name]: item.name in nodeOrMarkAttributes ? nodeOrMarkAttributes[item.name] : item.attribute.default,
+          [item.name]:
+            item.name in nodeOrMarkAttributes
+              ? nodeOrMarkAttributes[item.name]
+              : item.attribute.default,
         }
-      )
+      );
     })
-    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {})
+    .reduce((attributes, attribute) => mergeAttributes(attributes, attribute), {});
 }
 
 /**
@@ -49,6 +62,9 @@ export function getAttributes(
  * @param nodeOrMark The node or mark to get the attributes from
  * @param extensionAttributes The extension attributes to use
  */
-export function getHTMLAttributes(nodeOrMark: NodeType | MarkType, extensionAttributes: ExtensionAttribute[]) {
-  return getAttributes(nodeOrMark, extensionAttributes, true)
+export function getHTMLAttributes(
+  nodeOrMark: NodeType | MarkType,
+  extensionAttributes: ExtensionAttribute[],
+) {
+  return getAttributes(nodeOrMark, extensionAttributes, true);
 }

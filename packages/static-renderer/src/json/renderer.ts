@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MarkType, NodeType } from '@tiptap/core'
+/* oslint-disableno-explicit-any */
+import type { MarkType, NodeType } from "@tiptap/core";
 
 /**
  * Props for a node renderer
@@ -8,15 +8,15 @@ export type NodeProps<TNodeType = any, TChildren = any> = {
   /**
    * The current node to render
    */
-  node: TNodeType
+  node: TNodeType;
   /**
    * Unless the node is the root node, this will always be defined
    */
-  parent?: TNodeType
+  parent?: TNodeType;
   /**
    * The children of the current node
    */
-  children?: TChildren
+  children?: TChildren;
   /**
    * Render a child element
    */
@@ -24,13 +24,13 @@ export type NodeProps<TNodeType = any, TChildren = any> = {
     /**
      * Tiptap JSON content to render
      */
-    content: TNodeType
+    content: TNodeType;
     /**
      * The parent node of the current node
      */
-    parent?: TNodeType
-  }) => TChildren
-}
+    parent?: TNodeType;
+  }) => TChildren;
+};
 
 /**
  * Props for a mark renderer
@@ -39,20 +39,20 @@ export type MarkProps<TMarkType = any, TChildren = any, TNodeType = any> = {
   /**
    * The current mark to render
    */
-  mark: TMarkType
+  mark: TMarkType;
   /**
    * The children of the current mark
    */
-  children?: TChildren
+  children?: TChildren;
   /**
    * The node the current mark is applied to
    */
-  node: TNodeType
+  node: TNodeType;
   /**
    * The node the current mark is applied to
    */
-  parent?: TNodeType
-}
+  parent?: TNodeType;
+};
 
 export type TiptapStaticRendererOptions<
   /**
@@ -67,9 +67,9 @@ export type TiptapStaticRendererOptions<
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
-    content?: { forEach: (cb: (node: TNodeType) => void) => void }
-    marks?: readonly TMarkType[]
-    type: string | { name: string }
+    content?: { forEach: (cb: (node: TNodeType) => void) => void };
+    marks?: readonly TMarkType[];
+    type: string | { name: string };
   } = NodeType,
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
@@ -80,27 +80,29 @@ export type TiptapStaticRendererOptions<
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+  TMarkRender extends (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
+  ) => TReturnType = (
     ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
   ) => TReturnType,
 > = {
   /**
    * Mapping of node types to react components
    */
-  nodeMapping: Record<string, NoInfer<TNodeRender>>
+  nodeMapping: Record<string, NoInfer<TNodeRender>>;
   /**
    * Mapping of mark types to react components
    */
-  markMapping: Record<string, NoInfer<TMarkRender>>
+  markMapping: Record<string, NoInfer<TMarkRender>>;
   /**
    * Component to render if a node type is not handled
    */
-  unhandledNode?: NoInfer<TNodeRender>
+  unhandledNode?: NoInfer<TNodeRender>;
   /**
    * Component to render if a mark type is not handled
    */
-  unhandledMark?: NoInfer<TMarkRender>
-}
+  unhandledMark?: NoInfer<TMarkRender>;
+};
 
 /**
  * Tiptap Static Renderer
@@ -126,9 +128,9 @@ export function TiptapStaticRenderer<
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
-    content?: { forEach: (cb: (node: TNodeType) => void) => void }
-    marks?: readonly TMarkType[]
-    type: string | { name: string }
+    content?: { forEach: (cb: (node: TNodeType) => void) => void };
+    marks?: readonly TMarkType[];
+    type: string | { name: string };
   } = NodeType,
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
@@ -139,7 +141,9 @@ export function TiptapStaticRenderer<
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+  TMarkRender extends (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
+  ) => TReturnType = (
     ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
   ) => TReturnType,
 >(
@@ -149,12 +153,12 @@ export function TiptapStaticRenderer<
   renderComponent: (
     ctx:
       | {
-          component: TNodeRender
-          props: NodeProps<TNodeType, TReturnType | TReturnType[]>
+          component: TNodeRender;
+          props: NodeProps<TNodeType, TReturnType | TReturnType[]>;
         }
       | {
-          component: TMarkRender
-          props: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>
+          component: TMarkRender;
+          props: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>;
         },
   ) => TReturnType,
   {
@@ -174,17 +178,17 @@ export function TiptapStaticRenderer<
     /**
      * Tiptap JSON content to render
      */
-    content: TNodeType
+    content: TNodeType;
     /**
      * The parent node of the current node
      */
-    parent?: TNodeType
+    parent?: TNodeType;
   }): TReturnType {
-    const nodeType = typeof content.type === 'string' ? content.type : content.type.name
-    const NodeHandler = nodeMapping[nodeType] ?? unhandledNode
+    const nodeType = typeof content.type === "string" ? content.type : content.type.name;
+    const NodeHandler = nodeMapping[nodeType] ?? unhandledNode;
 
     if (!NodeHandler) {
-      throw new Error(`missing handler for node type ${nodeType}`)
+      throw new Error(`missing handler for node type ${nodeType}`);
     }
 
     const nodeContent = renderComponent({
@@ -196,32 +200,32 @@ export function TiptapStaticRenderer<
         // Lazily compute the children to avoid unnecessary recursion
         get children() {
           // recursively render child content nodes
-          const children: TReturnType[] = []
+          const children: TReturnType[] = [];
 
           if (content.content) {
-            content.content.forEach(child => {
+            content.content.forEach((child) => {
               children.push(
                 renderContent({
                   content: child,
                   parent: content,
                 }),
-              )
-            })
+              );
+            });
           }
 
-          return children
+          return children;
         },
       },
-    })
+    });
 
     // apply marks to the content
     const markedContent = content.marks
       ? content.marks.reduce((acc, mark) => {
-          const markType = typeof mark.type === 'string' ? mark.type : mark.type.name
-          const MarkHandler = markMapping[markType] ?? unhandledMark
+          const markType = typeof mark.type === "string" ? mark.type : mark.type.name;
+          const MarkHandler = markMapping[markType] ?? unhandledMark;
 
           if (!MarkHandler) {
-            throw new Error(`missing handler for mark type ${markType}`)
+            throw new Error(`missing handler for mark type ${markType}`);
           }
 
           return renderComponent({
@@ -232,10 +236,10 @@ export function TiptapStaticRenderer<
               node: content,
               children: acc,
             },
-          })
+          });
         }, nodeContent)
-      : nodeContent
+      : nodeContent;
 
-    return markedContent
-  }
+    return markedContent;
+  };
 }
