@@ -863,8 +863,14 @@ export class MarkdownManager {
   }
 
   /**
-   * Parse HTML tokens using extensions' parseHTML methods.
-   * This allows HTML within markdown to be parsed according to extension rules.
+   * Parse an HTML token from marked into JSONContent using the registered
+   * extensions' `parseHTML` rules. Falls back to literal text when the HTML
+   * has nothing for the schema to keep.
+   *
+   * @param token Marked HTML token (block or inline).
+   * @example
+   *   parseHTMLToken({ type: 'html', raw: '<em>hi</em>', block: false })
+   *   // → text node with an italic mark
    */
   private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     const html = token.text || token.raw || ''
@@ -931,6 +937,12 @@ export class MarkdownManager {
    * Returns true when the HTML has no visible text and no recognized
    * void element (br, hr, img, …) – i.e. there's nothing for the schema
    * to keep.
+   *
+   * @param html Raw HTML string from a marked token.
+   * @example
+   *   isUnrecognizedHtml('<enter foo bar>') // → true
+   *   isUnrecognizedHtml('<em>hi</em>')     // → false
+   *   isUnrecognizedHtml('<br>')            // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
     const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
@@ -950,8 +962,17 @@ export class MarkdownManager {
    * Build a JSONContent that preserves the original HTML markup as literal
    * text. Used when the HTML would otherwise be silently dropped during
    * schema-aware parsing.
+   *
+   * @param html Raw HTML string to preserve verbatim.
+   * @param isBlock Whether to wrap the text in a paragraph node (block tokens)
+   *   or return it as a bare text node (inline tokens).
+   * @example
+   *   htmlAsLiteralText('<enter foo>', true)
+   *   // → { type: 'paragraph', content: [{ type: 'text', text: '<enter foo>' }] }
    */
   private htmlAsLiteralText(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
+    // Strip trailing whitespace/newlines that marked appends to block HTML
+    // tokens so the rendered text doesn't end with stray blank lines.
     const text = html.replace(/\s+$/, '')
 
     if (!text) {
