@@ -717,3 +717,174 @@ describe('suggestion AbortSignal', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion debounce', () => {
+  it('should delay the items() call by the configured debounce time', async () => {
+    vi.useFakeTimers()
+
+    const items = vi.fn().mockResolvedValue([])
+    const onBeforeStart = vi.fn()
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-debounce',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            debounce: 100,
+            items,
+            render: () => ({ onBeforeStart, onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @ to trigger suggestion
+    editor.chain().insertContent('@').run()
+
+    // items() should not have been called yet (debounce pending)
+    expect(items).not.toHaveBeenCalled()
+    // onBeforeStart should fire immediately (not debounced)
+    expect(onBeforeStart).toHaveBeenCalled()
+
+    // Advance past the debounce window
+    await vi.advanceTimersByTimeAsync(100)
+
+    // Now items() should have been called
+    expect(items).toHaveBeenCalledTimes(1)
+    // onStart fires after items resolves
+    expect(onStart).toHaveBeenCalled()
+
+    vi.useRealTimers()
+    editor.destroy()
+  })
+
+  it('should reset the debounce timer on rapid typing', async () => {
+    vi.useFakeTimers()
+
+    const items = vi.fn().mockResolvedValue([])
+
+    const MentionExtension = Extension.create({
+      name: 'mention-debounce-rapid',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            debounce: 100,
+            items,
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @a
+    editor.chain().insertContent('@a').run()
+    await vi.advanceTimersByTimeAsync(60)
+
+    // Type b before debounce fires
+    editor.chain().insertContent('b').run()
+    await vi.advanceTimersByTimeAsync(60)
+
+    // Debounce should have reset — items not called yet
+    expect(items).not.toHaveBeenCalled()
+
+    // Advance past remaining debounce from last keystroke
+    await vi.advanceTimersByTimeAsync(100)
+
+    // Should have been called only once (not twice)
+    expect(items).toHaveBeenCalledTimes(1)
+
+    vi.useRealTimers()
+    editor.destroy()
+  })
+})
+
+describe('suggestion positioning options', () => {
+  it('should forward placement, offset, container, and flip to SuggestionProps', async () => {
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-positioning',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            placement: 'top-start',
+            offset: { mainAxis: 8, crossAxis: 4 },
+            container: '.my-container',
+            flip: false,
+            render: () => ({ onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledWith(
+      expect.objectContaining({
+        placement: 'top-start',
+        offset: { mainAxis: 8, crossAxis: 4 },
+        container: '.my-container',
+        flip: false,
+      }),
+    )
+
+    editor.destroy()
+  })
+
+  it('should use defaults when positioning options are not set', async () => {
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-positioning-defaults',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            render: () => ({ onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledWith(
+      expect.objectContaining({
+        placement: 'bottom-start',
+        offset: { mainAxis: 4, crossAxis: 0 },
+        flip: true,
+      }),
+    )
+
+    editor.destroy()
+  })
+})

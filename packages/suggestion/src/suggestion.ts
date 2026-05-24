@@ -26,6 +26,8 @@ function hasInsertedWhitespace(transaction: Transaction): boolean {
   })
 }
 
+export type SuggestionPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
    * The plugin key for the suggestion plugin.
@@ -155,12 +157,48 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   minQueryLength?: number
 
   /**
+   * Debounce in milliseconds. When set, `items()` will only be called
+   * after the user stops typing for this duration.
+   * @default 0 (no debounce, same as before)
+   * @example 300
+   */
+  debounce?: number
+
+  /**
    * Items shown immediately when the suggestion popup opens,
    * before the async `items()` call resolves.
    * Useful for showing recent or popular items while loading.
    * @default undefined (no pre-populated items)
    */
   initialItems?: I[]
+
+  /**
+   * Placement of the popup relative to the cursor.
+   * Consumers can read this from `SuggestionProps` to configure their positioning library.
+   * @default 'bottom-start'
+   */
+  placement?: SuggestionPlacement
+
+  /**
+   * Offset of the popup in pixels.
+   * Consumers can read this from `SuggestionProps` to configure their positioning library.
+   * @default { mainAxis: 4, crossAxis: 0 }
+   */
+  offset?: { mainAxis?: number; crossAxis?: number }
+
+  /**
+   * CSS selector or element that defines the containment context for the popup.
+   * Consumers can read this from `SuggestionProps` when rendering inside modals or dialogs.
+   * @default undefined (no containment)
+   */
+  container?: string | HTMLElement
+
+  /**
+   * Whether the popup should automatically flip when there isn't enough space.
+   * Consumers can read this from `SuggestionProps` to configure their positioning library.
+   * @default true
+   */
+  flip?: boolean
 
   /**
    * A function that returns the suggestion items in form of an array.
@@ -246,6 +284,30 @@ export interface SuggestionProps<I = any, TSelected = any> {
   clientRect?: (() => DOMRect | null) | null
 
   /**
+   * Placement of the popup relative to the cursor.
+   * @default 'bottom-start'
+   */
+  placement: SuggestionPlacement
+
+  /**
+   * Offset of the popup in pixels.
+   * @default { mainAxis: 4, crossAxis: 0 }
+   */
+  offset: { mainAxis: number; crossAxis: number }
+
+  /**
+   * CSS selector or element that defines the containment context for the popup.
+   * @default undefined
+   */
+  container?: string | HTMLElement
+
+  /**
+   * Whether the popup should automatically flip when there isn't enough space.
+   * @default true
+   */
+  flip: boolean
+
+  /**
    * Whether the items are currently being loaded.
    * `true` before the async `items()` call resolves.
    * Useful for showing a loading spinner or skeleton.
@@ -281,7 +343,12 @@ export function Suggestion<I = any, TSelected = any>({
   command = () => null,
   items = () => [],
   minQueryLength = 0,
+  debounce = 0,
   initialItems,
+  placement = 'bottom-start',
+  offset: offsetOption = {},
+  container,
+  flip = true,
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
@@ -380,6 +447,9 @@ export function Suggestion<I = any, TSelected = any>({
         decorationNode,
         clientRect: clientRectFor(view, decorationNode),
         loading: false,
+        placement: 'bottom-start',
+        offset: { mainAxis: 4, crossAxis: 0 },
+        flip: true,
       }
 
       renderer?.onExit?.(exitProps)
@@ -443,6 +513,10 @@ export function Suggestion<I = any, TSelected = any>({
             decorationNode,
             clientRect: clientRectFor(view, decorationNode),
             loading: willFetch,
+            placement,
+            offset: { mainAxis: offsetOption.mainAxis ?? 4, crossAxis: offsetOption.crossAxis ?? 0 },
+            container,
+            flip,
           }
 
           if (handleStart) {
@@ -460,15 +534,30 @@ export function Suggestion<I = any, TSelected = any>({
               // Abort any in-flight fetch before starting a new one
               abortController?.abort()
               abortController = new AbortController()
+              // Snapshot the controller so we can detect if a concurrent
+              // update supersedes us during the debounce delay.
+              const controller = abortController
 
-              props = {
-                ...props,
-                items: await items({
-                  editor,
-                  query: state.query,
-                  signal: abortController.signal,
-                }),
-                loading: false,
+              // Debounce delay: if a newer update aborts the controller
+              // during the wait, we skip the stale items() call.
+              if (debounce > 0) {
+                await new Promise(resolve => {
+                  setTimeout(resolve, debounce)
+                })
+              }
+
+              if (controller.signal.aborted) {
+                props = { ...props, items: initialItems ?? [], loading: false }
+              } else {
+                props = {
+                  ...props,
+                  items: await items({
+                    editor,
+                    query: state.query,
+                    signal: controller.signal,
+                  }),
+                  loading: false,
+                }
               }
             }
           }
