@@ -481,7 +481,7 @@ export function Suggestion<I = any, TSelected = any>({
 
           const handleStart = started || (moved && changed)
           const handleChange = changed || moved
-          const handleExit = stopped || (moved && changed)
+          const handleExit = stopped
 
           // Cancel when suggestion isn't active
           if (!handleStart && !handleChange && !handleExit) {
@@ -547,16 +547,27 @@ export function Suggestion<I = any, TSelected = any>({
               }
 
               if (controller.signal.aborted) {
-                props = { ...props, items: initialItems ?? [], loading: false }
+                // A newer handleChange superseded this one.
+                // Keep loading=true so the component doesn't flash back
+                // to a stale state before the new fetch resolves.
+                props = { ...props, items: initialItems ?? [], loading: true }
               } else {
-                props = {
-                  ...props,
-                  items: await items({
-                    editor,
-                    query: state.query,
-                    signal: controller.signal,
-                  }),
-                  loading: false,
+                const result = await items({
+                  editor,
+                  query: state.query,
+                  signal: controller.signal,
+                })
+
+                // Re-check: items() may have taken a while and the controller
+                // could have been aborted by a newer keystroke in the meantime.
+                if (controller.signal.aborted) {
+                  props = { ...props, items: initialItems ?? [], loading: true }
+                } else {
+                  props = {
+                    ...props,
+                    items: result,
+                    loading: false,
+                  }
                 }
               }
             }
