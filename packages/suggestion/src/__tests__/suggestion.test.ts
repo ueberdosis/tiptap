@@ -527,3 +527,89 @@ describe('suggestion initialItems', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion loading state', () => {
+  it('should set loading to true in before callbacks and false after when items() is called', async () => {
+    const items = vi.fn().mockResolvedValue([])
+    const onBeforeStart = vi.fn()
+    const onBeforeUpdate = vi.fn()
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+    const onExit = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-loading',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+            render: () => ({ onBeforeStart, onBeforeUpdate, onStart, onUpdate, onExit }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @ to start suggestion — triggers async items()
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    // onBeforeStart fires before items() resolves → loading should be true
+    expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+    // onStart fires after items() resolves → loading should be false
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+
+    // Type another char to trigger an update
+    editor.chain().insertContent('a').run()
+    await Promise.resolve()
+
+    // onBeforeUpdate fires before items() resolves → loading should be true
+    expect(onBeforeUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+    // onUpdate fires after items() resolves → loading should be false
+    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+
+    editor.destroy()
+  })
+
+  it('should set loading to false in all callbacks when minQueryLength blocks items()', async () => {
+    const items = vi.fn().mockResolvedValue([])
+    const onBeforeStart = vi.fn()
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-loading-blocked',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            minQueryLength: 3,
+            items,
+            render: () => ({ onBeforeStart, onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @a — query "a" is too short, items() won't be called
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    // No async call happens → loading should be false
+    expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+
+    editor.destroy()
+  })
+})

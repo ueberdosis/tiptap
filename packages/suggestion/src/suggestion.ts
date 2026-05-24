@@ -244,6 +244,14 @@ export interface SuggestionProps<I = any, TSelected = any> {
    * @example () => new DOMRect(0, 0, 0, 0)
    */
   clientRect?: (() => DOMRect | null) | null
+
+  /**
+   * Whether the items are currently being loaded.
+   * `true` before the async `items()` call resolves.
+   * Useful for showing a loading spinner or skeleton.
+   * @default false
+   */
+  loading: boolean
 }
 
 export interface SuggestionKeyDownProps {
@@ -371,6 +379,7 @@ export function Suggestion<I = any, TSelected = any>({
         },
         decorationNode,
         clientRect: clientRectFor(view, decorationNode),
+        loading: false,
       }
 
       renderer?.onExit?.(exitProps)
@@ -412,6 +421,10 @@ export function Suggestion<I = any, TSelected = any>({
             `[data-decoration-id="${state.decorationId}"]`,
           )
 
+          const willFetch =
+            (handleChange || handleStart) &&
+            !(minQueryLength > 0 && (!state.query || state.query.length < minQueryLength))
+
           props = {
             editor,
             range: state.range,
@@ -427,6 +440,7 @@ export function Suggestion<I = any, TSelected = any>({
             },
             decorationNode,
             clientRect: clientRectFor(view, decorationNode),
+            loading: willFetch,
           }
 
           if (handleStart) {
@@ -438,8 +452,8 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           if (handleChange || handleStart) {
-            if (minQueryLength > 0 && (!state.query || state.query.length < minQueryLength)) {
-              props = { ...props, items: initialItems ?? [] }
+            if (!willFetch) {
+              props = { ...props, items: initialItems ?? [], loading: false }
             } else {
               props = {
                 ...props,
@@ -447,6 +461,7 @@ export function Suggestion<I = any, TSelected = any>({
                   editor,
                   query: state.query,
                 }),
+                loading: false,
               }
             }
           }
