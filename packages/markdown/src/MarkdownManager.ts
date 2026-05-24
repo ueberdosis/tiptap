@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
@@ -31,7 +32,127 @@ import {
   wrapInMarkdownBlock,
 } from './utils.js'
 
-const VOID_HTML_TAG_SELECTOR = 'br, hr, img, input, embed, area, col, source, track, wbr'
+/**
+ * Standard HTML element names. Used to tell apart real (but possibly empty)
+ * elements like `<em></em>` from genuinely unknown angle-bracket text such
+ * as `<enter foo bar>` so the latter can be preserved as literal text.
+ */
+const STANDARD_HTML_TAGS = new Set([
+  'a',
+  'abbr',
+  'address',
+  'area',
+  'article',
+  'aside',
+  'audio',
+  'b',
+  'base',
+  'bdi',
+  'bdo',
+  'blockquote',
+  'body',
+  'br',
+  'button',
+  'canvas',
+  'caption',
+  'cite',
+  'code',
+  'col',
+  'colgroup',
+  'data',
+  'datalist',
+  'dd',
+  'del',
+  'details',
+  'dfn',
+  'dialog',
+  'div',
+  'dl',
+  'dt',
+  'em',
+  'embed',
+  'fieldset',
+  'figcaption',
+  'figure',
+  'footer',
+  'form',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'head',
+  'header',
+  'hgroup',
+  'hr',
+  'html',
+  'i',
+  'iframe',
+  'img',
+  'input',
+  'ins',
+  'kbd',
+  'label',
+  'legend',
+  'li',
+  'link',
+  'main',
+  'map',
+  'mark',
+  'menu',
+  'meta',
+  'meter',
+  'nav',
+  'noscript',
+  'object',
+  'ol',
+  'optgroup',
+  'option',
+  'output',
+  'p',
+  'param',
+  'picture',
+  'pre',
+  'progress',
+  'q',
+  'rp',
+  'rt',
+  'ruby',
+  's',
+  'samp',
+  'script',
+  'search',
+  'section',
+  'select',
+  'slot',
+  'small',
+  'source',
+  'span',
+  'strong',
+  'style',
+  'sub',
+  'summary',
+  'sup',
+  'svg',
+  'table',
+  'tbody',
+  'td',
+  'template',
+  'textarea',
+  'tfoot',
+  'th',
+  'thead',
+  'time',
+  'title',
+  'tr',
+  'track',
+  'u',
+  'ul',
+  'var',
+  'video',
+  'wbr',
+])
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -55,6 +176,8 @@ export class MarkdownManager {
   private extensions: AnyExtension[] = []
   /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
   private codeTypes: Set<string> = new Set()
+  /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
+  private schemaParseDomTagsCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -934,28 +1057,77 @@ export class MarkdownManager {
   }
 
   /**
-   * Returns true when the HTML has no visible text and no recognized
-   * void element (br, hr, img, …) – i.e. there's nothing for the schema
-   * to keep.
+   * Returns true when the HTML contains an element whose tag name is neither
+   * a standard HTML element nor declared by any registered extension – e.g.
+   * `<enter foo bar>`. Recognized but empty elements such as `<em></em>` or
+   * `<span></span>` are not considered unrecognized.
    *
    * @param html Raw HTML string from a marked token.
    * @example
    *   isUnrecognizedHtml('<enter foo bar>') // → true
+   *   isUnrecognizedHtml('<em></em>')       // → false (empty, but real tag)
    *   isUnrecognizedHtml('<em>hi</em>')     // → false
    *   isUnrecognizedHtml('<br>')            // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
     const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
+    const elements = dom.querySelectorAll('*')
 
-    if ((dom.textContent || '').trim() !== '') {
+    if (elements.length === 0) {
       return false
     }
 
-    if (dom.querySelector(VOID_HTML_TAG_SELECTOR)) {
-      return false
+    const schemaTags = this.getSchemaParseDomTags()
+
+    return Array.from(elements).some(el => {
+      const tagName = el.tagName.toLowerCase()
+      return !STANDARD_HTML_TAGS.has(tagName) && !schemaTags.has(tagName)
+    })
+  }
+
+  /**
+   * Collect the lower-cased tag names declared by the registered extensions'
+   * `parseDOM` rules, so custom node/mark elements (e.g. `<my-mention>`) are
+   * treated as recognized HTML. Result is cached for the lifetime of the
+   * manager since extensions don't change after registration.
+   *
+   * @example
+   *   // After registering an extension with parseDOM `[{ tag: 'my-mention' }]`
+   *   getSchemaParseDomTags().has('my-mention') // → true
+   */
+  private getSchemaParseDomTags(): Set<string> {
+    if (this.schemaParseDomTagsCache) {
+      return this.schemaParseDomTagsCache
     }
 
-    return true
+    const tags = new Set<string>()
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+      const collect = (spec: any) => {
+        const parseDOM = spec?.parseDOM
+        if (!Array.isArray(parseDOM)) {
+          return
+        }
+        parseDOM.forEach((rule: any) => {
+          if (typeof rule?.tag === 'string') {
+            const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
+            if (match) {
+              tags.add(match[0].toLowerCase())
+            }
+          }
+        })
+      }
+
+      Object.values(schema.nodes).forEach(type => collect((type as any).spec))
+      Object.values(schema.marks).forEach(type => collect((type as any).spec))
+    } catch {
+      // If schema construction fails for any reason, leave the set empty –
+      // detection then falls back to the standard HTML tag list only.
+    }
+
+    this.schemaParseDomTagsCache = tags
+    return tags
   }
 
   /**

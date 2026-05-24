@@ -77,4 +77,19 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     expect(text).toContain('hello')
     expect(text).toContain('world')
   })
+
+  it('does not render raw markup for recognized but empty HTML elements', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    // Empty <em></em> / <span></span> have no text content and no void element,
+    // but they are still real HTML – they must not be rendered as literal text.
+    ;['<em></em>', '<em> </em>', '<span></span>'].forEach(md => {
+      const doc = manager.parse(md)
+      const text = collectText(doc)
+      expect(text).not.toContain('<em>')
+      expect(text).not.toContain('</em>')
+      expect(text).not.toContain('<span>')
+      expect(text).not.toContain('</span>')
+    })
+  })
 })
