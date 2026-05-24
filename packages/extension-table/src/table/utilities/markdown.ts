@@ -6,7 +6,7 @@ import {
   TableCellAlign,
 } from '../../utilities/parseAlign.js'
 
-export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
+export const DEFAULT_CELL_LINE_SEPARATOR = '<br>'
 
 function collapseWhitespace(s: string) {
   return (s || '').replace(/\s+/g, ' ').trim()
@@ -34,13 +34,22 @@ export function renderTableToMarkdown(
         let raw = ''
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
-          // Render each direct child separately and join with separator so we can split again later
+          // Render each direct child separately and join with separator
           const parts = cellNode.content.map(child => h.renderChildren(child as unknown as JSONContent))
           raw = parts.join(cellSep)
         } else {
           raw = cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : ''
         }
 
+        // COUPLING WARNING: Tiptap's extension-hard-break hardcodes its markdown output to `  \n`
+        // (defined in packages/extension-hard-break/src/hard-break.ts).
+        // Because node renderers don't receive contextual metadata (like "inside a table cell"),
+        // the hardBreak node has no way to change its output to `<br>`.
+        // We intercept `  \n` here before collapseWhitespace blindly strips it. If `extension-hard-break`
+        // ever changes its serialization string, this pattern MUST be updated.
+        const HARDBREAK_MARKDOWN_PATTERN = '  \n'
+        raw = raw.replaceAll(HARDBREAK_MARKDOWN_PATTERN, cellSep)
+        
         const text = collapseWhitespace(raw)
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
