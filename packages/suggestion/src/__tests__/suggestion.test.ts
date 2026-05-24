@@ -460,3 +460,70 @@ describe('suggestion minQueryLength', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion initialItems', () => {
+  it('should pass initialItems to onBeforeStart/onBeforeUpdate and resolved items to onStart/onUpdate', async () => {
+    const initialItems = [{ id: 1, label: 'Popular' }]
+    const resolvedItems = [{ id: 2, label: 'Filtered' }]
+    const items = vi.fn().mockResolvedValue(resolvedItems)
+    const onBeforeStart = vi.fn()
+    const onBeforeUpdate = vi.fn()
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+    const onExit = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-initial-items',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            initialItems,
+            items,
+            render: () => ({ onBeforeStart, onBeforeUpdate, onStart, onUpdate, onExit }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @ to start suggestion
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    // onBeforeStart should receive initialItems
+    expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
+    // onStart should receive async-resolved items
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
+    // items() should still have been called
+    expect(items).toHaveBeenCalledWith({
+      editor: expect.any(Object),
+      query: '',
+    })
+
+    // Reset mocks for the update phase
+    items.mockClear()
+    onBeforeUpdate.mockClear()
+    onUpdate.mockClear()
+
+    // Type another character to trigger an update
+    editor.chain().insertContent('a').run()
+    await Promise.resolve()
+
+    // onBeforeUpdate should also receive initialItems
+    expect(onBeforeUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
+    // onUpdate should receive the async-resolved items
+    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
+    expect(items).toHaveBeenCalledWith({
+      editor: expect.any(Object),
+      query: 'a',
+    })
+
+    editor.destroy()
+  })
+})

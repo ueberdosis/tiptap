@@ -155,6 +155,14 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   minQueryLength?: number
 
   /**
+   * Items shown immediately when the suggestion popup opens,
+   * before the async `items()` call resolves.
+   * Useful for showing recent or popular items while loading.
+   * @default undefined (no pre-populated items)
+   */
+  initialItems?: I[]
+
+  /**
    * A function that returns the suggestion items in form of an array.
    * @param props The props object.
    * @param props.editor The editor instance.
@@ -265,6 +273,7 @@ export function Suggestion<I = any, TSelected = any>({
   command = () => null,
   items = () => [],
   minQueryLength = 0,
+  initialItems,
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
@@ -408,7 +417,7 @@ export function Suggestion<I = any, TSelected = any>({
             range: state.range,
             query: state.query,
             text: state.text,
-            items: [],
+            items: initialItems ?? [],
             command: commandProps => {
               return command({
                 editor,
@@ -430,12 +439,15 @@ export function Suggestion<I = any, TSelected = any>({
 
           if (handleChange || handleStart) {
             if (minQueryLength > 0 && (!state.query || state.query.length < minQueryLength)) {
-              props.items = []
+              props = { ...props, items: initialItems ?? [] }
             } else {
-              props.items = await items({
-                editor,
-                query: state.query,
-              })
+              props = {
+                ...props,
+                items: await items({
+                  editor,
+                  query: state.query,
+                }),
+              }
             }
           }
 
