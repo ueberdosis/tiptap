@@ -31,6 +31,8 @@ import {
   wrapInMarkdownBlock,
 } from './utils.js'
 
+const VOID_HTML_TAG_SELECTOR = 'br, hr, img, input, embed, area, col, source, track, wbr'
+
 export class MarkdownManager {
   private markedInstance: typeof marked
   private activeParseLexer: Lexer | null = null
@@ -893,10 +895,8 @@ export class MarkdownManager {
       }
     }
 
-    // Detect "bogus" HTML – e.g. text wrapped in unknown tags like
-    // `<enter existing CID here if available>` – which the browser parses as an
-    // unknown element with no text content. Without this check, schema-aware
-    // parsing produces an empty document and the original characters are lost.
+    // If the HTML would parse to nothing meaningful, keep the original
+    // characters as literal text instead of dropping them.
     if (this.isUnrecognizedHtml(html)) {
       return this.htmlAsLiteralText(html, !!token.block)
     }
@@ -928,10 +928,9 @@ export class MarkdownManager {
   }
 
   /**
-   * Browser-parses the HTML and returns true when nothing meaningful would
-   * survive schema-aware parsing: no visible text content and no recognized
-   * HTML void element (br, hr, img, …). In that case the original characters
-   * should be preserved as literal text instead of silently disappearing.
+   * Returns true when the HTML has no visible text and no recognized
+   * void element (br, hr, img, …) – i.e. there's nothing for the schema
+   * to keep.
    */
   private isUnrecognizedHtml(html: string): boolean {
     const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
@@ -940,9 +939,7 @@ export class MarkdownManager {
       return false
     }
 
-    // Void elements legitimately have no text content; if any are present
-    // the HTML is recognized and should go through the regular path.
-    if (dom.querySelector('br, hr, img, input, embed, area, col, source, track, wbr')) {
+    if (dom.querySelector(VOID_HTML_TAG_SELECTOR)) {
       return false
     }
 
