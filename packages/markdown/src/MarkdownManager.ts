@@ -893,6 +893,14 @@ export class MarkdownManager {
       }
     }
 
+    // Detect "bogus" HTML – e.g. text wrapped in unknown tags like
+    // `<enter existing CID here if available>` – which the browser parses as an
+    // unknown element with no text content. Without this check, schema-aware
+    // parsing produces an empty document and the original characters are lost.
+    if (this.isUnrecognizedHtml(html)) {
+      return this.htmlAsLiteralText(html, !!token.block)
+    }
+
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
       const parsed = generateJSON(html, this.baseExtensions)
@@ -917,6 +925,50 @@ export class MarkdownManager {
     } catch (error) {
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Browser-parses the HTML and returns true when nothing meaningful would
+   * survive schema-aware parsing: no visible text content and no recognized
+   * HTML void element (br, hr, img, …). In that case the original characters
+   * should be preserved as literal text instead of silently disappearing.
+   */
+  private isUnrecognizedHtml(html: string): boolean {
+    const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
+
+    if ((dom.textContent || '').trim() !== '') {
+      return false
+    }
+
+    // Void elements legitimately have no text content; if any are present
+    // the HTML is recognized and should go through the regular path.
+    if (dom.querySelector('br, hr, img, input, embed, area, col, source, track, wbr')) {
+      return false
+    }
+
+    return true
+  }
+
+  /**
+   * Build a JSONContent that preserves the original HTML markup as literal
+   * text. Used when the HTML would otherwise be silently dropped during
+   * schema-aware parsing.
+   */
+  private htmlAsLiteralText(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
+    const text = html.replace(/\s+$/, '')
+
+    if (!text) {
+      return null
+    }
+
+    if (isBlock) {
+      return {
+        type: 'paragraph',
+        content: [{ type: 'text', text }],
+      }
+    }
+
+    return { type: 'text', text }
   }
 
   /**
