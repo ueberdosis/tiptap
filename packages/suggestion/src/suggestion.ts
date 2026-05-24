@@ -170,7 +170,7 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @returns An array of suggestion items.
    * @example ({ editor, query }) => [{ id: 1, label: 'John Doe' }]
    */
-  items?: (props: { query: string; editor: Editor }) => I[] | Promise<I[]>
+  items?: (props: { query: string; editor: Editor; signal: AbortSignal }) => I[] | Promise<I[]>
 
   /**
    * The render function for the suggestion.
@@ -396,6 +396,8 @@ export function Suggestion<I = any, TSelected = any>({
     key: pluginKey,
 
     view() {
+      let abortController: AbortController | null = null
+
       return {
         update: async (view, prevState) => {
           const prev = this.key?.getState(prevState)
@@ -455,11 +457,16 @@ export function Suggestion<I = any, TSelected = any>({
             if (!willFetch) {
               props = { ...props, items: initialItems ?? [], loading: false }
             } else {
+              // Abort any in-flight fetch before starting a new one
+              abortController?.abort()
+              abortController = new AbortController()
+
               props = {
                 ...props,
                 items: await items({
                   editor,
                   query: state.query,
+                  signal: abortController.signal,
                 }),
                 loading: false,
               }
@@ -480,6 +487,8 @@ export function Suggestion<I = any, TSelected = any>({
         },
 
         destroy: () => {
+          abortController?.abort()
+
           if (!props) {
             return
           }

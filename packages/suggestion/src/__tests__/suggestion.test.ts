@@ -452,10 +452,12 @@ describe('suggestion minQueryLength', () => {
     await Promise.resolve()
 
     // items should be called now with query 'ab'
-    expect(items).toHaveBeenCalledWith({
-      editor: expect.any(Object),
-      query: 'ab',
-    })
+    expect(items).toHaveBeenCalledWith(
+      expect.objectContaining({
+        editor: expect.any(Object),
+        query: 'ab',
+      }),
+    )
 
     editor.destroy()
   })
@@ -501,10 +503,12 @@ describe('suggestion initialItems', () => {
     // onStart should receive async-resolved items
     expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
     // items() should still have been called
-    expect(items).toHaveBeenCalledWith({
-      editor: expect.any(Object),
-      query: '',
-    })
+    expect(items).toHaveBeenCalledWith(
+      expect.objectContaining({
+        editor: expect.any(Object),
+        query: '',
+      }),
+    )
 
     // Reset mocks for the update phase
     items.mockClear()
@@ -519,10 +523,12 @@ describe('suggestion initialItems', () => {
     expect(onBeforeUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
     // onUpdate should receive the async-resolved items
     expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
-    expect(items).toHaveBeenCalledWith({
-      editor: expect.any(Object),
-      query: 'a',
-    })
+    expect(items).toHaveBeenCalledWith(
+      expect.objectContaining({
+        editor: expect.any(Object),
+        query: 'a',
+      }),
+    )
 
     editor.destroy()
   })
@@ -609,6 +615,104 @@ describe('suggestion loading state', () => {
     // No async call happens → loading should be false
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
     expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+
+    editor.destroy()
+  })
+})
+
+describe('suggestion AbortSignal', () => {
+  it('should pass signal to items() and abort previous signal on new query', async () => {
+    const signals: AbortSignal[] = []
+    let resolveFirst: (value: unknown) => void = () => {}
+
+    const items = vi.fn().mockImplementation(({ signal }) => {
+      signals.push(signal)
+      // First call returns a promise that we control
+      if (signals.length === 1) {
+        return new Promise(resolve => {
+          resolveFirst = resolve
+        })
+      }
+      // Subsequent calls resolve immediately
+      return []
+    })
+
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-abort',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+            render: () => ({ onStart, onUpdate }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @ to start suggestion — first items() call starts but doesn't resolve
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(items).toHaveBeenCalledTimes(1)
+    expect(signals[0].aborted).toBe(false)
+
+    // Type a — triggers a second items() while first is still in-flight
+    editor.chain().insertContent('a').run()
+    await Promise.resolve()
+
+    // items() should have been called a second time
+    expect(items).toHaveBeenCalledTimes(2)
+    // The first signal should be aborted
+    expect(signals[0].aborted).toBe(true)
+    // The second signal should be fresh
+    expect(signals[1].aborted).toBe(false)
+
+    // Clean up the hanging promise
+    resolveFirst([])
+    await Promise.resolve()
+
+    editor.destroy()
+  })
+
+  it('should pass signal as a property in the items callback props', async () => {
+    const items = vi.fn().mockImplementation(({ signal }) => {
+      expect(signal).toBeInstanceOf(AbortSignal)
+      return []
+    })
+
+    const MentionExtension = Extension.create({
+      name: 'mention-abort-prop',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(items).toHaveBeenCalled()
+    // The callback assertion already checked signal is an AbortSignal
 
     editor.destroy()
   })
