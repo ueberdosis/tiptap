@@ -147,6 +147,14 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   command?: (props: { editor: Editor; range: Range; props: TSelected }) => void
 
   /**
+   * Minimum query length before `items()` is called.
+   * When the query is shorter, empty items are passed to the renderer.
+   * @default 0 (no filter, same as before)
+   * @example 2
+   */
+  minQueryLength?: number
+
+  /**
    * A function that returns the suggestion items in form of an array.
    * @param props The props object.
    * @param props.editor The editor instance.
@@ -256,6 +264,7 @@ export function Suggestion<I = any, TSelected = any>({
   decorationEmptyClass = 'is-empty',
   command = () => null,
   items = () => [],
+  minQueryLength = 0,
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
@@ -420,10 +429,14 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           if (handleChange || handleStart) {
-            props.items = await items({
-              editor,
-              query: state.query,
-            })
+            if (minQueryLength > 0 && (!state.query || state.query.length < minQueryLength)) {
+              props.items = []
+            } else {
+              props.items = await items({
+                editor,
+                query: state.query,
+              })
+            }
           }
 
           if (handleExit) {

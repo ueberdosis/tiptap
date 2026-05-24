@@ -409,3 +409,54 @@ describe('suggestion dismissal', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion minQueryLength', () => {
+  it('should not call items when query is shorter than minQueryLength', async () => {
+    const items = vi.fn().mockReturnValue([])
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+    const onExit = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-min-query',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            minQueryLength: 2,
+            items,
+            render: () => ({ onStart, onUpdate, onExit }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    // Type @a — query "a" is too short (length 1 < 2)
+    editor.chain().insertContent('@a').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledTimes(1)
+    // items should not have been called because query.length < minQueryLength
+    expect(items).not.toHaveBeenCalled()
+    // The props passed to onStart should have items: []
+    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ items: [] }))
+
+    // Continue typing to reach minQueryLength
+    editor.chain().insertContent('b').run()
+    await Promise.resolve()
+
+    // items should be called now with query 'ab'
+    expect(items).toHaveBeenCalledWith({
+      editor: expect.any(Object),
+      query: 'ab',
+    })
+
+    editor.destroy()
+  })
+})
