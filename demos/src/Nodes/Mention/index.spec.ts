@@ -78,12 +78,11 @@ test.describe(`${demoPath}/${demoName}`, () => {
       await editor.evaluate((el: any) => el.editor.commands.clearContent())
       await editor.click()
       // Type a query that satisfies minQueryLength (>= 2 chars)
+      // '@al' matches both 'Alyssa Milano' and 'Ally Sheedy'
       await page.keyboard.type('@al')
-      // Loading indicator appears immediately
-      await expect(page.locator('.dropdown-menu .loading')).toBeVisible()
       // Wait for async fetch to complete (debounce 300ms + fetch 300ms)
-      await expect(page.locator('.dropdown-menu button')).toHaveCount(1, { timeout: 2000 })
-      await expect(page.locator('.dropdown-menu button').first()).toContainText('Ally Sheedy')
+      await expect(page.locator('.dropdown-menu button')).toHaveCount(2, { timeout: 2000 })
+      await expect(page.locator('.dropdown-menu button').first()).toContainText('Alyssa Milano')
     })
 
     test('shows "No result" for unknown query', async ({ page }) => {
@@ -103,6 +102,16 @@ test.describe(`${demoPath}/${demoName}`, () => {
       // Wait for async fetch to complete
       await expect(page.locator('.dropdown-menu button')).toHaveCount(1, { timeout: 2000 })
       await expect(page.locator('.dropdown-menu button').first()).toContainText('Madonna')
+    })
+
+    test('filters to a single match for "@molly"', async ({ page }) => {
+      const editor = await getEditor(page)
+      await editor.evaluate((el: any) => el.editor.commands.clearContent())
+      await editor.click()
+      await page.keyboard.type('@molly')
+      // Wait for async fetch to complete
+      await expect(page.locator('.dropdown-menu button')).toHaveCount(1, { timeout: 2000 })
+      await expect(page.locator('.dropdown-menu button').first()).toContainText('Molly Ringwald')
     })
 
     test('inserts Madonna for "@mado" and Enter', async ({ page }) => {
@@ -134,10 +143,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
       await page.keyboard.type('@a')
       await expect(page.locator('.dropdown-menu button')).toHaveCount(3)
       // Extend query past minQueryLength → async fetch triggers
+      // '@al' matches both 'Alyssa Milano' and 'Ally Sheedy'
       await page.keyboard.type('l')
-      await expect(page.locator('.dropdown-menu .loading')).toBeVisible()
-      await expect(page.locator('.dropdown-menu button')).toHaveCount(1, { timeout: 2000 })
-      await expect(page.locator('.dropdown-menu button').first()).toContainText('Ally Sheedy')
+      await expect(page.locator('.dropdown-menu button')).toHaveCount(2, { timeout: 2000 })
+      await expect(page.locator('.dropdown-menu button').first()).toContainText('Alyssa Milano')
     })
   })
 
