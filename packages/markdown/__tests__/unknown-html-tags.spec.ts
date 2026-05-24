@@ -92,4 +92,15 @@ describe('MarkdownManager unrecognized HTML tags', () => {
       expect(text).not.toContain('</span>')
     })
   })
+
+  it('does not flag hyphenated custom elements as unrecognized', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    // Hyphenated tag names are valid custom elements per the HTML spec – the
+    // browser constructs them as HTMLElement, not HTMLUnknownElement.
+    const doc = manager.parse('<my-mention></my-mention>')
+    const text = collectText(doc)
+    expect(text).not.toContain('<my-mention>')
+    expect(text).not.toContain('</my-mention>')
+  })
 })
