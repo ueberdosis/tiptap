@@ -1,4 +1,4 @@
-import type { Editor } from '@tiptap/core'
+import { type Editor } from '@tiptap/core'
 import { getSelectionRanges, NodeRangeSelection } from '@tiptap/extension-node-range'
 import type { Node } from '@tiptap/pm/model'
 import { type SelectionRange, NodeSelection } from '@tiptap/pm/state'
@@ -143,6 +143,10 @@ export function dragHandler(
   const dragImageX = getDragImageOffset(direction, wrapperRect.width)
 
   event.dataTransfer.setDragImage(wrapper, dragImageX, 0)
+
+  const { dom, text } = view.serializeForClipboard(slice)
+  event.dataTransfer.setData('text/html', dom.innerHTML)
+  event.dataTransfer.setData('text/plain', text)
 
   let cleanedUp = false
 
