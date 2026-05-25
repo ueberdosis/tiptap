@@ -151,4 +151,47 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     expect(text).not.toContain('<something-with-hyphen>')
     expect(text).not.toContain('</something-with-hyphen>')
   })
+
+  it('recognizes non-standard tags listed in knownHtmlTags option', () => {
+    // Pass `knownHtmlTags` instead of a schema extension to verify the
+    // option bypasses the HTMLUnknownElement check.
+    const manager = new MarkdownManager({
+      extensions: basicExtensions,
+      knownHtmlTags: ['something'],
+    })
+
+    const doc = manager.parse('<something>happy</something>')
+    const text = collectText(doc)
+    expect(text).toContain('happy')
+    expect(text).not.toContain('<something>')
+    expect(text).not.toContain('</something>')
+  })
+
+  it('recognizes knownHtmlTags case-insensitively', () => {
+    const manager = new MarkdownManager({
+      extensions: basicExtensions,
+      knownHtmlTags: ['SOMETHING'],
+    })
+
+    const doc = manager.parse('<SOMETHING>happy</SOMETHING>')
+    const text = collectText(doc)
+    expect(text).toContain('happy')
+    expect(text).not.toContain('<SOMETHING>')
+    expect(text).not.toContain('</SOMETHING>')
+  })
+
+  it('preserves angle-bracket placeholders like <insert PR number here> as literal text', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    // Common real-world pattern: angle brackets used as placeholders.
+    // Marked treats this as an HTML token, but it's not a real element.
+    // The manager should preserve the full string as literal text.
+    const md = 'The bug was fixed in <insert PR number here> - please review it'
+    const doc = manager.parse(md)
+
+    const text = collectText(doc)
+    expect(text).toContain('<insert PR number here>')
+    expect(text).toContain('The bug was fixed in')
+    expect(text).toContain('please review it')
+  })
 })

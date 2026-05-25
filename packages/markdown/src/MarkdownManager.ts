@@ -72,6 +72,12 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /**
+   * User-provided tag names that should always be treated as recognized
+   * HTML, regardless of whether the browser classifies them as unknown.
+   * Useful for server-side environments where there is no DOM API.
+   */
+  private knownHtmlTags: Set<string> = new Set()
 
   /**
    * Create a MarkdownManager.
@@ -84,11 +90,14 @@ export class MarkdownManager {
     marked?: typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
+    /** Tag names to treat as recognized HTML even without a DOM API (e.g. server-side). */
+    knownHtmlTags?: string[]
     extensions: AnyExtension[]
   }) {
     this.markedInstance = options?.marked ?? marked
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
+    this.knownHtmlTags = new Set((options?.knownHtmlTags || []).map(t => t.toLowerCase()))
     this.baseExtensions = options?.extensions || []
 
     if (options?.markedOptions && typeof this.markedInstance.setOptions === 'function') {
@@ -983,11 +992,11 @@ export class MarkdownManager {
         return false
       }
 
-      // If the tag is declared by a registered extension's parseDOM rule,
-      // treat it as recognized even though the browser doesn't know it.
       const tagName = el.tagName.toLowerCase()
 
-      return !schemaTags.has(tagName)
+      // Recognized if declared by a registered extension's parseDOM rule
+      // or listed in the user-provided knownHtmlTags option.
+      return !schemaTags.has(tagName) && !this.knownHtmlTags.has(tagName)
     })
   }
 

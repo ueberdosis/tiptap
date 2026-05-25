@@ -84,6 +84,19 @@ export type MarkdownExtensionOptions = {
    * See the [marked documentation](https://marked.js.org/using_advanced#options) for available options.
    */
   markedOptions?: Parameters<typeof marked.setOptions>[0]
+
+  /**
+   * Tag names to treat as recognized HTML elements even without a DOM API
+   * (e.g. server-side rendering). Useful for custom elements that are
+   * handled by registered ProseMirror extensions but use non-hyphenated,
+   * non-standard tag names.
+   *
+   * Tag names are compared case-insensitively.
+   *
+   * @example
+   *   new Markdown({ knownHtmlTags: ['mood', 'reaction'] })
+   */
+  knownHtmlTags?: string[]
 }
 
 export type MarkdownExtensionStorage = {
@@ -176,6 +189,7 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       indentation: this.options.indentation,
       marked: this.options.marked,
       markedOptions: this.options.markedOptions,
+      knownHtmlTags: this.options.knownHtmlTags,
       extensions: this.editor.extensionManager.baseExtensions,
     })
 
