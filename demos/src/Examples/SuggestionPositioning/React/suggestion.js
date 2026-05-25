@@ -1,6 +1,7 @@
-import { computePosition, flip as floatingFlip } from '@floating-ui/dom'
+import { flip, shift } from '@floating-ui/dom'
 import { ReactRenderer } from '@tiptap/react'
 
+import { updatePosition } from '../../../utils/updatePosition.js'
 import DropdownList from './DropdownList.jsx'
 
 const items = [
@@ -16,38 +17,29 @@ const items = [
   { id: 'jack', label: 'Jack Anderson' },
 ]
 
-function reposition(props, element) {
+function reposition(props, element, { hideBeforeMeasure = false } = {}) {
   if (!props.clientRect) {
     return
   }
 
-  const virtualElement = {
-    getBoundingClientRect: () => props.clientRect(),
-  }
-
-  const { placement, offset: offsetOption, flip } = props
-
-  // Build Floating UI middleware from the suggestion props
-  const middleware = []
-
-  if (flip) {
-    middleware.push(floatingFlip())
-  }
-
-  computePosition(virtualElement, element, {
-    placement,
-    strategy: 'absolute',
-    middleware,
-  }).then(({ x, y, strategy }) => {
-    // Apply offset manually since we don't always add offset middleware
-    const offsetX = offsetOption?.mainAxis ?? 0
-    const offsetY = offsetOption?.crossAxis ?? 0
-
+  if (hideBeforeMeasure) {
     Object.assign(element.style, {
-      left: `${x + offsetX}px`,
-      top: `${y + offsetY}px`,
-      position: strategy === 'fixed' ? 'fixed' : 'absolute',
+      left: '0px',
+      top: '0px',
+      visibility: 'hidden',
       width: 'max-content',
+    })
+  }
+
+  requestAnimationFrame(() => {
+    updatePosition({
+      clientRect: props.clientRect(),
+      element,
+      placement: props.floatingUi.placement,
+      strategy: props.floatingUi.strategy,
+      middleware: props.floatingUi.middleware,
+    }).then(() => {
+      Object.assign(element.style, { visibility: 'visible' })
     })
   })
 }
@@ -59,10 +51,23 @@ export default {
 
   offset: { mainAxis: 8 },
 
-  flip: true,
+  flip: false,
+
+  floatingUi: {
+    strategy: 'fixed',
+    middleware: [flip({ padding: 8 }), shift({ padding: 8 })],
+  },
 
   render: () => {
     let component
+    let rafId = 0
+
+    function scheduleReposition(props, hideBeforeMeasure = false) {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        reposition(props, component.element, { hideBeforeMeasure })
+      })
+    }
 
     return {
       onStart: props => {
@@ -75,14 +80,22 @@ export default {
           return
         }
 
+        Object.assign(component.element.style, {
+          left: '0px',
+          top: '0px',
+          position: props.floatingUi.strategy,
+          visibility: 'hidden',
+          width: 'max-content',
+        })
+
         document.body.appendChild(component.element)
 
-        reposition(props, component.element)
+        scheduleReposition(props, true)
       },
 
       onUpdate(props) {
         component.updateProps(props)
-        reposition(props, component.element)
+        scheduleReposition(props)
       },
 
       onBeforeUpdate(props) {
@@ -100,6 +113,7 @@ export default {
       },
 
       onExit() {
+        cancelAnimationFrame(rafId)
         component.element.remove()
         component.destroy()
       },

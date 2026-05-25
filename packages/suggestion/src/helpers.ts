@@ -3,6 +3,7 @@ import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { SuggestionMatch } from './findSuggestionMatch.js'
+import { createSuggestionFloatingUiConfig } from './plugin/floating-ui.js'
 import type { SuggestionOptions, SuggestionPluginState, SuggestionProps } from './types.js'
 
 /**
@@ -118,12 +119,20 @@ export function dispatchExit({
   editor,
   command,
   renderer,
+  placement,
+  offset,
+  flip,
+  floatingUi,
 }: {
   view: EditorView
   pluginKeyRef: PluginKey
   editor: Editor
   command: NonNullable<SuggestionOptions['command']>
   renderer: ReturnType<NonNullable<SuggestionOptions['render']>> | undefined
+  placement: NonNullable<SuggestionOptions['placement']>
+  offset: NonNullable<SuggestionOptions['offset']>
+  flip: NonNullable<SuggestionOptions['flip']>
+  floatingUi?: SuggestionOptions['floatingUi']
 }): void {
   try {
     const pluginState: SuggestionPluginState = pluginKeyRef.getState(view.state) as any
@@ -143,9 +152,15 @@ export function dispatchExit({
       decorationNode,
       clientRect: clientRectFor(editor, view, decorationNode, pluginKeyRef),
       loading: false,
-      placement: 'bottom-start',
-      offset: { mainAxis: 4, crossAxis: 0 },
-      flip: true,
+      placement,
+      offset: { mainAxis: offset?.mainAxis ?? 4, crossAxis: offset?.crossAxis ?? 0 },
+      flip,
+      floatingUi: createSuggestionFloatingUiConfig({
+        placement,
+        offset,
+        flip,
+        floatingUi,
+      }),
     }
 
     renderer?.onExit?.(exitProps)

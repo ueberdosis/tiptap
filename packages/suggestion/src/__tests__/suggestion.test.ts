@@ -1,3 +1,4 @@
+import type { Middleware } from '@floating-ui/dom'
 import { Editor, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it, vi } from 'vitest'
@@ -1029,6 +1030,58 @@ describe('suggestion positioning options', () => {
         flip: true,
       }),
     )
+
+    editor.destroy()
+  })
+
+  it('should pass through floatingUi config and middleware', async () => {
+    const customMiddleware = {
+      name: 'custom',
+      fn: vi.fn(() => ({ x: 0, y: 0 })),
+    } as Middleware
+
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-floating-ui',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            placement: 'top-start',
+            offset: { mainAxis: 8, crossAxis: 4 },
+            flip: false,
+            floatingUi: {
+              strategy: 'fixed',
+              middleware: [customMiddleware],
+            },
+            render: () => ({ onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(onStart).toHaveBeenCalledWith(
+      expect.objectContaining({
+        floatingUi: expect.objectContaining({
+          placement: 'top-start',
+          strategy: 'fixed',
+        }),
+      }),
+    )
+
+    const floatingUi = onStart.mock.calls[0][0].floatingUi
+    expect(floatingUi.middleware).toHaveLength(2)
+    expect(floatingUi.middleware).toEqual(expect.arrayContaining([customMiddleware]))
 
     editor.destroy()
   })

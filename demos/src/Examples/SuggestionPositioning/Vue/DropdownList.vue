@@ -5,6 +5,7 @@
       :class="{ 'is-selected': index === selectedIndex }"
       v-for="(item, index) in items"
       :key="item.id"
+      @mousedown.prevent
       @click="selectItem(index)"
     >
       {{ item.label }}

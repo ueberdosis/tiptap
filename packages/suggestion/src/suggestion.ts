@@ -16,6 +16,8 @@ import { createSuggestionView } from './plugin/view.js'
 import type { SuggestionOptions } from './types.js'
 
 export type {
+  SuggestionFloatingUiConfig,
+  SuggestionFloatingUiOptions,
   SuggestionKeyDownProps,
   SuggestionOptions,
   SuggestionPlacement,
@@ -56,6 +58,7 @@ export function Suggestion<I = any, TSelected = any>({
   offset: offsetOption = {},
   container,
   flip = true,
+  floatingUi,
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
@@ -79,7 +82,17 @@ export function Suggestion<I = any, TSelected = any>({
   }
 
   const dispatchExit = (view: EditorView) =>
-    dispatchExitHelper({ view, pluginKeyRef: pluginKey, editor, command, renderer })
+    dispatchExitHelper({
+      view,
+      pluginKeyRef: pluginKey,
+      editor,
+      command,
+      renderer,
+      placement,
+      offset: offsetOption,
+      flip,
+      floatingUi,
+    })
 
   return new Plugin({
     key: pluginKey,
@@ -97,6 +110,7 @@ export function Suggestion<I = any, TSelected = any>({
         offset: offsetOption,
         container,
         flip,
+        floatingUi,
         command,
         clientRectFor,
       }),

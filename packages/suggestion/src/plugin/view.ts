@@ -2,8 +2,15 @@ import type { Editor } from '@tiptap/core'
 import type { EditorState, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import type { PluginState, SuggestionOptions, SuggestionPlacement, SuggestionProps } from '../types.js'
+import type {
+  PluginState,
+  SuggestionFloatingUiOptions,
+  SuggestionOptions,
+  SuggestionPlacement,
+  SuggestionProps,
+} from '../types.js'
 import { createSuggestionAsyncRequestManager } from './async.js'
+import { createSuggestionFloatingUiConfig } from './floating-ui.js'
 
 export interface CreateSuggestionViewOptions {
   editor: Editor
@@ -17,6 +24,7 @@ export interface CreateSuggestionViewOptions {
   offset: { mainAxis?: number; crossAxis?: number }
   container?: string | HTMLElement
   flip: boolean
+  floatingUi?: SuggestionFloatingUiOptions
   command: NonNullable<SuggestionOptions['command']>
   clientRectFor: (view: EditorView, decorationNode: Element | null) => () => DOMRect | null
 }
@@ -45,11 +53,18 @@ export function createSuggestionView({
   offset: offsetOption,
   container,
   flip,
+  floatingUi,
   command,
   clientRectFor,
 }: CreateSuggestionViewOptions) {
   let props: SuggestionProps | undefined
   const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({ editor, items })
+  const floatingUiConfig = createSuggestionFloatingUiConfig({
+    placement,
+    offset: offsetOption,
+    flip,
+    floatingUi,
+  })
 
   function dispatchStateUpdate(state: 'started' | 'updated' | 'stopped', dispatchProps: SuggestionProps) {
     switch (state) {
@@ -114,6 +129,7 @@ export function createSuggestionView({
         offset: { mainAxis: offsetOption.mainAxis ?? 4, crossAxis: offsetOption.crossAxis ?? 0 },
         container,
         flip,
+        floatingUi: floatingUiConfig,
       }
 
       if (currentState === 'started') {
@@ -168,7 +184,6 @@ export function createSuggestionView({
 
       if (currentState === 'updated') {
         dispatchStateUpdate(currentState, props)
-        
       }
     },
 

@@ -1,3 +1,4 @@
+import type { Middleware } from '@floating-ui/dom'
 import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
@@ -5,6 +6,17 @@ import type { EditorView } from '@tiptap/pm/view'
 import type { findSuggestionMatch as defaultFindSuggestionMatch, SuggestionMatch } from './findSuggestionMatch.js'
 
 export type SuggestionPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+
+export type SuggestionFloatingUiOptions = {
+  strategy?: 'absolute' | 'fixed'
+  middleware?: Middleware[]
+}
+
+export type SuggestionFloatingUiConfig = {
+  placement: SuggestionPlacement
+  strategy: 'absolute' | 'fixed'
+  middleware: Middleware[]
+}
 
 export type PluginState = {
   active: boolean
@@ -187,6 +199,13 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   flip?: boolean
 
   /**
+   * Additional Floating UI options and middleware passed through to the renderer.
+   * The plugin keeps ownership of the anchor and placement, but consumers can
+   * append custom middleware here.
+   */
+  floatingUi?: SuggestionFloatingUiOptions
+
+  /**
    * A function that returns the suggestion items in form of an array.
    * @param props The props object.
    * @param props.editor The editor instance.
@@ -290,6 +309,11 @@ export interface SuggestionProps<I = any, TSelected = any> {
    * @default true
    */
   flip: boolean
+
+  /**
+   * Resolved Floating UI config for direct use with `computePosition()`.
+   */
+  floatingUi: SuggestionFloatingUiConfig
 
   /**
    * Whether the items are currently being loaded.

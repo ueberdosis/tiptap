@@ -1,6 +1,7 @@
-import { computePosition, flip as floatingFlip } from '@floating-ui/dom'
+import { flip, shift } from '@floating-ui/dom'
 import { VueRenderer } from '@tiptap/vue-3'
 
+import { updatePosition } from '../../../utils/updatePosition.js'
 import DropdownList from './DropdownList.vue'
 
 const items = [
@@ -23,41 +24,45 @@ export default {
 
   offset: { mainAxis: 8 },
 
-  flip: true,
+  flip: false,
+
+  floatingUi: {
+    strategy: 'fixed',
+    middleware: [flip({ padding: 8 }), shift({ padding: 8 })],
+  },
 
   render: () => {
     let component
+    let rafId = 0
 
-    function reposition(props) {
+    function reposition(props, { hideBeforeMeasure = false } = {}) {
       if (!props.clientRect || !component?.element) {
         return
       }
 
-      const virtualElement = {
-        getBoundingClientRect: () => props.clientRect(),
-      }
+      cancelAnimationFrame(rafId)
 
-      const { placement, offset: offsetOption, flip } = props
-
-      const middleware = []
-
-      if (flip) {
-        middleware.push(floatingFlip())
-      }
-
-      computePosition(virtualElement, component.element, {
-        placement,
-        strategy: 'absolute',
-        middleware,
-      }).then(({ x, y, strategy }) => {
-        const offsetX = offsetOption?.mainAxis ?? 0
-        const offsetY = offsetOption?.crossAxis ?? 0
-
+      if (hideBeforeMeasure) {
         Object.assign(component.element.style, {
-          left: `${x + offsetX}px`,
-          top: `${y + offsetY}px`,
-          position: strategy === 'fixed' ? 'fixed' : 'absolute',
+          left: '0px',
+          top: '0px',
+          position: props.floatingUi.strategy,
+          visibility: 'hidden',
           width: 'max-content',
+        })
+      }
+
+      rafId = requestAnimationFrame(() => {
+        updatePosition({
+          clientRect: props.clientRect(),
+          element: component.element,
+          placement: props.floatingUi.placement,
+          strategy: props.floatingUi.strategy,
+          middleware: props.floatingUi.middleware,
+        }).then(() => {
+          Object.assign(component.element.style, {
+            visibility: 'visible',
+          })
         })
       })
     }
@@ -77,8 +82,16 @@ export default {
           return
         }
 
+        Object.assign(component.element.style, {
+          left: '0px',
+          top: '0px',
+          position: props.floatingUi.strategy,
+          visibility: 'hidden',
+          width: 'max-content',
+        })
+
         document.body.appendChild(component.element)
-        reposition(props)
+        reposition(props, { hideBeforeMeasure: true })
       },
 
       onUpdate(props) {
@@ -101,6 +114,7 @@ export default {
       },
 
       onExit() {
+        cancelAnimationFrame(rafId)
         component.element.remove()
         component.destroy()
       },

@@ -53,6 +53,7 @@ export default props => {
         <button
           className={index === selectedIndex ? 'is-selected' : ''}
           key={item.id}
+          onMouseDown={event => event.preventDefault()}
           onClick={() => selectItem(index)}
         >
           {item.label}
