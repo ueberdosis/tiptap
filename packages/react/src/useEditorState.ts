@@ -80,11 +80,21 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
     }
   }
 
+  private notify() {
+    this.transactionNumber += 1
+    this.subscribers.forEach(callback => callback())
+  }
+
   /**
    * Watch the editor instance for changes.
    */
   watch(nextEditor: Editor | null): undefined | (() => void) {
+    const previousEditor = this.editor
+
     this.editor = nextEditor as TEditor
+    if (previousEditor !== nextEditor) {
+      this.notify()
+    }
 
     if (this.editor) {
       /**
@@ -93,8 +103,7 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
        * This could be more efficient, but it's a good trade-off for now.
        */
       const fn = () => {
-        this.transactionNumber += 1
-        this.subscribers.forEach(callback => callback())
+        this.notify()
       }
 
       const currentEditor = this.editor
@@ -153,14 +162,28 @@ export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
+  const selector = (snapshot: EditorStateSnapshot<Editor | null>) => {
+    if (snapshot.editor === null) {
+      return null
+    }
+
+    return options.selector(snapshot as EditorStateSnapshot<Editor>)
+  }
+  const equalityFn = (a: TSelectorResult | null, b: TSelectorResult | null) => {
+    if (a === null || b === null) {
+      return a === b
+    }
+
+    return (options.equalityFn ?? deepEqual)(a, b)
+  }
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
     editorStateManager.subscribe,
     editorStateManager.getSnapshot,
     editorStateManager.getServerSnapshot,
-    options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
-    options.equalityFn ?? deepEqual,
+    selector,
+    equalityFn,
   )
 
   useIsomorphicLayoutEffect(() => {
