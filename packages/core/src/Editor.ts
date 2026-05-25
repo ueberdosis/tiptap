@@ -230,22 +230,52 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * An object of all registered commands.
+   *
+   * After `destroy()` the underlying `commandManager` is released, so this returns a no-op
+   * proxy whose properties resolve to functions returning `false`. This prevents
+   * `TypeError: Cannot read properties of null (reading 'commands')` when stale async
+   * callbacks (effects, subscriptions, scheduled tasks) race the editor lifecycle.
    */
   public get commands(): SingleCommands {
+    if (!this.commandManager) {
+      return new Proxy({}, { get: () => () => false }) as SingleCommands
+    }
     return this.commandManager.commands
   }
 
   /**
    * Create a command chain to call multiple commands at once.
+   *
+   * After `destroy()` returns a no-op chain where every chainable method returns the
+   * chain itself and `.run()` returns `false`.
    */
   public chain(): ChainedCommands {
+    if (!this.commandManager) {
+      const noopChain: ChainedCommands = new Proxy(
+        { run: () => false },
+        {
+          get(target: { run: () => boolean }, prop: string | symbol) {
+            if (prop === 'run') {
+              return target.run
+            }
+            return () => noopChain
+          },
+        },
+      ) as unknown as ChainedCommands
+      return noopChain
+    }
     return this.commandManager.chain()
   }
 
   /**
    * Check if a command or a command chain can be executed. Without executing it.
+   *
+   * After `destroy()` returns a no-op proxy whose checks always resolve to `false`.
    */
   public can(): CanCommands {
+    if (!this.commandManager) {
+      return new Proxy({}, { get: () => () => false }) as CanCommands
+    }
     return this.commandManager.can()
   }
 
@@ -746,18 +776,30 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   /**
    * Get the document as HTML.
+   *
+   * After `destroy()` the schema is released; returns an empty string instead of
+   * throwing on `getHTMLFromFragment(..., null)`.
    */
   public getHTML(): string {
+    if (!this.schema) {
+      return ''
+    }
     return getHTMLFromFragment(this.state.doc.content, this.schema)
   }
 
   /**
    * Get the document as text.
+   *
+   * After `destroy()` the schema is released; returns an empty string instead of
+   * throwing inside `getTextSerializersFromSchema(null)`.
    */
   public getText(options?: {
     blockSeparator?: string
     textSerializers?: Record<string, TextSerializer>
   }): string {
+    if (!this.schema) {
+      return ''
+    }
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {
