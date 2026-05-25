@@ -125,17 +125,30 @@ describe('MarkdownManager unrecognized HTML tags', () => {
       renderHTML: () => ['something', 0],
       parseHTML: () => [{ tag: 'something' }],
     })
+    const SomethingWithHyphen = Node.create({
+      name: 'something-with-hyphen',
+      group: 'inline',
+      inline: true,
+      content: 'text*',
+      renderHTML: () => ['something-with-hyphen', 0],
+      parseHTML: () => [{ tag: 'something-with-hyphen' }],
+    })
 
-    const manager = new MarkdownManager({ extensions: [...basicExtensions, Something] })
+    const manager = new MarkdownManager({ extensions: [...basicExtensions, Something, SomethingWithHyphen] })
 
     // `<something>` is not a standard HTML tag (no hyphen), so the browser would
     // normally create an HTMLUnknownElement. However, because the schema has
     // a registered extension declaring parseDOM `{ tag: 'something' }`, the
     // manager should treat it as a recognized element.
-    const doc = manager.parse('<something>happy</something>')
+    const doc = manager.parse(
+      '<something>happy</something><something attribute="a">happy</something><something-with-hyphen attribute="a">joyful</something-with-hyphen>',
+    )
     const text = collectText(doc)
     expect(text).toContain('happy')
+    expect(text).toContain('joyful')
     expect(text).not.toContain('<something>')
     expect(text).not.toContain('</something>')
+    expect(text).not.toContain('<something-with-hyphen>')
+    expect(text).not.toContain('</something-with-hyphen>')
   })
 })
