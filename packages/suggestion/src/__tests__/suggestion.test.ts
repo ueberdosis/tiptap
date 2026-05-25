@@ -501,8 +501,10 @@ describe('suggestion initialItems', () => {
 
     // onBeforeStart should receive initialItems
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
-    // onStart should receive async-resolved items
-    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ items: resolvedItems }))
+    // onStart mounts immediately with the initial items while loading
+    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ items: initialItems, loading: true }))
+    // onUpdate receives the async-resolved items
+    expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ items: resolvedItems }))
     // items() should still have been called
     expect(items).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -571,8 +573,10 @@ describe('suggestion loading state', () => {
 
     // onBeforeStart fires before items() resolves → loading should be true
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
-    // onStart fires after items() resolves → loading should be false
-    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
+    // onStart fires immediately with loading enabled
+    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ loading: true }))
+    // onUpdate fires after items() resolves → loading should be false
+    expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
 
     // Type another char to trigger an update
     editor.chain().insertContent('a').run()
@@ -590,6 +594,7 @@ describe('suggestion loading state', () => {
   it('should recover when items() rejects', async () => {
     const items = vi.fn().mockRejectedValue(new Error('boom'))
     const onBeforeStart = vi.fn()
+    const onUpdate = vi.fn()
     const onStart = vi.fn()
 
     const MentionExtension = Extension.create({
@@ -600,7 +605,7 @@ describe('suggestion loading state', () => {
             editor: this.editor,
             char: '@',
             items,
-            render: () => ({ onBeforeStart, onStart }),
+            render: () => ({ onBeforeStart, onStart, onUpdate }),
           }),
         ]
       },
@@ -617,7 +622,7 @@ describe('suggestion loading state', () => {
 
     expect(items).toHaveBeenCalledTimes(1)
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
-    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
+    expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
 
     editor.destroy()
   })

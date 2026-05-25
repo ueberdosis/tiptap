@@ -1,4 +1,4 @@
-import type { EditorState , PluginKey } from '@tiptap/pm/state'
+import type { EditorState, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 

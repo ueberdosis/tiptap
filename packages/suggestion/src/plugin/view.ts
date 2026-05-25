@@ -23,8 +23,15 @@ export interface CreateSuggestionViewOptions {
 
 /**
  * Creates the `view` object for the suggestion ProseMirror plugin.
+ *
  * Manages the async lifecycle: tracks state transitions, calls renderer hooks,
  * fetches items with debounce and AbortController support.
+ *
+ * 1. Tracks plugin state transitions (started, updated, stopped) to determine when to call renderer hooks.
+ * 2. Calls `onBeforeStart`, `onBeforeUpdate`, `onStart` before fetching to allow the renderer to prepare for first render
+ * 3. Manages async fetching of suggestion items with support for debouncing and aborting in-flight requests
+ * 4. Calls `onUpdate` after fetching new items to update the renderer with the latest data
+ * 5. At the end calls a final `onExit` or `onUpdate` to allow the renderer to clean up or finalize the state
  */
 export function createSuggestionView({
   editor,
@@ -44,6 +51,22 @@ export function createSuggestionView({
   let props: SuggestionProps | undefined
   const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({ editor, items })
 
+  function dispatchStateUpdate(state: 'started' | 'updated' | 'stopped', dispatchProps: SuggestionProps) {
+    switch (state) {
+      case 'started':
+        renderer?.onStart?.(dispatchProps)
+        break
+      case 'updated':
+        renderer?.onUpdate?.(dispatchProps)
+        break
+      case 'stopped':
+        renderer?.onExit?.(dispatchProps)
+        break
+      default:
+        break
+    }
+  }
+
   return {
     update: async (view: EditorView, prevState: EditorState) => {
       const prev = pluginKey.getState(prevState)
@@ -53,26 +76,23 @@ export function createSuggestionView({
         return
       }
 
-      // See how the state changed
-      const moved = prev.active && next.active && prev.range.from !== next.range.from
-      const started = !prev.active && next.active
-      const stopped = prev.active && !next.active
-      const changed = !started && !stopped && prev.query !== next.query
+      let currentState: 'started' | 'updated' | 'stopped' | null = null
 
-      const handleStart = started || (moved && changed)
-      const handleChange = changed || moved
-      const handleExit = stopped
-
-      // Cancel when suggestion isn't active
-      if (!handleStart && !handleChange && !handleExit) {
+      if (!prev.active && next.active) {
+        currentState = 'started'
+      } else if (prev.active && !next.active) {
+        currentState = 'stopped'
+      } else if (next.active) {
+        currentState = 'updated'
+      } else {
         return
       }
 
-      const state = handleExit && !handleStart ? prev : next
+      const state = currentState === 'stopped' ? prev : next
       const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
 
       const exceedsMinQueryLength = minQueryLength === 0 || (state.query ? state.query.length >= minQueryLength : false)
-      const willFetch = (handleChange || handleStart) && exceedsMinQueryLength
+      const willFetch = (currentState === 'started' || currentState === 'updated') && exceedsMinQueryLength
 
       props = {
         editor,
@@ -96,15 +116,21 @@ export function createSuggestionView({
         flip,
       }
 
-      if (handleStart) {
+      if (currentState === 'started') {
         renderer?.onBeforeStart?.(props)
       }
 
-      if (handleChange) {
+      if (currentState === 'updated') {
         renderer?.onBeforeUpdate?.(props)
       }
 
-      if (handleChange || handleStart) {
+      // we run the start before we fetch
+      // to allow for the component to render immediately
+      if (currentState === 'started') {
+        dispatchStateUpdate(currentState, props)
+      }
+
+      if (currentState === 'started' || currentState === 'updated') {
         if (!willFetch) {
           // Abort any in-flight request so stale results don't overwrite
           asyncRequest.abort()
@@ -112,11 +138,8 @@ export function createSuggestionView({
         } else {
           // update the renderer with loading state before we start the async fetch
           props = { ...props, items: initialItems ?? [], loading: true }
-          if (handleStart) {
-            renderer?.onStart?.(props)
-          } else {
-            renderer?.onUpdate?.(props)
-          }
+          currentState = 'updated'
+          dispatchStateUpdate(currentState, props)
 
           const result = await asyncRequest.fetch(state.query || '', debounce)
 
@@ -138,16 +161,14 @@ export function createSuggestionView({
         }
       }
 
-      if (handleExit) {
-        renderer?.onExit?.(props)
+      if (currentState === 'stopped') {
+        dispatchStateUpdate(currentState, props)
+        return
       }
 
-      if (handleChange) {
-        renderer?.onUpdate?.(props)
-      }
-
-      if (handleStart) {
-        renderer?.onStart?.(props)
+      if (currentState === 'updated') {
+        dispatchStateUpdate(currentState, props)
+        
       }
     },
 

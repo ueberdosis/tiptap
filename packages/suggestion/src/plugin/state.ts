@@ -1,7 +1,7 @@
 import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 
-import type { findSuggestionMatch as defaultFindSuggestionMatch,SuggestionMatch  } from '../findSuggestionMatch.js'
+import type { findSuggestionMatch as defaultFindSuggestionMatch, SuggestionMatch } from '../findSuggestionMatch.js'
 import type { SuggestionOptions, SuggestionPluginState } from '../types.js'
 
 export interface CreateSuggestionStateOptions {
