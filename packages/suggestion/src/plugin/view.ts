@@ -1,10 +1,9 @@
-import type { Editor, Range } from '@tiptap/core'
+import type { Editor } from '@tiptap/core'
 import type { EditorState, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import type { SuggestionOptions, SuggestionPlacement, SuggestionProps } from '../types.js'
-
-type PluginState = { active: boolean; range: Range; query: string | null; text: string | null; decorationId?: string }
+import type { PluginState, SuggestionOptions, SuggestionPlacement, SuggestionProps } from '../types.js'
+import { createSuggestionAsyncRequestManager } from './async.js'
 
 export interface CreateSuggestionViewOptions {
   editor: Editor
@@ -42,32 +41,8 @@ export function createSuggestionView({
   command,
   clientRectFor,
 }: CreateSuggestionViewOptions) {
-  let abortController: AbortController | null = null
-  let debounceTimer: ReturnType<typeof setTimeout> | null = null
-  let debounceResolve: (() => void) | null = null
   let props: SuggestionProps | undefined
-
-  const clearDebounceTimer = () => {
-    if (debounceTimer !== null) {
-      clearTimeout(debounceTimer)
-      debounceTimer = null
-    }
-
-    debounceResolve?.()
-    debounceResolve = null
-  }
-
-  const waitForDebounce = (delay: number) => {
-    return new Promise<void>(resolve => {
-      debounceResolve = resolve
-      debounceTimer = setTimeout(() => {
-        debounceTimer = null
-        const pendingResolve = debounceResolve
-        debounceResolve = null
-        pendingResolve?.()
-      }, delay)
-    })
-  }
+  const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({ editor, items })
 
   return {
     update: async (view: EditorView, prevState: EditorState) => {
@@ -132,85 +107,34 @@ export function createSuggestionView({
       if (handleChange || handleStart) {
         if (!willFetch) {
           // Abort any in-flight request so stale results don't overwrite
-          abortController?.abort()
-          clearDebounceTimer()
-          abortController = null
+          asyncRequest.abort()
           props = { ...props, items: initialItems ?? [], loading: false }
         } else {
-          props = { ...props, items: initialItems ?? [], loading: true }
-
           // update the renderer with loading state before we start the async fetch
+          props = { ...props, items: initialItems ?? [], loading: true }
           if (handleStart) {
             renderer?.onStart?.(props)
           } else {
             renderer?.onUpdate?.(props)
           }
 
-          // Abort any in-flight fetch before starting a new one
-          abortController?.abort()
-          clearDebounceTimer()
-          abortController = new AbortController()
+          const result = await asyncRequest.fetch(state.query || '', debounce)
 
-          // Snapshot the controller so we can detect if a concurrent
-          // update supersedes us during the debounce delay.
-          const controller = abortController
-
-          const doFetch = async () => {
-            if (!props?.editor) {
-              return false
-            }
-
-            if (abortController !== controller || controller.signal.aborted) {
-              return false
-            }
-
-            try {
-              const result = await items({
-                editor,
-                query: state.query || '',
-                signal: controller.signal,
-              })
-
-              // Re-check: items() may have taken a while and the controller
-              // could have been aborted by a newer keystroke in the meantime.
-              if (abortController !== controller || controller.signal.aborted) {
-                return false
-              }
-
-              props = {
-                ...props,
-                items: result,
-                loading: false,
-              }
-              return true
-            } catch {
-              if (abortController !== controller || controller.signal.aborted) {
-                return false
-              }
-
-              props = {
-                ...props,
-                loading: false,
-              }
-              return true
-            }
-          }
-
-          if (debounce > 0) {
-            // Wrap the entire fetch inside the debounce delay so items()
-            // is only called after the user stops typing.
-            await waitForDebounce(debounce)
-          }
-
-          if (abortController !== controller || controller.signal.aborted) {
+          if (result.status === 'aborted') {
             return
           }
 
-          const didFetch = await doFetch()
-
-          if (!didFetch) {
-            return
-          }
+          props =
+            result.status === 'resolved'
+              ? {
+                  ...props,
+                  items: result.items,
+                  loading: false,
+                }
+              : {
+                  ...props,
+                  loading: false,
+                }
         }
       }
 
@@ -228,9 +152,7 @@ export function createSuggestionView({
     },
 
     destroy: () => {
-      abortController?.abort()
-      clearDebounceTimer()
-      abortController = null
+      asyncRequest.abort()
 
       if (!props) {
         return

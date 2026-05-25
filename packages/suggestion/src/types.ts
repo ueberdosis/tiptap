@@ -2,9 +2,17 @@ import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import type { findSuggestionMatch as defaultFindSuggestionMatch,SuggestionMatch } from './findSuggestionMatch.js'
+import type { findSuggestionMatch as defaultFindSuggestionMatch, SuggestionMatch } from './findSuggestionMatch.js'
 
 export type SuggestionPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+
+export type PluginState = {
+  active: boolean
+  range: Range
+  query: string | null
+  text: string | null
+  decorationId?: string
+}
 
 export interface SuggestionOptions<I = any, TSelected = any> {
   /**
