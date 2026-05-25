@@ -18,7 +18,7 @@ const items = [
 ]
 
 function reposition(props, element, { hideBeforeMeasure = false } = {}) {
-  if (!props.clientRect) {
+  if (!props.editor) {
     return
   }
 
@@ -33,7 +33,7 @@ function reposition(props, element, { hideBeforeMeasure = false } = {}) {
 
   requestAnimationFrame(() => {
     updatePosition({
-      clientRect: props.clientRect(),
+      editor: props.editor,
       element,
       placement: props.floatingUi.placement,
       strategy: props.floatingUi.strategy,
@@ -75,10 +75,6 @@ export default {
           props,
           editor: props.editor,
         })
-
-        if (!props.clientRect) {
-          return
-        }
 
         Object.assign(component.element.style, {
           left: '0px',

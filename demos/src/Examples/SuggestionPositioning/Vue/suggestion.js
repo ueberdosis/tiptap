@@ -36,7 +36,7 @@ export default {
     let rafId = 0
 
     function reposition(props, { hideBeforeMeasure = false } = {}) {
-      if (!props.clientRect || !component?.element) {
+      if (!props.editor || !component?.element) {
         return
       }
 
@@ -54,7 +54,7 @@ export default {
 
       rafId = requestAnimationFrame(() => {
         updatePosition({
-          clientRect: props.clientRect(),
+          editor: props.editor,
           element: component.element,
           placement: props.floatingUi.placement,
           strategy: props.floatingUi.strategy,
@@ -77,10 +77,6 @@ export default {
           props,
           editor: props.editor,
         })
-
-        if (!props.clientRect) {
-          return
-        }
 
         Object.assign(component.element.style, {
           left: '0px',

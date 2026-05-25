@@ -1,5 +1,11 @@
 import { computePosition, flip, offset, shift } from '@floating-ui/dom'
-import { posToDOMRect } from '@tiptap/vue-3'
+
+function getSelectionClientRect(editor) {
+  const { from } = editor.state.selection
+  const { left, right, top, bottom } = editor.view.coordsAtPos(from)
+
+  return new DOMRect(left, top, right - left, bottom - top)
+}
 
 export function updatePosition({
   editor,
@@ -14,8 +20,7 @@ export function updatePosition({
     return
   }
 
-  const rect =
-    clientRect || (editor ? posToDOMRect(editor.view, editor.state.selection.from, editor.state.selection.to) : null)
+  const rect = clientRect || (editor ? getSelectionClientRect(editor) : null)
 
   if (!rect) {
     return

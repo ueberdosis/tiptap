@@ -20,10 +20,9 @@ export default {
   render: () => {
     let component
 
-    function repositionComponent(clientRect) {
+    function repositionComponent(editor) {
       updatePosition({
-        editor: null,
-        clientRect,
+        editor,
         element: component?.element,
         placement: 'bottom-start',
         strategy: 'absolute',
@@ -39,12 +38,12 @@ export default {
         })
 
         document.body.appendChild(component.element)
-        repositionComponent(props.clientRect())
+        repositionComponent(props.editor)
       },
 
       onUpdate(props) {
         component.updateProps(props)
-        repositionComponent(props.clientRect())
+        repositionComponent(props.editor)
       },
 
       onKeyDown(props) {
