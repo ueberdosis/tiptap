@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import { deepEqual } from 'fast-equals'
-import { useDebugValue, useEffect, useLayoutEffect, useState } from 'react'
+import { useCallback, useDebugValue, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
@@ -153,13 +153,32 @@ export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
+  const selectorRef = useRef(options.selector)
+  selectorRef.current = options.selector
+
+  const lastSelectedStateRef = useRef<TSelectorResult | undefined>(undefined)
+
+  const selector = useCallback((snapshot: EditorStateSnapshot<Editor | null>) => {
+    if (snapshot.editor === null) {
+      if (lastSelectedStateRef.current !== undefined) {
+        return lastSelectedStateRef.current
+      }
+
+      return null
+    }
+
+    const result = selectorRef.current(snapshot as EditorStateSnapshot<Editor>)
+    lastSelectedStateRef.current = result
+
+    return result
+  }, [])
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
     editorStateManager.subscribe,
     editorStateManager.getSnapshot,
     editorStateManager.getServerSnapshot,
-    options.selector as UseEditorStateOptions<TSelectorResult, Editor | null>['selector'],
+    selector,
     options.equalityFn ?? deepEqual,
   )
 
