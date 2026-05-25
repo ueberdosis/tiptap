@@ -2,7 +2,7 @@ name: Verify
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 9.15.4
+  PNPM_VERSION: 11.2.2
   PNPM_STORE_DIR: .pnpm-store
 
 concurrency:
