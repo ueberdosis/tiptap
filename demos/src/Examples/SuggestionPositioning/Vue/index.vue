@@ -39,7 +39,7 @@ export default {
       ],
       content: `
       <p>Try mentioning a colleague by typing <code>@</code>.</p>
-      <p>The suggestion popup tries to appear <strong>above</strong> the cursor (<code>placement: 'top-start'</code>). If there isn't enough space it flips below (<code>flip: true</code>).</p>
+      <p>The popup uses <code>floatingUi</code> options to control placement, strategy, and middleware while the suggestion plugin keeps ownership of the anchor. It stays pinned to the top-start side and shifts inside the viewport.</p>
     `,
     })
   },
