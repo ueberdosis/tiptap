@@ -212,7 +212,7 @@ export const Details = Node.create<DetailsOptions>({
             .command(({ tr }) => {
               const pos = getPos()
 
-              if (!pos) {
+              if (typeof pos !== 'number') {
                 return false
               }
 
