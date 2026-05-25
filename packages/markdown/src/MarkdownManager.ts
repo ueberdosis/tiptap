@@ -969,6 +969,11 @@ export class MarkdownManager {
    *   isUnrecognizedHtml('<br>')             // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
+    if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
+      // Can't reliably detect without DOMParser, so assume it's recognized to avoid false positives
+      return false
+    }
+
     const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
     const elements = dom.querySelectorAll('*')
 
