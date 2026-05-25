@@ -497,11 +497,12 @@ describe('suggestion initialItems', () => {
     // Type @ to start suggestion
     editor.chain().insertContent('@').run()
     await Promise.resolve()
+    await Promise.resolve()
 
     // onBeforeStart should receive initialItems
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
     // onStart should receive async-resolved items
-    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
+    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ items: resolvedItems }))
     // items() should still have been called
     expect(items).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -518,11 +519,12 @@ describe('suggestion initialItems', () => {
     // Type another character to trigger an update
     editor.chain().insertContent('a').run()
     await Promise.resolve()
+    await Promise.resolve()
 
     // onBeforeUpdate should also receive initialItems
     expect(onBeforeUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
     // onUpdate should receive the async-resolved items
-    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ items: resolvedItems }))
+    expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ items: resolvedItems }))
     expect(items).toHaveBeenCalledWith(
       expect.objectContaining({
         editor: expect.any(Object),
@@ -565,20 +567,57 @@ describe('suggestion loading state', () => {
     // Type @ to start suggestion — triggers async items()
     editor.chain().insertContent('@').run()
     await Promise.resolve()
+    await Promise.resolve()
 
     // onBeforeStart fires before items() resolves → loading should be true
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
     // onStart fires after items() resolves → loading should be false
-    expect(onStart).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
 
     // Type another char to trigger an update
     editor.chain().insertContent('a').run()
+    await Promise.resolve()
     await Promise.resolve()
 
     // onBeforeUpdate fires before items() resolves → loading should be true
     expect(onBeforeUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
     // onUpdate fires after items() resolves → loading should be false
-    expect(onUpdate).toHaveBeenCalledWith(expect.objectContaining({ loading: false }))
+    expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
+
+    editor.destroy()
+  })
+
+  it('should recover when items() rejects', async () => {
+    const items = vi.fn().mockRejectedValue(new Error('boom'))
+    const onBeforeStart = vi.fn()
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-loading-rejects',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+            render: () => ({ onBeforeStart, onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+    await Promise.resolve()
+
+    expect(items).toHaveBeenCalledTimes(1)
+    expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ loading: false }))
 
     editor.destroy()
   })
@@ -684,6 +723,64 @@ describe('suggestion AbortSignal', () => {
     editor.destroy()
   })
 
+  it('should not emit stale callbacks after a request is superseded', async () => {
+    const signals: AbortSignal[] = []
+    let resolveFirst: (value: unknown) => void = () => {}
+
+    const items = vi.fn().mockImplementation(({ signal }) => {
+      signals.push(signal)
+
+      if (signals.length === 1) {
+        return new Promise(resolve => {
+          resolveFirst = resolve
+        })
+      }
+
+      return []
+    })
+
+    const onStart = vi.fn()
+    const onUpdate = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-abort-stale-callbacks',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            items,
+            render: () => ({ onStart, onUpdate }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    editor.chain().insertContent('a').run()
+    await Promise.resolve()
+    await Promise.resolve()
+
+    const startCallsBefore = onStart.mock.calls.length
+    const updateCallsBefore = onUpdate.mock.calls.length
+
+    resolveFirst([])
+    await Promise.resolve()
+    await Promise.resolve()
+
+    expect(onStart.mock.calls.length).toBe(startCallsBefore)
+    expect(onUpdate.mock.calls.length).toBe(updateCallsBefore)
+
+    editor.destroy()
+  })
+
   it('should pass signal as a property in the items callback props', async () => {
     const items = vi.fn().mockImplementation(({ signal }) => {
       expect(signal).toBeInstanceOf(AbortSignal)
@@ -764,6 +861,49 @@ describe('suggestion debounce', () => {
 
     vi.useRealTimers()
     editor.destroy()
+  })
+
+  it('should cancel pending debounce work on destroy', async () => {
+    vi.useFakeTimers()
+
+    const items = vi.fn().mockResolvedValue([])
+    const onBeforeStart = vi.fn()
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-debounce-destroy',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            debounce: 100,
+            items,
+            render: () => ({ onBeforeStart, onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ loading: true }))
+
+    const startCallsBefore = onStart.mock.calls.length
+
+    editor.destroy()
+    await vi.advanceTimersByTimeAsync(100)
+
+    expect(items).not.toHaveBeenCalled()
+    expect(onStart.mock.calls.length).toBe(startCallsBefore)
+
+    vi.useRealTimers()
   })
 
   it('should reset the debounce timer on rapid typing', async () => {
