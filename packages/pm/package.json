@@ -38,6 +38,14 @@
       "import": "./dist/dropcursor/index.js",
       "require": "./dist/dropcursor/index.cjs"
     },
+    "./inputrules": {
+      "types": {
+        "import": "./dist/inputrules/index.d.ts",
+        "require": "./dist/inputrules/index.d.cts"
+      },
+      "import": "./dist/inputrules/index.js",
+      "require": "./dist/inputrules/index.cjs"
+    },
     "./gapcursor": {
       "types": {
         "import": "./dist/gapcursor/index.d.ts",
@@ -118,13 +126,16 @@
     "dropcursor/**",
     "gapcursor/**",
     "history/**",
+    "inputrules/**",
     "keymap/**",
     "model/**",
     "schema-list/**",
     "state/**",
     "tables/**",
     "transform/**",
-    "view/**"
+    "view/**",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.md"
   ],
   "dependencies": {
     "prosemirror-changeset": "^2.3.0",
@@ -132,6 +143,7 @@
     "prosemirror-dropcursor": "^1.8.1",
     "prosemirror-gapcursor": "^1.3.2",
     "prosemirror-history": "^1.4.1",
+    "prosemirror-inputrules": "^1.4.0",
     "prosemirror-keymap": "^1.2.2",
     "prosemirror-model": "^1.24.1",
     "prosemirror-schema-list": "^1.5.0",
