@@ -5,6 +5,14 @@ import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/w
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
+type CachedSelectedState<TSelectorResult> = { stored: false } | { stored: true; value: TSelectorResult }
+
+function isCachedSelectedStateStored<TSelectorResult>(
+  cache: CachedSelectedState<TSelectorResult>,
+): cache is { stored: true; value: TSelectorResult } {
+  return cache.stored
+}
+
 export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> = {
   editor: TEditor
   transactionNumber: number
@@ -153,25 +161,35 @@ export function useEditorState<TSelectorResult>(
   options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
-  const selectorRef = useRef(options.selector)
-  selectorRef.current = options.selector
+  const lastSelectedStateRef = useRef<CachedSelectedState<TSelectorResult>>({ stored: false })
 
-  const lastSelectedStateRef = useRef<TSelectorResult | undefined>(undefined)
+  const selector = useCallback(
+    (snapshot: EditorStateSnapshot<Editor | null>) => {
+      if (snapshot.editor === null) {
+        if (isCachedSelectedStateStored(lastSelectedStateRef.current)) {
+          return lastSelectedStateRef.current.value
+        }
 
-  const selector = useCallback((snapshot: EditorStateSnapshot<Editor | null>) => {
-    if (snapshot.editor === null) {
-      if (lastSelectedStateRef.current !== undefined) {
-        return lastSelectedStateRef.current
+        return null
       }
 
-      return null
-    }
+      const result = options.selector(snapshot as EditorStateSnapshot<Editor>)
+      lastSelectedStateRef.current = { stored: true, value: result }
 
-    const result = selectorRef.current(snapshot as EditorStateSnapshot<Editor>)
-    lastSelectedStateRef.current = result
+      return result
+    },
+    [options.selector],
+  )
 
-    return result
-  }, [])
+  const equalityFn = useCallback(
+    (a: TSelectorResult | null, b: TSelectorResult | null) => {
+      if (a === null) {
+        return a === b
+      }
+      return (options.equalityFn ?? deepEqual)(a, b)
+    },
+    [options.equalityFn],
+  )
 
   // Using the `useSyncExternalStore` hook to sync the editor instance with the component state
   const selectedState = useSyncExternalStoreWithSelector(
@@ -179,7 +197,7 @@ export function useEditorState<TSelectorResult>(
     editorStateManager.getSnapshot,
     editorStateManager.getServerSnapshot,
     selector,
-    options.equalityFn ?? deepEqual,
+    equalityFn,
   )
 
   useIsomorphicLayoutEffect(() => {
