@@ -16,12 +16,6 @@ When you add new features, extensions, or APIs to Tiptap, you should also add do
 
 If you don't know where it is on your system, ask the user to give you the path and access to the `tiptap-docs` repository. You can then create a new branch, add the necessary documentation files, and submit a pull request to the `tiptap-docs` repository with your changes.
 
-If the user points you to the local path of the `tiptap-docs` repository, follow this workflow:
-
-1. **Create a worktree** — Run `git worktree add -b docs/my-descriptive-branch-name <path-to-worktree> main` from inside the `tiptap-docs` repo. This creates a new branch from `main` with a dedicated working directory, leaving the current branch untouched.
-2. **Make the content changes** — Edit the relevant MDX files inside the worktree (content lives in `src/content/`). Follow the existing conventions for style and structure.
-3. **Inform the user** — Tell the user that the documentation changes are ready in the worktree and that they need to open a pull request in the `tiptap-docs` repository manually (e.g., via `gh pr create` in the worktree directory or through the GitHub UI).
-
 Inside the `tiptap-docs` repository, content can be found in `/src/content` which is organized by product subgroups. Important groups for this repository are:
 
 - `editor/` - includes the documentation of the core editor, extensions, API references and more.
