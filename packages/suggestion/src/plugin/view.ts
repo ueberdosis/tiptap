@@ -1,8 +1,8 @@
 import type { Editor, Range } from '@tiptap/core'
-import type { EditorState , PluginKey } from '@tiptap/pm/state'
+import type { EditorState, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import type { SuggestionOptions, SuggestionPlacement,SuggestionProps } from '../types.js'
+import type { SuggestionOptions, SuggestionPlacement, SuggestionProps } from '../types.js'
 
 type PluginState = { active: boolean; range: Range; query: string | null; text: string | null; decorationId?: string }
 
@@ -108,7 +108,6 @@ export function createSuggestionView({
       if (handleChange || handleStart) {
         if (!willFetch) {
           // Abort any in-flight request so stale results don't overwrite
-          console.log('abort controller')
           abortController?.abort()
           abortController = null
           props = { ...props, items: initialItems ?? [], loading: false }
@@ -130,27 +129,16 @@ export function createSuggestionView({
           // update supersedes us during the debounce delay.
           const controller = abortController
 
-          // Debounce delay: if a newer update aborts the controller
-          // during the wait, we skip the stale items() call.
-          if (debounce > 0) {
-            await new Promise(resolve => {
-              setTimeout(resolve, debounce)
-            })
-          }
+          const doFetch = async () => {
+            if (!props?.editor) {
+              return
+            }
 
-          // if the original controller was overridden, or already aborted, don't proceed with the fetch
-          if (abortController !== controller || controller.signal.aborted) {
-            // also abort the new controller to be safe, and to ensure the loading state is cleared if we never got to call items()
-            controller.abort()
-            return
-          }
+            if (controller.signal.aborted) {
+              props = { ...props, items: initialItems ?? [], loading: true }
+              return
+            }
 
-          if (controller.signal.aborted) {
-            // A newer handleChange superseded this one.
-            // Keep loading=true so the component doesn't flash back
-            // to a stale state before the new fetch resolves.
-            props = { ...props, items: initialItems ?? [], loading: true }
-          } else {
             const result = await items({
               editor,
               query: state.query || '',
@@ -168,6 +156,24 @@ export function createSuggestionView({
                 loading: false,
               }
             }
+          }
+
+          if (debounce > 0) {
+            // Wrap the entire fetch inside the debounce delay so items()
+            // is only called after the user stops typing.
+            await new Promise<void>(resolve => {
+              setTimeout(async () => {
+                if (abortController !== controller || controller.signal.aborted) {
+                  controller.abort()
+                  resolve()
+                  return
+                }
+                await doFetch()
+                resolve()
+              }, debounce)
+            })
+          } else {
+            await doFetch()
           }
         }
       }
