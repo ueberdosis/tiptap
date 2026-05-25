@@ -2,6 +2,7 @@
  * @vitest-environment happy-dom
  */
 
+import { Node } from '@tiptap/core'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
 import { Italic } from '@tiptap/extension-italic'
@@ -102,5 +103,39 @@ describe('MarkdownManager unrecognized HTML tags', () => {
     const text = collectText(doc)
     expect(text).not.toContain('<my-mention>')
     expect(text).not.toContain('</my-mention>')
+  })
+
+  it('preserves angle-bracket text with spaces as literal text', () => {
+    const manager = new MarkdownManager({ extensions: basicExtensions })
+
+    // `<this is a placeholder>` contains spaces, so the tag name is invalid.
+    // The browser creates an HTMLUnknownElement and the manager should
+    // preserve the whole string as literal text instead of silently dropping it.
+    const doc = manager.parse('<this is a placeholder>')
+    const text = collectText(doc)
+    expect(text).toContain('<this is a placeholder>')
+  })
+
+  it('recognizes non-hyphenated custom tags declared in schema parseDOM', () => {
+    const Something = Node.create({
+      name: 'something',
+      group: 'inline',
+      inline: true,
+      content: 'text*',
+      renderHTML: () => ['something', 0],
+      parseHTML: () => [{ tag: 'something' }],
+    })
+
+    const manager = new MarkdownManager({ extensions: [...basicExtensions, Something] })
+
+    // `<something>` is not a standard HTML tag (no hyphen), so the browser would
+    // normally create an HTMLUnknownElement. However, because the schema has
+    // a registered extension declaring parseDOM `{ tag: 'something' }`, the
+    // manager should treat it as a recognized element.
+    const doc = manager.parse('<something>happy</something>')
+    const text = collectText(doc)
+    expect(text).toContain('happy')
+    expect(text).not.toContain('<something>')
+    expect(text).not.toContain('</something>')
   })
 })

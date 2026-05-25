@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
@@ -32,7 +33,10 @@ import {
 } from './utils.js'
 
 /**
- * Returns true when the element's tag is not a recognized HTML element.
+ * Returns true when the element's tag is not a recognized standard HTML
+ * element. Note: the calling code further cross-references this result
+ * against schema parseDOM tags, so non-standard tags that are declared
+ * by registered extensions are still treated as valid.
  *
  * Browsers expose this classification natively: any non-hyphenated tag that
  * is not part of the HTML/SVG/MathML namespaces is constructed as an
@@ -66,6 +70,8 @@ export class MarkdownManager {
   private extensions: AnyExtension[] = []
   /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
   private codeTypes: Set<string> = new Set()
+  /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
+  private schemaParseDomTagsCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -946,9 +952,13 @@ export class MarkdownManager {
 
   /**
    * Returns true when the HTML contains an element the browser classifies as
-   * `HTMLUnknownElement` – e.g. `<enter foo bar>`. Recognized but empty
-   * elements such as `<em></em>` or `<span></span>`, and hyphenated custom
-   * elements like `<my-mention>`, are not considered unrecognized.
+   * `HTMLUnknownElement` – unless a registered extension declares the tag
+   * name in its parseDOM rules, in which case it is treated as a known
+   * custom element.
+   *
+   * Recognized but empty elements such as `<em></em>` or `<span></span>`,
+   * and hyphenated custom elements like `<my-mention>`, are not considered
+   * unrecognized.
    *
    * @param html Raw HTML string from a marked token.
    * @example
@@ -966,7 +976,66 @@ export class MarkdownManager {
       return false
     }
 
-    return Array.from(elements).some(el => isHtmlUnknownElement(el))
+    const schemaTags = this.getSchemaParseDomTags()
+
+    return Array.from(elements).some(el => {
+      if (!isHtmlUnknownElement(el)) {
+        return false
+      }
+
+      // If the tag is declared by a registered extension's parseDOM rule,
+      // treat it as recognized even though the browser doesn't know it.
+      const tagName = el.tagName.toLowerCase()
+
+      return !schemaTags.has(tagName)
+    })
+  }
+
+  /**
+   * Collect the lower-cased tag names declared by the registered extensions'
+   * parseDOM rules, so custom node/mark elements that use non-hyphenated,
+   * non-standard tag names are treated as recognized HTML. Result is cached for the
+   * lifetime of the manager since extensions don't change after registration.
+   *
+   * @example
+   *   // After registering an extension with parseDOM [{ tag: 'something' }]
+   *   getSchemaParseDomTags().has('something') // → true
+   */
+  private getSchemaParseDomTags(): Set<string> {
+    if (this.schemaParseDomTagsCache) {
+      return this.schemaParseDomTagsCache
+    }
+
+    const tags = new Set<string>()
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+
+      const collect = (spec: any) => {
+        const parseDOM = spec?.parseDOM
+        if (!Array.isArray(parseDOM)) {
+          return
+        }
+        parseDOM.forEach((rule: any) => {
+          if (typeof rule?.tag === 'string') {
+            // Extract the bare tag name from selectors like "something.example"
+            const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
+            if (match) {
+              tags.add(match[0].toLowerCase())
+            }
+          }
+        })
+      }
+
+      Object.values(schema.nodes).forEach(type => collect((type as any).spec))
+      Object.values(schema.marks).forEach(type => collect((type as any).spec))
+    } catch {
+      // If schema construction fails, leave the set empty – detection then
+      // falls back to the HTMLUnknownElement check alone.
+    }
+
+    this.schemaParseDomTagsCache = tags
+    return tags
   }
 
   /**
