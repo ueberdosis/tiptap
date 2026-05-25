@@ -16,6 +16,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
@@ -30,6 +31,22 @@ import {
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
+
+/**
+ * Returns true when the element's tag is not a recognized standard HTML
+ * element. Note: the calling code further cross-references this result
+ * against schema parseDOM tags, so non-standard tags that are declared
+ * by registered extensions are still treated as valid.
+ *
+ * Browsers expose this classification natively: any non-hyphenated tag that
+ * is not part of the HTML/SVG/MathML namespaces is constructed as an
+ * `HTMLUnknownElement`. Standard tags (`<em>`, `<div>`, …) and custom
+ * elements (`<my-el>`, must contain a hyphen) are `HTMLElement` instances.
+ */
+const isHtmlUnknownElement = (element: Element): boolean => {
+  const ctor = (window as any).HTMLUnknownElement
+  return typeof ctor === 'function' && element instanceof ctor
+}
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -53,6 +70,8 @@ export class MarkdownManager {
   private extensions: AnyExtension[] = []
   /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
   private codeTypes: Set<string> = new Set()
+  /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
+  private schemaParseDomTagsCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -861,8 +880,14 @@ export class MarkdownManager {
   }
 
   /**
-   * Parse HTML tokens using extensions' parseHTML methods.
-   * This allows HTML within markdown to be parsed according to extension rules.
+   * Parse an HTML token from marked into JSONContent using the registered
+   * extensions' `parseHTML` rules. Falls back to literal text when the HTML
+   * has nothing for the schema to keep.
+   *
+   * @param token Marked HTML token (block or inline).
+   * @example
+   *   parseHTMLToken({ type: 'html', raw: '<em>hi</em>', block: false })
+   *   // → text node with an italic mark
    */
   private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     const html = token.text || token.raw || ''
@@ -893,6 +918,12 @@ export class MarkdownManager {
       }
     }
 
+    // If the HTML would parse to nothing meaningful, keep the original
+    // characters as literal text instead of dropping them.
+    if (this.isUnrecognizedHtml(html)) {
+      return this.htmlAsLiteralText(html, !!token.block)
+    }
+
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
       const parsed = generateJSON(html, this.baseExtensions)
@@ -917,6 +948,125 @@ export class MarkdownManager {
     } catch (error) {
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Returns true when the HTML contains an element the browser classifies as
+   * `HTMLUnknownElement` – unless a registered extension declares the tag
+   * name in its parseDOM rules, in which case it is treated as a known
+   * custom element.
+   *
+   * Recognized but empty elements such as `<em></em>` or `<span></span>`,
+   * and hyphenated custom elements like `<my-mention>`, are not considered
+   * unrecognized.
+   *
+   * @param html Raw HTML string from a marked token.
+   * @example
+   *   isUnrecognizedHtml('<enter foo bar>')  // → true
+   *   isUnrecognizedHtml('<em></em>')        // → false (empty, but real tag)
+   *   isUnrecognizedHtml('<em>hi</em>')      // → false
+   *   isUnrecognizedHtml('<my-el></my-el>')  // → false (valid custom element)
+   *   isUnrecognizedHtml('<br>')             // → false
+   */
+  private isUnrecognizedHtml(html: string): boolean {
+    const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
+    const elements = dom.querySelectorAll('*')
+
+    if (elements.length === 0) {
+      return false
+    }
+
+    const schemaTags = this.getSchemaParseDomTags()
+
+    return Array.from(elements).some(el => {
+      if (!isHtmlUnknownElement(el)) {
+        return false
+      }
+
+      // If the tag is declared by a registered extension's parseDOM rule,
+      // treat it as recognized even though the browser doesn't know it.
+      const tagName = el.tagName.toLowerCase()
+
+      return !schemaTags.has(tagName)
+    })
+  }
+
+  /**
+   * Collect the lower-cased tag names declared by the registered extensions'
+   * parseDOM rules, so custom node/mark elements that use non-hyphenated,
+   * non-standard tag names are treated as recognized HTML. Result is cached for the
+   * lifetime of the manager since extensions don't change after registration.
+   *
+   * @example
+   *   // After registering an extension with parseDOM [{ tag: 'something' }]
+   *   getSchemaParseDomTags().has('something') // → true
+   */
+  private getSchemaParseDomTags(): Set<string> {
+    if (this.schemaParseDomTagsCache) {
+      return this.schemaParseDomTagsCache
+    }
+
+    const tags = new Set<string>()
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+
+      const collect = (spec: any) => {
+        const parseDOM = spec?.parseDOM
+        if (!Array.isArray(parseDOM)) {
+          return
+        }
+        parseDOM.forEach((rule: any) => {
+          if (typeof rule?.tag === 'string') {
+            // Extract the bare tag name from selectors like "something.example"
+            const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
+            if (match) {
+              tags.add(match[0].toLowerCase())
+            }
+          }
+        })
+      }
+
+      Object.values(schema.nodes).forEach(type => collect((type as any).spec))
+      Object.values(schema.marks).forEach(type => collect((type as any).spec))
+    } catch {
+      // If schema construction fails, leave the set empty – detection then
+      // falls back to the HTMLUnknownElement check alone.
+    }
+
+    this.schemaParseDomTagsCache = tags
+    return tags
+  }
+
+  /**
+   * Build a JSONContent that preserves the original HTML markup as literal
+   * text. Used when the HTML would otherwise be silently dropped during
+   * schema-aware parsing.
+   *
+   * @param html Raw HTML string to preserve verbatim.
+   * @param isBlock Whether to wrap the text in a paragraph node (block tokens)
+   *   or return it as a bare text node (inline tokens).
+   * @example
+   *   htmlAsLiteralText('<enter foo>', true)
+   *   // → { type: 'paragraph', content: [{ type: 'text', text: '<enter foo>' }] }
+   */
+  private htmlAsLiteralText(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
+    // Strip trailing whitespace/newlines that marked appends to block HTML
+    // tokens so the rendered text doesn't end with stray blank lines.
+    const text = html.replace(/\s+$/, '')
+
+    if (!text) {
+      return null
+    }
+
+    if (isBlock) {
+      return {
+        type: 'paragraph',
+        content: [{ type: 'text', text }],
+      }
+    }
+
+    return { type: 'text', text }
   }
 
   /**
