@@ -1,5 +1,6 @@
 <template>
   <div class="dropdown-menu">
+    <div v-if="items.length === 0">No items found</div>
     <button
       :class="{ 'is-selected': index === selectedIndex }"
       v-for="(item, index) in items"

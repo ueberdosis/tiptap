@@ -48,6 +48,7 @@ export default props => {
 
   return (
     <div className="dropdown-menu">
+      {props.items.length === 0 && <div>No items found</div>}
       {props.items.map((item, index) => (
         <button
           className={index === selectedIndex ? 'is-selected' : ''}
