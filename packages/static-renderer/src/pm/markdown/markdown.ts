@@ -2,24 +2,33 @@ import type { Extensions, JSONContent } from '@tiptap/core'
 import type { Mark, Node } from '@tiptap/pm/model'
 
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
+import type { StaticEditorOptions } from '../extensionRenderer.js'
 import { renderToHTMLString, serializeChildrenToHTMLString } from '../html-string/html-string.js'
 
 /**
  * This code is just to show the flexibility of this renderer. We can potentially render content to any format we want.
  * This is a simple example of how we can render content to markdown. This is not a full implementation of a markdown renderer.
+ *
+ * Limitations: see `renderToHTMLString` — extensions that mutate the document
+ * via plugins/onCreate (UniqueID, TableOfContents) need to be pre-processed.
+ *
+ * @param staticEditorOptions Optional editor-level options that affect rendered output — mirrors a subset of `EditorOptions`.
  */
 export function renderToMarkdown({
   content,
   extensions,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }) {
   return renderToHTMLString({
     content,
     extensions,
+    staticEditorOptions,
     options: {
       ...options,
       nodeMapping: {

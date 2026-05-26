@@ -9,7 +9,8 @@ import {
   serializeChildrenToHTMLString,
 } from '../../json/html-string/string.js'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
-import { renderToElement } from '../extensionRenderer.js'
+import type { StaticEditorOptions } from '../extensionRenderer.js'
+import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
 
 export { serializeAttrsToHTMLString, serializeChildrenToHTMLString } from '../../json/html-string/string.js'
 
@@ -84,19 +85,30 @@ export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: s
 }
 
 /**
- * This function will statically render a Prosemirror Node to HTML using the provided extensions and options
+ * This function will statically render a Prosemirror Node to HTML using the provided extensions and options.
+ *
+ * Limitations: this function builds the schema and runs each extension's
+ * `renderHTML`, but does not instantiate an `Editor`. Extensions that mutate
+ * the document inside `addProseMirrorPlugins`, `onCreate`, or transaction
+ * hooks will not run. For UniqueID, pre-process the JSON with
+ * `generateUniqueIds` from `@tiptap/extension-unique-id`; for TableOfContents,
+ * pre-process with `generateTocIds` from `@tiptap/extension-table-of-contents`.
+ *
  * @param content The content to render to HTML
  * @param extensions The extensions to use for rendering
+ * @param staticEditorOptions Optional editor-level options that affect rendered output, currently `{ textDirection }`. Mirrors a subset of `EditorOptions`.
  * @param options The options to use for rendering
  * @returns The rendered HTML string
  */
 export function renderToHTMLString({
   content,
   extensions,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<string, Mark, Node>>
 }): string {
   return renderToElement<string>({
@@ -109,7 +121,7 @@ export function renderToHTMLString({
       text: ({ node }) => escapeHTML(node.text ?? ''),
     },
     content,
-    extensions,
+    extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
   })
 }

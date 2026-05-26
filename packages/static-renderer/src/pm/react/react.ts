@@ -5,7 +5,8 @@ import React from 'react'
 
 import { renderJSONContentToReactElement } from '../../json/react/react.js'
 import type { TiptapStaticRendererOptions } from '../../json/renderer.js'
-import { renderToElement } from '../extensionRenderer.js'
+import type { StaticEditorOptions } from '../extensionRenderer.js'
+import { applyStaticEditorOptionsToExtensions, renderToElement } from '../extensionRenderer.js'
 
 /**
  * This function maps the attributes of a node or mark to HTML attributes
@@ -138,19 +139,26 @@ export function domOutputSpecToReactElement(
 }
 
 /**
- * This function will statically render a Prosemirror Node to a React component using the given extensions
+ * This function will statically render a Prosemirror Node to a React component using the given extensions.
+ *
+ * Limitations: see `renderToHTMLString` — extensions that mutate the document
+ * via plugins/onCreate (UniqueID, TableOfContents) need to be pre-processed.
+ *
  * @param content The content to render to a React component
  * @param extensions The extensions to use for rendering
+ * @param staticEditorOptions Optional editor-level options that affect rendered output — mirrors a subset of `EditorOptions`.
  * @param options The options to use for rendering
  * @returns The React element that represents the rendered content
  */
 export function renderToReactElement({
   content,
   extensions,
+  staticEditorOptions,
   options,
 }: {
   content: Node | JSONContent
   extensions: Extensions
+  staticEditorOptions?: StaticEditorOptions
   options?: Partial<TiptapStaticRendererOptions<React.ReactNode, Mark, Node>>
 }): React.ReactNode {
   return renderToElement<React.ReactNode>({
@@ -163,7 +171,7 @@ export function renderToReactElement({
       text: ({ node }) => node.text ?? '',
     },
     content,
-    extensions,
+    extensions: applyStaticEditorOptionsToExtensions(extensions, staticEditorOptions),
     options,
   })
 }
