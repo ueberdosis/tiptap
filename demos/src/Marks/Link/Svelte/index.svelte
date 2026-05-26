@@ -6,7 +6,7 @@
   import { useEditor, EditorContent } from '@tiptap/svelte'
 
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text, Link.configure({ openOnClick: false })],
+    extensions: [Document, Paragraph, Text, Link.configure({ openOnClick: false, defaultProtocol: 'https' })],
     content: `
       <p>This is a <a href="https://tiptap.dev">link</a> demo.</p>
       <p>Click the button to add a link to the selected text.</p>
