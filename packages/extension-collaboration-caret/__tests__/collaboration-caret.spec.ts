@@ -142,6 +142,54 @@ describe('extension-collaboration-caret', () => {
   })
 
   /**
+   * Regression test: when an editor is destroyed but the provider/awareness
+   * lives on (e.g. multiple editors sharing one provider), the awareness
+   * 'update' listener registered by CollaborationCaret must be removed.
+   * Otherwise the closure keeps the destroyed editor reachable and leaks memory.
+   */
+  it('should remove its awareness listener when the editor is destroyed', () => {
+    const ydoc = new Y.Doc()
+
+    const updateListeners = new Set<(...args: any[]) => void>()
+    const mockAwareness = {
+      states: new Map(),
+      setLocalStateField: () => {},
+      on: (event: string, fn: (...args: any[]) => void) => {
+        if (event === 'update') updateListeners.add(fn)
+      },
+      off: (event: string, fn: (...args: any[]) => void) => {
+        if (event === 'update') updateListeners.delete(fn)
+      },
+      getStates: () => new Map(),
+    }
+    const mockProvider = { awareness: mockAwareness }
+
+    const editorEl = createEditorEl()
+
+    const editor = new Editor({
+      element: editorEl,
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.configure({ document: ydoc }),
+        CollaborationCaret.configure({
+          provider: mockProvider,
+          user: { name: 'Test User', color: '#ff0000' },
+        }),
+      ],
+    })
+
+    expect(updateListeners.size).toBe(1)
+
+    editor.destroy()
+
+    expect(updateListeners.size).toBe(0)
+
+    getEditorEl()?.remove()
+  })
+
+  /**
    * Test that the editor can be initialized without any content
    * when using Collaboration and CollaborationCaret extensions.
    */
