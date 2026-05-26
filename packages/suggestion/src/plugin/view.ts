@@ -94,12 +94,14 @@ export function createSuggestionView({
       let currentState: 'started' | 'updated' | 'stopped' | null = null
       const queryChanged = prev.query !== next.query
       const textChanged = prev.text !== next.text
+      const rangeChanged = prev.range.from !== next.range.from || prev.range.to !== next.range.to
+      const effectiveQueryChanged = queryChanged || textChanged || rangeChanged
 
       if (!prev.active && next.active) {
         currentState = 'started'
       } else if (prev.active && !next.active) {
         currentState = 'stopped'
-      } else if (next.active && (queryChanged || textChanged)) {
+      } else if (next.active && effectiveQueryChanged) {
         currentState = 'updated'
       } else {
         return
