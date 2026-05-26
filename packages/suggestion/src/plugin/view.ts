@@ -165,6 +165,14 @@ export function createSuggestionView({
             return
           }
 
+          // Re-check plugin state because the suggestion may have been dismissed
+          const currentPluginState = pluginKey.getState(view.state)
+          if (!currentPluginState?.active) {
+            asyncRequest.abort()
+
+            return
+          }
+
           props =
             result.status === 'resolved'
               ? {
@@ -180,6 +188,8 @@ export function createSuggestionView({
       }
 
       if (currentState === 'stopped') {
+        // stop running updates immediately and call onExit to allow the renderer to clean up
+        asyncRequest.abort()
         dispatchStateUpdate(currentState, props)
         return
       }
