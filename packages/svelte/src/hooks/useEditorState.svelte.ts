@@ -1,4 +1,4 @@
-import { type Readable,writable } from 'svelte/store'
+import { type Readable, writable } from 'svelte/store'
 
 import type { Editor } from '../Editor.js'
 
