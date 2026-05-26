@@ -966,8 +966,18 @@ export default MarkdownHelpers
  * - a single JSON-like node
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
+ *
+ * Returning `false` or `undefined` indicates that the handler declines
+ * the current token. In that case the parser will continue trying other
+ * registered handlers for the same token type.
  */
-export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: string; content: JSONContent[]; attrs?: any }
+export type MarkdownParseResult =
+  | JSONContent
+  | JSONContent[]
+  | { mark: string; content: JSONContent[]; attrs?: any }
+  | false
+  | undefined
+  | null
 
 export type RenderContext = {
   index: number
