@@ -7,7 +7,10 @@ export interface CreateSuggestionAsyncRequestManagerOptions<I = any> {
   items: NonNullable<SuggestionOptions<I>['items']>
 }
 
-type AsyncRequestResult<I> = { status: 'resolved'; items: I[] } | { status: 'aborted' } | { status: 'error' }
+type AsyncRequestResult<I> =
+  | { status: 'resolved'; items: I[] }
+  | { status: 'aborted' }
+  | { status: 'error' }
 
 export function createSuggestionAsyncRequestManager<I = any>({
   editor,

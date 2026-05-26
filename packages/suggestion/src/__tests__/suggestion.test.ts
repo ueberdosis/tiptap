@@ -503,7 +503,9 @@ describe('suggestion initialItems', () => {
     // onBeforeStart should receive initialItems
     expect(onBeforeStart).toHaveBeenCalledWith(expect.objectContaining({ items: initialItems }))
     // onStart mounts immediately with the initial items while loading
-    expect(onStart).toHaveBeenLastCalledWith(expect.objectContaining({ items: initialItems, loading: true }))
+    expect(onStart).toHaveBeenLastCalledWith(
+      expect.objectContaining({ items: initialItems, loading: true }),
+    )
     // onUpdate receives the async-resolved items
     expect(onUpdate).toHaveBeenLastCalledWith(expect.objectContaining({ items: resolvedItems }))
     // items() should still have been called

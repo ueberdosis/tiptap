@@ -43,7 +43,8 @@ function reposition(props, element, { hideBeforeMeasure = false } = {}) {
 }
 
 export default {
-  items: ({ query }) => items.filter(item => item.label.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5),
+  items: ({ query }) =>
+    items.filter(item => item.label.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5),
 
   placement: 'top-start',
 

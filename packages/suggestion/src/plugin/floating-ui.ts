@@ -1,7 +1,11 @@
 import type { Middleware } from '@floating-ui/dom'
 import { flip as floatingUiFlip, offset as floatingUiOffset } from '@floating-ui/dom'
 
-import type { SuggestionFloatingUiConfig, SuggestionFloatingUiOptions, SuggestionPlacement } from '../types.js'
+import type {
+  SuggestionFloatingUiConfig,
+  SuggestionFloatingUiOptions,
+  SuggestionPlacement,
+} from '../types.js'
 
 export interface CreateSuggestionFloatingUiConfigOptions {
   placement: SuggestionPlacement

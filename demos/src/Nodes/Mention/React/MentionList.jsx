@@ -59,7 +59,11 @@ export default props => {
     )
   } else if (props.items.length) {
     content = props.items.map((item, index) => (
-      <button className={index === selectedIndex ? 'is-selected' : ''} key={index} onClick={() => selectItem(index)}>
+      <button
+        className={index === selectedIndex ? 'is-selected' : ''}
+        key={index}
+        onClick={() => selectItem(index)}
+      >
         {item}
       </button>
     ))

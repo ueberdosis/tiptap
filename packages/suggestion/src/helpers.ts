@@ -117,7 +117,13 @@ export function shouldKeepDismissed({
  * view's update) and keeps exitSuggestion consistent with Escape-triggered
  * exits.
  */
-export function dispatchExit({ view, pluginKeyRef }: { view: EditorView; pluginKeyRef: PluginKey }): void {
+export function dispatchExit({
+  view,
+  pluginKeyRef,
+}: {
+  view: EditorView
+  pluginKeyRef: PluginKey
+}): void {
   const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
   view.dispatch(tr)
 }

@@ -58,7 +58,10 @@ export function createSuggestionView({
   clientRectFor,
 }: CreateSuggestionViewOptions) {
   let props: SuggestionProps | undefined
-  const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({ editor, items })
+  const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({
+    editor,
+    items,
+  })
   const floatingUiConfig = createSuggestionFloatingUiConfig({
     placement,
     offset: offsetOption,
@@ -66,7 +69,10 @@ export function createSuggestionView({
     floatingUi,
   })
 
-  function dispatchStateUpdate(state: 'started' | 'updated' | 'stopped', dispatchProps: SuggestionProps) {
+  function dispatchStateUpdate(
+    state: 'started' | 'updated' | 'stopped',
+    dispatchProps: SuggestionProps,
+  ) {
     switch (state) {
       case 'started':
         renderer?.onStart?.(dispatchProps)
@@ -110,8 +116,10 @@ export function createSuggestionView({
       const state = currentState === 'stopped' ? prev : next
       const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
 
-      const exceedsMinQueryLength = minQueryLength === 0 || (state.query ? state.query.length >= minQueryLength : false)
-      const willFetch = (currentState === 'started' || currentState === 'updated') && exceedsMinQueryLength
+      const exceedsMinQueryLength =
+        minQueryLength === 0 || (state.query ? state.query.length >= minQueryLength : false)
+      const willFetch =
+        (currentState === 'started' || currentState === 'updated') && exceedsMinQueryLength
 
       props = {
         editor,

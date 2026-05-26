@@ -3,9 +3,18 @@ import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
-import type { findSuggestionMatch as defaultFindSuggestionMatch, SuggestionMatch } from './findSuggestionMatch.js'
+import type {
+  findSuggestionMatch as defaultFindSuggestionMatch,
+  SuggestionMatch,
+} from './findSuggestionMatch.js'
 
-export type SuggestionPlacement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
+export type SuggestionPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
 
 export type SuggestionFloatingUiOptions = {
   strategy?: 'absolute' | 'fixed'
@@ -233,7 +242,12 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props The props object.
    * @returns {boolean}
    */
-  allow?: (props: { editor: Editor; state: EditorState; range: Range; isActive?: boolean }) => boolean
+  allow?: (props: {
+    editor: Editor
+    state: EditorState
+    range: Range
+    isActive?: boolean
+  }) => boolean
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
