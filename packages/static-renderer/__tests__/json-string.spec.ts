@@ -425,15 +425,18 @@ describe('static render json to string (with prosemirror)', () => {
     ],
   }
 
-  it.each(['ltr', 'rtl', 'auto'] as const)('honors textDirection=%s via staticEditorOptions', direction => {
-    const html = renderToHTMLString({
-      content: headingDoc,
-      extensions: [Document, Paragraph, Text, Heading],
-      staticEditorOptions: { textDirection: direction },
-    })
+  it.each(['ltr', 'rtl', 'auto'] as const)(
+    'honors textDirection=%s via staticEditorOptions',
+    direction => {
+      const html = renderToHTMLString({
+        content: headingDoc,
+        extensions: [Document, Paragraph, Text, Heading],
+        staticEditorOptions: { textDirection: direction },
+      })
 
-    expect(html).toContain(`dir="${direction}"`)
-  })
+      expect(html).toContain(`dir="${direction}"`)
+    },
+  )
 
   it('does not add a dir attribute when staticEditorOptions is unset', () => {
     const html = renderToHTMLString({
@@ -451,7 +454,13 @@ describe('static render json to string (with prosemirror)', () => {
     // duplicate `addGlobalAttributes`. The static renderer mirrors that.
     const html = renderToHTMLString({
       content: headingDoc,
-      extensions: [Document, Paragraph, Text, Heading, coreExtensions.TextDirection.configure({ direction: 'ltr' })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Heading,
+        coreExtensions.TextDirection.configure({ direction: 'ltr' }),
+      ],
       staticEditorOptions: { textDirection: 'rtl' },
     })
 
@@ -460,7 +469,9 @@ describe('static render json to string (with prosemirror)', () => {
   })
 
   it('omits null and undefined attribute values instead of serializing them as strings', () => {
-    expect(serializeAttrsToHTMLString({ class: null, id: undefined, dir: 'auto' })).toBe(' dir="auto"')
+    expect(serializeAttrsToHTMLString({ class: null, id: undefined, dir: 'auto' })).toBe(
+      ' dir="auto"',
+    )
   })
 
   it('preserves false attribute values (matches ProseMirror DOMSerializer)', () => {
@@ -497,7 +508,13 @@ describe('static render json to string (with prosemirror)', () => {
   })
 
   it('renders UniqueID data-id attributes when JSON is pre-processed with generateUniqueIds', () => {
-    const extensionsWithUid = [Document, Paragraph, Text, Heading, UniqueID.configure({ types: ['heading'] })]
+    const extensionsWithUid = [
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      UniqueID.configure({ types: ['heading'] }),
+    ]
     const docWithIds = generateUniqueIds(headingDoc, extensionsWithUid)
 
     const html = renderToHTMLString({ content: docWithIds, extensions: extensionsWithUid })

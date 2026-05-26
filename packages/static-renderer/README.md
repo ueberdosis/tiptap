@@ -33,7 +33,7 @@ import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 
 let doc = sourceJson
 doc = generateUniqueIds(doc, extensions) // if using UniqueID
-doc = generateTocIds(doc, extensions)    // if using TableOfContents
+doc = generateTocIds(doc, extensions) // if using TableOfContents
 
 const html = renderToHTMLString({
   content: doc,

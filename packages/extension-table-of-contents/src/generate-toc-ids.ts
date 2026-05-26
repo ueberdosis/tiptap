@@ -40,10 +40,14 @@ export function generateTocIds(
   extensions: Extensions,
   extensionName = 'tableOfContents',
 ): JSONContent {
-  const tocExtension = extensions.find(ext => ext.name === extensionName) as typeof TableOfContents | undefined
+  const tocExtension = extensions.find(ext => ext.name === extensionName) as
+    | typeof TableOfContents
+    | undefined
 
   if (!tocExtension) {
-    throw new Error(`TableOfContents extension (name: "${extensionName}") not found in the extensions array`)
+    throw new Error(
+      `TableOfContents extension (name: "${extensionName}") not found in the extensions array`,
+    )
   }
 
   const schema = getSchema([...extensions.filter(ext => ext.name !== extensionName), tocExtension])

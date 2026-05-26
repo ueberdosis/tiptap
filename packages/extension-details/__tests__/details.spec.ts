@@ -103,7 +103,14 @@ describe('Details', () => {
 
   it('updates a persisted details node at the start of the document when toggled', () => {
     editor = new Editor({
-      extensions: [Document, Paragraph, Text, Details.configure({ persist: true }), DetailsSummary, DetailsContent],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Details.configure({ persist: true }),
+        DetailsSummary,
+        DetailsContent,
+      ],
       content: {
         type: 'doc',
         content: [
@@ -132,7 +139,9 @@ describe('Details', () => {
       },
     })
 
-    const toggleButton = editor.view.dom.querySelector<HTMLButtonElement>('div[data-type="details"] > button')
+    const toggleButton = editor.view.dom.querySelector<HTMLButtonElement>(
+      'div[data-type="details"] > button',
+    )
 
     toggleButton?.click()
 

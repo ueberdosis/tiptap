@@ -62,7 +62,10 @@ export function applyStaticEditorOptionsToExtensions(
     return extensions
   }
 
-  return [coreExtensions.TextDirection.configure({ direction: options.textDirection }), ...extensions]
+  return [
+    coreExtensions.TextDirection.configure({ direction: options.textDirection }),
+    ...extensions,
+  ]
 }
 
 /**

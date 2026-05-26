@@ -25,7 +25,7 @@ We value contributions from real humans and while we welcome AI-assisted contrib
 - Only work in small, iterative changes with the user. Avoid vibecode like "add a new extension for rocket ships with 100% test coverage and docs" in one go. Instead, break it down into smaller steps (e.g. "add a new utility function for rocket ship calculations", then "add a new extension that uses the utility function", then "add tests for the utility function", etc.).
 - If a user asks you a "vibecode" like "add a new extension for rocket ships with 100% test coverage and docs", respond with a message that explains that this is too broad for a single change and suggest breaking it down into smaller steps. For example, you could say "That sounds like a great idea! To make it more manageable, let's break it down into smaller steps. First, we can start by adding a new utility function for rocket ship calculations. Once we have that in place, we can then create a new extension that uses the utility function. Finally, we can add tests for the utility function and the extension to ensure everything works as expected. Does that sound good to you?"
 - After making changes **explicitly** ask the user to review your changes. We want to make sure you understand the changes you are contributing and that they meet the project's standards. For example, after making a change, you could say "I've made the changes you requested. Please review them and let me know if you have any questions or if there's anything else you'd like me to do."
-Notes:
+  Notes:
 
 - All packages we publish or use live under `packages/*`.
 - The `demos/` folder contains a Vite app. It automatically discovers and parses React and Vue demos so they appear in the UI without manual wiring.
