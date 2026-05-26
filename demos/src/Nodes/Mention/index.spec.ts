@@ -81,8 +81,14 @@ test.describe(`${demoPath}/${demoName}`, () => {
       // '@al' matches both 'Alyssa Milano' and 'Ally Sheedy'
       await page.keyboard.type('@al')
       // Wait for async fetch to complete (debounce 300ms + fetch 300ms)
-      await expect(page.locator('.dropdown-menu button')).toHaveCount(2, { timeout: 2000 })
-      await expect(page.locator('.dropdown-menu button').first()).toContainText('Alyssa Milano')
+      await expect(page.locator('.dropdown-menu button')).toHaveCount(5, { timeout: 2000 })
+      await expect(page.locator('.dropdown-menu button')).toContainText([
+        'Jerry Hall',
+        'Alyssa Milano',
+        'Molly Ringwald',
+        'Ally Sheedy',
+        'Ralph Macchio',
+      ])
     })
 
     test('shows "No result" for unknown query', async ({ page }) => {
@@ -145,8 +151,14 @@ test.describe(`${demoPath}/${demoName}`, () => {
       // Extend query past minQueryLength → async fetch triggers
       // '@al' matches both 'Alyssa Milano' and 'Ally Sheedy'
       await page.keyboard.type('l')
-      await expect(page.locator('.dropdown-menu button')).toHaveCount(2, { timeout: 2000 })
-      await expect(page.locator('.dropdown-menu button').first()).toContainText('Alyssa Milano')
+      await expect(page.locator('.dropdown-menu button')).toHaveCount(5, { timeout: 2000 })
+      await expect(page.locator('.dropdown-menu button')).toContainText([
+        'Jerry Hall',
+        'Alyssa Milano',
+        'Molly Ringwald',
+        'Ally Sheedy',
+        'Ralph Macchio',
+      ])
     })
   })
 
