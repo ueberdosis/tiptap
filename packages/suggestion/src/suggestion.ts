@@ -85,14 +85,6 @@ export function Suggestion<I = any, TSelected = any>({
     dispatchExitHelper({
       view,
       pluginKeyRef: pluginKey,
-      editor,
-      command,
-      renderer,
-      placement,
-      offset: offsetOption,
-      container,
-      flip,
-      floatingUi,
     })
 
   return new Plugin({

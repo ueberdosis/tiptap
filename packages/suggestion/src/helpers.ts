@@ -3,8 +3,7 @@ import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
 import type { SuggestionMatch } from './findSuggestionMatch.js'
-import { createSuggestionFloatingUiConfig } from './plugin/floating-ui.js'
-import type { SuggestionOptions, SuggestionPluginState, SuggestionProps } from './types.js'
+import type { SuggestionOptions, SuggestionPluginState } from './types.js'
 
 /**
  * Returns true if the transaction inserted any whitespace or newline character.
@@ -109,69 +108,16 @@ export function shouldKeepDismissed({
 }
 
 /**
- * Dispatch an exit of the suggestion plugin by:
- * 1. Calling the renderer's onExit hook with the current suggestion state.
- * 2. Dispatching a metadata-only transaction to clear the plugin state.
+ * Dispatch an exit of the suggestion plugin by dispatching a metadata-only
+ * transaction to clear the plugin state. The renderer's onExit hook is NOT
+ * called here — it fires via the plugin view's stopped transition, which
+ * builds SuggestionProps consistently with the normal lifecycle.
+ *
+ * This prevents a double onExit call (one from dispatchExit, one from the
+ * view's update) and keeps exitSuggestion consistent with Escape-triggered
+ * exits.
  */
-export function dispatchExit({
-  view,
-  pluginKeyRef,
-  editor,
-  command,
-  renderer,
-  placement,
-  offset,
-  container,
-  flip,
-  floatingUi,
-}: {
-  view: EditorView
-  pluginKeyRef: PluginKey
-  editor: Editor
-  command: NonNullable<SuggestionOptions['command']>
-  renderer: ReturnType<NonNullable<SuggestionOptions['render']>> | undefined
-  placement: NonNullable<SuggestionOptions['placement']>
-  offset: NonNullable<SuggestionOptions['offset']>
-  container?: SuggestionOptions['container']
-  flip: NonNullable<SuggestionOptions['flip']>
-  floatingUi?: SuggestionOptions['floatingUi']
-}): void {
-  try {
-    const pluginState: SuggestionPluginState = pluginKeyRef.getState(view.state) as any
-    const decorationNode = pluginState?.decorationId
-      ? view.dom.querySelector(`[data-decoration-id="${pluginState.decorationId}"]`)
-      : null
-
-    const exitProps: SuggestionProps = {
-      editor,
-      range: pluginState?.range || { from: 0, to: 0 },
-      query: pluginState?.query || '',
-      text: pluginState?.text || '',
-      items: [],
-      command: commandProps => {
-        return command({ editor, range: pluginState?.range || { from: 0, to: 0 }, props: commandProps })
-      },
-      decorationNode,
-      clientRect: clientRectFor(editor, view, decorationNode, pluginKeyRef),
-      loading: false,
-      placement,
-      offset: { mainAxis: offset?.mainAxis ?? 4, crossAxis: offset?.crossAxis ?? 0 },
-      container,
-      flip,
-      floatingUi: createSuggestionFloatingUiConfig({
-        placement,
-        offset,
-        flip,
-        floatingUi,
-      }),
-    }
-
-    renderer?.onExit?.(exitProps)
-  } catch {
-    // ignore errors from consumer renderers
-  }
-
+export function dispatchExit({ view, pluginKeyRef }: { view: EditorView; pluginKeyRef: PluginKey }): void {
   const tr = view.state.tr.setMeta(pluginKeyRef, { exit: true })
-  // Dispatch a metadata-only transaction to signal the plugin to exit
   view.dispatch(tr)
 }
