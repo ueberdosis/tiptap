@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oslint-disableno-explicit-any */
 import type { MarkType, NodeType } from '@tiptap/core'
 
 import type { TiptapStaticRendererOptions } from '../renderer.js'

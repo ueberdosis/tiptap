@@ -50,8 +50,13 @@ Scripts defined at the repo root:
 
 * `pnpm dev` - start the demos on port 3000
 * `pnpm build` - build all packages via Turborepo
-* `pnpm lint` - run eslint checks
-* `pnpm lint:fix` - run prettier + eslint fix
+* `pnpm check` - run format check + lint
+* `pnpm check:fix` - run format:fix + lint:fix
+* `pnpm format` - run oxfmt formatter check
+* `pnpm format:fix` - run oxfmt formatter
+* `pnpm lint` - run oxlint checks
+* `pnpm lint:fix` - run oxlint with auto-fix
+* `pnpm lint:staged` - run lint-staged on staged files
 * `pnpm test:e2e` - run Playwright e2e tests headlessly in Chromium
 * `pnpm test:e2e:firefox` - same, in Firefox
 * `pnpm test:e2e:all` - same, in both browsers
@@ -69,8 +74,8 @@ Scripts defined at the repo root:
 
 ## Linting & formatting
 
-* ESLint config is at **`.eslintrc.js`** in the repo root.
-* Prettier config is at **`.prettierrc`** (or `prettier.config.json`).
+* oxlint runs with sensible defaults (no config file required).
+* oxfmt config is at **`.oxfmtrc.json`**.
 * Husky and lint-staged run automatically on commits.
 
 Run manually:
@@ -78,6 +83,10 @@ Run manually:
 ```bash
 pnpm lint
 pnpm lint:fix
+pnpm format
+pnpm format:fix
+pnpm check
+pnpm check:fix
 ```
 
 ---

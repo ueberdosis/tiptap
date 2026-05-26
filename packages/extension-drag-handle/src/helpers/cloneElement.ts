@@ -20,7 +20,10 @@ function getCSSText(element: Element, properties?: string[]) {
 export function cloneElement(node: HTMLElement, properties?: string[]) {
   const clonedNode = node.cloneNode(true) as HTMLElement
   const sourceElements = [node, ...Array.from(node.getElementsByTagName('*'))] as HTMLElement[]
-  const targetElements = [clonedNode, ...Array.from(clonedNode.getElementsByTagName('*'))] as HTMLElement[]
+  const targetElements = [
+    clonedNode,
+    ...Array.from(clonedNode.getElementsByTagName('*')),
+  ] as HTMLElement[]
 
   sourceElements.forEach((sourceElement, index) => {
     targetElements[index].style.cssText = getCSSText(sourceElement, properties)

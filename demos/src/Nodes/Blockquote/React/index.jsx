@@ -32,7 +32,10 @@ export default () => {
           >
             Toggle blockquote
           </button>
-          <button onClick={() => editor.chain().focus().setBlockquote().run()} disabled={!editor.can().setBlockquote()}>
+          <button
+            onClick={() => editor.chain().focus().setBlockquote().run()}
+            disabled={!editor.can().setBlockquote()}
+          >
             Set blockquote
           </button>
           <button

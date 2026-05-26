@@ -29,10 +29,10 @@ function isSameLineOrderedListToken(token: MarkdownToken): boolean {
 
   return Boolean(
     token.text &&
-      token.tokens?.length === 1 &&
-      nestedToken?.type === 'list' &&
-      nestedToken.ordered &&
-      nestedToken.raw === token.text,
+    token.tokens?.length === 1 &&
+    nestedToken?.type === 'list' &&
+    nestedToken.ordered &&
+    nestedToken.raw === token.text,
   )
 }
 
@@ -114,7 +114,12 @@ export const ListItem = Node.create<ListItemOptions>({
         // Check if the first token is a text token with nested inline tokens
         const firstToken = token.tokens[0]
 
-        if (firstToken && firstToken.type === 'text' && firstToken.tokens && firstToken.tokens.length > 0) {
+        if (
+          firstToken &&
+          firstToken.type === 'text' &&
+          firstToken.tokens &&
+          firstToken.tokens.length > 0
+        ) {
           // Parse the inline content from the text token
           const inlineContent = helpers.parseInline(firstToken.tokens)
 

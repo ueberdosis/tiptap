@@ -36,7 +36,12 @@ export const ServerAiToolkitHashExtension = Extension.create({
 
     const types = this.extensions
       .filter(ext => {
-        if (ext.name === 'text' || ext.name === 'doc' || ext.name === 'tableHeader' || ext.name === 'tableCell') {
+        if (
+          ext.name === 'text' ||
+          ext.name === 'doc' ||
+          ext.name === 'tableHeader' ||
+          ext.name === 'tableCell'
+        ) {
           return false
         }
         if (typeof ext.config?.group === 'string' && ext.config.group.includes('inline')) {

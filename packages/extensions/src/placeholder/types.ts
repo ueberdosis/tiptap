@@ -28,7 +28,12 @@ export interface PlaceholderOptions {
    * @default 'Write something …'
    */
   placeholder:
-    | ((PlaceholderProps: { editor: Editor; node: ProsemirrorNode; pos: number; hasAnchor: boolean }) => string)
+    | ((PlaceholderProps: {
+        editor: Editor
+        node: ProsemirrorNode
+        pos: number
+        hasAnchor: boolean
+      }) => string)
     | string
 
   /**

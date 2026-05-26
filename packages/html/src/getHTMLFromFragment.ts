@@ -13,7 +13,11 @@ import { DOMSerializer } from '@tiptap/pm/model'
  * const html = getHTMLFromFragment(doc, schema)
  * ```
  */
-export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { document?: Document }): string {
+export function getHTMLFromFragment(
+  doc: Node,
+  schema: Schema,
+  options?: { document?: Document },
+): string {
   if (typeof window === 'undefined') {
     throw new Error(
       'getHTMLFromFragment can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@tiptap/html/server` import instead.',
@@ -23,7 +27,11 @@ export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { docum
   if (options?.document) {
     const wrap = options.document.createElement('div')
 
-    DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)
+    DOMSerializer.fromSchema(schema).serializeFragment(
+      doc.content,
+      { document: options.document },
+      wrap,
+    )
     return wrap.innerHTML
   }
 

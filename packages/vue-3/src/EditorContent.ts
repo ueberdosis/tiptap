@@ -1,5 +1,14 @@
 import type { PropType, Ref } from 'vue'
-import { defineComponent, getCurrentInstance, h, nextTick, onBeforeUnmount, ref, unref, watchEffect } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  unref,
+  watchEffect,
+} from 'vue'
 
 import type { Editor } from './Editor.js'
 

@@ -81,7 +81,9 @@ export const OrderedList = Node.create<OrderedListOptions>({
       start: {
         default: 1,
         parseHTML: element => {
-          return element.hasAttribute('start') ? parseInt(element.getAttribute('start') || '', 10) : 1
+          return element.hasAttribute('start')
+            ? parseInt(element.getAttribute('start') || '', 10)
+            : 1
         },
       },
       type: {

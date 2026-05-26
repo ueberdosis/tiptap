@@ -94,7 +94,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     })
 
     // @ts-ignore
-    const vue = this.editor.contentComponent?.$options._base ?? Vue // eslint-disable-line
+    const vue = this.editor.contentComponent?.$options._base ?? Vue // oxlint-disable-line
 
     const Component = vue.extend(this.component).extend({
       props: Object.keys(props),
@@ -178,7 +178,11 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(node: ProseMirrorNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: ProseMirrorNode,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)

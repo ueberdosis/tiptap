@@ -10,7 +10,10 @@ import { getUpdatedRanges } from './utils/get-updated-ranges.js'
 
 export const InvisibleCharactersPluginKey = new PluginKey<PluginState>('invisibleCharacters')
 
-export const InvisibleCharactersPlugin = (state: EditorState, options: InvisibleCharactersOptions) => {
+export const InvisibleCharactersPlugin = (
+  state: EditorState,
+  options: InvisibleCharactersOptions,
+) => {
   const key = InvisibleCharactersPluginKey
   const emptyDecorationSet = DecorationSet.create(state.doc, [])
 
@@ -46,11 +49,19 @@ export const InvisibleCharactersPlugin = (state: EditorState, options: Invisible
 
         return {
           visible: options.visible,
-          decorations: addDecorationsBetweenPositions($from.pos, $to.pos, state, DecorationSet.empty),
+          decorations: addDecorationsBetweenPositions(
+            $from.pos,
+            $to.pos,
+            state,
+            DecorationSet.empty,
+          ),
         }
       },
       apply: (tr, pluginState, _, currentState) => {
-        const newPluginState = stateReducer(pluginState, tr.getMeta('setInvisibleCharactersVisible'))
+        const newPluginState = stateReducer(
+          pluginState,
+          tr.getMeta('setInvisibleCharactersVisible'),
+        )
 
         const decorations = getUpdatedRanges(tr).reduce(
           (nextDecorations, [from, to]) => {

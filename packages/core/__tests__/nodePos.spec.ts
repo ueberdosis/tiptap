@@ -182,7 +182,8 @@ describe('NodePos', () => {
     it('should find blockquote nodes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote],
-        content: '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
+        content:
+          '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
       })
 
       const blockquotes = editor.$nodes('blockquote')
@@ -370,7 +371,8 @@ describe('NodePos', () => {
     it('should return first matching node', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -383,7 +385,8 @@ describe('NodePos', () => {
     it('should return all matching nodes with querySelectorAll', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -395,7 +398,8 @@ describe('NodePos', () => {
     it('should filter correctly with attributes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -592,7 +596,8 @@ describe('NodePos', () => {
     it('should handle deeply nested structures', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote, CustomInlineNode],
-        content: '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
+        content:
+          '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
       })
 
       const inlineNode = editor.$node('customInline')

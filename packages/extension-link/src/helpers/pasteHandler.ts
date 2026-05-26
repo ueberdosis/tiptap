@@ -36,7 +36,11 @@ export function pasteHandler(options: PasteHandlerOptions): Plugin {
           item => item.isLink && item.value === textContent,
         )
 
-        if (!textContent || !link || (shouldAutoLink !== undefined && !shouldAutoLink(link.value))) {
+        if (
+          !textContent ||
+          !link ||
+          (shouldAutoLink !== undefined && !shouldAutoLink(link.value))
+        ) {
           return false
         }
 

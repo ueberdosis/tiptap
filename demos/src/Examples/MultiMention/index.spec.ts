@@ -82,7 +82,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           )
         })
 
-        test('should close the dropdown menu when I move the cursor outside the editor', async ({ page }) => {
+        test('should close the dropdown menu when I move the cursor outside the editor', async ({
+          page,
+        }) => {
           await clearEditor(page)
           await page.locator('.tiptap').type('@')
           await expect(page.locator('.dropdown-menu')).toBeVisible()
@@ -123,7 +125,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           )
         })
 
-        test('should show "No result" when searching for a non-existent person', async ({ page }) => {
+        test('should show "No result" when searching for a non-existent person', async ({
+          page,
+        }) => {
           await clearEditor(page)
           await page.locator('.tiptap').type('@nonexistent')
 
@@ -194,7 +198,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await expect(buttons.nth(2)).toContainText('The Matrix')
         })
 
-        test('should insert Pirates of the Caribbean when clicking on its option', async ({ page }) => {
+        test('should insert Pirates of the Caribbean when clicking on its option', async ({
+          page,
+        }) => {
           await clearEditor(page)
           await page.locator('.tiptap').type('#')
 
@@ -210,7 +216,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           )
         })
 
-        test('should close the dropdown menu when I move the cursor outside the editor', async ({ page }) => {
+        test('should close the dropdown menu when I move the cursor outside the editor', async ({
+          page,
+        }) => {
           await clearEditor(page)
           await page.locator('.tiptap').type('#')
           await expect(page.locator('.dropdown-menu')).toBeVisible()
@@ -249,7 +257,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           )
         })
 
-        test('should show "No result" when searching for a non-existent movie', async ({ page }) => {
+        test('should show "No result" when searching for a non-existent movie', async ({
+          page,
+        }) => {
           await clearEditor(page)
           await page.locator('.tiptap').type('#nonexistent')
 

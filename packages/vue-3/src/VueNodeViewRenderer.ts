@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* oslint-disable no-underscore-dangle */
 import type {
   DecorationWithType,
   NodeViewProps,
@@ -85,7 +85,11 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
   private cachedExtensionWithSyncedStorage: NodeViewProps['extension'] | null = null
 
-  constructor(component: Component, props: NodeViewRendererProps, options?: Partial<VueNodeViewRendererOptions>) {
+  constructor(
+    component: Component,
+    props: NodeViewRendererProps,
+    options?: Partial<VueNodeViewRendererOptions>,
+  ) {
     super(component, props, options)
 
     if (this.options.trackNodeViewPosition) {
@@ -151,18 +155,18 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       },
       // add support for scoped styles
       // @ts-ignore
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       __scopeId: this.component.__scopeId,
       // add support for CSS Modules
       // @ts-ignore
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       __cssModules: this.component.__cssModules,
       // add support for vue devtools
       // @ts-ignore
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       __name: this.component.__name,
       // @ts-ignore
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       __file: this.component.__file,
     })
 
@@ -251,7 +255,11 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
    * On update, update the React component.
    * To prevent unnecessary updates, the `update` option can be used.
    */
-  update(node: ProseMirrorNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: ProseMirrorNode,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.decorationClasses.value = this.getDecorationClasses()
       this.renderer.updateProps(props)
@@ -274,7 +282,12 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
         oldInnerDecorations,
         innerDecorations,
         updateProps: () =>
-          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
+          rerenderComponent({
+            node,
+            decorations,
+            innerDecorations,
+            extension: this.extensionWithSyncedStorage,
+          }),
       })
     }
 
@@ -376,7 +389,9 @@ export function VueNodeViewRenderer(
     }
     // check for class-component and normalize if neccessary
     const normalizedComponent =
-      typeof component === 'function' && '__vccOpts' in component ? (component.__vccOpts as Component) : component
+      typeof component === 'function' && '__vccOpts' in component
+        ? (component.__vccOpts as Component)
+        : component
 
     return new VueNodeView(normalizedComponent, props, options)
   }

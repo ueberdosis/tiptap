@@ -165,7 +165,18 @@ declare module '@tiptap/core' {
 }
 
 export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['protocols']) {
-  const allowedProtocols: string[] = ['http', 'https', 'ftp', 'ftps', 'mailto', 'tel', 'callto', 'sms', 'cid', 'xmpp']
+  const allowedProtocols: string[] = [
+    'http',
+    'https',
+    'ftp',
+    'ftps',
+    'mailto',
+    'tel',
+    'callto',
+    'sms',
+    'cid',
+    'xmpp',
+  ]
 
   if (protocols) {
     protocols.forEach(protocol => {
@@ -181,7 +192,7 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
     !uri ||
     uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
       new RegExp(
-        // eslint-disable-next-line no-useless-escape
+        // oxlint-disable-next-line no-useless-escape
         `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
         'i',
       ),
@@ -207,7 +218,9 @@ export const Link = Mark.create<LinkOptions>({
     if (this.options.validate && !this.options.shouldAutoLink) {
       // Copy the validate function to the shouldAutoLink option
       this.options.shouldAutoLink = this.options.validate
-      console.warn('The `validate` option is deprecated. Rename to the `shouldAutoLink` option instead.')
+      console.warn(
+        'The `validate` option is deprecated. Rename to the `shouldAutoLink` option instead.',
+      )
     }
     this.options.protocols.forEach(protocol => {
       if (typeof protocol === 'string') {
@@ -392,7 +405,10 @@ export const Link = Mark.create<LinkOptions>({
       unsetLink:
         () =>
         ({ chain }) => {
-          return chain().unsetMark(this.name, { extendEmptyMarkRange: true }).setMeta('preventAutolink', true).run()
+          return chain()
+            .unsetMark(this.name, { extendEmptyMarkRange: true })
+            .setMeta('preventAutolink', true)
+            .run()
         },
     }
   },
@@ -468,7 +484,8 @@ export const Link = Mark.create<LinkOptions>({
       clickHandler({
         type: this.type,
         editor: this.editor,
-        openOnClick: this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
+        openOnClick:
+          this.options.openOnClick === 'whenNotEditable' ? true : this.options.openOnClick,
         enableClickSelection: this.options.enableClickSelection,
       }),
     )

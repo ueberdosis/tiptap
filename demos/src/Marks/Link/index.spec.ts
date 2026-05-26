@@ -6,11 +6,16 @@ const demoName = 'Link'
 const frameworkPaths = ['React', 'Vue']
 const demoPath = '/src/Marks'
 
-async function paste(editor: ReturnType<typeof getEditor> extends Promise<infer T> ? T : never, payload: string) {
+async function paste(
+  editor: ReturnType<typeof getEditor> extends Promise<infer T> ? T : never,
+  payload: string,
+) {
   await editor.evaluate((el: HTMLElement, text: string) => {
     const dt = new DataTransfer()
     dt.setData('text/plain', text)
-    el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }))
+    el.dispatchEvent(
+      new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }),
+    )
   }, payload)
 }
 
@@ -43,7 +48,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('parses a tags with target attribute', async ({ page }) => {
         const editor = await getEditor(page)
         const html = await editor.evaluate((el: any) => {
-          el.editor.commands.setContent('<p><a href="https://example.com" target="_self">Example Text2</a></p>')
+          el.editor.commands.setContent(
+            '<p><a href="https://example.com" target="_self">Example Text2</a></p>',
+          )
           return el.editor.getHTML()
         })
         expect(html).toBe(
@@ -54,10 +61,14 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('parses a tags with rel attribute', async ({ page }) => {
         const editor = await getEditor(page)
         const html = await editor.evaluate((el: any) => {
-          el.editor.commands.setContent('<p><a href="https://example.com" rel="follow">Example Text3</a></p>')
+          el.editor.commands.setContent(
+            '<p><a href="https://example.com" rel="follow">Example Text3</a></p>',
+          )
           return el.editor.getHTML()
         })
-        expect(html).toBe('<p><a target="_blank" rel="follow" href="https://example.com">Example Text3</a></p>')
+        expect(html).toBe(
+          '<p><a target="_blank" rel="follow" href="https://example.com">Example Text3</a></p>',
+        )
       })
 
       test('button adds a link to selected text', async ({ page }) => {
@@ -111,7 +122,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
         await paste(editor, 'https://example.com?paramA=nice&paramB=cool')
-        await expect(page.locator('.tiptap a')).toHaveAttribute('href', 'https://example.com?paramA=nice&paramB=cool')
+        await expect(page.locator('.tiptap a')).toHaveAttribute(
+          'href',
+          'https://example.com?paramA=nice&paramB=cool',
+        )
       })
 
       if (frameworkPath === 'React') {

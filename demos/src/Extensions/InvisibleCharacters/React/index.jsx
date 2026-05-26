@@ -33,11 +33,17 @@ export default () => {
     <div>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.commands.showInvisibleCharacters()}>Show invisible characters</button>
+          <button onClick={() => editor.commands.showInvisibleCharacters()}>
+            Show invisible characters
+          </button>
           {/* Works as well */}
           {/* <button onClick={() => editor.commands.showInvisibleCharacters(false)}>showInvisibleCharacters(false)</button> */}
-          <button onClick={() => editor.commands.hideInvisibleCharacters()}>Hide invisible characters</button>
-          <button onClick={() => editor.commands.toggleInvisibleCharacters()}>Toggle invisible characters</button>
+          <button onClick={() => editor.commands.hideInvisibleCharacters()}>
+            Hide invisible characters
+          </button>
+          <button onClick={() => editor.commands.toggleInvisibleCharacters()}>
+            Toggle invisible characters
+          </button>
         </div>
         <div>
           <input

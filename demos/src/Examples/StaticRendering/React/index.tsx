@@ -52,7 +52,7 @@ export default () => {
   return (
     <div>
       <EditorProvider
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Just want to show the usage first
+        // oxlint-disable-next-lineno-use-before-define -- Just want to show the usage first
         slotBefore={<MenuBar />}
         extensions={extensions}
         content={content}
@@ -113,7 +113,10 @@ export default () => {
       {tab === 'react' && (
         <div className="output-group tiptap">
           <h2>React Element</h2>
-          <p>This example renders the JSON content directly into a React element without using an editor instance.</p>
+          <p>
+            This example renders the JSON content directly into a React element without using an
+            editor instance.
+          </p>
           <p className="hint">Notice that every paragraph now has a button counter</p>
           <div className="tiptap">
             {currentJSON &&
@@ -123,7 +126,7 @@ export default () => {
                 options: {
                   nodeMapping: {
                     paragraph: ({ node }) => {
-                      // eslint-disable-next-line react-hooks/rules-of-hooks
+                      // oxlint-disable-next-line react-hooks/rules-of-hooks
                       const [count, setCount] = useState(0)
                       return (
                         <>
@@ -145,8 +148,8 @@ export default () => {
         <div className="output-group tiptap">
           <h2>HTML String</h2>
           <p>
-            This example renders the JSON content into an HTML string without using an editor instance or document
-            parser.
+            This example renders the JSON content into an HTML string without using an editor
+            instance or document parser.
           </p>
           <pre>
             <code>
@@ -163,8 +166,9 @@ export default () => {
         <div className="output-group tiptap">
           <h2>To HTML Element (via dangerouslySetInnerHTML)</h2>
           <p>
-            This example renders the JSON content into an HTML string without using an editor instance or document
-            parser, and places that result directly into the HTML using dangerouslySetInnerHTML.
+            This example renders the JSON content into an HTML string without using an editor
+            instance or document parser, and places that result directly into the HTML using
+            dangerouslySetInnerHTML.
           </p>
           <div
             className="tiptap"
@@ -183,8 +187,8 @@ export default () => {
         <div className="output-group tiptap">
           <h2>Markdown</h2>
           <p>
-            This example renders the JSON content into a markdown without using an editor instance, document parser or
-            markdown library.
+            This example renders the JSON content into a markdown without using an editor instance,
+            document parser or markdown library.
           </p>
           <pre>
             <code>
@@ -337,7 +341,9 @@ function MenuBar() {
         >
           Blockquote
         </button>
-        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Horizontal rule</button>
+        <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+          Horizontal rule
+        </button>
         <button onClick={() => editor.chain().focus().setHardBreak().run()}>Hard break</button>
         <button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
           Undo

@@ -72,7 +72,9 @@ export const TextAlign = Extension.create<TextAlignOptions>({
             parseHTML: element => {
               const alignment = element.style.textAlign
 
-              return this.options.alignments.includes(alignment) ? alignment : this.options.defaultAlignment
+              return this.options.alignments.includes(alignment)
+                ? alignment
+                : this.options.defaultAlignment
             },
             renderHTML: attributes => {
               if (!attributes.textAlign) {
@@ -104,7 +106,9 @@ export const TextAlign = Extension.create<TextAlignOptions>({
       unsetTextAlign:
         () =>
         ({ commands }) => {
-          return this.options.types.map(type => commands.resetAttributes(type, 'textAlign')).some(response => response)
+          return this.options.types
+            .map(type => commands.resetAttributes(type, 'textAlign'))
+            .some(response => response)
         },
 
       toggleTextAlign:

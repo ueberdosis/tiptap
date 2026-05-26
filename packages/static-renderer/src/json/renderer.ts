@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oslint-disableno-explicit-any */
 import type { MarkType, NodeType } from '@tiptap/core'
 
 /**
@@ -80,7 +80,9 @@ export type TiptapStaticRendererOptions<
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+  TMarkRender extends (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
+  ) => TReturnType = (
     ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
   ) => TReturnType,
 > = {
@@ -139,7 +141,9 @@ export function TiptapStaticRenderer<
   /**
    * A mark renderer is a function that takes a mark and its children and returns the rendered output
    */
-  TMarkRender extends (ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>) => TReturnType = (
+  TMarkRender extends (
+    ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
+  ) => TReturnType = (
     ctx: MarkProps<TMarkType, TReturnType | TReturnType[], TNodeType>,
   ) => TReturnType,
 >(

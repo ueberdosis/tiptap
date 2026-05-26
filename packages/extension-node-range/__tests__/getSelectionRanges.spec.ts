@@ -75,8 +75,12 @@ describe('getSelectionRanges', () => {
     const firstParagraphSize = editor.state.doc.child(0).nodeSize
     const secondParagraphStart = firstParagraphSize
     const secondParagraphSize = editor.state.doc.child(1).nodeSize
-    const $from = editor.state.doc.resolve(getNodeContentEnd(firstParagraphStart, firstParagraphSize))
-    const $to = editor.state.doc.resolve(getNodeContentEnd(secondParagraphStart, secondParagraphSize))
+    const $from = editor.state.doc.resolve(
+      getNodeContentEnd(firstParagraphStart, firstParagraphSize),
+    )
+    const $to = editor.state.doc.resolve(
+      getNodeContentEnd(secondParagraphStart, secondParagraphSize),
+    )
 
     const ranges = getSelectionRanges($from, $to, 0)
 
@@ -96,8 +100,12 @@ describe('getSelectionRanges', () => {
     const firstParagraphSize = editor.state.doc.child(0).nodeSize
     const secondParagraphStart = firstParagraphSize
     const secondParagraphSize = editor.state.doc.child(1).nodeSize
-    const $from = editor.state.doc.resolve(getNodeContentEnd(firstParagraphStart, firstParagraphSize))
-    const $to = editor.state.doc.resolve(getNodeContentEnd(secondParagraphStart, secondParagraphSize))
+    const $from = editor.state.doc.resolve(
+      getNodeContentEnd(firstParagraphStart, firstParagraphSize),
+    )
+    const $to = editor.state.doc.resolve(
+      getNodeContentEnd(secondParagraphStart, secondParagraphSize),
+    )
 
     const ranges = getSelectionRanges($from, $to, 0, {
       extendOnBoundaryOverlap: false,

@@ -36,7 +36,7 @@ describe('extension-audio', () => {
             type: 'audio',
             attrs: {
               // We want to ensure script URLs are filtered out
-              // eslint-disable-next-line no-script-url
+              // oxlint-disable-next-line no-script-url
               src: 'javascript:alert(window.origin)//audio',
             },
           },
@@ -44,7 +44,7 @@ describe('extension-audio', () => {
       },
     })
 
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     expect(editor.getHTML()).not.toContain('javascript:alert')
 
     destroyEditor()
@@ -151,12 +151,12 @@ describe('extension-audio', () => {
 
     const succeeded = editor.commands.setAudio({
       // We want to ensure script URLs are filtered out
-      // eslint-disable-next-line no-script-url
+      // oxlint-disable-next-line no-script-url
       src: 'javascript:alert(1)',
     })
 
     expect(succeeded).toBe(false)
-    // eslint-disable-next-line no-script-url
+    // oxlint-disable-next-line no-script-url
     expect(editor.getHTML()).not.toContain('javascript:alert')
 
     const validInsert = editor.commands.setAudio({

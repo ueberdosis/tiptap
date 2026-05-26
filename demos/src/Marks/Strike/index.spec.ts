@@ -24,7 +24,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
         ['<p><s>Example Text</s></p>', '<p><s>Example Text</s></p>'],
         ['<p><del>Example Text</del></p>', '<p><s>Example Text</s></p>'],
         ['<p><strike>Example Text</strike></p>', '<p><s>Example Text</s></p>'],
-        ['<p><span style="text-decoration: line-through">Example Text</span></p>', '<p><s>Example Text</s></p>'],
+        [
+          '<p><span style="text-decoration: line-through">Example Text</span></p>',
+          '<p><s>Example Text</s></p>',
+        ],
       ].forEach(([input, expected]) => {
         test(`parses ${input}`, async ({ page }) => {
           const editor = await getEditor(page)

@@ -1,6 +1,10 @@
 import type { EditorState } from '@tiptap/pm/state'
 
-export const hasListBefore = (editorState: EditorState, name: string, parentListTypes: string[]) => {
+export const hasListBefore = (
+  editorState: EditorState,
+  name: string,
+  parentListTypes: string[],
+) => {
   const { $anchor } = editorState.selection
 
   const previousNodePos = Math.max(0, $anchor.pos - 2)

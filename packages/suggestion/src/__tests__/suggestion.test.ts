@@ -232,7 +232,9 @@ describe('suggestion dismissal', () => {
 
     expect(editor.view.dom.querySelector('.suggestion')).not.toBeNull()
 
-    editor.view.someProp('handleKeyDown', f => f(editor.view, new KeyboardEvent('keydown', { key: 'Escape' })))
+    editor.view.someProp('handleKeyDown', f =>
+      f(editor.view, new KeyboardEvent('keydown', { key: 'Escape' })),
+    )
     await Promise.resolve()
 
     expect(editor.view.dom.querySelector('.suggestion')).toBeNull()

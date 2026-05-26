@@ -16,7 +16,10 @@ import {
   serializeAttrsToHTMLString,
   serializeChildrenToHTMLString,
 } from '@tiptap/static-renderer/json/html-string'
-import { domOutputSpecToHTMLString, renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
+import {
+  domOutputSpecToHTMLString,
+  renderToHTMLString,
+} from '@tiptap/static-renderer/pm/html-string'
 import { describe, expect, it } from 'vitest'
 
 describe('static render json to string (no prosemirror)', () => {
@@ -322,7 +325,9 @@ describe('static render json to string (with prosemirror)', () => {
       extensions: [Document, Paragraph, Text, Link],
     })
 
-    expect(html).toContain('href="https://tiptap.dev/?q=&quot;&gt;&lt;img src=x onerror=alert(document.cookie)&gt;"')
+    expect(html).toContain(
+      'href="https://tiptap.dev/?q=&quot;&gt;&lt;img src=x onerror=alert(document.cookie)&gt;"',
+    )
   })
 
   it('escapes string DOM output specs as text content', () => {
@@ -420,15 +425,18 @@ describe('static render json to string (with prosemirror)', () => {
     ],
   }
 
-  it.each(['ltr', 'rtl', 'auto'] as const)('honors textDirection=%s via staticEditorOptions', direction => {
-    const html = renderToHTMLString({
-      content: headingDoc,
-      extensions: [Document, Paragraph, Text, Heading],
-      staticEditorOptions: { textDirection: direction },
-    })
+  it.each(['ltr', 'rtl', 'auto'] as const)(
+    'honors textDirection=%s via staticEditorOptions',
+    direction => {
+      const html = renderToHTMLString({
+        content: headingDoc,
+        extensions: [Document, Paragraph, Text, Heading],
+        staticEditorOptions: { textDirection: direction },
+      })
 
-    expect(html).toContain(`dir="${direction}"`)
-  })
+      expect(html).toContain(`dir="${direction}"`)
+    },
+  )
 
   it('does not add a dir attribute when staticEditorOptions is unset', () => {
     const html = renderToHTMLString({
@@ -446,7 +454,13 @@ describe('static render json to string (with prosemirror)', () => {
     // duplicate `addGlobalAttributes`. The static renderer mirrors that.
     const html = renderToHTMLString({
       content: headingDoc,
-      extensions: [Document, Paragraph, Text, Heading, coreExtensions.TextDirection.configure({ direction: 'ltr' })],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Heading,
+        coreExtensions.TextDirection.configure({ direction: 'ltr' }),
+      ],
       staticEditorOptions: { textDirection: 'rtl' },
     })
 
@@ -455,7 +469,9 @@ describe('static render json to string (with prosemirror)', () => {
   })
 
   it('omits null and undefined attribute values instead of serializing them as strings', () => {
-    expect(serializeAttrsToHTMLString({ class: null, id: undefined, dir: 'auto' })).toBe(' dir="auto"')
+    expect(serializeAttrsToHTMLString({ class: null, id: undefined, dir: 'auto' })).toBe(
+      ' dir="auto"',
+    )
   })
 
   it('preserves false attribute values (matches ProseMirror DOMSerializer)', () => {
@@ -492,7 +508,13 @@ describe('static render json to string (with prosemirror)', () => {
   })
 
   it('renders UniqueID data-id attributes when JSON is pre-processed with generateUniqueIds', () => {
-    const extensionsWithUid = [Document, Paragraph, Text, Heading, UniqueID.configure({ types: ['heading'] })]
+    const extensionsWithUid = [
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      UniqueID.configure({ types: ['heading'] }),
+    ]
     const docWithIds = generateUniqueIds(headingDoc, extensionsWithUid)
 
     const html = renderToHTMLString({ content: docWithIds, extensions: extensionsWithUid })

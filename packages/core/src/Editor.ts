@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* oslint-disableno-empty-object-type */
 import type { MarkType, Node as ProseMirrorNode, NodeType, Schema } from '@tiptap/pm/model'
 import type { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { EditorState } from '@tiptap/pm/state'
@@ -428,7 +428,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       ? [
           Editable,
           ClipboardTextSerializer.configure({
-            blockSeparator: this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
+            blockSeparator:
+              this.options.coreExtensionOptions?.clipboardTextSerializer?.blockSeparator,
           }),
           Commands,
           FocusEvents,
@@ -445,7 +446,9 @@ export class Editor extends EventEmitter<EditorEvents> {
         ].filter(ext => {
           if (typeof this.options.enableCoreExtensions === 'object') {
             return (
-              this.options.enableCoreExtensions[ext.name as keyof typeof this.options.enableCoreExtensions] !== false
+              this.options.enableCoreExtensions[
+                ext.name as keyof typeof this.options.enableCoreExtensions
+              ] !== false
             )
           }
           return true
@@ -487,7 +490,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     } catch (e) {
       if (
         !(e instanceof Error) ||
-        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(e.message)
+        !['[tiptap error]: Invalid JSON content', '[tiptap error]: Invalid HTML content'].includes(
+          e.message,
+        )
       ) {
         // Not the content error we were expecting
         throw e
@@ -504,7 +509,9 @@ export class Editor extends EventEmitter<EditorEvents> {
             ;(this.storage.collaboration as any).isDisabled = true
           }
           // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
-          this.options.extensions = this.options.extensions.filter(extension => extension.name !== 'collaboration')
+          this.options.extensions = this.options.extensions.filter(
+            extension => extension.name !== 'collaboration',
+          )
 
           // Restart the initialization process by recreating the extension manager with the new set of extensions
           this.createExtensionManager()
@@ -527,7 +534,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     // If a user provided a custom `dispatchTransaction` through `editorProps`,
     // we use that as the base dispatch function.
     // Otherwise, we use Tiptap's internal `dispatchTransaction` method.
-    const baseDispatch = (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
+    const baseDispatch =
+      (editorProps as DirectEditorProps).dispatchTransaction || this.dispatchTransaction.bind(this)
     const dispatch = enableExtensionDispatchTransaction
       ? this.extensionManager.dispatchTransaction(baseDispatch)
       : baseDispatch
@@ -672,7 +680,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('focus', {
         editor: this,
         event: focus.event,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-lineno-non-null-assertion
         transaction: mostRecentFocusTr!,
       })
     }
@@ -681,7 +689,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       this.emit('blur', {
         editor: this,
         event: blur.event,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // oxlint-disable-next-lineno-non-null-assertion
         transaction: mostRecentFocusTr!,
       })
     }
@@ -720,7 +728,8 @@ export class Editor extends EventEmitter<EditorEvents> {
   public isActive(nameOrAttributes: string, attributesOrUndefined?: {}): boolean {
     const name = typeof nameOrAttributes === 'string' ? nameOrAttributes : null
 
-    const attributes = typeof nameOrAttributes === 'string' ? attributesOrUndefined : nameOrAttributes
+    const attributes =
+      typeof nameOrAttributes === 'string' ? attributesOrUndefined : nameOrAttributes
 
     return isActive(this.state, name, attributes)
   }
@@ -745,7 +754,10 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Get the document as text.
    */
-  public getText(options?: { blockSeparator?: string; textSerializers?: Record<string, TextSerializer> }): string {
+  public getText(options?: {
+    blockSeparator?: string
+    textSerializers?: Record<string, TextSerializer>
+  }): string {
     const { blockSeparator = '\n\n', textSerializers = {} } = options || {}
 
     return getText(this.state.doc, {

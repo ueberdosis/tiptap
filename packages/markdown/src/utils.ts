@@ -47,7 +47,9 @@ export function attrsEqual(
     return false
   }
 
-  return keysA.every(key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]))
+  return keysA.every(
+    key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]),
+  )
 }
 
 /**
@@ -125,7 +127,9 @@ export function findMarksToCloseAtEnd(
         .reverse()
         .forEach(([markType, activeMark]) => {
           // Check if nextNode has a mark of the same type with matching attrs
-          const nextMark = nextNode.marks.find((m: any) => m.type === markType && attrsEqual(m.attrs, activeMark.attrs))
+          const nextMark = nextNode.marks.find(
+            (m: any) => m.type === markType && attrsEqual(m.attrs, activeMark.attrs),
+          )
           if (!nextMark) {
             marksToCloseAtEnd.push(markType)
           }
@@ -194,7 +198,11 @@ export function reopenMarksAfterNode(
  * isTaskItem({ raw: '- Regular' }) // { isTask: false, indentLevel: 0 }
  * ```
  */
-export function isTaskItem(item: MarkdownToken): { isTask: boolean; checked?: boolean; indentLevel: number } {
+export function isTaskItem(item: MarkdownToken): {
+  isTask: boolean
+  checked?: boolean
+  indentLevel: number
+} {
   const raw = item.raw || item.text || ''
 
   // Match patterns like "- [ ] " or "  - [x] "

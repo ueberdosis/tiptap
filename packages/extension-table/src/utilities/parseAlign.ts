@@ -16,7 +16,11 @@ export enum TableCellAlign {
  * @returns A valid TableCellAlign value or null
  */
 export function normalizeTableCellAlign(value: unknown): TableCellAlign | null {
-  if (value === TableCellAlign.Left || value === TableCellAlign.Right || value === TableCellAlign.Center) {
+  if (
+    value === TableCellAlign.Left ||
+    value === TableCellAlign.Right ||
+    value === TableCellAlign.Center
+  ) {
     return value
   }
 

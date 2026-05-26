@@ -62,7 +62,7 @@ export function renderToMarkdown({
         heading({ node, children }) {
           const level = node.attrs.level as number
 
-          return `${new Array(level).fill('#').join('')} ${children}\n`
+          return `${Array.from<string>({ length: level }).fill('#').join('')} ${children}\n`
         },
         codeBlock({ node, children }) {
           return `\n\`\`\`${node.attrs.language}\n${serializeChildrenToHTMLString(children)}\n\`\`\`\n`
@@ -89,7 +89,7 @@ export function renderToMarkdown({
           }
 
           const columnCount = node.children[0].childCount
-          return `\n${serializeChildrenToHTMLString(children[0])}| ${new Array(columnCount).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
+          return `\n${serializeChildrenToHTMLString(children[0])}| ${Array.from<string>({ length: columnCount }).fill('---').join(' | ')} |\n${serializeChildrenToHTMLString(children.slice(1))}\n`
         },
         tableRow({ children }) {
           if (Array.isArray(children)) {

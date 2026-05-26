@@ -152,8 +152,13 @@ export class MarkdownManager {
       this.extensionRanks.set(name, this.extensionRanks.size)
     }
     const tokenName =
-      (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
-    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
+      (getExtensionField(
+        extension,
+        'markdownTokenName',
+      ) as ExtendableConfig['markdownTokenName']) || name
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as
+      | ExtendableConfig['parseMarkdown']
+      | undefined
     const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
       | ExtendableConfig['renderMarkdown']
       | undefined
@@ -163,7 +168,8 @@ export class MarkdownManager {
 
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
+    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ??
+      null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
     const htmlReopen = markdownCfg?.htmlReopen
 
@@ -246,7 +252,9 @@ export class MarkdownManager {
       level,
       start: startCb,
       tokenizer(this: TokenizerThis, src, tokens) {
-        const helper = this.lexer ? createTokenizerHelpers(this.lexer) : createTokenizerHelpers(createLexer())
+        const helper = this.lexer
+          ? createTokenizerHelpers(this.lexer)
+          : createTokenizerHelpers(createLexer())
         const result = tokenize(src, tokens, helper)
 
         if (result && result.type) {
@@ -366,7 +374,10 @@ export class MarkdownManager {
   /**
    * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
    */
-  private parseTokens(tokens: MarkdownToken[], parseImplicitEmptyParagraphs = false): JSONContent[] {
+  private parseTokens(
+    tokens: MarkdownToken[],
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent[] {
     const nonSpaceTokenIndexes = tokens.reduce<number[]>((indexes, token, index) => {
       if (token.type !== 'space') {
         indexes.push(index)
@@ -390,7 +401,11 @@ export class MarkdownManager {
       if (parseImplicitEmptyParagraphs && token.type === 'space') {
         const nextNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer] ?? -1
 
-        return this.createImplicitEmptyParagraphsFromSpace(token, previousNonSpaceTokenIndex, nextNonSpaceTokenIndex)
+        return this.createImplicitEmptyParagraphsFromSpace(
+          token,
+          previousNonSpaceTokenIndex,
+          nextNonSpaceTokenIndex,
+        )
       }
 
       const parsed = this.parseToken(token, parseImplicitEmptyParagraphs)
@@ -427,7 +442,10 @@ export class MarkdownManager {
   /**
    * Parse a single token into Tiptap JSON using the appropriate registered handler.
    */
-  private parseToken(token: MarkdownToken, parseImplicitEmptyParagraphs = false): JSONContent | JSONContent[] | null {
+  private parseToken(
+    token: MarkdownToken,
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent | JSONContent[] | null {
     if (!token.type) {
       return null
     }
@@ -494,7 +512,11 @@ export class MarkdownManager {
     }
 
     // Mixed list with taskList extension available: split into separate lists
-    type TaskListItemToken = MarkdownToken & { type: 'taskItem'; checked?: boolean; indentLevel?: number }
+    type TaskListItemToken = MarkdownToken & {
+      type: 'taskItem'
+      checked?: boolean
+      indentLevel?: number
+    }
     const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
     let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
     let currentType: 'list' | 'taskList' | null = null
@@ -527,7 +549,9 @@ export class MarkdownManager {
             const nestedLines = lines.slice(1)
             const nonEmptyLines = nestedLines.filter(line => line.trim())
             if (nonEmptyLines.length > 0) {
-              const minIndent = Math.min(...nonEmptyLines.map(line => line.length - line.trimStart().length))
+              const minIndent = Math.min(
+                ...nonEmptyLines.map(line => line.length - line.trimStart().length),
+              )
               // Remove common indentation while preserving structure
               const trimmedLines = nestedLines.map(line => {
                 if (!line.trim()) {
@@ -707,6 +731,7 @@ export class MarkdownManager {
         const isClosing = /^<\/[\s]*[\w-]+/i.test(raw)
         const openMatch = raw.match(/^<[\s]*([\w-]+)(\s|>|\/|$)/i)
 
+        // oxlint-disable-next-line prefer-string-starts-ends-with
         if (!isClosing && openMatch && !/\/>$/.test(raw)) {
           // Try to find the corresponding closing html token for this tag
           const tagName = openMatch[1]
@@ -816,7 +841,9 @@ export class MarkdownManager {
   } /**
    * Check if a parse result represents a mark to be applied.
    */
-  private isMarkResult(result: any): result is { mark: string; content: JSONContent[]; attrs?: any } {
+  private isMarkResult(
+    result: any,
+  ): result is { mark: string; content: JSONContent[]; attrs?: any } {
     return result && typeof result === 'object' && 'mark' in result
   }
 
@@ -937,7 +964,11 @@ export class MarkdownManager {
 
         // For inline HTML, we need to flatten the content appropriately
         // If there's only one paragraph with content, unwrap it
-        if (parsed.content.length === 1 && parsed.content[0].type === 'paragraph' && parsed.content[0].content) {
+        if (
+          parsed.content.length === 1 &&
+          parsed.content[0].type === 'paragraph' &&
+          parsed.content[0].content
+        ) {
           return parsed.content[0].content
         }
 
@@ -1108,13 +1139,20 @@ export class MarkdownManager {
       return ''
     }
 
-    const previousNode = Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
+    const previousNode =
+      Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
 
         if (!Array.isArray(nodes) && (nodes as any).content) {
-          return this.renderNodes((nodes as any).content as JSONContent[], node, separator || '', index, childLevel)
+          return this.renderNodes(
+            (nodes as any).content as JSONContent[],
+            node,
+            separator || '',
+            index,
+            childLevel,
+          )
         }
 
         return this.renderNodes(nodes, node, separator || '', index, childLevel)
@@ -1237,7 +1275,11 @@ export class MarkdownManager {
               }
 
               const mark = currentMarks.get(markType)
-              const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+              const closeMarkdown = this.getMarkClosing(
+                markType,
+                mark,
+                markOpeningModes.get(markType),
+              )
               if (closeMarkdown) {
                 textContent += closeMarkdown
               }
@@ -1312,7 +1354,12 @@ export class MarkdownManager {
             ...activeMarksClosingHereLifo, // outer (were active before) — close last, LIFO
           ]
         } else {
-          marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+          marksToCloseAtEnd = findMarksToCloseAtEnd(
+            activeMarks,
+            currentMarks,
+            nextNode,
+            this.markSetsEqual.bind(this),
+          )
         }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
@@ -1383,7 +1430,11 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+  private getMarkOpening(
+    markType: string,
+    mark: any,
+    openingMode: 'markdown' | 'html' = 'markdown',
+  ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.open || ''
     }
@@ -1427,7 +1478,11 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+  private getMarkClosing(
+    markType: string,
+    mark: any,
+    openingMode: 'markdown' | 'html' = 'markdown',
+  ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.close || ''
     }
@@ -1511,7 +1566,11 @@ export class MarkdownManager {
    *      naturally wraps bold/italic without the serializer needing to peek
    *      at how any particular mark renders.
    */
-  private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
+  private getMarksToOpenForSerialization(
+    activeMarks: Map<string, any>,
+    currentMarks: Map<string, any>,
+    nextNode: any,
+  ) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
     if (marksToOpen.length <= 1) {

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oslint-disable */
 
 import { execFile as execFileCallback } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
@@ -12,7 +12,9 @@ import getReleasePlan from '@changesets/get-release-plan'
 const execFile = promisify(execFileCallback)
 const require = createRequire(import.meta.url)
 const resolveFromWorkspace = request =>
-  require.resolve(request, { paths: [process.cwd(), require.resolve('@changesets/cli/changelog')] })
+  require.resolve(request, {
+    paths: [process.cwd(), require.resolve('@changesets/cli/changelog')],
+  })
 const semverSatisfies = require(resolveFromWorkspace('semver/functions/satisfies'))
 const validRange = require(resolveFromWorkspace('semver/ranges/valid'))
 
@@ -28,7 +30,9 @@ async function readChangesetConfig() {
 
   return {
     ...json,
-    changelog: normalizeChangelogOption(json.changelog === undefined ? '@changesets/cli/changelog' : json.changelog),
+    changelog: normalizeChangelogOption(
+      json.changelog === undefined ? '@changesets/cli/changelog' : json.changelog,
+    ),
   }
 }
 
@@ -63,7 +67,10 @@ async function loadChangelogGenerator(cwd) {
   mod = mod.default ?? mod
   mod = mod.default ?? mod
 
-  if (typeof mod.getReleaseLine !== 'function' || typeof mod.getDependencyReleaseLine !== 'function') {
+  if (
+    typeof mod.getReleaseLine !== 'function' ||
+    typeof mod.getDependencyReleaseLine !== 'function'
+  ) {
     throw new Error(`Could not resolve changelog generation functions from ${modulePath}`)
   }
 
@@ -79,9 +86,13 @@ async function getChangesetCommit(cwd, changesetId) {
 
   for (const filePath of candidates) {
     try {
-      const { stdout } = await execFile('git', ['log', '--diff-filter=A', '--format=%H', '-n', '1', '--', filePath], {
-        cwd,
-      })
+      const { stdout } = await execFile(
+        'git',
+        ['log', '--diff-filter=A', '--format=%H', '-n', '1', '--', filePath],
+        {
+          cwd,
+        },
+      )
       const commit = stdout.trim()
 
       if (commit) return commit
@@ -148,7 +159,10 @@ function shouldUpdateDependencyBasedOnConfig(cwd, release, dependency, config) {
         break
       default:
         if (!validRange(depVersionRange)) {
-          return path.posix.normalize(depVersionRange) === path.relative(cwd, release.dir).replaceAll('\\', '/')
+          return (
+            path.posix.normalize(depVersionRange) ===
+            path.relative(cwd, release.dir).replaceAll('\\', '/')
+          )
         }
     }
   }
@@ -166,7 +180,15 @@ function shouldUpdateDependencyBasedOnConfig(cwd, release, dependency, config) {
   return shouldUpdate
 }
 
-async function getPackageChangelogEntry(cwd, release, releases, changesets, changelogFunctions, changelogOpts, config) {
+async function getPackageChangelogEntry(
+  cwd,
+  release,
+  releases,
+  changesets,
+  changelogFunctions,
+  changelogOpts,
+  config,
+) {
   if (release.type === 'none') return null
 
   const changelogLines = {
@@ -225,13 +247,19 @@ async function getPackageChangelogEntry(cwd, release, releases, changesets, chan
   const relevantChangesets = changesets.filter(changeset => relevantChangesetIds.has(changeset.id))
 
   changelogLines.patch.push(
-    changelogFunctions.getDependencyReleaseLine(relevantChangesets, dependentReleases, changelogOpts),
+    changelogFunctions.getDependencyReleaseLine(
+      relevantChangesets,
+      dependentReleases,
+      changelogOpts,
+    ),
   )
 
   const sections = []
 
   for (const type of ['major', 'minor', 'patch']) {
-    const lines = (await Promise.all(changelogLines[type])).map(line => line?.trim()).filter(Boolean)
+    const lines = (await Promise.all(changelogLines[type]))
+      .map(line => line?.trim())
+      .filter(Boolean)
 
     if (lines.length > 0) {
       sections.push(`### ${type[0].toUpperCase()}${type.slice(1)} Changes\n\n${lines.join('\n')}\n`)
@@ -262,7 +290,9 @@ function renderReleaseNotes(version, sections) {
       '',
       `## v${version}`,
       '',
-      ...sections.flatMap((section, index) => (index === sections.length - 1 ? [section] : [section, ''])),
+      ...sections.flatMap((section, index) =>
+        index === sections.length - 1 ? [section] : [section, ''],
+      ),
     ].join('\n') + '\n'
   )
 }
@@ -300,7 +330,9 @@ function replaceOrPrependVersionSection(body, newSection, version) {
   const nextHeaderRe = /^#{1,2}\s.*$/m
   const nextMatch = nextHeaderRe.exec(rest)
 
-  const endIndex = nextMatch ? startIndex + headerMatch[0].length + nextMatch.index : existing.length
+  const endIndex = nextMatch
+    ? startIndex + headerMatch[0].length + nextMatch.index
+    : existing.length
   const before = existing.slice(0, startIndex)
   const after = existing.slice(endIndex)
 
@@ -360,7 +392,8 @@ async function main() {
     const aggregateConfig = {
       updateInternalDependencies: config.updateInternalDependencies === 'minor' ? 'minor' : 'patch',
       onlyUpdatePeerDependentsWhenOutOfRange: Boolean(
-        config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH?.onlyUpdatePeerDependentsWhenOutOfRange,
+        config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+          ?.onlyUpdatePeerDependentsWhenOutOfRange,
       ),
     }
 
@@ -383,7 +416,9 @@ async function main() {
     }
 
     if (sections.length === 0) {
-      console.log('No package changelog entries generated — skipping aggregate changelog generation')
+      console.log(
+        'No package changelog entries generated — skipping aggregate changelog generation',
+      )
       return
     }
 

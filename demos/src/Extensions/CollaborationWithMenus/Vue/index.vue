@@ -2,7 +2,10 @@
   <div v-if="editor">
     <bubble-menu :editor="editor">
       <div class="bubble-menu">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
       </div>
@@ -64,7 +67,8 @@ export default {
           document: ydoc,
         }),
         Placeholder.configure({
-          placeholder: 'Write something … It’ll be shared with everyone else looking at this example.',
+          placeholder:
+            'Write something … It’ll be shared with everyone else looking at this example.',
         }),
       ],
     })

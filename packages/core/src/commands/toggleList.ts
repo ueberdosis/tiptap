@@ -135,7 +135,8 @@ export const toggleList: RawCommands['toggleList'] =
 
     const currentList = parentList ?? allSelectionList
 
-    const isInsideExistingList = !!parentList && range.depth >= 1 && range.depth - parentList.depth <= 1
+    const isInsideExistingList =
+      !!parentList && range.depth >= 1 && range.depth - parentList.depth <= 1
 
     const hasWholeDocSelectedList = !!allSelectionList
     if ((isInsideExistingList || hasWholeDocSelectedList) && currentList) {
@@ -170,7 +171,10 @@ export const toggleList: RawCommands['toggleList'] =
       }
 
       // change list type
-      if (isList(currentList.node.type.name, extensions) && listType.validContent(currentList.node.content)) {
+      if (
+        isList(currentList.node.type.name, extensions) &&
+        listType.validContent(currentList.node.content)
+      ) {
         return chain()
           .command(() => {
             tr.setNodeMarkup(currentList.pos, listType)

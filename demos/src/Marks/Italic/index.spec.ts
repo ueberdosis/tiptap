@@ -42,7 +42,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('generic tags with italic style transform to em tags', async ({ page }) => {
         const editor = await getEditor(page)
         const html = await editor.evaluate((el: any) => {
-          el.editor.commands.setContent('<p><span style="font-style: italic">Example Text</span></p>')
+          el.editor.commands.setContent(
+            '<p><span style="font-style: italic">Example Text</span></p>',
+          )
           return el.editor.getHTML()
         })
         expect(html).toBe('<p><em>Example Text</em></p>')

@@ -1,4 +1,9 @@
-import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
+import type {
+  Mark as ProseMirrorMark,
+  Node as ProseMirrorNode,
+  ParseOptions,
+  Slice,
+} from '@tiptap/pm/model'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
@@ -38,12 +43,16 @@ export type ParentConfig<T> = Partial<{
 
 export type Primitive = null | undefined | string | number | boolean | symbol | bigint
 
-export type RemoveThis<T> = T extends (...args: any) => any ? (...args: Parameters<T>) => ReturnType<T> : T
+export type RemoveThis<T> = T extends (...args: any) => any
+  ? (...args: Parameters<T>) => ReturnType<T>
+  : T
 
 export type MaybeReturnType<T> = T extends (...args: any) => any ? ReturnType<T> : T
 
 export type MaybeThisParameterType<T> =
-  Exclude<T, Primitive> extends (...args: any) => any ? ThisParameterType<Exclude<T, Primitive>> : any
+  Exclude<T, Primitive> extends (...args: any) => any
+    ? ThisParameterType<Exclude<T, Primitive>>
+    : any
 
 export interface EditorEvents {
   mount: {
@@ -596,7 +605,9 @@ export type NodeType<
 export type DocumentType<
   TDocAttributes extends Record<string, any> | undefined = Record<string, any>,
   TContentType extends NodeType[] = NodeType[],
-> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & { content: TContentType }
+> = Omit<NodeType<'doc', TDocAttributes, never, TContentType>, 'marks' | 'content'> & {
+  content: TContentType
+}
 
 /**
  * A node type is either a JSON representation of a text node or a Prosemirror text node instance
@@ -681,7 +692,11 @@ export type GlobalAttributes = {
 
 export type PickValue<T, K extends keyof T> = T[K]
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
+  ? I
+  : never
 
 export type Diff<T extends keyof any, U extends keyof any> = ({ [P in T]: P } & {
   [P in U]: never
@@ -787,7 +802,7 @@ export interface NodeViewRendererProps {
 
 export type NodeViewRenderer = (props: NodeViewRendererProps) => NodeView
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// oxlint-disable-next-lineno-empty-object-type
 export interface MarkViewProps extends MarkViewRendererProps {}
 
 export interface MarkViewRendererProps {
@@ -967,7 +982,10 @@ export default MarkdownHelpers
  * - an array of JSON-like nodes
  * - or a `{ mark: string, content: JSONLike[] }` shape to apply a mark
  */
-export type MarkdownParseResult = JSONContent | JSONContent[] | { mark: string; content: JSONContent[]; attrs?: any }
+export type MarkdownParseResult =
+  | JSONContent
+  | JSONContent[]
+  | { mark: string; content: JSONContent[]; attrs?: any }
 
 export type RenderContext = {
   index: number
@@ -1069,7 +1087,10 @@ export type Utils = {
    * const position = editor.utils.createMappablePosition(10)
    * const {position, mapResult} = editor.utils.getUpdatedPosition(position, transaction)
    */
-  getUpdatedPosition: (position: MappablePosition, transaction: Transaction) => GetUpdatedPositionResult
+  getUpdatedPosition: (
+    position: MappablePosition,
+    transaction: Transaction,
+  ) => GetUpdatedPositionResult
 
   /**
    * Creates a MappablePosition from a position number. A mappable position can be used to track the

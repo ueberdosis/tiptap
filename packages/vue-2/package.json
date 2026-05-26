@@ -1,17 +1,31 @@
 {
   "name": "@tiptap/vue-2",
-  "description": "Vue components for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev",
+  "description": "Vue components for tiptap",
   "keywords": [
     "tiptap",
     "tiptap vue components"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/vue-2"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -30,14 +44,9 @@
       "require": "./dist/menus/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "dependencies": {
     "vue-ts-types": "1.6.2"
   },
@@ -46,23 +55,13 @@
     "@tiptap/pm": "workspace:^",
     "vue": "^2.7.16"
   },
-  "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
-  },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "vue": "^2.6.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/vue-2"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
   }
 }

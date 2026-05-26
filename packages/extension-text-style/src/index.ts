@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* oslint-disableno-empty-object-type */
 
 export * from './background-color/index.js'
 export * from './color/index.js'

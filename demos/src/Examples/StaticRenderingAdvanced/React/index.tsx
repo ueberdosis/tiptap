@@ -1,4 +1,9 @@
-import { Node, NodeViewContent, ReactNodeViewContentProvider, ReactNodeViewRenderer } from '@tiptap/react'
+import {
+  Node,
+  NodeViewContent,
+  ReactNodeViewContentProvider,
+  ReactNodeViewRenderer,
+} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { renderToReactElement } from '@tiptap/static-renderer'
 import React, { useMemo } from 'react'
@@ -65,12 +70,15 @@ export default () => {
         nodeMapping: {
           // You can replace the rendering of a node with a custom react component
           heading({ node, children }) {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
+            // oxlint-disable-next-line react-hooks/rules-of-hooks
             const [show, setEnabled] = React.useState(false)
 
             return (
               <h1 {...node.attrs} onClick={() => setEnabled(true)}>
-                {show ? `100% you can use React hooks!` : `Can you use React hooks? Click to find out!`} {children}
+                {show
+                  ? `100% you can use React hooks!`
+                  : `Can you use React hooks? Click to find out!`}{' '}
+                {children}
               </h1>
             )
           },

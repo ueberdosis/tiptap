@@ -1,17 +1,31 @@
 {
   "name": "@tiptap/react",
-  "description": "React components for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev",
+  "description": "React components for tiptap",
   "keywords": [
     "tiptap",
     "tiptap react components"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/react"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -30,14 +44,9 @@
       "require": "./dist/menus/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "dependencies": {
     "@types/use-sync-external-store": "^0.0.6",
     "fast-equals": "^5.3.3",
@@ -51,26 +60,16 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "optionalDependencies": {
-    "@tiptap/extension-bubble-menu": "workspace:^",
-    "@tiptap/extension-floating-menu": "workspace:^"
-  },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "@types/react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+    "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/react"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
   }
 }

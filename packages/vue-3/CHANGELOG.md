@@ -789,7 +789,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1250,7 +1250,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1401,7 +1401,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 

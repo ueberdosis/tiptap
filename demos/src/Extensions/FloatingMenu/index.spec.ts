@@ -17,7 +17,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
 
       test('does not render a floating menu on non-empty nodes', async ({ page }) => {
         const editor = await getEditor(page)
-        await editor.evaluate((el: any) => el.editor.chain().setContent('<p>Example Text</p>').focus().run())
+        await editor.evaluate((el: any) =>
+          el.editor.chain().setContent('<p>Example Text</p>').focus().run(),
+        )
         await expect(page.locator('[data-testid="floating-menu"]')).toHaveCount(0)
       })
 

@@ -19,7 +19,9 @@ export function getViewportBoundaryPositions({
   scrollContainer?: HTMLElement | Window
 }) {
   const editorRect = view.dom.getBoundingClientRect()
-  const containerRect = scrollContainer ? getContainerRect(scrollContainer) : { top: 0, bottom: window.innerHeight }
+  const containerRect = scrollContainer
+    ? getContainerRect(scrollContainer)
+    : { top: 0, bottom: window.innerHeight }
 
   const visibleTop = Math.max(editorRect.top, containerRect.top)
   const visibleBottom = Math.min(editorRect.bottom, containerRect.bottom)

@@ -138,7 +138,9 @@ And more lines`)
     editor.commands.setTextSelection(1)
     editor.commands.insertContent('<img src="https://example.image/1" alt="This is an example" />')
 
-    expect(editor.getHTML()).toContain('<img src="https://example.image/1" alt="This is an example"><p>HelloWorld</p>')
+    expect(editor.getHTML()).toContain(
+      '<img src="https://example.image/1" alt="This is an example"><p>HelloWorld</p>',
+    )
   })
 
   it('respects editor.options.parseOptions if defined to be `false`', () => {

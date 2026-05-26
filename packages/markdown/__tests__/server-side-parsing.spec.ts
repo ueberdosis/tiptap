@@ -38,7 +38,9 @@ describe('MarkdownManager Server-side Parsing', () => {
     expect(codeTextNodes.length).toBeGreaterThan(0)
 
     // At least one code segment should contain an HTML-like tag
-    const hasHtmlTag = codeTextNodes.some((n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')))
+    const hasHtmlTag = codeTextNodes.some(
+      (n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')),
+    )
     expect(hasHtmlTag).toBe(true)
 
     // All text content combined should include both HTML tags and the tilde
@@ -67,7 +69,9 @@ describe('MarkdownManager Server-side Parsing', () => {
     expect(codeTextNodes.length).toBeGreaterThan(0)
 
     // At least one code segment should contain an HTML-like tag
-    const hasHtmlTag = codeTextNodes.some((n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')))
+    const hasHtmlTag = codeTextNodes.some(
+      (n: any) => n.text && (n.text.includes('<h1>') || n.text.includes('<h6>')),
+    )
     expect(hasHtmlTag).toBe(true)
 
     // All text should contain both HTML tags
@@ -99,7 +103,9 @@ describe('MarkdownManager Server-side Parsing', () => {
 
     // In Node.js environment, HTML tags should be treated as literal text
     const allText = paragraph
-      .content!.map((n: any) => (n.text ? n.text : n.content?.map((c: any) => c.text).join('') || ''))
+      .content!.map((n: any) =>
+        n.text ? n.text : n.content?.map((c: any) => c.text).join('') || '',
+      )
       .join('')
 
     // Should contain the HTML tags as literal text
@@ -134,7 +140,8 @@ describe('MarkdownManager Server-side Parsing', () => {
     // Find text nodes with strike marks
     const textNodes = paragraph.content!.filter((n: any) => n.type === 'text')
     const strikeTextNode = textNodes.find(
-      (n: any) => n.text && n.text.includes('text') && n.marks?.some((m: any) => m.type === 'strike'),
+      (n: any) =>
+        n.text && n.text.includes('text') && n.marks?.some((m: any) => m.type === 'strike'),
     )
     expect(strikeTextNode).toBeDefined()
   })

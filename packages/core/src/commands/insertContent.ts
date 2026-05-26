@@ -42,5 +42,9 @@ declare module '@tiptap/core' {
 export const insertContent: RawCommands['insertContent'] =
   (value, options) =>
   ({ tr, commands }) => {
-    return commands.insertContentAt({ from: tr.selection.from, to: tr.selection.to }, value, options)
+    return commands.insertContentAt(
+      { from: tr.selection.from, to: tr.selection.to },
+      value,
+      options,
+    )
   }

@@ -33,7 +33,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
       test('transforms any tag with text-decoration underline to u tags', async ({ page }) => {
         const editor = await getEditor(page)
         const html = await editor.evaluate((el: any) => {
-          el.editor.commands.setContent('<p><span style="text-decoration: underline">Example Text</span></p>')
+          el.editor.commands.setContent(
+            '<p><span style="text-decoration: underline">Example Text</span></p>',
+          )
           return el.editor.getHTML()
         })
         expect(html).toBe('<p><u>Example Text</u></p>')

@@ -35,10 +35,14 @@ export function renderTableToMarkdown(
 
         if (cellNode.content && Array.isArray(cellNode.content) && cellNode.content.length > 1) {
           // Render each direct child separately and join with separator so we can split again later
-          const parts = cellNode.content.map(child => h.renderChildren(child as unknown as JSONContent))
+          const parts = cellNode.content.map(child =>
+            h.renderChildren(child as unknown as JSONContent),
+          )
           raw = parts.join(cellSep)
         } else {
-          raw = cellNode.content ? h.renderChildren(cellNode.content as unknown as JSONContent[]) : ''
+          raw = cellNode.content
+            ? h.renderChildren(cellNode.content as unknown as JSONContent[])
+            : ''
         }
 
         const text = collapseWhitespace(raw)
@@ -59,7 +63,7 @@ export function renderTableToMarkdown(
   }
 
   // Compute max width for each column
-  const colWidths = new Array(columnCount).fill(0)
+  const colWidths = Array.from<number>({ length: columnCount }).fill(0)
 
   rows.forEach(r => {
     for (let i = 0; i < columnCount; i += 1) {
@@ -79,7 +83,9 @@ export function renderTableToMarkdown(
 
   const headerRow = rows[0]
   const hasHeader = headerRow.some(c => c.isHeader)
-  const colAlignments: Array<TableCellAlignType | null> = new Array(columnCount).fill(null)
+  const colAlignments: Array<TableCellAlignType | null> = Array.from<TableCellAlignType | null>({
+    length: columnCount,
+  }).fill(null)
 
   rows.forEach(r => {
     for (let i = 0; i < columnCount; i += 1) {
@@ -94,9 +100,9 @@ export function renderTableToMarkdown(
   // Render header: if the document has a header row (tableHeader cells) use it,
   // otherwise emit an empty header row so most Markdown parsers will recognize
   // the table (this makes roundtripping to Markdown -> JSON more reliable).
-  const headerTexts = new Array(columnCount)
-    .fill(0)
-    .map((_, i) => (hasHeader ? (headerRow[i] && headerRow[i].text) || '' : ''))
+  const headerTexts = Array.from<number>({ length: columnCount }).map((_, i) =>
+    hasHeader ? (headerRow[i] && headerRow[i].text) || '' : '',
+  )
 
   out += `| ${headerTexts.map((t, i) => pad(t, colWidths[i])).join(' | ')} |\n`
 
@@ -125,7 +131,7 @@ export function renderTableToMarkdown(
   // Body rows: if we had a header, skip the first row; otherwise render all rows
   const body = hasHeader ? rows.slice(1) : rows
   body.forEach(r => {
-    out += `| ${new Array(columnCount)
+    out += `| ${Array.from<number>({ length: columnCount })
       .fill(0)
       .map((_, i) => pad((r[i] && r[i].text) || '', colWidths[i]))
       .join(' | ')} |\n`

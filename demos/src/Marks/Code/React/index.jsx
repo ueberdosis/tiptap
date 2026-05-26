@@ -30,10 +30,16 @@ export default () => {
           >
             Toggle code
           </button>
-          <button onClick={() => editor.chain().focus().setCode().run()} disabled={editor.isActive('code')}>
+          <button
+            onClick={() => editor.chain().focus().setCode().run()}
+            disabled={editor.isActive('code')}
+          >
             Set code
           </button>
-          <button onClick={() => editor.chain().focus().unsetCode().run()} disabled={!editor.isActive('code')}>
+          <button
+            onClick={() => editor.chain().focus().unsetCode().run()}
+            disabled={!editor.isActive('code')}
+          >
             Unset code
           </button>
         </div>

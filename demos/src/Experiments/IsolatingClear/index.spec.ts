@@ -19,7 +19,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any) => el.editor.commands.selectAll())
       })
 
-      test('applies the paragraph style when the keyboard shortcut is pressed', async ({ page }) => {
+      test('applies the paragraph style when the keyboard shortcut is pressed', async ({
+        page,
+      }) => {
         const editor = await getEditor(page)
 
         await expect(editor.locator('h1')).toHaveCount(1)

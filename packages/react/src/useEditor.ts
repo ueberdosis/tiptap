@@ -98,7 +98,9 @@ class EditorInstanceManager {
 
     if (isSSR) {
       if (immediatelyRender && isDev) {
-        console.warn('SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches')
+        console.warn(
+          'SSR detected. `immediatelyRender` has been set to false to avoid hydration mismatches',
+        )
       }
       immediatelyRender = false
     } else if (isNext && explicit === undefined) {
@@ -256,7 +258,8 @@ class EditorInstanceManager {
         return
       }
       const depsAreEqual =
-        this.previousDeps.length === deps.length && this.previousDeps.every((dep, index) => dep === deps[index])
+        this.previousDeps.length === deps.length &&
+        this.previousDeps.every((dep, index) => dep === deps[index])
 
       if (depsAreEqual) {
         // deps exist and are equal, no need to recreate
@@ -327,7 +330,10 @@ export function useEditor(
  */
 export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
 
-export function useEditor(options: UseEditorOptions = {}, deps: DependencyList = []): Editor | null {
+export function useEditor(
+  options: UseEditorOptions = {},
+  deps: DependencyList = [],
+): Editor | null {
   const mostRecentOptions = useRef(options)
 
   mostRecentOptions.current = options
@@ -343,7 +349,7 @@ export function useEditor(options: UseEditorOptions = {}, deps: DependencyList =
   useDebugValue(editor)
 
   // This effect will handle creating/updating the editor instance
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   useEffect(instanceManager.onRender(deps))
 
   // The default behavior is to re-render on each transaction
@@ -351,7 +357,10 @@ export function useEditor(options: UseEditorOptions = {}, deps: DependencyList =
   useEditorState({
     editor,
     selector: ({ transactionNumber }) => {
-      if (options.shouldRerenderOnTransaction === false || options.shouldRerenderOnTransaction === undefined) {
+      if (
+        options.shouldRerenderOnTransaction === false ||
+        options.shouldRerenderOnTransaction === undefined
+      ) {
         // This will prevent the editor from re-rendering on each transaction
         return null
       }

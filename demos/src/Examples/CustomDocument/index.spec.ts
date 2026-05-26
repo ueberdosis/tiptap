@@ -53,7 +53,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           'data-placeholder',
           'What’s the title?',
         )
-        await expect(page.locator('.tiptap h1[data-placeholder]')).toHaveAttribute('class', 'is-empty is-editor-empty')
+        await expect(page.locator('.tiptap h1[data-placeholder]')).toHaveAttribute(
+          'class',
+          'is-empty is-editor-empty',
+        )
       })
 
       test('should have a headline after clearing & enter paragraph automatically after adding a headline', async ({
@@ -75,7 +78,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         )
 
         await page.keyboard.type('This is a paragraph for this test document')
-        await expect(page.locator('.tiptap p').first()).toHaveText('This is a paragraph for this test document')
+        await expect(page.locator('.tiptap p').first()).toHaveText(
+          'This is a paragraph for this test document',
+        )
       })
     })
   })

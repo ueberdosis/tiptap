@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oslint-disableno-explicit-any */
 
 import type { MarkType, NodeType } from '@tiptap/core'
 import React from 'react'
@@ -22,12 +22,15 @@ export function renderJSONContentToReactElement<
 >(options: TiptapStaticRendererOptions<React.ReactNode, TMarkType, TNodeType>) {
   let key = 0
 
-  return TiptapStaticRenderer<React.ReactNode, TMarkType, TNodeType>(({ component, props: { children, ...props } }) => {
-    return React.createElement(
-      component as React.FC<typeof props>,
-      // eslint-disable-next-line no-plusplus
-      Object.assign(props, { key: key++ }),
-      ([] as React.ReactNode[]).concat(children),
-    )
-  }, options)
+  return TiptapStaticRenderer<React.ReactNode, TMarkType, TNodeType>(
+    ({ component, props: { children, ...props } }) => {
+      return React.createElement(
+        component as React.FC<typeof props>,
+        // oxlint-disable-next-line no-plusplus
+        Object.assign(props, { key: key++ }),
+        ([] as React.ReactNode[]).concat(children),
+      )
+    },
+    options,
+  )
 }

@@ -3,6 +3,7 @@
 ## Primary scopes (monorepo packages)
 
 ### Core, framework bindings, and shared utilities
+
 - core
 - extensions
 - html
@@ -17,6 +18,7 @@
 - vue-3
 
 ### Extensions
+
 - extension-audio
 - extension-blockquote
 - extension-bold
@@ -67,6 +69,7 @@
 - extension-youtube
 
 ## Additional scopes
+
 - demos
 - tests
 - ci

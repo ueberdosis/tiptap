@@ -10,7 +10,9 @@
         </button>
         <button
           @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()"
-          :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }"
+          :class="{
+            'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }),
+          }"
         >
           Comic Sans
         </button>

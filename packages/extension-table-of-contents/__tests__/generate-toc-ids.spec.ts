@@ -27,7 +27,11 @@ describe('generateTocIds', () => {
 
   it('accepts a custom extension name for users who extend TableOfContents', () => {
     const CustomToc = TableOfContents.extend({ name: 'myCustomToc' })
-    const result = generateTocIds(docWithHeadings('Intro'), [...baseExtensions, CustomToc], 'myCustomToc')
+    const result = generateTocIds(
+      docWithHeadings('Intro'),
+      [...baseExtensions, CustomToc],
+      'myCustomToc',
+    )
     const heading = result.content?.[0]
 
     expect(heading?.attrs?.id).toEqual(expect.any(String))

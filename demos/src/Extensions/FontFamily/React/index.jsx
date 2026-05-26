@@ -21,20 +21,23 @@ export default () => {
       `,
   })
 
-  const { isInter, isComicSans, isSerif, isMonospace, isCursive, isExo2, isCssVariable } = useEditorState({
-    editor,
-    selector: ctx => {
-      return {
-        isInter: ctx.editor.isActive('textStyle', { fontFamily: 'Inter' }),
-        isComicSans: editor.isActive('textStyle', { fontFamily: '"Comic Sans MS", "Comic Sans"' }),
-        isSerif: editor.isActive('textStyle', { fontFamily: 'serif' }),
-        isMonospace: editor.isActive('textStyle', { fontFamily: 'monospace' }),
-        isCursive: editor.isActive('textStyle', { fontFamily: 'cursive' }),
-        isExo2: editor.isActive('textStyle', { fontFamily: '"Exo 2"' }),
-        isCssVariable: editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }),
-      }
-    },
-  })
+  const { isInter, isComicSans, isSerif, isMonospace, isCursive, isExo2, isCssVariable } =
+    useEditorState({
+      editor,
+      selector: ctx => {
+        return {
+          isInter: ctx.editor.isActive('textStyle', { fontFamily: 'Inter' }),
+          isComicSans: editor.isActive('textStyle', {
+            fontFamily: '"Comic Sans MS", "Comic Sans"',
+          }),
+          isSerif: editor.isActive('textStyle', { fontFamily: 'serif' }),
+          isMonospace: editor.isActive('textStyle', { fontFamily: 'monospace' }),
+          isCursive: editor.isActive('textStyle', { fontFamily: 'cursive' }),
+          isExo2: editor.isActive('textStyle', { fontFamily: '"Exo 2"' }),
+          isCssVariable: editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }),
+        }
+      },
+    })
 
   if (!editor) {
     return null
@@ -56,7 +59,9 @@ export default () => {
             Inter
           </button>
           <button
-            onClick={() => editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()}
+            onClick={() =>
+              editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run()
+            }
             className={isComicSans ? 'is-active' : ''}
             data-test-id="comic-sans"
           >
@@ -97,7 +102,10 @@ export default () => {
           >
             Exo 2
           </button>
-          <button onClick={() => editor.chain().focus().unsetFontFamily().run()} data-test-id="unsetFontFamily">
+          <button
+            onClick={() => editor.chain().focus().unsetFontFamily().run()}
+            data-test-id="unsetFontFamily"
+          >
             Unset font family
           </button>
         </div>

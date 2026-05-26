@@ -186,7 +186,10 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
     return [
       DragHandlePlugin({
-        computePositionConfig: { ...defaultComputePositionConfig, ...this.options.computePositionConfig },
+        computePositionConfig: {
+          ...defaultComputePositionConfig,
+          ...this.options.computePositionConfig,
+        },
         getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         element,
         editor: this.editor,

@@ -40,7 +40,9 @@ describe('FontFamily commands', () => {
 
   it('allows CSS variables as a font-family', () => {
     editor.commands.setFontFamily('var(--title-font-family)')
-    expect(editor.getHTML()).toContain('<span style="font-family: var(--title-font-family)">Example Text</span>')
+    expect(editor.getHTML()).toContain(
+      '<span style="font-family: var(--title-font-family)">Example Text</span>',
+    )
   })
 
   it('allows fonts containing multiple font families', () => {
@@ -52,6 +54,8 @@ describe('FontFamily commands', () => {
 
   it('allows fonts containing a space and number as a font-family', () => {
     editor.commands.setFontFamily('"Exo 2"')
-    expect(editor.getHTML()).toContain('<span style="font-family: &quot;Exo 2&quot;">Example Text</span>')
+    expect(editor.getHTML()).toContain(
+      '<span style="font-family: &quot;Exo 2&quot;">Example Text</span>',
+    )
   })
 })

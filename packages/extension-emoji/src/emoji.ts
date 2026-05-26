@@ -195,7 +195,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
   renderHTML({ HTMLAttributes, node }) {
     const emojiItem = shortcodeToEmoji(node.attrs.name, this.options.emojis)
-    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, { 'data-type': this.name })
+    const attributes = mergeAttributes(HTMLAttributes, this.options.HTMLAttributes, {
+      'data-type': this.name,
+    })
 
     if (!emojiItem) {
       return ['span', attributes, `:${node.attrs.name}:`]
@@ -303,9 +305,13 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
 
     if (this.options.enableEmoticons) {
       // get the list of supported emoticons
-      const emoticons = this.options.emojis.flatMap(item => item.emoticons).filter(item => item) as string[]
+      const emoticons = this.options.emojis
+        .flatMap(item => item.emoticons)
+        .filter(item => item) as string[]
 
-      const emoticonRegex = new RegExp(`(?:^|\\s)(${emoticons.map(item => escapeForRegEx(item)).join('|')}) $`)
+      const emoticonRegex = new RegExp(
+        `(?:^|\\s)(${emoticons.map(item => escapeForRegEx(item)).join('|')}) $`,
+      )
 
       inputRules.push(
         nodeInputRule({
@@ -404,7 +410,9 @@ export const Emoji = Node.create<EmojiOptions, EmojiStorage>({
           if (this.editor.view.composing) {
             return
           }
-          const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+          const docChanges =
+            transactions.some(transaction => transaction.docChanged) &&
+            !oldState.doc.eq(newState.doc)
 
           if (!docChanges) {
             return

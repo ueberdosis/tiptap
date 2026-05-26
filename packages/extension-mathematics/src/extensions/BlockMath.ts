@@ -225,12 +225,18 @@ export const BlockMath = Node.create<BlockMathOptions>({
           const node = this.type.create({ latex })
 
           const consumesHostTextblock =
-            $from.depth > 0 && $from.parent.isTextblock && range.from === $from.start() && range.to === $from.end()
+            $from.depth > 0 &&
+            $from.parent.isTextblock &&
+            range.from === $from.start() &&
+            range.to === $from.end()
           // Whether the node containing the host textblock can replace it with a blockMath node.
           const canReplaceHostTextblock =
-            consumesHostTextblock && $from.node(-1).canReplaceWith($from.index(-1), $from.indexAfter(-1), this.type)
+            consumesHostTextblock &&
+            $from.node(-1).canReplaceWith($from.index(-1), $from.indexAfter(-1), this.type)
 
-          const replacementRange = canReplaceHostTextblock ? { from: $from.before(), to: $from.after() } : range
+          const replacementRange = canReplaceHostTextblock
+            ? { from: $from.before(), to: $from.after() }
+            : range
 
           tr.replaceWith(replacementRange.from, replacementRange.to, node)
         },

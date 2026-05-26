@@ -9,7 +9,11 @@ import type * as Y from 'yjs'
 
 import { AnnotationItem } from './AnnotationItem.js'
 import { AnnotationPluginKey } from './AnnotationPlugin.js'
-import type { AddAnnotationAction, DeleteAnnotationAction, UpdateAnnotationAction } from './collaboration-annotation.js'
+import type {
+  AddAnnotationAction,
+  DeleteAnnotationAction,
+  UpdateAnnotationAction,
+} from './collaboration-annotation.js'
 
 export interface AnnotationStateOptions {
   HTMLAttributes: {
@@ -96,14 +100,20 @@ export class AnnotationState {
         return
       }
 
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       console.log(`[${this.options.instance}] Decoration.inline()`, from, to, HTMLAttributes, {
         id,
         data: annotation.data,
       })
 
       if (from === to) {
-        console.warn(`[${this.options.instance}] corrupt decoration `, annotation.from, from, annotation.to, to)
+        console.warn(
+          `[${this.options.instance}] corrupt decoration `,
+          annotation.from,
+          from,
+          annotation.to,
+          to,
+        )
       }
 
       decorations.push(
@@ -126,7 +136,7 @@ export class AnnotationState {
       | DeleteAnnotationAction
 
     if (action && action.type) {
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       console.log(`[${this.options.instance}] action: ${action.type}`)
 
       if (action.type === 'addAnnotation') {
@@ -153,7 +163,7 @@ export class AnnotationState {
     const ystate = ySyncPluginKey.getState(state)
 
     if (ystate.isChangeOrigin) {
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       console.log(`[${this.options.instance}] isChangeOrigin: true → createDecorations`)
       this.createDecorations(state)
 
@@ -161,7 +171,7 @@ export class AnnotationState {
     }
 
     // Use ProseMirror to update positions
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     console.log(`[${this.options.instance}] isChangeOrigin: false → ProseMirror mapping`)
     this.decorations = this.decorations.map(transaction.mapping, transaction.doc)
 

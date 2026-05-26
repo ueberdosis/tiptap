@@ -40,7 +40,8 @@ describe('Blockquote Markdown Conversion', () => {
   })
 
   it('should handle blockquotes with varying nesting depths', () => {
-    const markdown = '> Level 1\n>\n> > Level 2\n> >\n> > > Level 3\n> >\n> > Back to level 2\n>\n> Back to level 1'
+    const markdown =
+      '> Level 1\n>\n> > Level 2\n> >\n> > > Level 3\n> >\n> > Back to level 2\n>\n> Back to level 1'
     const json = markdownManager.parse(markdown)
     const output = markdownManager.serialize(json)
 
@@ -48,7 +49,8 @@ describe('Blockquote Markdown Conversion', () => {
   })
 
   it('should convert nested blockquotes with multiple paragraphs', () => {
-    const markdown = '> First paragraph\n>\n> Second paragraph\n>\n> > Nested paragraph\n> >\n> > > Deeply nested'
+    const markdown =
+      '> First paragraph\n>\n> Second paragraph\n>\n> > Nested paragraph\n> >\n> > > Deeply nested'
     const json = markdownManager.parse(markdown)
     const output = markdownManager.serialize(json)
 
@@ -64,7 +66,8 @@ describe('Blockquote Markdown Conversion', () => {
   })
 
   it('should handle blockquotes going back to shallower nesting', () => {
-    const markdown = '> Level 1\n>\n> > Level 2\n> >\n> > > Level 3\n> >\n> > Back to level 2\n>\n> Back to level 1'
+    const markdown =
+      '> Level 1\n>\n> > Level 2\n> >\n> > > Level 3\n> >\n> > Back to level 2\n>\n> Back to level 1'
     const json = markdownManager.parse(markdown)
     const output = markdownManager.serialize(json)
 
@@ -72,7 +75,8 @@ describe('Blockquote Markdown Conversion', () => {
   })
 
   it('should handle blockquotes with text content at different levels', () => {
-    const markdown = '> Outer quote with some text\n>\n> > Inner quote with more text\n> >\n> > > Innermost quote'
+    const markdown =
+      '> Outer quote with some text\n>\n> > Inner quote with more text\n> >\n> > > Innermost quote'
     const json = markdownManager.parse(markdown)
     const output = markdownManager.serialize(json)
 

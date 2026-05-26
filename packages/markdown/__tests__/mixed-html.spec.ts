@@ -27,7 +27,9 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
     const heading = doc.content![0]
     expect(heading.type).toBe('heading')
     // Find the text node that contains 'world'
-    const textNodes = heading.content!.flatMap((n: any) => (n.type === 'text' ? [n] : n.content || []))
+    const textNodes = heading.content!.flatMap((n: any) =>
+      n.type === 'text' ? [n] : n.content || [],
+    )
     const worldNode = textNodes.find((n: any) => n.text && n.text.includes('world'))
     // Use a function-call assertion to avoid the "no-unused-expressions" lint error
     expect(worldNode).not.toBe(undefined)

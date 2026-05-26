@@ -184,7 +184,10 @@ const Editor = ({ ydoc, provider, room }) => {
 
       <EditorContent editor={editor} className="main-group" />
 
-      <div className="collab-status-group" data-state={status === 'connected' ? 'online' : 'offline'}>
+      <div
+        className="collab-status-group"
+        data-state={status === 'connected' ? 'online' : 'offline'}
+      >
         <label>
           {status === 'connected'
             ? `${editor.storage.collaborationCaret.users.length} user${

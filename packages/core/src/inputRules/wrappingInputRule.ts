@@ -29,7 +29,11 @@ export function wrappingInputRule(config: {
   keepAttributes?: boolean
   editor?: Editor
   undoable?: boolean
-  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
+  getAttributes?:
+    | Record<string, any>
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+    | false
+    | null
   joinPredicate?: (match: ExtendedRegExpMatchArray, node: ProseMirrorNode) => boolean
 }) {
   return new InputRule({
@@ -61,7 +65,9 @@ export function wrappingInputRule(config: {
       if (config.keepAttributes) {
         /** If the nodeType is `bulletList` or `orderedList` set the `nodeType` as `listItem` */
         const nodeType =
-          config.type.name === 'bulletList' || config.type.name === 'orderedList' ? 'listItem' : 'taskList'
+          config.type.name === 'bulletList' || config.type.name === 'orderedList'
+            ? 'listItem'
+            : 'taskList'
 
         chain().updateAttributes(nodeType, attributes).run()
       }

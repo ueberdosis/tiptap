@@ -1,17 +1,40 @@
 {
   "name": "@tiptap/pm",
-  "description": "prosemirror wrapper package for tiptap",
   "version": "3.23.6",
-  "homepage": "https://tiptap.dev",
+  "description": "prosemirror wrapper package for tiptap",
   "keywords": [
-    "tiptap",
-    "prosemirror"
+    "prosemirror",
+    "tiptap"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/pm"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "dist/**",
+    "changeset/**",
+    "commands/**",
+    "dropcursor/**",
+    "gapcursor/**",
+    "history/**",
+    "inputrules/**",
+    "keymap/**",
+    "model/**",
+    "schema-list/**",
+    "state/**",
+    "tables/**",
+    "transform/**",
+    "view/**",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.md"
+  ],
   "type": "module",
   "exports": {
     "./changeset": {
@@ -119,24 +142,9 @@
       "require": "./dist/view/index.cjs"
     }
   },
-  "files": [
-    "dist/**",
-    "changeset/**",
-    "commands/**",
-    "dropcursor/**",
-    "gapcursor/**",
-    "history/**",
-    "inputrules/**",
-    "keymap/**",
-    "model/**",
-    "schema-list/**",
-    "state/**",
-    "tables/**",
-    "transform/**",
-    "view/**",
-    "LICENSE",
-    "THIRD_PARTY_LICENSES.md"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "dependencies": {
     "prosemirror-changeset": "^2.3.0",
     "prosemirror-commands": "^1.6.2",
@@ -151,13 +159,5 @@
     "prosemirror-tables": "^1.6.4",
     "prosemirror-transform": "^1.10.2",
     "prosemirror-view": "^1.38.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/pm"
-  },
-  "scripts": {
-    "build": "tsup"
   }
 }

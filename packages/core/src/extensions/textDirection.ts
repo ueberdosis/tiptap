@@ -35,7 +35,9 @@ export const TextDirection = Extension.create<TextDirectionOptions>({
 
     return [
       {
-        types: nodeExtensions.filter(extension => extension.name !== 'text').map(extension => extension.name),
+        types: nodeExtensions
+          .filter(extension => extension.name !== 'text')
+          .map(extension => extension.name),
         attributes: {
           dir: {
             default: this.options.direction,

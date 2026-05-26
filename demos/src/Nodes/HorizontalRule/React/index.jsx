@@ -27,7 +27,9 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>Set horizontal rule</button>
+          <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+            Set horizontal rule
+          </button>
         </div>
       </div>
 

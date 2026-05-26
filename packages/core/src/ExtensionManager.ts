@@ -17,7 +17,13 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
+import {
+  type MarkConfig,
+  type NodeConfig,
+  type Storage,
+  getMarkType,
+  updateMarkViewAttributes,
+} from './index.js'
 import { inputRulesPlugin } from './InputRule.js'
 import { Mark } from './Mark.js'
 import { pasteRulesPlugin } from './PasteRule.js'
@@ -69,7 +75,11 @@ export class ExtensionManager {
         type: getSchemaTypeByName(extension.name, this.schema),
       }
 
-      const addCommands = getExtensionField<AnyConfig['addCommands']>(extension, 'addCommands', context)
+      const addCommands = getExtensionField<AnyConfig['addCommands']>(
+        extension,
+        'addCommands',
+        context,
+      )
 
       if (!addCommands) {
         return commands
@@ -116,7 +126,10 @@ export class ExtensionManager {
       let defaultBindings: Record<string, () => boolean> = {}
 
       // bind exit handling
-      if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
+      if (
+        extension.type === 'mark' &&
+        getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)
+      ) {
         defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
       }
 
@@ -134,7 +147,11 @@ export class ExtensionManager {
 
       plugins.push(keyMapPlugin)
 
-      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
+      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
+        extension,
+        'addInputRules',
+        context,
+      )
 
       if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
         const rules = addInputRules()
@@ -151,7 +168,11 @@ export class ExtensionManager {
         }
       }
 
-      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
+      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
+        extension,
+        'addPasteRules',
+        context,
+      )
 
       if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
         const rules = addPasteRules()
@@ -201,7 +222,9 @@ export class ExtensionManager {
       nodeExtensions
         .filter(extension => !!getExtensionField(extension, 'addNodeView'))
         .map(extension => {
-          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
+          const extensionAttributes = this.attributes.filter(
+            attribute => attribute.type === extension.name,
+          )
           const context = {
             name: extension.name,
             options: extension.options,
@@ -209,7 +232,11 @@ export class ExtensionManager {
             editor,
             type: getNodeType(extension.name, this.schema),
           }
-          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(extension, 'addNodeView', context)
+          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
+            extension,
+            'addNodeView',
+            context,
+          )
 
           if (!addNodeView) {
             return []
@@ -221,7 +248,13 @@ export class ExtensionManager {
             return []
           }
 
-          const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
+          const nodeview: NodeViewConstructor = (
+            node,
+            view,
+            getPos,
+            decorations,
+            innerDecorations,
+          ) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
             return nodeViewResult({
@@ -326,7 +359,9 @@ export class ExtensionManager {
       markExtensions
         .filter(extension => !!getExtensionField(extension, 'addMarkView'))
         .map(extension => {
-          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
+          const extensionAttributes = this.attributes.filter(
+            attribute => attribute.type === extension.name,
+          )
           const context = {
             name: extension.name,
             options: extension.options,
@@ -334,7 +369,11 @@ export class ExtensionManager {
             editor,
             type: getMarkType(extension.name, this.schema),
           }
-          const addMarkView = getExtensionField<MarkConfig['addMarkView']>(extension, 'addMarkView', context)
+          const addMarkView = getExtensionField<MarkConfig['addMarkView']>(
+            extension,
+            'addMarkView',
+            context,
+          )
 
           if (!addMarkView) {
             return []
@@ -419,14 +458,19 @@ export class ExtensionManager {
       }
 
       if (extension.type === 'mark') {
-        const keepOnSplit = callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
+        const keepOnSplit =
+          callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
 
         if (keepOnSplit) {
           this.splittableMarks.push(extension.name)
         }
       }
 
-      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(extension, 'onBeforeCreate', context)
+      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(
+        extension,
+        'onBeforeCreate',
+        context,
+      )
       const onCreate = getExtensionField<AnyConfig['onCreate']>(extension, 'onCreate', context)
       const onUpdate = getExtensionField<AnyConfig['onUpdate']>(extension, 'onUpdate', context)
       const onSelectionUpdate = getExtensionField<AnyConfig['onSelectionUpdate']>(
@@ -434,7 +478,11 @@ export class ExtensionManager {
         'onSelectionUpdate',
         context,
       )
-      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(extension, 'onTransaction', context)
+      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(
+        extension,
+        'onTransaction',
+        context,
+      )
       const onFocus = getExtensionField<AnyConfig['onFocus']>(extension, 'onFocus', context)
       const onBlur = getExtensionField<AnyConfig['onBlur']>(extension, 'onBlur', context)
       const onDestroy = getExtensionField<AnyConfig['onDestroy']>(extension, 'onDestroy', context)

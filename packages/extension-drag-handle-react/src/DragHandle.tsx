@@ -13,7 +13,10 @@ import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
-export type DragHandleProps = Omit<Optional<DragHandlePluginProps, 'pluginKey'>, 'element' | 'nestedOptions'> & {
+export type DragHandleProps = Omit<
+  Optional<DragHandlePluginProps, 'pluginKey'>,
+  'element' | 'nestedOptions'
+> & {
   className?: string
   onNodeChange?: (data: { node: Node | null; editor: Editor; pos: number }) => void
   children: ReactNode
@@ -83,7 +86,7 @@ export const DragHandle = (props: DragHandleProps) => {
     return document.createElement('div')
   })
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {

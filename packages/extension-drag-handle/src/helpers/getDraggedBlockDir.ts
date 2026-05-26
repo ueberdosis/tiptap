@@ -38,7 +38,9 @@ export function getDraggedBlockElement(view: EditorView, pos: number): Element |
 export function getDraggedBlockDir(view: EditorView, pos: number): string {
   const draggedDom = getDraggedBlockElement(view, pos)
 
-  const contentDir = draggedDom ? getComputedStyle(draggedDom).direction : getComputedStyle(view.dom).direction
+  const contentDir = draggedDom
+    ? getComputedStyle(draggedDom).direction
+    : getComputedStyle(view.dom).direction
 
   return contentDir || 'ltr'
 }

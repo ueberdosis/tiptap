@@ -22,7 +22,9 @@
       <div class="control-group">
         <h2>Another Editor</h2>
         <div class="button-group">
-          <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">Comment</button>
+          <button @click="addAnotherComment" :disabled="!anotherEditor.can().addAnnotation()">
+            Comment
+          </button>
         </div>
       </div>
       <editor-content class="editor-2" :editor="anotherEditor" />

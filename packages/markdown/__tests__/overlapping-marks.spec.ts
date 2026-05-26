@@ -28,7 +28,9 @@ const normalizeMarks = (node: any): any => {
 
   return {
     ...node,
-    marks: node.marks ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type)) : node.marks,
+    marks: node.marks
+      ? [...node.marks].sort((a: any, b: any) => a.type.localeCompare(b.type))
+      : node.marks,
     content: node.content ? node.content.map(normalizeMarks) : node.content,
   }
 }
@@ -466,7 +468,9 @@ describe('Overlapping marks serialization', () => {
     expect(result).toBe('[*google* search](https://google.com)')
     expect(result).not.toBe('*[google* search](https://google.com)')
     expect(directResult).toBe(result)
-    expect(normalizeMarks(editor.markdown?.parse(result))).toEqual(normalizeMarks(expectedRoundtripJson))
+    expect(normalizeMarks(editor.markdown?.parse(result))).toEqual(
+      normalizeMarks(expectedRoundtripJson),
+    )
 
     editor.destroy()
   })
@@ -488,7 +492,11 @@ describe('Overlapping marks serialization', () => {
           content: [
             { type: 'text', text: 'bold ', marks: [{ type: 'bold' }] },
             { type: 'text', text: 'italics ', marks: [{ type: 'bold' }, { type: 'italic' }] },
-            { type: 'text', text: 'strike', marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'strike' }] },
+            {
+              type: 'text',
+              text: 'strike',
+              marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'strike' }],
+            },
           ],
         },
       ],
@@ -520,7 +528,11 @@ describe('Overlapping marks serialization', () => {
           type: 'paragraph',
           content: [
             { type: 'text', text: 'abc', marks: [{ type: 'bold' }, { type: 'strike' }] },
-            { type: 'text', text: 'def', marks: [{ type: 'bold' }, { type: 'strike' }, { type: 'italic' }] },
+            {
+              type: 'text',
+              text: 'def',
+              marks: [{ type: 'bold' }, { type: 'strike' }, { type: 'italic' }],
+            },
             { type: 'text', text: 'ghi', marks: [{ type: 'italic' }] },
           ],
         },
@@ -578,7 +590,9 @@ describe('adjacent marks with different attributes', () => {
     const result = markdownManager.serialize(json)
 
     // Each adjacent link must be rendered with its own URL — not merged into one
-    expect(result).toBe('[example](https://example.com)[github](https://github.com)[tiptap](https://tiptap.dev)')
+    expect(result).toBe(
+      '[example](https://example.com)[github](https://github.com)[tiptap](https://tiptap.dev)',
+    )
     // Verify round-trip fidelity
     expect(normalizeMarks(markdownManager.parse(result))).toEqual(normalizeMarks(json))
   })
@@ -642,7 +656,9 @@ describe('adjacent marks with different attributes', () => {
     // Note: the leading space in " no title" is extracted outside the link
     // brackets by the serializer's whitespace handling, resulting in a space
     // between the two link markdown fragments.
-    expect(result).toBe('[with title](https://example.com "Example") [no title](https://example.org)')
+    expect(result).toBe(
+      '[with title](https://example.com "Example") [no title](https://example.org)',
+    )
 
     // Verify re-serialization stability: parse then re-serialize produces the same output
     const parsed = markdownManager.parse(result)

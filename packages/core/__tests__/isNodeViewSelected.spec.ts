@@ -68,7 +68,9 @@ describe('isNodeViewSelected', () => {
     const pos = 0
     const node = editor.state.doc.nodeAt(pos)!
     // Selection from before the node to after it.
-    editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, 0, node.nodeSize)))
+    editor.view.dispatch(
+      editor.state.tr.setSelection(TextSelection.create(editor.state.doc, 0, node.nodeSize)),
+    )
 
     expect(
       isNodeViewSelected({
@@ -128,7 +130,9 @@ describe('isNodeViewSelected', () => {
     const pos = 0
     const node = editor.state.doc.nodeAt(pos)!
     const outsidePos = node.nodeSize + 2
-    editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, outsidePos)))
+    editor.view.dispatch(
+      editor.state.tr.setSelection(TextSelection.create(editor.state.doc, outsidePos)),
+    )
 
     expect(
       isNodeViewSelected({
@@ -170,7 +174,9 @@ describe('isNodeViewSelected', () => {
     const pos = 0
     const node = editor.state.doc.nodeAt(pos)!
     // Cursor at `pos + nodeSize` is the gap *after* the node, not inside it.
-    editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, pos + node.nodeSize)))
+    editor.view.dispatch(
+      editor.state.tr.setSelection(TextSelection.create(editor.state.doc, pos + node.nodeSize)),
+    )
 
     expect(
       isNodeViewSelected({
@@ -193,7 +199,9 @@ describe('isNodeViewSelected', () => {
     // Start inside the node, end outside it.
     const from = 2
     const to = node.nodeSize + 2
-    editor.view.dispatch(editor.state.tr.setSelection(TextSelection.create(editor.state.doc, from, to)))
+    editor.view.dispatch(
+      editor.state.tr.setSelection(TextSelection.create(editor.state.doc, from, to)),
+    )
 
     expect(
       isNodeViewSelected({

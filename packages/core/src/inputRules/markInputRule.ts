@@ -15,7 +15,11 @@ export function markInputRule(config: {
   find: InputRuleFinder
   type: MarkType
   undoable?: boolean
-  getAttributes?: Record<string, any> | ((match: ExtendedRegExpMatchArray) => Record<string, any>) | false | null
+  getAttributes?:
+    | Record<string, any>
+    | ((match: ExtendedRegExpMatchArray) => Record<string, any>)
+    | false
+    | null
 }) {
   return new InputRule({
     find: config.find,

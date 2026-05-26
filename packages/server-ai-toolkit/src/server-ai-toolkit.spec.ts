@@ -82,9 +82,9 @@ describe('ServerAiToolkit', () => {
     const paragraphs = editor.getJSON().content ?? []
 
     expect(paragraphs).toHaveLength(2)
-    // eslint-disable-next-line no-underscore-dangle
+    // oxlint-disable-next-line no-underscore-dangle
     expect(paragraphs[0]?.attrs?._hash ?? null).toBeNull()
-    // eslint-disable-next-line no-underscore-dangle
+    // oxlint-disable-next-line no-underscore-dangle
     expect(paragraphs[1]?.attrs?._hash ?? null).toBeNull()
 
     editor.destroy()
@@ -94,12 +94,18 @@ describe('ServerAiToolkit', () => {
     const firstEditor = await createEditor({
       content: {
         type: 'doc',
-        content: [{ type: 'paragraph', attrs: { _hash: 'ABC123' }, content: [{ type: 'text', text: 'Hello' }] }],
+        content: [
+          {
+            type: 'paragraph',
+            attrs: { _hash: 'ABC123' },
+            content: [{ type: 'text', text: 'Hello' }],
+          },
+        ],
       },
     })
 
     const firstJson = firstEditor.getJSON()
-    // eslint-disable-next-line no-underscore-dangle
+    // oxlint-disable-next-line no-underscore-dangle
     const firstHash = firstJson.content?.[0]?.attrs?._hash
 
     firstEditor.destroy()
@@ -109,7 +115,7 @@ describe('ServerAiToolkit', () => {
     })
 
     const secondJson = secondEditor.getJSON()
-    // eslint-disable-next-line no-underscore-dangle
+    // oxlint-disable-next-line no-underscore-dangle
     const secondHash = secondJson.content?.[0]?.attrs?._hash
 
     expect(secondHash).toBe(firstHash)
@@ -118,12 +124,15 @@ describe('ServerAiToolkit', () => {
   })
 
   it('does not synthesize hashes when the AI Toolkit extension is present', async () => {
-    const editor = await createEditorWithExplicitExtensions([StarterKit, ServerAiToolkit, MockAiToolkit], {
-      type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'First' }] }],
-    })
+    const editor = await createEditorWithExplicitExtensions(
+      [StarterKit, ServerAiToolkit, MockAiToolkit],
+      {
+        type: 'doc',
+        content: [{ type: 'paragraph', content: [{ type: 'text', text: 'First' }] }],
+      },
+    )
 
-    // eslint-disable-next-line no-underscore-dangle
+    // oxlint-disable-next-line no-underscore-dangle
     expect(editor.getJSON().content?.[0]?.attrs?._hash ?? null).toBeNull()
 
     editor.destroy()

@@ -39,7 +39,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
         })
       })
 
-      test('should apply the paragraph style when the keyboard shortcut is pressed', async ({ page }) => {
+      test('should apply the paragraph style when the keyboard shortcut is pressed', async ({
+        page,
+      }) => {
         await expect(page.locator('.tiptap h1')).toBeVisible()
 
         const editor = await getEditor(page)
@@ -88,7 +90,9 @@ test.describe(`${demoPath}/${demoName}`, () => {
           el.editor
             .chain()
             .focus()
-            .setContent('<ul><li><p>Hello world</p></li><li><p>A second item</p></li><li><p>A third item</p></li></ul>')
+            .setContent(
+              '<ul><li><p>Hello world</p></li><li><p>A second item</p></li><li><p>A third item</p></li></ul>',
+            )
             .selectAll()
             .run()
         })

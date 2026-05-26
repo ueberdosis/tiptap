@@ -2,8 +2,8 @@
 
 Two layers:
 
-* **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
-* **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
+- **Unit tests** with Vitest in `packages/**/__tests__/` (happy-dom). These test `@tiptap/core` and individual extensions in isolation.
+- **E2E tests** with Playwright, colocated next to their demos as `demos/src/**/index.spec.ts`. They drive the real Vite-served demo pages in Chromium.
 
 Run them:
 
@@ -22,6 +22,6 @@ Playwright auto-starts the demo dev server (`pnpm -C demos run start:e2e` on por
 
 Browser setup:
 
-* CI installs Chromium only (cached between runs) and only runs the Chromium project.
-* For local Firefox testing, install it once with `pnpm exec playwright install firefox` (~80MB).
-* UI mode (`--ui`) always opens its host window in Chromium — that's the Playwright UI app itself, not the browser running your tests. Tests still execute in the project you selected (check the trace metadata or `browserName` fixture if you need to confirm).
+- CI installs Chromium only (cached between runs) and only runs the Chromium project.
+- For local Firefox testing, install it once with `pnpm exec playwright install firefox` (~80MB).
+- UI mode (`--ui`) always opens its host window in Chromium — that's the Playwright UI app itself, not the browser running your tests. Tests still execute in the project you selected (check the trace metadata or `browserName` fixture if you need to confirm).

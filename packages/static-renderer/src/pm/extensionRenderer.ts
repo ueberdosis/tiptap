@@ -1,5 +1,5 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oslint-disable no-plusplus */
+/* oslint-disableno-explicit-any */
 
 import type {
   ExtensionAttribute,
@@ -62,7 +62,10 @@ export function applyStaticEditorOptionsToExtensions(
     return extensions
   }
 
-  return [coreExtensions.TextDirection.configure({ direction: options.textDirection }), ...extensions]
+  return [
+    coreExtensions.TextDirection.configure({ direction: options.textDirection }),
+    ...extensions,
+  ]
 }
 
 /**
@@ -150,7 +153,9 @@ export function mapMarkExtensionToReactNode<T>(
     return [
       extension.name,
       () => {
-        throw new Error(`Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`)
+        throw new Error(
+          `Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method`,
+        )
       },
     ]
   }
@@ -231,7 +236,12 @@ export function renderToElement<T>({
             return true
           })
           .map(nodeExtension =>
-            mapNodeExtensionToReactNode<T>(domOutputSpecToElement, nodeExtension, extensionAttributes, options),
+            mapNodeExtensionToReactNode<T>(
+              domOutputSpecToElement,
+              nodeExtension,
+              extensionAttributes,
+              options,
+            ),
           ),
       ),
       ...mapDefinedTypes,
@@ -247,7 +257,14 @@ export function renderToElement<T>({
             }
             return true
           })
-          .map(mark => mapMarkExtensionToReactNode<T>(domOutputSpecToElement, mark, extensionAttributes, options)),
+          .map(mark =>
+            mapMarkExtensionToReactNode<T>(
+              domOutputSpecToElement,
+              mark,
+              extensionAttributes,
+              options,
+            ),
+          ),
       ),
       ...options?.markMapping,
     },

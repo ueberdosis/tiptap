@@ -26,7 +26,10 @@ export interface MentionNodeAttrs {
   mentionSuggestionChar?: string
 }
 
-export interface MentionOptions<SuggestionItem = any, Attrs extends Record<string, any> = MentionNodeAttrs> {
+export interface MentionOptions<
+  SuggestionItem = any,
+  Attrs extends Record<string, any> = MentionNodeAttrs,
+> {
   /**
    * The HTML attributes for a mention node.
    * @default {}
@@ -111,15 +114,16 @@ interface GetSuggestionsOptions {
  * @returns the suggestions
  */
 function getSuggestions(options: GetSuggestionsOptions) {
-  return (options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]).map(
-    suggestion =>
-      getSuggestionOptions({
-        // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
-        editor: options.editor,
-        overrideSuggestionOptions: suggestion,
-        extensionName: options.name,
-        char: suggestion.char,
-      }),
+  return (
+    options.options.suggestions.length ? options.options.suggestions : [options.options.suggestion]
+  ).map(suggestion =>
+    getSuggestionOptions({
+      // @ts-ignore `editor` can be `undefined` when converting the document to HTML with the HTML utility
+      editor: options.editor,
+      overrideSuggestionOptions: suggestion,
+      extensionName: options.name,
+      char: suggestion.char,
+    }),
   )
 }
 
@@ -263,7 +267,11 @@ export const Mention = Node.create<MentionOptions>({
     })
 
     if (typeof html === 'string') {
-      return ['span', mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes), html]
+      return [
+        'span',
+        mergeAttributes({ 'data-type': this.name }, this.options.HTMLAttributes, HTMLAttributes),
+        html,
+      ]
     }
     return html
   },
@@ -339,7 +347,9 @@ export const Mention = Node.create<MentionOptions>({
 
           if (isMention) {
             tr.insertText(
-              this.options.deleteTriggerWithBackspace ? '' : mentionNode.attrs.mentionSuggestionChar,
+              this.options.deleteTriggerWithBackspace
+                ? ''
+                : mentionNode.attrs.mentionSuggestionChar,
               mentionPos,
               mentionPos + mentionNode.nodeSize,
             )

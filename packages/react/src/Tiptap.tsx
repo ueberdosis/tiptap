@@ -145,7 +145,10 @@ export function TiptapWrapper({ editor, instance, children }: TiptapWrapperProps
     throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')
   }
 
-  const tiptapContextValue = useMemo<TiptapContextType>(() => ({ editor: resolvedEditor }), [resolvedEditor])
+  const tiptapContextValue = useMemo<TiptapContextType>(
+    () => ({ editor: resolvedEditor }),
+    [resolvedEditor],
+  )
 
   // Provide backwards compatibility with the legacy EditorContext
   // so components using useCurrentEditor() work inside <Tiptap>

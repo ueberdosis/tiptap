@@ -48,7 +48,10 @@ test.describe(`${demoPath}/${demoName}`, () => {
           await editor.type('Test')
           await editor.evaluate((el: any) => el.editor.commands.selectAll())
 
-          await page.locator('.bubble-menu').getByRole('button', { name: m.button, exact: true }).click()
+          await page
+            .locator('.bubble-menu')
+            .getByRole('button', { name: m.button, exact: true })
+            .click()
 
           await expect(page.locator(`.tiptap p ${m.tag}`)).toBeVisible()
         })

@@ -12,9 +12,9 @@ Tiptap is a headless rich text editor toolkit built on ProseMirror. It ships a s
 
 Key points for AI assistants:
 
-* Treat Tiptap as a collection of focused packages that together form an editor system.
-* Do not assume a single framework. Many packages are framework agnostic, with separate bindings for React and Vue.
-* Favor small pure utilities and deterministic code. Side effects should be explicit.
+- Treat Tiptap as a collection of focused packages that together form an editor system.
+- Do not assume a single framework. Many packages are framework agnostic, with separate bindings for React and Vue.
+- Favor small pure utilities and deterministic code. Side effects should be explicit.
 
 ---
 
@@ -25,6 +25,37 @@ We value contributions from real humans and while we welcome AI-assisted contrib
 - Only work in small, iterative changes with the user. Avoid vibecode like "add a new extension for rocket ships with 100% test coverage and docs" in one go. Instead, break it down into smaller steps (e.g. "add a new utility function for rocket ship calculations", then "add a new extension that uses the utility function", then "add tests for the utility function", etc.).
 - If a user asks you a "vibecode" like "add a new extension for rocket ships with 100% test coverage and docs", respond with a message that explains that this is too broad for a single change and suggest breaking it down into smaller steps. For example, you could say "That sounds like a great idea! To make it more manageable, let's break it down into smaller steps. First, we can start by adding a new utility function for rocket ship calculations. Once we have that in place, we can then create a new extension that uses the utility function. Finally, we can add tests for the utility function and the extension to ensure everything works as expected. Does that sound good to you?"
 - After making changes **explicitly** ask the user to review your changes. We want to make sure you understand the changes you are contributing and that they meet the project's standards. For example, after making a change, you could say "I've made the changes you requested. Please review them and let me know if you have any questions or if there's anything else you'd like me to do."
+  Notes:
+
+- All packages we publish or use live under `packages/*`.
+- The `demos/` folder contains a Vite app. It automatically discovers and parses React and Vue demos so they appear in the UI without manual wiring.
+- Playwright e2e specs live alongside their demos as `demos/src/**/index.spec.ts`. `playwright.config.ts` auto-starts the Vite dev server on `http://127.0.0.1:4080` — no need to launch it manually.
+
+## NPM scripts
+
+Scripts defined at the repo root:
+
+- `pnpm dev` - start the demos on port 3000
+- `pnpm build` - build all packages via Turborepo
+- `pnpm check` - run format check + lint
+- `pnpm check:fix` - run format:fix + lint:fix
+- `pnpm format` - run oxfmt formatter check
+- `pnpm format:fix` - run oxfmt formatter
+- `pnpm lint` - run oxlint checks
+- `pnpm lint:fix` - run oxlint with auto-fix
+- `pnpm lint:staged` - run lint-staged on staged files
+- `pnpm test:e2e` - run Playwright e2e tests headlessly in Chromium
+- `pnpm test:e2e:firefox` - same, in Firefox
+- `pnpm test:e2e:all` - same, in both browsers
+- `pnpm test:e2e:open` - run Playwright in UI mode (Chromium tests)
+- `pnpm test:e2e:open:firefox` - UI mode, Firefox tests
+- `pnpm test:e2e:open:all` - UI mode, both browsers selectable
+- `pnpm test:e2e:report` - open the HTML report from the last run
+- `pnpm test:unit` - run Vitest unit tests in `packages/**/__tests__/`
+- `pnpm test` - build then run all tests
+- `pnpm serve` - build and serve the demos on port 3000
+- `pnpm publish` - build and publish with Changesets
+- `pnpm reset` - remove caches, build artifacts, and reinstall deps
 
 ---
 
@@ -42,18 +73,18 @@ We value contributions from real humans and while we welcome AI-assisted contrib
 
 ## Cleaning and resetting
 
-* `pnpm run clean:packages` - remove build artifacts
-* `pnpm run clean:packs` - remove generated tarballs
-* `pnpm reset` - full reset of caches, node\_modules, and dependencies
+- `pnpm run clean:packages` - remove build artifacts
+- `pnpm run clean:packs` - remove generated tarballs
+- `pnpm reset` - full reset of caches, node_modules, and dependencies
 
 ---
 
 ## Principles
 
-* Keep packages modular and framework-agnostic where possible.
-* Breaking changes require a major bump and a clear migration path.
-* Always add or update demos and tests when introducing a feature.
-* Code should be deterministic, documented, and tested.
+- Keep packages modular and framework-agnostic where possible.
+- Breaking changes require a major bump and a clear migration path.
+- Always add or update demos and tests when introducing a feature.
+- Code should be deterministic, documented, and tested.
 
 ---
 

@@ -134,7 +134,9 @@ describe('MarkdownManager unrecognized HTML tags', () => {
       parseHTML: () => [{ tag: 'something-with-hyphen' }],
     })
 
-    const manager = new MarkdownManager({ extensions: [...basicExtensions, Something, SomethingWithHyphen] })
+    const manager = new MarkdownManager({
+      extensions: [...basicExtensions, Something, SomethingWithHyphen],
+    })
 
     // `<something>` is not a standard HTML tag (no hyphen), so the browser would
     // normally create an HTMLUnknownElement. However, because the schema has
