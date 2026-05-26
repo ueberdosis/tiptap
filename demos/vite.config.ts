@@ -46,14 +46,21 @@ const getPackageDependencies = () => {
             })
 
             if (name === 'svelte') {
-              fg.sync(`../${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(nestedName => {
-                const nestedPkgName = nestedName.replace(`../${path}/${name}/src/${subPkgName}/`, '')
+              fg.sync(`../${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(
+                nestedName => {
+                  const nestedPkgName = nestedName.replace(
+                    `../${path}/${name}/src/${subPkgName}/`,
+                    '',
+                  )
 
-                paths.push({
-                  find: `@tiptap/${name}/${nestedPkgName}`,
-                  replacement: resolve(`../${path}/${name}/src/${subPkgName}/${nestedPkgName}/index.ts`),
-                })
-              })
+                  paths.push({
+                    find: `@tiptap/${name}/${nestedPkgName}`,
+                    replacement: resolve(
+                      `../${path}/${name}/src/${subPkgName}/${nestedPkgName}/index.ts`,
+                    ),
+                  })
+                },
+              )
             }
           })
           paths.push({

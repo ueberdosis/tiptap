@@ -1,4 +1,9 @@
-import type { DecorationWithType, NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@tiptap/core'
+import type {
+  DecorationWithType,
+  NodeViewProps,
+  NodeViewRenderer,
+  NodeViewRendererOptions,
+} from '@tiptap/core'
 import { NodeView } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
@@ -117,7 +122,11 @@ class SvelteNodeView extends NodeView<any, Editor, SvelteNodeViewRendererOptions
     }
   }
 
-  update(node: ProseMirrorNode, decorations: readonly Decoration[], innerDecorations: DecorationSource): boolean {
+  update(
+    node: ProseMirrorNode,
+    decorations: readonly Decoration[],
+    innerDecorations: DecorationSource,
+  ): boolean {
     const rerenderComponent = (props?: Record<string, any>) => {
       this.decorationClasses = this.getDecorationClasses()
       this.renderer.updateProps({ decorationClasses: this.decorationClasses, ...props })
@@ -140,7 +149,12 @@ class SvelteNodeView extends NodeView<any, Editor, SvelteNodeViewRendererOptions
         oldInnerDecorations,
         innerDecorations,
         updateProps: () =>
-          rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage }),
+          rerenderComponent({
+            node,
+            decorations,
+            innerDecorations,
+            extension: this.extensionWithSyncedStorage,
+          }),
       })
     }
 
@@ -148,7 +162,11 @@ class SvelteNodeView extends NodeView<any, Editor, SvelteNodeViewRendererOptions
       return false
     }
 
-    if (node === this.node && this.decorations === decorations && this.innerDecorations === innerDecorations) {
+    if (
+      node === this.node &&
+      this.decorations === decorations &&
+      this.innerDecorations === innerDecorations
+    ) {
       return true
     }
 
@@ -156,7 +174,12 @@ class SvelteNodeView extends NodeView<any, Editor, SvelteNodeViewRendererOptions
     this.decorations = decorations
     this.innerDecorations = innerDecorations
 
-    rerenderComponent({ node, decorations, innerDecorations, extension: this.extensionWithSyncedStorage })
+    rerenderComponent({
+      node,
+      decorations,
+      innerDecorations,
+      extension: this.extensionWithSyncedStorage,
+    })
 
     return true
   }

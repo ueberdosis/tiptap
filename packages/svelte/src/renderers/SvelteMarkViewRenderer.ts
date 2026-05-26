@@ -13,10 +13,17 @@ export interface SvelteMarkViewRendererOptions extends MarkViewRendererOptions {
 class SvelteMarkView extends MarkView<any, SvelteMarkViewRendererOptions> {
   renderer: SvelteRenderer
 
-  constructor(component: any, props: MarkViewProps, options?: Partial<SvelteMarkViewRendererOptions>) {
+  constructor(
+    component: any,
+    props: MarkViewProps,
+    options?: Partial<SvelteMarkViewRendererOptions>,
+  ) {
     super(component, props, options)
 
-    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
+    const componentProps = {
+      ...props,
+      updateAttributes: this.updateAttributes.bind(this),
+    } satisfies MarkViewProps
 
     this.renderer = new SvelteRenderer(MarkViewFrame, {
       props: {
