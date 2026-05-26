@@ -23,6 +23,9 @@ yarn-error.log*
 # Turbo cache
 .turbo
 
+# Linter caches
+.eslintcache
+
 .rpt2_cache
 .rts2_cache
 .rts2_cache_cjs
