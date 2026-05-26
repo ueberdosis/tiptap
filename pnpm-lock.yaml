@@ -1156,6 +1156,9 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      esbuild:
+        specifier: 0.25.0
+        version: 0.25.0
       svelte:
         specifier: ^5.55.9
         version: 5.55.9
