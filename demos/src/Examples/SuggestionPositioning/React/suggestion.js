@@ -31,16 +31,14 @@ function reposition(props, element, { hideBeforeMeasure = false } = {}) {
     })
   }
 
-  requestAnimationFrame(() => {
-    updatePosition({
-      editor: props.editor,
-      element,
-      placement: props.floatingUi.placement,
-      strategy: props.floatingUi.strategy,
-      middleware: props.floatingUi.middleware,
-    }).then(() => {
-      Object.assign(element.style, { visibility: 'visible' })
-    })
+  updatePosition({
+    editor: props.editor,
+    element,
+    placement: props.floatingUi.placement,
+    strategy: props.floatingUi.strategy,
+    middleware: props.floatingUi.middleware,
+  }).then(() => {
+    Object.assign(element.style, { visibility: 'visible' })
   })
 }
 
