@@ -25,6 +25,9 @@ export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null
   editor: TEditor
   /**
    * A selector function to determine the value to compare for re-rendering.
+   *
+   * When the editor snapshot is briefly `null`, this function is not called. If a
+   * previous selection was cached, the last successful result is returned instead.
    */
   selector: (context: EditorStateSnapshot<TEditor>) => TSelectorResult
   /**
@@ -149,6 +152,12 @@ export function useEditorState<TSelectorResult>(
 /**
  * This hook allows you to watch for changes on the editor instance.
  * It will allow you to select a part of the editor state and re-render the component when it changes.
+ *
+ * @remarks When the editor snapshot is briefly `null` (for example during React StrictMode
+ * remounts), the `selector` is not called. If a previous selection exists, the last successful
+ * result is returned instead. This can surface a briefly stale value until the editor is
+ * available again. If no selection was cached yet, `null` is returned.
+ *
  * @example
  * ```tsx
  * const editor = useEditor({...options})
