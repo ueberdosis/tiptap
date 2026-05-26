@@ -309,6 +309,7 @@ jobs:
           merge-multiple: true
 
       - name: Merge into HTML report
+        if: ${{ hashFiles('all-blob-reports/**') != '' }}
         run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Upload merged HTML report
