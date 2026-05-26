@@ -190,7 +190,6 @@ export const CollaborationCaret = Extension.create<
         return {
           destroy: () => {
             provider.awareness.off('update', onAwarenessUpdate)
-            provider.awareness.setLocalStateField('user', null)
             storage.users = []
           },
         }
