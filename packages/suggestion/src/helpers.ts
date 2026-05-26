@@ -121,6 +121,7 @@ export function dispatchExit({
   renderer,
   placement,
   offset,
+  container,
   flip,
   floatingUi,
 }: {
@@ -131,6 +132,7 @@ export function dispatchExit({
   renderer: ReturnType<NonNullable<SuggestionOptions['render']>> | undefined
   placement: NonNullable<SuggestionOptions['placement']>
   offset: NonNullable<SuggestionOptions['offset']>
+  container?: SuggestionOptions['container']
   flip: NonNullable<SuggestionOptions['flip']>
   floatingUi?: SuggestionOptions['floatingUi']
 }): void {
@@ -154,6 +156,7 @@ export function dispatchExit({
       loading: false,
       placement,
       offset: { mainAxis: offset?.mainAxis ?? 4, crossAxis: offset?.crossAxis ?? 0 },
+      container,
       flip,
       floatingUi: createSuggestionFloatingUiConfig({
         placement,

@@ -90,6 +90,7 @@ export function Suggestion<I = any, TSelected = any>({
       renderer,
       placement,
       offset: offsetOption,
+      container,
       flip,
       floatingUi,
     })
