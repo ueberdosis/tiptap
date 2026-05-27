@@ -180,33 +180,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     const yUndoPluginInstance = yUndoPlugin(this.options.yUndoOptions)
     const originalUndoPluginView = yUndoPluginInstance.spec.view
 
-    // Yjs' UndoManager registers a `doc.on('destroy', ...)` listener in its
-    // constructor that `UndoManager.destroy()` never removes. When the Y.Doc
-    // outlives the editor (e.g. several editors sharing one provider), that
-    // listener keeps the UndoManager — and through it the whole editor —
-    // reachable from the long-lived doc, leaking memory on every destroy.
-    // We snapshot the doc's 'destroy' listeners around UndoManager construction
-    // (which happens in the plugin's state.init) to identify the one(s) it
-    // added, then remove them when the plugin view is destroyed.
-    const doc = fragment.doc
-    const undoPluginState = yUndoPluginInstance.spec.state
-    const originalUndoPluginStateInit = undoPluginState?.init
-    let undoManagerDocDestroyListeners: Array<(...args: any[]) => void> = []
-
-    if (doc && undoPluginState && originalUndoPluginStateInit) {
-      undoPluginState.init = (config, instance) => {
-        // oxlint-disable-next-line no-underscore-dangle
-        const before = new Set<any>((doc as any)._observers?.get('destroy') ?? [])
-        const pluginState = originalUndoPluginStateInit(config, instance)
-        // oxlint-disable-next-line no-underscore-dangle
-        const after: Set<any> = (doc as any)._observers?.get('destroy') ?? new Set()
-
-        undoManagerDocDestroyListeners = [...after].filter(listener => !before.has(listener))
-
-        return pluginState
-      }
-    }
-
     yUndoPluginInstance.spec.view = (view: EditorView) => {
       const { undoManager } = yUndoPluginKey.getState(view.state)
 
@@ -237,11 +210,6 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
 
           if (viewRet?.destroy) {
             viewRet.destroy()
-          }
-
-          if (doc) {
-            undoManagerDocDestroyListeners.forEach(listener => doc.off('destroy', listener))
-            undoManagerDocDestroyListeners = []
           }
         },
       }
