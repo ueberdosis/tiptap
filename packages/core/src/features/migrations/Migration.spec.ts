@@ -878,7 +878,7 @@ describe('migrateDocument', () => {
       doc,
       [
         createMigration(2, [
-          { type: 'renameNode', from: 'div', to: 'section', mapAttrs: { 'data-level': 'level' } },
+          { type: 'renameNode', from: 'div', to: 'section', renameAttr: { 'data-level': 'level' } },
         ]),
       ],
       1,
@@ -905,7 +905,7 @@ describe('migrateDocument', () => {
       doc,
       [
         createMigration(2, [
-          { type: 'renameMark', from: 'link', to: 'externalLink', mapAttrs: { href: 'url' } },
+          { type: 'renameMark', from: 'link', to: 'externalLink', renameAttr: { href: 'url' } },
         ]),
       ],
       1,

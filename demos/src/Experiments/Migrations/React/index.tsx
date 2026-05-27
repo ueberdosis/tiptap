@@ -152,7 +152,10 @@ const migrations = [
   createMigration(6, [renameMark('bold', 'strike')]),
   createMigration(7, [removeMark('code')]),
   createMigration(8, [
-    renameMark('link', 'code', { attrs: { target: '_blank' } }, { href: 'url' }),
+    renameMark('link', 'code', {
+      if: { attrs: { target: '_blank' } },
+      renameAttr: { href: 'url' },
+    }),
   ]),
 ]
 

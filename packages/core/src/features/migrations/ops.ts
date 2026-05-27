@@ -20,10 +20,9 @@ import type {
 export function renameNode(
   from: string,
   to: string,
-  condition?: MarkCondition,
-  mapAttrs?: Record<string, string>,
+  options?: { if?: MarkCondition; renameAttr?: Record<string, string> },
 ): RenameNodeOp {
-  return { type: 'renameNode', from, to, if: condition, mapAttrs }
+  return { type: 'renameNode', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
 
 export function renameAttr(nodeType: string, from: string, to: string): RenameAttrOp {
@@ -58,10 +57,9 @@ export function wrapNode(
 export function renameMark(
   from: string,
   to: string,
-  condition?: MarkCondition,
-  mapAttrs?: Record<string, string>,
+  options?: { if?: MarkCondition; renameAttr?: Record<string, string> },
 ): RenameMarkOp {
-  return { type: 'renameMark', from, to, if: condition, mapAttrs }
+  return { type: 'renameMark', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
 
 export function removeMark(markType: string, condition?: MarkCondition): RemoveMarkOp {
@@ -92,7 +90,7 @@ export function renameMarkAttribute(
   return { type: 'renameMarkAttribute', markType, from, to }
 }
 
-function applyMapAttrs(
+function applyRenameAttr(
   target: { attrs?: Record<string, any> },
   map?: Record<string, string>,
 ): Record<string, any> | undefined {
@@ -127,7 +125,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
   switch (op.type) {
     case 'renameNode': {
       if (node.type === op.from && matchesCondition(node, op.if)) {
-        return { ...node, type: op.to, attrs: applyMapAttrs(node, op.mapAttrs) }
+        return { ...node, type: op.to, attrs: applyRenameAttr(node, op.renameAttr) }
       }
 
       return node
@@ -187,7 +185,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
       if (node.marks) {
         const renamed = node.marks.map(m =>
           m.type === op.from && matchesCondition(m, op.if)
-            ? { ...m, type: op.to, attrs: applyMapAttrs(m, op.mapAttrs) }
+            ? { ...m, type: op.to, attrs: applyRenameAttr(m, op.renameAttr) }
             : m,
         )
 
