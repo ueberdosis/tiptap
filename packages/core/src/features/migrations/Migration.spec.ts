@@ -727,4 +727,144 @@ describe('migrateDocument', () => {
     ])
     expect(result.content?.[1].marks).toEqual([])
   })
+
+  it('renames only nodes matching the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        { type: 'div', attrs: { role: 'old' } },
+        { type: 'div', attrs: { role: 'keep' } },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'renameNode', from: 'div', to: 'section', if: { attrs: { role: 'old' } } },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].type).toBe('section')
+    expect(result.content?.[1].type).toBe('div')
+  })
+
+  it('sets attr only on nodes matching the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        { type: 'heading', attrs: { level: 2 } },
+        { type: 'heading', attrs: { level: 3 } },
+        { type: 'heading', attrs: { level: 2 } },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          {
+            type: 'setAttr',
+            nodeType: 'heading',
+            key: 'level',
+            value: 1,
+            if: { attrs: { level: 2 } },
+          },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].attrs?.level).toBe(1)
+    expect(result.content?.[1].attrs?.level).toBe(3)
+    expect(result.content?.[2].attrs?.level).toBe(1)
+  })
+
+  it('removes attr only on nodes matching the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        { type: 'link', attrs: { href: '/a', target: '_blank' } },
+        { type: 'link', attrs: { href: '/b', target: '_self' } },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          {
+            type: 'removeAttr',
+            nodeType: 'link',
+            key: 'target',
+            if: { attrs: { target: '_blank' } },
+          },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].attrs).toEqual({ href: '/a' })
+    expect(result.content?.[1].attrs).toEqual({ href: '/b', target: '_self' })
+  })
+
+  it('unwraps only nodes matching the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        { type: 'wrapper', attrs: { version: 'old' }, content: [{ type: 'text', text: 'a' }] },
+        { type: 'wrapper', attrs: { version: 'current' }, content: [{ type: 'text', text: 'b' }] },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'unwrapNode', nodeType: 'wrapper', if: { attrs: { version: 'old' } } },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content).toHaveLength(2)
+    expect(result.content?.[0].type).toBe('text')
+    expect(result.content?.[1].type).toBe('wrapper')
+  })
+
+  it('wraps only nodes matching the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        { type: 'special', attrs: { migrate: true } },
+        { type: 'special', attrs: { migrate: false } },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          {
+            type: 'wrapNode',
+            nodeType: 'special',
+            wrapper: { type: 'section' },
+            if: { attrs: { migrate: true } },
+          },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].type).toBe('section')
+    expect(result.content?.[0].content?.[0].type).toBe('special')
+    expect(result.content?.[1].type).toBe('special')
+  })
 })

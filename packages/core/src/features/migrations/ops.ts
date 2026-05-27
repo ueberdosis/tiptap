@@ -17,28 +17,37 @@ import type {
   WrapNodeOp,
 } from './types.js'
 
-export function renameNode(from: string, to: string): RenameNodeOp {
-  return { type: 'renameNode', from, to }
+export function renameNode(from: string, to: string, condition?: MarkCondition): RenameNodeOp {
+  return { type: 'renameNode', from, to, if: condition }
 }
 
 export function renameAttr(nodeType: string, from: string, to: string): RenameAttrOp {
   return { type: 'renameAttr', nodeType, from, to }
 }
 
-export function setAttr(nodeType: string, key: string, value: unknown): SetAttrOp {
-  return { type: 'setAttr', nodeType, key, value }
+export function setAttr(
+  nodeType: string,
+  key: string,
+  value: unknown,
+  condition?: MarkCondition,
+): SetAttrOp {
+  return { type: 'setAttr', nodeType, key, value, if: condition }
 }
 
-export function removeAttr(nodeType: string, key: string): RemoveAttrOp {
-  return { type: 'removeAttr', nodeType, key }
+export function removeAttr(nodeType: string, key: string, condition?: MarkCondition): RemoveAttrOp {
+  return { type: 'removeAttr', nodeType, key, if: condition }
 }
 
-export function unwrapNode(nodeType: string): UnwrapNodeOp {
-  return { type: 'unwrapNode', nodeType }
+export function unwrapNode(nodeType: string, condition?: MarkCondition): UnwrapNodeOp {
+  return { type: 'unwrapNode', nodeType, if: condition }
 }
 
-export function wrapNode(nodeType: string, wrapper: JSONContent): WrapNodeOp {
-  return { type: 'wrapNode', nodeType, wrapper }
+export function wrapNode(
+  nodeType: string,
+  wrapper: JSONContent,
+  condition?: MarkCondition,
+): WrapNodeOp {
+  return { type: 'wrapNode', nodeType, wrapper, if: condition }
 }
 
 export function renameMark(from: string, to: string, condition?: MarkCondition): RenameMarkOp {
@@ -73,21 +82,21 @@ export function renameMarkAttribute(
   return { type: 'renameMarkAttribute', markType, from, to }
 }
 
-function markMatchesCondition(
-  mark: { attrs?: Record<string, any> },
+function matchesCondition(
+  target: { attrs?: Record<string, any> },
   condition?: MarkCondition,
 ): boolean {
   if (!condition?.attrs) {
     return true
   }
 
-  return Object.entries(condition.attrs).every(([key, value]) => mark.attrs?.[key] === value)
+  return Object.entries(condition.attrs).every(([key, value]) => target.attrs?.[key] === value)
 }
 
 export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResult {
   switch (op.type) {
     case 'renameNode': {
-      if (node.type === op.from) {
+      if (node.type === op.from && matchesCondition(node, op.if)) {
         return { ...node, type: op.to }
       }
 
@@ -107,7 +116,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     }
 
     case 'setAttr': {
-      if (node.type === op.nodeType) {
+      if (node.type === op.nodeType && matchesCondition(node, op.if)) {
         return { ...node, attrs: { ...node.attrs, [op.key]: op.value } }
       }
 
@@ -115,7 +124,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     }
 
     case 'removeAttr': {
-      if (node.type === op.nodeType && node.attrs) {
+      if (node.type === op.nodeType && node.attrs && matchesCondition(node, op.if)) {
         const attrs = { ...node.attrs }
 
         delete attrs[op.key]
@@ -127,7 +136,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     }
 
     case 'unwrapNode': {
-      if (node.type === op.nodeType) {
+      if (node.type === op.nodeType && matchesCondition(node, op.if)) {
         return node.content || []
       }
 
@@ -135,7 +144,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     }
 
     case 'wrapNode': {
-      if (node.type === op.nodeType) {
+      if (node.type === op.nodeType && matchesCondition(node, op.if)) {
         const { content: _, ...wrapper } = op.wrapper
 
         return { ...wrapper, content: [node] }
@@ -147,7 +156,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     case 'renameMark': {
       if (node.marks) {
         const renamed = node.marks.map(m =>
-          m.type === op.from && markMatchesCondition(m, op.if) ? { ...m, type: op.to } : m,
+          m.type === op.from && matchesCondition(m, op.if) ? { ...m, type: op.to } : m,
         )
 
         return { ...node, marks: renamed }
@@ -159,7 +168,7 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
     case 'removeMark': {
       if (node.marks) {
         const filtered = node.marks.filter(
-          m => !(m.type === op.markType && markMatchesCondition(m, op.if)),
+          m => !(m.type === op.markType && matchesCondition(m, op.if)),
         )
 
         if (filtered.length === node.marks.length) {

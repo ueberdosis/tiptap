@@ -738,6 +738,7 @@ export type RenameNodeOp = {
   type: 'renameNode'
   from: string
   to: string
+  if?: MarkCondition
 }
 
 export type RenameAttrOp = {
@@ -752,23 +753,27 @@ export type SetAttrOp = {
   nodeType: string
   key: string
   value: unknown
+  if?: MarkCondition
 }
 
 export type RemoveAttrOp = {
   type: 'removeAttr'
   nodeType: string
   key: string
+  if?: MarkCondition
 }
 
 export type UnwrapNodeOp = {
   type: 'unwrapNode'
   nodeType: string
+  if?: MarkCondition
 }
 
 export type WrapNodeOp = {
   type: 'wrapNode'
   nodeType: string
   wrapper: JSONContent
+  if?: MarkCondition
 }
 
 export type MarkCondition = {
