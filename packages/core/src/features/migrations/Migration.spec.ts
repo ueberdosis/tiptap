@@ -425,6 +425,18 @@ describe('migrateDocument', () => {
     expect(result.content?.[0].content?.[0].type).toBe('paragraph')
   })
 
+  it('populates steps on migration when created with ops', () => {
+    const migration = createMigration(2, [renameNode('p', 'paragraph')])
+
+    expect(migration.steps).toEqual([{ type: 'renameNode', from: 'p', to: 'paragraph' }])
+  })
+
+  it('does not populate steps when created with a function', () => {
+    const migration = createMigration(2, () => ({ type: 'doc' }))
+
+    expect(migration.steps).toBeUndefined()
+  })
+
   it('chains unwrapNode with subsequent ops on the unwrapped children', () => {
     const galleryDoc = {
       type: 'doc',
