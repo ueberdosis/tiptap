@@ -51,26 +51,29 @@ export function buildPlaceholderDecorations({
   if (useResolvedPath) {
     const resolved = doc.resolve(anchor)
 
-    if (resolved.depth > 0) {
-      const node = resolved.node(1)
-      const nodeStart = resolved.before(1)
+    // When the selection spans the whole document (e.g. an `AllSelection`
+    // after Cmd+A), the anchor resolves to the document level (depth 0). In
+    // that case the relevant textblock is the node directly after the
+    // position rather than an ancestor. otherwise the placeholder would
+    // disappear after selecting all and deleting.
+    const node = resolved.depth > 0 ? resolved.node(1) : resolved.nodeAfter
+    const nodeStart = resolved.depth > 0 ? resolved.before(1) : anchor
 
-      if (node.type.isTextblock && isNodeEmpty(node)) {
-        const hasAnchor = anchor >= nodeStart && anchor <= nodeStart + node.nodeSize
+    if (node && node.type.isTextblock && isNodeEmpty(node)) {
+      const hasAnchor = anchor >= nodeStart && anchor <= nodeStart + node.nodeSize
 
-        decorations.push(
-          createPlaceholderDecoration({
-            editor,
-            isEmptyDoc,
-            dataAttribute,
-            hasAnchor,
-            placeholder: options.placeholder,
-            classes,
-            node,
-            pos: nodeStart,
-          }),
-        )
-      }
+      decorations.push(
+        createPlaceholderDecoration({
+          editor,
+          isEmptyDoc,
+          dataAttribute,
+          hasAnchor,
+          placeholder: options.placeholder,
+          classes,
+          node,
+          pos: nodeStart,
+        }),
+      )
     }
   } else {
     const pluginState = PLUGIN_KEY.getState(editor.state)

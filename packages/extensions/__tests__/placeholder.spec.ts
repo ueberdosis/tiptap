@@ -290,6 +290,35 @@ describe('extension-placeholder: fast path (default config)', () => {
     expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
     expect(paragraph.classList.contains('is-empty')).toBe(false)
   })
+
+  it('shows the placeholder again after selecting all and deleting the content', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p>Hello world</p>',
+    })
+
+    let paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
+
+    // Cmd+A selects the whole document (AllSelection), then delete removes
+    // all content, leaving a single empty paragraph.
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(editor!.isEmpty).toBe(true)
+    expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
+    expect(paragraph.classList.contains('is-empty')).toBe(true)
+  })
 })
 
 describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
