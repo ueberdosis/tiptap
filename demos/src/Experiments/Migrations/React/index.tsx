@@ -1,5 +1,3 @@
-import './styles.scss'
-
 import { createMigration, renameNode, renameAttr, setAttr, unwrapNode } from '@tiptap/core'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -124,9 +122,7 @@ const migrations = [
 ]
 
 const labels = [
-  'Version 2: Renamed legacyParagraph → paragraph, legacyHeading → heading',
-  'Version 2: Renamed legacyListItem → listItem, legacyBulletList → bulletList',
-  'Version 2: Renamed legacyBlockquote → blockquote',
+  'Version 2: Renamed legacyParagraph → paragraph, legacyHeading → heading, …',
   'Version 2: Renamed attrs (depth → level on headings)',
   'Version 3: Unwrapped blockquote – children moved one level up',
   'Version 4: Set all headings to level 1',
@@ -160,32 +156,23 @@ export default () => {
     <>
       <div className="control-group">
         <div className="flex-row">
-          <div className="button-group">
-            <span className="migration-badge">
-              v<span className="version-number">{data.documentVersion}</span>
-            </span>
-            <span className="migration-badge applied">{migrations.length} migrations</span>
+          <div>
+            v{data.documentVersion} — {migrations.length} migrations
           </div>
 
           <div className="button-group">
-            <button
-              className={`button ${showOld ? 'is-active' : ''}`}
-              onClick={() => setShowOld(s => !s)}
-            >
+            <button className={showOld ? 'is-active' : ''} onClick={() => setShowOld(s => !s)}>
               Old JSON
             </button>
-            <button
-              className={`button ${showRaw ? 'is-active' : ''}`}
-              onClick={() => setShowRaw(s => !s)}
-            >
+            <button className={showRaw ? 'is-active' : ''} onClick={() => setShowRaw(s => !s)}>
               Migrated JSON
             </button>
           </div>
         </div>
       </div>
 
-      <div className="migration-log">
-        <strong>Applied migrations</strong>
+      <div className="output-group">
+        <label>Applied migrations</label>
         <ol>
           {labels.map((msg, i) => (
             <li key={i}>{msg}</li>
