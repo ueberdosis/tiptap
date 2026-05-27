@@ -151,7 +151,9 @@ const migrations = [
   createMigration(5, [setAttr('heading', 'level', 1)]),
   createMigration(6, [renameMark('bold', 'strike')]),
   createMigration(7, [removeMark('code')]),
-  createMigration(8, [renameMark('link', 'code', { attrs: { target: '_blank' } })]),
+  createMigration(8, [
+    renameMark('link', 'code', { attrs: { target: '_blank' } }, { href: 'url' }),
+  ]),
 ]
 
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
