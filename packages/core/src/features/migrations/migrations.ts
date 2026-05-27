@@ -18,7 +18,7 @@ export function createMigration(
   return { version, migrate: compileOps(input), steps: input }
 }
 
-function compileOps(
+export function compileOps(
   ops: MigrationOperation[],
 ): (node: JSONContent) => JSONContent | JSONContent[] | null {
   const applyAll = (node: JSONContent): ApplyOpResult => {

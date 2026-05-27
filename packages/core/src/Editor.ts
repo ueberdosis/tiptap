@@ -45,7 +45,8 @@ import type {
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
-import { migrateDocument } from './features/migrations/migrations.js'
+import { compileOps, migrateDocument } from './features/migrations/migrations.js'
+import type { MigrationOperation } from './features/migrations/types.js'
 
 export * as extensions from './extensions/index.js'
 
@@ -128,6 +129,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     },
     onBeforeMigrate: () => null,
     onMigrate: () => null,
+    onMigrateStep: () => null,
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
@@ -154,6 +156,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('destroy', this.options.onDestroy)
     this.on('beforeMigrate', this.options.onBeforeMigrate)
     this.on('migrate', this.options.onMigrate)
+    this.on('migrateStep', this.options.onMigrateStep)
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
@@ -604,9 +607,11 @@ export class Editor extends EventEmitter<EditorEvents> {
       return content
     }
 
-    const maxVersion = Math.max(...migrations.map(m => m.version))
+    const applicable = migrations
+      .filter(m => m.version > this.documentVersion)
+      .sort((a, b) => a.version - b.version)
 
-    if (this.documentVersion >= maxVersion) {
+    if (!applicable.length) {
       return content
     }
 
@@ -616,17 +621,42 @@ export class Editor extends EventEmitter<EditorEvents> {
       migrations,
     })
 
-    const oldVersion = this.documentVersion
-    const migrated = migrateDocument(content, migrations, this.documentVersion, maxVersion)
+    let migrated = { ...content }
 
-    this.documentVersion = maxVersion
+    for (const migration of applicable) {
+      const oldVersion = this.documentVersion
 
-    this.emit('migrate', {
-      editor: this,
-      oldDocumentVersion: oldVersion,
-      newDocumentVersion: this.documentVersion,
-      migrations,
-    })
+      if (migration.steps) {
+        for (const step of migration.steps) {
+          const before = JSON.parse(JSON.stringify(migrated))
+
+          migrated = migrateDocument(
+            migrated,
+            [{ version: migration.version, migrate: compileOps([step]) }],
+            this.documentVersion,
+            migration.version,
+          )
+
+          this.emit('migrateStep', {
+            editor: this,
+            step,
+            before,
+            after: migrated,
+          })
+        }
+      } else {
+        migrated = migrateDocument(migrated, [migration], this.documentVersion, migration.version)
+      }
+
+      this.documentVersion = migration.version
+
+      this.emit('migrate', {
+        editor: this,
+        oldDocumentVersion: oldVersion,
+        newDocumentVersion: this.documentVersion,
+        migration,
+      })
+    }
 
     return migrated
   }

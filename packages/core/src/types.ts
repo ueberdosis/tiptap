@@ -144,6 +144,24 @@ export interface EditorEvents {
      */
     migration: Migration
   }
+  migrateStep: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The step (operation) that was just applied
+     */
+    step: MigrationOperation
+    /**
+     * The JSON of the document before this step
+     */
+    before: JSONContent
+    /**
+     * The JSON of the document after this step
+     */
+    after: JSONContent
+  }
   update: {
     /**
      * The editor instance
@@ -521,6 +539,10 @@ export interface EditorOptions {
    * Called after document migrations have been applied.
    */
   onMigrate: (props: EditorEvents['migrate']) => void
+  /**
+   * Called after each individual migration step (operation) is applied.
+   */
+  onMigrateStep: (props: EditorEvents['migrateStep']) => void
   /**
    * Called when the editor's content is updated.
    */

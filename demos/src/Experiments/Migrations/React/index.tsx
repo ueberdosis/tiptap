@@ -149,6 +149,9 @@ export default () => {
         migration.steps,
       )
     },
+    onMigrateStep({ step, before, after }) {
+      console.log(`Step: ${step.type}`, { before, after })
+    },
     onCreate({ editor }) {
       editor.setOptions({ editable: false })
     },
@@ -164,10 +167,6 @@ export default () => {
     <>
       <div className="control-group">
         <div className="flex-row">
-          <div>
-            v{data.documentVersion} — {migrations.length} migrations
-          </div>
-
           <div className="button-group">
             <button
               className={view === 'old' ? 'is-active' : ''}
