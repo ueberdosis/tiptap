@@ -143,6 +143,14 @@ export interface EditorEvents {
      * The migration that was just applied
      */
     migration: Migration
+    /**
+     * The old document
+     */
+    oldDocument: JSONContent
+    /**
+     * The new document
+     */
+    newDocument: JSONContent
   }
   migrateStep: {
     /**
@@ -763,6 +771,23 @@ export type WrapNodeOp = {
   wrapper: JSONContent
 }
 
+export type AddMarkOp = {
+  type: 'addMark'
+  markType: string
+  attrs?: Record<string, any>
+}
+
+export type RenameMarkOp = {
+  type: 'renameMark'
+  from: string
+  to: string
+}
+
+export type RemoveMarkOp = {
+  type: 'removeMark'
+  markType: string
+}
+
 export type MigrationOperation =
   | RenameNodeOp
   | RenameAttrOp
@@ -770,6 +795,9 @@ export type MigrationOperation =
   | RemoveAttrOp
   | UnwrapNodeOp
   | WrapNodeOp
+  | AddMarkOp
+  | RenameMarkOp
+  | RemoveMarkOp
 
 export type Migration = {
   version: number

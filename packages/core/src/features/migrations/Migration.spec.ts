@@ -457,4 +457,105 @@ describe('migrateDocument', () => {
 
     expect(result.content?.[0].attrs).toEqual({ url: 'a.jpg' })
   })
+
+  it('renames marks using renameMark', () => {
+    const docWithMarks = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'bold' }],
+        },
+        {
+          type: 'text',
+          text: 'world',
+          marks: [{ type: 'bold' }],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      docWithMarks,
+      [createMigration(2, [{ type: 'renameMark', from: 'bold', to: 'strong' }])],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'strong' },
+      { type: 'italic' },
+      { type: 'strong' },
+    ])
+    expect(result.content?.[1].marks).toEqual([{ type: 'strong' }])
+  })
+
+  it('removes marks using removeMark', () => {
+    const docWithMarks = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [{ type: 'bold' }, { type: 'italic' }, { type: 'underline' }],
+        },
+        {
+          type: 'text',
+          text: 'world',
+          marks: [{ type: 'bold' }],
+        },
+        {
+          type: 'text',
+          text: 'plain',
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      docWithMarks,
+      [createMigration(2, [{ type: 'removeMark', markType: 'bold' }])],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([{ type: 'italic' }, { type: 'underline' }])
+    expect(result.content?.[1].marks).toEqual([])
+    expect(result.content?.[2].marks).toBeUndefined()
+  })
+
+  it('adds marks using addMark', () => {
+    const docWithoutMarks = {
+      type: 'doc',
+      content: [
+        { type: 'text', text: 'plain', marks: [{ type: 'bold' }] },
+        { type: 'text', text: 'also plain' },
+      ],
+    }
+
+    const result = migrateDocument(
+      docWithoutMarks,
+      [createMigration(2, [{ type: 'addMark', markType: 'highlight' }])],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([{ type: 'bold' }, { type: 'highlight' }])
+    expect(result.content?.[1].marks).toEqual([{ type: 'highlight' }])
+  })
+
+  it('adds marks with attrs using addMark', () => {
+    const doc = {
+      type: 'doc',
+      content: [{ type: 'text', text: 'hello' }],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [createMigration(2, [{ type: 'addMark', markType: 'textStyle', attrs: { color: 'red' } }])],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([{ type: 'textStyle', attrs: { color: 'red' } }])
+  })
 })

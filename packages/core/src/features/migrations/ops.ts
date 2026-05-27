@@ -1,10 +1,13 @@
 import type { JSONContent } from '../../types.js'
 import type {
+  AddMarkOp,
   ApplyOpResult,
   MigrationOperation,
-  RenameAttrOp,
-  RenameNodeOp,
   RemoveAttrOp,
+  RemoveMarkOp,
+  RenameAttrOp,
+  RenameMarkOp,
+  RenameNodeOp,
   SetAttrOp,
   UnwrapNodeOp,
   WrapNodeOp,
@@ -32,6 +35,18 @@ export function unwrapNode(nodeType: string): UnwrapNodeOp {
 
 export function wrapNode(nodeType: string, wrapper: JSONContent): WrapNodeOp {
   return { type: 'wrapNode', nodeType, wrapper }
+}
+
+export function renameMark(from: string, to: string): RenameMarkOp {
+  return { type: 'renameMark', from, to }
+}
+
+export function removeMark(markType: string): RemoveMarkOp {
+  return { type: 'removeMark', markType }
+}
+
+export function addMark(markType: string, attrs?: Record<string, any>): AddMarkOp {
+  return { type: 'addMark', markType, attrs }
 }
 
 export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResult {
@@ -92,6 +107,44 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
       }
 
       return node
+    }
+
+    case 'renameMark': {
+      if (node.marks) {
+        const renamed = node.marks.map(m => (m.type === op.from ? { ...m, type: op.to } : m))
+
+        return { ...node, marks: renamed }
+      }
+
+      return node
+    }
+
+    case 'removeMark': {
+      if (node.marks) {
+        const filtered = node.marks.filter(m => m.type !== op.markType)
+
+        if (filtered.length === node.marks.length) {
+          return node
+        }
+
+        return { ...node, marks: filtered }
+      }
+
+      return node
+    }
+
+    case 'addMark': {
+      const newMark = op.attrs ? { type: op.markType, attrs: op.attrs } : { type: op.markType }
+
+      if (node.marks) {
+        if (node.marks.some(m => m.type === op.markType)) {
+          return node
+        }
+
+        return { ...node, marks: [...node.marks, newMark] }
+      }
+
+      return { ...node, marks: [newMark] }
     }
 
     default:
