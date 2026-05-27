@@ -2,13 +2,13 @@ import { describe, expect, it } from 'vitest'
 import {
   createMigration,
   migrateDocument,
-  renameNode,
-  renameAttr,
-  setAttr,
   removeAttr,
+  renameAttr,
+  renameNode,
+  setAttr,
   unwrapNode,
   wrapNode,
-} from './migrations.js'
+} from './index.js'
 
 const doc = {
   type: 'doc',
