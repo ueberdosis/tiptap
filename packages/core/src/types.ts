@@ -54,6 +54,24 @@ export type MaybeThisParameterType<T> =
     ? ThisParameterType<Exclude<T, Primitive>>
     : any
 
+export interface EditorMetaMap {
+  // users will be able to type those from their packages
+  [key: string]: any
+}
+
+export type EditorData = {
+  content: Content
+  html: string
+  markdown: string
+  documentVersion: number
+  meta: EditorMetaMap
+}
+
+export type EditorContentJSON = DocumentType<
+  Record<string, any> | undefined,
+  NodeType<string, undefined | Record<string, any>, any, (NodeType | TextType)[]>[]
+>
+
 export interface EditorEvents {
   mount: {
     /**
@@ -292,6 +310,10 @@ export type DispatchTransactionProps = {
 
 export type EnableRules = (AnyExtension | string)[] | boolean
 
+type EditorDataForOptions = Omit<EditorData, 'html' | 'markdown'>
+type EditorDataForOptionsWithOptionals = Partial<EditorDataForOptions> &
+  Pick<EditorDataForOptions, 'content'>
+
 export interface EditorOptions {
   /**
    * The element to bind the editor to:
@@ -301,8 +323,10 @@ export interface EditorOptions {
    * - If a function is passed, it will be called with the editor's element, which should place the editor within the document
    */
   element: Element | { mount: HTMLElement } | ((editor: HTMLElement) => void) | null
+  data?: EditorDataForOptionsWithOptionals
   /**
    * The content of the editor (HTML, JSON, or a JSON array)
+   * @deprecated This content field will be deprecated in Tiptap V4 - use `data` instead
    */
   content: Content
   /**

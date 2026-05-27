@@ -34,14 +34,13 @@ import { style } from './style.js'
 import type {
   CanCommands,
   ChainedCommands,
-  DocumentType,
   EditorEvents,
   EditorOptions,
-  NodeType as TNodeType,
   SingleCommands,
   TextSerializer,
-  TextType as TTextType,
   Utils,
+  EditorContentJSON,
+  EditorData,
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
@@ -61,6 +60,16 @@ export class Editor extends EventEmitter<EditorEvents> {
   private css: HTMLStyleElement | null = null
 
   private className = 'tiptap'
+
+  private documentVersion: EditorData['documentVersion'] = 1
+
+  private meta: EditorData['meta'] = {}
+
+  /**
+   * Whether the editor was initialized with the `data` option (content + meta + documentVersion)
+   * or with the legacy `content` option.
+   */
+  public initializedWithData = false
 
   public schema!: Schema
 
@@ -141,6 +150,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
+
+    this.documentVersion = this.options?.data?.documentVersion ?? 1
+    this.meta = this.options?.data?.meta ?? {}
+    this.initializedWithData = !!this.options?.data
 
     const initialDoc = this.createDoc()
     const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
@@ -247,6 +260,25 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public can(): CanCommands {
     return this.commandManager.can()
+  }
+
+  /**
+   * Retrieves meta data by key from the editors metadata store
+   * @param key The metadata to get
+   * @returns The metadata value
+   */
+  public getMeta<K extends keyof EditorData['meta']>(key: K): EditorData['meta'][K] {
+    return this.meta[key] ?? false
+  }
+
+  /**
+   * Sets meta data by key on the editors metadata store
+   * @param key The metadata to set
+   * @param value The metadata value
+   * @returns @void
+   */
+  public setMeta<K extends keyof EditorData['meta']>(key: K, value: EditorData['meta'][K]): void {
+    this.meta[key] = value
   }
 
   /**
@@ -482,9 +514,14 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   private createDoc(): ProseMirrorNode {
     let doc: ProseMirrorNode
+    let content = this.options.content
+
+    if (this.options.data) {
+      content = this.options.data.content
+    }
 
     try {
-      doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
+      doc = createDocument(content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
       })
     } catch (e) {
@@ -735,12 +772,23 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Returns the editors data for storage
+   */
+  public getData(): EditorData {
+    const self = this as any
+    return {
+      content: this.getJSON(),
+      html: this.getHTML(),
+      markdown: self.getMarkdown ? self.getMarkdown() : '',
+      documentVersion: this.documentVersion,
+      meta: this.meta,
+    }
+  }
+
+  /**
    * Get the document as JSON.
    */
-  public getJSON(): DocumentType<
-    Record<string, any> | undefined,
-    TNodeType<string, undefined | Record<string, any>, any, (TNodeType | TTextType)[]>[]
-  > {
+  public getJSON(): EditorContentJSON {
     return this.state.doc.toJSON()
   }
 
