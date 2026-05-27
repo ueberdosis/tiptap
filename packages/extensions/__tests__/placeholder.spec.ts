@@ -16,6 +16,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'
 import { throttle } from '../src/placeholder/utils/throttle.js'
 
+import { PLUGIN_KEY } from '../src/placeholder/constants.js'
+
 describe('extension-placeholder', () => {
   let editor: Editor | null = null
 
@@ -289,6 +291,64 @@ describe('extension-placeholder: fast path (default config)', () => {
     editor!.commands.insertContent('Hello')
     expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
     expect(paragraph.classList.contains('is-empty')).toBe(false)
+  })
+
+  it('shows the placeholder again after selecting all and deleting the content', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: true,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p>Hello world</p>',
+    })
+
+    let paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder')).toBe(false)
+
+    // Cmd+A selects the whole document (AllSelection), then delete removes
+    // all content, leaving a single empty paragraph.
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(editor!.isEmpty).toBe(true)
+    expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
+    expect(paragraph.classList.contains('is-empty')).toBe(true)
+  })
+
+  it('does not dispatch a viewport recompute synchronously on doc change (defers to rAF)', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          showOnlyCurrent: false,
+          includeChildren: false,
+        }),
+      ],
+      content: '<p></p>'.repeat(20),
+    })
+
+    const dispatch = vi.spyOn(editor!.view, 'dispatch')
+
+    // Trigger a doc size change — the old code called computeAndDispatch()
+    // synchronously from the update() callback, which dispatched a second
+    // transaction with PLUGIN_KEY meta. The fix defers to rAF instead.
+    editor!.commands.insertContent('Hello World')
+
+    const viewportRecomputes = dispatch.mock.calls.filter(
+      ([tr]) => tr.getMeta(PLUGIN_KEY) !== undefined,
+    )
+    expect(viewportRecomputes).toHaveLength(0)
+
+    dispatch.mockRestore()
   })
 })
 

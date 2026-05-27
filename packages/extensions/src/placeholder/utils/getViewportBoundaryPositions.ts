@@ -1,6 +1,8 @@
 import type { Node } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
 
+import { VIEWPORT_OVERSCAN_PX } from '../constants.js'
+
 function getContainerRect(container: HTMLElement | Window): { top: number; bottom: number } {
   if (container === window) {
     return { top: 0, bottom: window.innerHeight }
@@ -23,8 +25,8 @@ export function getViewportBoundaryPositions({
     ? getContainerRect(scrollContainer)
     : { top: 0, bottom: window.innerHeight }
 
-  const visibleTop = Math.max(editorRect.top, containerRect.top)
-  const visibleBottom = Math.min(editorRect.bottom, containerRect.bottom)
+  const visibleTop = Math.max(editorRect.top, containerRect.top) - VIEWPORT_OVERSCAN_PX
+  const visibleBottom = Math.min(editorRect.bottom, containerRect.bottom) + VIEWPORT_OVERSCAN_PX
 
   if (visibleTop >= visibleBottom) {
     // Editor is not visible — fall back to full document range
