@@ -2,4 +2,4 @@
 '@tiptap/server-ai-toolkit': patch
 ---
 
-Exclude `toText` from serialized node specs in schema awareness so schema serialization remains JSON-safe when node specs define text extraction callbacks.
+Exclude `toText` property when serializing the schema into a JSON object, because it is a function and functions are not serializable.
