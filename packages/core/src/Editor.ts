@@ -37,7 +37,6 @@ import type {
   EditorEvents,
   EditorOptions,
   JSONContent,
-  Migration,
   SingleCommands,
   TextSerializer,
   Utils,
@@ -159,9 +158,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.meta = this.options?.data?.meta ?? {}
     this.initializedWithData = !!this.options?.data
 
-    if (this.options.migrations?.length) {
-      this.validateMigrations(this.options.migrations)
-    }
+    this.checkMigrationState()
 
     const initialDoc = this.createDoc()
     const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
@@ -575,11 +572,24 @@ export class Editor extends EventEmitter<EditorEvents> {
     return doc
   }
 
-  private validateMigrations(migrations: Migration[]): void {
+  private checkMigrationState(): void {
+    const migrations = this.options.migrations
+
+    if (!migrations?.length) {
+      return
+    }
+
     const versions = migrations.map(m => m.version)
+    const maxVersion = Math.max(...versions)
 
     if (new Set(versions).size !== versions.length) {
       throw new Error('[tiptap error]: Duplicate migration versions')
+    }
+
+    if (this.documentVersion > maxVersion) {
+      throw new Error(
+        `[tiptap error]: Editor is outdated — document version (${this.documentVersion}) is newer than the latest migration (${maxVersion})`,
+      )
     }
   }
 

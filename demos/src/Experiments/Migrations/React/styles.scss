@@ -1,0 +1,68 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.control-group {
+  margin-bottom: 1rem;
+}
+
+.migration-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  background: #e8e8e8;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+
+  .version {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.applied {
+    background: #d4edda;
+    color: #155724;
+  }
+}
+
+.migration-log {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+
+  ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.button {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+
+  &.is-primary {
+    background: #0066cc;
+    color: white;
+    border-color: #0056b3;
+  }
+
+  &.is-warning {
+    background: #ffc107;
+    color: #212529;
+    border-color: #ffab00;
+  }
+}
