@@ -7,6 +7,7 @@
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)
 [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true)](https://discord.gg/WtJ49jGshW)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
+[![LFX Active Contributors](https://insights.linuxfoundation.org/api/badge/active-contributors?project=tiptap)](https://insights.linuxfoundation.org/project/tiptap)
 
 # Tiptap Editor
 
