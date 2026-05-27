@@ -36,6 +36,8 @@ import type {
   ChainedCommands,
   EditorEvents,
   EditorOptions,
+  JSONContent,
+  Migration,
   SingleCommands,
   TextSerializer,
   Utils,
@@ -44,6 +46,7 @@ import type {
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
+import { migrateDocument } from './features/migrations/migrations.js'
 
 export * as extensions from './extensions/index.js'
 
@@ -110,6 +113,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableCoreExtensions: true,
     enableContentCheck: false,
     emitContentError: false,
+    migrations: [],
     onBeforeCreate: () => null,
     onCreate: () => null,
     onMount: () => null,
@@ -154,6 +158,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.documentVersion = this.options?.data?.documentVersion ?? 1
     this.meta = this.options?.data?.meta ?? {}
     this.initializedWithData = !!this.options?.data
+
+    if (this.options.migrations?.length) {
+      this.validateMigrations(this.options.migrations)
+    }
 
     const initialDoc = this.createDoc()
     const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
@@ -520,6 +528,10 @@ export class Editor extends EventEmitter<EditorEvents> {
       content = this.options.data.content
     }
 
+    if (this.options.migrations?.length && content && typeof content === 'object') {
+      content = this.runMigrations(content as JSONContent)
+    }
+
     try {
       doc = createDocument(content, this.schema, this.options.parseOptions, {
         errorOnInvalidContent: this.options.enableContentCheck,
@@ -561,6 +573,34 @@ export class Editor extends EventEmitter<EditorEvents> {
       })
     }
     return doc
+  }
+
+  private validateMigrations(migrations: Migration[]): void {
+    const versions = migrations.map(m => m.version)
+
+    if (new Set(versions).size !== versions.length) {
+      throw new Error('[tiptap error]: Duplicate migration versions')
+    }
+  }
+
+  private runMigrations(content: JSONContent): JSONContent {
+    const migrations = this.options.migrations
+
+    if (!migrations?.length) {
+      return content
+    }
+
+    const maxVersion = Math.max(...migrations.map(m => m.version))
+
+    if (this.documentVersion >= maxVersion) {
+      return content
+    }
+
+    const migrated = migrateDocument(content, migrations, this.documentVersion, maxVersion)
+
+    this.documentVersion = maxVersion
+
+    return migrated
   }
 
   /**

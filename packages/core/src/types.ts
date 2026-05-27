@@ -330,6 +330,14 @@ export interface EditorOptions {
    */
   content: Content
   /**
+   * Document migrations to run on initialization.
+   * Each migration has a version number. If the editor's document version is
+   * lower than the highest migration version, all migrations in between are
+   * applied in order.
+   * @example migrations: [{ version: 2, migrate: node => { ... } }]
+   */
+  migrations: Migration[]
+  /**
    * The extensions to use
    */
   extensions: Extensions
@@ -655,6 +663,11 @@ export type DOMOutputSpecArray =
   | [string, DOMOutputSpecArray]
 
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
+
+export type Migration = {
+  version: number
+  migrate: (node: JSONContent) => JSONContent | JSONContent[] | null
+}
 
 export type CommandProps = {
   editor: Editor
