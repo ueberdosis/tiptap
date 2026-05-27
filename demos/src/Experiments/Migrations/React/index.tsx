@@ -6,7 +6,6 @@ import {
   unwrapNode,
   renameMark,
   removeMark,
-  addMark,
   JSONContent,
 } from '@tiptap/core'
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -122,8 +121,18 @@ const oldDoc = {
         { type: 'text', text: ' are being migrated too – ' },
         { type: 'text', marks: [{ type: 'code' }], text: 'bold → strike' },
         { type: 'text', text: ', code removed, and ' },
-        { type: 'text', marks: [{ type: 'code' }], text: 'bold' },
-        { type: 'text', text: ' added to all text.' },
+        {
+          type: 'text',
+          marks: [{ type: 'link', attrs: { href: '/internal' } }],
+          text: 'normal links',
+        },
+        { type: 'text', text: ' stay, but ' },
+        {
+          type: 'text',
+          marks: [{ type: 'link', attrs: { href: 'https://external.com', target: '_blank' } }],
+          text: 'external links',
+        },
+        { type: 'text', text: ' get renamed to code.' },
       ],
     },
   ],
@@ -142,7 +151,7 @@ const migrations = [
   createMigration(5, [setAttr('heading', 'level', 1)]),
   createMigration(6, [renameMark('bold', 'strike')]),
   createMigration(7, [removeMark('code')]),
-  createMigration(8, [addMark('bold')]),
+  createMigration(8, [renameMark('link', 'code', { attrs: { target: '_blank' } })]),
 ]
 
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
