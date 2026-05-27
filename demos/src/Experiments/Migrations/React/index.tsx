@@ -120,9 +120,9 @@ const oldDoc = {
       content: [
         { type: 'text', marks: [{ type: 'bold' }, { type: 'italic' }], text: 'Marks' },
         { type: 'text', text: ' are being migrated too – ' },
-        { type: 'text', marks: [{ type: 'code' }], text: 'bold → strong' },
+        { type: 'text', marks: [{ type: 'code' }], text: 'bold → strike' },
         { type: 'text', text: ', code removed, and ' },
-        { type: 'text', marks: [{ type: 'code' }], text: 'highlight' },
+        { type: 'text', marks: [{ type: 'code' }], text: 'bold' },
         { type: 'text', text: ' added to all text.' },
       ],
     },
@@ -140,9 +140,9 @@ const migrations = [
   createMigration(3, [renameNode('legacyBulletList', 'bulletList')]),
   createMigration(4, [unwrapNode('blockquote')]),
   createMigration(5, [setAttr('heading', 'level', 1)]),
-  createMigration(6, [renameMark('bold', 'strong')]),
+  createMigration(6, [renameMark('bold', 'strike')]),
   createMigration(7, [removeMark('code')]),
-  createMigration(8, [addMark('highlight', { color: 'yellow' })]),
+  createMigration(8, [addMark('bold')]),
 ]
 
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
