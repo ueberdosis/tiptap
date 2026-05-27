@@ -867,4 +867,53 @@ describe('migrateDocument', () => {
     expect(result.content?.[0].content?.[0].type).toBe('special')
     expect(result.content?.[1].type).toBe('special')
   })
+
+  it('renames a node and maps attributes in one step', () => {
+    const doc = {
+      type: 'doc',
+      content: [{ type: 'div', attrs: { 'data-level': 2, role: 'old' } }],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'renameNode', from: 'div', to: 'section', mapAttrs: { 'data-level': 'level' } },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].type).toBe('section')
+    expect(result.content?.[0].attrs).toEqual({ level: 2, role: 'old' })
+  })
+
+  it('renames a mark and maps its attributes in one step', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [{ type: 'link', attrs: { href: 'https://old.com', target: '_blank' } }],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'renameMark', from: 'link', to: 'externalLink', mapAttrs: { href: 'url' } },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'externalLink', attrs: { url: 'https://old.com', target: '_blank' } },
+    ])
+  })
 })

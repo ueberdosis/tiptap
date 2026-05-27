@@ -739,6 +739,7 @@ export type RenameNodeOp = {
   from: string
   to: string
   if?: MarkCondition
+  mapAttrs?: Record<string, string>
 }
 
 export type RenameAttrOp = {
@@ -791,6 +792,7 @@ export type RenameMarkOp = {
   from: string
   to: string
   if?: MarkCondition
+  mapAttrs?: Record<string, string>
 }
 
 export type RemoveMarkOp = {
