@@ -1,4 +1,14 @@
-import { createMigration, renameNode, renameAttr, setAttr, unwrapNode } from '@tiptap/core'
+import {
+  createMigration,
+  renameNode,
+  renameAttr,
+  setAttr,
+  unwrapNode,
+  renameMark,
+  removeMark,
+  addMark,
+  JSONContent,
+} from '@tiptap/core'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
@@ -87,22 +97,33 @@ const oldDoc = {
     {
       type: 'legacyParagraph',
       content: [
-        { type: 'text', marks: [{ type: 'bold' }], text: 'Version 2' },
+        { type: 'text', marks: [{ type: 'bold' }, { type: 'italic' }], text: 'Version 2' },
         { type: 'text', text: ': All node types and attributes were renamed' },
       ],
     },
     {
       type: 'legacyParagraph',
       content: [
-        { type: 'text', marks: [{ type: 'bold' }], text: 'Version 3' },
+        { type: 'text', marks: [{ type: 'bold' }, { type: 'italic' }], text: 'Version 3' },
         { type: 'text', text: ': The blockquote was unwrapped – its children moved one level up' },
       ],
     },
     {
       type: 'legacyParagraph',
       content: [
-        { type: 'text', marks: [{ type: 'bold' }], text: 'Version 4' },
+        { type: 'text', marks: [{ type: 'bold' }, { type: 'italic' }], text: 'Version 4' },
         { type: 'text', text: ': All headings were set to level 1' },
+      ],
+    },
+    {
+      type: 'legacyParagraph',
+      content: [
+        { type: 'text', marks: [{ type: 'bold' }, { type: 'italic' }], text: 'Marks' },
+        { type: 'text', text: ' are being migrated too – ' },
+        { type: 'text', marks: [{ type: 'code' }], text: 'bold → strong' },
+        { type: 'text', text: ', code removed, and ' },
+        { type: 'text', marks: [{ type: 'code' }], text: 'highlight' },
+        { type: 'text', text: ' added to all text.' },
       ],
     },
   ],
@@ -113,25 +134,22 @@ const migrations = [
     renameNode('legacyParagraph', 'paragraph'),
     renameNode('legacyHeading', 'heading'),
     renameNode('legacyListItem', 'listItem'),
-    renameNode('legacyBulletList', 'bulletList'),
     renameNode('legacyBlockquote', 'blockquote'),
     renameAttr('heading', 'depth', 'level'),
   ]),
-  createMigration(3, [unwrapNode('blockquote')]),
-  createMigration(4, [setAttr('heading', 'level', 1)]),
-]
-
-const labels = [
-  'Version 2: Renamed legacyParagraph → paragraph, legacyHeading → heading, …',
-  'Version 2: Renamed attrs (depth → level on headings)',
-  'Version 3: Unwrapped blockquote – children moved one level up',
-  'Version 4: Set all headings to level 1',
+  createMigration(3, [renameNode('legacyBulletList', 'bulletList')]),
+  createMigration(4, [unwrapNode('blockquote')]),
+  createMigration(5, [setAttr('heading', 'level', 1)]),
+  createMigration(6, [renameMark('bold', 'strong')]),
+  createMigration(7, [removeMark('code')]),
+  createMigration(8, [addMark('highlight', { color: 'yellow' })]),
 ]
 
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
 
 export default () => {
-  const [view, setView] = React.useState<'old' | 'migrated' | null>('migrated')
+  const [versions, setVersions] = React.useState<JSONContent[]>([oldDoc])
+  const [view, setView] = React.useState<number>(0)
 
   const editor = useEditor({
     extensions,
@@ -143,11 +161,12 @@ export default () => {
     onBeforeMigrate({ documentVersion, migrations: ms }) {
       console.log(`Migrating from v${documentVersion} with ${ms.length} migrations`)
     },
-    onMigrate({ oldDocumentVersion, newDocumentVersion, migration }) {
+    onMigrate({ oldDocumentVersion, newDocumentVersion, migration, newDocument }) {
       console.log(
         `Applied migration v${oldDocumentVersion} → v${newDocumentVersion}`,
         migration.steps,
       )
+      setVersions(v => [...v, newDocument])
     },
     onMigrateStep({ step, before, after }) {
       console.log(`Step: ${step.type}`, { before, after })
@@ -161,51 +180,28 @@ export default () => {
     return null
   }
 
-  const data = editor.getData()
-
   return (
     <>
       <div className="control-group">
         <div className="flex-row">
           <div className="button-group">
-            <button
-              className={view === 'old' ? 'is-active' : ''}
-              onClick={() => setView(v => (v === 'old' ? null : 'old'))}
-            >
-              Old JSON
-            </button>
-            <button
-              className={view === 'migrated' ? 'is-active' : ''}
-              onClick={() => setView(v => (v === 'migrated' ? null : 'migrated'))}
-            >
-              Migrated JSON
-            </button>
+            {versions.map((_, i) => (
+              <button
+                key={i}
+                className={view === i ? 'is-active' : ''}
+                onClick={() => setView(v => (v === i ? 0 : i))}
+              >
+                Version {i + 1}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       <div className="output-group">
-        <label>Applied migrations</label>
-        <ol>
-          {labels.map((msg, i) => (
-            <li key={i}>{msg}</li>
-          ))}
-        </ol>
+        <label>Version {view + 1}</label>
+        <pre>{JSON.stringify(versions[view], null, 2)}</pre>
       </div>
-
-      {view === 'old' && (
-        <div className="output-group">
-          <label>Old document (version 1)</label>
-          <pre>{JSON.stringify(oldDoc, null, 2)}</pre>
-        </div>
-      )}
-
-      {view === 'migrated' && (
-        <div className="output-group">
-          <label>Migrated document (version {data.documentVersion})</label>
-          <pre>{JSON.stringify(data.content, null, 2)}</pre>
-        </div>
-      )}
 
       <EditorContent editor={editor} />
     </>
