@@ -178,7 +178,7 @@ export default () => {
       setVersions(v => [...v, newDocument])
     },
     onMigrateStep({ step, before, after }) {
-      console.log(`Step: ${step.type}`, { before, after })
+      console.log(`Step: ${step.type}`, step, { before, after })
     },
     onCreate({ editor }) {
       editor.setOptions({ editable: false })
