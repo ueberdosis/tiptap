@@ -131,8 +131,7 @@ const labels = [
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
 
 export default () => {
-  const [showRaw, setShowRaw] = React.useState(false)
-  const [showOld, setShowOld] = React.useState(false)
+  const [view, setView] = React.useState<'old' | 'migrated' | null>(null)
 
   const editor = useEditor({
     extensions,
@@ -161,10 +160,16 @@ export default () => {
           </div>
 
           <div className="button-group">
-            <button className={showOld ? 'is-active' : ''} onClick={() => setShowOld(s => !s)}>
+            <button
+              className={view === 'old' ? 'is-active' : ''}
+              onClick={() => setView(v => (v === 'old' ? null : 'old'))}
+            >
               Old JSON
             </button>
-            <button className={showRaw ? 'is-active' : ''} onClick={() => setShowRaw(s => !s)}>
+            <button
+              className={view === 'migrated' ? 'is-active' : ''}
+              onClick={() => setView(v => (v === 'migrated' ? null : 'migrated'))}
+            >
               Migrated JSON
             </button>
           </div>
@@ -180,14 +185,14 @@ export default () => {
         </ol>
       </div>
 
-      {showOld && (
+      {view === 'old' && (
         <div className="output-group">
           <label>Old document (version 1)</label>
           <pre>{JSON.stringify(oldDoc, null, 2)}</pre>
         </div>
       )}
 
-      {showRaw && (
+      {view === 'migrated' && (
         <div className="output-group">
           <label>Migrated document (version {data.documentVersion})</label>
           <pre>{JSON.stringify(data.content, null, 2)}</pre>
