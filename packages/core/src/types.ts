@@ -112,6 +112,38 @@ export interface EditorEvents {
      */
     disableCollaboration: () => void
   }
+  beforeMigrate: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The current document version before migration
+     */
+    documentVersion: number
+    /**
+     * The migrations that will be applied
+     */
+    migrations: Migration[]
+  }
+  migrate: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The document version before migration
+     */
+    oldDocumentVersion: number
+    /**
+     * The document version after migration
+     */
+    newDocumentVersion: number
+    /**
+     * The migrations that were applied
+     */
+    migrations: Migration[]
+  }
   update: {
     /**
      * The editor instance
@@ -481,6 +513,14 @@ export interface EditorOptions {
    * Only enabled if `enableContentCheck` is `true`.
    */
   onContentError: (props: EditorEvents['contentError']) => void
+  /**
+   * Called before document migrations are applied.
+   */
+  onBeforeMigrate: (props: EditorEvents['beforeMigrate']) => void
+  /**
+   * Called after document migrations have been applied.
+   */
+  onMigrate: (props: EditorEvents['migrate']) => void
   /**
    * Called when the editor's content is updated.
    */

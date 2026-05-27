@@ -126,6 +126,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     onContentError: ({ error }) => {
       throw error
     },
+    onBeforeMigrate: () => null,
+    onMigrate: () => null,
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
@@ -150,6 +152,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('focus', this.options.onFocus)
     this.on('blur', this.options.onBlur)
     this.on('destroy', this.options.onDestroy)
+    this.on('beforeMigrate', this.options.onBeforeMigrate)
+    this.on('migrate', this.options.onMigrate)
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
@@ -606,9 +610,23 @@ export class Editor extends EventEmitter<EditorEvents> {
       return content
     }
 
+    this.emit('beforeMigrate', {
+      editor: this,
+      documentVersion: this.documentVersion,
+      migrations,
+    })
+
+    const oldVersion = this.documentVersion
     const migrated = migrateDocument(content, migrations, this.documentVersion, maxVersion)
 
     this.documentVersion = maxVersion
+
+    this.emit('migrate', {
+      editor: this,
+      oldDocumentVersion: oldVersion,
+      newDocumentVersion: this.documentVersion,
+      migrations,
+    })
 
     return migrated
   }

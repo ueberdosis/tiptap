@@ -131,6 +131,8 @@ class EditorInstanceManager {
       onTransaction: (...args) => this.options.current.onTransaction?.(...args),
       onUpdate: (...args) => this.options.current.onUpdate?.(...args),
       onContentError: (...args) => this.options.current.onContentError?.(...args),
+      onBeforeMigrate: (...args) => this.options.current.onBeforeMigrate?.(...args),
+      onMigrate: (...args) => this.options.current.onMigrate?.(...args),
       onDrop: (...args) => this.options.current.onDrop?.(...args),
       onPaste: (...args) => this.options.current.onPaste?.(...args),
       onDelete: (...args) => this.options.current.onDelete?.(...args),
@@ -180,6 +182,8 @@ class EditorInstanceManager {
           'onBlur',
           'onSelectionUpdate',
           'onContentError',
+          'onBeforeMigrate',
+          'onMigrate',
           'onDrop',
           'onPaste',
         ].includes(key)

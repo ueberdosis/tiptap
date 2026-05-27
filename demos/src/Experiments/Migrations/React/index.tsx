@@ -131,7 +131,7 @@ const labels = [
 const extensions = [StarterKit.configure({ heading: { levels: [1, 2, 3] } })]
 
 export default () => {
-  const [view, setView] = React.useState<'old' | 'migrated' | null>(null)
+  const [view, setView] = React.useState<'old' | 'migrated' | null>('migrated')
 
   const editor = useEditor({
     extensions,
@@ -140,6 +140,12 @@ export default () => {
       documentVersion: 1,
     },
     migrations,
+    onBeforeMigrate({ documentVersion, migrations: ms }) {
+      console.log(`Migrating from v${documentVersion} with ${ms.length} migrations`)
+    },
+    onMigrate({ oldDocumentVersion, newDocumentVersion, migrations: ms }) {
+      console.log(`Migrated from v${oldDocumentVersion} to v${newDocumentVersion}`)
+    },
     onCreate({ editor }) {
       editor.setOptions({ editable: false })
     },
