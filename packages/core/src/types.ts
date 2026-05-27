@@ -132,17 +132,17 @@ export interface EditorEvents {
      */
     editor: Editor
     /**
-     * The document version before migration
+     * The document version before this migration step
      */
     oldDocumentVersion: number
     /**
-     * The document version after migration
+     * The document version after this migration step
      */
     newDocumentVersion: number
     /**
-     * The migrations that were applied
+     * The migration that was just applied
      */
-    migrations: Migration[]
+    migration: Migration
   }
   update: {
     /**
@@ -704,9 +704,55 @@ export type DOMOutputSpecArray =
 
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
+export type RenameNodeOp = {
+  type: 'renameNode'
+  from: string
+  to: string
+}
+
+export type RenameAttrOp = {
+  type: 'renameAttr'
+  nodeType: string
+  from: string
+  to: string
+}
+
+export type SetAttrOp = {
+  type: 'setAttr'
+  nodeType: string
+  key: string
+  value: unknown
+}
+
+export type RemoveAttrOp = {
+  type: 'removeAttr'
+  nodeType: string
+  key: string
+}
+
+export type UnwrapNodeOp = {
+  type: 'unwrapNode'
+  nodeType: string
+}
+
+export type WrapNodeOp = {
+  type: 'wrapNode'
+  nodeType: string
+  wrapper: JSONContent
+}
+
+export type MigrationOperation =
+  | RenameNodeOp
+  | RenameAttrOp
+  | SetAttrOp
+  | RemoveAttrOp
+  | UnwrapNodeOp
+  | WrapNodeOp
+
 export type Migration = {
   version: number
   migrate: (node: JSONContent) => JSONContent | JSONContent[] | null
+  steps?: MigrationOperation[]
 }
 
 export type CommandProps = {

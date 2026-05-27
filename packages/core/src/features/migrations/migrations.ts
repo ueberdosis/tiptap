@@ -15,7 +15,7 @@ export function createMigration(
     return { version, migrate: input }
   }
 
-  return { version, migrate: compileOps(input) }
+  return { version, migrate: compileOps(input), steps: input }
 }
 
 function compileOps(

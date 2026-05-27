@@ -143,8 +143,11 @@ export default () => {
     onBeforeMigrate({ documentVersion, migrations: ms }) {
       console.log(`Migrating from v${documentVersion} with ${ms.length} migrations`)
     },
-    onMigrate({ oldDocumentVersion, newDocumentVersion, migrations: ms }) {
-      console.log(`Migrated from v${oldDocumentVersion} to v${newDocumentVersion}`)
+    onMigrate({ oldDocumentVersion, newDocumentVersion, migration }) {
+      console.log(
+        `Applied migration v${oldDocumentVersion} → v${newDocumentVersion}`,
+        migration.steps,
+      )
     },
     onCreate({ editor }) {
       editor.setOptions({ editable: false })
