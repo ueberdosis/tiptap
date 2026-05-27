@@ -5,7 +5,6 @@ import { PLUGIN_KEY } from '../constants.js'
 import type { ViewportState } from '../types.js'
 import { findScrollParent } from './findScrollParent.js'
 import { getViewportBoundaryPositions } from './getViewportBoundaryPositions.js'
-import { throttle } from './throttle.js'
 
 /**
  * The plugin `state` config that tracks the visible viewport boundaries so the
@@ -72,33 +71,48 @@ export function createViewportPluginView(view: EditorView): PluginView {
       return
     }
 
-    const tr = view.state.tr
-      .setMeta(PLUGIN_KEY, { positions })
-      // Flag this transaction so the update() method can detect
-      // it and avoid re-entrant computation.
-      .setMeta('tiptap__viewportUpdate', true)
+    const tr = view.state.tr.setMeta(PLUGIN_KEY, { positions })
     view.dispatch(tr)
   }
 
-  const { call: throttledUpdate, cancel: cancelThrottle } = throttle(computeAndDispatch, 250)
+  // rAF-based scheduler with interval guard (150ms → ~6–7 Hz) used by
+  // scroll events and update(). The overscan margin hides the extra
+  // latency. When the guard blocks, the callback reschedules itself so
+  // the trailing position is always captured.
+  let frame: number | null = null
+  let lastCompute = 0
+  const MIN_SCROLL_INTERVAL = 150
 
-  scrollContainer.addEventListener('scroll', throttledUpdate, { passive: true })
+  const scheduleFrame = () => {
+    if (frame !== null) return
+    frame = requestAnimationFrame(() => {
+      frame = null
+      const now = performance.now()
+      if (now - lastCompute >= MIN_SCROLL_INTERVAL) {
+        lastCompute = now
+        computeAndDispatch()
+      } else {
+        scheduleFrame()
+      }
+    })
+  }
 
-  // Fire once to populate initial viewport (bypass throttle)
+  scrollContainer.addEventListener('scroll', scheduleFrame, { passive: true })
+
+  // Fire once to populate initial viewport
   computeAndDispatch()
 
   return {
-    update(_: EditorView, prevState: EditorState) {
-      // Skip re-entry: the dispatch inside computeAndDispatch would
-      // trigger this update again, but the doc didn't change so the
-      // size guard catches that. The meta flag is an extra safeguard.
+    update(_view: EditorView, prevState: EditorState) {
       if (view.state.doc.content.size !== prevState.doc.content.size) {
-        computeAndDispatch()
+        scheduleFrame()
       }
     },
     destroy: () => {
-      cancelThrottle()
-      scrollContainer.removeEventListener('scroll', throttledUpdate)
+      if (frame !== null) {
+        cancelAnimationFrame(frame)
+      }
+      scrollContainer.removeEventListener('scroll', scheduleFrame)
     },
   }
 }
