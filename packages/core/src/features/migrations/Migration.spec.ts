@@ -652,4 +652,79 @@ describe('migrateDocument', () => {
       { type: 'textStyle', attrs: { size: '14px', color: 'red' } },
     ])
   })
+
+  it('renames only marks that match the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'stay link',
+          marks: [{ type: 'link', attrs: { href: '/old', target: '_self' } }],
+        },
+        {
+          type: 'text',
+          text: 'migrate link',
+          marks: [{ type: 'link', attrs: { href: '/old', target: '_blank' } }],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          {
+            type: 'renameMark',
+            from: 'link',
+            to: 'externalLink',
+            if: { attrs: { target: '_blank' } },
+          },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'link', attrs: { href: '/old', target: '_self' } },
+    ])
+    expect(result.content?.[1].marks).toEqual([
+      { type: 'externalLink', attrs: { href: '/old', target: '_blank' } },
+    ])
+  })
+
+  it('removes only marks that match the if condition', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'keep me',
+          marks: [{ type: 'link', attrs: { href: '/keep', target: '_self' } }],
+        },
+        {
+          type: 'text',
+          text: 'remove me',
+          marks: [{ type: 'link', attrs: { href: '/remove', target: '_blank' } }],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'removeMark', markType: 'link', if: { attrs: { target: '_blank' } } },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'link', attrs: { href: '/keep', target: '_self' } },
+    ])
+    expect(result.content?.[1].marks).toEqual([])
+  })
 })

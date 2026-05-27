@@ -3,6 +3,7 @@ import type { JSONContent } from '../../types.js'
 export type {
   AddMarkAttributeOp,
   AddMarkOp,
+  MarkCondition,
   MigrationOperation,
   RemoveAttrOp,
   RemoveMarkAttributeOp,

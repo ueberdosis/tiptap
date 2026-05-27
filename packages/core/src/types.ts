@@ -771,6 +771,10 @@ export type WrapNodeOp = {
   wrapper: JSONContent
 }
 
+export type MarkCondition = {
+  attrs?: Record<string, any>
+}
+
 export type AddMarkOp = {
   type: 'addMark'
   markType: string
@@ -781,11 +785,13 @@ export type RenameMarkOp = {
   type: 'renameMark'
   from: string
   to: string
+  if?: MarkCondition
 }
 
 export type RemoveMarkOp = {
   type: 'removeMark'
   markType: string
+  if?: MarkCondition
 }
 
 export type AddMarkAttributeOp = {

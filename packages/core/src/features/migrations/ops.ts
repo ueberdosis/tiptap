@@ -3,6 +3,7 @@ import type {
   AddMarkAttributeOp,
   AddMarkOp,
   ApplyOpResult,
+  MarkCondition,
   MigrationOperation,
   RemoveAttrOp,
   RemoveMarkAttributeOp,
@@ -40,12 +41,12 @@ export function wrapNode(nodeType: string, wrapper: JSONContent): WrapNodeOp {
   return { type: 'wrapNode', nodeType, wrapper }
 }
 
-export function renameMark(from: string, to: string): RenameMarkOp {
-  return { type: 'renameMark', from, to }
+export function renameMark(from: string, to: string, condition?: MarkCondition): RenameMarkOp {
+  return { type: 'renameMark', from, to, if: condition }
 }
 
-export function removeMark(markType: string): RemoveMarkOp {
-  return { type: 'removeMark', markType }
+export function removeMark(markType: string, condition?: MarkCondition): RemoveMarkOp {
+  return { type: 'removeMark', markType, if: condition }
 }
 
 export function addMark(markType: string, attrs?: Record<string, any>): AddMarkOp {
@@ -70,6 +71,17 @@ export function renameMarkAttribute(
   to: string,
 ): RenameMarkAttributeOp {
   return { type: 'renameMarkAttribute', markType, from, to }
+}
+
+function markMatchesCondition(
+  mark: { attrs?: Record<string, any> },
+  condition?: MarkCondition,
+): boolean {
+  if (!condition?.attrs) {
+    return true
+  }
+
+  return Object.entries(condition.attrs).every(([key, value]) => mark.attrs?.[key] === value)
 }
 
 export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResult {
@@ -134,7 +146,9 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
 
     case 'renameMark': {
       if (node.marks) {
-        const renamed = node.marks.map(m => (m.type === op.from ? { ...m, type: op.to } : m))
+        const renamed = node.marks.map(m =>
+          m.type === op.from && markMatchesCondition(m, op.if) ? { ...m, type: op.to } : m,
+        )
 
         return { ...node, marks: renamed }
       }
@@ -144,7 +158,9 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
 
     case 'removeMark': {
       if (node.marks) {
-        const filtered = node.marks.filter(m => m.type !== op.markType)
+        const filtered = node.marks.filter(
+          m => !(m.type === op.markType && markMatchesCondition(m, op.if)),
+        )
 
         if (filtered.length === node.marks.length) {
           return node
