@@ -558,4 +558,98 @@ describe('migrateDocument', () => {
 
     expect(result.content?.[0].marks).toEqual([{ type: 'textStyle', attrs: { color: 'red' } }])
   })
+
+  it('adds an attribute to all marks of a type using addMarkAttribute', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [
+            { type: 'bold' },
+            { type: 'link', attrs: { href: '/' } },
+            { type: 'bold', attrs: { weight: '700' } },
+          ],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'addMarkAttribute', markType: 'bold', key: 'edited', value: true },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'bold', attrs: { edited: true } },
+      { type: 'link', attrs: { href: '/' } },
+      { type: 'bold', attrs: { weight: '700', edited: true } },
+    ])
+  })
+
+  it('removes an attribute from all marks of a type using removeMarkAttribute', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [
+            { type: 'link', attrs: { href: '/', rel: 'nofollow' } },
+            { type: 'bold', attrs: { weight: '700' } },
+          ],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [createMigration(2, [{ type: 'removeMarkAttribute', markType: 'link', key: 'rel' }])],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'link', attrs: { href: '/' } },
+      { type: 'bold', attrs: { weight: '700' } },
+    ])
+  })
+
+  it('renames an attribute on all marks of a type using renameMarkAttribute', () => {
+    const doc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'text',
+          text: 'hello',
+          marks: [
+            { type: 'textStyle', attrs: { fontSize: '16px' } },
+            { type: 'textStyle', attrs: { fontSize: '14px', color: 'red' } },
+          ],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      doc,
+      [
+        createMigration(2, [
+          { type: 'renameMarkAttribute', markType: 'textStyle', from: 'fontSize', to: 'size' },
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].marks).toEqual([
+      { type: 'textStyle', attrs: { size: '16px' } },
+      { type: 'textStyle', attrs: { size: '14px', color: 'red' } },
+    ])
+  })
 })

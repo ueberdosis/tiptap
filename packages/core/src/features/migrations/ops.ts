@@ -1,11 +1,14 @@
 import type { JSONContent } from '../../types.js'
 import type {
+  AddMarkAttributeOp,
   AddMarkOp,
   ApplyOpResult,
   MigrationOperation,
   RemoveAttrOp,
+  RemoveMarkAttributeOp,
   RemoveMarkOp,
   RenameAttrOp,
+  RenameMarkAttributeOp,
   RenameMarkOp,
   RenameNodeOp,
   SetAttrOp,
@@ -47,6 +50,26 @@ export function removeMark(markType: string): RemoveMarkOp {
 
 export function addMark(markType: string, attrs?: Record<string, any>): AddMarkOp {
   return { type: 'addMark', markType, attrs }
+}
+
+export function addMarkAttribute(
+  markType: string,
+  key: string,
+  value: unknown,
+): AddMarkAttributeOp {
+  return { type: 'addMarkAttribute', markType, key, value }
+}
+
+export function removeMarkAttribute(markType: string, key: string): RemoveMarkAttributeOp {
+  return { type: 'removeMarkAttribute', markType, key }
+}
+
+export function renameMarkAttribute(
+  markType: string,
+  from: string,
+  to: string,
+): RenameMarkAttributeOp {
+  return { type: 'renameMarkAttribute', markType, from, to }
 }
 
 export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResult {
@@ -145,6 +168,60 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
       }
 
       return { ...node, marks: [newMark] }
+    }
+
+    case 'addMarkAttribute': {
+      if (node.marks) {
+        const updated = node.marks.map(m =>
+          m.type === op.markType ? { ...m, attrs: { ...m.attrs, [op.key]: op.value } } : m,
+        )
+
+        return { ...node, marks: updated }
+      }
+
+      return node
+    }
+
+    case 'removeMarkAttribute': {
+      if (node.marks) {
+        const updated = node.marks.map(m => {
+          if (m.type !== op.markType || !m.attrs) {
+            return m
+          }
+
+          const attrs = { ...m.attrs }
+
+          delete attrs[op.key]
+
+          return { ...m, attrs }
+        })
+
+        return { ...node, marks: updated }
+      }
+
+      return node
+    }
+
+    case 'renameMarkAttribute': {
+      if (node.marks) {
+        const updated = node.marks.map(m => {
+          if (m.type !== op.markType || !m.attrs) {
+            return m
+          }
+
+          const { [op.from]: value, ...rest } = m.attrs
+
+          if (value !== undefined) {
+            return { ...m, attrs: { ...rest, [op.to]: value } }
+          }
+
+          return m
+        })
+
+        return { ...node, marks: updated }
+      }
+
+      return node
     }
 
     default:

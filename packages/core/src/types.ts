@@ -788,6 +788,26 @@ export type RemoveMarkOp = {
   markType: string
 }
 
+export type AddMarkAttributeOp = {
+  type: 'addMarkAttribute'
+  markType: string
+  key: string
+  value: unknown
+}
+
+export type RemoveMarkAttributeOp = {
+  type: 'removeMarkAttribute'
+  markType: string
+  key: string
+}
+
+export type RenameMarkAttributeOp = {
+  type: 'renameMarkAttribute'
+  markType: string
+  from: string
+  to: string
+}
+
 export type MigrationOperation =
   | RenameNodeOp
   | RenameAttrOp
@@ -798,6 +818,9 @@ export type MigrationOperation =
   | AddMarkOp
   | RenameMarkOp
   | RemoveMarkOp
+  | AddMarkAttributeOp
+  | RemoveMarkAttributeOp
+  | RenameMarkAttributeOp
 
 export type Migration = {
   version: number
