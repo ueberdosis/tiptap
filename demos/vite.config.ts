@@ -7,7 +7,7 @@ import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   css: {
     preprocessorOptions: {
       scss: {
@@ -271,6 +271,6 @@ export default defineConfig({
   ],
 
   resolve: {
-    conditions: ['development', 'import', 'require'],
+    conditions: command === 'serve' ? ['development'] : [],
   },
-})
+}))
