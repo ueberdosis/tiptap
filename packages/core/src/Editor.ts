@@ -36,7 +36,6 @@ import type {
   ChainedCommands,
   EditorEvents,
   EditorOptions,
-  JSONContent,
   SingleCommands,
   TextSerializer,
   Utils,
@@ -45,8 +44,8 @@ import type {
 } from './types.js'
 import { createStyleTag } from './utilities/createStyleTag.js'
 import { isFunction } from './utilities/isFunction.js'
-import { compileOps, migrateDocument } from './features/migrations/migrations.js'
-import type { MigrationOperation } from './features/migrations/types.js'
+import { applyMigrationStep, migrateDocument } from './features/migrations/migrations.js'
+import type { JSONContent, Migration, MigrationOperation } from './types.js'
 
 export * as extensions from './extensions/index.js'
 
@@ -114,6 +113,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableContentCheck: false,
     emitContentError: false,
     migrations: [],
+    migrationStepSnapshots: true,
     onBeforeCreate: () => null,
     onCreate: () => null,
     onMount: () => null,
@@ -130,6 +130,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     onBeforeMigrate: () => null,
     onMigrate: () => null,
     onMigrateStep: () => null,
+    onMigrateError: () => null,
     onPaste: () => null,
     onDrop: () => null,
     onDelete: () => null,
@@ -142,6 +143,11 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
+
+    this.documentVersion = this.options?.data?.documentVersion ?? 1
+    this.meta = this.options?.data?.meta ?? {}
+    this.initializedWithData = !!this.options?.data
+
     this.on('beforeCreate', this.options.onBeforeCreate)
     this.emit('beforeCreate', { editor: this })
     this.on('mount', this.options.onMount)
@@ -157,13 +163,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('beforeMigrate', this.options.onBeforeMigrate)
     this.on('migrate', this.options.onMigrate)
     this.on('migrateStep', this.options.onMigrateStep)
+    this.on('migrateError', this.options.onMigrateError)
     this.on('drop', ({ event, slice, moved }) => this.options.onDrop(event, slice, moved))
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
-
-    this.documentVersion = this.options?.data?.documentVersion ?? 1
-    this.meta = this.options?.data?.meta ?? {}
-    this.initializedWithData = !!this.options?.data
 
     this.checkMigrationState()
 
@@ -533,7 +536,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
 
     if (this.options.migrations?.length && content && typeof content === 'object') {
-      content = this.runMigrations(content as JSONContent)
+      content = this.migrateContent(content as JSONContent)
     }
 
     try {
@@ -600,65 +603,136 @@ export class Editor extends EventEmitter<EditorEvents> {
     }
   }
 
-  private runMigrations(content: JSONContent): JSONContent {
+  /**
+   * Returns the current document schema version.
+   */
+  public getDocumentVersion(): number {
+    return this.documentVersion
+  }
+
+  /**
+   * Sets the document schema version.
+   */
+  public setDocumentVersion(version: number): void {
+    this.documentVersion = version
+  }
+
+  /**
+   * Runs document migrations on JSON content.
+   */
+  public migrateContent(
+    content: JSONContent,
+    options?: {
+      documentVersion?: number
+      updateDocumentVersion?: boolean
+      emitEvents?: boolean
+    },
+  ): JSONContent {
     const migrations = this.options.migrations
 
     if (!migrations?.length) {
       return content
     }
 
+    const fromVersion = options?.documentVersion ?? this.documentVersion
+    const updateDocumentVersion = options?.updateDocumentVersion !== false
+    const emitEvents = options?.emitEvents !== false
+    const includeSnapshots = this.options.migrationStepSnapshots
+
     const applicable = migrations
-      .filter(m => m.version > this.documentVersion)
+      .filter(m => m.version > fromVersion)
       .sort((a, b) => a.version - b.version)
 
     if (!applicable.length) {
       return content
     }
 
-    this.emit('beforeMigrate', {
-      editor: this,
-      documentVersion: this.documentVersion,
-      migrations,
-    })
-
-    let migrated = { ...content }
-
-    for (const migration of applicable) {
-      const oldVersion = this.documentVersion
-
-      if (migration.steps) {
-        for (const step of migration.steps) {
-          const before = JSON.parse(JSON.stringify(migrated))
-
-          migrated = migrateDocument(
-            migrated,
-            [{ version: migration.version, migrate: compileOps([step]) }],
-            this.documentVersion,
-            migration.version,
-          )
-
-          this.emit('migrateStep', {
-            editor: this,
-            step,
-            before,
-            after: migrated,
-          })
-        }
-      } else {
-        migrated = migrateDocument(migrated, [migration], this.documentVersion, migration.version)
-      }
-
-      this.documentVersion = migration.version
-
-      this.emit('migrate', {
+    if (emitEvents) {
+      this.emit('beforeMigrate', {
         editor: this,
-        oldDocumentVersion: oldVersion,
-        newDocumentVersion: this.documentVersion,
-        migration,
+        documentVersion: fromVersion,
+        migrations,
       })
     }
 
+    let migrated = { ...content }
+    let currentVersion = fromVersion
+
+    let currentMigration: Migration | undefined
+    let currentStep: MigrationOperation | undefined
+
+    try {
+      for (const migration of applicable) {
+        currentMigration = migration
+        const oldVersion = currentVersion
+        const documentBeforeMigration = JSON.parse(JSON.stringify(migrated)) as JSONContent
+
+        if (migration.steps) {
+          for (const step of migration.steps) {
+            currentStep = step
+            const before = includeSnapshots
+              ? (JSON.parse(JSON.stringify(migrated)) as JSONContent)
+              : undefined
+
+            migrated = applyMigrationStep(migrated, step)
+
+            if (emitEvents) {
+              this.emit('migrateStep', {
+                editor: this,
+                step,
+                ...(includeSnapshots
+                  ? { before, after: JSON.parse(JSON.stringify(migrated)) as JSONContent }
+                  : {}),
+              })
+            }
+          }
+        } else {
+          currentStep = undefined
+          migrated = migrateDocument(migrated, [migration], currentVersion, migration.version)
+        }
+
+        currentVersion = migration.version
+
+        if (updateDocumentVersion) {
+          this.documentVersion = migration.version
+        }
+
+        if (emitEvents) {
+          this.emit('migrate', {
+            editor: this,
+            oldDocumentVersion: oldVersion,
+            newDocumentVersion: migration.version,
+            oldDocument: documentBeforeMigration,
+            newDocument: migrated,
+            migration,
+          })
+        }
+      }
+    } catch (error) {
+      this.handleMigrateError(error, currentMigration, currentStep)
+      throw error
+    }
+
     return migrated
+  }
+
+  private handleMigrateError(
+    error: unknown,
+    migration?: Migration,
+    step?: MigrationOperation,
+  ): void {
+    const normalizedError = error instanceof Error ? error : new Error(String(error))
+
+    this.emit('migrateError', {
+      editor: this,
+      error: normalizedError,
+      migration,
+      step,
+    })
+  }
+
+  private runMigrations(content: JSONContent): JSONContent {
+    return this.migrateContent(content)
   }
 
   /**
@@ -870,14 +944,12 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
-   * Returns the editors data for storage
+   * Returns the editor data for persistence (JSON content, document version, and meta).
+   * Use `getHTML()` or `getMarkdown()` when you need serialized formats for export or search.
    */
   public getData(): EditorData {
-    const self = this as any
     return {
       content: this.getJSON(),
-      html: this.getHTML(),
-      markdown: self.getMarkdown ? self.getMarkdown() : '',
       documentVersion: this.documentVersion,
       meta: this.meta,
     }

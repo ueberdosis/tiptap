@@ -9,6 +9,7 @@ import {
   getUpdatedPosition,
 } from './helpers/CollaborationMappablePosition.js'
 import { isChangeOrigin } from './helpers/isChangeOrigin.js'
+import { syncDocumentVersionWithYdoc } from './helpers/syncDocumentVersion.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
 type YUndoOpts = Parameters<typeof yUndoPlugin>[0]
@@ -19,6 +20,10 @@ export interface CollaborationStorage {
    * Disabling collaboration will prevent any changes from being synced with other users.
    */
   isDisabled: boolean
+  /**
+   * Unsubscribes document version sync with the Yjs document.
+   */
+  unsubscribeDocumentVersion?: () => void
 }
 
 declare module '@tiptap/core' {
@@ -82,6 +87,12 @@ export interface CollaborationOptions {
    * Options for the Yjs undo plugin.
    */
   yUndoOptions?: YUndoOpts
+
+  /**
+   * Sync `documentVersion` with the Yjs document map under the `tiptap` key.
+   * @default true
+   */
+  syncDocumentVersion?: boolean
 }
 
 /**
@@ -116,7 +127,18 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
     }
   },
 
+  onDestroy() {
+    this.storage.unsubscribeDocumentVersion?.()
+  },
+
   onBeforeCreate() {
+    if (this.options.syncDocumentVersion !== false && this.options.document) {
+      this.storage.unsubscribeDocumentVersion = syncDocumentVersionWithYdoc(
+        this.editor,
+        this.options.document,
+      )
+    }
+
     this.editor.utils.getUpdatedPosition = (position, transaction) =>
       getUpdatedPosition(position, transaction, this.editor.state)
     this.editor.utils.createMappablePosition = position =>

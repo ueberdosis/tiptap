@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
+  applyMigrationStep,
   createMigration,
   migrateDocument,
   removeAttr,
+  removeNode,
   renameAttr,
   renameNode,
   setAttr,
@@ -887,6 +889,67 @@ describe('migrateDocument', () => {
 
     expect(result.content?.[0].type).toBe('section')
     expect(result.content?.[0].attrs).toEqual({ level: 2, role: 'old' })
+  })
+
+  it('removes a node using the removeNode op', () => {
+    const docsWithTrash = {
+      type: 'doc',
+      content: [
+        { type: 'keep', content: [{ type: 'text', text: 'stay' }] },
+        { type: 'trash', content: [{ type: 'text', text: 'go' }] },
+        { type: 'keep', content: [{ type: 'text', text: 'stay too' }] },
+      ],
+    }
+
+    const result = migrateDocument(docsWithTrash, [createMigration(2, [removeNode('trash')])], 1, 2)
+
+    expect(result.content).toHaveLength(2)
+    expect(result.content?.[0].type).toBe('keep')
+    expect(result.content?.[1].type).toBe('keep')
+  })
+
+  it('throws when migration removes the document root', () => {
+    expect(() =>
+      migrateDocument(
+        { type: 'doc', content: [] },
+        [createMigration(2, [removeNode('doc')])],
+        1,
+        2,
+      ),
+    ).toThrow('[tiptap error]: Migration removed document root')
+  })
+
+  it('does not re-apply ops before unwrap when continuing on unwrapped children', () => {
+    const galleryDoc = {
+      type: 'doc',
+      content: [
+        {
+          type: 'gallery',
+          content: [{ type: 'img', attrs: { src: 'a.jpg', pass: 0 } }],
+        },
+      ],
+    }
+
+    const result = migrateDocument(
+      galleryDoc,
+      [
+        createMigration(2, [
+          setAttr('img', 'pass', 1),
+          unwrapNode('gallery'),
+          setAttr('img', 'pass', 2),
+        ]),
+      ],
+      1,
+      2,
+    )
+
+    expect(result.content?.[0].attrs).toEqual({ src: 'a.jpg', pass: 2 })
+  })
+
+  it('applyMigrationStep applies a single operation', () => {
+    const result = applyMigrationStep(doc, renameNode('paragraph', 'paragraph_v2'))
+
+    expect(result.content?.[0].type).toBe('paragraph_v2')
   })
 
   it('renames a mark and maps its attributes in one step', () => {

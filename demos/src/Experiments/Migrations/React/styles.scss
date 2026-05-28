@@ -1,0 +1,38 @@
+.migrations-demo {
+  .output-group pre {
+    margin: 0;
+    max-height: 20rem;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .migration-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .migration-log-entry {
+    border-bottom: 1px solid var(--gray-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-bottom: 0.5rem;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+
+  .migration-log-entry code {
+    background-color: var(--gray-2);
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.35rem;
+  }
+}

@@ -3,7 +3,7 @@ import type {
   AddMarkAttributeOp,
   AddMarkOp,
   ApplyOpResult,
-  MarkCondition,
+  OpCondition,
   MigrationOperation,
   RemoveAttrOp,
   RemoveMarkAttributeOp,
@@ -11,6 +11,7 @@ import type {
   RenameAttrOp,
   RenameMarkAttributeOp,
   RenameMarkOp,
+  RemoveNodeOp,
   RenameNodeOp,
   SetAttrOp,
   UnwrapNodeOp,
@@ -20,7 +21,7 @@ import type {
 export function renameNode(
   from: string,
   to: string,
-  options?: { if?: MarkCondition; renameAttr?: Record<string, string> },
+  options?: { if?: OpCondition; renameAttr?: Record<string, string> },
 ): RenameNodeOp {
   return { type: 'renameNode', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
@@ -33,36 +34,40 @@ export function setAttr(
   nodeType: string,
   key: string,
   value: unknown,
-  condition?: MarkCondition,
+  condition?: OpCondition,
 ): SetAttrOp {
   return { type: 'setAttr', nodeType, key, value, if: condition }
 }
 
-export function removeAttr(nodeType: string, key: string, condition?: MarkCondition): RemoveAttrOp {
+export function removeAttr(nodeType: string, key: string, condition?: OpCondition): RemoveAttrOp {
   return { type: 'removeAttr', nodeType, key, if: condition }
 }
 
-export function unwrapNode(nodeType: string, condition?: MarkCondition): UnwrapNodeOp {
+export function unwrapNode(nodeType: string, condition?: OpCondition): UnwrapNodeOp {
   return { type: 'unwrapNode', nodeType, if: condition }
 }
 
 export function wrapNode(
   nodeType: string,
   wrapper: JSONContent,
-  condition?: MarkCondition,
+  condition?: OpCondition,
 ): WrapNodeOp {
   return { type: 'wrapNode', nodeType, wrapper, if: condition }
+}
+
+export function removeNode(nodeType: string, condition?: OpCondition): RemoveNodeOp {
+  return { type: 'removeNode', nodeType, if: condition }
 }
 
 export function renameMark(
   from: string,
   to: string,
-  options?: { if?: MarkCondition; renameAttr?: Record<string, string> },
+  options?: { if?: OpCondition; renameAttr?: Record<string, string> },
 ): RenameMarkOp {
   return { type: 'renameMark', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
 
-export function removeMark(markType: string, condition?: MarkCondition): RemoveMarkOp {
+export function removeMark(markType: string, condition?: OpCondition): RemoveMarkOp {
   return { type: 'removeMark', markType, if: condition }
 }
 
@@ -112,7 +117,7 @@ function applyRenameAttr(
 
 function matchesCondition(
   target: { attrs?: Record<string, any> },
-  condition?: MarkCondition,
+  condition?: OpCondition,
 ): boolean {
   if (!condition?.attrs) {
     return true
@@ -176,6 +181,14 @@ export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResul
         const { content: _, ...wrapper } = op.wrapper
 
         return { ...wrapper, content: [node] }
+      }
+
+      return node
+    }
+
+    case 'removeNode': {
+      if (node.type === op.nodeType && matchesCondition(node, op.if)) {
+        return null
       }
 
       return node

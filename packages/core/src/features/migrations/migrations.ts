@@ -21,10 +21,12 @@ export function createMigration(
 export function compileOps(
   ops: MigrationOperation[],
 ): (node: JSONContent) => JSONContent | JSONContent[] | null {
-  const applyAll = (node: JSONContent): ApplyOpResult => {
+  const applyFrom = (node: JSONContent, startIndex: number): ApplyOpResult => {
     let result: ApplyOpResult = node
 
-    for (const op of ops) {
+    for (let i = startIndex; i < ops.length; i++) {
+      const op = ops[i]
+
       result = applyOp(result as JSONContent, op)
 
       if (result === null) {
@@ -32,14 +34,18 @@ export function compileOps(
       }
 
       if (Array.isArray(result)) {
-        return result.flatMap(applyAll)
+        return result.flatMap(child => applyFrom(child, i + 1))
       }
     }
 
     return result
   }
 
-  return node => applyAll(node)
+  return node => applyFrom(node, 0)
+}
+
+export function applyMigrationStep(doc: JSONContent, step: MigrationOperation): JSONContent {
+  return applyMigration(doc, { version: 0, migrate: compileOps([step]) })
 }
 
 function validateMigrations(migrations: Migration[]): void {
@@ -88,7 +94,7 @@ function applyMigration(doc: JSONContent, migration: Migration): JSONContent {
   const root = walk(doc)
 
   if (!root) {
-    return doc
+    throw new Error('[tiptap error]: Migration removed document root')
   }
 
   if (Array.isArray(root)) {

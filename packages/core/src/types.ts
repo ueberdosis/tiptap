@@ -61,8 +61,6 @@ export interface EditorMetaMap {
 
 export type EditorData = {
   content: Content
-  html: string
-  markdown: string
   documentVersion: number
   meta: EditorMetaMap
 }
@@ -162,13 +160,33 @@ export interface EditorEvents {
      */
     step: MigrationOperation
     /**
-     * The JSON of the document before this step
+     * The JSON of the document before this step.
+     * Omitted when `migrationStepSnapshots` is `false`.
      */
-    before: JSONContent
+    before?: JSONContent
     /**
-     * The JSON of the document after this step
+     * The JSON of the document after this step.
+     * Omitted when `migrationStepSnapshots` is `false`.
      */
-    after: JSONContent
+    after?: JSONContent
+  }
+  migrateError: {
+    /**
+     * The editor instance
+     */
+    editor: Editor
+    /**
+     * The error that occurred during migration
+     */
+    error: Error
+    /**
+     * The migration that was being applied, if known
+     */
+    migration?: Migration
+    /**
+     * The migration step that was being applied, if known
+     */
+    step?: MigrationOperation
   }
   update: {
     /**
@@ -368,9 +386,7 @@ export type DispatchTransactionProps = {
 
 export type EnableRules = (AnyExtension | string)[] | boolean
 
-type EditorDataForOptions = Omit<EditorData, 'html' | 'markdown'>
-type EditorDataForOptionsWithOptionals = Partial<EditorDataForOptions> &
-  Pick<EditorDataForOptions, 'content'>
+type EditorDataForOptionsWithOptionals = Partial<EditorData> & Pick<EditorData, 'content'>
 
 export interface EditorOptions {
   /**
@@ -395,6 +411,12 @@ export interface EditorOptions {
    * @example migrations: [{ version: 2, migrate: node => { ... } }]
    */
   migrations: Migration[]
+  /**
+   * Whether `migrateStep` events include full `before`/`after` document snapshots.
+   * Disable for large documents to reduce memory use during migration.
+   * @default true
+   */
+  migrationStepSnapshots: boolean
   /**
    * The extensions to use
    */
@@ -551,6 +573,10 @@ export interface EditorOptions {
    * Called after each individual migration step (operation) is applied.
    */
   onMigrateStep: (props: EditorEvents['migrateStep']) => void
+  /**
+   * Called when a document migration fails.
+   */
+  onMigrateError: (props: EditorEvents['migrateError']) => void
   /**
    * Called when the editor's content is updated.
    */
@@ -734,11 +760,19 @@ export type DOMOutputSpecArray =
 
 export type Content = HTMLContent | JSONContent | JSONContent[] | null
 
+/**
+ * Partial attribute match for migration operations.
+ * All listed keys must equal the target's attribute values.
+ */
+export type OpCondition = {
+  attrs?: Record<string, any>
+}
+
 export type RenameNodeOp = {
   type: 'renameNode'
   from: string
   to: string
-  if?: MarkCondition
+  if?: OpCondition
   renameAttr?: Record<string, string>
 }
 
@@ -754,31 +788,33 @@ export type SetAttrOp = {
   nodeType: string
   key: string
   value: unknown
-  if?: MarkCondition
+  if?: OpCondition
 }
 
 export type RemoveAttrOp = {
   type: 'removeAttr'
   nodeType: string
   key: string
-  if?: MarkCondition
+  if?: OpCondition
 }
 
 export type UnwrapNodeOp = {
   type: 'unwrapNode'
   nodeType: string
-  if?: MarkCondition
+  if?: OpCondition
 }
 
 export type WrapNodeOp = {
   type: 'wrapNode'
   nodeType: string
   wrapper: JSONContent
-  if?: MarkCondition
+  if?: OpCondition
 }
 
-export type MarkCondition = {
-  attrs?: Record<string, any>
+export type RemoveNodeOp = {
+  type: 'removeNode'
+  nodeType: string
+  if?: OpCondition
 }
 
 export type AddMarkOp = {
@@ -791,14 +827,14 @@ export type RenameMarkOp = {
   type: 'renameMark'
   from: string
   to: string
-  if?: MarkCondition
+  if?: OpCondition
   renameAttr?: Record<string, string>
 }
 
 export type RemoveMarkOp = {
   type: 'removeMark'
   markType: string
-  if?: MarkCondition
+  if?: OpCondition
 }
 
 export type AddMarkAttributeOp = {
@@ -828,6 +864,7 @@ export type MigrationOperation =
   | RemoveAttrOp
   | UnwrapNodeOp
   | WrapNodeOp
+  | RemoveNodeOp
   | AddMarkOp
   | RenameMarkOp
   | RemoveMarkOp
