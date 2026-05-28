@@ -26,7 +26,7 @@
     "test:e2e:report": "playwright show-report",
     "test": "turbo run build && pnpm run test:unit",
     "build": "turbo build",
-    "build:demos": "pnpm --prefix demos run build:demos",
+    "build:demos": "pnpm run build && pnpm --prefix demos run build:demos",
     "serve": "pnpm run build:demos && http-server ./demos/dist -s -p 3000",
     "build:ci": "turbo run build",
     "publish": "pnpm run build && pnpm changeset publish",

@@ -1,0 +1,11 @@
+[build]
+  command = "pnpm run build:demos"
+  publish = "demos/dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[redirects]]
+  from = "/preview/*"
+  to = "/preview/index.html"
+  status = 200
