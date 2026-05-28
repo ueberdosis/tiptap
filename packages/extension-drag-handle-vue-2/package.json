@@ -28,6 +28,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -40,6 +41,7 @@
     "build": "tsup"
   },
   "devDependencies": {
+    "@tiptap/core": "workspace:^",
     "@tiptap/extension-drag-handle": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/vue-2": "workspace:^",
@@ -47,6 +49,7 @@
     "vue-ts-types": "1.6.2"
   },
   "peerDependencies": {
+    "@tiptap/core": "workspace:*",
     "@tiptap/extension-drag-handle": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "@tiptap/vue-2": "workspace:*",

@@ -39,6 +39,7 @@
   "exports": {
     "./changeset": {
       "types": {
+        "development": "./changeset/index.ts",
         "import": "./dist/changeset/index.d.ts",
         "require": "./dist/changeset/index.d.cts"
       },
@@ -48,6 +49,7 @@
     },
     "./commands": {
       "types": {
+        "development": "./commands/index.ts",
         "import": "./dist/commands/index.d.ts",
         "require": "./dist/commands/index.d.cts"
       },
@@ -57,6 +59,7 @@
     },
     "./dropcursor": {
       "types": {
+        "development": "./dropcursor/index.ts",
         "import": "./dist/dropcursor/index.d.ts",
         "require": "./dist/dropcursor/index.d.cts"
       },
@@ -66,6 +69,7 @@
     },
     "./inputrules": {
       "types": {
+        "development": "./inputrules/index.ts",
         "import": "./dist/inputrules/index.d.ts",
         "require": "./dist/inputrules/index.d.cts"
       },
@@ -75,6 +79,7 @@
     },
     "./gapcursor": {
       "types": {
+        "development": "./gapcursor/index.ts",
         "import": "./dist/gapcursor/index.d.ts",
         "require": "./dist/gapcursor/index.d.cts"
       },
@@ -84,6 +89,7 @@
     },
     "./history": {
       "types": {
+        "development": "./history/index.ts",
         "import": "./dist/history/index.d.ts",
         "require": "./dist/history/index.d.cts"
       },
@@ -93,6 +99,7 @@
     },
     "./keymap": {
       "types": {
+        "development": "./keymap/index.ts",
         "import": "./dist/keymap/index.d.ts",
         "require": "./dist/keymap/index.d.cts"
       },
@@ -102,6 +109,7 @@
     },
     "./model": {
       "types": {
+        "development": "./model/index.ts",
         "import": "./dist/model/index.d.ts",
         "require": "./dist/model/index.d.cts"
       },
@@ -111,8 +119,9 @@
     },
     "./schema-list": {
       "types": {
-        "import": "./dist/schema/index.d.ts",
-        "require": "./dist/schema/index.d.cts"
+        "development": "./schema-list/index.ts",
+        "import": "./dist/schema-list/index.d.ts",
+        "require": "./dist/schema-list/index.d.cts"
       },
       "development": "./schema-list/index.ts",
       "import": "./dist/schema-list/index.js",
@@ -120,6 +129,7 @@
     },
     "./state": {
       "types": {
+        "development": "./state/index.ts",
         "import": "./dist/state/index.d.ts",
         "require": "./dist/state/index.d.cts"
       },
@@ -129,6 +139,7 @@
     },
     "./tables": {
       "types": {
+        "development": "./tables/index.ts",
         "import": "./dist/tables/index.d.ts",
         "require": "./dist/tables/index.d.cts"
       },
@@ -138,6 +149,7 @@
     },
     "./transform": {
       "types": {
+        "development": "./transform/index.ts",
         "import": "./dist/transform/index.d.ts",
         "require": "./dist/transform/index.d.cts"
       },
@@ -147,6 +159,7 @@
     },
     "./view": {
       "types": {
+        "development": "./view/index.ts",
         "import": "./dist/view/index.d.ts",
         "require": "./dist/view/index.d.cts"
       },

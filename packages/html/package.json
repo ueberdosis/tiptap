@@ -28,6 +28,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -41,6 +42,7 @@
     },
     "./server": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/server/index.d.ts",
         "require": "./dist/server/index.d.cts"
       },

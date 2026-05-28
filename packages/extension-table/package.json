@@ -28,6 +28,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -37,6 +38,7 @@
     },
     "./table": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/table/index.d.ts",
         "require": "./dist/table/index.d.cts"
       },
@@ -45,6 +47,7 @@
     },
     "./cell": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/cell/index.d.ts",
         "require": "./dist/cell/index.d.cts"
       },
@@ -53,6 +56,7 @@
     },
     "./header": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/header/index.d.ts",
         "require": "./dist/header/index.d.cts"
       },
@@ -61,6 +65,7 @@
     },
     "./kit": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/kit/index.d.ts",
         "require": "./dist/kit/index.d.cts"
       },
@@ -69,6 +74,7 @@
     },
     "./row": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/row/index.d.ts",
         "require": "./dist/row/index.d.cts"
       },

@@ -29,6 +29,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -38,6 +39,7 @@
     },
     "./json/react": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/json/react/index.d.ts",
         "require": "./dist/json/react/index.d.cts"
       },
@@ -46,6 +48,7 @@
     },
     "./json/html-string": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/json/html-string/index.d.ts",
         "require": "./dist/json/html-string/index.d.cts"
       },
@@ -54,6 +57,7 @@
     },
     "./pm/react": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/pm/react/index.d.ts",
         "require": "./dist/pm/react/index.d.cts"
       },
@@ -62,6 +66,7 @@
     },
     "./pm/html-string": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/pm/html-string/index.d.ts",
         "require": "./dist/pm/html-string/index.d.cts"
       },
@@ -70,6 +75,7 @@
     },
     "./pm/markdown": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/pm/markdown/index.d.ts",
         "require": "./dist/pm/markdown/index.d.cts"
       },

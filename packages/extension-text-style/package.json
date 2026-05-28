@@ -28,6 +28,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -37,6 +38,7 @@
     },
     "./background-color": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/background-color/index.d.ts",
         "require": "./dist/background-color/index.d.cts"
       },
@@ -45,6 +47,7 @@
     },
     "./color": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/color/index.d.ts",
         "require": "./dist/color/index.d.cts"
       },
@@ -53,6 +56,7 @@
     },
     "./font-family": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/font-family/index.d.ts",
         "require": "./dist/font-family/index.d.cts"
       },
@@ -61,6 +65,7 @@
     },
     "./font-size": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/font-size/index.d.ts",
         "require": "./dist/font-size/index.d.cts"
       },
@@ -69,6 +74,7 @@
     },
     "./line-height": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/line-height/index.d.ts",
         "require": "./dist/line-height/index.d.cts"
       },
@@ -77,6 +83,7 @@
     },
     "./text-style": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/text-style/index.d.ts",
         "require": "./dist/text-style/index.d.cts"
       },
@@ -85,6 +92,7 @@
     },
     "./text-style-kit": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/text-style-kit/index.d.ts",
         "require": "./dist/text-style-kit/index.d.cts"
       },

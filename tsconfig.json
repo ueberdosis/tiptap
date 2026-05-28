@@ -12,16 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
-    "paths": {
-      "@tiptap/static-renderer/pm/*": ["packages/static-renderer/src/pm/*"],
-      "@tiptap/static-renderer/json/*": ["packages/static-renderer/src/json/*"],
-      "@tiptap/pm/*": ["packages/pm/*/index.ts"],
-      "@tiptap/*": ["packages/*/src/index.ts", "packages-deprecated/*/src/index.ts"]
-    },
+    "customConditions": ["development"],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "files": ["./env.d.ts"],

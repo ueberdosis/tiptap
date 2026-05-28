@@ -771,6 +771,9 @@ importers:
 
   packages/extension-drag-handle-vue-2:
     devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
       '@tiptap/extension-drag-handle':
         specifier: workspace:^
         version: link:../extension-drag-handle

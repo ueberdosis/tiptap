@@ -28,6 +28,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -37,6 +38,7 @@
     },
     "./character-count": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/character-count/index.d.ts",
         "require": "./dist/character-count/index.d.cts"
       },
@@ -45,6 +47,7 @@
     },
     "./drop-cursor": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/drop-cursor/index.d.ts",
         "require": "./dist/drop-cursor/index.d.cts"
       },
@@ -53,6 +56,7 @@
     },
     "./focus": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/focus/index.d.ts",
         "require": "./dist/focus/index.d.cts"
       },
@@ -61,6 +65,7 @@
     },
     "./gap-cursor": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/gap-cursor/index.d.ts",
         "require": "./dist/gap-cursor/index.d.cts"
       },
@@ -69,6 +74,7 @@
     },
     "./undo-redo": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/undo-redo/index.d.ts",
         "require": "./dist/undo-redo/index.d.cts"
       },
@@ -77,6 +83,7 @@
     },
     "./placeholder": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/placeholder/index.d.ts",
         "require": "./dist/placeholder/index.d.cts"
       },
@@ -85,6 +92,7 @@
     },
     "./selection": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/selection/index.d.ts",
         "require": "./dist/selection/index.d.cts"
       },
@@ -93,6 +101,7 @@
     },
     "./trailing-node": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/trailing-node/index.d.ts",
         "require": "./dist/trailing-node/index.d.cts"
       },

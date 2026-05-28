@@ -34,6 +34,7 @@
   "exports": {
     ".": {
       "types": {
+        "development": "./src/index.ts",
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
@@ -43,6 +44,7 @@
     },
     "./jsx-runtime": {
       "types": {
+        "development": "./jsx-runtime/index.d.ts",
         "import": "./jsx-runtime/index.d.ts",
         "require": "./jsx-runtime/index.d.cts"
       },
@@ -52,6 +54,7 @@
     },
     "./jsx-dev-runtime": {
       "types": {
+        "development": "./jsx-dev-runtime/index.d.ts",
         "import": "./jsx-dev-runtime/index.d.ts",
         "require": "./jsx-dev-runtime/index.d.cts"
       },
