@@ -3,6 +3,7 @@
 .DS_Store
 .temp
 node_modules
+.pnpm-store
 dist
 .env
 .env.*
