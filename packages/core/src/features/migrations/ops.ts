@@ -18,6 +18,22 @@ import type {
   WrapNodeOp,
 } from './types.js'
 
+/**
+ * Declarative migration step that renames a node type.
+ *
+ * @param from - Node type to match
+ * @param to - New node type name
+ * @param options - Optional attribute filter and attribute renames on the node
+ * @returns A {@link MigrationOperation} for use with {@link createMigration}
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [
+ *   renameNode('legacyParagraph', 'paragraph'),
+ *   renameNode('heading', 'title', { if: { attrs: { level: 1 } } } }),
+ * ])
+ * ```
+ */
 export function renameNode(
   from: string,
   to: string,
@@ -26,10 +42,35 @@ export function renameNode(
   return { type: 'renameNode', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
 
+/**
+ * Renames an attribute key on nodes of a given type.
+ *
+ * @param nodeType - Node type to match
+ * @param from - Current attribute name
+ * @param to - New attribute name
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [renameAttr('heading', 'level', 'headingLevel')])
+ * ```
+ */
 export function renameAttr(nodeType: string, from: string, to: string): RenameAttrOp {
   return { type: 'renameAttr', nodeType, from, to }
 }
 
+/**
+ * Sets an attribute on matching nodes (merges into existing attrs).
+ *
+ * @param nodeType - Node type to match
+ * @param key - Attribute name
+ * @param value - Attribute value
+ * @param condition - Optional attribute filter
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [setAttr('heading', 'level', 1)])
+ * ```
+ */
 export function setAttr(
   nodeType: string,
   key: string,
@@ -39,14 +80,55 @@ export function setAttr(
   return { type: 'setAttr', nodeType, key, value, if: condition }
 }
 
+/**
+ * Removes an attribute from matching nodes.
+ *
+ * @param nodeType - Node type to match
+ * @param key - Attribute name to remove
+ * @param condition - Optional attribute filter
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [removeAttr('heading', 'level')])
+ * ```
+ */
 export function removeAttr(nodeType: string, key: string, condition?: OpCondition): RemoveAttrOp {
   return { type: 'removeAttr', nodeType, key, if: condition }
 }
 
+/**
+ * Replaces a node with its children (removes the wrapper node).
+ *
+ * When combined with other ops in the same migration, subsequent steps run on each child.
+ *
+ * @param nodeType - Node type to unwrap
+ * @param condition - Optional attribute filter
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [unwrapNode('wrapper')])
+ * ```
+ */
 export function unwrapNode(nodeType: string, condition?: OpCondition): UnwrapNodeOp {
   return { type: 'unwrapNode', nodeType, if: condition }
 }
 
+/**
+ * Wraps a matching node inside a new parent node.
+ *
+ * The `wrapper` should not include `content`; the matched node becomes its only child.
+ *
+ * @param nodeType - Node type to wrap
+ * @param wrapper - Parent node JSON (without `content`)
+ * @param condition - Optional attribute filter
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [
+ *   wrapNode('image', { type: 'figure' }),
+ * ])
+ * ```
+ */
 export function wrapNode(
   nodeType: string,
   wrapper: JSONContent,
@@ -55,10 +137,35 @@ export function wrapNode(
   return { type: 'wrapNode', nodeType, wrapper, if: condition }
 }
 
+/**
+ * Removes matching nodes from the document.
+ *
+ * Removing the document root throws when the migration is applied.
+ *
+ * @param nodeType - Node type to remove
+ * @param condition - Optional attribute filter
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [removeNode('deprecatedBlock')])
+ * ```
+ */
 export function removeNode(nodeType: string, condition?: OpCondition): RemoveNodeOp {
   return { type: 'removeNode', nodeType, if: condition }
 }
 
+/**
+ * Renames a mark type on text nodes.
+ *
+ * @param from - Mark type to match
+ * @param to - New mark type name
+ * @param options - Optional attribute filter and attribute renames on the mark
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [renameMark('bold', 'strong')])
+ * ```
+ */
 export function renameMark(
   from: string,
   to: string,
@@ -67,14 +174,48 @@ export function renameMark(
   return { type: 'renameMark', from, to, if: options?.if, renameAttr: options?.renameAttr }
 }
 
+/**
+ * Removes a mark from text nodes.
+ *
+ * @param markType - Mark type to remove
+ * @param condition - Optional attribute filter on the mark
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [removeMark('highlight')])
+ * ```
+ */
 export function removeMark(markType: string, condition?: OpCondition): RemoveMarkOp {
   return { type: 'removeMark', markType, if: condition }
 }
 
+/**
+ * Adds a mark to text nodes that do not already have it.
+ *
+ * @param markType - Mark type to add
+ * @param attrs - Optional mark attributes
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [addMark('placeholder', { 'data-id': 'x' })])
+ * ```
+ */
 export function addMark(markType: string, attrs?: Record<string, any>): AddMarkOp {
   return { type: 'addMark', markType, attrs }
 }
 
+/**
+ * Adds or overwrites an attribute on an existing mark.
+ *
+ * @param markType - Mark type to match
+ * @param key - Attribute name
+ * @param value - Attribute value
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [addMarkAttribute('link', 'rel', 'noopener')])
+ * ```
+ */
 export function addMarkAttribute(
   markType: string,
   key: string,
@@ -83,10 +224,33 @@ export function addMarkAttribute(
   return { type: 'addMarkAttribute', markType, key, value }
 }
 
+/**
+ * Removes an attribute from a mark.
+ *
+ * @param markType - Mark type to match
+ * @param key - Attribute name to remove
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [removeMarkAttribute('link', 'target')])
+ * ```
+ */
 export function removeMarkAttribute(markType: string, key: string): RemoveMarkAttributeOp {
   return { type: 'removeMarkAttribute', markType, key }
 }
 
+/**
+ * Renames an attribute key on a mark.
+ *
+ * @param markType - Mark type to match
+ * @param from - Current attribute name
+ * @param to - New attribute name
+ *
+ * @example
+ * ```ts
+ * createMigration(2, [renameMarkAttribute('link', 'href', 'url')])
+ * ```
+ */
 export function renameMarkAttribute(
   markType: string,
   from: string,
@@ -126,6 +290,16 @@ function matchesCondition(
   return Object.entries(condition.attrs).every(([key, value]) => target.attrs?.[key] === value)
 }
 
+/**
+ * Applies a single {@link MigrationOperation} to one JSON node.
+ *
+ * Used internally by {@link compileOps}. Returns the updated node, an array of nodes
+ * after unwrap, or `null` when the node was removed.
+ *
+ * @param node - JSON node to transform
+ * @param op - Declarative migration operation
+ * @returns The transformed node, replacement nodes, or `null` if removed
+ */
 export function applyOp(node: JSONContent, op: MigrationOperation): ApplyOpResult {
   switch (op.type) {
     case 'renameNode': {
