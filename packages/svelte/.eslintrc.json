@@ -1,0 +1,19 @@
+{
+  "globals": {
+    "$state": "readonly",
+    "$effect": "readonly",
+    "$derived": "readonly",
+    "$props": "readonly",
+    "$inspect": "readonly",
+    "$host": "readonly"
+  },
+  "rules": {
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForInStatement",
+        "message": "for..in loops iterate over the entire prototype chain. Use Object.{keys,values,entries} instead."
+      }
+    ]
+  }
+}
