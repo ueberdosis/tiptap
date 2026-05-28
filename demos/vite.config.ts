@@ -7,79 +7,6 @@ import { basename, dirname, join, resolve } from 'path'
 import { v4 as uuid } from 'uuid'
 import { defineConfig } from 'vite'
 
-const getPackageDependencies = () => {
-  const paths: Array<{ find: string; replacement: any }> = []
-
-  function collectPackageInformation(path: string) {
-    fg.sync(`../${path}/*`, { onlyDirectories: true })
-      .map(name => name.replace(`../${path}/`, ''))
-      .forEach(name => {
-        if (name === 'pm') {
-          fg.sync(`../${path}/${name}/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/`, '')
-
-            if (subPkgName === 'dist' || subPkgName === 'node_modules') {
-              return
-            }
-
-            paths.push({
-              find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/${subPkgName}/index.ts`),
-            })
-          })
-        } else if (
-          name === 'extension-text-style' ||
-          name === 'extension-table' ||
-          name === 'extensions' ||
-          name === 'extension-list' ||
-          name === 'react' ||
-          name === 'vue-2' ||
-          name === 'vue-3'
-        ) {
-          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
-            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
-
-            paths.push({
-              find: `@tiptap/${name}/${subPkgName}`,
-              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.ts`),
-            })
-          })
-          paths.push({
-            find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
-          })
-        } else {
-          paths.push({
-            find: `@tiptap/${name}`,
-            replacement: resolve(`../${path}/${name}/src/index.ts`),
-          })
-        }
-      })
-  }
-
-  collectPackageInformation('packages')
-  collectPackageInformation('packages-deprecated')
-
-  // Handle the JSX runtime alias
-  paths.unshift({
-    find: '@tiptap/core/jsx-runtime',
-    replacement: resolve('../packages/core/src/jsx-runtime.ts'),
-  })
-  paths.unshift({
-    find: '@tiptap/core/jsx-dev-runtime',
-    replacement: resolve('../packages/core/src/jsx-runtime.ts'),
-  })
-
-  return paths
-}
-
-const dedupeDeps = fs
-  .readFileSync('./dedupeDeps.txt')
-  .toString()
-  .replace(/\r\n/g, '\n')
-  .split('\n')
-  .filter(value => value)
-
 export default defineConfig({
   css: {
     preprocessorOptions: {
@@ -109,10 +36,6 @@ export default defineConfig({
   },
 
   plugins: [
-    // checker({ typescript: { tsconfigPath: './tsconfig.base.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.react.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-2.json' } }),
-    // checker({ typescript: { tsconfigPath: './tsconfig.vue-3.json' } }),
     // @ts-ignore
     vue(),
     // @ts-ignore
@@ -348,7 +271,6 @@ export default defineConfig({
   ],
 
   resolve: {
-    alias: getPackageDependencies(),
-    dedupe: dedupeDeps,
+    conditions: ['development', 'import', 'require'],
   },
 })

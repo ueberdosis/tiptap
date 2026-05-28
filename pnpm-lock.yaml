@@ -147,7 +147,7 @@ importers:
         version: 2.15.0(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
       '@hocuspocus/transformer':
         specifier: ^2.15.0
-        version: 2.15.2(@tiptap/core@3.23.6(@tiptap/pm@3.23.6))(@tiptap/pm@3.23.6)(y-prosemirror@1.3.5(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)
+        version: 2.15.2(@tiptap/core@packages+core)(@tiptap/pm@packages+pm)(y-prosemirror@1.3.5(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)
       '@lexical/react':
         specifier: ^0.36.2
         version: 0.36.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(yjs@13.6.23)
@@ -157,6 +157,186 @@ importers:
       '@shikijs/core':
         specifier: 1.10.3
         version: 1.10.3
+      '@tiptap/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@tiptap/extension-audio':
+        specifier: workspace:*
+        version: link:../packages/extension-audio
+      '@tiptap/extension-blockquote':
+        specifier: workspace:*
+        version: link:../packages/extension-blockquote
+      '@tiptap/extension-bold':
+        specifier: workspace:*
+        version: link:../packages/extension-bold
+      '@tiptap/extension-bubble-menu':
+        specifier: workspace:*
+        version: link:../packages/extension-bubble-menu
+      '@tiptap/extension-bullet-list':
+        specifier: workspace:*
+        version: link:../packages/extension-bullet-list
+      '@tiptap/extension-code':
+        specifier: workspace:*
+        version: link:../packages/extension-code
+      '@tiptap/extension-code-block':
+        specifier: workspace:*
+        version: link:../packages/extension-code-block
+      '@tiptap/extension-code-block-lowlight':
+        specifier: workspace:*
+        version: link:../packages/extension-code-block-lowlight
+      '@tiptap/extension-collaboration':
+        specifier: workspace:*
+        version: link:../packages/extension-collaboration
+      '@tiptap/extension-collaboration-caret':
+        specifier: workspace:*
+        version: link:../packages/extension-collaboration-caret
+      '@tiptap/extension-color':
+        specifier: workspace:*
+        version: link:../packages/extension-color
+      '@tiptap/extension-details':
+        specifier: workspace:*
+        version: link:../packages/extension-details
+      '@tiptap/extension-document':
+        specifier: workspace:*
+        version: link:../packages/extension-document
+      '@tiptap/extension-drag-handle':
+        specifier: workspace:*
+        version: link:../packages/extension-drag-handle
+      '@tiptap/extension-drag-handle-react':
+        specifier: workspace:*
+        version: link:../packages/extension-drag-handle-react
+      '@tiptap/extension-drag-handle-vue-2':
+        specifier: workspace:*
+        version: link:../packages/extension-drag-handle-vue-2
+      '@tiptap/extension-drag-handle-vue-3':
+        specifier: workspace:*
+        version: link:../packages/extension-drag-handle-vue-3
+      '@tiptap/extension-emoji':
+        specifier: workspace:*
+        version: link:../packages/extension-emoji
+      '@tiptap/extension-file-handler':
+        specifier: workspace:*
+        version: link:../packages/extension-file-handler
+      '@tiptap/extension-floating-menu':
+        specifier: workspace:*
+        version: link:../packages/extension-floating-menu
+      '@tiptap/extension-font-family':
+        specifier: workspace:*
+        version: link:../packages/extension-font-family
+      '@tiptap/extension-hard-break':
+        specifier: workspace:*
+        version: link:../packages/extension-hard-break
+      '@tiptap/extension-heading':
+        specifier: workspace:*
+        version: link:../packages/extension-heading
+      '@tiptap/extension-highlight':
+        specifier: workspace:*
+        version: link:../packages/extension-highlight
+      '@tiptap/extension-horizontal-rule':
+        specifier: workspace:*
+        version: link:../packages/extension-horizontal-rule
+      '@tiptap/extension-image':
+        specifier: workspace:*
+        version: link:../packages/extension-image
+      '@tiptap/extension-invisible-characters':
+        specifier: workspace:*
+        version: link:../packages/extension-invisible-characters
+      '@tiptap/extension-italic':
+        specifier: workspace:*
+        version: link:../packages/extension-italic
+      '@tiptap/extension-link':
+        specifier: workspace:*
+        version: link:../packages/extension-link
+      '@tiptap/extension-list':
+        specifier: workspace:*
+        version: link:../packages/extension-list
+      '@tiptap/extension-mathematics':
+        specifier: workspace:*
+        version: link:../packages/extension-mathematics
+      '@tiptap/extension-mention':
+        specifier: workspace:*
+        version: link:../packages/extension-mention
+      '@tiptap/extension-node-range':
+        specifier: workspace:*
+        version: link:../packages/extension-node-range
+      '@tiptap/extension-ordered-list':
+        specifier: workspace:*
+        version: link:../packages/extension-ordered-list
+      '@tiptap/extension-paragraph':
+        specifier: workspace:*
+        version: link:../packages/extension-paragraph
+      '@tiptap/extension-strike':
+        specifier: workspace:*
+        version: link:../packages/extension-strike
+      '@tiptap/extension-subscript':
+        specifier: workspace:*
+        version: link:../packages/extension-subscript
+      '@tiptap/extension-superscript':
+        specifier: workspace:*
+        version: link:../packages/extension-superscript
+      '@tiptap/extension-table':
+        specifier: workspace:*
+        version: link:../packages/extension-table
+      '@tiptap/extension-table-of-contents':
+        specifier: workspace:*
+        version: link:../packages/extension-table-of-contents
+      '@tiptap/extension-text':
+        specifier: workspace:*
+        version: link:../packages/extension-text
+      '@tiptap/extension-text-align':
+        specifier: workspace:*
+        version: link:../packages/extension-text-align
+      '@tiptap/extension-text-style':
+        specifier: workspace:*
+        version: link:../packages/extension-text-style
+      '@tiptap/extension-twitch':
+        specifier: workspace:*
+        version: link:../packages/extension-twitch
+      '@tiptap/extension-typography':
+        specifier: workspace:*
+        version: link:../packages/extension-typography
+      '@tiptap/extension-underline':
+        specifier: workspace:*
+        version: link:../packages/extension-underline
+      '@tiptap/extension-unique-id':
+        specifier: workspace:*
+        version: link:../packages/extension-unique-id
+      '@tiptap/extension-youtube':
+        specifier: workspace:*
+        version: link:../packages/extension-youtube
+      '@tiptap/extensions':
+        specifier: workspace:*
+        version: link:../packages/extensions
+      '@tiptap/html':
+        specifier: workspace:*
+        version: link:../packages/html
+      '@tiptap/markdown':
+        specifier: workspace:*
+        version: link:../packages/markdown
+      '@tiptap/pm':
+        specifier: workspace:*
+        version: link:../packages/pm
+      '@tiptap/react':
+        specifier: workspace:*
+        version: link:../packages/react
+      '@tiptap/server-ai-toolkit':
+        specifier: workspace:*
+        version: link:../packages/server-ai-toolkit
+      '@tiptap/starter-kit':
+        specifier: workspace:*
+        version: link:../packages/starter-kit
+      '@tiptap/static-renderer':
+        specifier: workspace:*
+        version: link:../packages/static-renderer
+      '@tiptap/suggestion':
+        specifier: workspace:*
+        version: link:../packages/suggestion
+      '@tiptap/vue-2':
+        specifier: workspace:*
+        version: link:../packages/vue-2
+      '@tiptap/vue-3':
+        specifier: workspace:*
+        version: link:../packages/vue-3
       '@tiptap/y-tiptap':
         specifier: ^3.0.0
         version: 3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
@@ -3189,11 +3369,6 @@ packages:
     peerDependencies:
       '@tiptap/pm': ^2.7.0
 
-  '@tiptap/core@3.23.6':
-    resolution: {integrity: sha512-MRB3pHz4Oxqmcawh0cQ5iOGdY5xtNYp/1CoK7hdTLzw5K0C6/gTC2VvanB1R4INaB6EpBkxG/GiWkVirDRnuXw==}
-    peerDependencies:
-      '@tiptap/pm': 3.23.6
-
   '@tiptap/extension-blockquote@2.14.0':
     resolution: {integrity: sha512-AwqPP0jLYNioKxakiVw0vlfH/ceGFbV+SGoqBbPSGFPRdSbHhxHDNBlTtiThmT3N2PiVwXAD9xislJV+WY4GUA==}
     peerDependencies:
@@ -3296,9 +3471,6 @@ packages:
 
   '@tiptap/pm@2.14.0':
     resolution: {integrity: sha512-cnsfaIlvTFCDtLP/A2Fd3LmpttgY0O/tuTM2fC71vetONz83wUTYT+aD9uvxdX0GkSocoh840b0TsEazbBxhpA==}
-
-  '@tiptap/pm@3.23.6':
-    resolution: {integrity: sha512-in5CaMaWlJcH2A1q6GJKFtrodE8WLS3M9tIi/f89jPmIVHJShpodC0KZDNyJkrVBQomYk0DEh86Utm6ASXzQww==}
 
   '@tiptap/starter-kit@2.14.0':
     resolution: {integrity: sha512-Z1bKAfHl14quRI3McmdU+bs675jp6/iexEQTI9M9oHa6l3McFF38g9N3xRpPPX02MX83DghsUPupndUW/yJvEQ==}
@@ -8172,10 +8344,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hocuspocus/transformer@2.15.2(@tiptap/core@3.23.6(@tiptap/pm@3.23.6))(@tiptap/pm@3.23.6)(y-prosemirror@1.3.5(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)':
+  '@hocuspocus/transformer@2.15.2(@tiptap/core@packages+core)(@tiptap/pm@packages+pm)(y-prosemirror@1.3.5(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23))(yjs@13.6.23)':
     dependencies:
-      '@tiptap/core': 3.23.6(@tiptap/pm@3.23.6)
-      '@tiptap/pm': 3.23.6
+      '@tiptap/core': link:packages/core
+      '@tiptap/pm': link:packages/pm
       '@tiptap/starter-kit': 2.14.0
       y-prosemirror: 1.3.5(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
       yjs: 13.6.23
@@ -8840,10 +9012,6 @@ snapshots:
     dependencies:
       '@tiptap/pm': 2.14.0
 
-  '@tiptap/core@3.23.6(@tiptap/pm@3.23.6)':
-    dependencies:
-      '@tiptap/pm': 3.23.6
-
   '@tiptap/extension-blockquote@2.14.0(@tiptap/core@2.14.0(@tiptap/pm@2.14.0))':
     dependencies:
       '@tiptap/core': 2.14.0(@tiptap/pm@2.14.0)
@@ -8943,21 +9111,6 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-tables: 1.6.4
       prosemirror-trailing-node: 3.0.0(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.1)
-      prosemirror-transform: 1.10.2
-      prosemirror-view: 1.38.1
-
-  '@tiptap/pm@3.23.6':
-    dependencies:
-      prosemirror-changeset: 2.3.0
-      prosemirror-commands: 1.6.2
-      prosemirror-dropcursor: 1.8.1
-      prosemirror-gapcursor: 1.3.2
-      prosemirror-history: 1.4.1
-      prosemirror-keymap: 1.2.2
-      prosemirror-model: 1.24.1
-      prosemirror-schema-list: 1.5.0
-      prosemirror-state: 1.4.3
-      prosemirror-tables: 1.6.4
       prosemirror-transform: 1.10.2
       prosemirror-view: 1.38.1
 

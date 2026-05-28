@@ -37,6 +37,7 @@
         "import": "./dist/index.d.ts",
         "require": "./dist/index.d.cts"
       },
+      "development": "./src/index.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
@@ -45,6 +46,7 @@
         "import": "./jsx-runtime/index.d.ts",
         "require": "./jsx-runtime/index.d.cts"
       },
+      "development": "./jsx-runtime/index.js",
       "import": "./jsx-runtime/index.js",
       "require": "./jsx-runtime/index.cjs"
     },
@@ -53,6 +55,7 @@
         "import": "./jsx-dev-runtime/index.d.ts",
         "require": "./jsx-dev-runtime/index.d.cts"
       },
+      "development": "./jsx-dev-runtime/index.js",
       "import": "./jsx-dev-runtime/index.js",
       "require": "./jsx-dev-runtime/index.cjs"
     }

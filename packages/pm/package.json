@@ -42,6 +42,7 @@
         "import": "./dist/changeset/index.d.ts",
         "require": "./dist/changeset/index.d.cts"
       },
+      "development": "./changeset/index.ts",
       "import": "./dist/changeset/index.js",
       "require": "./dist/changeset/index.cjs"
     },
@@ -50,6 +51,7 @@
         "import": "./dist/commands/index.d.ts",
         "require": "./dist/commands/index.d.cts"
       },
+      "development": "./commands/index.ts",
       "import": "./dist/commands/index.js",
       "require": "./dist/commands/index.cjs"
     },
@@ -58,6 +60,7 @@
         "import": "./dist/dropcursor/index.d.ts",
         "require": "./dist/dropcursor/index.d.cts"
       },
+      "development": "./dropcursor/index.ts",
       "import": "./dist/dropcursor/index.js",
       "require": "./dist/dropcursor/index.cjs"
     },
@@ -66,6 +69,7 @@
         "import": "./dist/inputrules/index.d.ts",
         "require": "./dist/inputrules/index.d.cts"
       },
+      "development": "./inputrules/index.ts",
       "import": "./dist/inputrules/index.js",
       "require": "./dist/inputrules/index.cjs"
     },
@@ -74,6 +78,7 @@
         "import": "./dist/gapcursor/index.d.ts",
         "require": "./dist/gapcursor/index.d.cts"
       },
+      "development": "./gapcursor/index.ts",
       "import": "./dist/gapcursor/index.js",
       "require": "./dist/gapcursor/index.cjs"
     },
@@ -82,6 +87,7 @@
         "import": "./dist/history/index.d.ts",
         "require": "./dist/history/index.d.cts"
       },
+      "development": "./history/index.ts",
       "import": "./dist/history/index.js",
       "require": "./dist/history/index.cjs"
     },
@@ -90,6 +96,7 @@
         "import": "./dist/keymap/index.d.ts",
         "require": "./dist/keymap/index.d.cts"
       },
+      "development": "./keymap/index.ts",
       "import": "./dist/keymap/index.js",
       "require": "./dist/keymap/index.cjs"
     },
@@ -98,6 +105,7 @@
         "import": "./dist/model/index.d.ts",
         "require": "./dist/model/index.d.cts"
       },
+      "development": "./model/index.ts",
       "import": "./dist/model/index.js",
       "require": "./dist/model/index.cjs"
     },
@@ -106,6 +114,7 @@
         "import": "./dist/schema/index.d.ts",
         "require": "./dist/schema/index.d.cts"
       },
+      "development": "./schema-list/index.ts",
       "import": "./dist/schema-list/index.js",
       "require": "./dist/schema-list/index.cjs"
     },
@@ -114,6 +123,7 @@
         "import": "./dist/state/index.d.ts",
         "require": "./dist/state/index.d.cts"
       },
+      "development": "./state/index.ts",
       "import": "./dist/state/index.js",
       "require": "./dist/state/index.cjs"
     },
@@ -122,6 +132,7 @@
         "import": "./dist/tables/index.d.ts",
         "require": "./dist/tables/index.d.cts"
       },
+      "development": "./tables/index.ts",
       "import": "./dist/tables/index.js",
       "require": "./dist/tables/index.cjs"
     },
@@ -130,6 +141,7 @@
         "import": "./dist/transform/index.d.ts",
         "require": "./dist/transform/index.d.cts"
       },
+      "development": "./transform/index.ts",
       "import": "./dist/transform/index.js",
       "require": "./dist/transform/index.cjs"
     },
@@ -138,6 +150,7 @@
         "import": "./dist/view/index.d.ts",
         "require": "./dist/view/index.d.cts"
       },
+      "development": "./view/index.ts",
       "import": "./dist/view/index.js",
       "require": "./dist/view/index.cjs"
     }
