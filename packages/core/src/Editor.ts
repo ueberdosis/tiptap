@@ -81,6 +81,8 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   private destroyed = false
 
+  private isConstructing = false
+
   private editorState!: EditorState
 
   /**
@@ -139,6 +141,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   constructor(options: Partial<EditorOptions> = {}) {
     super()
+    this.isConstructing = true
     this.setOptions(options)
     this.createExtensionManager()
     this.createCommandManager()
@@ -149,7 +152,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.initializedWithData = !!this.options?.data
 
     this.on('beforeCreate', this.options.onBeforeCreate)
-    this.emit('beforeCreate', { editor: this })
     this.on('mount', this.options.onMount)
     this.on('unmount', this.options.onUnmount)
     this.on('contentError', this.options.onContentError)
@@ -168,6 +170,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('paste', ({ event, slice }) => this.options.onPaste(event, slice))
     this.on('delete', this.options.onDelete)
 
+    this.emit('beforeCreate', { editor: this })
+
     this.checkMigrationState()
 
     const initialDoc = this.createDoc()
@@ -183,6 +187,8 @@ export class Editor extends EventEmitter<EditorEvents> {
     if (this.options.element) {
       this.mount(this.options.element)
     }
+
+    this.isConstructing = false
   }
 
   /**
@@ -582,24 +588,44 @@ export class Editor extends EventEmitter<EditorEvents> {
     return doc
   }
 
-  private checkMigrationState(): void {
+  private validateMigrationState(documentVersion: number = this.documentVersion): Error | null {
     const migrations = this.options.migrations
 
     if (!migrations?.length) {
-      return
+      return null
     }
 
     const versions = migrations.map(m => m.version)
-    const maxVersion = Math.max(...versions)
 
     if (new Set(versions).size !== versions.length) {
-      throw new Error('[tiptap error]: Duplicate migration versions')
+      return new Error('[tiptap error]: Duplicate migration versions')
     }
 
-    if (this.documentVersion > maxVersion) {
-      throw new Error(
-        `[tiptap error]: Editor is outdated — document version (${this.documentVersion}) is newer than the latest migration (${maxVersion})`,
+    const maxVersion = Math.max(...versions)
+
+    if (documentVersion > maxVersion) {
+      return new Error(
+        `[tiptap error]: Editor is outdated — document version (${documentVersion}) is newer than the latest migration (${maxVersion})`,
       )
+    }
+
+    return null
+  }
+
+  private checkMigrationState(): void {
+    const error = this.validateMigrationState()
+
+    if (error) {
+      this.handleMigrateError(error)
+      throw error
+    }
+  }
+
+  private handleInvalidMigrationState(error: Error): void {
+    this.handleMigrateError(error)
+
+    if (!this.isConstructing) {
+      this.destroy()
     }
   }
 
@@ -614,6 +640,22 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Sets the document schema version.
    */
   public setDocumentVersion(version: number): void {
+    if (version === this.documentVersion) {
+      return
+    }
+
+    const error = this.validateMigrationState(version)
+
+    if (error) {
+      if (this.isConstructing) {
+        this.documentVersion = version
+        return
+      }
+
+      this.handleInvalidMigrationState(error)
+      return
+    }
+
     this.documentVersion = version
   }
 
@@ -1021,7 +1063,11 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Check if the editor is already destroyed.
    */
   public get isDestroyed(): boolean {
-    return this.editorView?.isDestroyed ?? true
+    if (this.destroyed) {
+      return true
+    }
+
+    return this.editorView?.isDestroyed ?? false
   }
 
   public $node(selector: string, attributes?: { [key: string]: any }): NodePos | null {

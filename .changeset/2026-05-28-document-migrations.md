@@ -7,4 +7,4 @@ Add document migrations for versioned schema upgrades: `createMigration`, declar
 
 When `data.documentVersion` is lower than the latest migration version, migrations run on init and update `documentVersion` (see `getData()`).
 
-`@tiptap/extension-collaboration` syncs `documentVersion` with the Yjs document map under the `tiptap` key when `syncDocumentVersion` is enabled (default).
+`@tiptap/extension-collaboration` syncs `documentVersion` with the Yjs map `tiptap__documentVersion` (`value` key) when `syncDocumentVersion` is enabled (default).

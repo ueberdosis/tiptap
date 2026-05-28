@@ -65,6 +65,11 @@ class EditorInstanceManager {
   private previousDeps: DependencyList | null = null
 
   /**
+   * When true, a migration error destroyed the editor and it must not be recreated until deps change.
+   */
+  private migrationBlocked = false
+
+  /**
    * The unique instance ID. This is used to identify the editor instance. And will be re-generated for each new instance.
    */
   public instanceId = ''
@@ -118,14 +123,22 @@ class EditorInstanceManager {
   /**
    * Create a new editor instance. And attach event listeners.
    */
-  private createEditor(): Editor {
+  private createEditor(): Editor | null {
+    let editor: Editor | null = null
+
     const optionsToApply: Partial<EditorOptions> = {
       ...this.options.current,
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
       onBlur: (...args) => this.options.current.onBlur?.(...args),
       onCreate: (...args) => this.options.current.onCreate?.(...args),
-      onDestroy: (...args) => this.options.current.onDestroy?.(...args),
+      onDestroy: (...args) => {
+        this.options.current.onDestroy?.(...args)
+
+        if (this.editor === editor) {
+          this.setEditor(null)
+        }
+      },
       onFocus: (...args) => this.options.current.onFocus?.(...args),
       onSelectionUpdate: (...args) => this.options.current.onSelectionUpdate?.(...args),
       onTransaction: (...args) => this.options.current.onTransaction?.(...args),
@@ -134,16 +147,21 @@ class EditorInstanceManager {
       onBeforeMigrate: (...args) => this.options.current.onBeforeMigrate?.(...args),
       onMigrate: (...args) => this.options.current.onMigrate?.(...args),
       onMigrateStep: (...args) => this.options.current.onMigrateStep?.(...args),
-      onMigrateError: (...args) => this.options.current.onMigrateError?.(...args),
+      onMigrateError: (...args) => {
+        this.migrationBlocked = true
+        this.options.current.onMigrateError?.(...args)
+      },
       onDrop: (...args) => this.options.current.onDrop?.(...args),
       onPaste: (...args) => this.options.current.onPaste?.(...args),
       onDelete: (...args) => this.options.current.onDelete?.(...args),
     }
-    const editor = new Editor(optionsToApply)
 
-    // no need to keep track of the event listeners, they will be removed when the editor is destroyed
-
-    return editor
+    try {
+      editor = new Editor(optionsToApply)
+      return editor
+    } catch {
+      return null
+    }
   }
 
   /**
@@ -194,6 +212,18 @@ class EditorInstanceManager {
       ) {
         // we don't want to compare callbacks, they are always different and only registered once
         return true
+      }
+
+      if (key === 'data') {
+        return (
+          a.data?.documentVersion === b.data?.documentVersion &&
+          a.data?.content === b.data?.content &&
+          a.data?.meta === b.data?.meta
+        )
+      }
+
+      if (key === 'migrations') {
+        return a.migrations === b.migrations
       }
 
       // We often encourage putting extensions inlined in the options object, so we will do a slightly deeper comparison here
@@ -258,6 +288,20 @@ class EditorInstanceManager {
    * Recreate the editor instance if the dependencies have changed.
    */
   private refreshEditorInstance(deps: DependencyList) {
+    if (this.migrationBlocked) {
+      const depsAreEqual =
+        this.previousDeps === null
+          ? deps.length === 0
+          : this.previousDeps.length === deps.length &&
+            this.previousDeps.every((dep, index) => dep === deps[index])
+
+      if (depsAreEqual) {
+        return
+      }
+
+      this.migrationBlocked = false
+    }
+
     if (this.editor && !this.editor.isDestroyed) {
       // Editor instance already exists
       if (this.previousDeps === null) {
@@ -337,6 +381,14 @@ export function useEditor(
  * @example const editor = useEditor({ extensions: [...] })
  */
 export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
+
+/**
+ * Compare two `useEditor` option objects the same way the hook does when deciding
+ * whether to call `setOptions` or recreate the editor instance.
+ */
+export function compareUseEditorOptions(a: UseEditorOptions, b: UseEditorOptions): boolean {
+  return EditorInstanceManager.compareOptions(a, b)
+}
 
 export function useEditor(
   options: UseEditorOptions = {},

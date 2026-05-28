@@ -9,6 +9,11 @@ import {
   getUpdatedPosition,
 } from './helpers/CollaborationMappablePosition.js'
 import { isChangeOrigin } from './helpers/isChangeOrigin.js'
+import {
+  getCollabMigrationCapabilities,
+  syncMigrationCapabilitiesToAwareness,
+  type CollabMigrationCapabilities,
+} from './helpers/migrationCapabilities.js'
 import { syncDocumentVersionWithYdoc } from './helpers/syncDocumentVersion.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
@@ -24,6 +29,10 @@ export interface CollaborationStorage {
    * Unsubscribes document version sync with the Yjs document.
    */
   unsubscribeDocumentVersion?: () => void
+  /**
+   * Migration capabilities last published to provider awareness.
+   */
+  migrationCapabilities?: CollabMigrationCapabilities
 }
 
 declare module '@tiptap/core' {
@@ -93,6 +102,12 @@ export interface CollaborationOptions {
    * @default true
    */
   syncDocumentVersion?: boolean
+
+  /**
+   * Publish {@link CollabMigrationCapabilities} on `provider.awareness` for servers to validate sessions.
+   * @default true
+   */
+  syncMigrationCapabilities?: boolean
 }
 
 /**
@@ -124,6 +139,13 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       console.warn(
         '[tiptap warn]: "@tiptap/extension-collaboration" comes with its own history support and is not compatible with "@tiptap/extension-undo-redo".',
       )
+    }
+
+    if (this.options.syncMigrationCapabilities !== false && this.options.provider?.awareness) {
+      const capabilities = getCollabMigrationCapabilities(this.editor.options.migrations)
+
+      this.storage.migrationCapabilities = capabilities
+      syncMigrationCapabilitiesToAwareness(this.options.provider, capabilities)
     }
   },
 

@@ -1,0 +1,31 @@
+.migrations-outdated-demo {
+  .status-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    width: 100%;
+  }
+
+  .status-card {
+    background-color: var(--gray-1);
+    border: 1px solid var(--gray-3);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem;
+  }
+
+  .status-card strong {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .error-detail {
+    font-family: 'JetBrainsMono', monospace;
+    font-size: 0.75rem;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
