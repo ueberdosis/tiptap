@@ -1,5 +1,15 @@
 # @tiptap/extension-details
 
+## 3.24.0
+
+### Patch Changes
+
+- 7bafb7e: Fix persisted details toggles when the details node is at the start of the document.
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+  - @tiptap/extension-text-style@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes

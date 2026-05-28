@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [2d05614]
+  - @tiptap/extensions@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes
