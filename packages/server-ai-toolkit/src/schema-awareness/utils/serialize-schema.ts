@@ -15,12 +15,13 @@ export type SerializedAttributeSpec = Omit<AttributeSpec, 'validate'> & {
 type SerializedAttributes = { attrs?: Record<string, SerializedAttributeSpec> }
 
 /**
- * A serialized version of NodeSpec with non-serializable properties (toDOM, parseDOM, toDebugString, leafText)
- * removed and attrs converted to SerializedAttributeSpec format.
+ * A serialized version of NodeSpec with non-serializable properties
+ * (toDOM, parseDOM, toDebugString, leafText, toText) removed and attrs converted to
+ * SerializedAttributeSpec format.
  */
 export type SerializedNodeSpec = Omit<
   NodeSpec,
-  'toDOM' | 'parseDOM' | 'toDebugString' | 'leafText' | 'attrs'
+  'toDOM' | 'parseDOM' | 'toDebugString' | 'leafText' | 'toText' | 'attrs'
 > &
   SerializedAttributes
 
@@ -70,15 +71,16 @@ function serializeAttributeSpecs(
 }
 
 /**
- * Serializes a NodeSpec by removing non-serializable properties (toDOM, parseDOM, toDebugString, leafText)
- * and converting the attrs to SerializedAttributeSpec format.
+ * Serializes a NodeSpec by removing non-serializable properties
+ * (toDOM, parseDOM, toDebugString, leafText, toText) and converting the attrs to
+ * SerializedAttributeSpec format.
  *
  * @param nodeSpec - The NodeSpec to serialize
  * @returns A SerializedNodeSpec with only JSON-serializable properties
  */
 function serializeNodeSpec(nodeSpec: NodeSpec): SerializedNodeSpec {
   return {
-    ...omit(nodeSpec, ['toDOM', 'parseDOM', 'toDebugString', 'leafText', 'attrs']),
+    ...omit(nodeSpec, ['toDOM', 'parseDOM', 'toDebugString', 'leafText', 'toText', 'attrs']),
     attrs: nodeSpec.attrs ? serializeAttributeSpecs(nodeSpec.attrs) : undefined,
   }
 }
