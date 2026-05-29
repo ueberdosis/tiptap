@@ -8,7 +8,7 @@ import {
 } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { handleDeleteBranchingNestedList } from '../helpers/handleDeleteBranchingNestedList.js'
+import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
 export interface TaskItemOptions {
   /**
@@ -65,8 +65,6 @@ export const inputRegex = /^\s*(\[([( |x])?\])\s$/
  */
 export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
-
-  priority: 101,
 
   addOptions() {
     return {
@@ -162,6 +160,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
     return renderNestedMarkdownContent(node, h, prefix)
   },
 
+  addExtensions() {
+    if (!this.options.nested) {
+      return []
+    }
+
+    return [createBranchingListDeleteKeymap(this.name, [this.options.taskListTypeName])]
+  },
+
   addKeyboardShortcuts() {
     const shortcuts: {
       [key: string]: KeyboardShortcutCommand
@@ -174,14 +180,9 @@ export const TaskItem = Node.create<TaskItemOptions>({
       return shortcuts
     }
 
-    const wrapperNames = [this.options.taskListTypeName]
-    const handleDelete = () => handleDeleteBranchingNestedList(this.editor, this.name, wrapperNames)
-
     return {
       ...shortcuts,
       Tab: () => this.editor.commands.sinkListItem(this.name),
-      Delete: handleDelete,
-      'Mod-Delete': handleDelete,
     }
   },
 
