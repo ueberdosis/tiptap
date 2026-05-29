@@ -233,6 +233,45 @@ describe('extension-link', () => {
     })
   })
 
+  it('should not crash when HTMLAttributes contain undefined values', () => {
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        Link.configure({
+          HTMLAttributes: {
+            class: undefined,
+            target: undefined,
+          },
+        }),
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [
+              {
+                type: 'text',
+                text: 'link',
+                marks: [{ type: 'link', attrs: { href: 'https://example.com' } }],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    expect(() => editor.getHTML()).not.toThrow()
+    expect(editor.getHTML()).toContain('https://example.com')
+    expect(editor.getHTML()).toContain('<a ')
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
   describe('custom protocols', () => {
     it('allows using additional custom protocols', () => {
       ;['custom://test.css', 'another-custom://protocol.html', ...validUrls].forEach(url => {
