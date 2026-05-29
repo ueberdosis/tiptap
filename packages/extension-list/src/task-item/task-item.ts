@@ -8,6 +8,8 @@ import {
 } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
+import { hoistBranchingNestedList } from '../helpers/hoistBranchingNestedList.js'
+
 export interface TaskItemOptions {
   /**
    * A callback function that is called when the checkbox is clicked while the editor is in readonly mode.
@@ -63,6 +65,8 @@ export const inputRegex = /^\s*(\[([( |x])?\])\s$/
  */
 export const TaskItem = Node.create<TaskItemOptions>({
   name: 'taskItem',
+
+  priority: 101,
 
   addOptions() {
     return {
@@ -170,9 +174,17 @@ export const TaskItem = Node.create<TaskItemOptions>({
       return shortcuts
     }
 
+    const wrapperNames = [this.options.taskListTypeName]
+    const handleDelete = () =>
+      this.editor.commands.command(({ state, dispatch }) =>
+        hoistBranchingNestedList(state, dispatch, this.name, wrapperNames),
+      )
+
     return {
       ...shortcuts,
       Tab: () => this.editor.commands.sinkListItem(this.name),
+      Delete: handleDelete,
+      'Mod-Delete': handleDelete,
     }
   },
 
