@@ -8,7 +8,7 @@ import {
 } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
-import { hoistBranchingNestedList } from '../helpers/hoistBranchingNestedList.js'
+import { handleDeleteBranchingNestedList } from '../helpers/handleDeleteBranchingNestedList.js'
 
 export interface TaskItemOptions {
   /**
@@ -175,10 +175,7 @@ export const TaskItem = Node.create<TaskItemOptions>({
     }
 
     const wrapperNames = [this.options.taskListTypeName]
-    const handleDelete = () =>
-      this.editor.commands.command(({ state, dispatch }) =>
-        hoistBranchingNestedList(state, dispatch, this.name, wrapperNames),
-      )
+    const handleDelete = () => handleDeleteBranchingNestedList(this.editor, this.name, wrapperNames)
 
     return {
       ...shortcuts,

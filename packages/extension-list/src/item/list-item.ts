@@ -1,7 +1,7 @@
 import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
 import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
 
-import { hoistBranchingNestedList } from '../helpers/hoistBranchingNestedList.js'
+import { handleDeleteBranchingNestedList } from '../helpers/handleDeleteBranchingNestedList.js'
 
 export interface ListItemOptions {
   /**
@@ -59,7 +59,7 @@ function parseSameLineOrderedListText(text: string, helpers: MarkdownParseHelper
 export const ListItem = Node.create<ListItemOptions>({
   name: 'listItem',
 
-  priority: 100,
+  priority: 101,
 
   addOptions() {
     return {
@@ -187,10 +187,7 @@ export const ListItem = Node.create<ListItemOptions>({
   addKeyboardShortcuts() {
     const wrapperNames = [this.options.bulletListTypeName, this.options.orderedListTypeName]
 
-    const handleDelete = () =>
-      this.editor.commands.command(({ state, dispatch }) =>
-        hoistBranchingNestedList(state, dispatch, this.name, wrapperNames),
-      )
+    const handleDelete = () => handleDeleteBranchingNestedList(this.editor, this.name, wrapperNames)
 
     return {
       Enter: () => this.editor.commands.splitListItem(this.name),
