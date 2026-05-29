@@ -31,7 +31,7 @@ export interface MarkConfig<Options = any, Storage = any> extends ExtendableConf
   keepOnSplit?: boolean | (() => boolean)
 
   /**
-   * Whether this mark is removed by `unsetAllMarks` and similar bulk-clear commands.
+   * Whether this mark is removed by `unsetAllMarks`.
    * Set to `false` for semantic marks (comments, suggestions) that should survive "clear formatting".
    * @default true
    */
