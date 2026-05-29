@@ -438,6 +438,26 @@ describe('extension-placeholder — empty editor class', () => {
     expect(paragraph.classList.contains('my-empty-editor')).toBe(true)
     expect(paragraph.classList.contains('my-empty-node')).toBe(true)
   })
+
+  it('uses emptyNodeClass function to return dynamic class names', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          emptyNodeClass: ({ node }) => {
+            return node.type.name === 'paragraph' ? 'paragraph-empty' : 'other-empty'
+          },
+        }),
+      ],
+      content: '<p></p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.classList.contains('paragraph-empty')).toBe(true)
+    expect(paragraph.classList.contains('other-empty')).toBe(false)
+  })
 })
 
 describe('placeholder utility: findScrollParent', () => {

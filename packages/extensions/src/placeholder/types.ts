@@ -20,9 +20,18 @@ export interface PlaceholderOptions {
 
   /**
    * **The class name for empty nodes**
+   *
+   * You can use a function to return a dynamic class name or a string.
    * @default 'is-empty'
    */
-  emptyNodeClass: string
+  emptyNodeClass:
+    | ((EmptyNodeClassProps: {
+        editor: Editor
+        node: ProsemirrorNode
+        pos: number
+        hasAnchor: boolean
+      }) => string)
+    | string
 
   /**
    * **The data-attribute used for the placeholder label**

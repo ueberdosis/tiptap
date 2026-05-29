@@ -9,6 +9,13 @@ import { PLUGIN_KEY } from '../constants.js'
 import type { PlaceholderOptions } from '../types.js'
 import { createPlaceholderDecoration } from './createPlaceholderDecoration.js'
 
+function resolveEmptyNodeClass(
+  emptyNodeClass: PlaceholderOptions['emptyNodeClass'],
+  props: { editor: Editor; node: Node; pos: number; hasAnchor: boolean },
+): string {
+  return typeof emptyNodeClass === 'function' ? emptyNodeClass(props) : emptyNodeClass
+}
+
 /**
  * Builds the placeholder decorations for the current document state.
  * @param options.editor - The editor instance.
@@ -41,11 +48,6 @@ export function buildPlaceholderDecorations({
   const decorations: Decoration[] = []
   const isEmptyDoc = editor.isEmpty
 
-  const classes = {
-    emptyEditor: options.emptyEditorClass,
-    emptyNode: options.emptyNodeClass,
-  }
-
   const useResolvedPath = options.showOnlyCurrent && !options.includeChildren
 
   if (useResolvedPath) {
@@ -69,7 +71,15 @@ export function buildPlaceholderDecorations({
           dataAttribute,
           hasAnchor,
           placeholder: options.placeholder,
-          classes,
+          classes: {
+            emptyEditor: options.emptyEditorClass,
+            emptyNode: resolveEmptyNodeClass(options.emptyNodeClass, {
+              editor,
+              node,
+              pos: nodeStart,
+              hasAnchor,
+            }),
+          },
           node,
           pos: nodeStart,
         }),
@@ -96,7 +106,15 @@ export function buildPlaceholderDecorations({
             dataAttribute,
             hasAnchor,
             placeholder: options.placeholder,
-            classes,
+            classes: {
+              emptyEditor: options.emptyEditorClass,
+              emptyNode: resolveEmptyNodeClass(options.emptyNodeClass, {
+                editor,
+                node,
+                pos,
+                hasAnchor,
+              }),
+            },
             node,
             pos,
           }),
