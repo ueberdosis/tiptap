@@ -31,9 +31,9 @@ export const unsetAllMarks: RawCommands['unsetAllMarks'] =
       )
 
       ranges.forEach(range => {
-        clearableMarkTypes.forEach(markType => {
+        for (const markType of clearableMarkTypes) {
           tr.removeMark(range.$from.pos, range.$to.pos, markType)
-        })
+        }
       })
     }
 
