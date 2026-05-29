@@ -2,7 +2,13 @@ import type { EditorState, Transaction } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
 import { createChainableState } from './helpers/createChainableState.js'
-import type { AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands } from './types.js'
+import type {
+  AnyCommands,
+  CanCommands,
+  ChainedCommands,
+  CommandProps,
+  SingleCommands,
+} from './types.js'
 
 export class CommandManager {
   editor: Editor
@@ -64,7 +70,12 @@ export class CommandManager {
     const tr = startTr || state.tr
 
     const run = () => {
-      if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch') && !this.hasCustomState) {
+      if (
+        !hasStartTransaction &&
+        shouldDispatch &&
+        !tr.getMeta('preventDispatch') &&
+        !this.hasCustomState
+      ) {
         view.dispatch(tr)
       }
 

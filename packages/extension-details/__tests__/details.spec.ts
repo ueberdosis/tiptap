@@ -101,6 +101,56 @@ describe('Details', () => {
     expect(getToggleButton()?.getAttribute('aria-label')).toBe('Collapse SummaryContent')
   })
 
+  it('updates a persisted details node at the start of the document when toggled', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Details.configure({ persist: true }),
+        DetailsSummary,
+        DetailsContent,
+      ],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'details',
+            attrs: {
+              open: true,
+            },
+            content: [
+              {
+                type: 'detailsSummary',
+                content: [{ type: 'text', text: 'Summary' }],
+              },
+              {
+                type: 'detailsContent',
+                content: [
+                  {
+                    type: 'paragraph',
+                    content: [{ type: 'text', text: 'Content' }],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    const toggleButton = editor.view.dom.querySelector<HTMLButtonElement>(
+      'div[data-type="details"] > button',
+    )
+
+    toggleButton?.click()
+
+    expect(editor.state.doc.firstChild?.attrs.open).toBe(false)
+    expect(editor.getHTML()).toBe(
+      '<details><summary>Summary</summary><div data-type="detailsContent"><p>Content</p></div></details>',
+    )
+  })
+
   it('ignores button attribute mutations triggered by renderToggleButton', async () => {
     let renderToggleButtonCallCount = 0
 
@@ -112,7 +162,10 @@ describe('Details', () => {
         Details.configure({
           renderToggleButton: ({ element, isOpen }) => {
             renderToggleButtonCallCount += 1
-            element.setAttribute('aria-label', isOpen ? 'Collapse details content' : 'Expand details content')
+            element.setAttribute(
+              'aria-label',
+              isOpen ? 'Collapse details content' : 'Expand details content',
+            )
           },
         }),
         DetailsSummary,

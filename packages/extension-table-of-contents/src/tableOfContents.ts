@@ -45,7 +45,9 @@ const addTocActiveStatesAndGetItems = (
   })
 
   headlines.forEach(headline => {
-    const domElement = editor.view.domAtPos(headline.pos + 1).node as HTMLHeadingElement | HTMLElement
+    const domElement = editor.view.domAtPos(headline.pos + 1).node as
+      | HTMLHeadingElement
+      | HTMLElement
     const scrolledOver = options.storage.scrollPosition >= domElement.offsetTop
 
     if (scrolledOver) {
@@ -210,9 +212,9 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
     const defaultScrollParent = typeof window !== 'undefined' ? () => window : undefined
 
     return {
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       onUpdate: () => {},
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       getId: _textContent => uuidv4(),
 
       scrollParent: defaultScrollParent,
@@ -315,9 +317,12 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
 
       // if scrollParent is HTML Element, use scrollTop - otherwise use scrollY
       const scrollParent =
-        typeof this.options.scrollParent === 'function' ? this.options.scrollParent() : this.options.scrollParent
+        typeof this.options.scrollParent === 'function'
+          ? this.options.scrollParent()
+          : this.options.scrollParent
 
-      const scrollPosition = scrollParent instanceof HTMLElement ? scrollParent.scrollTop : scrollParent.scrollY
+      const scrollPosition =
+        scrollParent instanceof HTMLElement ? scrollParent.scrollTop : scrollParent.scrollY
 
       this.storage.scrollPosition = scrollPosition || 0
 
@@ -336,7 +341,9 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
     }
 
     const scrollParent =
-      typeof this.options.scrollParent === 'function' ? this.options.scrollParent() : this.options.scrollParent
+      typeof this.options.scrollParent === 'function'
+        ? this.options.scrollParent()
+        : this.options.scrollParent
 
     if (scrollParent) {
       scrollParent.addEventListener('scroll', this.storage.scrollHandler)
@@ -349,7 +356,9 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
     }
 
     const scrollParent =
-      typeof this.options.scrollParent === 'function' ? this.options.scrollParent() : this.options.scrollParent
+      typeof this.options.scrollParent === 'function'
+        ? this.options.scrollParent()
+        : this.options.scrollParent
 
     if (scrollParent) {
       scrollParent.removeEventListener('scroll', this.storage.scrollHandler)
@@ -357,6 +366,8 @@ export const TableOfContents = Extension.create<TableOfContentsOptions, TableOfC
   },
 
   addProseMirrorPlugins() {
-    return [TableOfContentsPlugin({ getId: this.options.getId, anchorTypes: this.options.anchorTypes })]
+    return [
+      TableOfContentsPlugin({ getId: this.options.getId, anchorTypes: this.options.anchorTypes }),
+    ]
   },
 })

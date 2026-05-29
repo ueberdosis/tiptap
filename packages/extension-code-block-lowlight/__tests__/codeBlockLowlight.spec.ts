@@ -31,7 +31,13 @@ describe('code block highlight', () => {
 
     editor = new Editor({
       element: createEditorEl(),
-      extensions: [Document, Text, Paragraph, CodeBlockLowlight.configure({ lowlight }), Frontmatter],
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        CodeBlockLowlight.configure({ lowlight }),
+        Frontmatter,
+      ],
       content: {
         type: 'doc',
         content: [

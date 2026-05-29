@@ -1,5 +1,33 @@
 # @tiptap/markdown
 
+## 3.24.0
+
+### Patch Changes
+
+- db47c91: Fix text inside unknown angle-bracket tags being silently swallowed during markdown parsing. HTML-like content such as `<enter existing CID here if available>` that does not map to any known element is now preserved as literal text instead of disappearing, which also prevents downstream `contentMatchAt` errors when complex schemas (Mention, Variable, Table) are in use.
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- 6abd10c: Fix extra mark tokens after inline atom nodes during Markdown serialization
+- 7bf0e73: Fix adjacent marks of the same type with different attributes being merged during Markdown serialization
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes

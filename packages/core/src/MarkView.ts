@@ -5,7 +5,11 @@ import type { Editor } from './Editor.js'
 import type { MarkViewProps, MarkViewRendererOptions } from './types.js'
 import { isAndroid, isiOS } from './utilities/index.js'
 
-export function updateMarkViewAttributes(checkMark: Mark, editor: Editor, attrs: Record<string, any> = {}): void {
+export function updateMarkViewAttributes(
+  checkMark: Mark,
+  editor: Editor,
+  attrs: Record<string, any> = {},
+): void {
   const { state } = editor
   const { doc, tr } = state
   const thisMark = checkMark
@@ -52,7 +56,10 @@ export function updateMarkViewAttributes(checkMark: Mark, editor: Editor, attrs:
   }
 }
 
-export class MarkView<Component, Options extends MarkViewRendererOptions = MarkViewRendererOptions> {
+export class MarkView<
+  Component,
+  Options extends MarkViewRendererOptions = MarkViewRendererOptions,
+> {
   component: Component
   editor: Editor
   options: Options
@@ -102,7 +109,10 @@ export class MarkView<Component, Options extends MarkViewRendererOptions = MarkV
       (isiOS() || isAndroid()) &&
       this.editor.isFocused
     ) {
-      const changedNodes = [...Array.from(mutation.addedNodes), ...Array.from(mutation.removedNodes)] as HTMLElement[]
+      const changedNodes = [
+        ...Array.from(mutation.addedNodes),
+        ...Array.from(mutation.removedNodes),
+      ] as HTMLElement[]
 
       if (changedNodes.every(node => node.isContentEditable)) {
         return false

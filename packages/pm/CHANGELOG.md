@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- 7c0499b: Add missing `@tiptap/pm/inputrules` export
+
+## 3.23.6
+
+## 3.23.5
+
 ## 3.23.4
 
 ## 3.23.3

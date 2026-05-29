@@ -2,7 +2,11 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
+        <button
+          @click="
+            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+          "
+        >
           Insert table
         </button>
         <button
@@ -16,31 +20,58 @@
         >
           Insert HTML table
         </button>
-        <button @click="editor.chain().focus().addColumnBefore().run()" :disabled="!editor.can().addColumnBefore()">
+        <button
+          @click="editor.chain().focus().addColumnBefore().run()"
+          :disabled="!editor.can().addColumnBefore()"
+        >
           Add column before
         </button>
-        <button @click="editor.chain().focus().addColumnAfter().run()" :disabled="!editor.can().addColumnAfter()">
+        <button
+          @click="editor.chain().focus().addColumnAfter().run()"
+          :disabled="!editor.can().addColumnAfter()"
+        >
           Add column after
         </button>
-        <button @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
+        <button
+          @click="editor.chain().focus().deleteColumn().run()"
+          :disabled="!editor.can().deleteColumn()"
+        >
           Delete column
         </button>
-        <button @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
+        <button
+          @click="editor.chain().focus().addRowBefore().run()"
+          :disabled="!editor.can().addRowBefore()"
+        >
           Add row before
         </button>
-        <button @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
+        <button
+          @click="editor.chain().focus().addRowAfter().run()"
+          :disabled="!editor.can().addRowAfter()"
+        >
           Add row after
         </button>
-        <button @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
+        <button
+          @click="editor.chain().focus().deleteRow().run()"
+          :disabled="!editor.can().deleteRow()"
+        >
           Delete row
         </button>
-        <button @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
+        <button
+          @click="editor.chain().focus().deleteTable().run()"
+          :disabled="!editor.can().deleteTable()"
+        >
           Delete table
         </button>
-        <button @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
+        <button
+          @click="editor.chain().focus().mergeCells().run()"
+          :disabled="!editor.can().mergeCells()"
+        >
           Merge cells
         </button>
-        <button @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
+        <button
+          @click="editor.chain().focus().splitCell().run()"
+          :disabled="!editor.can().splitCell()"
+        >
           Split cell
         </button>
         <button
@@ -49,13 +80,22 @@
         >
           Toggle header column
         </button>
-        <button @click="editor.chain().focus().toggleHeaderRow().run()" :disabled="!editor.can().toggleHeaderRow()">
+        <button
+          @click="editor.chain().focus().toggleHeaderRow().run()"
+          :disabled="!editor.can().toggleHeaderRow()"
+        >
           Toggle header row
         </button>
-        <button @click="editor.chain().focus().toggleHeaderCell().run()" :disabled="!editor.can().toggleHeaderCell()">
+        <button
+          @click="editor.chain().focus().toggleHeaderCell().run()"
+          :disabled="!editor.can().toggleHeaderCell()"
+        >
           Toggle header cell
         </button>
-        <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
+        <button
+          @click="editor.chain().focus().mergeOrSplit().run()"
+          :disabled="!editor.can().mergeOrSplit()"
+        >
           Merge or split
         </button>
         <button
@@ -64,13 +104,22 @@
         >
           Set cell attribute
         </button>
-        <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
+        <button
+          @click="editor.chain().focus().fixTables().run()"
+          :disabled="!editor.can().fixTables()"
+        >
           Fix tables
         </button>
-        <button @click="editor.chain().focus().goToNextCell().run()" :disabled="!editor.can().goToNextCell()">
+        <button
+          @click="editor.chain().focus().goToNextCell().run()"
+          :disabled="!editor.can().goToNextCell()"
+        >
           Go to next cell
         </button>
-        <button @click="editor.chain().focus().goToPreviousCell().run()" :disabled="!editor.can().goToPreviousCell()">
+        <button
+          @click="editor.chain().focus().goToPreviousCell().run()"
+          :disabled="!editor.can().goToPreviousCell()"
+        >
           Go to previous cell
         </button>
       </div>

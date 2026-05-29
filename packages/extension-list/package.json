@@ -1,18 +1,30 @@
 {
   "name": "@tiptap/extension-list",
+  "version": "3.24.0",
   "description": "List extension for tiptap",
-  "version": "3.23.4",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-list"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -79,13 +91,9 @@
       "require": "./dist/task-list/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"
@@ -93,14 +101,5 @@
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-list"
-  },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

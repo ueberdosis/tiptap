@@ -1,5 +1,11 @@
 # @tiptap/server-ai-toolkit
 
+## 0.1.4
+
+### Patch Changes
+
+- 7c4b0be: Exclude `toText` property when serializing the schema into a JSON object, because it is a function and functions are not serializable.
+
 ## 0.1.3
 
 ### Patch Changes

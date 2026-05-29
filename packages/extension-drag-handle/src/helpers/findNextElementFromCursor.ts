@@ -16,7 +16,10 @@ export type FindElementNextToCoords = {
 /**
  * Finds the draggable block element that is a direct child of view.dom
  */
-export function findClosestTopLevelBlock(element: Element, view: EditorView): HTMLElement | undefined {
+export function findClosestTopLevelBlock(
+  element: Element,
+  view: EditorView,
+): HTMLElement | undefined {
   let current: Element | null = element
 
   while (current?.parentElement && current.parentElement !== view.dom) {
@@ -43,7 +46,12 @@ function isValidRect(rect: DOMRect): boolean {
 /**
  * Clamps coordinates to content bounds with O(1) layout reads
  */
-function clampToContent(view: EditorView, x: number, y: number, inset = 5): { x: number; y: number } | null {
+function clampToContent(
+  view: EditorView,
+  x: number,
+  y: number,
+  inset = 5,
+): { x: number; y: number } | null {
   // Validate input coordinates are finite numbers
   if (!Number.isFinite(x) || !Number.isFinite(y)) {
     return null

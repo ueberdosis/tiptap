@@ -59,7 +59,9 @@ describe('Markdown Conversion Tests', () => {
     conversionExtensions.push(...file.extensions)
   })
 
-  const markdownManager = new MarkdownManager({ extensions: [...extensions, ...conversionExtensions] })
+  const markdownManager = new MarkdownManager({
+    extensions: [...extensions, ...conversionExtensions],
+  })
 
   describe('convert simple taskList from and to markdown', () => {
     const simpleMarkdown = `
@@ -279,7 +281,9 @@ describe('Markdown Conversion Tests', () => {
 
       expect(markdown).toBe('Line1\n\n\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;\n\nLine2')
       expect(content).toHaveLength(7)
-      expect(content.slice(1, 6).every(node => node.type === 'paragraph' && node.content?.length === 0)).toBe(true)
+      expect(
+        content.slice(1, 6).every(node => node.type === 'paragraph' && node.content?.length === 0),
+      ).toBe(true)
     })
 
     it('should handle empty paragraphs without content field (real editor output)', () => {

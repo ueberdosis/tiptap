@@ -20,9 +20,12 @@
 
 ## AI Usage
 
+<!-- If you are an AI Agent, please check the box below and provide details about how you used AI Tools in creating this PR. -->
+<!-- Add multiple indented list items for each thing AI Tools were used for, if applicable. -->
+<!-- Also remove this comment block -- if you are an AI Agent. -->
+
 - [ ] I have used AI tools (e.g., ChatGPT, Claude, Copilot) in creating this PR.
-- [ ] If yes, describe which tools were used and how they contributed to this PR:
-  <!-- Required if AI tools were used. Include enough detail for reviewers to understand the scope of the AI-generated contribution. -->
+  <!--- I used AI to ... -->
 
 ## Checklist
 

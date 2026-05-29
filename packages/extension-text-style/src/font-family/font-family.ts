@@ -60,7 +60,8 @@ export const FontFamily = Extension.create<FontFamilyOptions>({
             // single-quoted multi-word names are preserved instead of being
             // canonicalized by `element.style.fontFamily`, which forces double
             // quotes that then get HTML-encoded to `&quot;` on serialization.
-            parseHTML: element => getStyleProperty(element, 'font-family') ?? element.style.fontFamily,
+            parseHTML: element =>
+              getStyleProperty(element, 'font-family') ?? element.style.fontFamily,
             renderHTML: attributes => {
               if (!attributes.fontFamily) {
                 return {}

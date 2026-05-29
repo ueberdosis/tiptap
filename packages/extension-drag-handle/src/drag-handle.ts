@@ -97,6 +97,21 @@ export interface DragHandleOptions {
    * })
    */
   nested?: boolean | NestedOptions
+  /**
+   * Limit the drag image clone to a subset of CSS properties instead of
+   * copying all computed styles. When set, only the listed properties
+   * are read from `getComputedStyle` and applied to the drag image clone.
+   *
+   * Useful for improving drag performance on selections containing complex
+   * or deeply nested nodes.
+   *
+   * @example
+   * // Only copy visual appearance, skip layout properties
+   * DragHandle.configure({
+   *   dragImageProperties: ['color', 'background-color', 'font-size', 'font-family'],
+   * })
+   */
+  dragImageProperties?: string[]
 }
 
 declare module '@tiptap/core' {
@@ -138,6 +153,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
       onElementDragStart: undefined,
       onElementDragEnd: undefined,
       nested: false,
+      dragImageProperties: undefined,
     }
   },
 
@@ -170,7 +186,10 @@ export const DragHandle = Extension.create<DragHandleOptions>({
 
     return [
       DragHandlePlugin({
-        computePositionConfig: { ...defaultComputePositionConfig, ...this.options.computePositionConfig },
+        computePositionConfig: {
+          ...defaultComputePositionConfig,
+          ...this.options.computePositionConfig,
+        },
         getReferencedVirtualElement: this.options.getReferencedVirtualElement,
         element,
         editor: this.editor,
@@ -178,6 +197,7 @@ export const DragHandle = Extension.create<DragHandleOptions>({
         onElementDragStart: this.options.onElementDragStart,
         onElementDragEnd: this.options.onElementDragEnd,
         nestedOptions,
+        dragImageProperties: this.options.dragImageProperties,
       }).plugin,
     ]
   },

@@ -21,8 +21,8 @@ export * from './Tracker.js'
 export * from './types.js'
 export * from './utilities/index.js'
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 export interface Commands<ReturnType = any> {}
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 export interface Storage {}

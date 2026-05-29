@@ -3,7 +3,10 @@
     <div class="control-group">
       <div class="button-group">
         <button @click="setLink" :class="{ 'is-active': editor.isActive('link') }">Set link</button>
-        <button @click="editor.chain().focus().unsetLink().run()" :disabled="!editor.isActive('link')">
+        <button
+          @click="editor.chain().focus().unsetLink().run()"
+          :disabled="!editor.isActive('link')"
+        >
           Unset link
         </button>
       </div>

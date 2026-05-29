@@ -17,7 +17,9 @@ const getPackageAliases = () => {
               return
             }
 
-            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(`${path}/${name}/${subPkgName}/index.ts`)
+            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(
+              `${path}/${name}/${subPkgName}/index.ts`,
+            )
           })
         } else if (name === 'static-renderer') {
           // Handle static-renderer subpaths
@@ -25,12 +27,14 @@ const getPackageAliases = () => {
             const subPkgName = subName.replace(`${path}/${name}/src/`, '')
 
             if (subPkgName === 'json' || subPkgName === 'pm') {
-              fg.sync(`${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(subSubName => {
-                const subSubPkgName = subSubName.replace(`${path}/${name}/src/${subPkgName}/`, '')
-                aliases[`@tiptap/${name}/${subPkgName}/${subSubPkgName}`] = resolve(
-                  `${path}/${name}/src/${subPkgName}/${subSubPkgName}/index.ts`,
-                )
-              })
+              fg.sync(`${path}/${name}/src/${subPkgName}/*`, { onlyDirectories: true }).forEach(
+                subSubName => {
+                  const subSubPkgName = subSubName.replace(`${path}/${name}/src/${subPkgName}/`, '')
+                  aliases[`@tiptap/${name}/${subPkgName}/${subSubPkgName}`] = resolve(
+                    `${path}/${name}/src/${subPkgName}/${subSubPkgName}/index.ts`,
+                  )
+                },
+              )
             }
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
@@ -46,7 +50,9 @@ const getPackageAliases = () => {
           fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
             const subPkgName = subName.replace(`${path}/${name}/src/`, '')
 
-            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(`${path}/${name}/src/${subPkgName}/index.ts`)
+            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(
+              `${path}/${name}/src/${subPkgName}/index.ts`,
+            )
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         } else {

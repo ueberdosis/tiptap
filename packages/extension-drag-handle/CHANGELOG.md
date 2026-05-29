@@ -1,5 +1,38 @@
 # @tiptap/extension-drag-handle
 
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [de337e8]
+- Updated dependencies [7c0499b]
+  - @tiptap/extension-collaboration@3.24.0
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+  - @tiptap/extension-node-range@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- 937ff2e: **DragHandle**: Added `dragImageProperties` option to limit which CSS properties are cloned for the drag image. By default all ~300+ computed styles are copied; setting this to a subset (e.g. `['color', 'background-color', 'font-size']`) reduces the cost when dragging selections with complex nodes.
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/extension-collaboration@3.23.6
+  - @tiptap/extension-node-range@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/extension-collaboration@3.23.5
+  - @tiptap/extension-node-range@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes

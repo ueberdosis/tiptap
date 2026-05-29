@@ -4,7 +4,10 @@ import type { EditorView } from '@tiptap/pm/view'
 import { redo, undo, ySyncPlugin, yUndoPlugin, yUndoPluginKey } from '@tiptap/y-tiptap'
 import type { Doc, UndoManager, XmlFragment } from 'yjs'
 
-import { createMappablePosition, getUpdatedPosition } from './helpers/CollaborationMappablePosition.js'
+import {
+  createMappablePosition,
+  getUpdatedPosition,
+} from './helpers/CollaborationMappablePosition.js'
 import { isChangeOrigin } from './helpers/isChangeOrigin.js'
 
 type YSyncOpts = Parameters<typeof ySyncPlugin>[1]
@@ -116,7 +119,8 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
   onBeforeCreate() {
     this.editor.utils.getUpdatedPosition = (position, transaction) =>
       getUpdatedPosition(position, transaction, this.editor.state)
-    this.editor.utils.createMappablePosition = position => createMappablePosition(position, this.editor.state)
+    this.editor.utils.createMappablePosition = position =>
+      createMappablePosition(position, this.editor.state)
   },
 
   addCommands() {
@@ -191,7 +195,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
       return {
         destroy: () => {
           const hasUndoManSelf = undoManager.trackedOrigins.has(undoManager)
-          // eslint-disable-next-line no-underscore-dangle
+          // oxlint-disable-next-line no-underscore-dangle
           const observers = undoManager._observers
 
           undoManager.restore = () => {
@@ -200,7 +204,7 @@ export const Collaboration = Extension.create<CollaborationOptions, Collaboratio
             }
 
             undoManager.doc.on('afterTransaction', undoManager.afterTransactionHandler)
-            // eslint-disable-next-line no-underscore-dangle
+            // oxlint-disable-next-line no-underscore-dangle
             undoManager._observers = observers
           }
 

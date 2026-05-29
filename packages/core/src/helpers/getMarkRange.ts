@@ -20,7 +20,11 @@ function findMarkInSet(
   })
 }
 
-function isMarkInSet(marks: ProseMirrorMark[], type: MarkType, attributes: Record<string, any> = {}): boolean {
+function isMarkInSet(
+  marks: ProseMirrorMark[],
+  type: MarkType,
+  attributes: Record<string, any> = {},
+): boolean {
   return !!findMarkInSet(marks, type, attributes)
 }
 
@@ -78,12 +82,18 @@ export function getMarkRange(
   let endIndex = startIndex + 1
   let endPos = startPos + start.node.nodeSize
 
-  while (startIndex > 0 && isMarkInSet([...$pos.parent.child(startIndex - 1).marks], type, attributes)) {
+  while (
+    startIndex > 0 &&
+    isMarkInSet([...$pos.parent.child(startIndex - 1).marks], type, attributes)
+  ) {
     startIndex -= 1
     startPos -= $pos.parent.child(startIndex).nodeSize
   }
 
-  while (endIndex < $pos.parent.childCount && isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)) {
+  while (
+    endIndex < $pos.parent.childCount &&
+    isMarkInSet([...$pos.parent.child(endIndex).marks], type, attributes)
+  ) {
     endPos += $pos.parent.child(endIndex).nodeSize
     endIndex += 1
   }

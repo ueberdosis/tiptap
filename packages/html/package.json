@@ -1,17 +1,30 @@
 {
   "name": "@tiptap/html",
+  "version": "3.24.0",
   "description": "utility package to render tiptap JSON as HTML",
-  "version": "3.23.4",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap utility"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/html"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -34,14 +47,9 @@
       "require": "./dist/server/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
@@ -52,14 +60,5 @@
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
     "happy-dom": "^20.8.9"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/html"
-  },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
   }
 }

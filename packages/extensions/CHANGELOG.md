@@ -1,5 +1,32 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- 2d05614: Fix placeholder flickering during collaborative editing and reduce scroll-time CPU usage by deferring viewport recomputation to rAF, adding an overscan margin, and throttling scroll updates
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- 937ff2e: **Placeholder**: Replaced full-document `doc.descendants()` traversal with a cursor-resolved fast path for the default config and viewport-limited scanning for the non-default config, significantly reducing decoration overhead on large documents.
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes

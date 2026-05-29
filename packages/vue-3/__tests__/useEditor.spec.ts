@@ -25,7 +25,7 @@ describe('useEditor', () => {
     try {
       const TestComponent = defineComponent({
         setup() {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
+          // oxlint-disable-next-line react-hooks/rules-of-hooks
           const editor = useEditor({
             extensions: [Document, Paragraph, Text],
             content: '<p>Hello World</p>',

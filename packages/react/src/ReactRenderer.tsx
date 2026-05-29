@@ -18,7 +18,11 @@ import type { EditorWithContentComponent } from './Editor.js'
  * @returns {boolean}
  */
 function isClassComponent(Component: any) {
-  return !!(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent)
+  return !!(
+    typeof Component === 'function' &&
+    Component.prototype &&
+    Component.prototype.isReactComponent
+  )
 }
 
 /**
@@ -44,7 +48,8 @@ function isMemoComponent(Component: any) {
   return !!(
     typeof Component === 'object' &&
     Component.$$typeof &&
-    (Component.$$typeof.toString() === 'Symbol(react.memo)' || Component.$$typeof.description === 'react.memo')
+    (Component.$$typeof.toString() === 'Symbol(react.memo)' ||
+      Component.$$typeof.description === 'react.memo')
   )
 }
 
@@ -236,9 +241,27 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = object> 
 
   /**
    * Re-renders the React component with new props.
+   * Skips the render if none of the supplied props actually changed,
+   * to avoid unnecessary portal re-creation.
    */
   updateProps(props: Record<string, any> = {}): void {
     if (this.destroyed) {
+      return
+    }
+
+    // Shallow comparison — skip if every supplied key already holds the same value.
+    let changed = false
+    const keys = Object.keys(props)
+
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i]
+      if (props[key] !== this.props[key]) {
+        changed = true
+        break
+      }
+    }
+
+    if (!changed) {
       return
     }
 

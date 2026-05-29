@@ -15,14 +15,23 @@ describe('getMarkRange', () => {
         type: 'paragraph',
         content: [
           { type: 'text', text: 'This is a ' },
-          { type: 'text', text: 'linked', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }] },
+          {
+            type: 'text',
+            text: 'linked',
+            marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }],
+          },
           { type: 'text', text: ' text.' },
         ],
       },
     ],
   }
 
-  const schema = getSchemaByResolvedExtensions([Document, Paragraph, Text, Link.configure({ openOnClick: false })])
+  const schema = getSchemaByResolvedExtensions([
+    Document,
+    Paragraph,
+    Text,
+    Link.configure({ openOnClick: false }),
+  ])
 
   it('gets the correct range for a position inside the mark', () => {
     const doc = Node.fromJSON(schema, document)
@@ -73,7 +82,11 @@ describe('getMarkRange', () => {
           type: 'paragraph',
           content: [
             { type: 'text', text: 'This is a text with a ' },
-            { type: 'text', text: 'link.', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }] },
+            {
+              type: 'text',
+              text: 'link.',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }],
+            },
           ],
         },
         {
@@ -108,7 +121,11 @@ describe('getMarkRange', () => {
         {
           type: 'paragraph',
           content: [
-            { type: 'text', text: 'A link', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }] },
+            {
+              type: 'text',
+              text: 'A link',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }],
+            },
             { type: 'text', text: ' is at the start of this paragraph.' },
           ],
         },
@@ -136,7 +153,11 @@ describe('getMarkRange', () => {
           type: 'paragraph',
           content: [
             { type: 'text', text: 'This is a text with a ' },
-            { type: 'text', text: 'link.', marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }] },
+            {
+              type: 'text',
+              text: 'link.',
+              marks: [{ type: 'link', attrs: { href: 'https://tiptap.dev' } }],
+            },
             {
               type: 'text',
               text: 'another link',

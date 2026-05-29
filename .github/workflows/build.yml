@@ -2,7 +2,7 @@ name: Verify
 
 env:
   NODE_VERSION: 24
-  PNPM_VERSION: 9.15.4
+  PNPM_VERSION: 11.2.2
   PNPM_STORE_DIR: .pnpm-store
 
 concurrency:
@@ -46,13 +46,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Cypress binary
-        run: pnpm exec cypress install
-
       - name: Pack dependency artifacts
         run: |
           tar -czf /tmp/pnpm-store.tar.gz ${{ env.PNPM_STORE_DIR }}
-          tar -czf /tmp/cypress-cache.tar.gz -C "$HOME/.cache" Cypress
 
       - name: Upload dependency artifacts
         uses: actions/upload-artifact@v7
@@ -60,7 +56,6 @@ jobs:
           name: node-dependencies
           path: |
             /tmp/pnpm-store.tar.gz
-            /tmp/cypress-cache.tar.gz
           retention-days: 1
 
   check-linting-formatting:
@@ -194,24 +189,15 @@ jobs:
         run: pnpm run test:unit
 
   run-e2e-tests:
-    name: Run e2e tests
+    name: Run e2e tests (shard ${{ matrix.shard }}/${{ matrix.total }})
     runs-on: ubuntu-latest
     needs: build-packages
-    timeout-minutes: 45
-
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        test-spec:
-          - { id: integration, name: Integration, spec: './tests/cypress/integration/**/*.spec.{js,ts}' }
-          - { id: demos-commands, name: 'Demos/Commands', spec: './demos/src/Commands/**/*.spec.{js,ts}' }
-          - { id: demos-examples, name: 'Demos/Examples', spec: './demos/src/Examples/**/*.spec.{js,ts}' }
-          - { id: demos-experiments, name: 'Demos/Experiments', spec: './demos/src/Experiments/**/*.spec.{js,ts}' }
-          - { id: demos-extensions, name: 'Demos/Extensions', spec: './demos/src/Extensions/**/*.spec.{js,ts}' }
-          - { id: demos-guidecontent, name: 'Demos/GuideContent', spec: './demos/src/GuideContent/**/*.spec.{js,ts}' }
-          - { id: demos-guidegettingstarted, name: 'Demos/GuideGettingStarted', spec: './demos/src/GuideGettingStarted/**/*.spec.{js,ts}' }
-          - { id: demos-marks, name: 'Demos/Marks', spec: './demos/src/Marks/**/*.spec.{js,ts}' }
-          - { id: demos-nodes, name: 'Demos/Nodes', spec: './demos/src/Nodes/**/*.spec.{js,ts}' }
+        shard: [1, 2, 3, 4]
+        total: [4]
 
     steps:
       - uses: actions/checkout@v6
@@ -241,9 +227,6 @@ jobs:
       - name: Restore dependencies
         run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
 
-      - name: Restore Cypress cache
-        run: mkdir -p "$HOME/.cache" && tar -xzf /tmp/node-dependencies/cypress-cache.tar.gz -C "$HOME/.cache"
-
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
@@ -253,29 +236,85 @@ jobs:
       - name: Restore build output
         run: tar -xzf /tmp/build-output/build-output.tar.gz
 
-      - name: Test ${{ matrix.test-spec.name }}
-        uses: cypress-io/github-action@v7.3.0
-        with:
-          install: false
-          start: pnpm exec http-server ./demos/dist -s -p 3000
-          wait-on: http://localhost:3000
-          spec: ${{ matrix.test-spec.spec }}
-          project: ./tests
-          browser: chrome
-          quiet: true
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Export screenshots (on failure only)
-        uses: actions/upload-artifact@v7
-        if: failure()
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
         with:
-          name: cypress-screenshots-${{ matrix.test-spec.id }}
-          path: tests/cypress/screenshots
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Run Playwright tests
+        run: pnpm exec playwright test --project=chromium --shard=${{ matrix.shard }}/${{ matrix.total }}
+
+      - name: Upload blob report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-blob-report-${{ matrix.shard }}
+          path: blob-report
           retention-days: 7
 
-      - name: Export screen recordings (on failure only)
-        uses: actions/upload-artifact@v7
-        if: failure()
+  merge-e2e-reports:
+    name: Merge e2e reports
+    runs-on: ubuntu-latest
+    needs: run-e2e-tests
+    if: always()
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
         with:
-          name: cypress-videos-${{ matrix.test-spec.id }}
-          path: tests/cypress/videos
-          retention-days: 7
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ${{ github.workspace }}/${{ env.PNPM_STORE_DIR }}
+
+      - name: Download dependency artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: node-dependencies
+          path: /tmp/node-dependencies
+
+      - name: Restore pnpm store
+        run: tar -xzf /tmp/node-dependencies/pnpm-store.tar.gz
+
+      - name: Restore dependencies
+        run: pnpm install --offline --frozen-lockfile --strict-peer-dependencies
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v8
+        with:
+          path: all-blob-reports
+          pattern: e2e-blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML report
+        if: ${{ hashFiles('all-blob-reports/**') != '' }}
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged HTML report
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-html-report
+          path: playwright-report
+          retention-days: 14

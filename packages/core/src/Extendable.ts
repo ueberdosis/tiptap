@@ -74,7 +74,11 @@ export interface ExtendableConfig<
    *   loading: false,
    * }
    */
-  addStorage?: (this: { name: string; options: Options; parent: ParentConfig<Config>['addStorage'] }) => Storage
+  addStorage?: (this: {
+    name: string
+    options: Options
+    parent: ParentConfig<Config>['addStorage']
+  }) => Storage
 
   /**
    * This function adds globalAttributes to specific nodes.
@@ -274,7 +278,11 @@ export interface ExtendableConfig<
   /**
    * The serializer function used by the markdown serializer to convert ProseMirror nodes to markdown tokens.
    */
-  renderMarkdown?: (node: JSONContent, helpers: MarkdownRendererHelpers, ctx: RenderContext) => string
+  renderMarkdown?: (
+    node: JSONContent,
+    helpers: MarkdownRendererHelpers,
+    ctx: RenderContext,
+  ) => string
 
   /**
    * The markdown tokenizer responsible for turning a markdown string into tokens
@@ -526,7 +534,10 @@ export interface ExtendableConfig<
 export class Extendable<
   Options = any,
   Storage = any,
-  Config = ExtensionConfig<Options, Storage> | NodeConfig<Options, Storage> | MarkConfig<Options, Storage>,
+  Config =
+    | ExtensionConfig<Options, Storage>
+    | NodeConfig<Options, Storage>
+    | MarkConfig<Options, Storage>,
 > {
   type = 'extendable'
   parent: Extendable | null = null
@@ -550,22 +561,22 @@ export class Extendable<
 
   get options(): Options {
     return {
-      ...(callOrReturn(
+      ...callOrReturn(
         getExtensionField<AnyConfig['addOptions']>(this as any, 'addOptions', {
           name: this.name,
         }),
-      ) || {}),
+      ),
     }
   }
 
   get storage(): Readonly<Storage> {
     return {
-      ...(callOrReturn(
+      ...callOrReturn(
         getExtensionField<AnyConfig['addStorage']>(this as any, 'addStorage', {
           name: this.name,
           options: this.options,
         }),
-      ) || {}),
+      ),
     }
   }
 

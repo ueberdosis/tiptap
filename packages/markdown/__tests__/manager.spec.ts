@@ -1,4 +1,10 @@
-import { type AnyExtension, createBlockMarkdownSpec, createInlineMarkdownSpec, Extension, Node } from '@tiptap/core'
+import {
+  type AnyExtension,
+  createBlockMarkdownSpec,
+  createInlineMarkdownSpec,
+  Extension,
+  Node,
+} from '@tiptap/core'
 import { Bold } from '@tiptap/extension-bold'
 import { Document } from '@tiptap/extension-document'
 import { Heading } from '@tiptap/extension-heading'
@@ -315,7 +321,12 @@ Second paragraph.`
             {
               type: 'text',
               text: 'abc',
-              marks: [{ type: 'italic' }, { type: 'underline' }, { type: 'strike' }, { type: 'bold' }],
+              marks: [
+                { type: 'italic' },
+                { type: 'underline' },
+                { type: 'strike' },
+                { type: 'bold' },
+              ],
             },
           ],
         },

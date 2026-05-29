@@ -1,5 +1,10 @@
 import type { NodeWithPos } from '@tiptap/core'
-import { combineTransactionSteps, findChildrenInRange, getChangedRanges, getMarksBetween } from '@tiptap/core'
+import {
+  combineTransactionSteps,
+  findChildrenInRange,
+  getChangedRanges,
+  getMarksBetween,
+} from '@tiptap/core'
 import type { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { MultiToken } from 'linkifyjs'
@@ -48,12 +53,15 @@ export function autolink(options: AutolinkOptions): Plugin {
       /**
        * Does the transaction change the document?
        */
-      const docChanges = transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
+      const docChanges =
+        transactions.some(transaction => transaction.docChanged) && !oldState.doc.eq(newState.doc)
 
       /**
        * Prevent autolink if the transaction is not a document change or if the transaction has the meta `preventAutolink`.
        */
-      const preventAutolink = transactions.some(transaction => transaction.getMeta('preventAutolink'))
+      const preventAutolink = transactions.some(transaction =>
+        transaction.getMeta('preventAutolink'),
+      )
 
       /**
        * Prevent autolink if the transaction is not a document change
@@ -69,7 +77,11 @@ export function autolink(options: AutolinkOptions): Plugin {
 
       changes.forEach(({ newRange }) => {
         // Now let’s see if we can add new links.
-        const nodesInChangedRanges = findChildrenInRange(newState.doc, newRange, node => node.isTextblock)
+        const nodesInChangedRanges = findChildrenInRange(
+          newState.doc,
+          newRange,
+          node => node.isTextblock,
+        )
 
         let textBlock: NodeWithPos | undefined
         let textBeforeWhitespace: string | undefined
@@ -89,24 +101,34 @@ export function autolink(options: AutolinkOptions): Plugin {
             return
           }
           textBlock = nodesInChangedRanges[0]
-          textBeforeWhitespace = newState.doc.textBetween(textBlock.pos, newRange.to, undefined, ' ')
+          textBeforeWhitespace = newState.doc.textBetween(
+            textBlock.pos,
+            newRange.to,
+            undefined,
+            ' ',
+          )
         }
 
         if (textBlock && textBeforeWhitespace) {
-          const wordsBeforeWhitespace = textBeforeWhitespace.split(UNICODE_WHITESPACE_REGEX).filter(Boolean)
+          const wordsBeforeWhitespace = textBeforeWhitespace
+            .split(UNICODE_WHITESPACE_REGEX)
+            .filter(Boolean)
 
           if (wordsBeforeWhitespace.length <= 0) {
             return false
           }
 
           const lastWordBeforeSpace = wordsBeforeWhitespace[wordsBeforeWhitespace.length - 1]
-          const lastWordAndBlockOffset = textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
+          const lastWordAndBlockOffset =
+            textBlock.pos + textBeforeWhitespace.lastIndexOf(lastWordBeforeSpace)
 
           if (!lastWordBeforeSpace) {
             return false
           }
 
-          const linksBeforeSpace = tokenize(lastWordBeforeSpace).map(t => t.toObject(options.defaultProtocol))
+          const linksBeforeSpace = tokenize(lastWordBeforeSpace).map(t =>
+            t.toObject(options.defaultProtocol),
+          )
 
           if (!isValidLinkStructure(linksBeforeSpace)) {
             return false
@@ -134,7 +156,11 @@ export function autolink(options: AutolinkOptions): Plugin {
             .filter(link => options.shouldAutoLink(link.value))
             // Add link mark.
             .forEach(link => {
-              if (getMarksBetween(link.from, link.to, newState.doc).some(item => item.mark.type === options.type)) {
+              if (
+                getMarksBetween(link.from, link.to, newState.doc).some(
+                  item => item.mark.type === options.type,
+                )
+              ) {
                 return
               }
 

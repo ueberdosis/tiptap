@@ -10,7 +10,10 @@ export type EditorStateSnapshot<TEditor extends Editor | null = Editor | null> =
   transactionNumber: number
 }
 
-export type UseEditorStateOptions<TSelectorResult, TEditor extends Editor | null = Editor | null> = {
+export type UseEditorStateOptions<
+  TSelectorResult,
+  TEditor extends Editor | null = Editor | null,
+> = {
   /**
    * The editor instance.
    */
@@ -150,7 +153,9 @@ export function useEditorState<TSelectorResult>(
  * })
  */
 export function useEditorState<TSelectorResult>(
-  options: UseEditorStateOptions<TSelectorResult, Editor> | UseEditorStateOptions<TSelectorResult, Editor | null>,
+  options:
+    | UseEditorStateOptions<TSelectorResult, Editor>
+    | UseEditorStateOptions<TSelectorResult, Editor | null>,
 ): TSelectorResult | null {
   const [editorStateManager] = useState(() => new EditorStateManager(options.editor))
 

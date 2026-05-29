@@ -2,7 +2,9 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().setHorizontalRule().run()">Set horizontal rule</button>
+        <button @click="editor.chain().focus().setHorizontalRule().run()">
+          Set horizontal rule
+        </button>
       </div>
     </div>
     <editor-content :editor="editor" />

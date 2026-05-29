@@ -43,7 +43,9 @@ export const Recommendation = Node.create({
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(RecommendationView)
+    return VueNodeViewRenderer(RecommendationView, {
+      trackNodeViewPosition: true,
+    })
   },
 })
 

@@ -1,23 +1,30 @@
 {
   "name": "@tiptap/extension-drag-handle-react",
+  "version": "3.24.0",
   "description": "drag handle extension for tiptap with react",
-  "version": "3.23.4",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-drag-handle-react"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -28,19 +35,8 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
-  "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:*",
-    "@tiptap/pm": "workspace:*",
-    "@tiptap/react": "workspace:*",
-    "react": "^16.8 || ^17 || ^18 || ^19",
-    "react-dom": "^16.8 || ^17 || ^18 || ^19"
+  "scripts": {
+    "build": "tsup"
   },
   "devDependencies": {
     "@tiptap/extension-drag-handle": "workspace:^",
@@ -51,8 +47,11 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  "peerDependencies": {
+    "@tiptap/extension-drag-handle": "workspace:*",
+    "@tiptap/pm": "workspace:*",
+    "@tiptap/react": "workspace:*",
+    "react": "^16.8 || ^17 || ^18 || ^19",
+    "react-dom": "^16.8 || ^17 || ^18 || ^19"
   }
 }

@@ -1,18 +1,30 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
+  "version": "3.24.0",
   "description": "code block extension for tiptap",
-  "version": "3.23.4",
-  "homepage": "https://tiptap.dev",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
+  "homepage": "https://tiptap.dev",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-code-block-lowlight"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
@@ -23,13 +35,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "src",
-    "dist"
-  ],
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/extension-code-block": "workspace:^",
@@ -40,16 +48,7 @@
     "@tiptap/core": "workspace:*",
     "@tiptap/extension-code-block": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "lowlight": "^2 || ^3",
-    "highlight.js": "^11"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/extension-code-block-lowlight"
-  },
-  "scripts": {
-    "build": "tsup",
-    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+    "highlight.js": "^11",
+    "lowlight": "^2 || ^3"
   }
 }

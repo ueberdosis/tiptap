@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { DecorationAttrs } from '@tiptap/pm/view'
 import { defaultSelectionBuilder, yCursorPlugin } from '@tiptap/y-tiptap'
 
@@ -97,7 +98,10 @@ const defaultOnUpdate = () => null
  * This extension allows you to add collaboration carets to your editor.
  * @see https://tiptap.dev/api/extensions/collaboration-caret
  */
-export const CollaborationCaret = Extension.create<CollaborationCaretOptions, CollaborationCaretStorage>({
+export const CollaborationCaret = Extension.create<
+  CollaborationCaretOptions,
+  CollaborationCaretStorage
+>({
   name: 'collaborationCaret',
 
   priority: 999,
@@ -165,24 +169,39 @@ export const CollaborationCaret = Extension.create<CollaborationCaretOptions, Co
   },
 
   addProseMirrorPlugins() {
+    const { provider } = this.options
+    const storage = this.storage
+    const user = this.options.user
+
+    // Owns the awareness 'update' subscription so it's torn down when the editor
+    // is destroyed. Without this, the listener would keep the editor reachable
+    // from a shared provider's awareness emitter and leak memory across editors.
+    const awarenessListenerPlugin = new Plugin({
+      key: new PluginKey('collaborationCaretAwarenessListener'),
+      view: () => {
+        const onAwarenessUpdate = () => {
+          storage.users = awarenessStatesToArray(provider.awareness.states)
+        }
+
+        provider.awareness.setLocalStateField('user', user)
+        storage.users = awarenessStatesToArray(provider.awareness.states)
+        provider.awareness.on('update', onAwarenessUpdate)
+
+        return {
+          destroy: () => {
+            provider.awareness.off('update', onAwarenessUpdate)
+            storage.users = []
+          },
+        }
+      },
+    })
+
     return [
-      yCursorPlugin(
-        (() => {
-          this.options.provider.awareness.setLocalStateField('user', this.options.user)
-
-          this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-
-          this.options.provider.awareness.on('update', () => {
-            this.storage.users = awarenessStatesToArray(this.options.provider.awareness.states)
-          })
-
-          return this.options.provider.awareness
-        })(),
-        {
-          cursorBuilder: this.options.render,
-          selectionBuilder: this.options.selectionRender,
-        },
-      ),
+      awarenessListenerPlugin,
+      yCursorPlugin(provider.awareness, {
+        cursorBuilder: this.options.render,
+        selectionBuilder: this.options.selectionRender,
+      }),
     ]
   },
 })

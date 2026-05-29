@@ -36,7 +36,11 @@ const getParsedYoutubeAttributes = (element: HTMLElement) => {
 }
 
 export type { GetEmbedUrlOptions } from './utils.js'
-export { getAttributesFromYoutubeEmbedUrl, getEmbedUrlFromYoutubeUrl, isValidYoutubeUrl } from './utils.js'
+export {
+  getAttributesFromYoutubeEmbedUrl,
+  getEmbedUrlFromYoutubeUrl,
+  isValidYoutubeUrl,
+} from './utils.js'
 
 export interface YoutubeOptions {
   /**

@@ -1,5 +1,9 @@
 import type { JSONContent } from '@tiptap/core'
-import { createAtomBlockMarkdownSpec, createBlockMarkdownSpec, createInlineMarkdownSpec } from '@tiptap/core'
+import {
+  createAtomBlockMarkdownSpec,
+  createBlockMarkdownSpec,
+  createInlineMarkdownSpec,
+} from '@tiptap/core'
 import { describe, expect, it } from 'vitest'
 
 describe('Markdown Utilities', () => {
@@ -59,7 +63,11 @@ describe('Markdown Utilities', () => {
         selfClosing: true,
       })
 
-      const token = spec.markdownTokenizer.tokenize('[mention id="test" label="Test User"]', [], null as any)
+      const token = spec.markdownTokenizer.tokenize(
+        '[mention id="test" label="Test User"]',
+        [],
+        null as any,
+      )
       expect(token).toMatchObject({
         type: 'mention',
         raw: '[mention id="test" label="Test User"]',
@@ -158,7 +166,9 @@ describe('Markdown Utilities', () => {
       }
 
       const renderedWithNonDefault = spec.renderMarkdown(nodeWithNonDefault)
-      expect(renderedWithNonDefault).toBe('[mention id="bug" label="Bug" mentionSuggestionChar="#"]')
+      expect(renderedWithNonDefault).toBe(
+        '[mention id="bug" label="Bug" mentionSuggestionChar="#"]',
+      )
     })
 
     it('should support custom parseAttributes and serializeAttributes for attribute name mapping', () => {
@@ -279,7 +289,11 @@ describe('Markdown Utilities', () => {
         inlineTokens: (src: string) => [{ type: 'text', text: src.trim() }],
       }
 
-      const token = spec.markdownTokenizer.tokenize(':::callout {type="info"}\nThis is a callout\n:::', [], mockLexer)
+      const token = spec.markdownTokenizer.tokenize(
+        ':::callout {type="info"}\nThis is a callout\n:::',
+        [],
+        mockLexer,
+      )
       expect(token).toMatchObject({
         type: 'callout',
         attributes: { type: 'info' },
@@ -371,11 +385,19 @@ describe('Markdown Utilities', () => {
       })
 
       // Should fail without required attribute
-      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(':::youtube {width="400"} :::\n', [], null as any)
+      const tokenWithoutSrc = spec.markdownTokenizer.tokenize(
+        ':::youtube {width="400"} :::\n',
+        [],
+        null as any,
+      )
       expect(tokenWithoutSrc).toBe(undefined)
 
       // Should succeed with required attribute
-      const tokenWithSrc = spec.markdownTokenizer.tokenize(':::youtube {src="test"} :::\n', [], null as any)
+      const tokenWithSrc = spec.markdownTokenizer.tokenize(
+        ':::youtube {src="test"} :::\n',
+        [],
+        null as any,
+      )
       expect(tokenWithSrc).not.toBe(undefined)
       expect(tokenWithSrc).toHaveProperty('attributes')
       expect((tokenWithSrc as any).attributes).toHaveProperty('src', 'test')

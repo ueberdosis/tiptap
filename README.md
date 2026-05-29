@@ -1,12 +1,13 @@
 ![Tiptap Editor](.github/assets/cover.png)
 
-[![LFX Health Score](https://insights.production.lfx.dev/api/badge/health-score?project=tiptap)](https://insights.linuxfoundation.org/project/tiptap)
+[![LFX Health Score](https://insights.linuxfoundation.org/api/badge/health-score?project=tiptap)](https://insights.linuxfoundation.org/project/tiptap)
 [![Build Status](https://github.com/ueberdosis/tiptap/actions/workflows/build.yml/badge.svg)](https://github.com/ueberdosis/tiptap/actions/workflows/build.yml)
 [![Version](https://img.shields.io/npm/v/@tiptap/core.svg?label=version)](https://www.npmjs.com/package/@tiptap/core)
 [![Downloads](https://img.shields.io/npm/dm/@tiptap/core.svg)](https://npmcharts.com/compare/@tiptap/core?minimal=true)
 [![License](https://img.shields.io/npm/l/@tiptap/core.svg)](https://www.npmjs.com/package/@tiptap/core)
 [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true)](https://discord.gg/WtJ49jGshW)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
+[![LFX Active Contributors](https://insights.linuxfoundation.org/api/badge/active-contributors?project=tiptap)](https://insights.linuxfoundation.org/project/tiptap)
 
 # Tiptap Editor
 

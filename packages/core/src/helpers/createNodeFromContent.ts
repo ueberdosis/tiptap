@@ -94,9 +94,15 @@ export function createNodeFromContent(
       })
 
       if (options.slice) {
-        DOMParser.fromSchema(contentCheckSchema).parseSlice(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parseSlice(
+          elementFromString(content),
+          options.parseOptions,
+        )
       } else {
-        DOMParser.fromSchema(contentCheckSchema).parse(elementFromString(content), options.parseOptions)
+        DOMParser.fromSchema(contentCheckSchema).parse(
+          elementFromString(content),
+          options.parseOptions,
+        )
       }
 
       if (options.errorOnInvalidContent && hasInvalidContent) {

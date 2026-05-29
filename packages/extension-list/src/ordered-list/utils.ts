@@ -1,4 +1,9 @@
-import type { JSONContent, MarkdownLexerConfiguration, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
+import type {
+  JSONContent,
+  MarkdownLexerConfiguration,
+  MarkdownParseHelpers,
+  MarkdownToken,
+} from '@tiptap/core'
 
 /**
  * Matches an ordered list item line with optional leading whitespace.
@@ -28,10 +33,15 @@ function isBlockContentLine(line: string): boolean {
   const trimmedLine = line.trimStart()
 
   return (
+    // oxlint-disable-next-line prefer-string-starts-ends-with
     /^[-+*]\s+/.test(trimmedLine) ||
+    // oxlint-disable-next-line prefer-string-starts-ends-with
     /^\d+\.\s+/.test(trimmedLine) ||
+    // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
+    // oxlint-disable-next-line prefer-string-starts-ends-with
     /^```/.test(trimmedLine) ||
+    // oxlint-disable-next-line prefer-string-starts-ends-with
     /^~~~/.test(trimmedLine)
   )
 }
@@ -244,7 +254,10 @@ export function buildNestedStructure(
  * @param helpers - Markdown parse helpers for recursive parsing
  * @returns Array of listItem JSONContent nodes
  */
-export function parseListItems(items: MarkdownToken[], helpers: MarkdownParseHelpers): JSONContent[] {
+export function parseListItems(
+  items: MarkdownToken[],
+  helpers: MarkdownParseHelpers,
+): JSONContent[] {
   return items.map(item => {
     if (item.type !== 'list_item') {
       return helpers.parseChildren([item])[0]

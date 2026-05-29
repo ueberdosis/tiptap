@@ -145,7 +145,9 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       [
         'code',
         {
-          class: node.attrs.language ? this.options.languageClassPrefix + node.attrs.language : null,
+          class: node.attrs.language
+            ? this.options.languageClassPrefix + node.attrs.language
+            : null,
         },
         0,
       ],
@@ -458,7 +460,9 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
 
             if (tr.selection.$from.parent.type !== this.type) {
               // put cursor inside the newly created code block
-              tr.setSelection(TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))))
+              tr.setSelection(
+                TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))),
+              )
             }
 
             // store meta information

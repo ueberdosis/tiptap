@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oslint-disableno-explicit-any */
 import type { MarkType, NodeType } from '@tiptap/core'
 
 import type { TiptapStaticRendererOptions } from '../renderer.js'
@@ -47,7 +47,10 @@ export function escapeHTMLAttribute(value: string): string {
  * @returns The serialized attributes as a string
  */
 export function serializeAttrsToHTMLString(attrs: Record<string, any> | undefined | null): string {
+  // Match ProseMirror's DOMSerializer.renderSpec, which omits null/undefined attribute
+  // values rather than stringifying them — otherwise we emit attrs like class="null".
   const output = Object.entries(attrs || {})
+    .filter(([, value]) => value != null)
     .map(([key, value]) => `${key.split(' ').at(-1)}="${escapeHTMLAttribute(String(value))}"`)
     .join(' ')
 

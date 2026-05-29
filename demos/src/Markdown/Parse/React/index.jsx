@@ -95,7 +95,9 @@ export default () => {
               }
             }}
           />
-          <button onClick={() => document.getElementById('upload')?.click()}>Select Markdown File</button>
+          <button onClick={() => document.getElementById('upload')?.click()}>
+            Select Markdown File
+          </button>
         </div>
       </div>
       <EditorContent editor={editor} />

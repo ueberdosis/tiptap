@@ -24,8 +24,8 @@ describe('extension-youtube', () => {
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   const invalidUrls = [
-    // We have to disable the eslint rule here because we're trying to purposely test eval urls
-    // eslint-disable-next-line no-script-url
+    // We have to disable the oxlint rule here because we're trying to purposely test eval urls
+    // oxlint-disable-next-line no-script-url
     'javascript:alert(window.origin)//embed/',
     'https://youtube.google.com/embed/fdsafsdf',
     'https://youtube.com.bad/embed',
@@ -149,7 +149,11 @@ describe('extension-youtube', () => {
   })
 
   it.each([
-    ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 42],
+    [
+      'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      42,
+    ],
     ['https://youtu.be/dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 0],
     [
       'https://www.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf',

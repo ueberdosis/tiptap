@@ -58,7 +58,9 @@ export default () => {
           >
             Justify
           </button>
-          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>Unset text align</button>
+          <button onClick={() => editor.chain().focus().unsetTextAlign().run()}>
+            Unset text align
+          </button>
           <button
             onClick={() => editor.chain().focus().toggleTextAlign('right').run()}
             className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}

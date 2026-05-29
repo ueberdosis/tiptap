@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* oslint-disable no-underscore-dangle */
 import type { MarkViewProps, MarkViewRenderer, MarkViewRendererOptions } from '@tiptap/core'
 import { MarkView } from '@tiptap/core'
 import type { Component, PropType } from 'vue'
@@ -67,10 +67,17 @@ export const MarkViewContent = defineComponent({
 export class VueMarkView extends MarkView<Component, VueMarkViewRendererOptions> {
   renderer: VueRenderer
 
-  constructor(component: Component, props: MarkViewProps, options?: Partial<VueMarkViewRendererOptions>) {
+  constructor(
+    component: Component,
+    props: MarkViewProps,
+    options?: Partial<VueMarkViewRendererOptions>,
+  ) {
     super(component, props, options)
 
-    const componentProps = { ...props, updateAttributes: this.updateAttributes.bind(this) } satisfies MarkViewProps
+    const componentProps = {
+      ...props,
+      updateAttributes: this.updateAttributes.bind(this),
+    } satisfies MarkViewProps
 
     // Create extended component with provide
     const extendedComponent = defineComponent({

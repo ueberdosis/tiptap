@@ -55,10 +55,16 @@ export default () => {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={() => editor.chain().focus().setDetails().run()} disabled={!editor.can().setDetails()}>
+          <button
+            onClick={() => editor.chain().focus().setDetails().run()}
+            disabled={!editor.can().setDetails()}
+          >
             Set details
           </button>
-          <button onClick={() => editor.chain().focus().unsetDetails().run()} disabled={!editor.can().unsetDetails()}>
+          <button
+            onClick={() => editor.chain().focus().unsetDetails().run()}
+            disabled={!editor.can().unsetDetails()}
+          >
             Unset details
           </button>
           <button

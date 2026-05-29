@@ -5,8 +5,12 @@ import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
 import type { Attributes, MarkViewRenderer, ParentConfig } from './types.js'
 
-export interface MarkConfig<Options = any, Storage = any>
-  extends ExtendableConfig<Options, Storage, MarkConfig<Options, Storage>, MarkType> {
+export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<
+  Options,
+  Storage,
+  MarkConfig<Options, Storage>,
+  MarkType
+> {
   /**
    * Mark View
    */
@@ -135,7 +139,7 @@ export interface MarkConfig<Options = any, Storage = any>
     storage: Storage
     parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
     editor?: Editor
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    // oxlint-disable-next-lineno-empty-object-type
   }) => Attributes | {}
 }
 
@@ -143,14 +147,20 @@ export interface MarkConfig<Options = any, Storage = any>
  * The Mark class is used to create custom mark extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Mark<Options = any, Storage = any> extends Extendable<Options, Storage, MarkConfig<Options, Storage>> {
+export class Mark<Options = any, Storage = any> extends Extendable<
+  Options,
+  Storage,
+  MarkConfig<Options, Storage>
+> {
   type = 'mark'
 
   /**
    * Create a new Mark instance
    * @param config - Mark configuration object or a function that returns a configuration object
    */
-  static create<O = any, S = any>(config: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>) = {}) {
+  static create<O = any, S = any>(
+    config: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>) = {},
+  ) {
     // If the config is a function, execute it to get the configuration object
     const resolvedConfig = typeof config === 'function' ? config() : config
     return new Mark<O, S>(resolvedConfig)
@@ -191,7 +201,10 @@ export class Mark<Options = any, Storage = any> extends Extendable<Options, Stor
   extend<
     ExtendedOptions = Options,
     ExtendedStorage = Storage,
-    ExtendedConfig extends MarkConfig<ExtendedOptions, ExtendedStorage> = MarkConfig<ExtendedOptions, ExtendedStorage>,
+    ExtendedConfig extends MarkConfig<ExtendedOptions, ExtendedStorage> = MarkConfig<
+      ExtendedOptions,
+      ExtendedStorage
+    >,
   >(
     extendedConfig?:
       | (() => Partial<ExtendedConfig>)

@@ -59,7 +59,8 @@ export const LineHeight = Extension.create<LineHeightOptions>({
             // Prefer the raw inline `style` attribute so the original format
             // is preserved instead of the canonicalized value returned by
             // `element.style.lineHeight`.
-            parseHTML: element => getStyleProperty(element, 'line-height') ?? element.style.lineHeight,
+            parseHTML: element =>
+              getStyleProperty(element, 'line-height') ?? element.style.lineHeight,
             renderHTML: attributes => {
               if (!attributes.lineHeight) {
                 return {}

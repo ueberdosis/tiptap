@@ -35,6 +35,32 @@ const CustomInlineNode = Node.create({
   },
 })
 
+const CustomBlockAtomNode = Node.create({
+  name: 'customBlockAtom',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      id: {
+        default: null,
+      },
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-type="custom-block-atom"]',
+      },
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['div', { 'data-type': 'custom-block-atom', ...HTMLAttributes }]
+  },
+})
+
 describe('NodePos', () => {
   let editor: Editor
 
@@ -156,7 +182,8 @@ describe('NodePos', () => {
     it('should find blockquote nodes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote],
-        content: '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
+        content:
+          '<blockquote><p>First quote</p></blockquote><p>Normal</p><blockquote><p>Second quote</p></blockquote>',
       })
 
       const blockquotes = editor.$nodes('blockquote')
@@ -344,7 +371,8 @@ describe('NodePos', () => {
     it('should return first matching node', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -357,7 +385,8 @@ describe('NodePos', () => {
     it('should return all matching nodes with querySelectorAll', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -369,7 +398,8 @@ describe('NodePos', () => {
     it('should filter correctly with attributes', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, CustomInlineNode],
-        content: '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
+        content:
+          '<p><span data-type="custom-inline" id="1"></span><span data-type="custom-inline" id="2"></span></p>',
       })
 
       const paragraph = editor.$node('paragraph')
@@ -503,6 +533,51 @@ describe('NodePos', () => {
     })
   })
 
+  describe('$pos', () => {
+    it('should return the correct node when pointing at a non-text atom node', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomInlineNode],
+        content: '<p><span data-type="custom-inline" id="atom"></span></p>',
+      })
+
+      const inlineNode = editor.$node('customInline')
+
+      expect(inlineNode).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(inlineNode!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customInline')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+
+    it('should return doc node when resolving pos 0', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text],
+        content: '<p>Hello</p>',
+      })
+
+      const docPos = editor.$pos(0)
+
+      expect(docPos.node.type.name).toBe('doc')
+    })
+
+    it('should return the top-level block atom node for positions before non-text block atoms', () => {
+      editor = new Editor({
+        extensions: [Document, Paragraph, Text, CustomBlockAtomNode],
+        content: '<p>Before</p><div data-type="custom-block-atom" id="top"></div>',
+      })
+
+      const blockAtom = editor.$node('customBlockAtom')
+
+      expect(blockAtom).not.toBeNull()
+
+      const nodeAtPos = editor.$pos(blockAtom!.pos)
+
+      expect(nodeAtPos.node.type.name).toBe('customBlockAtom')
+      expect(nodeAtPos.node.type.name).not.toBe('doc')
+    })
+  })
+
   describe('$doc', () => {
     it('should correctly traverse $doc children', () => {
       editor = new Editor({
@@ -521,7 +596,8 @@ describe('NodePos', () => {
     it('should handle deeply nested structures', () => {
       editor = new Editor({
         extensions: [Document, Paragraph, Text, Blockquote, CustomInlineNode],
-        content: '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
+        content:
+          '<blockquote><p>Quote with <span data-type="custom-inline" id="deep"></span></p></blockquote>',
       })
 
       const inlineNode = editor.$node('customInline')

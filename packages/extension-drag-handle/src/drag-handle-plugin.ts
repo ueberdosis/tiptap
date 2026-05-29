@@ -38,7 +38,14 @@ const getAbsolutePos = (state: EditorState, relativePos: any) => {
     return -1
   }
 
-  return relativePositionToAbsolutePosition(ystate.doc, ystate.type, relativePos, ystate.binding.mapping) || 0
+  return (
+    relativePositionToAbsolutePosition(
+      ystate.doc,
+      ystate.type,
+      relativePos,
+      ystate.binding.mapping,
+    ) || 0
+  )
 }
 
 const getOuterDomNode = (view: EditorView, domNode: HTMLElement) => {
@@ -66,6 +73,7 @@ export interface DragHandlePluginProps {
   computePositionConfig?: ComputePositionConfig
   getReferencedVirtualElement?: () => VirtualElement | null
   nestedOptions: NormalizedNestedOptions
+  dragImageProperties?: string[]
 }
 
 export const dragHandlePluginDefaultKey = new PluginKey('dragHandle')
@@ -80,6 +88,7 @@ export const DragHandlePlugin = ({
   onElementDragStart,
   onElementDragEnd,
   nestedOptions,
+  dragImageProperties,
 }: DragHandlePluginProps) => {
   const wrapper = document.createElement('div')
   let locked = false
@@ -132,7 +141,13 @@ export const DragHandlePlugin = ({
     // Push this to the end of the event cue
     // Fixes bug where incorrect drag pos is returned if drag handle has position: absolute
     // Pass the current node context to avoid recalculation issues during drag start
-    dragHandler(e, editor, nestedOptions, { node: currentNode, pos: currentNodePos })
+    dragHandler(
+      e,
+      editor,
+      nestedOptions,
+      { node: currentNode, pos: currentNodePos },
+      dragImageProperties,
+    )
 
     if (element) {
       element.dataset.dragging = 'true'

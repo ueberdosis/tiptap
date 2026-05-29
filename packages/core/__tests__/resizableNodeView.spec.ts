@@ -94,7 +94,9 @@ describe('ResizableNodeView', () => {
       content: '<p><img data-type="inline" src="test.png" /></p>',
     })
 
-    const container = editor.view.dom.querySelector('[data-resize-container][data-node="inlineImage"]') as HTMLElement
+    const container = editor.view.dom.querySelector(
+      '[data-resize-container][data-node="inlineImage"]',
+    ) as HTMLElement
 
     expect(container).not.toBeNull()
     expect(container.style.display).toBe('inline-flex')
@@ -106,7 +108,9 @@ describe('ResizableNodeView', () => {
       content: '<img data-type="block" src="test.png" />',
     })
 
-    const container = editor.view.dom.querySelector('[data-resize-container][data-node="blockImage"]') as HTMLElement
+    const container = editor.view.dom.querySelector(
+      '[data-resize-container][data-node="blockImage"]',
+    ) as HTMLElement
 
     expect(container).not.toBeNull()
     expect(container.style.display).toBe('flex')

@@ -8,10 +8,16 @@
         >
           Toggle strike
         </button>
-        <button @click="editor.chain().focus().setStrike().run()" :disabled="editor.isActive('strike')">
+        <button
+          @click="editor.chain().focus().setStrike().run()"
+          :disabled="editor.isActive('strike')"
+        >
           Set strike
         </button>
-        <button @click="editor.chain().focus().unsetStrike().run()" :disabled="!editor.isActive('strike')">
+        <button
+          @click="editor.chain().focus().unsetStrike().run()"
+          :disabled="!editor.isActive('strike')"
+        >
           Unset strike
         </button>
       </div>

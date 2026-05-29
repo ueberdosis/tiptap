@@ -13,7 +13,7 @@ import html from 'highlight.js/lib/languages/xml'
 import { all, createLowlight } from 'lowlight'
 import React from 'react'
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 import CodeBlockComponent from './CodeBlockComponent'
 
 // create a lowlight instance

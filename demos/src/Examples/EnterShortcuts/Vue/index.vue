@@ -2,7 +2,10 @@
   <div v-if="editor" class="container">
     <div class="control-group">
       <div class="button-group">
-        <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <button
+          @click="editor.chain().focus().toggleBold().run()"
+          :class="{ 'is-active': editor.isActive('bold') }"
+        >
           Bold
         </button>
         <button
@@ -15,7 +18,9 @@
       <div className="hint" v-if="lastShortcut">
         {{ lastShortcut }} was the last shortcut hit, and was handled by Vue
       </div>
-      <div className="hint" v-else>No shortcut has been hit yet, use Shift+Enter to trigger a shortcut handler</div>
+      <div className="hint" v-else>
+        No shortcut has been hit yet, use Shift+Enter to trigger a shortcut handler
+      </div>
     </div>
 
     <editor-content :editor="editor" />

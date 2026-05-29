@@ -17,11 +17,19 @@ const MenuBar = () => {
     <div className="control-group">
       <div>
         <label>
-          <input type="checkbox" checked={useInputRules} onChange={() => setUseInputRules(prev => !prev)} />
+          <input
+            type="checkbox"
+            checked={useInputRules}
+            onChange={() => setUseInputRules(prev => !prev)}
+          />
           Apply input rules
         </label>
         <label>
-          <input type="checkbox" checked={usePasteRules} onChange={() => setUsePasteRules(prev => !prev)} />
+          <input
+            type="checkbox"
+            checked={usePasteRules}
+            onChange={() => setUsePasteRules(prev => !prev)}
+          />
           Apply paste rules
         </label>
       </div>
@@ -160,5 +168,11 @@ const extensions = [StarterKit]
 const content = ''
 
 export default () => {
-  return <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
+  return (
+    <EditorProvider
+      slotBefore={<MenuBar />}
+      extensions={extensions}
+      content={content}
+    ></EditorProvider>
+  )
 }

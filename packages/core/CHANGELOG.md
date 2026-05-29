@@ -1,5 +1,34 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- d168376: Fix deleteSelection to properly handle inline nodes with `text*` content. The selection is now expanded to include the entire inline node boundaries when deleting, preventing incorrect collapse of inline text nodes.
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- 835caf5: Fix $pos() returning correct node for non-text atom nodes instead of doc node
+- 95e138c: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes
@@ -851,7 +880,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1387,7 +1416,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1657,7 +1686,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 

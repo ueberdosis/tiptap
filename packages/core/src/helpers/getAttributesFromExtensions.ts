@@ -83,11 +83,9 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
       storage: extension.storage,
     }
 
-    const addAttributes = getExtensionField<NodeConfig['addAttributes'] | MarkConfig['addAttributes']>(
-      extension,
-      'addAttributes',
-      context,
-    )
+    const addAttributes = getExtensionField<
+      NodeConfig['addAttributes'] | MarkConfig['addAttributes']
+    >(extension, 'addAttributes', context)
 
     if (!addAttributes) {
       return

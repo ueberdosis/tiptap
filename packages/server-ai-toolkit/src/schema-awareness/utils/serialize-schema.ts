@@ -15,17 +15,22 @@ export type SerializedAttributeSpec = Omit<AttributeSpec, 'validate'> & {
 type SerializedAttributes = { attrs?: Record<string, SerializedAttributeSpec> }
 
 /**
- * A serialized version of NodeSpec with non-serializable properties (toDOM, parseDOM, toDebugString, leafText)
- * removed and attrs converted to SerializedAttributeSpec format.
+ * A serialized version of NodeSpec with non-serializable properties
+ * (toDOM, parseDOM, toDebugString, leafText, toText) removed and attrs converted to
+ * SerializedAttributeSpec format.
  */
-export type SerializedNodeSpec = Omit<NodeSpec, 'toDOM' | 'parseDOM' | 'toDebugString' | 'leafText' | 'attrs'> &
+export type SerializedNodeSpec = Omit<
+  NodeSpec,
+  'toDOM' | 'parseDOM' | 'toDebugString' | 'leafText' | 'toText' | 'attrs'
+> &
   SerializedAttributes
 
 /**
  * A serialized version of MarkSpec with non-serializable properties (toDOM, parseDOM) removed
  * and attrs converted to SerializedAttributeSpec format.
  */
-export type SerializedMarkSpec = Omit<MarkSpec, 'toDOM' | 'parseDOM' | 'attrs'> & SerializedAttributes
+export type SerializedMarkSpec = Omit<MarkSpec, 'toDOM' | 'parseDOM' | 'attrs'> &
+  SerializedAttributes
 
 /**
  * A JSON-serializable representation of a ProseMirror Schema.
@@ -60,19 +65,22 @@ function serializeAttributeSpec(attributeSpec: AttributeSpec): SerializedAttribu
 function serializeAttributeSpecs(
   attributeSpecs: Record<string, AttributeSpec>,
 ): Record<string, SerializedAttributeSpec> {
-  return Object.fromEntries(Object.entries(attributeSpecs).map(([key, value]) => [key, serializeAttributeSpec(value)]))
+  return Object.fromEntries(
+    Object.entries(attributeSpecs).map(([key, value]) => [key, serializeAttributeSpec(value)]),
+  )
 }
 
 /**
- * Serializes a NodeSpec by removing non-serializable properties (toDOM, parseDOM, toDebugString, leafText)
- * and converting the attrs to SerializedAttributeSpec format.
+ * Serializes a NodeSpec by removing non-serializable properties
+ * (toDOM, parseDOM, toDebugString, leafText, toText) and converting the attrs to
+ * SerializedAttributeSpec format.
  *
  * @param nodeSpec - The NodeSpec to serialize
  * @returns A SerializedNodeSpec with only JSON-serializable properties
  */
 function serializeNodeSpec(nodeSpec: NodeSpec): SerializedNodeSpec {
   return {
-    ...omit(nodeSpec, ['toDOM', 'parseDOM', 'toDebugString', 'leafText', 'attrs']),
+    ...omit(nodeSpec, ['toDOM', 'parseDOM', 'toDebugString', 'leafText', 'toText', 'attrs']),
     attrs: nodeSpec.attrs ? serializeAttributeSpecs(nodeSpec.attrs) : undefined,
   }
 }
@@ -105,7 +113,11 @@ function serializeMarkSpec(markSpec: MarkSpec): SerializedMarkSpec {
 export function serializeSchema(schema: Schema): SerializedSchema {
   return {
     topNode: schema.spec.topNode,
-    nodes: Object.fromEntries(Object.values(schema.nodes).map(node => [node.name, serializeNodeSpec(node.spec)])),
-    marks: Object.fromEntries(Object.values(schema.marks).map(mark => [mark.name, serializeMarkSpec(mark.spec)])),
+    nodes: Object.fromEntries(
+      Object.values(schema.nodes).map(node => [node.name, serializeNodeSpec(node.spec)]),
+    ),
+    marks: Object.fromEntries(
+      Object.values(schema.marks).map(mark => [mark.name, serializeMarkSpec(mark.spec)]),
+    ),
   }
 }

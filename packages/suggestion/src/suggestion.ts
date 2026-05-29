@@ -174,7 +174,12 @@ export interface SuggestionOptions<I = any, TSelected = any> {
    * @param props The props object.
    * @returns {boolean}
    */
-  allow?: (props: { editor: Editor; state: EditorState; range: Range; isActive?: boolean }) => boolean
+  allow?: (props: {
+    editor: Editor
+    state: EditorState
+    range: Range
+    isActive?: boolean
+  }) => boolean
   findSuggestionMatch?: typeof defaultFindSuggestionMatch
 }
 
@@ -340,7 +345,11 @@ export function Suggestion<I = any, TSelected = any>({
         text: state?.text || null,
         items: [],
         command: commandProps => {
-          return command({ editor, range: state?.range || { from: 0, to: 0 }, props: commandProps as any })
+          return command({
+            editor,
+            range: state?.range || { from: 0, to: 0 },
+            props: commandProps as any,
+          })
         },
         decorationNode,
         clientRect: clientRectFor(view, decorationNode),
@@ -381,7 +390,9 @@ export function Suggestion<I = any, TSelected = any>({
           }
 
           const state = handleExit && !handleStart ? prev : next
-          const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+          const decorationNode = view.dom.querySelector(
+            `[data-decoration-id="${state.decorationId}"]`,
+          )
 
           props = {
             editor,

@@ -16,11 +16,13 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
+  getSchema,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
+  attrsEqual,
   closeMarksBeforeNode,
   findMarksToClose,
   findMarksToCloseAtEnd,
@@ -29,6 +31,22 @@ import {
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
+
+/**
+ * Returns true when the element's tag is not a recognized standard HTML
+ * element. Note: the calling code further cross-references this result
+ * against schema parseDOM tags, so non-standard tags that are declared
+ * by registered extensions are still treated as valid.
+ *
+ * Browsers expose this classification natively: any non-hyphenated tag that
+ * is not part of the HTML/SVG/MathML namespaces is constructed as an
+ * `HTMLUnknownElement`. Standard tags (`<em>`, `<div>`, …) and custom
+ * elements (`<my-el>`, must contain a hyphen) are `HTMLElement` instances.
+ */
+const isHtmlUnknownElement = (element: Element): boolean => {
+  const ctor = (window as any).HTMLUnknownElement
+  return typeof ctor === 'function' && element instanceof ctor
+}
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -52,6 +70,8 @@ export class MarkdownManager {
   private extensions: AnyExtension[] = []
   /** Set of extension names whose `code` spec property is truthy (nodes and marks). */
   private codeTypes: Set<string> = new Set()
+  /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
+  private schemaParseDomTagsCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -132,8 +152,13 @@ export class MarkdownManager {
       this.extensionRanks.set(name, this.extensionRanks.size)
     }
     const tokenName =
-      (getExtensionField(extension, 'markdownTokenName') as ExtendableConfig['markdownTokenName']) || name
-    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as ExtendableConfig['parseMarkdown'] | undefined
+      (getExtensionField(
+        extension,
+        'markdownTokenName',
+      ) as ExtendableConfig['markdownTokenName']) || name
+    const parseMarkdown = getExtensionField(extension, 'parseMarkdown') as
+      | ExtendableConfig['parseMarkdown']
+      | undefined
     const renderMarkdown = getExtensionField(extension, 'renderMarkdown') as
       | ExtendableConfig['renderMarkdown']
       | undefined
@@ -143,7 +168,8 @@ export class MarkdownManager {
 
     // Read the `markdown` object from the extension config. This allows
     // extensions to provide `markdown: { name?, parseName?, renderName?, parse?, render?, match? }`.
-    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ?? null) as ExtendableConfig['markdownOptions']
+    const markdownCfg = (getExtensionField(extension, 'markdownOptions') ??
+      null) as ExtendableConfig['markdownOptions']
     const isIndenting = markdownCfg?.indentsContent ?? false
     const htmlReopen = markdownCfg?.htmlReopen
 
@@ -226,7 +252,9 @@ export class MarkdownManager {
       level,
       start: startCb,
       tokenizer(this: TokenizerThis, src, tokens) {
-        const helper = this.lexer ? createTokenizerHelpers(this.lexer) : createTokenizerHelpers(createLexer())
+        const helper = this.lexer
+          ? createTokenizerHelpers(this.lexer)
+          : createTokenizerHelpers(createLexer())
         const result = tokenize(src, tokens, helper)
 
         if (result && result.type) {
@@ -346,7 +374,10 @@ export class MarkdownManager {
   /**
    * Convert an array of marked tokens into Tiptap JSON nodes using registered extension handlers.
    */
-  private parseTokens(tokens: MarkdownToken[], parseImplicitEmptyParagraphs = false): JSONContent[] {
+  private parseTokens(
+    tokens: MarkdownToken[],
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent[] {
     const nonSpaceTokenIndexes = tokens.reduce<number[]>((indexes, token, index) => {
       if (token.type !== 'space') {
         indexes.push(index)
@@ -370,7 +401,11 @@ export class MarkdownManager {
       if (parseImplicitEmptyParagraphs && token.type === 'space') {
         const nextNonSpaceTokenIndex = nonSpaceTokenIndexes[nextNonSpaceTokenPointer] ?? -1
 
-        return this.createImplicitEmptyParagraphsFromSpace(token, previousNonSpaceTokenIndex, nextNonSpaceTokenIndex)
+        return this.createImplicitEmptyParagraphsFromSpace(
+          token,
+          previousNonSpaceTokenIndex,
+          nextNonSpaceTokenIndex,
+        )
       }
 
       const parsed = this.parseToken(token, parseImplicitEmptyParagraphs)
@@ -407,7 +442,10 @@ export class MarkdownManager {
   /**
    * Parse a single token into Tiptap JSON using the appropriate registered handler.
    */
-  private parseToken(token: MarkdownToken, parseImplicitEmptyParagraphs = false): JSONContent | JSONContent[] | null {
+  private parseToken(
+    token: MarkdownToken,
+    parseImplicitEmptyParagraphs = false,
+  ): JSONContent | JSONContent[] | null {
     if (!token.type) {
       return null
     }
@@ -474,7 +512,11 @@ export class MarkdownManager {
     }
 
     // Mixed list with taskList extension available: split into separate lists
-    type TaskListItemToken = MarkdownToken & { type: 'taskItem'; checked?: boolean; indentLevel?: number }
+    type TaskListItemToken = MarkdownToken & {
+      type: 'taskItem'
+      checked?: boolean
+      indentLevel?: number
+    }
     const groups: { type: 'list' | 'taskList'; items: (MarkdownToken | TaskListItemToken)[] }[] = []
     let currentGroup: (MarkdownToken | TaskListItemToken)[] = []
     let currentType: 'list' | 'taskList' | null = null
@@ -507,7 +549,9 @@ export class MarkdownManager {
             const nestedLines = lines.slice(1)
             const nonEmptyLines = nestedLines.filter(line => line.trim())
             if (nonEmptyLines.length > 0) {
-              const minIndent = Math.min(...nonEmptyLines.map(line => line.length - line.trimStart().length))
+              const minIndent = Math.min(
+                ...nonEmptyLines.map(line => line.length - line.trimStart().length),
+              )
               // Remove common indentation while preserving structure
               const trimmedLines = nestedLines.map(line => {
                 if (!line.trim()) {
@@ -687,6 +731,7 @@ export class MarkdownManager {
         const isClosing = /^<\/[\s]*[\w-]+/i.test(raw)
         const openMatch = raw.match(/^<[\s]*([\w-]+)(\s|>|\/|$)/i)
 
+        // oxlint-disable-next-line prefer-string-starts-ends-with
         if (!isClosing && openMatch && !/\/>$/.test(raw)) {
           // Try to find the corresponding closing html token for this tag
           const tagName = openMatch[1]
@@ -796,7 +841,9 @@ export class MarkdownManager {
   } /**
    * Check if a parse result represents a mark to be applied.
    */
-  private isMarkResult(result: any): result is { mark: string; content: JSONContent[]; attrs?: any } {
+  private isMarkResult(
+    result: any,
+  ): result is { mark: string; content: JSONContent[]; attrs?: any } {
     return result && typeof result === 'object' && 'mark' in result
   }
 
@@ -860,8 +907,14 @@ export class MarkdownManager {
   }
 
   /**
-   * Parse HTML tokens using extensions' parseHTML methods.
-   * This allows HTML within markdown to be parsed according to extension rules.
+   * Parse an HTML token from marked into JSONContent using the registered
+   * extensions' `parseHTML` rules. Falls back to literal text when the HTML
+   * has nothing for the schema to keep.
+   *
+   * @param token Marked HTML token (block or inline).
+   * @example
+   *   parseHTMLToken({ type: 'html', raw: '<em>hi</em>', block: false })
+   *   // → text node with an italic mark
    */
   private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     const html = token.text || token.raw || ''
@@ -892,6 +945,12 @@ export class MarkdownManager {
       }
     }
 
+    // If the HTML would parse to nothing meaningful, keep the original
+    // characters as literal text instead of dropping them.
+    if (this.isUnrecognizedHtml(html)) {
+      return this.htmlAsLiteralText(html, !!token.block)
+    }
+
     // Use generateJSON to parse the HTML using extensions' parseHTML rules
     try {
       const parsed = generateJSON(html, this.baseExtensions)
@@ -905,7 +964,11 @@ export class MarkdownManager {
 
         // For inline HTML, we need to flatten the content appropriately
         // If there's only one paragraph with content, unwrap it
-        if (parsed.content.length === 1 && parsed.content[0].type === 'paragraph' && parsed.content[0].content) {
+        if (
+          parsed.content.length === 1 &&
+          parsed.content[0].type === 'paragraph' &&
+          parsed.content[0].content
+        ) {
           return parsed.content[0].content
         }
 
@@ -916,6 +979,130 @@ export class MarkdownManager {
     } catch (error) {
       throw new Error(`Failed to parse HTML in markdown: ${error}`)
     }
+  }
+
+  /**
+   * Returns true when the HTML contains an element the browser classifies as
+   * `HTMLUnknownElement` – unless a registered extension declares the tag
+   * name in its parseDOM rules, in which case it is treated as a known
+   * custom element.
+   *
+   * Recognized but empty elements such as `<em></em>` or `<span></span>`,
+   * and hyphenated custom elements like `<my-mention>`, are not considered
+   * unrecognized.
+   *
+   * @param html Raw HTML string from a marked token.
+   * @example
+   *   isUnrecognizedHtml('<enter foo bar>')  // → true
+   *   isUnrecognizedHtml('<em></em>')        // → false (empty, but real tag)
+   *   isUnrecognizedHtml('<em>hi</em>')      // → false
+   *   isUnrecognizedHtml('<my-el></my-el>')  // → false (valid custom element)
+   *   isUnrecognizedHtml('<br>')             // → false
+   */
+  private isUnrecognizedHtml(html: string): boolean {
+    if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
+      // Can't reliably detect without DOMParser, so assume it's recognized to avoid false positives
+      return false
+    }
+
+    const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
+    const elements = dom.querySelectorAll('*')
+
+    if (elements.length === 0) {
+      return false
+    }
+
+    const schemaTags = this.getSchemaParseDomTags()
+
+    return Array.from(elements).some(el => {
+      if (!isHtmlUnknownElement(el)) {
+        return false
+      }
+
+      // If the tag is declared by a registered extension's parseDOM rule,
+      // treat it as recognized even though the browser doesn't know it.
+      const tagName = el.tagName.toLowerCase()
+
+      return !schemaTags.has(tagName)
+    })
+  }
+
+  /**
+   * Collect the lower-cased tag names declared by the registered extensions'
+   * parseDOM rules, so custom node/mark elements that use non-hyphenated,
+   * non-standard tag names are treated as recognized HTML. Result is cached for the
+   * lifetime of the manager since extensions don't change after registration.
+   *
+   * @example
+   *   // After registering an extension with parseDOM [{ tag: 'something' }]
+   *   getSchemaParseDomTags().has('something') // → true
+   */
+  private getSchemaParseDomTags(): Set<string> {
+    if (this.schemaParseDomTagsCache) {
+      return this.schemaParseDomTagsCache
+    }
+
+    const tags = new Set<string>()
+
+    try {
+      const schema = getSchema(this.baseExtensions)
+
+      const collect = (spec: any) => {
+        const parseDOM = spec?.parseDOM
+        if (!Array.isArray(parseDOM)) {
+          return
+        }
+        parseDOM.forEach((rule: any) => {
+          if (typeof rule?.tag === 'string') {
+            // Extract the bare tag name from selectors like "something.example"
+            const match = rule.tag.match(/^[a-zA-Z][\w-]*/)
+            if (match) {
+              tags.add(match[0].toLowerCase())
+            }
+          }
+        })
+      }
+
+      Object.values(schema.nodes).forEach(type => collect((type as any).spec))
+      Object.values(schema.marks).forEach(type => collect((type as any).spec))
+    } catch {
+      // If schema construction fails, leave the set empty – detection then
+      // falls back to the HTMLUnknownElement check alone.
+    }
+
+    this.schemaParseDomTagsCache = tags
+    return tags
+  }
+
+  /**
+   * Build a JSONContent that preserves the original HTML markup as literal
+   * text. Used when the HTML would otherwise be silently dropped during
+   * schema-aware parsing.
+   *
+   * @param html Raw HTML string to preserve verbatim.
+   * @param isBlock Whether to wrap the text in a paragraph node (block tokens)
+   *   or return it as a bare text node (inline tokens).
+   * @example
+   *   htmlAsLiteralText('<enter foo>', true)
+   *   // → { type: 'paragraph', content: [{ type: 'text', text: '<enter foo>' }] }
+   */
+  private htmlAsLiteralText(html: string, isBlock: boolean): JSONContent | JSONContent[] | null {
+    // Strip trailing whitespace/newlines that marked appends to block HTML
+    // tokens so the rendered text doesn't end with stray blank lines.
+    const text = html.replace(/\s+$/, '')
+
+    if (!text) {
+      return null
+    }
+
+    if (isBlock) {
+      return {
+        type: 'paragraph',
+        content: [{ type: 'text', text }],
+      }
+    }
+
+    return { type: 'text', text }
   }
 
   /**
@@ -952,13 +1139,20 @@ export class MarkdownManager {
       return ''
     }
 
-    const previousNode = Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
+    const previousNode =
+      Array.isArray(parentNode?.content) && index > 0 ? parentNode.content[index - 1] : undefined
     const helpers: MarkdownRendererHelpers = {
       renderChildren: (nodes, separator) => {
         const childLevel = handler.isIndenting ? level + 1 : level
 
         if (!Array.isArray(nodes) && (nodes as any).content) {
-          return this.renderNodes((nodes as any).content as JSONContent[], node, separator || '', index, childLevel)
+          return this.renderNodes(
+            (nodes as any).content as JSONContent[],
+            node,
+            separator || '',
+            index,
+            childLevel,
+          )
         }
 
         return this.renderNodes(nodes, node, separator || '', index, childLevel)
@@ -1081,7 +1275,11 @@ export class MarkdownManager {
               }
 
               const mark = currentMarks.get(markType)
-              const closeMarkdown = this.getMarkClosing(markType, mark, markOpeningModes.get(markType))
+              const closeMarkdown = this.getMarkClosing(
+                markType,
+                mark,
+                markOpeningModes.get(markType),
+              )
               if (closeMarkdown) {
                 textContent += closeMarkdown
               }
@@ -1156,7 +1354,12 @@ export class MarkdownManager {
             ...activeMarksClosingHereLifo, // outer (were active before) — close last, LIFO
           ]
         } else {
-          marksToCloseAtEnd = findMarksToCloseAtEnd(activeMarks, currentMarks, nextNode, this.markSetsEqual.bind(this))
+          marksToCloseAtEnd = findMarksToCloseAtEnd(
+            activeMarks,
+            currentMarks,
+            nextNode,
+            this.markSetsEqual.bind(this),
+          )
         }
 
         // Extract trailing whitespace before closing marks to prevent invalid markdown like "**text **"
@@ -1227,7 +1430,11 @@ export class MarkdownManager {
   /**
    * Get the opening markdown syntax for a mark type.
    */
-  private getMarkOpening(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+  private getMarkOpening(
+    markType: string,
+    mark: any,
+    openingMode: 'markdown' | 'html' = 'markdown',
+  ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.open || ''
     }
@@ -1271,7 +1478,11 @@ export class MarkdownManager {
   /**
    * Get the closing markdown syntax for a mark type.
    */
-  private getMarkClosing(markType: string, mark: any, openingMode: 'markdown' | 'html' = 'markdown'): string {
+  private getMarkClosing(
+    markType: string,
+    mark: any,
+    openingMode: 'markdown' | 'html' = 'markdown',
+  ): string {
     if (openingMode === 'html') {
       return this.getHtmlReopenTags(markType)?.close || ''
     }
@@ -1324,14 +1535,17 @@ export class MarkdownManager {
   }
 
   /**
-   * Check if two mark sets are equal.
+   * Check if two mark sets are equal (same types and matching attributes).
    */
   private markSetsEqual(marks1: Map<string, any>, marks2: Map<string, any>): boolean {
     if (marks1.size !== marks2.size) {
       return false
     }
 
-    return Array.from(marks1.keys()).every(type => marks2.has(type))
+    return Array.from(marks1.entries()).every(([type, mark]) => {
+      const otherMark = marks2.get(type)
+      return otherMark && attrsEqual(mark.attrs, otherMark.attrs)
+    })
   }
 
   /**
@@ -1352,14 +1566,24 @@ export class MarkdownManager {
    *      naturally wraps bold/italic without the serializer needing to peek
    *      at how any particular mark renders.
    */
-  private getMarksToOpenForSerialization(activeMarks: Map<string, any>, currentMarks: Map<string, any>, nextNode: any) {
+  private getMarksToOpenForSerialization(
+    activeMarks: Map<string, any>,
+    currentMarks: Map<string, any>,
+    nextNode: any,
+  ) {
     const marksToOpen = findMarksToOpen(activeMarks, currentMarks)
 
     if (marksToOpen.length <= 1) {
       return marksToOpen
     }
 
-    const nextMarkTypes = new Set((nextNode?.marks || []).map((mark: any) => mark.type))
+    const nextMarks = nextNode?.marks || []
+
+    // Helper: check if the next node has a mark with the same type AND
+    // matching attributes. Two marks of the same type but with different
+    // attributes are logically distinct and must not be treated as continuing.
+    const continuesInNextNode = (markType: string, attrs: any) =>
+      nextMarks.some((m: any) => m.type === markType && attrsEqual(m.attrs, attrs))
 
     // Higher rank → earlier in the array → innermost mark. Marks without a
     // recorded rank fall back to MAX_SAFE_INTEGER so they sort innermost,
@@ -1375,8 +1599,12 @@ export class MarkdownManager {
       return a.type.localeCompare(b.type)
     }
 
-    const endingHere = marksToOpen.filter(mark => !nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
-    const continuing = marksToOpen.filter(mark => nextMarkTypes.has(mark.type)).sort(byRankInnerFirst)
+    const endingHere = marksToOpen
+      .filter(mark => !continuesInNextNode(mark.type, mark.mark.attrs))
+      .sort(byRankInnerFirst)
+    const continuing = marksToOpen
+      .filter(mark => continuesInNextNode(mark.type, mark.mark.attrs))
+      .sort(byRankInnerFirst)
 
     return [...endingHere, ...continuing]
   }

@@ -15,11 +15,19 @@ import { Window } from 'happy-dom'
  * const html = getHTMLFromFragment(doc, schema)
  * ```
  */
-export function getHTMLFromFragment(doc: Node, schema: Schema, options?: { document?: Document }): string {
+export function getHTMLFromFragment(
+  doc: Node,
+  schema: Schema,
+  options?: { document?: Document },
+): string {
   if (options?.document) {
     const wrap = options.document.createElement('div')
 
-    DOMSerializer.fromSchema(schema).serializeFragment(doc.content, { document: options.document }, wrap)
+    DOMSerializer.fromSchema(schema).serializeFragment(
+      doc.content,
+      { document: options.document },
+      wrap,
+    )
     return wrap.innerHTML
   }
 

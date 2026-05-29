@@ -7,7 +7,9 @@ import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 import type { ContentComponent, EditorWithContentComponent } from './Editor.js'
 import type { ReactRenderer } from './ReactRenderer.js'
 
-const mergeRefs = <T extends HTMLDivElement>(...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>) => {
+const mergeRefs = <T extends HTMLDivElement>(
+  ...refs: Array<MutableRefObject<T> | LegacyRef<T> | undefined>
+) => {
   return (node: T) => {
     refs.forEach(ref => {
       if (typeof ref === 'function') {
@@ -183,7 +185,7 @@ const EditorContentWithKey = forwardRef<HTMLDivElement, EditorContentProps>(
   (props: Omit<EditorContentProps, 'innerRef'>, ref) => {
     const key = React.useMemo(() => {
       return Math.floor(Math.random() * 0xffffffff).toString()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // oxlint-disable-next-line react-hooks/exhaustive-deps
     }, [props.editor])
 
     // Can't use JSX here because it conflicts with the type definition of Vue's JSX, so use createElement

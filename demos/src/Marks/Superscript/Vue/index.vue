@@ -8,10 +8,16 @@
         >
           Toggle superscript
         </button>
-        <button @click="editor.chain().focus().setSuperscript().run()" :disabled="editor.isActive('superscript')">
+        <button
+          @click="editor.chain().focus().setSuperscript().run()"
+          :disabled="editor.isActive('superscript')"
+        >
           Set superscript
         </button>
-        <button @click="editor.chain().focus().unsetSuperscript().run()" :disabled="!editor.isActive('superscript')">
+        <button
+          @click="editor.chain().focus().unsetSuperscript().run()"
+          :disabled="!editor.isActive('superscript')"
+        >
           Unset superscript
         </button>
       </div>

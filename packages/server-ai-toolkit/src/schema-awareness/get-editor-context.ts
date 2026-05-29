@@ -31,7 +31,10 @@ export interface GetEditorContextOptions {
  * @param options - Configuration options for the editor context
  * @return An object containing the serialized schema and merged custom nodes with JSON schema attributes
  */
-export function getEditorContext(editor: Editor, options: GetEditorContextOptions = {}): EditorContext {
+export function getEditorContext(
+  editor: Editor,
+  options: GetEditorContextOptions = {},
+): EditorContext {
   const extensionNamesSet = new Set(editor.extensionManager.extensions.map(ext => ext.name))
 
   const customNodesFromExtensions = editor.extensionManager.extensions.flatMap(extension => {

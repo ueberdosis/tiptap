@@ -22,7 +22,7 @@ export const undoInputRule: RawCommands['undoInputRule'] =
       let undoable
 
       // @ts-ignore
-      // eslint-disable-next-line
+      // oxlint-disable-next-line
       if (plugin.spec.isInputRules && (undoable = plugin.getState(state))) {
         if (dispatch) {
           const tr = state.tr

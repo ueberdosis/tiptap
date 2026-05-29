@@ -1,5 +1,34 @@
 # @tiptap/extension-table-of-contents
 
+## 3.24.0
+
+### Minor Changes
+
+- 6c35d17: Add `generateTocIds`, a server-side utility that assigns `id` and `data-toc-id` attributes to anchor nodes in a Tiptap JSON document without needing an `Editor` instance.
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes

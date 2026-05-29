@@ -1,5 +1,39 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
+## 3.23.6
+
+### Patch Changes
+
+- Updated dependencies [d168376]
+  - @tiptap/core@3.23.6
+  - @tiptap/pm@3.23.6
+
+## 3.23.5
+
+### Patch Changes
+
+- b5f34fc: Respect explicit `immediatelyRender: true` in client-side Next.js. Previously, when running under Next.js (`window.next` present), the `immediatelyRender` option was forced to `false` even when the user explicitly passed `true`, breaking client-only Next.js apps that rely on the editor existing on the first render. The hook now only forces `false` when actual SSR is detected (`typeof window === 'undefined'`), or when running under Next.js with no explicit value.
+- 95e138c: fix(nodeview): eliminate unnecessary re-renders, add opt-in position tracking
+
+  NodeViews no longer re-render when decorations or position change without
+  content changes. Added `trackNodeViewPosition` option — when enabled, the
+  component re-renders on every position shift so calls to `getPos()` stay
+  current in render output. Removed the internal `nodeViewPositionRegistry`.
+  Added shallow prop comparison in `ReactRenderer.updateProps()`.
+
+- Updated dependencies [835caf5]
+- Updated dependencies [95e138c]
+  - @tiptap/core@3.23.5
+  - @tiptap/pm@3.23.5
+
 ## 3.23.4
 
 ### Patch Changes
@@ -832,7 +866,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1323,7 +1357,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
@@ -1476,7 +1510,7 @@
   import { MarkViewContent, MarkViewRendererProps } from '@tiptap/react'
   import React from 'react'
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   export default (props: MarkViewRendererProps) => {
     const [count, setCount] = React.useState(0)
 
