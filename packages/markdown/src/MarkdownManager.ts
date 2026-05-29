@@ -358,7 +358,7 @@ export class MarkdownManager {
     try {
       // Use a parse-scoped lexer so follow-up inline tokenization can reuse
       // the same configured lexer state without sharing it across parses.
-      const tokens = parseLexer.lex(markdown) as MarkdownToken[]
+      const tokens = parseLexer.lex(this.preprocessTablePipes(markdown)) as MarkdownToken[]
 
       // Convert tokens to Tiptap JSON
       const content = this.parseTokens(tokens, true)
@@ -371,6 +371,82 @@ export class MarkdownManager {
     } finally {
       this.activeParseLexer = previousParseLexer
     }
+  }
+
+  /**
+   * Pre-process markdown to escape pipe characters inside backtick code spans
+   * on table rows. marked's `splitCells` only recognises backslash-escaped
+   * pipes (`\|`) and splits on every other `|`, so `` `a || b` `` in a table
+   * cell would be treated as multiple column delimiters.  Escaping them here
+   * lets `splitCells` skip them; it already converts `\|` → `|` after
+   * splitting, so the cell content is restored correctly.
+   */
+  private preprocessTablePipes(markdown: string): string {
+    return markdown
+      .split('\n')
+      .map(line => {
+        // Only process lines that are potential table rows and contain a backtick
+        if (!line.trimStart().startsWith('|') || !line.includes('`')) return line
+        return this.escapeTableCellPipes(line)
+      })
+      .join('\n')
+  }
+
+  /**
+   * Walk a single table-row line and escape any `|` characters that appear
+   * inside backtick code spans so marked's cell splitter ignores them.
+   * Backslash escape sequences outside code spans are passed through untouched.
+   * If a backtick run has no matching closer on the same line it is emitted
+   * as-is — no over-escaping for malformed input.
+   */
+  private escapeTableCellPipes(line: string): string {
+    let result = ''
+    let i = 0
+    while (i < line.length) {
+      // Pass through backslash escape sequences outside code spans unchanged
+      if (line[i] === '\\' && i + 1 < line.length) {
+        result += line[i] + line[i + 1]
+        i += 2
+        continue
+      }
+      if (line[i] !== '`') {
+        result += line[i++]
+        continue
+      }
+      // Count the opening backtick run (handles ` `` ``` etc.)
+      let runLen = 0
+      while (i + runLen < line.length && line[i + runLen] === '`') runLen += 1
+      // Search for a matching closing run of the same length.
+      // Inside code spans, backslash is NOT special — scan naively.
+      let j = i + runLen
+      let found = false
+      while (j < line.length) {
+        if (line[j] !== '`') {
+          j += 1
+          continue
+        }
+        let closeLen = 0
+        while (j + closeLen < line.length && line[j + closeLen] === '`') closeLen += 1
+        if (closeLen === runLen) {
+          // Matching closer found — escape every | in the span content
+          const spanContent = line.slice(i + runLen, j)
+          result +=
+            line.slice(i, i + runLen) +
+            spanContent.replace(/\|/g, '\\|') +
+            line.slice(j, j + runLen)
+          i = j + runLen
+          found = true
+          break
+        }
+        j += closeLen
+      }
+      if (!found) {
+        // No matching closer on this line — emit the opening backtick run as-is
+        result += line.slice(i, i + runLen)
+        i += runLen
+      }
+    }
+    return result
   }
 
   /**

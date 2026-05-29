@@ -1,9 +1,79 @@
+import { Code } from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { describe, expect, it } from 'vitest'
+
+describe('table markdown — inline code with pipe characters (issue #7858)', () => {
+  const manager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, Code, TableKit],
+  })
+
+  it('should parse `||` inside a code span as a single cell', () => {
+    const markdown = '| Header |\n| ------ |\n| `||` |'
+    const parsed = manager.parse(markdown)
+    const bodyRow = parsed.content?.[0]?.content?.[1]?.content || []
+    expect(bodyRow).toHaveLength(1)
+    const textNode = bodyRow[0]?.content?.[0]?.content?.[0]
+    expect(textNode?.text).toBe('||')
+    expect(textNode?.marks?.[0]?.type).toBe('code')
+  })
+
+  it('should parse `a || b` inside a code span as a single cell', () => {
+    const markdown = '| H | H | H |\n| - | - | - |\n| `||` | or | `a || b` |'
+    const parsed = manager.parse(markdown)
+    const table = parsed.content?.[0]
+    expect(table?.type).toBe('table')
+    const bodyRow = table?.content?.[1]?.content || []
+    expect(bodyRow).toHaveLength(3)
+
+    const cell1 = bodyRow[0]?.content?.[0]?.content?.[0]
+    expect(cell1?.text).toBe('||')
+    expect(cell1?.marks?.[0]?.type).toBe('code')
+
+    const cell2 = bodyRow[1]?.content?.[0]?.content?.[0]
+    expect(cell2?.text).toBe('or')
+    expect(cell2?.marks).toBeUndefined()
+
+    const cell3 = bodyRow[2]?.content?.[0]?.content?.[0]
+    expect(cell3?.text).toBe('a || b')
+    expect(cell3?.marks?.[0]?.type).toBe('code')
+  })
+
+  it('should parse `&&` inside a code span correctly (regression guard)', () => {
+    const markdown = '| H | H | H |\n| - | - | - |\n| `&&` | and | `a && b` |'
+    const parsed = manager.parse(markdown)
+    const bodyRow = parsed.content?.[0]?.content?.[1]?.content || []
+    expect(bodyRow).toHaveLength(3)
+    const cell1 = bodyRow[0]?.content?.[0]?.content?.[0]
+    expect(cell1?.text).toBe('&&')
+    expect(cell1?.marks?.[0]?.type).toBe('code')
+    const cell3 = bodyRow[2]?.content?.[0]?.content?.[0]
+    expect(cell3?.text).toBe('a && b')
+    expect(cell3?.marks?.[0]?.type).toBe('code')
+  })
+
+  it('should roundtrip table with inline code containing pipes', () => {
+    const markdown = '| H |\n| - |\n| `a || b` |'
+    const parsed = manager.parse(markdown)
+    const serialized = manager.serialize(parsed)
+    const reparsed = manager.parse(serialized)
+    const cell = reparsed.content?.[0]?.content?.[1]?.content?.[0]?.content?.[0]?.content?.[0]
+    expect(cell?.text).toBe('a || b')
+    expect(cell?.marks?.[0]?.type).toBe('code')
+  })
+
+  it('should not affect table cells without backtick spans', () => {
+    const markdown = '| a | b |\n| - | - |\n| 1 | 2 |'
+    const parsed = manager.parse(markdown)
+    const bodyRow = parsed.content?.[0]?.content?.[1]?.content || []
+    expect(bodyRow).toHaveLength(2)
+    expect(bodyRow[0]?.content?.[0]?.content?.[0]?.text).toBe('1')
+    expect(bodyRow[1]?.content?.[0]?.content?.[0]?.text).toBe('2')
+  })
+})
 
 describe('table markdown alignment', () => {
   const markdownManager = new MarkdownManager({
