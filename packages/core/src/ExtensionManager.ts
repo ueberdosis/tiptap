@@ -47,6 +47,8 @@ export class ExtensionManager {
 
   splittableMarks: string[] = []
 
+  nonClearableMarks: string[] = []
+
   constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.baseExtensions = extensions
@@ -463,6 +465,15 @@ export class ExtensionManager {
 
         if (keepOnSplit) {
           this.splittableMarks.push(extension.name)
+        }
+
+        const clearable =
+          callOrReturn(
+            getExtensionField<MarkConfig['clearable']>(extension, 'clearable', context),
+          ) ?? true
+
+        if (!clearable) {
+          this.nonClearableMarks.push(extension.name)
         }
       }
 
