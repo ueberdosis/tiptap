@@ -152,6 +152,7 @@ export const Image = Node.create<ImageOptions>({
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
+      el.draggable = false
 
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         if (value != null) {
