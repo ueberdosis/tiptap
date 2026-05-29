@@ -1,6 +1,3 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { SelectionRange } from '@tiptap/pm/state'
-
 import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
@@ -16,27 +13,9 @@ declare module '@tiptap/core' {
   }
 }
 
-function selectionHasClearableMarks(
-  doc: ProseMirrorNode,
-  ranges: readonly SelectionRange[],
-  nonClearableMarks: string[],
-): boolean {
-  return ranges.some(({ $from, $to }) => {
-    let hasClearableMarks = false
-
-    doc.nodesBetween($from.pos, $to.pos, node => {
-      if (node.marks.some(mark => !nonClearableMarks.includes(mark.type.name))) {
-        hasClearableMarks = true
-      }
-    })
-
-    return hasClearableMarks
-  })
-}
-
 export const unsetAllMarks: RawCommands['unsetAllMarks'] =
   () =>
-  ({ tr, dispatch, editor, state }) => {
+  ({ tr, dispatch, editor }) => {
     const { selection } = tr
     const { empty, ranges } = selection
 
@@ -46,12 +25,8 @@ export const unsetAllMarks: RawCommands['unsetAllMarks'] =
 
     const { nonClearableMarks } = editor.extensionManager
 
-    if (!selectionHasClearableMarks(state.doc, ranges, nonClearableMarks)) {
-      return false
-    }
-
     if (dispatch) {
-      const clearableMarkTypes = Object.values(state.schema.marks).filter(
+      const clearableMarkTypes = Object.values(editor.schema.marks).filter(
         markType => !nonClearableMarks.includes(markType.name),
       )
 

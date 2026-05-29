@@ -48,7 +48,7 @@ describe('unsetAllMarks', () => {
     expect(editor.getHTML()).toBe('<p><span data-annotation="true">hello</span></p>')
   })
 
-  it('returns false for can() when the selection only has non-clearable marks', () => {
+  it('returns true for can() when the selection only has non-clearable marks (no-op)', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, Annotation],
       content: '<p><span data-annotation="true">hello</span></p>',
@@ -56,7 +56,7 @@ describe('unsetAllMarks', () => {
 
     editor.commands.selectAll()
 
-    expect(editor.can().unsetAllMarks()).toBe(false)
+    expect(editor.can().unsetAllMarks()).toBe(true)
   })
 
   it('returns true for can() when the selection has clearable marks', () => {
