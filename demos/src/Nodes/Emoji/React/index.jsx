@@ -1,3 +1,14 @@
+/**
+ * Emoji Extension Demo (React)
+ * 
+ * Dependencies:
+ * - @tiptap/extension-emoji
+ * - @tiptap/react
+ * - @tiptap/starter-kit
+ * - @floating-ui/dom (for suggestion positioning)
+ * 
+ * Note: Tiptap v3 no longer uses tippy.js. Use @floating-ui/dom instead.
+ */
 import './styles.scss'
 
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'

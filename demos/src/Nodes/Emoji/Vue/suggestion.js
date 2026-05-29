@@ -1,3 +1,9 @@
+/**
+ * Emoji Suggestion Configuration
+ * 
+ * Note: Tiptap v3 uses @floating-ui/dom for positioning, NOT tippy.js
+ * Required dependency: npm install @floating-ui/dom
+ */
 import { computePosition } from '@floating-ui/dom'
 import { VueRenderer } from '@tiptap/vue-3'
 
