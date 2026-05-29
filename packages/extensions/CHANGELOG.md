@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- 2d05614: Fix placeholder flickering during collaborative editing and reduce scroll-time CPU usage by deferring viewport recomputation to rAF, adding an overscan margin, and throttling scroll updates
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes

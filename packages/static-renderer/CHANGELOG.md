@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.24.0
+
+### Patch Changes
+
+- 6c35d17: Honor the `textDirection` editor option in `renderToHTMLString`, `renderToMarkdown`, and `renderToReactElement`, and omit `null`/`undefined` attribute values instead of serializing them as the literal string `"null"`.
+- Updated dependencies [7c0499b]
+  - @tiptap/pm@3.24.0
+  - @tiptap/core@3.24.0
+
 ## 3.23.6
 
 ### Patch Changes

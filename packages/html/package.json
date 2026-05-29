@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/html",
-  "version": "3.23.6",
+  "version": "3.24.0",
   "description": "utility package to render tiptap JSON as HTML",
   "keywords": [
     "tiptap",
