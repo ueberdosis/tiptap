@@ -6,16 +6,19 @@ declare module '@tiptap/core' {
       /**
        * Remove all clearable marks in the current selection.
        * Marks with `clearable: false` are preserved
+       * @param options.ignoreClearable If true, removes all marks regardless of `clearable` setting. Defaults to `false`.
        * @example editor.commands.unsetAllMarks()
+       * @example editor.commands.unsetAllMarks({ ignoreClearable: true })
        */
-      unsetAllMarks: () => ReturnType
+      unsetAllMarks: (options?: { ignoreClearable?: boolean }) => ReturnType
     }
   }
 }
 
 export const unsetAllMarks: RawCommands['unsetAllMarks'] =
-  () =>
+  (options = {}) =>
   ({ tr, dispatch, editor }) => {
+    const { ignoreClearable = false } = options
     const { selection } = tr
     const { empty, ranges } = selection
 
@@ -27,7 +30,7 @@ export const unsetAllMarks: RawCommands['unsetAllMarks'] =
 
     if (dispatch) {
       const clearableMarkTypes = Object.values(editor.schema.marks).filter(
-        markType => !nonClearableMarks.includes(markType.name),
+        markType => ignoreClearable || !nonClearableMarks.includes(markType.name),
       )
 
       ranges.forEach(range => {

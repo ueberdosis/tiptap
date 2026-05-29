@@ -70,6 +70,29 @@ describe('unsetAllMarks', () => {
     expect(editor.can().unsetAllMarks()).toBe(true)
   })
 
+  it('removes all marks including non-clearable ones with ignoreClearable option', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Bold, Annotation],
+      content: '<p><span data-annotation="true"><strong>hello</strong></span></p>',
+    })
+
+    editor.commands.selectAll()
+    editor.commands.unsetAllMarks({ ignoreClearable: true })
+
+    expect(editor.getHTML()).toBe('<p>hello</p>')
+  })
+
+  it('returns true for can() with ignoreClearable even with only non-clearable marks', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Annotation],
+      content: '<p><span data-annotation="true">hello</span></p>',
+    })
+
+    editor.commands.selectAll()
+
+    expect(editor.can().unsetAllMarks({ ignoreClearable: true })).toBe(true)
+  })
+
   it('allows explicit unsetMark on non-clearable marks', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, Annotation],
