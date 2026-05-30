@@ -168,7 +168,9 @@ export const Image = Node.create<ImageOptions>({
         }
       })
 
-      el.src = mergedAttributes.src
+      if (mergedAttributes.src !== null) {
+        el.src = mergedAttributes.src
+      }
 
       const nodeView = new ResizableNodeView({
         element: el,
