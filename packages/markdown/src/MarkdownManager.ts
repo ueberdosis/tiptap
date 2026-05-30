@@ -722,6 +722,12 @@ export class MarkdownManager {
           type: 'text',
           text: decodeHtmlEntities(token.text || ''),
         })
+      } else if (token.type === 'escape') {
+        // Backslash-escaped character: produce a text node with the escaped character
+        result.push({
+          type: 'text',
+          text: token.text || '',
+        })
       } else if (token.type === 'html') {
         // Handle possible split inline HTML by attempting to detect an
         // opening tag and searching forward for a matching closing tag.
@@ -814,6 +820,26 @@ export class MarkdownManager {
       }
     }
 
+    // Merge adjacent text nodes with the same marks. The marked tokenizer may
+    // produce adjacent inline tokens (e.g. escape + text + escape) that each
+    // become separate text nodes. Merging them keeps the output compact and
+    // consistent with ProseMirror's expectation that contiguous styled text
+    // lives in a single text node.
+    for (let i = result.length - 1; i > 0; i -= 1) {
+      const current = result[i]
+      const previous = result[i - 1]
+
+      if (current.type === 'text' && previous.type === 'text') {
+        const currentMarks = current.marks || []
+        const previousMarks = previous.marks || []
+
+        if (JSON.stringify(currentMarks) === JSON.stringify(previousMarks)) {
+          previous.text = (previous.text || '') + (current.text || '')
+          result.splice(i, 1)
+        }
+      }
+    }
+
     return result
   }
 
@@ -893,6 +919,13 @@ export class MarkdownManager {
       case 'html':
         // Parse HTML using extensions' parseHTML methods
         return this.parseHTMLToken(token)
+
+      // handle Marked escape tokens as literal text (e.g. backslash-escaped characters)
+      case 'escape':
+        return {
+          type: 'text',
+          text: token.text || '',
+        }
 
       case 'space':
         return null
@@ -1108,13 +1141,32 @@ export class MarkdownManager {
   /**
    * Encode HTML entities in text unless the node is inside a code context
    * (code mark or code-block parent) where literal characters should be preserved.
+   * Also backslash-escape markdown-significant characters in non-code text to
+   * prevent them from being misinterpreted as formatting delimiters.
    */
   private encodeTextForMarkdown(text: string, node: JSONContent, parentNode?: JSONContent): string {
     const isInsideCode =
       (parentNode?.type != null && this.codeTypes.has(parentNode.type)) ||
       (node.marks || []).some(m => this.codeTypes.has(typeof m === 'string' ? m : m.type))
 
-    return isInsideCode ? text : encodeHtmlEntities(text)
+    if (isInsideCode) {
+      return text
+    }
+
+    return this.escapeMarkdownSyntax(encodeHtmlEntities(text))
+  }
+
+  /**
+   * Backslash-escape characters that have special meaning in markdown inline
+   * syntax. This prevents literal characters in text nodes from being
+   * misinterpreted as formatting delimiters when the output is parsed again.
+   *
+   * The set covers the most common inline markdown syntax characters.
+   * Characters inside code blocks/code marks are skipped by the caller
+   * (`encodeTextForMarkdown`) via the existing `isInsideCode` guard.
+   */
+  private escapeMarkdownSyntax(text: string): string {
+    return text.replace(/([\\`*_[\]~])/g, '\\$1')
   }
 
   renderNodeToMarkdown(
