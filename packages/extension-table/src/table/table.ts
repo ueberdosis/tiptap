@@ -85,7 +85,14 @@ export interface TableOptions {
    * The node view to render the table.
    * @default TableView
    */
-  View: (new (node: ProseMirrorNode, cellMinWidth: number, view: EditorView) => NodeView) | null
+  View:
+    | (new (
+        node: ProseMirrorNode,
+        cellMinWidth: number,
+        view: EditorView,
+        HTMLAttributes?: Record<string, any>,
+      ) => NodeView)
+    | null
 
   /**
    * Enables the resizing of the last column.
@@ -531,7 +538,11 @@ export const Table = Node.create<TableOptions>({
       return null
     }
 
-    return ({ node, view }) => new View(node, this.options.cellMinWidth, view)
+    return ({ node, view, HTMLAttributes }) => {
+      const mergedAttributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+
+      return new View(node, this.options.cellMinWidth, view, mergedAttributes) as NodeView
+    }
   },
 
   extendNodeSchema(extension) {
