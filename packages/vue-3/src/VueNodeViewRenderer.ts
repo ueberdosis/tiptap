@@ -204,7 +204,8 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       this.contentDOMElement.style.whiteSpace = 'inherit'
       // Use a distinct attribute to avoid clashing with the user's
       // <node-view-content> element (which carries data-node-view-content).
-      this.contentDOMElement.dataset.tiptapContent = ''
+      // Matches React's data-node-view-content-react convention.
+      this.contentDOMElement.dataset.nodeViewContentVue = ''
     }
 
     this.renderer = new VueRenderer(extendedComponent, {
