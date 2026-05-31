@@ -10,7 +10,9 @@ export const NodeViewContent = defineComponent({
     },
   },
 
-  inject: ['nodeViewContentRef'],
+  inject: {
+    nodeViewContentRef: { default: undefined },
+  },
 
   mounted() {
     const ref = (this as any).nodeViewContentRef as ((el: HTMLElement | null) => void) | undefined

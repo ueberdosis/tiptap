@@ -131,22 +131,18 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
 
     this.currentPos = this.getPos()
 
+    if (!this.node.isLeaf) {
+      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      this.contentDOMElement.style.whiteSpace = 'inherit'
+      // Use a distinct attribute to avoid clashing with the user's
+      // <node-view-content> element (which carries data-node-view-content).
+      this.contentDOMElement.dataset.tiptapContent = ''
+    }
+
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
       propsData: mountProps,
     })
-
-    if (!this.node.isLeaf) {
-      const contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
-      contentDOMElement.dataset.nodeViewContent = ''
-      contentDOMElement.style.whiteSpace = 'inherit'
-
-      // Not appended to the DOM here. If the user's component renders a
-      // <node-view-content>, the nodeViewContentRef provide callback will
-      // move it inside that element when it mounts (matching React's behavior).
-
-      this.contentDOMElement = contentDOMElement
-    }
   }
 
   /**
