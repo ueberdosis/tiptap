@@ -1,6 +1,7 @@
 import type { Plugin } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
+import type { DecorationSpec } from './features/decorations/index.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
@@ -216,6 +217,34 @@ export interface ExtendableConfig<
     type: PMType
     parent: ParentConfig<Config>['addProseMirrorPlugins']
   }) => Plugin[]
+
+  /**
+   * This function declaratively adds editor decorations (node, inline, widget).
+   *
+   * Return a descriptor with a `create` function that builds the decorations
+   * from the current state. By default they are recomputed whenever the
+   * document changes; provide `shouldUpdate` to control recomputation for
+   * performance. Use the `decoration` factory helpers to build descriptors.
+   * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/decorations
+   * @example
+   * addDecorations() {
+   *   return {
+   *     create: ({ state }) =>
+   *       findChildren(state.doc, node => node.type.name === 'heading').map(
+   *         ({ pos, node }) =>
+   *           decoration.node(pos, pos + node.nodeSize, { class: 'is-heading' }),
+   *       ),
+   *   }
+   * }
+   */
+  addDecorations?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addDecorations']
+  }) => DecorationSpec | null
 
   /**
    * This function transforms pasted HTML content before it's parsed.
