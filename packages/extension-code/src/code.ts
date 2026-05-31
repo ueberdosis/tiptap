@@ -30,11 +30,25 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Matches inline code enclosed in backticks as you type.
- * Uses a function-based finder so the preceding character is not consumed
- * as part of the match, preventing it from being deleted by the input rule.
+ * The regular expression used for the inline code input rule.
+ * @deprecated The extension now uses a function-based finder internally.
+ * This regex is kept for backward compatibility.
  */
-export const inputRegex = (text: string): InputRuleMatch | null => {
+export const inputRegex = /(^|[^`])`([^`]+)`(?!`)$/
+
+/**
+ * The regular expression used for the inline code paste rule.
+ * @deprecated The extension now uses a function-based finder internally.
+ * This regex is kept for backward compatibility.
+ */
+export const pasteRegex = /(^|[^`])`([^`]+)`(?!`)/g
+
+/**
+ * A function-based finder for the inline code input rule.
+ * Used internally by the extension to ensure the preceding character
+ * is not consumed as part of the match, preventing it from being deleted.
+ */
+export const inputRegexMatch = (text: string): InputRuleMatch | null => {
   const match = /`([^`]+)`(?!`)$/.exec(text)
 
   if (!match) {
@@ -54,9 +68,11 @@ export const inputRegex = (text: string): InputRuleMatch | null => {
 }
 
 /**
- * Matches inline code while pasting.
+ * A function-based finder for the inline code paste rule.
+ * Used internally by the extension to avoid consuming the preceding
+ * character as part of the match.
  */
-export const pasteRegex = (text: string): PasteRuleMatch[] => {
+export const pasteRegexMatch = (text: string): PasteRuleMatch[] => {
   const regex = /`([^`]+)`(?!`)/g
   const matches: PasteRuleMatch[] = []
   let match: RegExpExecArray | null
@@ -149,7 +165,7 @@ export const Code = Mark.create<CodeOptions>({
   addInputRules() {
     return [
       markInputRule({
-        find: inputRegex,
+        find: inputRegexMatch,
         type: this.type,
       }),
     ]
@@ -158,7 +174,7 @@ export const Code = Mark.create<CodeOptions>({
   addPasteRules() {
     return [
       markPasteRule({
-        find: pasteRegex,
+        find: pasteRegexMatch,
         type: this.type,
       }),
     ]

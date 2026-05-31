@@ -1,9 +1,9 @@
-import { inputRegex, pasteRegex } from '@tiptap/extension-code'
+import { inputRegex, inputRegexMatch, pasteRegex, pasteRegexMatch } from '@tiptap/extension-code'
 import { describe, expect, it } from 'vitest'
 
-describe('code inputRegex', () => {
+describe('code inputRegexMatch', () => {
   it('matches basic backtick code', () => {
-    const result = inputRegex('`code`')
+    const result = inputRegexMatch('`code`')
     expect(result).not.toBeNull()
     expect(result!.replaceWith).toBe('code')
     expect(result!.text).toBe('`code`')
@@ -11,7 +11,7 @@ describe('code inputRegex', () => {
   })
 
   it('matches backtick code preceded by a non-backtick character', () => {
-    const result = inputRegex('a`code`')
+    const result = inputRegexMatch('a`code`')
     expect(result).not.toBeNull()
     expect(result!.replaceWith).toBe('code')
     expect(result!.text).toBe('`code`')
@@ -20,7 +20,7 @@ describe('code inputRegex', () => {
   })
 
   it('matches backtick code preceded by whitespace', () => {
-    const result = inputRegex(' `code`')
+    const result = inputRegexMatch(' `code`')
     expect(result).not.toBeNull()
     expect(result!.replaceWith).toBe('code')
     expect(result!.text).toBe('`code`')
@@ -28,46 +28,46 @@ describe('code inputRegex', () => {
   })
 
   it('matches backtick code preceded by multiple characters', () => {
-    const result = inputRegex('hello`code`')
+    const result = inputRegexMatch('hello`code`')
     expect(result).not.toBeNull()
     expect(result!.replaceWith).toBe('code')
     expect(result!.index).toBe(5)
   })
 
   it('does not match when preceded by a backtick', () => {
-    expect(inputRegex('``code`')).toBeNull()
+    expect(inputRegexMatch('``code`')).toBeNull()
   })
 
   it('does not match with empty content', () => {
-    expect(inputRegex('``')).toBeNull()
+    expect(inputRegexMatch('``')).toBeNull()
   })
 
   it('does not match with no closing backtick', () => {
-    expect(inputRegex('`code')).toBeNull()
+    expect(inputRegexMatch('`code')).toBeNull()
   })
 
   it('does not match plain text', () => {
-    expect(inputRegex('code')).toBeNull()
+    expect(inputRegexMatch('code')).toBeNull()
   })
 
   it('matches only the last pair when there are multiple pairs', () => {
-    const result = inputRegex('`first` middle `second`')
+    const result = inputRegexMatch('`first` middle `second`')
     expect(result).not.toBeNull()
     expect(result!.replaceWith).toBe('second')
     expect(result!.text).toBe('`second`')
   })
 })
 
-describe('code pasteRegex', () => {
+describe('code pasteRegexMatch', () => {
   it('matches basic backtick code', () => {
-    const results = pasteRegex('`code`')
+    const results = pasteRegexMatch('`code`')
     expect(results).toHaveLength(1)
     expect(results[0].replaceWith).toBe('code')
     expect(results[0].text).toBe('`code`')
   })
 
   it('matches backtick code preceded by non-backtick character', () => {
-    const results = pasteRegex('a`code`')
+    const results = pasteRegexMatch('a`code`')
     expect(results).toHaveLength(1)
     expect(results[0].replaceWith).toBe('code')
     expect(results[0].text).toBe('`code`')
@@ -75,26 +75,26 @@ describe('code pasteRegex', () => {
   })
 
   it('matches backtick code preceded by whitespace', () => {
-    const results = pasteRegex(' `code`')
+    const results = pasteRegexMatch(' `code`')
     expect(results).toHaveLength(1)
     expect(results[0].replaceWith).toBe('code')
   })
 
   it('does not match when preceded by a backtick', () => {
-    const results = pasteRegex('``code`')
+    const results = pasteRegexMatch('``code`')
     expect(results).toHaveLength(0)
   })
 
   it('does not match empty content', () => {
-    expect(pasteRegex('``')).toHaveLength(0)
+    expect(pasteRegexMatch('``')).toHaveLength(0)
   })
 
   it('does not match plain text', () => {
-    expect(pasteRegex('code')).toHaveLength(0)
+    expect(pasteRegexMatch('code')).toHaveLength(0)
   })
 
   it('matches multiple code spans in pasted text', () => {
-    const results = pasteRegex('`a` and `b`')
+    const results = pasteRegexMatch('`a` and `b`')
     expect(results).toHaveLength(2)
     expect(results[0].replaceWith).toBe('a')
     expect(results[1].replaceWith).toBe('b')
@@ -103,8 +103,20 @@ describe('code pasteRegex', () => {
   it('does not match code spans preceded by backtick within pasted text', () => {
     // ``a` should NOT match because it's preceded by a backtick
     // but `b` should match
-    const results = pasteRegex('``a` and `b`')
+    const results = pasteRegexMatch('``a` and `b`')
     expect(results).toHaveLength(1)
     expect(results[0].replaceWith).toBe('b')
+  })
+})
+
+describe('code inputRegex (deprecated regex export)', () => {
+  it('matches basic backtick code (backward compat)', () => {
+    expect('`code`').toMatch(inputRegex)
+  })
+})
+
+describe('code pasteRegex (deprecated regex export)', () => {
+  it('matches basic backtick code (backward compat)', () => {
+    expect('`code`').toMatch(pasteRegex)
   })
 })
