@@ -5,6 +5,10 @@ import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@tipt
 
 import type { Editor } from './Editor.js'
 import {
+  createDecorationPlugin,
+  type ResolvedDecorationEntry,
+} from './features/decorations/index.js'
+import {
   flattenExtensions,
   getAttributesFromExtensions,
   getExtensionField,
@@ -199,7 +203,57 @@ export class ExtensionManager {
       return plugins
     })
 
+    const decorationPlugin = this.decorationPlugin
+
+    if (decorationPlugin) {
+      allPlugins.push(decorationPlugin)
+    }
+
     return allPlugins
+  }
+
+  /**
+   * A single plugin that aggregates all declarative decorations registered
+   * through extensions' `addDecorations`. Returns `null` when no extension
+   * declares decorations, so no plugin is added in that case.
+   * @returns A ProseMirror plugin or `null`
+   */
+  get decorationPlugin(): Plugin | null {
+    const { editor } = this
+
+    const entries: ResolvedDecorationEntry[] = []
+
+    this.extensions.forEach(extension => {
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
+        editor,
+        type: getSchemaTypeByName(extension.name, this.schema),
+      }
+
+      const addDecorations = getExtensionField<AnyConfig['addDecorations']>(
+        extension,
+        'addDecorations',
+        context,
+      )
+
+      if (!addDecorations) {
+        return
+      }
+
+      const spec = addDecorations()
+
+      if (spec) {
+        entries.push({ name: extension.name, spec })
+      }
+    })
+
+    if (!entries.length) {
+      return null
+    }
+
+    return createDecorationPlugin(editor, entries)
   }
 
   /**
