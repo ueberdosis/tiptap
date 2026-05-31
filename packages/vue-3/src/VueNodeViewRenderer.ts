@@ -81,6 +81,19 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
 
   decorationClasses!: Ref<string>
 
+  /**
+   * The element that holds the rich-text content of the node.
+   * Always created for non-leaf nodes to guarantee a valid contentDOM,
+   * even when the user's component does not include a NodeViewContent.
+   * This matches React's behavior and prevents ProseMirror from
+   * thrashing the DOM when contentDOM is unexpectedly null.
+   *
+   * NOTE: must NOT have an initializer (= null), because class field
+   * initializers run AFTER super() and would overwrite the value set
+   * by mount() during the super() call.
+   */
+  contentDOMElement!: HTMLElement | null
+
   private currentPos: number | undefined
 
   private cachedExtensionWithSyncedStorage: NodeViewProps['extension'] | null = null
@@ -148,6 +161,14 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       setup: reactiveProps => {
         provide('onDragStart', onDragStart)
         provide('decorationClasses', this.decorationClasses)
+        provide('nodeViewContentRef', (el: HTMLElement | null) => {
+          if (!this.contentDOMElement) return
+
+          if (el && el.firstChild !== this.contentDOMElement) {
+            // NodeViewContent mounted: move the contentDOMElement inside it
+            el.appendChild(this.contentDOMElement)
+          }
+        })
 
         return (this.component as any).setup?.(reactiveProps, {
           expose: () => undefined,
@@ -174,6 +195,15 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
 
     this.currentPos = this.getPos()
+
+    if (!this.node.isLeaf) {
+      // Create the content DOM element BEFORE rendering the Vue component,
+      // so it is available immediately when ProseMirror accesses contentDOM
+      // during the initial DOM build.
+      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      this.contentDOMElement.dataset.nodeViewContent = ''
+      this.contentDOMElement.style.whiteSpace = 'inherit'
+    }
 
     this.renderer = new VueRenderer(extendedComponent, {
       editor: this.editor,
@@ -215,7 +245,7 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       return null
     }
 
-    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
+    return this.contentDOMElement
   }
 
   /**
@@ -373,6 +403,8 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
     if (this.options.trackNodeViewPosition) {
       this.editor.off('update', this.handlePositionUpdate)
     }
+
+    this.contentDOMElement = null
   }
 }
 

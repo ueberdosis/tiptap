@@ -47,6 +47,15 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     value: string
   }
 
+  /**
+   * The element that holds the rich-text content of the node.
+   * Always created for non-leaf nodes to guarantee a valid contentDOM,
+   * even when the user's component does not include a NodeViewContent.
+   * Must NOT have an initializer because class field initializers run
+   * after super() and would overwrite the value set by mount().
+   */
+  contentDOMElement!: HTMLElement | null
+
   private currentPos: number | undefined
 
   constructor(
@@ -70,6 +79,9 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
+  /**
+   * Called when the node view is mounted.
+   */
   mount() {
     const props: Record<string, any> = {
       editor: this.editor,
@@ -102,6 +114,14 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
         return {
           onDragStart,
           decorationClasses: this.decorationClasses,
+          nodeViewContentRef: (el: HTMLElement | null) => {
+            if (!this.contentDOMElement) return
+
+            if (el && el.firstChild !== this.contentDOMElement) {
+              // NodeViewContent mounted: move the contentDOMElement inside it
+              el.appendChild(this.contentDOMElement)
+            }
+          },
         }
       },
     })
@@ -115,6 +135,18 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       parent: this.editor.contentComponent,
       propsData: mountProps,
     })
+
+    if (!this.node.isLeaf) {
+      const contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      contentDOMElement.dataset.nodeViewContent = ''
+      contentDOMElement.style.whiteSpace = 'inherit'
+
+      // Not appended to the DOM here. If the user's component renders a
+      // <node-view-content>, the nodeViewContentRef provide callback will
+      // move it inside that element when it mounts (matching React's behavior).
+
+      this.contentDOMElement = contentDOMElement
+    }
   }
 
   /**
@@ -138,7 +170,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return null
     }
 
-    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
+    return this.contentDOMElement
   }
 
   /**
@@ -286,6 +318,8 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     if (this.options.trackNodeViewPosition) {
       this.editor.off('update', this.handlePositionUpdate)
     }
+
+    this.contentDOMElement = null
   }
 }
 
