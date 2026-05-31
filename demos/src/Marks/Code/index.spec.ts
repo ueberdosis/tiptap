@@ -57,7 +57,25 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const editor = await getEditor(page)
         await editor.evaluate((el: any) => el.editor.commands.clearContent())
         await editor.click()
-        await page.keyboard.type('`Example`')
+        await editor.pressSequentially('`Example`')
+        await expect(page.locator('.tiptap code')).toContainText('Example')
+      })
+
+      test('markdown shortcut preserves preceding non-whitespace character', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await editor.pressSequentially('a`Example`')
+        await expect(page.locator('.tiptap')).toContainText('aExample')
+        await expect(page.locator('.tiptap code')).toContainText('Example')
+      })
+
+      test('markdown shortcut preserves preceding whitespace', async ({ page }) => {
+        const editor = await getEditor(page)
+        await editor.evaluate((el: any) => el.editor.commands.clearContent())
+        await editor.click()
+        await editor.pressSequentially(' `Example`')
+        await expect(page.locator('.tiptap')).toContainText(' Example')
         await expect(page.locator('.tiptap code')).toContainText('Example')
       })
     })

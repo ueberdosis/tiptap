@@ -1,3 +1,4 @@
+import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface CodeOptions {
@@ -29,20 +30,52 @@ declare module '@tiptap/core' {
 }
 
 /**
- * Regular expressions to match inline code blocks enclosed in backticks.
- *  It matches:
- *     - An opening backtick, followed by
- *     - Any text that doesn't include a backtick (captured for marking), followed by
- *     - A closing backtick as the final character.
- *  This ensures that any text between backticks is formatted as code,
- *  regardless of the surrounding characters (exception being another backtick).
+ * Matches inline code enclosed in backticks as you type.
+ * Uses a function-based finder so the preceding character is not consumed
+ * as part of the match, preventing it from being deleted by the input rule.
  */
-export const inputRegex = /(^|[^`])`([^`]+)`(?!`)$/
+export const inputRegex = (text: string): InputRuleMatch | null => {
+  const match = /`([^`]+)`(?!`)$/.exec(text)
+
+  if (!match) {
+    return null
+  }
+
+  // Ensure the opening backtick isn't preceded by another backtick
+  if (match.index > 0 && text[match.index - 1] === '`') {
+    return null
+  }
+
+  return {
+    index: match.index,
+    text: match[0],
+    replaceWith: match[1],
+  }
+}
 
 /**
  * Matches inline code while pasting.
  */
-export const pasteRegex = /(^|[^`])`([^`]+)`(?!`)/g
+export const pasteRegex = (text: string): PasteRuleMatch[] => {
+  const regex = /`([^`]+)`(?!`)/g
+  const matches: PasteRuleMatch[] = []
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    // Ensure the opening backtick isn't preceded by another backtick
+    if (match.index > 0 && text[match.index - 1] === '`') {
+      continue
+    }
+
+    matches.push({
+      index: match.index,
+      text: match[0],
+      replaceWith: match[1],
+    })
+  }
+
+  return matches
+}
 
 /**
  * This extension allows you to mark text as inline code.
