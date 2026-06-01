@@ -1,5 +1,31 @@
 /* oslint-disableno-explicit-any */
-import type { MarkType, NodeType } from '@tiptap/core'
+import type { JSONContent } from '@tiptap/core'
+
+/**
+ * A JSON representation of a mark (a Tiptap/ProseMirror mark serialized to JSON).
+ */
+export type JSONMarkType = NonNullable<JSONContent['marks']>[number]
+
+/**
+ * A JSON representation of a node (a Tiptap/ProseMirror node serialized to JSON).
+ *
+ * `marks` is tied to the `TMark` type parameter so the node<->mark relationship
+ * stays sound. This is also why we cannot simply default `TNodeType` to
+ * `JSONContent`: the generic constraint references `TMarkType` via
+ * `marks?: readonly TMarkType[]`, and `JSONContent.marks` is a *concrete* array,
+ * which TypeScript rejects ("TMarkType could be instantiated with a different
+ * subtype of constraint"). Parameterizing the node type by the same `TMark`
+ * avoids that bivariance error. Please don't "simplify" this back to
+ * `JSONContent` — it won't type-check.
+ */
+export type JSONNodeType<TMark extends { type: string | { name: string } } = JSONMarkType> = {
+  type?: string
+  attrs?: Record<string, any>
+  content?: JSONNodeType<TMark>[]
+  marks?: readonly TMark[]
+  text?: string
+  [key: string]: any
+}
 
 /**
  * Props for a node renderer
@@ -62,15 +88,15 @@ export type TiptapStaticRendererOptions<
   /**
    * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
    */
-  TMarkType extends { type: any } = MarkType,
+  TMarkType extends { type: any } = JSONMarkType,
   /**
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
     content?: { forEach: (cb: (node: TNodeType) => void) => void }
     marks?: readonly TMarkType[]
-    type: string | { name: string }
-  } = NodeType,
+    type?: string | { name: string }
+  } = JSONNodeType<TMarkType>,
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
    */
@@ -123,15 +149,15 @@ export function TiptapStaticRenderer<
   /**
    * A mark type is either a JSON representation of a mark or a Prosemirror mark instance
    */
-  TMarkType extends { type: string | { name: string } } = MarkType,
+  TMarkType extends { type: string | { name: string } } = JSONMarkType,
   /**
    * A node type is either a JSON representation of a node or a Prosemirror node instance
    */
   TNodeType extends {
     content?: { forEach: (cb: (node: TNodeType) => void) => void }
     marks?: readonly TMarkType[]
-    type: string | { name: string }
-  } = NodeType,
+    type?: string | { name: string }
+  } = JSONNodeType<TMarkType>,
   /**
    * A node renderer is a function that takes a node and its children and returns the rendered output
    */
@@ -184,7 +210,7 @@ export function TiptapStaticRenderer<
      */
     parent?: TNodeType
   }): TReturnType {
-    const nodeType = typeof content.type === 'string' ? content.type : content.type.name
+    const nodeType = typeof content.type === 'string' ? content.type : (content.type?.name ?? '')
     const NodeHandler = nodeMapping[nodeType] ?? unhandledNode
 
     if (!NodeHandler) {
