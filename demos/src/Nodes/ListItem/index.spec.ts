@@ -20,24 +20,27 @@ test.describe(`${demoPath}/${demoName}`, () => {
       })
 
       test('adds a new list item on Enter', async ({ page }) => {
+        const editor = await getEditor(page)
         await page.keyboard.press('Enter')
-        await page.keyboard.type('2nd Item')
+        await editor.type('2nd Item')
         await expect(page.locator('.tiptap li').nth(0)).toContainText('Example Text')
         await expect(page.locator('.tiptap li').nth(1)).toContainText('2nd Item')
       })
 
       test('sinks the list item on Tab', async ({ page }) => {
+        const editor = await getEditor(page)
         await page.keyboard.press('Enter')
         await page.keyboard.press('Tab')
-        await page.keyboard.type('2nd Level')
+        await editor.type('2nd Level')
         await expect(page.locator('.tiptap li:nth-child(1) li')).toContainText('2nd Level')
       })
 
       test('lifts the list item on Shift+Tab', async ({ page }) => {
+        const editor = await getEditor(page)
         await page.keyboard.press('Enter')
         await page.keyboard.press('Tab')
         await page.keyboard.press('Shift+Tab')
-        await page.keyboard.type('1st Level')
+        await editor.type('1st Level')
         await expect(page.locator('.tiptap li').nth(1)).toContainText('1st Level')
       })
     })

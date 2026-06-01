@@ -77,7 +77,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
           'Can you add some further context?',
         )
 
-        await page.keyboard.type('This is a paragraph for this test document')
+        await editor.type('This is a paragraph for this test document')
         await expect(page.locator('.tiptap p').first()).toHaveText(
           'This is a paragraph for this test document',
         )
