@@ -1,4 +1,4 @@
-import { decoration } from '@tiptap/core'
+import { decoration, liveWidgetKeys } from '@tiptap/core'
 import type { Editor as CoreEditor, WidgetDecorationDescriptor } from '@tiptap/core'
 import type { Mark } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
@@ -56,14 +56,6 @@ interface WidgetCache {
    * The last props pushed to each widget, used to skip needless updates.
    */
   props: Map<string, Record<string, any>>
-  /**
-   * The keys produced by the current `create()` pass. ProseMirror may, while a
-   * key is being reassigned to a different position, destroy the old decoration
-   * for that key in the same update that re-produces it. We must not tear down a
-   * renderer whose key is still live, or the surviving widget is left empty.
-   */
-  liveKeys: Set<string>
-  passActive: boolean
 }
 
 function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
@@ -84,8 +76,6 @@ function getCache(editor: Editor): WidgetCache {
     const cache: WidgetCache = {
       renderers: new Map(),
       props: new Map(),
-      liveKeys: new Set(),
-      passActive: false,
     }
 
     host[WIDGET_CACHE] = cache
@@ -99,23 +89,6 @@ function getCache(editor: Editor): WidgetCache {
   }
 
   return host[WIDGET_CACHE]
-}
-
-/**
- * Records `key` as live for the current `create()` pass. The first call of a
- * pass resets the set; it is reset again after the surrounding transaction
- * (and its synchronous redraw) has flushed.
- */
-function markLive(cache: WidgetCache, key: string): void {
-  if (!cache.passActive) {
-    cache.passActive = true
-    cache.liveKeys.clear()
-    Promise.resolve().then(() => {
-      cache.passActive = false
-    })
-  }
-
-  cache.liveKeys.add(key)
 }
 
 /**
@@ -148,8 +121,6 @@ export function VueWidgetRenderer(
 ): WidgetDecorationDescriptor {
   const { editor, pos, key, props = {}, side, marks } = options
   const cache = getCache(editor)
-
-  markLive(cache, key)
 
   // `create()` re-runs on every recompute, so this is the reliable place to
   // push fresh props: ProseMirror skips the widget's `toDOM` when it reuses the
@@ -200,9 +171,11 @@ export function VueWidgetRenderer(
     side,
     marks,
     destroy: () => {
-      // Skip teardown when the key is still produced by the latest pass — the
-      // decoration is being reassigned/recreated, not removed.
-      if (cache.liveKeys.has(key)) {
+      // Keep the renderer if the key is still a live widget decoration (it's
+      // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
+      // current state, so this is correct even when nothing recomputed (e.g.
+      // `clearDecorations()`).
+      if (liveWidgetKeys(editor).has(key)) {
         return
       }
 
