@@ -225,7 +225,7 @@ export interface ExtendableConfig<
    * from the current state. By default they are recomputed whenever the
    * document changes; provide `shouldUpdate` to control recomputation for
    * performance. Use the `decoration` factory helpers to build descriptors.
-   * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/decorations
+   * @see https://tiptap.dev/docs/editor/core-concepts/decorations
    * @example
    * addDecorations() {
    *   return {
