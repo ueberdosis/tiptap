@@ -29,6 +29,9 @@ export interface VueWidgetRendererOptions {
    * A stable, position-independent identifier for the widget. Reusing the same
    * key across renders lets ProseMirror keep the component mounted (no flicker /
    * no lost state) and lets this renderer reuse the underlying `VueRenderer`.
+   *
+   * Good: `comment-${id}`, `paragraph-${node.attrs.id}`, `suggestion-${id}`
+   * Bad:  paragraph index, document position, loop counter
    */
   key: string
   /**
@@ -152,7 +155,7 @@ export function VueWidgetRenderer(
     }
 
     if (renderer) {
-      renderer.updateProps(rawContext)
+      renderer.updateProps({ ...props, ...rawContext })
     } else {
       renderer = new VueRenderer(component, {
         editor,

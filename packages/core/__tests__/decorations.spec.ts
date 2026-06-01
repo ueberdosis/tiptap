@@ -106,30 +106,7 @@ describe('addDecorations', () => {
   })
 })
 
-describe('updateDecorations / clearDecorations', () => {
-  it('clears all decorations and brings them back on force update', () => {
-    const extension = Extension.create({
-      name: 'deco',
-      addDecorations: () => ({
-        create: () => [decoration.inline(1, 4, { class: 'x' })],
-        // never recompute on its own, so only the imperative API drives changes
-        shouldUpdate: () => false,
-      }),
-    })
-
-    const editor = createEditor(extension)
-
-    expect(getDecorations(editor)).toHaveLength(1)
-
-    editor.commands.clearDecorations()
-    expect(getDecorations(editor)).toHaveLength(0)
-
-    editor.commands.updateDecorations()
-    expect(getDecorations(editor)).toHaveLength(1)
-
-    editor.destroy()
-  })
-
+describe('updateDecorations', () => {
   it('force-updates only the named extension', () => {
     const createA = vi.fn(() => [decoration.inline(1, 2, { class: 'a' })])
     const createB = vi.fn(() => [decoration.inline(2, 3, { class: 'b' })])
@@ -154,6 +131,69 @@ describe('updateDecorations / clearDecorations', () => {
 
     expect(createA.mock.calls.length).toBe(callsA + 1)
     expect(createB.mock.calls.length).toBe(callsB)
+
+    editor.destroy()
+  })
+
+  it('removes decorations when create() returns an empty array', () => {
+    let toggle = true
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({
+        create: () => {
+          if (!toggle) return []
+          return [decoration.inline(1, 4, { class: 'x' })]
+        },
+        shouldUpdate: () => true,
+      }),
+    })
+
+    const editor = createEditor(extension)
+    expect(getDecorations(editor)).toHaveLength(1)
+
+    toggle = false
+    editor.commands.updateDecorations()
+    expect(getDecorations(editor)).toHaveLength(0)
+
+    editor.destroy()
+  })
+
+  it('recomputes decorations correctly after whole-document replacement', () => {
+    const create = vi.fn(() => [decoration.inline(1, 3, { class: 'x' })])
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ create, shouldUpdate: () => true }),
+    })
+
+    const editor = createEditor(extension)
+    expect(create).toHaveBeenCalledTimes(1)
+
+    // Replace the whole document.
+    editor.commands.setContent('<p>new content</p>')
+    expect(create).toHaveBeenCalledTimes(2)
+
+    const [deco] = getDecorations(editor)
+    expect(deco.from).toBe(1)
+    expect(deco.to).toBe(3)
+
+    editor.destroy()
+  })
+
+  it('does not create new plugin state when nothing changed (returns previous)', () => {
+    const create = vi.fn(() => [decoration.inline(1, 4, { class: 'x' })])
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ create }),
+    })
+
+    const editor = createEditor(extension)
+    const state1 = decorationManagerKey.getState(editor.state)
+
+    // Selection-only change — should reuse previous state.
+    editor.commands.setTextSelection(3)
+    const state2 = decorationManagerKey.getState(editor.state)
+
+    expect(state1).toBe(state2)
 
     editor.destroy()
   })
