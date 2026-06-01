@@ -63,6 +63,16 @@ export default {
           <li>This item starts at 5</li>
           <li>And another one</li>
         </ol>
+
+        <ol type="a">
+          <li>Lowercase alphabetical list</li>
+          <li>Second item</li>
+        </ol>
+
+        <ol type="I">
+          <li>Uppercase roman numerals</li>
+          <li>Second item</li>
+        </ol>
       `,
     })
   },

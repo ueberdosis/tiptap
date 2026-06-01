@@ -5,12 +5,16 @@ import type {
   MarkdownToken,
 } from '@tiptap/core'
 
+import { detectMarkerType } from './roman.js'
+
 /**
  * Matches an ordered list item line with optional leading whitespace.
- * Captures: (1) indentation spaces, (2) item number, (3) content after marker
- * Example matches: "1. Item", "  2. Nested item", "    3. Deeply nested"
+ * Captures: (1) indentation spaces, (2) item marker (number, letter, or roman numeral),
+ * (3) separator (. or )), (4) content after marker
+ *
+ * Examples: "1. Item", "  a) Nested item", "    I. Roman item", "iii. Another"
  */
-const ORDERED_LIST_ITEM_REGEX = /^(\s*)(\d+)\.\s+(.*)$/
+const ORDERED_LIST_ITEM_REGEX = /^(\s*)(\d+|[a-zA-Z]|[ivxlcdmIVXLCDM]{2,15})([.)])\s+(.*)$/
 
 /**
  * Matches any line that starts with whitespace (indented content).
@@ -24,6 +28,7 @@ const INDENTED_LINE_REGEX = /^\s/
 export interface OrderedListItem {
   indent: number
   number: number
+  type?: string
   content: string
   contentLines: string[]
   raw: string
@@ -37,6 +42,8 @@ function isBlockContentLine(line: string): boolean {
     /^[-+*]\s+/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^\d+\.\s+/.test(trimmedLine) ||
+    // oxlint-disable-next-line prefer-string-starts-ends-with
+    /^[aAivxlcdmIVXLCDM]{1,5}[.)]\s+/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
@@ -102,8 +109,16 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
       break
     }
 
-    const [, indent, number, content] = match
+    const [, indent, marker, _separator, content] = match
     const indentLevel = indent.length
+    const number = parseInt(marker, 10)
+
+    // Detect if marker is NaN (not a number) — it's a typed marker like "a" or "iii"
+    const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
+
+    // For ordered list numbering, use the position index if marker is non-numeric
+    const itemNumber = isNaN(number) ? 1 : number
+
     const itemContentLines = [content]
     let nextLineIndex = currentLineIndex + 1
     const itemLines = [line]
@@ -144,7 +159,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
 
     listItems.push({
       indent: indentLevel,
-      number: parseInt(number, 10),
+      number: itemNumber,
+      type: markerType,
       content: itemContentLines.join('\n').trim(),
       contentLines: itemContentLines,
       raw: itemLines.join('\n'),
@@ -223,6 +239,7 @@ export function buildNestedStructure(
           type: 'list',
           ordered: true,
           start: nestedItems[0].number,
+          typeMarker: nestedItems[0].type,
           items: nestedListItems,
           raw: nestedItems.map(nestedItem => nestedItem.raw).join('\n'),
         })
