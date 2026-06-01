@@ -1,3 +1,11 @@
-export * from './DecorationManager.js'
-export * from './factory.js'
-export * from './types.js'
+export { decoration } from './factory.js'
+export { liveWidgetKeys } from './DecorationManager.js'
+export type {
+  DecorationCreateProps,
+  DecorationDescriptor,
+  DecorationShouldUpdateProps,
+  DecorationSpec,
+  InlineDecorationDescriptor,
+  NodeDecorationDescriptor,
+  WidgetDecorationDescriptor,
+} from './types.js'
