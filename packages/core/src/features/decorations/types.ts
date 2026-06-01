@@ -1,6 +1,6 @@
-import { Mark } from '@tiptap/pm/model'
-import { EditorState, Transaction } from '@tiptap/pm/state'
-import { DecorationAttrs, EditorView } from '@tiptap/pm/view'
+import type { Mark } from '@tiptap/pm/model'
+import type { EditorState, Transaction } from '@tiptap/pm/state'
+import type { DecorationAttrs, EditorView } from '@tiptap/pm/view'
 
 import type { Editor } from '../../Editor.js'
 
