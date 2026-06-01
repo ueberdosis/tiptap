@@ -259,6 +259,106 @@ describe('static render json to string (no prosemirror)', () => {
     )
   })
 
+  it('should render a blockquote with trailing newline before a paragraph', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'blockquote',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Quote',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'World',
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+    })
+    // The blockquote must have a trailing newline so "World" is not part of the blockquote
+    expect(md).toContain('> Quote\n\n')
+  })
+
+  it('should render a standalone blockquote with trailing newline', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'blockquote',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Quote',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+    })
+    expect(md).toBe('\n> Quote\n')
+  })
+
+  it('should render a blockquote with multiple paragraphs', () => {
+    const json = {
+      type: 'doc',
+      content: [
+        {
+          type: 'blockquote',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'First',
+                },
+              ],
+            },
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Second',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const md = renderToMarkdown({
+      content: json,
+      extensions: [StarterKit, TableKit],
+    })
+    expect(md).toBe('\n> First\n> \n> Second\n')
+  })
+
   it('accepts staticEditorOptions.textDirection without crashing', () => {
     const json = {
       type: 'doc',

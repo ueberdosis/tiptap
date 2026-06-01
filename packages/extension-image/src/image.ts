@@ -152,8 +152,11 @@ export const Image = Node.create<ImageOptions>({
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
+      el.draggable = false
 
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+      const mergedAttributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+
+      Object.entries(mergedAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
             case 'width':
@@ -166,7 +169,9 @@ export const Image = Node.create<ImageOptions>({
         }
       })
 
-      el.src = HTMLAttributes.src
+      if (mergedAttributes.src !== null) {
+        el.src = mergedAttributes.src
+      }
 
       const nodeView = new ResizableNodeView({
         element: el,

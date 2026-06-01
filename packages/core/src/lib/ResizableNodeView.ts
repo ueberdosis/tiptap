@@ -405,6 +405,7 @@ export class ResizableNodeView {
     this.node = options.node
     this.editor = options.editor
     this.element = options.element
+    this.element.draggable = false
     this.contentElement = options.contentElement
 
     this.getPos = options.getPos
