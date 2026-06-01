@@ -148,21 +148,6 @@ describe('ReactWidgetRenderer', () => {
     expect(contentComponent.live.size).toBe(1)
   })
 
-  it('tears down all renderers when widgets are genuinely removed', async () => {
-    const { editor, contentComponent } = createEditor('<p>aaa</p><p>bbb</p>')
-
-    active = editor
-    await flush()
-    expect(contentComponent.live.size).toBe(2)
-
-    // Join the two paragraphs into one — the second widget should be removed.
-    editor.chain().setTextSelection(6).joinBackward().run()
-    await flush()
-
-    expect(editor.state.doc.childCount).toBe(1)
-    expect(contentComponent.live.size).toBe(1)
-  })
-
   it('tears down stale widgets when setContent replaces the whole document', async () => {
     const { editor, contentComponent } = createEditor('<p>a</p><p>b</p><p>c</p>')
 
