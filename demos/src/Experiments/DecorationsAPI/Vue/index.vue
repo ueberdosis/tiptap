@@ -7,7 +7,6 @@
           <input type="text" :value="term" placeholder="Search term" @input="onTermChange" />
         </label>
         <button @click="editor.commands.updateDecorations()">Re-apply</button>
-        <button @click="editor.commands.clearDecorations()">Clear decorations</button>
       </div>
     </div>
     <editor-content :editor="editor" />
@@ -51,8 +50,7 @@ export default {
         <h2>Try it out</h2>
         <p>
           Change the search term below — Tiptap forces a recompute with
-          <code>updateDecorations</code>. Editing the document recomputes automatically,
-          while <code>clearDecorations</code> removes them until the next change.
+          <code>updateDecorations</code>. Editing the document recomputes automatically.
         </p>
       `,
     })

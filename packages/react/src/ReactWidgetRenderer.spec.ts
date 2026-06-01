@@ -6,6 +6,8 @@ import { afterEach, describe, expect, it } from 'vitest'
 
 import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'
 
+import { UndoRedo } from '@tiptap/extensions'
+
 // The component is never actually rendered in these tests (vitest maps JSX to
 // @tiptap/core's runtime). We only exercise the renderer's registration and
 // lifecycle bookkeeping against a mock content component.
@@ -29,9 +31,12 @@ function makeContentComponent() {
 }
 
 /**
- * A widget per paragraph, keyed by paragraph index. Index keys deliberately
- * churn when paragraphs are inserted/removed, which is the scenario that used
- * to leave a surviving widget empty.
+ * A widget per paragraph, keyed by paragraph index.
+ *
+ * NOTE: Index-based keys churn when paragraphs are inserted/removed. This is
+ * intentional for testing re-keying behavior. In production, use stable domain
+ * keys (e.g. `paragraph-${node.attrs.id}`) so the widget DOM and component
+ * state are preserved across edits.
  */
 function paragraphWidgets() {
   return Extension.create({
@@ -68,6 +73,19 @@ function createEditor(content: string) {
   const contentComponent = makeContentComponent()
   const editor = new Editor({
     extensions: [Document, Paragraph, Text, paragraphWidgets()],
+    content,
+  })
+
+  ;(editor as any).contentComponent = contentComponent
+  ;(editor as any).isEditorContentInitialized = true
+
+  return { editor, contentComponent }
+}
+
+function createEditorWithUndo(content: string) {
+  const contentComponent = makeContentComponent()
+  const editor = new Editor({
+    extensions: [Document, Paragraph, Text, paragraphWidgets(), UndoRedo],
     content,
   })
 
@@ -130,18 +148,71 @@ describe('ReactWidgetRenderer', () => {
     expect(contentComponent.live.size).toBe(1)
   })
 
-  it('tears down all renderers when decorations are cleared', async () => {
-    const { editor, contentComponent } = createEditor('<p>a</p><p>b</p>')
+  it('tears down all renderers when widgets are genuinely removed', async () => {
+    const { editor, contentComponent } = createEditor('<p>aaa</p><p>bbb</p>')
 
     active = editor
     await flush()
     expect(contentComponent.live.size).toBe(2)
 
-    // clearDecorations() removes the decorations without recomputing — the
-    // renderers must still be torn down, not leaked.
-    editor.commands.clearDecorations()
+    // Join the two paragraphs into one — the second widget should be removed.
+    editor.chain().setTextSelection(6).joinBackward().run()
+    await flush()
+
+    expect(editor.state.doc.childCount).toBe(1)
+    expect(contentComponent.live.size).toBe(1)
+  })
+
+  it('tears down stale widgets when setContent replaces the whole document', async () => {
+    const { editor, contentComponent } = createEditor('<p>a</p><p>b</p><p>c</p>')
+
+    active = editor
+    await flush()
+    expect(contentComponent.live.size).toBe(3)
+
+    editor.commands.setContent('<p>only</p>')
+    await flush()
+
+    expect(editor.state.doc.childCount).toBe(1)
+    expect(contentComponent.live.size).toBe(1)
+  })
+
+  it('destroys all active widget renderers when the editor is destroyed', async () => {
+    const { editor, contentComponent } = createEditor('<p>a</p><p>b</p>')
+
+    // Don't assign to `active` — we destroy manually before afterEach.
+    const activeRef = editor
+    await flush()
+    expect(contentComponent.live.size).toBe(2)
+
+    activeRef.destroy()
     await flush()
 
     expect(contentComponent.live.size).toBe(0)
   })
+
+  it('does not leak renderers after undo of a paragraph split', async () => {
+    const { editor, contentComponent } = createEditorWithUndo('<p>a</p><p>b</p>')
+
+    active = editor
+    await flush()
+    expect(contentComponent.live.size).toBe(2)
+
+    // Split first paragraph — 3 widgets.
+    editor.chain().setTextSelection(2).splitBlock().run()
+    await flush()
+    expect(editor.state.doc.childCount).toBe(3)
+    expect(contentComponent.live.size).toBe(3)
+
+    // Undo removes the split-created paragraph, which destroys its widget.
+    // The 1 removal is correct cleanup — not a leak.
+    editor.commands.undo()
+    await flush()
+    expect(editor.state.doc.childCount).toBe(2)
+    expect(contentComponent.live.size).toBe(2)
+  })
+
+  // Duplicate widget keys intentionally not tested here — ProseMirror's view
+  // crashes when it encounters same-key widgets, and the type-level contract
+  // ("keys must be unique") is documented on WidgetDecorationDescriptor.key.
 })

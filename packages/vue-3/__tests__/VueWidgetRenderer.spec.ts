@@ -1,7 +1,8 @@
-import { Extension } from '@tiptap/core'
+import { type AnyExtension, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { UndoRedo } from '@tiptap/extensions'
 import { afterEach, describe, expect, it } from 'vitest'
 import { defineComponent, h } from 'vue'
 
@@ -27,6 +28,14 @@ const Counter = defineComponent({
   },
 })
 
+/**
+ * A widget per paragraph, keyed by paragraph index.
+ *
+ * NOTE: Index-based keys churn when paragraphs are inserted/removed. This is
+ * intentional for testing re-keying behavior. In production, use stable domain
+ * keys (e.g. `paragraph-${node.attrs.id}`) so the widget DOM and component
+ * state are preserved across edits.
+ */
 function paragraphWidgets() {
   return Extension.create({
     name: 'paragraphWidgets',
@@ -74,16 +83,20 @@ describe('VueWidgetRenderer', () => {
     unmountCount = 0
   })
 
-  function mount(content: string) {
+  function mount(content: string, extraExtensions: AnyExtension[] = []) {
     el = document.createElement('div')
     document.body.appendChild(el)
     editor = new Editor({
       element: el,
-      extensions: [Document, Paragraph, Text, paragraphWidgets()],
+      extensions: [Document, Paragraph, Text, paragraphWidgets(), ...extraExtensions],
       content,
     })
 
     return editor
+  }
+
+  function mountWithUndo(content: string) {
+    return mount(content, [UndoRedo])
   }
 
   it('renders a widget per paragraph', () => {
@@ -126,15 +139,57 @@ describe('VueWidgetRenderer', () => {
     expect(el!.querySelectorAll('.counter').length).toBe(1)
   })
 
-  it('tears down all renderers when decorations are cleared', () => {
+  it('removes the widget when a paragraph is removed', () => {
+    mount('<p>aaa</p><p>bbb</p>')
+    expect(el!.querySelectorAll('.counter').length).toBe(2)
+
+    editor!.chain().setTextSelection(6).joinBackward().run()
+
+    expect(editor!.state.doc.childCount).toBe(1)
+    expect(el!.querySelectorAll('.counter').length).toBe(1)
+  })
+
+  it('removes stale widgets when setContent replaces the whole document', () => {
+    mount('<p>a</p><p>b</p><p>c</p>')
+    expect(el!.querySelectorAll('.counter').length).toBe(3)
+
+    editor!.commands.setContent('<p>only</p>')
+
+    expect(editor!.state.doc.childCount).toBe(1)
+    expect(el!.querySelectorAll('.counter').length).toBe(1)
+  })
+
+  it('destroys all active widget components when the editor is destroyed', () => {
     mount('<p>a</p><p>b</p>')
     expect(el!.querySelectorAll('.counter').length).toBe(2)
 
-    // clearDecorations() removes the decorations without recomputing — the
-    // component instances must be unmounted, not leaked.
-    editor!.commands.clearDecorations()
+    const local = editor!
+    const prevUnmount = unmountCount
 
-    expect(el!.querySelectorAll('.counter').length).toBe(0)
-    expect(unmountCount).toBe(2)
+    local.destroy()
+
+    expect(unmountCount).toBe(prevUnmount + 2)
   })
+
+  it('does not leak components after undo of a paragraph split', () => {
+    mountWithUndo('<p>a</p><p>b</p>')
+    expect(el!.querySelectorAll('.counter').length).toBe(2)
+    const prevUnmount = unmountCount
+
+    // Split first paragraph — 3 widgets.
+    editor!.chain().setTextSelection(2).splitBlock().run()
+    expect(editor!.state.doc.childCount).toBe(3)
+    expect(el!.querySelectorAll('.counter').length).toBe(3)
+
+    // Undo removes the split-created paragraph, which destroys its widget.
+    // The 1 unmount is correct cleanup — not a leak.
+    editor!.commands.undo()
+    expect(editor!.state.doc.childCount).toBe(2)
+    expect(el!.querySelectorAll('.counter').length).toBe(2)
+    expect(unmountCount).toBe(prevUnmount + 1)
+  })
+
+  // Duplicate widget keys intentionally not tested here — ProseMirror's view
+  // crashes when it encounters same-key widgets, and the type-level contract
+  // ("keys must be unique") is documented on WidgetDecorationDescriptor.key.
 })

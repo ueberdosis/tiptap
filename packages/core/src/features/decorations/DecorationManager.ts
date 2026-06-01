@@ -74,6 +74,15 @@ function descriptorsToDecorations(descriptors: DecorationDescriptor[]): Decorati
  * Merges every extension's decoration set into one and collects the keys of all
  * widget decorations in a single pass.
  *
+ * This merge runs once per transaction that changed document content or triggered
+ * a recompute. It calls `set.find()` on each extension's set, then creates a new
+ * combined set from the flat array. For typical usage (a few extensions, dozens
+ * to hundreds of decorations) this is cheap.
+ *
+ * If you have many decorations or extensions that produce them cheaply,
+ * use `shouldUpdate` to gate recomputation and avoid unnecessary merges.
+ * Extensions with expensive `create()` should gate aggressively.
+ *
  * @param doc - The current document, used as the base for the merged set.
  * @param decorationSetsByExtension - Each extension's decoration set, keyed by
  *   extension name.
@@ -84,6 +93,10 @@ function mergeDecorationSets(
   doc: EditorState['doc'],
   decorationSetsByExtension: Record<string, DecorationSet>,
 ): { mergedDecorationSet: DecorationSet; widgetKeys: Set<string> } {
+  // Intentionally simple: flatMap + create is O(N) in total decorations.
+  // Per-extension shouldUpdate gates and the short-circuit below prevent
+  // unnecessary runs. If this becomes a hot path, consider a delta-based
+  // merge or incremental set building.
   const allDecorations = Object.values(decorationSetsByExtension).flatMap(set => set.find())
   const widgetKeys = new Set<string>()
 
@@ -136,14 +149,6 @@ export function createDecorationPlugin(
       },
       apply: (tr, previous, oldState, newState) => {
         const meta = tr.getMeta(decorationManagerKey) as DecorationMeta | undefined
-
-        if (meta?.type === 'clear') {
-          return {
-            decorationSetsByExtension: {},
-            mergedDecorationSet: DecorationSet.empty,
-            widgetKeys: new Set(),
-          }
-        }
 
         const forceAll = meta?.type === 'force' && !meta.name
         const forceName = meta?.type === 'force' ? meta.name : undefined

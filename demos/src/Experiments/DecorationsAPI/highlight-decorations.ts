@@ -80,8 +80,11 @@ export const HighlightDecorations = Extension.create<
             decorations.push(decoration.inline(from, to, { class: 'decoration-highlight' }))
 
             // widget decoration: a marker rendered just before the match.
-            // The key is derived from the position for this demo; in real usage
-            // prefer a stable, domain-specific id so the widget DOM is reused.
+            // NOTE: The key uses the document position, which works here because
+            // this widget is stateless (a simple star character). For stateful
+            // widgets, always use a stable domain-based key (e.g. `comment-${id}`,
+            // `paragraph-${node.attrs.id}`) so the DOM and component state are
+            // preserved across edits.
             decorations.push(
               decoration.widget(
                 from,
