@@ -152,6 +152,7 @@ export const Image = Node.create<ImageOptions>({
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
+      el.draggable = false
 
       const mergedAttributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
 

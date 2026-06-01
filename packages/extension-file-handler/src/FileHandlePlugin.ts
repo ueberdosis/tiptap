@@ -18,6 +18,13 @@ export const FileHandlePlugin = ({
           return false
         }
 
+        // If the drop contains ProseMirror internal slice data, let ProseMirror
+        // handle it — this is an internal content drag (e.g. moving an image),
+        // not an external file drop
+        if (event.dataTransfer?.types.includes('application/x-prosemirror-slice')) {
+          return false
+        }
+
         if (!event.dataTransfer?.files.length) {
           return false
         }
