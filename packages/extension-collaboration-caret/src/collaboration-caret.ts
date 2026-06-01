@@ -84,7 +84,7 @@ declare module '@tiptap/core' {
 
 const awarenessStatesToArray = (states: Map<number, Record<string, any> | null | undefined>) => {
   return Array.from(states.entries()).map(([key, value]) => {
-    if (value) {
+    if (value && value.user) {
       return {
         clientId: key,
         ...value.user,
