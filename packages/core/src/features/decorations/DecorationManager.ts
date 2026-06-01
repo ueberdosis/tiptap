@@ -61,8 +61,16 @@ export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
  * the same pass, collects the keys of any widget decorations. Widget descriptors
  * carry their `key`, so gathering keys here avoids a separate scan of the built
  * set (which would re-walk the whole document).
+ *
+ * Warns (without throwing) when an extension produces two widget decorations
+ * with the same `key` in a single build: ProseMirror requires globally unique
+ * widget keys and misplaces the DOM otherwise, so catching it here with the
+ * extension name is friendlier than the eventual hard failure.
  */
-function descriptorsToDecorations(descriptors: DecorationDescriptor[]): {
+function descriptorsToDecorations(
+  descriptors: DecorationDescriptor[],
+  extensionName?: string,
+): {
   decorations: Decoration[]
   widgetKeys: Set<string>
 } {
@@ -82,6 +90,15 @@ function descriptorsToDecorations(descriptors: DecorationDescriptor[]): {
         )
         break
       case 'widget':
+        if (widgetKeys.has(descriptor.key)) {
+          console.warn(
+            `[tiptap warn]: Duplicate widget decoration key "${descriptor.key}"` +
+              (extensionName ? ` in extension "${extensionName}"` : '') +
+              '. Widget decoration keys must be globally unique, otherwise ProseMirror ' +
+              'misplaces the widget DOM. Use a stable, unique key (e.g. `comment-${id}`).',
+          )
+        }
+
         decorations.push(
           Decoration.widget(descriptor.pos, descriptor.render, {
             ...descriptor.spec,
@@ -109,13 +126,15 @@ function descriptorsToDecorations(descriptors: DecorationDescriptor[]): {
  *
  * @param doc - The current document, used as the base for the built set.
  * @param descriptors - The framework-agnostic descriptors returned by `create`.
+ * @param extensionName - The owning extension's name, used in duplicate-key warnings.
  * @returns The extension's `set` and the `widgetKeys` it contains.
  */
 function buildDecorationSet(
   doc: EditorState['doc'],
   descriptors: DecorationDescriptor[],
+  extensionName?: string,
 ): { set: DecorationSet; widgetKeys: Set<string> } {
-  const { decorations, widgetKeys } = descriptorsToDecorations(descriptors)
+  const { decorations, widgetKeys } = descriptorsToDecorations(descriptors, extensionName)
 
   return { set: DecorationSet.create(doc, decorations), widgetKeys }
 }
@@ -225,8 +244,8 @@ function mergeDecorationSets(
  *   `incrementalCreate` map their previous set forward and rebuild only the
  *   blocks the edit touched via `createInRange`, instead of rebuilding the
  *   whole set with `create`.
- * - Transaction meta (sent by `updateDecorations` / `clearDecorations`) can
- *   force a recompute of one/all extensions, or clear everything.
+ * - Transaction meta (sent by `updateDecorations`) can force a recompute of
+ *   one or all extensions.
  */
 export function createDecorationPlugin(
   editor: Editor,
@@ -240,10 +259,11 @@ export function createDecorationPlugin(
   const buildExtensionDecorationSet = (
     state: EditorState,
     spec: DecorationSpec,
+    name: string,
   ): { set: DecorationSet; widgetKeys: Set<string> } => {
     const descriptors = spec.create({ editor, state, view: editor.view })
 
-    return buildDecorationSet(state.doc, descriptors)
+    return buildDecorationSet(state.doc, descriptors, name)
   }
 
   return new Plugin<DecorationManagerState>({
@@ -254,7 +274,7 @@ export function createDecorationPlugin(
         const widgetKeysByExtension: Record<string, Set<string>> = {}
 
         for (const { name, spec } of decorationEntries) {
-          const { set, widgetKeys } = buildExtensionDecorationSet(state, spec)
+          const { set, widgetKeys } = buildExtensionDecorationSet(state, spec, name)
 
           decorationSetsByExtension[name] = set
           widgetKeysByExtension[name] = widgetKeys
@@ -347,6 +367,7 @@ export function createDecorationPlugin(
               // …and rebuild just this range.
               const { decorations, widgetKeys: addedKeys } = descriptorsToDecorations(
                 spec.createInRange({ editor, state: newState, view: editor.view, from, to }),
+                name,
               )
 
               set = set.add(newState.doc, decorations)
@@ -360,7 +381,7 @@ export function createDecorationPlugin(
             widgetKeysByExtension[name] = widgetKeys
             recomputed = true
           } else {
-            const { set, widgetKeys } = buildExtensionDecorationSet(newState, spec)
+            const { set, widgetKeys } = buildExtensionDecorationSet(newState, spec, name)
 
             decorationSetsByExtension[name] = set
             widgetKeysByExtension[name] = widgetKeys

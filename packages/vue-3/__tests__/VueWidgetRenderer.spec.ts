@@ -68,6 +68,54 @@ function paragraphWidgets() {
   })
 }
 
+// Records the props each render received, so a test can assert the widget never
+// loses `editor` / `getPos` during the two-phase prop update.
+const propLog: Array<{ hasEditor: boolean; hasGetPos: boolean }> = []
+
+const PropSpy = defineComponent({
+  name: 'PropSpy',
+  inheritAttrs: false,
+  props: {
+    size: { type: Number, default: 0 },
+    editor: { type: Object, default: null },
+    getPos: { type: Function, default: null },
+  },
+  render() {
+    propLog.push({ hasEditor: !!this.editor, hasGetPos: typeof this.getPos === 'function' })
+    return h('span', { class: 'spy' })
+  },
+})
+
+// A single stable-keyed widget whose `size` prop changes on every edit, so the
+// pre-render `updateProps` (which pushes only user props, not editor/getPos)
+// actually fires.
+function spyWidget() {
+  return Extension.create({
+    name: 'spyWidget',
+    addDecorations() {
+      return {
+        create: ({ editor, state }) => {
+          const first = state.doc.firstChild
+
+          if (!first) {
+            return []
+          }
+
+          return [
+            VueWidgetRenderer(PropSpy, {
+              editor,
+              pos: first.nodeSize - 1,
+              key: 'spy-stable',
+              props: { size: state.doc.content.size },
+              side: 1,
+            }),
+          ]
+        },
+      }
+    },
+  })
+}
+
 describe('VueWidgetRenderer', () => {
   let editor: Editor | null = null
   let el: HTMLElement | null = null
@@ -119,6 +167,22 @@ describe('VueWidgetRenderer', () => {
     expect(renderCount).toBe(afterMount)
   })
 
+  it('never drops editor/getPos from widget props across updates', () => {
+    propLog.length = 0
+    mount('<p>aaa</p>', [spyWidget()])
+
+    expect(propLog.length).toBeGreaterThan(0)
+
+    // Each insert changes the spy's `size` prop, triggering the pre-render
+    // partial updateProps (which pushes only user props). Because updateProps
+    // merges, editor/getPos pushed by the previous render must survive.
+    editor!.commands.insertContentAt(2, 'X')
+    editor!.commands.insertContentAt(2, 'Y')
+
+    expect(propLog.length).toBeGreaterThan(1)
+    expect(propLog.every(entry => entry.hasEditor && entry.hasGetPos)).toBe(true)
+  })
+
   it('keeps every widget mounted when keys are reassigned by a split', () => {
     mount('<p>aaa</p><p>bbb</p>')
     expect(el!.querySelectorAll('.counter').length).toBe(2)
@@ -127,16 +191,6 @@ describe('VueWidgetRenderer', () => {
 
     expect(editor!.state.doc.childCount).toBe(3)
     expect(el!.querySelectorAll('.counter').length).toBe(3)
-  })
-
-  it('removes the widget when a paragraph is removed', () => {
-    mount('<p>aaa</p><p>bbb</p>')
-    expect(el!.querySelectorAll('.counter').length).toBe(2)
-
-    editor!.chain().setTextSelection(6).joinBackward().run()
-
-    expect(editor!.state.doc.childCount).toBe(1)
-    expect(el!.querySelectorAll('.counter').length).toBe(1)
   })
 
   it('removes the widget when a paragraph is removed', () => {
