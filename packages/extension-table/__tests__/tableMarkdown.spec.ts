@@ -6,7 +6,7 @@ import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { describe, expect, it } from 'vitest'
 
-describe('table markdown — inline code with pipe characters (issue #7858)', () => {
+describe('table markdown — inline code with pipe characters', () => {
   const manager = new MarkdownManager({
     extensions: [Document, Paragraph, Text, Code, TableKit],
   })
@@ -72,6 +72,27 @@ describe('table markdown — inline code with pipe characters (issue #7858)', ()
     expect(bodyRow).toHaveLength(2)
     expect(bodyRow[0]?.content?.[0]?.content?.[0]?.text).toBe('1')
     expect(bodyRow[1]?.content?.[0]?.content?.[0]?.text).toBe('2')
+  })
+
+  it('should not corrupt content that follows a table with inline code containing pipes', () => {
+    const markdown = '| H |\n| - |\n| `a || b` |\n\nParagraph after.'
+    const parsed = manager.parse(markdown)
+    expect(parsed.content).toHaveLength(2)
+    expect(parsed.content?.[0]?.type).toBe('table')
+    expect(parsed.content?.[1]?.type).toBe('paragraph')
+    expect(parsed.content?.[1]?.content?.[0]?.text).toBe('Paragraph after.')
+  })
+
+  it('should not affect inline code with pipes outside of tables', () => {
+    const markdown = 'Use `a || b` for logical or.'
+    const parsed = manager.parse(markdown)
+    // Must parse as a paragraph, not accidentally as a table
+    const block = parsed.content?.[0]
+    expect(block?.type).toBe('paragraph')
+    // The code mark must be present on one of the inline nodes
+    const codeNode = block?.content?.find(n => n.marks?.some(m => m.type === 'code'))
+    expect(codeNode).toBeDefined()
+    expect(codeNode?.marks?.[0]?.type).toBe('code')
   })
 })
 

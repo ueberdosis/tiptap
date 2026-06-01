@@ -150,7 +150,7 @@ Nested content is also supported!
 
 :::
 
-### Inline Code in Tables (issue #7858)
+### Inline Code in Tables
 
 Pipe characters inside backtick code spans in tables should be preserved:
 

@@ -36,7 +36,7 @@ import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'
 import { deleteTableWhenAllCellsSelected } from './utilities/deleteTableWhenAllCellsSelected.js'
-import renderTableToMarkdown from './utilities/markdown.js'
+import renderTableToMarkdown, { preprocessTablePipes } from './utilities/markdown.js'
 
 type MarkdownTableToken = {
   align?: Array<TableCellAlign | null>
@@ -351,6 +351,43 @@ export const Table = Node.create<TableOptions>({
 
   renderMarkdown: (node, h) => {
     return renderTableToMarkdown(node, h)
+  },
+
+  markdownTokenizer: {
+    name: 'table',
+    level: 'block' as const,
+    start: (src: string) => src.indexOf('|'),
+    tokenize(src, _tokens, helper) {
+      // Collect only the consecutive table-row lines at the start of src.
+      // Passing only those to helper.blockTokens keeps the re-lex isolated to
+      // the table block so it cannot consume or corrupt any content that follows.
+      const srcLines = src.split('\n')
+      let end = 0
+      for (let k = 0; k < srcLines.length; k++) {
+        if (!srcLines[k].trimStart().startsWith('|')) break
+        end = k + 1
+      }
+      // Need at least a header row and a separator row to form a table.
+      if (end < 2) return undefined
+
+      const tableSrc = srcLines.slice(0, end).join('\n')
+      const preprocessed = preprocessTablePipes(tableSrc)
+
+      // Nothing to fix — let marked's built-in handle it.
+      if (preprocessed === tableSrc) return undefined
+
+      // Re-lex only the preprocessed table lines. The recursive call to our
+      // tokenizer finds no pipes left to escape and returns undefined, so
+      // marked's built-in table tokenizer produces correctly-split cells.
+      const block = helper.blockTokens(preprocessed)
+      const tableToken = block[0]
+      if (tableToken?.type !== 'table') return undefined
+
+      // Return with raw set to the original (unescaped) table lines so marked
+      // advances its source cursor by the correct amount and does not skip any
+      // content that follows the table.
+      return { ...tableToken, raw: tableSrc }
+    },
   },
 
   addCommands() {
