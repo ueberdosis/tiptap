@@ -1,4 +1,4 @@
-import { decoration } from '@tiptap/core'
+import { decoration, liveWidgetKeys } from '@tiptap/core'
 import type { Editor, WidgetDecorationDescriptor } from '@tiptap/core'
 import type { Mark } from '@tiptap/pm/model'
 import type { EditorView } from '@tiptap/pm/view'
@@ -49,59 +49,29 @@ export interface ReactWidgetRendererOptions<P extends Record<string, any> = obje
 
 const WIDGET_CACHE = Symbol('tiptapReactWidgetCache')
 
-interface WidgetCache {
-  /**
-   * The live renderer for each widget key. Reused across recomputes so the
-   * React component (and its state) is preserved instead of remounted.
-   */
-  renderers: Map<string, ReactRenderer>
-  /**
-   * The keys produced by the current `create()` pass. ProseMirror may, while a
-   * key is being reassigned to a different position, destroy the old decoration
-   * for that key in the same update that re-produces it. We must not tear down a
-   * renderer whose key is still live, or the surviving widget is left empty.
-   */
-  liveKeys: Set<string>
-  passActive: boolean
-}
+/**
+ * The live renderer for each widget key, kept on the editor and reused across
+ * recomputes so the React component (and its state) is preserved instead of
+ * remounted.
+ */
+type WidgetCache = Map<string, ReactRenderer>
 
 function getCache(editor: Editor): WidgetCache {
   const host = editor as Editor & { [WIDGET_CACHE]?: WidgetCache }
 
   if (!host[WIDGET_CACHE]) {
-    const cache: WidgetCache = {
-      renderers: new Map(),
-      liveKeys: new Set(),
-      passActive: false,
-    }
+    const cache: WidgetCache = new Map()
 
     host[WIDGET_CACHE] = cache
 
     // Sweep any widgets still mounted when the editor goes away.
     editor.on('destroy', () => {
-      cache.renderers.forEach(renderer => renderer.destroy())
-      cache.renderers.clear()
+      cache.forEach(renderer => renderer.destroy())
+      cache.clear()
     })
   }
 
   return host[WIDGET_CACHE]
-}
-
-/**
- * Records `key` as live for the current `create()` pass. The first call of a
- * pass resets the set; it is reset again after the surrounding transaction
- * (and its synchronous redraw) has flushed.
- */
-function markLive(cache: WidgetCache, key: string): void {
-  if (!cache.passActive) {
-    cache.passActive = true
-    cache.liveKeys.clear()
-    queueMicrotask(() => {
-      cache.passActive = false
-    })
-  }
-
-  cache.liveKeys.add(key)
 }
 
 /**
@@ -135,19 +105,17 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   const { editor, pos, key, props = {} as P, as = 'span', className, side, marks } = options
   const cache = getCache(editor)
 
-  markLive(cache, key)
-
   // `create()` re-runs on every recompute, so this is the reliable place to
   // push fresh props: ProseMirror skips the widget's `toDOM` when it reuses the
   // DOM, so prop updates can't ride along there.
-  const existing = cache.renderers.get(key)
+  const existing = cache.get(key)
 
   if (existing) {
     existing.updateProps(props)
   }
 
   const render = (_view: EditorView, getPos: () => number | undefined): HTMLElement => {
-    let renderer = cache.renderers.get(key)
+    let renderer = cache.get(key)
 
     if (renderer) {
       renderer.updateProps({ editor, getPos })
@@ -158,7 +126,7 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
         className,
         props: { ...props, editor, getPos },
       })
-      cache.renderers.set(key, renderer)
+      cache.set(key, renderer)
     }
 
     // Re-register the portal on every materialization. ProseMirror calls this
@@ -175,14 +143,16 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
     side,
     marks,
     destroy: () => {
-      // Skip teardown when the key is still produced by the latest pass — the
-      // decoration is being reassigned/recreated, not removed.
-      if (cache.liveKeys.has(key)) {
+      // Keep the renderer if the key is still a live widget decoration (it's
+      // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
+      // current state, so this is correct even when nothing recomputed (e.g.
+      // `clearDecorations()`).
+      if (liveWidgetKeys(editor).has(key)) {
         return
       }
 
-      cache.renderers.get(key)?.destroy()
-      cache.renderers.delete(key)
+      cache.get(key)?.destroy()
+      cache.delete(key)
     },
   })
 }

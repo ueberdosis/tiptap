@@ -9,6 +9,7 @@ import { Editor } from '../src/Editor.js'
 import { VueWidgetRenderer } from '../src/VueWidgetRenderer.js'
 
 let renderCount = 0
+let unmountCount = 0
 
 const Counter = defineComponent({
   name: 'Counter',
@@ -16,6 +17,9 @@ const Counter = defineComponent({
   props: { index: { type: Number, default: 0 } },
   data() {
     return { count: 0 }
+  },
+  unmounted() {
+    unmountCount += 1
   },
   render() {
     renderCount += 1
@@ -67,6 +71,7 @@ describe('VueWidgetRenderer', () => {
     }
     el = null
     renderCount = 0
+    unmountCount = 0
   })
 
   function mount(content: string) {
@@ -119,5 +124,17 @@ describe('VueWidgetRenderer', () => {
 
     expect(editor!.state.doc.childCount).toBe(1)
     expect(el!.querySelectorAll('.counter').length).toBe(1)
+  })
+
+  it('tears down all renderers when decorations are cleared', () => {
+    mount('<p>a</p><p>b</p>')
+    expect(el!.querySelectorAll('.counter').length).toBe(2)
+
+    // clearDecorations() removes the decorations without recomputing — the
+    // component instances must be unmounted, not leaked.
+    editor!.commands.clearDecorations()
+
+    expect(el!.querySelectorAll('.counter').length).toBe(0)
+    expect(unmountCount).toBe(2)
   })
 })

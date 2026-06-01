@@ -7,7 +7,7 @@ import type { Editor } from './Editor.js'
 import {
   createDecorationPlugin,
   type ResolvedDecorationEntry,
-} from './features/decorations/index.js'
+} from './features/decorations/DecorationManager.js'
 import {
   flattenExtensions,
   getAttributesFromExtensions,

@@ -1,4 +1,4 @@
-import { decorationManagerKey } from '../features/decorations/index.js'
+import { decorationManagerKey } from '../features/decorations/DecorationManager.js'
 import type { RawCommands } from '../types.js'
 
 declare module '@tiptap/core' {
