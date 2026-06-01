@@ -1,5 +1,8 @@
 import { decoration, Editor, Extension } from '@tiptap/core'
-import { decorationManagerKey } from '../src/features/decorations/DecorationManager.js'
+import {
+  decorationManagerKey,
+  liveWidgetKeys,
+} from '../src/features/decorations/DecorationManager.js'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -179,6 +182,69 @@ describe('updateDecorations', () => {
     editor.destroy()
   })
 
+  it('keeps widget keys accurate when mapping forward, dropping deleted widgets', () => {
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({
+        create: () => [
+          decoration.widget(6, () => document.createElement('span'), { key: 'w-mid' }),
+        ],
+        shouldUpdate: () => false,
+      }),
+    })
+
+    const editor = createEditor(extension)
+
+    expect(liveWidgetKeys(editor).has('w-mid')).toBe(true)
+
+    // Insert before the widget: it survives and the key stays live.
+    editor.commands.insertContentAt(1, 'XX')
+    expect(liveWidgetKeys(editor).has('w-mid')).toBe(true)
+
+    // Delete the range containing the widget: it is dropped and so is its key.
+    editor.commands.deleteRange({ from: 4, to: 11 })
+    expect(liveWidgetKeys(editor).has('w-mid')).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('maps both extensions forward without recomputing when neither updates', () => {
+    const createA = vi.fn(() => [decoration.inline(2, 5, { class: 'a' })])
+    const createB = vi.fn(() => [decoration.inline(6, 9, { class: 'b' })])
+    const a = Extension.create({
+      name: 'decoA',
+      addDecorations: () => ({ create: createA, shouldUpdate: () => false }),
+    })
+    const b = Extension.create({
+      name: 'decoB',
+      addDecorations: () => ({ create: createB, shouldUpdate: () => false }),
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, a, b],
+      content: '<p>hello world</p>',
+    })
+
+    const callsA = createA.mock.calls.length
+    const callsB = createB.mock.calls.length
+
+    // Insert two characters at the start so every decoration shifts by 2.
+    editor.commands.insertContentAt(1, 'XX')
+
+    expect(createA.mock.calls.length).toBe(callsA)
+    expect(createB.mock.calls.length).toBe(callsB)
+
+    const decos = getDecorations(editor).sort((x, y) => x.from - y.from)
+
+    expect(decos).toHaveLength(2)
+    expect(decos[0].from).toBe(4)
+    expect(decos[0].to).toBe(7)
+    expect(decos[1].from).toBe(8)
+    expect(decos[1].to).toBe(11)
+
+    editor.destroy()
+  })
+
   it('does not create new plugin state when nothing changed (returns previous)', () => {
     const create = vi.fn(() => [decoration.inline(1, 4, { class: 'x' })])
     const extension = Extension.create({
@@ -194,6 +260,93 @@ describe('updateDecorations', () => {
     const state2 = decorationManagerKey.getState(editor.state)
 
     expect(state1).toBe(state2)
+
+    editor.destroy()
+  })
+})
+
+describe('incrementalCreate', () => {
+  // Decorates every paragraph as a node decoration and highlights each
+  // occurrence of "x" as an inline decoration, scanning only [from, to].
+  function scan(state: Editor['state'], from: number, to: number) {
+    const decorations: ReturnType<typeof decoration.inline>[] = []
+
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.type.name === 'paragraph') {
+        decorations.push(decoration.node(pos, pos + node.nodeSize, { class: 'para' }))
+      }
+
+      if (node.isText && node.text) {
+        let index = node.text.indexOf('x')
+
+        while (index !== -1) {
+          decorations.push(decoration.inline(pos + index, pos + index + 1, { class: 'hit' }))
+          index = node.text.indexOf('x', index + 1)
+        }
+      }
+    })
+
+    return decorations
+  }
+
+  function incrementalExtension() {
+    const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+
+    return { extension, create, createInRange }
+  }
+
+  it('rebuilds only the changed block via createInRange, not the whole doc', () => {
+    const { extension, create, createInRange } = incrementalExtension()
+    const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    expect(create).toHaveBeenCalledTimes(1)
+    const callsBefore = createInRange.mock.calls.length
+
+    // Type an "x" into the second paragraph.
+    editor.commands.insertContentAt(8, 'x')
+
+    // create() (full scan) did not run again; only createInRange did.
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(createInRange.mock.calls.length).toBe(callsBefore + 1)
+
+    // The new match is decorated.
+    expect(getDecorations(editor).some(d => d.from === 8 && d.to === 9)).toBe(true)
+
+    editor.destroy()
+  })
+
+  it('keeps a neighbour block decoration whose edge touches the changed block', () => {
+    // Regression: a paragraph node decoration ends exactly at the next block's
+    // start. Editing the next block must not drop the previous block's decoration.
+    const { extension } = incrementalExtension()
+    const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    // Both paragraphs decorated initially (node deco at from=0 and from=5).
+    expect(getDecorations(editor).some(d => d.from === 0)).toBe(true)
+
+    // Type into the second paragraph.
+    editor.commands.insertContentAt(8, 'z')
+
+    // The first paragraph's node decoration (from=0) must survive.
+    expect(getDecorations(editor).some(d => d.from === 0)).toBe(true)
+
+    editor.destroy()
+  })
+
+  it('still does a full create on forced updateDecorations()', () => {
+    const { extension, create } = incrementalExtension()
+    const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    expect(create).toHaveBeenCalledTimes(1)
+
+    editor.commands.updateDecorations()
+
+    expect(create).toHaveBeenCalledTimes(2)
 
     editor.destroy()
   })

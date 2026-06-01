@@ -103,11 +103,25 @@ export interface DecorationShouldUpdateProps {
 }
 
 /**
- * The descriptor returned from an extension's `addDecorations`.
+ * The context passed to `createInRange` when an extension rebuilds only the
+ * decorations within a changed range. Identical to {@link DecorationCreateProps}
+ * but bounded by `from`/`to`. The range is aligned to the enclosing top-level
+ * block(s) the edit touched, so a match that straddles the raw edit is still
+ * fully contained.
  */
-export interface DecorationSpec {
+export interface DecorationRangeProps extends DecorationCreateProps {
+  from: number
+  to: number
+}
+
+/**
+ * Fields shared by every `addDecorations` descriptor, regardless of whether it
+ * opts into incremental recomputation.
+ */
+export interface BaseDecorationSpec {
   /**
    * Build the full set of this extension's decorations from the current state.
+   * Used for the initial build and for forced `updateDecorations()`.
    */
   create: (props: DecorationCreateProps) => DecorationDescriptor[]
   /**
@@ -115,12 +129,50 @@ export interface DecorationSpec {
    * decorations mapped through the transaction instead of rebuilding them.
    * Defaults to recomputing whenever the document changes (`tr.docChanged`).
    *
-   * If your `create()` performs expensive work (e.g. full-document scans,
-   * regex matching, external API calls), provide a `shouldUpdate` that only
-   * returns `true` when the relevant part of the document actually changed.
+   * `shouldUpdate` decides *whether* to recompute; `incrementalCreate` decides
+   * *how*. If your `create()` performs expensive work (e.g. full-document scans,
+   * regex matching, external API calls), either provide a `shouldUpdate` that
+   * only returns `true` when the relevant part of the document actually changed,
+   * or opt into incremental recomputation (see {@link IncrementalDecorationSpec}).
    */
   shouldUpdate?: (props: DecorationShouldUpdateProps) => boolean
 }
+
+/**
+ * The default descriptor: every document change rebuilds the whole set with
+ * `create`. Always correct; can be expensive on large documents.
+ */
+export interface NonIncrementalDecorationSpec extends BaseDecorationSpec {
+  incrementalCreate?: false
+  createInRange?: never
+}
+
+/**
+ * Opts into incremental recomputation. On a document change the manager maps the
+ * existing decorations forward and rebuilds only the changed ranges via
+ * `createInRange`, instead of rebuilding everything with `create`. `create` is
+ * still used for the initial build and for forced `updateDecorations()`.
+ *
+ * **Only correct when each decoration depends solely on the content within its
+ * own range/block.** For decorations that depend on the whole document — ordinal
+ * counts ("highlight the first match"), cross-document relationships ("mark
+ * duplicate words"), or selection/external state — leave this off and rely on
+ * `create`, or trigger a full rebuild with `updateDecorations()`.
+ */
+export interface IncrementalDecorationSpec extends BaseDecorationSpec {
+  incrementalCreate: true
+  /**
+   * Build this extension's decorations for the given range only. Receives the
+   * block-aligned changed range as `from`/`to`. Must return only decorations
+   * that fall within that range.
+   */
+  createInRange: (props: DecorationRangeProps) => DecorationDescriptor[]
+}
+
+/**
+ * The descriptor returned from an extension's `addDecorations`.
+ */
+export type DecorationSpec = NonIncrementalDecorationSpec | IncrementalDecorationSpec
 
 /**
  * Transaction metadata understood by the decoration manager. Used by the
