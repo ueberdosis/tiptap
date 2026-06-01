@@ -1,4 +1,4 @@
-import { DecorationAttrs } from '@tiptap/pm/view'
+import type { DecorationAttrs } from '@tiptap/pm/view'
 
 import type {
   InlineDecorationDescriptor,
