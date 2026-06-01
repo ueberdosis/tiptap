@@ -1,4 +1,5 @@
-import { decoration, decorationManagerKey, Editor, Extension } from '@tiptap/core'
+import { decoration, Editor, Extension } from '@tiptap/core'
+import { decorationManagerKey } from '../src/features/decorations/DecorationManager.js'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -13,7 +14,7 @@ function createEditor(extension?: Extension, content = '<p>hello world</p>') {
 }
 
 function getDecorations(editor: Editor): Decoration[] {
-  const set = decorationManagerKey.getState(editor.state)?.combined
+  const set = decorationManagerKey.getState(editor.state)?.mergedDecorationSet
 
   return set ? set.find() : []
 }

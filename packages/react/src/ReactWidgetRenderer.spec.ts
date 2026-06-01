@@ -129,4 +129,19 @@ describe('ReactWidgetRenderer', () => {
     expect(editor.state.doc.childCount).toBe(1)
     expect(contentComponent.live.size).toBe(1)
   })
+
+  it('tears down all renderers when decorations are cleared', async () => {
+    const { editor, contentComponent } = createEditor('<p>a</p><p>b</p>')
+
+    active = editor
+    await flush()
+    expect(contentComponent.live.size).toBe(2)
+
+    // clearDecorations() removes the decorations without recomputing — the
+    // renderers must still be torn down, not leaked.
+    editor.commands.clearDecorations()
+    await flush()
+
+    expect(contentComponent.live.size).toBe(0)
+  })
 })

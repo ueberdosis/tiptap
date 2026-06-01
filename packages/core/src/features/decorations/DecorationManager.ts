@@ -5,8 +5,8 @@ import type { Editor } from '../../Editor.js'
 import type { DecorationDescriptor, DecorationMeta, DecorationSpec } from './types.js'
 
 /**
- * The shared plugin key for the centralized decoration manager. Used by the
- * imperative `updateDecorations` / `clearDecorations` commands to send meta.
+ * The shared plugin key for the centralized decoration manager. Internal - used
+ * by the imperative commands and the {@link liveWidgetKeys} helper.
  */
 export const decorationManagerKey = new PluginKey<DecorationManagerState>('tiptapDecorations')
 
@@ -20,17 +20,38 @@ export interface ResolvedDecorationEntry {
 
 interface DecorationManagerState {
   /**
-   * Each extension's decorations, kept separate so that an extension can be
-   * recomputed while the rest are cheaply mapped through the transaction.
+   * Each extension's decoration set, keyed by extension name. Kept separate so
+   * that one extension can be recomputed while the rest are cheaply mapped
+   * through the transaction.
    */
-  sets: Record<string, DecorationSet>
+  decorationSetsByExtension: Record<string, DecorationSet>
   /**
-   * The union of all extension sets, exposed to the editor view.
+   * The union of every extension's set, handed to the editor view.
    */
-  combined: DecorationSet
+  mergedDecorationSet: DecorationSet
+  /**
+   * The keys of every widget decoration currently live. Framework widget
+   * renderers read this (via {@link liveWidgetKeys}) to decide whether a widget
+   * being torn down by ProseMirror is genuinely gone or just being reassigned.
+   */
+  widgetKeys: Set<string>
 }
 
-function toProseMirrorDecorations(descriptors: DecorationDescriptor[]): Decoration[] {
+const EMPTY_KEYS: ReadonlySet<string> = new Set()
+
+/**
+ * Returns the keys of all widget decorations currently rendered for this editor.
+ * Used by the React/Vue widget renderers to avoid tearing down a renderer whose
+ * key is still live (e.g. when a key is reassigned to a new position).
+ */
+export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
+  return decorationManagerKey.getState(editor.state)?.widgetKeys ?? EMPTY_KEYS
+}
+
+/**
+ * Converts framework-agnostic descriptors into ProseMirror decorations.
+ */
+function descriptorsToDecorations(descriptors: DecorationDescriptor[]): Decoration[] {
   return descriptors.map(descriptor => {
     switch (descriptor.kind) {
       case 'node':
@@ -49,14 +70,32 @@ function toProseMirrorDecorations(descriptors: DecorationDescriptor[]): Decorati
   })
 }
 
-function combineSets(doc: EditorState['doc'], sets: Record<string, DecorationSet>): DecorationSet {
-  const decorations: Decoration[] = []
+/**
+ * Merges every extension's decoration set into one and collects the keys of all
+ * widget decorations in a single pass.
+ *
+ * @param doc - The current document, used as the base for the merged set.
+ * @param decorationSetsByExtension - Each extension's decoration set, keyed by
+ *   extension name.
+ * @returns The `mergedDecorationSet` handed to the editor view and the
+ *   `widgetKeys` of every widget decoration currently live.
+ */
+function mergeDecorationSets(
+  doc: EditorState['doc'],
+  decorationSetsByExtension: Record<string, DecorationSet>,
+): { mergedDecorationSet: DecorationSet; widgetKeys: Set<string> } {
+  const allDecorations = Object.values(decorationSetsByExtension).flatMap(set => set.find())
+  const widgetKeys = new Set<string>()
 
-  Object.keys(sets).forEach(name => {
-    decorations.push(...sets[name].find())
-  })
+  for (const decoration of allDecorations) {
+    const key = (decoration.spec as { key?: unknown } | undefined)?.key
 
-  return DecorationSet.create(doc, decorations)
+    if (typeof key === 'string') {
+      widgetKeys.add(key)
+    }
+  }
+
+  return { mergedDecorationSet: DecorationSet.create(doc, allDecorations), widgetKeys }
 }
 
 /**
@@ -72,40 +111,47 @@ function combineSets(doc: EditorState['doc'], sets: Record<string, DecorationSet
  */
 export function createDecorationPlugin(
   editor: Editor,
-  entries: ResolvedDecorationEntry[],
+  decorationEntries: ResolvedDecorationEntry[],
 ): Plugin<DecorationManagerState> {
-  const buildSet = (state: EditorState, name: string, spec: DecorationSpec): DecorationSet => {
+  const buildExtensionDecorationSet = (state: EditorState, spec: DecorationSpec): DecorationSet => {
     const descriptors = spec.create({ editor, state, view: editor.view })
 
-    return DecorationSet.create(state.doc, toProseMirrorDecorations(descriptors))
+    return DecorationSet.create(state.doc, descriptorsToDecorations(descriptors))
   }
 
   return new Plugin<DecorationManagerState>({
     key: decorationManagerKey,
     state: {
       init: (_config, state) => {
-        const sets: Record<string, DecorationSet> = {}
+        const decorationSetsByExtension: Record<string, DecorationSet> = {}
 
-        entries.forEach(({ name, spec }) => {
-          sets[name] = buildSet(state, name, spec)
-        })
+        for (const { name, spec } of decorationEntries) {
+          decorationSetsByExtension[name] = buildExtensionDecorationSet(state, spec)
+        }
 
-        return { sets, combined: combineSets(state.doc, sets) }
+        return {
+          decorationSetsByExtension,
+          ...mergeDecorationSets(state.doc, decorationSetsByExtension),
+        }
       },
       apply: (tr, previous, oldState, newState) => {
         const meta = tr.getMeta(decorationManagerKey) as DecorationMeta | undefined
 
         if (meta?.type === 'clear') {
-          return { sets: {}, combined: DecorationSet.empty }
+          return {
+            decorationSetsByExtension: {},
+            mergedDecorationSet: DecorationSet.empty,
+            widgetKeys: new Set(),
+          }
         }
 
         const forceAll = meta?.type === 'force' && !meta.name
         const forceName = meta?.type === 'force' ? meta.name : undefined
 
-        const sets: Record<string, DecorationSet> = {}
+        const decorationSetsByExtension: Record<string, DecorationSet> = {}
         let recomputed = false
 
-        entries.forEach(({ name, spec }) => {
+        for (const { name, spec } of decorationEntries) {
           const shouldUpdate =
             forceAll ||
             forceName === name ||
@@ -114,14 +160,14 @@ export function createDecorationPlugin(
               : tr.docChanged)
 
           if (shouldUpdate) {
-            sets[name] = buildSet(newState, name, spec)
+            decorationSetsByExtension[name] = buildExtensionDecorationSet(newState, spec)
             recomputed = true
           } else {
-            const previousSet = previous.sets[name] ?? DecorationSet.empty
+            const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
 
-            sets[name] = previousSet.map(tr.mapping, tr.doc)
+            decorationSetsByExtension[name] = previousSet.map(tr.mapping, tr.doc)
           }
-        })
+        }
 
         // Nothing was recomputed and positions did not move — reuse the
         // previous state so the view doesn't see a decoration change.
@@ -129,12 +175,15 @@ export function createDecorationPlugin(
           return previous
         }
 
-        return { sets, combined: combineSets(newState.doc, sets) }
+        return {
+          decorationSetsByExtension,
+          ...mergeDecorationSets(newState.doc, decorationSetsByExtension),
+        }
       },
     },
     props: {
       decorations(state) {
-        return decorationManagerKey.getState(state)?.combined ?? DecorationSet.empty
+        return decorationManagerKey.getState(state)?.mergedDecorationSet ?? DecorationSet.empty
       },
     },
   })
