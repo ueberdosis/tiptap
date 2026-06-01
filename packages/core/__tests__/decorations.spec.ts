@@ -1,4 +1,4 @@
-import { decoration, Editor, Extension } from '@tiptap/core'
+import { decoration, Editor, Extension, Node } from '@tiptap/core'
 import {
   decorationManagerKey,
   liveWidgetKeys,
@@ -48,6 +48,29 @@ describe('addDecorations', () => {
 
     expect(getDecorations(editor)).toHaveLength(2)
 
+    editor.destroy()
+  })
+
+  it('warns when an extension produces duplicate widget keys', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({
+        create: () => [
+          decoration.widget(1, () => document.createElement('span'), { key: 'dup' }),
+          decoration.widget(2, () => document.createElement('span'), { key: 'dup' }),
+        ],
+      }),
+    })
+
+    const editor = createEditor(extension)
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('Duplicate widget decoration key "dup"'),
+    )
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('extension "deco"'))
+
+    warn.mockRestore()
     editor.destroy()
   })
 
@@ -347,6 +370,112 @@ describe('incrementalCreate', () => {
     editor.commands.updateDecorations()
 
     expect(create).toHaveBeenCalledTimes(2)
+
+    editor.destroy()
+  })
+
+  it('does not call createInRange when shouldUpdate returns false (maps only)', () => {
+    const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({
+        incrementalCreate: true,
+        create,
+        createInRange,
+        shouldUpdate: () => false,
+      }),
+    })
+
+    const editor = createEditor(extension, '<p>xax</p>')
+    const createCalls = create.mock.calls.length
+    const rangeCalls = createInRange.mock.calls.length
+
+    // Document changes, but shouldUpdate gates it off → map only.
+    editor.commands.insertContentAt(1, 'YY')
+
+    expect(create.mock.calls.length).toBe(createCalls)
+    expect(createInRange.mock.calls.length).toBe(rangeCalls)
+
+    // Existing decorations were mapped forward by +2.
+    expect(getDecorations(editor).some(d => d.from === 3 && d.to === 4)).toBe(true)
+
+    editor.destroy()
+  })
+
+  it('forced updateDecorations(name) runs full create for that extension only, never createInRange', () => {
+    const createA = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    const createInRangeA = vi.fn(({ state, from, to }) => scan(state, from, to))
+    const createB = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+
+    const a = Extension.create({
+      name: 'decoA',
+      addDecorations: () => ({
+        incrementalCreate: true,
+        create: createA,
+        createInRange: createInRangeA,
+      }),
+    })
+    const b = Extension.create({
+      name: 'decoB',
+      addDecorations: () => ({ create: createB }),
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, a, b],
+      content: '<p>xx</p>',
+    })
+
+    const aCreate = createA.mock.calls.length
+    const aRange = createInRangeA.mock.calls.length
+    const bCreate = createB.mock.calls.length
+
+    editor.commands.updateDecorations('decoA')
+
+    expect(createA.mock.calls.length).toBe(aCreate + 1) // full rebuild for the named extension
+    expect(createInRangeA.mock.calls.length).toBe(aRange) // never the incremental path
+    expect(createB.mock.calls.length).toBe(bCreate) // the other extension is untouched
+
+    editor.destroy()
+  })
+
+  it('handles nested structures: edits inside a container rebuild it, siblings survive', () => {
+    const Container = Node.create({
+      name: 'container',
+      group: 'block',
+      content: 'paragraph+',
+      parseHTML: () => [{ tag: 'div[data-container]' }],
+      renderHTML: () => ['div', { 'data-container': '' }, 0],
+    })
+
+    const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
+    const deco = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Container, deco],
+      content: '<div data-container><p>aaa</p><p>bbb</p></div><p>ccc</p>',
+    })
+
+    // The top-level "ccc" paragraph starts at pos 12 and gets a node decoration.
+    expect(getDecorations(editor).some(d => d.from === 12)).toBe(true)
+    expect(create).toHaveBeenCalledTimes(1)
+
+    // Type an "x" into a paragraph nested inside the container.
+    editor.commands.insertContentAt(3, 'x')
+
+    // Only the incremental path ran (the changed range expands to the whole
+    // top-level container, which createInRange rescans).
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(createInRange.mock.calls.length).toBeGreaterThan(0)
+
+    // The new match inside the container is decorated…
+    expect(getDecorations(editor).some(d => d.from === 3 && d.to === 4)).toBe(true)
+    // …and the sibling top-level paragraph's decoration survived, mapped by +1.
+    expect(getDecorations(editor).some(d => d.from === 13)).toBe(true)
 
     editor.destroy()
   })

@@ -158,13 +158,32 @@ export interface NonIncrementalDecorationSpec extends BaseDecorationSpec {
  * counts ("highlight the first match"), cross-document relationships ("mark
  * duplicate words"), or selection/external state — leave this off and rely on
  * `create`, or trigger a full rebuild with `updateDecorations()`.
+ *
+ * @experimental The incremental API (`incrementalCreate` / `createInRange`) is
+ * experimental. Its semantics, the way changed ranges are computed, and the
+ * naming may change in a minor release while it stabilizes. The non-incremental
+ * `create` / `shouldUpdate` API is stable.
  */
 export interface IncrementalDecorationSpec extends BaseDecorationSpec {
+  /**
+   * Set to `true` to opt into incremental recomputation. Requires
+   * {@link IncrementalDecorationSpec.createInRange}.
+   *
+   * @experimental
+   */
   incrementalCreate: true
   /**
    * Build this extension's decorations for the given range only. Receives the
-   * block-aligned changed range as `from`/`to`. Must return only decorations
-   * that fall within that range.
+   * block-aligned changed range as `from`/`to`.
+   *
+   * **Contract:** return only decorations whose anchor position (`from` for
+   * inline/node decorations, `pos` for widgets) lies within `[from, to)`.
+   * Decorations anchored before `from` or at/after `to` are not supported in
+   * incremental mode — they belong to a neighbouring block the manager did not
+   * remove, so returning them here leaks duplicates that are never cleaned up.
+   * If you need such decorations, use a full `create` instead.
+   *
+   * @experimental
    */
   createInRange: (props: DecorationRangeProps) => DecorationDescriptor[]
 }

@@ -2,6 +2,7 @@ import '../styles.scss'
 
 import { Extension } from '@tiptap/core'
 import type { DecorationDescriptor } from '@tiptap/core'
+import UniqueID from '@tiptap/extension-unique-id'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, ReactWidgetRenderer, useEditor } from '@tiptap/react'
 
@@ -11,8 +12,11 @@ import { Counter } from './Counter.js'
  * Renders an interactive React `Counter` widget at the end of every paragraph
  * using the declarative Decorations API + `ReactWidgetRenderer`.
  *
- * Widgets are keyed by paragraph index, so typing inside a paragraph reuses the
- * same component instance (the counter keeps its value).
+ * Widgets are keyed by the paragraph's stable `id` (assigned by `UniqueID`), not
+ * by its index. That is what lets the counter keep its value when you type,
+ * insert, or reorder paragraphs — ProseMirror reuses the same component instance
+ * because the key is stable. An index-based key would churn on every structural
+ * change and remount the component, losing its state.
  */
 const ParagraphCounters = Extension.create({
   name: 'paragraphCounters',
@@ -34,7 +38,8 @@ const ParagraphCounters = Extension.create({
             ReactWidgetRenderer(Counter, {
               editor,
               pos: offset + node.nodeSize - 1,
-              key: `paragraph-counter-${currentIndex}`,
+              // Stable domain key: the paragraph's id, not its position/index.
+              key: `paragraph-counter-${node.attrs.id}`,
               props: { index: currentIndex },
               side: 1,
             }),
@@ -51,7 +56,7 @@ const ParagraphCounters = Extension.create({
 
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit, ParagraphCounters],
+    extensions: [StarterKit, UniqueID.configure({ types: ['paragraph'] }), ParagraphCounters],
     content: `
       <h2>Decoration components</h2>
       <p>Each paragraph gets an interactive React widget. Click a counter, then type in this paragraph — the count survives because the widget instance is reused, not remounted.</p>

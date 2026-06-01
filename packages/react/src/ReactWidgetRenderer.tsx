@@ -108,9 +108,13 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   const { editor, pos, key, props = {} as P, as = 'span', className, side, marks } = options
   const cache = getCache(editor)
 
-  // `create()` re-runs on every recompute, so this is the reliable place to
-  // push fresh props: ProseMirror skips the widget's `toDOM` when it reuses the
-  // DOM, so prop updates can't ride along there.
+  // Two-phase prop update. ProseMirror skips the widget's `toDOM`/`render` when
+  // it reuses an existing widget's DOM, so the `render` callback below is NOT a
+  // reliable channel for prop changes. `create()` re-runs on every recompute,
+  // so this is the place to push fresh user props to an already-mounted widget.
+  // `updateProps` MERGES into the existing props, so `editor` / `getPos` pushed
+  // by the previous `render` are preserved — they are not lost by this partial
+  // update.
   const existing = cache.get(key)
 
   if (existing) {
@@ -148,8 +152,7 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
     destroy: () => {
       // Keep the renderer if the key is still a live widget decoration (it's
       // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
-      // current state, so this is correct even when nothing recomputed (e.g.
-      // `clearDecorations()`).
+      // current state, so this is correct even when nothing recomputed.
       if (liveWidgetKeys(editor).has(key)) {
         return
       }
