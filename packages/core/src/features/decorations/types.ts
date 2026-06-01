@@ -4,6 +4,25 @@ import type { DecorationAttrs, EditorView } from '@tiptap/pm/view'
 
 import type { Editor } from '../../Editor.js'
 
+/**
+ * Decorations are **view-only** markers attached to positions or ranges in the
+ * document. They are not serialized into JSON/HTML and they do not modify the
+ * underlying ProseMirror document.
+ *
+ * Use decorations for:
+ * - highlights and search results
+ * - comments / annotations
+ * - temporary UI markers
+ * - lightweight widgets that do not represent persisted document structure
+ *
+ * Use {@link NodeView | NodeViews} for:
+ * - persisted custom document content
+ * - editable custom blocks
+ * - complex embedded UI that owns document structure
+ *
+ * @see https://prosemirror.net/docs/ref/#view.Decoration
+ */
+
 export interface NodeDecorationDescriptor {
   kind: 'node'
   from: number
@@ -28,8 +47,25 @@ export interface WidgetDecorationDescriptor {
    * ProseMirror reuses a widget's DOM across redraws only when this `key`
    * matches the previous render. Without a stable key the widget is destroyed
    * and recreated on every update, causing flicker and lost component state.
-   * Derive it from a domain identifier (e.g. `comment-${id}`), never from the
-   * position (which changes as the document is edited).
+   *
+   * **Good keys** (stable, domain-based):
+   * - `comment-${id}` — a persisted comment
+   * - `paragraph-${node.attrs.id}` — using a node attribute as identity
+   * - `suggestion-${id}` — a suggestion annotation
+   *
+   * **Bad keys** (unstable, position-dependent):
+   * - `${currentIndex}` — a loop/paragraph index (shifts when content changes)
+   * - `marker-${from}` — a document position (changes on every edit)
+   * - `widget-${pos}` — any position-derived value
+   *
+   * For stateless widgets in demos or examples, index-based or position-based
+   * keys are acceptable, but stateful widgets must always use stable keys
+   * to preserve component state across edits.
+   *
+   * **Uniqueness**: Keys must also be globally unique across all widget
+   * decorations in the editor. Duplicate keys cause ProseMirror to misplace
+   * the widget DOM and crash. If you need two widgets for the same entity,
+   * include a suffix (e.g. `comment-${id}-start`, `comment-${id}-end`).
    */
   key: string
   spec?: {
@@ -78,12 +114,16 @@ export interface DecorationSpec {
    * Gate recomputation for performance. Return `false` to keep the existing
    * decorations mapped through the transaction instead of rebuilding them.
    * Defaults to recomputing whenever the document changes (`tr.docChanged`).
+   *
+   * If your `create()` performs expensive work (e.g. full-document scans,
+   * regex matching, external API calls), provide a `shouldUpdate` that only
+   * returns `true` when the relevant part of the document actually changed.
    */
   shouldUpdate?: (props: DecorationShouldUpdateProps) => boolean
 }
 
 /**
  * Transaction metadata understood by the decoration manager. Used by the
- * imperative `updateDecorations` / `clearDecorations` commands.
+ * `updateDecorations` command.
  */
-export type DecorationMeta = { type: 'force'; name?: string } | { type: 'clear' }
+export type DecorationMeta = { type: 'force'; name?: string }

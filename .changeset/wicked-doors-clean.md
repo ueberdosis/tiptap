@@ -9,7 +9,7 @@
 
 Extensions can now declare decorations declaratively via a new lifecycle hook `addDecorations()`. Supports three decoration types — node decorations (attrs on the DOM wrapper), inline decorations (styled spans), and widget decorations (framework components rendered at a position). The `DecorationManager` aggregates all extensions' declarations into a single ProseMirror plugin, with per-extension `shouldUpdate()` gates to control recomputation.
 
-New commands: `updateDecorations(extensionName?)` to force recompute, `clearDecorations()` to remove all decorations.
+New commands: `updateDecorations(extensionName?)` to force recompute.
 
 Framework bindings:
 - `@tiptap/react`: `ReactWidgetRenderer` wraps a React component as a ProseMirror widget, preserving state across key-based reassignment

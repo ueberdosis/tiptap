@@ -25,8 +25,7 @@ export default () => {
       <h2>Try it out</h2>
       <p>
         Change the search term below — Tiptap forces a recompute with
-        <code>updateDecorations</code>. Editing the document recomputes automatically,
-        while <code>clearDecorations</code> removes them until the next change.
+        <code>updateDecorations</code>. Editing the document recomputes automatically.
       </p>
     `,
   })
@@ -55,7 +54,6 @@ export default () => {
             <input type="text" value={term} onChange={handleTermChange} placeholder="Search term" />
           </label>
           <button onClick={() => editor.commands.updateDecorations()}>Re-apply</button>
-          <button onClick={() => editor.commands.clearDecorations()}>Clear decorations</button>
         </div>
       </div>
       <EditorContent editor={editor} />

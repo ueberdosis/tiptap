@@ -1,6 +1,5 @@
 export * from './blur.js'
 export * from './clearContent.js'
-export * from './clearDecorations.js'
 export * from './clearNodes.js'
 export * from './command.js'
 export * from './createParagraphNear.js'
