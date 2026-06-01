@@ -10,6 +10,7 @@ import {
   type MarkdownToken,
   type MarkdownTokenizer,
   type RenderContext,
+  attrsEqual,
   callOrReturn,
   decodeHtmlEntities,
   encodeHtmlEntities,
@@ -17,18 +18,17 @@ import {
   generateJSON,
   getExtensionField,
   getSchema,
+  marksEqual,
   sortExtensions,
 } from '@tiptap/core'
 import { type Lexer, type Token, type TokenizerExtension, type TokenizerThis, marked } from 'marked'
 
 import {
-  attrsEqual,
   closeMarksBeforeNode,
   findMarksToClose,
   findMarksToCloseAtEnd,
   findMarksToOpen,
   isTaskItem,
-  marksEqual,
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'

@@ -1,3 +1,4 @@
+import { attrsEqual } from '@tiptap/core'
 import type { Content, MarkdownToken } from '@tiptap/core'
 import type { Fragment, Node } from '@tiptap/pm/model'
 
@@ -22,34 +23,6 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
     .join('\n')
 
   return output.slice(0, output.length - 1)
-}
-
-/**
- * Compare two attribute objects for equality.
- * Handles null/undefined and asserts key presence in both objects so that
- * `{ foo: undefined }` and `{ bar: undefined }` are not treated as equal.
- */
-export function attrsEqual(
-  a: Record<string, any> | null | undefined,
-  b: Record<string, any> | null | undefined,
-): boolean {
-  if (a === b) {
-    return true
-  }
-  if (!a || !b) {
-    return false
-  }
-
-  const keysA = Object.keys(a)
-  const keysB = Object.keys(b)
-
-  if (keysA.length !== keysB.length) {
-    return false
-  }
-
-  return keysA.every(
-    key => Object.prototype.hasOwnProperty.call(b, key) && Object.is(a[key], b[key]),
-  )
 }
 
 /**
@@ -219,25 +192,6 @@ export function isTaskItem(item: MarkdownToken): {
  * @param content The content to assume the type for.
  * @param contentType The content type that should be prioritized.
  */
-/**
- * Compare two arrays of mark objects for equality.
- * Marks are compared by type and attributes (using attrsEqual),
- * so key ordering in attrs does not matter.
- */
-export function marksEqual(
-  a: { type: string; attrs?: Record<string, any> }[],
-  b: { type: string; attrs?: Record<string, any> }[],
-): boolean {
-  if (a.length !== b.length) {
-    return false
-  }
-
-  return a.every((mark, i) => {
-    const other = b[i]
-    return mark.type === other.type && attrsEqual(mark.attrs, other.attrs)
-  })
-}
-
 export function assumeContentType(
   content: (Content | Fragment | Node) | string,
   contentType: ContentType,
