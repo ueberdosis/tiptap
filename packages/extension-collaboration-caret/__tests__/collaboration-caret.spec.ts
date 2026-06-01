@@ -233,4 +233,66 @@ describe('extension-collaboration-caret', () => {
 
     getEditorEl()?.remove()
   })
+
+  it('should handle null or undefined awareness state values without crashing', () => {
+    const ydoc = new Y.Doc()
+
+    const states = new Map<number, Record<string, any> | null>()
+
+    states.set(1, { user: { name: 'Alice', color: '#ff0000' } })
+    states.set(2, null as any)
+    states.set(3, undefined as any)
+    states.set(4, { user: { name: 'Bob', color: '#00ff00' } })
+
+    const mockProvider = {
+      awareness: {
+        states,
+        setLocalStateField: () => {},
+        on: () => {},
+        off: () => {},
+        getStates: () => states,
+      },
+    }
+
+    const editorEl = createEditorEl()
+
+    const editor = new Editor({
+      element: editorEl,
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Collaboration.configure({
+          document: ydoc,
+        }),
+        CollaborationCaret.configure({
+          provider: mockProvider,
+          user: {
+            name: 'Test User',
+            color: '#0000ff',
+          },
+        }),
+      ],
+    })
+
+    const users = editor.storage.collaborationCaret.users
+
+    expect(users).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ clientId: 1, name: 'Alice', color: '#ff0000' }),
+        expect.objectContaining({ clientId: 4, name: 'Bob', color: '#00ff00' }),
+      ]),
+    )
+
+    const nullUser = users.find((u: any) => u.clientId === 2)
+
+    expect(nullUser).toEqual({ clientId: 2 })
+
+    const undefinedUser = users.find((u: any) => u.clientId === 3)
+
+    expect(undefinedUser).toEqual({ clientId: 3 })
+
+    editor.destroy()
+    getEditorEl()?.remove()
+  })
 })
