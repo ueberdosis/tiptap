@@ -1,10 +1,10 @@
-import '../styles.scss'
+import './styles.scss'
 
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/react'
 import React, { useState } from 'react'
 
-import { HighlightDecorations } from '../highlight-decorations.js'
+import { HighlightDecorations } from './highlight-decorations.js'
 
 const initialTerm = 'tiptap'
 

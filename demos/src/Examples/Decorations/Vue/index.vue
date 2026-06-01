@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import '../styles.scss'
+import './styles.scss'
 
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { HighlightDecorations } from '../highlight-decorations.js'
+import { HighlightDecorations } from './highlight-decorations.ts'
 
 const initialTerm = 'tiptap'
 
