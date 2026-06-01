@@ -1,5 +1,5 @@
-import type { ResizableNodeViewDirection } from '@tiptap/core'
-import { mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
+import type { ResizableNodeViewDirection, ResizableNodeViewOptions } from '@tiptap/core'
+import { getRenderedAttributes, mergeAttributes, Node, nodeInputRule, ResizableNodeView } from '@tiptap/core'
 
 export interface ImageOptions {
   /**
@@ -156,6 +156,7 @@ export const Image = Node.create<ImageOptions>({
       Object.entries(HTMLAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
+            case 'src':
             case 'width':
             case 'height':
               break
@@ -166,7 +167,68 @@ export const Image = Node.create<ImageOptions>({
         }
       })
 
-      el.src = HTMLAttributes.src
+      let previousHTMLAttributes = { ...HTMLAttributes }
+      const syncImageSource = (src: unknown) => {
+        if (typeof src === 'string' && src !== '') {
+          if (el.getAttribute('src') !== src) {
+            el.src = src
+          }
+
+          return
+        }
+
+        if (el.hasAttribute('src')) {
+          el.removeAttribute('src')
+        }
+
+        if (el.src !== '') {
+          el.src = ''
+        }
+      }
+
+      syncImageSource(HTMLAttributes.src)
+
+      const onUpdate: ResizableNodeViewOptions['onUpdate'] = (
+        updatedNode: Parameters<typeof getRenderedAttributes>[0],
+      ) => {
+        if (updatedNode.type !== node.type) {
+          return false
+        }
+
+        const extensionAttributes = editor.extensionManager.attributes.filter(
+          attribute => attribute.type === updatedNode.type.name,
+        )
+        const newHTMLAttributes = getRenderedAttributes(updatedNode, extensionAttributes)
+
+        // Remove attributes that were previously rendered but are no longer present
+        Object.keys(previousHTMLAttributes).forEach(key => {
+          if (key !== 'src' && key !== 'width' && key !== 'height' && !(key in newHTMLAttributes)) {
+            el.removeAttribute(key)
+          }
+        })
+
+        Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+          if (value != null) {
+            switch (key) {
+              case 'src':
+              case 'width':
+              case 'height':
+                break
+              default:
+                el.setAttribute(key, value)
+                break
+            }
+          } else {
+            el.removeAttribute(key)
+          }
+        })
+
+        syncImageSource(newHTMLAttributes.src)
+
+        previousHTMLAttributes = newHTMLAttributes
+
+        return true
+      }
 
       const nodeView = new ResizableNodeView({
         element: el,
@@ -192,13 +254,7 @@ export const Image = Node.create<ImageOptions>({
             })
             .run()
         },
-        onUpdate: (updatedNode, _decorations, _innerDecorations) => {
-          if (updatedNode.type !== node.type) {
-            return false
-          }
-
-          return true
-        },
+        onUpdate,
         options: {
           directions,
           min: {
