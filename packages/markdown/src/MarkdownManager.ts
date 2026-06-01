@@ -28,6 +28,7 @@ import {
   findMarksToCloseAtEnd,
   findMarksToOpen,
   isTaskItem,
+  marksEqual,
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
@@ -833,7 +834,7 @@ export class MarkdownManager {
         const currentMarks = current.marks || []
         const previousMarks = previous.marks || []
 
-        if (JSON.stringify(currentMarks) === JSON.stringify(previousMarks)) {
+        if (marksEqual(currentMarks, previousMarks)) {
           previous.text = (previous.text || '') + (current.text || '')
           result.splice(i, 1)
         }
