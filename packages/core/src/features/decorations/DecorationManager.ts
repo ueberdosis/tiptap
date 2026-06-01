@@ -1,7 +1,9 @@
-import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
+import { EditorState, Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from '../../Editor.js'
+import { getChangedRanges } from '../../helpers/getChangedRanges.js'
+import type { Range } from '../../types.js'
 import type { DecorationDescriptor, DecorationMeta, DecorationSpec } from './types.js'
 
 /**
@@ -26,6 +28,12 @@ interface DecorationManagerState {
    */
   decorationSetsByExtension: Record<string, DecorationSet>
   /**
+   * Each extension's live widget keys, keyed by extension name. Collected while
+   * building decorations (widget descriptors carry their key) so the merged
+   * {@link widgetKeys} is a cheap union instead of a full scan of the built set.
+   */
+  widgetKeysByExtension: Record<string, Set<string>>
+  /**
    * The union of every extension's set, handed to the editor view.
    */
   mergedDecorationSet: DecorationSet
@@ -49,66 +57,161 @@ export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
 }
 
 /**
- * Converts framework-agnostic descriptors into ProseMirror decorations.
+ * Converts framework-agnostic descriptors into ProseMirror decorations and, in
+ * the same pass, collects the keys of any widget decorations. Widget descriptors
+ * carry their `key`, so gathering keys here avoids a separate scan of the built
+ * set (which would re-walk the whole document).
  */
-function descriptorsToDecorations(descriptors: DecorationDescriptor[]): Decoration[] {
-  return descriptors.map(descriptor => {
+function descriptorsToDecorations(descriptors: DecorationDescriptor[]): {
+  decorations: Decoration[]
+  widgetKeys: Set<string>
+} {
+  const decorations: Decoration[] = []
+  const widgetKeys = new Set<string>()
+
+  for (const descriptor of descriptors) {
     switch (descriptor.kind) {
       case 'node':
-        return Decoration.node(descriptor.from, descriptor.to, descriptor.attrs, descriptor.spec)
+        decorations.push(
+          Decoration.node(descriptor.from, descriptor.to, descriptor.attrs, descriptor.spec),
+        )
+        break
       case 'inline':
-        return Decoration.inline(descriptor.from, descriptor.to, descriptor.attrs, descriptor.spec)
+        decorations.push(
+          Decoration.inline(descriptor.from, descriptor.to, descriptor.attrs, descriptor.spec),
+        )
+        break
       case 'widget':
-        return Decoration.widget(descriptor.pos, descriptor.render, {
-          ...descriptor.spec,
-          key: descriptor.key,
-        })
+        decorations.push(
+          Decoration.widget(descriptor.pos, descriptor.render, {
+            ...descriptor.spec,
+            key: descriptor.key,
+          }),
+        )
+        widgetKeys.add(descriptor.key)
+        break
       default:
         // unreachable for valid descriptors.
-        return descriptor as never
+        break
     }
-  })
+  }
+
+  return { decorations, widgetKeys }
 }
 
 /**
- * Merges every extension's decoration set into one and collects the keys of all
- * widget decorations in a single pass.
+ * Builds one extension's decoration set from its descriptors.
  *
- * This merge runs once per transaction that changed document content or triggered
- * a recompute. It calls `set.find()` on each extension's set, then creates a new
- * combined set from the flat array. For typical usage (a few extensions, dozens
- * to hundreds of decorations) this is cheap.
+ * `DecorationSet.create` runs ProseMirror's `buildTree`, which walks the entire
+ * document tree to distribute decorations — it is O(document size), not
+ * O(decoration count). Callers should therefore avoid rebuilding sets they can
+ * cheaply map forward instead (see the incremental path below).
  *
- * If you have many decorations or extensions that produce them cheaply,
- * use `shouldUpdate` to gate recomputation and avoid unnecessary merges.
- * Extensions with expensive `create()` should gate aggressively.
+ * @param doc - The current document, used as the base for the built set.
+ * @param descriptors - The framework-agnostic descriptors returned by `create`.
+ * @returns The extension's `set` and the `widgetKeys` it contains.
+ */
+function buildDecorationSet(
+  doc: EditorState['doc'],
+  descriptors: DecorationDescriptor[],
+): { set: DecorationSet; widgetKeys: Set<string> } {
+  const { decorations, widgetKeys } = descriptorsToDecorations(descriptors)
+
+  return { set: DecorationSet.create(doc, decorations), widgetKeys }
+}
+
+/**
+ * Returns the widget `key` of a decoration, or `undefined` if it has none.
+ */
+function widgetKeyOf(decoration: Decoration): string | undefined {
+  const key = (decoration.spec as { key?: unknown } | undefined)?.key
+
+  return typeof key === 'string' ? key : undefined
+}
+
+/**
+ * Expands the document-changing ranges of a transaction to the boundaries of the
+ * top-level blocks they touch, then merges overlapping results.
  *
- * @param doc - The current document, used as the base for the merged set.
- * @param decorationSetsByExtension - Each extension's decoration set, keyed by
- *   extension name.
- * @returns The `mergedDecorationSet` handed to the editor view and the
- *   `widgetKeys` of every widget decoration currently live.
+ * A text match cannot span a block boundary, so block-aligned ranges fully
+ * contain every match affected by the edit — even one that straddles the raw
+ * edit position (e.g. typing in the middle of a word). This is what lets the
+ * incremental path rescan only the touched blocks instead of the whole document.
+ */
+function getBlockAlignedChangedRanges(tr: Transaction, doc: EditorState['doc']): Range[] {
+  const ranges: Range[] = []
+
+  for (const { newRange } of getChangedRanges(tr)) {
+    let from: number | null = null
+    let to = 0
+
+    // Include every top-level block whose span intersects the changed range.
+    doc.forEach((node, offset) => {
+      const nodeStart = offset
+      const nodeEnd = offset + node.nodeSize
+
+      if (nodeEnd >= newRange.from && nodeStart <= newRange.to) {
+        if (from === null) {
+          from = nodeStart
+        }
+
+        to = nodeEnd
+      }
+    })
+
+    if (from !== null) {
+      ranges.push({ from, to })
+    }
+  }
+
+  // Merge overlapping/adjacent ranges so a block is never patched twice.
+  ranges.sort((a, b) => a.from - b.from)
+
+  const merged: Range[] = []
+
+  for (const range of ranges) {
+    const last = merged[merged.length - 1]
+
+    if (last && range.from <= last.to) {
+      last.to = Math.max(last.to, range.to)
+    } else {
+      merged.push({ ...range })
+    }
+  }
+
+  return merged
+}
+
+/**
+ * Unions every extension's widget keys into the single set framework widget
+ * renderers read via {@link liveWidgetKeys}. Cheap — it iterates the per-extension
+ * key sets, never the built decoration tree.
+ */
+function unionWidgetKeys(widgetKeysByExtension: Record<string, Set<string>>): Set<string> {
+  const merged = new Set<string>()
+
+  for (const keys of Object.values(widgetKeysByExtension)) {
+    for (const key of keys) {
+      merged.add(key)
+    }
+  }
+
+  return merged
+}
+
+/**
+ * Merges every extension's decoration set into one. Runs ProseMirror's
+ * `buildTree` once over the flattened decorations, so it is O(document size).
+ * Only used when more than one extension produced decorations and at least one
+ * recomputed — the single-extension and map-forward paths avoid it entirely.
  */
 function mergeDecorationSets(
   doc: EditorState['doc'],
   decorationSetsByExtension: Record<string, DecorationSet>,
-): { mergedDecorationSet: DecorationSet; widgetKeys: Set<string> } {
-  // Intentionally simple: flatMap + create is O(N) in total decorations.
-  // Per-extension shouldUpdate gates and the short-circuit below prevent
-  // unnecessary runs. If this becomes a hot path, consider a delta-based
-  // merge or incremental set building.
+): DecorationSet {
   const allDecorations = Object.values(decorationSetsByExtension).flatMap(set => set.find())
-  const widgetKeys = new Set<string>()
 
-  for (const decoration of allDecorations) {
-    const key = (decoration.spec as { key?: unknown } | undefined)?.key
-
-    if (typeof key === 'string') {
-      widgetKeys.add(key)
-    }
-  }
-
-  return { mergedDecorationSet: DecorationSet.create(doc, allDecorations), widgetKeys }
+  return DecorationSet.create(doc, allDecorations)
 }
 
 /**
@@ -118,7 +221,10 @@ function mergeDecorationSets(
  * - On `init`, every extension's `create` runs to produce its initial set.
  * - On `apply`, each extension is either recomputed (when `shouldUpdate`
  *   returns `true`, or by default when the document changed) or its previous
- *   set is mapped forward through the transaction.
+ *   set is mapped forward through the transaction. Extensions that opt into
+ *   `incrementalCreate` map their previous set forward and rebuild only the
+ *   blocks the edit touched via `createInRange`, instead of rebuilding the
+ *   whole set with `create`.
  * - Transaction meta (sent by `updateDecorations` / `clearDecorations`) can
  *   force a recompute of one/all extensions, or clear everything.
  */
@@ -126,10 +232,18 @@ export function createDecorationPlugin(
   editor: Editor,
   decorationEntries: ResolvedDecorationEntry[],
 ): Plugin<DecorationManagerState> {
-  const buildExtensionDecorationSet = (state: EditorState, spec: DecorationSpec): DecorationSet => {
+  // When a single extension declares decorations (the common case) the merged
+  // set is identical to that extension's set, so we hand it through directly and
+  // skip the flatten + `DecorationSet.create` rebuild entirely.
+  const singleExtensionName = decorationEntries.length === 1 ? decorationEntries[0].name : undefined
+
+  const buildExtensionDecorationSet = (
+    state: EditorState,
+    spec: DecorationSpec,
+  ): { set: DecorationSet; widgetKeys: Set<string> } => {
     const descriptors = spec.create({ editor, state, view: editor.view })
 
-    return DecorationSet.create(state.doc, descriptorsToDecorations(descriptors))
+    return buildDecorationSet(state.doc, descriptors)
   }
 
   return new Plugin<DecorationManagerState>({
@@ -137,14 +251,24 @@ export function createDecorationPlugin(
     state: {
       init: (_config, state) => {
         const decorationSetsByExtension: Record<string, DecorationSet> = {}
+        const widgetKeysByExtension: Record<string, Set<string>> = {}
 
         for (const { name, spec } of decorationEntries) {
-          decorationSetsByExtension[name] = buildExtensionDecorationSet(state, spec)
+          const { set, widgetKeys } = buildExtensionDecorationSet(state, spec)
+
+          decorationSetsByExtension[name] = set
+          widgetKeysByExtension[name] = widgetKeys
         }
+
+        const mergedDecorationSet = singleExtensionName
+          ? decorationSetsByExtension[singleExtensionName]
+          : mergeDecorationSets(state.doc, decorationSetsByExtension)
 
         return {
           decorationSetsByExtension,
-          ...mergeDecorationSets(state.doc, decorationSetsByExtension),
+          widgetKeysByExtension,
+          mergedDecorationSet,
+          widgetKeys: unionWidgetKeys(widgetKeysByExtension),
         }
       },
       apply: (tr, previous, oldState, newState) => {
@@ -154,23 +278,93 @@ export function createDecorationPlugin(
         const forceName = meta?.type === 'force' ? meta.name : undefined
 
         const decorationSetsByExtension: Record<string, DecorationSet> = {}
+        const widgetKeysByExtension: Record<string, Set<string>> = {}
         let recomputed = false
 
         for (const { name, spec } of decorationEntries) {
-          const shouldUpdate =
-            forceAll ||
-            forceName === name ||
+          const forced = forceAll || forceName === name
+          const wantsRecompute =
+            forced ||
             (spec.shouldUpdate
               ? spec.shouldUpdate({ editor, tr, oldState, newState })
               : tr.docChanged)
 
-          if (shouldUpdate) {
-            decorationSetsByExtension[name] = buildExtensionDecorationSet(newState, spec)
+          if (!wantsRecompute) {
+            const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
+            const widgetKeys = new Set(previous.widgetKeysByExtension[name])
+
+            // Map the set forward and prune the keys of any widget dropped
+            // because its position was deleted. The map walks the set's own
+            // structure (≈O(decorations)), not the whole document.
+            decorationSetsByExtension[name] = previousSet.map(tr.mapping, tr.doc, {
+              onRemove: removedSpec => {
+                const key = (removedSpec as { key?: unknown } | undefined)?.key
+
+                if (typeof key === 'string') {
+                  widgetKeys.delete(key)
+                }
+              },
+            })
+            widgetKeysByExtension[name] = widgetKeys
+          } else if (spec.incrementalCreate && tr.docChanged && !forced) {
+            // Incremental recompute: map the existing decorations forward, then
+            // rebuild only the blocks the edit touched via `createInRange`. The
+            // extension's full-document `create` never runs here.
+            const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
+            const widgetKeys = new Set(previous.widgetKeysByExtension[name])
+
+            let set = previousSet.map(tr.mapping, tr.doc, {
+              onRemove: removedSpec => {
+                const key = (removedSpec as { key?: unknown } | undefined)?.key
+
+                if (typeof key === 'string') {
+                  widgetKeys.delete(key)
+                }
+              },
+            })
+
+            for (const { from, to } of getBlockAlignedChangedRanges(tr, newState.doc)) {
+              // Drop the now-stale decorations anchored in this range (and their
+              // keys). We match by `from` rather than by overlap so we only
+              // remove decorations `createInRange` will regenerate — a neighbour
+              // block's decoration whose edge merely touches this range boundary
+              // (e.g. a heading node decoration ending at the block start) is
+              // left untouched.
+              const stale = set
+                .find(from, to)
+                .filter(decoration => decoration.from >= from && decoration.from < to)
+
+              for (const decoration of stale) {
+                const key = widgetKeyOf(decoration)
+
+                if (key) {
+                  widgetKeys.delete(key)
+                }
+              }
+
+              set = set.remove(stale)
+
+              // …and rebuild just this range.
+              const { decorations, widgetKeys: addedKeys } = descriptorsToDecorations(
+                spec.createInRange({ editor, state: newState, view: editor.view, from, to }),
+              )
+
+              set = set.add(newState.doc, decorations)
+
+              for (const key of addedKeys) {
+                widgetKeys.add(key)
+              }
+            }
+
+            decorationSetsByExtension[name] = set
+            widgetKeysByExtension[name] = widgetKeys
             recomputed = true
           } else {
-            const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
+            const { set, widgetKeys } = buildExtensionDecorationSet(newState, spec)
 
-            decorationSetsByExtension[name] = previousSet.map(tr.mapping, tr.doc)
+            decorationSetsByExtension[name] = set
+            widgetKeysByExtension[name] = widgetKeys
+            recomputed = true
           }
         }
 
@@ -180,9 +374,25 @@ export function createDecorationPlugin(
           return previous
         }
 
+        let mergedDecorationSet: DecorationSet
+
+        if (singleExtensionName) {
+          // Single extension: the merged set is that extension's set.
+          mergedDecorationSet = decorationSetsByExtension[singleExtensionName]
+        } else if (recomputed) {
+          // Some extension changed: rebuild the union once.
+          mergedDecorationSet = mergeDecorationSets(newState.doc, decorationSetsByExtension)
+        } else {
+          // Only positions moved: map the previous merged set forward instead of
+          // re-flattening and rebuilding every extension's set.
+          mergedDecorationSet = previous.mergedDecorationSet.map(tr.mapping, tr.doc)
+        }
+
         return {
           decorationSetsByExtension,
-          ...mergeDecorationSets(newState.doc, decorationSetsByExtension),
+          widgetKeysByExtension,
+          mergedDecorationSet,
+          widgetKeys: unionWidgetKeys(widgetKeysByExtension),
         }
       },
     },
