@@ -1,6 +1,8 @@
 import type { JSONContent, MarkdownParseHelpers, MarkdownToken } from '@tiptap/core'
 import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
 
+import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
+
 export interface ListItemOptions {
   /**
    * The HTML attributes for a list item node.
@@ -178,6 +180,15 @@ export const ListItem = Node.create<ListItemOptions>({
       },
       ctx,
     )
+  },
+
+  addExtensions() {
+    return [
+      createBranchingListDeleteKeymap(this.name, [
+        this.options.bulletListTypeName,
+        this.options.orderedListTypeName,
+      ]),
+    ]
   },
 
   addKeyboardShortcuts() {

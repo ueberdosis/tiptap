@@ -582,4 +582,250 @@ describe('Markdown Conversion Tests', () => {
       expect(serialized).toBe('&amp;nbsp;')
     })
   })
+
+  describe('markdown escape character handling', () => {
+    describe('parsing: escape tokens in markdown → text nodes', () => {
+      it('should parse a backslash-escaped asterisk as a literal asterisk', () => {
+        const json = markdownManager.parse('\\*text\\*')
+
+        expect(json.content).toHaveLength(1)
+        expect(json.content[0].type).toBe('paragraph')
+        expect(json.content[0].content).toHaveLength(1)
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '*text*' })
+      })
+
+      it('should parse a backslash-escaped underscore as a literal underscore', () => {
+        const json = markdownManager.parse('\\_text\\_')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '_text_' })
+      })
+
+      it('should parse a backslash-escaped backtick as a literal backtick', () => {
+        const json = markdownManager.parse('\\`')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '`' })
+      })
+
+      it('should parse a double-backslash as a literal backslash', () => {
+        const json = markdownManager.parse('\\\\')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '\\' })
+      })
+
+      it('should parse escaped double-asterisks as literal double-asterisks', () => {
+        const json = markdownManager.parse('\\*\\*bold\\*\\*')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '**bold**' })
+      })
+
+      it('should parse a backslash-escaped tilde as a literal tilde', () => {
+        const json = markdownManager.parse('\\~text\\~')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '~text~' })
+      })
+
+      it('should parse escaped brackets as literal brackets', () => {
+        const json = markdownManager.parse('\\[link\\]')
+
+        expect(json.content[0].content[0]).toEqual({ type: 'text', text: '[link]' })
+      })
+    })
+
+    describe('parsing: mixed escape tokens and real formatting', () => {
+      it('should preserve real italic marks alongside escaped asterisks', () => {
+        const json = markdownManager.parse('\\*escaped\\* and *real*')
+
+        expect(json.content).toHaveLength(1)
+        const content = json.content[0].content!
+        expect(content).toHaveLength(2)
+        // The unmarked escaped text gets merged into a single node
+        expect(content[0].type).toBe('text')
+        expect(content[0].text).toBe('*escaped* and ')
+        // The real italic is still separate
+        expect(content[1]).toEqual({
+          type: 'text',
+          text: 'real',
+          marks: [{ type: 'italic' }],
+        })
+      })
+    })
+
+    describe('serializing: text with special chars → backslash-escaped markdown', () => {
+      it('should escape asterisks in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '*literal*' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\*literal\\*')
+      })
+
+      it('should escape underscores in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '_underscore_' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\_underscore\\_')
+      })
+
+      it('should escape backticks in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '`code`' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\`code\\`')
+      })
+
+      it('should escape backslashes in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '\\' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\\\')
+      })
+
+      it('should escape brackets in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '[bracket]' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\[bracket\\]')
+      })
+
+      it('should escape tildes in text nodes', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '~strike~' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\~strike\\~')
+      })
+    })
+
+    describe('round-trip: parse → serialize → parse stability', () => {
+      it('should round-trip a simple escaped asterisk string', () => {
+        const input = '\\*hello\\*'
+        const json = markdownManager.parse(input)
+        const md = markdownManager.serialize(json)
+        const json2 = markdownManager.parse(md)
+
+        expect(json2.content[0].content[0].text).toBe('*hello*')
+      })
+
+      it('should round-trip JSON with literal asterisk through serialize → parse', () => {
+        const input = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '*literal*' }],
+            },
+          ],
+        }
+
+        const md = markdownManager.serialize(input)
+        const parsed = markdownManager.parse(md)
+
+        expect(parsed.content[0].content[0].text).toBe('*literal*')
+      })
+
+      it('should round-trip a double-backslash', () => {
+        const input = '\\\\\\\\'
+        const json = markdownManager.parse(input)
+        const md = markdownManager.serialize(json)
+        const json2 = markdownManager.parse(md)
+
+        expect(json2.content[0].content[0].text).toBe('\\\\')
+      })
+    })
+
+    describe('edge cases: code blocks and nested syntax', () => {
+      it('should NOT backslash-escape inside inline code marks (parsing)', () => {
+        const json = markdownManager.parse('`\\*not italic\\*`')
+
+        expect(json.content[0].content[0]).toEqual({
+          type: 'text',
+          text: '\\*not italic\\*',
+          marks: [{ type: 'code' }],
+        })
+      })
+
+      it('should NOT backslash-escape inside code blocks when serializing', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'codeBlock',
+              attrs: { language: null },
+              content: [{ type: 'text', text: '*not bold*' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('```\n*not bold*\n```')
+      })
+
+      it('should NOT backslash-escape inside inline code marks when serializing', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: '*not bold*',
+                  marks: [{ type: 'code' }],
+                },
+              ],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('`*not bold*`')
+      })
+    })
+  })
 })

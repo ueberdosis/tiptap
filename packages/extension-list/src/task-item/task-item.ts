@@ -8,6 +8,8 @@ import {
 } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
+import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
+
 export interface TaskItemOptions {
   /**
    * A callback function that is called when the checkbox is clicked while the editor is in readonly mode.
@@ -156,6 +158,14 @@ export const TaskItem = Node.create<TaskItemOptions>({
     const prefix = `- [${checkedChar}] `
 
     return renderNestedMarkdownContent(node, h, prefix)
+  },
+
+  addExtensions() {
+    if (!this.options.nested) {
+      return []
+    }
+
+    return [createBranchingListDeleteKeymap(this.name, [this.options.taskListTypeName])]
   },
 
   addKeyboardShortcuts() {

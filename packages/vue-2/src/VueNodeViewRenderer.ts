@@ -47,6 +47,15 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     value: string
   }
 
+  /**
+   * The element that holds the rich-text content of the node.
+   * Always created for non-leaf nodes to guarantee a valid contentDOM,
+   * even when the user's component does not include a NodeViewContent.
+   * Must NOT have an initializer because class field initializers run
+   * after super() and would overwrite the value set by mount().
+   */
+  contentDOMElement!: HTMLElement | null
+
   private currentPos: number | undefined
 
   constructor(
@@ -70,6 +79,9 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.renderer.updateProps({ getPos: () => this.getPos() })
   }
 
+  /**
+   * Called when the node view is mounted.
+   */
   mount() {
     const props: Record<string, any> = {
       editor: this.editor,
@@ -102,6 +114,14 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
         return {
           onDragStart,
           decorationClasses: this.decorationClasses,
+          nodeViewContentRef: (el: HTMLElement | null) => {
+            if (!this.contentDOMElement) return
+
+            if (el && el.firstChild !== this.contentDOMElement) {
+              // NodeViewContent mounted: move the contentDOMElement inside it
+              el.appendChild(this.contentDOMElement)
+            }
+          },
         }
       },
     })
@@ -110,6 +130,15 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.editor.on('selectionUpdate', this.handleSelectionUpdate)
 
     this.currentPos = this.getPos()
+
+    if (!this.node.isLeaf) {
+      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      this.contentDOMElement.style.whiteSpace = 'inherit'
+      // Use a distinct attribute to avoid clashing with the user's
+      // <node-view-content> element (which carries data-node-view-content).
+      // Matches React's data-node-view-content-react convention.
+      this.contentDOMElement.dataset.nodeViewContentVue = ''
+    }
 
     this.renderer = new VueRenderer(Component, {
       parent: this.editor.contentComponent,
@@ -138,7 +167,7 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
       return null
     }
 
-    return this.dom.querySelector('[data-node-view-content]') as HTMLElement | null
+    return this.contentDOMElement
   }
 
   /**
@@ -286,6 +315,8 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     if (this.options.trackNodeViewPosition) {
       this.editor.off('update', this.handlePositionUpdate)
     }
+
+    this.contentDOMElement = null
   }
 }
 

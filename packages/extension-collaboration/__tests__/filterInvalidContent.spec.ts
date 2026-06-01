@@ -47,7 +47,7 @@ describe('filterInvalidContent', () => {
   const findFilterPlugin = (e: Editor): Plugin | undefined =>
     e.state.plugins.find(p => p.spec.filterTransaction && p.key.includes('filterInvalidContent'))
 
-  it('rejects Yjs transactions that produce invalid content', async () => {
+  it('emits contentError and disables collaboration on invalid Yjs content while allowing the transaction', async () => {
     let contentErrorCalled = false
 
     const { editor: ed } = await createCollabEditor({
@@ -70,7 +70,7 @@ describe('filterInvalidContent', () => {
 
     const result = plugin!.spec.filterTransaction!(tr, ed.state)
 
-    expect(result).toBe(false)
+    expect(result).toBe(true)
     expect(contentErrorCalled).toBe(true)
     expect(ed.storage.collaboration.isDisabled).toBe(true)
   })
