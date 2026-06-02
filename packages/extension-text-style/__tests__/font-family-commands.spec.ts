@@ -27,7 +27,9 @@ describe('FontFamily commands', () => {
     expect(editor.isActive('textStyle', { fontFamily: 'monospace' })).toBe(false)
     editor.commands.setFontFamily('monospace')
     expect(editor.isActive('textStyle', { fontFamily: 'monospace' })).toBe(true)
-    expect(editor.getHTML()).toContain('<span style="font-family: monospace;">Example Text</span>')
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.textContent).toBe('Example Text')
+    expect((span as HTMLSpanElement | null)?.style.fontFamily).toBe('monospace')
   })
 
   it('removes the font-family of the selected text', () => {
@@ -40,22 +42,19 @@ describe('FontFamily commands', () => {
 
   it('allows CSS variables as a font-family', () => {
     editor.commands.setFontFamily('var(--title-font-family)')
-    expect(editor.getHTML()).toContain(
-      '<span style="font-family: var(--title-font-family);">Example Text</span>',
-    )
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.style.fontFamily).toBe('var(--title-font-family)')
   })
 
   it('allows fonts containing multiple font families', () => {
     editor.commands.setFontFamily('"Comic Sans MS", "Comic Sans"')
-    expect(editor.getHTML()).toContain(
-      '<span style="font-family: &quot;Comic Sans MS&quot;, &quot;Comic Sans&quot;;">Example Text</span>',
-    )
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.style.fontFamily).toBe('"Comic Sans MS", "Comic Sans"')
   })
 
   it('allows fonts containing a space and number as a font-family', () => {
     editor.commands.setFontFamily('"Exo 2"')
-    expect(editor.getHTML()).toContain(
-      '<span style="font-family: &quot;Exo 2&quot;;">Example Text</span>',
-    )
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.style.fontFamily).toBe('"Exo 2"')
   })
 })

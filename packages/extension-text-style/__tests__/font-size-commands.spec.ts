@@ -27,12 +27,14 @@ describe('FontSize commands', () => {
     expect(editor.isActive('textStyle', { fontSize: '28px' })).toBe(false)
     editor.commands.setFontSize('28px')
     expect(editor.isActive('textStyle', { fontSize: '28px' })).toBe(true)
-    expect(editor.getHTML()).toContain('<span style="font-size: 28px;">Example Text</span>')
+    const span = editor.view.dom.querySelector('span')
+    expect(span?.textContent).toBe('Example Text')
+    expect(span?.style.fontSize).toBe('28px')
   })
 
   it('removes the font-size of the selected text', () => {
     editor.commands.setFontSize('28px')
-    expect(editor.getHTML()).toContain('<span style="font-size: 28px;">')
+    expect(editor.view.dom.querySelector('span')?.style.fontSize).toBe('28px')
 
     editor.commands.unsetFontSize()
     expect(editor.getHTML()).not.toContain('<span')

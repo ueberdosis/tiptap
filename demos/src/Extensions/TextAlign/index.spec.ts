@@ -30,39 +30,44 @@ test.describe(`${demoPath}/${demoName}`, () => {
       ;['left', 'center', 'right', 'justify'].forEach(alignment => {
         test(`parses ${alignment} align text correctly`, async ({ page }) => {
           const editor = await getEditor(page)
-          const html = await editor.evaluate((el: any, a: string) => {
+          await editor.evaluate((el: any, a: string) => {
             el.editor.commands.setContent(`<p style="text-align: ${a}">Example Text</p>`)
-            return el.editor.getHTML()
           }, alignment)
-          expect(html).toBe(`<p style="text-align: ${alignment};">Example Text</p>`)
+          await expect(page.locator('.tiptap p').filter({ hasText: 'Example Text' })).toHaveCSS(
+            'text-align',
+            alignment,
+          )
         })
       })
 
       test('keeps the text aligned when toggling headings', async ({ page }) => {
         const editor = await getEditor(page)
-        const result = await editor.evaluate((el: any) => {
-          const alignments = ['center', 'right', 'justify']
-          const headings = [1, 2]
-          const out: string[] = []
-          alignments.forEach(alignment => {
-            headings.forEach(level => {
-              el.editor.commands.setContent(`<p style="text-align: ${alignment}">Example Text</p>`)
-              el.editor.commands.toggleHeading({ level })
-              out.push(el.editor.getHTML())
-            })
-          })
-          return out
-        })
-
         const alignments = ['center', 'right', 'justify']
         const headings = [1, 2]
-        const expected: string[] = []
-        alignments.forEach(alignment => {
-          headings.forEach(level => {
-            expected.push(`<h${level} style="text-align: ${alignment};">Example Text</h${level}>`)
-          })
-        })
-        expect(result).toEqual(expected)
+
+        for (const alignment of alignments) {
+          for (const level of headings) {
+            await editor.evaluate(
+              (
+                el: any,
+                {
+                  currentAlignment,
+                  currentLevel,
+                }: { currentAlignment: string; currentLevel: number },
+              ) => {
+                el.editor.commands.setContent(
+                  `<p style="text-align: ${currentAlignment}">Example Text</p>`,
+                )
+                el.editor.commands.toggleHeading({ level: currentLevel })
+              },
+              { currentAlignment: alignment, currentLevel: level },
+            )
+
+            await expect(
+              page.locator(`.tiptap h${level}`).filter({ hasText: 'Example Text' }),
+            ).toHaveCSS('text-align', alignment)
+          }
+        }
       })
 
       test('aligns the text left on the 1st button', async ({ page }) => {

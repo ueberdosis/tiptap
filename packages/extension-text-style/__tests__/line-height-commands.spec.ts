@@ -24,9 +24,9 @@ describe('LineHeight commands', () => {
   })
 
   const cases = [
-    { value: '1.5', style: 'line-height: 1.5;' },
-    { value: '2.0', style: 'line-height: 2;' },
-    { value: '4.0', style: 'line-height: 4;' },
+    { value: '1.5', style: '1.5' },
+    { value: '2.0', style: '2' },
+    { value: '4.0', style: '4' },
   ]
 
   cases.forEach(({ value, style }) => {
@@ -34,13 +34,15 @@ describe('LineHeight commands', () => {
       expect(editor.isActive('textStyle', { lineHeight: value })).toBe(false)
       editor.commands.toggleTextStyle({ lineHeight: value })
       expect(editor.isActive('textStyle', { lineHeight: value })).toBe(true)
-      expect(editor.getHTML()).toContain(`<span style="${style}">Example Text</span>`)
+      const span = editor.view.dom.querySelector('span')
+      expect(span?.textContent).toBe('Example Text')
+      expect(span?.style.lineHeight).toBe(style)
     })
   })
 
   it('removes the line-height of the selected text', () => {
     editor.commands.toggleTextStyle({ lineHeight: '1.5' })
-    expect(editor.getHTML()).toContain('<span style="line-height: 1.5;">')
+    expect(editor.view.dom.querySelector('span')?.style.lineHeight).toBe('1.5')
 
     editor.commands.unsetLineHeight()
     expect(editor.getHTML()).not.toContain('<span')
