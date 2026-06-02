@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.25.0
+
+### Minor Changes
+
+- 45237e7: `ListKeymap`'s Backspace handler now lifts the current list item before merging. At the start of a non-first list item, the item is lifted out of its wrapping list (splitting the list around it) instead of immediately joining its content into the previous item. A second Backspace then hits the existing "paragraph after a list" branch and merges the lifted textblock's content into the previous list's last item. Mirrors the two-step behavior introduced for blockquote in #7891.
+
+### Patch Changes
+
+- 8dc5694: Fix delete at the end of a list item with a branching nested sublist. Nested items are hoisted to the parent list instead of being node-selected and deleted on the next keypress.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- 86e29ec: Fix `HTMLAttributes` not being applied to the `<table>` element when `resizable` is disabled (the default). The `TableView` node view (introduced in 3.23) bypassed `renderHTML` and never applied user-configured attributes like `class` or `data-*` to the rendered table element.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

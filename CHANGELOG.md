@@ -1,5 +1,801 @@
 # Releases
 
+## v3.25.0
+
+### @tiptap/core
+
+#### Patch Changes
+
+- 711c2e3: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+  
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+- 711c2e3: Add `clearable` mark option (default `true`). `unsetAllMarks` now skips marks with `clearable: false`, so semantic marks like comments are not removed by "clear formatting".
+- 711c2e3: Add `attrsEqual` and `marksEqual` utility functions to `@tiptap/core`. `attrsEqual` compares two attribute objects for equality regardless of key ordering. `marksEqual` compares two arrays of mark objects by type and attributes using `attrsEqual`.
+- 711c2e3: Fix plain-text copy of table cell selections including content from unselected cells in between. Each selected range is now serialized independently and joined in document order, so dragging upward (reverse selection) also produces output in document order.
+- Updated dependencies [711c2e3]
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-file-handler
+
+#### Patch Changes
+
+- 711c2e3: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+  
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-text-style@3.25.0
+
+### @tiptap/extension-image
+
+#### Patch Changes
+
+- 711c2e3: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+  
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+- 711c2e3: Fix `HTMLAttributes` not being applied to the editor DOM when `resize` is enabled. The `addNodeView` path was using only the resolved node attributes and skipping the user-configured `HTMLAttributes` option. Now it merges them consistently with how `renderHTML` already works.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-list
+
+#### Minor Changes
+
+- 711c2e3: `ListKeymap`'s Backspace handler now lifts the current list item before merging. At the start of a non-first list item, the item is lifted out of its wrapping list (splitting the list around it) instead of immediately joining its content into the previous item. A second Backspace then hits the existing "paragraph after a list" branch and merges the lifted textblock's content into the previous list's last item. Mirrors the two-step behavior introduced for blockquote in #7891.
+
+#### Patch Changes
+
+- 711c2e3: Fix delete at the end of a list item with a branching nested sublist. Nested items are hoisted to the parent list instead of being node-selected and deleted on the next keypress.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extensions
+
+#### Minor Changes
+
+- 711c2e3: Allow `emptyNodeClass` in the Placeholder extension to accept a function that returns a dynamic CSS class name per node
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/static-renderer
+
+#### Patch Changes
+
+- 711c2e3: Fix blockquote markdown rendering to add a trailing newline so subsequent content is not incorrectly included in the blockquote
+- 711c2e3: Fix the types of the JSON static renderers (`renderJSONContentToReactElement` and `renderJSONContentToString`): you can now pass `JSONContent` directly and read node fields like `node.text` in your mappings without type errors or casts.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-table
+
+#### Patch Changes
+
+- 711c2e3: Fix `HTMLAttributes` not being applied to the `<table>` element when `resizable` is disabled (the default). The `TableView` node view (introduced in 3.23) bypassed `renderHTML` and never applied user-configured attributes like `class` or `data-*` to the rendered table element.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/pm
+
+#### Patch Changes
+
+- 711c2e3: Bump `prosemirror-tables` to `^1.8.0` so `findTable` is available from `@tiptap/pm`, and align the related ProseMirror dependencies with the versions required by `prosemirror-tables`.
+
+### @tiptap/extension-unique-id
+
+#### Patch Changes
+
+- 711c2e3: Fix memory leak when destroying an editor before the collaboration provider syncs. The `synced` listener registered in `onCreate` was only removed once the event fired, so destroying the editor first left the `createIds` closure (and the whole editor it captures) referenced by the shared provider. The listener is now also detached on destroy, so the editor can be garbage collected.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-code
+
+#### Patch Changes
+
+- 711c2e3: Fixed a bug where typing a character before an inline code markdown shortcut (e.g. `a` followed by backtick-delimited code) would delete the preceding character. The preceding character is now preserved.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-collaboration-caret
+
+#### Patch Changes
+
+- 711c2e3: Fix crash when awareness state value is null or undefined (e.g. after a client disconnects)
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-collaboration
+
+#### Patch Changes
+
+- 711c2e3: Fixed `onContentError` not being triggered when invalid collaborative content is detected. The `filterTransaction` hook now allows the transaction through to keep ProseMirror state in sync with Yjs, ensuring the `contentError` event fires correctly.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/markdown
+
+#### Patch Changes
+
+- 711c2e3: Fix backslash-escape handling in the Markdown parser and serializer. Parsing a backslash-escaped markdown character (e.g. `\*`, `\_`, `\\`) now correctly produces a literal text node, instead of silently dropping the character. On serialization, characters that have special meaning in markdown inline syntax (`*`, `_`, `` ` ``, `[`, `]`, `\`, `~`) are now backslash-escaped in non-code text nodes to prevent them from being misinterpreted as formatting delimiters when the output is parsed again.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/vue-3
+
+#### Patch Changes
+
+- 711c2e3: Fix `VueNodeViewRenderer` thrashing the DOM when `contentDOM` is null for non-leaf nodes. The renderer now always creates a contentDOM element for non-leaf nodes (matching React's behavior), so ProseMirror has a valid element to render children into even when the NodeView component does not include `NodeViewContent` or renders it conditionally.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/vue-2
+
+#### Patch Changes
+
+- 711c2e3: Fix `VueNodeViewRenderer` thrashing the DOM when `contentDOM` is null for non-leaf nodes. The renderer now always creates a contentDOM element for non-leaf nodes (matching React's behavior), so ProseMirror has a valid element to render children into even when the NodeView component does not include `NodeViewContent` or renders it conditionally.
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-audio
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-blockquote
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-bold
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-bubble-menu
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-code-block
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-code-block-lowlight
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-code-block@3.25.0
+
+### @tiptap/extension-details
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-text-style@3.25.0
+
+### @tiptap/extension-document
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-drag-handle
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-collaboration@3.25.0
+  - @tiptap/extension-node-range@3.25.0
+
+### @tiptap/extension-emoji
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/suggestion@3.25.0
+
+### @tiptap/extension-floating-menu
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-hard-break
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-heading
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-highlight
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-horizontal-rule
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-invisible-characters
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-text-style@3.25.0
+
+### @tiptap/extension-italic
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-link
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-mathematics
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-mention
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/suggestion@3.25.0
+
+### @tiptap/extension-node-range
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-paragraph
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-strike
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-subscript
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-superscript
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-table-of-contents
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-text
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-text-align
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-text-style
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-twitch
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-typography
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-underline
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/extension-youtube
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+
+### @tiptap/html
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/react
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/suggestion
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
+### @tiptap/extension-list-item
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-list-keymap
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-task-item
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-task-list
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-bullet-list
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-ordered-list
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-list@3.25.0
+
+### @tiptap/extension-character-count
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-dropcursor
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-focus
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-gapcursor
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-history
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-placeholder
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extensions@3.25.0
+
+### @tiptap/extension-table-cell
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-table@3.25.0
+
+### @tiptap/extension-table-header
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-table@3.25.0
+
+### @tiptap/extension-table-row
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/extension-table@3.25.0
+
+### @tiptap/extension-drag-handle-react
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-drag-handle@3.25.0
+  - @tiptap/react@3.25.0
+
+### @tiptap/extension-drag-handle-vue-2
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/pm@3.25.0
+  - @tiptap/vue-2@3.25.0
+  - @tiptap/extension-drag-handle@3.25.0
+
+### @tiptap/extension-drag-handle-vue-3
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/pm@3.25.0
+  - @tiptap/vue-3@3.25.0
+  - @tiptap/extension-drag-handle@3.25.0
+
+### @tiptap/extension-color
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.25.0
+
+### @tiptap/extension-font-family
+
+#### Patch Changes
+
+- @tiptap/extension-text-style@3.25.0
+
+### @tiptap/starter-kit
+
+#### Patch Changes
+
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+- Updated dependencies [711c2e3]
+  - @tiptap/core@3.25.0
+  - @tiptap/extension-list@3.25.0
+  - @tiptap/extensions@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-code@3.25.0
+  - @tiptap/extension-blockquote@3.25.0
+  - @tiptap/extension-bold@3.25.0
+  - @tiptap/extension-code-block@3.25.0
+  - @tiptap/extension-document@3.25.0
+  - @tiptap/extension-hard-break@3.25.0
+  - @tiptap/extension-heading@3.25.0
+  - @tiptap/extension-horizontal-rule@3.25.0
+  - @tiptap/extension-italic@3.25.0
+  - @tiptap/extension-link@3.25.0
+  - @tiptap/extension-paragraph@3.25.0
+  - @tiptap/extension-strike@3.25.0
+  - @tiptap/extension-text@3.25.0
+  - @tiptap/extension-underline@3.25.0
+  - @tiptap/extension-list-item@3.25.0
+  - @tiptap/extension-list-keymap@3.25.0
+  - @tiptap/extension-bullet-list@3.25.0
+  - @tiptap/extension-ordered-list@3.25.0
+  - @tiptap/extension-dropcursor@3.25.0
+  - @tiptap/extension-gapcursor@3.25.0
+
 ## v3.24.0
 
 ### @tiptap/extension-collaboration-caret
