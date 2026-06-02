@@ -104,11 +104,12 @@ export function dragHandler(
 
   // For nested mode, create slice directly to avoid NodeRangeSelection expanding to parent
   const isNestedDrag = nestedOptions?.enabled && dragContext?.node
+  const isSingleBlock = ranges.length === 1
 
   let slice
   let selection
 
-  if (isNestedDrag) {
+  if (isNestedDrag && isSingleBlock) {
     // Create slice directly from the exact positions
     slice = view.state.doc.slice(from, to)
 
