@@ -67,7 +67,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.evaluate((el: any) => {
           el.editor.chain().focus().clearContent().insertContent('Hello world').run()
         })
-        await editor.click()
+        await page.locator('.tiptap h1').click()
         await page.keyboard.press('End')
         await page.keyboard.press('Enter')
 
@@ -77,7 +77,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
           'Can you add some further context?',
         )
 
-        await editor.type('This is a paragraph for this test document')
+        await page.keyboard.type('This is a paragraph for this test document')
         await expect(page.locator('.tiptap p').first()).toHaveText(
           'This is a paragraph for this test document',
         )
