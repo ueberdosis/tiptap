@@ -24,9 +24,9 @@ describe('LineHeight commands', () => {
   })
 
   const cases = [
-    { value: '1.5', style: 'line-height: 1.5' },
-    { value: '2.0', style: 'line-height: 2.0' },
-    { value: '4.0', style: 'line-height: 4.0' },
+    { value: '1.5', style: 'line-height: 1.5;' },
+    { value: '2.0', style: 'line-height: 2;' },
+    { value: '4.0', style: 'line-height: 4;' },
   ]
 
   cases.forEach(({ value, style }) => {
@@ -40,7 +40,7 @@ describe('LineHeight commands', () => {
 
   it('removes the line-height of the selected text', () => {
     editor.commands.toggleTextStyle({ lineHeight: '1.5' })
-    expect(editor.getHTML()).toContain('<span style="line-height: 1.5">')
+    expect(editor.getHTML()).toContain('<span style="line-height: 1.5;">')
 
     editor.commands.unsetLineHeight()
     expect(editor.getHTML()).not.toContain('<span')

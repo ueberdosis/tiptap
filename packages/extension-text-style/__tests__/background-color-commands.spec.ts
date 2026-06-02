@@ -28,7 +28,7 @@ describe('BackgroundColor commands', () => {
     editor.commands.setBackgroundColor('#958DF1')
     expect(editor.isActive('textStyle', { backgroundColor: '#958DF1' })).toBe(true)
     expect(editor.getHTML()).toContain(
-      '<span style="background-color: #958DF1">Example Text</span>',
+      '<span style="background-color: #958DF1;">Example Text</span>',
     )
   })
 

@@ -34,7 +34,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
             el.editor.commands.setContent(`<p style="text-align: ${a}">Example Text</p>`)
             return el.editor.getHTML()
           }, alignment)
-          expect(html).toBe(`<p style="text-align: ${alignment}">Example Text</p>`)
+          expect(html).toBe(`<p style="text-align: ${alignment};">Example Text</p>`)
         })
       })
 
@@ -59,7 +59,7 @@ test.describe(`${demoPath}/${demoName}`, () => {
         const expected: string[] = []
         alignments.forEach(alignment => {
           headings.forEach(level => {
-            expected.push(`<h${level} style="text-align: ${alignment}">Example Text</h${level}>`)
+            expected.push(`<h${level} style="text-align: ${alignment};">Example Text</h${level}>`)
           })
         })
         expect(result).toEqual(expected)

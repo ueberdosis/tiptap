@@ -27,7 +27,7 @@ describe('Color commands', () => {
     expect(editor.isActive('textStyle', { color: '#958DF1' })).toBe(false)
     editor.commands.setColor('#958DF1')
     expect(editor.isActive('textStyle', { color: '#958DF1' })).toBe(true)
-    expect(editor.getHTML()).toContain('<span style="color: #958DF1">Example Text</span>')
+    expect(editor.getHTML()).toContain('<span style="color: #958DF1;">Example Text</span>')
   })
 
   it('removes the color of the selected text', () => {
