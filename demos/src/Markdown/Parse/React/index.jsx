@@ -47,6 +47,14 @@ ${'```'}
 
 ![Alt text](https://unsplash.it/800/500)
 
+## Hidden HTML Comments
+
+Test with following hidden comment <!-- i am the comment -->
+
+<!-- This is a hidden comment that should be preserved in the editor document -->
+
+<!-- line 1\nline 2 -->
+
 ## Notes
 
 - The demo calls ${'`'}editor.commands.setContent(markdownText, { contentType: 'markdown' })${'`'} to parse Markdown.

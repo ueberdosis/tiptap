@@ -54,6 +54,50 @@ describe('MarkdownManager Mixed Markdown + HTML', () => {
     expect(hasItalic).toBe(true)
   })
 
+  it('preserves standalone block HTML comments as paragraph text', () => {
+    const md = '<!-- This content will not appear in the rendered Markdown -->'
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    const para = doc.content![0]
+    expect(para.type).toBe('paragraph')
+    expect(para.content![0].type).toBe('text')
+    expect(para.content![0].text).toBe('<!-- This content will not appear in the rendered Markdown -->')
+  })
+
+  it('preserves inline HTML comments as text content', () => {
+    const md = 'before <!-- hidden --> after'
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    const para = doc.content![0]
+    expect(para.type).toBe('paragraph')
+    const texts = para.content!.map((n: any) => n.text || '').join('')
+    expect(texts).toContain('<!-- hidden -->')
+  })
+
+  it('preserves multiline HTML comments as text content', () => {
+    const md = '<!-- line 1\nline 2 -->'
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    const para = doc.content![0]
+    expect(para.type).toBe('paragraph')
+    expect(para.content![0].type).toBe('text')
+    expect(para.content![0].text).toBe('<!-- line 1\nline 2 -->')
+  })
+
+  it('preserves surrounding whitespace for standalone HTML comments', () => {
+    const md = '  <!-- hidden -->  '
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    const para = doc.content![0]
+    expect(para.type).toBe('paragraph')
+    expect(para.content![0].type).toBe('text')
+    expect(para.content![0].text).toBe('  <!-- hidden -->  ')
+  })
+
   it('parses markdown italic next to HTML italic correctly', () => {
     const md = '*a* <em>b</em> *c*'
     const doc = manager.parse(md)
