@@ -24,12 +24,12 @@ export default () => {
     ],
     content: `
         <p>
-          The selection extension adds a class to the selection when the editor is blurred. That enables you to visually preserve the selection even though the editor is blurred. By default, it’ll add <code>.selection</code> classname.
+          The Selection extension adds a class to the current text selection when the editor is blurred, which lets you keep the selected text highlighted even after the editor loses focus. This is especially useful when a selection spans multiple wrapped lines, where only the selected text should be highlighted rather than the empty space at the end of each line. By default it adds a <code>.selection</code> classname that you can style.
         </p>
       `,
 
     onCreate: ctx => {
-      ctx.editor.commands.setTextSelection({ from: 5, to: 30 })
+      ctx.editor.commands.setTextSelection({ from: 5, to: 280 })
     },
   })
 
