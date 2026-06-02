@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- c1a2ce8: Bump `prosemirror-tables` to `^1.8.0` so `findTable` is available from `@tiptap/pm`, and align the related ProseMirror dependencies with the versions required by `prosemirror-tables`.
+
 ## 3.24.0
 
 ### Patch Changes
