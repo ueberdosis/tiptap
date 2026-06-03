@@ -16,6 +16,15 @@ const ROMAN_NUMERALS: [number, string][] = [
 
 const ALPHA_NUMERALS = 'abcdefghijklmnopqrstuvwxyz'
 
+/** Alpha list markers support at most 2 letters (a–z, aa–zz), matching {@link fromAlpha}. */
+export const ORDERED_LIST_ALPHA_MARKER_PATTERN = '[a-zA-Z]{1,2}'
+
+/**
+ * Marker segment for ordered list lines: numeric, roman, or 1–2 letter alpha.
+ * Roman is matched before alpha so "iii" is roman; invalid romans like "aa" fall through to alpha.
+ */
+export const ORDERED_LIST_MARKER_PATTERN = String.raw`\d+|[ivxlcdmIVXLCDM]+|${ORDERED_LIST_ALPHA_MARKER_PATTERN}`
+
 /**
  * Convert a number to lowercase roman numerals.
  * @example toRoman(1) // 'i'
@@ -99,7 +108,7 @@ function fromAlpha(marker: string): number {
     return (first + 1) * 26 + second + 1
   }
 
-  return 1
+  return 0
 }
 
 function toRomanAlpha(num: number): string {
@@ -133,11 +142,11 @@ export function detectMarkerType(marker: string): string | undefined {
     return marker === marker.toLowerCase() ? 'i' : 'I'
   }
 
-  if (/^[a-z]+$/.test(marker)) {
+  if (/^[a-z]{1,2}$/.test(marker)) {
     return 'a'
   }
 
-  if (/^[A-Z]+$/.test(marker)) {
+  if (/^[A-Z]{1,2}$/.test(marker)) {
     return 'A'
   }
 
@@ -162,12 +171,61 @@ export function markerToStart(marker: string): number {
   }
 
   if (type === 'a' || type === 'A') {
-    return fromAlpha(marker)
+    const start = fromAlpha(marker)
+
+    return start > 0 ? start : 1
   }
 
   const parsed = parseInt(marker, 10)
 
   return Number.isNaN(parsed) ? 1 : parsed
+}
+
+function startToMarker(type: string, start: number): string {
+  if (type === 'numeric') {
+    return String(start)
+  }
+
+  switch (type) {
+    case 'a':
+      return toRomanAlpha(start)
+    case 'A':
+      return toRomanAlpha(start).toUpperCase()
+    case 'i':
+      return toRoman(start)
+    case 'I':
+      return toRomanUpper(start)
+    default:
+      return String(start)
+  }
+}
+
+/**
+ * Returns true when all markers share the same style and increment by 1.
+ * Style is inferred from the first marker so ambiguous letters (e.g. "c", "i")
+ * are not re-classified differently on later lines.
+ */
+export function areOrderedListMarkersSequential(markers: string[]): boolean {
+  if (markers.length === 0) {
+    return false
+  }
+
+  const firstType = detectMarkerType(markers[0]) ?? 'numeric'
+  const firstStart = markerToStart(markers[0])
+
+  if (firstStart < 1) {
+    return false
+  }
+
+  for (let i = 0; i < markers.length; i++) {
+    const expected = startToMarker(firstType, firstStart + i)
+
+    if (markers[i] !== expected) {
+      return false
+    }
+  }
+
+  return true
 }
 
 export interface ParsedListMarker {

@@ -312,12 +312,16 @@ export const OrderedList = Node.create<OrderedListOptions>({
               return false
             }
 
-            const orderedListNode = view.state.schema.nodeFromJSON(orderedListContent)
-            const tr = view.state.tr.replaceSelectionWith(orderedListNode)
+            try {
+              const orderedListNode = view.state.schema.nodeFromJSON(orderedListContent)
+              const tr = view.state.tr.replaceSelectionWith(orderedListNode)
 
-            view.dispatch(tr)
+              view.dispatch(tr)
 
-            return true
+              return true
+            } catch {
+              return false
+            }
           },
         },
       }),

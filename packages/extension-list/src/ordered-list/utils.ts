@@ -5,13 +5,15 @@ import type {
   MarkdownToken,
 } from '@tiptap/core'
 
-import { buildOrderedListAttrsFromMarker, detectMarkerType, markerToStart } from './roman.js'
+import {
+  areOrderedListMarkersSequential,
+  buildOrderedListAttrsFromMarker,
+  detectMarkerType,
+  markerToStart,
+  ORDERED_LIST_MARKER_PATTERN,
+} from './roman.js'
 
-/**
- * Marker segment for ordered list lines (numeric, roman, or alphabetic).
- * Roman is matched before alpha so "iii" is roman; invalid romans like "aa" fall through to alpha in code.
- */
-export const ORDERED_LIST_MARKER_PATTERN = '\\d+|[ivxlcdmIVXLCDM]+|[a-zA-Z]+'
+export { ORDERED_LIST_MARKER_PATTERN }
 
 /**
  * Matches an ordered list item line with optional leading whitespace.
@@ -213,6 +215,12 @@ export function parsePlainTextOrderedListPaste(text: string): JSONContent | null
       marker: match[1],
       content: match[3],
     })
+  }
+
+  const markers = parsedItems.map(item => item.marker)
+
+  if (!areOrderedListMarkersSequential(markers)) {
+    return null
   }
 
   const attrs = buildOrderedListAttrsFromMarker(parsedItems[0].marker)

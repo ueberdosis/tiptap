@@ -7,6 +7,7 @@ import { MarkdownManager } from '@tiptap/markdown'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import {
+  areOrderedListMarkersSequential,
   detectMarkerType,
   getListMarker,
   ListItem,
@@ -76,6 +77,11 @@ describe('OrderedList type attribute', () => {
       expect(detectMarkerType('aa')).toBe('a')
     })
 
+    it('does not treat alpha markers longer than 2 letters as alpha', () => {
+      expect(detectMarkerType('abc')).toBeUndefined()
+      expect(detectMarkerType('ABC')).toBeUndefined()
+    })
+
     it('detects lowercase roman', () => {
       expect(detectMarkerType('i')).toBe('i')
       expect(detectMarkerType('ii')).toBe('i')
@@ -88,6 +94,26 @@ describe('OrderedList type attribute', () => {
       expect(detectMarkerType('I')).toBe('I')
       expect(detectMarkerType('VI')).toBe('I')
       expect(detectMarkerType('X')).toBe('I')
+    })
+  })
+
+  describe('areOrderedListMarkersSequential', () => {
+    it('accepts sequential markers of the same style', () => {
+      expect(areOrderedListMarkersSequential(['a', 'b', 'c'])).toBe(true)
+      expect(areOrderedListMarkersSequential(['1', '2', '3'])).toBe(true)
+      expect(areOrderedListMarkersSequential(['ii', 'iii', 'iv'])).toBe(true)
+      expect(areOrderedListMarkersSequential(['b', 'c'])).toBe(true)
+    })
+
+    it('rejects mixed styles', () => {
+      expect(areOrderedListMarkersSequential(['a', '1'])).toBe(false)
+      expect(areOrderedListMarkersSequential(['i', 'ii', 'a'])).toBe(false)
+    })
+
+    it('rejects non-sequential markers', () => {
+      expect(areOrderedListMarkersSequential(['a', 'c'])).toBe(false)
+      expect(areOrderedListMarkersSequential(['1', '3'])).toBe(false)
+      expect(areOrderedListMarkersSequential(['II', 'IV'])).toBe(false)
     })
   })
 
@@ -317,6 +343,16 @@ describe('OrderedList type attribute', () => {
       expect(md).toBe(original)
     })
 
+    it('does not parse three-letter alpha markers as a list', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const json = markdownManager.parse('abc. Not a list')
+
+      expect(json.content[0].type).not.toBe('orderedList')
+    })
+
     it('round-trips multi-letter alpha markers beyond 26 items', () => {
       const markdownManager = new MarkdownManager({
         extensions: [Document, Paragraph, Text, ListItem, OrderedList],
@@ -420,6 +456,18 @@ describe('OrderedList type attribute', () => {
 
     it('does not match short patterns without content after marker', () => {
       const result = parsePlainTextOrderedListPaste('a. ')
+
+      expect(result).toBeNull()
+    })
+
+    it('does not match three-letter alpha markers', () => {
+      const result = parsePlainTextOrderedListPaste('abc. Something')
+
+      expect(result).toBeNull()
+    })
+
+    it('does not match non-sequential markers', () => {
+      const result = parsePlainTextOrderedListPaste('a. Item 1\nc. Item 3')
 
       expect(result).toBeNull()
     })
