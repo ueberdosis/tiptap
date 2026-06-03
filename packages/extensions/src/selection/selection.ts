@@ -1,14 +1,6 @@
-import { createStyleTag, Extension, isNodeSelection } from '@tiptap/core'
+import { Extension, isNodeSelection } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-
-const selectionStyle = `.ProseMirror:not(.ProseMirror-focused) *::selection {
-  background: transparent;
-}
-
-.ProseMirror:not(.ProseMirror-focused) *::-moz-selection {
-  background: transparent;
-}`
 
 export type SelectionOptions = {
   /**
@@ -34,10 +26,6 @@ export const Selection = Extension.create<SelectionOptions>({
 
   addProseMirrorPlugins() {
     const { editor, options } = this
-
-    if (editor.options.injectCSS && typeof document !== 'undefined') {
-      createStyleTag(selectionStyle, editor.options.injectNonce, 'selection')
-    }
 
     return [
       new Plugin({
