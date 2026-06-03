@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- 3163b13: Fixed `onContentError` not being triggered when invalid collaborative content is detected. The `filterTransaction` hook now allows the transaction through to keep ProseMirror state in sync with Yjs, ensuring the `contentError` event fires correctly.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

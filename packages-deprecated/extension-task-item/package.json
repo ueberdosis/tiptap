@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-task-item",
-  "version": "3.24.0",
+  "version": "3.25.0",
   "description": "task item extension for tiptap",
   "keywords": [
     "tiptap",
