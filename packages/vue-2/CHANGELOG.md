@@ -1,5 +1,18 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- 26e6f0f: Fix `VueNodeViewRenderer` thrashing the DOM when `contentDOM` is null for non-leaf nodes. The renderer now always creates a contentDOM element for non-leaf nodes (matching React's behavior), so ProseMirror has a valid element to render children into even when the NodeView component does not include `NodeViewContent` or renders it conditionally.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

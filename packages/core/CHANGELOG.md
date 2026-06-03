@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- ec291dd: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+
+- 454e9b8: Add `clearable` mark option (default `true`). `unsetAllMarks` now skips marks with `clearable: false`, so semantic marks like comments are not removed by "clear formatting".
+- 9cf8db0: Add `attrsEqual` and `marksEqual` utility functions to `@tiptap/core`. `attrsEqual` compares two attribute objects for equality regardless of key ordering. `marksEqual` compares two arrays of mark objects by type and attributes using `attrsEqual`.
+- 3d4f94c: Fix plain-text copy of table cell selections including content from unselected cells in between. Each selected range is now serialized independently and joined in document order, so dragging upward (reverse selection) also produces output in document order.
+- Updated dependencies [c1a2ce8]
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

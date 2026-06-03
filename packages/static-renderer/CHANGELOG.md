@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.25.0
+
+### Patch Changes
+
+- 6490a1d: Fix blockquote markdown rendering to add a trailing newline so subsequent content is not incorrectly included in the blockquote
+- 2dc3df6: Fix the types of the JSON static renderers (`renderJSONContentToReactElement` and `renderJSONContentToString`): you can now pass `JSONContent` directly and read node fields like `node.text` in your mappings without type errors or casts.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes
