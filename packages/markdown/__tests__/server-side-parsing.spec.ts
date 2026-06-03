@@ -146,6 +146,24 @@ describe('MarkdownManager Server-side Parsing', () => {
     expect(strikeTextNode).toBeDefined()
   })
 
+  it('preserves unknown angle-bracket placeholders as literal text in server environment', () => {
+    const md = '<enter existing CID here if available>\n\nother text after'
+    const doc = manager.parse(md)
+
+    expect(doc.type).toBe('doc')
+    expect(Array.isArray(doc.content)).toBe(true)
+
+    const allText = doc
+      .content!.flatMap((node: any) =>
+        node.content ? node.content.filter((n: any) => n.type === 'text') : [],
+      )
+      .map((n: any) => n.text)
+      .join('')
+
+    expect(allText).toContain('enter existing CID here if available')
+    expect(allText).toContain('other text after')
+  })
+
   it('parses HTML tags as plain text in server environment', () => {
     const md = '<p>Hello</p>'
 
