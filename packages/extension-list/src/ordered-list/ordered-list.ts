@@ -3,8 +3,13 @@ import { Plugin } from '@tiptap/pm/state'
 
 import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 
-import { buildNestedStructure, collectOrderedListItems, parseListItems } from './utils.js'
-import { detectMarkerType } from './roman.js'
+import {
+  buildNestedStructure,
+  collectOrderedListItems,
+  ORDERED_LIST_LINE_START_REGEX,
+  parseListItems,
+  parsePlainTextOrderedListPaste,
+} from './utils.js'
 
 const ListItemName = 'listItem'
 const TextStyleName = 'textStyle'
@@ -226,7 +231,7 @@ export const OrderedList = Node.create<OrderedListOptions>({
     name: 'orderedList',
     level: 'block',
     start: (src: string) => {
-      const match = src.match(/^(\s*)(\d+|[a-zA-Z]|[ivxlcdmIVXLCDM]{2,15})([.)])\s+/)
+      const match = src.match(ORDERED_LIST_LINE_START_REGEX)
       const index = match?.index
       return index !== undefined ? index : -1
     },
@@ -285,63 +290,31 @@ export const OrderedList = Node.create<OrderedListOptions>({
   },
 
   addProseMirrorPlugins() {
-    // Regex matching any typed ordered list marker line
-    // Supports: "a.", "A)", "i.", "I)", "1.", "ii)", "IV." etc.
-    // Accepts any alphabetical marker — validation is done in detectMarkerType
-    const typedListLineRegex = /^([a-zA-Z]|\d+|[ivxlcdmIVXLCDM]{2,8})([.)])\s+(.+)$/
-
     return [
       new Plugin({
         props: {
           handlePaste: (view, event) => {
+            const html = event.clipboardData?.getData('text/html')
+
+            if (html?.trim()) {
+              return false
+            }
+
             const text = event.clipboardData?.getData('text/plain')
+
             if (!text) {
               return false
             }
 
-            const lines = text.split('\n').filter(l => l.trim().length > 0)
-            if (lines.length === 0) {
+            const orderedListContent = parsePlainTextOrderedListPaste(text)
+
+            if (!orderedListContent) {
               return false
             }
 
-            // Check if ALL lines match a typed ordered list pattern
-            const parsedItems: Array<{
-              marker: string
-              content: string
-            }> = []
-
-            for (const line of lines) {
-              const match = line.trim().match(typedListLineRegex)
-              if (!match) {
-                return false
-              }
-              parsedItems.push({
-                marker: match[1],
-                content: match[3],
-              })
-            }
-
-            // All lines match — create an ordered list
-            const type = detectMarkerType(parsedItems[0].marker)
-            const nodeAttrs = type ? { type } : {}
-
-            const orderedListContent = parsedItems.map(item => ({
-              type: 'listItem',
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [{ type: 'text', text: item.content }],
-                },
-              ],
-            }))
-
-            const orderedListNode = view.state.schema.nodeFromJSON({
-              type: 'orderedList',
-              attrs: nodeAttrs,
-              content: orderedListContent,
-            })
-
+            const orderedListNode = view.state.schema.nodeFromJSON(orderedListContent)
             const tr = view.state.tr.replaceSelectionWith(orderedListNode)
+
             view.dispatch(tr)
 
             return true

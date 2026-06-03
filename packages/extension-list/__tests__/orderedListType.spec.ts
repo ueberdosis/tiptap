@@ -6,7 +6,14 @@ import Text from '@tiptap/extension-text'
 import { MarkdownManager } from '@tiptap/markdown'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { ListItem, OrderedList } from '../src/index.js'
+import {
+  detectMarkerType,
+  getListMarker,
+  ListItem,
+  markerToStart,
+  OrderedList,
+  parsePlainTextOrderedListPaste,
+} from '../src/index.js'
 
 describe('OrderedList type attribute', () => {
   let editor: Editor
@@ -18,37 +25,32 @@ describe('OrderedList type attribute', () => {
   // ───────── Phase 4: Markdown utilities ─────────
 
   describe('getListMarker', () => {
-    it('returns numeric markers for default type', async () => {
-      const { getListMarker } = await import('../src/ordered-list/roman.js')
+    it('returns numeric markers for default type', () => {
       expect(getListMarker(null, 0, '. ')).toBe('1. ')
       expect(getListMarker(undefined, 4, '. ')).toBe('5. ')
       expect(getListMarker('1', 0, '. ')).toBe('1. ')
     })
 
-    it('returns lowercase alpha markers for type "a"', async () => {
-      const { getListMarker } = await import('../src/ordered-list/roman.js')
+    it('returns lowercase alpha markers for type "a"', () => {
       expect(getListMarker('a', 0, '. ')).toBe('a. ')
       expect(getListMarker('a', 1, '. ')).toBe('b. ')
       expect(getListMarker('a', 25, '. ')).toBe('z. ')
     })
 
-    it('returns uppercase alpha markers for type "A"', async () => {
-      const { getListMarker } = await import('../src/ordered-list/roman.js')
+    it('returns uppercase alpha markers for type "A"', () => {
       expect(getListMarker('A', 0, '. ')).toBe('A. ')
       expect(getListMarker('A', 1, '. ')).toBe('B. ')
       expect(getListMarker('A', 25, '. ')).toBe('Z. ')
     })
 
-    it('returns lowercase roman markers for type "i"', async () => {
-      const { getListMarker } = await import('../src/ordered-list/roman.js')
+    it('returns lowercase roman markers for type "i"', () => {
       expect(getListMarker('i', 0, '. ')).toBe('i. ')
       expect(getListMarker('i', 1, '. ')).toBe('ii. ')
       expect(getListMarker('i', 3, '. ')).toBe('iv. ')
       expect(getListMarker('i', 9, '. ')).toBe('x. ')
     })
 
-    it('returns uppercase roman markers for type "I"', async () => {
-      const { getListMarker } = await import('../src/ordered-list/roman.js')
+    it('returns uppercase roman markers for type "I"', () => {
       expect(getListMarker('I', 0, '. ')).toBe('I. ')
       expect(getListMarker('I', 1, '. ')).toBe('II. ')
       expect(getListMarker('I', 3, '. ')).toBe('IV. ')
@@ -57,20 +59,24 @@ describe('OrderedList type attribute', () => {
   })
 
   describe('detectMarkerType', () => {
-    it('detects default type for numeric markers', async () => {
-      const { detectMarkerType } = await import('../src/ordered-list/roman.js')
+    it('detects default type for numeric markers', () => {
       expect(detectMarkerType('1')).toBeUndefined()
       expect(detectMarkerType('42')).toBeUndefined()
     })
 
-    it('detects lowercase alpha', async () => {
-      const { detectMarkerType } = await import('../src/ordered-list/roman.js')
+    it('detects lowercase alpha', () => {
       expect(detectMarkerType('a')).toBe('a')
+      expect(detectMarkerType('b')).toBe('a')
+      expect(detectMarkerType('z')).toBe('a')
       expect(detectMarkerType('A')).toBe('A')
+      expect(detectMarkerType('B')).toBe('A')
     })
 
-    it('detects lowercase roman', async () => {
-      const { detectMarkerType } = await import('../src/ordered-list/roman.js')
+    it('does not treat invalid roman strings as roman', () => {
+      expect(detectMarkerType('aa')).toBe('a')
+    })
+
+    it('detects lowercase roman', () => {
       expect(detectMarkerType('i')).toBe('i')
       expect(detectMarkerType('ii')).toBe('i')
       expect(detectMarkerType('iii')).toBe('i')
@@ -78,11 +84,30 @@ describe('OrderedList type attribute', () => {
       expect(detectMarkerType('v')).toBe('i')
     })
 
-    it('detects uppercase roman', async () => {
-      const { detectMarkerType } = await import('../src/ordered-list/roman.js')
+    it('detects uppercase roman', () => {
       expect(detectMarkerType('I')).toBe('I')
       expect(detectMarkerType('VI')).toBe('I')
       expect(detectMarkerType('X')).toBe('I')
+    })
+  })
+
+  describe('markerToStart', () => {
+    it('parses numeric markers', () => {
+      expect(markerToStart('3')).toBe(3)
+      expect(markerToStart('42')).toBe(42)
+    })
+
+    it('parses alpha markers', () => {
+      expect(markerToStart('a')).toBe(1)
+      expect(markerToStart('b')).toBe(2)
+      expect(markerToStart('aa')).toBe(27)
+    })
+
+    it('parses roman markers', () => {
+      expect(markerToStart('i')).toBe(1)
+      expect(markerToStart('ii')).toBe(2)
+      expect(markerToStart('II')).toBe(2)
+      expect(markerToStart('IV')).toBe(4)
     })
   })
 
@@ -99,7 +124,41 @@ describe('OrderedList type attribute', () => {
       expect(json.content).toHaveLength(1)
       expect(json.content[0].type).toBe('orderedList')
       expect(json.content[0].attrs?.type).toBe('a')
+      expect(json.content[0].attrs?.start).toBeUndefined()
       expect(json.content[0].content).toHaveLength(2)
+    })
+
+    it('parses markdown with alpha list starting at b', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const json = markdownManager.parse('b. Item 1\nc. Item 2')
+
+      expect(json.content[0].attrs?.type).toBe('a')
+      expect(json.content[0].attrs?.start).toBe(2)
+    })
+
+    it('parses markdown with numeric list starting at 3', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const json = markdownManager.parse('3. Item 1\n4. Item 2')
+
+      expect(json.content[0].attrs?.type).toBeUndefined()
+      expect(json.content[0].attrs?.start).toBe(3)
+    })
+
+    it('parses markdown with roman list starting at II', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const json = markdownManager.parse('II. Item 1\nIII. Item 2')
+
+      expect(json.content[0].attrs?.type).toBe('I')
+      expect(json.content[0].attrs?.start).toBe(2)
     })
 
     it('parses markdown with uppercase alpha markers as type "A"', () => {
@@ -257,108 +316,110 @@ describe('OrderedList type attribute', () => {
       const md = markdownManager.serialize(json)
       expect(md).toBe(original)
     })
+
+    it('round-trips multi-letter alpha markers beyond 26 items', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const original = 'aa. Item 27\nab. Item 28'
+
+      const json = markdownManager.parse(original)
+      expect(json.content[0].attrs?.type).toBe('a')
+      expect(json.content[0].attrs?.start).toBe(27)
+
+      const md = markdownManager.serialize(json)
+      expect(md).toBe(original)
+    })
   })
 
   // ───────── Phase 5: Plain-text paste detection ─────────
 
   describe('plain-text paste detection', () => {
-    /**
-     * Helper: builds the JSONContent structure that the paste handler creates
-     * for a given typed ordered list text pattern.
-     */
-    function simulatePasteBuild(text: string): JSONContent | null {
-      const typedListLineRegex = /^([a-zA-Z]|\d+|[ivxlcdmIVXLCDM]{2,8})([.)])\s+(.+)$/
-      const lines = text.split('\n').filter(l => l.trim().length > 0)
-
-      const parsedItems: Array<{ marker: string; content: string }> = []
-
-      for (const line of lines) {
-        const match = line.trim().match(typedListLineRegex)
-        if (!match) return null
-        parsedItems.push({
-          marker: match[1],
-          content: match[3],
-        })
-      }
-
-      // Import detectMarkerType dynamically to test the actual function
-      // We'll use the same logic as the paste handler
-      // (detectMarkerType is already tested separately above)
-      return {
-        type: 'orderedList',
-        attrs: {},
-        content: parsedItems.map(item => ({
-          type: 'listItem',
-          content: [
-            {
-              type: 'paragraph',
-              content: [{ type: 'text', text: item.content }],
-            },
-          ],
-        })),
-      }
-    }
-
     it('detects single-line lowercase alpha paste', () => {
-      const result = simulatePasteBuild('a. Item 1')
+      const result = parsePlainTextOrderedListPaste('a. Item 1')
 
       expect(result).not.toBeNull()
+      expect(result!.attrs?.type).toBe('a')
+      expect(result!.attrs?.start).toBeUndefined()
       expect(result!.content).toHaveLength(1)
       expect(result!.content![0].content![0].content![0].text).toBe('Item 1')
     })
 
     it('detects multi-line lowercase alpha paste', () => {
       const text = 'a. Item 1\nb. Item 2'
-      const result = simulatePasteBuild(text)
+      const result = parsePlainTextOrderedListPaste(text)
 
       expect(result).not.toBeNull()
+      expect(result!.attrs?.type).toBe('a')
       expect(result!.content).toHaveLength(2)
       expect(result!.content![0].content![0].content![0].text).toBe('Item 1')
       expect(result!.content![1].content![0].content![0].text).toBe('Item 2')
     })
 
+    it('sets start when pasting alpha list beginning at b', () => {
+      const result = parsePlainTextOrderedListPaste('b. Item 1\nc. Item 2')
+
+      expect(result!.attrs?.type).toBe('a')
+      expect(result!.attrs?.start).toBe(2)
+    })
+
+    it('sets start when pasting numeric list beginning at 3', () => {
+      const result = parsePlainTextOrderedListPaste('3. Item 1\n4. Item 2')
+
+      expect(result!.attrs?.type).toBeUndefined()
+      expect(result!.attrs?.start).toBe(3)
+    })
+
+    it('sets type and start when pasting roman list beginning at II', () => {
+      const result = parsePlainTextOrderedListPaste('II. Item 1\nIII. Item 2')
+
+      expect(result!.attrs?.type).toBe('I')
+      expect(result!.attrs?.start).toBe(2)
+    })
+
     it('detects alpha paste with paren separator', () => {
-      const result = simulatePasteBuild('a) Item 1\nb) Item 2')
+      const result = parsePlainTextOrderedListPaste('a) Item 1\nb) Item 2')
 
       expect(result).not.toBeNull()
       expect(result!.content).toHaveLength(2)
     })
 
     it('detects roman numeral paste with dot separator', () => {
-      const result = simulatePasteBuild('i. Item 1\nii. Item 2')
+      const result = parsePlainTextOrderedListPaste('i. Item 1\nii. Item 2')
 
       expect(result).not.toBeNull()
       expect(result!.content).toHaveLength(2)
     })
 
     it('detects roman numeral paste with paren separator', () => {
-      const result = simulatePasteBuild('I) Item 1\nII) Item 2')
+      const result = parsePlainTextOrderedListPaste('I) Item 1\nII) Item 2')
 
       expect(result).not.toBeNull()
       expect(result!.content).toHaveLength(2)
     })
 
     it('detects numeric paste with dot separator', () => {
-      const result = simulatePasteBuild('1. Item 1\n2. Item 2')
+      const result = parsePlainTextOrderedListPaste('1. Item 1\n2. Item 2')
 
       expect(result).not.toBeNull()
       expect(result!.content).toHaveLength(2)
     })
 
     it('does not match plain text without list markers', () => {
-      const result = simulatePasteBuild('Just some text\nAnd more text')
+      const result = parsePlainTextOrderedListPaste('Just some text\nAnd more text')
 
       expect(result).toBeNull()
     })
 
     it('does not match mixed content (some lines have markers, some do not)', () => {
-      const result = simulatePasteBuild('a. Item 1\nThis is not a list item')
+      const result = parsePlainTextOrderedListPaste('a. Item 1\nThis is not a list item')
 
       expect(result).toBeNull()
     })
 
     it('does not match short patterns without content after marker', () => {
-      const result = simulatePasteBuild('a. ')
+      const result = parsePlainTextOrderedListPaste('a. ')
 
       expect(result).toBeNull()
     })

@@ -5,16 +5,31 @@ import type {
   MarkdownToken,
 } from '@tiptap/core'
 
-import { detectMarkerType } from './roman.js'
+import { buildOrderedListAttrsFromMarker, detectMarkerType, markerToStart } from './roman.js'
+
+/**
+ * Marker segment for ordered list lines (numeric, roman, or alphabetic).
+ * Roman is matched before alpha so "iii" is roman; invalid romans like "aa" fall through to alpha in code.
+ */
+export const ORDERED_LIST_MARKER_PATTERN = '\\d+|[ivxlcdmIVXLCDM]+|[a-zA-Z]+'
 
 /**
  * Matches an ordered list item line with optional leading whitespace.
  * Captures: (1) indentation spaces, (2) item marker (number, letter, or roman numeral),
  * (3) separator (. or )), (4) content after marker
  *
- * Examples: "1. Item", "  a) Nested item", "    I. Roman item", "iii. Another"
+ * Examples: "1. Item", "  a) Nested item", "    I. Roman item", "iii. Another", "aa. Item 27"
  */
-const ORDERED_LIST_ITEM_REGEX = /^(\s*)(\d+|[a-zA-Z]|[ivxlcdmIVXLCDM]{2,15})([.)])\s+(.*)$/
+export const ORDERED_LIST_ITEM_REGEX = new RegExp(
+  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+(.*)$`,
+)
+
+/**
+ * Matches the start of an ordered list line (used by markdown tokenizer).
+ */
+export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
+  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+`,
+)
 
 /**
  * Matches any line that starts with whitespace (indented content).
@@ -34,16 +49,17 @@ export interface OrderedListItem {
   raw: string
 }
 
+function isOrderedListMarkerLine(line: string): boolean {
+  return ORDERED_LIST_ITEM_REGEX.test(line.trimStart())
+}
+
 function isBlockContentLine(line: string): boolean {
   const trimmedLine = line.trimStart()
 
   return (
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^[-+*]\s+/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^\d+\.\s+/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^[aAivxlcdmIVXLCDM]{1,5}[.)]\s+/.test(trimmedLine) ||
+    isOrderedListMarkerLine(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
@@ -113,11 +129,8 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
     const indentLevel = indent.length
     const number = parseInt(marker, 10)
 
-    // Detect if marker is NaN (not a number) — it's a typed marker like "a" or "iii"
     const markerType = isNaN(number) ? detectMarkerType(marker) : undefined
-
-    // For ordered list numbering, use the position index if marker is non-numeric
-    const itemNumber = isNaN(number) ? 1 : number
+    const itemNumber = isNaN(number) ? markerToStart(marker) : number
 
     const itemContentLines = [content]
     let nextLineIndex = currentLineIndex + 1
@@ -171,6 +184,52 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
   }
 
   return [listItems, consumed]
+}
+
+const PLAIN_TEXT_ORDERED_LIST_LINE_REGEX = new RegExp(
+  `^(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+(.+)$`,
+)
+
+/**
+ * Parse plain-text pasted ordered list lines into JSONContent, or null if not a typed list.
+ */
+export function parsePlainTextOrderedListPaste(text: string): JSONContent | null {
+  const lines = text.split('\n').filter(l => l.trim().length > 0)
+
+  if (lines.length === 0) {
+    return null
+  }
+
+  const parsedItems: Array<{ marker: string; content: string }> = []
+
+  for (const line of lines) {
+    const match = line.trim().match(PLAIN_TEXT_ORDERED_LIST_LINE_REGEX)
+
+    if (!match) {
+      return null
+    }
+
+    parsedItems.push({
+      marker: match[1],
+      content: match[3],
+    })
+  }
+
+  const attrs = buildOrderedListAttrsFromMarker(parsedItems[0].marker)
+
+  return {
+    type: 'orderedList',
+    attrs,
+    content: parsedItems.map(item => ({
+      type: 'listItem',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: item.content }],
+        },
+      ],
+    })),
+  }
 }
 
 /**
