@@ -2,4 +2,4 @@
 '@tiptap/extensions': patch
 ---
 
-Fixed an issue where the native browser selection would be wrongfully extended on blur when the selection extension would handle the visual representation of the selection state
+Fixed the `Selection` extension leaving the native browser selection visible on blur, where it overlapped the selection decoration. The native selection is now cleared on blur and restored on focus.

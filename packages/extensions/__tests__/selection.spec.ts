@@ -11,6 +11,7 @@ describe('extension-selection', () => {
   afterEach(() => {
     editor?.destroy()
     editor = null
+    vi.restoreAllMocks()
   })
 
   it('clears the native selection on blur', () => {
@@ -90,7 +91,6 @@ describe('extension-selection', () => {
 
     expect(focusSpy).not.toHaveBeenCalled()
 
-    focusSpy.mockRestore()
     button.remove()
   })
 })

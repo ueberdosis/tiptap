@@ -1,4 +1,4 @@
-import { Extension, isNodeSelection } from '@tiptap/core'
+import { Extension, isNodeSelection, type Editor } from '@tiptap/core'
 import { Plugin, PluginKey, type EditorState } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
@@ -13,28 +13,18 @@ export type SelectionOptions = {
 }
 
 /**
- * Checks if the selection should be preserved when the editor is blurred.
- * @param state The editor state.
- * @param editor The editor instance.
- * @returns `true` if the selection should be preserved when the editor is blurred.
+ * Whether the native browser selection should be cleared on blur and restored on focus.
+ * Only applies to non-empty text selections in an editable editor.
  */
-function shouldSyncDomSelection(
-  state: EditorState,
-  editor: {
-    isEditable: boolean
-  },
-): boolean {
+function shouldSyncDomSelection(state: EditorState, editor: Editor): boolean {
   return !state.selection.empty && !isNodeSelection(state.selection) && editor.isEditable
 }
 
-function shouldPreserveSelection(
-  state: EditorState,
-  editor: {
-    isEditable: boolean
-    isFocused: boolean
-    view: EditorView
-  },
-): boolean {
+/**
+ * Whether the selection decoration should be rendered to keep the selection
+ * visible while the editor is blurred (and not dragging).
+ */
+function shouldPreserveSelection(state: EditorState, editor: Editor): boolean {
   return shouldSyncDomSelection(state, editor) && !editor.isFocused && !editor.view.dragging
 }
 
