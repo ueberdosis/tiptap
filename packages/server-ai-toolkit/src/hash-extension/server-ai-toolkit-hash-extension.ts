@@ -37,6 +37,9 @@ export const ServerAiToolkitHashExtension = Extension.create({
     const types = this.extensions
       .filter(ext => {
         if (
+          // Only add hashes to nodes, not to marks
+          ext.type !== 'node' ||
+          // Exclude certain node types
           ext.name === 'text' ||
           ext.name === 'doc' ||
           ext.name === 'tableHeader' ||
