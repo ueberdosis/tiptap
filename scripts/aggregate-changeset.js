@@ -389,7 +389,8 @@ async function main() {
           ...pkg,
         }
       })
-      .filter(release => release.type !== 'none')
+      // Ignore private packages like the demos package
+      .filter(release => release.type !== 'none' && !release.packageJson.private)
 
     const changesetsWithCommits = await addCommitsToChangesets(cwd, plan.changesets)
     const aggregateConfig = {
