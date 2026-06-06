@@ -1099,8 +1099,7 @@ export type Utils = {
   createMappablePosition: (position: number) => MappablePosition
 }
 
-// oxlint-disable-next-line
+// oxlint-disable-next-line no-unused-vars
 export interface Commands<ReturnType = any> {}
 
-// oxlint-disable-next-line
 export interface Storage {}
