@@ -13,6 +13,20 @@ Tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).
 
+## Related extensions
+
+`TextStyle` is commonly combined with sibling extensions from the same package
+when imported content carries richer inline formatting. Typical companions are:
+
+- `FontFamily`
+- `FontSize`
+- `LineHeight`
+- `BackgroundColor`
+
+If your content includes superscript or subscript formatting, also include the
+dedicated `@tiptap/extension-superscript` and `@tiptap/extension-subscript`
+marks in your editor schema.
+
 ## License
 
 Tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).

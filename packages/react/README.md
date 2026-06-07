@@ -13,6 +13,25 @@ Tiptap is a headless wrapper around [ProseMirror](https://ProseMirror.net) – a
 
 Documentation can be found on the [Tiptap website](https://tiptap.dev).
 
+## Common React setup note
+
+When you call `useEditor({ immediatelyRender: false })`, the editor instance is
+`null` on the first render. Gate the UI until the editor exists instead of
+passing `null` into components that require a live editor instance.
+
+```tsx
+const editor = useEditor({
+  extensions: [StarterKit],
+  immediatelyRender: false,
+})
+
+if (!editor) {
+  return <div>Loading editor…</div>
+}
+
+return <EditorContent editor={editor} />
+```
+
 ## License
 
 Tiptap is open sourced software licensed under the [MIT license](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md).
