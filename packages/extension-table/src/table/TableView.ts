@@ -87,17 +87,22 @@ export class TableView implements NodeView {
 
   contentDOM: HTMLTableSectionElement
 
+  /** Optional callback that returns fresh merged HTMLAttributes for a given node. */
+  private getHTMLAttributes?: (node: ProseMirrorNode) => Record<string, any>
+
   constructor(
     node: ProseMirrorNode,
     cellMinWidth: number,
     _view?: EditorView,
     HTMLAttributes: Record<string, any> = {},
+    getHTMLAttributes?: (node: ProseMirrorNode) => Record<string, any>,
   ) {
     this.node = node
     this.cellMinWidth = cellMinWidth
     this.dom = document.createElement('div')
     this.dom.className = 'tableWrapper'
     this.table = this.dom.appendChild(document.createElement('table'))
+    this.getHTMLAttributes = getHTMLAttributes
 
     // Apply extension-configured HTMLAttributes to the table element
     // (e.g. class, data-* set via Table.configure({ HTMLAttributes }))
@@ -130,6 +135,34 @@ export class TableView implements NodeView {
 
     this.node = node
     updateColumns(node, this.colgroup, this.table, this.cellMinWidth)
+
+    // Re-sync HTML attributes that may have changed since the NodeView was
+    // created. Attributes added via addGlobalAttributes (e.g. a class set
+    // through a custom command) live in node.attrs and are computed into
+    // HTMLAttributes by getRenderedAttributes, but TableView.update() never
+    // received them before this fix. updateColumns() already handles
+    // width/minWidth via table.style, so we leave the style attribute to it.
+    if (this.getHTMLAttributes) {
+      const freshHTMLAttributes = this.getHTMLAttributes(node)
+
+      // Apply new or changed non-style attributes
+      for (const [key, value] of Object.entries(freshHTMLAttributes)) {
+        if (key === 'style') continue
+        if (value !== undefined && value !== null) {
+          this.table.setAttribute(key, String(value))
+        } else {
+          this.table.removeAttribute(key)
+        }
+      }
+
+      // Remove attributes that are no longer present
+      for (const { name } of Array.from(this.table.attributes)) {
+        if (name === 'style') continue
+        if (!(name in freshHTMLAttributes) || freshHTMLAttributes[name] == null) {
+          this.table.removeAttribute(name)
+        }
+      }
+    }
 
     return true
   }

@@ -5,6 +5,7 @@ import {
   type MarkdownToken,
   callOrReturn,
   getExtensionField,
+  getRenderedAttributes,
   mergeAttributes,
   Node,
 } from '@tiptap/core'
@@ -541,7 +542,25 @@ export const Table = Node.create<TableOptions>({
     return ({ node, view, HTMLAttributes }) => {
       const mergedAttributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
 
-      return new View(node, this.options.cellMinWidth, view, mergedAttributes) as NodeView
+      return new View(
+        node,
+        this.options.cellMinWidth,
+        view,
+        mergedAttributes,
+        // Callback used by TableView.update() to recompute merged HTMLAttributes
+        // from the updated node, so attribute changes (e.g. via addGlobalAttributes
+        // and setNodeAttribute) are reflected in the live DOM.
+        (updatedNode: ProseMirrorNode) =>
+          mergeAttributes(
+            this.options.HTMLAttributes,
+            getRenderedAttributes(
+              updatedNode,
+              this.editor.extensionManager.attributes.filter(
+                attr => attr.type === updatedNode.type.name,
+              ),
+            ),
+          ),
+      ) as NodeView
     }
   },
 
