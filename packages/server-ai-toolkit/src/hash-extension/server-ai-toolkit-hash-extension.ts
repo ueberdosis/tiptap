@@ -43,11 +43,10 @@ export const ServerAiToolkitHashExtension = Extension.create({
           ext.name === 'text' ||
           ext.name === 'doc' ||
           ext.name === 'tableHeader' ||
-          ext.name === 'tableCell'
+          ext.name === 'tableCell' ||
+          // Exclude inline nodes
+          (typeof ext.config?.group === 'string' && ext.config.group.includes('inline'))
         ) {
-          return false
-        }
-        if (typeof ext.config?.group === 'string' && ext.config.group.includes('inline')) {
           return false
         }
         return true
