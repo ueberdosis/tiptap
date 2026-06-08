@@ -145,8 +145,18 @@ export class TableView implements NodeView {
     // created. Attributes added via addGlobalAttributes (e.g. a class set
     // through a custom command) live in node.attrs and are computed into
     // HTMLAttributes by getRenderedAttributes, but TableView.update() never
-    // received them before this fix. updateColumns() already handles
-    // width/minWidth via table.style, so we leave the style attribute to it.
+    // received them before this fix.
+    //
+    // Note on style: updateColumns() manages table.style.width/minWidth after
+    // this block runs. Overwriting style.cssText here would undo that work, so
+    // style updates from addGlobalAttributes are deliberately not synced. This
+    // is a known limitation; the constructor handles the initial style correctly.
+    //
+    // Note on attribute ownership: this NodeView fully owns the non-style keys
+    // it tracks in managedHTMLAttributeKeys. Plugins that need to add attributes
+    // (e.g. extra classes) should do so via addGlobalAttributes so they are
+    // included in the mergeAttributes call inside getHTMLAttributes rather than
+    // writing to the DOM directly.
     if (this.getHTMLAttributes) {
       const freshHTMLAttributes = this.getHTMLAttributes(node)
       const freshKeys = new Set<string>()

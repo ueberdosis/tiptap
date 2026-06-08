@@ -556,6 +556,11 @@ export const Table = Node.create<TableOptions>({
         // Callback used by TableView.update() to recompute merged HTMLAttributes
         // from the updated node, so attribute changes (e.g. via addGlobalAttributes
         // and setNodeAttribute) are reflected in the live DOM.
+        //
+        // The `HTMLAttributes` argument passed into this factory by ExtensionManager
+        // is itself the result of getRenderedAttributes(node, extensionAttributes), so
+        // the callback below mirrors that computation exactly — no extra static attrs
+        // are lost between the initial render and subsequent updates.
         (updatedNode: ProseMirrorNode) =>
           mergeAttributes(
             this.options.HTMLAttributes,
