@@ -542,6 +542,12 @@ export const Table = Node.create<TableOptions>({
     return ({ node, view, HTMLAttributes }) => {
       const mergedAttributes = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
 
+      // Precompute once: the node type is stable for the lifetime of this NodeView.
+      const nodeTypeName = node.type.name
+      const nodeExtensionAttributes = this.editor.extensionManager.attributes.filter(
+        attr => attr.type === nodeTypeName,
+      )
+
       return new View(
         node,
         this.options.cellMinWidth,
@@ -553,12 +559,7 @@ export const Table = Node.create<TableOptions>({
         (updatedNode: ProseMirrorNode) =>
           mergeAttributes(
             this.options.HTMLAttributes,
-            getRenderedAttributes(
-              updatedNode,
-              this.editor.extensionManager.attributes.filter(
-                attr => attr.type === updatedNode.type.name,
-              ),
-            ),
+            getRenderedAttributes(updatedNode, nodeExtensionAttributes),
           ),
       ) as NodeView
     }

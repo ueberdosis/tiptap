@@ -139,6 +139,7 @@ describe('Table node attribute updates (addGlobalAttributes)', () => {
     createEditor()
 
     const tablePos = findTablePos(editor!)
+    // editor.commands.command dispatches the transaction when the callback returns true.
     editor!.commands.command(({ tr }) => {
       tr.setNodeAttribute(tablePos, 'class', 'dynamic-class')
       return true

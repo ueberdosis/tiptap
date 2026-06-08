@@ -90,6 +90,10 @@ export class TableView implements NodeView {
   /** Optional callback that returns fresh merged HTMLAttributes for a given node. */
   private getHTMLAttributes?: (node: ProseMirrorNode) => Record<string, any>
 
+  /** Tracks the non-style attribute keys applied by this NodeView so that only
+   *  those are ever removed — other plugins may set their own attributes. */
+  private managedHTMLAttributeKeys: Set<string> = new Set()
+
   constructor(
     node: ProseMirrorNode,
     cellMinWidth: number,
@@ -112,6 +116,7 @@ export class TableView implements NodeView {
           this.table.style.cssText = String(value)
         } else {
           this.table.setAttribute(key, String(value))
+          this.managedHTMLAttributeKeys.add(key)
         }
       }
     }
@@ -144,24 +149,26 @@ export class TableView implements NodeView {
     // width/minWidth via table.style, so we leave the style attribute to it.
     if (this.getHTMLAttributes) {
       const freshHTMLAttributes = this.getHTMLAttributes(node)
+      const freshKeys = new Set<string>()
 
       // Apply new or changed non-style attributes
       for (const [key, value] of Object.entries(freshHTMLAttributes)) {
         if (key === 'style') continue
         if (value !== undefined && value !== null) {
           this.table.setAttribute(key, String(value))
-        } else {
+          freshKeys.add(key)
+        }
+      }
+
+      // Remove only keys that this NodeView previously applied and that are
+      // no longer present — avoids touching attributes set by other plugins.
+      for (const key of this.managedHTMLAttributeKeys) {
+        if (!freshKeys.has(key)) {
           this.table.removeAttribute(key)
         }
       }
 
-      // Remove attributes that are no longer present
-      for (const { name } of Array.from(this.table.attributes)) {
-        if (name === 'style') continue
-        if (!(name in freshHTMLAttributes) || freshHTMLAttributes[name] == null) {
-          this.table.removeAttribute(name)
-        }
-      }
+      this.managedHTMLAttributeKeys = freshKeys
     }
 
     return true
