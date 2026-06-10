@@ -190,13 +190,14 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
   return (
     !uri ||
-    uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
-      new RegExp(
-        // oxlint-disable-next-line no-useless-escape
-        `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
-        'i',
-      ),
-    )
+    uri
+      .replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '')
+      .match(
+        new RegExp(
+          `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\\-]+(?:[^a-z+.\\-:]|$))`,
+          'i',
+        ),
+      )
   )
 }
 

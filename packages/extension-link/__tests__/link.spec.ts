@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
+import Link, { isAllowedUri } from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { describe, expect, it } from 'vitest'
@@ -230,6 +230,54 @@ describe('extension-link', () => {
 
       editor?.destroy()
       getEditorEl()?.remove()
+    })
+  })
+
+  describe('isAllowedUri', () => {
+    it('allows whitelisted protocols', () => {
+      expect(isAllowedUri('https://example.com')).toBeTruthy()
+      expect(isAllowedUri('http://example.com')).toBeTruthy()
+      expect(isAllowedUri('ftp://example.com')).toBeTruthy()
+      expect(isAllowedUri('mailto:info@example.com')).toBeTruthy()
+      expect(isAllowedUri('tel:+1234567890')).toBeTruthy()
+    })
+
+    it('allows relative URLs (paths, queries, anchors)', () => {
+      expect(isAllowedUri('/relative/path')).toBeTruthy()
+      expect(isAllowedUri('../parent.html')).toBeTruthy()
+      expect(isAllowedUri('?query=1')).toBeTruthy()
+      expect(isAllowedUri('#anchor')).toBeTruthy()
+    })
+
+    it('rejects unknown protocols with hyphens (https://github.com/ueberdosis/tiptap/issues/7929)', () => {
+      // Bare unknown protocol followed by ":"
+      expect(isAllowedUri('unknown:test')).toBeFalsy()
+      // Unknown protocols whose names contain "-" — a valid scheme character
+      // per RFC 3986 (ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )). The hyphen
+      // previously slipped past the negated character class because the
+      // intended `\-` literal was consumed by the JS template-string parser,
+      // so the regex saw `[^a-z+.-:]` — a range from `.` to `:` that no
+      // longer treated `-` as an excluded terminator, letting the engine
+      // backtrack to a shorter prefix and match the trailing hyphen.
+      expect(isAllowedUri('unknown-protocol://test')).toBeFalsy()
+      expect(isAllowedUri('unknown-protocol:test')).toBeFalsy()
+      expect(isAllowedUri('foo-bar-baz://payload')).toBeFalsy()
+      expect(isAllowedUri('tg-protocol:start')).toBeFalsy()
+    })
+
+    it('still rejects script-style protocols', () => {
+      // oxlint-disable-next-line no-script-url
+      expect(isAllowedUri('javascript:alert(1)')).toBeFalsy()
+      expect(isAllowedUri('data:text/html,<script>alert(1)</script>')).toBeFalsy()
+      expect(isAllowedUri('vbscript:msgbox(1)')).toBeFalsy()
+    })
+
+    it('honours additional protocols passed via the second argument', () => {
+      expect(isAllowedUri('custom://thing', ['custom'])).toBeTruthy()
+      expect(isAllowedUri('another-custom://thing', [{ scheme: 'another-custom' }])).toBeTruthy()
+      // A protocol added via the argument list must still be matched as a
+      // whole; a different unknown protocol must remain rejected.
+      expect(isAllowedUri('different-custom://thing', ['custom'])).toBeFalsy()
     })
   })
 
