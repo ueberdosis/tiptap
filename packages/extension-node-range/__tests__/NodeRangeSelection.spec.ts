@@ -65,7 +65,7 @@ describe('NodeRangeSelection serialization', () => {
     const { state } = createEditor('<p>First</p><p>Second</p><p>Third</p>')
     const firstParagraphSize = state.doc.child(0).nodeSize
     const secondParagraphSize = state.doc.child(1).nodeSize
-    // Span from inside the first paragraph to inside the second paragraph.
+    // anchor inside the first paragraph, head at the boundary after the second
     const selection = NodeRangeSelection.create(
       state.doc,
       1,
@@ -79,5 +79,15 @@ describe('NodeRangeSelection serialization', () => {
     expect(isNodeRangeSelection(restored)).toBe(true)
     expect(restored.eq(selection)).toBe(true)
     expect((restored as NodeRangeSelection).ranges).toHaveLength(2)
+  })
+
+  it('keeps depth when mapped through a transaction', () => {
+    const { state } = createEditor('<p>First</p><p>Second</p>')
+    const selection = NodeRangeSelection.create(state.doc, 1, 1, 0)
+
+    const tr = state.tr.insertText('x', 1)
+    const mapped = selection.map(tr.doc, tr.mapping)
+
+    expect(mapped.depth).toBe(0)
   })
 })

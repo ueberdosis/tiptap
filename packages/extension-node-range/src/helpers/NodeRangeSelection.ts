@@ -58,7 +58,7 @@ export class NodeRangeSelection extends Selection {
     const $anchor = doc.resolve(mapping.map(this.anchor))
     const $head = doc.resolve(mapping.map(this.head))
 
-    return new NodeRangeSelection($anchor, $head)
+    return new NodeRangeSelection($anchor, $head, this.depth)
   }
 
   toJSON() {
