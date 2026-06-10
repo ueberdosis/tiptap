@@ -12,6 +12,11 @@ import {
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
+import {
+  type ActiveDragRange,
+  createDroppedNodeRangeSelection,
+  getActiveDragRange,
+} from './helpers/nodeRangeDrop.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
@@ -97,7 +102,9 @@ export const DragHandlePlugin = ({
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any
   let rafId: number | null = null
+  let restoreRafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
+  let activeDragRange: ActiveDragRange | null = null
 
   function hideHandle() {
     if (!element) {
@@ -149,6 +156,9 @@ export const DragHandlePlugin = ({
       dragImageProperties,
     )
 
+    // remember a multi-block node range so it can be restored after drop
+    activeDragRange = getActiveDragRange(editor.state.selection)
+
     if (element) {
       element.dataset.dragging = 'true'
     }
@@ -162,10 +172,32 @@ export const DragHandlePlugin = ({
 
   function onDragEnd(e: DragEvent) {
     onElementDragEnd?.(e)
+    activeDragRange = null
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
       element.dataset.dragging = 'false'
+    }
+  }
+
+  // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
+  // node range over the freshly dropped blocks to keep the selection consistent.
+  function restoreNodeRangeSelection({ nodeCount, depth }: ActiveDragRange) {
+    const { selection, doc } = editor.state
+
+    if (selection.empty) {
+      return
+    }
+
+    const nodeRangeSelection = createDroppedNodeRangeSelection(
+      doc,
+      selection.from,
+      nodeCount,
+      depth,
+    )
+
+    if (nodeRangeSelection) {
+      editor.view.dispatch(editor.state.tr.setSelection(nodeRangeSelection))
     }
   }
 
@@ -184,20 +216,41 @@ export const DragHandlePlugin = ({
         }
       })
     }
+
+    const pendingRestore = activeDragRange
+
+    if (pendingRestore) {
+      // wait for the drop to commit before recomputing the dropped block range
+      restoreRafId = requestAnimationFrame(() => {
+        restoreRafId = null
+        restoreNodeRangeSelection(pendingRestore)
+      })
+    }
+  }
+
+  // shared teardown for both the unbind() handle and the plugin view destroy
+  function cleanup() {
+    element.removeEventListener('dragstart', onDragStart)
+    element.removeEventListener('dragend', onDragEnd)
+    document.removeEventListener('drop', onDrop)
+
+    if (rafId) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+      pendingMouseCoords = null
+    }
+
+    if (restoreRafId) {
+      cancelAnimationFrame(restoreRafId)
+      restoreRafId = null
+    }
   }
 
   wrapper.appendChild(element)
 
   return {
     unbind() {
-      element.removeEventListener('dragstart', onDragStart)
-      element.removeEventListener('dragend', onDragEnd)
-      document.removeEventListener('drop', onDrop)
-      if (rafId) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-        pendingMouseCoords = null
-      }
+      cleanup()
     },
     plugin: new Plugin({
       key: typeof pluginKey === 'string' ? new PluginKey(pluginKey) : pluginKey,
@@ -336,15 +389,7 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
-            element.removeEventListener('dragstart', onDragStart)
-            element.removeEventListener('dragend', onDragEnd)
-            document.removeEventListener('drop', onDrop)
-
-            if (rafId) {
-              cancelAnimationFrame(rafId)
-              rafId = null
-              pendingMouseCoords = null
-            }
+            cleanup()
 
             if (element) {
               removeNode(wrapper)
