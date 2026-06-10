@@ -205,7 +205,12 @@ export class MarkdownManager {
   }
 
   private createLexer(): Lexer {
-    return new this.markedInstance.Lexer()
+    // Seed the lexer with this instance's configured defaults so it inherits the
+    // instance's options *and* its `use()`-registered tokenizer extensions. A
+    // no-arg `new Lexer()` reads marked's module-level defaults instead, which
+    // silently drops custom tokenizers when a dedicated `marked` instance has
+    // been injected (e.g. to isolate tokenizers across editors).
+    return new this.markedInstance.Lexer(this.markedInstance.defaults)
   }
 
   private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {

@@ -259,6 +259,38 @@ Second paragraph.`
         },
       ])
     })
+
+    it('runs custom tokenizers registered on an injected Marked instance', () => {
+      // Regression: when a dedicated `marked` instance is injected (to isolate
+      // tokenizers across editors), custom `markdownTokenizer`s must still fire.
+      // `parse()` builds a lexer via `new this.markedInstance.Lexer()`, whose
+      // no-arg constructor reads marked's module-level defaults rather than the
+      // injected instance's `use()`-registered extensions — silently dropping
+      // every custom tokenizer.
+      const manager = new MarkdownManager({
+        marked: new Marked() as unknown as typeof import('marked').marked,
+        extensions: [...basicExtensions, TestProbe],
+      })
+
+      const doc = manager.parse(':::probe **Probe** text :::')
+
+      expect(doc.content).toEqual([
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Probe',
+              marks: [{ type: 'bold' }],
+            },
+            {
+              type: 'text',
+              text: ' text',
+            },
+          ],
+        },
+      ])
+    })
   })
   describe('simple nested Marks parsing', () => {
     beforeEach(() => {
