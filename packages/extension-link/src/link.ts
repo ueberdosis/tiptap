@@ -194,7 +194,9 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
       .replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '')
       .match(
         new RegExp(
-          `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\\-]+(?:[^a-z+.\\-:]|$))`,
+          `^(?:(?:${allowedProtocols
+            .map(protocol => protocol.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'))
+            .join('|')}):|[^a-z]|[a-z0-9+.\\-]+(?:[^a-z+.\\-:]|$))`,
           'i',
         ),
       )
