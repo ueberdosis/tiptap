@@ -394,7 +394,7 @@ export const Table = Node.create<TableOptions>({
       // correctly-split cells.
       const block = helper.blockTokens(preprocessed)
       const tableToken = block[0]
-      if (tableToken?.type !== 'table') return undefined
+      if (tableToken?.type !== 'table' || !tableToken.raw) return undefined
 
       // preprocessTablePipes only inserts backslashes (never adds or removes
       // newlines), so line N in preprocessed maps 1-to-1 to line N in src.
