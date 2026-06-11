@@ -363,37 +363,47 @@ export const Table = Node.create<TableOptions>({
   markdownTokenizer: {
     name: 'table',
     level: 'block' as const,
-    start: (src: string) => (/^\s*\|/.test(src) ? 0 : -1),
+    start: (src: string) => (src.split('\n')[0].includes('|') ? 0 : -1),
     tokenize(src, _tokens, helper) {
-      // Collect only the consecutive table-row lines at the start of src.
-      // Passing only those to helper.blockTokens keeps the re-lex isolated to
-      // the table block so it cannot consume or corrupt any content that follows.
-      const srcLines = src.split('\n')
-      let end = 0
-      for (let k = 0; k < srcLines.length; k++) {
-        if (!srcLines[k].trimStart().startsWith('|')) break
-        end = k + 1
-      }
-      // Need at least a header row and a separator row to form a table.
-      if (end < 2) return undefined
+      // Marked terminates a table block at a blank line. Slicing to the first
+      // \n\n keeps helper.blockTokens isolated to the candidate table so it
+      // cannot consume content that follows. When no blank line exists the
+      // full remaining source is used and marked's own table regex determines
+      // the boundary (it excludes headings, fences, blockquotes, etc.).
+      const blankLineIndex = src.indexOf('\n\n')
+      const candidate = blankLineIndex >= 0 ? src.slice(0, blankLineIndex) : src
 
-      const tableSrc = srcLines.slice(0, end).join('\n')
-      const preprocessed = preprocessTablePipes(tableSrc)
+      // A GFM table needs at least a header and a separator row (two lines).
+      const candidateLines = candidate.split('\n')
+      if (candidateLines.length < 2) return undefined
+
+      // Guard: the second line must match a GFM delimiter row (dashes, colons,
+      // pipes, spaces). This avoids calling helper.blockTokens on non-table
+      // content, which would contaminate the outer lexer's inline queue with
+      // preprocessed (backslash-modified) content.
+      if (!/^[ \t|:]*-[ \t|:-]*$/.test(candidateLines[1])) return undefined
+
+      const preprocessed = preprocessTablePipes(candidate)
 
       // Nothing to fix — let marked's built-in handle it.
-      if (preprocessed === tableSrc) return undefined
+      if (preprocessed === candidate) return undefined
 
-      // Re-lex only the preprocessed table lines. The recursive call to our
-      // tokenizer finds no pipes left to escape and returns undefined, so
-      // marked's built-in table tokenizer produces correctly-split cells.
+      // Re-lex only the preprocessed candidate. The recursive call to our
+      // tokenizer finds no unescaped pipes left inside code spans and returns
+      // undefined, so marked's built-in table tokenizer produces
+      // correctly-split cells.
       const block = helper.blockTokens(preprocessed)
       const tableToken = block[0]
       if (tableToken?.type !== 'table') return undefined
 
-      // Return with raw set to the original (unescaped) table lines so marked
-      // advances its source cursor by the correct amount and does not skip any
-      // content that follows the table.
-      return { ...tableToken, raw: tableSrc }
+      // preprocessTablePipes only inserts backslashes (never adds or removes
+      // newlines), so line N in preprocessed maps 1-to-1 to line N in src.
+      // Use the token's line count to reconstruct raw from the original src so
+      // marked advances its cursor by the correct amount.
+      const lineCount = tableToken.raw.split('\n').length
+      const raw = src.split('\n').slice(0, lineCount).join('\n')
+
+      return { ...tableToken, raw }
     },
   },
 

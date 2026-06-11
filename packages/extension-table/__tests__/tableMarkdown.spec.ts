@@ -94,6 +94,42 @@ describe('table markdown — inline code with pipe characters', () => {
     expect(codeNode).toBeDefined()
     expect(codeNode?.marks?.[0]?.type).toBe('code')
   })
+
+  it('should parse `||` inside a code span in a pipeless table as a single cell', () => {
+    const markdown = 'Expression | Meaning\n---------- | -------\n`||` | or'
+    const parsed = manager.parse(markdown)
+    const table = parsed.content?.[0]
+    expect(table?.type).toBe('table')
+    const bodyRow = table?.content?.[1]?.content || []
+    expect(bodyRow).toHaveLength(2)
+    const cell1 = bodyRow[0]?.content?.[0]?.content?.[0]
+    expect(cell1?.text).toBe('||')
+    expect(cell1?.marks?.[0]?.type).toBe('code')
+    const cell2 = bodyRow[1]?.content?.[0]?.content?.[0]
+    expect(cell2?.text).toBe('or')
+  })
+
+  it('should not corrupt content that follows a pipeless table with inline code containing pipes', () => {
+    const markdown = 'H1 | H2\n-- | --\n`a || b` | x\n\nParagraph after.'
+    const parsed = manager.parse(markdown)
+    expect(parsed.content).toHaveLength(2)
+    expect(parsed.content?.[0]?.type).toBe('table')
+    expect(parsed.content?.[1]?.type).toBe('paragraph')
+    expect(parsed.content?.[1]?.content?.[0]?.text).toBe('Paragraph after.')
+  })
+
+  it('should include a no-pipe body row as a table row, matching marked native behavior', () => {
+    // marked treats any non-blank line before the blank line as a table body row,
+    // even if it contains no pipe. Our tokenizer must not cut it off into a paragraph.
+    const markdown = 'A | B\n--- | ---\n`a || b` | c\njust some text\n\nAfter'
+    const parsed = manager.parse(markdown)
+    const table = parsed.content?.[0]
+    expect(table?.type).toBe('table')
+    // 2 body rows: "`a || b` | c" and "just some text"
+    expect(table?.content).toHaveLength(3) // header row + 2 body rows
+    expect(parsed.content?.[1]?.type).toBe('paragraph')
+    expect(parsed.content?.[1]?.content?.[0]?.text).toBe('After')
+  })
 })
 
 describe('table markdown alignment', () => {

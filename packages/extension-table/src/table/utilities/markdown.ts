@@ -71,7 +71,7 @@ export function preprocessTablePipes(src: string): string {
   return src
     .split('\n')
     .map(line => {
-      if (!line.trimStart().startsWith('|') || !line.includes('`')) return line
+      if (!line.includes('|') || !line.includes('`')) return line
       return escapeTableCellPipes(line)
     })
     .join('\n')
