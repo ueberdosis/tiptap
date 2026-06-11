@@ -5,16 +5,17 @@ import { NodeRangeSelection } from './NodeRangeSelection.js'
 
 export class NodeRangeBookmark {
   anchor!: number
-
   head!: number
+  depth!: number
 
-  constructor(anchor: number, head: number) {
+  constructor(anchor: number, head: number, depth: number | undefined) {
     this.anchor = anchor
     this.head = head
+    this.depth = depth ?? 0
   }
 
   map(mapping: Mappable) {
-    return new NodeRangeBookmark(mapping.map(this.anchor), mapping.map(this.head))
+    return new NodeRangeBookmark(mapping.map(this.anchor), mapping.map(this.head), this.depth)
   }
 
   resolve(doc: ProseMirrorNode) {

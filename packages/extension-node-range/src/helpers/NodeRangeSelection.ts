@@ -130,7 +130,7 @@ export class NodeRangeSelection extends Selection {
   }
 
   getBookmark(): NodeRangeBookmark {
-    return new NodeRangeBookmark(this.anchor, this.head)
+    return new NodeRangeBookmark(this.anchor, this.head, this.depth)
   }
 }
 
