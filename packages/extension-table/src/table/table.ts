@@ -363,7 +363,13 @@ export const Table = Node.create<TableOptions>({
   markdownTokenizer: {
     name: 'table',
     level: 'block' as const,
-    start: (src: string) => (src.split('\n')[0].includes('|') ? 0 : -1),
+    start: (src: string) => {
+      const lines = src.split('\n')
+      if (lines.length < 2) return -1
+      const sep = lines[1]
+      if (!/^[ \t|:]*-[ \t|:-]*$/.test(sep) || !sep.includes('|')) return -1
+      return lines[0].includes('|') ? 0 : -1
+    },
     tokenize(src, _tokens, helper) {
       // Marked terminates a table block at a blank line. Slicing to the first
       // \n\n keeps helper.blockTokens isolated to the candidate table so it
