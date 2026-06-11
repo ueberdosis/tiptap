@@ -22,6 +22,6 @@ export class NodeRangeBookmark {
     const $anchor = doc.resolve(this.anchor)
     const $head = doc.resolve(this.head)
 
-    return new NodeRangeSelection($anchor, $head)
+    return new NodeRangeSelection($anchor, $head, this.depth)
   }
 }

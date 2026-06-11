@@ -3,6 +3,7 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Selection } from '@tiptap/pm/state'
 
 export interface ActiveDragRange {
+  anchorPos: number
   nodeCount: number
   depth: number
 }
@@ -29,7 +30,11 @@ export function getActiveDragRange(selection: Selection): ActiveDragRange | null
     return null
   }
 
-  return { nodeCount: selection.ranges.length, depth: selection.depth ?? 0 }
+  return {
+    anchorPos: selection.from,
+    nodeCount: selection.ranges.length,
+    depth: selection.depth ?? 0,
+  }
 }
 
 /**
