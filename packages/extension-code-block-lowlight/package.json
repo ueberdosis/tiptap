@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-code-block-lowlight",
-  "version": "3.26.0",
+  "version": "3.26.1",
   "description": "code block extension for tiptap",
   "keywords": [
     "tiptap",
