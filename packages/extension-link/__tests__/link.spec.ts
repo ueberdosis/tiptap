@@ -250,15 +250,10 @@ describe('extension-link', () => {
     })
 
     it('rejects unknown protocols with hyphens (https://github.com/ueberdosis/tiptap/issues/7929)', () => {
-      // Bare unknown protocol followed by ":"
       expect(isAllowedUri('unknown:test')).toBeFalsy()
-      // Unknown protocols whose names contain "-" — a valid scheme character
-      // per RFC 3986 (ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )). The hyphen
-      // previously slipped past the negated character class because the
-      // intended `\-` literal was consumed by the JS template-string parser,
-      // so the regex saw `[^a-z+.-:]` — a range from `.` to `:` that no
-      // longer treated `-` as an excluded terminator, letting the engine
-      // backtrack to a shorter prefix and match the trailing hyphen.
+      // Hyphens are valid scheme chars per RFC 3986. They previously slipped
+      // past the regex because the source `\-` was consumed by the JS
+      // template parser.
       expect(isAllowedUri('unknown-protocol://test')).toBeFalsy()
       expect(isAllowedUri('unknown-protocol:test')).toBeFalsy()
       expect(isAllowedUri('foo-bar-baz://payload')).toBeFalsy()
