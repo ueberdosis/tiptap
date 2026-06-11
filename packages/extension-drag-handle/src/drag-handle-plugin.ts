@@ -2,7 +2,7 @@ import { type ComputePositionConfig, type VirtualElement, computePosition } from
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
   absolutePositionToRelativePosition,
@@ -182,9 +182,11 @@ export const DragHandlePlugin = ({
 
   // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
   // node range over the freshly dropped blocks to keep the selection consistent.
-  function restoreNodeRangeSelection({ nodeCount, depth }: ActiveDragRange) {
-    const { selection, doc } = editor.state
-
+  function restoreNodeRangeSelection(
+    { nodeCount, depth }: ActiveDragRange,
+    selection: Selection,
+    doc: Node,
+  ) {
     if (selection.empty) {
       return
     }
@@ -223,7 +225,7 @@ export const DragHandlePlugin = ({
       // wait for the drop to commit before recomputing the dropped block range
       restoreRafId = requestAnimationFrame(() => {
         restoreRafId = null
-        restoreNodeRangeSelection(pendingRestore)
+        restoreNodeRangeSelection(pendingRestore, editor.state.selection, editor.state.doc)
       })
     }
   }
