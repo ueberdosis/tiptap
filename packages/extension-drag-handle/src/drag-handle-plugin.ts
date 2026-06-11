@@ -222,10 +222,11 @@ export const DragHandlePlugin = ({
     const pendingRestore = activeDragRange
 
     if (pendingRestore) {
+      const { selection, doc } = editor.state
       // wait for the drop to commit before recomputing the dropped block range
       restoreRafId = requestAnimationFrame(() => {
         restoreRafId = null
-        restoreNodeRangeSelection(pendingRestore, editor.state.selection, editor.state.doc)
+        restoreNodeRangeSelection(pendingRestore, selection, doc)
       })
     }
   }
