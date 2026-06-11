@@ -48,6 +48,11 @@ function rewriteUnknownContentInner({
 } {
   if (json.marks && Array.isArray(json.marks)) {
     json.marks = json.marks.filter(mark => {
+      if (mark === null || mark === undefined) {
+        // Drop malformed (nullish) mark entries instead of crashing
+        return false
+      }
+
       const name = typeof mark === 'string' ? mark : mark.type
 
       if (validMarks.has(name)) {
@@ -65,16 +70,20 @@ function rewriteUnknownContentInner({
 
   if (json.content && Array.isArray(json.content)) {
     json.content = json.content
-      .map(
-        value =>
-          rewriteUnknownContentInner({
-            json: value,
-            validMarks,
-            validNodes,
-            options,
-            rewrittenContent,
-          }).json,
-      )
+      .map(value => {
+        if (value === null || value === undefined) {
+          // Drop malformed (nullish) content entries instead of crashing
+          return null
+        }
+
+        return rewriteUnknownContentInner({
+          json: value,
+          validMarks,
+          validNodes,
+          options,
+          rewrittenContent,
+        }).json
+      })
       .filter(a => a !== null && a !== undefined)
   }
 
