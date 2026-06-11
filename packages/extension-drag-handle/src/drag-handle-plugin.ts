@@ -203,7 +203,11 @@ export const DragHandlePlugin = ({
     }
   }
 
-  function onDrop() {
+  function onDrop(e: DragEvent) {
+    if (!e.target || !editor.view.dom.contains(e.target as HTMLElement)) {
+      return
+    }
+
     // Firefox has a bug where the caret becomes invisible after drag and drop.
     // This workaround forces Firefox to re-render the caret by toggling contentEditable.
     // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
