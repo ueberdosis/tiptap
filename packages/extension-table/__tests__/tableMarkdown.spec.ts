@@ -95,6 +95,19 @@ describe('table markdown — inline code with pipe characters', () => {
     expect(codeNode?.marks?.[0]?.type).toBe('code')
   })
 
+  it('should treat a setext heading with pipe in title as a heading, not a table', () => {
+    // '`a | b`\n---' is a setext h2, not a table. Our tokenizer must not
+    // activate on it and must not contaminate the inline queue via
+    // helper.blockTokens (which would turn '|' into '\|' in the output).
+    const markdown = '`a | b`\n---'
+    const parsed = manager.parse(markdown)
+    const block = parsed.content?.[0]
+    expect(block?.type).toBe('heading')
+    // The pipe must be preserved verbatim inside the code span.
+    const codeNode = block?.content?.find((n: any) => n.marks?.some((m: any) => m.type === 'code'))
+    expect(codeNode?.text).toBe('a | b')
+  })
+
   it('should parse `||` inside a code span in a pipeless table as a single cell', () => {
     const markdown = 'Expression | Meaning\n---------- | -------\n`||` | or'
     const parsed = manager.parse(markdown)

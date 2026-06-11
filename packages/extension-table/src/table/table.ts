@@ -378,10 +378,12 @@ export const Table = Node.create<TableOptions>({
       if (candidateLines.length < 2) return undefined
 
       // Guard: the second line must match a GFM delimiter row (dashes, colons,
-      // pipes, spaces). This avoids calling helper.blockTokens on non-table
-      // content, which would contaminate the outer lexer's inline queue with
-      // preprocessed (backslash-modified) content.
-      if (!/^[ \t|:]*-[ \t|:-]*$/.test(candidateLines[1])) return undefined
+      // pipes, spaces) AND must contain at least one '|'. A bare '---' matches
+      // the dash pattern but is a setext heading marker, not a table separator.
+      // Calling helper.blockTokens on non-table content contaminates the outer
+      // lexer's inline queue with preprocessed (backslash-modified) content.
+      const sep = candidateLines[1]
+      if (!/^[ \t|:]*-[ \t|:-]*$/.test(sep) || !sep.includes('|')) return undefined
 
       const preprocessed = preprocessTablePipes(candidate)
 
