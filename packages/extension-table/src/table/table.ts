@@ -363,7 +363,7 @@ export const Table = Node.create<TableOptions>({
   markdownTokenizer: {
     name: 'table',
     level: 'block' as const,
-    start: (src: string) => src.indexOf('|'),
+    start: (src: string) => (/^\s*\|/.test(src) ? 0 : -1),
     tokenize(src, _tokens, helper) {
       // Collect only the consecutive table-row lines at the start of src.
       // Passing only those to helper.blockTokens keeps the re-lex isolated to
