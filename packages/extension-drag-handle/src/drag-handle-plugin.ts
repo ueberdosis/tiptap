@@ -105,6 +105,7 @@ export const DragHandlePlugin = ({
   let restoreRafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
   let activeDragRange: ActiveDragRange | null = null
+  let pendingRestore: ActiveDragRange | null = null
 
   function hideHandle() {
     if (!element) {
@@ -182,18 +183,10 @@ export const DragHandlePlugin = ({
 
   // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
   // node range over the freshly dropped blocks to keep the selection consistent.
-  function restoreNodeRangeSelection(
-    { nodeCount, depth }: ActiveDragRange,
-    selection: Selection,
-    doc: Node,
-  ) {
-    if (selection.empty) {
-      return
-    }
-
+  function restoreNodeRangeSelection({ nodeCount, depth, anchorPos }: ActiveDragRange) {
     const nodeRangeSelection = createDroppedNodeRangeSelection(
-      doc,
-      selection.from,
+      editor.state.doc,
+      anchorPos,
       nodeCount,
       depth,
     )
@@ -223,16 +216,22 @@ export const DragHandlePlugin = ({
       })
     }
 
-    const pendingRestore = activeDragRange
-
-    if (pendingRestore) {
-      const { selection, doc } = editor.state
-      // wait for the drop to commit before recomputing the dropped block range
-      restoreRafId = requestAnimationFrame(() => {
-        restoreRafId = null
-        restoreNodeRangeSelection(pendingRestore, selection, doc)
-      })
+    if (!activeDragRange || editor.view.state.selection.empty) {
+      return
     }
+
+    pendingRestore = {
+      ...activeDragRange,
+      anchorPos: editor.state.selection.from,
+    }
+
+    restoreRafId = requestAnimationFrame(() => {
+      restoreRafId = null
+      if (pendingRestore) {
+        restoreNodeRangeSelection(pendingRestore)
+        pendingRestore = null
+      }
+    })
   }
 
   // shared teardown for both the unbind() handle and the plugin view destroy
@@ -267,6 +266,16 @@ export const DragHandlePlugin = ({
           return { locked: false }
         },
         apply(tr: Transaction, value: PluginState, _oldState: EditorState, state: EditorState) {
+          if (pendingRestore && tr.docChanged) {
+            const mappedResult = tr.mapping.mapResult(pendingRestore.anchorPos, 1)
+
+            if (mappedResult.deleted) {
+              pendingRestore = null
+            } else {
+              pendingRestore.anchorPos = mappedResult.pos
+            }
+          }
+
           const isLocked = tr.getMeta('lockDragHandle')
           const hideDragHandle = tr.getMeta('hideDragHandle')
 
