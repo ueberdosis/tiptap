@@ -2,7 +2,7 @@ import { type ComputePositionConfig, type VirtualElement, computePosition } from
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey, Selection } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
   absolutePositionToRelativePosition,
@@ -12,6 +12,11 @@ import {
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
+import {
+  type ActiveDragRange,
+  createDroppedNodeRangeSelection,
+  getActiveDragRange,
+} from './helpers/nodeRangeDrop.js'
 import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
@@ -97,7 +102,10 @@ export const DragHandlePlugin = ({
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any
   let rafId: number | null = null
+  let restoreRafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
+  let activeDragRange: ActiveDragRange | null = null
+  let pendingRestore: ActiveDragRange | null = null
 
   function hideHandle() {
     if (!element) {
@@ -149,6 +157,9 @@ export const DragHandlePlugin = ({
       dragImageProperties,
     )
 
+    // remember a multi-block node range so it can be restored after drop
+    activeDragRange = getActiveDragRange(editor.state.selection)
+
     if (element) {
       element.dataset.dragging = 'true'
     }
@@ -162,6 +173,7 @@ export const DragHandlePlugin = ({
 
   function onDragEnd(e: DragEvent) {
     onElementDragEnd?.(e)
+    activeDragRange = null
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
@@ -169,7 +181,26 @@ export const DragHandlePlugin = ({
     }
   }
 
-  function onDrop() {
+  // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
+  // node range over the freshly dropped blocks to keep the selection consistent.
+  function restoreNodeRangeSelection({ nodeCount, depth, anchorPos }: ActiveDragRange) {
+    const nodeRangeSelection = createDroppedNodeRangeSelection(
+      editor.state.doc,
+      anchorPos,
+      nodeCount,
+      depth,
+    )
+
+    if (nodeRangeSelection) {
+      editor.view.dispatch(editor.state.tr.setSelection(nodeRangeSelection))
+    }
+  }
+
+  function onDrop(e: DragEvent) {
+    if (!e.target || !editor.view.dom.contains(e.target as HTMLElement)) {
+      return
+    }
+
     // Firefox has a bug where the caret becomes invisible after drag and drop.
     // This workaround forces Firefox to re-render the caret by toggling contentEditable.
     // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1327834
@@ -184,20 +215,48 @@ export const DragHandlePlugin = ({
         }
       })
     }
+
+    if (!activeDragRange || editor.view.state.selection.empty) {
+      return
+    }
+
+    pendingRestore = {
+      ...activeDragRange,
+      anchorPos: editor.state.selection.from,
+    }
+
+    restoreRafId = requestAnimationFrame(() => {
+      restoreRafId = null
+      if (pendingRestore) {
+        restoreNodeRangeSelection(pendingRestore)
+        pendingRestore = null
+      }
+    })
+  }
+
+  // shared teardown for both the unbind() handle and the plugin view destroy
+  function cleanup() {
+    element.removeEventListener('dragstart', onDragStart)
+    element.removeEventListener('dragend', onDragEnd)
+    document.removeEventListener('drop', onDrop)
+
+    if (rafId) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+      pendingMouseCoords = null
+    }
+
+    if (restoreRafId) {
+      cancelAnimationFrame(restoreRafId)
+      restoreRafId = null
+    }
   }
 
   wrapper.appendChild(element)
 
   return {
     unbind() {
-      element.removeEventListener('dragstart', onDragStart)
-      element.removeEventListener('dragend', onDragEnd)
-      document.removeEventListener('drop', onDrop)
-      if (rafId) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-        pendingMouseCoords = null
-      }
+      cleanup()
     },
     plugin: new Plugin({
       key: typeof pluginKey === 'string' ? new PluginKey(pluginKey) : pluginKey,
@@ -207,6 +266,16 @@ export const DragHandlePlugin = ({
           return { locked: false }
         },
         apply(tr: Transaction, value: PluginState, _oldState: EditorState, state: EditorState) {
+          if (pendingRestore && tr.docChanged) {
+            const mappedResult = tr.mapping.mapResult(pendingRestore.anchorPos, 1)
+
+            if (mappedResult.deleted) {
+              pendingRestore = null
+            } else {
+              pendingRestore.anchorPos = mappedResult.pos
+            }
+          }
+
           const isLocked = tr.getMeta('lockDragHandle')
           const hideDragHandle = tr.getMeta('hideDragHandle')
 
@@ -336,15 +405,7 @@ export const DragHandlePlugin = ({
 
           // TODO: Kills even on hot reload
           destroy() {
-            element.removeEventListener('dragstart', onDragStart)
-            element.removeEventListener('dragend', onDragEnd)
-            document.removeEventListener('drop', onDrop)
-
-            if (rafId) {
-              cancelAnimationFrame(rafId)
-              rafId = null
-              pendingMouseCoords = null
-            }
+            cleanup()
 
             if (element) {
               removeNode(wrapper)
