@@ -36,6 +36,7 @@ describe('nodeRangeDrop helpers', () => {
       const selection = NodeRangeSelection.create(state.doc, 1, firstSize + 1, 0)
 
       expect(getActiveDragRange(selection)).toEqual({
+        anchorPos: selection.anchor,
         nodeCount: selection.ranges.length,
         depth: 0,
       })
