@@ -152,16 +152,21 @@ describe('MarkdownManager Server-side Parsing', () => {
 
     expect(doc.type).toBe('doc')
     expect(Array.isArray(doc.content)).toBe(true)
+    expect(doc.content).toHaveLength(2)
 
-    const allText = doc
-      .content!.flatMap((node: any) =>
-        node.content ? node.content.filter((n: any) => n.type === 'text') : [],
-      )
-      .map((n: any) => n.text)
-      .join('')
+    // angle-bracket placeholder preserved as literal text
+    const firstPara = doc.content![0]
+    expect(firstPara.type).toBe('paragraph')
+    expect(firstPara.content).toHaveLength(1)
+    expect(firstPara.content![0].type).toBe('text')
+    expect(firstPara.content![0].text).toBe('<enter existing CID here if available>')
 
-    expect(allText).toContain('enter existing CID here if available')
-    expect(allText).toContain('other text after')
+    // trailing text after the blank line
+    const secondPara = doc.content![1]
+    expect(secondPara.type).toBe('paragraph')
+    expect(secondPara.content).toHaveLength(1)
+    expect(secondPara.content![0].type).toBe('text')
+    expect(secondPara.content![0].text).toBe('other text after')
   })
 
   it('parses HTML tags as plain text in server environment', () => {
