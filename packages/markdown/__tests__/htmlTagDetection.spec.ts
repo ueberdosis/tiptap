@@ -39,6 +39,15 @@ describe('htmlTagDetection', () => {
       expect(isHtmlUnknownTagName('my-mention')).toBe(false)
       expect(isHtmlUnknownTagName('my-el')).toBe(false)
     })
+
+    it('treats common SVG child elements as known', () => {
+      expect(isHtmlUnknownTagName('circle')).toBe(false)
+      expect(isHtmlUnknownTagName('path')).toBe(false)
+      expect(isHtmlUnknownTagName('g')).toBe(false)
+      expect(isHtmlUnknownTagName('rect')).toBe(false)
+      expect(isHtmlUnknownTagName('linearGradient')).toBe(false)
+      expect(isHtmlUnknownTagName('clipPath')).toBe(false)
+    })
   })
 
   describe('htmlContainsUnrecognizedTag', () => {
@@ -66,6 +75,13 @@ describe('htmlTagDetection', () => {
 
     it('returns false when no tags are present', () => {
       expect(htmlContainsUnrecognizedTag('no tags here', emptySchema)).toBe(false)
+    })
+
+    it('returns false for SVG elements', () => {
+      expect(
+        htmlContainsUnrecognizedTag('<svg><circle cx="10" cy="10" r="5"/></svg>', emptySchema),
+      ).toBe(false)
+      expect(htmlContainsUnrecognizedTag('<svg><path d="M0 0"/></svg>', emptySchema)).toBe(false)
     })
   })
 })

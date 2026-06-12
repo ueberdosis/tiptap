@@ -1,11 +1,13 @@
 /**
- * Standard HTML element names. Used to tell apart real (but possibly empty)
- * elements like `<em></em>` from genuinely unknown angle-bracket text such
- * as `<enter foo bar>` so the latter can be preserved as literal text.
+ * Standard HTML and common SVG element names. Used to tell apart real
+ * (but possibly empty) elements like `<em></em>` from genuinely unknown
+ * angle-bracket text such as `<enter foo bar>` so the latter can be
+ * preserved as literal text.
  *
- * Mirrors browser `HTMLUnknownElement` classification without DOM APIs:
- * non-hyphenated tags not in this set are treated as unknown unless declared
- * in the schema's parseDOM rules.
+ * Non-hyphenated tags not in this set are treated as unknown unless
+ * declared in the schema's parseDOM rules. This does not claim full
+ * parity with browser `HTMLUnknownElement` classification across all
+ * namespaces (e.g. rare SVG filter elements, MathML).
  */
 export const STANDARD_HTML_TAGS = new Set([
   'a',
@@ -105,6 +107,27 @@ export const STANDARD_HTML_TAGS = new Set([
   'summary',
   'sup',
   'svg',
+  'circle',
+  'clippath',
+  'defs',
+  'ellipse',
+  'foreignobject',
+  'g',
+  'image',
+  'line',
+  'lineargradient',
+  'mask',
+  'path',
+  'polygon',
+  'polyline',
+  'radialgradient',
+  'rect',
+  'stop',
+  'switch',
+  'symbol',
+  'textpath',
+  'tspan',
+  'use',
   'table',
   'tbody',
   'td',
@@ -142,8 +165,8 @@ export function extractHtmlTagNames(html: string): string[] {
 }
 
 /**
- * Returns true when the tag name would be classified as `HTMLUnknownElement`
- * in a browser (non-hyphenated and not a standard HTML element).
+ * Returns true when the tag name is non-hyphenated and not in the
+ * STANDARD_HTML_TAGS allowlist (i.e. would be treated as unrecognized).
  */
 export function isHtmlUnknownTagName(tagName: string): boolean {
   const lower = tagName.toLowerCase()

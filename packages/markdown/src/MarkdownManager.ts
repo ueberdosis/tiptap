@@ -949,7 +949,7 @@ export class MarkdownManager {
     }
 
     // generateJSON requires window.DOMParser – treat recognized HTML as literal on the server
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
       return this.htmlAsLiteralText(html, !!token.block)
     }
 
@@ -984,9 +984,8 @@ export class MarkdownManager {
   }
 
   /**
-   * Returns true when the HTML contains a tag that would be classified as
-   * `HTMLUnknownElement` in a browser – unless a registered extension declares
-   * the tag name in its parseDOM rules.
+   * Returns true when the HTML contains a tag that is neither a standard
+   * HTML/SVG element nor declared in a registered extension's parseDOM rules.
    *
    * Recognized but empty elements such as `<em></em>` or `<span></span>`,
    * and hyphenated custom elements like `<my-mention>`, are not considered
