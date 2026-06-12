@@ -205,7 +205,8 @@ export class MarkdownManager {
   }
 
   private createLexer(): Lexer {
-    return new this.markedInstance.Lexer()
+    // Pass the instance's defaults so the lexer keeps its `use()`-registered tokenizers.
+    return new this.markedInstance.Lexer(this.markedInstance.defaults)
   }
 
   private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
