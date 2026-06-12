@@ -261,12 +261,8 @@ Second paragraph.`
     })
 
     it('runs custom tokenizers registered on an injected Marked instance', () => {
-      // Regression: when a dedicated `marked` instance is injected (to isolate
-      // tokenizers across editors), custom `markdownTokenizer`s must still fire.
-      // `parse()` builds a lexer via `new this.markedInstance.Lexer()`, whose
-      // no-arg constructor reads marked's module-level defaults rather than the
-      // injected instance's `use()`-registered extensions — silently dropping
-      // every custom tokenizer.
+      // Regression: custom tokenizers must still fire when a dedicated `marked`
+      // instance is injected, not only on the default shared instance.
       const manager = new MarkdownManager({
         marked: new Marked() as unknown as typeof import('marked').marked,
         extensions: [...basicExtensions, TestProbe],
