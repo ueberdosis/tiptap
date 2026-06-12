@@ -3,6 +3,8 @@ import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core
 
 import { createBranchingListDeleteKeymap } from '../helpers/createBranchingListDeleteKeymap.js'
 
+import { getListMarker } from '../ordered-list/roman.js'
+
 export interface ListItemOptions {
   /**
    * The HTML attributes for a list item node.
@@ -173,7 +175,9 @@ export const ListItem = Node.create<ListItemOptions>({
         }
         if (context.parentType === 'orderedList') {
           const start = context.meta?.parentAttrs?.start || 1
-          return `${start + context.index}. `
+          const type = context.meta?.parentAttrs?.type as string | undefined
+          const index = start - 1 + (context.index || 0)
+          return getListMarker(type, index, '. ')
         }
         // Fallback to bullet list for unknown parent types
         return '- '
