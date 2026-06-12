@@ -953,9 +953,38 @@ export class MarkdownManager {
    */
   private parseHTMLToken(token: MarkdownToken): JSONContent | JSONContent[] | null {
     const html = token.text || token.raw || ''
+    const normalizedHtml = html.trim()
 
-    if (!html.trim()) {
+    if (!normalizedHtml) {
       return null
+    }
+
+    /**
+     * Detect if the HTML token is actually an HTML comment
+     */
+    const isHtmlComment = /<!--([\s\S]*?)-->/.test(normalizedHtml)
+
+    /**
+     * HTML comments are stripped by the DOM parser, so keep them as plain text
+     * to preserve comment content during markdown parse operations
+     */
+    if (isHtmlComment) {
+      if (token.block) {
+        return {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: html,
+            },
+          ],
+        }
+      }
+
+      return {
+        type: 'text',
+        text: html,
+      }
     }
 
     // Check if we're in a server-side environment (no window object)
