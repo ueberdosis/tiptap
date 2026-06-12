@@ -20,16 +20,10 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type {
-  Commands,
-  ExtensionConfig,
-  GetUpdatedPositionResult,
-  MappablePosition,
-  MarkConfig,
-  NodeConfig,
-} from './index.js'
-import type { Mark } from './Mark.js'
-import type { Node } from './Node.js'
+import type { ExtensionConfig } from './Extension.js'
+import type { GetUpdatedPositionResult, MappablePosition } from './helpers/MappablePosition.js'
+import type { Mark, MarkConfig } from './Mark.js'
+import type { Node, NodeConfig } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
 export type AnyExtension = Extendable
@@ -1104,3 +1098,8 @@ export type Utils = {
    */
   createMappablePosition: (position: number) => MappablePosition
 }
+
+// oxlint-disable-next-line no-unused-vars
+export interface Commands<ReturnType = any> {}
+
+export interface Storage {}
