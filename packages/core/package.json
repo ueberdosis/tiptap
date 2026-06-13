@@ -65,5 +65,8 @@
   },
   "peerDependencies": {
     "@tiptap/pm": "workspace:*"
+  },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   }
 }
