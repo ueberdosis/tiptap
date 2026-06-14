@@ -244,6 +244,25 @@ export class Editor extends EventEmitter<EditorEvents> {
   }
 
   /**
+   * Create a no-op command chain used after `destroy()`, where every chainable method
+   * returns the chain itself and `.run()` returns `false`.
+   */
+  private createNoopChain(): ChainedCommands {
+    const noopChain: ChainedCommands = new Proxy(
+      { run: () => false },
+      {
+        get(target: { run: () => boolean }, prop: string | symbol) {
+          if (prop === 'run') {
+            return target.run
+          }
+          return () => noopChain
+        },
+      },
+    ) as unknown as ChainedCommands
+    return noopChain
+  }
+
+  /**
    * Create a command chain to call multiple commands at once.
    *
    * After `destroy()` returns a no-op chain where every chainable method returns the
@@ -251,18 +270,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    */
   public chain(): ChainedCommands {
     if (!this.commandManager) {
-      const noopChain: ChainedCommands = new Proxy(
-        { run: () => false },
-        {
-          get(target: { run: () => boolean }, prop: string | symbol) {
-            if (prop === 'run') {
-              return target.run
-            }
-            return () => noopChain
-          },
-        },
-      ) as unknown as ChainedCommands
-      return noopChain
+      return this.createNoopChain()
     }
     return this.commandManager.chain()
   }
@@ -270,11 +278,24 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * Check if a command or a command chain can be executed. Without executing it.
    *
-   * After `destroy()` returns a no-op proxy whose checks always resolve to `false`.
+   * After `destroy()` returns a no-op proxy whose single-command checks resolve to
+   * `false` and whose `chain()` returns a no-op chain (so the
+   * `editor.can().chain().<cmd>().run()` pattern stays safe instead of throwing).
    */
   public can(): CanCommands {
     if (!this.commandManager) {
-      return new Proxy({}, { get: () => () => false }) as CanCommands
+      const createNoopChain = () => this.createNoopChain()
+      return new Proxy(
+        {},
+        {
+          get: (_target, prop) => {
+            if (prop === 'chain') {
+              return createNoopChain
+            }
+            return () => false
+          },
+        },
+      ) as CanCommands
     }
     return this.commandManager.can()
   }

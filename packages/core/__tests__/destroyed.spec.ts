@@ -42,6 +42,18 @@ describe('post-destroy access', () => {
     expect(() => editor.can()).not.toThrow()
   })
 
+  it('does not throw when can().chain() is chained after destroy', () => {
+    const editor = createEditor()
+    editor.destroy()
+    expect(() => editor.can().chain().toggleBold()).not.toThrow()
+  })
+
+  it('returns false from can().chain().<cmd>().run() after destroy', () => {
+    const editor = createEditor()
+    editor.destroy()
+    expect(editor.can().chain().toggleBold().run()).toBe(false)
+  })
+
   it('returns "" from getHTML() after destroy', () => {
     const editor = createEditor()
     editor.destroy()
