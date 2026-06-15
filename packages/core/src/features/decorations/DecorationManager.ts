@@ -49,8 +49,10 @@ const EMPTY_KEYS: ReadonlySet<string> = new Set()
 
 /**
  * Returns the keys of all widget decorations currently rendered for this editor.
- * Used by the React/Vue widget renderers to avoid tearing down a renderer whose
- * key is still live (e.g. when a key is reassigned to a new position).
+ *
+ * A low-level escape hatch for custom widget-renderer authors (the built-in
+ * React/Vue renderers use it to avoid tearing down a still-live key); app code
+ * using the `decoration.*` factory almost never needs it.
  */
 export function liveWidgetKeys(editor: Editor): ReadonlySet<string> {
   return decorationManagerKey.getState(editor.state)?.widgetKeys ?? EMPTY_KEYS
@@ -149,6 +151,32 @@ function widgetKeyOf(decoration: Decoration): string | undefined {
 }
 
 /**
+ * Warns when `createInRange` returns a decoration anchored outside `[from, to)`.
+ * Such decorations leak duplicates (the manager only prunes stale ones inside the
+ * range), so this surfaces the otherwise-silent contract violation in development.
+ */
+function warnOutOfRangeDescriptors(
+  descriptors: DecorationDescriptor[],
+  from: number,
+  to: number,
+  extensionName: string,
+): void {
+  for (const descriptor of descriptors) {
+    const anchor = descriptor.kind === 'widget' ? descriptor.pos : descriptor.from
+
+    if (anchor < from || anchor >= to) {
+      console.warn(
+        `[tiptap warn]: Extension "${extensionName}" returned a decoration anchored at ${anchor} ` +
+          `from createInRange, outside the requested range [${from}, ${to}). createInRange must ` +
+          'only return decorations anchored within the range; out-of-range decorations leak ' +
+          'duplicates that are never cleaned up. Use a full create() for decorations that span ' +
+          'outside the changed block.',
+      )
+    }
+  }
+}
+
+/**
  * Expands the document-changing ranges of a transaction to the boundaries of the
  * top-level blocks they touch, then merges overlapping results.
  *
@@ -202,15 +230,31 @@ function getBlockAlignedChangedRanges(tr: Transaction, doc: EditorState['doc']):
 }
 
 /**
- * Unions every extension's widget keys into the single set framework widget
- * renderers read via {@link liveWidgetKeys}. Cheap — it iterates the per-extension
- * key sets, never the built decoration tree.
+ * Unions every extension's widget keys into the single set read via
+ * {@link liveWidgetKeys} (cheap — iterates the key sets, not the decoration tree).
+ * Also where *cross-extension* duplicate keys are caught: the per-build warning in
+ * {@link descriptorsToDecorations} sees one extension at a time, but ProseMirror
+ * needs keys globally unique, so a shared key would otherwise misplace widget DOM.
  */
 function unionWidgetKeys(widgetKeysByExtension: Record<string, Set<string>>): Set<string> {
   const merged = new Set<string>()
+  const owners = new Map<string, string>()
 
-  for (const keys of Object.values(widgetKeysByExtension)) {
+  for (const [name, keys] of Object.entries(widgetKeysByExtension)) {
     for (const key of keys) {
+      const owner = owners.get(key)
+
+      if (owner !== undefined) {
+        console.warn(
+          `[tiptap warn]: Duplicate widget decoration key "${key}" produced by extensions ` +
+            `"${owner}" and "${name}". Widget decoration keys must be globally unique across ` +
+            'all extensions, otherwise ProseMirror misplaces the widget DOM. Use a stable, ' +
+            'unique key (e.g. `comment-${id}`).',
+        )
+      } else {
+        owners.set(key, name)
+      }
+
       merged.add(key)
     }
   }
@@ -365,14 +409,37 @@ export function createDecorationPlugin(
               set = set.remove(stale)
 
               // …and rebuild just this range.
+              const rangeDescriptors = spec.createInRange({
+                editor,
+                state: newState,
+                view: editor.view,
+                from,
+                to,
+              })
+
+              warnOutOfRangeDescriptors(rangeDescriptors, from, to, name)
+
               const { decorations, widgetKeys: addedKeys } = descriptorsToDecorations(
-                spec.createInRange({ editor, state: newState, view: editor.view, from, to }),
+                rangeDescriptors,
                 name,
               )
 
               set = set.add(newState.doc, decorations)
 
               for (const key of addedKeys) {
+                // A key already live here was anchored outside this range (the
+                // stale ones inside it were removed above), so `createInRange`
+                // just produced a cross-range duplicate. ProseMirror requires
+                // globally unique widget keys, so warn rather than misplace it.
+                if (widgetKeys.has(key)) {
+                  console.warn(
+                    `[tiptap warn]: Duplicate widget decoration key "${key}" in extension ` +
+                      `"${name}". createInRange produced a key already live in another range. ` +
+                      'Widget decoration keys must be globally unique, otherwise ProseMirror ' +
+                      'misplaces the widget DOM. Use a stable, unique key (e.g. `comment-${id}`).',
+                  )
+                }
+
                 widgetKeys.add(key)
               }
             }

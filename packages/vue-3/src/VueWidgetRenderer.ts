@@ -16,7 +16,7 @@ export interface VueWidgetDecorationProps {
   getPos: () => number | undefined
 }
 
-export interface VueWidgetRendererOptions {
+export interface VueWidgetRendererOptions<P extends Record<string, any> = object> {
   /**
    * The editor instance.
    */
@@ -38,7 +38,7 @@ export interface VueWidgetRendererOptions {
    * Props passed to the component (merged with {@link VueWidgetDecorationProps}).
    * The component must have a single root element.
    */
-  props?: Record<string, any>
+  props?: P
   /**
    * The decoration's side bias (see ProseMirror's `Decoration.widget`).
    */
@@ -119,11 +119,11 @@ function getCache(editor: Editor): WidgetCache {
  *   }
  * }
  */
-export function VueWidgetRenderer(
+export function VueWidgetRenderer<P extends Record<string, any> = object>(
   component: Component,
-  options: VueWidgetRendererOptions,
+  options: VueWidgetRendererOptions<P>,
 ): WidgetDecorationDescriptor {
-  const { editor, pos, key, props = {}, side, marks } = options
+  const { editor, pos, key, props = {} as P, side, marks } = options
   const cache = getCache(editor)
 
   // Two-phase prop update. ProseMirror skips the widget's `toDOM`/`render` when

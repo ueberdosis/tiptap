@@ -74,6 +74,40 @@ describe('addDecorations', () => {
     editor.destroy()
   })
 
+  it('warns when two extensions produce the same widget key', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const a = Extension.create({
+      name: 'decoA',
+      addDecorations: () => ({
+        create: () => [
+          decoration.widget(1, () => document.createElement('span'), { key: 'shared' }),
+        ],
+      }),
+    })
+    const b = Extension.create({
+      name: 'decoB',
+      addDecorations: () => ({
+        create: () => [
+          decoration.widget(2, () => document.createElement('span'), { key: 'shared' }),
+        ],
+      }),
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, a, b],
+      content: '<p>hello world</p>',
+    })
+
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('Duplicate widget decoration key "shared"'),
+    )
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('"decoA"'))
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('"decoB"'))
+
+    warn.mockRestore()
+    editor.destroy()
+  })
+
   it('recomputes on document change by default', () => {
     const create = vi.fn(() => [decoration.inline(1, 2, { class: 'x' })])
     const extension = Extension.create({
@@ -477,6 +511,28 @@ describe('incrementalCreate', () => {
     // …and the sibling top-level paragraph's decoration survived, mapped by +1.
     expect(getDecorations(editor).some(d => d.from === 13)).toBe(true)
 
+    editor.destroy()
+  })
+
+  it('warns when createInRange returns a decoration anchored outside the range', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    // Buggy createInRange: always returns a decoration anchored at position 1,
+    // regardless of the requested range — violating the incremental contract.
+    const createInRange = vi.fn(() => [decoration.inline(1, 2, { class: 'oops' })])
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+
+    const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    // Edit the second paragraph so the changed range starts well past position 1.
+    editor.commands.insertContentAt(8, 'x')
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('outside the requested range'))
+
+    warn.mockRestore()
     editor.destroy()
   })
 })

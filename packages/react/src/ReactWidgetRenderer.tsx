@@ -52,25 +52,48 @@ export interface ReactWidgetRendererOptions<P extends Record<string, any> = obje
 
 const WIDGET_CACHE = Symbol('tiptapReactWidgetCache')
 
-/**
- * The live renderer for each widget key, kept on the editor and reused across
- * recomputes so the React component (and its state) is preserved instead of
- * remounted.
- */
-type WidgetCache = Map<string, ReactRenderer>
+interface WidgetCache {
+  /**
+   * The live renderer for each widget key, kept on the editor and reused across
+   * recomputes so the React component (and its state) is preserved instead of
+   * remounted.
+   */
+  renderers: Map<string, ReactRenderer>
+  /**
+   * The last props pushed to each widget. Used to skip re-renders when nothing
+   * changed: `ReactRenderer.updateProps` always re-renders, so without this
+   * guard every widget would re-render on every transaction.
+   */
+  props: Map<string, Record<string, any>>
+}
+
+function shallowEqual(a: Record<string, any>, b: Record<string, any>): boolean {
+  const aKeys = Object.keys(a)
+  const bKeys = Object.keys(b)
+
+  if (aKeys.length !== bKeys.length) {
+    return false
+  }
+
+  return aKeys.every(key => a[key] === b[key])
+}
 
 function getCache(editor: Editor): WidgetCache {
   const host = editor as Editor & { [WIDGET_CACHE]?: WidgetCache }
 
   if (!host[WIDGET_CACHE]) {
-    const cache: WidgetCache = new Map()
+    const cache: WidgetCache = {
+      renderers: new Map(),
+      props: new Map(),
+    }
 
     host[WIDGET_CACHE] = cache
 
     // Sweep any widgets still mounted when the editor goes away.
     editor.on('destroy', () => {
-      cache.forEach(renderer => renderer.destroy())
-      cache.clear()
+      cache.renderers.forEach(renderer => renderer.destroy())
+      cache.renderers.clear()
+      cache.props.clear()
     })
   }
 
@@ -114,15 +137,21 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   // so this is the place to push fresh user props to an already-mounted widget.
   // `updateProps` MERGES into the existing props, so `editor` / `getPos` pushed
   // by the previous `render` are preserved — they are not lost by this partial
-  // update.
-  const existing = cache.get(key)
+  // update. Skip when nothing changed — `updateProps` always re-renders, so an
+  // unconditional push would re-render every widget on every transaction.
+  const existing = cache.renderers.get(key)
 
   if (existing) {
-    existing.updateProps(props)
+    const previous = cache.props.get(key)
+
+    if (!previous || !shallowEqual(previous, props)) {
+      existing.updateProps(props)
+      cache.props.set(key, { ...props })
+    }
   }
 
   const render = (_view: EditorView, getPos: () => number | undefined): HTMLElement => {
-    let renderer = cache.get(key)
+    let renderer = cache.renderers.get(key)
 
     if (renderer) {
       renderer.updateProps({ ...props, editor, getPos })
@@ -133,7 +162,8 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
         className,
         props: { ...props, editor, getPos },
       })
-      cache.set(key, renderer)
+      cache.renderers.set(key, renderer)
+      cache.props.set(key, { ...props })
     }
 
     // Re-register the portal on every materialization. ProseMirror calls this
@@ -157,8 +187,9 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
         return
       }
 
-      cache.get(key)?.destroy()
-      cache.delete(key)
+      cache.renderers.get(key)?.destroy()
+      cache.renderers.delete(key)
+      cache.props.delete(key)
     },
   })
 }
