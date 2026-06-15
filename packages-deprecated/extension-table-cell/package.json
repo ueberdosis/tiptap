@@ -13,6 +13,9 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-table-cell"
   },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
