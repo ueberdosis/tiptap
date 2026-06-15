@@ -32,22 +32,7 @@ import {
   reopenMarksAfterNode,
   wrapInMarkdownBlock,
 } from './utils.js'
-
-/**
- * Returns true when the element's tag is not a recognized standard HTML
- * element. Note: the calling code further cross-references this result
- * against schema parseDOM tags, so non-standard tags that are declared
- * by registered extensions are still treated as valid.
- *
- * Browsers expose this classification natively: any non-hyphenated tag that
- * is not part of the HTML/SVG/MathML namespaces is constructed as an
- * `HTMLUnknownElement`. Standard tags (`<em>`, `<div>`, …) and custom
- * elements (`<my-el>`, must contain a hyphen) are `HTMLElement` instances.
- */
-const isHtmlUnknownElement = (element: Element): boolean => {
-  const ctor = (window as any).HTMLUnknownElement
-  return typeof ctor === 'function' && element instanceof ctor
-}
+import { htmlContainsUnrecognizedTag } from './utils/htmlTagDetection.js'
 
 export class MarkdownManager {
   private markedInstance: typeof marked
@@ -205,7 +190,8 @@ export class MarkdownManager {
   }
 
   private createLexer(): Lexer {
-    return new this.markedInstance.Lexer()
+    // Pass the instance's defaults so the lexer keeps its `use()`-registered tokenizers.
+    return new this.markedInstance.Lexer(this.markedInstance.defaults)
   }
 
   private createTokenizerHelpers(lexer: Lexer): MarkdownLexerConfiguration {
@@ -957,31 +943,14 @@ export class MarkdownManager {
       return null
     }
 
-    // Check if we're in a server-side environment (no window object)
-    // If so, fall back to treating HTML as plain text to avoid runtime errors
-    if (typeof window === 'undefined') {
-      // For block-level HTML, wrap in a paragraph to maintain valid document structure
-      if (token.block) {
-        return {
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: html,
-            },
-          ],
-        }
-      }
-      // For inline HTML, return plain text
-      return {
-        type: 'text',
-        text: html,
-      }
-    }
-
     // If the HTML would parse to nothing meaningful, keep the original
     // characters as literal text instead of dropping them.
     if (this.isUnrecognizedHtml(html)) {
+      return this.htmlAsLiteralText(html, !!token.block)
+    }
+
+    // generateJSON requires window.DOMParser – treat recognized HTML as literal on the server
+    if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
       return this.htmlAsLiteralText(html, !!token.block)
     }
 
@@ -1016,10 +985,8 @@ export class MarkdownManager {
   }
 
   /**
-   * Returns true when the HTML contains an element the browser classifies as
-   * `HTMLUnknownElement` – unless a registered extension declares the tag
-   * name in its parseDOM rules, in which case it is treated as a known
-   * custom element.
+   * Returns true when the HTML contains a tag that is neither a standard
+   * HTML/SVG element nor declared in a registered extension's parseDOM rules.
    *
    * Recognized but empty elements such as `<em></em>` or `<span></span>`,
    * and hyphenated custom elements like `<my-mention>`, are not considered
@@ -1034,31 +1001,7 @@ export class MarkdownManager {
    *   isUnrecognizedHtml('<br>')             // → false
    */
   private isUnrecognizedHtml(html: string): boolean {
-    if (typeof window === 'undefined' || typeof window.DOMParser === 'undefined') {
-      // Can't reliably detect without DOMParser, so assume it's recognized to avoid false positives
-      return false
-    }
-
-    const dom = new window.DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body
-    const elements = dom.querySelectorAll('*')
-
-    if (elements.length === 0) {
-      return false
-    }
-
-    const schemaTags = this.getSchemaParseDomTags()
-
-    return Array.from(elements).some(el => {
-      if (!isHtmlUnknownElement(el)) {
-        return false
-      }
-
-      // If the tag is declared by a registered extension's parseDOM rule,
-      // treat it as recognized even though the browser doesn't know it.
-      const tagName = el.tagName.toLowerCase()
-
-      return !schemaTags.has(tagName)
-    })
+    return htmlContainsUnrecognizedTag(html, this.getSchemaParseDomTags())
   }
 
   /**
@@ -1101,7 +1044,7 @@ export class MarkdownManager {
       Object.values(schema.marks).forEach(type => collect((type as any).spec))
     } catch {
       // If schema construction fails, leave the set empty – detection then
-      // falls back to the HTMLUnknownElement check alone.
+      // falls back to the standard HTML tag list only.
     }
 
     this.schemaParseDomTagsCache = tags

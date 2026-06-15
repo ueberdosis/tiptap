@@ -1,5 +1,21 @@
 # @tiptap/extension-node-range
 
+## 3.26.1
+
+### Patch Changes
+
+- a38c9c0: Fixed drag-and-drop duplicating blocks during collaboration. When a remote collaborator edited the document mid-drag, dropping left an empty copy of the dragged block at its original position. This fix also requires a version of `@tiptap/y-tiptap` that restores node range selections across remote updates.
+- a38c9c0: Bump `@tiptap/y-tiptap` to version ^3.0.5
+  - @tiptap/core@3.26.1
+  - @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/pm@3.26.0
+
 ## 3.25.0
 
 ### Patch Changes

@@ -82,6 +82,37 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await editor.type('Example')
         await expect(page.locator('.tiptap p')).toContainText('1. Example')
       })
+
+      // ── Type attribute tests ──
+
+      test('preserves type="a" attribute in HTML output', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent(
+            '<ol type="a"><li><p>Item A</p></li><li><p>Item B</p></li></ol>',
+          )
+          return el.editor.getHTML()
+        })
+        expect(html).toContain('type="a"')
+      })
+
+      test('preserves type="I" attribute in HTML output', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent('<ol type="I"><li><p>Item 1</p></li></ol>')
+          return el.editor.getHTML()
+        })
+        expect(html).toContain('type="I"')
+      })
+
+      test('does not render type attribute for default type', async ({ page }) => {
+        const editor = await getEditor(page)
+        const html = await editor.evaluate((el: any) => {
+          el.editor.commands.setContent('<ol><li><p>Item</p></li></ol>')
+          return el.editor.getHTML()
+        })
+        expect(html).not.toContain('type')
+      })
     })
   })
 })

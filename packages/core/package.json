@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/core",
-  "version": "3.25.0",
+  "version": "3.26.1",
   "description": "headless rich text editor",
   "keywords": [
     "headless",
@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",

@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/vue-2",
-  "version": "3.25.0",
+  "version": "3.26.1",
   "description": "Vue components for tiptap",
   "keywords": [
     "tiptap",
@@ -12,6 +12,9 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/vue-2"
+  },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",

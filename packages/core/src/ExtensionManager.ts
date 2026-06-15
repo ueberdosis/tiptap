@@ -8,6 +8,7 @@ import {
   flattenExtensions,
   getAttributesFromExtensions,
   getExtensionField,
+  getMarkType,
   getNodeType,
   getRenderedAttributes,
   getSchemaByResolvedExtensions,
@@ -17,18 +18,13 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import {
-  type MarkConfig,
-  type NodeConfig,
-  type Storage,
-  getMarkType,
-  updateMarkViewAttributes,
-} from './index.js'
+import { updateMarkViewAttributes } from './MarkView.js'
 import { inputRulesPlugin } from './InputRule.js'
-import { Mark } from './Mark.js'
+import { Mark, type MarkConfig } from './Mark.js'
 import { pasteRulesPlugin } from './PasteRule.js'
-import type { AnyConfig, Extensions, RawCommands } from './types.js'
+import type { AnyConfig, Extensions, RawCommands, Storage } from './types.js'
 import { callOrReturn } from './utilities/callOrReturn.js'
+import { type NodeConfig } from './Node.js'
 
 export class ExtensionManager {
   editor: Editor

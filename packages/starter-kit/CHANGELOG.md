@@ -1,5 +1,65 @@
 # Change Log
 
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/extension-dropcursor@3.26.1
+- @tiptap/extension-gapcursor@3.26.1
+- @tiptap/extension-list-item@3.26.1
+- @tiptap/extension-list-keymap@3.26.1
+- @tiptap/core@3.26.1
+- @tiptap/extension-blockquote@3.26.1
+- @tiptap/extension-bold@3.26.1
+- @tiptap/extension-bullet-list@3.26.1
+- @tiptap/extension-code@3.26.1
+- @tiptap/extension-code-block@3.26.1
+- @tiptap/extension-document@3.26.1
+- @tiptap/extension-hard-break@3.26.1
+- @tiptap/extension-heading@3.26.1
+- @tiptap/extension-horizontal-rule@3.26.1
+- @tiptap/extension-italic@3.26.1
+- @tiptap/extension-link@3.26.1
+- @tiptap/extension-list@3.26.1
+- @tiptap/extension-ordered-list@3.26.1
+- @tiptap/extension-paragraph@3.26.1
+- @tiptap/extension-strike@3.26.1
+- @tiptap/extension-text@3.26.1
+- @tiptap/extension-underline@3.26.1
+- @tiptap/extensions@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- Updated dependencies [155a613]
+- Updated dependencies [75e8404]
+  - @tiptap/extension-blockquote@3.26.0
+  - @tiptap/extensions@3.26.0
+  - @tiptap/extension-dropcursor@3.26.0
+  - @tiptap/extension-gapcursor@3.26.0
+  - @tiptap/extension-list-item@3.26.0
+  - @tiptap/extension-list-keymap@3.26.0
+  - @tiptap/core@3.26.0
+  - @tiptap/extension-bold@3.26.0
+  - @tiptap/extension-bullet-list@3.26.0
+  - @tiptap/extension-code@3.26.0
+  - @tiptap/extension-code-block@3.26.0
+  - @tiptap/extension-document@3.26.0
+  - @tiptap/extension-hard-break@3.26.0
+  - @tiptap/extension-heading@3.26.0
+  - @tiptap/extension-horizontal-rule@3.26.0
+  - @tiptap/extension-italic@3.26.0
+  - @tiptap/extension-link@3.26.0
+  - @tiptap/extension-list@3.26.0
+  - @tiptap/extension-ordered-list@3.26.0
+  - @tiptap/extension-paragraph@3.26.0
+  - @tiptap/extension-strike@3.26.0
+  - @tiptap/extension-text@3.26.0
+  - @tiptap/extension-underline@3.26.0
+  - @tiptap/pm@3.26.0
+
 ## 3.25.0
 
 ### Patch Changes

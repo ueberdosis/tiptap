@@ -1,5 +1,27 @@
 # @tiptap/extension-drag-handle
 
+## 3.26.1
+
+### Patch Changes
+
+- a38c9c0: Restore the node range selection after dragging multiple blocks. Previously, dropping a multi-block drag left a text selection inside the moved content instead of keeping the dragged blocks selected.
+- a38c9c0: Bump `@tiptap/y-tiptap` to version ^3.0.5
+- Updated dependencies [a38c9c0]
+- Updated dependencies [a38c9c0]
+  - @tiptap/extension-node-range@3.26.1
+  - @tiptap/extension-collaboration@3.26.1
+  - @tiptap/core@3.26.1
+  - @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/extension-collaboration@3.26.0
+- @tiptap/extension-node-range@3.26.0
+- @tiptap/pm@3.26.0
+
 ## 3.25.0
 
 ### Patch Changes

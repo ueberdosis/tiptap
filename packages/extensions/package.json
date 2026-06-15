@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extensions",
-  "version": "3.25.0",
+  "version": "3.26.1",
   "description": "various extensions for tiptap",
   "keywords": [
     "tiptap",
@@ -12,6 +12,9 @@
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension"
+  },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",
