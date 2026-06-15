@@ -44,8 +44,10 @@ export function parseAttributes(attrString: string): Record<string, any> {
     attributes.class = classes.join(' ')
   }
 
-  // Parse IDs (#myId) - only outside of quoted strings
-  const idMatch = tempString.match(/(?:^|\s)#([a-zA-Z][\w-]*)/)
+  // Parse IDs (#myId) - only outside of quoted strings.
+  // HTML5 ids may start with a digit (e.g. `#2123`, `#5hello`), so the first
+  // character is matched with `\w` rather than a letter-only class.
+  const idMatch = tempString.match(/(?:^|\s)#(\w[\w-]*)/)
   if (idMatch) {
     attributes.id = idMatch[1]
   }
@@ -65,7 +67,7 @@ export function parseAttributes(attrString: string): Record<string, any> {
   // Parse boolean attributes (standalone words that aren't classes/IDs)
   const cleanString = tempString
     .replace(/(?:^|\s)\.([a-zA-Z][\w-]*)/g, '') // Remove classes
-    .replace(/(?:^|\s)#([a-zA-Z][\w-]*)/g, '') // Remove IDs
+    .replace(/(?:^|\s)#(\w[\w-]*)/g, '') // Remove IDs
     .replace(/([a-zA-Z][\w-]*)\s*=\s*__QUOTED_\d+__/g, '') // Remove key-value pairs
     .trim()
 
