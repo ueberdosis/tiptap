@@ -47,4 +47,54 @@ describe('marksEqual', () => {
   it('returns true for empty arrays', () => {
     expect(marksEqual([], [])).toBe(true)
   })
+
+  it('returns true for same marks in different order', () => {
+    const a = [{ type: 'bold' }, { type: 'italic' }]
+    const b = [{ type: 'italic' }, { type: 'bold' }]
+    expect(marksEqual(a, b)).toBe(true)
+  })
+
+  it('returns true for marks with attrs in different order', () => {
+    const a = [{ type: 'highlight', attrs: { color: 'red' } }, { type: 'bold' }]
+    const b = [{ type: 'bold' }, { type: 'highlight', attrs: { color: 'red' } }]
+    expect(marksEqual(a, b)).toBe(true)
+  })
+
+  it('returns false for different count of duplicate marks', () => {
+    const a = [{ type: 'bold' }, { type: 'bold' }]
+    const b = [{ type: 'bold' }]
+    expect(marksEqual(a, b)).toBe(false)
+  })
+
+  it('accepts marks with type as object (ProseMirror-like)', () => {
+    const a = [{ type: { name: 'bold' }, attrs: { level: 1 } }]
+    const b = [{ type: { name: 'bold' }, attrs: { level: 1 } }]
+    expect(marksEqual(a, b)).toBe(true)
+  })
+
+  it('handles mixed type representations', () => {
+    const a = [{ type: 'bold', attrs: { level: 1 } }]
+    const b = [{ type: { name: 'bold' }, attrs: { level: 1 } }]
+    expect(marksEqual(a, b)).toBe(true)
+  })
+
+  it('does not match PM attrs:{} against JSON missing attrs', () => {
+    // ProseMirror marks always have attrs as an object, JSON marks often omit it.
+    // attrsEqual({}, undefined) returns false, so these don't match.
+    const a = [{ type: { name: 'bold' }, attrs: {} }]
+    const b = [{ type: 'bold' }]
+    expect(marksEqual(a, b)).toBe(false)
+  })
+
+  it('treats null and undefined attrs as different', () => {
+    const a = [{ type: 'bold', attrs: null }]
+    const b = [{ type: 'bold' }]
+    expect(marksEqual(a, b)).toBe(false)
+  })
+
+  it('returns false for ProseMirror marks with different type names', () => {
+    const a = [{ type: { name: 'bold' } }]
+    const b = [{ type: { name: 'italic' } }]
+    expect(marksEqual(a, b)).toBe(false)
+  })
 })
