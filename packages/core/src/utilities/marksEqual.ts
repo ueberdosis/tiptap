@@ -27,11 +27,11 @@ export function marksEqual(a: readonly MarkLike[], b: readonly MarkLike[]): bool
   const consumed = Array.from({ length: b.length }, () => false)
 
   return a.every(markA => {
+    const nameA = markTypeName(markA)
+
     const idx = b.findIndex(
       (markB, i) =>
-        !consumed[i] &&
-        markTypeName(markA) === markTypeName(markB) &&
-        attrsEqual(markA.attrs, markB.attrs),
+        !consumed[i] && nameA === markTypeName(markB) && attrsEqual(markA.attrs, markB.attrs),
     )
 
     if (idx === -1) {

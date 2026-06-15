@@ -54,7 +54,7 @@ describe('marksEqual', () => {
     expect(marksEqual(a, b)).toBe(true)
   })
 
-  it('returns true for duplicate marks in different order', () => {
+  it('returns true for marks with attrs in different order', () => {
     const a = [{ type: 'highlight', attrs: { color: 'red' } }, { type: 'bold' }]
     const b = [{ type: 'bold' }, { type: 'highlight', attrs: { color: 'red' } }]
     expect(marksEqual(a, b)).toBe(true)
@@ -79,7 +79,7 @@ describe('marksEqual', () => {
   })
 
   it('treats null and undefined attrs as different', () => {
-    const a = [{ type: 'bold', attrs: null as Record<string, any> | null }]
+    const a = [{ type: 'bold', attrs: null }]
     const b = [{ type: 'bold' }]
     expect(marksEqual(a, b)).toBe(false)
   })
