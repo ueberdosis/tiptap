@@ -78,6 +78,14 @@ describe('marksEqual', () => {
     expect(marksEqual(a, b)).toBe(true)
   })
 
+  it('does not match PM attrs:{} against JSON missing attrs', () => {
+    // ProseMirror marks always have attrs as an object, JSON marks often omit it.
+    // attrsEqual({}, undefined) returns false, so these don't match.
+    const a = [{ type: { name: 'bold' }, attrs: {} }]
+    const b = [{ type: 'bold' }]
+    expect(marksEqual(a, b)).toBe(false)
+  })
+
   it('treats null and undefined attrs as different', () => {
     const a = [{ type: 'bold', attrs: null }]
     const b = [{ type: 'bold' }]
