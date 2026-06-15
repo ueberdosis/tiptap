@@ -2,4 +2,4 @@
 '@tiptap/core': patch
 ---
 
-`parseAttributes` now supports any non-white character at the start of classes or id attributes.
+`parseAttributes` now supports any word characters at the start of classes or id attributes.
