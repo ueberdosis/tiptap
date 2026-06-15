@@ -16,6 +16,9 @@
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/server-ai-toolkit"
   },
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ueberdosis"
