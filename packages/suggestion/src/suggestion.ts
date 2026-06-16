@@ -62,6 +62,7 @@ export function Suggestion<I = any, TSelected = any>({
   container,
   flip = true,
   floatingUi,
+  dismissOnOutsideClick = true,
   render = () => ({}),
   allow = () => true,
   findSuggestionMatch = defaultFindSuggestionMatch,
@@ -107,8 +108,10 @@ export function Suggestion<I = any, TSelected = any>({
         container,
         flip,
         floatingUi,
+        dismissOnOutsideClick,
         command,
         clientRectFor,
+        dispatchExit,
       }),
 
     state: createSuggestionState({

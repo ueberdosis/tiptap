@@ -259,6 +259,14 @@ export interface SuggestionOptions<I = any, TSelected = any> {
   floatingUi?: SuggestionFloatingUiOptions
 
   /**
+   * Dismiss the suggestion when the user interacts outside both the popup and
+   * the editor. Only applies when using managed mounting via
+   * {@link SuggestionProps.mount} (the plugin needs to know the popup element).
+   * @default true
+   */
+  dismissOnOutsideClick?: boolean
+
+  /**
    * A function that returns the suggestion items in form of an array.
    * @param props The props object.
    * @param props.editor The editor instance.

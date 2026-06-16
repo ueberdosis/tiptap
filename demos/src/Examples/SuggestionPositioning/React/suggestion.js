@@ -31,6 +31,9 @@ export default {
     middleware: [flip({ padding: 8 }), shift({ padding: 8 })],
   },
 
+  // Dismiss the popup when clicking outside it (and outside the editor).
+  dismissOnOutsideClick: true,
+
   render: () => {
     let component
     let unmount = null

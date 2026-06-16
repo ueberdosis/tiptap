@@ -1166,3 +1166,83 @@ describe('suggestion mount', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion outside click', () => {
+  async function setup(dismissOnOutsideClick?: boolean) {
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-outside-click',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            dismissOnOutsideClick,
+            render: () => ({ onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    const mount = onStart.mock.calls[0][0].mount
+    const isActive = () => SuggestionPluginKey.getState(editor.state)?.active === true
+
+    return { mount, editor, isActive }
+  }
+
+  it('dismisses when clicking outside the popup and editor', async () => {
+    const { mount, editor, isActive } = await setup()
+    const element = document.createElement('div')
+    const unmount = mount(element)
+
+    expect(isActive()).toBe(true)
+
+    const outside = document.createElement('div')
+    document.body.appendChild(outside)
+    outside.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+
+    expect(isActive()).toBe(false)
+
+    unmount()
+    outside.remove()
+    editor.destroy()
+  })
+
+  it('does not dismiss when clicking inside the popup', async () => {
+    const { mount, editor, isActive } = await setup()
+    const element = document.createElement('div')
+    const unmount = mount(element)
+
+    element.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+
+    expect(isActive()).toBe(true)
+
+    unmount()
+    editor.destroy()
+  })
+
+  it('does not attach the listener when dismissOnOutsideClick is false', async () => {
+    const { mount, editor, isActive } = await setup(false)
+    const element = document.createElement('div')
+    const unmount = mount(element)
+
+    const outside = document.createElement('div')
+    document.body.appendChild(outside)
+    outside.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+
+    expect(isActive()).toBe(true)
+
+    unmount()
+    outside.remove()
+    editor.destroy()
+  })
+})

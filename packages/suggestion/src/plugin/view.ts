@@ -25,8 +25,10 @@ export interface CreateSuggestionViewOptions {
   container?: string | HTMLElement
   flip: boolean
   floatingUi?: SuggestionFloatingUiOptions
+  dismissOnOutsideClick: boolean
   command: NonNullable<SuggestionOptions['command']>
   clientRectFor: (view: EditorView, decorationNode: Element | null) => () => DOMRect | null
+  dispatchExit: (view: EditorView) => void
 }
 
 /**
@@ -54,8 +56,10 @@ export function createSuggestionView({
   container,
   flip,
   floatingUi,
+  dismissOnOutsideClick,
   command,
   clientRectFor,
+  dispatchExit,
 }: CreateSuggestionViewOptions) {
   let props: SuggestionProps | undefined
   const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({
@@ -148,6 +152,8 @@ export function createSuggestionView({
           contextElement: view.dom,
           config: floatingUiConfig,
           container,
+          dismissOnOutsideClick,
+          dismiss: () => dispatchExit(editor.view),
         }),
       }
 

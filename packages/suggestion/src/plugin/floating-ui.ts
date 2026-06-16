@@ -65,6 +65,13 @@ export interface CreateMountOptions {
    * renders on top of (and clips within) the right context.
    */
   container?: string | HTMLElement
+  /**
+   * When `true`, a pointerdown outside both the popup and the editor dismisses
+   * the suggestion. Wired up and torn down alongside the mounted element.
+   */
+  dismissOnOutsideClick: boolean
+  /** Dismisses the active suggestion (used by outside-click handling). */
+  dismiss: () => void
 }
 
 /**
@@ -100,6 +107,8 @@ export function createMount({
   contextElement,
   config,
   container,
+  dismissOnOutsideClick,
+  dismiss,
 }: CreateMountOptions): SuggestionMount {
   return (element, options = {}) => {
     const reference: VirtualElement = {
@@ -152,8 +161,34 @@ export function createMount({
 
     const cleanupAutoUpdate = autoUpdate(reference, element, update, options.autoUpdate)
 
+    // Dismiss when the user interacts outside both the popup and the editor.
+    // Capture phase so a parent that stops propagation can't swallow it.
+    let onOutsidePointerDown: ((event: PointerEvent) => void) | undefined
+
+    if (dismissOnOutsideClick) {
+      onOutsidePointerDown = event => {
+        const target = event.target
+
+        if (
+          !(target instanceof Node) ||
+          element.contains(target) ||
+          contextElement.contains(target)
+        ) {
+          return
+        }
+
+        dismiss()
+      }
+
+      document.addEventListener('pointerdown', onOutsidePointerDown, true)
+    }
+
     return () => {
       cleanupAutoUpdate()
+
+      if (onOutsidePointerDown) {
+        document.removeEventListener('pointerdown', onOutsidePointerDown, true)
+      }
 
       if (mountedByUs) {
         element.remove()
