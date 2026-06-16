@@ -10,7 +10,7 @@ import type {
   SuggestionProps,
 } from '../types.js'
 import { createSuggestionAsyncRequestManager } from './async.js'
-import { createAutoPositioner, createSuggestionFloatingUiConfig } from './floating-ui.js'
+import { createMount, createSuggestionFloatingUiConfig } from './floating-ui.js'
 
 export interface CreateSuggestionViewOptions {
   editor: Editor
@@ -143,10 +143,11 @@ export function createSuggestionView({
         container,
         flip,
         floatingUi: floatingUiConfig,
-        autoPosition: createAutoPositioner({
+        mount: createMount({
           getReferenceRect: clientRect,
           contextElement: view.dom,
           config: floatingUiConfig,
+          container,
         }),
       }
 

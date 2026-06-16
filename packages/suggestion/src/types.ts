@@ -29,7 +29,7 @@ export type SuggestionFloatingUiConfig = {
 
 /**
  * The computed position handed to a custom `onPosition` callback when using
- * managed positioning via {@link SuggestionProps.autoPosition}.
+ * managed positioning via {@link SuggestionProps.mount}.
  */
 export type SuggestionPositionData = {
   x: number
@@ -39,9 +39,9 @@ export type SuggestionPositionData = {
 }
 
 /**
- * Options for managed positioning via {@link SuggestionProps.autoPosition}.
+ * Options for managed mounting + positioning via {@link SuggestionProps.mount}.
  */
-export type SuggestionAutoPositionOptions = {
+export type SuggestionMountOptions = {
   /**
    * Override how the computed position is applied to the element.
    * When provided, the plugin stops writing `style.left`/`style.top` itself and
@@ -60,18 +60,16 @@ export type SuggestionAutoPositionOptions = {
 }
 
 /**
- * Attaches managed positioning to a floating element. The plugin keeps the
- * element anchored to the suggestion's cursor rect and automatically
- * repositions it on scroll, resize, and layout shifts via Floating UI's
- * `autoUpdate` — consumers do not need to attach their own listeners.
+ * Mounts a floating element and takes over its positioning. The plugin appends
+ * the element into the configured `container` (default `document.body`), keeps
+ * it anchored to the suggestion's cursor rect, and automatically repositions it
+ * on scroll, resize, and layout shifts via Floating UI's `autoUpdate` — no
+ * manual listeners required.
  *
- * Returns a cleanup function that tears down the listeners. Call it from
- * `onExit` (and before re-binding) to avoid leaks.
+ * Returns an `unmount` function that tears down the listeners and removes the
+ * element (when the plugin mounted it). Call it from `onExit`.
  */
-export type SuggestionAutoPosition = (
-  element: HTMLElement,
-  options?: SuggestionAutoPositionOptions,
-) => () => void
+export type SuggestionMount = (element: HTMLElement, options?: SuggestionMountOptions) => () => void
 
 export type PluginState = {
   active: boolean
@@ -372,32 +370,36 @@ export interface SuggestionProps<I = any, TSelected = any> {
 
   /**
    * Resolved Floating UI config for direct use with `computePosition()`.
-   * Reach for this only when you opt out of managed positioning and want to
-   * run the positioning loop yourself.
+   * This is the escape hatch: reach for it only when you mount the element
+   * yourself and want to run the positioning loop manually instead of using
+   * {@link SuggestionProps.mount}.
    */
   floatingUi: SuggestionFloatingUiConfig
 
   /**
-   * Attaches fully managed positioning to your floating element.
+   * Mounts your floating element and takes over positioning — the recommended,
+   * default way to render a suggestion popup.
    *
-   * Pass the element you rendered (e.g. from `ReactRenderer`/`VueRenderer`) and
-   * the plugin keeps it anchored to the cursor, automatically repositioning on
-   * scroll, resize, and layout shifts — no manual listeners required. Returns a
-   * cleanup function to call in `onExit`.
+   * Pass the element you rendered (e.g. from `ReactRenderer`/`VueRenderer`). The
+   * plugin appends it into the configured `container` (default `document.body`),
+   * keeps it anchored to the cursor, and repositions it on scroll, resize, and
+   * layout shifts — no manual listeners required. Returns an `unmount` function
+   * that tears everything down; call it in `onExit`.
    *
-   * For full control, skip this and use {@link SuggestionProps.floatingUi} +
-   * {@link SuggestionProps.clientRect} to run your own positioning loop.
+   * Escape hatch: mount the element yourself and skip this, then run your own
+   * positioning loop with {@link SuggestionProps.floatingUi} +
+   * {@link SuggestionProps.clientRect}.
    *
    * @example
    * ```ts
    * onStart: props => {
-   *   document.body.appendChild(component.element)
-   *   cleanup = props.autoPosition(component.element)
+   *   component = new ReactRenderer(DropdownList, { props, editor: props.editor })
+   *   unmount = props.mount(component.element)
    * },
-   * onExit: () => cleanup?.(),
+   * onExit: () => unmount?.(),
    * ```
    */
-  autoPosition: SuggestionAutoPosition
+  mount: SuggestionMount
 
   /**
    * Whether the items are currently being loaded.

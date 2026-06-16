@@ -7,9 +7,9 @@ import {
 } from '@floating-ui/dom'
 
 import type {
-  SuggestionAutoPosition,
   SuggestionFloatingUiConfig,
   SuggestionFloatingUiOptions,
+  SuggestionMount,
   SuggestionPlacement,
 } from '../types.js'
 
@@ -48,7 +48,7 @@ export function createSuggestionFloatingUiConfig({
   }
 }
 
-export interface CreateAutoPositionerOptions {
+export interface CreateMountOptions {
   /** Returns the current cursor/anchor rect the popup should track. */
   getReferenceRect: () => DOMRect | null
   /**
@@ -59,20 +59,48 @@ export interface CreateAutoPositionerOptions {
   contextElement: Element
   /** Resolved Floating UI config (placement, strategy, middleware). */
   config: SuggestionFloatingUiConfig
+  /**
+   * CSS selector or element the popup should be mounted into. Defaults to
+   * `document.body`. Used to portal the popup inside dialogs/modals so it
+   * renders on top of (and clips within) the right context.
+   */
+  container?: string | HTMLElement
 }
 
 /**
- * Builds the `autoPosition` function handed to the renderer on `SuggestionProps`.
- *
- * Wires Floating UI's `autoUpdate` against a virtual reference that re-reads the
- * live cursor rect, so the popup stays anchored across scroll, resize, and
- * layout shifts without the consumer attaching any listeners.
+ * Resolves a container option (selector or element) to a mount target,
+ * falling back to `document.body` when it can't be resolved.
  */
-export function createAutoPositioner({
+function resolveContainer(container?: string | HTMLElement): HTMLElement {
+  if (container instanceof HTMLElement) {
+    return container
+  }
+
+  if (typeof container === 'string') {
+    const found = document.querySelector<HTMLElement>(container)
+
+    if (found) {
+      return found
+    }
+  }
+
+  return document.body
+}
+
+/**
+ * Builds the `mount` function handed to the renderer on `SuggestionProps`.
+ *
+ * Mounts the popup into the container, then wires Floating UI's `autoUpdate`
+ * against a virtual reference that re-reads the live cursor rect, so the popup
+ * stays anchored across scroll, resize, and layout shifts without the consumer
+ * attaching any listeners. The returned `unmount` tears all of that down.
+ */
+export function createMount({
   getReferenceRect,
   contextElement,
   config,
-}: CreateAutoPositionerOptions): SuggestionAutoPosition {
+  container,
+}: CreateMountOptions): SuggestionMount {
   return (element, options = {}) => {
     const reference: VirtualElement = {
       getBoundingClientRect: () => getReferenceRect() ?? new DOMRect(),
@@ -80,6 +108,15 @@ export function createAutoPositioner({
     }
 
     let positioned = false
+
+    // Mount the popup into the container (default `document.body`) unless the
+    // consumer already placed it in the DOM themselves — in which case we leave
+    // mounting (and unmounting) to them.
+    const mountedByUs = !element.isConnected
+
+    if (mountedByUs) {
+      resolveContainer(container).appendChild(element)
+    }
 
     // Hide the element until the first measurement resolves so it doesn't flash
     // at its initial coordinates. Skipped when the consumer owns applying the
@@ -113,6 +150,14 @@ export function createAutoPositioner({
       })
     }
 
-    return autoUpdate(reference, element, update, options.autoUpdate)
+    const cleanupAutoUpdate = autoUpdate(reference, element, update, options.autoUpdate)
+
+    return () => {
+      cleanupAutoUpdate()
+
+      if (mountedByUs) {
+        element.remove()
+      }
+    }
   }
 }

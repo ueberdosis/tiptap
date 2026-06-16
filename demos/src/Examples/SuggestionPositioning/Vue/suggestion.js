@@ -33,7 +33,7 @@ export default {
 
   render: () => {
     let component
-    let cleanup = null
+    let unmount = null
 
     return {
       onStart: props => {
@@ -46,8 +46,9 @@ export default {
           editor: props.editor,
         })
 
-        document.body.appendChild(component.element)
-        cleanup = props.autoPosition(component.element)
+        // Managed positioning: the plugin mounts the element into the container,
+        // keeps it anchored to the cursor, and repositions it on scroll/resize.
+        unmount = props.mount(component.element)
       },
 
       onUpdate(props) {
@@ -69,8 +70,7 @@ export default {
       },
 
       onExit() {
-        cleanup?.()
-        component.element.remove()
+        unmount?.()
         component.destroy()
       },
     }

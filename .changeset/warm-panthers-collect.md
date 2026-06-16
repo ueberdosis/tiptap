@@ -2,4 +2,4 @@
 '@tiptap/suggestion': minor
 ---
 
-Add async suggestion lifecycle handling and expose Floating UI configuration through `SuggestionProps` for custom positioning.
+Add async suggestion lifecycle handling, including debounced async `items()`, in-flight request aborting, `initialItems`, a `loading` state, and a `minQueryLength` filter.

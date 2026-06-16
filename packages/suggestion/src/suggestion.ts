@@ -16,11 +16,11 @@ import { createSuggestionView } from './plugin/view.js'
 import type { SuggestionOptions } from './types.js'
 
 export type {
-  SuggestionAutoPosition,
-  SuggestionAutoPositionOptions,
   SuggestionFloatingUiConfig,
   SuggestionFloatingUiOptions,
   SuggestionKeyDownProps,
+  SuggestionMount,
+  SuggestionMountOptions,
   SuggestionOptions,
   SuggestionPlacement,
   SuggestionPositionData,
