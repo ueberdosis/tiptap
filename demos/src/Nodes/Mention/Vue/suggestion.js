@@ -81,10 +81,6 @@ export default {
         updatePosition({ editor: props.editor, element: component.element })
       },
 
-      onBeforeUpdate(props) {
-        component.updateProps(props)
-      },
-
       onUpdate(props) {
         component.updateProps(props)
 

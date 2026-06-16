@@ -62,7 +62,7 @@ export function createSuggestionView({
   dispatchExit,
 }: CreateSuggestionViewOptions) {
   let props: SuggestionProps | undefined
-  const asyncRequest = createSuggestionAsyncRequestManager<CreateSuggestionViewOptions['items']>({
+  const asyncRequest = createSuggestionAsyncRequestManager({
     editor,
     items,
   })
@@ -214,6 +214,7 @@ export function createSuggestionView({
         // stop running updates immediately and call onExit to allow the renderer to clean up
         asyncRequest.abort()
         dispatchStateUpdate(currentState, props)
+        props = undefined
         return
       }
 

@@ -84,10 +84,16 @@ function resolveContainer(container?: string | HTMLElement): HTMLElement {
   }
 
   if (typeof container === 'string') {
-    const found = document.querySelector<HTMLElement>(container)
+    try {
+      // `container` is consumer-provided; an invalid selector throws a
+      // DOMException, so fall back to document.body instead of crashing.
+      const found = document.querySelector<HTMLElement>(container)
 
-    if (found) {
-      return found
+      if (found) {
+        return found
+      }
+    } catch {
+      return document.body
     }
   }
 

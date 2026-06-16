@@ -58,10 +58,6 @@ export default {
         component.updateProps(props)
       },
 
-      onBeforeUpdate(props) {
-        component.updateProps(props)
-      },
-
       onKeyDown(props) {
         if (props.event.key === 'Escape') {
           component.destroy()
