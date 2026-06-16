@@ -1088,3 +1088,81 @@ describe('suggestion positioning options', () => {
     editor.destroy()
   })
 })
+
+describe('suggestion mount', () => {
+  // Captures `props.mount` from a started suggestion so each test can call it
+  // against a real element.
+  async function getMount(container?: string | HTMLElement) {
+    const onStart = vi.fn()
+
+    const MentionExtension = Extension.create({
+      name: 'mention-mount',
+      addProseMirrorPlugins() {
+        return [
+          Suggestion({
+            editor: this.editor,
+            char: '@',
+            container,
+            render: () => ({ onStart }),
+          }),
+        ]
+      },
+    })
+
+    const editor = new Editor({
+      extensions: [StarterKit, MentionExtension],
+      content: '<p></p>',
+    })
+
+    editor.chain().insertContent('@').run()
+    await Promise.resolve()
+
+    return { mount: onStart.mock.calls[0][0].mount, editor }
+  }
+
+  it('mounts the element into document.body and removes it on unmount', async () => {
+    const { mount, editor } = await getMount()
+    const element = document.createElement('div')
+
+    const unmount = mount(element)
+    expect(element.parentElement).toBe(document.body)
+
+    unmount()
+    expect(element.isConnected).toBe(false)
+
+    editor.destroy()
+  })
+
+  it('mounts the element into a provided container', async () => {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+
+    const { mount, editor } = await getMount(container)
+    const element = document.createElement('div')
+
+    const unmount = mount(element)
+    expect(element.parentElement).toBe(container)
+
+    unmount()
+    container.remove()
+    editor.destroy()
+  })
+
+  it('leaves an already-mounted element in place (escape hatch)', async () => {
+    const { mount, editor } = await getMount()
+    const element = document.createElement('div')
+    const host = document.createElement('div')
+    host.appendChild(element)
+    document.body.appendChild(host)
+
+    const unmount = mount(element)
+    expect(element.parentElement).toBe(host)
+
+    // We did not mount it, so unmount must not remove it.
+    unmount()
+    expect(element.parentElement).toBe(host)
+
+    host.remove()
+    editor.destroy()
+  })
+})

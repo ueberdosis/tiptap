@@ -1,7 +1,6 @@
 import { flip, shift } from '@floating-ui/dom'
 import { ReactRenderer } from '@tiptap/react'
 
-import { updatePosition } from '../../../utils/updatePosition.js'
 import DropdownList from './DropdownList.jsx'
 
 const items = [
