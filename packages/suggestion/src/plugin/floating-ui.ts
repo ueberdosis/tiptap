@@ -1,7 +1,13 @@
-import type { Middleware } from '@floating-ui/dom'
-import { flip as floatingUiFlip, offset as floatingUiOffset } from '@floating-ui/dom'
+import type { Middleware, VirtualElement } from '@floating-ui/dom'
+import {
+  autoUpdate,
+  computePosition,
+  flip as floatingUiFlip,
+  offset as floatingUiOffset,
+} from '@floating-ui/dom'
 
 import type {
+  SuggestionAutoPosition,
   SuggestionFloatingUiConfig,
   SuggestionFloatingUiOptions,
   SuggestionPlacement,
@@ -39,5 +45,74 @@ export function createSuggestionFloatingUiConfig({
     placement,
     strategy: floatingUi?.strategy ?? 'absolute',
     middleware,
+  }
+}
+
+export interface CreateAutoPositionerOptions {
+  /** Returns the current cursor/anchor rect the popup should track. */
+  getReferenceRect: () => DOMRect | null
+  /**
+   * An element inside the editor's layout/scroll context. Floating UI walks up
+   * from here to discover the scroll ancestors (and the window) to observe, so
+   * the scroll container does not need to be configured manually.
+   */
+  contextElement: Element
+  /** Resolved Floating UI config (placement, strategy, middleware). */
+  config: SuggestionFloatingUiConfig
+}
+
+/**
+ * Builds the `autoPosition` function handed to the renderer on `SuggestionProps`.
+ *
+ * Wires Floating UI's `autoUpdate` against a virtual reference that re-reads the
+ * live cursor rect, so the popup stays anchored across scroll, resize, and
+ * layout shifts without the consumer attaching any listeners.
+ */
+export function createAutoPositioner({
+  getReferenceRect,
+  contextElement,
+  config,
+}: CreateAutoPositionerOptions): SuggestionAutoPosition {
+  return (element, options = {}) => {
+    const reference: VirtualElement = {
+      getBoundingClientRect: () => getReferenceRect() ?? new DOMRect(),
+      contextElement,
+    }
+
+    let positioned = false
+
+    // Hide the element until the first measurement resolves so it doesn't flash
+    // at its initial coordinates. Skipped when the consumer owns applying the
+    // position via `onPosition`.
+    if (!options.onPosition) {
+      element.style.visibility = 'hidden'
+      element.style.width = 'max-content'
+    }
+
+    const update = () => {
+      computePosition(reference, element, {
+        placement: config.placement,
+        strategy: config.strategy,
+        middleware: config.middleware,
+      }).then(({ x, y, placement, strategy }) => {
+        if (options.onPosition) {
+          options.onPosition({ x, y, placement: placement as SuggestionPlacement, strategy })
+          return
+        }
+
+        Object.assign(element.style, {
+          position: strategy,
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+
+        if (!positioned) {
+          positioned = true
+          element.style.visibility = ''
+        }
+      })
+    }
+
+    return autoUpdate(reference, element, update, options.autoUpdate)
   }
 }

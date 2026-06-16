@@ -17,31 +17,6 @@ const items = [
   { id: 'jack', label: 'Jack Anderson' },
 ]
 
-function reposition(props, element, { hideBeforeMeasure = false } = {}) {
-  if (!props.editor) {
-    return
-  }
-
-  if (hideBeforeMeasure) {
-    Object.assign(element.style, {
-      left: '0px',
-      top: '0px',
-      visibility: 'hidden',
-      width: 'max-content',
-    })
-  }
-
-  updatePosition({
-    editor: props.editor,
-    element,
-    placement: props.floatingUi.placement,
-    strategy: props.floatingUi.strategy,
-    middleware: props.floatingUi.middleware,
-  }).then(() => {
-    Object.assign(element.style, { visibility: 'visible' })
-  })
-}
-
 export default {
   items: ({ query }) =>
     items.filter(item => item.label.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5),
@@ -59,14 +34,7 @@ export default {
 
   render: () => {
     let component
-    let rafId = 0
-
-    function scheduleReposition(props, hideBeforeMeasure = false) {
-      cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(() => {
-        reposition(props, component.element, { hideBeforeMeasure })
-      })
-    }
+    let cleanup = null
 
     return {
       onStart: props => {
@@ -75,22 +43,12 @@ export default {
           editor: props.editor,
         })
 
-        Object.assign(component.element.style, {
-          left: '0px',
-          top: '0px',
-          position: props.floatingUi.strategy,
-          visibility: 'hidden',
-          width: 'max-content',
-        })
-
         document.body.appendChild(component.element)
-
-        scheduleReposition(props, true)
+        cleanup = props.autoPosition(component.element)
       },
 
       onUpdate(props) {
         component.updateProps(props)
-        scheduleReposition(props)
       },
 
       onBeforeUpdate(props) {
@@ -108,7 +66,7 @@ export default {
       },
 
       onExit() {
-        cancelAnimationFrame(rafId)
+        cleanup?.()
         component.element.remove()
         component.destroy()
       },

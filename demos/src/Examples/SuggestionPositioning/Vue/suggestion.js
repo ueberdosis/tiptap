@@ -1,7 +1,6 @@
 import { flip, shift } from '@floating-ui/dom'
 import { VueRenderer } from '@tiptap/vue-3'
 
-import { updatePosition } from '../../../utils/updatePosition.js'
 import DropdownList from './DropdownList.vue'
 
 const items = [
@@ -34,39 +33,7 @@ export default {
 
   render: () => {
     let component
-    let rafId = 0
-
-    function reposition(props, { hideBeforeMeasure = false } = {}) {
-      if (!props.editor || !component?.element) {
-        return
-      }
-
-      cancelAnimationFrame(rafId)
-
-      if (hideBeforeMeasure) {
-        Object.assign(component.element.style, {
-          left: '0px',
-          top: '0px',
-          position: props.floatingUi.strategy,
-          visibility: 'hidden',
-          width: 'max-content',
-        })
-      }
-
-      rafId = requestAnimationFrame(() => {
-        updatePosition({
-          editor: props.editor,
-          element: component.element,
-          placement: props.floatingUi.placement,
-          strategy: props.floatingUi.strategy,
-          middleware: props.floatingUi.middleware,
-        }).then(() => {
-          Object.assign(component.element.style, {
-            visibility: 'visible',
-          })
-        })
-      })
-    }
+    let cleanup = null
 
     return {
       onStart: props => {
@@ -79,21 +46,12 @@ export default {
           editor: props.editor,
         })
 
-        Object.assign(component.element.style, {
-          left: '0px',
-          top: '0px',
-          position: props.floatingUi.strategy,
-          visibility: 'hidden',
-          width: 'max-content',
-        })
-
         document.body.appendChild(component.element)
-        reposition(props, { hideBeforeMeasure: true })
+        cleanup = props.autoPosition(component.element)
       },
 
       onUpdate(props) {
         component.updateProps(props)
-        reposition(props)
       },
 
       onBeforeUpdate(props) {
@@ -111,7 +69,7 @@ export default {
       },
 
       onExit() {
-        cancelAnimationFrame(rafId)
+        cleanup?.()
         component.element.remove()
         component.destroy()
       },

@@ -10,7 +10,7 @@ import type {
   SuggestionProps,
 } from '../types.js'
 import { createSuggestionAsyncRequestManager } from './async.js'
-import { createSuggestionFloatingUiConfig } from './floating-ui.js'
+import { createAutoPositioner, createSuggestionFloatingUiConfig } from './floating-ui.js'
 
 export interface CreateSuggestionViewOptions {
   editor: Editor
@@ -115,6 +115,7 @@ export function createSuggestionView({
 
       const state = currentState === 'stopped' ? prev : next
       const decorationNode = view.dom.querySelector(`[data-decoration-id="${state.decorationId}"]`)
+      const clientRect = clientRectFor(view, decorationNode)
 
       const exceedsMinQueryLength =
         minQueryLength === 0 || (state.query ? state.query.length >= minQueryLength : false)
@@ -135,13 +136,18 @@ export function createSuggestionView({
           })
         },
         decorationNode,
-        clientRect: clientRectFor(view, decorationNode),
+        clientRect,
         loading: willFetch,
         placement,
         offset: { mainAxis: offsetOption.mainAxis ?? 4, crossAxis: offsetOption.crossAxis ?? 0 },
         container,
         flip,
         floatingUi: floatingUiConfig,
+        autoPosition: createAutoPositioner({
+          getReferenceRect: clientRect,
+          contextElement: view.dom,
+          config: floatingUiConfig,
+        }),
       }
 
       if (currentState === 'started') {

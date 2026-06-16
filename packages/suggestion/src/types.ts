@@ -1,4 +1,4 @@
-import type { Middleware } from '@floating-ui/dom'
+import type { AutoUpdateOptions, Middleware } from '@floating-ui/dom'
 import type { Editor, Range } from '@tiptap/core'
 import type { EditorState, PluginKey, Transaction } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
@@ -26,6 +26,52 @@ export type SuggestionFloatingUiConfig = {
   strategy: 'absolute' | 'fixed'
   middleware: Middleware[]
 }
+
+/**
+ * The computed position handed to a custom `onPosition` callback when using
+ * managed positioning via {@link SuggestionProps.autoPosition}.
+ */
+export type SuggestionPositionData = {
+  x: number
+  y: number
+  placement: SuggestionPlacement
+  strategy: 'absolute' | 'fixed'
+}
+
+/**
+ * Options for managed positioning via {@link SuggestionProps.autoPosition}.
+ */
+export type SuggestionAutoPositionOptions = {
+  /**
+   * Override how the computed position is applied to the element.
+   * When provided, the plugin stops writing `style.left`/`style.top` itself and
+   * hands you the computed coordinates so you can apply them however you want
+   * (custom transforms, animation, writing to a framework ref, etc.).
+   */
+  onPosition?: (data: SuggestionPositionData) => void
+
+  /**
+   * Options forwarded to Floating UI's `autoUpdate`. Use this to opt into
+   * `animationFrame` polling for anchors that move inside transformed or
+   * animated containers, or to disable specific observers.
+   * @see https://floating-ui.com/docs/autoUpdate
+   */
+  autoUpdate?: AutoUpdateOptions
+}
+
+/**
+ * Attaches managed positioning to a floating element. The plugin keeps the
+ * element anchored to the suggestion's cursor rect and automatically
+ * repositions it on scroll, resize, and layout shifts via Floating UI's
+ * `autoUpdate` — consumers do not need to attach their own listeners.
+ *
+ * Returns a cleanup function that tears down the listeners. Call it from
+ * `onExit` (and before re-binding) to avoid leaks.
+ */
+export type SuggestionAutoPosition = (
+  element: HTMLElement,
+  options?: SuggestionAutoPositionOptions,
+) => () => void
 
 export type PluginState = {
   active: boolean
@@ -326,8 +372,32 @@ export interface SuggestionProps<I = any, TSelected = any> {
 
   /**
    * Resolved Floating UI config for direct use with `computePosition()`.
+   * Reach for this only when you opt out of managed positioning and want to
+   * run the positioning loop yourself.
    */
   floatingUi: SuggestionFloatingUiConfig
+
+  /**
+   * Attaches fully managed positioning to your floating element.
+   *
+   * Pass the element you rendered (e.g. from `ReactRenderer`/`VueRenderer`) and
+   * the plugin keeps it anchored to the cursor, automatically repositioning on
+   * scroll, resize, and layout shifts — no manual listeners required. Returns a
+   * cleanup function to call in `onExit`.
+   *
+   * For full control, skip this and use {@link SuggestionProps.floatingUi} +
+   * {@link SuggestionProps.clientRect} to run your own positioning loop.
+   *
+   * @example
+   * ```ts
+   * onStart: props => {
+   *   document.body.appendChild(component.element)
+   *   cleanup = props.autoPosition(component.element)
+   * },
+   * onExit: () => cleanup?.(),
+   * ```
+   */
+  autoPosition: SuggestionAutoPosition
 
   /**
    * Whether the items are currently being loaded.
