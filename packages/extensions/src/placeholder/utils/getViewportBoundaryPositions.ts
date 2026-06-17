@@ -70,8 +70,12 @@ export function getViewportBoundaryPositions({
   const topPos = view.posAtCoords({ left: x, top: probeTop })
   const bottomPos = view.posAtCoords({ left: x, top: probeBottom })
 
-  // A null here (after clamping inside the box) means something is covering the
-  // editor — freeze the previous window instead of decorating the whole doc.
+  // A null here (after clamping inside the box) usually means the editor is
+  // occluded, but `posAtCoords` can also return null for benign reasons (a
+  // probe over padding, browser caret-from-point gaps). Either way the result
+  // is unreliable, so freeze the previous window rather than decorating the
+  // whole doc — at worst a node is briefly under-decorated until the next
+  // scroll/resize/focus recompute, which is preferable to flickering.
   if (!topPos || !bottomPos) {
     return null
   }

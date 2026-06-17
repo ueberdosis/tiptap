@@ -560,6 +560,139 @@ describe('placeholder utility: getViewportBoundaryPositions', () => {
     expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
     expect(posAtCoords).not.toHaveBeenCalled()
   })
+
+  it('probes the right edge of the editor in RTL layouts', () => {
+    createSlowPathEditor()
+
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
+      rect({ left: 0, right: 300 }),
+    )
+    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+      direction: 'rtl',
+    } as CSSStyleDeclaration)
+    const posAtCoords = vi
+      .spyOn(editor!.view, 'posAtCoords')
+      .mockReturnValue({ pos: 1, inside: -1 })
+
+    getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })
+
+    // RTL content starts at the right edge, clamped to `right - 2`.
+    expect(posAtCoords).toHaveBeenCalledWith(expect.objectContaining({ left: 298 }))
+  })
+})
+
+describe('extension-placeholder: viewport stability and recovery', () => {
+  let editor: Editor | null = null
+  let rafCallbacks: FrameRequestCallback[] = []
+
+  const rect = (overrides: Partial<DOMRect>): DOMRect =>
+    ({
+      top: 0,
+      bottom: 500,
+      left: 0,
+      right: 300,
+      width: 300,
+      height: 500,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+      ...overrides,
+    }) as DOMRect
+
+  const flushFrames = () => {
+    const callbacks = rafCallbacks
+    rafCallbacks = []
+    callbacks.forEach(cb => cb(0))
+  }
+
+  const createSlowPathEditor = () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({ showOnlyCurrent: false, includeChildren: false }),
+      ],
+      content: '<p></p>'.repeat(20),
+    })
+    // Drain any frame scheduled during construction (under jsdom's zero-size
+    // layout it resolves to null, so nothing is dispatched).
+    flushFrames()
+  }
+
+  beforeEach(() => {
+    rafCallbacks = []
+    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+      rafCallbacks.push(cb)
+      return rafCallbacks.length
+    })
+    vi.stubGlobal('cancelAnimationFrame', () => {})
+    // Always jump past the 150ms scroll guard so a flushed frame actually runs.
+    let now = 1_000_000
+    vi.spyOn(performance, 'now').mockImplementation(() => (now += 1000))
+  })
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
+  })
+
+  it('does not toggle the viewport window while occluded during a stream of edits', () => {
+    createSlowPathEditor()
+
+    // Seed a known narrow window, as if the editor had been measured while visible.
+    editor!.view.dispatch(
+      editor!.view.state.tr.setMeta(PLUGIN_KEY, { positions: { top: 1, bottom: 40 } }),
+    )
+    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: 1, bottomPos: 40 })
+
+    // The editor is now occluded by a modal: posAtCoords resolves to the overlay → null.
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
+    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue(null)
+
+    const dispatch = vi.spyOn(editor!.view, 'dispatch')
+
+    // A stream of remote-style edits keeps changing the doc size.
+    for (let i = 0; i < 5; i += 1) {
+      editor!.commands.insertContent('x')
+      flushFrames()
+    }
+
+    // No viewport recompute was dispatched — the window never toggled to a
+    // full-doc scan, so the placeholders did not flicker.
+    const viewportRecomputes = dispatch.mock.calls.filter(
+      ([tr]) => tr.getMeta(PLUGIN_KEY) !== undefined,
+    )
+    expect(viewportRecomputes).toHaveLength(0)
+
+    // The window is still a frozen, defined range (not reset to null/full-doc).
+    const state = PLUGIN_KEY.getState(editor!.view.state)!
+    expect(state.topPos).not.toBeNull()
+    expect(state.bottomPos).not.toBeNull()
+  })
+
+  it('recovers the viewport window when focus returns after the editor becomes measurable', () => {
+    createSlowPathEditor()
+
+    // At mount the editor is not measurable (jsdom has no layout), so the
+    // window starts unset and the slow path falls back to a full-doc scan.
+    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: null, bottomPos: null })
+
+    // The editor becomes measurable again (e.g. the modal closed).
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
+    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue({ pos: 12, inside: -1 })
+
+    // Returning focus to the editor triggers a re-measure even though neither
+    // the doc size nor the scroll position changed.
+    editor!.view.dom.dispatchEvent(new Event('focus'))
+    flushFrames()
+
+    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: 12, bottomPos: 12 })
+  })
 })
 
 describe('placeholder utility: findScrollParent', () => {
