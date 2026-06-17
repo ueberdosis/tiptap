@@ -1137,6 +1137,9 @@ importers:
 
   packages/suggestion:
     devDependencies:
+      '@floating-ui/dom':
+        specifier: ^1.6.12
+        version: 1.7.4
       '@tiptap/core':
         specifier: workspace:^
         version: link:../core

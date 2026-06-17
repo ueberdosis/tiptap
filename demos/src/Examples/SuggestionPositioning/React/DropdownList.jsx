@@ -1,5 +1,3 @@
-import './MentionList.scss'
-
 import React, { useEffect, useImperativeHandle, useState } from 'react'
 
 export default props => {
@@ -9,7 +7,7 @@ export default props => {
     const item = props.items[index]
 
     if (item) {
-      props.command({ id: item })
+      props.command(item)
     }
   }
 
@@ -48,28 +46,19 @@ export default props => {
     },
   }))
 
-  let content
-
-  if (props.loading) {
-    content = (
-      <div className="item loading">
-        <span className="loading-dot" />
-        Loading…
-      </div>
-    )
-  } else if (props.items.length) {
-    content = props.items.map((item, index) => (
-      <button
-        className={index === selectedIndex ? 'is-selected' : ''}
-        key={index}
-        onClick={() => selectItem(index)}
-      >
-        {item}
-      </button>
-    ))
-  } else {
-    content = <div className="item">No result</div>
-  }
-
-  return <div className="dropdown-menu">{content}</div>
+  return (
+    <div className="dropdown-menu">
+      {props.items.length === 0 && <div>No items found</div>}
+      {props.items.map((item, index) => (
+        <button
+          className={index === selectedIndex ? 'is-selected' : ''}
+          key={item.id}
+          onMouseDown={event => event.preventDefault()}
+          onClick={() => selectItem(index)}
+        >
+          {item.label}
+        </button>
+      ))}
+    </div>
+  )
 }
