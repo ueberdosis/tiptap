@@ -26,7 +26,10 @@ export function shouldResetMargin(dragImageProperties?: string[]): boolean {
     return true
   }
 
-  return !dragImageProperties.some(property => property.trim().startsWith('margin'))
+  return !dragImageProperties.some(property => {
+    const p = property.trim().toLowerCase()
+    return p === 'margin' || p.startsWith('margin-')
+  })
 }
 
 function getDragHandleRanges(
