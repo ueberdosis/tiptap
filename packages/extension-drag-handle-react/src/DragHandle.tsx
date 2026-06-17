@@ -8,7 +8,7 @@ import {
 } from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
 import type { Editor } from '@tiptap/react'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -78,13 +78,9 @@ export const DragHandle = (props: DragHandleProps) => {
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const [element] = useState<HTMLDivElement | null>(() => {
-    if (typeof document === 'undefined') {
-      return null
-    }
-
-    return document.createElement('div')
-  })
+  const element = useRef<HTMLDivElement | null>(
+    typeof document === 'undefined' ? null : document.createElement('div'),
+  ).current
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
@@ -131,6 +127,11 @@ export const DragHandle = (props: DragHandleProps) => {
         editor.unregisterPlugin(pluginKey)
       }
       unbind()
+      window.requestAnimationFrame(() => {
+        if (element.parentNode) {
+          element.parentNode.removeChild(element)
+        }
+      })
     }
   }, [
     element,
