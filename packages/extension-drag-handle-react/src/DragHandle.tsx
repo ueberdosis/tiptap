@@ -78,14 +78,23 @@ export const DragHandle = (props: DragHandleProps) => {
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const element = useRef<HTMLDivElement | null>(
+  const elementRef = useRef<HTMLDivElement | null>(
     typeof document === 'undefined' ? null : document.createElement('div'),
-  ).current
+  )
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    if (editor.isDestroyed) {
+      return
+    }
+
+    const element = elementRef.current
     if (!element) {
       return
     }
@@ -94,16 +103,6 @@ export const DragHandle = (props: DragHandleProps) => {
     element.style.visibility = 'hidden'
     element.style.position = 'absolute'
     element.dataset.dragging = 'false'
-  }, [className, element])
-
-  useEffect(() => {
-    if (!element) {
-      return
-    }
-
-    if (editor.isDestroyed) {
-      return
-    }
 
     const { plugin, unbind } = DragHandlePlugin({
       editor,
@@ -127,14 +126,9 @@ export const DragHandle = (props: DragHandleProps) => {
         editor.unregisterPlugin(pluginKey)
       }
       unbind()
-      window.requestAnimationFrame(() => {
-        if (element.parentNode) {
-          element.parentNode.removeChild(element)
-        }
-      })
     }
   }, [
-    element,
+    className,
     editor,
     onNodeChange,
     getReferencedVirtualElement,
@@ -145,6 +139,7 @@ export const DragHandle = (props: DragHandleProps) => {
     nestedOptions,
   ])
 
+  const element = elementRef.current
   if (!element) {
     return null
   }
