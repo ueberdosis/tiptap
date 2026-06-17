@@ -14,6 +14,7 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'
+import { getViewportBoundaryPositions } from '../src/placeholder/utils/getViewportBoundaryPositions.js'
 import { throttle } from '../src/placeholder/utils/throttle.js'
 
 import { PLUGIN_KEY } from '../src/placeholder/constants.js'
@@ -457,6 +458,82 @@ describe('extension-placeholder — empty editor class', () => {
     const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
     expect(paragraph.classList.contains('paragraph-empty')).toBe(true)
     expect(paragraph.classList.contains('other-empty')).toBe(false)
+  })
+})
+
+describe('placeholder utility: getViewportBoundaryPositions', () => {
+  let editor: Editor | null = null
+
+  const rect = (overrides: Partial<DOMRect>): DOMRect =>
+    ({
+      top: 0,
+      bottom: 500,
+      left: 0,
+      right: 300,
+      width: 300,
+      height: 500,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+      ...overrides,
+    }) as DOMRect
+
+  const createSlowPathEditor = () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({ showOnlyCurrent: false, includeChildren: false }),
+      ],
+      content: '<p></p>'.repeat(20),
+    })
+  }
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
+    vi.restoreAllMocks()
+  })
+
+  it('returns null when the editor is occluded (posAtCoords resolves outside it)', () => {
+    createSlowPathEditor()
+
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
+    // A modal backdrop covering the editor makes posAtCoords resolve to the
+    // overlay rather than editor content → null.
+    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue(null)
+
+    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
+  })
+
+  it('returns measured positions when the editor is visible', () => {
+    createSlowPathEditor()
+
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
+    vi.spyOn(editor!.view, 'posAtCoords')
+      .mockReturnValueOnce({ pos: 1, inside: -1 })
+      .mockReturnValueOnce({ pos: 40, inside: -1 })
+
+    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toEqual({
+      top: 1,
+      bottom: 40,
+    })
+  })
+
+  it('returns null when the editor has no layout', () => {
+    createSlowPathEditor()
+
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
+      rect({ top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 }),
+    )
+    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
+
+    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
+    // Bails out before probing.
+    expect(posAtCoords).not.toHaveBeenCalled()
   })
 })
 

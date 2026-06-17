@@ -62,9 +62,13 @@ export function createViewportPluginView(view: EditorView): PluginView {
   const computeAndDispatch = () => {
     const positions = getViewportBoundaryPositions({
       view,
-      doc: view.state.doc,
       scrollContainer,
     })
+
+    // Not measurable, keep the last good window frozen
+    if (positions === null) {
+      return
+    }
 
     const prev = PLUGIN_KEY.getState(view.state)
     if (prev?.topPos === positions.top && prev?.bottomPos === positions.bottom) {
