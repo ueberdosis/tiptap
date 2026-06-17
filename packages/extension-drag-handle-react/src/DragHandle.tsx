@@ -78,9 +78,11 @@ export const DragHandle = (props: DragHandleProps) => {
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const elementRef = useRef<HTMLDivElement | null>(
-    typeof document === 'undefined' ? null : document.createElement('div'),
-  )
+  const elementRef = useRef<HTMLDivElement | null>(null)
+
+  if (elementRef.current === null && typeof document !== 'undefined') {
+    elementRef.current = document.createElement('div')
+  }
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
