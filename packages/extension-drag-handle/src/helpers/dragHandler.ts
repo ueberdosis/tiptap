@@ -135,6 +135,8 @@ export function dragHandler(
     slice = selection.content()
   }
 
+  const resetMargin = shouldResetMargin(dragImageProperties)
+
   ranges.forEach(range => {
     const element = getDraggedBlockElement(view, range.$from.pos) as HTMLElement | null
 
@@ -144,7 +146,7 @@ export function dragHandler(
 
     const clonedElement = cloneElement(element, dragImageProperties)
 
-    if (shouldResetMargin(dragImageProperties)) {
+    if (resetMargin) {
       clonedElement.style.margin = '0'
     }
 
