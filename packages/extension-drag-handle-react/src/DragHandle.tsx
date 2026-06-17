@@ -88,6 +88,15 @@ export const DragHandle = (props: DragHandleProps) => {
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
+    const element = elementRef.current
+    if (!element) {
+      return
+    }
+
+    element.className = className
+  }, [className])
+
+  useEffect(() => {
     if (typeof document === 'undefined') {
       return
     }
@@ -101,7 +110,6 @@ export const DragHandle = (props: DragHandleProps) => {
       return
     }
 
-    element.className = className
     element.style.visibility = 'hidden'
     element.style.position = 'absolute'
     element.dataset.dragging = 'false'
@@ -130,7 +138,6 @@ export const DragHandle = (props: DragHandleProps) => {
       unbind()
     }
   }, [
-    className,
     editor,
     onNodeChange,
     getReferencedVirtualElement,
