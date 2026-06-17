@@ -22,8 +22,10 @@ export function getViewportBoundaryPositions({
 }): { top: number; bottom: number } | null {
   const editorRect = view.dom.getBoundingClientRect()
 
-  // No layout yet (detached, `display: none` ancestor, not painted).
-  if (editorRect.width === 0 && editorRect.height === 0) {
+  // No usable layout (detached, `display: none` ancestor, or collapsed to zero
+  // in one dimension during a transition). A zero width or height means we
+  // cannot probe a coordinate inside the box, so treat it as non-measurable.
+  if (editorRect.width <= 0 || editorRect.height <= 0) {
     return null
   }
 
@@ -39,11 +41,20 @@ export function getViewportBoundaryPositions({
     return null
   }
 
-  // Pick the x-coordinate based on text direction. In LTR the content
-  // starts at the left edge; in RTL it starts at the right edge.
-  // Clamp to ensure the coordinate stays inside the editor bounds.
+  // Pick the x-coordinate based on text direction. In LTR the content starts
+  // at the left edge; in RTL it starts at the right edge. Clamp it strictly
+  // inside the editor bounds so a too-narrow box does not push the probe
+  // outside and make `posAtCoords` return null for a non-occlusion reason.
+  const minX = editorRect.left + 1
+  const maxX = editorRect.right - 1
+
+  if (minX > maxX) {
+    return null
+  }
+
   const isRTL = getComputedStyle(view.dom).direction === 'rtl'
-  const x = isRTL ? Math.max(editorRect.right - 2, editorRect.left + 2) : editorRect.left + 2
+  const targetX = isRTL ? editorRect.right - 2 : editorRect.left + 2
+  const x = Math.min(Math.max(targetX, minX), maxX)
 
   // Clamp the probe y-coordinates strictly inside the editor box. The ±200px
   // overscan can push the probe above/below the editor's own content even when

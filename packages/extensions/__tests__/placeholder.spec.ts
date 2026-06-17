@@ -535,6 +535,31 @@ describe('placeholder utility: getViewportBoundaryPositions', () => {
     // Bails out before probing.
     expect(posAtCoords).not.toHaveBeenCalled()
   })
+
+  it('returns null when only one dimension is collapsed to zero', () => {
+    createSlowPathEditor()
+
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
+      rect({ left: 0, right: 0, width: 0 }),
+    )
+    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
+
+    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
+    expect(posAtCoords).not.toHaveBeenCalled()
+  })
+
+  it('returns null when the editor is too narrow to probe safely', () => {
+    createSlowPathEditor()
+
+    // A 1px-wide box leaves no room for an x-coordinate strictly inside it.
+    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
+      rect({ left: 100, right: 101, width: 1 }),
+    )
+    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
+
+    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
+    expect(posAtCoords).not.toHaveBeenCalled()
+  })
 })
 
 describe('placeholder utility: findScrollParent', () => {
