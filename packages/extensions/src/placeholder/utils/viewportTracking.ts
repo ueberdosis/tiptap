@@ -103,11 +103,8 @@ export function createViewportPluginView(view: EditorView): PluginView {
 
   scrollContainer.addEventListener('scroll', scheduleFrame, { passive: true })
 
-  // When the viewport window is frozen because the editor was not measurable
-  // (e.g. occluded or shifted by a modal), nothing else recomputes once the
-  // editor becomes usable again unless the user scrolls or edits. These
-  // observers and the focus listener re-measure on size/visibility changes and
-  // when focus returns to the editor, so a frozen window recovers.
+  // Recover a frozen window once the editor becomes usable again (e.g. a modal
+  // closes): re-measure on size/visibility changes and when focus returns.
   const resizeObserver =
     typeof ResizeObserver !== 'undefined' ? new ResizeObserver(scheduleFrame) : null
   resizeObserver?.observe(view.dom)

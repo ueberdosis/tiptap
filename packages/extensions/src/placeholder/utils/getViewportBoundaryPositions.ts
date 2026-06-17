@@ -22,9 +22,7 @@ export function getViewportBoundaryPositions({
 }): { top: number; bottom: number } | null {
   const editorRect = view.dom.getBoundingClientRect()
 
-  // No usable layout (detached, `display: none` ancestor, or collapsed to zero
-  // in one dimension during a transition). A zero width or height means we
-  // cannot probe a coordinate inside the box, so treat it as non-measurable.
+  // No usable layout — can't probe a coordinate inside the box.
   if (editorRect.width <= 0 || editorRect.height <= 0) {
     return null
   }
@@ -41,10 +39,8 @@ export function getViewportBoundaryPositions({
     return null
   }
 
-  // Pick the x-coordinate based on text direction. In LTR the content starts
-  // at the left edge; in RTL it starts at the right edge. Clamp it strictly
-  // inside the editor bounds so a too-narrow box does not push the probe
-  // outside and make `posAtCoords` return null for a non-occlusion reason.
+  // Probe the start edge (left in LTR, right in RTL), clamped inside the box
+  // so a too-narrow editor doesn't push the probe out.
   const minX = editorRect.left + 1
   const maxX = editorRect.right - 1
 
@@ -56,10 +52,8 @@ export function getViewportBoundaryPositions({
   const targetX = isRTL ? editorRect.right - 2 : editorRect.left + 2
   const x = Math.min(Math.max(targetX, minX), maxX)
 
-  // Clamp the probe y-coordinates strictly inside the editor box. The ±200px
-  // overscan can push the probe above/below the editor's own content even when
-  // it is fully visible, which would make `posAtCoords` return null for a
-  // legitimate reason. Clamping means a null result reliably signals occlusion.
+  // Clamp the probe y inside the box so the overscan doesn't push it past the
+  // editor's own content (which would make `posAtCoords` null for no reason).
   const probeTop = Math.max(visibleTop + 2, editorRect.top + 1)
   const probeBottom = Math.min(visibleBottom - 2, editorRect.bottom - 1)
 
@@ -70,12 +64,8 @@ export function getViewportBoundaryPositions({
   const topPos = view.posAtCoords({ left: x, top: probeTop })
   const bottomPos = view.posAtCoords({ left: x, top: probeBottom })
 
-  // A null here (after clamping inside the box) usually means the editor is
-  // occluded, but `posAtCoords` can also return null for benign reasons (a
-  // probe over padding, browser caret-from-point gaps). Either way the result
-  // is unreliable, so freeze the previous window rather than decorating the
-  // whole doc — at worst a node is briefly under-decorated until the next
-  // scroll/resize/focus recompute, which is preferable to flickering.
+  // Null usually means occlusion (but can be benign). Either way it's
+  // unreliable, so freeze the previous window instead of decorating the whole doc.
   if (!topPos || !bottomPos) {
     return null
   }
