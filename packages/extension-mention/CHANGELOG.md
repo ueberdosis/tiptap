@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6270b99]
+- Updated dependencies [6d12bb9]
+- Updated dependencies [6270b99]
+- Updated dependencies [6270b99]
+- Updated dependencies [6270b99]
+  - @tiptap/core@3.27.0
+  - @tiptap/suggestion@3.27.0
+  - @tiptap/pm@3.27.0
+
 ## 3.26.1
 
 ### Patch Changes
