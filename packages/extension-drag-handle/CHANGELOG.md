@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle
 
+## 3.27.1
+
+### Patch Changes
+
+- ad17014: Respect margin properties passed via `dragImageProperties` on the drag preview. The clone reset its margin to `0` after copying styles, which discarded any margin the user explicitly requested. The reset now runs only when no margin property is listed in `dragImageProperties`, so the drag image can keep the same spacing as the live block.
+  - @tiptap/core@3.27.1
+  - @tiptap/extension-collaboration@3.27.1
+  - @tiptap/extension-node-range@3.27.1
+  - @tiptap/pm@3.27.1
+
 ## 3.27.0
 
 ### Patch Changes
