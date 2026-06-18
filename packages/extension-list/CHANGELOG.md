@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.27.1
+
+### Patch Changes
+
+- a16901d: Fix ordered list parsing so under-indented continuation lines preserve their first character.
+  - @tiptap/core@3.27.1
+  - @tiptap/pm@3.27.1
+
 ## 3.27.0
 
 ### Minor Changes
