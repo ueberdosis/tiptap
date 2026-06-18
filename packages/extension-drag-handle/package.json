@@ -7,14 +7,14 @@
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/drag-handle",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-drag-handle"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",

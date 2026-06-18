@@ -7,14 +7,14 @@
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-table-of-contents"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",

@@ -33,16 +33,16 @@ How to work on the Tiptap monorepo. Written for humans and AI coding assistants.
 
 Run from the repo root with `pnpm <script>`:
 
-| Script | What it does |
-|--------|-------------|
-| `dev` | Start demos on port 3000 |
-| `build` | Build all packages via Turborepo |
-| `lint` / `lint:fix` | oxlint checks |
-| `format` / `format:fix` | oxfmt formatting |
-| `test:unit` | Vitest unit tests |
-| `test:e2e` | Playwright e2e (Chromium) |
-| `fallow:audit` | Changed-code audit (run after edits) |
-| `reset` | Full clean + reinstall |
+| Script                  | What it does                         |
+| ----------------------- | ------------------------------------ |
+| `dev`                   | Start demos on port 3000             |
+| `build`                 | Build all packages via Turborepo     |
+| `lint` / `lint:fix`     | oxlint checks                        |
+| `format` / `format:fix` | oxfmt formatting                     |
+| `test:unit`             | Vitest unit tests                    |
+| `test:e2e`              | Playwright e2e (Chromium)            |
+| `fallow:audit`          | Changed-code audit (run after edits) |
+| `reset`                 | Full clean + reinstall               |
 
 Full list: [Scripts](agents/SCRIPTS.md)
 

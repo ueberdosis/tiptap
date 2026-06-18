@@ -8,12 +8,14 @@
 - No decorative comments, no emojis.
 
 Good:
+
 ```
 // We need to check window.DOMParser here because
 // server-side rendering does not have it.
 ```
 
 Bad:
+
 ```
 // This function returns the editor state for the given editor instance.
 function getState(editor) {
