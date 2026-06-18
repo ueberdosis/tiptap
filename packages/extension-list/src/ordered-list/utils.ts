@@ -157,9 +157,13 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         sawBlankLine = true
         nextLineIndex += 1
       } else if (nextLine.match(INDENTED_LINE_REGEX)) {
-        // Indented content - part of this item (but not a list item)
+        // Indented content - part of this item (but not a list item).
+        // Strip the indentation only up to the whitespace that is actually present,
+        // so an under-indented line (e.g. a single leading space) keeps its first character.
+        const leadingWhitespace = nextLine.length - nextLine.trimStart().length
+        const contentIndent = indentLevel + marker.length + 1
         itemLines.push(nextLine)
-        itemContentLines.push(nextLine.slice(indentLevel + 2))
+        itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
       } else {
         if (sawBlankLine) {
