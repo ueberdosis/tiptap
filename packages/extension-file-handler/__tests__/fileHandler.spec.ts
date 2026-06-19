@@ -40,11 +40,11 @@ describe('extension-file-handler', () => {
   const getEditorEl = () => document.querySelector(`.${editorElClass}`)
 
   const getHandlePaste = () => {
-    // Find the file handler plugin's handlePaste prop
+    // Find the file handler plugin's handlePaste prop by its key name
     const plugins = editor!.view.state.plugins
 
     for (const plugin of plugins) {
-      if (plugin.props.handlePaste) {
+      if (plugin.key.includes('fileHandler') && plugin.props.handlePaste) {
         return plugin.props.handlePaste
       }
     }
