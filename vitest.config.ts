@@ -55,6 +55,15 @@ const getPackageAliases = () => {
             )
           })
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
+        } else if (name === 'solid') {
+          fg.sync(`${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`${path}/${name}/src/`, '')
+
+            aliases[`@tiptap/${name}/${subPkgName}`] = resolve(
+              `${path}/${name}/src/${subPkgName}/index.tsx`,
+            )
+          })
+          aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.tsx`)
         } else {
           aliases[`@tiptap/${name}`] = resolve(`${path}/${name}/src/index.ts`)
         }
@@ -70,7 +79,7 @@ const getPackageAliases = () => {
 export default defineConfig({
   test: {
     environment: 'happy-dom',
-    include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],
+    include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts', 'packages/**/*.spec.tsx'],
     exclude: ['demos/**', 'tests/**', '**/node_modules/**'],
     pool: 'forks',
   },

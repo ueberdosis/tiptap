@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { clickButton, getEditor } from '../../../test/helpers.js'
 
 const demoName = 'Default'
-const frameworkPaths = ['React', 'Vue', 'Svelte']
+const frameworkPaths = ['React', 'Vue', 'Svelte', 'Solid']
 const demoPath = '/src/Examples'
 
 const buttonMarks = [

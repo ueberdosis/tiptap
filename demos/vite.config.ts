@@ -1,6 +1,7 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import react from '@vitejs/plugin-react'
 import vue from '@vitejs/plugin-vue'
+import solid from 'vite-plugin-solid'
 import fg from 'fast-glob'
 import fs from 'fs'
 import { basename, dirname, join, resolve } from 'path'
@@ -48,6 +49,19 @@ const getPackageDependencies = () => {
             find: `@tiptap/${name}`,
             replacement: resolve(`../${path}/${name}/src/index.ts`),
           })
+        } else if (name === 'solid') {
+          fg.sync(`../${path}/${name}/src/*`, { onlyDirectories: true }).forEach(subName => {
+            const subPkgName = subName.replace(`../${path}/${name}/src/`, '')
+
+            paths.push({
+              find: `@tiptap/${name}/${subPkgName}`,
+              replacement: resolve(`../${path}/${name}/src/${subPkgName}/index.tsx`),
+            })
+          })
+          paths.push({
+            find: `@tiptap/${name}`,
+            replacement: resolve(`../${path}/${name}/src/index.tsx`),
+          })
         } else {
           paths.push({
             find: `@tiptap/${name}`,
@@ -79,6 +93,8 @@ const dedupeDeps = fs
   .replace(/\r\n/g, '\n')
   .split('\n')
   .filter(value => value)
+
+const solidPaths = /[/\\]Solid[/\\]|[/\\]packages[/\\]solid[/\\]/
 
 export default defineConfig({
   css: {
@@ -116,7 +132,13 @@ export default defineConfig({
     // @ts-ignore
     vue(),
     // @ts-ignore
-    react(),
+    solid({
+      include: [solidPaths],
+    }),
+    // @ts-ignore
+    react({
+      exclude: [solidPaths],
+    }),
     // @ts-ignore
     svelte(),
 
@@ -191,6 +213,29 @@ export default defineConfig({
                     <div id="app"></div>
                     <script type="module">
                       import setup from '../../../../setup/svelte.ts'
+                      import source from '@source'
+                      setup('${demoCategory}/${demoName}/${frameworkName}', source)
+                    </script>
+                  </body>
+                </html>
+              `,
+              tags: [],
+            }
+          }
+
+          if (dir.endsWith('/Solid') || dir.endsWith('-Solid')) {
+            return {
+              html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                  </head>
+                  <body>
+                    <div id="app"></div>
+                    <script type="module">
+                      import setup from '../../../../setup/solid.ts'
                       import source from '@source'
                       setup('${demoCategory}/${demoName}/${frameworkName}', source)
                     </script>

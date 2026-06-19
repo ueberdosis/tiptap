@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { getEditor } from '../../../test/helpers.js'
 
 const demoName = 'Paragraph'
-const frameworkPaths = ['React', 'Vue']
+const frameworkPaths = ['React', 'Vue', 'Solid']
 const demoPath = '/src/Nodes'
 
 test.describe(`${demoPath}/${demoName}`, () => {

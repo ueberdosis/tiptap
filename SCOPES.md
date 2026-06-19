@@ -10,6 +10,7 @@
 - markdown
 - pm
 - react
+- solid
 - server-ai-toolkit
 - starter-kit
 - static-renderer

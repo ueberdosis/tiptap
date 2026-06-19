@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { getEditor, setEditorContent } from '../../../test/helpers.js'
 
 const demoName = 'Bold'
-const frameworkPaths = ['React', 'Vue']
+const frameworkPaths = ['React', 'Vue', 'Solid']
 const demoPath = '/src/Marks'
 
 const isMac = process.platform === 'darwin'
