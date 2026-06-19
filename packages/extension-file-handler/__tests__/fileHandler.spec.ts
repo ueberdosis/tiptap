@@ -91,10 +91,6 @@ describe('extension-file-handler', () => {
       })
 
       const handlePaste = getHandlePaste()
-      const clipboardData = new DataTransfer()
-
-      clipboardData.setData('text/plain', 'just text')
-
       const event = createMockEvent([])
 
       // Override clipboardData to return empty files
