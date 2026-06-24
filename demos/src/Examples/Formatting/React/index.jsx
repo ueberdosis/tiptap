@@ -7,10 +7,6 @@ import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
-
   const editorState = useEditorState({
     editor,
     selector: ctx => {
@@ -35,6 +31,10 @@ const MenuBar = ({ editor }) => {
       }
     },
   })
+
+  if (!editor) {
+    return null
+  }
 
   return (
     <div className="control-group">
