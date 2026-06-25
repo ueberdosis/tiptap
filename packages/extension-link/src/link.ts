@@ -292,13 +292,17 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        // Coerce undefined → null so ProseMirror never sees an invalid attribute value
+        // (happens when the user explicitly passes `HTMLAttributes: { target: undefined }`).
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        // Fixes: "No value supplied for attribute class" when class is explicitly
+        // set to undefined in HTMLAttributes config. See #7214.
+        default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
         default: null,
