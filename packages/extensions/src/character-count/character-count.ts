@@ -61,6 +61,53 @@ declare module '@tiptap/core' {
 }
 
 /**
+ * Finds the ProseMirror document position at which `limit` text characters
+ * (as counted by `textCounter`) have been consumed, walking from the start of
+ * the document.  Used by autoTrim so that excess content is removed from the
+ * END of the document rather than the beginning.
+ *
+ * For the default counter (`text => text.length`) the position is exact.
+ * For custom counters (e.g. Intl.Segmenter) the per-node approximation is
+ * used: within a node the split point is proportional to the node's length.
+ */
+function findDocPositionAtChar(
+  doc: ProseMirrorNode,
+  limit: number,
+  textCounter: (text: string) => number,
+): number {
+  let accumulated = 0
+  let trimPos = doc.content.size
+
+  doc.descendants((node, pos) => {
+    if (accumulated >= limit) return false
+    if (!node.isText || !node.text) return true
+
+    const nodeCharCount = textCounter(node.text)
+    const remaining = limit - accumulated
+
+    if (nodeCharCount >= remaining) {
+      // The trim boundary falls inside (or at the end of) this text node.
+      // For the default counter textCounter === text.length so `remaining` is
+      // the exact UTF-16 offset; for custom counters this is a best-effort
+      // proportional approximation.
+      const charOffset =
+        nodeCharCount === node.text.length
+          ? remaining
+          : Math.round((remaining / nodeCharCount) * node.text.length)
+
+      trimPos = pos + charOffset
+      accumulated = limit
+      return false
+    }
+
+    accumulated += nodeCharCount
+    return true
+  })
+
+  return trimPos
+}
+
+/**
  * This extension allows you to count the characters and words of your document.
  * @see https://tiptap.dev/api/extensions/character-count
  */
@@ -128,9 +175,21 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const initialContentSize = this.storage.characters({ node: newState.doc })
 
           if (initialContentSize > limit) {
-            const over = initialContentSize - limit
-            const from = 0
-            const to = over
+            // Trim excess content from the END of the document so that the first
+            // `limit` characters are preserved (previously the code incorrectly
+            // removed content from the beginning of the document).
+            let from: number
+            let to: number
+
+            if (this.options.mode === 'nodeSize') {
+              const over = initialContentSize - limit
+              from = newState.doc.content.size - over
+              to = newState.doc.content.size
+            } else {
+              // textSize mode: resolve the exact document position after `limit` chars
+              from = findDocPositionAtChar(newState.doc, limit, this.options.textCounter)
+              to = newState.doc.content.size
+            }
 
             console.warn(
               `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
@@ -181,7 +240,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const from = pos - over
           const to = pos
 
-          // It’s probably a bad idea to mutate transactions within `filterTransaction`
+          // It's probably a bad idea to mutate transactions within `filterTransaction`
           // but for now this is working fine.
           transaction.deleteRange(from, to)
 
