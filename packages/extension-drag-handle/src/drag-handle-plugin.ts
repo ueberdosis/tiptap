@@ -2,7 +2,7 @@ import { type ComputePositionConfig, type VirtualElement, computePosition } from
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey, Selection } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
   absolutePositionToRelativePosition,
@@ -12,12 +12,12 @@ import {
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
+import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import {
   type ActiveDragRange,
   createDroppedNodeRangeSelection,
   getActiveDragRange,
 } from './helpers/nodeRangeDrop.js'
-import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
 
