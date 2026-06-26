@@ -296,6 +296,7 @@ export const Link = Mark.create<LinkOptions>({
         default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
         default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
