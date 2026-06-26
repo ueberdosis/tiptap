@@ -99,14 +99,16 @@ export function useTiptapState<TSelectorResult>(
 export type TiptapWrapperProps = {
   /**
    * The editor instance to provide to child components.
-   * Use `useEditor()` to create this instance.
+   * Use `useEditor()` to create this instance. It can be `null` on the first
+   * render (or when `immediatelyRender: false` is used); the provider renders
+   * nothing until the editor is ready.
    */
-  editor?: Editor
+  editor?: Editor | null
 
   /**
    * @deprecated Use `editor` instead. Will be removed in the next major version.
    */
-  instance?: Editor
+  instance?: Editor | null
 
   children: ReactNode
 }
@@ -139,20 +141,24 @@ export type TiptapWrapperProps = {
  * ```
  */
 export function TiptapWrapper({ editor, instance, children }: TiptapWrapperProps) {
-  const resolvedEditor = editor ?? instance
-
-  if (!resolvedEditor) {
-    throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')
-  }
+  const resolvedEditor = editor ?? instance ?? null
 
   const tiptapContextValue = useMemo<TiptapContextType>(
-    () => ({ editor: resolvedEditor }),
+    () => ({ editor: resolvedEditor as Editor }),
     [resolvedEditor],
   )
 
   // Provide backwards compatibility with the legacy EditorContext
   // so components using useCurrentEditor() work inside <Tiptap>
   const legacyContextValue = useMemo(() => ({ editor: resolvedEditor }), [resolvedEditor])
+
+  // `useEditor()` returns `null` on the first render (and during SSR with
+  // `immediatelyRender: false`), so the canonical `<Tiptap editor={useEditor(...)}>`
+  // usage would otherwise throw here. Render nothing until the editor is ready,
+  // matching `EditorProvider` and the optional `editor` prop type. (#7529)
+  if (!resolvedEditor) {
+    return null
+  }
 
   return (
     <EditorContext.Provider value={legacyContextValue}>
