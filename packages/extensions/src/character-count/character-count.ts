@@ -175,9 +175,7 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
           const initialContentSize = this.storage.characters({ node: newState.doc })
 
           if (initialContentSize > limit) {
-            // Trim excess content from the END of the document so that the first
-            // `limit` characters are preserved (previously the code incorrectly
-            // removed content from the beginning of the document).
+            // `limit` characters are preserved
             let from: number
             let to: number
 
