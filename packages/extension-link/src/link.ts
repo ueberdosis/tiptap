@@ -300,8 +300,7 @@ export const Link = Mark.create<LinkOptions>({
         default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        // Fixes: "No value supplied for attribute class" when class is explicitly
-        // set to undefined in HTMLAttributes config.
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
         default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
