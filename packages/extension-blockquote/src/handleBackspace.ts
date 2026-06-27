@@ -52,13 +52,17 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
   const targetPos = insideBlockquoteEnd - 1
 
   return editor.commands.command(({ tr, dispatch }) => {
+    if (!dispatch) {
+      return true
+    }
+
     const content = $from.parent.content
     const slice = content.size ? new Slice(content, 0, 0) : Slice.empty
 
     tr.replace(targetPos, $from.after(), slice)
     tr.setSelection(TextSelection.create(tr.doc, targetPos))
     tr.scrollIntoView()
-    if (dispatch) dispatch(tr)
+
     return true
   })
 }
