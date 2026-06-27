@@ -2,4 +2,4 @@
 '@tiptap/extension-blockquote': patch
 ---
 
-Fix Backspace key getting blocked after merging a paragraph into a blockquote by using the correct TextSelection import and replacing the block boundary atomically.
+Fix Backspace freezing after merging a paragraph into a blockquote by avoiding bundled duplicate ProseMirror classes (via an @tiptap/pm peer dependency) and performing the merge atomically with a single replace step.
