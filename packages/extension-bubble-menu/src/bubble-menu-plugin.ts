@@ -500,9 +500,11 @@ export class BubbleMenuView implements PluginView {
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
 
-      // Apply arrow position if the arrow middleware is configured
-      if (this.floatingUIOptions.arrow && middlewareData.arrow) {
-        const arrowEl = (this.floatingUIOptions.arrow as Parameters<typeof arrow>[0]).element as HTMLElement
+      // Apply arrow position if the arrow middleware is configured with a static element.
+      // Skip Derivable (function) forms — the caller manages positioning in that case.
+      const arrowOption = this.floatingUIOptions.arrow
+      if (arrowOption && typeof arrowOption !== 'function' && middlewareData.arrow) {
+        const arrowEl = arrowOption.element as HTMLElement | null
 
         if (arrowEl) {
           const { x: arrowX, y: arrowY } = middlewareData.arrow
