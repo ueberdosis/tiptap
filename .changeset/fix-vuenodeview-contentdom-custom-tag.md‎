@@ -1,0 +1,6 @@
+---
+'@tiptap/vue-3': patch
+'@tiptap/vue-2': patch
+---
+
+Fix `VueNodeViewRenderer`, using the contentDOMElementTag option. Keep it the same logic with react.
