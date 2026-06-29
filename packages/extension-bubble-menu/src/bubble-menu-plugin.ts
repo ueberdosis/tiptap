@@ -483,7 +483,7 @@ export class BubbleMenuView implements PluginView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy, middlewareData }) => {
+    }).then(({ x, y, strategy, placement, middlewareData }) => {
       if (!this.isVisible || this.editor.isDestroyed || !this.element.isConnected) {
         return
       }
@@ -499,6 +499,25 @@ export class BubbleMenuView implements PluginView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      // Apply arrow position if the arrow middleware is configured
+      if (this.floatingUIOptions.arrow && middlewareData.arrow) {
+        const arrowEl = (this.floatingUIOptions.arrow as Parameters<typeof arrow>[0]).element as HTMLElement
+
+        if (arrowEl) {
+          const { x: arrowX, y: arrowY } = middlewareData.arrow
+          const side = placement.split('-')[0] as 'top' | 'right' | 'bottom' | 'left'
+          const staticSide = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[side]
+
+          Object.assign(arrowEl.style, {
+            left: arrowX != null ? `${arrowX}px` : '',
+            top: arrowY != null ? `${arrowY}px` : '',
+            right: '',
+            bottom: '',
+            [staticSide]: `${-(arrowEl.offsetHeight / 2)}px`,
+          })
+        }
+      }
 
       if (this.isVisible && this.floatingUIOptions.onUpdate) {
         this.floatingUIOptions.onUpdate()
