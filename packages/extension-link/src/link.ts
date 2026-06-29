@@ -292,13 +292,16 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
         default: null,
