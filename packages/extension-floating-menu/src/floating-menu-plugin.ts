@@ -515,16 +515,26 @@ export class FloatingMenuView {
 
         if (arrowEl) {
           const { x: arrowX, y: arrowY } = middlewareData.arrow
-          const side = placement.split('-')[0] as 'top' | 'right' | 'bottom' | 'left'
-          const staticSide = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[side]
+          const side = placement.split('-')[0]
+          const staticSide: string | undefined = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[side]
 
-          Object.assign(arrowEl.style, {
-            left: arrowX != null ? `${arrowX}px` : '',
-            top: arrowY != null ? `${arrowY}px` : '',
-            right: '',
-            bottom: '',
+          if (!staticSide) return
+
+          const styles: Partial<CSSStyleDeclaration> = {
+            top: arrowY != null ? `${arrowY}px` : undefined,
+            left: arrowX != null ? `${arrowX}px` : undefined,
             [staticSide]: `${-(arrowEl.offsetHeight / 2)}px`,
+          }
+
+          // Reset the opposite axes so stale values don't linger
+          const opposites: Record<string, string> = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }
+          ;(['top', 'bottom', 'left', 'right'] as const).forEach(prop => {
+            if (prop !== staticSide && prop !== opposites[staticSide]) {
+              arrowEl.style[prop] = ''
+            }
           })
+
+          Object.assign(arrowEl.style, styles)
         }
       }
 
