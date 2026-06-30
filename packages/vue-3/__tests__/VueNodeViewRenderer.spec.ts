@@ -7,7 +7,11 @@ import { defineComponent } from 'vue'
 
 import { NodeViewContent } from '../src/NodeViewContent.js'
 import { NodeViewWrapper } from '../src/NodeViewWrapper.js'
-import { nodeViewProps, VueNodeViewRenderer } from '../src/VueNodeViewRenderer.js'
+import {
+  nodeViewProps,
+  VueNodeViewRenderer,
+  type VueNodeViewRendererOptions,
+} from '../src/VueNodeViewRenderer.js'
 import { Editor as VueEditor } from '../src/Editor.js'
 
 const ComponentWithoutContent = defineComponent({
@@ -34,14 +38,17 @@ const LeafComponent = defineComponent({
   components: { NodeViewWrapper },
 })
 
-function createBlockNode(component: ReturnType<typeof defineComponent>) {
+function createBlockNode(
+  component: ReturnType<typeof defineComponent>,
+  options?: Partial<VueNodeViewRendererOptions>,
+) {
   return Node.create({
     name: 'customBlock',
     group: 'block',
     content: 'inline*',
     parseHTML: () => [{ tag: 'custom-block' }],
     renderHTML: ({ HTMLAttributes }) => ['custom-block', mergeAttributes(HTMLAttributes), 0],
-    addNodeView: () => VueNodeViewRenderer(component),
+    addNodeView: () => VueNodeViewRenderer(component, options),
   })
 }
 
@@ -77,6 +84,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
     content: string,
     component: ReturnType<typeof defineComponent>,
     leaf = false,
+    options?: Partial<VueNodeViewRendererOptions>,
   ) {
     editor = createVueEditor({
       element: el!,
@@ -84,7 +92,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
         Document,
         Paragraph,
         Text,
-        leaf ? createLeafNode(component) : createBlockNode(component),
+        leaf ? createLeafNode(component) : createBlockNode(component, options),
       ],
       content,
     })
@@ -133,5 +141,13 @@ describe('VueNodeViewRenderer contentDOM', () => {
   it('does not throw on destroy', async () => {
     await withEditor('<custom-block>Hello World</custom-block>', ComponentWithoutContent)
     expect(() => editor!.destroy()).not.toThrow()
+  })
+
+  it('use custom content dom element tag', async () => {
+    await withEditor('<custom-block>Hello World</custom-block>', ComponentWithContent, false, {
+      contentDOMElementTag: 'custom-content-dom',
+    })
+    const content = el!.querySelector('custom-content-dom')
+    expect(content).toBeTruthy()
   })
 })
