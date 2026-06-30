@@ -527,12 +527,18 @@ export class FloatingMenuView {
           }
 
           // Reset the opposite axes so stale values don't linger
-          const opposites: Record<string, string> = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }
-          ;(['top', 'bottom', 'left', 'right'] as const).forEach(prop => {
-            if (prop !== staticSide && prop !== opposites[staticSide]) {
-              arrowEl.style[prop] = ''
+          const sidePairs = [
+            ['top', 'bottom'],
+            ['bottom', 'top'],
+            ['left', 'right'],
+            ['right', 'left'],
+          ] as const
+
+          for (const [prop, opposite] of sidePairs) {
+            if (prop !== staticSide && opposite !== staticSide) {
+              arrowEl.style.removeProperty(prop)
             }
-          })
+          }
 
           Object.assign(arrowEl.style, styles)
         }
