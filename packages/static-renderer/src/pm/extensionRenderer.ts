@@ -18,7 +18,7 @@ import {
   resolveExtensions,
   splitExtensions,
 } from '@tiptap/core'
-import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
+import type { DOMOutputSpec, Mark, Schema } from '@tiptap/pm/model'
 import { Node } from '@tiptap/pm/model'
 
 import { getHTMLAttributes } from '../helpers.js'
@@ -183,6 +183,75 @@ export function mapMarkExtensionToReactNode<T>(
 }
 
 /**
+ * Walks `content` and reports whether it can be rendered through the unknown-type
+ * fallbacks: returns true only when it contains at least one node/mark type absent
+ * from `schema` AND every such kind has its matching `unhandledNode` /
+ * `unhandledMark` fallback. Returns false when there are no unknown types, or when
+ * an unknown type has no matching fallback. Pure; does no I/O.
+ */
+function unknownTypesAllHaveFallback(
+  content: JSONContent,
+  schema: Schema,
+  options?: { unhandledNode?: unknown; unhandledMark?: unknown },
+): boolean {
+  const hasNodeFallback = Boolean(options?.unhandledNode)
+  const hasMarkFallback = Boolean(options?.unhandledMark)
+  let sawUnknownType = false
+  let unhandled = false
+
+  const visit = (node: JSONContent): void => {
+    if (node.type && !(node.type in schema.nodes)) {
+      sawUnknownType = true
+      if (!hasNodeFallback) {
+        unhandled = true
+      }
+    }
+    node.marks?.forEach(mark => {
+      if (mark.type && !(mark.type in schema.marks)) {
+        sawUnknownType = true
+        if (!hasMarkFallback) {
+          unhandled = true
+        }
+      }
+    })
+    node.content?.forEach(visit)
+  }
+
+  visit(content)
+
+  return sawUnknownType && !unhandled
+}
+
+/**
+ * Resolves render input to a ProseMirror `Node`. A `Node` is returned as-is; JSON
+ * is converted via `Node.fromJSON`. If that conversion fails only because the
+ * document contains unknown types the caller has fallbacks for, the original JSON
+ * is returned unchanged so the renderer can route them to the fallbacks. Any other
+ * failure is re-thrown unchanged.
+ */
+function resolveRenderContent(
+  content: Node | JSONContent,
+  extensions: Extensions,
+  options?: { unhandledNode?: unknown; unhandledMark?: unknown },
+): Node | JSONContent {
+  if (content instanceof Node) {
+    return content
+  }
+
+  const schema = getSchemaByResolvedExtensions(extensions)
+
+  try {
+    return Node.fromJSON(schema, content)
+  } catch (error) {
+    if (unknownTypesAllHaveFallback(content, schema, options)) {
+      return content
+    }
+
+    throw error
+  }
+}
+
+/**
  * This function will statically render a Prosemirror Node to a target element type using the given extensions
  * @param renderer The renderer to use to render the Prosemirror Node to the target element type
  * @param domOutputSpecToElement A function that takes a Prosemirror DOMOutputSpec and returns a function that takes children and returns the target element type
@@ -215,9 +284,7 @@ export function renderToElement<T>({
   const extensionAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
 
-  if (!(content instanceof Node)) {
-    content = Node.fromJSON(getSchemaByResolvedExtensions(extensions), content)
-  }
+  content = resolveRenderContent(content, extensions, options)
 
   return renderer({
     ...options,
@@ -268,5 +335,7 @@ export function renderToElement<T>({
       ),
       ...options?.markMapping,
     },
-  })({ content })
+    // `resolveRenderContent` yields a PM Node on the happy path, or the original
+    // JSON in the unknown-type fallback path; the renderer accepts both at runtime.
+  })({ content: content as Node })
 }
