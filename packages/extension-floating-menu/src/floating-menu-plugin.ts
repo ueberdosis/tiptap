@@ -161,6 +161,13 @@ export class FloatingMenuView {
 
   private scrollTarget: HTMLElement | Window = window
 
+  // Captures the resolved `.element` when `options.arrow` is a Derivable
+  // (a function of MiddlewareState). We can't re-invoke that function ourselves
+  // outside the middleware pipeline — it needs `rects`/`elements`/`platform`,
+  // which aren't available after `computePosition()` resolves — so instead we
+  // intercept it at the point floating-ui itself calls it.
+  private resolvedArrowElement: HTMLElement | null = null
+
   private getTextContent(node: ProsemirrorNode) {
     return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
   }
@@ -237,7 +244,25 @@ export class FloatingMenuView {
     }
 
     if (this.floatingUIOptions.arrow) {
-      middlewares.push(arrow(this.floatingUIOptions.arrow))
+      const arrowOption = this.floatingUIOptions.arrow
+
+      if (typeof arrowOption === 'function') {
+        // Wrap the Derivable so we can capture the ArrowOptions it resolves to
+        // (specifically `.element`) at the moment floating-ui invokes it with
+        // the real MiddlewareState — we have no other way to get that element.
+        middlewares.push(
+          arrow(state => {
+            const resolved = arrowOption(state)
+
+            this.resolvedArrowElement = resolved.element as HTMLElement | null
+
+            return resolved
+          }),
+        )
+      } else {
+        this.resolvedArrowElement = arrowOption.element as HTMLElement | null
+        middlewares.push(arrow(arrowOption))
+      }
     }
 
     if (this.floatingUIOptions.size) {
@@ -507,16 +532,22 @@ export class FloatingMenuView {
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
 
-      // Apply arrow position if the arrow middleware is configured with a static element.
-      // Skip Derivable (function) forms — the caller manages positioning in that case.
-      const arrowOption = this.floatingUIOptions.arrow
-      if (arrowOption && typeof arrowOption !== 'function' && middlewareData.arrow) {
-        const arrowEl = arrowOption.element as HTMLElement | null
+      // Apply arrow position if the arrow middleware is configured. For both the
+      // static-options and Derivable (function) forms, `resolvedArrowElement` is
+      // set in the `middlewares` getter — for Derivable it's captured from the
+      // function's return value at the point floating-ui itself calls it.
+      if (this.floatingUIOptions.arrow && middlewareData.arrow) {
+        const arrowEl = this.resolvedArrowElement
 
         if (arrowEl) {
           const { x: arrowX, y: arrowY } = middlewareData.arrow
           const side = placement.split('-')[0]
-          const staticSide: string | undefined = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[side]
+          const staticSide: string | undefined = {
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+          }[side]
 
           if (!staticSide) return
 
