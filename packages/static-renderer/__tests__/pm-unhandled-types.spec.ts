@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import type { JSONContent } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
@@ -230,5 +231,47 @@ describe('static renderer: unknown types preserve known nodes (sentinel substitu
         }),
       ),
     ).toThrow(/Invalid text node in JSON/)
+  })
+
+  it('restores the original JSON when a fallback calls node.toJSON()', () => {
+    let dumped: JSONContent | undefined
+
+    render(
+      renderToReactElement({
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'calloutBox',
+              attrs: { variant: 'info' },
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    { type: 'text', text: 'deep', marks: [{ type: 'colorMark', attrs: { c: 1 } }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        extensions,
+        options: {
+          unhandledNode: ({ node }) => {
+            dumped = node.toJSON()
+            return React.createElement('div')
+          },
+          unhandledMark: ({ children }) => React.createElement('mark', {}, children),
+        },
+      }),
+    )
+
+    // The unknown node serializes back to its original type/attrs, with no
+    // placeholder leakage — including a nested unknown mark deeper in the tree.
+    expect(dumped?.type).toBe('calloutBox')
+    expect(dumped?.attrs).toEqual({ variant: 'info' })
+    const text = dumped?.content?.[0]?.content?.[0]
+    expect(text?.text).toBe('deep')
+    expect(text?.marks?.[0]).toEqual({ type: 'colorMark', attrs: { c: 1 } })
   })
 })

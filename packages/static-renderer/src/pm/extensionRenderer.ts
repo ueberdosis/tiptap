@@ -309,17 +309,50 @@ function resolveRenderContent(
 }
 
 /**
- * Presents a placeholder node/mark to a fallback renderer under its original type
- * name and attributes, while keeping the live ProseMirror children/methods intact.
+ * Swaps a placeholder node/mark JSON back to its original type and attributes.
+ * Leaves non-placeholder JSON untouched. Pure.
  */
-function withOriginalIdentity<T extends { attrs: Record<string, any> }>(target: T): T {
+function unwrapPlaceholderJSON(json: JSONContent): JSONContent {
+  return json.type === UNHANDLED_NODE_TYPE || json.type === UNHANDLED_MARK_TYPE
+    ? { ...json, type: json.attrs![ORIGINAL_TYPE_ATTR], attrs: json.attrs![ORIGINAL_ATTRS_ATTR] }
+    : json
+}
+
+/**
+ * Recursively restores the original JSON of a (possibly nested) placeholder
+ * subtree, including placeholder marks. Pure; does no I/O.
+ */
+function restoreOriginalJSON(json: JSONContent): JSONContent {
+  const node = unwrapPlaceholderJSON(json)
+
+  return {
+    ...node,
+    marks: node.marks?.map(
+      mark => unwrapPlaceholderJSON(mark) as NonNullable<JSONContent['marks']>[number],
+    ),
+    content: node.content?.map(restoreOriginalJSON),
+  }
+}
+
+/**
+ * Presents a placeholder node/mark to a fallback renderer under its original type
+ * name and attributes — including a `toJSON()` that returns the restored original
+ * JSON — while keeping the live ProseMirror children/methods intact.
+ */
+function withOriginalIdentity<T extends { attrs: Record<string, any>; toJSON: () => JSONContent }>(
+  target: T,
+): T {
+  const overrides: Record<string | symbol, unknown> = Object.assign(Object.create(null), {
+    type: { name: target.attrs[ORIGINAL_TYPE_ATTR] },
+    attrs: target.attrs[ORIGINAL_ATTRS_ATTR],
+    toJSON: () => restoreOriginalJSON(target.toJSON()),
+  })
+
   return new Proxy(target, {
     get(node, prop) {
-      if (prop === 'type') {
-        return { name: node.attrs[ORIGINAL_TYPE_ATTR] }
-      }
-      if (prop === 'attrs') {
-        return node.attrs[ORIGINAL_ATTRS_ATTR]
+      const override = overrides[prop]
+      if (override !== undefined) {
+        return override
       }
       const value = (node as Record<string | symbol, unknown>)[prop]
       return typeof value === 'function' ? value.bind(node) : value
