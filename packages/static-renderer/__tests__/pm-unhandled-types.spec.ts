@@ -4,7 +4,9 @@ import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import StarterKit from '@tiptap/starter-kit'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
+import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown'
 import { renderToReactElement } from '@tiptap/static-renderer/pm/react'
 import React from 'react'
 import { describe, expect, it } from 'vitest'
@@ -114,5 +116,119 @@ describe('static renderer: unhandledNode / unhandledMark for unknown schema type
     })
 
     expect(html).toBe('<h1>x</h1>')
+  })
+})
+
+describe('static renderer: unknown types preserve known nodes (sentinel substitution)', () => {
+  it('hands the original type and attributes to unhandledNode', () => {
+    let seenType: string | undefined
+    let seenVariant: unknown
+
+    render(
+      renderToReactElement({
+        content: docWithUnknownNode,
+        extensions,
+        options: {
+          unhandledNode: ({ node }) => {
+            seenType = node.type.name
+            seenVariant = node.attrs.variant
+            return React.createElement('div')
+          },
+        },
+      }),
+    )
+
+    expect(seenType).toBe('calloutBox')
+    expect(seenVariant).toBe('info')
+  })
+
+  it('hands the original type to unhandledMark', () => {
+    let seenType: string | undefined
+
+    render(
+      renderToReactElement({
+        content: docWithUnknownMark,
+        extensions,
+        options: {
+          unhandledMark: ({ mark, children }) => {
+            seenType = mark.type.name
+            return React.createElement('mark', {}, children)
+          },
+        },
+      }),
+    )
+
+    expect(seenType).toBe('colorMark')
+  })
+
+  it('renders known nodes with their schema attribute defaults alongside an unknown node', () => {
+    // The heading carries no explicit `level`; it must still resolve to its
+    // default (<h1>) rather than losing the attribute and crashing.
+    const view = render(
+      renderToReactElement({
+        content: {
+          type: 'doc',
+          content: [
+            { type: 'heading', content: [{ type: 'text', text: 'title' }] },
+            { type: 'calloutBox', content: [{ type: 'text', text: 'x' }] },
+          ],
+        },
+        extensions,
+        options: { unhandledNode: () => React.createElement('aside') },
+      }),
+    )
+
+    expect(view.container.querySelector('h1')?.textContent).toBe('title')
+    expect(view.container.querySelector('aside')).not.toBeNull()
+  })
+
+  it('keeps markdown output correct for known nodes when an unknown node is present', () => {
+    const markdown = renderToMarkdown({
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'a' }] }],
+              },
+              {
+                type: 'listItem',
+                content: [{ type: 'paragraph', content: [{ type: 'text', text: 'b' }] }],
+              },
+            ],
+          },
+          { type: 'calloutBox', content: [{ type: 'text', text: 'note' }] },
+        ],
+      },
+      extensions: [StarterKit],
+      options: { unhandledNode: ({ children }) => `\n[callout]${children}\n` },
+    })
+
+    expect(markdown).toContain('- a')
+    expect(markdown).toContain('- b')
+    expect(markdown).toContain('[callout]')
+  })
+
+  it('still throws a structural error when an unknown-with-fallback type is also present', () => {
+    // A genuinely malformed known node (text without `text`) must not be masked
+    // just because the document also contains a handled unknown node.
+    expect(() =>
+      render(
+        renderToReactElement({
+          content: {
+            type: 'doc',
+            content: [
+              { type: 'paragraph', content: [{ type: 'text' }] },
+              { type: 'calloutBox', content: [{ type: 'text', text: 'x' }] },
+            ],
+          },
+          extensions,
+          options: { unhandledNode: () => React.createElement('div') },
+        }),
+      ),
+    ).toThrow(/Invalid text node in JSON/)
   })
 })
