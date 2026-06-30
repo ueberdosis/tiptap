@@ -1,6 +1,8 @@
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 import './style.scss'
 
+import { mount } from 'svelte'
+
 import { debug, splitName } from './helper.js'
 
 export default function init(name: string, source: any) {
@@ -12,9 +14,7 @@ export default function init(name: string, source: any) {
 
   import(`../src/${demoCategory}/${demoName}/${frameworkName}/index.svelte`).then(Module => {
     const Component = Module.default
-
-    new Component({ target: document.querySelector('#app') }) // oxlint-disable-line
-
+    mount(Component, { target: document.querySelector('#app') as Element })
     debug()
   })
 }

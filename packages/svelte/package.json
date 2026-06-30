@@ -1,0 +1,65 @@
+{
+  "name": "@tiptap/svelte",
+  "version": "3.20.0",
+  "description": "Svelte components for tiptap",
+  "keywords": [
+    "tiptap",
+    "tiptap svelte components"
+  ],
+  "homepage": "https://tiptap.dev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/svelte"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": {
+        "import": "./dist/index.d.mts",
+        "require": "./dist/index.d.cts"
+      }
+    },
+    "./menus": {
+      "import": "./dist/menus/index.mjs",
+      "require": "./dist/menus/index.cjs",
+      "types": {
+        "import": "./dist/menus/index.d.mts",
+        "require": "./dist/menus/index.d.cts"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  },
+  "devDependencies": {
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "esbuild": "0.25.0",
+    "svelte": "^5.55.9",
+    "tsdown": "^0.22.0"
+  },
+  "peerDependencies": {
+    "@floating-ui/dom": "^1.0.0",
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^",
+    "svelte": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
+  }
+}
