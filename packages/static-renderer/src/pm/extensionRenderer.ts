@@ -198,7 +198,6 @@ const placeholderAttrs = {
 
 /**
  * Returns true if `content` references any node or mark type absent from `schema`.
- * Pure; does no I/O.
  */
 function hasUnknownType(content: JSONContent, schema: Schema): boolean {
   let found = false
@@ -228,7 +227,7 @@ function hasUnknownType(content: JSONContent, schema: Schema): boolean {
  * `schema` AND covered by a matching fallback in `options` is replaced by a
  * placeholder type carrying the original type/attrs. Unknown types without a
  * matching fallback are left untouched so `Node.fromJSON` still surfaces its clear
- * error for them. Pure; does no I/O.
+ * error for them.
  */
 function substituteUnknownTypes(
   content: JSONContent,
@@ -310,7 +309,7 @@ function resolveRenderContent(
 
 /**
  * Swaps a placeholder node/mark JSON back to its original type and attributes.
- * Leaves non-placeholder JSON untouched. Pure.
+ * Leaves non-placeholder JSON untouched.
  */
 function unwrapPlaceholderJSON(json: JSONContent): JSONContent {
   return json.type === UNHANDLED_NODE_TYPE || json.type === UNHANDLED_MARK_TYPE
@@ -320,7 +319,7 @@ function unwrapPlaceholderJSON(json: JSONContent): JSONContent {
 
 /**
  * Recursively restores the original JSON of a (possibly nested) placeholder
- * subtree, including placeholder marks. Pure; does no I/O.
+ * subtree, including placeholder marks.
  */
 function restoreOriginalJSON(json: JSONContent): JSONContent {
   const node = unwrapPlaceholderJSON(json)
@@ -338,6 +337,10 @@ function restoreOriginalJSON(json: JSONContent): JSONContent {
  * Presents a placeholder node/mark to a fallback renderer under its original type
  * name and attributes — including a `toJSON()` that returns the restored original
  * JSON — while keeping the live ProseMirror children/methods intact.
+ *
+ * `type` is exposed as a minimal `{ name }` rather than a real `NodeType`/`MarkType`:
+ * the original type is absent from the schema so no real one exists, and surfacing
+ * the placeholder's own type would leak misleading `spec`/`schema`/`isInline` values.
  */
 function withOriginalIdentity<T extends { attrs: Record<string, any>; toJSON: () => JSONContent }>(
   target: T,

@@ -213,6 +213,32 @@ describe('static renderer: unknown types preserve known nodes (sentinel substitu
     expect(markdown).toContain('[callout]')
   })
 
+  it('routes an unknown mark to unhandledMark in markdown output', () => {
+    let seenMark: string | undefined
+
+    const markdown = renderToMarkdown({
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'hi', marks: [{ type: 'colorMark', attrs: {} }] }],
+          },
+        ],
+      },
+      extensions: [StarterKit],
+      options: {
+        unhandledMark: ({ mark, children }) => {
+          seenMark = mark.type.name
+          return `[[${children}]]`
+        },
+      },
+    })
+
+    expect(markdown).toContain('[[hi]]')
+    expect(seenMark).toBe('colorMark')
+  })
+
   it('still throws a structural error when an unknown-with-fallback type is also present', () => {
     // A genuinely malformed known node (text without `text`) must not be masked
     // just because the document also contains a handled unknown node.
