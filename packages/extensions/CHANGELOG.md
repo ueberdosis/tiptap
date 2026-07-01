@@ -1,5 +1,55 @@
 # Change Log
 
+## 3.27.1
+
+### Patch Changes
+
+- 2be3fb9: Fix Placeholder flickering while a modal overlay is open. When the editor was occluded during a stream of transactions (e.g. remote collaboration edits), the viewport measurement fell back to a full-document range and repeatedly toggled the `data-placeholder` attribute on empty blocks. The viewport window is now frozen when the editor can't be measured reliably, so placeholders stay stable.
+  - @tiptap/core@3.27.1
+  - @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- 75e8404: Fix the `Selection` extension highlighting beyond the selected text on multi-line selections: the native browser selection is now hidden while the editor is blurred, so only the styled `.selection` decoration is shown.
+  - @tiptap/core@3.26.0
+  - @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Minor Changes
+
+- Allow `emptyNodeClass` in the Placeholder extension to accept a function that returns a dynamic CSS class name per node
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

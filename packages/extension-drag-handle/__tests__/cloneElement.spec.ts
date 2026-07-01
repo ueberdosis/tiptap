@@ -106,6 +106,22 @@ describe('cloneElement', () => {
       expect(clone.style.cssText).not.toContain('font-size')
     })
 
+    it('trims surrounding whitespace before reading the property', () => {
+      const element = document.createElement('p')
+
+      vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+        return {
+          length: 1,
+          0: 'margin-top',
+          getPropertyValue: (property: string) => (property === 'margin-top' ? '24px' : ''),
+        } as unknown as CSSStyleDeclaration
+      })
+
+      const clone = cloneElement(element, [' margin-top '])
+
+      expect(clone.style.cssText).toContain('margin-top: 24px;')
+    })
+
     it('returns an empty cssText when the properties list is empty', () => {
       const element = document.createElement('p')
 

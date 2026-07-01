@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-file-handler",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "file handler extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/filehandler",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

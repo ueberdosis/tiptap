@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-table-of-contents",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "table of contents extension for Tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/table-of-contents",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",

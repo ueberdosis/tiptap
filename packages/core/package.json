@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/core",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "headless rich text editor",
   "keywords": [
     "headless",
@@ -10,6 +10,9 @@
     "wysiwyg"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

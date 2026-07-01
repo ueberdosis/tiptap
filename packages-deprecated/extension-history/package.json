@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-history",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "history extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

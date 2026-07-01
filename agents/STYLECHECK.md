@@ -1,10 +1,12 @@
 # Style Checks
 
-This project uses **ESLint** for linting and **Prettier** for code formatting. We also have setup **Husky** and **lint-staged** to run checks automatically on commits.
+This project uses **oxlint** for linting and **oxfmt** for formatting. We also have **Husky** and **lint-staged** to run checks automatically on commits.
 
 Run manually:
 
 ```bash
 pnpm lint
 pnpm lint:fix
+pnpm format
+pnpm format:fix
 ```

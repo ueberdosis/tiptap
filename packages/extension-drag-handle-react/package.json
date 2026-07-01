@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-drag-handle-react",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "drag handle extension for tiptap with react",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -42,10 +45,10 @@
     "@tiptap/extension-drag-handle": "workspace:^",
     "@tiptap/pm": "workspace:^",
     "@tiptap/react": "workspace:^",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "peerDependencies": {
     "@tiptap/extension-drag-handle": "workspace:*",

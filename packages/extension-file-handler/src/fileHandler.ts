@@ -12,6 +12,7 @@ export const FileHandler = Extension.create<FileHandlerOptions>({
       onPaste: undefined,
       onDrop: undefined,
       allowedMimeTypes: undefined,
+      consumePasteEvent: false,
     }
   },
 
@@ -23,6 +24,7 @@ export const FileHandler = Extension.create<FileHandlerOptions>({
         allowedMimeTypes: this.options.allowedMimeTypes,
         onDrop: this.options.onDrop,
         onPaste: this.options.onPaste,
+        consumePasteEvent: this.options.consumePasteEvent,
       }),
     ]
   },

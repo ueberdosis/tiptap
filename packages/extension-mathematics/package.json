@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/extension-mathematics",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "latex math extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev/api/extensions/mathematics",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -41,11 +44,11 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@types/katex": "^0.16.7"
+    "@types/katex": "^0.16.7 || ^0.17.0"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "katex": "^0.16.4"
+    "katex": "^0.16.4 || ^0.17.0"
   }
 }

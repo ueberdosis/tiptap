@@ -1,5 +1,52 @@
 # @tiptap/markdown
 
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+- @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- 33687f1: Fix parsing with injected Marked instances so custom markdown tokenizers registered via `marked.use(...)` are respected.
+- 852ced3: Fix unrecognized HTML detection during markdown parsing to work without `window.DOMParser` or `HTMLUnknownElement`, so angle-bracket placeholders are preserved as literal text in SSR and Node environments.
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- 9cf8db0: Fix backslash-escape handling in the Markdown parser and serializer. Parsing a backslash-escaped markdown character (e.g. `\*`, `\_`, `\\`) now correctly produces a literal text node, instead of silently dropping the character. On serialization, characters that have special meaning in markdown inline syntax (`*`, `_`, `` ` ``, `[`, `]`, `\`, `~`) are now backslash-escaped in non-code text nodes to prevent them from being misinterpreted as formatting delimiters when the output is parsed again.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

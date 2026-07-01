@@ -45,6 +45,9 @@ packages/**/*.tgz
 packages-deprecated/**/*.tgz
 demos/*.tgz
 
+# pnpm
+.pnpm-store
+
 # demo directories
 demos/src/Dev/**
 !demos/src/Dev/.gitkeep

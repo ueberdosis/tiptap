@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/html",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "utility package to render tiptap JSON as HTML",
   "keywords": [
     "tiptap",
     "tiptap utility"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

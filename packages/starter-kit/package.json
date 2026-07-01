@@ -1,12 +1,15 @@
 {
   "name": "@tiptap/starter-kit",
-  "version": "3.24.0",
+  "version": "3.27.1",
   "description": "starter kit for tiptap",
   "keywords": [
     "tiptap",
     "tiptap starter kit"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

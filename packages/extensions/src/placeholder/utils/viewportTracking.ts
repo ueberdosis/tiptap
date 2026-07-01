@@ -62,9 +62,13 @@ export function createViewportPluginView(view: EditorView): PluginView {
   const computeAndDispatch = () => {
     const positions = getViewportBoundaryPositions({
       view,
-      doc: view.state.doc,
       scrollContainer,
     })
+
+    // Not measurable, keep the last good window frozen
+    if (positions === null) {
+      return
+    }
 
     const prev = PLUGIN_KEY.getState(view.state)
     if (prev?.topPos === positions.top && prev?.bottomPos === positions.bottom) {
@@ -99,6 +103,18 @@ export function createViewportPluginView(view: EditorView): PluginView {
 
   scrollContainer.addEventListener('scroll', scheduleFrame, { passive: true })
 
+  // Recover a frozen window once the editor becomes usable again (e.g. a modal
+  // closes): re-measure on size/visibility changes and when focus returns.
+  const resizeObserver =
+    typeof ResizeObserver !== 'undefined' ? new ResizeObserver(scheduleFrame) : null
+  resizeObserver?.observe(view.dom)
+
+  const intersectionObserver =
+    typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(scheduleFrame) : null
+  intersectionObserver?.observe(view.dom)
+
+  view.dom.addEventListener('focus', scheduleFrame)
+
   // Fire once to populate initial viewport
   computeAndDispatch()
 
@@ -113,6 +129,9 @@ export function createViewportPluginView(view: EditorView): PluginView {
         cancelAnimationFrame(frame)
       }
       scrollContainer.removeEventListener('scroll', scheduleFrame)
+      resizeObserver?.disconnect()
+      intersectionObserver?.disconnect()
+      view.dom.removeEventListener('focus', scheduleFrame)
     },
   }
 }

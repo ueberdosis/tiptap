@@ -48,21 +48,28 @@ export default props => {
     },
   }))
 
-  return (
-    <div className="dropdown-menu">
-      {props.items.length ? (
-        props.items.map((item, index) => (
-          <button
-            className={index === selectedIndex ? 'is-selected' : ''}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            {item}
-          </button>
-        ))
-      ) : (
-        <div className="item">No result</div>
-      )}
-    </div>
-  )
+  let content
+
+  if (props.loading) {
+    content = (
+      <div className="item loading">
+        <span className="loading-dot" />
+        Loading…
+      </div>
+    )
+  } else if (props.items.length) {
+    content = props.items.map((item, index) => (
+      <button
+        className={index === selectedIndex ? 'is-selected' : ''}
+        key={index}
+        onClick={() => selectItem(index)}
+      >
+        {item}
+      </button>
+    ))
+  } else {
+    content = <div className="item">No result</div>
+  }
+
+  return <div className="dropdown-menu">{content}</div>
 }

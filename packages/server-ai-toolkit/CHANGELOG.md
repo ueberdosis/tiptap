@@ -1,5 +1,17 @@
 # @tiptap/server-ai-toolkit
 
+## 0.2.0
+
+### Minor Changes
+
+- 32877d9: Remove legacy exports: `GetSchemaAwarenessDataOptions`, `getSchemaAwarenessData` and `SchemaAwarenessData`
+
+## 0.1.5
+
+### Patch Changes
+
+- 6aab89b: Only add hash attributes to nodes, not to marks.
+
 ## 0.1.4
 
 ### Patch Changes

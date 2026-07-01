@@ -1,5 +1,66 @@
 # @tiptap/extension-drag-handle
 
+## 3.27.1
+
+### Patch Changes
+
+- ad17014: Respect margin properties passed via `dragImageProperties` on the drag preview. The clone reset its margin to `0` after copying styles, which discarded any margin the user explicitly requested. The reset now runs only when no margin property is listed in `dragImageProperties`, so the drag image can keep the same spacing as the live block.
+  - @tiptap/core@3.27.1
+  - @tiptap/extension-collaboration@3.27.1
+  - @tiptap/extension-node-range@3.27.1
+  - @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- 63b157c: Fix multi-block drags only removing the first block when nested mode is enabled
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/extension-collaboration@3.27.0
+  - @tiptap/extension-node-range@3.27.0
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- a38c9c0: Restore the node range selection after dragging multiple blocks. Previously, dropping a multi-block drag left a text selection inside the moved content instead of keeping the dragged blocks selected.
+- a38c9c0: Bump `@tiptap/y-tiptap` to version ^3.0.5
+- Updated dependencies [a38c9c0]
+- Updated dependencies [a38c9c0]
+  - @tiptap/extension-node-range@3.26.1
+  - @tiptap/extension-collaboration@3.26.1
+  - @tiptap/core@3.26.1
+  - @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+- @tiptap/extension-collaboration@3.26.0
+- @tiptap/extension-node-range@3.26.0
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [c1a2ce8]
+- Updated dependencies [3d4f94c]
+- Updated dependencies [3163b13]
+  - @tiptap/core@3.25.0
+  - @tiptap/pm@3.25.0
+  - @tiptap/extension-collaboration@3.25.0
+  - @tiptap/extension-node-range@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

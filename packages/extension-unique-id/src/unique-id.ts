@@ -170,6 +170,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     if (collaboration) {
       if (provider) {
         provider.on('synced', createIds)
+        // Detach on destroy too, in case the editor is destroyed before the
+        // provider syncs — otherwise `createIds` (and the editor it closes over)
+        // stays referenced by the shared provider and leaks.
+        this.storage.cleanupSyncedListener = () => provider.off('synced', createIds)
       }
       // When collaboration is present but no provider is in extension options,
       // needsInitialIdGeneration was already set in addProseMirrorPlugins
@@ -178,6 +182,10 @@ export const UniqueID = Extension.create<UniqueIDOptions>({
     } else {
       return createIds()
     }
+  },
+
+  onDestroy() {
+    this.storage.cleanupSyncedListener?.()
   },
 
   addProseMirrorPlugins() {

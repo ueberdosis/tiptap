@@ -190,13 +190,16 @@ export function isAllowedUri(uri: string | undefined, protocols?: LinkOptions['p
 
   return (
     !uri ||
-    uri.replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '').match(
-      new RegExp(
-        // oxlint-disable-next-line no-useless-escape
-        `^(?:(?:${allowedProtocols.join('|')}):|[^a-z]|[a-z0-9+.\-]+(?:[^a-z+.\-:]|$))`,
-        'i',
-      ),
-    )
+    uri
+      .replace(UNICODE_WHITESPACE_REGEX_GLOBAL, '')
+      .match(
+        new RegExp(
+          `^(?:(?:${allowedProtocols
+            .map(protocol => protocol.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'))
+            .join('|')}):|[^a-z]|[a-z0-9+.\\-]+(?:[^a-z+.\\-:]|$))`,
+          'i',
+        ),
+      )
   )
 }
 
@@ -289,13 +292,16 @@ export const Link = Mark.create<LinkOptions>({
         },
       },
       target: {
-        default: this.options.HTMLAttributes.target,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.target ?? null,
       },
       rel: {
-        default: this.options.HTMLAttributes.rel,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.rel ?? null,
       },
       class: {
-        default: this.options.HTMLAttributes.class,
+        // Coerce `undefined` to `null` because `undefined` is an invalid attribute value
+        default: this.options.HTMLAttributes.class ?? null,
       },
       title: {
         default: null,

@@ -1,5 +1,48 @@
 # Change Log
 
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- ec291dd: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+
+- b63835b: Fix `HTMLAttributes` not being applied to the editor DOM when `resize` is enabled. The `addNodeView` path was using only the resolved node attributes and skipping the user-configured `HTMLAttributes` option. Now it merges them consistently with how `renderHTML` already works.
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

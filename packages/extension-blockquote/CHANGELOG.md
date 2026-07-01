@@ -1,5 +1,47 @@
 # Change Log
 
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/core@3.26.1
+
+## 3.26.0
+
+### Minor Changes
+
+- 155a613: Backspace at the start of a non-first child of a blockquote now lifts that child out, splitting the blockquote around it. A second backspace at the start of a top-level textblock whose previous sibling is a blockquote merges the textblock's inline content into the blockquote's last textblock instead of pulling the paragraph back inside.
+
+### Patch Changes
+
+- @tiptap/core@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- Updated dependencies [ec291dd]
+- Updated dependencies [454e9b8]
+- Updated dependencies [9cf8db0]
+- Updated dependencies [3d4f94c]
+  - @tiptap/core@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes

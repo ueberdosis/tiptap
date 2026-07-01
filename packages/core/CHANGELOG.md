@@ -1,5 +1,63 @@
 # Change Log
 
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- 0d0094d: **Ordered lists now support the `type` attribute** (`a`, `A`, `i`, `I`).
+
+  The `<ol>` `type` attribute is now fully preserved through the HTML round-trip:
+
+  - `type="a"` → lowercase alphabetical markers
+  - `type="A"` → uppercase alphabetical markers
+  - `type="i"` → lowercase roman numeral markers
+  - `type="I"` → uppercase roman numeral markers
+
+  **Paste from external editors** (Google Docs, Word, LibreOffice) now correctly detects the list style — both from the HTML `type` attribute and from CSS `list-style-type` properties.
+
+  **Plain text paste** of typed ordered list markers (e.g. `a. Item`, `I) Item`, `i. Item\nii. Item`) is detected and converted to the correct list type.
+
+  **Markdown round-trip** preserves typed markers: parsing `a. Item` creates `type: "a"`, and serializing a typed list back to markdown uses the correct prefix (e.g. `I.`, `ii.`).
+
+  **Joining** of adjacent lists now respects `type` — two lists with different types (e.g. default numeric and `type="a"`) are not merged.
+
+- 795033c: `parseAttributes` now supports any word characters at the start of classes or id attributes.
+- 0e0c4f9: Fix `marksEqual` to compare mark arrays as multisets instead of index-by-index, so order of marks no longer affects the result. Broaden the type signature to accept ProseMirror `Mark` objects (where `type` is an object with a `name` property) alongside the existing JSON mark shape (`{ type: string }`).
+- 6d12bb9: Fix a edge-case in `rewriteUnknownContent` to not fail on null-ish values inside marks or nodes.
+  - @tiptap/pm@3.27.0
+
+## 3.26.1
+
+### Patch Changes
+
+- @tiptap/pm@3.26.1
+
+## 3.26.0
+
+### Patch Changes
+
+- @tiptap/pm@3.26.0
+
+## 3.25.0
+
+### Patch Changes
+
+- ec291dd: Fix: dragging an inline/resizable image within the editor no longer creates a duplicate
+
+  When the `Image` extension was configured with `inline: true` or `resize` enabled, dragging an image within the editor could insert a duplicate at the drop position instead of moving it. This happened because the browser's native image drag behavior could populate `dataTransfer.files`, causing the FileHandler extension to intercept the drop before ProseMirror's internal move logic could run.
+
+- 454e9b8: Add `clearable` mark option (default `true`). `unsetAllMarks` now skips marks with `clearable: false`, so semantic marks like comments are not removed by "clear formatting".
+- 9cf8db0: Add `attrsEqual` and `marksEqual` utility functions to `@tiptap/core`. `attrsEqual` compares two attribute objects for equality regardless of key ordering. `marksEqual` compares two arrays of mark objects by type and attributes using `attrsEqual`.
+- 3d4f94c: Fix plain-text copy of table cell selections including content from unselected cells in between. Each selected range is now serialized independently and joined in document order, so dragging upward (reverse selection) also produces output in document order.
+- Updated dependencies [c1a2ce8]
+  - @tiptap/pm@3.25.0
+
 ## 3.24.0
 
 ### Patch Changes
