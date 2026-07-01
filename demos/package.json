@@ -20,7 +20,7 @@
     "d3": "^7.9.0",
     "fast-glob": "^3.3.2",
     "highlight.js": "^11.11.1",
-    "katex": "^0.16.4",
+    "katex": "^0.17.0",
     "lexical": "^0.36.2",
     "linkifyjs": "^4.3.2",
     "lowlight": "^3.3.0",
