@@ -144,7 +144,7 @@ export type TiptapWrapperProps = TiptapWrapperEditorInstanceProps & {
  */
 export function TiptapWrapper({ children, ...props }: TiptapWrapperProps) {
   const resolvedEditor = 'editor' in props ? props.editor : props.instance
-  
+
   if (!resolvedEditor) {
     throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')
   }
