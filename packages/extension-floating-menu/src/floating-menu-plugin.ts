@@ -549,26 +549,21 @@ export class FloatingMenuView {
             left: 'right',
           }[side]
 
+          for (const prop of ['top', 'right', 'bottom', 'left'] as const) {
+            arrowEl.style.removeProperty(prop)
+          }
+
           if (!staticSide) return
 
           const styles: Partial<CSSStyleDeclaration> = {
-            top: arrowY != null ? `${arrowY}px` : undefined,
-            left: arrowX != null ? `${arrowX}px` : undefined,
             [staticSide]: `${-(arrowEl.offsetHeight / 2)}px`,
           }
 
-          // Reset the opposite axes so stale values don't linger
-          const sidePairs = [
-            ['top', 'bottom'],
-            ['bottom', 'top'],
-            ['left', 'right'],
-            ['right', 'left'],
-          ] as const
-
-          for (const [prop, opposite] of sidePairs) {
-            if (prop !== staticSide && opposite !== staticSide) {
-              arrowEl.style.removeProperty(prop)
-            }
+          if (arrowX != null) {
+            styles.left = `${arrowX}px`
+          }
+          if (arrowY != null) {
+            styles.top = `${arrowY}px`
           }
 
           Object.assign(arrowEl.style, styles)
