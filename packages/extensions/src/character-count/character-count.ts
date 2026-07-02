@@ -80,27 +80,46 @@ function findDocPositionAtChar(
 
   doc.descendants((node, pos) => {
     if (accumulated >= limit) return false
-    if (!node.isText || !node.text) return true
 
-    const nodeCharCount = textCounter(node.text)
-    const remaining = limit - accumulated
+    if (node.isText && node.text) {
+      const nodeCharCount = textCounter(node.text)
+      const remaining = limit - accumulated
 
-    if (nodeCharCount >= remaining) {
-      // The trim boundary falls inside (or at the end of) this text node.
-      // For the default counter textCounter === text.length so `remaining` is
-      // the exact UTF-16 offset; for custom counters this is a best-effort
-      // proportional approximation.
-      const charOffset =
-        nodeCharCount === node.text.length
-          ? remaining
-          : Math.round((remaining / nodeCharCount) * node.text.length)
+      if (nodeCharCount >= remaining) {
+        // The trim boundary falls inside (or at the end of) this text node.
+        // For the default counter textCounter === text.length so `remaining` is
+        // the exact UTF-16 offset; for custom counters this is a best-effort
+        // proportional approximation.
+        const charOffset =
+          nodeCharCount === node.text.length
+            ? remaining
+            : Math.round((remaining / nodeCharCount) * node.text.length)
 
-      trimPos = pos + charOffset
-      accumulated = limit
-      return false
+        trimPos = pos + charOffset
+        accumulated = limit
+        return false
+      }
+
+      accumulated += nodeCharCount
+      return true
     }
 
-    accumulated += nodeCharCount
+    // Non-text leaf/atom nodes (e.g. images, hard breaks, inline math) are
+    // counted as a single space by textBetween(..., leafText = ' '), which is
+    // what this.storage.characters() uses to compute initialContentSize. Mirror
+    // that here so the split position stays in sync with the measured count.
+    if (node.isLeaf) {
+      const leafCount = textCounter(' ')
+      const remaining = limit - accumulated
+      if (leafCount >= remaining) {
+        trimPos = pos
+        accumulated = limit
+        return false
+      }
+      accumulated += leafCount
+      return false // leaf nodes have no children to descend into
+    }
+
     return true
   })
 
@@ -194,6 +213,23 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
               `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
             )
             const tr = newState.tr.deleteRange(from, to)
+
+            // Safety re-check: ProseMirror may close open nodes after deletion,
+            // pushing the count back over the limit (same scenario as the paste
+            // path in filterTransaction). Keep trimming until within limit.
+            let safetyIterations = 0
+            while (this.storage.characters({ node: tr.doc }) > limit && safetyIterations < 10) {
+              if (this.options.mode === 'nodeSize') {
+                const currentSize = this.storage.characters({ node: tr.doc })
+                const over = currentSize - limit
+                tr.deleteRange(tr.doc.content.size - over, tr.doc.content.size)
+              } else {
+                const newFrom = findDocPositionAtChar(tr.doc, limit, this.options.textCounter)
+                tr.deleteRange(newFrom, tr.doc.content.size)
+              }
+              safetyIterations++
+            }
+
             initialEvaluationDone = true
             return tr
           }
