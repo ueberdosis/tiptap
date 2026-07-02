@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.27.2
+
+### Patch Changes
+
+- e5316b9: Fix the static renderer ignoring `unhandledNode` and `unhandledMark` for node or mark types missing from the schema; such content now falls back to those renderers instead of throwing in `Node.fromJSON`
+  - @tiptap/core@3.27.2
+  - @tiptap/pm@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes
