@@ -161,6 +161,13 @@ export class FloatingMenuView {
 
   private scrollTarget: HTMLElement | Window = window
 
+  // Captures the resolved `.element` when `options.arrow` is a Derivable
+  // (a function of MiddlewareState). We can't re-invoke that function ourselves
+  // outside the middleware pipeline — it needs `rects`/`elements`/`platform`,
+  // which aren't available after `computePosition()` resolves — so instead we
+  // intercept it at the point floating-ui itself calls it.
+  private resolvedArrowElement: HTMLElement | null = null
+
   private getTextContent(node: ProsemirrorNode) {
     return getText(node, { textSerializers: getTextSerializersFromSchema(this.editor.schema) })
   }
@@ -237,7 +244,25 @@ export class FloatingMenuView {
     }
 
     if (this.floatingUIOptions.arrow) {
-      middlewares.push(arrow(this.floatingUIOptions.arrow))
+      const arrowOption = this.floatingUIOptions.arrow
+
+      if (typeof arrowOption === 'function') {
+        // Wrap the Derivable so we can capture the ArrowOptions it resolves to
+        // (specifically `.element`) at the moment floating-ui invokes it with
+        // the real MiddlewareState — we have no other way to get that element.
+        middlewares.push(
+          arrow(state => {
+            const resolved = arrowOption(state)
+
+            this.resolvedArrowElement = resolved.element as HTMLElement | null
+
+            return resolved
+          }),
+        )
+      } else {
+        this.resolvedArrowElement = arrowOption.element as HTMLElement | null
+        middlewares.push(arrow(arrowOption))
+      }
     }
 
     if (this.floatingUIOptions.size) {
@@ -494,7 +519,7 @@ export class FloatingMenuView {
       placement: this.floatingUIOptions.placement,
       strategy: this.floatingUIOptions.strategy,
       middleware: this.middlewares,
-    }).then(({ x, y, strategy, middlewareData }) => {
+    }).then(({ x, y, strategy, placement, middlewareData }) => {
       // Handle hide middleware - hide element if reference is hidden or element has escaped
       if (middlewareData.hide?.referenceHidden || middlewareData.hide?.escaped) {
         this.element.style.visibility = 'hidden'
@@ -506,6 +531,44 @@ export class FloatingMenuView {
       this.element.style.position = strategy
       this.element.style.left = `${x}px`
       this.element.style.top = `${y}px`
+
+      // Apply arrow position if the arrow middleware is configured. For both the
+      // static-options and Derivable (function) forms, `resolvedArrowElement` is
+      // set in the `middlewares` getter — for Derivable it's captured from the
+      // function's return value at the point floating-ui itself calls it.
+      if (this.floatingUIOptions.arrow && middlewareData.arrow) {
+        const arrowEl = this.resolvedArrowElement
+
+        if (arrowEl) {
+          const { x: arrowX, y: arrowY } = middlewareData.arrow
+          const side = placement.split('-')[0]
+          const staticSide: string | undefined = {
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+          }[side]
+
+          for (const prop of ['top', 'right', 'bottom', 'left'] as const) {
+            arrowEl.style.removeProperty(prop)
+          }
+
+          if (!staticSide) return
+
+          const styles: Partial<CSSStyleDeclaration> = {
+            [staticSide]: `${-(arrowEl.offsetHeight / 2)}px`,
+          }
+
+          if (arrowX != null) {
+            styles.left = `${arrowX}px`
+          }
+          if (arrowY != null) {
+            styles.top = `${arrowY}px`
+          }
+
+          Object.assign(arrowEl.style, styles)
+        }
+      }
 
       if (this.isVisible && this.floatingUIOptions.onUpdate) {
         this.floatingUIOptions.onUpdate()
