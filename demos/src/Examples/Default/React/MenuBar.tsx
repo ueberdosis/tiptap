@@ -1,22 +1,25 @@
-import type { Editor } from '@tiptap/core'
-import { useEditorState } from '@tiptap/react'
 import React from 'react'
+import { useTiptap, useTiptapState } from '@tiptap/react'
 
 import { menuBarStateSelector } from './menuBarState.js'
 
-export const MenuBar = ({ editor }: { editor: Editor | null }) => {
-  const editorState = useEditorState({
-    editor,
-    selector: menuBarStateSelector,
-  })
-
-  if (!editor) {
-    return null
-  }
+export const MenuBar = ({
+  setEditable,
+}: {
+  setEditable: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const { editor } = useTiptap()
+  const editorState = useTiptapState(ctx => menuBarStateSelector(ctx))
 
   return (
     <div className="control-group">
       <div className="button-group">
+        <button
+          onClick={() => setEditable(prev => !prev)}
+          className={editor.isEditable ? 'is-active' : ''}
+        >
+          Editable
+        </button>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editorState.canBold}
