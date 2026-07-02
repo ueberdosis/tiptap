@@ -58,39 +58,34 @@ export const FloatingMenu: Component = {
     },
   },
 
-  watch: {
-    editor: {
-      immediate: true,
-      handler(this: FloatingMenuInterface, editor: FloatingMenuPluginProps['editor']) {
-        if (!editor) {
-          return
-        }
+  mounted(this: FloatingMenuInterface) {
+    const editor = this.editor
+    const el = this.$el as HTMLElement
 
-        if (!this.$el) {
-          return
-        }
+    if (!editor || !el) {
+      return
+    }
 
-        ;(this.$el as HTMLElement).style.visibility = 'hidden'
-        ;(this.$el as HTMLElement).style.position = 'absolute'
+    el.style.visibility = 'hidden'
+    el.style.position = 'absolute'
 
-        this.$el.remove()
+    // Remove element from DOM; plugin will re-parent it when shown
+    el.remove()
 
-        this.$nextTick(() => {
-          editor.registerPlugin(
-            FloatingMenuPlugin({
-              pluginKey: this.getPluginKey(),
-              editor,
-              element: this.$el as HTMLElement,
-              updateDelay: this.updateDelay,
-              resizeDelay: this.resizeDelay,
-              options: this.options,
-              appendTo: this.appendTo,
-              shouldShow: this.shouldShow,
-            }),
-          )
-        })
-      },
-    },
+    this.$nextTick(() => {
+      editor.registerPlugin(
+        FloatingMenuPlugin({
+          pluginKey: this.getPluginKey(),
+          editor,
+          element: el,
+          updateDelay: this.updateDelay,
+          resizeDelay: this.resizeDelay,
+          options: this.options,
+          appendTo: this.appendTo,
+          shouldShow: this.shouldShow,
+        }),
+      )
+    })
   },
 
   render(this: FloatingMenuInterface, createElement: CreateElement) {
