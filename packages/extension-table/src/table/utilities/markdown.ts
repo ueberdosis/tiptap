@@ -8,6 +8,75 @@ import {
 
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
+/**
+ * Walk a single table-row line and escape any `|` characters that appear
+ * inside backtick code spans so marked's cell splitter ignores them.
+ * Backslash escape sequences outside code spans are passed through untouched.
+ * If a backtick run has no matching closer on the same line it is emitted
+ * as-is — no over-escaping for malformed input.
+ */
+export function escapeTableCellPipes(line: string): string {
+  let result = ''
+  let i = 0
+  while (i < line.length) {
+    if (line[i] === '\\' && i + 1 < line.length) {
+      result += line[i] + line[i + 1]
+      i += 2
+      continue
+    }
+    if (line[i] !== '`') {
+      result += line[i++]
+      continue
+    }
+    let runLen = 0
+    while (i + runLen < line.length && line[i + runLen] === '`') runLen += 1
+    let j = i + runLen
+    let found = false
+    while (j < line.length) {
+      if (line[j] !== '`') {
+        j += 1
+        continue
+      }
+      let closeLen = 0
+      while (j + closeLen < line.length && line[j + closeLen] === '`') closeLen += 1
+      if (closeLen === runLen) {
+        const spanContent = line.slice(i + runLen, j)
+        result +=
+          line.slice(i, i + runLen) +
+          spanContent.replace(/(?<!\\)\|/g, '\\|') +
+          line.slice(j, j + runLen)
+        i = j + runLen
+        found = true
+        break
+      }
+      j += closeLen
+    }
+    if (!found) {
+      result += line.slice(i, i + runLen)
+      i += runLen
+    }
+  }
+  return result
+}
+
+/**
+ * Escape pipe characters inside backtick code spans on table-row lines.
+ * marked's `splitCells` only recognises backslash-escaped pipes (`\|`) and
+ * splits on every other `|`, so \`a || b\` in a table cell would be treated
+ * as multiple column delimiters. Escaping them here lets `splitCells` skip
+ * them; it already converts `\|` → `|` after splitting, so the cell content
+ * is restored correctly.
+ */
+export function preprocessTablePipes(src: string): string {
+  return src
+    .split('\n')
+    .map(line => {
+      if (!line.includes('|') || !line.includes('`')) return line
+      return escapeTableCellPipes(line)
+    })
+    .join('\n')
+}
+
 function collapseWhitespace(s: string) {
   return (s || '').replace(/\s+/g, ' ').trim()
 }
