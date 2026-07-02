@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.27.2
+
+### Patch Changes
+
+- d3eb052: Coerce `undefined` HTMLAttributes (`target`, `rel`, `class`) to `null` so ProseMirror does not emit "No value supplied for attribute" warnings when these options are explicitly set to `undefined`.
+  - @tiptap/core@3.27.2
+  - @tiptap/pm@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes
