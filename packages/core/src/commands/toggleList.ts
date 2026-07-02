@@ -58,6 +58,43 @@ const joinListBackwards = (tr: Transaction, listType: NodeType): boolean => {
   return true
 }
 
+/**
+ * `tr.setNodeMarkup` only changes the type of the single node at the given
+ * position. When a list contains nested sublists (e.g. a bulletList whose
+ * list items contain further bulletList nodes), only the outermost list node
+ * was being converted, leaving nested sublists on their original type and
+ * breaking the visual hierarchy. This walks the whole list subtree and
+ * converts every nested list node that still has the original type.
+ */
+function convertNestedLists(
+  tr: Transaction,
+  listPos: number,
+  oldListType: NodeType,
+  newListType: NodeType,
+): void {
+  const listNode = tr.doc.nodeAt(listPos)
+
+  if (!listNode) {
+    return
+  }
+
+  const positions: number[] = []
+
+  listNode.descendants((node, relativePos) => {
+    if (node.type === oldListType) {
+      positions.push(listPos + 1 + relativePos)
+    }
+    return true
+  })
+
+  // Convert deepest nodes first so earlier position lookups in this pass
+  // (captured before any mutation) remain valid — setNodeMarkup does not
+  // change node sizes, only its type/attrs, so positions never shift.
+  for (const pos of positions) {
+    tr.setNodeMarkup(pos, newListType)
+  }
+}
+
 const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
   const list = findParentNode(node => node.type === listType)(tr.selection)
 
@@ -205,9 +242,12 @@ export const toggleList: RawCommands['toggleList'] =
         isList(currentList.node.type.name, extensions) &&
         listType.validContent(currentList.node.content)
       ) {
+        const oldListType = currentList.node.type
+
         return chain()
           .command(() => {
             tr.setNodeMarkup(currentList.pos, listType)
+            convertNestedLists(tr, currentList.pos, oldListType, listType)
 
             return true
           })
