@@ -42,9 +42,11 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   }
 }

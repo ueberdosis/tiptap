@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core'
-import type { NodeType } from '@tiptap/pm/model'
+import { Slice, type NodeType } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 
 /**
@@ -17,7 +17,7 @@ import { TextSelection } from '@tiptap/pm/state'
  * Returns true when the backspace was consumed.
  */
 export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
-  const { state, view } = editor
+  const { state } = editor
   const { selection } = state
   if (!selection.empty) return false
 
@@ -50,9 +50,19 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
   // child at the end of its inline content.
   const insideBlockquoteEnd = blockStart - 1
   const targetPos = insideBlockquoteEnd - 1
-  const { tr } = state
-  tr.delete(blockStart, $from.after()).insert(targetPos, $from.parent.content)
-  tr.setSelection(TextSelection.create(tr.doc, targetPos))
-  view.dispatch(tr.scrollIntoView())
-  return true
+
+  return editor.commands.command(({ tr, dispatch }) => {
+    if (!dispatch) {
+      return true
+    }
+
+    const content = $from.parent.content
+    const slice = content.size ? new Slice(content, 0, 0) : Slice.empty
+
+    tr.replace(targetPos, $from.after(), slice)
+    tr.setSelection(TextSelection.create(tr.doc, targetPos))
+    tr.scrollIntoView()
+
+    return true
+  })
 }
