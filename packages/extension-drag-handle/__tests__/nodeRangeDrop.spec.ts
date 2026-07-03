@@ -9,6 +9,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import {
   createDroppedNodeRangeSelection,
   getActiveDragRange,
+  mapPendingRestoreAnchor,
 } from '../src/helpers/nodeRangeDrop.js'
 
 describe('nodeRangeDrop helpers', () => {
@@ -101,6 +102,82 @@ describe('nodeRangeDrop helpers', () => {
       const selection = createDroppedNodeRangeSelection(state.doc, 1, 2, 0)
 
       expect(selection).toBeNull()
+    })
+  })
+
+  describe('mapPendingRestoreAnchor', () => {
+    it('remaps via Yjs relative positions on isChangeOrigin transactions', () => {
+      const pendingRestore = {
+        anchorPos: 10,
+        nodeCount: 2,
+        depth: 0,
+        relativeAnchorPos: { type: 'mock' },
+      }
+
+      const tr = {
+        docChanged: true,
+        mapping: {
+          mapResult: () => ({ deleted: true, pos: 0 }),
+        },
+      }
+
+      const mapped = mapPendingRestoreAnchor(pendingRestore, tr, {
+        isChangeOrigin: true,
+        getAbsolutePos: () => 14,
+      })
+
+      expect(mapped).toEqual({
+        ...pendingRestore,
+        anchorPos: 14,
+      })
+    })
+
+    it('clears the restore when the relative anchor cannot be resolved', () => {
+      const pendingRestore = {
+        anchorPos: 10,
+        nodeCount: 2,
+        depth: 0,
+        relativeAnchorPos: { type: 'mock' },
+      }
+
+      const tr = {
+        docChanged: true,
+        mapping: {
+          mapResult: () => ({ deleted: false, pos: 10 }),
+        },
+      }
+
+      const mapped = mapPendingRestoreAnchor(pendingRestore, tr, {
+        isChangeOrigin: true,
+        getAbsolutePos: () => -1,
+      })
+
+      expect(mapped).toBeNull()
+    })
+
+    it('falls back to ProseMirror mapping for local transactions', () => {
+      const pendingRestore = {
+        anchorPos: 10,
+        nodeCount: 2,
+        depth: 0,
+      }
+
+      const tr = {
+        docChanged: true,
+        mapping: {
+          mapResult: () => ({ deleted: false, pos: 12 }),
+        },
+      }
+
+      const mapped = mapPendingRestoreAnchor(pendingRestore, tr, {
+        isChangeOrigin: false,
+        getAbsolutePos: () => -1,
+      })
+
+      expect(mapped).toEqual({
+        ...pendingRestore,
+        anchorPos: 12,
+      })
     })
   })
 })

@@ -17,6 +17,7 @@ import {
   type ActiveDragRange,
   createDroppedNodeRangeSelection,
   getActiveDragRange,
+  mapPendingRestoreAnchor,
 } from './helpers/nodeRangeDrop.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
@@ -102,10 +103,48 @@ export const DragHandlePlugin = ({
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any
   let rafId: number | null = null
-  let restoreRafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
   let activeDragRange: ActiveDragRange | null = null
   let pendingRestore: ActiveDragRange | null = null
+
+  function clearDragRangeState() {
+    activeDragRange = null
+    pendingRestore = null
+  }
+
+  function remapPendingRestore(tr: Transaction, state: EditorState) {
+    if (!pendingRestore) {
+      return
+    }
+
+    pendingRestore = mapPendingRestoreAnchor(pendingRestore, tr, {
+      isChangeOrigin: isChangeOrigin(tr),
+      getAbsolutePos: relativePos => getAbsolutePos(state, relativePos),
+    })
+  }
+
+  function buildRestoreTransaction(state: EditorState) {
+    if (!pendingRestore) {
+      return null
+    }
+
+    const nodeRangeSelection = createDroppedNodeRangeSelection(
+      state.doc,
+      pendingRestore.anchorPos,
+      pendingRestore.nodeCount,
+      pendingRestore.depth,
+    )
+
+    if (!nodeRangeSelection) {
+      pendingRestore = null
+      activeDragRange = null
+      return null
+    }
+
+    clearDragRangeState()
+
+    return state.tr.setSelection(nodeRangeSelection)
+  }
 
   function hideHandle() {
     if (!element) {
@@ -173,26 +212,10 @@ export const DragHandlePlugin = ({
 
   function onDragEnd(e: DragEvent) {
     onElementDragEnd?.(e)
-    activeDragRange = null
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
       element.dataset.dragging = 'false'
-    }
-  }
-
-  // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
-  // node range over the freshly dropped blocks to keep the selection consistent.
-  function restoreNodeRangeSelection({ nodeCount, depth, anchorPos }: ActiveDragRange) {
-    const nodeRangeSelection = createDroppedNodeRangeSelection(
-      editor.state.doc,
-      anchorPos,
-      nodeCount,
-      depth,
-    )
-
-    if (nodeRangeSelection) {
-      editor.view.dispatch(editor.state.tr.setSelection(nodeRangeSelection))
     }
   }
 
@@ -220,18 +243,18 @@ export const DragHandlePlugin = ({
       return
     }
 
+    const anchorPos = editor.state.selection.from
+    const relativeAnchorPos = getRelativePos(editor.state, anchorPos)
+
     pendingRestore = {
       ...activeDragRange,
-      anchorPos: editor.state.selection.from,
+      anchorPos,
+      relativeAnchorPos: relativeAnchorPos ?? undefined,
     }
 
-    restoreRafId = requestAnimationFrame(() => {
-      restoreRafId = null
-      if (pendingRestore) {
-        restoreNodeRangeSelection(pendingRestore)
-        pendingRestore = null
-      }
-    })
+    // Dispatch a no-op transaction so appendTransaction can restore the node
+    // range after any Yjs isChangeOrigin transactions from the drop have settled.
+    editor.view.dispatch(editor.state.tr)
   }
 
   // shared teardown for both the unbind() handle and the plugin view destroy
@@ -246,10 +269,7 @@ export const DragHandlePlugin = ({
       pendingMouseCoords = null
     }
 
-    if (restoreRafId) {
-      cancelAnimationFrame(restoreRafId)
-      restoreRafId = null
-    }
+    clearDragRangeState()
   }
 
   wrapper.appendChild(element)
@@ -266,15 +286,7 @@ export const DragHandlePlugin = ({
           return { locked: false }
         },
         apply(tr: Transaction, value: PluginState, _oldState: EditorState, state: EditorState) {
-          if (pendingRestore && tr.docChanged) {
-            const mappedResult = tr.mapping.mapResult(pendingRestore.anchorPos, 1)
-
-            if (mappedResult.deleted) {
-              pendingRestore = null
-            } else {
-              pendingRestore.anchorPos = mappedResult.pos
-            }
-          }
+          remapPendingRestore(tr, state)
 
           const isLocked = tr.getMeta('lockDragHandle')
           const hideDragHandle = tr.getMeta('hideDragHandle')
@@ -330,6 +342,10 @@ export const DragHandlePlugin = ({
 
           return value
         },
+      },
+
+      appendTransaction(_transactions, _oldState, newState) {
+        return buildRestoreTransaction(newState)
       },
 
       view: view => {
