@@ -172,70 +172,67 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
     }
   },
 
-  addProseMirrorPlugins() {
-    let initialEvaluationDone = false
+  // Runs once after the initial EditorState (and view) has been created.
+  // Content passed via the `content` constructor option becomes part of that
+  // initial state directly — it is never applied as a dispatched Transaction —
+  // so a ProseMirror `appendTransaction` plugin hook never sees it. Trimming
+  // over-limit initial content therefore has to happen here, by dispatching a
+  // real transaction against the already-created view.
+  onCreate() {
+    const limit = this.options.limit
+    const autoTrim = this.options.autoTrim
 
+    if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
+      return
+    }
+
+    const initialContentSize = this.storage.characters({ node: this.editor.state.doc })
+
+    if (initialContentSize <= limit) {
+      return
+    }
+
+    const { state, view } = this.editor
+    let tr = state.tr
+
+    const trimOnce = (doc: ProseMirrorNode) => {
+      if (this.options.mode === 'nodeSize') {
+        const currentSize = this.storage.characters({ node: doc, mode: 'nodeSize' })
+        const over = currentSize - limit
+        return { from: doc.content.size - over, to: doc.content.size }
+      }
+
+      return {
+        from: findDocPositionAtChar(doc, limit, this.options.textCounter),
+        to: doc.content.size,
+      }
+    }
+
+    const { from, to } = trimOnce(tr.doc)
+
+    console.warn(
+      `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
+    )
+    tr = tr.deleteRange(from, to)
+
+    // Safety re-check: ProseMirror may close open nodes after deletion,
+    // pushing the count back over the limit (same scenario as the paste
+    // path in filterTransaction below). Keep trimming until within limit.
+    let safetyIterations = 0
+    while (this.storage.characters({ node: tr.doc }) > limit && safetyIterations < 10) {
+      const range = trimOnce(tr.doc)
+      tr = tr.deleteRange(range.from, range.to)
+      safetyIterations++
+    }
+
+    tr.setMeta('addToHistory', false)
+    view.dispatch(tr)
+  },
+
+  addProseMirrorPlugins() {
     return [
       new Plugin({
         key: new PluginKey('characterCount'),
-        appendTransaction: (transactions, oldState, newState) => {
-          if (initialEvaluationDone) {
-            return
-          }
-
-          const limit = this.options.limit
-          const autoTrim = this.options.autoTrim
-
-          if (limit === null || limit === undefined || limit === 0 || autoTrim === false) {
-            initialEvaluationDone = true
-            return
-          }
-
-          const initialContentSize = this.storage.characters({ node: newState.doc })
-
-          if (initialContentSize > limit) {
-            // Trim excess content from the END of the document so that the first
-            // `limit` characters are preserved
-            let from: number
-            let to: number
-
-            if (this.options.mode === 'nodeSize') {
-              const over = initialContentSize - limit
-              from = newState.doc.content.size - over
-              to = newState.doc.content.size
-            } else {
-              // textSize mode: resolve the exact document position after `limit` chars
-              from = findDocPositionAtChar(newState.doc, limit, this.options.textCounter)
-              to = newState.doc.content.size
-            }
-
-            console.warn(
-              `[CharacterCount] Initial content exceeded limit of ${limit} characters. Content was automatically trimmed.`,
-            )
-            const tr = newState.tr.deleteRange(from, to)
-
-            // Safety re-check: ProseMirror may close open nodes after deletion,
-            // pushing the count back over the limit (same scenario as the paste
-            // path in filterTransaction). Keep trimming until within limit.
-            let safetyIterations = 0
-            while (this.storage.characters({ node: tr.doc }) > limit && safetyIterations < 10) {
-              if (this.options.mode === 'nodeSize') {
-                const currentSize = this.storage.characters({ node: tr.doc })
-                const over = currentSize - limit
-                tr.deleteRange(tr.doc.content.size - over, tr.doc.content.size)
-              } else {
-                const newFrom = findDocPositionAtChar(tr.doc, limit, this.options.textCounter)
-                tr.deleteRange(newFrom, tr.doc.content.size)
-              }
-              safetyIterations++
-            }
-
-            initialEvaluationDone = true
-            return tr
-          }
-
-          initialEvaluationDone = true
-        },
         filterTransaction: (transaction, state) => {
           const limit = this.options.limit
 
