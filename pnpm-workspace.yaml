@@ -10,6 +10,7 @@ minimumReleaseAgeExclude:
   - '@tiptap/y-tiptap@3.0.5'
   - '@tiptap/core@3.27.0'
   - '@tiptap/pm@3.27.0'
+  - '@tiptap/y-tiptap@3.0.6'
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   '@octokit/action>undici': '6.24.1'
