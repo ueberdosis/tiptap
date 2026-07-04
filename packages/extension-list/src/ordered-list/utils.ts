@@ -40,6 +40,12 @@ export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
 const INDENTED_LINE_REGEX = /^\s/
 
 /**
+ * Matches heading lines (1-6 # characters followed by whitespace or end-of-line)
+ * Heading lines always starts a new block, so they can never be lazy continuation text of a list item
+ */
+const HEADING_LINE_REGEX = /^#{1,6}(?:\s|$)/
+
+/**
  * Represents a parsed ordered list item with indentation information
  */
 export interface OrderedListItem {
@@ -62,6 +68,7 @@ function isBlockContentLine(line: string): boolean {
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^[-+*]\s+/.test(trimmedLine) ||
     isOrderedListMarkerLine(trimmedLine) ||
+    HEADING_LINE_REGEX.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
@@ -166,7 +173,7 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
       } else {
-        if (sawBlankLine) {
+        if (sawBlankLine || HEADING_LINE_REGEX.test(nextLine)) {
           break
         }
 
