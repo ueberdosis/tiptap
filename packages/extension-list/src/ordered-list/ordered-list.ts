@@ -243,7 +243,14 @@ export const OrderedList = Node.create<OrderedListOptions>({
         return undefined
       }
 
-      const items = buildNestedStructure(listItems, 0, lexer)
+      // The first collected item defines the indentation level of this list.
+      // Using a hardcoded 0 here meant an indented top-level list (e.g. one
+      // space before the marker, as can happen when nested inside another
+      // list) never matched its own indent in buildNestedStructure, silently
+      // produced zero items, and made this tokenizer bail out — falling back
+      // to marked's default list handling, which does not run this list's
+      // items back through this extension's inline tokenizer.
+      const items = buildNestedStructure(listItems, listItems[0].indent, lexer)
 
       if (items.length === 0) {
         return undefined
