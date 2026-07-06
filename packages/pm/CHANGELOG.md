@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.27.2
+
+### Patch Changes
+
+- ceebb31: Updated all ProseMirror packages to the latest publicly available versions
+
 ## 3.27.1
 
 ## 3.27.0

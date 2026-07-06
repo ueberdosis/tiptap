@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-ordered-list",
-  "version": "3.27.1",
+  "version": "3.27.2",
   "description": "ordered list extension for tiptap",
   "keywords": [
     "tiptap",
