@@ -4,11 +4,18 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Color, FontFamily, TextStyle } from '@tiptap/extension-text-style'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 describe('isActive', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    editor?.destroy()
+    editor = null
+  })
+
   it('should check the current node', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text],
     })
 
@@ -16,7 +23,7 @@ describe('isActive', () => {
   })
 
   it('should check non-existent nodes', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text],
     })
 
@@ -24,7 +31,7 @@ describe('isActive', () => {
   })
 
   it('should check the current mark for correct values', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily, Color],
       content: `
         <p><span style="font-family: Inter">text</span></p>
@@ -35,7 +42,7 @@ describe('isActive', () => {
   })
 
   it('should check the current mark for false values', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily, Color],
       content: `
         <p><span style="font-family: Inter; color: red">text</span></p>
@@ -46,7 +53,7 @@ describe('isActive', () => {
   })
 
   it('should check the current mark for any values', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily],
       content: `
         <p><span style="font-family: Inter; color: red">text</span></p>
@@ -57,7 +64,7 @@ describe('isActive', () => {
   })
 
   it('should check the current mark for correct values (multiple)', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily, Color],
       content: `
         <p><span style="font-family: Inter; color: red">text</span></p>
@@ -68,7 +75,7 @@ describe('isActive', () => {
   })
 
   it('should check the current mark for false values (multiple)', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily, Color],
       content: `
         <p><span style="font-family: Inter; color: red">text</span></p>
@@ -79,7 +86,7 @@ describe('isActive', () => {
   })
 
   it('should skip code blocks when checking the current mark', () => {
-    const editor = new Editor({
+    editor = new Editor({
       extensions: [Document, Paragraph, Text, TextStyle, FontFamily, CodeBlock],
       content: `
         <pre>code</pre>

@@ -18,6 +18,30 @@ import {
 } from '../src/placeholder/utils/resolveTopLevelRange.js'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+/** Lets ProseMirror DOMObserver timers settle before teardown. */
+function flushView(): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(resolve, 30)
+  })
+}
+
+async function destroyMountedEditor(editor: Editor | null): Promise<void> {
+  if (!editor) {
+    return
+  }
+
+  await flushView()
+  editor.destroy()
+}
+
+function createHeadlessEditor(content: string) {
+  return new Editor({
+    element: null,
+    extensions: [Document, Paragraph, Text],
+    content,
+  })
+}
+
 describe('extension-placeholder', () => {
   let editor: Editor | null = null
 
@@ -33,10 +57,9 @@ describe('extension-placeholder', () => {
     })
   }
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('uses the default data-placeholder attribute when not passing any dataAttribute option', () => {
@@ -105,10 +128,9 @@ describe('extension-placeholder', () => {
 describe('extension-placeholder with includeChildren and wrapper nodes', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('should not show placeholder on non-textblock wrapper nodes (bulletList, listItem)', () => {
@@ -199,11 +221,9 @@ describe('extension-placeholder with includeChildren and wrapper nodes', () => {
 describe('extension-placeholder: fast path (default config)', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('shows placeholder in the current empty paragraph via the fast path', () => {
@@ -326,11 +346,9 @@ describe('extension-placeholder: fast path (default config)', () => {
 describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('shows placeholder on all empty textblocks when showOnlyCurrent is false', () => {
@@ -361,11 +379,9 @@ describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
 describe('extension-placeholder — empty editor class', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('adds is-editor-empty class when the entire document is empty', () => {
@@ -433,10 +449,7 @@ describe('extension-placeholder — empty editor class', () => {
 
 describe('placeholder utility: getTopLevelBlocksInRange', () => {
   it('returns content-relative ranges aligned with nodesBetween positions', () => {
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
-      content: '<p></p><p></p><p></p>',
-    })
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
 
     const doc = editor.state.doc
     const nodesBetweenPositions: number[] = []
@@ -456,10 +469,7 @@ describe('placeholder utility: getTopLevelBlocksInRange', () => {
   })
 
   it('aligns resolveTopLevelRange + toContentRelativeRange with getTopLevelBlocksInRange', () => {
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
-      content: '<p></p><p></p><p></p>',
-    })
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
 
     const doc = editor.state.doc
 
@@ -477,10 +487,7 @@ describe('placeholder utility: getTopLevelBlocksInRange', () => {
   })
 
   it('collects only the touched top-level block for a single-paragraph edit', () => {
-    const editor = new Editor({
-      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
-      content: '<p></p><p></p><p></p>',
-    })
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
 
     const changes: Array<{ from: number; to: number }> = []
 
@@ -516,11 +523,9 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
     dataAttribute: 'placeholder-text',
   }
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('shows placeholder on all empty textblocks initially', () => {
@@ -680,11 +685,9 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
 describe('extension-placeholder: editable state', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('returns empty decoration set when editor is not editable and showOnlyWhenEditable is true', () => {
@@ -738,11 +741,9 @@ describe('extension-placeholder: editable state', () => {
 describe('extension-placeholder: showOnlyCurrent with includeChildren', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('moves placeholder when cursor moves between empty textblocks', () => {
