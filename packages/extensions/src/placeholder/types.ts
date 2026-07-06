@@ -1,16 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
 
-/**
- * The viewport positions tracked by the placeholder plugin.
- * `null` means "no viewport info yet" — the decoration callback falls back to
- * a full document scan until the scroll handler fires.
- */
-export interface ViewportState {
-  topPos: number | null
-  bottomPos: number | null
-}
-
 export interface PlaceholderOptions {
   /**
    * **The class name for the empty editor**

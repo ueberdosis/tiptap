@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor, getChangedRanges } from '@tiptap/core'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
@@ -11,13 +11,9 @@ import {
   Placeholder,
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'
-import { getViewportBoundaryPositions } from '../src/placeholder/utils/getViewportBoundaryPositions.js'
-import { throttle } from '../src/placeholder/utils/throttle.js'
-
-import { PLUGIN_KEY } from '../src/placeholder/constants.js'
+import { Node } from '@tiptap/pm/model'
+import { getTopLevelBlocksInRange } from '../src/placeholder/utils/resolveTopLevelRange.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 describe('extension-placeholder', () => {
   let editor: Editor | null = null
@@ -322,35 +318,6 @@ describe('extension-placeholder: fast path (default config)', () => {
     expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
     expect(paragraph.classList.contains('is-empty')).toBe(true)
   })
-
-  it('does not dispatch a viewport recompute synchronously on doc change (defers to rAF)', () => {
-    editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Placeholder.configure({
-          showOnlyCurrent: false,
-          includeChildren: false,
-        }),
-      ],
-      content: '<p></p>'.repeat(20),
-    })
-
-    const dispatch = vi.spyOn(editor!.view, 'dispatch')
-
-    // Trigger a doc size change — the old code called computeAndDispatch()
-    // synchronously from the update() callback, which dispatched a second
-    // transaction with PLUGIN_KEY meta. The fix defers to rAF instead.
-    editor!.commands.insertContent('Hello World')
-
-    const viewportRecomputes = dispatch.mock.calls.filter(
-      ([tr]) => tr.getMeta(PLUGIN_KEY) !== undefined,
-    )
-    expect(viewportRecomputes).toHaveLength(0)
-
-    dispatch.mockRestore()
-  })
 })
 
 describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
@@ -461,382 +428,296 @@ describe('extension-placeholder — empty editor class', () => {
   })
 })
 
-describe('placeholder utility: getViewportBoundaryPositions', () => {
-  let editor: Editor | null = null
-
-  const rect = (overrides: Partial<DOMRect>): DOMRect =>
-    ({
-      top: 0,
-      bottom: 500,
-      left: 0,
-      right: 300,
-      width: 300,
-      height: 500,
-      x: 0,
-      y: 0,
-      toJSON: () => ({}),
-      ...overrides,
-    }) as DOMRect
-
-  const createSlowPathEditor = () => {
-    editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Placeholder.configure({ showOnlyCurrent: false, includeChildren: false }),
-      ],
-      content: '<p></p>'.repeat(20),
+describe('placeholder utility: getTopLevelBlocksInRange', () => {
+  it('returns content-relative ranges aligned with nodesBetween positions', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
+      content: '<p></p><p></p><p></p>',
     })
-  }
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
-    vi.restoreAllMocks()
-  })
+    const doc = editor.state.doc
+    const nodesBetweenPositions: number[] = []
 
-  it('returns null when the editor is occluded (posAtCoords resolves outside it)', () => {
-    createSlowPathEditor()
-
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
-    // A modal backdrop covering the editor makes posAtCoords resolve to the
-    // overlay rather than editor content → null.
-    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue(null)
-
-    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
-  })
-
-  it('returns measured positions when the editor is visible', () => {
-    createSlowPathEditor()
-
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
-    vi.spyOn(editor!.view, 'posAtCoords')
-      .mockReturnValueOnce({ pos: 1, inside: -1 })
-      .mockReturnValueOnce({ pos: 40, inside: -1 })
-
-    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toEqual({
-      top: 1,
-      bottom: 40,
+    doc.nodesBetween(0, doc.content.size, (node, pos) => {
+      if (node.type.name === 'paragraph') {
+        nodesBetweenPositions.push(pos)
+      }
     })
+
+    const blocks = getTopLevelBlocksInRange(doc, 1, 2)
+
+    expect(blocks).toEqual([{ from: 0, to: 2 }])
+    expect(blocks[0]?.from).toBe(nodesBetweenPositions[0])
+
+    editor.destroy()
   })
 
-  it('returns null when the editor has no layout', () => {
-    createSlowPathEditor()
+  it('collects only the touched top-level block for a single-paragraph edit', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
+      content: '<p></p><p></p><p></p>',
+    })
 
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
-      rect({ top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 }),
-    )
-    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
+    const changes: Array<{ from: number; to: number }> = []
 
-    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
-    // Bails out before probing.
-    expect(posAtCoords).not.toHaveBeenCalled()
-  })
+    editor.on('transaction', ({ transaction }) => {
+      if (transaction.docChanged) {
+        for (const change of getChangedRanges(transaction)) {
+          changes.push(change.newRange)
+        }
+      }
+    })
 
-  it('returns null when only one dimension is collapsed to zero', () => {
-    createSlowPathEditor()
+    editor.commands.insertContent('Hello')
 
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
-      rect({ left: 0, right: 0, width: 0 }),
-    )
-    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
+    const doc = editor.state.doc
+    const blocks = changes.flatMap(change => getTopLevelBlocksInRange(doc, change.from, change.to))
 
-    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
-    expect(posAtCoords).not.toHaveBeenCalled()
-  })
+    expect(blocks).toEqual([{ from: 0, to: 7 }])
 
-  it('returns null when the editor is too narrow to probe safely', () => {
-    createSlowPathEditor()
-
-    // A 1px-wide box leaves no room for an x-coordinate strictly inside it.
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
-      rect({ left: 100, right: 101, width: 1 }),
-    )
-    const posAtCoords = vi.spyOn(editor!.view, 'posAtCoords')
-
-    expect(getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })).toBeNull()
-    expect(posAtCoords).not.toHaveBeenCalled()
-  })
-
-  it('probes the right edge of the editor in RTL layouts', () => {
-    createSlowPathEditor()
-
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(
-      rect({ left: 0, right: 300 }),
-    )
-    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
-      direction: 'rtl',
-    } as CSSStyleDeclaration)
-    const posAtCoords = vi
-      .spyOn(editor!.view, 'posAtCoords')
-      .mockReturnValue({ pos: 1, inside: -1 })
-
-    getViewportBoundaryPositions({ view: editor!.view, scrollContainer: window })
-
-    // RTL content starts at the right edge, clamped to `right - 2`.
-    expect(posAtCoords).toHaveBeenCalledWith(expect.objectContaining({ left: 298 }))
+    editor.destroy()
   })
 })
 
-describe('extension-placeholder: viewport stability and recovery', () => {
+describe('extension-placeholder: incremental updates (slow path)', () => {
   let editor: Editor | null = null
-  let rafCallbacks: FrameRequestCallback[] = []
 
-  const rect = (overrides: Partial<DOMRect>): DOMRect =>
-    ({
-      top: 0,
-      bottom: 500,
-      left: 0,
-      right: 300,
-      width: 300,
-      height: 500,
-      x: 0,
-      y: 0,
-      toJSON: () => ({}),
-      ...overrides,
-    }) as DOMRect
-
-  const flushFrames = () => {
-    const callbacks = rafCallbacks
-    rafCallbacks = []
-    callbacks.forEach(cb => cb(0))
+  const slowPathConfig = {
+    placeholder: 'Fill me in...',
+    showOnlyCurrent: false,
+    includeChildren: true,
+    showOnlyWhenEditable: false,
+    emptyEditorClass: null as unknown as string,
+    emptyNodeClass: null as unknown as string,
+    dataAttribute: 'placeholder-text',
   }
-
-  const createSlowPathEditor = () => {
-    editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Placeholder.configure({ showOnlyCurrent: false, includeChildren: false }),
-      ],
-      content: '<p></p>'.repeat(20),
-    })
-    // Drain any frame scheduled during construction (under jsdom's zero-size
-    // layout it resolves to null, so nothing is dispatched).
-    flushFrames()
-  }
-
-  beforeEach(() => {
-    rafCallbacks = []
-    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-      rafCallbacks.push(cb)
-      return rafCallbacks.length
-    })
-    vi.stubGlobal('cancelAnimationFrame', () => {})
-    // Always jump past the 150ms scroll guard so a flushed frame actually runs.
-    let now = 1_000_000
-    vi.spyOn(performance, 'now').mockImplementation(() => (now += 1000))
-  })
 
   afterEach(() => {
     if (editor) {
       editor.destroy()
       editor = null
     }
-    vi.restoreAllMocks()
-    vi.unstubAllGlobals()
   })
 
-  it('does not toggle the viewport window while occluded during a stream of edits', () => {
-    createSlowPathEditor()
+  it('shows placeholder on all empty textblocks initially', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p>',
+    })
 
-    // Seed a known narrow window, as if the editor had been measured while visible.
-    editor!.view.dispatch(
-      editor!.view.state.tr.setMeta(PLUGIN_KEY, { positions: { top: 1, bottom: 40 } }),
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('removes placeholder only for the edited node when typing into one of several empty paragraphs', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+
+    editor!.commands.insertContent('Hello')
+
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('preserves decorations on untouched nodes during remote-style edits', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p><p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+
+    editor!.commands.insertContentAt(0, 'x')
+
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[3].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[4].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('adds placeholder when a node becomes empty after deleteSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder-text')).toBe(false)
+
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    expect(paragraph.getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('correctly updates when a top-level node is split (Enter)', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p>',
+    })
+
+    editor!.commands.setTextSelection(6)
+    editor!.commands.splitBlock()
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('correctly updates when two top-level nodes are merged (Backspace)', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+
+    editor!.commands.setTextSelection(7)
+    editor!.commands.joinBackward()
+
+    const mergedParagraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(mergedParagraph.hasAttribute('data-placeholder-text')).toBe(false)
+  })
+
+  it('does not traverse the full document on incremental update', () => {
+    const nodesBetweenSpy = vi.spyOn(Node.prototype, 'nodesBetween')
+
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p>'.repeat(10),
+    })
+
+    const docSize = editor!.state.doc.content.size
+
+    nodesBetweenSpy.mockClear()
+    editor!.commands.insertContent('Hello')
+
+    expect(nodesBetweenSpy).toHaveBeenCalled()
+    expect(nodesBetweenSpy.mock.calls.some(([, from, to]) => from === 0 && to === docSize)).toBe(
+      false,
     )
-    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: 1, bottomPos: 40 })
 
-    // The editor is now occluded by a modal: posAtCoords resolves to the overlay → null.
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
-    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue(null)
+    nodesBetweenSpy.mockRestore()
+  })
 
-    const dispatch = vi.spyOn(editor!.view, 'dispatch')
+  it('handles rapid remote edits without losing decorations on untouched nodes', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p><p></p><p></p>',
+    })
 
-    // A stream of remote-style edits keeps changing the doc size.
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+
     for (let i = 0; i < 5; i += 1) {
-      editor!.commands.insertContent('x')
-      flushFrames()
+      editor!.commands.insertContentAt(0, 'x')
     }
 
-    // No viewport recompute was dispatched — the window never toggled to a
-    // full-doc scan, so the placeholders did not flicker.
-    const viewportRecomputes = dispatch.mock.calls.filter(
-      ([tr]) => tr.getMeta(PLUGIN_KEY) !== undefined,
-    )
-    expect(viewportRecomputes).toHaveLength(0)
-
-    // The window is still a frozen, defined range (not reset to null/full-doc).
-    const state = PLUGIN_KEY.getState(editor!.view.state)!
-    expect(state.topPos).not.toBeNull()
-    expect(state.bottomPos).not.toBeNull()
-  })
-
-  it('recovers the viewport window when focus returns after the editor becomes measurable', () => {
-    createSlowPathEditor()
-
-    // At mount the editor is not measurable (jsdom has no layout), so the
-    // window starts unset and the slow path falls back to a full-doc scan.
-    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: null, bottomPos: null })
-
-    // The editor becomes measurable again (e.g. the modal closed).
-    vi.spyOn(editor!.view.dom, 'getBoundingClientRect').mockReturnValue(rect({}))
-    vi.spyOn(editor!.view, 'posAtCoords').mockReturnValue({ pos: 12, inside: -1 })
-
-    // Returning focus to the editor triggers a re-measure even though neither
-    // the doc size nor the scroll position changed.
-    editor!.view.dom.dispatchEvent(new Event('focus'))
-    flushFrames()
-
-    expect(PLUGIN_KEY.getState(editor!.view.state)).toEqual({ topPos: 12, bottomPos: 12 })
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[3].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[4].getAttribute('data-placeholder-text')).toBe('Fill me in...')
   })
 })
 
-describe('placeholder utility: findScrollParent', () => {
-  let container: HTMLElement
-
-  beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
-  })
+describe('extension-placeholder: editable state', () => {
+  let editor: Editor | null = null
 
   afterEach(() => {
-    document.body.removeChild(container)
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
   })
 
-  it('returns the window when no scroll parent exists', () => {
-    const el = document.createElement('span')
-    container.appendChild(el)
-    expect(findScrollParent(el)).toBe(window)
+  it('returns empty decoration set when editor is not editable and showOnlyWhenEditable is true', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: false,
+          showOnlyWhenEditable: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(true)
+
+    editor!.setEditable(false)
+
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
   })
 
-  it('finds a scrollable parent element with overflow: auto', () => {
-    const scrollable = document.createElement('div')
-    scrollable.style.overflow = 'auto'
-    const child = document.createElement('span')
-    scrollable.appendChild(child)
-    container.appendChild(scrollable)
+  it('restores decorations when editor becomes editable again', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: false,
+          showOnlyWhenEditable: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
 
-    expect(findScrollParent(child)).toBe(scrollable)
-  })
+    editor!.setEditable(false)
+    editor!.setEditable(true)
 
-  it('finds a scrollable parent element with overflow: scroll', () => {
-    const scrollable = document.createElement('div')
-    scrollable.style.overflow = 'scroll'
-    const child = document.createElement('span')
-    scrollable.appendChild(child)
-    container.appendChild(scrollable)
-
-    expect(findScrollParent(child)).toBe(scrollable)
-  })
-
-  it('does not return elements with overflow: hidden or overflow: clip', () => {
-    const hidden = document.createElement('div')
-    hidden.style.overflow = 'hidden'
-    const clip = document.createElement('div')
-    clip.style.overflow = 'clip'
-    const child = document.createElement('span')
-    hidden.appendChild(clip)
-    clip.appendChild(child)
-    container.appendChild(hidden)
-
-    expect(findScrollParent(child)).toBe(window)
-  })
-
-  it('finds the nearest scrollable ancestor', () => {
-    const outer = document.createElement('div')
-    outer.style.overflow = 'scroll'
-    const middle = document.createElement('div')
-    middle.style.overflow = 'hidden'
-    const child = document.createElement('span')
-    middle.appendChild(child)
-    outer.appendChild(middle)
-    container.appendChild(outer)
-
-    // Should find `outer`, not stop at `middle` (which is hidden, not scrollable)
-    expect(findScrollParent(child)).toBe(outer)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Type something...')
+    expect(paragraphs[1].getAttribute('data-placeholder')).toBe('Type something...')
   })
 })
 
-describe('placeholder utility: throttle', () => {
-  it('calls the function immediately on the first invocation (leading-edge)', () => {
-    let called = false
-    const { call } = throttle(() => {
-      called = true
-    }, 250)
-    call()
-    expect(called).toBe(true)
+describe('extension-placeholder: showOnlyCurrent with includeChildren', () => {
+  let editor: Editor | null = null
+
+  afterEach(() => {
+    if (editor) {
+      editor.destroy()
+      editor = null
+    }
   })
 
-  it('ignores subsequent calls within the delay window', () => {
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
+  it('moves placeholder when cursor moves between empty textblocks', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Write here...',
+          showOnlyCurrent: true,
+          includeChildren: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
 
-    call()
-    call()
-    call()
-    // Leading-edge fires immediately, subsequent calls within the delay are blocked
-    expect(count).toBe(1)
-  })
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Write here...')
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
 
-  it('allows a call after the delay has elapsed', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
+    editor!.commands.setTextSelection(4)
 
-    call()
-    expect(count).toBe(1)
-
-    vi.advanceTimersByTime(250)
-    call()
-    expect(count).toBe(2)
-    vi.useRealTimers()
-  })
-
-  it('resets the timer on each call within the window', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
-
-    call() // fires immediately
-    expect(count).toBe(1)
-
-    vi.advanceTimersByTime(100)
-    call() // ignored (within 250ms window)
-    vi.advanceTimersByTime(100)
-    call() // ignored
-    vi.advanceTimersByTime(100)
-    // 300ms elapsed total, but the window extends 250ms from the last call
-    expect(count).toBe(1)
-
-    vi.advanceTimersByTime(150)
-    call() // 250ms has passed since last call
-    expect(count).toBe(2)
-    vi.useRealTimers()
-  })
-
-  it('cancel() clears the timer and allows immediate re-call', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call, cancel } = throttle(() => {
-      count += 1
-    }, 250)
-
-    call() // fires, starts timer
-    expect(count).toBe(1)
-
-    cancel() // clears timer
-    call() // fires again because timer was cancelled
-    expect(count).toBe(2)
-    vi.useRealTimers()
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder')).toBe('Write here...')
   })
 })
