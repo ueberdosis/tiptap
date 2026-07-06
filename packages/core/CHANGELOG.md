@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.27.3
+
+### Patch Changes
+
+- 023f98c: Fix `deleteSelection` to delete content across all selection ranges instead of only the first range. This restores multi-cell table selections and other custom selections with multiple ranges.
+  - @tiptap/pm@3.27.3
+
 ## 3.27.2
 
 ### Patch Changes

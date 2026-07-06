@@ -1,5 +1,13 @@
 # @tiptap/extension-mathematics
 
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
 ## 3.27.2
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.27.3
+
+### Patch Changes
+
+- 76a76da: Fixed placeholder flickering and disappearance on large documents. Replaced the viewport-based decoration scan with an incremental `StateField<DecorationSet>` that only re-computes decorations for top-level nodes touched by each transaction. This eliminates the dependency on DOM measurement (`posAtCoords`), `requestAnimationFrame` scheduling, and scroll listeners that caused flickering under collaboration, occlusion, and rapid edits.
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
 ## 3.27.2
 
 ### Patch Changes
