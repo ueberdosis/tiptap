@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { CharacterCount } from '@tiptap/extensions'
@@ -60,6 +61,33 @@ describe('extension-character-count', () => {
       createEditor('<p>Hello World</p>', 5, false)
       await flushCreate()
       expect(editor!.getText()).toBe('Hello World')
+    })
+
+    it('keeps a leaf node that reaches the limit instead of deleting it', async () => {
+      // "A<br>B" with limit 2: the hard break is the 2nd counted character
+      // (textBetween counts a leaf as a single space), so it reaches the limit
+      // and must be preserved — only "B" should be trimmed. Previously the leaf
+      // was split *before*, dropping the hard break.
+      editor = new Editor({
+        extensions: [
+          Document,
+          Paragraph,
+          Text,
+          HardBreak,
+          CharacterCount.configure({ limit: 2, autoTrim: true }),
+        ],
+        content: '<p>A<br>B</p>',
+      })
+      await flushCreate()
+
+      expect(editor.getJSON()).toMatchObject({
+        content: [
+          {
+            type: 'paragraph',
+            content: [{ type: 'text', text: 'A' }, { type: 'hardBreak' }],
+          },
+        ],
+      })
     })
   })
 

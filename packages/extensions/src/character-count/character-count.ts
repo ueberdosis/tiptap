@@ -112,7 +112,10 @@ function findDocPositionAtChar(
       const leafCount = textCounter(' ')
       const remaining = limit - accumulated
       if (leafCount >= remaining) {
-        trimPos = pos
+        // The leaf node contributes the character(s) that reach the limit, so
+        // it belongs to the preserved prefix — split *after* it (like the text
+        // branch splits after the consumed characters), not before it.
+        trimPos = pos + node.nodeSize
         accumulated = limit
         return false
       }
