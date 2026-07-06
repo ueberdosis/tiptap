@@ -33,7 +33,7 @@ export function mapPendingRestoreAnchor(
   if (options.isChangeOrigin && pendingRestore.relativeAnchorPos != null) {
     const newPos = options.getAbsolutePos(pendingRestore.relativeAnchorPos)
 
-    if (newPos < 0) {
+    if (!Number.isFinite(newPos) || newPos <= 0) {
       return null
     }
 
