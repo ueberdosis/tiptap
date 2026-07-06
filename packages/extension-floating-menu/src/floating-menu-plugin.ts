@@ -555,8 +555,14 @@ export class FloatingMenuView {
 
           if (!staticSide) return
 
+          // Offset the arrow by half its size along the static side's axis.
+          // For top/bottom the static side is vertical, so use the height;
+          // for left/right it is horizontal, so use the width.
+          const arrowSize =
+            side === 'left' || side === 'right' ? arrowEl.offsetWidth : arrowEl.offsetHeight
+
           const styles: Partial<CSSStyleDeclaration> = {
-            [staticSide]: `${-(arrowEl.offsetHeight / 2)}px`,
+            [staticSide]: `${-(arrowSize / 2)}px`,
           }
 
           if (arrowX != null) {
