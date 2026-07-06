@@ -12,7 +12,10 @@ import {
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
 import { Node } from '@tiptap/pm/model'
-import { getTopLevelBlocksInRange } from '../src/placeholder/utils/resolveTopLevelRange.js'
+import {
+  getTopLevelBlocksInRange,
+  toContentRelativeRange,
+} from '../src/placeholder/utils/resolveTopLevelRange.js'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 describe('extension-placeholder', () => {
@@ -452,6 +455,27 @@ describe('placeholder utility: getTopLevelBlocksInRange', () => {
     editor.destroy()
   })
 
+  it('aligns resolveTopLevelRange + toContentRelativeRange with getTopLevelBlocksInRange', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
+      content: '<p></p><p></p><p></p>',
+    })
+
+    const doc = editor.state.doc
+
+    doc.forEach((node, offset) => {
+      const contentRange = { from: offset, to: offset + node.nodeSize }
+      const absoluteRange = { from: offset + 1, to: offset + node.nodeSize + 1 }
+
+      expect(toContentRelativeRange(doc, absoluteRange)).toEqual(contentRange)
+      expect(getTopLevelBlocksInRange(doc, absoluteRange.from, absoluteRange.to)).toEqual([
+        contentRange,
+      ])
+    })
+
+    editor.destroy()
+  })
+
   it('collects only the touched top-level block for a single-paragraph edit', () => {
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, Placeholder.configure({ showOnlyCurrent: false })],
@@ -509,6 +533,31 @@ describe('extension-placeholder: incremental updates (slow path)', () => {
     expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Fill me in...')
     expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
     expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('updates function-based placeholder text when selection moves between empty blocks', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          ...slowPathConfig,
+          placeholder: ({ hasAnchor }) => (hasAnchor ? 'Focused' : 'Empty'),
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Focused')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Empty')
+
+    editor!.commands.setTextSelection(4)
+
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Empty')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Focused')
   })
 
   it('removes placeholder only for the edited node when typing into one of several empty paragraphs', () => {

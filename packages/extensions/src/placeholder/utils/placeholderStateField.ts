@@ -64,7 +64,6 @@ function collectRescanRanges(
   tr: Transaction,
   oldState: EditorState,
   newState: EditorState,
-  options: PlaceholderOptions,
 ): Array<{ from: number; to: number }> {
   const ranges: Array<{ from: number; to: number }> = []
 
@@ -76,7 +75,7 @@ function collectRescanRanges(
     }
   }
 
-  if (tr.selectionSet && options.showOnlyCurrent) {
+  if (tr.selectionSet) {
     ranges.push(
       toContentRelativeRange(
         newState.doc,
@@ -189,7 +188,7 @@ export function createPlaceholderStateField({
       }
 
       const mapped = prev.map(tr.mapping, tr.doc)
-      const ranges = collectRescanRanges(tr, oldState, newState, options)
+      const ranges = collectRescanRanges(tr, oldState, newState)
 
       return updateDecorationsInRanges({
         decorations: mapped,
