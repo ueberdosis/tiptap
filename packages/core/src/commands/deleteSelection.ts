@@ -76,16 +76,25 @@ declare module '@tiptap/core' {
 export const deleteSelection: RawCommands['deleteSelection'] =
   () =>
   ({ state, dispatch }) => {
-    const { $from, $to } = state.selection
     if (state.selection.empty) {
       return false
     }
 
-    const { from, to } = expandSelectionForInlineText($from, $to, state.schema)
-
     if (dispatch) {
-      state.tr.deleteRange(from, to).scrollIntoView()
-      dispatch(state.tr)
+      const tr = state.tr
+      const { ranges } = state.selection
+      const mapFrom = tr.steps.length
+
+      ranges.forEach(range => {
+        const mapping = tr.mapping.slice(mapFrom)
+        const $from = tr.doc.resolve(mapping.map(range.$from.pos))
+        const $to = tr.doc.resolve(mapping.map(range.$to.pos))
+        const { from, to } = expandSelectionForInlineText($from, $to, state.schema)
+        tr.deleteRange(from, to)
+      })
+
+      tr.scrollIntoView()
+      dispatch(tr)
     }
 
     return true
