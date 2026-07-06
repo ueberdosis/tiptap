@@ -93,21 +93,25 @@ export function useTiptapState<TSelectorResult>(
   })
 }
 
+export type TiptapWrapperEditorInstanceProps =
+  | {
+      /**
+       * The editor instance to provide to child components.
+       * Use `useEditor()` to create this instance.
+       */
+      editor: Editor
+    }
+  | {
+      /**
+       * @deprecated Use `editor` instead. Will be removed in the next major version.
+       */
+      instance: Editor
+    }
+
 /**
  * Props for the `Tiptap` root/provider component.
  */
-export type TiptapWrapperProps = {
-  /**
-   * The editor instance to provide to child components.
-   * Use `useEditor()` to create this instance.
-   */
-  editor?: Editor
-
-  /**
-   * @deprecated Use `editor` instead. Will be removed in the next major version.
-   */
-  instance?: Editor
-
+export type TiptapWrapperProps = TiptapWrapperEditorInstanceProps & {
   children: ReactNode
 }
 
@@ -138,8 +142,8 @@ export type TiptapWrapperProps = {
  * }
  * ```
  */
-export function TiptapWrapper({ editor, instance, children }: TiptapWrapperProps) {
-  const resolvedEditor = editor ?? instance
+export function TiptapWrapper({ children, ...props }: TiptapWrapperProps) {
+  const resolvedEditor = 'editor' in props ? props.editor : props.instance
 
   if (!resolvedEditor) {
     throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')

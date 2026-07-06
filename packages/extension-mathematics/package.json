@@ -44,11 +44,11 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@types/katex": "^0.16.7"
+    "@types/katex": "^0.16.7 || ^0.17.0"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "katex": "^0.16.4"
+    "katex": "^0.16.4 || ^0.17.0"
   }
 }

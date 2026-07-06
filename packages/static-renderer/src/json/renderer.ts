@@ -121,11 +121,23 @@ export type TiptapStaticRendererOptions<
    */
   markMapping: Record<string, NoInfer<TMarkRender>>
   /**
-   * Component to render if a node type is not handled
+   * Component to render if a node type is not handled.
+   *
+   * With the ProseMirror renderers, a type missing from the schema is passed here
+   * as a lightweight stand-in: `node.type` is only `{ name }` (no real `NodeType`
+   * exists for a type absent from the schema), while `node.attrs` and
+   * `node.toJSON()` reflect the original. Do not rely on `type.spec`,
+   * `type.schema`, `isInline`, etc.
    */
   unhandledNode?: NoInfer<TNodeRender>
   /**
-   * Component to render if a mark type is not handled
+   * Component to render if a mark type is not handled.
+   *
+   * With the ProseMirror renderers, a type missing from the schema is passed here
+   * as a lightweight stand-in: `mark.type` is only `{ name }` (no real `MarkType`
+   * exists for a type absent from the schema), while `mark.attrs` and
+   * `mark.toJSON()` reflect the original. Do not rely on `type.spec`,
+   * `type.schema`, etc.
    */
   unhandledMark?: NoInfer<TMarkRender>
 }

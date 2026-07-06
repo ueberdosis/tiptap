@@ -200,7 +200,11 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
       // Create the content DOM element BEFORE rendering the Vue component,
       // so it is available immediately when ProseMirror accesses contentDOM
       // during the initial DOM build.
-      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      if (this.options.contentDOMElementTag) {
+        this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+      } else {
+        this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      }
       this.contentDOMElement.style.whiteSpace = 'inherit'
       // Use a distinct attribute to avoid clashing with the user's
       // <node-view-content> element (which carries data-node-view-content).

@@ -343,6 +343,9 @@ export const DragHandlePlugin = ({
         wrapper.style.position = 'absolute'
         wrapper.style.top = '0'
         wrapper.style.left = '0'
+        // Keep the handle above positioned editor content/decorations (e.g. the
+        // Pages page header/footer chrome) so it stays visible and clickable.
+        wrapper.style.zIndex = '10'
 
         element.addEventListener('dragstart', onDragStart)
         element.addEventListener('dragend', onDragEnd)
