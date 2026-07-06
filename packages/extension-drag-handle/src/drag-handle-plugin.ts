@@ -255,7 +255,7 @@ export const DragHandlePlugin = ({
 
     // Dispatch a no-op transaction so appendTransaction can restore the node
     // range after any Yjs isChangeOrigin transactions from the drop have settled.
-    editor.view.dispatch(editor.state.tr)
+    editor.view.dispatch(editor.state.tr.setMeta('addToHistory', false))
   }
 
   // shared teardown for both the unbind() handle and the plugin view destroy
