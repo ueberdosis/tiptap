@@ -155,6 +155,29 @@ describe('nodeRangeDrop helpers', () => {
       expect(mapped).toBeNull()
     })
 
+    it('clears the restore when getAbsolutePos returns 0 (unresolved Yjs anchor)', () => {
+      const pendingRestore = {
+        anchorPos: 10,
+        nodeCount: 2,
+        depth: 0,
+        relativeAnchorPos: { type: 'mock' },
+      }
+
+      const tr = {
+        docChanged: true,
+        mapping: {
+          mapResult: () => ({ deleted: false, pos: 10 }),
+        },
+      }
+
+      const mapped = mapPendingRestoreAnchor(pendingRestore, tr, {
+        isChangeOrigin: true,
+        getAbsolutePos: () => 0,
+      })
+
+      expect(mapped).toBeNull()
+    })
+
     it('falls back to ProseMirror mapping for local transactions', () => {
       const pendingRestore = {
         anchorPos: 10,
