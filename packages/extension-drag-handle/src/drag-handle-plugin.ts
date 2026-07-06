@@ -212,6 +212,7 @@ export const DragHandlePlugin = ({
 
   function onDragEnd(e: DragEvent) {
     onElementDragEnd?.(e)
+    activeDragRange = null
     hideHandle()
     if (element) {
       element.style.pointerEvents = 'auto'
