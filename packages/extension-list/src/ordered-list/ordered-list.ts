@@ -243,7 +243,12 @@ export const OrderedList = Node.create<OrderedListOptions>({
         return undefined
       }
 
-      const items = buildNestedStructure(listItems, 0, lexer)
+      // buildNestedStructure() only includes an item when item.indent matches
+      // the base indent it's given, so the base must be this list's own
+      // indentation level (that of its first collected item, e.g. 1 for a
+      // line with a single leading space) rather than always 0 — a nested
+      // list is not necessarily flush with the start of the line.
+      const items = buildNestedStructure(listItems, listItems[0].indent, lexer)
 
       if (items.length === 0) {
         return undefined
