@@ -150,7 +150,7 @@
   },
   "dependencies": {
     "prosemirror-changeset": "^2.4.1",
-    "prosemirror-commands": "^1.6.2",
+    "prosemirror-commands": "^1.7.1",
     "prosemirror-dropcursor": "^1.8.2",
     "prosemirror-gapcursor": "^1.4.1",
     "prosemirror-history": "^1.5.0",
