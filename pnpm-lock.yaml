@@ -407,6 +407,9 @@ importers:
       '@tiptap/core':
         specifier: workspace:^
         version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
 
   packages/extension-bold:
     devDependencies:
