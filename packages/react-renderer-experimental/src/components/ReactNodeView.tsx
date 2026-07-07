@@ -1,0 +1,104 @@
+/** @jsxImportSource react */
+import { getRenderedAttributes } from '@tiptap/core'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { NodeSelection } from '@tiptap/pm/state'
+import type { ReactNode } from 'react'
+import { useCallback, useRef } from 'react'
+
+import { useEditorContext } from '../contexts/EditorContext.js'
+import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
+import type { NodeViewComponent } from './NodeViewComponentProps.js'
+
+export interface ReactNodeViewProps {
+  node: ProseMirrorNode
+  pos: number
+  component: NodeViewComponent
+  /** Pre-rendered content (the dispatcher builds it to avoid module cycles). */
+  children?: ReactNode
+}
+
+/**
+ * Renders a user React node view component with the node view contract and
+ * keeps the node's desc registered against the element the component
+ * attaches `ref` to. No wrapper DOM, no portal.
+ */
+export function ReactNodeView({
+  node,
+  pos,
+  component: Component,
+  children,
+}: ReactNodeViewProps): ReactNode {
+  const { editor } = useEditorContext()
+  const domRef = useRef<HTMLElement | null>(null)
+  const contentRef = useRef<HTMLElement | null>(null)
+
+  const descRef = useNodeViewDesc({
+    node,
+    domRef,
+    getContentDOM: () => (node.isLeaf ? null : contentRef.current),
+  })
+
+  const getPos = useCallback(() => {
+    const desc = descRef.current
+
+    return desc?.parent ? desc.posBefore : undefined
+  }, [descRef])
+
+  const updateAttributes = useCallback(
+    (attributes: Record<string, unknown>) => {
+      const position = getPos()
+      const current = position === undefined ? null : editor?.state.doc.nodeAt(position)
+
+      if (!editor || position === undefined || !current) {
+        return
+      }
+
+      // AttrStep instead of setNodeMarkup: markup replacement would map the
+      // node as deleted, dropping its reactKeys key and remounting it
+      const { tr } = editor.state
+
+      Object.entries(attributes).forEach(([name, value]) => {
+        tr.setNodeAttribute(position, name, value)
+      })
+      editor.view.dispatch(tr)
+    },
+    [editor, getPos],
+  )
+
+  const deleteNode = useCallback(() => {
+    const position = getPos()
+    const current = position === undefined ? null : editor?.state.doc.nodeAt(position)
+
+    if (!editor || position === undefined || !current) {
+      return
+    }
+    editor.view.dispatch(editor.state.tr.delete(position, position + current.nodeSize))
+  }, [editor, getPos])
+
+  if (!editor) {
+    throw new RangeError('[tiptap error]: React node views can only render inside an EditorContent')
+  }
+
+  const { selection } = editor.state
+  const selected = selection instanceof NodeSelection && selection.from === pos
+  const HTMLAttributes = getRenderedAttributes(
+    node,
+    editor.extensionManager.attributes.filter(attribute => attribute.type === node.type.name),
+  )
+
+  return (
+    <Component
+      editor={editor}
+      node={node}
+      HTMLAttributes={HTMLAttributes}
+      getPos={getPos}
+      selected={selected}
+      updateAttributes={updateAttributes}
+      deleteNode={deleteNode}
+      ref={domRef}
+      contentDOMRef={contentRef}
+    >
+      {children}
+    </Component>
+  )
+}

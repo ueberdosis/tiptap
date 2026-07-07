@@ -7,6 +7,7 @@ import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 
 import { EditorContent } from '../components/EditorContent.js'
+import type { NodeViewComponent } from '../components/NodeViewComponentProps.js'
 import { ReactRendererExtension } from '../extension.js'
 import { ReactEditorView } from '../ReactEditorView.js'
 
@@ -96,6 +97,7 @@ const tiptapTestNodes = [
 export const renderTiptapEditor = async (
   content: string,
   extensions: EditorOptions['extensions'] = [],
+  nodeViews?: Record<string, NodeViewComponent>,
 ) => {
   const editorOptions: Partial<EditorOptions> & EditorInternalOptions = {
     element: null,
@@ -107,7 +109,7 @@ export const renderTiptapEditor = async (
   const { root, container } = mountTrackedRoot()
 
   await act(async () => {
-    root.render(createElement(EditorContent, { editor }))
+    root.render(createElement(EditorContent, { editor, nodeViews }))
   })
 
   return {

@@ -9,10 +9,12 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3, 4 (committed), 5 core (pending commit).**
-- **Phase 5 remaining: Playwright e2e coverage** (needs a demo page in the repo e2e infra);
-  everything else in Phase 5 is implemented and unit-tested.
-- **Next after that: Phase 6**: decorations and first React node views (see TODO.md).
+- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5 (committed); Phase 6 node views + demo/e2e
+  (pending commit).**
+- **Phase 6 remaining: decorations** (node/inline/widget) and the trailing-break hack.
+- Playwright e2e runs against `demos/src/GuideNodeViews/ReactComponentExperimental` (node
+  view without wrapper, attr updates without remount, real typing, Enter split, selection
+  round-trip, undo/redo). This also closed Phase 5's e2e gap.
 - `prosemirror-view` is pinned at **1.41.9** (see AUDIT.md §1-2; compat test enforces it).
 
 ## Validation commands
@@ -178,6 +180,33 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
   DOM selection sync, plugin views, undo/redo, composition defer, posAtDOM round-trip),
   `__tests__/beforeInput.test.ts` (typing, target ranges, Enter via keymap, backspace,
   composition passthrough). Tiptap-flavored render helper in `__tests__/helpers.ts`.
+
+### Phase 6 (part 1): React node views + experimental demo
+
+- Registration is a React-layer concern: `EditorContent` takes `nodeViews`
+  (`Record<nodeTypeName, NodeViewComponent>`), provided through `EditorContext` together
+  with the editor. Extension-side `addNodeView()` cannot carry a component marker because
+  ExtensionManager wraps the result in a fresh closure (the reference registers via a React
+  prop for the same reason). Phase 14's bridge maps legacy extensions onto this.
+- `src/components/NodeViewComponentProps.ts`: the contract (editor, node, HTMLAttributes,
+  getPos, selected, updateAttributes, deleteNode, ref, contentDOMRef, children). Types live
+  in their own module so `EditorContext` and `ReactNodeView` share them without a cycle;
+  the NodeView dispatcher pre-renders `children` so `ReactNodeView` never imports
+  `ChildNodeViews` (also cycle avoidance).
+- `NodeView` is now a dispatcher: registered component → `ReactNodeView`, else
+  `SchemaNodeView` (the old toDOM path). Hook counts stay consistent per branch.
+- **`updateAttributes` uses AttrStep (`tr.setNodeAttribute`), not `setNodeMarkup`:** markup
+  replacement maps the node as deleted, drops its reactKeys key, and remounts the component
+  (a test proves it). Core's `updateAttributes` command still has this problem (TODO).
+- `getPos` resolves from the live desc (`descRef.current.posBefore`), so it stays correct
+  between renders; `useNodeViewDesc` now returns its desc ref.
+- Demo: `demos/src/GuideNodeViews/ReactComponentExperimental/React` (new variant beside the
+  legacy demo, which stays as documentation of the shipping API). The demos vite config
+  aliases `@tiptap/react-renderer-experimental` to package source automatically. Spec covers
+  the no-wrapper assertion plus the Phase 5 typing/selection/undo matrix.
+- Playwright gotcha: Tiptap's `focus` command defers `view.focus()` to
+  `requestAnimationFrame`, which is unreliable to sequence in headless runs — focus via a
+  real `.click()` in specs, then set selection through commands.
 
 ## Gotchas for future sessions
 

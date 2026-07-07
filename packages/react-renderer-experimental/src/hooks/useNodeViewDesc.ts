@@ -18,13 +18,14 @@ export interface UseNodeViewDescOptions {
  * Keeps a node's `ViewDesc` registered against its React-rendered DOM. Runs
  * as a layout effect on every commit: children commit before parents, so the
  * child walk in `rebuildChildDescs` always sees refreshed child descs.
+ * Returns the ref holding the desc (current after each commit).
  */
 export const useNodeViewDesc = ({
   node,
   domRef,
   getContentDOM,
   onUpdated,
-}: UseNodeViewDescOptions): void => {
+}: UseNodeViewDescOptions): RefObject<NodeViewDesc | undefined> => {
   const descRef = useRef<NodeViewDesc | undefined>(undefined)
 
   useLayoutEffect(() => {
@@ -52,4 +53,6 @@ export const useNodeViewDesc = ({
     },
     [],
   )
+
+  return descRef
 }

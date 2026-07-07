@@ -3,9 +3,11 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { ReactNode } from 'react'
 import { Fragment, useRef } from 'react'
 
+import { useEditorContext } from '../contexts/EditorContext.js'
 import { useReactKeys } from '../contexts/ReactKeysContext.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
 import { renderOutputSpec } from './OutputSpecView.js'
+import { ReactNodeView } from './ReactNodeView.js'
 
 export interface NodeViewProps {
   node: ProseMirrorNode
@@ -25,12 +27,39 @@ export interface ChildNodeViewsProps {
  */
 
 /**
- * Renders a document node from its schema `toDOM` spec — the schema-rendered
- * case, producing exactly the elements the spec describes (no wrapper DOM).
- * A layout effect keeps the node's `ViewDesc` registered against the
- * rendered elements.
+ * Renders a document node: through the registered React node view component
+ * when one exists for the node's type, otherwise from its schema `toDOM`
+ * spec. Both paths produce exactly the described elements, no wrapper DOM.
  */
 export function NodeView({ node, pos }: NodeViewProps): ReactNode {
+  const { nodeViews } = useEditorContext()
+  const component = nodeViews[node.type.name]
+  const children = node.isLeaf ? undefined : <ChildNodeViews node={node} innerPos={pos + 1} />
+
+  if (component) {
+    return (
+      <ReactNodeView node={node} pos={pos} component={component}>
+        {children}
+      </ReactNodeView>
+    )
+  }
+  return (
+    <SchemaNodeView node={node} pos={pos}>
+      {children}
+    </SchemaNodeView>
+  )
+}
+
+interface SchemaNodeViewProps extends NodeViewProps {
+  children?: ReactNode
+}
+
+/**
+ * The schema-rendered case: a node without a registered component renders
+ * from its `toDOM` spec. A layout effect keeps the node's `ViewDesc`
+ * registered against the rendered elements.
+ */
+function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
   const domRef = useRef<Element | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)
 
@@ -51,7 +80,7 @@ export function NodeView({ node, pos }: NodeViewProps): ReactNode {
   return renderOutputSpec(spec, {
     ref: domRef,
     contentRef,
-    children: node.isLeaf ? undefined : <ChildNodeViews node={node} innerPos={pos + 1} />,
+    children,
   })
 }
 

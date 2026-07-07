@@ -2,16 +2,23 @@
 import type { Editor } from '@tiptap/core'
 import type { EditorState } from '@tiptap/pm/state'
 import type { HTMLAttributes, ReactNode } from 'react'
-import { useCallback, useLayoutEffect, useRef, useSyncExternalStore } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 
+import type { EditorContextValue } from '../contexts/EditorContext.js'
+import { EditorContext } from '../contexts/EditorContext.js'
 import { ReactKeysContext } from '../contexts/ReactKeysContext.js'
 import { reactKeysPluginKey } from '../plugins/reactKeys.js'
 import { ReactEditorView } from '../ReactEditorView.js'
 import type { NodeViewDesc } from '../viewdesc.js'
 import { DocView } from './DocView.js'
+import type { NodeViewComponent } from './NodeViewComponentProps.js'
+
+const NO_NODE_VIEWS: Record<string, NodeViewComponent> = {}
 
 export interface EditorContentProps extends HTMLAttributes<HTMLDivElement> {
   editor: Editor
+  /** React node view components by node type name. */
+  nodeViews?: Record<string, NodeViewComponent>
 }
 
 /**
@@ -88,10 +95,18 @@ const useEditorEditable = (editor: Editor): boolean => {
  * (`commitPendingEffects`), which updates plugin views and syncs the DOM
  * selection. There is no `flushSync` anywhere on this path.
  */
-export function EditorContent({ editor, ...props }: EditorContentProps): ReactNode {
+export function EditorContent({
+  editor,
+  nodeViews = NO_NODE_VIEWS,
+  ...props
+}: EditorContentProps): ReactNode {
   const state = useEditorState(editor)
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
+  const contextValue = useMemo<EditorContextValue>(
+    () => ({ editor, nodeViews }),
+    [editor, nodeViews],
+  )
 
   useLayoutEffect(() => {
     const desc = docDescRef.current
@@ -125,17 +140,19 @@ export function EditorContent({ editor, ...props }: EditorContentProps): ReactNo
   )
 
   return (
-    <ReactKeysContext.Provider value={reactKeysPluginKey.getState(state) ?? null}>
-      <DocView
-        role="textbox"
-        {...props}
-        node={state.doc}
-        contentEditable={editable}
-        suppressContentEditableWarning
-        onDocDesc={desc => {
-          docDescRef.current = desc
-        }}
-      />
-    </ReactKeysContext.Provider>
+    <EditorContext.Provider value={contextValue}>
+      <ReactKeysContext.Provider value={reactKeysPluginKey.getState(state) ?? null}>
+        <DocView
+          role="textbox"
+          {...props}
+          node={state.doc}
+          contentEditable={editable}
+          suppressContentEditableWarning
+          onDocDesc={desc => {
+            docDescRef.current = desc
+          }}
+        />
+      </ReactKeysContext.Provider>
+    </EditorContext.Provider>
   )
 }

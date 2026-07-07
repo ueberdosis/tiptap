@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "ignorePatterns": ["**/*.spec.ts"],
+  "entry": ["demos/src/**/index.*"],
   "ignoreExports": [{ "file": "**/*", "exports": ["default"] }],
   "overrides": [
     {

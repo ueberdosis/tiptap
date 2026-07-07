@@ -32,10 +32,10 @@ Goal: re-render on transactions with stable component identity.
 - [x] `beforeInput` plugin (observer is dead, so input is intercepted and dispatched).
 - [x] Composition guard (deferred re-renders while composing + `compositionend` catch-up).
 - [x] No-`flushSync` path asserted (dispatch does not render synchronously).
-- [ ] Playwright e2e: typing + selection round-trips in a real browser (needs a demo page
-      wired into `tests/`). Decide scope with the team.
+- [x] Playwright e2e: typing + selection round-trips in a real browser
+      (`demos/src/GuideNodeViews/ReactComponentExperimental/index.spec.ts`).
 
-## Phase 6 — decorations and first React node views
+## Phase 6 — decorations and first React node views (node views DONE, pending commit)
 
 - [ ] Decoration rendering: node decos → attrs on the node component; inline decos → split
       inline runs preserving offsets; widgets → React components in ViewDesc order (`side`,
@@ -44,9 +44,9 @@ Goal: re-render on transactions with stable component identity.
       `NodeViewDesc.outerDeco`/`innerDeco` fields feed `matchesNode`.
 - [ ] Trailing-break / separator hacks (empty paragraph currently renders `<p></p>` — PM
       needs `<p><br></p>` for contenteditable).
-- [ ] One block node view with `contentDOMRef` (`useMergedRefs` already exists in
-      `src/refs.ts`) and one atom node view; props contract aligned with Tiptap's
-      `ReactNodeViewProps` plus `contentDOMRef`.
+- [x] Node views: `NodeViewComponentProps` contract, `ReactNodeView`, dispatch in
+      `NodeView`, registration via `EditorContent`'s `nodeViews` prop, atom + content
+      (contentDOMRef/useMergedRefs) covered by unit tests and the experimental demo e2e.
 
 ## Phase 7 — vertical-slice hardening
 
@@ -100,3 +100,7 @@ Goal: re-render on transactions with stable component identity.
 - [ ] Adjacent text runs: React renders separate strings as separate DOM text nodes — the
       desc walk assumes 1:1 text-run↔DOM-text correspondence; verify when marks split runs
       (Phase 10).
+- [ ] Core `updateAttributes` command uses `setNodeMarkup`, which maps the node as deleted
+      and remounts its React node view. Our node-view `updateAttributes` prop uses AttrStep
+      instead; Phase 7 must decide how core commands behave under the new renderer (this is
+      the command-coupling risk the runbook flags).
