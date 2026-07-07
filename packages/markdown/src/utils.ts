@@ -5,6 +5,43 @@ import type { Fragment, Node } from '@tiptap/pm/model'
 import type { ContentType } from './types.js'
 
 /**
+ * Matches a run of two or more consecutive line breaks (a blank line) at the
+ * end of a string, allowing horizontal whitespace between the breaks.
+ */
+const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
+
+/**
+ * Normalizes how blank lines between blocks are represented in a marked token
+ * stream. Most block tokenizers emit the blank lines that follow a block as a
+ * standalone `space` token, but some (heading, table, html blocks — whose rules
+ * match a trailing `\n+`) absorb them into the block token's own `raw`. This
+ * splits those absorbed blank lines back into an explicit `space` token so a
+ * single downstream pass can reconstruct empty paragraphs uniformly, instead of
+ * silently dropping the blank line.
+ * @param tokens The marked token stream to normalize.
+ * @returns A new token array with absorbed blank lines extracted as `space` tokens.
+ */
+export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToken[] {
+  return tokens.flatMap((token, index) => {
+    // A following `space` token already carries the blank lines for this gap.
+    if (token.type === 'space' || tokens[index + 1]?.type === 'space') {
+      return [token]
+    }
+
+    const trailingBlankLines = (token.raw || '').match(TRAILING_BLANK_LINES)
+
+    if (!trailingBlankLines) {
+      return [token]
+    }
+
+    return [
+      { ...token, raw: (token.raw || '').slice(0, -trailingBlankLines[0].length) },
+      { type: 'space', raw: trailingBlankLines[0] } as MarkdownToken,
+    ]
+  })
+}
+
+/**
  * Wraps each line of the content with the given prefix.
  * @param prefix The prefix to wrap each line with.
  * @param content The content to wrap.
