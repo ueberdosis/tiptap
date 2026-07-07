@@ -10,24 +10,19 @@ it exists now.
 - [ ] Phases 1-3 have no PRs yet (work stacked on `react-renderer/phase-2a-internal-view-factory`,
       with Phase 1 on its own branch). Decide when to push/open PRs.
 
-## Phase 4 — transaction rendering and `reactKeys` (NEXT)
+## Phase 4 — transaction rendering and `reactKeys` (DONE, pending commit)
 
 Goal: re-render on transactions with stable component identity.
 
-- [ ] `src/plugins/reactKeys.ts`: plugin with `posToKey`/`keyToPos` maps; init by walking the
-      doc; on `apply`, map each node's position forward through the transaction to carry its
-      key (drop deleted nodes). Meta support: `overrides` (explicit remaps) and `freezeFrom`.
-- [ ] A `reorderSiblings`-style command that feeds reorder metadata to the plugin so keys
-      survive moves.
-- [ ] Consume keys as React `key` in `ChildNodeViews` (currently positional `index` — see the
-      comment there). Needs access to the plugin state during render — likely the first real
-      context (state/keys) this package introduces; keep `DocView`'s props compatible.
-- [ ] Acceptance (mount/unmount counters via probe components or desc identity):
-      typing in one paragraph does not remount siblings; splitting keeps the left key and
-      mints a right key; joining keeps one deterministically; decoration-only transaction
-      changes no keys; reorder preserves keys.
+- [x] `src/plugins/reactKeys.ts`: plugin with `posToKey`/`keyToPos` maps; meta support for
+      `overrides` and `freezeFrom` (tracked-only until Phase 5's composition guard).
+- [x] `src/commands/reorderSiblings.ts`: overrides for moved nodes and their descendants.
+- [x] Keys consumed in `ChildNodeViews` via `ReactKeysContext` (`NodeView` gained `pos`,
+      `ChildNodeViews` gained `innerPos`; `DocView` props unchanged).
+- [x] Acceptance via host-element/desc identity: typing/split/join/no-doc-change/reorder
+      (`__tests__/keyedRender.test.ts`, `__tests__/reactKeys.test.ts`).
 
-## Phase 5 — editing and selection
+## Phase 5 — editing and selection (NEXT)
 
 - [ ] Dispatch wiring: route through `editor.dispatchTransaction(tr)` and force a React
       re-render (Tiptap's dispatch does not trigger one). Update state without mutating
@@ -91,6 +86,15 @@ Goal: re-render on transactions with stable component identity.
       node views exist without wrappers.
 - [ ] `DocView`'s desc effect runs on every commit (no deps) — fine now, revisit for Phase 15
       perf work.
+- [ ] `reactKeys` `apply` is O(doc) per doc-changing transaction (entry sort + remap + full
+      `descendants` walk to mint fresh keys; the reference does the same). Bound it to changed
+      ranges in Phase 15 if profiling shows it.
+- [ ] `ReactKeysContext` carries the whole plugin state; a `freezeFrom`-only change re-renders
+      key consumers. Narrow the context value when Phase 5 wires the real provider if that
+      churn matters.
+- [ ] `keys?.posToKey.get(childPos) ?? index` silently falls back when a provider exists but
+      the position is missing (a doc/state desync). Phase 5 single-sources both from the
+      editor state; consider a dev-mode warning then.
 - [ ] Adjacent text runs: React renders separate strings as separate DOM text nodes — the
       desc walk assumes 1:1 text-run↔DOM-text correspondence; verify when marks split runs
       (Phase 10).

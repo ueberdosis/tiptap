@@ -1,9 +1,6 @@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { Schema } from '@tiptap/pm/model'
 import { EditorState, NodeSelection, TextSelection } from '@tiptap/pm/state'
 import { act, createElement, StrictMode } from 'react'
-import type { Root } from 'react-dom/client'
-import { createRoot } from 'react-dom/client'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { DocView } from '../components/DocView.js'
@@ -11,63 +8,19 @@ import type { DocViewLike } from '../ReactEditorView.js'
 import { ReactEditorView } from '../ReactEditorView.js'
 import type { ViewDesc } from '../viewdesc.js'
 import { NodeViewDesc, TextViewDesc } from '../viewdesc.js'
+import {
+  br,
+  doc,
+  mountTrackedRoot,
+  p,
+  testSchema as schema,
+  unmountTrackedRoots,
+} from './helpers.js'
 
-// React's act() checks this global to run effects synchronously
-;(globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true
-
-const schema = new Schema({
-  nodes: {
-    doc: { content: 'block+' },
-    paragraph: {
-      group: 'block',
-      content: 'inline*',
-      parseDOM: [{ tag: 'p' }],
-      toDOM: () => ['p', 0],
-    },
-    blockquote: {
-      group: 'block',
-      content: 'block+',
-      parseDOM: [{ tag: 'blockquote' }],
-      toDOM: () => ['blockquote', { class: 'quote', 'data-kind': 'note' }, 0],
-    },
-    hardBreak: {
-      inline: true,
-      group: 'inline',
-      selectable: false,
-      parseDOM: [{ tag: 'br' }],
-      toDOM: () => ['br'],
-    },
-    text: { group: 'inline' },
-  },
-})
-
-const p = (...content: (string | ProseMirrorNode)[]) =>
-  schema.node(
-    'paragraph',
-    null,
-    content.map(child => (typeof child === 'string' ? schema.text(child) : child)),
-  )
-const br = () => schema.node('hardBreak')
-const doc = (...content: ProseMirrorNode[]) => schema.node('doc', null, content)
-
-const roots: { root: Root; container: HTMLElement }[] = []
-
-afterEach(async () => {
-  while (roots.length) {
-    const { root, container } = roots.pop() as { root: Root; container: HTMLElement }
-
-    await act(async () => root.unmount())
-    container.remove()
-  }
-})
+afterEach(unmountTrackedRoots)
 
 const renderDoc = async (docNode: ProseMirrorNode, strict = false) => {
-  const container = document.createElement('div')
-
-  document.body.appendChild(container)
-  const root = createRoot(container)
-
-  roots.push({ root, container })
+  const { root, container } = mountTrackedRoot()
 
   const render = async (node: ProseMirrorNode) => {
     const element = createElement(DocView, { node })

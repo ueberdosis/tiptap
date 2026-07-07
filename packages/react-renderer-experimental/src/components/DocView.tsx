@@ -31,7 +31,7 @@ export function DocView({ node, onDocDesc, ...props }: DocViewProps): ReactNode 
 
   return (
     <div {...props} ref={domRef}>
-      <ChildNodeViews node={node} />
+      <ChildNodeViews node={node} innerPos={0} />
     </div>
   )
 }

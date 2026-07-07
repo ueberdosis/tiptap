@@ -3,15 +3,20 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { ReactNode } from 'react'
 import { Fragment, useRef } from 'react'
 
+import { useReactKeys } from '../contexts/ReactKeysContext.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
 import { renderOutputSpec } from './OutputSpecView.js'
 
 export interface NodeViewProps {
   node: ProseMirrorNode
+  /** Absolute document position just before the node. */
+  pos: number
 }
 
 export interface ChildNodeViewsProps {
   node: ProseMirrorNode
+  /** Absolute position of the parent's content start (its first child). */
+  innerPos: number
 }
 
 /*
@@ -25,7 +30,7 @@ export interface ChildNodeViewsProps {
  * A layout effect keeps the node's `ViewDesc` registered against the
  * rendered elements.
  */
-export function NodeView({ node }: NodeViewProps): ReactNode {
+export function NodeView({ node, pos }: NodeViewProps): ReactNode {
   const domRef = useRef<Element | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)
 
@@ -46,7 +51,7 @@ export function NodeView({ node }: NodeViewProps): ReactNode {
   return renderOutputSpec(spec, {
     ref: domRef,
     contentRef,
-    children: node.isLeaf ? undefined : <ChildNodeViews node={node} />,
+    children: node.isLeaf ? undefined : <ChildNodeViews node={node} innerPos={pos + 1} />,
   })
 }
 
@@ -55,17 +60,22 @@ export function NodeView({ node }: NodeViewProps): ReactNode {
  * creates real DOM text nodes for them — their descs are bound by the parent
  * node's layout effect); everything else renders through `NodeView`.
  *
- * Keys are positional for now; the `reactKeys` plugin replaces them with
- * stable per-node keys in the next phase.
+ * Children are keyed by the `reactKeys` plugin state when provided (text runs
+ * included, so their DOM text nodes survive sibling insertions), letting
+ * React reuse instances across transactions instead of remounting. Without
+ * it (static rendering), keys fall back to the index.
  */
-export function ChildNodeViews({ node }: ChildNodeViewsProps): ReactNode {
+export function ChildNodeViews({ node, innerPos }: ChildNodeViewsProps): ReactNode {
+  const keys = useReactKeys()
   const children: ReactNode[] = []
 
-  node.forEach((child, _offset, index) => {
+  node.forEach((child, offset, index) => {
+    const key = keys?.posToKey.get(innerPos + offset) ?? index
+
     if (child.isText) {
-      children.push(<Fragment key={index}>{child.text}</Fragment>)
+      children.push(<Fragment key={key}>{child.text}</Fragment>)
     } else {
-      children.push(<NodeView key={index} node={child} />)
+      children.push(<NodeView key={key} node={child} pos={innerPos + offset} />)
     }
   })
 

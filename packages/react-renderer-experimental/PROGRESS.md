@@ -9,8 +9,8 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3.** All committed.
-- **Next: Phase 4** — transaction rendering + the `reactKeys` plugin (see TODO.md).
+- **Completed: Phases 1, 2A, 2B, 2C, 3, 4.** Phases through 3 committed; Phase 4 pending commit.
+- **Next: Phase 5** — editing and selection (see TODO.md).
 - `prosemirror-view` is pinned at **1.41.9** (see AUDIT.md §1-2; compat test enforces it).
 
 ## Validation commands
@@ -111,6 +111,35 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
 - Tests: `__tests__/staticRender.test.ts` — byte-exact markup, desc/DOM correspondence, the
   full mapping+selection matrix through real view APIs on React DOM, hard breaks, re-render
   updates, empty paragraphs, StrictMode.
+
+### Phase 4 — transaction rendering and `reactKeys`
+
+- `src/plugins/reactKeys.ts`: stable key per node (text included, like the reference; keying
+  only elements let DOM text nodes remount when an element sibling was inserted before them),
+  keyed by current position. `init` walks the doc; `apply` maps each position forward
+  (`tr.mapping.mapResult`, sorted ascending so collisions resolve deterministically, evicting
+  the displaced key from `keyToPos` so it stays an exact inverse), drops deleted nodes, mints
+  fresh keys for unknown positions. Meta (`reactKeysPluginKey`): `overrides` (old pos → new
+  pos, replaces mapping) and `freezeFrom` (explicit set/clear, always honored). `freezeFrom`
+  otherwise maps forward with assoc -1 and clears itself when the frozen block is deleted or
+  changed outside a `composition`-meta transaction. Consumed by the Phase 5 composition
+  guard; tracked-only for now.
+- `src/commands/reorderSiblings.ts`: reorders a parent's children (`order[slot]` = old index),
+  emits overrides for every child **and its descendants** (the reference only overrides
+  top-level siblings, so their children would remount on a move; ours shift descendants by
+  the same delta). Returns false (instead of throwing) for non-integer orders and for orders
+  the parent's content expression rejects (`parent.canReplace`).
+- Key consumption: `NodeView` now takes `pos`, `ChildNodeViews` takes `innerPos`; children
+  use `posToKey.get(childPos)` as React `key`, falling back to the index when no
+  `ReactKeysContext` provider exists (static rendering stays unchanged). DocView's public
+  props are untouched (`innerPos` for doc children is 0).
+- `src/contexts/ReactKeysContext.ts`: the package's first context; Phase 5's editor wiring
+  becomes the real provider.
+- Tests: `__tests__/reactKeys.test.ts` (plugin semantics incl. split/join/reorder/freeze and
+  regression tests from the review pass), `__tests__/keyedRender.test.ts` (remount detection
+  via host-element + desc identity; the reorder case is the one that fails without keys,
+  since slot 0 changes node type). Shared fixtures extracted to `__tests__/helpers.ts`
+  (fallow duplication finding).
 
 ## Gotchas for future sessions
 
