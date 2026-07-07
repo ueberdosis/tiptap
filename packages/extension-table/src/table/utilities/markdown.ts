@@ -4,7 +4,7 @@ import {
   type TableCellAlign as TableCellAlignType,
   normalizeTableCellAlignFromAttributes,
   TableCellAlign,
-} from '../../utilities/parseAlign.js'
+} from '../../utils/parseAlign.js'
 
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 
