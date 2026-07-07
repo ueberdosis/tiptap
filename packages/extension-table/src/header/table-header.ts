@@ -2,8 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import { createAlignAttribute } from '../utilities/parseAlign.js'
-import { parseColwidth } from '../utilities/parseColwidth.js'
+import { createAlignAttribute } from '../utils/parseAlign.js'
+import { parseColwidth } from '../utils/parseColwidth.js'
 
 export interface TableHeaderOptions {
   /**
