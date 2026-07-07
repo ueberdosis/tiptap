@@ -1,5 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "ignorePatterns": ["**/*.spec.ts"],
-  "ignoreExports": [{ "file": "**/*", "exports": ["default"] }]
+  "ignoreExports": [{ "file": "**/*", "exports": ["default"] }],
+  "overrides": [
+    {
+      "files": ["packages/react-renderer-experimental/src/viewdesc.ts"],
+      "rules": { "unused-class-members": "off" }
+    }
+  ],
+  "health": {
+    "ignore": ["packages/react-renderer-experimental/src/viewdesc.ts"]
+  }
 }
