@@ -128,6 +128,11 @@ export class ReactEditorView extends EditorView {
     // foreign children and rewriting attributes. Detach everything first and
     // restore it afterwards so React-owned DOM survives construction.
     const restoreMount = detachMountContent(mount, true)
+    // When React rendered the document before the view is constructed, the
+    // mount already carries its doc desc — the base constructor overwrites
+    // that expando and destroying the base doc view clears it, so restore it
+    // once the base doc view is gone.
+    const previousDocDesc = mount.pmViewDesc
 
     try {
       // `plugins` is emptied so no plugin view is constructed against
@@ -158,6 +163,9 @@ export class ReactEditorView extends EditorView {
     // the document DOM again. React registers a replacement tree later.
     self.docView?.destroy()
     self.docView = null
+    if (previousDocDesc) {
+      mount.pmViewDesc = previousDocDesc
+    }
 
     this.nextProps = props
     // The state the base class actually committed is EMPTY_STATE; starting
@@ -238,16 +246,16 @@ export class ReactEditorView extends EditorView {
 
     const self = internals(this)
 
-    // The base destroy() early-returns when docView is null, skipping input
-    // listener and plugin view cleanup. Give it an inert doc view so the full
-    // teardown runs.
-    if (!self.docView) {
-      self.docView = {
-        matchesNode: () => true,
-        update: () => true,
-        markDirty: () => undefined,
-        destroy: () => undefined,
-      }
+    // The base destroy() early-returns when docView is null (skipping input
+    // listener and plugin view cleanup) and would otherwise run its redraw
+    // and teardown against our React-registered tree, whose lifecycle React
+    // owns. Swap in an inert doc view so the base teardown runs fully without
+    // touching the real tree.
+    self.docView = {
+      matchesNode: () => true,
+      update: () => true,
+      markDirty: () => undefined,
+      destroy: () => undefined,
     }
 
     // Because the view was constructed with `{ mount }`, the base destroy()
