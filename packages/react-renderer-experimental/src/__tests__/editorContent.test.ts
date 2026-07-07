@@ -31,6 +31,8 @@ describe('EditorContent', () => {
     expect(dom.classList.contains('ProseMirror')).toBe(true)
     expect(dom.getAttribute('translate')).toBe('no')
     expect(dom.getAttribute('role')).toBe('textbox')
+    // The core tabindex extension's attribute must arrive as React tabIndex
+    expect(dom.getAttribute('tabindex')).toBe('0')
   })
 
   it('renders command-driven edits without remounting siblings', async () => {

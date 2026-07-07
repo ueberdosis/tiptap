@@ -26,6 +26,17 @@ const styleStringToObject = (style: string): CSSProperties => {
   return result as CSSProperties
 }
 
+/** HTML attribute names React only accepts camelCased. */
+const RENAMED_ATTRIBUTES: Record<string, string> = {
+  autocapitalize: 'autoCapitalize',
+  autocorrect: 'autoCorrect',
+  autofocus: 'autoFocus',
+  contenteditable: 'contentEditable',
+  for: 'htmlFor',
+  spellcheck: 'spellCheck',
+  tabindex: 'tabIndex',
+}
+
 /**
  * Converts a ProseMirror `toDOM` attribute record into React DOM props.
  * Handles the attribute names React renames; everything else (including
@@ -48,10 +59,8 @@ export const attributesToProps = (
       props.className = value
     } else if (name === 'style' && typeof value === 'string') {
       props.style = styleStringToObject(value)
-    } else if (name === 'for') {
-      props.htmlFor = value
     } else {
-      props[name] = value
+      props[RENAMED_ATTRIBUTES[name] ?? name] = value
     }
   })
   return props
