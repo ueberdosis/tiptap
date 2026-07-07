@@ -114,14 +114,21 @@ export const TaskList = Node.create<TaskListOptions>({
         )
 
         if (nestedResult) {
-          // Return as task list token
-          return [
-            {
-              type: 'taskList',
-              raw: nestedResult.raw,
-              items: nestedResult.items,
-            },
-          ]
+          const taskListToken = {
+            type: 'taskList',
+            raw: nestedResult.raw,
+            items: nestedResult.items,
+          }
+
+          // parseIndentedBlocks only consumes checkbox items.
+          // Parse any remaining indented content, such as plain bullets,
+          // and keep it as sibling tokens.
+          const remainder = content.slice(nestedResult.raw.length)
+          if (remainder.trim()) {
+            return [taskListToken, ...lexer.blockTokens(remainder)]
+          }
+
+          return [taskListToken]
         }
 
         // Fall back to regular markdown parsing if not a task list
