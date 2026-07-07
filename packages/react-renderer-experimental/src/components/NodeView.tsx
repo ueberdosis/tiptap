@@ -3,11 +3,15 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { ReactNode } from 'react'
 import { Fragment, useRef } from 'react'
 
+import type { Mark } from '@tiptap/pm/model'
+
 import { useEditorContext } from '../contexts/EditorContext.js'
 import { useReactKeys } from '../contexts/ReactKeysContext.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
+import { MarkView } from './MarkView.js'
 import { renderOutputSpec } from './OutputSpecView.js'
 import { ReactNodeView } from './ReactNodeView.js'
+import { needsTrailingHack, TrailingHackView } from './TrailingHackView.js'
 
 export interface NodeViewProps {
   node: ProseMirrorNode
@@ -84,10 +88,18 @@ function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
   })
 }
 
+interface OpenMark {
+  mark: Mark
+  key: string
+  children: ReactNode[]
+}
+
 /**
  * Renders a node's children. Text children render as bare strings (React
  * creates real DOM text nodes for them — their descs are bound by the parent
- * node's layout effect); everything else renders through `NodeView`.
+ * node's layout effect); everything else renders through `NodeView`. Inline
+ * children sharing marks nest inside shared `MarkView` elements, matching
+ * ProseMirror's inline DOM shape.
  *
  * Children are keyed by the `reactKeys` plugin state when provided (text runs
  * included, so their DOM text nodes survive sibling insertions), letting
@@ -96,17 +108,54 @@ function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
  */
 export function ChildNodeViews({ node, innerPos }: ChildNodeViewsProps): ReactNode {
   const keys = useReactKeys()
-  const children: ReactNode[] = []
+  const top: ReactNode[] = []
+  const stack: OpenMark[] = []
+  const target = () => (stack.length ? stack[stack.length - 1].children : top)
+
+  const closeToDepth = (depth: number) => {
+    while (stack.length > depth) {
+      const level = stack.pop() as OpenMark
+
+      target().push(
+        <MarkView key={level.key} mark={level.mark}>
+          {level.children}
+        </MarkView>,
+      )
+    }
+  }
 
   node.forEach((child, offset, index) => {
-    const key = keys?.posToKey.get(innerPos + offset) ?? index
+    const key = String(keys?.posToKey.get(innerPos + offset) ?? index)
+    const marks = child.isInline ? child.marks : []
+
+    // Keep the mark levels shared with the previous child open; close and
+    // open the rest (non-spanning marks never merge across children)
+    let shared = 0
+
+    while (
+      shared < stack.length &&
+      shared < marks.length &&
+      stack[shared].mark.eq(marks[shared]) &&
+      marks[shared].type.spec.spanning !== false
+    ) {
+      shared += 1
+    }
+    closeToDepth(shared)
+    for (let depth = stack.length; depth < marks.length; depth += 1) {
+      stack.push({ mark: marks[depth], key: `${key}-${marks[depth].type.name}`, children: [] })
+    }
 
     if (child.isText) {
-      children.push(<Fragment key={key}>{child.text}</Fragment>)
+      target().push(<Fragment key={key}>{child.text}</Fragment>)
     } else {
-      children.push(<NodeView key={key} node={child} pos={innerPos + offset} />)
+      target().push(<NodeView key={key} node={child} pos={innerPos + offset} />)
     }
   })
+  closeToDepth(0)
 
-  return <>{children}</>
+  if (needsTrailingHack(node)) {
+    top.push(<TrailingHackView key="trailing-hack" />)
+  }
+
+  return <>{top}</>
 }

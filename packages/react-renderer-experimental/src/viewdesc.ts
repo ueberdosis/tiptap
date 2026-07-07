@@ -11,8 +11,8 @@
  * and the `pmViewDesc` expando for `posAtDOM`/`domAtPos`/`nodeDOM`, selection
  * reading, and input handling.
  */
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource, EditorView } from '@tiptap/pm/view'
+import type { Mark, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource, EditorView, ViewMutationRecord } from '@tiptap/pm/view'
 
 import { gecko, safari } from './browser.js'
 
@@ -201,6 +201,18 @@ export class ViewDesc {
 
   stopEvent(_event: Event): boolean {
     return false
+  }
+
+  /**
+   * Whether the observer should ignore a mutation (or, for
+   * `type: 'selection'` records, a DOM selection change). The base view
+   * consults this on every `selectionchange` via `ignoreSelectionChange`;
+   * leaving it out breaks all DOM-to-state selection syncing (the listener
+   * throws). Mutation records never reach descs here because the observer
+   * is disabled.
+   */
+  ignoreMutation(mutation: ViewMutationRecord): boolean {
+    return !this.contentDOM && mutation.type !== 'selection'
   }
 
   /** The size of the content represented by this desc. */
@@ -817,6 +829,66 @@ export class NodeViewDesc extends ViewDesc {
 
   get domAtom(): boolean {
     return this.node.isAtom
+  }
+}
+
+/**
+ * A desc for a mark element wrapping a run of inline content. Sits between
+ * a node desc and the descs of the inline children the mark spans; its size
+ * is the sum of its children (base behavior), its border 0.
+ */
+export class MarkViewDesc extends ViewDesc {
+  constructor(
+    parent: ViewDesc | undefined,
+    public mark: Mark,
+    dom: Node,
+    contentDOM: HTMLElement,
+  ) {
+    super(parent, [], dom, contentDOM)
+  }
+
+  matchesMark(mark: Mark): boolean {
+    return this.dirty !== NODE_DIRTY && this.mark.eq(mark)
+  }
+
+  markDirty(from: number, to: number): void {
+    super.markDirty(from, to)
+    // Dirtiness in a mark moves to the nearest node desc, which owns the
+    // redraw decision (derived from prosemirror-view 1.41.9)
+    if (this.dirty !== NOT_DIRTY) {
+      let parent = this.parent
+
+      while (parent && !parent.node) {
+        parent = parent.parent
+      }
+      if (parent && parent.dirty < this.dirty) {
+        parent.dirty = this.dirty
+      }
+      this.dirty = NOT_DIRTY
+    }
+  }
+}
+
+/**
+ * A desc for a contenteditable hack element (the trailing `<br>` every
+ * empty or break-ending textblock needs so the browser renders and targets
+ * it). Represents no document content: its size is 0.
+ */
+export class TrailingHackViewDesc extends ViewDesc {
+  matchesHack(nodeName: string): boolean {
+    return this.dirty === NOT_DIRTY && this.dom.nodeName === nodeName
+  }
+
+  get isTrailingHack(): boolean {
+    return true
+  }
+
+  get domAtom(): boolean {
+    return true
+  }
+
+  get ignoreForCoords(): boolean {
+    return this.dom.nodeName === 'IMG'
   }
 }
 

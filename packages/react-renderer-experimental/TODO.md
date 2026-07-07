@@ -42,11 +42,14 @@ Goal: re-render on transactions with stable component identity.
       `stopEvent`, cleanup, stable keys). `viewdesc.ts` already exposes `widgetSide` /
       `isTrailingHack` getters for the widget/trailing-hack descs to override, and
       `NodeViewDesc.outerDeco`/`innerDeco` fields feed `matchesNode`.
-- [ ] Trailing-break / separator hacks (empty paragraph currently renders `<p></p>` — PM
-      needs `<p><br></p>` for contenteditable).
+- [x] Trailing-break hack (`TrailingHackViewDesc` + `TrailingHackView`); the Safari/gecko
+      IMG separator hack variant is still open (Phase 12 browser matrix).
 - [x] Node views: `NodeViewComponentProps` contract, `ReactNodeView`, dispatch in
       `NodeView`, registration via `EditorContent`'s `nodeViews` prop, atom + content
       (contentDOMRef/useMergedRefs) covered by unit tests and the experimental demo e2e.
+- [x] Schema mark rendering (`MarkView`/`MarkViewDesc`, mark grouping, mark-aware child
+      walk). Custom React mark views remain Phase 10.
+- [x] Doc attributes (`computeDocDeco` equivalent in `EditorContent`).
 
 ## Phase 7 — vertical-slice hardening
 

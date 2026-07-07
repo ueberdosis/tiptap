@@ -2,16 +2,32 @@ import { Plugin } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
 /**
- * Non-public `EditorView.input` members this plugin writes, verified against
+ * Non-public `EditorView` members this plugin uses, verified against
  * prosemirror-view 1.41.9:
  *
- * - `lastIOSEnter`: prosemirror-view defers Enter handling on iOS (Safari
- *   misbehaves when Enter's beforeinput is prevented). We handle Enter here
- *   ourselves, so zeroing the timestamp keeps the deferred handler from
- *   firing a second time.
+ * - `input.lastIOSEnter`: prosemirror-view defers Enter handling on iOS
+ *   (Safari misbehaves when Enter's beforeinput is prevented). We handle
+ *   Enter here ourselves, so zeroing the timestamp keeps the deferred
+ *   handler from firing a second time.
+ * - `domObserver.flush()`: reads the current DOM selection into the state
+ *   when it differs from the observer's cache. `selectionchange` events are
+ *   delivered asynchronously, so a key or beforeinput event can arrive
+ *   before the user's latest cursor move reached the state; flushing first
+ *   makes `state.selection` current before we act on it. Safe while the
+ *   mutation observer is disabled: with no records queued, flush only
+ *   performs the selection read.
  */
 interface ViewInputInternals {
   input: { lastIOSEnter: number }
+  domObserver: { flush(): void }
+}
+
+/** Syncs a not-yet-processed DOM selection change into the state. */
+const flushPendingSelection = (view: EditorView): void => {
+  // Never read the DOM selection mid-composition (composition guard)
+  if (!view.composing) {
+    ;(view as unknown as ViewInputInternals).domObserver.flush()
+  }
 }
 
 const DELETE_INPUT_TYPES = new Set([
@@ -139,11 +155,17 @@ export const beforeInput = (): Plugin =>
   new Plugin({
     props: {
       handleDOMEvents: {
+        keydown: view => {
+          // Keymaps read state.selection; sync the DOM selection first
+          flushPendingSelection(view)
+          return false
+        },
         beforeinput: (view, event) => {
           // Custom DOM handlers run even when the view is not editable
           if (!view.editable) {
             return false
           }
+          flushPendingSelection(view)
           if (event.inputType !== 'insertFromComposition') {
             event.preventDefault()
           }

@@ -45,7 +45,24 @@ export const testSchema = new Schema({
     },
     text: { group: 'inline' },
   },
+  marks: {
+    bold: {
+      parseDOM: [{ tag: 'strong' }],
+      toDOM: () => ['strong', 0],
+    },
+    italic: {
+      parseDOM: [{ tag: 'em' }],
+      toDOM: () => ['em', 0],
+    },
+  },
 })
+
+/** Text with marks applied, e.g. `marked('x', 'bold', 'italic')`. */
+export const marked = (text: string, ...markNames: string[]) =>
+  testSchema.text(
+    text,
+    markNames.map(name => testSchema.marks[name].create()),
+  )
 
 export const p = (...content: (string | ProseMirrorNode)[]) =>
   testSchema.node(

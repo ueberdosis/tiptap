@@ -3,6 +3,8 @@ export type { DocViewProps } from './components/DocView.js'
 export { DocView } from './components/DocView.js'
 export type { EditorContentProps } from './components/EditorContent.js'
 export { EditorContent } from './components/EditorContent.js'
+export type { MarkViewProps } from './components/MarkView.js'
+export { MarkView } from './components/MarkView.js'
 export type {
   NodeViewComponent,
   NodeViewComponentProps,
@@ -35,8 +37,10 @@ export {
   CONTENT_DIRTY,
   domIndex,
   NODE_DIRTY,
+  MarkViewDesc,
   NodeViewDesc,
   NOT_DIRTY,
   TextViewDesc,
+  TrailingHackViewDesc,
   ViewDesc,
 } from './viewdesc.js'

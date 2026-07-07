@@ -25,6 +25,12 @@ describe('EditorContent', () => {
     expect(dom.getAttribute('contenteditable')).toBe('true')
     expect(dom.innerHTML).toBe('<p>foo</p>')
     expect(dom.pmViewDesc?.node).toBe(editor.state.doc)
+    // The doc attributes the base view would apply through computeDocDeco:
+    // without the ProseMirror class, the injected whitespace CSS never
+    // matches and spaces collapse
+    expect(dom.classList.contains('ProseMirror')).toBe(true)
+    expect(dom.getAttribute('translate')).toBe('no')
+    expect(dom.getAttribute('role')).toBe('textbox')
   })
 
   it('renders command-driven edits without remounting siblings', async () => {

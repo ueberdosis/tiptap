@@ -85,6 +85,155 @@ test.describe(`${demoPath}/${demoName}`, () => {
     expect(stateSelection).toEqual({ from: 2, to: 8 })
   })
 
+  test('types at a cursor placed through the DOM selection', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>abcdef</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    // Move the cursor the way arrow keys or a precise click would
+    await page.evaluate(() => {
+      const text = document.querySelector('.tiptap p')?.firstChild as Text
+
+      window.getSelection()?.collapse(text, 3)
+    })
+
+    await page.keyboard.type('X')
+
+    await expect(page.locator('.tiptap p').first()).toHaveText('abcXdef')
+  })
+
+  test('deletes a range selected through the DOM with Backspace', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>abcdef</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.evaluate(() => {
+      const text = document.querySelector('.tiptap p')?.firstChild as Text
+
+      window.getSelection()?.setBaseAndExtent(text, 1, text, 5)
+    })
+
+    await page.keyboard.press('Backspace')
+
+    await expect(page.locator('.tiptap p').first()).toHaveText('af')
+  })
+
+  test('splits at a cursor placed through the DOM selection on Enter', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>onetwo</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.evaluate(() => {
+      const text = document.querySelector('.tiptap p')?.firstChild as Text
+
+      window.getSelection()?.collapse(text, 3)
+    })
+
+    await page.keyboard.press('Enter')
+
+    await expect(page.locator('.tiptap p').nth(0)).toHaveText('one')
+    await expect(page.locator('.tiptap p').nth(1)).toHaveText('two')
+  })
+
+  test('applies mark input rules while typing', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p></p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.keyboard.type('some **bold** text')
+
+    await expect(page.locator('.tiptap p strong')).toHaveText('bold')
+  })
+
+  test('applies node input rules while typing', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p></p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.keyboard.type('## Heading rule')
+
+    await expect(page.locator('.tiptap h2')).toHaveText('Heading rule')
+  })
+
+  test('toggles bold on a selected range with the keymap', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>make me bold</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.evaluate(() => {
+      const text = document.querySelector('.tiptap p')?.firstChild as Text
+
+      window.getSelection()?.setBaseAndExtent(text, 5, text, 7)
+    })
+
+    await page.keyboard.press('ControlOrMeta+b')
+
+    await expect(page.locator('.tiptap p strong')).toHaveText('me')
+  })
+
+  test('handles pasted HTML through the clipboard pipeline', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>start:</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.keyboard.press('End')
+
+    await editor.evaluate((el: any) => {
+      const data = new DataTransfer()
+
+      data.setData('text/html', '<strong>pasted</strong>')
+      el.editor.view.dom.dispatchEvent(
+        new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }),
+      )
+    })
+
+    await expect(page.locator('.tiptap p strong')).toHaveText('pasted')
+    await expect(page.locator('.tiptap p').first()).toHaveText('start:pasted')
+  })
+
+  test('preserves consecutive and trailing spaces', async ({ page }) => {
+    const editor = await getEditor(page)
+
+    // The whitespace CSS only applies through the ProseMirror class
+    await expect(editor).toHaveClass(/ProseMirror/)
+    const whiteSpace = await editor.evaluate(element => getComputedStyle(element).whiteSpace)
+
+    expect(['pre-wrap', 'break-spaces']).toContain(whiteSpace)
+
+    await editor.evaluate((el: any) => {
+      el.editor.chain().setMeta('addToHistory', false).setContent('<p>ab</p>').run()
+    })
+    await page.locator('.tiptap p').first().click()
+    await page.keyboard.press('End')
+    await page.keyboard.type('  x')
+
+    const text = await editor.evaluate((el: any) => el.editor.state.doc.textContent)
+
+    expect(text).toBe('ab  x')
+
+    // Both spaces render (no collapsing), so the DOM text matches the doc
+    const domText = await page
+      .locator('.tiptap p')
+      .first()
+      .evaluate(node => node.textContent)
+
+    expect(domText).toBe('ab  x')
+  })
+
   test('undoes and redoes typed text', async ({ page }) => {
     const editor = await getEditor(page)
 

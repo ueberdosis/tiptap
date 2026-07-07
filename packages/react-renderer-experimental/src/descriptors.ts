@@ -1,7 +1,8 @@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { DecorationSet } from '@tiptap/pm/view'
 
-import { NodeViewDesc, NOT_DIRTY, TextViewDesc } from './viewdesc.js'
+import type { ViewDesc } from './viewdesc.js'
+import { MarkViewDesc, NodeViewDesc, NOT_DIRTY, TextViewDesc } from './viewdesc.js'
 
 const NO_DECORATIONS: readonly never[] = []
 
@@ -65,60 +66,92 @@ export const detachNodeViewDesc = (desc: NodeViewDesc): void => {
  *
  * React layout effects run children before parents, so by the time a node's
  * effect calls this, every rendered child element already carries its own
- * refreshed desc on the `pmViewDesc` expando — walking the DOM yields them in
- * document order. Text runs have no component (React cannot ref a DOM text
- * node), so they are bound here by pairing DOM text nodes with the node's
- * text children.
+ * refreshed desc on the `pmViewDesc` expando — walking the DOM yields them
+ * in document order. Text runs have no component (React cannot ref a DOM
+ * text node), so they are bound here by pairing DOM text nodes with the
+ * node's inline children; the walk descends into mark elements, where the
+ * same flat child sequence continues (the cursor is shared).
  */
 export const rebuildChildDescs = (desc: NodeViewDesc): void => {
-  const { contentDOM, node } = desc
-
   desc.children.length = 0
-  if (!contentDOM) {
-    return
+  if (desc.contentDOM) {
+    walkContent(desc, desc.contentDOM, desc.node, { index: 0 })
   }
+}
 
-  let childIndex = 0
+interface WalkCursor {
+  index: number
+}
 
-  contentDOM.childNodes.forEach(domChild => {
+const walkContent = (
+  parent: ViewDesc,
+  container: HTMLElement,
+  node: ProseMirrorNode,
+  cursor: WalkCursor,
+): void => {
+  container.childNodes.forEach(domChild => {
     if (domChild.nodeType === Node.TEXT_NODE) {
-      const pmChild = node.maybeChild(childIndex)
-
-      if (!pmChild?.isText) {
-        // A DOM text node with no matching document text (e.g. rendered by a
-        // future decoration) — nothing to describe
-        return
-      }
-
-      const existing = domChild.pmViewDesc
-      let textDesc: TextViewDesc
-
-      if (existing instanceof TextViewDesc && existing.nodeDOM === domChild) {
-        existing.node = pmChild
-        existing.parent = desc
-        existing.dirty = NOT_DIRTY
-        textDesc = existing
-      } else {
-        textDesc = new TextViewDesc(
-          desc,
-          pmChild,
-          NO_DECORATIONS,
-          DecorationSet.empty,
-          domChild,
-          domChild,
-        )
-      }
-      desc.children.push(textDesc)
-      childIndex += 1
-      return
-    }
-
-    const childDesc = domChild.pmViewDesc
-
-    if (childDesc && childDesc !== desc && childDesc.node) {
-      childDesc.parent = desc
-      desc.children.push(childDesc)
-      childIndex += 1
+      claimTextNode(parent, domChild, node, cursor)
+    } else {
+      claimElement(parent, domChild, node, cursor)
     }
   })
+}
+
+const claimTextNode = (
+  parent: ViewDesc,
+  domChild: Node,
+  node: ProseMirrorNode,
+  cursor: WalkCursor,
+): void => {
+  const pmChild = node.maybeChild(cursor.index)
+
+  // A DOM text node with no matching document text (e.g. rendered by a
+  // future decoration) describes nothing
+  if (pmChild?.isText) {
+    parent.children.push(bindTextDesc(parent, pmChild, domChild))
+    cursor.index += 1
+  }
+}
+
+const claimElement = (
+  parent: ViewDesc,
+  domChild: Node,
+  node: ProseMirrorNode,
+  cursor: WalkCursor,
+): void => {
+  const childDesc = domChild.pmViewDesc
+
+  if (!childDesc || childDesc === parent) {
+    return
+  }
+  if (childDesc instanceof MarkViewDesc) {
+    childDesc.parent = parent
+    childDesc.children.length = 0
+    parent.children.push(childDesc)
+    if (childDesc.contentDOM) {
+      // The flat inline child sequence continues inside the mark element
+      walkContent(childDesc, childDesc.contentDOM, node, cursor)
+    }
+    return
+  }
+  if (childDesc.node || childDesc.isTrailingHack) {
+    childDesc.parent = parent
+    parent.children.push(childDesc)
+    if (childDesc.node) {
+      cursor.index += 1
+    }
+  }
+}
+
+const bindTextDesc = (parent: ViewDesc, pmChild: ProseMirrorNode, domChild: Node): TextViewDesc => {
+  const existing = domChild.pmViewDesc
+
+  if (existing instanceof TextViewDesc && existing.nodeDOM === domChild) {
+    existing.node = pmChild
+    existing.parent = parent
+    existing.dirty = NOT_DIRTY
+    return existing
+  }
+  return new TextViewDesc(parent, pmChild, NO_DECORATIONS, DecorationSet.empty, domChild, domChild)
 }

@@ -175,12 +175,19 @@ describe('static React document rendering', () => {
     expect(textDesc.nodeDOM).toBe(dom.children[0].firstChild)
   })
 
-  it('renders empty paragraphs and keeps descs intact', async () => {
+  it('renders empty paragraphs with the trailing-break hack', async () => {
     const docNode = doc(p())
     const { dom, docDesc } = await renderDoc(docNode)
 
-    expect(dom.innerHTML).toBe('<p></p>')
-    expect((docDesc.children[0] as NodeViewDesc).children).toHaveLength(0)
+    expect(dom.innerHTML).toBe('<p><br></p>')
+
+    const paragraphDesc = docDesc.children[0] as NodeViewDesc
+    const [hackDesc] = paragraphDesc.children
+
+    // The hack desc represents no content: mapping skips over it
+    expect(hackDesc?.isTrailingHack).toBe(true)
+    expect(hackDesc?.size).toBe(0)
+    expect(paragraphDesc.size).toBe(2)
   })
 
   it('stays correct under StrictMode double-invocation', async () => {

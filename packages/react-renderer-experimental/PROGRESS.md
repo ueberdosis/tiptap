@@ -9,12 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5 (committed); Phase 6 node views + demo/e2e
-  (pending commit).**
-- **Phase 6 remaining: decorations** (node/inline/widget) and the trailing-break hack.
-- Playwright e2e runs against `demos/src/GuideNodeViews/ReactComponentExperimental` (node
-  view without wrapper, attr updates without remount, real typing, Enter split, selection
-  round-trip, undo/redo). This also closed Phase 5's e2e gap.
+- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5, 6 node views (committed); manual-testing
+  bug-fix round (pending commit): selection sync, trailing-break hack, mark rendering,
+  doc attributes.**
+- **Phase 6 remaining: decorations** (node/inline/widget).
+- Playwright e2e runs against `demos/src/GuideNodeViews/ReactComponentExperimental`
+  (14 specs: node view without wrapper, typing, DOM-selection sync, marks, input rules,
+  paste, whitespace, undo/redo).
 - `prosemirror-view` is pinned at **1.41.9** (see AUDIT.md §1-2; compat test enforces it).
 
 ## Validation commands
@@ -207,6 +208,37 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
 - Playwright gotcha: Tiptap's `focus` command defers `view.focus()` to
   `requestAnimationFrame`, which is unreliable to sequence in headless runs — focus via a
   real `.click()` in specs, then set selection through commands.
+
+### Manual-testing bug-fix round (after Phase 6 node views)
+
+All four user-reported bugs traced to gaps the unit suite could not see:
+
+- **DOM→state selection sync was dead.** `flush()` calls `desc.ignoreMutation()` on every
+  `selectionchange`; the Phase 2C mapping layer never derived it, so the listener threw
+  (silently) and clicks/cursor moves never reached the state — typing, Backspace, Delete,
+  and Enter all acted at a stale selection. Fixed by deriving `ignoreMutation` (base
+  ViewDesc). Also: `selectionchange` delivery is async, so `beforeInput` now flushes the
+  pending selection read (`domObserver.flush()`, documented internal) on keydown and
+  beforeinput before acting; vanilla PM does not need this because it parses DOM mutations
+  where the browser applied them.
+- **Trailing-break hack.** Empty paragraphs rendered `<p></p>`: zero height, unclickable
+  (why typing "in the newly added paragraph" failed). `TrailingHackViewDesc` (size 0) +
+  `TrailingHackView` rendering `<br>` when a textblock is empty or ends in a break;
+  `rebuildChildDescs` accepts hack descs.
+- **Marks were not rendered at all.** Text runs rendered as bare strings, dropping bold/
+  italic/etc. Added `MarkViewDesc` (derived; dirty bubbles to the nearest node desc),
+  `MarkView` (schema `toDOM` via renderOutputSpec), mark grouping in `ChildNodeViews`
+  (shared prefixes merge, `spanning: false` respected), and a cursor-based recursive child
+  walk in `descriptors.ts` (the flat inline sequence continues inside mark elements).
+  Custom React mark views stay Phase 10.
+- **Doc attributes were never applied.** The base view's `computeDocDeco` is bypassed, so
+  `view.dom` lacked the `ProseMirror` class — the injected `white-space: pre-wrap` CSS
+  never matched, collapsing consecutive/trailing spaces ("space does nothing at the end
+  of a paragraph"). `EditorContent` now computes them PM-style (`someProp('attributes')`,
+  class/style merge, `translate="no"`); the `tiptap` class stays `prependClass`-owned
+  (outside React) so its raw concat survives.
+- macOS double-space→period is OS text substitution surfacing through
+  `insertReplacementText`; behavior now matches the legacy renderer.
 
 ## Gotchas for future sessions
 

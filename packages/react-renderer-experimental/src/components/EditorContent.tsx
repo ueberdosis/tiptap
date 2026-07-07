@@ -1,13 +1,14 @@
 /** @jsxImportSource react */
 import type { Editor } from '@tiptap/core'
 import type { EditorState } from '@tiptap/pm/state'
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode, RefObject } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 
 import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
 import { ReactKeysContext } from '../contexts/ReactKeysContext.js'
 import { reactKeysPluginKey } from '../plugins/reactKeys.js'
+import { attributesToProps } from '../props.js'
 import { ReactEditorView } from '../ReactEditorView.js'
 import type { NodeViewDesc } from '../viewdesc.js'
 import { DocView } from './DocView.js'
@@ -89,25 +90,46 @@ const useEditorEditable = (editor: Editor): boolean => {
 }
 
 /**
- * Renders the editor's document with React-owned DOM. Mounts the editor onto
- * the rendered document element on first commit; after every commit it hands
- * the refreshed doc desc to the view and applies the staged state
- * (`commitPendingEffects`), which updates plugin views and syncs the DOM
- * selection. There is no `flushSync` anywhere on this path.
+ * The document element's attributes, mirroring the base view's
+ * `computeDocDeco` (which we bypass): the `ProseMirror` class the injected
+ * editor CSS targets (`white-space: pre-wrap` and friends — without it,
+ * spaces collapse and empty blocks misbehave), everything contributed
+ * through the `attributes` prop by the editor and its plugins, and the
+ * `translate="no"` default. The `tiptap` class is prepended by the Editor
+ * itself after mounting, outside React.
  */
-export function EditorContent({
-  editor,
-  nodeViews = NO_NODE_VIEWS,
-  ...props
-}: EditorContentProps): ReactNode {
-  const state = useEditorState(editor)
-  const editable = useEditorEditable(editor)
-  const docDescRef = useRef<NodeViewDesc | null>(null)
-  const contextValue = useMemo<EditorContextValue>(
-    () => ({ editor, nodeViews }),
-    [editor, nodeViews],
-  )
+const computeDocAttributes = (editor: Editor): Record<string, string> => {
+  const attrs: Record<string, string> = { class: 'ProseMirror' }
+  const view = editor.view
 
+  if (view instanceof ReactEditorView) {
+    view.someProp('attributes', value => {
+      const resolved = typeof value === 'function' ? value(view.state) : value
+
+      if (!resolved) {
+        return undefined
+      }
+      Object.entries(resolved).forEach(([name, attrValue]) => {
+        if (name === 'class') {
+          attrs.class += ` ${attrValue}`
+        } else if (name === 'style') {
+          attrs.style = attrs.style ? `${attrs.style};${attrValue}` : String(attrValue)
+        } else if (!attrs[name] && name !== 'contenteditable' && name !== 'nodeName') {
+          attrs[name] = String(attrValue)
+        }
+      })
+      // Returning nothing keeps someProp collecting from every plugin
+      return undefined
+    })
+  }
+  if (!attrs.translate) {
+    attrs.translate = 'no'
+  }
+  return attrs
+}
+
+/** Mounts the editor on first commit and applies the staged state after every commit. */
+const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | null>): void => {
   useLayoutEffect(() => {
     const desc = docDescRef.current
 
@@ -138,13 +160,42 @@ export function EditorContent({
     },
     [editor],
   )
+}
+
+/**
+ * Renders the editor's document with React-owned DOM. Mounts the editor onto
+ * the rendered document element on first commit; after every commit it hands
+ * the refreshed doc desc to the view and applies the staged state
+ * (`commitPendingEffects`), which updates plugin views and syncs the DOM
+ * selection. There is no `flushSync` anywhere on this path.
+ */
+export function EditorContent({
+  editor,
+  nodeViews = NO_NODE_VIEWS,
+  className,
+  ...props
+}: EditorContentProps): ReactNode {
+  const state = useEditorState(editor)
+  const editable = useEditorEditable(editor)
+  const docDescRef = useRef<NodeViewDesc | null>(null)
+  const contextValue = useMemo<EditorContextValue>(
+    () => ({ editor, nodeViews }),
+    [editor, nodeViews],
+  )
+
+  useCommitEffect(editor, docDescRef)
+
+  const docProps = attributesToProps(computeDocAttributes(editor))
+  const mergedClassName = [docProps.className, className].filter(Boolean).join(' ')
 
   return (
     <EditorContext.Provider value={contextValue}>
       <ReactKeysContext.Provider value={reactKeysPluginKey.getState(state) ?? null}>
         <DocView
           role="textbox"
+          {...docProps}
           {...props}
+          className={mergedClassName}
           node={state.doc}
           contentEditable={editable}
           suppressContentEditableWarning
