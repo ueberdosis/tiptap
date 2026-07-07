@@ -36,6 +36,7 @@ import type {
   ChainedCommands,
   DocumentType,
   EditorEvents,
+  EditorInternalOptions,
   EditorOptions,
   NodeType as TNodeType,
   SingleCommands,
@@ -544,7 +545,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     const baseTransformPastedHTML = (editorProps as DirectEditorProps).transformPastedHTML
     const transformPastedHTML = this.extensionManager.transformPastedHTML(baseTransformPastedHTML)
 
-    this.editorView = new EditorView(element, {
+    const viewProps: DirectEditorProps = {
       ...editorProps,
       attributes: {
         // add `role="textbox"` to the editor element
@@ -556,7 +557,13 @@ export class Editor extends EventEmitter<EditorEvents> {
       state: this.editorState,
       markViews: this.extensionManager.markViews,
       nodeViews: this.extensionManager.nodeViews,
-    })
+    }
+    // Internal hook for alternative rendering engines to supply the view instance
+    const viewFactory = (this.options as EditorInternalOptions).__internalViewFactory
+
+    this.editorView = viewFactory
+      ? viewFactory(element, viewProps)
+      : new EditorView(element, viewProps)
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.

@@ -9,6 +9,7 @@ import type { Mappable, Transform } from '@tiptap/pm/transform'
 import type {
   Decoration,
   DecorationAttrs,
+  DirectEditorProps,
   EditorProps,
   EditorView,
   MarkView,
@@ -285,6 +286,24 @@ export type DispatchTransactionProps = {
 }
 
 export type EnableRules = (AnyExtension | string)[] | boolean
+
+/**
+ * @internal
+ * Non-public editor options. Not part of the public API — may change or be
+ * removed in any release without notice.
+ */
+export interface EditorInternalOptions {
+  /**
+   * @internal
+   * Overrides the `EditorView` constructor used when the editor mounts.
+   * Alternative rendering engines use this to supply an `EditorView` subclass;
+   * when omitted, a plain `EditorView` is constructed as before.
+   */
+  __internalViewFactory?: (
+    element: NonNullable<EditorOptions['element']>,
+    props: DirectEditorProps,
+  ) => EditorView
+}
 
 export interface EditorOptions {
   /**
