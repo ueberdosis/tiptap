@@ -12,12 +12,35 @@
  * reading, and input handling.
  */
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Decoration, DecorationSource } from '@tiptap/pm/view'
+import type { Decoration, DecorationSource, EditorView } from '@tiptap/pm/view'
+
+import { gecko, safari } from './browser.js'
 
 export const NOT_DIRTY = 0
 export const CHILD_DIRTY = 1
 export const CONTENT_DIRTY = 2
 export const NODE_DIRTY = 3
+
+/**
+ * Non-public `EditorView` members the derived selection code reads, verified
+ * against prosemirror-view 1.41.9 (both are declared `@internal` and stripped
+ * from the published types):
+ *
+ * - `domSelectionRange()`: the current DOM selection, normalized for Safari
+ *   shadow-DOM quirks. Read-only; the invariant is that `setSelection` only
+ *   compares against it before writing through `view.root.getSelection()`.
+ */
+interface ViewSelectionInternals {
+  domSelectionRange(): {
+    focusNode: Node | null
+    focusOffset: number
+    anchorNode: Node | null
+    anchorOffset: number
+  }
+}
+
+const selectionInternals = (view: EditorView): ViewSelectionInternals =>
+  view as unknown as ViewSelectionInternals
 
 declare global {
   interface Node {
@@ -45,6 +68,87 @@ export const domIndex = (node: Node): number => {
     index += 1
   }
 }
+
+const nodeSize = (node: Node): number =>
+  node.nodeType === 3 ? (node.nodeValue?.length ?? 0) : node.childNodes.length
+
+const hasBlockDesc = (dom: Node): boolean => {
+  let desc: ViewDesc | undefined
+
+  for (let cur: Node | null = dom; cur; cur = cur.parentNode) {
+    desc = cur.pmViewDesc
+    if (desc) {
+      break
+    }
+  }
+  return Boolean(
+    desc && desc.node && desc.node.isBlock && (desc.dom === dom || desc.contentDOM === dom),
+  )
+}
+
+const ATOM_ELEMENTS = /^(img|br|input|textarea|hr)$/i
+
+const scanFor = (
+  node: Node,
+  off: number,
+  targetNode: Node,
+  targetOff: number,
+  dir: number,
+): boolean => {
+  let current = node
+  let offset = off
+
+  for (;;) {
+    if (current === targetNode && offset === targetOff) {
+      return true
+    }
+    if (offset === (dir < 0 ? 0 : nodeSize(current))) {
+      const parent = current.parentNode
+
+      if (
+        !parent ||
+        parent.nodeType !== 1 ||
+        hasBlockDesc(current) ||
+        ATOM_ELEMENTS.test(current.nodeName) ||
+        (current as HTMLElement).contentEditable === 'false'
+      ) {
+        return false
+      }
+      offset = domIndex(current) + (dir < 0 ? 0 : 1)
+      current = parent
+    } else if (current.nodeType === 1) {
+      const child = current.childNodes[offset + (dir < 0 ? -1 : 0)]
+
+      if (child.nodeType === 1 && (child as HTMLElement).contentEditable === 'false') {
+        if (child.pmViewDesc?.ignoreForSelection) {
+          offset += dir
+        } else {
+          return false
+        }
+      } else {
+        current = child
+        offset = dir < 0 ? nodeSize(current) : 0
+      }
+    } else {
+      return false
+    }
+  }
+}
+
+/**
+ * Whether two DOM positions are equivalent (e.g. after a text node vs at the
+ * end of that text node). Derived from prosemirror-view 1.41.9's `dom.ts`.
+ */
+const isEquivalentPosition = (
+  node: Node,
+  off: number,
+  targetNode: Node | null,
+  targetOff: number,
+): boolean =>
+  Boolean(
+    targetNode &&
+    (scanFor(node, off, targetNode, targetOff, -1) || scanFor(node, off, targetNode, targetOff, 1)),
+  )
 
 const sameOuterDeco = (a: readonly Decoration[], b: readonly Decoration[]): boolean => {
   if (a.length !== b.length) {
@@ -388,6 +492,141 @@ export class ViewDesc {
     return node.childNodes[offset]
   }
 
+  /**
+   * Writes the given document selection to the DOM. Descs own any selection
+   * falling entirely inside of them (so custom node views can override this);
+   * a selection spanning descs is applied here via `domFromPos` best effort.
+   * Derived from prosemirror-view 1.41.9, browser kludges included.
+   */
+  setSelection(anchor: number, head: number, view: EditorView, force = false): void {
+    // If the selection falls entirely in a child, give it to that child
+    const from = Math.min(anchor, head)
+    const to = Math.max(anchor, head)
+    let offset = 0
+
+    for (const child of this.children) {
+      const end = offset + child.size
+
+      if (from > offset && to < end) {
+        return child.setSelection(
+          anchor - offset - child.border,
+          head - offset - child.border,
+          view,
+          force,
+        )
+      }
+      offset = end
+    }
+
+    let anchorDOM = this.domFromPos(anchor, anchor ? -1 : 1)
+    let headDOM = head === anchor ? anchorDOM : this.domFromPos(head, head ? -1 : 1)
+    const domSel = (view.root as Document).getSelection()
+
+    if (!domSel) {
+      return
+    }
+
+    const selRange = selectionInternals(view).domSelectionRange()
+    let mustForce = force
+    let brKludge = false
+
+    // On Firefox, Selection.collapse after a BR does not always work (PM
+    // #1073); on Safari the cursor can visually lag behind its reported
+    // position there (PM #1092)
+    if ((gecko || safari) && anchor === head) {
+      const { node, offset: anchorOffset } = anchorDOM
+
+      if (node.nodeType === 3) {
+        brKludge = Boolean(anchorOffset && node.nodeValue?.[anchorOffset - 1] === '\n')
+        // PM #1128
+        if (brKludge && anchorOffset === node.nodeValue?.length) {
+          for (let scan: Node | null = node; scan; scan = scan.parentNode) {
+            const after = scan.nextSibling
+
+            if (after) {
+              if (after.nodeName === 'BR') {
+                anchorDOM = headDOM = {
+                  node: after.parentNode as Node,
+                  offset: domIndex(after) + 1,
+                }
+              }
+              break
+            }
+            const desc = scan.pmViewDesc
+
+            if (desc && desc.node && desc.node.isBlock) {
+              break
+            }
+          }
+        }
+      } else {
+        const prev = node.childNodes[anchorOffset - 1]
+
+        brKludge = Boolean(
+          prev && (prev.nodeName === 'BR' || (prev as HTMLElement).contentEditable === 'false'),
+        )
+      }
+    }
+    // Firefox can act strangely when the selection sits in front of an
+    // uneditable node (PM #1163)
+    if (
+      gecko &&
+      selRange.focusNode &&
+      selRange.focusNode !== headDOM.node &&
+      selRange.focusNode.nodeType === 1
+    ) {
+      const after = selRange.focusNode.childNodes[selRange.focusOffset]
+
+      if (after && (after as HTMLElement).contentEditable === 'false') {
+        mustForce = true
+      }
+    }
+
+    if (
+      !(mustForce || (brKludge && safari)) &&
+      isEquivalentPosition(
+        anchorDOM.node,
+        anchorDOM.offset,
+        selRange.anchorNode,
+        selRange.anchorOffset,
+      ) &&
+      isEquivalentPosition(headDOM.node, headDOM.offset, selRange.focusNode, selRange.focusOffset)
+    ) {
+      return
+    }
+
+    // Selection.extend can create an inverted selection (focus before
+    // anchor); fall back to a Range where it fails or is unavailable
+    let domSelExtended = false
+
+    if ((domSel.extend || anchor === head) && !(brKludge && gecko)) {
+      domSel.collapse(anchorDOM.node, anchorDOM.offset)
+      try {
+        if (anchor !== head) {
+          domSel.extend(headDOM.node, headDOM.offset)
+        }
+        domSelExtended = true
+      } catch {
+        // Chrome can leave the selection empty after collapse; Safari can
+        // throw when the editor is hidden with no selection. Fall through.
+      }
+    }
+    if (!domSelExtended) {
+      if (anchor > head) {
+        const tmp = anchorDOM
+
+        anchorDOM = headDOM
+        headDOM = tmp
+      }
+      const range = document.createRange()
+
+      range.setEnd(headDOM.node, headDOM.offset)
+      range.setStart(anchorDOM.node, anchorDOM.offset)
+      domSel.removeAllRanges()
+      domSel.addRange(range)
+    }
+  }
+
   get contentLost(): boolean {
     return Boolean(
       this.contentDOM && this.contentDOM !== this.dom && !this.dom.contains(this.contentDOM),
@@ -510,6 +749,62 @@ export class NodeViewDesc extends ViewDesc {
       sameOuterDeco(outerDeco, this.outerDeco) &&
       innerDecoEq.call(innerDeco, this.innerDeco)
     )
+  }
+
+  /**
+   * Accepts the given node and refreshes the desc's fields. Unlike
+   * prosemirror-view's, this never rejects and never reconciles children or
+   * patches outer-decoration DOM: it runs from `commitPendingEffects()`
+   * after React has already rendered the node (per-node layout effects
+   * refreshed the child descs), so even a markup change is already in the
+   * DOM. Returning false would send the base class down its redraw path,
+   * which destroys this desc tree and renders ProseMirror-owned DOM into
+   * the React-owned mount; that must never happen.
+   */
+  update(
+    node: ProseMirrorNode,
+    outerDeco: readonly Decoration[],
+    innerDeco: DecorationSource,
+    _view: EditorView,
+  ): boolean {
+    this.node = node
+    this.outerDeco = outerDeco
+    this.innerDeco = innerDeco
+    this.dirty = NOT_DIRTY
+    return true
+  }
+
+  /**
+   * Records the outer decorations without touching the DOM; React renders
+   * them as attributes (Phase 6). Only called by the base class on the
+   * redraw path, which `update()` returning true prevents.
+   */
+  updateOuterDeco(outerDeco: readonly Decoration[]): void {
+    this.outerDeco = outerDeco
+  }
+
+  /** Marks this node as the DOM-selected node. */
+  selectNode(): void {
+    if (this.nodeDOM.nodeType === 1) {
+      const element = this.nodeDOM as HTMLElement
+
+      element.classList.add('ProseMirror-selectednode')
+      if (this.contentDOM || !this.node.type.spec.draggable) {
+        element.draggable = true
+      }
+    }
+  }
+
+  /** Removes the DOM-selected marking again. */
+  deselectNode(): void {
+    if (this.nodeDOM.nodeType === 1) {
+      const element = this.nodeDOM as HTMLElement
+
+      element.classList.remove('ProseMirror-selectednode')
+      if (this.contentDOM || !this.node.type.spec.draggable) {
+        element.removeAttribute('draggable')
+      }
+    }
   }
 
   get size(): number {

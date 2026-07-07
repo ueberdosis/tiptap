@@ -1,8 +1,14 @@
+import type { EditorInternalOptions, EditorOptions } from '@tiptap/core'
+import { Editor, Node as TiptapNode } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Schema } from '@tiptap/pm/model'
-import { act } from 'react'
+import { act, createElement } from 'react'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
+
+import { EditorContent } from '../components/EditorContent.js'
+import { ReactRendererExtension } from '../extension.js'
+import { ReactEditorView } from '../ReactEditorView.js'
 
 // React's act() checks this global to run effects synchronously
 ;(globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true
@@ -70,5 +76,49 @@ export const unmountTrackedRoots = async (): Promise<void> => {
 
     await act(async () => root.unmount())
     container.remove()
+  }
+}
+
+/** Minimal Tiptap node extensions matching the doc/paragraph/text schema. */
+const tiptapTestNodes = [
+  TiptapNode.create({ name: 'doc', topNode: true, content: 'block+' }),
+  TiptapNode.create({
+    name: 'paragraph',
+    group: 'block',
+    content: 'inline*',
+    parseHTML: () => [{ tag: 'p' }],
+    renderHTML: () => ['p', 0],
+  }),
+  TiptapNode.create({ name: 'text', group: 'inline' }),
+]
+
+/** Creates a React-renderer editor and mounts `EditorContent` for it. */
+export const renderTiptapEditor = async (
+  content: string,
+  extensions: EditorOptions['extensions'] = [],
+) => {
+  const editorOptions: Partial<EditorOptions> & EditorInternalOptions = {
+    element: null,
+    content,
+    extensions: [...tiptapTestNodes, ReactRendererExtension, ...extensions],
+    __internalViewFactory: (element, props) => new ReactEditorView(element as HTMLElement, props),
+  }
+  const editor = new Editor(editorOptions)
+  const { root, container } = mountTrackedRoot()
+
+  await act(async () => {
+    root.render(createElement(EditorContent, { editor }))
+  })
+
+  return {
+    editor,
+    root,
+    container,
+    get dom() {
+      return container.firstElementChild as HTMLDivElement
+    },
+    get view() {
+      return editor.view as ReactEditorView
+    },
   }
 }

@@ -17,10 +17,13 @@ export interface DocViewLike {
 }
 
 /**
- * Non-public `prosemirror-view` internals this renderer relies on. They are
+ * Non-public `prosemirror-view` internals this module relies on. They are
  * declared on `EditorView` but stripped from the published type declarations
  * (`@internal`), so every access goes through this interface via the
- * `internals()` helper below — keeping the full private surface in one place.
+ * `internals()` helper below. Sibling modules with their own internal access
+ * (each documented the same way): `viewdesc.ts` (`domSelectionRange`) and
+ * `plugins/beforeInput.ts` (`input.lastIOSEnter`). AUDIT.md is the full
+ * inventory to re-verify on any prosemirror-view bump.
  *
  * Each field is verified against prosemirror-view 1.41.9 (the pinned version,
  * see AUDIT.md):
@@ -207,6 +210,18 @@ export class ReactEditorView extends EditorView {
 
   updateState(state: EditorState): void {
     this.update({ ...this.nextProps, state })
+  }
+
+  /**
+   * Registers (or clears) the React-rendered doc desc as the view's document
+   * tree. Called by the React integration whenever the root desc is
+   * (re)registered; commits are no-ops until one is set.
+   */
+  setDocView(docView: DocViewLike | null): void {
+    if (this.destroyed) {
+      return
+    }
+    internals(this).docView = docView
   }
 
   /**

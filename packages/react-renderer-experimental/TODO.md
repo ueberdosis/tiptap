@@ -22,24 +22,18 @@ Goal: re-render on transactions with stable component identity.
 - [x] Acceptance via host-element/desc identity: typing/split/join/no-doc-change/reorder
       (`__tests__/keyedRender.test.ts`, `__tests__/reactKeys.test.ts`).
 
-## Phase 5 — editing and selection (NEXT)
+## Phase 5: editing and selection (core DONE, pending commit)
 
-- [ ] Dispatch wiring: route through `editor.dispatchTransaction(tr)` and force a React
-      re-render (Tiptap's dispatch does not trigger one). Update state without mutating
-      document DOM; run `view.commitPendingEffects()` in a client layout effect after commit;
-      sync selection there.
-- [ ] The pieces already waiting for this: `ReactEditorView.commitPendingEffects()` (needs a
-      real `docView` — registered by `DocView`'s `onDocDesc`), `EMPTY_STATE` prevState
-      semantics, and the composition guard on `domObserver.onSelectionChange`.
-- [ ] The desc tree needs `setSelection`/`updateOuterDeco`/`update` on `NodeViewDesc` for the
-      base `updateStateInner`/`selectionToDOM` paths (deliberately left out of Phase 2C —
-      derive from prosemirror-view 1.41.9 like the rest of viewdesc.ts).
-- [ ] `useEditor`-style hook: construct the Tiptap `Editor` with `element: null` +
-      `__internalViewFactory` (from `@tiptap/core`'s `EditorInternalOptions`), `mount()` once
-      the DocView element exists. Reuse Tiptap's Proxy null-view pre-mount.
-- [ ] Composition guard: do not re-render the actively composing text node.
-- [ ] No `flushSync` on the render/commit path (spy assertion). Playwright for typing +
-      selection round-trips (`pnpm test:e2e`; note repo e2e infra under `tests/`).
+- [x] Dispatch wiring (`EditorContent`: `useSyncExternalStore` on `transaction`, layout-effect
+      `mount()` + `setDocView()` + `commitPendingEffects()`).
+- [x] Desc tree: `setSelection`/`update`/`updateOuterDeco`/`selectNode`/`deselectNode`
+      derived from prosemirror-view 1.41.9.
+- [x] `useReactEditor` hook (`element: null` + `__internalViewFactory`).
+- [x] `beforeInput` plugin (observer is dead, so input is intercepted and dispatched).
+- [x] Composition guard (deferred re-renders while composing + `compositionend` catch-up).
+- [x] No-`flushSync` path asserted (dispatch does not render synchronously).
+- [ ] Playwright e2e: typing + selection round-trips in a real browser (needs a demo page
+      wired into `tests/`). Decide scope with the team.
 
 ## Phase 6 — decorations and first React node views
 
@@ -79,7 +73,15 @@ Goal: re-render on transactions with stable component identity.
 
 - [ ] `Editor.prependClass()` and `dom.editor = this` mutate the mount after the factory
       returns; React must tolerate/own doc-level attributes when the real integration lands
-      (doc decorations / `computeDocDeco` equivalent must merge, not clobber).
+      (doc decorations / `computeDocDeco` equivalent must merge, not clobber). Also:
+      repeated mount cycles prepend `tiptap` again each time, and a changing `className`
+      prop on `EditorContent` makes React clobber the core-prepended classes.
+- [ ] Phase 9 lifecycle items found in the Phase 5 review: `useReactEditor` is not
+      StrictMode-safe (cleanup destroys the singleton editor); mounting a destroyed editor
+      crashes in `createView` (no public destroyed-vs-unmounted distinction pre-mount);
+      teardown emits `unmount` twice (EditorContent cleanup + `destroy()`'s internal
+      unmount); rendering one editor in two `EditorContent`s concurrently is unsupported
+      (stale `view.dom` on the first).
 - [ ] `scrollTop` writes: base `updateStateInner` scroll handling ("reset") writes
       `view.dom.scrollTop` — harmless, but note when asserting "PM never touches the DOM".
 - [ ] Bubble-menu queries `[data-node-view-wrapper]` (AUDIT.md §4) — needs a fallback once

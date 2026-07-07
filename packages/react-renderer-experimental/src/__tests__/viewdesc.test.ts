@@ -250,4 +250,18 @@ describe('viewdesc', () => {
     expect(p1.pmViewDesc).toBeUndefined()
     expect(t1.pmViewDesc).toBeUndefined()
   })
+
+  it('update() always accepts, even across markup changes and dirty descs', () => {
+    // Returning false would trigger the base redraw path, which must never
+    // run against React-owned DOM (see NodeViewDesc.update)
+    const { docDesc } = buildTree()
+    const otherDoc = schema.node('doc', null, [schema.node('paragraph', null, [])])
+    const none = DecorationSet.empty
+    const view = null as never
+
+    docDesc.markDirty(-1, -1)
+    expect(docDesc.update(otherDoc, [], none, view)).toBe(true)
+    expect(docDesc.node).toBe(otherDoc)
+    expect(docDesc.dirty).toBe(NOT_DIRTY)
+  })
 })

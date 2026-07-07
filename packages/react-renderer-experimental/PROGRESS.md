@@ -9,8 +9,10 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3, 4.** Phases through 3 committed; Phase 4 pending commit.
-- **Next: Phase 5** — editing and selection (see TODO.md).
+- **Completed: Phases 1, 2A, 2B, 2C, 3, 4 (committed), 5 core (pending commit).**
+- **Phase 5 remaining: Playwright e2e coverage** (needs a demo page in the repo e2e infra);
+  everything else in Phase 5 is implemented and unit-tested.
+- **Next after that: Phase 6**: decorations and first React node views (see TODO.md).
 - `prosemirror-view` is pinned at **1.41.9** (see AUDIT.md §1-2; compat test enforces it).
 
 ## Validation commands
@@ -140,6 +142,42 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
   via host-element + desc identity; the reorder case is the one that fails without keys,
   since slot 0 changes node type). Shared fixtures extracted to `__tests__/helpers.ts`
   (fallow duplication finding).
+
+### Phase 5: editing and selection (core; e2e pending)
+
+- `src/viewdesc.ts` grew the base-view-facing surface, derived from prosemirror-view 1.41.9:
+  `ViewDesc.setSelection` (child descent + DOM selection write with the gecko/safari BR
+  kludges), `NodeViewDesc.update` (accepts + refreshes fields, never reconciles children;
+  returning true here is what stops the base class from redrawing), `updateOuterDeco`
+  (field-only), `selectNode`/`deselectNode`. Helpers `isEquivalentPosition`/`scanFor`/
+  `nodeSize`/`hasBlockDesc` derived from PM's `dom.ts`; `src/browser.ts` has the minimal
+  gecko/safari flags. `view.domSelectionRange()` is internal, documented in
+  `ViewSelectionInternals`.
+- `src/ReactEditorView.ts`: public `setDocView()` so the integration never pokes privates.
+- `src/extension.ts` (`ReactRendererExtension`): adds `reactKeys()` + `beforeInput()`.
+- `src/plugins/beforeInput.ts`: with the mutation observer dead, editing input is intercepted
+  at `beforeinput` and re-expressed as transactions: insertText (targetRanges-aware),
+  insertParagraph/insertLineBreak (synthetic Enter through `someProp('handleKeyDown')`, so
+  keymaps run), insertReplacementText, the delete\* family (`ensureMarks` across the range).
+  `insertFromComposition` is not prevented. `input.lastIOSEnter` write documented.
+- `src/hooks/useReactEditor.ts`: constructs the Tiptap `Editor` with `element: null`, the
+  `__internalViewFactory` producing a `ReactEditorView`, and the extension; destroys on
+  unmount. StrictMode hardening is Phase 9.
+- `src/components/EditorContent.tsx`: `useSyncExternalStore` on `editor.on('transaction')`;
+  layout effect mounts the editor onto the DocView element on first commit (the pre-mount
+  `editor.view` Proxy is detected via `instanceof ReactEditorView`; note
+  `editor.isDestroyed` is TRUE pre-mount, do not guard on it), then `setDocView(desc)` +
+  `commitPendingEffects()` every commit. Composition guard: transaction notifications are
+  deferred while `view.composing`, with a once-`compositionend` listener to catch up when PM
+  dispatches nothing afterwards. No `flushSync` anywhere; a test asserts dispatch does not
+  render synchronously.
+- Pre-mount `editorState` has no plugins, so the first render uses index keys; the
+  `useSyncExternalStore` snapshot check re-renders with reactKeys state right after mount
+  (one-time, pre-focus child remount).
+- Tests: `__tests__/editorContent.test.ts` (mount, edits without remount, async render,
+  DOM selection sync, plugin views, undo/redo, composition defer, posAtDOM round-trip),
+  `__tests__/beforeInput.test.ts` (typing, target ranges, Enter via keymap, backspace,
+  composition passthrough). Tiptap-flavored render helper in `__tests__/helpers.ts`.
 
 ## Gotchas for future sessions
 
