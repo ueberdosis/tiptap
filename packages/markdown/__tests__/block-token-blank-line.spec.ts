@@ -73,4 +73,14 @@ describe('Blank lines after a block token', () => {
     expect(kinds).toEqual(['table', 'paragraph', 'paragraph'])
     expect(doc.content?.[1]).toEqual({ type: 'paragraph', content: [] })
   })
+
+  // HTML blocks share the same failure: marked's html tokenizer can also absorb
+  // the trailing blank lines into the html token's `raw`.
+  it('preserves a blank line between an HTML block and the following text', () => {
+    const doc = markdownManager.parse('<div>test</div>\n\n\n\nAfter')
+    const kinds = (doc.content ?? []).map(node => node.type)
+
+    expect(kinds).toEqual(['paragraph', 'paragraph', 'paragraph'])
+    expect(doc.content?.[1]).toEqual({ type: 'paragraph', content: [] })
+  })
 })
