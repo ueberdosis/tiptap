@@ -1026,6 +1026,30 @@ importers:
         specifier: workspace:^
         version: link:../extension-floating-menu
 
+  packages/react-renderer-experimental:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.1.6
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.1.5(@types/react@19.1.6)
+      prosemirror-view:
+        specifier: 1.41.9
+        version: 1.41.9
+      react:
+        specifier: ^19.0.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.1.0(react@19.1.0)
+
   packages/server-ai-toolkit:
     dependencies:
       es-toolkit:
