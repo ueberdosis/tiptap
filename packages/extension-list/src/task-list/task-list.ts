@@ -120,8 +120,9 @@ export const TaskList = Node.create<TaskListOptions>({
             items: nestedResult.items,
           }
 
-          // parseIndentedBlocks only consumes checkbox items,
-          // so anything after that (for ex: plain bullets) we parse those and keep as sibling tokens
+          // parseIndentedBlocks only consumes checkbox items.
+          // Parse any remaining indented content, such as plain bullets,
+          // and keep it as sibling tokens.
           const remainder = content.slice(nestedResult.raw.length)
           if (remainder.trim()) {
             return [taskListToken, ...lexer.blockTokens(remainder)]
