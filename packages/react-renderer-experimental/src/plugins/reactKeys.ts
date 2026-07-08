@@ -34,8 +34,12 @@ let nodeKeyCounter = 0
 export const createNodeKey = (): string => `node-${nodeKeyCounter++}`
 
 /** Assigns fresh keys to every node that has none yet (text nodes included). */
-const assignFreshKeys = (doc: ProseMirrorNode, state: ReactKeysPluginState): void => {
-  doc.descendants((_node, pos) => {
+const assignFreshKeys = (
+  doc: ProseMirrorNode,
+  state: ReactKeysPluginState,
+  ranges?: [number, number][],
+): void => {
+  const visit = (_node: ProseMirrorNode, pos: number) => {
     if (!state.posToKey.has(pos)) {
       const key = createNodeKey()
 
@@ -43,7 +47,31 @@ const assignFreshKeys = (doc: ProseMirrorNode, state: ReactKeysPluginState): voi
       state.keyToPos.set(key, pos)
     }
     return true
+  }
+
+  if (!ranges) {
+    doc.descendants(visit)
+    return
+  }
+  // Keyless nodes can only appear where the transaction changed the doc:
+  // walking just those ranges keeps typing from being O(document)
+  ranges.forEach(([from, to]) => {
+    doc.nodesBetween(Math.max(0, from), Math.min(doc.content.size, to), visit)
   })
+}
+
+/** The transaction's changed ranges, in final-document coordinates. */
+const changedRanges = (tr: Transaction): [number, number][] => {
+  const ranges: [number, number][] = []
+
+  tr.mapping.maps.forEach((stepMap, index) => {
+    const rest = tr.mapping.slice(index + 1)
+
+    stepMap.forEach((_oldFrom, _oldTo, newFrom, newTo) => {
+      ranges.push([rest.map(newFrom, -1), rest.map(newTo, 1)])
+    })
+  })
+  return ranges
 }
 
 const resolveFreezeFrom = (
@@ -217,10 +245,13 @@ const applyKeys = (
   }
 
   if (orphans.length) {
+    // Wholesale rewrites (collab) may re-key anywhere: rescue, then sweep
+    // the full document for the remaining vacancies
     rescueOrphanedKeys(orphans, next, newState.doc)
+    assignFreshKeys(newState.doc, next)
+  } else {
+    assignFreshKeys(newState.doc, next, changedRanges(tr))
   }
-
-  assignFreshKeys(newState.doc, next)
   return next
 }
 

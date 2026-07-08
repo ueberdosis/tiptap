@@ -195,6 +195,14 @@ to the view (`setDocView`) before calling `commitPendingEffects()`.
                                        plugin views, syncs the DOM selection)
 ```
 
+Typing is not O(document): the keys/selection context carries a **stable
+ref** (never re-rendering consumers), `NodeView` is memoized on node identity
+(exact, thanks to ProseMirror structural sharing — `pos` is deliberately not
+compared and must not be consumed outside render), and long block-only child
+lists render through memoized **chunks** that skip element creation for
+unchanged regions. The editor's pre-mount state carries its plugins, so keys
+are real from the first render.
+
 The components render exactly what ProseMirror would: schema `toDOM` specs
 become React elements (`OutputSpecView`, with `class`/`style` conversion in
 `props.ts`); a `<p>` is a `<p>`, with no wrapper and no portal. `NodeView` is

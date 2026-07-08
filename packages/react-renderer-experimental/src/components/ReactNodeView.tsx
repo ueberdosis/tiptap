@@ -1,7 +1,6 @@
 /** @jsxImportSource react */
 import { getRenderedAttributes } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { NodeSelection } from '@tiptap/pm/state'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ReactNode } from 'react'
 import { useCallback, useLayoutEffect, useRef } from 'react'
@@ -15,7 +14,8 @@ import type { NodeViewComponent } from './NodeViewComponentProps.js'
 
 export interface ReactNodeViewProps {
   node: ProseMirrorNode
-  pos: number
+  /** Whether the node is node-selected (computed by the parent). */
+  selected: boolean
   outerDeco: readonly Decoration[]
   innerDeco: DecorationSource
   component: NodeViewComponent
@@ -30,7 +30,7 @@ export interface ReactNodeViewProps {
  */
 export function ReactNodeView({
   node,
-  pos,
+  selected,
   outerDeco,
   innerDeco,
   component: Component,
@@ -102,8 +102,6 @@ export function ReactNodeView({
     throw new RangeError('[tiptap error]: React node views can only render inside an EditorContent')
   }
 
-  const { selection } = editor.state
-  const selected = selection instanceof NodeSelection && selection.from === pos
   const HTMLAttributes = getRenderedAttributes(
     node,
     editor.extensionManager.attributes.filter(attribute => attribute.type === node.type.name),

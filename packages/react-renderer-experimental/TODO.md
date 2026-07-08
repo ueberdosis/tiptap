@@ -97,7 +97,11 @@ Goal: re-render on transactions with stable component identity.
       `NodeViewContent` components; unsupported patterns documented (renderer options,
       onDragStart drag image, imperative constructors). Legacy _mark_ view bridging
       (`MarkViewContent`) not done — add if migration demand shows up.
-- [ ] 15: performance (1k/10k paragraph benchmarks, typing latency budget).
+- [x] 15: performance (DONE — see PROGRESS.md): keystroke at 10k paragraphs ~296ms →
+      ~13-20ms (stable render-state store, memoized NodeView ignoring pos, chunked
+      children, pre-mount plugin state); budgets + render/mount-count guards in
+      `performance.test.ts`. Remaining levers noted (reactKeys WeakMap redesign,
+      chunking under decorations, virtualized mount).
 - [ ] 16: docs + migration guide.
 - [ ] 17: graduate into `@tiptap/react` as default (next major).
 
@@ -117,14 +121,9 @@ Goal: re-render on transactions with stable component identity.
       `view.dom.scrollTop` — harmless, but note when asserting "PM never touches the DOM".
 - [ ] Bubble-menu queries `[data-node-view-wrapper]` (AUDIT.md §4) — needs a fallback once
       node views exist without wrappers.
-- [ ] `DocView`'s desc effect runs on every commit (no deps) — fine now, revisit for Phase 15
-      perf work.
-- [ ] `reactKeys` `apply` is O(doc) per doc-changing transaction (entry sort + remap + full
-      `descendants` walk to mint fresh keys; the reference does the same). Bound it to changed
-      ranges in Phase 15 if profiling shows it.
-- [ ] `ReactKeysContext` carries the whole plugin state; a `freezeFrom`-only change re-renders
-      key consumers. Narrow the context value when Phase 5 wires the real provider if that
-      churn matters.
+- [ ] `reactKeys` `apply` still rebuilds its two Maps per doc-changing transaction
+      (~10ms at 10k paragraphs; the fresh-key sweep is changed-ranges-only since Phase
+      15). A WeakMap<node, key> redesign would amortize it if ever needed.
 - [ ] `keys?.posToKey.get(childPos) ?? index` silently falls back when a provider exists but
       the position is missing (a doc/state desync). Phase 5 single-sources both from the
       editor state; consider a dev-mode warning then.

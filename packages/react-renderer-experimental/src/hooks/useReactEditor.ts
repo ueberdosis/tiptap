@@ -94,7 +94,15 @@ class ReactEditorManager {
         new ReactEditorView(element as ReactEditorViewPlace, props),
     }
 
-    return new Editor(editorOptions)
+    const editor = new Editor(editorOptions)
+
+    // Give the pre-mount state its extension plugins: the first render then
+    // has real reactKeys keys instead of index fallbacks (which would flip —
+    // and remount every node — once the plugins arrive). createView() later
+    // reconfigures with the same plugin instances, preserving their state.
+    editor.view.updateState(editor.state.reconfigure({ plugins: editor.extensionManager.plugins }))
+
+    return editor
   }
 
   subscribe(onChange: () => void): () => void {

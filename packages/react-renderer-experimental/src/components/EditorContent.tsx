@@ -8,6 +8,7 @@ import { DecorationSet } from '@tiptap/pm/view'
 
 import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
+import type { RenderState } from '../contexts/ReactKeysContext.js'
 import { ReactKeysContext } from '../contexts/ReactKeysContext.js'
 import { viewDecorations } from '../decorations/viewDecorations.js'
 import { runEditorEffects } from '../hooks/editorEffects.js'
@@ -236,9 +237,18 @@ export function EditorContent({
       ? viewDecorations(editor.view, state)
       : DecorationSet.empty
 
+  // Stable ref for the per-render state: never changes identity, so it never
+  // forces memoized subtrees to re-render (see ReactKeysContext)
+  const renderStateRef = useRef<RenderState>({ keys: null, selection: null })
+
+  renderStateRef.current = {
+    keys: reactKeysPluginKey.getState(state) ?? null,
+    selection: state.selection,
+  }
+
   return (
     <EditorContext.Provider value={contextValue}>
-      <ReactKeysContext.Provider value={reactKeysPluginKey.getState(state) ?? null}>
+      <ReactKeysContext.Provider value={renderStateRef}>
         <DocView
           role="textbox"
           {...docProps}

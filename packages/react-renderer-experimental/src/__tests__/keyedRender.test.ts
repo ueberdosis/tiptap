@@ -16,13 +16,19 @@ afterEach(unmountTrackedRoots)
 const renderEditor = async (docNode: ProseMirrorNode) => {
   let state = EditorState.create({ doc: docNode, plugins: [reactKeys()] })
   const { root, container } = mountTrackedRoot()
+  // The context carries a stable ref to the per-render state
+  const renderStateRef = { current: { keys: null as never, selection: null } }
 
   const renderCurrent = async () => {
+    renderStateRef.current = {
+      keys: (reactKeysPluginKey.getState(state) ?? null) as never,
+      selection: null,
+    }
     await act(async () => {
       root.render(
         createElement(
           ReactKeysContext.Provider,
-          { value: reactKeysPluginKey.getState(state) ?? null },
+          { value: renderStateRef },
           createElement(DocView, { node: state.doc }),
         ),
       )

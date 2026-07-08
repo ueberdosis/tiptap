@@ -9,13 +9,12 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7 and 9 through 11, 13, and 14 (legacy bridge)** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7 and 9 through 11, 13, 14, and 15 (performance)** — the project stops here per the user's decision; Phase 12 (IME/browser matrix) remains on the browser device, 16/17 unscheduled (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
-- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). Phase 12
-  (IME + cross-browser) needs the browser device — Safari is the gate. Remaining build
-  phases here: 15 (performance), 16 (docs); then 17 (graduation) gates on 12.
+- **Phase 8 is manual** (the user publishes themselves — do not automate). Phase 12
+  (IME + cross-browser) needs the browser device — Safari is the gate.
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -179,9 +178,9 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
   deferred while `view.composing`, with a once-`compositionend` listener to catch up when PM
   dispatches nothing afterwards. No `flushSync` anywhere; a test asserts dispatch does not
   render synchronously.
-- Pre-mount `editorState` has no plugins, so the first render uses index keys; the
-  `useSyncExternalStore` snapshot check re-renders with reactKeys state right after mount
-  (one-time, pre-focus child remount).
+- ~~Pre-mount `editorState` has no plugins, so the first render uses index keys~~ —
+  fixed in Phase 15: the pre-mount state gets its plugins right after construction, keys
+  are real from the first render.
 - Tests: `__tests__/editorContent.test.ts` (mount, edits without remount, async render,
   DOM selection sync, plugin views, undo/redo, composition defer, posAtDOM round-trip),
   `__tests__/beforeInput.test.ts` (typing, target ranges, Enter via keymap, backspace,
@@ -495,6 +494,53 @@ browser via the e2e selection specs.
   `NodeViewContent`: content component (wrapper attrs, content wiring, editing, mapping
   through the wrapper), atom component with `updateAttributes`, no remount on unrelated
   edits, coexistence with native experimental node views.
+
+### Phase 15 — performance
+
+Typing was O(document): every transaction re-rendered every node component (~296ms per
+keystroke at 10k paragraphs in happy-dom — visibly laggy). Three structural fixes and one
+root-cause bug fix, measured before/after (happy-dom, same machine):
+
+| metric @ 10k paragraphs | before  | after        |
+| ----------------------- | ------- | ------------ |
+| keystroke               | ~296ms  | **~13-20ms** |
+| selection move          | ~322ms  | **~3ms**     |
+| initial mount           | ~1583ms | **~700ms**   |
+
+1. **Stable render-state store** (`ReactKeysContext`): the context now carries a
+   never-changing ref to `{ keys, selection }` instead of a per-transaction value —
+   a value context forced every consumer to re-render on every keystroke. Consumers
+   read current values whenever they do render.
+2. **Memoized `NodeView`** with a custom comparator over `node` identity (exact thanks
+   to ProseMirror structural sharing), `selected`, `selectionInside`, and decoration
+   identities — `pos` is deliberately NOT compared (it shifts for every node after an
+   edit; nothing may consume `pos` outside render — positions resolve via `getPos`).
+   `selected` is computed by the parent; `selectionInside` re-renders exactly the path
+   to a moved node selection.
+3. **Chunked children** (`NodeChunk`, size 128, threshold 256): without it, a keystroke
+   still re-created 10k React elements for memo to discard. Large block-only children
+   lists render through memoized chunks that skip element creation wholesale. Guards:
+   inline content, local decorations at that level, or marks on blocks fall back to the
+   flat path (so e.g. doc-level node decorations disable chunking — documented
+   trade-off). Crossing the threshold or gaining doc-level locals remounts once.
+4. **Pre-mount plugin state** (`useReactEditor` + test helper): the first render used
+   index-fallback keys (pre-mount state has no plugins), flipping to real keys after
+   mount — a hidden full remount that chunking deferred to the _first edit_ (a whole
+   chunk remounting; caught by the render-count probe). The editor now gets
+   `state.reconfigure({ plugins })` through the pre-mount `view.updateState` right after
+   construction; `createView()`'s later reconfigure keeps the same plugin instances'
+   state. Keys are real from the very first render — the previously documented
+   "one-time pre-focus child remount" wart is gone entirely.
+   Also: `reactKeys`' fresh-key sweep now walks only the transaction's changed ranges.
+
+`__tests__/performance.test.ts` is the gate: latency budgets with generous headroom
+(regression-catching, not machine-benchmarking), plus the hard guards — typing renders
+only the edited node (render-count + mount-count probes, chunked and flat paths) and
+wholesale replaces keep host identity at scale.
+
+Remaining known levers (not needed to meet budgets): the reactKeys Map rebuild is still
+O(keys) per doc-changing transaction (~10ms at 10k; a WeakMap<node, key> redesign would
+amortize it), chunking under local decorations, and virtualized initial mount.
 
 ## Gotchas for future sessions
 

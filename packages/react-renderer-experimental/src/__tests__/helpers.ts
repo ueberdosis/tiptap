@@ -184,6 +184,11 @@ export const mountEditorContent = async (
     __internalViewFactory: (element, props) => new ReactEditorView(element as HTMLElement, props),
   }
   const editor = new Editor(editorOptions)
+
+  // Match useReactEditor: plugins in the pre-mount state, so the first
+  // render carries real reactKeys keys (no index-fallback key flip)
+  editor.view.updateState(editor.state.reconfigure({ plugins: editor.extensionManager.plugins }))
+
   const { root, container } = mountTrackedRoot()
 
   await act(async () => {
