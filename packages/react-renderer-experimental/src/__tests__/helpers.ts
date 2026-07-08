@@ -2,15 +2,19 @@ import type { EditorInternalOptions, EditorOptions } from '@tiptap/core'
 import { Editor, Node as TiptapNode } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Schema } from '@tiptap/pm/model'
+import { EditorState } from '@tiptap/pm/state'
 import { act, createElement } from 'react'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 
+import { DocView } from '../components/DocView.js'
 import { EditorContent } from '../components/EditorContent.js'
 import type { MarkViewComponent } from '../components/MarkViewComponentProps.js'
 import type { NodeViewComponent } from '../components/NodeViewComponentProps.js'
 import { ReactRendererExtension } from '../extension.js'
+import type { DocViewLike } from '../ReactEditorView.js'
 import { ReactEditorView } from '../ReactEditorView.js'
+import type { NodeViewDesc } from '../viewdesc.js'
 
 // React's act() checks this global to run effects synchronously
 ;(globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true
@@ -55,6 +59,12 @@ export const testSchema = new Schema({
       parseDOM: [{ tag: 'em' }],
       toDOM: () => ['em', 0],
     },
+    // Non-spanning: adjacent runs never merge into one element
+    code: {
+      spanning: false,
+      parseDOM: [{ tag: 'code' }],
+      toDOM: () => ['code', 0],
+    },
   },
 })
 
@@ -96,6 +106,23 @@ export const unmountTrackedRoots = async (): Promise<void> => {
     await act(async () => root.unmount())
     container.remove()
   }
+}
+
+/**
+ * Statically renders a document through DocView and wires a ReactEditorView
+ * to the rendered element, for renderer-only (no Tiptap editor) tests.
+ */
+export const renderStaticDoc = async (docNode: ProseMirrorNode) => {
+  const { root, container } = mountTrackedRoot()
+
+  await act(async () => {
+    root.render(createElement(DocView, { node: docNode }))
+  })
+  const dom = container.firstElementChild as HTMLDivElement
+  const view = new ReactEditorView(dom, { state: EditorState.create({ doc: docNode }) })
+
+  ;(view as unknown as { docView: DocViewLike }).docView = dom.pmViewDesc as unknown as DocViewLike
+  return { dom, view, docDesc: dom.pmViewDesc as NodeViewDesc }
 }
 
 /** Minimal Tiptap node extensions matching the doc/paragraph/text schema. */

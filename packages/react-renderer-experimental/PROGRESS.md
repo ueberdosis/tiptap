@@ -9,13 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7, plus Phase 9 (hooks & lifecycle)** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7, 9, and 10 (mark views incl. boundary matrices)** (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
-- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). After
-  that, per the runbook: Phase 10 remainder (mark boundary matrices), Phase 11
-  (clipboard/paste/drag-drop/history depth), Phase 12 (IME + cross-browser).
+- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). Per the
+  runbook the next build phases are Phase 11 (clipboard/paste/drag-drop/history depth)
+  and Phase 12 (IME + cross-browser; needs the device with browser deps).
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -390,6 +390,26 @@ browser via the e2e selection specs.
   destroy-after-real-unmount, deps recreation, latest-callback routing, both guards, and
   each hook's semantics (stable identity, fresh closures, effect-after-commit ordering
   with the consumer rendered _before_ EditorContent).
+
+### Phase 10 — React mark views: boundary matrices
+
+- `__tests__/markBoundaries.test.ts`: the runbook's Phase 10 acceptance —
+  `domAtPos`/`posAtDOM` round-trip at **every** boundary (both biases) across:
+  adjacent + overlapping marks (shared-prefix nesting, `a<strong>b<em>c</em></strong><em>d</em>e`),
+  fully marked textblocks, non-spanning marks (each child its own element — note that
+  adjacent same-marked _text_ merges at the model level, so `spanning: false` only shows
+  between distinct children, e.g. around a marked hard break), custom React mark views
+  nested with schema marks, mark views with separate content elements + non-editable
+  chrome (chrome resolves to the position after the content), and inline decorations
+  splitting text _inside_ a custom mark view (the deferred adjacent-text-runs item:
+  slice binding works through mark elements — verified, removed from deferred list).
+- Selection round-trips spanning one/two/three mark boundaries; editing at mark view
+  boundaries keeps the view intact.
+- All matrices passed against the existing implementation — no renderer changes needed.
+  `renderStaticDoc` moved into `__tests__/helpers.ts` (shared by both mark suites).
+- The `MarkViewContent`-style legacy bridge stays with Phase 14 (the props contract is
+  already aligned: `contentDOMRef` is the target for `NodeViewContent`/`MarkViewContent`
+  refs).
 
 ## Gotchas for future sessions
 

@@ -35,7 +35,7 @@ Goal: re-render on transactions with stable component identity.
 - [x] Playwright e2e: typing + selection round-trips in a real browser
       (`demos/src/GuideNodeViews/ReactComponentExperimental/index.spec.ts`).
 
-## Phase 6 — decorations and first React node views (DONE, decorations pending commit)
+## Phase 6 — decorations and first React node views (DONE)
 
 - [x] Decoration rendering: node decos → attrs merged onto the node's element (schema views
       via `renderOutputSpec` rootProps, React node views via `HTMLAttributes` +
@@ -79,10 +79,10 @@ Goal: re-render on transactions with stable component identity.
       (`useNodePos`, `useIsNodeSelected`, `useStopEvent`, `useIgnoreMutation` via
       `NodeViewContext`). Remaining niggle: the double-'unmount' emission lives in core
       (`destroy()` calls `unmount()` unconditionally) — out of guardrail scope, documented.
-- [ ] 10: React mark views — rendering, contract, `markViews` registration, and demo were
-      pulled forward (see PROGRESS.md); remaining: boundary matrices under
-      `domAtPos`/`posAtDOM` for overlapping/adjacent custom marks, `MarkViewContent`-style
-      legacy bridge alignment.
+- [x] 10: React mark views (DONE — see PROGRESS.md): rendering/contract/registration plus
+      the boundary matrices (overlapping, adjacent, non-spanning, custom views with
+      chrome, decorations inside mark views). `MarkViewContent`-style legacy bridging
+      stays with Phase 14.
 - [ ] 11: clipboard, paste, drag/drop, history.
 - [ ] 12: IME + cross-browser (Safari is the release blocker).
 - [ ] 13: collaboration (Yjs) — remount storms, cursor behavior, reactKeys fallback.
@@ -121,9 +121,6 @@ Goal: re-render on transactions with stable component identity.
 - [ ] `keys?.posToKey.get(childPos) ?? index` silently falls back when a provider exists but
       the position is missing (a doc/state desync). Phase 5 single-sources both from the
       editor state; consider a dev-mode warning then.
-- [ ] Adjacent text runs: React renders separate strings as separate DOM text nodes — the
-      desc walk pairs DOM text with text-node _slices_ (deco splits); verify interplay when
-      custom mark views land (Phase 10).
 - [ ] Decoration gaps (Phase 6 scope cuts): widget `spec.marks` mark-context is ignored
       (widgets render into the current mark stack); `nodeName` decorations on _elements_
       apply their attrs but not the rename (text runs support `nodeName` levels fully); the

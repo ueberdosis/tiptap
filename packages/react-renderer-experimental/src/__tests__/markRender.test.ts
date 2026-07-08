@@ -1,28 +1,10 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import { EditorState, TextSelection } from '@tiptap/pm/state'
-import { act, createElement } from 'react'
+import { TextSelection } from '@tiptap/pm/state'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { DocView } from '../components/DocView.js'
-import type { DocViewLike } from '../ReactEditorView.js'
-import { ReactEditorView } from '../ReactEditorView.js'
 import { MarkViewDesc, NodeViewDesc, TextViewDesc } from '../viewdesc.js'
-import { br, doc, marked, mountTrackedRoot, p, unmountTrackedRoots } from './helpers.js'
+import { br, doc, marked, p, renderStaticDoc as renderDoc, unmountTrackedRoots } from './helpers.js'
 
 afterEach(unmountTrackedRoots)
-
-const renderDoc = async (docNode: ProseMirrorNode) => {
-  const { root, container } = mountTrackedRoot()
-
-  await act(async () => {
-    root.render(createElement(DocView, { node: docNode }))
-  })
-  const dom = container.firstElementChild as HTMLDivElement
-  const view = new ReactEditorView(dom, { state: EditorState.create({ doc: docNode }) })
-
-  ;(view as unknown as { docView: DocViewLike }).docView = dom.pmViewDesc as unknown as DocViewLike
-  return { dom, view, docDesc: dom.pmViewDesc as NodeViewDesc }
-}
 
 describe('mark rendering', () => {
   it('renders marks from their toDOM specs with exact markup', async () => {
