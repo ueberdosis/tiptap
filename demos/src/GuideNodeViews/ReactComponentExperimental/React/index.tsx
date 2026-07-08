@@ -1,13 +1,13 @@
 import './styles.scss'
 
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, useEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
 import ReactComponent from './Extension.js'
 
 export default () => {
-  const editor = useReactEditor({
+  const editor = useEditor({
     extensions: [StarterKit, ReactComponent],
     content: `
     <h2>Experimental React renderer</h2>

@@ -3,7 +3,7 @@ import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
 import { useEditorState } from '@tiptap/react'
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, useEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -13,7 +13,7 @@ const defaultContent = `
 `
 
 const Editor = ({ ydoc, label, seed = false }) => {
-  const editor = useReactEditor({
+  const editor = useEditor({
     onCreate: ({ editor: currentEditor }) => {
       // Only one pane seeds the shared document (a provider's "synced"
       // callback would do this in a networked setup)

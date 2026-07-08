@@ -193,7 +193,7 @@ export const mountEditorContent = async (
   }
   const editor = new Editor(editorOptions)
 
-  // Match useReactEditor: plugins in the pre-mount state, so the first
+  // Match createRendererEditor: plugins in the pre-mount state, so the first
   // render carries real reactKeys keys (no index-fallback key flip)
   editor.view.updateState(editor.state.reconfigure({ plugins: editor.extensionManager.plugins }))
 

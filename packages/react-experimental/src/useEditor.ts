@@ -4,7 +4,7 @@ import type { DependencyList, RefObject } from 'react'
 import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
-import { createRendererEditor, latestCallbacks } from './hooks/useReactEditor.js'
+import { createRendererEditor, latestCallbacks } from './createRendererEditor.js'
 import { useEditorState } from './useEditorState.js'
 
 // @ts-ignore -- bundler-replaced global, no node types in this package

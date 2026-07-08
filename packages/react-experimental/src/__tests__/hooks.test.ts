@@ -9,8 +9,8 @@ import { useEditorEffect } from '../hooks/useEditorEffect.js'
 import { useEditorEventCallback } from '../hooks/useEditorEventCallback.js'
 import { useEditorEventListener } from '../hooks/useEditorEventListener.js'
 import { useIsNodeSelected, useNodePos, useStopEvent } from '../hooks/useNodeViewHooks.js'
-import { useReactEditor } from '../hooks/useReactEditor.js'
 import { useMergedRefs } from '../refs.js'
+import { useEditor } from '../useEditor.js'
 import type { NodeViewDesc } from '../viewdesc.js'
 import {
   mountTrackedRoot,
@@ -35,13 +35,13 @@ interface HarnessProps {
 
 /** A consumer component using the hook the way applications do. */
 const EditorHarness = ({ onEditor, content = '<p>hello</p>' }: HarnessProps): ReactNode => {
-  const editor = useReactEditor({ content, extensions: tiptapTestNodes })
+  const editor = useEditor({ content, extensions: tiptapTestNodes })
 
   onEditor(editor)
   return createElement(EditorContent, { editor })
 }
 
-describe('useReactEditor lifecycle', () => {
+describe('useEditor lifecycle', () => {
   it('survives StrictMode double-mounting and stays editable', async () => {
     const { root, container } = mountTrackedRoot()
     let editor: Editor | undefined
@@ -97,9 +97,7 @@ describe('useReactEditor lifecycle', () => {
     const editors: Editor[] = []
 
     const DepsHarness = ({ dep }: { dep: string }): ReactNode => {
-      const editor = useReactEditor({ content: `<p>${dep}</p>`, extensions: tiptapTestNodes }, [
-        dep,
-      ])
+      const editor = useEditor({ content: `<p>${dep}</p>`, extensions: tiptapTestNodes }, [dep])
 
       if (!editors.includes(editor)) {
         editors.push(editor)
@@ -129,7 +127,7 @@ describe('useReactEditor lifecycle', () => {
     const calls: string[] = []
 
     const CallbackHarness = ({ label }: { label: string }): ReactNode => {
-      const editor = useReactEditor({
+      const editor = useEditor({
         content: '<p>x</p>',
         extensions: tiptapTestNodes,
         onTransaction: () => {

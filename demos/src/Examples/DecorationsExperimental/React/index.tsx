@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, useEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 
@@ -8,7 +8,7 @@ import SearchHighlight, { searchHighlightKey } from './Extension.js'
 
 export default () => {
   const [term, setTerm] = useState('')
-  const editor = useReactEditor({
+  const editor = useEditor({
     extensions: [StarterKit, SearchHighlight],
     content: `
     <h2>Decorations, rendered by React</h2>

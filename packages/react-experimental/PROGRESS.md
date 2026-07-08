@@ -563,8 +563,10 @@ Eight commits on this branch, in order:
    `ReactNodeViewProps` are local; the `@tiptap/react` dev+peer dependency is gone.
 4. **`useEditor`** — legacy `EditorInstanceManager` semantics (`immediatelyRender` SSR/Next
    deferral returning `Editor | null`, deps recreation, options drift via `setOptions`,
-   `shouldRerenderOnTransaction`), constructing through `createRendererEditor` (extracted
-   from `useReactEditor`, which stays as the lean always-non-null variant).
+   `shouldRerenderOnTransaction`), constructing through `createRendererEditor` (the
+   non-hook constructor that wires the internal view factory, in `createRendererEditor.ts`).
+   `useReactEditor` — the build-phase hook — was removed once `useEditor` subsumed it, so
+   the package matches the legacy API exactly (one hook, named `useEditor`).
 5. **`<Tiptap>` + `useCurrentEditor` + nullable `EditorContent.editor`** — the provider
    pattern chosen over `EditorProvider` (intentionally not shipped); `useCurrentEditor`
    reads the same context non-throwing.

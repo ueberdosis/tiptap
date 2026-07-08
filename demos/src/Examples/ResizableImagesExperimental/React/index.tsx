@@ -5,7 +5,7 @@ import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Dropcursor } from '@tiptap/extensions'
-import { EditorContent, nodeView, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, nodeView, useEditor } from '@tiptap/react-experimental'
 import React, { useCallback } from 'react'
 
 import Component from './Component.jsx'
@@ -19,7 +19,7 @@ const ResizableImage = Image.extend({
 })
 
 export default () => {
-  const editor = useReactEditor({
+  const editor = useEditor({
     extensions: [Document, Paragraph, Text, ResizableImage, Dropcursor],
     content: `
         <p>

@@ -124,8 +124,8 @@ Goal: re-render on transactions with stable component identity.
 - [ ] `ReactNodeViewRenderer` options without an equivalent here: `update` (memo-driven
       re-renders) and `contentDOMElementTag` (the content element belongs to the
       component). Both warn once at runtime.
-- [ ] Demos still use `useReactEditor`; they work unchanged, but converting one demo to
-      `useEditor` + `<Tiptap>` would exercise the drop-in path in a browser.
+- [ ] All demos use `useEditor`; converting one to the `<Tiptap>` provider + `Tiptap.Content`
+      would additionally exercise that drop-in path in a browser.
 - [ ] `useEditor` + `EditorContent` double subscription (`shouldRerenderOnTransaction`
       plus the content's own transaction store) — benign extra owner renders; keep an eye
       on the perf gate if apps enable it at scale.

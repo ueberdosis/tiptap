@@ -69,8 +69,9 @@ src/
 │   └── beforeInput.ts        editing input → transactions
 ├── commands/
 │   └── reorderSiblings.ts    sibling reorder that feeds key overrides
+├── createRendererEditor.ts   construct the Tiptap Editor wired to this renderer
+├── useEditor.ts              the drop-in editor hook (legacy @tiptap/react API)
 ├── hooks/
-│   ├── useReactEditor.ts     construct the Tiptap Editor wired to this renderer
 │   ├── useNodeViewDesc.ts    register a node's desc against its rendered DOM
 │   ├── useMarkViewDesc.ts    same for marks
 │   └── useDescCleanup.ts     shared unmount cleanup
@@ -81,9 +82,9 @@ src/
 
 One change lives outside the package: `@tiptap/core`'s `createView()` accepts
 an internal `__internalViewFactory` option (see `EditorInternalOptions` in
-core's `types.ts`). It is the sanctioned seam through which `useReactEditor`
-substitutes a `ReactEditorView` for the plain `EditorView` — no private-field
-assignment anywhere.
+core's `types.ts`). It is the sanctioned seam through which `createRendererEditor`
+(and `useEditor` on top of it) substitutes a `ReactEditorView` for the plain
+`EditorView` — no private-field assignment anywhere.
 
 ## ReactEditorView: an EditorView that never renders
 

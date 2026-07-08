@@ -175,7 +175,7 @@ const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | nu
       if (!editor.extensionManager) {
         throw new RangeError(
           '[tiptap error]: This editor has been destroyed and cannot be rendered. ' +
-            'Create a new editor instance instead (useReactEditor recreates one automatically).',
+            'Create a new editor instance instead (useEditor recreates one automatically).',
         )
       }
       editor.mount(desc.dom as HTMLElement)

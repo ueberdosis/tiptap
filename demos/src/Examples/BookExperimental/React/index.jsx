@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { useEditorState } from '@tiptap/react'
-import { Tiptap, useReactEditor } from '@tiptap/react-experimental'
+import { Tiptap, useEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -142,7 +142,7 @@ const MenuBar = ({ editor }) => {
 }
 
 export default () => {
-  const editor = useReactEditor({
+  const editor = useEditor({
     extensions: [StarterKit],
     content,
     editorProps: {

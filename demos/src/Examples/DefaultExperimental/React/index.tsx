@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { TextStyleKit } from '@tiptap/extension-text-style'
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, useEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -10,7 +10,7 @@ import { MenuBar } from './MenuBar.jsx'
 const extensions = [TextStyleKit, StarterKit]
 
 export default () => {
-  const editor = useReactEditor({
+  const editor = useEditor({
     extensions,
     content: `
 <h2>
