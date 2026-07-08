@@ -45,8 +45,10 @@ export type { DocViewProps } from './components/DocView.js'
 export { DocView } from './components/DocView.js'
 export type { EditorContentProps } from './components/EditorContent.js'
 export { EditorContent } from './components/EditorContent.js'
-export type { MarkViewProps } from './components/MarkView.js'
-export { MarkView } from './components/MarkView.js'
+// Renamed exports: `@tiptap/core` owns MarkView/NodeView (and their props
+// types) on a drop-in package — see the star re-export at the bottom
+export type { MarkViewProps as RendererMarkViewProps } from './components/MarkView.js'
+export { MarkView as RendererMarkView } from './components/MarkView.js'
 export type {
   MarkViewComponent,
   MarkViewComponentProps,
@@ -66,8 +68,11 @@ export type { UseEditorOptions } from './useEditor.js'
 export { useEditor } from './useEditor.js'
 export type { EditorStateSnapshot, UseEditorStateOptions } from './useEditorState.js'
 export { useEditorState } from './useEditorState.js'
-export type { ChildNodeViewsProps, NodeViewProps } from './components/NodeView.js'
-export { ChildNodeViews, NodeView } from './components/NodeView.js'
+export type {
+  ChildNodeViewsProps,
+  NodeViewProps as RendererNodeViewProps,
+} from './components/NodeView.js'
+export { ChildNodeViews, NodeView as RendererNodeView } from './components/NodeView.js'
 export type { OutputSpecOptions } from './components/OutputSpecView.js'
 export { renderOutputSpec } from './components/OutputSpecView.js'
 export type { WidgetViewProps } from './components/WidgetView.js'
@@ -121,3 +126,8 @@ export {
   ViewDesc,
   WidgetViewDesc,
 } from './viewdesc.js'
+
+// Drop-in surface: everything from @tiptap/core, exactly like
+// @tiptap/react. Explicit local exports above shadow same-named core
+// exports, so collisions are renamed (Renderer*) to let core win.
+export * from '@tiptap/core'
