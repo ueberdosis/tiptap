@@ -1,5 +1,5 @@
 import type { EditorInternalOptions, EditorOptions } from '@tiptap/core'
-import { Editor, Node as TiptapNode } from '@tiptap/core'
+import { Editor, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Schema } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
@@ -10,7 +10,10 @@ import { createRoot } from 'react-dom/client'
 import { DocView } from '../components/DocView.js'
 import { EditorContent } from '../components/EditorContent.js'
 import type { MarkViewComponent } from '../components/MarkViewComponentProps.js'
-import type { NodeViewComponent } from '../components/NodeViewComponentProps.js'
+import type {
+  NodeViewComponent,
+  NodeViewComponentProps,
+} from '../components/NodeViewComponentProps.js'
 import { ReactRendererExtension } from '../extension.js'
 import type { DocViewLike } from '../ReactEditorView.js'
 import { ReactEditorView } from '../ReactEditorView.js'
@@ -124,6 +127,32 @@ export const renderStaticDoc = async (docNode: ProseMirrorNode) => {
   ;(view as unknown as { docView: DocViewLike }).docView = dom.pmViewDesc as unknown as DocViewLike
   return { dom, view, docDesc: dom.pmViewDesc as NodeViewDesc }
 }
+
+/** A counter atom node for node view tests. */
+export const CounterExtension = TiptapNode.create({
+  name: 'counter',
+  group: 'block',
+  atom: true,
+  addAttributes: () => ({ count: { default: 0 } }),
+  parseHTML: () => [{ tag: 'test-counter' }],
+  renderHTML: ({ HTMLAttributes }) => ['test-counter', mergeAttributes(HTMLAttributes)],
+})
+
+/** Atom node view: renders its own root, no wrapper, no content. */
+export const Counter = (props: NodeViewComponentProps<HTMLDivElement>) =>
+  createElement(
+    'div',
+    {
+      ref: props.ref,
+      className: props.selected ? 'counter selected' : 'counter',
+      contentEditable: false,
+    },
+    createElement(
+      'button',
+      { onClick: () => props.updateAttributes({ count: (props.node.attrs.count as number) + 1 }) },
+      `count-${props.node.attrs.count}`,
+    ),
+  )
 
 /** Minimal Tiptap node extensions matching the doc/paragraph/text schema. */
 export const tiptapTestNodes = [

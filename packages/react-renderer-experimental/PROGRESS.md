@@ -9,13 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7, 9, and 10 (mark views incl. boundary matrices)** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7 and 9 through 11** (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
-- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). Per the
-  runbook the next build phases are Phase 11 (clipboard/paste/drag-drop/history depth)
-  and Phase 12 (IME + cross-browser; needs the device with browser deps).
+- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). The next
+  build phase is Phase 12 (IME + cross-browser — needs the browser device; Safari is the
+  gate), then 13 (collab depth), 14 (legacy bridge), 15 (performance).
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -410,6 +410,29 @@ browser via the e2e selection specs.
 - The `MarkViewContent`-style legacy bridge stays with Phase 14 (the props contract is
   already aligned: `contentDOMRef` is the target for `NodeViewContent`/`MarkViewContent`
   refs).
+
+### Phase 11 — clipboard, paste, drag/drop, history (verification)
+
+- Behavior was already correct (schema-based pipelines, confirmed in the demos); this
+  phase pins it down in `__tests__/clipboardHistory.test.ts`:
+  - **Copy**: marked multi-block selections serialize to HTML (`<strong>` preserved,
+    both `<p>`s) and text (`\n\n` block separator) via `serializeForClipboard`.
+  - **Paste**: `view.pasteHTML`/`view.pasteText` (public test entry points running the
+    real parse pipeline) — HTML with marks merges into the current block + creates new
+    ones, plain text splits paragraphs, pasting into React node view content works.
+    Parser trims leading whitespace inside pasted blocks (expected PM semantics).
+  - **Drag**: `dragstart` on a draggable node serializes it into `dataTransfer`
+    (text/html) and arms `view.dragging` with the right slice. The **drop half needs
+    browser layout** (`posAtCoords` → `elementFromPoint`) — covered by the demos/e2e on
+    the browser device, not unit-testable in happy-dom.
+  - **History depth**: multi-step undo/redo walks content _and selection_ through three
+    type-like steps (cursor moved in its own transaction — history records the prior
+    selection; `closeHistory` used because rapid edits merge within `newGroupDelay`);
+    node view attribute changes undo/redo in place without remounting.
+  - **Selection bookmarks** (text and node) map through committed transactions and
+    resolve against the committed doc, with the desc tree agreeing (`nodeDOM`,
+    `posAtDOM` round-trip on resolved positions).
+- Shared `Counter`/`CounterExtension` fixtures moved into `__tests__/helpers.ts`.
 
 ## Gotchas for future sessions
 

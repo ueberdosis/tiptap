@@ -1,38 +1,12 @@
-import { mergeAttributes, Node as TiptapNode } from '@tiptap/core'
 import { NodeSelection } from '@tiptap/pm/state'
 import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import type { NodeViewComponentProps } from '../components/NodeViewComponentProps.js'
 import { useMergedRefs } from '../refs.js'
-import { renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
+import { Counter, CounterExtension, renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
 
 afterEach(unmountTrackedRoots)
-
-const CounterExtension = TiptapNode.create({
-  name: 'counter',
-  group: 'block',
-  atom: true,
-  addAttributes: () => ({ count: { default: 0 } }),
-  parseHTML: () => [{ tag: 'test-counter' }],
-  renderHTML: ({ HTMLAttributes }) => ['test-counter', mergeAttributes(HTMLAttributes)],
-})
-
-/** Atom node view: renders its own root, no wrapper, no content. */
-const Counter = (props: NodeViewComponentProps<HTMLDivElement>) =>
-  createElement(
-    'div',
-    {
-      ref: props.ref,
-      className: props.selected ? 'counter selected' : 'counter',
-      contentEditable: false,
-    },
-    createElement(
-      'button',
-      { onClick: () => props.updateAttributes({ count: (props.node.attrs.count as number) + 1 }) },
-      `count-${props.node.attrs.count}`,
-    ),
-  )
 
 /** Content node view whose root is also its content element. */
 const Paragraph = ({ children, ref, contentDOMRef }: NodeViewComponentProps<HTMLElement>) =>

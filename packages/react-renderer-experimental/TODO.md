@@ -83,7 +83,10 @@ Goal: re-render on transactions with stable component identity.
       the boundary matrices (overlapping, adjacent, non-spanning, custom views with
       chrome, decorations inside mark views). `MarkViewContent`-style legacy bridging
       stays with Phase 14.
-- [ ] 11: clipboard, paste, drag/drop, history.
+- [x] 11: clipboard, paste, drag/drop, history (DONE — verification; see PROGRESS.md).
+      Copy/paste/history/bookmarks pinned down in `clipboardHistory.test.ts`; the drop
+      half of drag/drop needs browser layout — verified manually in the demos, add a
+      Playwright DnD spec on the browser device if regressions appear.
 - [ ] 12: IME + cross-browser (Safari is the release blocker).
 - [ ] 13: collaboration (Yjs) — remount storms, cursor behavior, reactKeys fallback.
       Groundwork exists: `Demos/CollaborationSplitPaneExperimental` (two editors, one
