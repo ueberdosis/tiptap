@@ -39,7 +39,7 @@ export interface EditorContentProps extends HTMLAttributes<HTMLDivElement> {
  * further transaction. The snapshot freezes during composition too, so a
  * parent-triggered re-render cannot smuggle the new state past the deferral.
  */
-const useEditorState = (editor: Editor): EditorState => {
+const useEditorTransactionState = (editor: Editor): EditorState => {
   const subscribe = useCallback(
     (notify: () => void) => {
       let composingDOM: HTMLElement | null = null
@@ -217,7 +217,7 @@ export function EditorContent({
   className,
   ...props
 }: EditorContentProps): ReactNode {
-  const state = useEditorState(editor)
+  const state = useEditorTransactionState(editor)
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
   const contextValue = useMemo<EditorContextValue>(

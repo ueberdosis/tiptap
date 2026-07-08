@@ -1030,6 +1030,16 @@ importers:
         version: link:../extension-floating-menu
 
   packages/react-experimental:
+    dependencies:
+      '@types/use-sync-external-store':
+        specifier: ^0.0.6
+        version: 0.0.6
+      fast-equals:
+        specifier: ^5.3.3
+        version: 5.3.3
+      use-sync-external-store:
+        specifier: ^1.4.0
+        version: 1.4.0(react@19.1.0)
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^

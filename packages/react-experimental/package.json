@@ -43,6 +43,11 @@
   "scripts": {
     "build": "tsup"
   },
+  "dependencies": {
+    "@types/use-sync-external-store": "^0.0.6",
+    "fast-equals": "^5.3.3",
+    "use-sync-external-store": "^1.4.0"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
