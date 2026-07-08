@@ -1052,6 +1052,12 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      y-protocols:
+        specifier: ^1.0.6
+        version: 1.0.6(yjs@13.6.23)
+      yjs:
+        specifier: ^13.6.23
+        version: 13.6.23
 
   packages/server-ai-toolkit:
     dependencies:

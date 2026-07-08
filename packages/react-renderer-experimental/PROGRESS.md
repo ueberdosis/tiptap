@@ -9,13 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7 and 9 through 11** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7 and 9 through 11, plus Phase 13 (collaboration)** (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
-- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). The next
-  build phase is Phase 12 (IME + cross-browser — needs the browser device; Safari is the
-  gate), then 13 (collab depth), 14 (legacy bridge), 15 (performance).
+- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). Phase 12
+  (IME + cross-browser) needs the browser device — Safari is the gate. Remaining build
+  phases here: 14 (legacy bridge), 15 (performance), 16 (docs).
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -433,6 +433,38 @@ browser via the e2e selection specs.
     resolve against the committed doc, with the desc tree agreeing (`nodeDOM`,
     `posAtDOM` round-trip on resolved positions).
 - Shared `Counter`/`CounterExtension` fixtures moved into `__tests__/helpers.ts`.
+
+### Phase 13 — collaboration (Yjs)
+
+- **The headline finding and fix: the collab remount storm was real.** y-prosemirror
+  (the @tiptap/y-tiptap fork) applies every remote change as a **whole-document
+  replace** (`tr.replace(0, size, freshFragment)`) and clears its Y↔PM node cache first
+  (deliberately, for relative-cursor correctness) — so neither position mapping nor PM
+  node identity survives a remote edit. ProseMirror's own renderer absorbs this via
+  `matchesNode` DOM reuse; our `reactKeys` dropped every key → React remounted the whole
+  document on every remote keystroke.
+- **Fix: an orphaned-key rescue pass in `reactKeys`** (`rescueOrphanedKeys`): keys whose
+  positions the mapping reports deleted are re-attached to keyless new-doc nodes —
+  pass 1 by content identity (`node.eq`, bucketed by a cheap signature, consumed in
+  document order so repeated identical nodes pair stably), pass 2 a conservative
+  positional zip (types must agree) so the actually-edited node keeps its identity too.
+  Local in-place edits produce no orphans → zero cost. Bonus: keys now survive
+  cut-and-paste moves without `reorderSiblings` metadata. This _is_ the runbook's
+  "reactKeys fallback": rescue by content, mint fresh keys only for genuinely new nodes.
+- Tests (`__tests__/collaboration.test.ts`) run a full simulated two-client setup —
+  two Y.Docs bridged by update messages (live or queued for offline divergence), two
+  Awareness instances bridged the same way: convergence both directions, **remote
+  insert/edit/delete with sibling host identity asserted** (the storm test), concurrent
+  offline edits converging on flush, collaborative undo staying client-scoped, and
+  remote carets (CollaborationCaret with a fake `{ awareness }` provider) rendering as
+  widget decorations through `WidgetView` — appearing, following the cursor, and
+  leaving with the client.
+- Test gotchas recorded: cross-editor doc comparison must be structural (`toJSON`) —
+  each editor has its own Schema so `node.eq` is always false across editors; the caret
+  plugin batches awareness-driven redecoration into a `setTimeout(0)` tick (assert via
+  polling); cursor state only publishes while the view `hasFocus()`.
+- `yjs` + `y-protocols` added as devDependencies (lockfile importer hand-edited per the
+  pnpm gotcha).
 
 ## Gotchas for future sessions
 

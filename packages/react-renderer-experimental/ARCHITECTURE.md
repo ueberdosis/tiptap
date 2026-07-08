@@ -245,6 +245,14 @@ across edits. Meta support: `overrides` (explicit remaps, used by the
 `freezeFrom` (composition). Without a provider (static rendering), keys fall
 back to indices.
 
+Position mapping alone is not enough for transactions that rewrite content
+wholesale — y-prosemirror applies every remote collab change as a
+whole-document replace with freshly built nodes, which would drop every key
+and remount the document. The plugin therefore runs an **orphaned-key rescue
+pass**: keys whose positions were deleted re-attach to keyless new-doc nodes,
+first by content identity (`node.eq`), then by a conservative positional zip,
+so remote edits update in place and keys even survive cut-and-paste moves.
+
 ## Decorations
 
 Decorations remain plugin state; React renders them:

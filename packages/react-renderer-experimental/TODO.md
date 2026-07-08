@@ -88,9 +88,10 @@ Goal: re-render on transactions with stable component identity.
       half of drag/drop needs browser layout — verified manually in the demos, add a
       Playwright DnD spec on the browser device if regressions appear.
 - [ ] 12: IME + cross-browser (Safari is the release blocker).
-- [ ] 13: collaboration (Yjs) — remount storms, cursor behavior, reactKeys fallback.
-      Groundwork exists: `Demos/CollaborationSplitPaneExperimental` (two editors, one
-      shared Y.Doc) proves basic sync; carets/awareness and remount profiling remain.
+- [x] 13: collaboration (DONE — see PROGRESS.md): the remote-change remount storm was
+      real (y-prosemirror whole-doc replaces) and is fixed by the `reactKeys`
+      orphaned-key rescue pass; two-client convergence, offline divergence, scoped undo,
+      and remote carets are covered by a simulated two-client suite.
 - [ ] 14: legacy node-view migration bridge (`ReactNodeViewRenderer` subset;
       `NodeViewContent` ref → `contentDOMRef`).
 - [ ] 15: performance (1k/10k paragraph benchmarks, typing latency budget).

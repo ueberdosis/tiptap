@@ -79,6 +79,94 @@ const resolveFreezeFrom = (
   return next
 }
 
+interface OrphanedKey {
+  key: string
+  node: ProseMirrorNode
+  used: boolean
+}
+
+/** A cheap bucket signature; exact matching is `node.eq` within the bucket. */
+const nodeSignature = (node: ProseMirrorNode): string =>
+  `${node.type.name}|${node.isText ? (node.text ?? '') : node.childCount}`
+
+/**
+ * Re-attaches keys whose positions the mapping reported as deleted, by
+ * matching their old nodes against new-doc nodes that have no key yet.
+ *
+ * This exists for transactions that rewrite content wholesale instead of
+ * editing in place — most importantly y-prosemirror, which applies every
+ * remote change as a whole-document replace with freshly built nodes. Plain
+ * position mapping drops every key there, remounting the entire document in
+ * React (the collab "remount storm"). Two passes:
+ *
+ * 1. Content identity: equal nodes (via `node.eq`, bucketed by a cheap
+ *    signature) re-adopt their old key, consumed in document order so
+ *    repeated identical nodes pair up stably. This also lets keys survive
+ *    cut-and-paste moves.
+ * 2. Positional zip: remaining orphans and vacancies are paired in document
+ *    order while their node types agree — the changed-in-place nodes (the
+ *    actually edited paragraph) keep their identity too.
+ *
+ * Local in-place edits produce no orphans, so this costs nothing there.
+ */
+const rescueOrphanedKeys = (
+  orphans: OrphanedKey[],
+  next: ReactKeysPluginState,
+  newDoc: ProseMirrorNode,
+): void => {
+  const buckets = new Map<string, OrphanedKey[]>()
+
+  orphans.forEach(orphan => {
+    const signature = nodeSignature(orphan.node)
+    const bucket = buckets.get(signature)
+
+    if (bucket) {
+      bucket.push(orphan)
+    } else {
+      buckets.set(signature, [orphan])
+    }
+  })
+
+  const vacancies: { pos: number; node: ProseMirrorNode }[] = []
+
+  newDoc.descendants((node, pos) => {
+    if (!next.posToKey.has(pos)) {
+      vacancies.push({ pos, node })
+    }
+    return true
+  })
+
+  const adopt = (pos: number, orphan: OrphanedKey) => {
+    orphan.used = true
+    next.posToKey.set(pos, orphan.key)
+    next.keyToPos.set(orphan.key, pos)
+  }
+
+  // Pass 1: exact content matches re-adopt their key
+  const unmatched: { pos: number; node: ProseMirrorNode }[] = []
+
+  vacancies.forEach(vacancy => {
+    const bucket = buckets.get(nodeSignature(vacancy.node))
+    const match = bucket?.find(orphan => !orphan.used && orphan.node.eq(vacancy.node))
+
+    if (match) {
+      adopt(vacancy.pos, match)
+    } else {
+      unmatched.push(vacancy)
+    }
+  })
+
+  // Pass 2: zip the leftovers in document order while node types agree
+  const leftovers = orphans.filter(orphan => !orphan.used)
+
+  for (let i = 0; i < unmatched.length && i < leftovers.length; i += 1) {
+    if (leftovers[i].node.type !== unmatched[i].node.type) {
+      break
+    }
+    adopt(unmatched[i].pos, leftovers[i])
+  }
+}
+
 const applyKeys = (
   tr: Transaction,
   prev: ReactKeysPluginState,
@@ -101,6 +189,7 @@ const applyKeys = (
   // Sorted ascending so that when two old positions map onto the same new
   // position (e.g. a join), the later node wins the slot deterministically
   const entries = [...prev.posToKey.entries()].sort(([a], [b]) => a - b)
+  const orphans: OrphanedKey[] = []
 
   for (const [pos, key] of entries) {
     const override = meta?.overrides?.get(pos)
@@ -108,6 +197,11 @@ const applyKeys = (
       override === undefined ? tr.mapping.mapResult(pos) : { pos: override, deleted: false }
 
     if (mapped.deleted) {
+      const node = oldState.doc.nodeAt(pos)
+
+      if (node) {
+        orphans.push({ key, node, used: false })
+      }
       continue
     }
 
@@ -120,6 +214,10 @@ const applyKeys = (
     }
     next.posToKey.set(mapped.pos, key)
     next.keyToPos.set(key, mapped.pos)
+  }
+
+  if (orphans.length) {
+    rescueOrphanedKeys(orphans, next, newState.doc)
   }
 
   assignFreshKeys(newState.doc, next)

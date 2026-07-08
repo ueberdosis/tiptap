@@ -167,24 +167,27 @@ export const tiptapTestNodes = [
   TiptapNode.create({ name: 'text', group: 'inline' }),
 ]
 
-/** Creates a React-renderer editor and mounts `EditorContent` for it. */
-export const renderTiptapEditor = async (
-  content: string,
-  extensions: EditorOptions['extensions'] = [],
-  nodeViews?: Record<string, NodeViewComponent>,
-  markViews?: Record<string, MarkViewComponent>,
+/**
+ * Constructs a React-renderer editor from raw options and mounts
+ * `EditorContent` for it in a tracked root.
+ */
+export const mountEditorContent = async (
+  options: Partial<Omit<EditorOptions, 'element'>>,
+  contentProps: {
+    nodeViews?: Record<string, NodeViewComponent>
+    markViews?: Record<string, MarkViewComponent>
+  } = {},
 ) => {
   const editorOptions: Partial<EditorOptions> & EditorInternalOptions = {
+    ...options,
     element: null,
-    content,
-    extensions: [...tiptapTestNodes, ReactRendererExtension, ...extensions],
     __internalViewFactory: (element, props) => new ReactEditorView(element as HTMLElement, props),
   }
   const editor = new Editor(editorOptions)
   const { root, container } = mountTrackedRoot()
 
   await act(async () => {
-    root.render(createElement(EditorContent, { editor, nodeViews, markViews }))
+    root.render(createElement(EditorContent, { editor, ...contentProps }))
   })
 
   return {
@@ -199,3 +202,15 @@ export const renderTiptapEditor = async (
     },
   }
 }
+
+/** Creates a React-renderer editor and mounts `EditorContent` for it. */
+export const renderTiptapEditor = (
+  content: string,
+  extensions: EditorOptions['extensions'] = [],
+  nodeViews?: Record<string, NodeViewComponent>,
+  markViews?: Record<string, MarkViewComponent>,
+) =>
+  mountEditorContent(
+    { content, extensions: [...tiptapTestNodes, ReactRendererExtension, ...extensions] },
+    { nodeViews, markViews },
+  )
