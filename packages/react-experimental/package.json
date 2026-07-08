@@ -38,6 +38,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./menus": {
+      "types": {
+        "import": "./dist/menus/index.d.ts",
+        "require": "./dist/menus/index.d.cts"
+      },
+      "import": "./dist/menus/index.js",
+      "require": "./dist/menus/index.cjs"
     }
   },
   "scripts": {
@@ -66,5 +74,9 @@
     "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "optionalDependencies": {
+    "@tiptap/extension-bubble-menu": "workspace:^",
+    "@tiptap/extension-floating-menu": "workspace:^"
   }
 }
