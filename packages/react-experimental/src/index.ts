@@ -1,4 +1,19 @@
 export { bridgeReactNodeView } from './bridge/bridgeReactNodeView.js'
+export type { CurrentEditorContextValue } from './Context.js'
+export { useCurrentEditor } from './Context.js'
+export type {
+  TiptapContextType,
+  TiptapWrapperEditorInstanceProps,
+  TiptapWrapperProps,
+} from './Tiptap.js'
+export {
+  Tiptap,
+  TiptapContent,
+  TiptapContext,
+  TiptapWrapper,
+  useTiptap,
+  useTiptapState,
+} from './Tiptap.js'
 export type { NodeViewContentProps } from './NodeViewContent.js'
 export { NodeViewContent } from './NodeViewContent.js'
 export type { NodeViewWrapperProps } from './NodeViewWrapper.js'

@@ -24,7 +24,8 @@ const NO_NODE_VIEWS: Record<string, NodeViewComponent> = {}
 const NO_MARK_VIEWS: Record<string, MarkViewComponent> = {}
 
 export interface EditorContentProps extends HTMLAttributes<HTMLDivElement> {
-  editor: Editor
+  /** `null` renders a placeholder element (`useEditor` with `immediatelyRender: false`). */
+  editor: Editor | null
   /** React node view components by node type name. */
   nodeViews?: Record<string, NodeViewComponent>
   /** React mark view components by mark type name. */
@@ -209,14 +210,31 @@ const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | nu
  * the refreshed doc desc to the view and applies the staged state
  * (`commitPendingEffects`), which updates plugin views and syncs the DOM
  * selection. There is no `flushSync` anywhere on this path.
+ *
+ * A `null` editor renders a plain placeholder element instead — the
+ * `useEditor({ immediatelyRender: false })` first render. The two branches
+ * are separate components so the editor branch's hooks mount fresh.
  */
-export function EditorContent({
+export function EditorContent({ editor, ...props }: EditorContentProps): ReactNode {
+  if (!editor) {
+    const { nodeViews: _nodeViews, markViews: _markViews, ...divProps } = props
+
+    return <div {...divProps} />
+  }
+  return <EditorContentWithEditor editor={editor} {...props} />
+}
+
+interface EditorContentWithEditorProps extends Omit<EditorContentProps, 'editor'> {
+  editor: Editor
+}
+
+function EditorContentWithEditor({
   editor,
   nodeViews = NO_NODE_VIEWS,
   markViews = NO_MARK_VIEWS,
   className,
   ...props
-}: EditorContentProps): ReactNode {
+}: EditorContentWithEditorProps): ReactNode {
   const state = useEditorTransactionState(editor)
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
