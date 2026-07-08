@@ -9,12 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7, plus Phase 9 (hooks & lifecycle)** (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
-- **Next: Phase 8** — publish experimental (drop `private: true`, changeset, experimental
-  tag), or continue hardening (Phase 9 lifecycle items) first.
+- **Next: Phase 8 is manual** (the user publishes themselves — do not automate). After
+  that, per the runbook: Phase 10 remainder (mark boundary matrices), Phase 11
+  (clipboard/paste/drag-drop/history depth), Phase 12 (IME + cross-browser).
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -354,6 +355,41 @@ and works unchanged — asserted via `serializeForClipboard` in `stopCriteria.te
 `keyedRender.test.ts` + `decorations.test.ts`, undo/redo in `stopCriteria.test.ts`;
 selection matrix at unit level in `viewdesc.test.ts`/`staticRender.test.ts` and in the
 browser via the e2e selection specs.
+
+### Phase 9 — hooks & ergonomics
+
+- **StrictMode-safe `useReactEditor`** (`hooks/useReactEditor.ts`): a `ReactEditorManager`
+  adapted from legacy `useEditor`'s mechanism (the class is not exported and legacy files
+  are off-limits, so reimplemented): cleanup only _schedules_ destruction one tick out; a
+  remount within the grace period cancels it. `deps` recreate the instance (destroy old,
+  create new, notify via `useSyncExternalStore`); every editor event routes through the
+  options ref, so the latest callbacks always run. Destroyed-instance detection uses
+  `!editor.extensionManager` — `editor.isDestroyed` is true while merely unmounted too.
+- **EditorContent guards**: rendering a destroyed editor throws a clear error instead of
+  crashing inside `createView`; a second `EditorContent` on the same editor logs a
+  console error (ownership tracked per commit in a WeakMap, so it fires whichever order
+  the two commit in).
+- **`useEditorEffect(editor, effect)`**: runs after `commitPendingEffects()` — when the
+  view carries the committed state and the DOM selection is synced — via a per-editor
+  WeakMap registry (`hooks/editorEffects.ts`) that `EditorContent` drains at the end of
+  its commit effect. Works from anywhere (position of the consumer in the tree does not
+  matter, unlike plain `useLayoutEffect`); supports cleanup; runs immediately on
+  registration when the editor is already mounted.
+- **`useEditorEventCallback`** (stable identity, latest closure, no-op after destroy) and
+  **`useEditorEventListener`** (editor events, latest handler; one documented cast
+  because core's EventEmitter callback conditional type is unexported and TS cannot unify
+  two structurally identical unresolved conditionals).
+- **Node-view hooks** via `NodeViewContext` (provided by `ReactNodeView`): `useNodePos`
+  (returns the stable getter — positions go stale if read during render),
+  `useIsNodeSelected`, `useStopEvent`, `useIgnoreMutation`. Registration detail: the
+  component's effects run _before_ the parent `ReactNodeView` effect that creates the
+  desc, so handlers live on a stable `handlersRef` in the context and the desc
+  dereferences the ref at event time (`stopEventHandler`/`ignoreMutationHandler` fields
+  on `NodeViewDesc`, undefined falls through to default behavior).
+- Tests: `__tests__/hooks.test.ts` — StrictMode double-mount survival + editability,
+  destroy-after-real-unmount, deps recreation, latest-callback routing, both guards, and
+  each hook's semantics (stable identity, fresh closures, effect-after-commit ordering
+  with the consumer rendered _before_ EditorContent).
 
 ## Gotchas for future sessions
 

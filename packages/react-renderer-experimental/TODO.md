@@ -70,7 +70,15 @@ Goal: re-render on transactions with stable component identity.
 ## Phases 8-17 (post-slice, from the runbook)
 
 - [ ] 8: publish experimental (drop `private: true`, changeset, experimental tag).
-- [ ] 9: hooks & ergonomics (`useEditorEffect`, `useEditorEventCallback`, StrictMode-stable).
+      **The user publishes manually** — do not automate this step.
+- [x] 9: hooks & ergonomics (DONE — see PROGRESS.md): StrictMode-safe `useReactEditor`
+      (instance manager with one-tick destruction grace, deps-driven recreation,
+      latest-callback routing), EditorContent guards (destroyed-editor error, second-
+      EditorContent warning), `useEditorEffect` (commit-effect registry),
+      `useEditorEventCallback`, `useEditorEventListener`, and the node-view hooks
+      (`useNodePos`, `useIsNodeSelected`, `useStopEvent`, `useIgnoreMutation` via
+      `NodeViewContext`). Remaining niggle: the double-'unmount' emission lives in core
+      (`destroy()` calls `unmount()` unconditionally) — out of guardrail scope, documented.
 - [ ] 10: React mark views — rendering, contract, `markViews` registration, and demo were
       pulled forward (see PROGRESS.md); remaining: boundary matrices under
       `domAtPos`/`posAtDOM` for overlapping/adjacent custom marks, `MarkViewContent`-style
@@ -93,12 +101,11 @@ Goal: re-render on transactions with stable component identity.
       (doc decorations / `computeDocDeco` equivalent must merge, not clobber). Also:
       repeated mount cycles prepend `tiptap` again each time, and a changing `className`
       prop on `EditorContent` makes React clobber the core-prepended classes.
-- [ ] Phase 9 lifecycle items found in the Phase 5 review: `useReactEditor` is not
-      StrictMode-safe (cleanup destroys the singleton editor); mounting a destroyed editor
-      crashes in `createView` (no public destroyed-vs-unmounted distinction pre-mount);
-      teardown emits `unmount` twice (EditorContent cleanup + `destroy()`'s internal
-      unmount); rendering one editor in two `EditorContent`s concurrently is unsupported
-      (stale `view.dom` on the first).
+- [ ] Double-'unmount' emission on destroy-after-unmount: core's `destroy()` calls
+      `unmount()` unconditionally, which emits even when already unmounted. Fixing it
+      means touching core beyond the sanctioned factory seam — revisit at Phase 17.
+      (The other Phase 5 review items — StrictMode, destroyed-editor crash, second
+      EditorContent — were fixed in Phase 9.)
 - [ ] `scrollTop` writes: base `updateStateInner` scroll handling ("reset") writes
       `view.dom.scrollTop` — harmless, but note when asserting "PM never touches the DOM".
 - [ ] Bubble-menu queries `[data-node-view-wrapper]` (AUDIT.md §4) — needs a fallback once

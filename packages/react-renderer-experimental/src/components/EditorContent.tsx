@@ -10,6 +10,7 @@ import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
 import { ReactKeysContext } from '../contexts/ReactKeysContext.js'
 import { viewDecorations } from '../decorations/viewDecorations.js'
+import { runEditorEffects } from '../hooks/editorEffects.js'
 import { reactKeysPluginKey } from '../plugins/reactKeys.js'
 import { attributesToProps } from '../props.js'
 import { ReactEditorView } from '../ReactEditorView.js'
@@ -135,19 +136,45 @@ const computeDocAttributes = (editor: Editor): Record<string, string> => {
   return attrs
 }
 
+/**
+ * Which `EditorContent` currently renders each editor. One editor supports
+ * one `EditorContent` at a time (its `view.dom` is a single element).
+ */
+const activeRenderers = new WeakMap<Editor, object>()
+
 /** Mounts the editor on first commit and applies the staged state after every commit. */
 const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | null>): void => {
+  const rendererToken = useRef<object>({})
+
   useLayoutEffect(() => {
     const desc = docDescRef.current
 
     if (!desc) {
       return
     }
+    // One editor, one EditorContent: a second renderer would leave the
+    // first with a stale `view.dom`. Ownership is (re)claimed every commit
+    // so the situation is loud whichever order the two commit in.
+    const owner = activeRenderers.get(editor)
+
+    if (owner && owner !== rendererToken.current) {
+      console.error(
+        '[tiptap warn]: This editor is already rendered by another EditorContent. ' +
+          'An editor supports a single EditorContent at a time; the earlier one is now stale.',
+      )
+    }
+    activeRenderers.set(editor, rendererToken.current)
+
     // The pre-mount `editor.view` is a Proxy stand-in, never a real view.
-    // A destroyed editor looks unmounted too and would crash here; keeping
-    // a destroyed editor rendered is a consumer error (StrictMode-safe
-    // lifecycle handling lands with the Phase 9 hook hardening).
+    // (`editor.isDestroyed` cannot distinguish destroyed from unmounted —
+    // `extensionManager` is nulled by destroy(), so it can.)
     if (!(editor.view instanceof ReactEditorView)) {
+      if (!editor.extensionManager) {
+        throw new RangeError(
+          '[tiptap error]: This editor has been destroyed and cannot be rendered. ' +
+            'Create a new editor instance instead (useReactEditor recreates one automatically).',
+        )
+      }
       editor.mount(desc.dom as HTMLElement)
     }
 
@@ -156,11 +183,17 @@ const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | nu
     if (view instanceof ReactEditorView) {
       view.setDocView(desc)
       view.commitPendingEffects()
+      // User-registered commit effects (useEditorEffect) run last, once the
+      // view carries the committed state and the DOM selection is synced
+      runEditorEffects(editor)
     }
   })
 
   useLayoutEffect(
     () => () => {
+      if (activeRenderers.get(editor) === rendererToken.current) {
+        activeRenderers.delete(editor)
+      }
       if (editor.view instanceof ReactEditorView) {
         editor.unmount()
       }

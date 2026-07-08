@@ -42,7 +42,18 @@ export type {
 export { widget } from './decorations/widget.js'
 export type { EditorContextValue } from './contexts/EditorContext.js'
 export { EditorContext, useEditorContext } from './contexts/EditorContext.js'
+export type { NodeViewContextValue, NodeViewHandlers } from './contexts/NodeViewContext.js'
+export { NodeViewContext, useNodeViewContext } from './contexts/NodeViewContext.js'
 export { ReactKeysContext, useReactKeys } from './contexts/ReactKeysContext.js'
+export { useEditorEffect } from './hooks/useEditorEffect.js'
+export { useEditorEventCallback } from './hooks/useEditorEventCallback.js'
+export { useEditorEventListener } from './hooks/useEditorEventListener.js'
+export {
+  useIgnoreMutation,
+  useIsNodeSelected,
+  useNodePos,
+  useStopEvent,
+} from './hooks/useNodeViewHooks.js'
 export { beforeInput } from './plugins/beforeInput.js'
 export type { ReactKeysPluginMeta, ReactKeysPluginState } from './plugins/reactKeys.js'
 export { createNodeKey, reactKeys, reactKeysPluginKey } from './plugins/reactKeys.js'

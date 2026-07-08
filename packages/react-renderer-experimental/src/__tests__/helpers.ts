@@ -99,7 +99,7 @@ export const unmountTrackedRoots = async (): Promise<void> => {
 }
 
 /** Minimal Tiptap node extensions matching the doc/paragraph/text schema. */
-const tiptapTestNodes = [
+export const tiptapTestNodes = [
   TiptapNode.create({ name: 'doc', topNode: true, content: 'block+' }),
   TiptapNode.create({
     name: 'paragraph',

@@ -830,6 +830,24 @@ export class NodeViewDesc extends ViewDesc {
   get domAtom(): boolean {
     return this.node.isAtom
   }
+
+  /**
+   * Optional per-view handlers, set by `ReactNodeView` for the node view
+   * hooks (`useStopEvent` / `useIgnoreMutation`). They mirror the
+   * corresponding imperative `NodeView` spec members; returning undefined
+   * falls through to the default behavior.
+   */
+  stopEventHandler?: (event: Event) => boolean | undefined
+
+  ignoreMutationHandler?: (mutation: ViewMutationRecord) => boolean | undefined
+
+  stopEvent(event: Event): boolean {
+    return this.stopEventHandler?.(event) ?? false
+  }
+
+  ignoreMutation(mutation: ViewMutationRecord): boolean {
+    return this.ignoreMutationHandler?.(mutation) ?? super.ignoreMutation(mutation)
+  }
 }
 
 /**

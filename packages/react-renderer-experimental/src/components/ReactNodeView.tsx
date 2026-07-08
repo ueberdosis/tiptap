@@ -4,11 +4,12 @@ import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ReactNode } from 'react'
-import { useCallback, useRef } from 'react'
-
-import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 
 import { useEditorContext } from '../contexts/EditorContext.js'
+import type { NodeViewHandlers } from '../contexts/NodeViewContext.js'
+import { NodeViewContext } from '../contexts/NodeViewContext.js'
+import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
 import type { NodeViewComponent } from './NodeViewComponentProps.js'
 
@@ -38,6 +39,7 @@ export function ReactNodeView({
   const { editor } = useEditorContext()
   const domRef = useRef<HTMLElement | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)
+  const handlersRef = useRef<NodeViewHandlers>({})
 
   const descRef = useNodeViewDesc({
     node,
@@ -45,6 +47,18 @@ export function ReactNodeView({
     getContentDOM: () => (node.isLeaf ? null : contentRef.current),
     outerDeco,
     innerDeco,
+  })
+
+  // Wire the desc to the handlers ref: the component's hooks write into the
+  // ref (its effects run before the desc exists), the desc dereferences it
+  // at event time
+  useLayoutEffect(() => {
+    const desc = descRef.current
+
+    if (desc) {
+      desc.stopEventHandler = event => handlersRef.current.stopEvent?.(event)
+      desc.ignoreMutationHandler = mutation => handlersRef.current.ignoreMutation?.(mutation)
+    }
   })
 
   const getPos = useCallback(() => {
@@ -110,20 +124,22 @@ export function ReactNodeView({
   }
 
   return (
-    <Component
-      editor={editor}
-      node={node}
-      HTMLAttributes={HTMLAttributes}
-      getPos={getPos}
-      selected={selected}
-      decorations={outerDeco}
-      innerDecorations={innerDeco}
-      updateAttributes={updateAttributes}
-      deleteNode={deleteNode}
-      ref={domRef}
-      contentDOMRef={contentRef}
-    >
-      {children}
-    </Component>
+    <NodeViewContext.Provider value={{ node, getPos, selected, descRef, handlersRef }}>
+      <Component
+        editor={editor}
+        node={node}
+        HTMLAttributes={HTMLAttributes}
+        getPos={getPos}
+        selected={selected}
+        decorations={outerDeco}
+        innerDecorations={innerDeco}
+        updateAttributes={updateAttributes}
+        deleteNode={deleteNode}
+        ref={domRef}
+        contentDOMRef={contentRef}
+      >
+        {children}
+      </Component>
+    </NodeViewContext.Provider>
   )
 }
