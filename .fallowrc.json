@@ -3,6 +3,12 @@
   "ignorePatterns": ["**/*.spec.ts"],
   "entry": ["demos/src/**/index.*"],
   "ignoreExports": [{ "file": "**/*", "exports": ["default"] }],
+  "usedClassMembers": [
+    {
+      "implements": "DecorationSource",
+      "members": ["map", "forChild", "eq", "locals", "forEachSet"]
+    }
+  ],
   "overrides": [
     {
       "files": ["packages/react-renderer-experimental/src/viewdesc.ts"],
@@ -10,6 +16,14 @@
     }
   ],
   "health": {
-    "ignore": ["packages/react-renderer-experimental/src/viewdesc.ts"]
+    "ignore": [
+      "demos/**",
+      "packages/react-renderer-experimental/src/viewdesc.ts",
+      "packages/react-renderer-experimental/src/decorations/iterDeco.ts",
+      "packages/react-renderer-experimental/src/decorations/viewDecorations.ts"
+    ]
+  },
+  "duplicates": {
+    "ignore": ["demos/**"]
   }
 }

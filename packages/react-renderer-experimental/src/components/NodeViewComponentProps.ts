@@ -1,5 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ComponentType, ReactNode, Ref } from 'react'
 
 /**
@@ -18,6 +19,10 @@ export interface NodeViewComponentProps<Element extends HTMLElement = HTMLElemen
   getPos: () => number | undefined
   /** Whether the node is node-selected. */
   selected: boolean
+  /** The decorations rendered onto the node itself. */
+  decorations: readonly Decoration[]
+  /** The decorations for the node's content. */
+  innerDecorations: DecorationSource
   updateAttributes: (attributes: Record<string, unknown>) => void
   deleteNode: () => void
   /** Must be attached to the component's top-level element. */

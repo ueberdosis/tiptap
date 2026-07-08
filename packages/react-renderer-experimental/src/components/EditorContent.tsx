@@ -4,22 +4,29 @@ import type { EditorState } from '@tiptap/pm/state'
 import type { HTMLAttributes, ReactNode, RefObject } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 
+import { DecorationSet } from '@tiptap/pm/view'
+
 import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
 import { ReactKeysContext } from '../contexts/ReactKeysContext.js'
+import { viewDecorations } from '../decorations/viewDecorations.js'
 import { reactKeysPluginKey } from '../plugins/reactKeys.js'
 import { attributesToProps } from '../props.js'
 import { ReactEditorView } from '../ReactEditorView.js'
 import type { NodeViewDesc } from '../viewdesc.js'
 import { DocView } from './DocView.js'
+import type { MarkViewComponent } from './MarkViewComponentProps.js'
 import type { NodeViewComponent } from './NodeViewComponentProps.js'
 
 const NO_NODE_VIEWS: Record<string, NodeViewComponent> = {}
+const NO_MARK_VIEWS: Record<string, MarkViewComponent> = {}
 
 export interface EditorContentProps extends HTMLAttributes<HTMLDivElement> {
   editor: Editor
   /** React node view components by node type name. */
   nodeViews?: Record<string, NodeViewComponent>
+  /** React mark view components by mark type name. */
+  markViews?: Record<string, MarkViewComponent>
 }
 
 /**
@@ -172,6 +179,7 @@ const useCommitEffect = (editor: Editor, docDescRef: RefObject<NodeViewDesc | nu
 export function EditorContent({
   editor,
   nodeViews = NO_NODE_VIEWS,
+  markViews = NO_MARK_VIEWS,
   className,
   ...props
 }: EditorContentProps): ReactNode {
@@ -179,14 +187,21 @@ export function EditorContent({
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
   const contextValue = useMemo<EditorContextValue>(
-    () => ({ editor, nodeViews }),
-    [editor, nodeViews],
+    () => ({ editor, nodeViews, markViews }),
+    [editor, nodeViews, markViews],
   )
 
   useCommitEffect(editor, docDescRef)
 
   const docProps = attributesToProps(computeDocAttributes(editor))
   const mergedClassName = [docProps.className, className].filter(Boolean).join(' ')
+  // The decoration source for the rendered state: every plugin's
+  // `decorations` prop. Computed against `state` (not `view.state`), which
+  // can lag while a composition defers re-renders.
+  const innerDeco =
+    editor.view instanceof ReactEditorView
+      ? viewDecorations(editor.view, state)
+      : DecorationSet.empty
 
   return (
     <EditorContext.Provider value={contextValue}>
@@ -197,6 +212,7 @@ export function EditorContent({
           {...props}
           className={mergedClassName}
           node={state.doc}
+          innerDeco={innerDeco}
           contentEditable={editable}
           suppressContentEditableWarning
           onDocDesc={desc => {

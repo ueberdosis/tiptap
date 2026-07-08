@@ -1,4 +1,6 @@
 export { reorderSiblings } from './commands/reorderSiblings.js'
+export type { DecoratedTextProps } from './components/DecoratedText.js'
+export { DecoratedText } from './components/DecoratedText.js'
 export type { DocViewProps } from './components/DocView.js'
 export { DocView } from './components/DocView.js'
 export type { EditorContentProps } from './components/EditorContent.js'
@@ -6,9 +8,15 @@ export { EditorContent } from './components/EditorContent.js'
 export type { MarkViewProps } from './components/MarkView.js'
 export { MarkView } from './components/MarkView.js'
 export type {
+  MarkViewComponent,
+  MarkViewComponentProps,
+} from './components/MarkViewComponentProps.js'
+export type {
   NodeViewComponent,
   NodeViewComponentProps,
 } from './components/NodeViewComponentProps.js'
+export type { ReactMarkViewProps } from './components/ReactMarkView.js'
+export { ReactMarkView } from './components/ReactMarkView.js'
 export type { ReactNodeViewProps } from './components/ReactNodeView.js'
 export { ReactNodeView } from './components/ReactNodeView.js'
 export { ReactRendererExtension } from './extension.js'
@@ -18,7 +26,20 @@ export type { ChildNodeViewsProps, NodeViewProps } from './components/NodeView.j
 export { ChildNodeViews, NodeView } from './components/NodeView.js'
 export type { OutputSpecOptions } from './components/OutputSpecView.js'
 export { renderOutputSpec } from './components/OutputSpecView.js'
+export type { WidgetViewProps } from './components/WidgetView.js'
+export { WidgetView } from './components/WidgetView.js'
 export { EMPTY_SCHEMA, EMPTY_STATE } from './constants.js'
+export type { NodeCallback, WidgetCallback } from './decorations/iterDeco.js'
+export { iterDeco } from './decorations/iterDeco.js'
+export type { TextDecoLevel } from './decorations/outerDeco.js'
+export { computeTextDecoLevels, mergeElementDecoAttrs } from './decorations/outerDeco.js'
+export { DecorationSourceGroup, viewDecorations } from './decorations/viewDecorations.js'
+export type {
+  ReactWidgetSpec,
+  WidgetComponent,
+  WidgetComponentProps,
+} from './decorations/widget.js'
+export { widget } from './decorations/widget.js'
 export type { EditorContextValue } from './contexts/EditorContext.js'
 export { EditorContext, useEditorContext } from './contexts/EditorContext.js'
 export { ReactKeysContext, useReactKeys } from './contexts/ReactKeysContext.js'
@@ -43,4 +64,5 @@ export {
   TextViewDesc,
   TrailingHackViewDesc,
   ViewDesc,
+  WidgetViewDesc,
 } from './viewdesc.js'

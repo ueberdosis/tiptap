@@ -9,10 +9,9 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5, 6 node views (committed); manual-testing
-  bug-fix round (pending commit): selection sync, trailing-break hack, mark rendering,
-  doc attributes.**
-- **Phase 6 remaining: decorations** (node/inline/widget).
+- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5, 6** (node views, marks, and decorations;
+  decorations pending commit at the time of writing).
+- **Next: Phase 7** — vertical-slice hardening against the runbook's Stop Criteria.
 - Playwright e2e runs against `demos/src/GuideNodeViews/ReactComponentExperimental`
   (14 specs: node view without wrapper, typing, DOM-selection sync, marks, input rules,
   paste, whitespace, undo/redo).
@@ -25,8 +24,10 @@ pnpm vitest run packages/react-renderer-experimental   # this package's tests
 pnpm --filter @tiptap/react-renderer-experimental build
 pnpm lint && pnpm format
 pnpm test:unit
-pnpm fallow:audit   # must end "pass" or "warn" — sole expected warn is the
-                    # pre-existing dispatchTransaction complexity in core/src/Editor.ts
+pnpm fallow:audit   # currently fails on out-of-scope findings that arrived with the
+                    # merge from main (see the fallow gotcha below); judge new work by
+                    # whether it adds findings
+
 ```
 
 ## Phase log
@@ -240,6 +241,70 @@ All four user-reported bugs traced to gaps the unit suite could not see:
 - macOS double-space→period is OS text substitution surfacing through
   `insertReplacementText`; behavior now matches the legacy renderer.
 
+### Phase 6 (part 2): decorations
+
+- `src/decorations/internals.ts`: all decoration-related private prosemirror-view access in
+  one module (`deco.inline`/`deco.widget` discriminators, `type.side`/`attrs`/`spec`/`toDOM`
+  /`eq`, `source.locals()`, `source.eq()`), documented per guardrail 6.
+- `src/decorations/viewDecorations.ts` (derived from PM's `decoration.ts`):
+  `DecorationSourceGroup` (map/forChild/eq/locals/forEachSet, with `removeOverlap`) and
+  `viewDecorations(view, state)` collecting every plugin's `decorations` prop.
+  **Takes the state explicitly** — the rendered state can lag `view.state` while a
+  composition defers re-renders. Cursor-wrapper deco intentionally excluded (Phase 12).
+- `src/decorations/iterDeco.ts` (derived from PM's `viewdesc.ts`): walks children with local
+  decorations — widgets at their positions sorted by `side`, text split at inline-deco
+  boundaries (continuation slices get `index: -1`).
+- `src/decorations/outerDeco.ts` (derived from `computeOuterDeco`): `computeTextDecoLevels`
+  (nested wrap levels for text; attr-only decos share one span, each `nodeName` deco adds a
+  level) and `mergeElementDecoAttrs` (class/style concat for elements).
+- Rendering: `ChildNodeViews` is now `iterDeco`-driven (mark stack extracted to
+  `createMarkStack`); `NodeView`/`SchemaNodeView`/`ReactNodeView` take
+  `outerDeco`/`innerDeco` (schema views merge deco attrs into the root element via
+  `renderOutputSpec`'s new `rootProps`; React node views get `decorations` +
+  `innerDecorations` props and deco attrs merged into `HTMLAttributes`).
+  `DecoratedText` renders decorated runs (desc on the outermost wrapper, `nodeDOM` = the
+  text node, PM-identical DOM shape). `WidgetView` renders `widget()` React components or
+  hosts native `toDOM` widgets in a span, applies the non-raw treatment
+  (`contenteditable=false` + `ProseMirror-widget`), honors `stopEvent`/`destroy`/keys.
+- `src/decorations/widget.ts`: the `widget(pos, Component, spec)` helper — built on public
+  `Decoration.widget()` with an inert toDOM fallback and the component stored on the spec
+  (no internal Decoration constructor needed; only our renderer consumes it).
+- Desc layer: `WidgetViewDesc` derived (matchesWidget/stopEvent/ignoreMutation/widgetSide/
+  ignoreForSelection); walk (`descriptors.ts`) got a slice-aware text cursor
+  (`{index, textOffset}`) and claims decorated-text/widget descs.
+- `EditorContent` computes the per-state source and passes it to `DocView` (`innerDeco`).
+- Tests: `__tests__/decorations.test.ts` — inline deco wrap/unwrap over exact ranges with
+  mapping intact, node deco attrs on/off, React widget mount/position/unmount + destroy,
+  native widgets + side ordering, sibling identity on deco-only transactions, inline decos
+  across mark boundaries (split runs inside `<strong>`).
+- PM semantics that bit during testing: `Decoration.inline(2,7)` covers the character
+  _starting_ at 6 (`to` is exclusive-end); widget `side` orders widgets at the same
+  position but never moves them past a character.
+
+### Phase 10 (pulled forward): React mark views + demo matrix
+
+- Custom React mark views, mirroring the node view architecture:
+  `MarkViewComponentProps` (editor, mark, HTMLAttributes, updateAttributes, ref,
+  contentDOMRef, children), `ReactMarkView` (desc registration + contract), `MarkView` is
+  now a dispatcher (registered component → `ReactMarkView`, else the schema `toDOM` path),
+  registration via `EditorContent`'s `markViews` prop through `EditorContext`. The desc
+  effect moved to `hooks/useMarkViewDesc.ts` (shared by both paths). `updateAttributes`
+  reuses core's exported `updateMarkViewAttributes`. Phase 10 proper still owns the
+  boundary matrices/edge cases (`domAtPos`/`posAtDOM` across overlapping custom marks).
+- Tests: `__tests__/reactMarkView.test.ts` (no wrapper DOM, mapping through mark content,
+  separate content element + updateAttributes, typing inside the view).
+- Demo matrix (each mirrors its legacy sibling, no wrapper/portal):
+  `GuideMarkViews/ReactComponentExperimental` (mark view),
+  `GuideNodeViews/ReactComponentContextExperimental` (React context flows into node views
+  directly — the no-portal showcase), `Examples/DefaultExperimental` (MenuBar +
+  `useEditorState` from `@tiptap/react`, which is editor-scoped and renderer-agnostic),
+  `Examples/BookExperimental` (large-document; imports `../../Book/content.js`),
+  `Examples/DecorationsExperimental` (new: search highlighting with inline decorations,
+  numbered React `widget()` badges per match, and a node decoration on the cursor's
+  block). All five verified to transform through the demos vite dev server; Playwright
+  specs written for the mark view, context, and decorations demos (run them on the
+  device with browser deps).
+
 ## Gotchas for future sessions
 
 - **pnpm supply-chain gate.** A full `pnpm install` re-resolves registry deps and can pull a
@@ -254,10 +319,14 @@ All four user-reported bugs traced to gaps the unit suite could not see:
   render/unmount in `await act(async () => …)`. **Never `toMatchObject` a value containing an
   attached DOM node** — vitest deep-walks the whole happy-dom window graph and hangs. Assert
   `.node`/`.offset` with `toBe`.
-- **fallow config.** `.fallowrc.json` has a scoped exception for `src/viewdesc.ts` only
-  (complexity + unused-class-members): complexity is inherited from the derived origin;
-  "unused" members are called polymorphically by the base view. Everything else gets fixed,
-  not suppressed.
+- **fallow config.** `.fallowrc.json` has scoped exceptions for the derived modules only
+  (`viewdesc.ts`, `decorations/iterDeco.ts`, `decorations/viewDecorations.ts`: complexity
+  inherited from the derived origin; `viewdesc.ts` unused-class-members are called
+  polymorphically by the base view; `DecorationSource` implementors' members registered via
+  `usedClassMembers`; demos excluded from duplication — they are intentional copy-paste
+  examples). Everything else gets fixed, not suppressed. The audit currently fails on
+  out-of-scope findings that arrived with the merge from main (`extension-table` markdown
+  utils, core `dispatchTransaction`) — verified identical on a clean tree.
 - **Pre-existing full-suite flake.** `pnpm test:unit` sometimes exits 1 with happy-dom
   `AsyncTaskManager` errors from an import-time fetch racing frame teardown (sandboxed
   network). Reproduces on a clean tree; all tests still pass. Judge runs by the test counts.

@@ -10,7 +10,7 @@ it exists now.
 - [ ] Phases 1-3 have no PRs yet (work stacked on `react-renderer/phase-2a-internal-view-factory`,
       with Phase 1 on its own branch). Decide when to push/open PRs.
 
-## Phase 4 — transaction rendering and `reactKeys` (DONE, pending commit)
+## Phase 4 — transaction rendering and `reactKeys` (DONE)
 
 Goal: re-render on transactions with stable component identity.
 
@@ -22,7 +22,7 @@ Goal: re-render on transactions with stable component identity.
 - [x] Acceptance via host-element/desc identity: typing/split/join/no-doc-change/reorder
       (`__tests__/keyedRender.test.ts`, `__tests__/reactKeys.test.ts`).
 
-## Phase 5: editing and selection (core DONE, pending commit)
+## Phase 5: editing and selection (DONE)
 
 - [x] Dispatch wiring (`EditorContent`: `useSyncExternalStore` on `transaction`, layout-effect
       `mount()` + `setDocView()` + `commitPendingEffects()`).
@@ -35,13 +35,16 @@ Goal: re-render on transactions with stable component identity.
 - [x] Playwright e2e: typing + selection round-trips in a real browser
       (`demos/src/GuideNodeViews/ReactComponentExperimental/index.spec.ts`).
 
-## Phase 6 — decorations and first React node views (node views DONE, pending commit)
+## Phase 6 — decorations and first React node views (DONE, decorations pending commit)
 
-- [ ] Decoration rendering: node decos → attrs on the node component; inline decos → split
-      inline runs preserving offsets; widgets → React components in ViewDesc order (`side`,
-      `stopEvent`, cleanup, stable keys). `viewdesc.ts` already exposes `widgetSide` /
-      `isTrailingHack` getters for the widget/trailing-hack descs to override, and
-      `NodeViewDesc.outerDeco`/`innerDeco` fields feed `matchesNode`.
+- [x] Decoration rendering: node decos → attrs merged onto the node's element (schema views
+      via `renderOutputSpec` rootProps, React node views via `HTMLAttributes` +
+      `decorations`/`innerDecorations` props); inline decos → text runs split by the derived
+      `iterDeco`, wrapped by `DecoratedText` (desc on the wrapper, `nodeDOM` the text node);
+      widgets → `WidgetView` (React components via the `widget()` helper, native `toDOM`
+      widgets hosted in a span), ordered by `side`, `stopEvent`/`destroy`/keys honored.
+      `viewDecorations()` + `DecorationSourceGroup` derived from prosemirror-view compute the
+      per-state source in `EditorContent`.
 - [x] Trailing-break hack (`TrailingHackViewDesc` + `TrailingHackView`); the Safari/gecko
       IMG separator hack variant is still open (Phase 12 browser matrix).
 - [x] Node views: `NodeViewComponentProps` contract, `ReactNodeView`, dispatch in
@@ -62,7 +65,10 @@ Goal: re-render on transactions with stable component identity.
 
 - [ ] 8: publish experimental (drop `private: true`, changeset, experimental tag).
 - [ ] 9: hooks & ergonomics (`useEditorEffect`, `useEditorEventCallback`, StrictMode-stable).
-- [ ] 10: React mark views (mark boundaries under `domAtPos`/`posAtDOM`).
+- [ ] 10: React mark views — rendering, contract, `markViews` registration, and demo were
+      pulled forward (see PROGRESS.md); remaining: boundary matrices under
+      `domAtPos`/`posAtDOM` for overlapping/adjacent custom marks, `MarkViewContent`-style
+      legacy bridge alignment.
 - [ ] 11: clipboard, paste, drag/drop, history.
 - [ ] 12: IME + cross-browser (Safari is the release blocker).
 - [ ] 13: collaboration (Yjs) — remount storms, cursor behavior, reactKeys fallback.
@@ -101,8 +107,17 @@ Goal: re-render on transactions with stable component identity.
       the position is missing (a doc/state desync). Phase 5 single-sources both from the
       editor state; consider a dev-mode warning then.
 - [ ] Adjacent text runs: React renders separate strings as separate DOM text nodes — the
-      desc walk assumes 1:1 text-run↔DOM-text correspondence; verify when marks split runs
-      (Phase 10).
+      desc walk pairs DOM text with text-node _slices_ (deco splits); verify interplay when
+      custom mark views land (Phase 10).
+- [ ] Decoration gaps (Phase 6 scope cuts): widget `spec.marks` mark-context is ignored
+      (widgets render into the current mark stack); `nodeName` decorations on _elements_
+      apply their attrs but not the rename (text runs support `nodeName` levels fully); the
+      cursor-wrapper decoration is not rendered (composition, Phase 12); native `toDOM`
+      widgets are hosted inside an extra span (document nodes stay wrapper-free — widgets
+      are decoration UI).
+- [ ] Playwright on this machine needs browser system deps
+      (`sudo npx playwright install-deps chromium`); e2e currently only runs on the other
+      device.
 - [ ] Core `updateAttributes` command uses `setNodeMarkup`, which maps the node as deleted
       and remounts its React node view. Our node-view `updateAttributes` prop uses AttrStep
       instead; Phase 7 must decide how core commands behave under the new renderer (this is

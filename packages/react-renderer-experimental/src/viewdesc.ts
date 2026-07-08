@@ -833,6 +833,58 @@ export class NodeViewDesc extends ViewDesc {
 }
 
 /**
+ * A desc for a widget decoration. Represents no document content (size 0);
+ * `widgetSide` feeds the zero-width skip logic in `domFromPos`. Derived from
+ * prosemirror-view 1.41.9's `WidgetViewDesc`, minus DOM creation — the React
+ * `WidgetView` component renders and registers it.
+ */
+export class WidgetViewDesc extends ViewDesc {
+  constructor(
+    parent: ViewDesc | undefined,
+    public widget: Decoration,
+    dom: Node,
+  ) {
+    super(parent, [], dom, null)
+  }
+
+  matchesWidget(widget: Decoration): boolean {
+    // Decoration.type.eq is @internal but stable in 1.41.9
+    const typeEq = (widget as unknown as { type: { eq(other: unknown): boolean } }).type.eq
+
+    return (
+      this.dirty === NOT_DIRTY &&
+      typeEq.call(
+        (widget as unknown as { type: unknown }).type,
+        (this.widget as unknown as { type: unknown }).type,
+      )
+    )
+  }
+
+  stopEvent(event: Event): boolean {
+    const stop = this.widget.spec.stopEvent as ((event: Event) => boolean) | undefined
+
+    return stop ? stop(event) : false
+  }
+
+  ignoreMutation(mutation: ViewMutationRecord): boolean {
+    return mutation.type !== 'selection' || Boolean(this.widget.spec.ignoreSelection)
+  }
+
+  get widgetSide(): number {
+    // WidgetType.side is @internal but stable in 1.41.9
+    return (this.widget as unknown as { type: { side?: number } }).type.side ?? 0
+  }
+
+  get domAtom(): boolean {
+    return true
+  }
+
+  get ignoreForSelection(): boolean {
+    return Boolean(this.widget.spec.relaxedSide)
+  }
+}
+
+/**
  * A desc for a mark element wrapping a run of inline content. Sits between
  * a node desc and the descs of the inline children the mark spans; its size
  * is the sum of its children (base behavior), its border 0.

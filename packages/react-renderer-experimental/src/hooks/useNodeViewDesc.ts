@@ -1,4 +1,5 @@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { RefObject } from 'react'
 import { useLayoutEffect, useRef } from 'react'
 
@@ -10,6 +11,10 @@ export interface UseNodeViewDescOptions {
   domRef: RefObject<Element | null>
   /** Resolves the element holding rendered children, given the node's DOM. */
   getContentDOM: (dom: Element) => HTMLElement | null
+  /** Decorations rendered onto the node's element. */
+  outerDeco?: readonly Decoration[]
+  /** Decorations for the node's content. */
+  innerDeco?: DecorationSource
   /** Called after each commit with the refreshed desc. */
   onUpdated?: (desc: NodeViewDesc) => void
 }
@@ -24,6 +29,8 @@ export const useNodeViewDesc = ({
   node,
   domRef,
   getContentDOM,
+  outerDeco,
+  innerDeco,
   onUpdated,
 }: UseNodeViewDescOptions): RefObject<NodeViewDesc | undefined> => {
   const descRef = useRef<NodeViewDesc | undefined>(undefined)
@@ -40,6 +47,8 @@ export const useNodeViewDesc = ({
       dom,
       contentDOM: getContentDOM(dom),
       nodeDOM: dom,
+      outerDeco,
+      innerDeco,
     })
     rebuildChildDescs(descRef.current)
     onUpdated?.(descRef.current)

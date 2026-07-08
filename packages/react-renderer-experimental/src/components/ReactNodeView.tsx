@@ -2,8 +2,11 @@
 import { getRenderedAttributes } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { NodeSelection } from '@tiptap/pm/state'
+import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ReactNode } from 'react'
 import { useCallback, useRef } from 'react'
+
+import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
 
 import { useEditorContext } from '../contexts/EditorContext.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
@@ -12,6 +15,8 @@ import type { NodeViewComponent } from './NodeViewComponentProps.js'
 export interface ReactNodeViewProps {
   node: ProseMirrorNode
   pos: number
+  outerDeco: readonly Decoration[]
+  innerDeco: DecorationSource
   component: NodeViewComponent
   /** Pre-rendered content (the dispatcher builds it to avoid module cycles). */
   children?: ReactNode
@@ -25,6 +30,8 @@ export interface ReactNodeViewProps {
 export function ReactNodeView({
   node,
   pos,
+  outerDeco,
+  innerDeco,
   component: Component,
   children,
 }: ReactNodeViewProps): ReactNode {
@@ -36,6 +43,8 @@ export function ReactNodeView({
     node,
     domRef,
     getContentDOM: () => (node.isLeaf ? null : contentRef.current),
+    outerDeco,
+    innerDeco,
   })
 
   const getPos = useCallback(() => {
@@ -86,6 +95,20 @@ export function ReactNodeView({
     editor.extensionManager.attributes.filter(attribute => attribute.type === node.type.name),
   )
 
+  // Node decorations contribute attributes like any other rendered attrs, so
+  // components spreading HTMLAttributes pick them up
+  if (outerDeco.length) {
+    Object.entries(mergeElementDecoAttrs(outerDeco)).forEach(([name, value]) => {
+      if (name === 'class') {
+        HTMLAttributes.class = HTMLAttributes.class ? `${HTMLAttributes.class} ${value}` : value
+      } else if (name === 'style') {
+        HTMLAttributes.style = HTMLAttributes.style ? `${HTMLAttributes.style};${value}` : value
+      } else {
+        HTMLAttributes[name] = value
+      }
+    })
+  }
+
   return (
     <Component
       editor={editor}
@@ -93,6 +116,8 @@ export function ReactNodeView({
       HTMLAttributes={HTMLAttributes}
       getPos={getPos}
       selected={selected}
+      decorations={outerDeco}
+      innerDecorations={innerDeco}
       updateAttributes={updateAttributes}
       deleteNode={deleteNode}
       ref={domRef}

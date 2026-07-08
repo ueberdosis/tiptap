@@ -1,28 +1,39 @@
 /** @jsxImportSource react */
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Mark, Node as ProseMirrorNode } from '@tiptap/pm/model'
+import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ReactNode } from 'react'
 import { Fragment, useRef } from 'react'
 
-import type { Mark } from '@tiptap/pm/model'
-
 import { useEditorContext } from '../contexts/EditorContext.js'
 import { useReactKeys } from '../contexts/ReactKeysContext.js'
+import { iterDeco } from '../decorations/iterDeco.js'
+import { widgetSide } from '../decorations/internals.js'
+import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
+import { attributesToProps } from '../props.js'
+import { DecoratedText } from './DecoratedText.js'
 import { MarkView } from './MarkView.js'
 import { renderOutputSpec } from './OutputSpecView.js'
 import { ReactNodeView } from './ReactNodeView.js'
 import { needsTrailingHack, TrailingHackView } from './TrailingHackView.js'
+import { WidgetView } from './WidgetView.js'
 
 export interface NodeViewProps {
   node: ProseMirrorNode
   /** Absolute document position just before the node. */
   pos: number
+  /** Decorations rendered onto the node's own element. */
+  outerDeco: readonly Decoration[]
+  /** Decorations for the node's content. */
+  innerDeco: DecorationSource
 }
 
 export interface ChildNodeViewsProps {
   node: ProseMirrorNode
   /** Absolute position of the parent's content start (its first child). */
   innerPos: number
+  /** Decorations local to the parent's content. */
+  innerDeco: DecorationSource
 }
 
 /*
@@ -35,20 +46,28 @@ export interface ChildNodeViewsProps {
  * when one exists for the node's type, otherwise from its schema `toDOM`
  * spec. Both paths produce exactly the described elements, no wrapper DOM.
  */
-export function NodeView({ node, pos }: NodeViewProps): ReactNode {
+export function NodeView({ node, pos, outerDeco, innerDeco }: NodeViewProps): ReactNode {
   const { nodeViews } = useEditorContext()
   const component = nodeViews[node.type.name]
-  const children = node.isLeaf ? undefined : <ChildNodeViews node={node} innerPos={pos + 1} />
+  const children = node.isLeaf ? undefined : (
+    <ChildNodeViews node={node} innerPos={pos + 1} innerDeco={innerDeco} />
+  )
 
   if (component) {
     return (
-      <ReactNodeView node={node} pos={pos} component={component}>
+      <ReactNodeView
+        node={node}
+        pos={pos}
+        outerDeco={outerDeco}
+        innerDeco={innerDeco}
+        component={component}
+      >
         {children}
       </ReactNodeView>
     )
   }
   return (
-    <SchemaNodeView node={node} pos={pos}>
+    <SchemaNodeView node={node} pos={pos} outerDeco={outerDeco} innerDeco={innerDeco}>
       {children}
     </SchemaNodeView>
   )
@@ -60,10 +79,11 @@ interface SchemaNodeViewProps extends NodeViewProps {
 
 /**
  * The schema-rendered case: a node without a registered component renders
- * from its `toDOM` spec. A layout effect keeps the node's `ViewDesc`
+ * from its `toDOM` spec, with node/inline decorations merged into its
+ * element's attributes. A layout effect keeps the node's `ViewDesc`
  * registered against the rendered elements.
  */
-function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
+function SchemaNodeView({ node, outerDeco, innerDeco, children }: SchemaNodeViewProps): ReactNode {
   const domRef = useRef<Element | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)
 
@@ -71,6 +91,8 @@ function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
     node,
     domRef,
     getContentDOM: () => (node.isLeaf ? null : contentRef.current),
+    outerDeco,
+    innerDeco,
   })
 
   const spec = node.type.spec.toDOM?.(node)
@@ -85,6 +107,7 @@ function SchemaNodeView({ node, children }: SchemaNodeViewProps): ReactNode {
     ref: domRef,
     contentRef,
     children,
+    rootProps: outerDeco.length ? attributesToProps(mergeElementDecoAttrs(outerDeco)) : undefined,
   })
 }
 
@@ -95,20 +118,13 @@ interface OpenMark {
 }
 
 /**
- * Renders a node's children. Text children render as bare strings (React
- * creates real DOM text nodes for them — their descs are bound by the parent
- * node's layout effect); everything else renders through `NodeView`. Inline
- * children sharing marks nest inside shared `MarkView` elements, matching
- * ProseMirror's inline DOM shape.
- *
- * Children are keyed by the `reactKeys` plugin state when provided (text runs
- * included, so their DOM text nodes survive sibling insertions), letting
- * React reuse instances across transactions instead of remounting. Without
- * it (static rendering), keys fall back to the index.
+ * Tracks the currently open mark elements while children are emitted, so
+ * inline children sharing marks nest inside shared `MarkView` elements
+ * (ProseMirror's inline DOM shape). `syncTo` keeps the mark levels shared
+ * with the previous child open and closes/opens the rest; non-spanning
+ * marks never merge across children.
  */
-export function ChildNodeViews({ node, innerPos }: ChildNodeViewsProps): ReactNode {
-  const keys = useReactKeys()
-  const top: ReactNode[] = []
+const createMarkStack = (top: ReactNode[]) => {
   const stack: OpenMark[] = []
   const target = () => (stack.length ? stack[stack.length - 1].children : top)
 
@@ -124,12 +140,7 @@ export function ChildNodeViews({ node, innerPos }: ChildNodeViewsProps): ReactNo
     }
   }
 
-  node.forEach((child, offset, index) => {
-    const key = String(keys?.posToKey.get(innerPos + offset) ?? index)
-    const marks = child.isInline ? child.marks : []
-
-    // Keep the mark levels shared with the previous child open; close and
-    // open the rest (non-spanning marks never merge across children)
+  const syncTo = (marks: readonly Mark[], key: string) => {
     let shared = 0
 
     while (
@@ -144,14 +155,75 @@ export function ChildNodeViews({ node, innerPos }: ChildNodeViewsProps): ReactNo
     for (let depth = stack.length; depth < marks.length; depth += 1) {
       stack.push({ mark: marks[depth], key: `${key}-${marks[depth].type.name}`, children: [] })
     }
+  }
 
-    if (child.isText) {
-      target().push(<Fragment key={key}>{child.text}</Fragment>)
+  return { target, syncTo, closeAll: () => closeToDepth(0) }
+}
+
+/**
+ * Renders a node's children interleaved with its local decorations, via the
+ * derived `iterDeco`: widgets appear at their positions (ordered by `side`),
+ * text runs split at inline-decoration boundaries. Undecorated text renders
+ * as bare strings (their descs are bound by the parent node's layout
+ * effect); decorated runs render through `DecoratedText`, which registers
+ * its own desc. Inline children sharing marks nest inside shared `MarkView`
+ * elements, matching ProseMirror's inline DOM shape.
+ *
+ * Children are keyed by the `reactKeys` plugin state when provided, letting
+ * React reuse instances across transactions instead of remounting. Without
+ * it (static rendering), keys fall back to the index.
+ */
+export function ChildNodeViews({ node, innerPos, innerDeco }: ChildNodeViewsProps): ReactNode {
+  const keys = useReactKeys()
+  const top: ReactNode[] = []
+  const marks = createMarkStack(top)
+
+  let offset = 0
+
+  const onWidget = (widget: Decoration) => {
+    const specKey = widget.spec.key
+    const key =
+      typeof specKey === 'string'
+        ? specKey
+        : `widget:${innerPos + offset}:${widgetSide(widget)}:${marks.target().length}`
+
+    marks.target().push(<WidgetView key={key} widget={widget} pos={innerPos + offset} />)
+  }
+
+  const onNode = (
+    child: ProseMirrorNode,
+    outerDeco: readonly Decoration[],
+    childInnerDeco: DecorationSource,
+    index: number,
+  ) => {
+    const childPos = innerPos + offset
+    const mappedKey = keys?.posToKey.get(childPos)
+    const key = String(mappedKey ?? (index === -1 ? `slice:${offset}` : index))
+
+    marks.syncTo(child.isInline ? child.marks : [], key)
+
+    if (!child.isText) {
+      marks
+        .target()
+        .push(
+          <NodeView
+            key={key}
+            node={child}
+            pos={childPos}
+            outerDeco={outerDeco}
+            innerDeco={childInnerDeco}
+          />,
+        )
+    } else if (outerDeco.length) {
+      marks.target().push(<DecoratedText key={key} slice={child} deco={outerDeco} />)
     } else {
-      target().push(<NodeView key={key} node={child} pos={innerPos + offset} />)
+      marks.target().push(<Fragment key={key}>{child.text}</Fragment>)
     }
-  })
-  closeToDepth(0)
+    offset += child.nodeSize
+  }
+
+  iterDeco(node, innerDeco, onWidget, onNode)
+  marks.closeAll()
 
   if (needsTrailingHack(node)) {
     top.push(<TrailingHackView key="trailing-hack" />)

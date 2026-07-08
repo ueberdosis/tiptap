@@ -13,6 +13,27 @@ export interface OutputSpecOptions {
   contentRef: Ref<HTMLElement>
   /** Rendered into the content hole. */
   children?: ReactNode
+  /** Extra props merged onto the outermost element (e.g. decoration attrs). */
+  rootProps?: Record<string, unknown>
+}
+
+/** Merges extra props onto spec props, concatenating class and style. */
+const mergeProps = (
+  base: Record<string, unknown>,
+  extra: Record<string, unknown> | undefined,
+): Record<string, unknown> => {
+  if (!extra) {
+    return base
+  }
+  const merged = { ...base, ...extra }
+
+  if (base.className && extra.className) {
+    merged.className = `${base.className} ${extra.className}`
+  }
+  if (base.style && extra.style) {
+    merged.style = { ...(base.style as object), ...(extra.style as object) }
+  }
+  return merged
 }
 
 interface ParsedSpecElement {
@@ -69,19 +90,20 @@ const renderSpecNode = (
   }
 
   const { tag, props, childSpecs, isHole } = parseSpecElement(spec)
+  const mergedProps = isRoot ? mergeProps(props, options.rootProps) : props
 
   if (isHole) {
     const ref = isRoot ? mergeRefs(options.ref, options.contentRef) : options.contentRef
 
-    return createElement(tag, { ...props, ref }, options.children)
+    return createElement(tag, { ...mergedProps, ref }, options.children)
   }
 
   const children = childSpecs.map(childSpec =>
     renderSpecNode(childSpec as DOMOutputSpec, options, false),
   )
-  const rootProps = isRoot ? { ...props, ref: options.ref } : props
+  const finalProps = isRoot ? { ...mergedProps, ref: options.ref } : mergedProps
 
-  return createElement(tag, rootProps, ...children)
+  return createElement(tag, finalProps, ...children)
 }
 
 /**
