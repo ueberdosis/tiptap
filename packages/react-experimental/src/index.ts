@@ -1,6 +1,17 @@
-export { collectReactNodeViews } from './collectExtensionViews.js'
+export { collectReactMarkViews, collectReactNodeViews } from './collectExtensionViews.js'
 export type { ReactNodeViewRendererOptions } from './ReactNodeViewRenderer.js'
 export { reactNodeViewComponent, ReactNodeViewRenderer } from './ReactNodeViewRenderer.js'
+export type {
+  MarkViewContentProps,
+  MarkViewContextProps,
+  ReactMarkViewRendererOptions,
+} from './ReactMarkViewRenderer.js'
+export {
+  MarkViewContent,
+  ReactMarkViewContext,
+  reactMarkViewComponent,
+  ReactMarkViewRenderer,
+} from './ReactMarkViewRenderer.js'
 export type { CurrentEditorContextValue } from './Context.js'
 export { useCurrentEditor } from './Context.js'
 export type {

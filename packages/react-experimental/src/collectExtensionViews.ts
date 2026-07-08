@@ -1,7 +1,9 @@
-import type { Editor, NodeConfig } from '@tiptap/core'
-import { getExtensionField, getNodeType, splitExtensions } from '@tiptap/core'
+import type { Editor, MarkConfig, NodeConfig } from '@tiptap/core'
+import { getExtensionField, getMarkType, getNodeType, splitExtensions } from '@tiptap/core'
 
+import type { MarkViewComponent } from './components/MarkViewComponentProps.js'
 import type { NodeViewComponent } from './components/NodeViewComponentProps.js'
+import { getReactMarkViewMarker, reactMarkViewComponent } from './ReactMarkViewRenderer.js'
 import { getReactNodeViewMarker, reactNodeViewComponent } from './ReactNodeViewRenderer.js'
 
 const warnedTypes = new Set<string>()
@@ -74,5 +76,56 @@ export const collectReactNodeViews = (editor: Editor): Record<string, NodeViewCo
   })
 
   nodeViewCache.set(editor, collected)
+  return collected
+}
+
+const markViewCache = new WeakMap<Editor, Record<string, MarkViewComponent>>()
+
+/**
+ * Collects React mark view components registered through extensions'
+ * `addMarkView: () => ReactMarkViewRenderer(Component)` — the mark-side
+ * counterpart of `collectReactNodeViews`.
+ */
+export const collectReactMarkViews = (editor: Editor): Record<string, MarkViewComponent> => {
+  const cached = markViewCache.get(editor)
+
+  if (cached) {
+    return cached
+  }
+
+  const { markExtensions } = splitExtensions(editor.extensionManager.extensions)
+  const collected: Record<string, MarkViewComponent> = {}
+
+  markExtensions.forEach(extension => {
+    if (!getExtensionField(extension, 'addMarkView')) {
+      return
+    }
+    const context = {
+      name: extension.name,
+      options: extension.options,
+      storage: editor.extensionStorage[extension.name as keyof typeof editor.extensionStorage],
+      editor,
+      type: getMarkType(extension.name, editor.schema),
+    }
+    const addMarkView = getExtensionField<MarkConfig['addMarkView']>(
+      extension,
+      'addMarkView',
+      context,
+    )
+    const result = addMarkView?.()
+
+    if (!result) {
+      return
+    }
+    const marker = getReactMarkViewMarker(result)
+
+    if (!marker) {
+      warnUnsupportedView('mark', extension.name)
+      return
+    }
+    collected[extension.name] = reactMarkViewComponent(marker.component, marker.options)
+  })
+
+  markViewCache.set(editor, collected)
   return collected
 }

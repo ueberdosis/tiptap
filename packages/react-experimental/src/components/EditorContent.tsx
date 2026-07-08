@@ -6,7 +6,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useSyncExternalStore } f
 
 import { DecorationSet } from '@tiptap/pm/view'
 
-import { collectReactNodeViews } from '../collectExtensionViews.js'
+import { collectReactMarkViews, collectReactNodeViews } from '../collectExtensionViews.js'
 import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
 import type { RenderState } from '../contexts/ReactKeysContext.js'
@@ -239,15 +239,19 @@ function EditorContentWithEditor({
   const state = useEditorTransactionState(editor)
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
-  // Components registered through extensions' addNodeView(); the prop wins
-  // on conflicts
+  // Components registered through extensions' addNodeView()/addMarkView();
+  // the props win on conflicts
   const resolvedNodeViews = useMemo(
     () => ({ ...collectReactNodeViews(editor), ...nodeViews }),
     [editor, nodeViews],
   )
+  const resolvedMarkViews = useMemo(
+    () => ({ ...collectReactMarkViews(editor), ...markViews }),
+    [editor, markViews],
+  )
   const contextValue = useMemo<EditorContextValue>(
-    () => ({ editor, nodeViews: resolvedNodeViews, markViews }),
-    [editor, resolvedNodeViews, markViews],
+    () => ({ editor, nodeViews: resolvedNodeViews, markViews: resolvedMarkViews }),
+    [editor, resolvedNodeViews, resolvedMarkViews],
   )
 
   useCommitEffect(editor, docDescRef)
