@@ -1,4 +1,15 @@
 export { bridgeReactNodeView } from './bridge/bridgeReactNodeView.js'
+export type { NodeViewContentProps } from './NodeViewContent.js'
+export { NodeViewContent } from './NodeViewContent.js'
+export type { NodeViewWrapperProps } from './NodeViewWrapper.js'
+export { NodeViewWrapper } from './NodeViewWrapper.js'
+export type { ReactNodeViewProps } from './types.js'
+export type { ReactNodeViewContextProps } from './useReactNodeView.js'
+export {
+  ReactNodeViewContentProvider,
+  ReactNodeViewContext,
+  useReactNodeView,
+} from './useReactNodeView.js'
 export { reorderSiblings } from './commands/reorderSiblings.js'
 export type { DecoratedTextProps } from './components/DecoratedText.js'
 export { DecoratedText } from './components/DecoratedText.js'
@@ -18,7 +29,7 @@ export type {
 } from './components/NodeViewComponentProps.js'
 export type { ReactMarkViewProps } from './components/ReactMarkView.js'
 export { ReactMarkView } from './components/ReactMarkView.js'
-export type { ReactNodeViewProps } from './components/ReactNodeView.js'
+export type { ReactNodeViewHostProps } from './components/ReactNodeView.js'
 export { ReactNodeView } from './components/ReactNodeView.js'
 export { ReactRendererExtension } from './extension.js'
 export type { UseReactEditorOptions } from './hooks/useReactEditor.js'

@@ -1,11 +1,11 @@
 /** @jsxImportSource react */
 import type { NodeViewProps } from '@tiptap/core'
-import type { ReactNodeViewProps } from '@tiptap/react'
-import { ReactNodeViewContext } from '@tiptap/react'
 import type { ComponentType, ReactNode, Ref } from 'react'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 
 import type { NodeViewComponentProps } from '../components/NodeViewComponentProps.js'
+import type { ReactNodeViewProps } from '../types.js'
+import { ReactNodeViewContext } from '../useReactNodeView.js'
 
 const assignRef = <Value,>(ref: Ref<Value> | undefined, value: Value | null): void => {
   if (typeof ref === 'function') {

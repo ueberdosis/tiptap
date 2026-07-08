@@ -12,7 +12,7 @@ import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
 import type { NodeViewComponent } from './NodeViewComponentProps.js'
 
-export interface ReactNodeViewProps {
+export interface ReactNodeViewHostProps {
   node: ProseMirrorNode
   /** Whether the node is node-selected (computed by the parent). */
   selected: boolean
@@ -35,7 +35,7 @@ export function ReactNodeView({
   innerDeco,
   component: Component,
   children,
-}: ReactNodeViewProps): ReactNode {
+}: ReactNodeViewHostProps): ReactNode {
   const { editor } = useEditorContext()
   const domRef = useRef<HTMLElement | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)

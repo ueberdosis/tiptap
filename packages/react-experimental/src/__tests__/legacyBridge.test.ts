@@ -1,9 +1,10 @@
-import type { ReactNodeViewProps } from '@tiptap/react'
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
 import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { bridgeReactNodeView } from '../bridge/bridgeReactNodeView.js'
+import { NodeViewContent } from '../NodeViewContent.js'
+import { NodeViewWrapper } from '../NodeViewWrapper.js'
+import type { ReactNodeViewProps } from '../types.js'
 import { Counter } from './helpers.js'
 import { CounterExtension, renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
 
