@@ -1,9 +1,11 @@
 import { mergeAttributes, Node } from '@tiptap/core'
+import { nodeView } from '@tiptap/react-experimental'
+
+import Component from './Component.jsx'
 
 /**
- * Unlike the legacy demo, there is no `addNodeView()` here: with the
- * experimental React renderer, the component is registered on
- * `EditorContent` via the `nodeViews` prop (see index.tsx).
+ * Exactly like the legacy demo, the node view is configured on the
+ * extension — `nodeView()` registers a native-contract component.
  */
 export default Node.create({
   name: 'reactComponent',
@@ -30,5 +32,9 @@ export default Node.create({
 
   renderHTML({ HTMLAttributes }) {
     return ['react-component', mergeAttributes(HTMLAttributes)]
+  },
+
+  addNodeView() {
+    return nodeView(Component)
   },
 })

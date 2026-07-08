@@ -1,9 +1,11 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
+import { markView } from '@tiptap/react-experimental'
+
+import Component from './Component.jsx'
 
 /**
- * Unlike the legacy demo, there is no `addMarkView()` here: with the
- * experimental React renderer, the component is registered on
- * `EditorContent` via the `markViews` prop (see index.tsx).
+ * Exactly like the legacy demo, the mark view is configured on the
+ * extension — `markView()` registers a native-contract component.
  */
 export default Mark.create({
   name: 'reactComponent',
@@ -24,5 +26,9 @@ export default Mark.create({
 
   renderHTML({ HTMLAttributes }) {
     return ['react-component', mergeAttributes(HTMLAttributes)]
+  },
+
+  addMarkView() {
+    return markView(Component)
   },
 })

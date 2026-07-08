@@ -1,9 +1,12 @@
 import { Node } from '@tiptap/core'
+import { nodeView } from '@tiptap/react-experimental'
+
+import Component from './Component.jsx'
 
 /**
- * The same resizable node as the legacy demo, minus the imperative
- * `addNodeView()`: with the experimental React renderer, the resizable
- * component is registered on `EditorContent` via the `nodeViews` prop.
+ * The same resizable node as the legacy demo — the resizable component is
+ * configured on the extension via `nodeView()` (native contract, no
+ * imperative node view).
  */
 export default Node.create({
   name: 'resizableNode',
@@ -36,5 +39,9 @@ export default Node.create({
       },
       0,
     ]
+  },
+
+  addNodeView() {
+    return nodeView(Component)
   },
 })

@@ -1,12 +1,13 @@
 export { collectReactMarkViews, collectReactNodeViews } from './collectExtensionViews.js'
 export type { ReactNodeViewRendererOptions } from './ReactNodeViewRenderer.js'
-export { reactNodeViewComponent, ReactNodeViewRenderer } from './ReactNodeViewRenderer.js'
+export { nodeView, reactNodeViewComponent, ReactNodeViewRenderer } from './ReactNodeViewRenderer.js'
 export type {
   MarkViewContentProps,
   MarkViewContextProps,
   ReactMarkViewRendererOptions,
 } from './ReactMarkViewRenderer.js'
 export {
+  markView,
   MarkViewContent,
   ReactMarkViewContext,
   reactMarkViewComponent,

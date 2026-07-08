@@ -3,7 +3,7 @@ import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import type { MarkViewComponentProps } from '../components/MarkViewComponentProps.js'
-import { MarkViewContent, ReactMarkViewRenderer } from '../ReactMarkViewRenderer.js'
+import { markView, MarkViewContent, ReactMarkViewRenderer } from '../ReactMarkViewRenderer.js'
 import { useMergedRefs } from '../refs.js'
 import { HighlightExtension, renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
 
@@ -108,5 +108,28 @@ describe('ReactMarkViewRenderer', () => {
 
     expect(dom.querySelector('mark.native')?.textContent).toBe('hi')
     expect(dom.querySelector('.mark-highlight')).toBeNull()
+  })
+
+  it('renders a native-contract component registered through addMarkView via markView()', async () => {
+    const NativeHighlight = ({ children, ref, contentDOMRef }: MarkViewComponentProps) =>
+      createElement(
+        'mark',
+        { ref: useMergedRefs(ref, contentDOMRef), className: 'native-ext' },
+        children,
+      )
+    const nativeExtension = HighlightExtension.extend({
+      addMarkView: () => markView(NativeHighlight),
+    })
+
+    const { view, dom } = await renderTiptapEditor('<p>a<test-highlight>bc</test-highlight>d</p>', [
+      nativeExtension,
+    ])
+
+    const host = dom.querySelector('mark.native-ext') as HTMLElement
+
+    // Rendered as-is: no host span around the component
+    expect(host.textContent).toBe('bc')
+    expect(host.parentElement?.tagName).toBe('P')
+    expect(view.posAtDOM(host.firstChild as Text, 1)).toBe(3)
   })
 })

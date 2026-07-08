@@ -5,14 +5,22 @@ import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Dropcursor } from '@tiptap/extensions'
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { EditorContent, nodeView, useReactEditor } from '@tiptap/react-experimental'
 import React, { useCallback } from 'react'
 
 import Component from './Component.jsx'
 
+// The stock Image extension with the resizable React component as its node
+// view — configured on the extension, like any other node view
+const ResizableImage = Image.extend({
+  addNodeView() {
+    return nodeView(Component)
+  },
+})
+
 export default () => {
   const editor = useReactEditor({
-    extensions: [Document, Paragraph, Text, Image, Dropcursor],
+    extensions: [Document, Paragraph, Text, ResizableImage, Dropcursor],
     content: `
         <p>
           This is the resizable images demo under the experimental React
@@ -39,7 +47,7 @@ export default () => {
           <button onClick={addImage}>Set image</button>
         </div>
       </div>
-      <EditorContent editor={editor} nodeViews={{ image: Component }} />
+      <EditorContent editor={editor} />
     </>
   )
 }

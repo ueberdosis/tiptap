@@ -6,7 +6,6 @@ import Text from '@tiptap/extension-text'
 import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import React from 'react'
 
-import Component from './Component.jsx'
 import ResizableNode from './Extension.js'
 
 export default () => {
@@ -29,5 +28,5 @@ export default () => {
       `,
   })
 
-  return <EditorContent editor={editor} nodeViews={{ resizableNode: Component }} />
+  return <EditorContent editor={editor} />
 }

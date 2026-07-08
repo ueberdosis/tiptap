@@ -4,7 +4,6 @@ import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-import Component from './Component.jsx'
 import { Context } from './Context.js'
 import ReactComponent from './Extension.js'
 
@@ -30,7 +29,7 @@ export default () => {
 
   return (
     <Context.Provider value={contextValue}>
-      <EditorContent editor={editor} nodeViews={{ reactComponent: Component }} />
+      <EditorContent editor={editor} />
     </Context.Provider>
   )
 }

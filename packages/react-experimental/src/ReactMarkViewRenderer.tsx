@@ -113,8 +113,10 @@ export const reactMarkViewComponent = (
 const REACT_MARK_VIEW_MARKER = Symbol.for('@tiptap/react-experimental/mark-view')
 
 export interface ReactMarkViewMarker {
-  component: ComponentType<MarkViewProps>
+  component: ComponentType<MarkViewProps> | MarkViewComponent
   options: Partial<ReactMarkViewRendererOptions>
+  /** Native contract (`MarkViewComponentProps`): rendered without a host. */
+  native?: boolean
 }
 
 /** Reads the marker off an `addMarkView()` result, if it carries one. */
@@ -133,9 +135,29 @@ export function ReactMarkViewRenderer(
   component: ComponentType<MarkViewProps>,
   options: Partial<ReactMarkViewRendererOptions> = {},
 ): MarkViewRenderer {
+  return markedMarkViewRenderer({ component, options })
+}
+
+/**
+ * Registers a native-contract component (`MarkViewComponentProps`: the
+ * component owns its markup, attaching `ref`/`contentDOMRef` itself) inside
+ * an extension's `addMarkView()`:
+ *
+ * ```ts
+ * addMarkView: () => markView(MyComponent)
+ * ```
+ *
+ * The counterpart of `ReactMarkViewRenderer`, which registers components
+ * written for `@tiptap/react`'s `MarkViewContent` contract.
+ */
+export function markView(component: MarkViewComponent): MarkViewRenderer {
+  return markedMarkViewRenderer({ component, options: {}, native: true })
+}
+
+const markedMarkViewRenderer = (marker: ReactMarkViewMarker): MarkViewRenderer => {
   const renderer: MarkViewRenderer = () => {
     console.error(
-      '[tiptap warn]: this ReactMarkViewRenderer comes from @tiptap/react-experimental, ' +
+      '[tiptap warn]: this mark view renderer comes from @tiptap/react-experimental, ' +
         'where mark views render through EditorContent — it cannot construct an imperative ' +
         'mark view for a non-React EditorView.',
     )
@@ -143,7 +165,7 @@ export function ReactMarkViewRenderer(
   }
 
   Object.defineProperty(renderer, REACT_MARK_VIEW_MARKER, {
-    value: { component, options } satisfies ReactMarkViewMarker,
+    value: marker,
     enumerable: false,
   })
 

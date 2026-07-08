@@ -592,6 +592,14 @@ registry (built, then reverted). It only served suggestion/mention popups
 (`render: () => new ReactRenderer(...)`); a React-native replacement is an open design
 item — see TODO.md. Docs work was also skipped by request.
 
+**Extension configuration is canonical (user decision):** node/mark views are configured
+inside the extension, not on `EditorContent`. `ReactNodeViewRenderer`/`ReactMarkViewRenderer`
+register legacy-contract components; the `nodeView()`/`markView()` factories register
+native-contract components (`NodeViewComponentProps`/`MarkViewComponentProps`) the same
+way — all through `addNodeView()`/`addMarkView()`, collected off the raw config via the
+Symbol markers. All experimental demos were converted off the `nodeViews`/`markViews`
+props; the props remain only as per-EditorContent overrides.
+
 ## Gotchas for future sessions
 
 - **pnpm supply-chain gate.** A full `pnpm install` re-resolves registry deps and can pull a

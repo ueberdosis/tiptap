@@ -72,7 +72,14 @@ export const collectReactNodeViews = (editor: Editor): Record<string, NodeViewCo
       warnUnsupportedView('node', extension.name)
       return
     }
-    collected[extension.name] = reactNodeViewComponent(marker.component, marker.options)
+    // Native components render as-is; legacy-contract ones get the host
+    // that provides the NodeViewWrapper/NodeViewContent wiring
+    collected[extension.name] = marker.native
+      ? (marker.component as NodeViewComponent)
+      : reactNodeViewComponent(
+          marker.component as Parameters<typeof reactNodeViewComponent>[0],
+          marker.options,
+        )
   })
 
   nodeViewCache.set(editor, collected)
@@ -123,7 +130,12 @@ export const collectReactMarkViews = (editor: Editor): Record<string, MarkViewCo
       warnUnsupportedView('mark', extension.name)
       return
     }
-    collected[extension.name] = reactMarkViewComponent(marker.component, marker.options)
+    collected[extension.name] = marker.native
+      ? (marker.component as MarkViewComponent)
+      : reactMarkViewComponent(
+          marker.component as Parameters<typeof reactMarkViewComponent>[0],
+          marker.options,
+        )
   })
 
   markViewCache.set(editor, collected)

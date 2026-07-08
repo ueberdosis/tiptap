@@ -4,7 +4,6 @@ import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
-import Component from './Component.jsx'
 import ReactComponent from './Extension.js'
 
 export default () => {
@@ -20,5 +19,5 @@ export default () => {
     `,
   })
 
-  return <EditorContent editor={editor} markViews={{ reactComponent: Component }} />
+  return <EditorContent editor={editor} />
 }

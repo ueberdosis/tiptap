@@ -189,8 +189,10 @@ export const reactNodeViewComponent = (
 const REACT_NODE_VIEW_MARKER = Symbol.for('@tiptap/react-experimental/node-view')
 
 export interface ReactNodeViewMarker {
-  component: ComponentType<ReactNodeViewProps<any>>
+  component: ComponentType<ReactNodeViewProps<any>> | NodeViewComponent
   options: Partial<ReactNodeViewRendererOptions>
+  /** Native contract (`NodeViewComponentProps`): rendered without a host. */
+  native?: boolean
 }
 
 /** Reads the marker off an `addNodeView()` result, if it carries one. */
@@ -211,9 +213,29 @@ export function ReactNodeViewRenderer<T = HTMLElement>(
   component: ComponentType<ReactNodeViewProps<T>>,
   options: Partial<ReactNodeViewRendererOptions> = {},
 ): NodeViewRenderer {
+  return markedNodeViewRenderer({ component, options })
+}
+
+/**
+ * Registers a native-contract component (`NodeViewComponentProps`: the
+ * component owns its markup, attaching `ref`/`contentDOMRef` itself) inside
+ * an extension's `addNodeView()`:
+ *
+ * ```ts
+ * addNodeView: () => nodeView(MyComponent)
+ * ```
+ *
+ * The counterpart of `ReactNodeViewRenderer`, which registers components
+ * written for `@tiptap/react`'s wrapper contract.
+ */
+export function nodeView(component: NodeViewComponent): NodeViewRenderer {
+  return markedNodeViewRenderer({ component, options: {}, native: true })
+}
+
+const markedNodeViewRenderer = (marker: ReactNodeViewMarker): NodeViewRenderer => {
   const renderer: NodeViewRenderer = () => {
     console.error(
-      '[tiptap warn]: this ReactNodeViewRenderer comes from @tiptap/react-experimental, ' +
+      '[tiptap warn]: this node view renderer comes from @tiptap/react-experimental, ' +
         'where node views render through EditorContent — it cannot construct an imperative ' +
         'node view for a non-React EditorView.',
     )
@@ -221,7 +243,7 @@ export function ReactNodeViewRenderer<T = HTMLElement>(
   }
 
   Object.defineProperty(renderer, REACT_NODE_VIEW_MARKER, {
-    value: { component, options } satisfies ReactNodeViewMarker,
+    value: marker,
     enumerable: false,
   })
 

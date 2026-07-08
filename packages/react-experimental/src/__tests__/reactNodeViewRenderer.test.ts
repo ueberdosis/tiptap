@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ReactRendererExtension } from '../extension.js'
 import { NodeViewContent } from '../NodeViewContent.js'
 import { NodeViewWrapper } from '../NodeViewWrapper.js'
-import { ReactNodeViewRenderer } from '../ReactNodeViewRenderer.js'
+import { nodeView, ReactNodeViewRenderer } from '../ReactNodeViewRenderer.js'
 import type { ReactNodeViewProps } from '../types.js'
 import {
   Counter,
@@ -165,6 +165,26 @@ describe('ReactNodeViewRenderer', () => {
 
     expect(desc?.stopEvent(new Event('mousedown'))).toBe(true)
     expect(stopEvent).toHaveBeenCalledWith({ event: expect.any(Event) })
+  })
+
+  it('renders a native-contract component registered through addNodeView via nodeView()', async () => {
+    const nativeExtension = CounterExtension.extend({
+      addNodeView: () => nodeView(Counter),
+    })
+    const { view, dom } = await renderTiptapEditor('<test-counter count="7"></test-counter>', [
+      nativeExtension,
+    ])
+
+    const host = dom.querySelector('.counter') as HTMLElement
+
+    // The component rendered as-is: its own root element is the node's DOM
+    expect(host.querySelector('button')?.textContent).toBe('count-7')
+    expect(view.nodeDOM(0)).toBe(host)
+
+    await act(async () => {
+      ;(host.querySelector('button') as HTMLButtonElement).click()
+    })
+    expect(host.querySelector('button')?.textContent).toBe('count-8')
   })
 
   it('warns and falls back to toDOM for imperative addNodeView results', async () => {
