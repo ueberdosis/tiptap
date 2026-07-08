@@ -40,7 +40,9 @@ type CallbackName = (typeof CALLBACK_OPTIONS)[number]
  * one from the options ref — no stale closures when the consumer re-renders
  * with new handlers.
  */
-const latestCallbacks = (options: RefObject<UseReactEditorOptions>): Partial<EditorOptions> =>
+export const latestCallbacks = (
+  options: RefObject<Partial<EditorOptions>>,
+): Partial<EditorOptions> =>
   Object.fromEntries(
     CALLBACK_OPTIONS.map(name => [
       name,
@@ -48,6 +50,33 @@ const latestCallbacks = (options: RefObject<UseReactEditorOptions>): Partial<Edi
         (options.current[name] as ((...inner: unknown[]) => void) | undefined)?.(...args),
     ]),
   ) as Pick<EditorOptions, CallbackName>
+
+/**
+ * Constructs an editor wired to the React renderer: built unmounted
+ * (`element: null` — `EditorContent` mounts it onto the React-rendered
+ * document element later) with the internal view factory substituting a
+ * `ReactEditorView`.
+ */
+export const createRendererEditor = (options: Partial<EditorOptions>): Editor => {
+  const editorOptions: Partial<EditorOptions> & EditorInternalOptions = {
+    ...options,
+    // ReactEditorView itself rejects function placements at runtime
+    element: null,
+    extensions: [...(options.extensions ?? []), ReactRendererExtension],
+    __internalViewFactory: (element, props) =>
+      new ReactEditorView(element as ReactEditorViewPlace, props),
+  }
+
+  const editor = new Editor(editorOptions)
+
+  // Give the pre-mount state its extension plugins: the first render then
+  // has real reactKeys keys instead of index fallbacks (which would flip —
+  // and remount every node — once the plugins arrive). createView() later
+  // reconfigures with the same plugin instances, preserving their state.
+  editor.view.updateState(editor.state.reconfigure({ plugins: editor.extensionManager.plugins }))
+
+  return editor
+}
 
 /**
  * Owns the editor instance across the component lifecycle. The mechanism
@@ -82,27 +111,10 @@ class ReactEditorManager {
   }
 
   private create(): Editor {
-    const current = this.options.current
-    const editorOptions: Partial<EditorOptions> & EditorInternalOptions = {
-      ...current,
+    return createRendererEditor({
+      ...this.options.current,
       ...latestCallbacks(this.options),
-      // EditorContent mounts on the rendered document element later;
-      // ReactEditorView itself rejects function placements at runtime
-      element: null,
-      extensions: [...(current.extensions ?? []), ReactRendererExtension],
-      __internalViewFactory: (element, props) =>
-        new ReactEditorView(element as ReactEditorViewPlace, props),
-    }
-
-    const editor = new Editor(editorOptions)
-
-    // Give the pre-mount state its extension plugins: the first render then
-    // has real reactKeys keys instead of index fallbacks (which would flip —
-    // and remount every node — once the plugins arrive). createView() later
-    // reconfigures with the same plugin instances, preserving their state.
-    editor.view.updateState(editor.state.reconfigure({ plugins: editor.extensionManager.plugins }))
-
-    return editor
+    })
   }
 
   subscribe(onChange: () => void): () => void {
