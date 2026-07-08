@@ -16,8 +16,10 @@ Compared to the legacy `@tiptap/react` node-view integration, this renderer:
 
 ## Status
 
-Scaffold only. See [`AUDIT.md`](./AUDIT.md) for the compatibility audit and the
-pinned `prosemirror-view` version this work builds against.
+Under active development. Start with [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+for how the package works; [`AUDIT.md`](./AUDIT.md) holds the compatibility
+audit and the pinned `prosemirror-view` version, [`PROGRESS.md`](./PROGRESS.md)
+the phase log, and [`TODO.md`](./TODO.md) what's next.
 
 ## License
 
