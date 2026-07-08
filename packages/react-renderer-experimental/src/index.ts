@@ -1,3 +1,4 @@
+export { bridgeReactNodeView } from './bridge/bridgeReactNodeView.js'
 export { reorderSiblings } from './commands/reorderSiblings.js'
 export type { DecoratedTextProps } from './components/DecoratedText.js'
 export { DecoratedText } from './components/DecoratedText.js'

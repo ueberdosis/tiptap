@@ -92,8 +92,11 @@ Goal: re-render on transactions with stable component identity.
       real (y-prosemirror whole-doc replaces) and is fixed by the `reactKeys`
       orphaned-key rescue pass; two-client convergence, offline divergence, scoped undo,
       and remote carets are covered by a simulated two-client suite.
-- [ ] 14: legacy node-view migration bridge (`ReactNodeViewRenderer` subset;
-      `NodeViewContent` ref → `contentDOMRef`).
+- [x] 14: legacy node-view migration bridge (DONE — see PROGRESS.md):
+      `bridgeReactNodeView(LegacyComponent)` runs unmodified `NodeViewWrapper`/
+      `NodeViewContent` components; unsupported patterns documented (renderer options,
+      onDragStart drag image, imperative constructors). Legacy _mark_ view bridging
+      (`MarkViewContent`) not done — add if migration demand shows up.
 - [ ] 15: performance (1k/10k paragraph benchmarks, typing latency budget).
 - [ ] 16: docs + migration guide.
 - [ ] 17: graduate into `@tiptap/react` as default (next major).

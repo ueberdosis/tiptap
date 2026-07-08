@@ -68,6 +68,33 @@ const getPackageAliases = () => {
 }
 
 export default defineConfig({
+  plugins: [
+    {
+      // The global esbuild config compiles JSX with @tiptap/core's runtime
+      // (for content JSX). @tiptap/react's components are React JSX, so its
+      // sources are compiled here first, with the React runtime.
+      name: 'tiptap-react-jsx',
+      enforce: 'pre',
+      async transform(code, id) {
+        if (!id.includes('packages/react/src') || !id.endsWith('.tsx')) {
+          return null
+        }
+        const ts = (await import('typescript')).default
+        const result = ts.transpileModule(code, {
+          fileName: id,
+          compilerOptions: {
+            jsx: ts.JsxEmit.ReactJSX,
+            jsxImportSource: 'react',
+            module: ts.ModuleKind.ESNext,
+            target: ts.ScriptTarget.ESNext,
+            sourceMap: true,
+          },
+        })
+
+        return { code: result.outputText, map: result.sourceMapText ?? null }
+      },
+    },
+  ],
   test: {
     environment: 'happy-dom',
     include: ['packages/**/*.test.ts', 'packages/**/*.spec.ts'],

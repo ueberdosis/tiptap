@@ -18,6 +18,7 @@
   "health": {
     "ignore": [
       "demos/**",
+      "*.config.ts",
       "packages/react-renderer-experimental/src/viewdesc.ts",
       "packages/react-renderer-experimental/src/decorations/iterDeco.ts",
       "packages/react-renderer-experimental/src/decorations/viewDecorations.ts"

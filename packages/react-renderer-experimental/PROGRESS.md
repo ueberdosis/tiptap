@@ -9,13 +9,13 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7 and 9 through 11, plus Phase 13 (collaboration)** (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7 and 9 through 11, 13, and 14 (legacy bridge)** (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
 - **Next: Phase 8 is manual** (the user publishes themselves — do not automate). Phase 12
   (IME + cross-browser) needs the browser device — Safari is the gate. Remaining build
-  phases here: 14 (legacy bridge), 15 (performance), 16 (docs).
+  phases here: 15 (performance), 16 (docs); then 17 (graduation) gates on 12.
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
   the mark view, context, decorations, and collaboration demos — run on the device with
   browser deps.
@@ -465,6 +465,36 @@ browser via the e2e selection specs.
   polling); cursor state only publishes while the view `hasFocus()`.
 - `yjs` + `y-protocols` added as devDependencies (lockfile importer hand-edited per the
   pnpm gotcha).
+
+### Phase 14 — legacy node-view migration bridge
+
+- `src/bridge/bridgeReactNodeView.tsx`: runs unmodified legacy `@tiptap/react` node view
+  components (written for `ReactNodeViewRenderer` with `NodeViewWrapper`/`NodeViewContent`)
+  under the experimental renderer:
+  `nodeViews: { myNode: bridgeReactNodeView(LegacyComponent) }`.
+  - The legacy `ReactNodeViewContext` (exported by `@tiptap/react`) is provided with our
+    values: `NodeViewContent`'s context ref becomes `contentDOMRef`, its context children
+    become the rendered document content.
+  - The `NodeViewWrapper` element becomes the node view's element. Legacy components never
+    forward refs to it, so the bridge locates it after each commit via a **hidden marker
+    sibling** (`display:none`, non-editable, desc-less — invisible to mapping/selection).
+  - Legacy props are mapped 1:1 (`editor`, `node`, `view`, `getPos`, `selected`,
+    `decorations`, `innerDecorations`, `HTMLAttributes`, `extension`, `updateAttributes`,
+    `deleteNode`).
+  - **Unsupported, documented in the JSDoc**: `ReactNodeViewRenderer` options
+    (`stopEvent`/`ignoreMutation`/`contentDOMElementTag`/…), legacy `onDragStart`
+    drag-image behavior, arbitrary imperative `NodeView` constructors.
+- `@tiptap/react` added as peer + workspace devDependency (the runbook sanctions this;
+  lockfile importer hand-edited per the pnpm gotcha).
+- **Test-infra fix with repo-wide value**: vitest compiles all JSX with @tiptap/core's
+  runtime, which miscompiled `@tiptap/react`'s own components when rendered in tests. A
+  scoped `tiptap-react-jsx` plugin in `vitest.config.ts` (enforce: 'pre',
+  `ts.transpileModule` with the React runtime) now compiles `packages/react/src/*.tsx`
+  correctly — legacy React components are testable under vitest for the first time.
+- Tests (`__tests__/legacyBridge.test.ts`) use the _real_ `NodeViewWrapper`/
+  `NodeViewContent`: content component (wrapper attrs, content wiring, editing, mapping
+  through the wrapper), atom component with `updateAttributes`, no remount on unrelated
+  edits, coexistence with native experimental node views.
 
 ## Gotchas for future sessions
 

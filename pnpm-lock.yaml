@@ -1034,6 +1034,9 @@ importers:
       '@tiptap/core':
         specifier: workspace:^
         version: link:../core
+      '@tiptap/react':
+        specifier: workspace:^
+        version: link:../react
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
