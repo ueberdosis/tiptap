@@ -150,8 +150,14 @@ export class ReactEditorView extends EditorView {
     // Neutralize the DOM observer (see EditorViewInternals for invariants):
     // stop it, make future start() calls unable to observe, drop anything
     // recorded during construction, and gate selection reads on composition.
-    self.domObserver.stop()
+    // The observer is disconnected and nulled BEFORE stop(): with records
+    // pending (the base constructor's rendering), stop() would schedule a
+    // detached `setTimeout(flush, 20)` — a selection read we never want,
+    // and one that can fire after the view's document is gone (verified
+    // against 1.41.9: stop() only schedules it under `this.observer`).
+    self.domObserver.observer?.disconnect()
     self.domObserver.observer = null
+    self.domObserver.stop()
     self.domObserver.queue.length = 0
     const baseOnSelectionChange = self.domObserver.onSelectionChange
     self.domObserver.onSelectionChange = () => {
