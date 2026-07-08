@@ -1,9 +1,8 @@
 # Architecture: @tiptap/react-experimental
 
 How this package works: what each module does and how the pieces cooperate.
-Companions: [AUDIT.md](./AUDIT.md) (the ground-truth audit and every private
-prosemirror-view symbol we touch), [PROGRESS.md](./PROGRESS.md) (phase log),
-[TODO.md](./TODO.md) (what's next).
+Companion: [AUDIT.md](./AUDIT.md) (the ground-truth audit and every private
+prosemirror-view symbol we touch).
 
 ## The idea
 
@@ -347,6 +346,6 @@ whose behavior lives in imperative node views (table's colgroup management,
 details' toggle, image resize, mathematics' KaTeX) therefore degrade to their
 schema rendering under this renderer until the migration bridge (Phase 14)
 lands. Cursor-wrapper decorations, `widget.spec.marks`, and `nodeName`
-renames on element decorations are documented gaps (TODO.md). Lifecycle
-hardening (StrictMode double-mount of `useReactEditor`, multi-`EditorContent`
-per editor) is Phase 9.
+renames on element decorations are documented gaps. Lifecycle hardening
+(StrictMode double-mount of `useEditor`, multi-`EditorContent` per editor)
+is handled by the editor instance manager.

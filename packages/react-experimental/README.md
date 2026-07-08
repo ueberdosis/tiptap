@@ -18,8 +18,7 @@ Compared to the legacy `@tiptap/react` node-view integration, this renderer:
 
 Under active development. Start with [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 for how the package works; [`AUDIT.md`](./AUDIT.md) holds the compatibility
-audit and the pinned `prosemirror-view` version, [`PROGRESS.md`](./PROGRESS.md)
-the phase log, and [`TODO.md`](./TODO.md) what's next.
+audit and the pinned `prosemirror-view` version.
 
 ## License
 

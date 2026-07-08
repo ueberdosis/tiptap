@@ -14,35 +14,7 @@
       "members": ["map", "forChild", "eq", "locals", "forEachSet"]
     }
   ],
-  "overrides": [
-    {
-      "files": ["packages/react-experimental/src/viewdesc.ts"],
-      "rules": {
-        "unused-class-members": "off"
-      }
-    }
-  ],
   "health": {
-    "ignore": [
-      "demos/**",
-      "*.config.ts",
-      "packages/react-experimental/src/viewdesc.ts",
-      "packages/react-experimental/src/decorations/iterDeco.ts",
-      "packages/react-experimental/src/decorations/viewDecorations.ts",
-      "packages/react-experimental/src/menus/**"
-    ]
-  },
-  "duplicates": {
-    "ignore": [
-      "demos/**",
-      "packages/react-experimental/src/NodeViewContent.tsx",
-      "packages/react-experimental/src/ReactNodeViewRenderer.tsx",
-      "packages/react-experimental/src/Tiptap.tsx",
-      "packages/react-experimental/src/menus/**",
-      "packages/react-experimental/src/useEditor.ts",
-      "packages/react-experimental/src/useEditorState.ts",
-      "packages/react-experimental/src/useReactNodeView.ts",
-      "packages/react-experimental/tsup.config.ts"
-    ]
+    "ignore": ["demos/**", "*.config.ts"]
   }
 }
