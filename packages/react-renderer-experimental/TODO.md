@@ -54,12 +54,18 @@ Goal: re-render on transactions with stable component identity.
       walk). Custom React mark views remain Phase 10.
 - [x] Doc attributes (`computeDocDeco` equivalent in `EditorContent`).
 
-## Phase 7 — vertical-slice hardening
+## Phase 7 — vertical-slice hardening (DONE — see the verdict table in PROGRESS.md)
 
-- [ ] Full Stop Criteria from the runbook §7 must pass; stop and report if any fails.
-- [ ] Smoke tests: BubbleMenu/FloatingMenu positioning, drag-handle geometry, undo/redo,
-      copy/paste architecture decision recorded.
-- [ ] Re-run the §9 matrices (mapping, selection, identity).
+- [x] Full Stop Criteria from the runbook §7 pass (criterion-by-criterion evidence table
+      in PROGRESS.md; browser-level rows rest on the e2e specs, green on the device with
+      browser deps).
+- [x] Smoke tests: BubbleMenu/FloatingMenu plugin views run against the renderer,
+      drag-handle geometry APIs smoke-tested, undo/redo restores content+selection+host
+      identity, copy/paste decision recorded in ARCHITECTURE.md (schema-based, unchanged).
+- [x] §9 matrices re-run (mapping/identity at unit level, selection unit + e2e).
+- [ ] Real-coordinate positioning (BubbleMenu placement values) is only meaningful in a
+      browser — eyeball on the demos when convenient; blockers would surface in Phase 12
+      anyway.
 
 ## Phases 8-17 (post-slice, from the runbook)
 

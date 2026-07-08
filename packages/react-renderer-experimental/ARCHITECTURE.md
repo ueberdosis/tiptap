@@ -226,6 +226,13 @@ observer is dead) before acting, making `state.selection` current.
 Keyboard shortcuts, clipboard, and drag/drop never reach this plugin: they
 are handled by ProseMirror's own input listeners, which are still attached.
 
+**Clipboard decision (Phase 7):** ProseMirror's clipboard pipeline works
+unchanged. Copy serializes the selected slice through
+`DOMSerializer.fromSchema` into a detached document — it never reads the
+live document DOM — and paste parses clipboard HTML/text through the schema
+parser. The desc-based `parseRule`/`parseRange` machinery is only consumed
+by `readDOMChange`, which is dead along with the mutation observer.
+
 ## Stable identity: reactKeys
 
 React must not remount a paragraph because its position shifted. The

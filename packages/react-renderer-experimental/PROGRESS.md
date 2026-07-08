@@ -9,12 +9,15 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1, 2A, 2B, 2C, 3, 4, 5, 6** (node views, marks, and decorations;
-  decorations pending commit at the time of writing).
-- **Next: Phase 7** — vertical-slice hardening against the runbook's Stop Criteria.
-- Playwright e2e runs against `demos/src/GuideNodeViews/ReactComponentExperimental`
-  (14 specs: node view without wrapper, typing, DOM-selection sync, marks, input rules,
-  paste, whitespace, undo/redo).
+- **Completed: Phases 1 through 7** (audit, view factory, ReactEditorView, ViewDesc,
+  static + transaction rendering, editing/selection, node/mark views, decorations, and
+  the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
+  views (Phase 10 core) and a demo matrix were pulled forward.
+- **Next: Phase 8** — publish experimental (drop `private: true`, changeset, experimental
+  tag), or continue hardening (Phase 9 lifecycle items) first.
+- Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
+  the mark view, context, decorations, and collaboration demos — run on the device with
+  browser deps.
 - `prosemirror-view` is pinned at **1.41.9** (see AUDIT.md §1-2; compat test enforces it).
 
 ## Validation commands
@@ -317,6 +320,40 @@ All four user-reported bugs traced to gaps the unit suite could not see:
   renderer-agnostic, so they proved little); `Markdown/Full` additionally leans on
   imperative extension node views (Details, Mathematics, Table) that degrade to schema
   rendering until the Phase 14 bridge.
+
+### Phase 7 — vertical-slice hardening (Stop Criteria verdict)
+
+Every Stop Criterion from the runbook §7 passes. Evidence, criterion by criterion
+(unit = happy-dom vitest; e2e = the Playwright demo specs, green on the device with
+browser deps):
+
+| #   | Criterion                                                                     | Evidence                                                                                                                                                       |
+| --- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ReactEditorView constructs with empty state, neutralizes rendering + observer | `ReactEditorView.test.ts`, `prosemirrorViewCompat.test.ts`                                                                                                     |
+| 2   | PM never renders/mutates document DOM                                         | `ReactEditorView.test.ts` (mount survival), `staticRender.test.ts`, `editorContent.test.ts`                                                                    |
+| 3   | Text input without commit-path `flushSync`                                    | `beforeInput.test.ts`, the no-sync-render assertion in `editorContent.test.ts`, e2e typing specs                                                               |
+| 4   | Collapsed/range/node selections round-trip                                    | `viewdesc.test.ts`, `staticRender.test.ts` (unit); e2e DOM-selection specs (browser)                                                                           |
+| 5   | `posAtDOM`/`domAtPos`/`nodeDOM`/`coordsAtPos`/`posAtCoords`                   | mapping suites + `stopCriteria.test.ts` geometry smoke (happy-dom has no layout, so coordinates are zeros — shapes and code paths assert; real values via e2e) |
+| 6   | Typing does not remount unchanged siblings                                    | `keyedRender.test.ts`, deco-only identity in `decorations.test.ts`                                                                                             |
+| 7   | Composition guard                                                             | composition-defer test in `editorContent.test.ts`, composition passthrough in `beforeInput.test.ts` (real IME is the Phase 12 matrix)                          |
+| 8   | Node view without wrapper DOM + widget decoration                             | `reactNodeView.test.ts`, `decorations.test.ts`, the experimental demo e2e                                                                                      |
+| 9   | Legacy `EditorContent` untouched                                              | no legacy source changed since Phase 1; legacy suites green                                                                                                    |
+| 10  | Plugin views update without PM-owned rendering                                | plugin-view tests in `ReactEditorView.test.ts` + BubbleMenu/FloatingMenu smoke in `stopCriteria.test.ts`                                                       |
+| 11  | Undo/redo restores content and selection                                      | `editorContent.test.ts` + host-identity undo/redo in `stopCriteria.test.ts`                                                                                    |
+
+Smoke tests (runbook Phase 7 list): BubbleMenu and FloatingMenu plugin views run
+against the renderer (mounted, update path incl. floating-ui exercised); the
+drag-handle geometry path is smoke-tested at the API level (`nodeDOM`/`posAtDOM`/
+`posAtCoords`/`posToDOMRect` — the full extension is meaningless without browser
+layout); undo/redo restores content, selection, and host identity; the copy/paste
+architecture decision is recorded in ARCHITECTURE.md (PM clipboard is schema-based
+and works unchanged — asserted via `serializeForClipboard` in `stopCriteria.test.ts`).
+
+§9 matrices: mapping matrix covered across `viewdesc`/`staticRender`/`reactNodeView`/
+`decorations`; identity matrix rows typing/split/join/reorder/deco-only in
+`keyedRender.test.ts` + `decorations.test.ts`, undo/redo in `stopCriteria.test.ts`;
+selection matrix at unit level in `viewdesc.test.ts`/`staticRender.test.ts` and in the
+browser via the e2e selection specs.
 
 ## Gotchas for future sessions
 
