@@ -6,6 +6,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useSyncExternalStore } f
 
 import { DecorationSet } from '@tiptap/pm/view'
 
+import { collectReactNodeViews } from '../collectExtensionViews.js'
 import type { EditorContextValue } from '../contexts/EditorContext.js'
 import { EditorContext } from '../contexts/EditorContext.js'
 import type { RenderState } from '../contexts/ReactKeysContext.js'
@@ -238,9 +239,15 @@ function EditorContentWithEditor({
   const state = useEditorTransactionState(editor)
   const editable = useEditorEditable(editor)
   const docDescRef = useRef<NodeViewDesc | null>(null)
+  // Components registered through extensions' addNodeView(); the prop wins
+  // on conflicts
+  const resolvedNodeViews = useMemo(
+    () => ({ ...collectReactNodeViews(editor), ...nodeViews }),
+    [editor, nodeViews],
+  )
   const contextValue = useMemo<EditorContextValue>(
-    () => ({ editor, nodeViews, markViews }),
-    [editor, nodeViews, markViews],
+    () => ({ editor, nodeViews: resolvedNodeViews, markViews }),
+    [editor, resolvedNodeViews, markViews],
   )
 
   useCommitEffect(editor, docDescRef)

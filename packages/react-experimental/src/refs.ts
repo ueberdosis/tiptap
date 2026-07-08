@@ -1,7 +1,8 @@
 import type { Ref, RefCallback } from 'react'
 import { useCallback } from 'react'
 
-const assignRef = <T>(ref: Ref<T> | undefined, value: T | null): void => {
+/** Writes a value to a callback or object ref. */
+export const assignRef = <T>(ref: Ref<T> | undefined, value: T | null): void => {
   if (typeof ref === 'function') {
     ref(value)
   } else if (ref) {

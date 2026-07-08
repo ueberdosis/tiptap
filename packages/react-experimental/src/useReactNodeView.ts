@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ElementType, ReactNode } from 'react'
 import { createContext, createElement, useContext } from 'react'
 
 export interface ReactNodeViewContextProps {
@@ -9,6 +9,18 @@ export interface ReactNodeViewContextProps {
    * This is useful when statically rendering the content of a node view.
    */
   nodeViewContentChildren?: ReactNode
+  /**
+   * Receives the `NodeViewWrapper` element. The renderer maps the node onto
+   * it directly — the wrapper IS the node view's DOM, no extra elements.
+   */
+  nodeViewWrapperRef?: (element: HTMLElement | null) => void
+  /**
+   * Extra props for the `NodeViewWrapper` element, carrying
+   * `ReactNodeViewRenderer`'s `className`/`attrs` options.
+   */
+  nodeViewWrapperProps?: Record<string, unknown>
+  /** Default wrapper tag (`ReactNodeViewRenderer`'s `as` option). */
+  nodeViewWrapperAs?: ElementType
 }
 
 export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({

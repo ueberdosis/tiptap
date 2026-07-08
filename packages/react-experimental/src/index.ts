@@ -1,4 +1,6 @@
-export { bridgeReactNodeView } from './bridge/bridgeReactNodeView.js'
+export { collectReactNodeViews } from './collectExtensionViews.js'
+export type { ReactNodeViewRendererOptions } from './ReactNodeViewRenderer.js'
+export { reactNodeViewComponent, ReactNodeViewRenderer } from './ReactNodeViewRenderer.js'
 export type { CurrentEditorContextValue } from './Context.js'
 export { useCurrentEditor } from './Context.js'
 export type {
