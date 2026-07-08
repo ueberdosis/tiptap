@@ -1,0 +1,39 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  .resizable-image {
+    display: inline-block;
+    position: relative;
+
+    img {
+      display: block;
+      height: auto;
+      max-width: 100%;
+    }
+
+    &.is-selected img {
+      outline: 3px solid var(--purple, #6a00f5);
+    }
+
+    .resize-handle {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      bottom: -4px;
+      cursor: nwse-resize;
+      height: 10px;
+      position: absolute;
+      right: -4px;
+      touch-action: none;
+      width: 10px;
+      z-index: 10;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+}

@@ -304,6 +304,19 @@ All four user-reported bugs traced to gaps the unit suite could not see:
   block). All five verified to transform through the demos vite dev server; Playwright
   specs written for the mark view, context, and decorations demos (run them on the
   device with browser deps).
+- Second demo batch: `Examples/ResizableImagesExperimental` and
+  `Examples/ResizableNodesExperimental` (the legacy demos use imperative
+  `ResizableNodeview`/extension-image resize, which the renderer intentionally ignores —
+  resizing is reimplemented as plain React components: pointer-event drag, React state
+  during the drag, `updateAttributes` on release), and
+  `Demos/CollaborationSplitPaneExperimental` — two experimental editors bound to **one
+  shared local Y.Doc** (what a provider would sync, minus transport), proving
+  remote-origin Yjs transactions re-render through React; no server needed, e2e spec
+  included. CollaborationCaret is omitted (needs provider awareness — Phase 13).
+- Markdown demos were ported and then dropped by request (markdown is state-level and
+  renderer-agnostic, so they proved little); `Markdown/Full` additionally leans on
+  imperative extension node views (Details, Mathematics, Table) that degrade to schema
+  rendering until the Phase 14 bridge.
 
 ## Gotchas for future sessions
 

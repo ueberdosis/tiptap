@@ -72,6 +72,8 @@ Goal: re-render on transactions with stable component identity.
 - [ ] 11: clipboard, paste, drag/drop, history.
 - [ ] 12: IME + cross-browser (Safari is the release blocker).
 - [ ] 13: collaboration (Yjs) — remount storms, cursor behavior, reactKeys fallback.
+      Groundwork exists: `Demos/CollaborationSplitPaneExperimental` (two editors, one
+      shared Y.Doc) proves basic sync; carets/awareness and remount profiling remain.
 - [ ] 14: legacy node-view migration bridge (`ReactNodeViewRenderer` subset;
       `NodeViewContent` ref → `contentDOMRef`).
 - [ ] 15: performance (1k/10k paragraph benchmarks, typing latency budget).

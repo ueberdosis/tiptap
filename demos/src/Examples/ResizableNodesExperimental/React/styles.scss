@@ -1,0 +1,49 @@
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  .resizable-node {
+    border: 1px solid var(--black, #2e2b29);
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    overflow: hidden;
+    position: relative;
+
+    &.is-selected {
+      outline: 3px solid var(--purple, #6a00f5);
+    }
+
+    > label {
+      background: var(--gray-2, #ced4da);
+      display: block;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.5rem;
+      user-select: none;
+    }
+
+    .resizable-node-content {
+      padding: 0.5rem;
+    }
+
+    .resize-handle {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      bottom: 0;
+      cursor: nwse-resize;
+      height: 10px;
+      position: absolute;
+      right: 0;
+      touch-action: none;
+      width: 10px;
+      z-index: 10;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+}
