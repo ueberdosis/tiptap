@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { useEditorState } from '@tiptap/react'
-import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
+import { Tiptap, useReactEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -153,9 +153,9 @@ export default () => {
   })
 
   return (
-    <>
+    <Tiptap editor={editor}>
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
-    </>
+      <Tiptap.Content />
+    </Tiptap>
   )
 }

@@ -9,10 +9,17 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 - **Branches.** Phase 1 lives on `react-renderer/phase-1-audit-and-scaffold`. Phases 2A+
   live on `react-renderer/phase-2a-internal-view-factory` (the runbook's one-branch-per-phase
   rule was dropped by request — everything continues on this branch).
-- **Completed: Phases 1 through 7 and 9 through 11, 13, 14, and 15 (performance)** — the project stops here per the user's decision; Phase 12 (IME/browser matrix) remains on the browser device, 16/17 unscheduled (audit, view factory, ReactEditorView, ViewDesc,
+- **Completed: Phases 1 through 7 and 9 through 11, 13, 14, and 15 (performance)** — the runbook build stopped here per the user's decision; Phase 12 (IME/browser matrix) remains on the browser device, 16/17 unscheduled (audit, view factory, ReactEditorView, ViewDesc,
   static + transaction rendering, editing/selection, node/mark views, decorations, and
   the Phase 7 Stop Criteria verdict — see the table in the Phase 7 section). React mark
   views (Phase 10 core) and a demo matrix were pulled forward.
+- **Completed after the runbook: the drop-in API** (see "Drop-in API" section at the end
+  of the phase log). The package is renamed `@tiptap/react-experimental` and replicates
+  the `@tiptap/react` core surface — `useEditor`, `<Tiptap>`/`useTiptap`/`useTiptapState`,
+  `useCurrentEditor`, `useEditorState`, `EditorContent` (nullable editor),
+  `ReactNodeViewRenderer`/`ReactMarkViewRenderer` working from extension
+  `addNodeView`/`addMarkView`, `NodeViewWrapper`/`NodeViewContent`/`MarkViewContent`,
+  the `./menus` subpath (BubbleMenu/FloatingMenu), and `export * from '@tiptap/core'`.
 - **Phase 8 is manual** (the user publishes themselves — do not automate). Phase 12
   (IME + cross-browser) needs the browser device — Safari is the gate.
 - Playwright e2e: `GuideNodeViews/ReactComponentExperimental` (14 specs) plus specs for
@@ -541,6 +548,49 @@ wholesale replaces keep host identity at scale.
 Remaining known levers (not needed to meet budgets): the reactKeys Map rebuild is still
 O(keys) per doc-changing transaction (~10ms at 10k; a WeakMap<node, key> redesign would
 amortize it), chunking under local decorations, and virtualized initial mount.
+
+## Drop-in API (post-runbook, 2026-07-08)
+
+Goal: a drop-in replacement for `@tiptap/react` — same API names, new internals; the
+package renamed from `@tiptap/react-renderer-experimental` to `@tiptap/react-experimental`.
+Eight commits on this branch, in order:
+
+1. **Rename** — directory, package name, 18 demo imports, fallow paths, lockfile importer
+   key hand-edited (release-age gate). vitest/vite/tsconfig aliases are directory-derived.
+2. **`useEditorState`** — verbatim port (renderer-agnostic); deps `fast-equals` /
+   `use-sync-external-store` hand-added to the lockfile importer.
+3. **Node view kit re-housed** — `NodeViewWrapper`/`NodeViewContent`/`useReactNodeView`/
+   `ReactNodeViewProps` are local; the `@tiptap/react` dev+peer dependency is gone.
+4. **`useEditor`** — legacy `EditorInstanceManager` semantics (`immediatelyRender` SSR/Next
+   deferral returning `Editor | null`, deps recreation, options drift via `setOptions`,
+   `shouldRerenderOnTransaction`), constructing through `createRendererEditor` (extracted
+   from `useReactEditor`, which stays as the lean always-non-null variant).
+5. **`<Tiptap>` + `useCurrentEditor` + nullable `EditorContent.editor`** — the provider
+   pattern chosen over `EditorProvider` (intentionally not shipped); `useCurrentEditor`
+   reads the same context non-throwing.
+6. **Native `ReactNodeViewRenderer`** — extensions' raw `addNodeView()` results carry a
+   `Symbol.for` marker read by `collectExtensionViews.ts` (ExtensionManager's closure
+   wrapping hides components otherwise; context built exactly like
+   `ExtensionManager.nodeViews`). `NodeViewWrapper` receives the node view ref over
+   context — the wrapper element IS the node's DOM: no marker sibling, no extra
+   `react-renderer` div, no portals. The Phase 14 bridge was deleted. Options:
+   `as`/`className`/`attrs` land on the wrapper element, `stopEvent`/`ignoreMutation` on
+   the desc handler slots; `update`/`contentDOMElementTag` warn once (no equivalent).
+   `nodeViews` prop wins over extension registration.
+7. **Native `ReactMarkViewRenderer` + `MarkViewContent`** — same marker/collection for
+   `addMarkView()`. Mark components never expose their root, so the host renders one
+   (`options.as`, default span, class `mark-<name>`) as the mark's DOM — the same element
+   legacy produced; `MarkViewContent` renders the inline content from context.
+8. **`./menus` subpath + core re-export** — BubbleMenu/FloatingMenu copied (thin plugin
+   wrappers), optional workspace deps, tsup multi-entry, subpath aliases added to the
+   vitest/vite name lists. `export * from '@tiptap/core'`; the renderer's NodeView/MarkView
+   host components renamed `RendererNodeView`/`RendererMarkView` so core's classes own the
+   shared names — `exportParity.test.ts` asserts the surface and zero unintended shadows.
+
+**Dropped by decision:** the legacy `ReactRenderer` class + `contentComponent` portal
+registry (built, then reverted). It only served suggestion/mention popups
+(`render: () => new ReactRenderer(...)`); a React-native replacement is an open design
+item — see TODO.md. Docs work was also skipped by request.
 
 ## Gotchas for future sessions
 

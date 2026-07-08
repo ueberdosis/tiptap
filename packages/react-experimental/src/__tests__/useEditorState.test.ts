@@ -1,4 +1,5 @@
 import type { Editor } from '@tiptap/core'
+import type { EditorState } from '@tiptap/pm/state'
 import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
@@ -27,6 +28,12 @@ const mountSelector = async <T>(
   return observed
 }
 
+/** Appends "!" to the document, inside act(). */
+const typeExclamation = (view: { dispatch: (tr: unknown) => void; state: EditorState }) =>
+  act(async () => {
+    view.dispatch(view.state.tr.insertText('!', view.state.doc.content.size - 1))
+  })
+
 describe('useEditorState', () => {
   it('re-runs the selector per transaction and returns the selected value', async () => {
     const { editor, view } = await renderTiptapEditor('<p>hello</p>')
@@ -34,9 +41,7 @@ describe('useEditorState', () => {
 
     expect(observed.value).toBe('hello')
 
-    await act(async () => {
-      view.dispatch(view.state.tr.insertText('!', view.state.doc.content.size - 1))
-    })
+    await typeExclamation(view)
 
     expect(observed.value).toBe('hello!')
   })
@@ -48,9 +53,7 @@ describe('useEditorState', () => {
     }))
     const rendersBefore = observed.renders
 
-    await act(async () => {
-      view.dispatch(view.state.tr.insertText('!', view.state.doc.content.size - 1))
-    })
+    await typeExclamation(view)
 
     // Selector result {empty: false} is structurally unchanged
     expect(observed.renders).toBe(rendersBefore)
@@ -65,9 +68,7 @@ describe('useEditorState', () => {
       () => true,
     )
 
-    await act(async () => {
-      view.dispatch(view.state.tr.insertText('!', view.state.doc.content.size - 1))
-    })
+    await typeExclamation(view)
 
     expect(observed.value).toBe('hello')
   })

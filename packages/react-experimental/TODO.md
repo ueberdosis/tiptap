@@ -105,6 +105,31 @@ Goal: re-render on transactions with stable component identity.
 - [ ] 16: docs + migration guide.
 - [ ] 17: graduate into `@tiptap/react` as default (next major).
 
+## Drop-in API follow-ups (post-runbook, 2026-07-08)
+
+- [ ] **Suggestion/mention rendering story.** The legacy `ReactRenderer` class (and its
+      `editor.contentComponent` portal registry) was deliberately NOT ported — the user
+      wants a better, React-native solution instead of the legacy portal machinery.
+      Ecosystem code doing `suggestion: { render: () => new ReactRenderer(MentionList) }`
+      does not work with this package yet. Two design directions considered: (1) a
+      headless hook (`useSuggestion`-style) surfacing the suggestion plugin's state
+      (items, query, clientRect, command) so apps render their own popup in their own
+      tree — the most React-native shape; (2) a standalone-root `ReactRenderer`
+      (per-instance `createRoot`, no editor coupling, no portal registry) as a thin
+      compatibility shim — same public API, much simpler internals, but popups live
+      outside the app's React tree (no context). Decide with the user before building.
+- [ ] `EditorProvider` (and the legacy `EditorContext`/`EditorConsumer` exports) are
+      intentionally not shipped — the `<Tiptap>` pattern was chosen. `useCurrentEditor`
+      exists for compatibility. Revisit only if drop-in adoption hits real apps needing it.
+- [ ] `ReactNodeViewRenderer` options without an equivalent here: `update` (memo-driven
+      re-renders) and `contentDOMElementTag` (the content element belongs to the
+      component). Both warn once at runtime.
+- [ ] Demos still use `useReactEditor`; they work unchanged, but converting one demo to
+      `useEditor` + `<Tiptap>` would exercise the drop-in path in a browser.
+- [ ] `useEditor` + `EditorContent` double subscription (`shouldRerenderOnTransaction`
+      plus the content's own transaction store) — benign extra owner renders; keep an eye
+      on the perf gate if apps enable it at scale.
+
 ## Known deferred items (don't lose these)
 
 - [ ] `Editor.prependClass()` and `dom.editor = this` mutate the mount after the factory

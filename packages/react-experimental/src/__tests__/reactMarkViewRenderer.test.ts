@@ -1,21 +1,13 @@
 import type { MarkViewProps } from '@tiptap/core'
-import { Mark as TiptapMark, mergeAttributes } from '@tiptap/core'
 import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import type { MarkViewComponentProps } from '../components/MarkViewComponentProps.js'
 import { MarkViewContent, ReactMarkViewRenderer } from '../ReactMarkViewRenderer.js'
 import { useMergedRefs } from '../refs.js'
-import { renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
+import { HighlightExtension, renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
 
 afterEach(unmountTrackedRoots)
-
-const HighlightExtension = TiptapMark.create({
-  name: 'highlight',
-  addAttributes: () => ({ 'data-count': { default: 0 } }),
-  parseHTML: () => [{ tag: 'test-highlight' }],
-  renderHTML: ({ HTMLAttributes }) => ['test-highlight', mergeAttributes(HTMLAttributes)],
-})
 
 /** A component written exactly as for `@tiptap/react`'s ReactMarkViewRenderer. */
 const HighlightComponent = (props: MarkViewProps) =>

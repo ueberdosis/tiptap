@@ -1,20 +1,12 @@
-import { Mark as TiptapMark, mergeAttributes } from '@tiptap/core'
 import { TextSelection } from '@tiptap/pm/state'
 import { act, createElement } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import type { MarkViewComponentProps } from '../components/MarkViewComponentProps.js'
 import { useMergedRefs } from '../refs.js'
-import { renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
+import { HighlightExtension, renderTiptapEditor, unmountTrackedRoots } from './helpers.js'
 
 afterEach(unmountTrackedRoots)
-
-const HighlightExtension = TiptapMark.create({
-  name: 'highlight',
-  addAttributes: () => ({ 'data-count': { default: 0 } }),
-  parseHTML: () => [{ tag: 'test-highlight' }],
-  renderHTML: ({ HTMLAttributes }) => ['test-highlight', mergeAttributes(HTMLAttributes)],
-})
 
 /** Mark view whose top-level element is also its content element. */
 const Highlight = ({ children, ref, contentDOMRef, HTMLAttributes }: MarkViewComponentProps) =>

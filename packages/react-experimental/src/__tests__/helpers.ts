@@ -1,5 +1,5 @@
 import type { EditorInternalOptions, EditorOptions } from '@tiptap/core'
-import { Editor, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
+import { Editor, Mark as TiptapMark, mergeAttributes, Node as TiptapNode } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Schema } from '@tiptap/pm/model'
 import { EditorState } from '@tiptap/pm/state'
@@ -127,6 +127,14 @@ export const renderStaticDoc = async (docNode: ProseMirrorNode) => {
   ;(view as unknown as { docView: DocViewLike }).docView = dom.pmViewDesc as unknown as DocViewLike
   return { dom, view, docDesc: dom.pmViewDesc as NodeViewDesc }
 }
+
+/** A highlight mark carrying a counter attribute, for mark view tests. */
+export const HighlightExtension = TiptapMark.create({
+  name: 'highlight',
+  addAttributes: () => ({ 'data-count': { default: 0 } }),
+  parseHTML: () => [{ tag: 'test-highlight' }],
+  renderHTML: ({ HTMLAttributes }) => ['test-highlight', mergeAttributes(HTMLAttributes)],
+})
 
 /** A counter atom node for node view tests. */
 export const CounterExtension = TiptapNode.create({
