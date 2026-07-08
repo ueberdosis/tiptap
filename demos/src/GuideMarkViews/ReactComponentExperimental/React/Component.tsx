@@ -1,4 +1,4 @@
-import type { MarkViewComponentProps } from '@tiptap/react-renderer-experimental'
+import type { MarkViewComponentProps } from '@tiptap/react-experimental'
 import React from 'react'
 
 /**

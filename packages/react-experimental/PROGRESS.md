@@ -1,6 +1,6 @@
 # Progress: React-owned rendering for Tiptap
 
-Running log of the phased build of `@tiptap/react-renderer-experimental`, per the runbook
+Running log of the phased build of `@tiptap/react-experimental`, per the runbook
 ("Coding Agent Runbook: React-Owned Rendering for Tiptap"). Companion file: [TODO.md](./TODO.md)
 for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 
@@ -23,8 +23,8 @@ for what's next. Ground-truth audit: [AUDIT.md](./AUDIT.md).
 ## Validation commands
 
 ```bash
-pnpm vitest run packages/react-renderer-experimental   # this package's tests
-pnpm --filter @tiptap/react-renderer-experimental build
+pnpm vitest run packages/react-experimental   # this package's tests
+pnpm --filter @tiptap/react-experimental build
 pnpm lint && pnpm format
 pnpm test:unit
 pnpm fallow:audit   # currently fails on out-of-scope findings that arrived with the
@@ -207,7 +207,7 @@ state: EMPTY_STATE, plugins: [] })`, restores in `finally`. Then: stop DOM obser
   between renders; `useNodeViewDesc` now returns its desc ref.
 - Demo: `demos/src/GuideNodeViews/ReactComponentExperimental/React` (new variant beside the
   legacy demo, which stays as documentation of the shipping API). The demos vite config
-  aliases `@tiptap/react-renderer-experimental` to package source automatically. Spec covers
+  aliases `@tiptap/react-experimental` to package source automatically. Spec covers
   the no-wrapper assertion plus the Phase 5 typing/selection/undo matrix.
 - Playwright gotcha: Tiptap's `focus` command defers `view.focus()` to
   `requestAnimationFrame`, which is unreliable to sequence in headless runs — focus via a

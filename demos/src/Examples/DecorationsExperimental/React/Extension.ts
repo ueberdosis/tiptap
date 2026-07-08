@@ -4,7 +4,7 @@ import type { Selection } from '@tiptap/pm/state'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { Decoration as DecorationType } from '@tiptap/pm/view'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { widget } from '@tiptap/react-renderer-experimental'
+import { widget } from '@tiptap/react-experimental'
 
 import MatchBadge from './MatchBadge.js'
 

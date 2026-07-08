@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/react-renderer-experimental",
+  "name": "@tiptap/react-experimental",
   "version": "3.27.3",
   "private": true,
   "description": "Experimental React-owned rendering engine for Tiptap",
@@ -15,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/react-renderer-experimental"
+    "directory": "packages/react-experimental"
   },
   "funding": {
     "type": "github",

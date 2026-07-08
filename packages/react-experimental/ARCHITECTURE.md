@@ -1,4 +1,4 @@
-# Architecture: @tiptap/react-renderer-experimental
+# Architecture: @tiptap/react-experimental
 
 How this package works: what each module does and how the pieces cooperate.
 Companions: [AUDIT.md](./AUDIT.md) (the ground-truth audit and every private

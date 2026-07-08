@@ -3,7 +3,7 @@ import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
 import { useEditorState } from '@tiptap/react'
-import { EditorContent, useReactEditor } from '@tiptap/react-renderer-experimental'
+import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 

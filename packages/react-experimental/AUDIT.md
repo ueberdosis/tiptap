@@ -1,6 +1,6 @@
 # Audit: React-owned rendering for Tiptap
 
-Ground truth for building `@tiptap/react-renderer-experimental`, in which React owns the
+Ground truth for building `@tiptap/react-experimental`, in which React owns the
 editable document DOM while ProseMirror keeps state, transactions, plugins, commands,
 selection, input handling, clipboard, and position/geometry APIs.
 

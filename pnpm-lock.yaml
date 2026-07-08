@@ -1029,7 +1029,7 @@ importers:
         specifier: workspace:^
         version: link:../extension-floating-menu
 
-  packages/react-renderer-experimental:
+  packages/react-experimental:
     devDependencies:
       '@tiptap/core':
         specifier: workspace:^

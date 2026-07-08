@@ -11,7 +11,7 @@
   ],
   "overrides": [
     {
-      "files": ["packages/react-renderer-experimental/src/viewdesc.ts"],
+      "files": ["packages/react-experimental/src/viewdesc.ts"],
       "rules": { "unused-class-members": "off" }
     }
   ],
@@ -19,9 +19,9 @@
     "ignore": [
       "demos/**",
       "*.config.ts",
-      "packages/react-renderer-experimental/src/viewdesc.ts",
-      "packages/react-renderer-experimental/src/decorations/iterDeco.ts",
-      "packages/react-renderer-experimental/src/decorations/viewDecorations.ts"
+      "packages/react-experimental/src/viewdesc.ts",
+      "packages/react-experimental/src/decorations/iterDeco.ts",
+      "packages/react-experimental/src/decorations/viewDecorations.ts"
     ]
   },
   "duplicates": {

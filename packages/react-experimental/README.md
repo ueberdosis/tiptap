@@ -1,4 +1,4 @@
-# @tiptap/react-renderer-experimental
+# @tiptap/react-experimental
 
 > **Experimental. Do not use in production.** This package is under active
 > development, is not published yet, and carries no semver guarantees.

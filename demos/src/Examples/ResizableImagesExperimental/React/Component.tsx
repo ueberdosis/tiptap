@@ -1,4 +1,4 @@
-import type { NodeViewComponentProps } from '@tiptap/react-renderer-experimental'
+import type { NodeViewComponentProps } from '@tiptap/react-experimental'
 import React, { useRef, useState } from 'react'
 
 /**

@@ -5,7 +5,7 @@ import Image from '@tiptap/extension-image'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Dropcursor } from '@tiptap/extensions'
-import { EditorContent, useReactEditor } from '@tiptap/react-renderer-experimental'
+import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import React, { useCallback } from 'react'
 
 import Component from './Component.jsx'

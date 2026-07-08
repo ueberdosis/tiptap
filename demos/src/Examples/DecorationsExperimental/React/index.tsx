@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useReactEditor } from '@tiptap/react-renderer-experimental'
+import { EditorContent, useReactEditor } from '@tiptap/react-experimental'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useState } from 'react'
 

@@ -1,4 +1,4 @@
-import type { WidgetComponentProps } from '@tiptap/react-renderer-experimental'
+import type { WidgetComponentProps } from '@tiptap/react-experimental'
 import React from 'react'
 
 /**
