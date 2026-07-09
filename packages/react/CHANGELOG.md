@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- 13dfad1: Change prop types of the Tiptap component so that either the `editor` or the `instance` fields are required
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

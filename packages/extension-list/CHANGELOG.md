@@ -1,5 +1,31 @@
 # Change Log
 
+## 3.27.3
+
+### Patch Changes
+
+- b4600b6: Fix markdown parsing bugs where block elements right after an ordered list item (with no blank line in between) were wrongly treated as lazy continuation of the list item, instead of terminating the list the way other markdown parsers do:
+
+  - Thematic breaks (`---`, `***`, `___`, `* * *`) were swallowed into the list item as literal paragraph text — along with every line after them. They now terminate the list and become a horizontal rule.
+  - Fenced code blocks (` ``` ` and `~~~`) were nested inside the list item. They now terminate the list and become a top-level code block.
+  - Unindented bullet markers (`- item`) were nested inside the ordered list item. They now terminate the ordered list and start a new top-level bullet list. Indented bullets still nest inside the item as before.
+
+  An indented `***`/`___` inside item content is now also parsed as a horizontal rule inside the item instead of literal text. A `---` line directly below item paragraph text keeps its current behavior because it is a setext heading underline per CommonMark, not a thematic break.
+
+- 1f3ca7a: Fix indented ordered list items (e.g. one leading space before the marker, as happens when a top-level ordered list is itself nested inside another list) losing inline formatting during markdown parsing. The custom ordered-list markdown tokenizer built its nested structure with a hardcoded base indentation of 0, so an item whose actual indentation was non-zero never matched, causing the tokenizer to silently produce zero items and bail out — falling back to a path that left the item's content as literal, unparsed text instead of running it through inline tokenization (bold, italic, etc. were lost). The base indentation is now taken from the first collected item instead of being hardcoded.
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- f586b6f: Fix a markdown parsing bug where a heading right after an ordered list item (with no blank line in between) got pulled into the list item as plain text, so you'd see a literal `###` inside the list instead of an actual heading. Headings now end the list and get parsed properly, the way other markdown parsers handle it. Indented headings inside a list item are also parsed as real headings now instead of literal text.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

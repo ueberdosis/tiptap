@@ -1,5 +1,26 @@
 # @tiptap/extension-drag-handle-react
 
+## 3.27.3
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.27.3
+- @tiptap/react@3.27.3
+- @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- a9efd4d: Fix React 19 strict mode compatibility by using useRef instead of useState for the portal element. Changing the `className` prop now updates the element in place without re-registering the drag handle plugin.
+- Updated dependencies [ec41238]
+- Updated dependencies [82d9c81]
+- Updated dependencies [13dfad1]
+- Updated dependencies [ceebb31]
+  - @tiptap/extension-drag-handle@3.27.2
+  - @tiptap/react@3.27.2
+  - @tiptap/pm@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

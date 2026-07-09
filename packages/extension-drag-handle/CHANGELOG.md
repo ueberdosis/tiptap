@@ -1,5 +1,27 @@
 # @tiptap/extension-drag-handle
 
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/extension-collaboration@3.27.3
+  - @tiptap/extension-node-range@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- ec41238: Fix NodeRangeSelection not being restored after drag-and-drop when Collaboration (Yjs) is enabled. Drop anchor positions are now tracked with Yjs relative positions and remapped across `isChangeOrigin` document rebuilds, and selection restore runs via `appendTransaction` after the drop transaction settles.
+- 82d9c81: Fix the drag handle when the editor renders zero-size widget decorations, such as the page chrome injected by the Pages extension. The handle now resolves to the correct block instead of failing to position or aligning to a decoration, and it stays above positioned page chrome so it remains clickable.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+  - @tiptap/extension-collaboration@3.27.2
+  - @tiptap/extension-node-range@3.27.2
+
 ## 3.27.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-blockquote",
-  "version": "3.27.1",
+  "version": "3.27.3",
   "description": "blockquote extension for tiptap",
   "keywords": [
     "tiptap",
@@ -42,9 +42,11 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^"
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:*"
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
   }
 }
