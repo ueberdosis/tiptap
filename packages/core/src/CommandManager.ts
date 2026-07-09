@@ -17,6 +17,8 @@ export class CommandManager {
 
   customState?: EditorState
 
+  private destroyed = false
+
   constructor(props: { editor: Editor; state?: EditorState }) {
     this.editor = props.editor
     this.rawCommands = this.editor.extensionManager.commands
@@ -27,11 +29,26 @@ export class CommandManager {
     return !!this.customState
   }
 
+  /**
+   * Marks this command manager as destroyed. Once destroyed, `commands`, `chain()` and `can()`
+   * become permanently safe no-ops (commands return `false`, chains never dispatch) instead of
+   * throwing when the underlying editor's view/state is torn down.
+   */
+  public destroy(): void {
+    this.destroyed = true
+  }
+
   get state(): EditorState {
     return this.customState || this.editor.state
   }
 
   get commands(): SingleCommands {
+    if (this.destroyed) {
+      return Object.fromEntries(
+        Object.keys(this.rawCommands).map(name => [name, () => false]),
+      ) as unknown as SingleCommands
+    }
+
     const { rawCommands, editor, state } = this
     const { view } = editor
     const { tr } = state
@@ -63,6 +80,15 @@ export class CommandManager {
   }
 
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
+    if (this.destroyed) {
+      const chain = {
+        ...Object.fromEntries(Object.keys(this.rawCommands).map(name => [name, () => chain])),
+        run: () => false,
+      } as unknown as ChainedCommands
+
+      return chain
+    }
+
     const { rawCommands, editor, state } = this
     const { view } = editor
     const callbacks: boolean[] = []
@@ -104,6 +130,13 @@ export class CommandManager {
   }
 
   public createCan(startTr?: Transaction): CanCommands {
+    if (this.destroyed) {
+      return {
+        ...Object.fromEntries(Object.keys(this.rawCommands).map(name => [name, () => false])),
+        chain: () => this.createChain(startTr, false),
+      } as CanCommands
+    }
+
     const { rawCommands, state } = this
     const dispatch = false
     const tr = startTr || state.tr
