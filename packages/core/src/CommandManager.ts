@@ -19,6 +19,8 @@ export class CommandManager {
 
   private destroyed = false
 
+  private commandNames: string[] = []
+
   constructor(props: { editor: Editor; state?: EditorState }) {
     this.editor = props.editor
     this.rawCommands = this.editor.extensionManager.commands
@@ -31,11 +33,20 @@ export class CommandManager {
 
   /**
    * Marks this command manager as destroyed. Once destroyed, `commands`, `chain()` and `can()`
-   * become permanently safe no-ops (commands return `false`, chains never dispatch) instead of
-   * throwing when the underlying editor's view/state is torn down.
+   * become permanent safe no-ops (commands return `false`, chains never dispatch) instead of
+   * throwing when the underlying editor's view/state is torn down. The command name list is
+   * snapshotted so the no-op API surface stays identical, and `rawCommands` (which holds
+   * closures capturing extension options/storage) is released so extensions can be garbage
+   * collected instead of being kept alive by this manager.
    */
   public destroy(): void {
+    if (this.destroyed) {
+      return
+    }
+
     this.destroyed = true
+    this.commandNames = Object.keys(this.rawCommands)
+    this.rawCommands = {}
   }
 
   get state(): EditorState {
@@ -45,7 +56,7 @@ export class CommandManager {
   get commands(): SingleCommands {
     if (this.destroyed) {
       return Object.fromEntries(
-        Object.keys(this.rawCommands).map(name => [name, () => false]),
+        this.commandNames.map(name => [name, () => false]),
       ) as unknown as SingleCommands
     }
 
@@ -82,7 +93,7 @@ export class CommandManager {
   public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
     if (this.destroyed) {
       const chain = {
-        ...Object.fromEntries(Object.keys(this.rawCommands).map(name => [name, () => chain])),
+        ...Object.fromEntries(this.commandNames.map(name => [name, () => chain])),
         run: () => false,
       } as unknown as ChainedCommands
 
@@ -132,7 +143,7 @@ export class CommandManager {
   public createCan(startTr?: Transaction): CanCommands {
     if (this.destroyed) {
       return {
-        ...Object.fromEntries(Object.keys(this.rawCommands).map(name => [name, () => false])),
+        ...Object.fromEntries(this.commandNames.map(name => [name, () => false])),
         chain: () => this.createChain(startTr, false),
       } as CanCommands
     }
