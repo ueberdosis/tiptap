@@ -1,20 +1,20 @@
 {
   "name": "@tiptap/extension-bold",
-  "version": "3.26.1",
+  "version": "3.27.3",
   "description": "bold extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-bold"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",

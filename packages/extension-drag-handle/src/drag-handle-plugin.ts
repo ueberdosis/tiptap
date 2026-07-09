@@ -2,7 +2,7 @@ import { type ComputePositionConfig, type VirtualElement, computePosition } from
 import { type Editor, isFirefox } from '@tiptap/core'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
 import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey, Selection } from '@tiptap/pm/state'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 import {
   absolutePositionToRelativePosition,
@@ -12,12 +12,13 @@ import {
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'
+import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import {
   type ActiveDragRange,
   createDroppedNodeRangeSelection,
   getActiveDragRange,
+  mapPendingRestoreAnchor,
 } from './helpers/nodeRangeDrop.js'
-import { getOuterNode, getOuterNodePos } from './helpers/getOuterNode.js'
 import { removeNode } from './helpers/removeNode.js'
 import type { NormalizedNestedOptions } from './types/options.js'
 
@@ -102,10 +103,48 @@ export const DragHandlePlugin = ({
   // biome-ignore lint/suspicious/noExplicitAny: See above - relative positions in y-prosemirror are not typed
   let currentNodeRelPos: any
   let rafId: number | null = null
-  let restoreRafId: number | null = null
   let pendingMouseCoords: { x: number; y: number } | null = null
   let activeDragRange: ActiveDragRange | null = null
   let pendingRestore: ActiveDragRange | null = null
+
+  function clearDragRangeState() {
+    activeDragRange = null
+    pendingRestore = null
+  }
+
+  function remapPendingRestore(tr: Transaction, state: EditorState) {
+    if (!pendingRestore) {
+      return
+    }
+
+    pendingRestore = mapPendingRestoreAnchor(pendingRestore, tr, {
+      isChangeOrigin: isChangeOrigin(tr),
+      getAbsolutePos: relativePos => getAbsolutePos(state, relativePos),
+    })
+  }
+
+  function buildRestoreTransaction(state: EditorState) {
+    if (!pendingRestore) {
+      return null
+    }
+
+    const nodeRangeSelection = createDroppedNodeRangeSelection(
+      state.doc,
+      pendingRestore.anchorPos,
+      pendingRestore.nodeCount,
+      pendingRestore.depth,
+    )
+
+    if (!nodeRangeSelection) {
+      pendingRestore = null
+      activeDragRange = null
+      return null
+    }
+
+    clearDragRangeState()
+
+    return state.tr.setSelection(nodeRangeSelection)
+  }
 
   function hideHandle() {
     if (!element) {
@@ -181,21 +220,6 @@ export const DragHandlePlugin = ({
     }
   }
 
-  // ProseMirror leaves a TextSelection inside the dropped content, so rebuild the
-  // node range over the freshly dropped blocks to keep the selection consistent.
-  function restoreNodeRangeSelection({ nodeCount, depth, anchorPos }: ActiveDragRange) {
-    const nodeRangeSelection = createDroppedNodeRangeSelection(
-      editor.state.doc,
-      anchorPos,
-      nodeCount,
-      depth,
-    )
-
-    if (nodeRangeSelection) {
-      editor.view.dispatch(editor.state.tr.setSelection(nodeRangeSelection))
-    }
-  }
-
   function onDrop(e: DragEvent) {
     if (!e.target || !editor.view.dom.contains(e.target as HTMLElement)) {
       return
@@ -220,18 +244,18 @@ export const DragHandlePlugin = ({
       return
     }
 
+    const anchorPos = editor.state.selection.from
+    const relativeAnchorPos = getRelativePos(editor.state, anchorPos)
+
     pendingRestore = {
       ...activeDragRange,
-      anchorPos: editor.state.selection.from,
+      anchorPos,
+      relativeAnchorPos: relativeAnchorPos ?? undefined,
     }
 
-    restoreRafId = requestAnimationFrame(() => {
-      restoreRafId = null
-      if (pendingRestore) {
-        restoreNodeRangeSelection(pendingRestore)
-        pendingRestore = null
-      }
-    })
+    // Dispatch a no-op transaction so appendTransaction can restore the node
+    // range after any Yjs isChangeOrigin transactions from the drop have settled.
+    editor.view.dispatch(editor.state.tr.setMeta('addToHistory', false))
   }
 
   // shared teardown for both the unbind() handle and the plugin view destroy
@@ -246,10 +270,7 @@ export const DragHandlePlugin = ({
       pendingMouseCoords = null
     }
 
-    if (restoreRafId) {
-      cancelAnimationFrame(restoreRafId)
-      restoreRafId = null
-    }
+    clearDragRangeState()
   }
 
   wrapper.appendChild(element)
@@ -266,15 +287,7 @@ export const DragHandlePlugin = ({
           return { locked: false }
         },
         apply(tr: Transaction, value: PluginState, _oldState: EditorState, state: EditorState) {
-          if (pendingRestore && tr.docChanged) {
-            const mappedResult = tr.mapping.mapResult(pendingRestore.anchorPos, 1)
-
-            if (mappedResult.deleted) {
-              pendingRestore = null
-            } else {
-              pendingRestore.anchorPos = mappedResult.pos
-            }
-          }
+          remapPendingRestore(tr, state)
 
           const isLocked = tr.getMeta('lockDragHandle')
           const hideDragHandle = tr.getMeta('hideDragHandle')
@@ -332,6 +345,10 @@ export const DragHandlePlugin = ({
         },
       },
 
+      appendTransaction(_transactions, _oldState, newState) {
+        return buildRestoreTransaction(newState)
+      },
+
       view: view => {
         element.draggable = true
         element.style.pointerEvents = 'auto'
@@ -343,6 +360,9 @@ export const DragHandlePlugin = ({
         wrapper.style.position = 'absolute'
         wrapper.style.top = '0'
         wrapper.style.left = '0'
+        // Keep the handle above positioned editor content/decorations (e.g. the
+        // Pages page header/footer chrome) so it stays visible and clickable.
+        wrapper.style.zIndex = '10'
 
         element.addEventListener('dragstart', onDragStart)
         element.addEventListener('dragend', onDragEnd)

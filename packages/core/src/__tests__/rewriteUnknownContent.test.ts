@@ -38,7 +38,9 @@ describe('rewriteUnknownContent', () => {
   it('still keeps valid marks and content', () => {
     const json = {
       type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hi', marks: [{ type: 'bold' }] }] }],
+      content: [
+        { type: 'paragraph', content: [{ type: 'text', text: 'hi', marks: [{ type: 'bold' }] }] },
+      ],
     }
 
     const result = rewriteUnknownContent(json as any, schema)

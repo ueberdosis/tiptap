@@ -132,7 +132,11 @@ class VueNodeView extends NodeView<Vue | VueConstructor, Editor, VueNodeViewRend
     this.currentPos = this.getPos()
 
     if (!this.node.isLeaf) {
-      this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      if (this.options.contentDOMElementTag) {
+        this.contentDOMElement = document.createElement(this.options.contentDOMElementTag)
+      } else {
+        this.contentDOMElement = document.createElement(this.node.isInline ? 'span' : 'div')
+      }
       this.contentDOMElement.style.whiteSpace = 'inherit'
       // Use a distinct attribute to avoid clashing with the user's
       // <node-view-content> element (which carries data-node-view-content).

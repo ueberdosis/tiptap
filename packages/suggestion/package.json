@@ -1,20 +1,20 @@
 {
   "name": "@tiptap/suggestion",
-  "version": "3.26.1",
+  "version": "3.27.3",
   "description": "suggestion plugin for tiptap",
   "keywords": [
     "tiptap",
     "tiptap utility"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/suggestion"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",
@@ -42,10 +42,12 @@
     "build": "tsup"
   },
   "devDependencies": {
+    "@floating-ui/dom": "^1.6.12",
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
+    "@floating-ui/dom": "^1.0.0",
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*"
   }

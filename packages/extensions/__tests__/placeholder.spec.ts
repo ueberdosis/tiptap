@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core'
+import { Editor, getChangedRanges } from '@tiptap/core'
 import BulletList from '@tiptap/extension-bullet-list'
 import Document from '@tiptap/extension-document'
 import ListItem from '@tiptap/extension-list-item'
@@ -11,12 +11,36 @@ import {
   Placeholder,
   preparePlaceholderAttribute,
 } from '@tiptap/extensions'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { Node } from '@tiptap/pm/model'
+import {
+  getTopLevelBlocksInRange,
+  toContentRelativeRange,
+} from '../src/placeholder/utils/resolveTopLevelRange.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { findScrollParent } from '../src/placeholder/utils/findScrollParent.js'
-import { throttle } from '../src/placeholder/utils/throttle.js'
+/** Lets ProseMirror DOMObserver timers settle before teardown. */
+function flushView(): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(resolve, 30)
+  })
+}
 
-import { PLUGIN_KEY } from '../src/placeholder/constants.js'
+async function destroyMountedEditor(editor: Editor | null): Promise<void> {
+  if (!editor) {
+    return
+  }
+
+  await flushView()
+  editor.destroy()
+}
+
+function createHeadlessEditor(content: string) {
+  return new Editor({
+    element: null,
+    extensions: [Document, Paragraph, Text],
+    content,
+  })
+}
 
 describe('extension-placeholder', () => {
   let editor: Editor | null = null
@@ -33,10 +57,9 @@ describe('extension-placeholder', () => {
     })
   }
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('uses the default data-placeholder attribute when not passing any dataAttribute option', () => {
@@ -105,10 +128,9 @@ describe('extension-placeholder', () => {
 describe('extension-placeholder with includeChildren and wrapper nodes', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('should not show placeholder on non-textblock wrapper nodes (bulletList, listItem)', () => {
@@ -199,11 +221,9 @@ describe('extension-placeholder with includeChildren and wrapper nodes', () => {
 describe('extension-placeholder: fast path (default config)', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('shows placeholder in the current empty paragraph via the fast path', () => {
@@ -321,45 +341,14 @@ describe('extension-placeholder: fast path (default config)', () => {
     expect(paragraph.getAttribute('data-placeholder')).toBe('Type something...')
     expect(paragraph.classList.contains('is-empty')).toBe(true)
   })
-
-  it('does not dispatch a viewport recompute synchronously on doc change (defers to rAF)', () => {
-    editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Placeholder.configure({
-          showOnlyCurrent: false,
-          includeChildren: false,
-        }),
-      ],
-      content: '<p></p>'.repeat(20),
-    })
-
-    const dispatch = vi.spyOn(editor!.view, 'dispatch')
-
-    // Trigger a doc size change — the old code called computeAndDispatch()
-    // synchronously from the update() callback, which dispatched a second
-    // transaction with PLUGIN_KEY meta. The fix defers to rAF instead.
-    editor!.commands.insertContent('Hello World')
-
-    const viewportRecomputes = dispatch.mock.calls.filter(
-      ([tr]) => tr.getMeta(PLUGIN_KEY) !== undefined,
-    )
-    expect(viewportRecomputes).toHaveLength(0)
-
-    dispatch.mockRestore()
-  })
 })
 
 describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('shows placeholder on all empty textblocks when showOnlyCurrent is false', () => {
@@ -390,11 +379,9 @@ describe('extension-placeholder: slow path (showOnlyCurrent: false)', () => {
 describe('extension-placeholder — empty editor class', () => {
   let editor: Editor | null = null
 
-  afterEach(() => {
-    if (editor) {
-      editor.destroy()
-      editor = null
-    }
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
   it('adds is-editor-empty class when the entire document is empty', () => {
@@ -460,148 +447,327 @@ describe('extension-placeholder — empty editor class', () => {
   })
 })
 
-describe('placeholder utility: findScrollParent', () => {
-  let container: HTMLElement
+describe('placeholder utility: getTopLevelBlocksInRange', () => {
+  it('returns content-relative ranges aligned with nodesBetween positions', () => {
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
 
-  beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
+    const doc = editor.state.doc
+    const nodesBetweenPositions: number[] = []
+
+    doc.nodesBetween(0, doc.content.size, (node, pos) => {
+      if (node.type.name === 'paragraph') {
+        nodesBetweenPositions.push(pos)
+      }
+    })
+
+    const blocks = getTopLevelBlocksInRange(doc, 1, 2)
+
+    expect(blocks).toEqual([{ from: 0, to: 2 }])
+    expect(blocks[0]?.from).toBe(nodesBetweenPositions[0])
+
+    editor.destroy()
   })
 
-  afterEach(() => {
-    document.body.removeChild(container)
+  it('aligns resolveTopLevelRange + toContentRelativeRange with getTopLevelBlocksInRange', () => {
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
+
+    const doc = editor.state.doc
+
+    doc.forEach((node, offset) => {
+      const contentRange = { from: offset, to: offset + node.nodeSize }
+      const absoluteRange = { from: offset + 1, to: offset + node.nodeSize + 1 }
+
+      expect(toContentRelativeRange(doc, absoluteRange)).toEqual(contentRange)
+      expect(getTopLevelBlocksInRange(doc, absoluteRange.from, absoluteRange.to)).toEqual([
+        contentRange,
+      ])
+    })
+
+    editor.destroy()
   })
 
-  it('returns the window when no scroll parent exists', () => {
-    const el = document.createElement('span')
-    container.appendChild(el)
-    expect(findScrollParent(el)).toBe(window)
-  })
+  it('collects only the touched top-level block for a single-paragraph edit', () => {
+    const editor = createHeadlessEditor('<p></p><p></p><p></p>')
 
-  it('finds a scrollable parent element with overflow: auto', () => {
-    const scrollable = document.createElement('div')
-    scrollable.style.overflow = 'auto'
-    const child = document.createElement('span')
-    scrollable.appendChild(child)
-    container.appendChild(scrollable)
+    const changes: Array<{ from: number; to: number }> = []
 
-    expect(findScrollParent(child)).toBe(scrollable)
-  })
+    editor.on('transaction', ({ transaction }) => {
+      if (transaction.docChanged) {
+        for (const change of getChangedRanges(transaction)) {
+          changes.push(change.newRange)
+        }
+      }
+    })
 
-  it('finds a scrollable parent element with overflow: scroll', () => {
-    const scrollable = document.createElement('div')
-    scrollable.style.overflow = 'scroll'
-    const child = document.createElement('span')
-    scrollable.appendChild(child)
-    container.appendChild(scrollable)
+    editor.commands.insertContent('Hello')
 
-    expect(findScrollParent(child)).toBe(scrollable)
-  })
+    const doc = editor.state.doc
+    const blocks = changes.flatMap(change => getTopLevelBlocksInRange(doc, change.from, change.to))
 
-  it('does not return elements with overflow: hidden or overflow: clip', () => {
-    const hidden = document.createElement('div')
-    hidden.style.overflow = 'hidden'
-    const clip = document.createElement('div')
-    clip.style.overflow = 'clip'
-    const child = document.createElement('span')
-    hidden.appendChild(clip)
-    clip.appendChild(child)
-    container.appendChild(hidden)
+    expect(blocks).toEqual([{ from: 0, to: 7 }])
 
-    expect(findScrollParent(child)).toBe(window)
-  })
-
-  it('finds the nearest scrollable ancestor', () => {
-    const outer = document.createElement('div')
-    outer.style.overflow = 'scroll'
-    const middle = document.createElement('div')
-    middle.style.overflow = 'hidden'
-    const child = document.createElement('span')
-    middle.appendChild(child)
-    outer.appendChild(middle)
-    container.appendChild(outer)
-
-    // Should find `outer`, not stop at `middle` (which is hidden, not scrollable)
-    expect(findScrollParent(child)).toBe(outer)
+    editor.destroy()
   })
 })
 
-describe('placeholder utility: throttle', () => {
-  it('calls the function immediately on the first invocation (leading-edge)', () => {
-    let called = false
-    const { call } = throttle(() => {
-      called = true
-    }, 250)
-    call()
-    expect(called).toBe(true)
+describe('extension-placeholder: incremental updates (slow path)', () => {
+  let editor: Editor | null = null
+
+  const slowPathConfig = {
+    placeholder: 'Fill me in...',
+    showOnlyCurrent: false,
+    includeChildren: true,
+    showOnlyWhenEditable: false,
+    emptyEditorClass: null as unknown as string,
+    emptyNodeClass: null as unknown as string,
+    dataAttribute: 'placeholder-text',
+  }
+
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
   })
 
-  it('ignores subsequent calls within the delay window', () => {
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
+  it('shows placeholder on all empty textblocks initially', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p>',
+    })
 
-    call()
-    call()
-    call()
-    // Leading-edge fires immediately, subsequent calls within the delay are blocked
-    expect(count).toBe(1)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
   })
 
-  it('allows a call after the delay has elapsed', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
+  it('updates function-based placeholder text when selection moves between empty blocks', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          ...slowPathConfig,
+          placeholder: ({ hasAnchor }) => (hasAnchor ? 'Focused' : 'Empty'),
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
 
-    call()
-    expect(count).toBe(1)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
 
-    vi.advanceTimersByTime(250)
-    call()
-    expect(count).toBe(2)
-    vi.useRealTimers()
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Focused')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Empty')
+
+    editor!.commands.setTextSelection(4)
+
+    expect(paragraphs[0].getAttribute('data-placeholder-text')).toBe('Empty')
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Focused')
   })
 
-  it('resets the timer on each call within the window', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call } = throttle(() => {
-      count += 1
-    }, 250)
+  it('removes placeholder only for the edited node when typing into one of several empty paragraphs', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p>',
+    })
 
-    call() // fires immediately
-    expect(count).toBe(1)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
 
-    vi.advanceTimersByTime(100)
-    call() // ignored (within 250ms window)
-    vi.advanceTimersByTime(100)
-    call() // ignored
-    vi.advanceTimersByTime(100)
-    // 300ms elapsed total, but the window extends 250ms from the last call
-    expect(count).toBe(1)
+    editor!.commands.insertContent('Hello')
 
-    vi.advanceTimersByTime(150)
-    call() // 250ms has passed since last call
-    expect(count).toBe(2)
-    vi.useRealTimers()
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
   })
 
-  it('cancel() clears the timer and allows immediate re-call', () => {
-    vi.useFakeTimers()
-    let count = 0
-    const { call, cancel } = throttle(() => {
-      count += 1
-    }, 250)
+  it('preserves decorations on untouched nodes during remote-style edits', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p><p></p><p></p>',
+    })
 
-    call() // fires, starts timer
-    expect(count).toBe(1)
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
 
-    cancel() // clears timer
-    call() // fires again because timer was cancelled
-    expect(count).toBe(2)
-    vi.useRealTimers()
+    editor!.commands.insertContentAt(0, 'x')
+
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[3].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[4].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('adds placeholder when a node becomes empty after deleteSelection', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p>',
+    })
+
+    const paragraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(paragraph.hasAttribute('data-placeholder-text')).toBe(false)
+
+    editor!.commands.selectAll()
+    editor!.commands.deleteSelection()
+
+    expect(paragraph.getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('correctly updates when a top-level node is split (Enter)', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p>',
+    })
+
+    editor!.commands.setTextSelection(6)
+    editor!.commands.splitBlock()
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+
+  it('correctly updates when two top-level nodes are merged (Backspace)', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p>Hello</p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder-text')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+
+    editor!.commands.setTextSelection(7)
+    editor!.commands.joinBackward()
+
+    const mergedParagraph = editor!.view.dom.querySelector('p') as HTMLElement
+    expect(mergedParagraph.hasAttribute('data-placeholder-text')).toBe(false)
+  })
+
+  it('does not traverse the full document on incremental update', () => {
+    const nodesBetweenSpy = vi.spyOn(Node.prototype, 'nodesBetween')
+
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p>'.repeat(10),
+    })
+
+    const docSize = editor!.state.doc.content.size
+
+    nodesBetweenSpy.mockClear()
+    editor!.commands.insertContent('Hello')
+
+    expect(nodesBetweenSpy).toHaveBeenCalled()
+    expect(nodesBetweenSpy.mock.calls.some(([, from, to]) => from === 0 && to === docSize)).toBe(
+      false,
+    )
+
+    nodesBetweenSpy.mockRestore()
+  })
+
+  it('handles rapid remote edits without losing decorations on untouched nodes', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, Placeholder.configure(slowPathConfig)],
+      content: '<p></p><p></p><p></p><p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+
+    for (let i = 0; i < 5; i += 1) {
+      editor!.commands.insertContentAt(0, 'x')
+    }
+
+    expect(paragraphs[1].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[2].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[3].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+    expect(paragraphs[4].getAttribute('data-placeholder-text')).toBe('Fill me in...')
+  })
+})
+
+describe('extension-placeholder: editable state', () => {
+  let editor: Editor | null = null
+
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
+  })
+
+  it('returns empty decoration set when editor is not editable and showOnlyWhenEditable is true', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: false,
+          showOnlyWhenEditable: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(true)
+
+    editor!.setEditable(false)
+
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
+  })
+
+  it('restores decorations when editor becomes editable again', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Type something...',
+          showOnlyCurrent: false,
+          showOnlyWhenEditable: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    editor!.setEditable(false)
+    editor!.setEditable(true)
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Type something...')
+    expect(paragraphs[1].getAttribute('data-placeholder')).toBe('Type something...')
+  })
+})
+
+describe('extension-placeholder: showOnlyCurrent with includeChildren', () => {
+  let editor: Editor | null = null
+
+  afterEach(async () => {
+    await destroyMountedEditor(editor)
+    editor = null
+  })
+
+  it('moves placeholder when cursor moves between empty textblocks', () => {
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Placeholder.configure({
+          placeholder: 'Write here...',
+          showOnlyCurrent: true,
+          includeChildren: true,
+        }),
+      ],
+      content: '<p></p><p></p>',
+    })
+
+    const paragraphs = editor!.view.dom.querySelectorAll('p')
+    expect(paragraphs[0].getAttribute('data-placeholder')).toBe('Write here...')
+    expect(paragraphs[1].hasAttribute('data-placeholder')).toBe(false)
+
+    editor!.commands.setTextSelection(4)
+
+    expect(paragraphs[0].hasAttribute('data-placeholder')).toBe(false)
+    expect(paragraphs[1].getAttribute('data-placeholder')).toBe('Write here...')
   })
 })

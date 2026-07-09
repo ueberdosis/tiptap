@@ -8,7 +8,7 @@ import {
 } from '@tiptap/extension-drag-handle'
 import type { Node } from '@tiptap/pm/model'
 import type { Editor } from '@tiptap/react'
-import { type ReactNode, useEffect, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
@@ -78,36 +78,41 @@ export const DragHandle = (props: DragHandleProps) => {
     computePositionConfig = defaultComputePositionConfig,
     nested = false,
   } = props
-  const [element] = useState<HTMLDivElement | null>(() => {
-    if (typeof document === 'undefined') {
-      return null
-    }
+  const elementRef = useRef<HTMLDivElement | null>(null)
 
-    return document.createElement('div')
-  })
+  if (elementRef.current === null && typeof document !== 'undefined') {
+    elementRef.current = document.createElement('div')
+  }
 
   // oxlint-disable-next-line react-hooks/exhaustive-deps
   const nestedOptions = useMemo(() => normalizeNestedOptions(nested), [JSON.stringify(nested)])
 
   useEffect(() => {
+    const element = elementRef.current
     if (!element) {
       return
     }
 
     element.className = className
-    element.style.visibility = 'hidden'
-    element.style.position = 'absolute'
-    element.dataset.dragging = 'false'
-  }, [className, element])
+  }, [className])
 
   useEffect(() => {
-    if (!element) {
+    if (typeof document === 'undefined') {
       return
     }
 
     if (editor.isDestroyed) {
       return
     }
+
+    const element = elementRef.current
+    if (!element) {
+      return
+    }
+
+    element.style.visibility = 'hidden'
+    element.style.position = 'absolute'
+    element.dataset.dragging = 'false'
 
     const { plugin, unbind } = DragHandlePlugin({
       editor,
@@ -133,7 +138,6 @@ export const DragHandle = (props: DragHandleProps) => {
       unbind()
     }
   }, [
-    element,
     editor,
     onNodeChange,
     getReferencedVirtualElement,
@@ -144,6 +148,7 @@ export const DragHandle = (props: DragHandleProps) => {
     nestedOptions,
   ])
 
+  const element = elementRef.current
   if (!element) {
     return null
   }

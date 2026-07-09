@@ -6,6 +6,53 @@ export interface ActiveDragRange {
   anchorPos: number
   nodeCount: number
   depth: number
+  // Yjs relative position for remapping the drop anchor across isChangeOrigin rebuilds.
+  // biome-ignore lint/suspicious/noExplicitAny: y-prosemirror relative positions are untyped
+  relativeAnchorPos?: any
+}
+
+interface MapPendingRestoreAnchorOptions {
+  isChangeOrigin: boolean
+  getAbsolutePos: (relativePos: unknown) => number
+}
+
+// Remaps the drop anchor while a restore is pending. Returns null when the anchor
+// can no longer be resolved.
+export function mapPendingRestoreAnchor(
+  pendingRestore: ActiveDragRange,
+  tr: {
+    docChanged: boolean
+    mapping: { mapResult: (pos: number, bias: number) => { deleted: boolean; pos: number } }
+  },
+  options: MapPendingRestoreAnchorOptions,
+): ActiveDragRange | null {
+  if (!tr.docChanged) {
+    return pendingRestore
+  }
+
+  if (options.isChangeOrigin && pendingRestore.relativeAnchorPos != null) {
+    const newPos = options.getAbsolutePos(pendingRestore.relativeAnchorPos)
+
+    if (!Number.isFinite(newPos) || newPos <= 0) {
+      return null
+    }
+
+    return {
+      ...pendingRestore,
+      anchorPos: newPos,
+    }
+  }
+
+  const mappedResult = tr.mapping.mapResult(pendingRestore.anchorPos, 1)
+
+  if (mappedResult.deleted) {
+    return null
+  }
+
+  return {
+    ...pendingRestore,
+    anchorPos: mappedResult.pos,
+  }
 }
 
 interface DroppedBlockRange {

@@ -3,8 +3,9 @@ function getCSSText(element: Element, properties?: string[]) {
 
   if (properties) {
     return properties
-      .filter(p => p.trim().length > 0)
-      .map(p => `${p}:${style.getPropertyValue(p)};`)
+      .map(property => property.trim())
+      .filter(property => property.length > 0)
+      .map(property => `${property}:${style.getPropertyValue(property)};`)
       .join('')
   }
 

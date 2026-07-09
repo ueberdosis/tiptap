@@ -97,4 +97,33 @@ describe('extension table header', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  it('should parse the colgroup col widths for a header row', () => {
+    const content =
+      '<table><colgroup><col width="64" /><col width="128" /></colgroup><tbody><tr><th>Name</th><th>Description</th></tr><tr><td>Cyndi Lauper</td><td>Singer</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    const headerRow = editor.getJSON().content?.[0].content?.[0]
+
+    expect(headerRow?.content?.[0].attrs?.colwidth).toEqual([64])
+    expect(headerRow?.content?.[1].attrs?.colwidth).toEqual([128])
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })

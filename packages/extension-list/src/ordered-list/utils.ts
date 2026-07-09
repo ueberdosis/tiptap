@@ -40,6 +40,17 @@ export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
 const INDENTED_LINE_REGEX = /^\s/
 
 /**
+ * This are blocks that can interrupt a paragraph, so a line starting with one of
+ * them can never be lazy continuation text of a list item
+ */
+const PARAGRAPH_INTERRUPTERS = {
+  heading: /^#{1,6}(?:\s|$)/,
+  bulletItem: /^[-+*]\s+/,
+  codeFence: /^(?:```|~~~)/,
+  thematicBreak: /^(?:(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})$/,
+}
+
+/**
  * Represents a parsed ordered list item with indentation information
  */
 export interface OrderedListItem {
@@ -59,16 +70,20 @@ function isBlockContentLine(line: string): boolean {
   const trimmedLine = line.trimStart()
 
   return (
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^[-+*]\s+/.test(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.bulletItem.test(trimmedLine) ||
     isOrderedListMarkerLine(trimmedLine) ||
+    PARAGRAPH_INTERRUPTERS.heading.test(trimmedLine) ||
+    // dash breaks are excluded: "---" directly below paragraph text is a
+    // setext heading underline, not a thematic break
+    (PARAGRAPH_INTERRUPTERS.thematicBreak.test(trimmedLine) && !trimmedLine.startsWith('-')) ||
     // oxlint-disable-next-line prefer-string-starts-ends-with
     /^>\s?/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^```/.test(trimmedLine) ||
-    // oxlint-disable-next-line prefer-string-starts-ends-with
-    /^~~~/.test(trimmedLine)
+    PARAGRAPH_INTERRUPTERS.codeFence.test(trimmedLine)
   )
+}
+
+function interruptsLazyContinuation(line: string): boolean {
+  return Object.values(PARAGRAPH_INTERRUPTERS).some(pattern => pattern.test(line))
 }
 
 function splitItemContent(contentLines: string[]): {
@@ -157,12 +172,16 @@ export function collectOrderedListItems(lines: string[]): [OrderedListItem[], nu
         sawBlankLine = true
         nextLineIndex += 1
       } else if (nextLine.match(INDENTED_LINE_REGEX)) {
-        // Indented content - part of this item (but not a list item)
+        // Indented content - part of this item (but not a list item).
+        // Strip the indentation only up to the whitespace that is actually present,
+        // so an under-indented line (e.g. a single leading space) keeps its first character.
+        const leadingWhitespace = nextLine.length - nextLine.trimStart().length
+        const contentIndent = indentLevel + marker.length + 1
         itemLines.push(nextLine)
-        itemContentLines.push(nextLine.slice(indentLevel + 2))
+        itemContentLines.push(nextLine.slice(Math.min(leadingWhitespace, contentIndent)))
         nextLineIndex += 1
       } else {
-        if (sawBlankLine) {
+        if (sawBlankLine || interruptsLazyContinuation(nextLine)) {
           break
         }
 

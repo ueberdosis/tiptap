@@ -1,20 +1,20 @@
 {
   "name": "@tiptap/extension-collaboration",
-  "version": "3.26.1",
+  "version": "3.27.3",
   "description": "collaboration extension for tiptap",
   "keywords": [
     "tiptap",
     "tiptap extension"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/extension-collaboration"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",
@@ -44,12 +44,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.5"
+    "@tiptap/y-tiptap": "^3.0.6"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.5",
+    "@tiptap/y-tiptap": "^3.0.6",
     "yjs": "^13"
   }
 }

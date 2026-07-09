@@ -15,6 +15,9 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "lint:staged": "lint-staged",
+    "fallow": "fallow",
+    "fallow:audit": "fallow audit",
+    "fallow:health": "fallow health --score --targets",
     "test:unit": "vitest run",
     "test:unit:dev": "vitest",
     "test:e2e": "playwright test --project=chromium",
@@ -43,7 +46,7 @@
     "version:markdown": "pnpm run changeset version --snapshot markdown"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.29.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
@@ -60,6 +63,7 @@
     "@vitest/ui": "^4.1.2",
     "babel-loader": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
+    "fallow": "^2.98.0",
     "fast-glob": "^3.3.2",
     "happy-dom": "^20.8.9",
     "http-server": "14.1.1",
@@ -75,7 +79,7 @@
     "ts-loader": "9.3.1",
     "tsconfig-paths": "^4.2.0",
     "tsup": "^8.5.1",
-    "turbo": "2.3.3",
+    "turbo": "2.9.14",
     "typescript": "^5.7.3",
     "vitest": "^4.1.2",
     "webpack": "^5.97.1"

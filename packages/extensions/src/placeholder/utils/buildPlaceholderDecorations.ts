@@ -5,7 +5,6 @@ import type { Selection } from '@tiptap/pm/state'
 import type { Decoration } from '@tiptap/pm/view'
 import { DecorationSet } from '@tiptap/pm/view'
 
-import { PLUGIN_KEY } from '../constants.js'
 import type { PlaceholderOptions } from '../types.js'
 import { createPlaceholderDecoration } from './createPlaceholderDecoration.js'
 
@@ -14,6 +13,68 @@ function resolveEmptyNodeClass(
   props: { editor: Editor; node: Node; pos: number; hasAnchor: boolean },
 ): string {
   return typeof emptyNodeClass === 'function' ? emptyNodeClass(props) : emptyNodeClass
+}
+
+/**
+ * Scans a document range for empty textblocks that should receive placeholder
+ * decorations. Used by the slow path and incremental state updates.
+ */
+export function scanRangeForDecorations({
+  editor,
+  options,
+  dataAttribute,
+  doc,
+  selection,
+  from,
+  to,
+}: {
+  editor: Editor
+  options: PlaceholderOptions
+  dataAttribute: string
+  doc: Node
+  selection: Selection
+  from: number
+  to: number
+}): Decoration[] {
+  const { anchor } = selection
+  const decorations: Decoration[] = []
+  const isEmptyDoc = editor.isEmpty
+
+  doc.nodesBetween(from, to, (node, pos) => {
+    const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
+    const isEmpty = !node.isLeaf && isNodeEmpty(node)
+
+    if (!node.type.isTextblock) {
+      return options.includeChildren
+    }
+
+    if ((hasAnchor || !options.showOnlyCurrent) && isEmpty) {
+      decorations.push(
+        createPlaceholderDecoration({
+          editor,
+          isEmptyDoc,
+          dataAttribute,
+          hasAnchor,
+          placeholder: options.placeholder,
+          classes: {
+            emptyEditor: options.emptyEditorClass,
+            emptyNode: resolveEmptyNodeClass(options.emptyNodeClass, {
+              editor,
+              node,
+              pos,
+              hasAnchor,
+            }),
+          },
+          node,
+          pos,
+        }),
+      )
+    }
+
+    return options.includeChildren
+  })
+
+  return decorations
 }
 
 /**
@@ -86,43 +147,17 @@ export function buildPlaceholderDecorations({
       )
     }
   } else {
-    const pluginState = PLUGIN_KEY.getState(editor.state)
-    const from = pluginState?.topPos ?? 0
-    const to = pluginState?.bottomPos ?? doc.content.size
-
-    doc.nodesBetween(from, to, (node, pos) => {
-      const hasAnchor = anchor >= pos && anchor <= pos + node.nodeSize
-      const isEmpty = !node.isLeaf && isNodeEmpty(node)
-
-      if (!node.type.isTextblock) {
-        return options.includeChildren
-      }
-
-      if ((hasAnchor || !options.showOnlyCurrent) && isEmpty) {
-        decorations.push(
-          createPlaceholderDecoration({
-            editor,
-            isEmptyDoc,
-            dataAttribute,
-            hasAnchor,
-            placeholder: options.placeholder,
-            classes: {
-              emptyEditor: options.emptyEditorClass,
-              emptyNode: resolveEmptyNodeClass(options.emptyNodeClass, {
-                editor,
-                node,
-                pos,
-                hasAnchor,
-              }),
-            },
-            node,
-            pos,
-          }),
-        )
-      }
-
-      return options.includeChildren
-    })
+    decorations.push(
+      ...scanRangeForDecorations({
+        editor,
+        options,
+        dataAttribute,
+        doc,
+        selection,
+        from: 0,
+        to: doc.content.size,
+      }),
+    )
   }
 
   return DecorationSet.create(doc, decorations)

@@ -1,5 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 import { Editor } from '@tiptap/core'
+import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -228,6 +229,39 @@ describe('OrderedList type attribute', () => {
       expect(json.content[0].attrs?.type).toBeUndefined()
     })
 
+    it('keeps the first character of an under-indented continuation line', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      // The continuation line is indented by a single space, fewer columns than the
+      // marker width. The leading indentation must be stripped without eating the
+      // first real character of the line.
+      const json = markdownManager.parse('1. Item one\n continued text')
+
+      const collectText = (node: JSONContent): string =>
+        (node.text ?? '') + (node.content ?? []).map(collectText).join('')
+
+      const text = collectText(json.content[0].content[0])
+
+      expect(text).toBe('Item one\ncontinued text')
+    })
+
+    it('keeps the first character of an under-indented continuation line for wider markers', () => {
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, ListItem, OrderedList],
+      })
+
+      const collectText = (node: JSONContent): string =>
+        (node.text ?? '') + (node.content ?? []).map(collectText).join('')
+
+      const numeric = markdownManager.parse('10. Item ten\n continued text')
+      expect(collectText(numeric.content[0].content[0])).toBe('Item ten\ncontinued text')
+
+      const roman = markdownManager.parse('iv. Item four\n continued text')
+      expect(collectText(roman.content[0].content[0])).toBe('Item four\ncontinued text')
+    })
+
     it('serializes an ordered list with type="a" to lowercase alpha markers', () => {
       const markdownManager = new MarkdownManager({
         extensions: [Document, Paragraph, Text, ListItem, OrderedList],
@@ -366,6 +400,25 @@ describe('OrderedList type attribute', () => {
 
       const md = markdownManager.serialize(json)
       expect(md).toBe(original)
+    })
+
+    it('parses inline formatting inside an indented ordered list item', () => {
+      // A single leading space before the marker (e.g. a top-level ordered
+      // list nested one level inside another list) previously made the
+      // custom ordered-list tokenizer bail out silently, falling back to a
+      // path that left the item's content as literal, unparsed text.
+      const markdownManager = new MarkdownManager({
+        extensions: [Document, Paragraph, Text, Bold, ListItem, OrderedList],
+      })
+
+      const noIndent = markdownManager.parse('1. **bold** item')
+      const indented = markdownManager.parse(' 1. **bold** item')
+
+      expect(indented.content).toEqual(noIndent.content)
+
+      const textNode = indented.content[0].content[0].content[0].content[0]
+      expect(textNode.text).toBe('bold')
+      expect(textNode.marks?.[0]?.type).toBe('bold')
     })
   })
 

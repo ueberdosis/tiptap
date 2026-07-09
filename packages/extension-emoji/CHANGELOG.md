@@ -1,5 +1,48 @@
 # @tiptap/extension-emoji
 
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/suggestion@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- eb19977: Fix arrow key navigation past emoji nodes in Firefox. Previously, pressing ArrowLeft with the cursor adjacent to an inline non-selectable emoji node at a paragraph boundary would not move the cursor in Firefox. The cursor now correctly skips over emoji nodes in both directions.
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+  - @tiptap/suggestion@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+- @tiptap/pm@3.27.1
+- @tiptap/suggestion@3.27.1
+
+## 3.27.0
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6270b99]
+- Updated dependencies [6d12bb9]
+- Updated dependencies [6270b99]
+- Updated dependencies [6270b99]
+- Updated dependencies [6270b99]
+  - @tiptap/core@3.27.0
+  - @tiptap/suggestion@3.27.0
+  - @tiptap/pm@3.27.0
+
 ## 3.26.1
 
 ### Patch Changes

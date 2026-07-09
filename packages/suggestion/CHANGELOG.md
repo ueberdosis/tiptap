@@ -1,5 +1,49 @@
 # Change Log
 
+## 3.27.3
+
+### Patch Changes
+
+- Updated dependencies [023f98c]
+  - @tiptap/core@3.27.3
+  - @tiptap/pm@3.27.3
+
+## 3.27.2
+
+### Patch Changes
+
+- Updated dependencies [ceebb31]
+  - @tiptap/pm@3.27.2
+  - @tiptap/core@3.27.2
+
+## 3.27.1
+
+### Patch Changes
+
+- @tiptap/core@3.27.1
+- @tiptap/pm@3.27.1
+
+## 3.27.0
+
+### Minor Changes
+
+- 6270b99: Add `props.mount(element)` for fully managed popup positioning. It mounts the popup into the configured `container` (default `document.body`), keeps it anchored to the cursor, and automatically repositions on scroll, resize, and layout shifts via Floating UI's `autoUpdate` — no manual listeners required. It returns an `unmount` function to call in `onExit`.
+
+  This is additive and opt-in: mounting and positioning manually with `props.floatingUi` + `props.clientRect` remains supported as an escape hatch.
+
+- 6270b99: Dismiss managed suggestion popups when the user clicks outside both the popup and the editor. Enabled by default for popups mounted via `props.mount`, and configurable with the new `dismissOnOutsideClick` option.
+- 6270b99: Expose Floating UI positioning configuration through `SuggestionProps`. Consumers can now read `placement`, `offset`, `flip`, `container`, and a resolved `floatingUi` config to drive their own positioning loop.
+- 6270b99: Add async suggestion lifecycle handling, including debounced async `items()`, in-flight request aborting, `initialItems`, a `loading` state, and a `minQueryLength` filter.
+
+### Patch Changes
+
+- Updated dependencies [0d0094d]
+- Updated dependencies [795033c]
+- Updated dependencies [0e0c4f9]
+- Updated dependencies [6d12bb9]
+  - @tiptap/core@3.27.0
+  - @tiptap/pm@3.27.0
+
 ## 3.26.1
 
 ### Patch Changes

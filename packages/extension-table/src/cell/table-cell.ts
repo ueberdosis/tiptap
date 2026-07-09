@@ -2,7 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import { createAlignAttribute } from '../utilities/parseAlign.js'
+import { createAlignAttribute } from '../utils/parseAlign.js'
+import { parseColwidth } from '../utils/parseColwidth.js'
 
 export interface TableCellOptions {
   /**
@@ -38,23 +39,7 @@ export const TableCell = Node.create<TableCellOptions>({
       },
       colwidth: {
         default: null,
-        parseHTML: element => {
-          const colwidth = element.getAttribute('colwidth')
-          const value = colwidth ? colwidth.split(',').map(width => parseInt(width, 10)) : null
-
-          // if there is no colwidth attribute on the cell, try to get it from the colgroup
-          if (!value) {
-            const cols = element.closest('table')?.querySelectorAll('colgroup > col')
-            const cellIndex = Array.from(element.parentElement?.children || []).indexOf(element)
-
-            if (cellIndex && cellIndex > -1 && cols && cols[cellIndex]) {
-              const colWidth = cols[cellIndex].getAttribute('width')
-              return colWidth ? [parseInt(colWidth, 10)] : null
-            }
-          }
-
-          return value
-        },
+        parseHTML: parseColwidth,
       },
       align: createAlignAttribute(),
     }

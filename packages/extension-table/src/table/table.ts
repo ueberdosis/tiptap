@@ -31,7 +31,7 @@ import {
 } from '@tiptap/pm/tables'
 import type { EditorView, NodeView } from '@tiptap/pm/view'
 
-import { type TableCellAlign, normalizeTableCellAlign } from '../utilities/parseAlign.js'
+import { type TableCellAlign, normalizeTableCellAlign } from '../utils/parseAlign.js'
 import { TableView } from './TableView.js'
 import { createColGroup } from './utilities/createColGroup.js'
 import { createTable } from './utilities/createTable.js'

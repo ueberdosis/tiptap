@@ -1,20 +1,20 @@
 {
   "name": "@tiptap/markdown",
-  "version": "3.26.1",
+  "version": "3.27.3",
   "description": "markdown parser and serializer for tiptap",
   "keywords": [
     "tiptap",
     "tiptap utility"
   ],
   "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
     "directory": "packages/markdown"
-  },
-  "bugs": {
-    "url": "https://github.com/ueberdosis/tiptap/issues"
   },
   "funding": {
     "type": "github",
