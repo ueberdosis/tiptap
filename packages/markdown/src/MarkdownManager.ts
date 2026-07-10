@@ -348,10 +348,17 @@ export class MarkdownManager {
       // Convert tokens to Tiptap JSON
       const content = this.parseTokens(tokens, true)
 
-      // Return a document node containing the parsed content
+      // A `doc` node requires at least one block child (`block+`), so an empty
+      // `content` array produces an invalid document that makes `setContent`
+      // throw `RangeError: Invalid content for node doc: <>`. This happens for
+      // input that yields no renderable blocks — whitespace-only markdown, or
+      // markdown whose only token has no registered handler (e.g. an indented
+      // code block when no code-block extension is present, as with a line of
+      // leading whitespace followed by text). Fall back to a single empty
+      // paragraph, matching how an empty markdown string is represented.
       return {
         type: 'doc',
-        content,
+        content: content.length > 0 ? content : [{ type: 'paragraph' }],
       }
     } finally {
       this.activeParseLexer = previousParseLexer
