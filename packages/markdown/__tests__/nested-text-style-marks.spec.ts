@@ -6,18 +6,8 @@ import { describe, expect, it } from 'vitest'
 
 import { MarkdownManager } from '../src/MarkdownManager.js'
 
-/**
- * Regression guard for #7499.
- *
- * Adjacent text nodes can share a mark type (here `textStyle`) while carrying
- * different attributes (different colors). The serializer used to treat them as
- * one continuous mark, so `renderMarkdown` ran only once for the whole run and
- * the nested segment lost its own styling.
- *
- * Fixed by #7844 (serialize adjacent marks with different attributes
- * separately). This test keeps that behavior locked in: each distinct
- * attribute set must produce its own rendered mark.
- */
+// Adjacent text nodes sharing a mark type but differing in attributes must each
+// render their own mark, instead of collapsing into one continuous run.
 const TextStyle = Mark.create({
   name: 'textStyle',
 
