@@ -2,7 +2,7 @@ import { Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'
 
@@ -115,6 +115,49 @@ describe('ReactWidgetRenderer', () => {
     await flush()
 
     expect(contentComponent.live.size).toBe(2)
+  })
+
+  it('passes ProseMirror widget options through', () => {
+    const stopEvent = vi.fn(() => true)
+    const destroy = vi.fn()
+    const extension = Extension.create({
+      name: 'widgetOptions',
+      addDecorations: () => ({
+        create: ({ editor }) => [
+          ReactWidgetRenderer(Widget, {
+            editor,
+            pos: 1,
+            key: 'options',
+            side: -1,
+            relaxedSide: true,
+            ignoreSelection: true,
+            stopEvent,
+            destroy,
+          }),
+        ],
+      }),
+    })
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, extension],
+      content: '<p>a</p>',
+    })
+    const decorationState = editor.state.plugins
+      .find(plugin => plugin.props.decorations)
+      ?.getState(editor.state) as
+      | { mergedDecorationSet?: { find: () => Array<{ spec: Record<string, unknown> }> } }
+      | undefined
+    const widget = decorationState?.mergedDecorationSet?.find()[0]
+
+    expect(widget?.spec).toMatchObject({
+      side: -1,
+      relaxedSide: true,
+      ignoreSelection: true,
+      stopEvent,
+      destroy: expect.any(Function),
+    })
+
+    editor.destroy()
+    expect(destroy).not.toHaveBeenCalled()
   })
 
   it('keeps every widget registered when keys are reassigned by a split', async () => {

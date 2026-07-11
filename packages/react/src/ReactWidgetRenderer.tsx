@@ -1,6 +1,5 @@
 import { decoration, liveWidgetKeys } from '@tiptap/core'
-import type { Editor, WidgetDecorationDescriptor } from '@tiptap/core'
-import type { Mark } from '@tiptap/pm/model'
+import type { Editor, WidgetDecorationDescriptor, WidgetDecorationOptions } from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { ComponentType } from 'react'
 
@@ -15,7 +14,9 @@ export interface ReactWidgetDecorationProps {
   getPos: () => number | undefined
 }
 
-export interface ReactWidgetRendererOptions<P extends Record<string, any> = object> {
+export interface ReactWidgetRendererOptions<
+  P extends Record<string, any> = object,
+> extends WidgetDecorationOptions {
   /**
    * The editor instance.
    */
@@ -43,11 +44,6 @@ export interface ReactWidgetRendererOptions<P extends Record<string, any> = obje
    */
   as?: string
   className?: string
-  /**
-   * The decoration's side bias (see ProseMirror's `Decoration.widget`).
-   */
-  side?: number
-  marks?: readonly Mark[]
 }
 
 const WIDGET_CACHE = Symbol('tiptapReactWidgetCache')
@@ -128,7 +124,20 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   component: ComponentType<P & ReactWidgetDecorationProps>,
   options: ReactWidgetRendererOptions<P>,
 ): WidgetDecorationDescriptor {
-  const { editor, pos, key, props = {} as P, as = 'span', className, side, marks } = options
+  const {
+    editor,
+    pos,
+    key,
+    props = {} as P,
+    as = 'span',
+    className,
+    side,
+    relaxedSide,
+    marks,
+    stopEvent,
+    ignoreSelection,
+    destroy,
+  } = options
   const cache = getCache(editor)
 
   // Two-phase prop update. ProseMirror skips the widget's `toDOM`/`render` when
@@ -178,8 +187,11 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
   return decoration.widget(pos, render, {
     key,
     side,
+    relaxedSide,
     marks,
-    destroy: () => {
+    stopEvent,
+    ignoreSelection,
+    destroy: (rendererElement: Node) => {
       // Keep the renderer if the key is still a live widget decoration (it's
       // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
       // current state, so this is correct even when nothing recomputed.
@@ -187,9 +199,13 @@ export function ReactWidgetRenderer<P extends Record<string, any> = object>(
         return
       }
 
-      cache.renderers.get(key)?.destroy()
-      cache.renderers.delete(key)
-      cache.props.delete(key)
+      try {
+        cache.renderers.get(key)?.destroy()
+        cache.renderers.delete(key)
+        cache.props.delete(key)
+      } finally {
+        destroy?.(rendererElement)
+      }
     },
   })
 }
