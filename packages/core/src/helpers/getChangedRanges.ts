@@ -46,16 +46,19 @@ export function getChangedRanges(transform: Transform): ChangedRange[] {
     // e.g. when setting a mark, node attribute, etc.
     // @ts-ignore
     if (!stepMap.ranges.length) {
-      const { from, to } = steps[index] as Step & {
+      const { from, pos, to } = steps[index] as Step & {
         from?: number
+        pos?: number
         to?: number
       }
 
-      if (from === undefined || to === undefined) {
+      if (from !== undefined && to !== undefined) {
+        ranges.push({ from, to })
+      } else if (pos !== undefined) {
+        ranges.push({ from: pos, to: pos + 1 })
+      } else {
         return
       }
-
-      ranges.push({ from, to })
     } else {
       stepMap.forEach((from, to) => {
         ranges.push({ from, to })
