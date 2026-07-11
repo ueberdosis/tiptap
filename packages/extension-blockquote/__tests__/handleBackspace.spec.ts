@@ -31,7 +31,10 @@ describe('blockquote handleBackspace', () => {
 
     const blockquoteType = editor.schema.nodes.blockquote
 
-    expect(() => handleBackspace(editor, blockquoteType)).not.toThrow()
-    expect(handleBackspace(editor, blockquoteType)).toBe(false)
+    let result: boolean | undefined
+    expect(() => {
+      result = handleBackspace(editor, blockquoteType)
+    }).not.toThrow()
+    expect(result).toBe(false)
   })
 })
