@@ -610,4 +610,119 @@ describe('incrementalCreate', () => {
 
     editor.destroy()
   })
+
+  it('rebuilds the affected block when a node attribute changes', () => {
+    const AttributedParagraph = Paragraph.extend({
+      addAttributes() {
+        return {
+          decorated: {
+            default: false,
+          },
+        }
+      },
+    })
+    const scan = (state: Editor['state'], from: number, to: number) => {
+      const decorations: DecorationDescriptor[] = []
+
+      state.doc.nodesBetween(from, to, (node, pos) => {
+        if (node.type.name === 'paragraph' && node.attrs.decorated) {
+          decorations.push(decoration.node(pos, pos + node.nodeSize, { class: 'decorated' }))
+        }
+      })
+
+      return decorations
+    }
+    const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
+    const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+    const editor = new Editor({
+      extensions: [Document, AttributedParagraph, Text, extension],
+      content: '<p>hello</p><p>world</p>',
+    })
+
+    editor.view.dispatch(editor.state.tr.setNodeAttribute(0, 'decorated', true))
+
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(createInRange).toHaveBeenCalledTimes(1)
+    expect(getDecorations(editor)).toHaveLength(1)
+    expect(getDecorations(editor)[0].from).toBe(0)
+
+    editor.destroy()
+  })
+
+  it('falls back to a full rebuild when a document attribute changes', () => {
+    const AttributedDocument = Document.extend({
+      addAttributes() {
+        return {
+          revision: {
+            default: 0,
+          },
+        }
+      },
+    })
+    const build = (state: Editor['state']) => [
+      decoration.node(
+        0,
+        state.doc.firstChild?.nodeSize ?? 0,
+        {},
+        { revision: state.doc.attrs.revision },
+      ),
+    ]
+    const create = vi.fn(({ state }) => build(state))
+    const createInRange = vi.fn(({ state }) => build(state))
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+    const editor = new Editor({
+      extensions: [AttributedDocument, Paragraph, Text, extension],
+      content: '<p>hello</p>',
+    })
+
+    editor.view.dispatch(editor.state.tr.setDocAttribute('revision', 1))
+
+    expect(create).toHaveBeenCalledTimes(2)
+    expect(createInRange).not.toHaveBeenCalled()
+    expect(getDecorations(editor)[0].spec.revision).toBe(1)
+
+    editor.destroy()
+  })
+
+  it('falls back to a full rebuild when a transaction mixes local and document changes', () => {
+    const AttributedDocument = Document.extend({
+      addAttributes() {
+        return {
+          revision: {
+            default: 0,
+          },
+        }
+      },
+    })
+    const create = vi.fn(({ state }) => [
+      decoration.inline(1, 2, {}, { revision: state.doc.attrs.revision }),
+    ])
+    const createInRange = vi.fn(({ state, from, to }) => [
+      decoration.inline(from, Math.min(from + 1, to), {}, { revision: state.doc.attrs.revision }),
+    ])
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+    })
+    const editor = new Editor({
+      extensions: [AttributedDocument, Paragraph, Text, extension],
+      content: '<p>hello</p>',
+    })
+    const transaction = editor.state.tr.insertText('!', 2).setDocAttribute('revision', 1)
+
+    editor.view.dispatch(transaction)
+
+    expect(create).toHaveBeenCalledTimes(2)
+    expect(createInRange).not.toHaveBeenCalled()
+    expect(getDecorations(editor)[0].spec.revision).toBe(1)
+
+    editor.destroy()
+  })
 })
