@@ -87,7 +87,16 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
    * Watch the editor instance for changes.
    */
   watch(nextEditor: Editor | null): undefined | (() => void) {
+    const editorChanged = this.editor !== (nextEditor as TEditor)
+
     this.editor = nextEditor as TEditor
+
+    // A swapped editor invalidates the cached snapshot; without the bump,
+    // selectors keep serving the previous editor until the next transaction
+    if (editorChanged) {
+      this.transactionNumber += 1
+      this.subscribers.forEach(callback => callback())
+    }
 
     if (this.editor) {
       /**

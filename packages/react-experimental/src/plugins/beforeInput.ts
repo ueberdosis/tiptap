@@ -1,6 +1,9 @@
 import { Plugin } from '@tiptap/pm/state'
 import type { EditorView } from '@tiptap/pm/view'
 
+import { ReactEditorView } from '../ReactEditorView.js'
+import { observeCompositionInput } from './composition.js'
+
 /**
  * Non-public `EditorView` members this plugin uses, verified against
  * prosemirror-view 1.41.9:
@@ -24,10 +27,14 @@ interface ViewInputInternals {
 
 /** Syncs a not-yet-processed DOM selection change into the state. */
 const flushPendingSelection = (view: EditorView): void => {
-  // Never read the DOM selection mid-composition (composition guard)
-  if (!view.composing) {
-    ;(view as unknown as ViewInputInternals).domObserver.flush()
+  // No DOM selection reads mid-composition or while descs await a commit
+  if (view.composing) {
+    return
   }
+  if (view instanceof ReactEditorView && view.hasPendingCommit) {
+    return
+  }
+  ;(view as unknown as ViewInputInternals).domObserver.flush()
 }
 
 const DELETE_INPUT_TYPES = new Set([
@@ -144,12 +151,42 @@ const replaceText = (view: EditorView, event: InputEvent): void => {
 }
 
 /**
+ * Composition input stays with the browser; the composition plugin commits
+ * it at compositionend. Undefined means: not composition input.
+ */
+const handleCompositionInput = (view: EditorView, event: InputEvent): boolean | undefined => {
+  switch (event.inputType) {
+    // Preedit mutations; not cancelable anyway
+    case 'insertCompositionText':
+    case 'deleteCompositionText':
+      observeCompositionInput(view, event)
+      return true
+    // Safari's commit type: stash the data, compositionend commits once
+    case 'insertFromComposition':
+      event.preventDefault()
+      observeCompositionInput(view, event)
+      return true
+    default:
+      break
+  }
+
+  // Android fires generic insert/delete types mid-composition; fold them
+  // into the record instead of dispatching against browser-owned DOM
+  if (view.composing) {
+    observeCompositionInput(view, event)
+    return true
+  }
+
+  return undefined
+}
+
+/**
  * Drives editing input for the React-owned view. The DOM mutation observer is
  * disabled there (React owns the document DOM, so ProseMirror must not parse
  * DOM changes back), which means input has to be intercepted before the
  * browser mutates the DOM: every supported `beforeinput` is prevented and
- * re-expressed as a transaction. Composition input is left alone; the
- * composition guard handles it.
+ * re-expressed as a transaction. Composition input stays with the browser;
+ * the composition plugin records it and commits at `compositionend`.
  */
 export const beforeInput = (): Plugin =>
   new Plugin({
@@ -165,10 +202,15 @@ export const beforeInput = (): Plugin =>
           if (!view.editable) {
             return false
           }
-          flushPendingSelection(view)
-          if (event.inputType !== 'insertFromComposition') {
-            event.preventDefault()
+
+          const compositionVerdict = handleCompositionInput(view, event)
+
+          if (compositionVerdict !== undefined) {
+            return compositionVerdict
           }
+
+          flushPendingSelection(view)
+          event.preventDefault()
 
           switch (event.inputType) {
             case 'insertParagraph':

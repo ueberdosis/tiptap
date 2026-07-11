@@ -40,6 +40,8 @@ export interface EditorContentProps extends HTMLAttributes<HTMLDivElement> {
  * `compositionend` so React catches up even when ProseMirror dispatches no
  * further transaction. The snapshot freezes during composition too, so a
  * parent-triggered re-render cannot smuggle the new state past the deferral.
+ * `plugins/composition.ts` commits the composed text at `compositionend`
+ * with `composing` already false, so its commit notifies immediately.
  */
 const useEditorTransactionState = (editor: Editor): EditorState => {
   const subscribe = useCallback(

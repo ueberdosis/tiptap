@@ -9,10 +9,11 @@ export type NodeViewContentProps<T extends keyof React.JSX.IntrinsicElements = '
 } & ComponentProps<T>
 
 export function NodeViewContent<T extends keyof React.JSX.IntrinsicElements = 'div'>({
-  as: Tag = 'div' as T,
+  as,
   ...props
 }: NodeViewContentProps<T>) {
-  const { nodeViewContentRef, nodeViewContentChildren } = useReactNodeView()
+  const { nodeViewContentRef, nodeViewContentChildren, nodeViewContentAs } = useReactNodeView()
+  const Tag = as ?? nodeViewContentAs ?? 'div'
 
   return (
     // @ts-ignore

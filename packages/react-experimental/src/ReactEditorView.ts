@@ -125,6 +125,14 @@ export class ReactEditorView extends EditorView {
 
   private destroyed: boolean
 
+  // No initializer: the constructor's super() call sits inside try/finally,
+  // and TS requires a root-level super() once initialized properties exist
+  /** A selection read arrived while a commit was pending; run it after. */
+  private pendingSelectionSync: boolean
+
+  /** The observer's original bound selectionchange listener. */
+  private baseOnSelectionChange!: () => void
+
   constructor(place: ReactEditorViewPlace, props: DirectEditorProps) {
     const mount = resolveMount(place)
     // The base constructor renders the (empty) doc into `mount`, removing
@@ -159,13 +167,20 @@ export class ReactEditorView extends EditorView {
     self.domObserver.observer = null
     self.domObserver.stop()
     self.domObserver.queue.length = 0
-    const baseOnSelectionChange = self.domObserver.onSelectionChange
+    this.baseOnSelectionChange = self.domObserver.onSelectionChange
     self.domObserver.onSelectionChange = () => {
       // Composition guard: Safari cancels an active composition even on a
       // no-op DOM selection write, so selection reads pause while composing.
-      if (!this.composing) {
-        baseOnSelectionChange()
+      if (this.composing) {
+        return
       }
+      // Descs still describe the old DOM until React commits; defer the
+      // read to the end of commitPendingEffects()
+      if (this.hasPendingCommit) {
+        this.pendingSelectionSync = true
+        return
+      }
+      this.baseOnSelectionChange()
     }
 
     // The base class rendered a doc view for EMPTY_STATE; it must never touch
@@ -176,6 +191,7 @@ export class ReactEditorView extends EditorView {
       mount.pmViewDesc = previousDocDesc
     }
 
+    this.pendingSelectionSync = false
     this.nextProps = props
     // The state the base class actually committed is EMPTY_STATE; starting
     // there makes the first commit a real EMPTY_STATE -> props.state
@@ -244,6 +260,12 @@ export class ReactEditorView extends EditorView {
       return
     }
 
+    // React renders stay frozen during composition; committing a staged
+    // state now would write the DOM selection and cancel the IME
+    if (this.composing) {
+      return
+    }
+
     const props = this.nextProps
     // Roll back the eagerly-set state so the base class observes the real
     // prevState -> props.state transition (plugin views receive the correct
@@ -252,6 +274,23 @@ export class ReactEditorView extends EditorView {
     self.docView.markDirty(-1, -1)
     super.update(props)
     this.prevState = this.state
+
+    // Descs are fresh now: run the selection read deferred while the
+    // commit was pending, so a racing user selection move still lands
+    if (this.pendingSelectionSync) {
+      this.pendingSelectionSync = false
+      if (!this.composing) {
+        this.baseOnSelectionChange()
+      }
+    }
+  }
+
+  /**
+   * True while a dispatched state waits for React to commit its DOM. DOM
+   * position reads must wait for `commitPendingEffects()` then.
+   */
+  get hasPendingCommit(): boolean {
+    return this.state !== this.prevState
   }
 
   /** The base getter is `docView == null`, which is our resting state. */

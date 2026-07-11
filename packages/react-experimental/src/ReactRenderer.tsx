@@ -27,6 +27,11 @@ export interface ReactRendererOptions {
  * `suggestion.render()` code is a drop-in — but backed by a standalone
  * `createRoot` instead of a portal registry, so it needs nothing from
  * `EditorContent` and stays fully decoupled from the document renderer.
+ *
+ * Intentional difference from `@tiptap/react`: rendering is always batched
+ * (no `flushSync`). `ref` and rendered children commit by the next
+ * microtask, so read them in later callbacks like `onKeyDown`, not right
+ * after construction. The detached `element` itself exists immediately.
  */
 export class ReactRenderer<R = unknown, P extends Record<string, any> = Record<string, any>> {
   editor: Editor
@@ -78,10 +83,8 @@ export class ReactRenderer<R = unknown, P extends Record<string, any> = Record<s
       },
     }
 
-    // Plain (batched) render — NOT flushSync: suggestion plugin views run
-    // inside EditorContent's layout-effect commit, where flushSync is
-    // illegal. floating-ui positioning reads the element asynchronously, so
-    // the content is mounted by the time it measures.
+    // Always batched, never flushSync; see the class TSDoc for the
+    // intentional difference from @tiptap/react
     this.root.render(createElement(Component, props))
   }
 

@@ -1,7 +1,7 @@
 import type { Editor } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
-import type { ComponentType, ReactNode, Ref } from 'react'
+import type { ComponentType, ReactNode, RefCallback } from 'react'
 
 /**
  * The props a React node view component receives. Aligned with Tiptap's
@@ -26,9 +26,9 @@ export interface NodeViewComponentProps<Element extends HTMLElement = HTMLElemen
   updateAttributes: (attributes: Record<string, unknown>) => void
   deleteNode: () => void
   /** Must be attached to the component's top-level element. */
-  ref: Ref<Element>
+  ref: RefCallback<Element>
   /** Must be attached to the element holding `children` (content nodes). */
-  contentDOMRef: Ref<HTMLElement>
+  contentDOMRef: RefCallback<HTMLElement>
   /** Rendered content for non-leaf nodes. */
   children?: ReactNode
 }

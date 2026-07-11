@@ -84,15 +84,17 @@ export type TiptapWrapperEditorInstanceProps =
   | {
       /**
        * The editor instance to provide to child components.
-       * Use `useEditor()` to create this instance.
+       * Use `useEditor()` to create this instance. `null` (e.g. from
+       * `useEditor({ immediatelyRender: false })` before the client render)
+       * renders nothing until the editor exists.
        */
-      editor: Editor
+      editor: Editor | null
     }
   | {
       /**
        * @deprecated Use `editor` instead. Will be removed in the next major version.
        */
-      instance: Editor
+      instance: Editor | null
     }
 
 /**
@@ -107,6 +109,9 @@ export type TiptapWrapperProps = TiptapWrapperEditorInstanceProps & {
  * React context to all child components. Also provides the legacy
  * current-editor context, so components using `useCurrentEditor()` work
  * inside a `<Tiptap>` provider.
+ *
+ * A `null` editor (SSR or `immediatelyRender: false` before the client
+ * render) renders nothing; children mount once the editor exists.
  *
  * @example
  * ```tsx
@@ -125,17 +130,20 @@ export type TiptapWrapperProps = TiptapWrapperEditorInstanceProps & {
 export function TiptapWrapper({ children, ...props }: TiptapWrapperProps) {
   const resolvedEditor = 'editor' in props ? props.editor : props.instance
 
-  if (!resolvedEditor) {
-    throw new Error('Tiptap: An editor instance is required. Pass a non-null `editor` prop.')
-  }
-
   const tiptapContextValue = useMemo<TiptapContextType>(
-    () => ({ editor: resolvedEditor }),
+    // The null case never reaches consumers: rendering bails below first
+    () => ({ editor: resolvedEditor as Editor }),
     [resolvedEditor],
   )
 
   // Backwards compatibility for components using useCurrentEditor()
   const legacyContextValue = useMemo(() => ({ editor: resolvedEditor }), [resolvedEditor])
+
+  // SSR / deferred rendering: no editor yet, mount children once it exists
+  // (matches @tiptap/react's EditorProvider)
+  if (!resolvedEditor) {
+    return null
+  }
 
   return (
     <CurrentEditorContext.Provider value={legacyContextValue}>

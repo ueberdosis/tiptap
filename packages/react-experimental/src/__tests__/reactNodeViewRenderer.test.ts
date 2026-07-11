@@ -1,5 +1,5 @@
 import { Node as TiptapNode } from '@tiptap/core'
-import { act, createElement } from 'react'
+import { act, createElement, useEffect, useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { ReactRendererExtension } from '../extension.js'
@@ -12,6 +12,7 @@ import {
   CounterExtension,
   mountEditorContent,
   renderTiptapEditor,
+  tiptapTestNodes,
   unmountTrackedRoots,
 } from './helpers.js'
 
@@ -44,6 +45,32 @@ const CounterComponent = (props: ReactNodeViewProps) =>
 const nodeViewCounter = (options?: Parameters<typeof ReactNodeViewRenderer>[1]) =>
   CounterExtension.extend({
     addNodeView: () => ReactNodeViewRenderer(CounterComponent, options),
+  })
+
+const InlineComponent = () =>
+  createElement(
+    NodeViewWrapper,
+    { className: 'custom-inline' },
+    createElement(NodeViewContent, { className: 'custom-inline-content' }),
+  )
+
+/** Mounts a doc with an inline node view sitting inside a paragraph. */
+const mountWithInlineView = (options?: Parameters<typeof ReactNodeViewRenderer>[1]) =>
+  mountEditorContent({
+    content: '<p>a<test-inline>x</test-inline>b</p>',
+    extensions: [
+      ...tiptapTestNodes,
+      TiptapNode.create({
+        name: 'inlineView',
+        group: 'inline',
+        inline: true,
+        content: 'text*',
+        parseHTML: () => [{ tag: 'test-inline' }],
+        renderHTML: () => ['test-inline', 0],
+        addNodeView: () => ReactNodeViewRenderer(InlineComponent, options),
+      }),
+      ReactRendererExtension,
+    ],
   })
 
 /** Mounts an editor whose paragraph extension registers the node view itself. */
@@ -154,6 +181,35 @@ describe('ReactNodeViewRenderer', () => {
     expect(wrapper.getAttribute('data-length')).toBe('6')
   })
 
+  it('defaults block node views to div wrapper and content elements', async () => {
+    const { dom } = await mountWithParagraphView('<p>block</p>')
+
+    expect((dom.querySelector('[data-node-view-wrapper]') as HTMLElement).tagName).toBe('DIV')
+    expect((dom.querySelector('[data-node-view-content]') as HTMLElement).tagName).toBe('DIV')
+  })
+
+  it('defaults inline node views to span wrapper and content elements', async () => {
+    const { dom } = await mountWithInlineView()
+
+    const wrapper = dom.querySelector('.custom-inline') as HTMLElement
+    const content = dom.querySelector('.custom-inline-content') as HTMLElement
+
+    expect(wrapper.tagName).toBe('SPAN')
+    expect(content.tagName).toBe('SPAN')
+    expect(wrapper.parentElement?.tagName).toBe('P')
+    expect(content.textContent).toBe('x')
+  })
+
+  it('lets as and contentDOMElementTag options override the inline defaults', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { dom } = await mountWithInlineView({ as: 'em', contentDOMElementTag: 'strong' })
+
+    expect((dom.querySelector('.custom-inline') as HTMLElement).tagName).toBe('EM')
+    expect((dom.querySelector('.custom-inline-content') as HTMLElement).tagName).toBe('STRONG')
+    expect(warn).not.toHaveBeenCalled()
+    warn.mockRestore()
+  })
+
   it('wires the stopEvent option onto the node view desc', async () => {
     const stopEvent = vi.fn(() => true)
     const { dom } = await renderTiptapEditor('<test-counter count="0"></test-counter>', [
@@ -165,6 +221,84 @@ describe('ReactNodeViewRenderer', () => {
 
     expect(desc?.stopEvent(new Event('mousedown'))).toBe(true)
     expect(stopEvent).toHaveBeenCalledWith({ event: expect.any(Event) })
+  })
+
+  describe('the update option', () => {
+    let mounts = 0
+    const MountTracker = (props: ReactNodeViewProps) => {
+      const [localState] = useState(() => `mounted-at-${props.node.attrs.count}`)
+
+      useEffect(() => {
+        mounts += 1
+      }, [])
+      return createElement(
+        NodeViewWrapper,
+        { className: 'tracker' },
+        `${props.node.attrs.count}:${localState}`,
+      )
+    }
+    const mountTracker = (options?: Parameters<typeof ReactNodeViewRenderer>[1]) => {
+      mounts = 0
+      return renderTiptapEditor('<test-counter count="1"></test-counter>', [
+        CounterExtension.extend({
+          addNodeView: () => ReactNodeViewRenderer(MountTracker, options),
+        }),
+      ])
+    }
+    const bumpCount = (editor: { commands: { command: (fn: any) => boolean } }) =>
+      act(async () => {
+        editor.commands.command(({ tr }: any) => {
+          tr.setNodeAttribute(0, 'count', 2)
+          return true
+        })
+      })
+
+    it('is not called on mount and receives old and new values on change', async () => {
+      type UpdateOption = NonNullable<
+        NonNullable<Parameters<typeof ReactNodeViewRenderer>[1]>['update']
+      >
+      const update = vi.fn<UpdateOption>(() => true)
+      const { editor } = await mountTracker({ update })
+
+      expect(update).not.toHaveBeenCalled()
+
+      await bumpCount(editor)
+
+      expect(update).toHaveBeenCalledTimes(1)
+      const args = update.mock.calls[0][0]
+
+      expect(args.oldNode.attrs.count).toBe(1)
+      expect(args.newNode.attrs.count).toBe(2)
+      expect(typeof args.updateProps).toBe('function')
+    })
+
+    it('keeps the component mounted with new props when returning true', async () => {
+      const { editor, dom } = await mountTracker({ update: () => true })
+
+      await bumpCount(editor)
+
+      expect(dom.querySelector('.tracker')?.textContent).toBe('2:mounted-at-1')
+      expect(mounts).toBe(1)
+    })
+
+    it('remounts the component when returning false', async () => {
+      const { editor, dom } = await mountTracker({ update: () => false })
+
+      await bumpCount(editor)
+
+      // fresh local state proves the remount
+      expect(dom.querySelector('.tracker')?.textContent).toBe('2:mounted-at-2')
+      expect(mounts).toBe(2)
+    })
+
+    it('no longer warns when the option is provided', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      await mountTracker({ update: () => true })
+
+      expect(warn).not.toHaveBeenCalled()
+      warn.mockRestore()
+    })
   })
 
   it('renders a native-contract component registered through addNodeView via nodeView()', async () => {

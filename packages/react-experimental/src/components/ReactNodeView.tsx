@@ -3,13 +3,15 @@ import { getRenderedAttributes } from '@tiptap/core'
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ReactNode } from 'react'
-import { useCallback, useLayoutEffect, useRef } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 
 import { useEditorContext } from '../contexts/EditorContext.js'
 import type { NodeViewHandlers } from '../contexts/NodeViewContext.js'
 import { NodeViewContext } from '../contexts/NodeViewContext.js'
 import { mergeElementDecoAttrs } from '../decorations/outerDeco.js'
 import { useNodeViewDesc } from '../hooks/useNodeViewDesc.js'
+import { createDefaultStopEvent } from '../nodeViewEventDefaults.js'
+import { refSetter } from '../refs.js'
 import type { NodeViewComponent } from './NodeViewComponentProps.js'
 
 export interface ReactNodeViewHostProps {
@@ -40,6 +42,7 @@ export function ReactNodeView({
   const domRef = useRef<HTMLElement | null>(null)
   const contentRef = useRef<HTMLElement | null>(null)
   const handlersRef = useRef<NodeViewHandlers>({})
+  const isDraggingRef = useRef(false)
 
   const descRef = useNodeViewDesc({
     node,
@@ -49,14 +52,22 @@ export function ReactNodeView({
     innerDeco,
   })
 
+  // Core parity: form controls inside the node view must not feed input
+  // into ProseMirror unless the user overrides stopEvent
+  const defaultStopEvent = useMemo(
+    () => createDefaultStopEvent({ editor, getDesc: () => descRef.current, isDraggingRef }),
+    [editor, descRef],
+  )
+
   // Wire the desc to the handlers ref: the component's hooks write into the
   // ref (its effects run before the desc exists), the desc dereferences it
-  // at event time
+  // at event time. A registered handler fully replaces the default.
   useLayoutEffect(() => {
     const desc = descRef.current
 
     if (desc) {
-      desc.stopEventHandler = event => handlersRef.current.stopEvent?.(event)
+      desc.stopEventHandler = event =>
+        handlersRef.current.stopEvent?.(event) ?? defaultStopEvent(event)
       desc.ignoreMutationHandler = mutation => handlersRef.current.ignoreMutation?.(mutation)
     }
   })
@@ -133,8 +144,8 @@ export function ReactNodeView({
         innerDecorations={innerDeco}
         updateAttributes={updateAttributes}
         deleteNode={deleteNode}
-        ref={domRef}
-        contentDOMRef={contentRef}
+        ref={refSetter(domRef)}
+        contentDOMRef={refSetter(contentRef)}
       >
         {children}
       </Component>

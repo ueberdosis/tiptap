@@ -78,4 +78,74 @@ describe('useEditorState', () => {
 
     expect(observed.value).toBe('no-editor')
   })
+
+  it('serves the new editor immediately after an editor swap', async () => {
+    const { editor: editorA } = await renderTiptapEditor('<p>first</p>')
+    const { editor: editorB } = await renderTiptapEditor('<p>second</p>')
+    const observed: { value: string | undefined } = { value: undefined }
+    const Probe = ({ editor }: { editor: Editor }) => {
+      observed.value = useEditorState({
+        editor,
+        selector: snapshot => snapshot.editor?.state.doc.textContent,
+      }) as string | undefined
+      return null
+    }
+    const { root } = mountTrackedRoot()
+
+    await act(async () => {
+      root.render(createElement(Probe, { editor: editorA }))
+    })
+    expect(observed.value).toBe('first')
+
+    // No transaction on editorB: the swap alone must refresh the snapshot
+    await act(async () => {
+      root.render(createElement(Probe, { editor: editorB }))
+    })
+    expect(observed.value).toBe('second')
+  })
+
+  it('resolves a null to editor transition without a transaction', async () => {
+    const { editor } = await renderTiptapEditor('<p>late</p>')
+    const observed: { value: string | null | undefined } = { value: undefined }
+    const Probe = ({ editor: current }: { editor: Editor | null }) => {
+      observed.value = useEditorState({
+        editor: current,
+        selector: snapshot => snapshot.editor?.state.doc.textContent ?? null,
+      })
+      return null
+    }
+    const { root } = mountTrackedRoot()
+
+    await act(async () => {
+      root.render(createElement(Probe, { editor: null }))
+    })
+    expect(observed.value).toBeNull()
+
+    await act(async () => {
+      root.render(createElement(Probe, { editor }))
+    })
+    expect(observed.value).toBe('late')
+  })
+
+  it('does not notify subscribers when re-watching the same editor', async () => {
+    const { editor } = await renderTiptapEditor('<p>same</p>')
+    const observed = { renders: 0 }
+    const Probe = ({ tick: _tick }: { tick: number }) => {
+      observed.renders += 1
+      useEditorState({ editor, selector: snapshot => snapshot.editor?.state.doc.textContent })
+      return null
+    }
+    const { root } = mountTrackedRoot()
+
+    await act(async () => {
+      root.render(createElement(Probe, { tick: 1 }))
+    })
+    const rendersBefore = observed.renders
+
+    // Re-render with the same editor: watch() must stay silent
+    await act(async () => {
+      root.render(createElement(Probe, { tick: 2 }))
+    })
+    expect(observed.renders).toBe(rendersBefore + 1)
+  })
 })

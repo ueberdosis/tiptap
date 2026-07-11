@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core'
 import type { Mark } from '@tiptap/pm/model'
-import type { ComponentType, ReactNode, Ref } from 'react'
+import type { ComponentType, ReactNode, RefCallback } from 'react'
 
 /**
  * The props a React mark view component receives. Aligned with Tiptap's
@@ -17,9 +17,9 @@ export interface MarkViewComponentProps<Element extends HTMLElement = HTMLElemen
   /** Updates the mark's attributes wherever this mark instance applies. */
   updateAttributes: (attributes: Record<string, unknown>) => void
   /** Must be attached to the component's top-level element. */
-  ref: Ref<Element>
+  ref: RefCallback<Element>
   /** Must be attached to the element holding `children`. */
-  contentDOMRef: Ref<HTMLElement>
+  contentDOMRef: RefCallback<HTMLElement>
   /** The inline content the mark spans. */
   children?: ReactNode
 }

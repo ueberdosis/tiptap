@@ -832,10 +832,9 @@ export class NodeViewDesc extends ViewDesc {
   }
 
   /**
-   * Optional per-view handlers, set by `ReactNodeView` for the node view
-   * hooks (`useStopEvent` / `useIgnoreMutation`). They mirror the
-   * corresponding imperative `NodeView` spec members; returning undefined
-   * falls through to the default behavior.
+   * Optional per-view handlers, set by `ReactNodeView`. React node views
+   * always resolve stopEvent (user handler or the core-parity default);
+   * the `?? false` below only covers plain schema nodes.
    */
   stopEventHandler?: (event: Event) => boolean | undefined
 

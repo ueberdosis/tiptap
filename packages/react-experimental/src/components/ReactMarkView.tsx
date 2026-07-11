@@ -6,6 +6,7 @@ import { useCallback, useRef } from 'react'
 
 import { useEditorContext } from '../contexts/EditorContext.js'
 import { useMarkViewDesc } from '../hooks/useMarkViewDesc.js'
+import { refSetter } from '../refs.js'
 import type { MarkViewComponent } from './MarkViewComponentProps.js'
 
 export interface ReactMarkViewProps {
@@ -55,8 +56,8 @@ export function ReactMarkView({
       mark={mark}
       HTMLAttributes={HTMLAttributes}
       updateAttributes={updateAttributes}
-      ref={domRef}
-      contentDOMRef={contentRef}
+      ref={refSetter(domRef)}
+      contentDOMRef={refSetter(contentRef)}
     >
       {children}
     </Component>

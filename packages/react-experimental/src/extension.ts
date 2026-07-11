@@ -1,6 +1,7 @@
 import { Extension } from '@tiptap/core'
 
 import { beforeInput } from './plugins/beforeInput.js'
+import { composition } from './plugins/composition.js'
 import { reactKeys } from './plugins/reactKeys.js'
 
 /**
@@ -11,6 +12,6 @@ export const ReactRendererExtension = Extension.create({
   name: 'reactRenderer',
 
   addProseMirrorPlugins() {
-    return [reactKeys(), beforeInput()]
+    return [reactKeys(), composition(), beforeInput()]
   },
 })

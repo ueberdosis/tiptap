@@ -148,15 +148,21 @@ describe('beforeInput plugin', () => {
     expect(editor.state.doc.textContent).toBe('foo')
   })
 
-  it('leaves composition input alone', async () => {
-    const { dom } = await renderEditor('<p>foo</p>')
+  it('lets preedit mutations through and prevents the composition commit type', async () => {
+    const { editor, dom } = await renderEditor('<p>foo</p>')
 
-    let event: Event | undefined
+    let preedit: Event | undefined
+    let commit: Event | undefined
 
     await act(async () => {
-      event = fireBeforeInput(dom, { inputType: 'insertFromComposition', data: 'x' })
+      // Browser-owned preedit mutation: never prevented, never dispatched
+      preedit = fireBeforeInput(dom, { inputType: 'insertCompositionText', data: 'x' })
+      // Safari's commit type: prevented; compositionend does the commit
+      commit = fireBeforeInput(dom, { inputType: 'insertFromComposition', data: 'x' })
     })
 
-    expect(event?.defaultPrevented).toBe(false)
+    expect(preedit?.defaultPrevented).toBe(false)
+    expect(commit?.defaultPrevented).toBe(true)
+    expect(editor.state.doc.textContent).toBe('foo')
   })
 })

@@ -21,6 +21,11 @@ export interface ReactNodeViewContextProps {
   nodeViewWrapperProps?: Record<string, unknown>
   /** Default wrapper tag (`ReactNodeViewRenderer`'s `as` option). */
   nodeViewWrapperAs?: ElementType
+  /**
+   * Default content tag (`contentDOMElementTag` option, or `span`/`div`
+   * from the node's inline flag).
+   */
+  nodeViewContentAs?: ElementType
 }
 
 export const ReactNodeViewContext = createContext<ReactNodeViewContextProps>({

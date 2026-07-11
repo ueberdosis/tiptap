@@ -3,13 +3,14 @@ import type { NodeViewProps, NodeViewRenderer, NodeViewRendererOptions } from '@
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import type { Decoration, DecorationSource } from '@tiptap/pm/view'
 import type { ComponentType, ElementType, ReactNode, Ref } from 'react'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 
 import type {
   NodeViewComponent,
   NodeViewComponentProps,
 } from './components/NodeViewComponentProps.js'
 import { useNodeViewContext } from './contexts/NodeViewContext.js'
+import { createNodeViewDragStartHandler } from './nodeViewEventDefaults.js'
 import { attributesToProps } from './props.js'
 import { assignRef } from './refs.js'
 import type { ReactNodeViewProps } from './types.js'
@@ -18,9 +19,10 @@ import { ReactNodeViewContext } from './useReactNodeView.js'
 
 export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
   /**
-   * Called when the node view is updated, to decide if the component should
-   * update. Not supported by the React renderer (updates are memo-driven);
-   * providing it logs a one-time warning.
+   * Called when the node or its decorations change. Returning `false`
+   * remounts the component (fresh state and DOM); `true` keeps it mounted
+   * with the new props. `updateProps` is a compat no-op here. Must be
+   * pure, it runs during render.
    */
   update:
     | ((props: {
@@ -54,20 +56,55 @@ export interface ReactNodeViewRendererOptions extends NodeViewRendererOptions {
       }) => Record<string, string>)
 }
 
-const warnedOptions = new Set<string>()
+const noopUpdateProps = (): void => {
+  // props are render-driven; kept for update() signature compatibility
+}
 
-const warnUnsupportedOption = (option: string, typeName: string): void => {
-  const key = `${option}:${typeName}`
+interface UpdateGateInput {
+  node: ProseMirrorNode
+  decorations: readonly Decoration[]
+  innerDecorations: DecorationSource
+  update: ReactNodeViewRendererOptions['update'] | undefined
+}
 
-  if (warnedOptions.has(key)) {
-    return
+/**
+ * Runs the `update()` option once per changed node/decorations (derived
+ * state during render). The returned key bumps when a remount is due.
+ */
+const useNodeViewUpdateGate = ({
+  node,
+  decorations,
+  innerDecorations,
+  update,
+}: UpdateGateInput): number => {
+  const [prev, setPrev] = useState({ node, decorations, innerDecorations, remountKey: 0 })
+  const changed =
+    prev.node !== node ||
+    prev.decorations !== decorations ||
+    prev.innerDecorations !== innerDecorations
+
+  if (!changed) {
+    return prev.remountKey
   }
-  warnedOptions.add(key)
-  console.warn(
-    `[tiptap warn]: ReactNodeViewRenderer option "${option}" (on "${typeName}") has no ` +
-      'equivalent in the React renderer and is ignored — updates are memo-driven and the ' +
-      'content element belongs to the component.',
-  )
+
+  let keepMounted = node.type === prev.node.type
+
+  if (keepMounted && typeof update === 'function') {
+    keepMounted = update({
+      oldNode: prev.node,
+      oldDecorations: prev.decorations,
+      oldInnerDecorations: prev.innerDecorations,
+      newNode: node,
+      newDecorations: decorations,
+      innerDecorations,
+      updateProps: noopUpdateProps,
+    })
+  }
+
+  const remountKey = keepMounted ? prev.remountKey : prev.remountKey + 1
+
+  setPrev({ node, decorations, innerDecorations, remountKey })
+  return remountKey
 }
 
 /**
@@ -98,15 +135,14 @@ export const reactNodeViewComponent = (
       contentDOMRef,
       children,
     } = props
-    const { handlersRef } = useNodeViewContext()
+    const { handlersRef, descRef } = useNodeViewContext()
     const componentRef = useRef<HTMLElement | null>(null)
-
-    if (options.update) {
-      warnUnsupportedOption('update', node.type.name)
-    }
-    if (options.contentDOMElementTag) {
-      warnUnsupportedOption('contentDOMElementTag', node.type.name)
-    }
+    const remountKey = useNodeViewUpdateGate({
+      node,
+      decorations,
+      innerDecorations,
+      update: options.update,
+    })
 
     // Optional handlers go onto the desc's slots; when absent the desc keeps
     // its default behavior (which a registered no-op would mask)
@@ -136,7 +172,11 @@ export const reactNodeViewComponent = (
     // per-render by design — and the host itself only re-renders when the
     // node changes (the NodeView memo upstream)
     const contextValue: ReactNodeViewContextProps = {
-      onDragStart: undefined,
+      onDragStart: createNodeViewDragStartHandler({
+        editor,
+        getDesc: () => descRef.current,
+        getPos,
+      }),
       nodeViewContentRef: element => {
         assignRef(contentDOMRef, element)
       },
@@ -148,7 +188,10 @@ export const reactNodeViewComponent = (
       nodeViewWrapperProps: wrapperClassName
         ? { ...attrProps, className: wrapperClassName }
         : attrProps,
-      nodeViewWrapperAs: options.as as ElementType | undefined,
+      // Inline nodes must not produce block elements inside paragraphs
+      nodeViewWrapperAs: (options.as ?? (node.isInline ? 'span' : 'div')) as ElementType,
+      nodeViewContentAs: (options.contentDOMElementTag ??
+        (node.isInline ? 'span' : 'div')) as ElementType,
     }
 
     const componentProps: Omit<ReactNodeViewProps, 'ref'> & { ref: Ref<HTMLElement> } = {
@@ -171,7 +214,7 @@ export const reactNodeViewComponent = (
     }
 
     return (
-      <ReactNodeViewContext.Provider value={contextValue}>
+      <ReactNodeViewContext.Provider key={remountKey} value={contextValue}>
         <Component {...(componentProps as ReactNodeViewProps)} />
       </ReactNodeViewContext.Provider>
     )

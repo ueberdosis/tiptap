@@ -43,6 +43,41 @@ describe('Tiptap', () => {
     expect(container.querySelector('p')?.textContent).toBe('hi')
   })
 
+  it('renders nothing for a null editor and mounts children once it exists', async () => {
+    const seen: Editor[] = []
+    const Probe = () => {
+      seen.push(useTiptap().editor)
+      return createElement('span', { className: 'probe' })
+    }
+    const { root, container } = mountTrackedRoot()
+
+    await act(async () => {
+      root.render(createElement(Tiptap, { editor: null, children: createElement(Probe) }))
+    })
+
+    expect(container.innerHTML).toBe('')
+    expect(seen).toEqual([])
+
+    const editor = await createEditor()
+
+    await act(async () => {
+      root.render(createElement(Tiptap, { editor, children: createElement(Probe) }))
+    })
+
+    expect(container.querySelector('.probe')).toBeTruthy()
+    expect(seen[0]).toBe(editor)
+  })
+
+  it('renders nothing for a null deprecated instance prop', async () => {
+    const { root, container } = mountTrackedRoot()
+
+    await act(async () => {
+      root.render(createElement(Tiptap, { instance: null, children: createElement('span') }))
+    })
+
+    expect(container.innerHTML).toBe('')
+  })
+
   it('supports the deprecated instance prop', async () => {
     const editor = await createEditor()
     let seen: Editor | null = null
