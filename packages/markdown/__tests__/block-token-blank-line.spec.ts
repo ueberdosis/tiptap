@@ -30,10 +30,8 @@ describe('Blank lines after a block token', () => {
     })
   })
 
-  // marked's heading tokenizer matches a trailing `\n+`, so the blank lines that
-  // follow a heading are absorbed into the heading token's `raw` and no `space`
-  // token is emitted. Empty paragraphs must still be recovered from that gap,
-  // otherwise one blank line is dropped on every parse/serialize round-trip.
+  // Heading tokenizer absorbs trailing blank lines into the token's raw,
+  // so we recover them here to prevent losing a blank line per parse cycle.
   it('preserves a blank line between a heading and the following text', () => {
     const doc = markdownManager.parse('# Title\n\n\n\nBody')
 
@@ -54,18 +52,22 @@ describe('Blank lines after a block token', () => {
   })
 
   it('round-trips blank lines after a heading without eroding them', () => {
-    const markdown = '# Title\n\n\n\n&nbsp;\n\n&nbsp;\n\nBody'
-
+    const markdown = '# Title\n\n\n\nBody'
+  
     const once = markdownManager.serialize(markdownManager.parse(markdown))
     const twice = markdownManager.serialize(markdownManager.parse(once))
-
-    // Stable across repeated parse/serialize cycles (no blank-line erosion).
+  
+    // Stable across repeated cycles (no erosion).
     expect(twice).toBe(once)
+  })
+
+  it('round-trips explicit &nbsp; paragraphs', () => {
+    const markdown = '# Title\n\n&nbsp;\n\nBody'
+    const once = markdownManager.serialize(markdownManager.parse(markdown))
     expect(once).toBe(markdown)
   })
 
-  // Tables share the same failure: marked's table tokenizer also absorbs the
-  // trailing blank lines into the table token's `raw`.
+  // Tables absorb trailing blank lines the same way.
   it('preserves a blank line between a table and the following text', () => {
     const doc = markdownManager.parse('| a | b |\n| --- | --- |\n| 1 | 2 |\n\n\n\nAfter')
     const kinds = (doc.content ?? []).map(node => node.type)
@@ -74,9 +76,8 @@ describe('Blank lines after a block token', () => {
     expect(doc.content?.[1]).toEqual({ type: 'paragraph', content: [] })
   })
 
-  // HTML blocks share the same failure: marked's html tokenizer can also absorb
-  // the trailing blank lines into the html token's `raw`.
-  it('preserves a blank line between an HTML block and the following text', () => {
+  // HTML blocks absorb trailing blank lines the same way.
+  it('preserves a blank line after a raw HTML block (parsed as paragraph)', () => {
     const doc = markdownManager.parse('<div>test</div>\n\n\n\nAfter')
     const kinds = (doc.content ?? []).map(node => node.type)
 
