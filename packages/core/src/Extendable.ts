@@ -223,8 +223,10 @@ export interface ExtendableConfig<
    *
    * Return a descriptor with a `create` function that builds the decorations
    * from the current state. By default they are recomputed whenever the
-   * document changes; provide `shouldUpdate` to control recomputation for
-   * performance. Use the `decoration` factory helpers to build descriptors.
+   * document changes. Use `shouldUpdate` to skip work when the decorations do
+   * not depend on a transaction, or use `incrementalCreate` to rescan only the
+   * blocks changed by an edit. Use the `decoration` factory helpers to build
+   * descriptors.
    * @see https://tiptap.dev/docs/editor/core-concepts/decorations
    * @example
    * addDecorations() {
@@ -236,6 +238,9 @@ export interface ExtendableConfig<
    *       ),
    *   }
    * }
+   *
+   * For framework widgets, use `ReactWidgetRenderer` or `VueWidgetRenderer`
+   * from the matching framework package. Give stateful widgets a stable key.
    */
   addDecorations?: (this: {
     name: string
