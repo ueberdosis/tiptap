@@ -194,10 +194,8 @@ export interface IncrementalDecorationSpec extends BaseDecorationSpec {
    *
    * **Contract:** return only decorations whose anchor position (`from` for
    * inline/node decorations, `pos` for widgets) lies within `[from, to)`.
-   * Decorations anchored before `from` or at/after `to` are not supported in
-   * incremental mode — they belong to a neighbouring block the manager did not
-   * remove, so returning them here leaks duplicates that are never cleaned up.
-   * If you need such decorations, use a full `create` instead.
+   * Decorations outside this range are ignored. Use `create` when a decoration
+   * depends on content outside the range.
    *
    * @experimental
    */

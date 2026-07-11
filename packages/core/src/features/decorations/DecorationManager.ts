@@ -155,29 +155,28 @@ function widgetKeyOf(decoration: Decoration): string | undefined {
 }
 
 /**
- * Warns when `createInRange` returns a decoration anchored outside `[from, to)`.
- * Such decorations leak duplicates (the manager only prunes stale ones inside the
- * range), so this surfaces the otherwise-silent contract violation in development.
+ * Keeps only descriptors anchored in `[from, to)` and warns about invalid output.
  */
-function warnOutOfRangeDescriptors(
+function filterOutOfRangeDescriptors(
   descriptors: DecorationDescriptor[],
   from: number,
   to: number,
   extensionName: string,
-): void {
-  for (const descriptor of descriptors) {
+): DecorationDescriptor[] {
+  return descriptors.filter(descriptor => {
     const anchor = descriptor.kind === 'widget' ? descriptor.pos : descriptor.from
 
-    if (anchor < from || anchor >= to) {
-      console.warn(
-        `[tiptap warn]: Extension "${extensionName}" returned a decoration anchored at ${anchor} ` +
-          `from createInRange, outside the requested range [${from}, ${to}). createInRange must ` +
-          'only return decorations anchored within the range; out-of-range decorations leak ' +
-          'duplicates that are never cleaned up. Use a full create() for decorations that span ' +
-          'outside the changed block.',
-      )
+    if (anchor >= from && anchor < to) {
+      return true
     }
-  }
+
+    console.warn(
+      `[tiptap warn]: Extension "${extensionName}" returned a decoration outside the ` +
+        `requested range [${from}, ${to}). It was ignored.`,
+    )
+
+    return false
+  })
 }
 
 /**
@@ -440,15 +439,18 @@ export function createDecorationPlugin(
               set = set.remove(stale)
 
               // …and rebuild just this range.
-              const rangeDescriptors = spec.createInRange({
-                editor,
-                state: newState,
-                view: editor.view,
+              const rangeDescriptors = filterOutOfRangeDescriptors(
+                spec.createInRange({
+                  editor,
+                  state: newState,
+                  view: editor.view,
+                  from,
+                  to,
+                }),
                 from,
                 to,
-              })
-
-              warnOutOfRangeDescriptors(rangeDescriptors, from, to, name)
+                name,
+              )
 
               const { decorations, widgetKeys: addedKeys } = descriptorsToDecorations(
                 rangeDescriptors,

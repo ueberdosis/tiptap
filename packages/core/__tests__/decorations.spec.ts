@@ -1,4 +1,5 @@
 import { decoration, Editor, Extension, Node } from '@tiptap/core'
+import type { DecorationDescriptor } from '@tiptap/core'
 import {
   decorationManagerKey,
   liveWidgetKeys,
@@ -305,9 +306,16 @@ describe('updateDecorations', () => {
   it('replaces only the recomputed extension in the merged decoration set', () => {
     let useUpdatedDecoration = false
     const createA = vi.fn(() => [
-      decoration.inline(1, 2, { class: useUpdatedDecoration ? 'updated' : 'initial' }),
+      decoration.inline(
+        1,
+        2,
+        { class: useUpdatedDecoration ? 'updated' : 'initial' },
+        { source: useUpdatedDecoration ? 'updated' : 'initial' },
+      ),
     ])
-    const createB = vi.fn(() => [decoration.inline(4, 5, { class: 'stable' })])
+    const createB = vi.fn(() => [
+      decoration.inline(4, 5, { class: 'stable' }, { source: 'stable' }),
+    ])
     const a = Extension.create({
       name: 'decoA',
       addDecorations: () => ({ create: createA, shouldUpdate: () => true }),
@@ -328,8 +336,8 @@ describe('updateDecorations', () => {
     const decos = getDecorations(editor).sort((x, y) => x.from - y.from)
 
     expect(decos).toHaveLength(2)
-    expect(decos[0].type.attrs.class).toBe('updated')
-    expect(decos[1].type.attrs.class).toBe('stable')
+    expect(decos[0].spec.source).toBe('updated')
+    expect(decos[1].spec.source).toBe('stable')
     expect(createA).toHaveBeenCalledTimes(2)
     expect(createB).toHaveBeenCalledTimes(1)
 
@@ -360,18 +368,22 @@ describe('incrementalCreate', () => {
   // Decorates every paragraph as a node decoration and highlights each
   // occurrence of "x" as an inline decoration, scanning only [from, to].
   function scan(state: Editor['state'], from: number, to: number) {
-    const decorations: ReturnType<typeof decoration.inline>[] = []
+    const decorations: DecorationDescriptor[] = []
 
     state.doc.nodesBetween(from, to, (node, pos) => {
       if (node.type.name === 'paragraph') {
-        decorations.push(decoration.node(pos, pos + node.nodeSize, { class: 'para' }))
+        decorations.push(
+          decoration.node(pos, pos + node.nodeSize, { class: 'para' }, { source: 'paragraph' }),
+        )
       }
 
       if (node.isText && node.text) {
         let index = node.text.indexOf('x')
 
         while (index !== -1) {
-          decorations.push(decoration.inline(pos + index, pos + index + 1, { class: 'hit' }))
+          decorations.push(
+            decoration.inline(pos + index, pos + index + 1, { class: 'hit' }, { source: 'hit' }),
+          )
           index = node.text.indexOf('x', index + 1)
         }
       }
@@ -553,7 +565,9 @@ describe('incrementalCreate', () => {
     const create = vi.fn(({ state }) => scan(state, 0, state.doc.content.size))
     // Buggy createInRange: always returns a decoration anchored at position 1,
     // regardless of the requested range — violating the incremental contract.
-    const createInRange = vi.fn(() => [decoration.inline(1, 2, { class: 'oops' })])
+    const createInRange = vi.fn(() => [
+      decoration.inline(1, 2, { class: 'oops' }, { source: 'oops' }),
+    ])
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
@@ -565,8 +579,35 @@ describe('incrementalCreate', () => {
     editor.commands.insertContentAt(8, 'x')
 
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('outside the requested range'))
+    expect(getDecorations(editor).some(d => d.spec.source === 'oops')).toBe(false)
 
     warn.mockRestore()
+    editor.destroy()
+  })
+
+  it('removes decorations from a deleted block during incremental recomputation', () => {
+    const { extension } = incrementalExtension()
+    const editor = createEditor(extension, '<p>x</p><p>x</p>')
+
+    expect(getDecorations(editor).filter(d => d.spec.source === 'hit')).toHaveLength(2)
+
+    editor.commands.deleteRange({ from: 4, to: 5 })
+
+    expect(getDecorations(editor).filter(d => d.spec.source === 'hit')).toHaveLength(1)
+
+    editor.destroy()
+  })
+
+  it('rebuilds every block touched by a multi-block replacement', () => {
+    const { extension, create, createInRange } = incrementalExtension()
+    const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
+
+    editor.commands.setContent('<p>xxx</p><p>xxx</p>')
+
+    expect(create).toHaveBeenCalledTimes(1)
+    expect(createInRange).toHaveBeenCalled()
+    expect(getDecorations(editor).filter(d => d.spec.source === 'hit')).toHaveLength(6)
+
     editor.destroy()
   })
 })
