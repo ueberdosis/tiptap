@@ -145,6 +145,10 @@ export interface BaseDecorationSpec {
    * decorations mapped through the transaction instead of rebuilding them.
    * Defaults to recomputing whenever the document changes (`tr.docChanged`).
    *
+   * Return `false` for transactions that cannot affect the decorations, such
+   * as selection-only changes. For large documents, consider
+   * `incrementalCreate` when each decoration depends only on its own block.
+   *
    * `shouldUpdate` decides *whether* to recompute; `incrementalCreate` decides
    * *how*. If your `create()` performs expensive work (e.g. full-document scans,
    * regex matching, external API calls), either provide a `shouldUpdate` that
