@@ -45,6 +45,10 @@ interface DecorationManagerState {
   widgetKeys: Set<string>
 }
 
+type RemovedDecorationSpec = {
+  key?: unknown
+}
+
 const EMPTY_KEYS: ReadonlySet<string> = new Set()
 
 /**
@@ -278,6 +282,32 @@ function mergeDecorationSets(
 }
 
 /**
+ * Replaces only the extensions that were recomputed in an already-mapped set.
+ * This avoids rebuilding ProseMirror's decoration tree for the whole document.
+ */
+function replaceRecomputedDecorationSets(
+  previous: DecorationManagerState,
+  next: Record<string, DecorationSet>,
+  recomputedNames: Set<string>,
+  mapping: Transaction['mapping'],
+  doc: EditorState['doc'],
+): DecorationSet {
+  let merged = previous.mergedDecorationSet.map(mapping, doc)
+
+  for (const name of recomputedNames) {
+    const previousSet = previous.decorationSetsByExtension[name]
+
+    if (previousSet) {
+      merged = merged.remove(previousSet.map(mapping, doc).find())
+    }
+
+    merged = merged.add(doc, next[name].find())
+  }
+
+  return merged
+}
+
+/**
  * Builds the single ProseMirror plugin that aggregates all extensions'
  * declarative decorations into one `DecorationSet`.
  *
@@ -343,6 +373,7 @@ export function createDecorationPlugin(
 
         const decorationSetsByExtension: Record<string, DecorationSet> = {}
         const widgetKeysByExtension: Record<string, Set<string>> = {}
+        const recomputedNames = new Set<string>()
         let recomputed = false
 
         for (const { name, spec } of decorationEntries) {
@@ -355,14 +386,14 @@ export function createDecorationPlugin(
 
           if (!wantsRecompute) {
             const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
-            const widgetKeys = new Set(previous.widgetKeysByExtension[name])
+            const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
 
             // Map the set forward and prune the keys of any widget dropped
             // because its position was deleted. The map walks the set's own
             // structure (≈O(decorations)), not the whole document.
             decorationSetsByExtension[name] = previousSet.map(tr.mapping, tr.doc, {
-              onRemove: removedSpec => {
-                const key = (removedSpec as { key?: unknown } | undefined)?.key
+              onRemove: (removedSpec: RemovedDecorationSpec | undefined) => {
+                const key = removedSpec?.key
 
                 if (typeof key === 'string') {
                   widgetKeys.delete(key)
@@ -375,11 +406,11 @@ export function createDecorationPlugin(
             // rebuild only the blocks the edit touched via `createInRange`. The
             // extension's full-document `create` never runs here.
             const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
-            const widgetKeys = new Set(previous.widgetKeysByExtension[name])
+            const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
 
             let set = previousSet.map(tr.mapping, tr.doc, {
-              onRemove: removedSpec => {
-                const key = (removedSpec as { key?: unknown } | undefined)?.key
+              onRemove: (removedSpec: RemovedDecorationSpec | undefined) => {
+                const key = removedSpec?.key
 
                 if (typeof key === 'string') {
                   widgetKeys.delete(key)
@@ -446,12 +477,14 @@ export function createDecorationPlugin(
 
             decorationSetsByExtension[name] = set
             widgetKeysByExtension[name] = widgetKeys
+            recomputedNames.add(name)
             recomputed = true
           } else {
             const { set, widgetKeys } = buildExtensionDecorationSet(newState, spec, name)
 
             decorationSetsByExtension[name] = set
             widgetKeysByExtension[name] = widgetKeys
+            recomputedNames.add(name)
             recomputed = true
           }
         }
@@ -467,13 +500,16 @@ export function createDecorationPlugin(
         if (singleExtensionName) {
           // Single extension: the merged set is that extension's set.
           mergedDecorationSet = decorationSetsByExtension[singleExtensionName]
-        } else if (recomputed) {
-          // Some extension changed: rebuild the union once.
-          mergedDecorationSet = mergeDecorationSets(newState.doc, decorationSetsByExtension)
         } else {
-          // Only positions moved: map the previous merged set forward instead of
-          // re-flattening and rebuilding every extension's set.
-          mergedDecorationSet = previous.mergedDecorationSet.map(tr.mapping, tr.doc)
+          mergedDecorationSet = recomputed
+            ? replaceRecomputedDecorationSets(
+                previous,
+                decorationSetsByExtension,
+                recomputedNames,
+                tr.mapping,
+                tr.doc,
+              )
+            : previous.mergedDecorationSet.map(tr.mapping, tr.doc)
         }
 
         return {

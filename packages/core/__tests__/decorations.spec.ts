@@ -302,6 +302,40 @@ describe('updateDecorations', () => {
     editor.destroy()
   })
 
+  it('replaces only the recomputed extension in the merged decoration set', () => {
+    let useUpdatedDecoration = false
+    const createA = vi.fn(() => [
+      decoration.inline(1, 2, { class: useUpdatedDecoration ? 'updated' : 'initial' }),
+    ])
+    const createB = vi.fn(() => [decoration.inline(4, 5, { class: 'stable' })])
+    const a = Extension.create({
+      name: 'decoA',
+      addDecorations: () => ({ create: createA, shouldUpdate: () => true }),
+    })
+    const b = Extension.create({
+      name: 'decoB',
+      addDecorations: () => ({ create: createB, shouldUpdate: () => false }),
+    })
+
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text, a, b],
+      content: '<p>hello world</p>',
+    })
+
+    useUpdatedDecoration = true
+    editor.commands.updateDecorations('decoA')
+
+    const decos = getDecorations(editor).sort((x, y) => x.from - y.from)
+
+    expect(decos).toHaveLength(2)
+    expect(decos[0].attrs.class).toBe('updated')
+    expect(decos[1].attrs.class).toBe('stable')
+    expect(createA).toHaveBeenCalledTimes(2)
+    expect(createB).toHaveBeenCalledTimes(1)
+
+    editor.destroy()
+  })
+
   it('does not create new plugin state when nothing changed (returns previous)', () => {
     const create = vi.fn(() => [decoration.inline(1, 4, { class: 'x' })])
     const extension = Extension.create({
