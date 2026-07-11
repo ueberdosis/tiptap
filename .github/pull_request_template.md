@@ -4,8 +4,8 @@
 
 ## Changes and Review
 
-<!-- Describe what changed, why it was changed, and how reviewers can verify it. -->
-<!-- AI agents: Use short sentences and simple English. Keep this section short and direct. Do not add large code blocks or long explanations. Always explain why the change was needed. -->
+<!-- Explain what changed, why it changed, and how reviewers can verify it. -->
+<!-- Keep this section short: use 2–4 short sentences or a few bullets. Do not write a technical deep dive, a full implementation explanation, or a large wall of text. -->
 
 ## Checklist
 
