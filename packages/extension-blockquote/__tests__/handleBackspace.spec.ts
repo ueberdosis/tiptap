@@ -9,7 +9,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { Blockquote } from '../src/index.js'
 import { handleBackspace } from '../src/handleBackspace.js'
 
-describe('#7973: backspace before a leading block image', () => {
+describe('blockquote handleBackspace', () => {
   let editor: Editor
 
   afterEach(() => {
