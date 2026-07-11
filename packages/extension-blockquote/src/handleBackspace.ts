@@ -24,6 +24,10 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
   const { $from } = selection
   if ($from.parentOffset !== 0) return false
 
+  // A caret directly in the document (e.g. a gap cursor before a leading
+  // block node) has no enclosing block to restructure. Nothing to do here.
+  if ($from.depth === 0) return false
+
   const parentDepth = $from.depth - 1
   const parent = $from.node(parentDepth)
   const index = $from.index(parentDepth)
