@@ -1,4 +1,6 @@
 import { EditorState, Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
+import { AttrStep } from '@tiptap/pm/transform'
+import type { Step } from '@tiptap/pm/transform'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import type { Editor } from '../../Editor.js'
@@ -48,6 +50,8 @@ interface DecorationManagerState {
 type RemovedDecorationSpec = {
   key?: unknown
 }
+
+type ChangedRangeResolution = { type: 'ranges'; ranges: Range[] } | { type: 'full' }
 
 const EMPTY_KEYS: ReadonlySet<string> = new Set()
 
@@ -188,7 +192,33 @@ function filterOutOfRangeDescriptors(
  * edit position (e.g. typing in the middle of a word). This is what lets the
  * incremental path rescan only the touched blocks instead of the whole document.
  */
-function getBlockAlignedChangedRanges(tr: Transaction, doc: EditorState['doc']): Range[] {
+function hasResolvableChangedRange(step: Step): boolean {
+  let hasMappedRange = false
+
+  step.getMap().forEach(() => {
+    hasMappedRange = true
+  })
+
+  if (hasMappedRange || step instanceof AttrStep) {
+    return true
+  }
+
+  const positionalStep = step as Step & {
+    from?: unknown
+    to?: unknown
+  }
+
+  return typeof positionalStep.from === 'number' && typeof positionalStep.to === 'number'
+}
+
+function getBlockAlignedChangedRanges(
+  tr: Transaction,
+  doc: EditorState['doc'],
+): ChangedRangeResolution {
+  if (tr.steps.some(step => !hasResolvableChangedRange(step))) {
+    return { type: 'full' }
+  }
+
   const ranges: Range[] = []
 
   for (const { newRange } of getChangedRanges(tr)) {
@@ -229,7 +259,7 @@ function getBlockAlignedChangedRanges(tr: Transaction, doc: EditorState['doc']):
     }
   }
 
-  return merged
+  return { type: 'ranges', ranges: merged }
 }
 
 /**
@@ -402,8 +432,22 @@ export function createDecorationPlugin(
             widgetKeysByExtension[name] = widgetKeys
           } else if (spec.incrementalCreate && tr.docChanged && !forced) {
             // Incremental recompute: map the existing decorations forward, then
-            // rebuild only the blocks the edit touched via `createInRange`. The
-            // extension's full-document `create` never runs here.
+            // rebuild only the blocks the edit touched via `createInRange`.
+            // Fall back to a full build when a step cannot be localized safely.
+            const changedRangeResolution = getBlockAlignedChangedRanges(tr, newState.doc)
+
+            if (changedRangeResolution.type === 'full') {
+              const { set, widgetKeys } = buildExtensionDecorationSet(newState, spec, name)
+
+              decorationSetsByExtension[name] = set
+              widgetKeysByExtension[name] = widgetKeys
+              recomputedNames.add(name)
+              recomputed = true
+              continue
+            }
+
+            const { ranges: changedRanges } = changedRangeResolution
+
             const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
             const widgetKeys = new Set<string>(previous.widgetKeysByExtension[name] ?? [])
 
@@ -417,7 +461,7 @@ export function createDecorationPlugin(
               },
             })
 
-            for (const { from, to } of getBlockAlignedChangedRanges(tr, newState.doc)) {
+            for (const { from, to } of changedRanges) {
               // Drop the now-stale decorations anchored in this range (and their
               // keys). We match by `from` rather than by overlap so we only
               // remove decorations `createInRange` will regenerate — a neighbour
