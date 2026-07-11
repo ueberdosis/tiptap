@@ -5,11 +5,11 @@ export const name = 'Nested Nodes'
 export const expectedInput = `
 :::custom-block
 
-This is a node with **bold text**.
+This is a node with **bold text**\\.
 
 :::custom-block
 
-And this is a nested block.
+And this is a nested block\\.
 
 :::
 

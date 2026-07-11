@@ -5,7 +5,7 @@ export const name = 'Custom Block'
 export const expectedInput = `
 :::custom-block
 
-This is a node with **bold text**.
+This is a node with **bold text**\\.
 
 :::`.trim()
 

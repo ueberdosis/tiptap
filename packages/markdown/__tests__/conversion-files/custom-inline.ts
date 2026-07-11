@@ -3,9 +3,9 @@ import { createInlineMarkdownSpec, Node } from '@tiptap/core'
 export const name = 'Custom Inline'
 
 export const expectedInput = `
-This is a [custom-inline type="bug" id="1234"] ticket.
+This is a [custom-inline type="bug" id="1234"] ticket\\.
 
-This is a [custom-inline-tag icon="house"]Home[/custom-inline-tag] tag.
+This is a [custom-inline-tag icon="house"]Home[/custom-inline-tag] tag\\.
 `.trim()
 
 export const expectedOutput = {

@@ -1,7 +1,7 @@
 export const name = 'Hard Break with Marks'
 
 export const expectedInput = `**Speaker:**  
-John Doe.
+John Doe\\.
 
 **Speaker:**  
 **John Doe**`.trim()

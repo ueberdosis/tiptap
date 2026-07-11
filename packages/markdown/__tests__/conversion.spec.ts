@@ -740,6 +740,21 @@ describe('Markdown Conversion Tests', () => {
         const markdown = markdownManager.serialize(json)
         expect(markdown).toBe('\\~strike\\~')
       })
+
+      it('should escape the remaining CommonMark punctuation supported by marked', () => {
+        const json = {
+          type: 'doc',
+          content: [
+            {
+              type: 'paragraph',
+              content: [{ type: 'text', text: '{}()<>#+-.!|' }],
+            },
+          ],
+        }
+
+        const markdown = markdownManager.serialize(json)
+        expect(markdown).toBe('\\{\\}\\(\\)&lt;&gt;\\#\\+\\-\\.\\!\\|')
+      })
     })
 
     describe('round-trip: parse → serialize → parse stability', () => {
@@ -776,6 +791,13 @@ describe('Markdown Conversion Tests', () => {
         const json2 = markdownManager.parse(md)
 
         expect(json2.content[0].content[0].text).toBe('\\\\')
+      })
+
+      it('should serialize escaped angle brackets as safe HTML entities', () => {
+        const json = markdownManager.parse('\\<class\\>')
+        const markdown = markdownManager.serialize(json)
+
+        expect(markdown).toBe('&lt;class&gt;')
       })
     })
 
