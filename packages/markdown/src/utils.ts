@@ -11,15 +11,10 @@ import type { ContentType } from './types.js'
 const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
 
 /**
- * Normalizes how blank lines between blocks are represented in a marked token
- * stream. Most block tokenizers emit the blank lines that follow a block as a
- * standalone `space` token, but some (heading, table, html blocks — whose rules
- * match a trailing `\n+`) absorb them into the block token's own `raw`. This
- * splits those absorbed blank lines back into an explicit `space` token so a
- * single downstream pass can reconstruct empty paragraphs uniformly, instead of
- * silently dropping the blank line.
+ * Extracts blank lines absorbed into marked token `raw` back into explicit
+ * `space` tokens so they're handled uniformly by the reconstruction path.
  * @param tokens The marked token stream to normalize.
- * @returns A new token array with absorbed blank lines extracted as `space` tokens.
+ * @returns A new token array with absorbed blank lines as `space` tokens.
  */
 export function extractAbsorbedBlankLines(tokens: MarkdownToken[]): MarkdownToken[] {
   return tokens.flatMap((token, index) => {
@@ -63,9 +58,8 @@ export function wrapInMarkdownBlock(prefix: string, content: string) {
 }
 
 /**
- * Identifies marks that need to be closed, based on the marks in the next node.
- * Compares both mark type and attributes — two marks of the same type with
- * different attributes are treated as distinct and need to be closed/reopened.
+ * Determines which marks to close based on the next node's marks,
+ * treating same-type marks with different attributes as distinct.
  */
 export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any): string[] {
   const marksToClose: string[] = []
@@ -89,10 +83,8 @@ export function findMarksToClose(currentMarks: Map<string, any>, nextNode: any):
 }
 
 /**
- * Identifies marks that need to be opened (in current node but not active, or
- * active with different attributes). Two marks of the same type with different
- * attributes are treated as distinct — the old one must be closed and the new
- * one reopened.
+ * Determines which marks need to open, treating same-type marks with
+ * different attributes as distinct (close + reopen).
  */
 export function findMarksToOpen(
   activeMarks: Map<string, any>,
@@ -111,11 +103,8 @@ export function findMarksToOpen(
 }
 
 /**
- * Determines which marks need to be closed at the end of the current text node.
- * This handles cases where marks end at node boundaries or when transitioning
- * to nodes with different mark sets.
- * Compares both mark type and attributes — two marks of the same type with
- * different attributes are treated as distinct and trigger a close/reopen.
+ * Determines which marks to close at the node end, treating same-type marks
+ * with different attributes as distinct (close + reopen).
  */
 export function findMarksToCloseAtEnd(
   activeMarks: Map<string, any>,
