@@ -9,7 +9,7 @@
 
 ## Checklist
 
-- [ ] I have added a changeset if necessary.
+- [ ] I have added a [changeset](https://github.com/changesets/changesets) if necessary.
 - [ ] I have added tests if possible.
 - [ ] I have made sure to test my changes myself.
 
