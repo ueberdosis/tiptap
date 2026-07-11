@@ -1,5 +1,5 @@
 import { decoration, Editor, Extension, Node } from '@tiptap/core'
-import type { DecorationDescriptor } from '@tiptap/core'
+import type { DecorationDescriptor, DecorationSpec } from '@tiptap/core'
 import {
   decorationManagerKey,
   liveWidgetKeys,
@@ -362,9 +362,58 @@ describe('updateDecorations', () => {
 
     editor.destroy()
   })
+
+  it('maps manual decorations until updateDecorations() is called', () => {
+    let enabled = true
+    const create = vi.fn(() => (enabled ? [decoration.inline(1, 2)] : []))
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () => ({ update: 'manual', create }),
+    })
+    const editor = createEditor(extension)
+    const callsAfterInit = create.mock.calls.length
+
+    enabled = false
+    editor.commands.insertContentAt(1, 'XX')
+
+    expect(create).toHaveBeenCalledTimes(callsAfterInit)
+    expect(getDecorations(editor)).toHaveLength(1)
+
+    editor.commands.updateDecorations()
+
+    expect(create).toHaveBeenCalledTimes(callsAfterInit + 1)
+    expect(getDecorations(editor)).toHaveLength(0)
+
+    editor.destroy()
+  })
+
+  it('rejects a changedRanges strategy without createInRange()', () => {
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () =>
+        ({ update: 'changedRanges', create: () => [] }) as unknown as DecorationSpec,
+    })
+
+    expect(() => createEditor(extension)).toThrow('does not provide createInRange()')
+  })
+
+  it('rejects createInRange() without the changedRanges strategy', () => {
+    const extension = Extension.create({
+      name: 'deco',
+      addDecorations: () =>
+        ({
+          create: () => [],
+          createInRange: () => [],
+        }) as unknown as DecorationSpec,
+    })
+
+    expect(() => createEditor(extension)).toThrow(
+      'provides createInRange() but does not use the "changedRanges" decoration update strategy',
+    )
+  })
 })
 
-describe('incrementalCreate', () => {
+describe('changedRanges updates', () => {
   // Decorates every paragraph as a node decoration and highlights each
   // occurrence of "x" as an inline decoration, scanning only [from, to].
   function scan(state: Editor['state'], from: number, to: number) {
@@ -397,7 +446,7 @@ describe('incrementalCreate', () => {
     const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
     const extension = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
 
     return { extension, create, createInRange }
@@ -460,7 +509,7 @@ describe('incrementalCreate', () => {
     const extension = Extension.create({
       name: 'deco',
       addDecorations: () => ({
-        incrementalCreate: true,
+        update: 'changedRanges',
         create,
         createInRange,
         shouldUpdate: () => false,
@@ -491,7 +540,7 @@ describe('incrementalCreate', () => {
     const a = Extension.create({
       name: 'decoA',
       addDecorations: () => ({
-        incrementalCreate: true,
+        update: 'changedRanges',
         create: createA,
         createInRange: createInRangeA,
       }),
@@ -532,7 +581,7 @@ describe('incrementalCreate', () => {
     const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
     const deco = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
 
     const editor = new Editor({
@@ -570,7 +619,7 @@ describe('incrementalCreate', () => {
     ])
     const extension = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
 
     const editor = createEditor(extension, '<p>aaa</p><p>bbb</p>')
@@ -636,7 +685,7 @@ describe('incrementalCreate', () => {
     const createInRange = vi.fn(({ state, from, to }) => scan(state, from, to))
     const extension = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
     const editor = new Editor({
       extensions: [Document, AttributedParagraph, Text, extension],
@@ -675,7 +724,7 @@ describe('incrementalCreate', () => {
     const createInRange = vi.fn(({ state }) => build(state))
     const extension = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
     const editor = new Editor({
       extensions: [AttributedDocument, Paragraph, Text, extension],
@@ -709,7 +758,7 @@ describe('incrementalCreate', () => {
     ])
     const extension = Extension.create({
       name: 'deco',
-      addDecorations: () => ({ incrementalCreate: true, create, createInRange }),
+      addDecorations: () => ({ update: 'changedRanges', create, createInRange }),
     })
     const editor = new Editor({
       extensions: [AttributedDocument, Paragraph, Text, extension],
