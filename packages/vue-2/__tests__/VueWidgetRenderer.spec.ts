@@ -3,7 +3,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { UndoRedo } from '@tiptap/extensions'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { CreateElement } from 'vue'
 
 import { Editor } from '../src/Editor.js'
@@ -102,6 +102,47 @@ describe('VueWidgetRenderer (vue-2)', () => {
     mount('<p>aaa</p><p>bbb</p>')
 
     expect(el!.querySelectorAll('.counter').length).toBe(2)
+  })
+
+  it('passes ProseMirror widget options through', () => {
+    const stopEvent = vi.fn(() => true)
+    const destroy = vi.fn()
+    const extension = Extension.create({
+      name: 'widgetOptions',
+      addDecorations: () => ({
+        create: ({ editor }) => [
+          VueWidgetRenderer(Counter, {
+            editor: editor as unknown as Editor,
+            pos: 1,
+            key: 'options',
+            side: -1,
+            relaxedSide: true,
+            ignoreSelection: true,
+            stopEvent,
+            destroy,
+          }),
+        ],
+      }),
+    })
+    mount('<p>a</p>', [extension])
+    const decorationState = editor!.state.plugins
+      .find(plugin => plugin.props.decorations)
+      ?.getState(editor!.state) as
+      | { mergedDecorationSet?: { find: () => Array<{ spec: Record<string, unknown> }> } }
+      | undefined
+    const widget = decorationState?.mergedDecorationSet?.find()[0]
+
+    expect(widget?.spec).toMatchObject({
+      side: -1,
+      relaxedSide: true,
+      ignoreSelection: true,
+      stopEvent,
+      destroy: expect.any(Function),
+    })
+
+    editor!.destroy()
+    expect(destroy).not.toHaveBeenCalled()
+    editor = null
   })
 
   it('does not re-render widgets when props are unchanged on a transaction', () => {

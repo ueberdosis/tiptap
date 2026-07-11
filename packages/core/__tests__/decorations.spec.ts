@@ -328,8 +328,8 @@ describe('updateDecorations', () => {
     const decos = getDecorations(editor).sort((x, y) => x.from - y.from)
 
     expect(decos).toHaveLength(2)
-    expect(decos[0].attrs.class).toBe('updated')
-    expect(decos[1].attrs.class).toBe('stable')
+    expect(decos[0].type.attrs.class).toBe('updated')
+    expect(decos[1].type.attrs.class).toBe('stable')
     expect(createA).toHaveBeenCalledTimes(2)
     expect(createB).toHaveBeenCalledTimes(1)
 
