@@ -103,6 +103,10 @@ function getCache(editor: Editor): WidgetCache {
  * extension's `addDecorations().create()`, alongside `decoration.node` /
  * `decoration.inline`. The component must render a single root element.
  *
+ * Widget behavior options such as `stopEvent`, `ignoreSelection`, `side`, and
+ * `relaxedSide` are passed through to ProseMirror. Use a stable `key` for
+ * stateful widgets.
+ *
  * @example
  * addDecorations() {
  *   return {

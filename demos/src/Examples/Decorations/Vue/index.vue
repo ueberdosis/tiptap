@@ -49,8 +49,9 @@ export default {
         </p>
         <h2>Try it out</h2>
         <p>
-          Change the search term below — Tiptap forces a recompute with
-          <code>updateDecorations</code>. Editing the document recomputes automatically.
+          Change the search term below. Tiptap forces a recompute with
+          <code>updateDecorations</code>. Editing the document rescans only the
+          changed blocks because this extension uses <code>incrementalCreate</code>.
         </p>
       `,
     })
