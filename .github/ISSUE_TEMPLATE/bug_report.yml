@@ -7,49 +7,61 @@ type: "Bug"
 body:
   - type: markdown
     attributes:
-      value: '### Please provide details to help us diagnose the bug.'
+      value: |
+        Please use simple, human-written English. Keep your answers short and clear.
+        Small code examples that show the problem are welcome. Do not include a code fix or a complete implementation in an issue. If you already have a fix, please open a pull request instead.
   - type: input
     id: packages
     attributes:
       label: Affected Packages
-      description: List the packages you were using when the bug occurred.
+      description: List the Tiptap packages involved in the problem.
       placeholder: core, extension-mention, react
     validations:
       required: true
   - type: input
     id: version
     attributes:
-      label: Version(s)
-      description: Specify the version(s) of the affected packages.
-      placeholder: 2.0.0
-    validations:
-      required: true
-  - type: textarea
-    id: problem
-    attributes:
-      label: Bug Description
-      description: Provide a clear and concise description of what the bug is.
-      placeholder: 'The issue occurs when...'
+      label: Tiptap Version
+      description: Which Tiptap version or package versions are affected?
+      placeholder: 3.0.0
     validations:
       required: true
   - type: dropdown
     id: browser
     attributes:
       label: Browser Used
-      description: Select the browser where the bug was observed.
+      description: Select the browser where you saw the problem.
       options:
         - Chrome
         - Firefox
         - Safari
         - Edge
         - Other
+        - Not browser-specific
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: What happened?
+      description: Describe what happens, when it happens, and why it is a problem. Use short sentences and simple English. Do not write a wall of text, use complicated language, or include a complete code fix.
+      placeholder: The issue happens when...
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: Describe what you expected to happen.
+      placeholder: I expected...
     validations:
       required: true
   - type: markdown
     attributes:
       value: |
-        ### CodeSandbox templates
-        Please use the appropriate template below to provide a code example:
+        A small reproducible example is the best way to help us investigate the issue. Please add one if you can.
+
+        CodeSandbox templates:
         * JavaScript: [JS Template](https://codesandbox.io/s/tiptap-js-fv1lyo)
         * React: [React Template](https://codesandbox.io/s/tiptap-react-qidlsv)
         * Vue 2: [Vue 2 Template](https://codesandbox.io/s/tiptap-vue-2-25nq3g)
@@ -57,30 +69,14 @@ body:
   - type: input
     id: sandbox
     attributes:
-      label: Code Example URL
-      description: 'Link a CodeSandbox, Stackblitz, GitHub repository, or similar to help us reproduce the issue faster.'
+      label: Reproducible Example URL (Optional)
+      description: Link a CodeSandbox, StackBlitz, GitHub repository, or similar example if you have one.
       placeholder: https://codesandbox.io/s/example
-    validations:
-      required: false
-  - type: textarea
-    id: expectation
-    attributes:
-      label: Expected Behavior
-      description: Describe what you expected to happen.
-    validations:
-      required: true
   - type: textarea
     id: context
     attributes:
       label: Additional Context (Optional)
-      description: 'Add any other context about the problem here, such as screenshots or videos.'
-  - type: checkboxes
-    attributes:
-      label: Dependency Updates
-      description: 'Have you updated your dependencies? This can often resolve issues.'
-      options:
-        - label: Yes, I've updated all my dependencies.
-          required: true
+      description: Add useful screenshots, videos, or other short details. Avoid long explanations.
   - type: markdown
     attributes:
       value: 'Thank you for helping us improve our open-source projects by reporting this issue!'
