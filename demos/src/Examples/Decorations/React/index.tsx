@@ -26,7 +26,7 @@ export default () => {
       <p>
         Change the search term below. Tiptap forces a recompute with
         <code>updateDecorations</code>. Editing the document rescans only the
-        changed blocks because this extension uses <code>incrementalCreate</code>.
+        changed blocks because this extension uses <code>update: 'changedRanges'</code>.
       </p>
     `,
   })

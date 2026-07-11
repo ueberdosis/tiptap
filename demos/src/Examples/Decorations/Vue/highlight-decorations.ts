@@ -50,7 +50,7 @@ export const HighlightDecorations = Extension.create<
   addDecorations() {
     // Scans `[from, to]` of the document and produces the highlight decorations
     // within it. `create` runs it over the whole document; `createInRange` runs
-    // it over just the block(s) an edit touched (see `incrementalCreate` below).
+    // it over just the block(s) an edit touched (see `update: 'changedRanges'` below).
     const scan = (editor: Editor, state: EditorState, from: number, to: number) => {
       const decorations: DecorationDescriptor[] = []
       const term = editor.storage.highlightDecorations.term.trim().toLowerCase()
@@ -106,13 +106,8 @@ export const HighlightDecorations = Extension.create<
     }
 
     return {
-      // Opt into incremental recomputation: on each edit only the touched
-      // block(s) are rescanned via `createInRange` instead of the whole
-      // document. Safe here because every decoration (a term match or a heading
-      // outline) depends only on the content of its own block. The toolbar still
-      // forces a full rebuild with `editor.commands.updateDecorations(...)` when
-      // the search term changes.
-      incrementalCreate: true,
+      // Rescan changed blocks; the toolbar forces a full rebuild when the search term changes.
+      update: 'changedRanges',
 
       create: ({ editor, state }) => scan(editor, state, 0, state.doc.content.size),
 

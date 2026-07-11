@@ -2,15 +2,17 @@ export { decoration } from './factory.js'
 export { liveWidgetKeys } from './DecorationManager.js'
 export type {
   BaseDecorationSpec,
+  ChangedRangesDecorationSpec,
   DecorationCreateProps,
   DecorationDescriptor,
   DecorationRangeProps,
   DecorationShouldUpdateProps,
   DecorationSpec,
-  IncrementalDecorationSpec,
+  DecorationUpdateStrategy,
   InlineDecorationDescriptor,
+  ManualDecorationSpec,
   NodeDecorationDescriptor,
-  NonIncrementalDecorationSpec,
+  DocumentDecorationSpec,
   WidgetDecorationDescriptor,
   WidgetDecorationOptions,
 } from './types.js'

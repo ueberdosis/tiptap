@@ -224,9 +224,11 @@ export interface ExtendableConfig<
    * Return a descriptor with a `create` function that builds the decorations
    * from the current state. By default they are recomputed whenever the
    * document changes. Use `shouldUpdate` to skip work when the decorations do
-   * not depend on a transaction, or use `incrementalCreate` to rescan only the
-   * blocks changed by an edit. Use the `decoration` factory helpers to build
-   * descriptors.
+   * not depend on a transaction, or use `update: 'changedRanges'` with
+   * `createInRange` to rescan only the blocks changed by an edit. Use
+   * `update: 'manual'` for decorations driven by external state and refresh
+   * them with `updateDecorations()`. Use the `decoration` factory helpers to
+   * build descriptors.
    * @see https://tiptap.dev/docs/editor/core-concepts/decorations
    * @example
    * addDecorations() {

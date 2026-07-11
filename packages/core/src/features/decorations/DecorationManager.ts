@@ -295,6 +295,48 @@ function unionWidgetKeys(widgetKeysByExtension: Record<string, Set<string>>): Se
   return merged
 }
 
+function validateDecorationSpec(name: string, spec: DecorationSpec): void {
+  const strategy = (spec as DecorationSpec & { update?: unknown }).update ?? 'document'
+
+  switch (strategy) {
+    case 'document':
+      if (spec.createInRange) {
+        throw new Error(
+          `[tiptap error]: Extension "${name}" provides createInRange() but does not use the ` +
+            '"changedRanges" decoration update strategy.',
+        )
+      }
+      return
+    case 'changedRanges':
+      if (!spec.createInRange) {
+        throw new Error(
+          `[tiptap error]: Extension "${name}" uses the "changedRanges" decoration update ` +
+            'strategy but does not provide createInRange().',
+        )
+      }
+      return
+    case 'manual':
+      if (spec.createInRange) {
+        throw new Error(
+          `[tiptap error]: Extension "${name}" provides createInRange() but does not use the ` +
+            '"changedRanges" decoration update strategy.',
+        )
+      }
+      if (spec.shouldUpdate) {
+        throw new Error(
+          `[tiptap error]: Extension "${name}" cannot combine the "manual" decoration update ` +
+            'strategy with shouldUpdate().',
+        )
+      }
+      return
+    default:
+      throw new Error(
+        `[tiptap error]: Extension "${name}" uses an unknown decoration update strategy. ` +
+          'Expected "document", "changedRanges", or "manual".',
+      )
+  }
+}
+
 /**
  * Merges every extension's decoration set into one. Runs ProseMirror's
  * `buildTree` once over the flattened decorations, so it is O(document size).
@@ -344,7 +386,7 @@ function replaceRecomputedDecorationSets(
  * - On `apply`, each extension is either recomputed (when `shouldUpdate`
  *   returns `true`, or by default when the document changed) or its previous
  *   set is mapped forward through the transaction. Extensions that opt into
- *   `incrementalCreate` map their previous set forward and rebuild only the
+ *   `update: 'changedRanges'` map their previous set forward and rebuild only the
  *   blocks the edit touched via `createInRange`, instead of rebuilding the
  *   whole set with `create`.
  * - Transaction meta (sent by `updateDecorations`) can force a recompute of
@@ -354,6 +396,8 @@ export function createDecorationPlugin(
   editor: Editor,
   decorationEntries: ResolvedDecorationEntry[],
 ): Plugin<DecorationManagerState> {
+  decorationEntries.forEach(({ name, spec }) => validateDecorationSpec(name, spec))
+
   // When a single extension declares decorations (the common case) the merged
   // set is identical to that extension's set, so we hand it through directly and
   // skip the flatten + `DecorationSet.create` rebuild entirely.
@@ -409,9 +453,11 @@ export function createDecorationPlugin(
           const forced = forceAll || forceName === name
           const wantsRecompute =
             forced ||
-            (spec.shouldUpdate
-              ? spec.shouldUpdate({ editor, tr, oldState, newState })
-              : tr.docChanged)
+            (spec.update === 'manual'
+              ? false
+              : spec.shouldUpdate
+                ? spec.shouldUpdate({ editor, tr, oldState, newState })
+                : tr.docChanged)
 
           if (!wantsRecompute) {
             const previousSet = previous.decorationSetsByExtension[name] ?? DecorationSet.empty
@@ -430,7 +476,7 @@ export function createDecorationPlugin(
               },
             })
             widgetKeysByExtension[name] = widgetKeys
-          } else if (spec.incrementalCreate && tr.docChanged && !forced) {
+          } else if (spec.update === 'changedRanges' && tr.docChanged && !forced) {
             // Incremental recompute: map the existing decorations forward, then
             // rebuild only the blocks the edit touched via `createInRange`.
             // Fall back to a full build when a step cannot be localized safely.
