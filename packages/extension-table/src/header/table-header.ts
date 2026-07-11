@@ -2,7 +2,8 @@ import '../types.js'
 
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import { createAlignAttribute } from '../utilities/parseAlign.js'
+import { createAlignAttribute } from '../utils/parseAlign.js'
+import { parseColwidth } from '../utils/parseColwidth.js'
 
 export interface TableHeaderOptions {
   /**
@@ -38,12 +39,7 @@ export const TableHeader = Node.create<TableHeaderOptions>({
       },
       colwidth: {
         default: null,
-        parseHTML: element => {
-          const colwidth = element.getAttribute('colwidth')
-          const value = colwidth ? colwidth.split(',').map(width => parseInt(width, 10)) : null
-
-          return value
-        },
+        parseHTML: parseColwidth,
       },
       align: createAlignAttribute(),
     }

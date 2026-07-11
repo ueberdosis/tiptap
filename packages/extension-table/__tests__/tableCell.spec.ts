@@ -97,4 +97,60 @@ describe('extension table cell', () => {
     editor?.destroy()
     getEditorEl()?.remove()
   })
+
+  it('should parse the colgroup col width for the first column', () => {
+    const content =
+      '<table><colgroup><col width="64" /><col /></colgroup><tbody><tr><td>hello</td><td>world</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    const firstRow = editor.getJSON().content?.[0].content?.[0]
+
+    expect(firstRow?.content?.[0].attrs?.colwidth).toEqual([64])
+    expect(firstRow?.content?.[1].attrs?.colwidth).toBeNull()
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
+
+  it('should prefer the colwidth attribute over the colgroup col width', () => {
+    const content =
+      '<table><colgroup><col width="64" /><col /></colgroup><tbody><tr><td colwidth="200">hello</td><td>world</td></tr></tbody></table>'
+
+    editor = new Editor({
+      element: createEditorEl(),
+      extensions: [
+        Document,
+        Text,
+        Paragraph,
+        TableCell,
+        TableHeader,
+        TableRow,
+        Table.configure({
+          resizable: true,
+        }),
+      ],
+      content,
+    })
+
+    // @ts-expect-error content is not guaranteed to be this shape
+    expect(editor.getJSON().content[0].content[0].content[0].attrs.colwidth).toEqual([200])
+
+    editor?.destroy()
+    getEditorEl()?.remove()
+  })
 })
