@@ -13,7 +13,13 @@ const entries = ['./index.ts', './menus/index.ts']
 describe('use client boundary', () => {
   it.each(entries)('%s starts with the "use client" directive', entry => {
     const path = fileURLToPath(new URL(entry, import.meta.url))
-    const firstLine = readFileSync(path, 'utf8').trimStart().split('\n')[0].trim()
+
+    // The directive must be the very first statement (only a BOM may precede
+    // it), otherwise some RSC tooling ignores it. Do not trim leading blanks.
+    const firstLine = readFileSync(path, 'utf8')
+      .replace(/^\uFEFF/, '')
+      .split('\n')[0]
+      .trimEnd()
 
     expect(firstLine).toMatch(/^(['"])use client\1;?$/)
   })
