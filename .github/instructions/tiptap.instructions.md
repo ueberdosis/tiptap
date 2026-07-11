@@ -240,7 +240,7 @@ If a single package is failing types, run a targeted build for that package (e.g
 
 ### Guidance for automated agents and AI assistants
 
-- Disclose when AI tools are used to generate any part of a contribution, including code, documentation, tests, and other content — the PR template includes an AI usage disclosure checkbox. Follow the project's guidelines on AI disclosure.
+- Keep PR descriptions short, clear, and easy to read. Use simple English and explain why the change is needed. Avoid large text blocks and complicated language.
 - Make single-purpose, small diffs. Avoid sweeping changes in one PR.
 - Always run the validation checklist above after edits.
 - Add or update a demo and tests for user-visible behavior. For deterministic behaviour, favour unit tests over fragile e2e tests where possible.

@@ -41,6 +41,7 @@ yarn-error.log*
 .idea
 
 # packaged files
+/package-dist-artifacts.tar
 packages/**/*.tgz
 packages-deprecated/**/*.tgz
 demos/*.tgz
