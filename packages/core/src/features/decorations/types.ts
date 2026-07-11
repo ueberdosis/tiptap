@@ -130,9 +130,11 @@ export interface DecorationRangeProps extends DecorationCreateProps {
   to: number
 }
 
+/** Controls when an extension's decorations are recomputed. */
+export type DecorationUpdateStrategy = 'document' | 'changedRanges' | 'manual'
+
 /**
- * Fields shared by every `addDecorations` descriptor, regardless of whether it
- * opts into incremental recomputation.
+ * Fields shared by every `addDecorations` descriptor.
  */
 export interface BaseDecorationSpec {
   /**
@@ -147,13 +149,13 @@ export interface BaseDecorationSpec {
    *
    * Return `false` for transactions that cannot affect the decorations, such
    * as selection-only changes. For large documents, consider
-   * `incrementalCreate` when each decoration depends only on its own block.
+   * `update: 'changedRanges'` when each decoration depends only on its own block.
    *
-   * `shouldUpdate` decides *whether* to recompute; `incrementalCreate` decides
-   * *how*. If your `create()` performs expensive work (e.g. full-document scans,
+   * `shouldUpdate` decides *whether* to recompute; `update` decides *how*. If
+   * your `create()` performs expensive work (e.g. full-document scans,
    * regex matching, external API calls), either provide a `shouldUpdate` that
    * only returns `true` when the relevant part of the document actually changed,
-   * or opt into incremental recomputation (see {@link IncrementalDecorationSpec}).
+   * or opt into changed-range recomputation (see {@link ChangedRangesDecorationSpec}).
    */
   shouldUpdate?: (props: DecorationShouldUpdateProps) => boolean
 }
@@ -162,13 +164,13 @@ export interface BaseDecorationSpec {
  * The default descriptor: every document change rebuilds the whole set with
  * `create`. Always correct; can be expensive on large documents.
  */
-export interface NonIncrementalDecorationSpec extends BaseDecorationSpec {
-  incrementalCreate?: false
+export interface DocumentDecorationSpec extends BaseDecorationSpec {
+  update?: 'document'
   createInRange?: never
 }
 
 /**
- * Opts into incremental recomputation. On a document change the manager maps the
+ * Opts into changed-range recomputation. On a document change the manager maps the
  * existing decorations forward and rebuilds only the changed ranges via
  * `createInRange`, instead of rebuilding everything with `create`. `create` is
  * still used for the initial build and for forced `updateDecorations()`.
@@ -178,20 +180,13 @@ export interface NonIncrementalDecorationSpec extends BaseDecorationSpec {
  * counts ("highlight the first match"), cross-document relationships ("mark
  * duplicate words"), or selection/external state — leave this off and rely on
  * `create`, or trigger a full rebuild with `updateDecorations()`.
- *
- * @experimental The incremental API (`incrementalCreate` / `createInRange`) is
- * experimental. Its semantics, the way changed ranges are computed, and the
- * naming may change in a minor release while it stabilizes. The non-incremental
- * `create` / `shouldUpdate` API is stable.
  */
-export interface IncrementalDecorationSpec extends BaseDecorationSpec {
+export interface ChangedRangesDecorationSpec extends BaseDecorationSpec {
   /**
-   * Set to `true` to opt into incremental recomputation. Requires
-   * {@link IncrementalDecorationSpec.createInRange}.
-   *
-   * @experimental
+   * Opt into changed-range recomputation. Requires
+   * {@link ChangedRangesDecorationSpec.createInRange}.
    */
-  incrementalCreate: true
+  update: 'changedRanges'
   /**
    * Build this extension's decorations for the given range only. Receives the
    * block-aligned changed range as `from`/`to`.
@@ -200,16 +195,27 @@ export interface IncrementalDecorationSpec extends BaseDecorationSpec {
    * inline/node decorations, `pos` for widgets) lies within `[from, to)`.
    * Decorations outside this range are ignored. Use `create` when a decoration
    * depends on content outside the range.
-   *
-   * @experimental
    */
   createInRange: (props: DecorationRangeProps) => DecorationDescriptor[]
 }
 
 /**
+ * A descriptor that maps existing decorations and only recomputes them when
+ * `updateDecorations()` is called.
+ */
+export interface ManualDecorationSpec extends BaseDecorationSpec {
+  update: 'manual'
+  shouldUpdate?: never
+  createInRange?: never
+}
+
+/**
  * The descriptor returned from an extension's `addDecorations`.
  */
-export type DecorationSpec = NonIncrementalDecorationSpec | IncrementalDecorationSpec
+export type DecorationSpec =
+  | DocumentDecorationSpec
+  | ChangedRangesDecorationSpec
+  | ManualDecorationSpec
 
 /**
  * Transaction metadata understood by the decoration manager. Used by the
