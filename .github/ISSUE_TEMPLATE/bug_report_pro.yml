@@ -15,7 +15,7 @@ body:
     attributes:
       label: Affected Packages
       description: List the Tiptap Pro packages involved in the problem.
-      placeholder: pro-extension, pro-collaboration, react
+      placeholder: pro-extension, pro-collaboration
     validations:
       required: true
   - type: input
