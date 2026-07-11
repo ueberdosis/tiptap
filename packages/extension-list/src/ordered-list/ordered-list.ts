@@ -233,7 +233,13 @@ export const OrderedList = Node.create<OrderedListOptions>({
     start: (src: string) => {
       const match = src.match(ORDERED_LIST_LINE_START_REGEX)
       const index = match?.index
-      return index !== undefined ? index : -1
+
+      // A marker only starts a list at the start of a line, never mid-line.
+      if (index === undefined || index === 0) {
+        return -1
+      }
+
+      return index
     },
     tokenize: (src: string, _tokens, lexer) => {
       const lines = src.split('\n')
