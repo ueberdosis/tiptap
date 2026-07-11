@@ -37,6 +37,27 @@ export interface InlineDecorationDescriptor {
   attrs: DecorationAttrs
   spec?: Record<string, any>
 }
+
+/**
+ * ProseMirror options that control how a widget behaves in the editor view.
+ * The renderer helpers expose these options so framework widgets do not need
+ * to drop down to the low-level `decoration.widget()` factory.
+ */
+export interface WidgetDecorationOptions {
+  /** Controls which side of the position the widget is associated with. */
+  side?: number
+  /** Allows the DOM selection to remain on either side of the widget. */
+  relaxedSide?: boolean
+  /** The marks to render around the widget. */
+  marks?: readonly Mark[]
+  /** Prevents selected DOM events from being handled by ProseMirror. */
+  stopEvent?: (event: Event) => boolean
+  /** Prevents selection changes inside the widget from being synced by ProseMirror. */
+  ignoreSelection?: boolean
+  /** Runs when ProseMirror removes the widget or destroys the editor. */
+  destroy?: (node: Node) => void
+}
+
 export interface WidgetDecorationDescriptor {
   kind: 'widget'
   pos: number
@@ -68,12 +89,7 @@ export interface WidgetDecorationDescriptor {
    * include a suffix (e.g. `comment-${id}-start`, `comment-${id}-end`).
    */
   key: string
-  spec?: {
-    side?: number
-    marks?: readonly Mark[]
-    stopEvent?: (e: Event) => boolean
-    [k: string]: any
-  }
+  spec?: WidgetDecorationOptions & Record<string, any>
 }
 export type DecorationDescriptor =
   | NodeDecorationDescriptor

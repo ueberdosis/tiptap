@@ -12,4 +12,5 @@ export type {
   NodeDecorationDescriptor,
   NonIncrementalDecorationSpec,
   WidgetDecorationDescriptor,
+  WidgetDecorationOptions,
 } from './types.js'

@@ -1,6 +1,9 @@
 import { decoration, liveWidgetKeys } from '@tiptap/core'
-import type { Editor as CoreEditor, WidgetDecorationDescriptor } from '@tiptap/core'
-import type { Mark } from '@tiptap/pm/model'
+import type {
+  Editor as CoreEditor,
+  WidgetDecorationDescriptor,
+  WidgetDecorationOptions,
+} from '@tiptap/core'
 import type { EditorView } from '@tiptap/pm/view'
 import type { Component, VueConstructor } from 'vue'
 
@@ -17,7 +20,9 @@ export interface VueWidgetDecorationProps {
   getPos: () => number | undefined
 }
 
-export interface VueWidgetRendererOptions<P extends Record<string, any> = object> {
+export interface VueWidgetRendererOptions<
+  P extends Record<string, any> = object,
+> extends WidgetDecorationOptions {
   /**
    * The editor instance.
    */
@@ -40,11 +45,6 @@ export interface VueWidgetRendererOptions<P extends Record<string, any> = object
    * The component must render a single root element.
    */
   props?: P
-  /**
-   * The decoration's side bias (see ProseMirror's `Decoration.widget`).
-   */
-  side?: number
-  marks?: readonly Mark[]
 }
 
 const WIDGET_CACHE = Symbol('tiptapVue2WidgetCache')
@@ -122,7 +122,18 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
   component: Component,
   options: VueWidgetRendererOptions<P>,
 ): WidgetDecorationDescriptor {
-  const { editor, pos, key, props = {} as P, side, marks } = options
+  const {
+    editor,
+    pos,
+    key,
+    props = {} as P,
+    side,
+    relaxedSide,
+    marks,
+    stopEvent,
+    ignoreSelection,
+    destroy,
+  } = options
   const cache = getCache(editor)
 
   // Two-phase prop update. ProseMirror skips the widget's `toDOM`/`render` when
@@ -176,8 +187,11 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
   return decoration.widget(pos, render, {
     key,
     side,
+    relaxedSide,
     marks,
-    destroy: () => {
+    stopEvent,
+    ignoreSelection,
+    destroy: (rendererElement: Node) => {
       // Keep the renderer if the key is still a live widget decoration (it's
       // being reassigned/recreated, not removed). `liveWidgetKeys` reflects the
       // current state, so this is correct even when nothing recomputed.
@@ -185,9 +199,13 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
         return
       }
 
-      cache.renderers.get(key)?.destroy()
-      cache.renderers.delete(key)
-      cache.props.delete(key)
+      try {
+        cache.renderers.get(key)?.destroy()
+        cache.renderers.delete(key)
+        cache.props.delete(key)
+      } finally {
+        destroy?.(rendererElement)
+      }
     },
   })
 }
