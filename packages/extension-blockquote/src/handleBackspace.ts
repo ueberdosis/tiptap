@@ -25,6 +25,12 @@ export const handleBackspace = (editor: Editor, type: NodeType): boolean => {
   if ($from.parentOffset !== 0) return false
 
   const parentDepth = $from.depth - 1
+  // At the very start of the document the caret can resolve to the top (doc)
+  // level — for example a gap cursor before a leading image — where there is
+  // no parent block. Bail out so backspace is a no-op instead of dereferencing
+  // an undefined parent at a negative depth. (#7973)
+  if (parentDepth < 0) return false
+
   const parent = $from.node(parentDepth)
   const index = $from.index(parentDepth)
   if (index === 0) return false
