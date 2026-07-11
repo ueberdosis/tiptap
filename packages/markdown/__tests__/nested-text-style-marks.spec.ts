@@ -27,7 +27,7 @@ const TextStyle = Mark.create({
   },
 })
 
-describe('#7499: nested inline styles in markdown', () => {
+describe('serializing adjacent same-type marks with different attributes', () => {
   const markdownManager = new MarkdownManager({
     extensions: [Document, Paragraph, Text, TextStyle],
   })
