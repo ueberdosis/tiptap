@@ -22,8 +22,10 @@ function deduplicateExtensions(extensions: Extensions): Extensions {
       seen.add(name)
     }
 
-    deduplicated.unshift(extension)
+    deduplicated.push(extension)
   }
+
+  deduplicated.reverse()
 
   return deduplicated
 }
@@ -37,5 +39,5 @@ function deduplicateExtensions(extensions: Extensions): Extensions {
 export function resolveExtensions(extensions: Extensions): Extensions {
   const flattenedExtensions = flattenExtensions(extensions)
 
-  return deduplicateExtensions(sortExtensions(flattenedExtensions))
+  return sortExtensions(deduplicateExtensions(flattenedExtensions))
 }

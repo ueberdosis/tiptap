@@ -50,4 +50,33 @@ describe('resolveExtensions', () => {
     expect(customExtensions).toHaveLength(1)
     expect(customExtensions[0]).toBe(second)
   })
+
+  it('keeps the last defined duplicate before sorting by priority', () => {
+    const highPriority = Extension.create({
+      name: 'custom',
+      priority: 1000,
+      addOptions() {
+        return { variant: 'high' }
+      },
+    })
+    const lowPriority = Extension.create({
+      name: 'custom',
+      priority: 100,
+      addOptions() {
+        return { variant: 'low' }
+      },
+    })
+
+    const resolved = resolveExtensions([highPriority, lowPriority])
+    const customExtensions = resolved.filter(extension => extension.name === 'custom')
+
+    expect(customExtensions).toHaveLength(1)
+    expect(customExtensions[0].options.variant).toBe('low')
+
+    const resolvedReverse = resolveExtensions([lowPriority, highPriority])
+    const customExtensionsReverse = resolvedReverse.filter(extension => extension.name === 'custom')
+
+    expect(customExtensionsReverse).toHaveLength(1)
+    expect(customExtensionsReverse[0].options.variant).toBe('high')
+  })
 })
