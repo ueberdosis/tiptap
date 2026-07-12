@@ -58,6 +58,7 @@
 - extension-strike
 - extension-subscript
 - extension-superscript
+- extension-ruby-text
 - extension-table
 - extension-table-of-contents
 - extension-text
