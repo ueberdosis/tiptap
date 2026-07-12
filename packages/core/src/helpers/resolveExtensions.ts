@@ -1,25 +1,41 @@
 import type { Extensions } from '../types.js'
-import { findDuplicates } from '../utilities/findDuplicates.js'
 import { flattenExtensions } from './flattenExtensions.js'
 import { sortExtensions } from './sortExtensions.js'
 
 /**
- * Returns a flattened and sorted extension list while
- * also checking for duplicated extensions and warns the user.
- * @param extensions An array of Tiptap extensions
- * @returns An flattened and sorted array of Tiptap extensions
+ * Removes duplicate extensions by name while keeping the last defined extension.
+ * This matches Tiptap's last-defined precedence for conflicting extension behavior.
  */
-export function resolveExtensions(extensions: Extensions): Extensions {
-  const resolvedExtensions = sortExtensions(flattenExtensions(extensions))
-  const duplicatedNames = findDuplicates(resolvedExtensions.map(extension => extension.name))
+function deduplicateExtensions(extensions: Extensions): Extensions {
+  const seen = new Set<string>()
+  const deduplicated: Extensions = []
 
-  if (duplicatedNames.length) {
-    console.warn(
-      `[tiptap warn]: Duplicate extension names found: [${duplicatedNames
-        .map(item => `'${item}'`)
-        .join(', ')}]. This can lead to issues.`,
-    )
+  for (let index = extensions.length - 1; index >= 0; index -= 1) {
+    const extension = extensions[index]
+    const { name } = extension
+
+    if (name && seen.has(name)) {
+      continue
+    }
+
+    if (name) {
+      seen.add(name)
+    }
+
+    deduplicated.unshift(extension)
   }
 
-  return resolvedExtensions
+  return deduplicated
+}
+
+/**
+ * Returns a flattened, sorted, and de-duplicated extension list.
+ * Duplicate named extensions are resolved using last-defined precedence.
+ * @param extensions An array of Tiptap extensions
+ * @returns A flattened, sorted, and de-duplicated array of Tiptap extensions
+ */
+export function resolveExtensions(extensions: Extensions): Extensions {
+  const flattenedExtensions = flattenExtensions(extensions)
+
+  return deduplicateExtensions(sortExtensions(flattenedExtensions))
 }
