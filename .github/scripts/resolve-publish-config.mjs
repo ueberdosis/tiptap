@@ -28,7 +28,7 @@ function readConfig(configPath) {
  * @param {object} config
  */
 function requireBranchesObject(config) {
-  if (!config.branches || typeof config.branches !== 'object') {
+  if (!config.branches || typeof config.branches !== 'object' || Array.isArray(config.branches)) {
     throw new Error('publish-config.json must contain a "branches" object')
   }
 }
@@ -92,7 +92,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   try {
     const result = resolveConfig(branch, configPath)
     for (const [key, value] of Object.entries(result)) {
-      console.log(`${key}=${value}`)
+      // Convert camelCase to snake_case for GitHub Actions output keys
+      const actionsKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
+      console.log(`${actionsKey}=${value}`)
     }
   } catch (err) {
     console.error(err.message)

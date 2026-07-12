@@ -109,6 +109,11 @@ describe('validation errors', () => {
     assert.throws(() => resolveConfig('main', configPath), /branches/)
   })
 
+  it('fails when branches is an array instead of an object', () => {
+    writeConfig({ branches: [] })
+    assert.throws(() => resolveConfig('any', configPath), /branches/)
+  })
+
   it('fails when config file is malformed JSON', () => {
     writeFileSync(configPath, 'not-json')
     assert.throws(() => resolveConfig('main', configPath), /Failed to read or parse/)
