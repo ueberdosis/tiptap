@@ -26,6 +26,22 @@ export interface MarkdownLinkRuleConfig {
   isAllowedHref: (href: string) => boolean
 }
 
+/**
+ * An odd number of backticks before the match means it sits in an unclosed
+ * code span, either one still being typed or one from pasted text.
+ */
+function isInsideCodeSpan(text: string, matchIndex: number): boolean {
+  let backticks = 0
+
+  for (let index = 0; index < matchIndex; index += 1) {
+    if (text[index] === '`') {
+      backticks += 1
+    }
+  }
+
+  return backticks % 2 === 1
+}
+
 function isConvertibleLink(
   text: string,
   match: RegExpMatchArray,
@@ -36,6 +52,10 @@ function isConvertibleLink(
 
   // `!` is the Markdown image syntax, `\` an escaped bracket
   if (characterBefore === '!' || characterBefore === '\\') {
+    return false
+  }
+
+  if (isInsideCodeSpan(text, match.index ?? 0)) {
     return false
   }
 

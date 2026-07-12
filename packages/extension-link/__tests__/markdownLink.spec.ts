@@ -196,6 +196,33 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).not.toContain('<a')
     })
 
+    it('does not convert after an unclosed backtick', () => {
+      createEditor({ content: '<p>`[Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
+    it('does not convert inside a code span still being typed', () => {
+      createEditor({ content: '<p>`some code [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
+    it('converts after a closed pair of backticks', () => {
+      createEditor({ content: '<p>`some code` [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+    })
+
     it('does not convert inside code marks', () => {
       createEditor({
         extensions: [Document, Text, Paragraph, Code, Link],
@@ -304,6 +331,24 @@ describe('markdown links', () => {
 
       expect(editor!.getHTML()).not.toContain('<a')
       expect(editor!.state.doc.textContent).toContain('[click](')
+    })
+
+    it('keeps a Markdown link inside a pasted code span as plain text', () => {
+      createEditor()
+
+      editor!.view.pasteText('`[Tiptap](https://tiptap.dev)` renders a link')
+
+      expect(editor!.getHTML()).not.toContain('>Tiptap</a>')
+      expect(editor!.state.doc.textContent).toBe('`[Tiptap](https://tiptap.dev)` renders a link')
+    })
+
+    it('converts a Markdown link pasted after a closed code span', () => {
+      createEditor()
+
+      editor!.view.pasteText('see `some code` then read [the docs](https://tiptap.dev/docs)')
+
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev/docs"')
+      expect(editor!.state.doc.textContent).toBe('see `some code` then read the docs')
     })
 
     it('keeps the Markdown image syntax as plain text', () => {
