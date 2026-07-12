@@ -276,6 +276,26 @@ describe('markdown links', () => {
       expect(editor!.state.doc.textContent).toBe('Tiptap')
     })
 
+    it('keeps the Markdown href when the link text looks like a URL', () => {
+      createEditor()
+
+      editor!.view.pasteText('Read [tiptap.dev](https://tiptap.dev/docs) now')
+
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev/docs"')
+      expect(editor!.getHTML()).not.toContain('href="http://tiptap.dev"')
+      expect(editor!.state.doc.textContent).toBe('Read tiptap.dev now')
+    })
+
+    it('still links bare URLs pasted outside of Markdown syntax', () => {
+      createEditor()
+
+      editor!.view.pasteText('visit https://example.com and [Tiptap](https://tiptap.dev)')
+
+      expect(editor!.getHTML()).toContain('href="https://example.com"')
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+      expect(editor!.state.doc.textContent).toBe('visit https://example.com and Tiptap')
+    })
+
     it('does not convert disallowed protocols', () => {
       createEditor()
 
