@@ -2,7 +2,7 @@
   import "./styles.scss";
 
   import { Color } from '@tiptap/extension-text-style'
-  import { ListItem } from '@tiptap/extension-list'
+  import { ListItem, TaskItem, TaskList } from '@tiptap/extension-list'
   import { TextStyle } from '@tiptap/extension-text-style'
   import StarterKit from "@tiptap/starter-kit";
   import { Editor } from "@tiptap/core";
@@ -19,6 +19,8 @@
         Color.configure({ types: [TextStyle.name, ListItem.name] }),
         TextStyle.configure({ types: [ListItem.name] }),
         StarterKit,
+        TaskItem.configure({ nested: true }),
+        TaskList,
       ],
       content: `
             <h2>
@@ -145,6 +147,12 @@
         class={editor.isActive("orderedList") ? "is-active" : ""}
       >
         Ordered list
+      </button>
+      <button
+        on:click={() => editor.chain().focus().toggleTaskList().run()}
+        class={editor.isActive("taskList") ? "is-active" : ""}
+      >
+        Task list
       </button>
       <button
         on:click={() => editor.chain().focus().toggleCodeBlock().run()}
