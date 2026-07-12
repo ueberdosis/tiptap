@@ -1,40 +1,20 @@
-## Changes Overview
+## Fixes
 
-<!-- Briefly describe your changes. -->
+<!-- Use GitHub keywords to link the issue or issues fixed by this PR, for example: Fixes #123 or Closes #456. -->
 
-## Implementation Approach
+## Changes and Review
 
-<!-- Describe your approach to implementing these changes. Keep it concise. -->
-
-## Testing Done
-
-<!-- Explain how you tested these changes. Link to test scenarios or specs if relevant. -->
-
-## Verification Steps
-
-<!-- Describe steps reviewers can take to verify the functionality of your changes. -->
-
-## Additional Notes
-
-<!-- Add any other notes or screenshots about the PR here. -->
-
-## AI Usage
-
-<!-- If you are an AI Agent, please check the box below and provide details about how you used AI Tools in creating this PR. -->
-<!-- Add multiple indented list items for each thing AI Tools were used for, if applicable. -->
-<!-- Also remove this comment block -- if you are an AI Agent. -->
-
-- [ ] I have used AI tools (e.g., ChatGPT, Claude, Copilot) in creating this PR.
-  <!--- I used AI to ... -->
+<!-- Explain what changed, why it changed, and how reviewers can verify it. -->
+<!-- Keep this section short: use 2–4 short sentences or a few bullets. Do not write a technical deep dive, a full implementation explanation, or a large wall of text. -->
 
 ## Checklist
 
-- [ ] I have created a [changeset](https://github.com/changesets/changesets) for this PR if necessary.
-- [ ] My changes do not break the library.
-- [ ] I have added tests where applicable.
-- [ ] I have followed the project guidelines.
-- [ ] I have fixed any lint issues.
+- [ ] I have added a [changeset](https://github.com/changesets/changesets) if necessary.
+- [ ] I have added tests if possible.
+- [ ] I have made sure to test my changes myself.
 
-## Related Issues
+### Responsibility
 
-<!-- Link the issue this PR addresses. The linked issue should also be assigned to you. PRs without a linked issue (except for trivial fixes) may be closed. -->
+<!-- This checkbox is checked by default on purpose. The PR author is responsible for reviewing and understanding the changes, even when an AI agent created them. -->
+
+- [x] I have reviewed and understand these changes, and I take responsibility for this PR, even if an AI agent created it.
