@@ -861,6 +861,50 @@ describe('TaskItem', () => {
     expect(json.content[0].content[1].type).toBe('listItem')
   })
 
+  it('keeps multiple paragraphs in one taskItem when converting a bullet list', () => {
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, ListItem, TaskItem, BulletList, TaskList],
+      content: {
+        type: 'doc',
+        content: [
+          {
+            type: 'bulletList',
+            content: [
+              {
+                type: 'listItem',
+                content: [
+                  { type: 'paragraph', content: [{ type: 'text', text: 'First para' }] },
+                  { type: 'paragraph', content: [{ type: 'text', text: 'Second para' }] },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    editor.commands.toggleTaskList()
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'taskList',
+          content: [
+            {
+              type: 'taskItem',
+              attrs: { checked: false },
+              content: [
+                { type: 'paragraph', content: [{ type: 'text', text: 'First para' }] },
+                { type: 'paragraph', content: [{ type: 'text', text: 'Second para' }] },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+
   it('flattens nested lists when converting to non-nested task items', () => {
     editor = new Editor({
       extensions: [Document, Paragraph, Text, ListItem, TaskItem, BulletList, TaskList],
