@@ -1,10 +1,11 @@
-import type { PasteRuleMatch } from '@tiptap/core'
+import type { PasteRule, PasteRuleMatch } from '@tiptap/core'
 import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
 import { autolink } from './helpers/autolink.js'
 import { clickHandler } from './helpers/clickHandler.js'
+import { markdownLinkInputRule, markdownLinkPasteRule } from './helpers/markdownLink.js'
 import { pasteHandler } from './helpers/pasteHandler.js'
 import { UNICODE_WHITESPACE_REGEX_GLOBAL } from './helpers/whitespace.js'
 
@@ -71,6 +72,14 @@ export interface LinkOptions {
    * @example false
    */
   linkOnPaste: boolean
+
+  /**
+   * If enabled, typing or pasting the Markdown link syntax, e.g. `[Tiptap](https://tiptap.dev)`
+   * or `[Tiptap](https://tiptap.dev "Rich text editor")`, converts it into a link.
+   * @default true
+   * @example false
+   */
+  markdownLinks: boolean
 
   /**
    * HTML attributes to add to the link element.
@@ -247,6 +256,7 @@ export const Link = Mark.create<LinkOptions>({
       openOnClick: true,
       enableClickSelection: false,
       linkOnPaste: true,
+      markdownLinks: true,
       autolink: true,
       protocols: [],
       defaultProtocol: 'http',
@@ -419,8 +429,42 @@ export const Link = Mark.create<LinkOptions>({
     }
   },
 
-  addPasteRules() {
+  addInputRules() {
+    if (!this.options.markdownLinks) {
+      return []
+    }
+
     return [
+      markdownLinkInputRule({
+        type: this.type,
+        isAllowedHref: href =>
+          this.options.isAllowedUri(href, {
+            defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+            protocols: this.options.protocols,
+            defaultProtocol: this.options.defaultProtocol,
+          }),
+      }),
+    ]
+  },
+
+  addPasteRules() {
+    const rules: PasteRule[] = []
+
+    if (this.options.markdownLinks) {
+      rules.push(
+        markdownLinkPasteRule({
+          type: this.type,
+          isAllowedHref: href =>
+            this.options.isAllowedUri(href, {
+              defaultValidate: url => !!isAllowedUri(url, this.options.protocols),
+              protocols: this.options.protocols,
+              defaultProtocol: this.options.defaultProtocol,
+            }),
+        }),
+      )
+    }
+
+    rules.push(
       markPasteRule({
         find: text => {
           const foundLinks: PasteRuleMatch[] = []
@@ -463,7 +507,9 @@ export const Link = Mark.create<LinkOptions>({
           }
         },
       }),
-    ]
+    )
+
+    return rules
   },
 
   addProseMirrorPlugins() {
