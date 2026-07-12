@@ -85,6 +85,31 @@ describe('RubyText', () => {
     expect(rt.parentElement?.tagName).toBe('RUBY')
   })
 
+  it('applies configured HTML attributes to the mark view', () => {
+    editor = createEditor('<p>漢字</p>', { HTMLAttributes: { class: 'ruby-text' } })
+    editor.commands.selectAll()
+    editor.commands.setRubyText({ rt: 'かんじ' })
+
+    expect(editor.view.dom.querySelector('ruby')?.className).toBe('ruby-text')
+  })
+
+  it('preserves an empty annotation', () => {
+    editor = createEditor('<p>漢字</p>')
+    editor.commands.selectAll()
+    editor.commands.setRubyText({ rt: '' })
+
+    expect(editor.getHTML()).toContain('data-rt=""')
+    expect(editor.getHTML()).toContain('<rt contenteditable="false"></rt>')
+  })
+
+  it('does not render an annotation when it is null', () => {
+    editor = createEditor('<p>漢字</p>')
+    editor.commands.selectAll()
+    editor.commands.setRubyText({ rt: null })
+
+    expect(editor.getHTML()).toBe('<p><ruby><rb>漢字</rb></ruby></p>')
+  })
+
   it('updates an annotation after submitting its inline editor', () => {
     editor = createEditor('<p>漢字</p>')
     editor.commands.selectAll()
@@ -181,6 +206,20 @@ describe('RubyText', () => {
               text: 'は日本の首都です。',
             },
           ],
+        },
+      ],
+    })
+  })
+
+  it('does not parse ruby HTML without an annotation as a mark', () => {
+    editor = createEditor('<p><ruby>漢字</ruby></p>')
+
+    expect(editor.getJSON()).toEqual({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: '漢字' }],
         },
       ],
     })

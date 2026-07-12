@@ -70,7 +70,7 @@ export const RubyText = Mark.create<RubyTextOptions>({
           return rt?.textContent ?? null
         },
         renderHTML: attributes => {
-          if (!attributes.rt) {
+          if (attributes.rt == null) {
             return {}
           }
 
@@ -86,13 +86,6 @@ export const RubyText = Mark.create<RubyTextOptions>({
     return [
       {
         tag: 'ruby',
-        getAttrs: (node: HTMLElement) => {
-          const rt = node.querySelector('rt')
-
-          return {
-            rt: rt?.textContent ?? null,
-          }
-        },
         contentElement: (node: HTMLElement) => {
           const rb = node.querySelector('rb')
 
@@ -110,6 +103,15 @@ export const RubyText = Mark.create<RubyTextOptions>({
 
           return surrogate
         },
+        getAttrs: (node: HTMLElement) => {
+          const rt = node.querySelector('rt')
+
+          if (!rt) {
+            return false
+          }
+
+          return { rt: rt.textContent ?? '' }
+        },
       },
     ]
   },
@@ -119,7 +121,7 @@ export const RubyText = Mark.create<RubyTextOptions>({
       'ruby',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       ['rb', 0],
-      ['rt', { contenteditable: 'false' }, mark.attrs.rt ?? ''],
+      ...(mark.attrs.rt == null ? [] : [['rt', { contenteditable: 'false' }, mark.attrs.rt]]),
     ]
   },
 
@@ -151,11 +153,13 @@ export const RubyText = Mark.create<RubyTextOptions>({
     return ({ HTMLAttributes }) => {
       const ruby = document.createElement('ruby')
 
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
-        if (value != null) {
-          ruby.setAttribute(key, String(value))
-        }
-      })
+      Object.entries(mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)).forEach(
+        ([key, value]) => {
+          if (value != null) {
+            ruby.setAttribute(key, String(value))
+          }
+        },
+      )
 
       return {
         dom: ruby,
