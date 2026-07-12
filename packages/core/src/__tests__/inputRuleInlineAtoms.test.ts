@@ -8,7 +8,6 @@ import { afterEach, describe, expect, it } from 'vitest'
 // minimal stand-in for a mention-like node. inline atoms expand to %leaf% (6 chars)
 // in getTextContentFromNodes but only take up 1 position in the doc,
 // which used to break the input rule range math
-// https://github.com/ueberdosis/tiptap/issues/7933
 const InlineAtom = Node.create({
   name: 'inlineAtom',
   group: 'inline',
@@ -18,9 +17,20 @@ const InlineAtom = Node.create({
   renderHTML: () => ['span', { 'data-atom': '' }],
 })
 
+// same as above, but with a custom text representation instead of the %leaf% fallback
+const InlineAtomWithText = Node.create({
+  name: 'inlineAtomWithText',
+  group: 'inline',
+  inline: true,
+  atom: true,
+  parseHTML: () => [{ tag: 'span[data-atom-text]' }],
+  renderHTML: () => ['span', { 'data-atom-text': '' }],
+  renderText: () => '@mention',
+})
+
 const createEditor = (content: string) =>
   new Editor({
-    extensions: [Document, Paragraph, Text, InlineAtom, Code],
+    extensions: [Document, Paragraph, Text, InlineAtom, InlineAtomWithText, Code],
     content,
   })
 
@@ -69,8 +79,16 @@ describe('input rules with inline atom nodes', () => {
     editor = createEditor('<p>hello world `a<span data-atom></span></p>')
 
     expect(() => typeAtEndOfParagraph(editor, '`')).not.toThrow()
-    expect(editor.getHTML()).not.toContain('<code>')
-    expect(editor.getText()).toContain('hello world')
+    expect(editor.getHTML()).toBe('<p>hello world `a<span data-atom=""></span></p>')
+  })
+
+  it('does not apply the rule when the match spans an atom with a custom text representation', () => {
+    editor = createEditor('<p>hello `a<span data-atom-text></span></p>')
+
+    const handled = typeAtEndOfParagraph(editor, '`')
+
+    expect(handled).toBeFalsy()
+    expect(editor.getHTML()).toBe('<p>hello `a<span data-atom-text=""></span></p>')
   })
 
   it('still applies input rules to plain text', () => {

@@ -133,11 +133,8 @@ function run(config: {
       return
     }
 
-    // textBefore expands leaf nodes into placeholders like %leaf% (check getTextContentFromNodes),
-    // so an atom takes up 6 chars in the string but just 1 position in the doc.
-    // if the match crosses a leaf node, the range computed below would land on the wrong
-    // doc positions (can even go negative), so in that case we skip the rule
-    // see: https://github.com/ueberdosis/tiptap/issues/7933
+    // Leaf nodes have a different length in text and the document.
+    // Skip matches across them to avoid wrong document positions.
     const matchedDocLength = match[0].length - text.length
 
     if (matchedDocLength > 0) {
