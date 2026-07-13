@@ -6,7 +6,6 @@ import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
 import {
   buildNestedStructure,
   collectOrderedListItems,
-  ORDERED_LIST_LINE_START_REGEX,
   parseListItems,
   parsePlainTextOrderedListPaste,
 } from './utils.js'
@@ -230,11 +229,12 @@ export const OrderedList = Node.create<OrderedListOptions>({
   markdownTokenizer: {
     name: 'orderedList',
     level: 'block',
-    start: (src: string) => {
-      const match = src.match(ORDERED_LIST_LINE_START_REGEX)
-      const index = match?.index
-      return index !== undefined ? index : -1
-    },
+    // marked already breaks paragraphs before a start-of-line list marker. It
+    // probes this with `src.slice(1)`, so any marker it surfaces here is
+    // mid-line (like the "216)" in "(216) 555-1234") and must not start a list.
+    // We still define the callback so marked does not fall back to probing
+    // `tokenize`, which would re-introduce the mid-line split.
+    start: () => -1,
     tokenize: (src: string, _tokens, lexer) => {
       const lines = src.split('\n')
       const [listItems, consumed] = collectOrderedListItems(lines)
