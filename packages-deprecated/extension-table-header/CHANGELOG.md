@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.27.4
+
+### Patch Changes
+
+- Updated dependencies [246e1e8]
+- Updated dependencies [edaac47]
+  - @tiptap/extension-table@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
@@ -576,34 +584,34 @@
   The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
 
   ```ts
-  import { TableKit } from '@tiptap/extension-table'
+  import { TableKit } from "@tiptap/extension-table";
 
   new Editor({
     extensions: [
       TableKit.configure({
         table: {
           HTMLAttributes: {
-            class: 'table',
+            class: "table",
           },
         },
         tableCell: {
           HTMLAttributes: {
-            class: 'table-cell',
+            class: "table-cell",
           },
         },
         tableHeader: {
           HTMLAttributes: {
-            class: 'table-header',
+            class: "table-header",
           },
         },
         tableRow: {
           HTMLAttributes: {
-            class: 'table-row',
+            class: "table-row",
           },
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Table repackaging
@@ -638,7 +646,7 @@
   Usage:
 
   ```ts
-  import { Table } from '@tiptap/extension-table'
+  import { Table } from "@tiptap/extension-table";
   ```
 
   ### TableCell
@@ -655,7 +663,7 @@
   Usage:
 
   ```ts
-  import { TableCell } from '@tiptap/extension-table'
+  import { TableCell } from "@tiptap/extension-table";
   ```
 
   ### TableHeader
@@ -672,7 +680,7 @@
   Usage:
 
   ```ts
-  import { TableHeader } from '@tiptap/extension-table'
+  import { TableHeader } from "@tiptap/extension-table";
   ```
 
   ### TableRow
@@ -689,7 +697,7 @@
   Usage:
 
   ```ts
-  import { TableRow } from '@tiptap/extension-table'
+  import { TableRow } from "@tiptap/extension-table";
   ```
 
 ### Patch Changes
@@ -906,34 +914,34 @@
   The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
 
   ```ts
-  import { TableKit } from '@tiptap/extension-table'
+  import { TableKit } from "@tiptap/extension-table";
 
   new Editor({
     extensions: [
       TableKit.configure({
         table: {
           HTMLAttributes: {
-            class: 'table',
+            class: "table",
           },
         },
         tableCell: {
           HTMLAttributes: {
-            class: 'table-cell',
+            class: "table-cell",
           },
         },
         tableHeader: {
           HTMLAttributes: {
-            class: 'table-header',
+            class: "table-header",
           },
         },
         tableRow: {
           HTMLAttributes: {
-            class: 'table-row',
+            class: "table-row",
           },
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Table repackaging
@@ -968,7 +976,7 @@
   Usage:
 
   ```ts
-  import { Table } from '@tiptap/extension-table'
+  import { Table } from "@tiptap/extension-table";
   ```
 
   ### TableCell
@@ -985,7 +993,7 @@
   Usage:
 
   ```ts
-  import { TableCell } from '@tiptap/extension-table'
+  import { TableCell } from "@tiptap/extension-table";
   ```
 
   ### TableHeader
@@ -1002,7 +1010,7 @@
   Usage:
 
   ```ts
-  import { TableHeader } from '@tiptap/extension-table'
+  import { TableHeader } from "@tiptap/extension-table";
   ```
 
   ### TableRow
@@ -1019,7 +1027,7 @@
   Usage:
 
   ```ts
-  import { TableRow } from '@tiptap/extension-table'
+  import { TableRow } from "@tiptap/extension-table";
   ```
 
 ## 3.0.0-next.5

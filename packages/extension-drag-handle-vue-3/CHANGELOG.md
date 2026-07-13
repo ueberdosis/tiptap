@@ -1,5 +1,13 @@
 # @tiptap/extension-drag-handle-vue-3
 
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/extension-drag-handle@3.27.4
+- @tiptap/pm@3.27.4
+- @tiptap/vue-3@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
