@@ -41,9 +41,23 @@ export interface EditorContentProps extends HTMLProps<HTMLDivElement> {
   innerRef?: ForwardedRef<HTMLDivElement | null>
 }
 
-function getInstance(): ContentComponent {
+export function createContentComponent(): ContentComponent {
   const subscribers = new Set<() => void>()
   let renderers: Record<string, React.ReactPortal> = {}
+  let isNotificationQueued = false
+
+  const notifySubscribers = () => {
+    if (isNotificationQueued || !subscribers.size) {
+      return
+    }
+
+    isNotificationQueued = true
+
+    queueMicrotask(() => {
+      isNotificationQueued = false
+      subscribers.forEach(subscriber => subscriber())
+    })
+  }
 
   return {
     /**
@@ -70,7 +84,7 @@ function getInstance(): ContentComponent {
         [id]: ReactDOM.createPortal(renderer.reactElement, renderer.element, id),
       }
 
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
     /**
      * Removes a NodeView Renderer from the editor.
@@ -80,7 +94,7 @@ function getInstance(): ContentComponent {
 
       delete nextRenderers[id]
       renderers = nextRenderers
-      subscribers.forEach(subscriber => subscriber())
+      notifySubscribers()
     },
   }
 }
@@ -120,7 +134,7 @@ export class PureEditorContent extends React.Component<
         element,
       })
 
-      editor.contentComponent = getInstance()
+      editor.contentComponent = createContentComponent()
 
       editor.createNodeViews()
 
