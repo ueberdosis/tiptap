@@ -7,6 +7,12 @@ import type { Node, ResolvedPos } from '@tiptap/pm/model'
  * Equivalent to walking up to the position's direct block parent and reading
  * the child at the index just before the cursor's textblock.
  *
+ * The position does not have to sit inside a textblock. For any resolved
+ * position, the function returns the sibling immediately before `$pos.parent`,
+ * whatever kind of node that parent is. Note that at a GapCursor position
+ * inside a block container this is the sibling before the whole container,
+ * not the node before the gap.
+ *
  * @param $pos The resolved position to look around
  * @returns The previous block-level sibling, or null
  * @example ```js
