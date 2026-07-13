@@ -390,6 +390,28 @@ importers:
         specifier: workspace:^
         version: link:../../packages/extension-list
 
+  packages-deprecated/server-ai-toolkit:
+    dependencies:
+      '@tiptap/ai-toolkit':
+        specifier: workspace:*
+        version: link:../../packages/ai-toolkit
+
+  packages/ai-toolkit:
+    dependencies:
+      es-toolkit:
+        specifier: ^1.41.0
+        version: 1.46.1
+      zod:
+        specifier: ^4.1.8
+        version: 4.4.3
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+
   packages/core:
     devDependencies:
       '@tiptap/pm':
@@ -1028,22 +1050,6 @@ importers:
       '@tiptap/extension-floating-menu':
         specifier: workspace:^
         version: link:../extension-floating-menu
-
-  packages/server-ai-toolkit:
-    dependencies:
-      es-toolkit:
-        specifier: ^1.41.0
-        version: 1.46.1
-      zod:
-        specifier: ^4.1.8
-        version: 4.4.3
-    devDependencies:
-      '@tiptap/core':
-        specifier: workspace:^
-        version: link:../core
-      '@tiptap/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/starter-kit:
     dependencies:

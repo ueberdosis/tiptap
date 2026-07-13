@@ -1,5 +1,12 @@
 # @tiptap/markdown
 
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+- @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
@@ -525,9 +532,9 @@
   - **`contentType`**: Control the type of content that is inserted into the editor. Can be `json`, `html` or `markdown` - defaults to `json` and will automatically detect invalid content types (like JSON when it is actually Markdown).
     ```typescript
     new Editor({
-      content: '# Hello World',
-      contentType: 'markdown',
-    })
+      content: "# Hello World",
+      contentType: "markdown",
+    });
     ```
 
   **Command Options:** All content commands now support an `contentType` option:

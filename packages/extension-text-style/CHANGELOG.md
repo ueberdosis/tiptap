@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.27.4
+
+### Patch Changes
+
+- @tiptap/core@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
@@ -690,32 +696,32 @@
   Usage:
 
   ```ts
-  import { TextStyleKit } from '@tiptap/extension-text-style'
+  import { TextStyleKit } from "@tiptap/extension-text-style";
 
   new Editor({
     extensions: [
       TextStyleKit.configure({
         backgroundColor: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         color: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontFamily: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontSize: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         lineHeight: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         textStyle: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Want to use the extensions separately?
@@ -729,7 +735,7 @@
   Usage:
 
   ```ts
-  import { BackgroundColor } from '@tiptap/extension-text-style'
+  import { BackgroundColor } from "@tiptap/extension-text-style";
   ```
 
   ### Color
@@ -746,7 +752,7 @@
   Usage:
 
   ```ts
-  import { Color } from '@tiptap/extension-text-style'
+  import { Color } from "@tiptap/extension-text-style";
   ```
 
   ### FontFamily
@@ -763,7 +769,7 @@
   Usage:
 
   ```ts
-  import { FontFamily } from '@tiptap/extension-text-style'
+  import { FontFamily } from "@tiptap/extension-text-style";
   ```
 
   ### FontSize
@@ -771,7 +777,7 @@
   This extension controls the font-size of a range of text in the editor.
 
   ```ts
-  import { FontSize } from '@tiptap/extension-text-style'
+  import { FontSize } from "@tiptap/extension-text-style";
   ```
 
   ### LineHeight
@@ -779,7 +785,7 @@
   This extension controls the line-height of a range of text in the editor.
 
   ```ts
-  import { LineHeight } from '@tiptap/extension-text-style'
+  import { LineHeight } from "@tiptap/extension-text-style";
   ```
 
 ### Patch Changes
@@ -1044,32 +1050,32 @@
   Usage:
 
   ```ts
-  import { TextStyleKit } from '@tiptap/extension-text-style'
+  import { TextStyleKit } from "@tiptap/extension-text-style";
 
   new Editor({
     extensions: [
       TextStyleKit.configure({
         backgroundColor: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         color: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontFamily: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         fontSize: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         lineHeight: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
         textStyle: {
-          types: ['textStyle'],
+          types: ["textStyle"],
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Want to use the extensions separately?
@@ -1083,7 +1089,7 @@
   Usage:
 
   ```ts
-  import { BackgroundColor } from '@tiptap/extension-text-style'
+  import { BackgroundColor } from "@tiptap/extension-text-style";
   ```
 
   ### Color
@@ -1100,7 +1106,7 @@
   Usage:
 
   ```ts
-  import { Color } from '@tiptap/extension-text-style'
+  import { Color } from "@tiptap/extension-text-style";
   ```
 
   ### FontFamily
@@ -1117,7 +1123,7 @@
   Usage:
 
   ```ts
-  import { FontFamily } from '@tiptap/extension-text-style'
+  import { FontFamily } from "@tiptap/extension-text-style";
   ```
 
   ### FontSize
@@ -1125,7 +1131,7 @@
   This extension controls the font-size of a range of text in the editor.
 
   ```ts
-  import { FontSize } from '@tiptap/extension-text-style'
+  import { FontSize } from "@tiptap/extension-text-style";
   ```
 
   ### LineHeight
@@ -1133,7 +1139,7 @@
   This extension controls the line-height of a range of text in the editor.
 
   ```ts
-  import { LineHeight } from '@tiptap/extension-text-style'
+  import { LineHeight } from "@tiptap/extension-text-style";
   ```
 
 ### Patch Changes

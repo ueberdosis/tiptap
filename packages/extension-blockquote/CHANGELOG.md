@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.27.4
+
+### Patch Changes
+
+- 53f8e57: Fix a crash when pressing backspace at the very start of the document with a leading image. The blockquote backspace handler dereferenced an undefined parent at the top (doc) level, throwing `TypeError: Cannot read properties of undefined (reading 'type')`. It now bails out so backspace is a no-op at the document start.
+- 6238a3c: Add `@tiptap/pm` as a peer dependency so bundlers resolve ProseMirror packages from the app instead of duplicating `prosemirror-model` inside `@tiptap/extension-blockquote`.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes

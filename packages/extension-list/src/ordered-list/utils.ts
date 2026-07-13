@@ -27,13 +27,6 @@ export const ORDERED_LIST_ITEM_REGEX = new RegExp(
 )
 
 /**
- * Matches the start of an ordered list line (used by markdown tokenizer).
- */
-export const ORDERED_LIST_LINE_START_REGEX = new RegExp(
-  `^(\\s*)(${ORDERED_LIST_MARKER_PATTERN})([.)])\\s+`,
-)
-
-/**
  * Matches any line that starts with whitespace (indented content).
  * Used to identify continuation content that belongs to a list item.
  */
