@@ -5,6 +5,7 @@
 ### Core, framework bindings, and shared utilities
 
 - core
+- ai-toolkit
 - extensions
 - html
 - markdown

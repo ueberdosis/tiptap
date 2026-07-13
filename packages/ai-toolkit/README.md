@@ -1,8 +1,8 @@
-# @tiptap/server-ai-toolkit
+# @tiptap/ai-toolkit
 
-[![Version](https://img.shields.io/npm/v/@tiptap/server-ai-toolkit.svg?label=version)](https://www.npmjs.com/package/@tiptap/server-ai-toolkit)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/server-ai-toolkit.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/server-ai-toolkit.svg)](https://www.npmjs.com/package/@tiptap/server-ai-toolkit)
+[![Version](https://img.shields.io/npm/v/@tiptap/ai-toolkit.svg?label=version)](https://www.npmjs.com/package/@tiptap/ai-toolkit)
+[![Downloads](https://img.shields.io/npm/dm/@tiptap/ai-toolkit.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@tiptap/ai-toolkit.svg)](https://www.npmjs.com/package/@tiptap/ai-toolkit)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction
