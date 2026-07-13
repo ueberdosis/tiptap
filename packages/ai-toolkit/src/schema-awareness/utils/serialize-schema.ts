@@ -12,6 +12,8 @@ export type SerializedAttributeSpec = Omit<AttributeSpec, 'validate'> & {
 /**
  * A type representing serialized attributes as a record of attribute names to their serialized specs.
  */
+type SerializedAttributes = { attrs?: Record<string, SerializedAttributeSpec> }
+
 /**
  * A serialized version of NodeSpec with non-serializable properties
  * (toDOM, parseDOM, toDebugString, leafText, toText) removed and attrs converted to
@@ -20,15 +22,15 @@ export type SerializedAttributeSpec = Omit<AttributeSpec, 'validate'> & {
 export type SerializedNodeSpec = Omit<
   NodeSpec,
   'toDOM' | 'parseDOM' | 'toDebugString' | 'leafText' | 'toText' | 'attrs'
-> & { attrs?: Record<string, SerializedAttributeSpec> }
+> &
+  SerializedAttributes
 
 /**
  * A serialized version of MarkSpec with non-serializable properties (toDOM, parseDOM) removed
  * and attrs converted to SerializedAttributeSpec format.
  */
-export type SerializedMarkSpec = Omit<MarkSpec, 'toDOM' | 'parseDOM' | 'attrs'> & {
-  attrs?: Record<string, SerializedAttributeSpec>
-}
+export type SerializedMarkSpec = Omit<MarkSpec, 'toDOM' | 'parseDOM' | 'attrs'> &
+  SerializedAttributes
 
 /**
  * A JSON-serializable representation of a ProseMirror Schema.
