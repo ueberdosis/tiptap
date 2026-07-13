@@ -32,8 +32,11 @@ function clearDomSelection() {
   window.getSelection()?.removeAllRanges()
 }
 
+/**
+ * Sync the native selection from the editor state.
+ * @see https://prosemirror.net/docs/ref/#view.EditorView.focus
+ */
 function restoreDomSelection(view: EditorView) {
-  // Sync the native selection from the editor state (see prosemirror-view `EditorView#focus`).
   view.focus()
 }
 
