@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.27.4
+
+### Patch Changes
+
+- 246e1e8: Fix `<col width>` in a table's `<colgroup>` being ignored when parsing HTML. The width of the first column was always dropped because the cell index `0` failed a truthiness check, and header cells (`<th>`) never read the colgroup at all. Both table cells and table headers now fall back to the matching `<col>` element's `width` attribute when they have no `colwidth` attribute of their own.
+- edaac47: Fix pipe characters inside backtick inline code spans being incorrectly treated as table column delimiters in both leading-pipe and pipeless (no leading `|`) GFM tables. Cells containing expressions like `` `||` `` or `` `a || b` `` now parse correctly instead of splitting into extra columns and losing their code formatting.
+  - @tiptap/core@3.27.4
+  - @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes
@@ -763,34 +772,34 @@
   The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
 
   ```ts
-  import { TableKit } from '@tiptap/extension-table'
+  import { TableKit } from "@tiptap/extension-table";
 
   new Editor({
     extensions: [
       TableKit.configure({
         table: {
           HTMLAttributes: {
-            class: 'table',
+            class: "table",
           },
         },
         tableCell: {
           HTMLAttributes: {
-            class: 'table-cell',
+            class: "table-cell",
           },
         },
         tableHeader: {
           HTMLAttributes: {
-            class: 'table-header',
+            class: "table-header",
           },
         },
         tableRow: {
           HTMLAttributes: {
-            class: 'table-row',
+            class: "table-row",
           },
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Table repackaging
@@ -825,7 +834,7 @@
   Usage:
 
   ```ts
-  import { Table } from '@tiptap/extension-table'
+  import { Table } from "@tiptap/extension-table";
   ```
 
   ### TableCell
@@ -842,7 +851,7 @@
   Usage:
 
   ```ts
-  import { TableCell } from '@tiptap/extension-table'
+  import { TableCell } from "@tiptap/extension-table";
   ```
 
   ### TableHeader
@@ -859,7 +868,7 @@
   Usage:
 
   ```ts
-  import { TableHeader } from '@tiptap/extension-table'
+  import { TableHeader } from "@tiptap/extension-table";
   ```
 
   ### TableRow
@@ -876,7 +885,7 @@
   Usage:
 
   ```ts
-  import { TableRow } from '@tiptap/extension-table'
+  import { TableRow } from "@tiptap/extension-table";
   ```
 
 ### Patch Changes
@@ -1171,34 +1180,34 @@
   The `TableKit` export allows configuring the entire table with one extension, and is the recommended way of using the table extensions.
 
   ```ts
-  import { TableKit } from '@tiptap/extension-table'
+  import { TableKit } from "@tiptap/extension-table";
 
   new Editor({
     extensions: [
       TableKit.configure({
         table: {
           HTMLAttributes: {
-            class: 'table',
+            class: "table",
           },
         },
         tableCell: {
           HTMLAttributes: {
-            class: 'table-cell',
+            class: "table-cell",
           },
         },
         tableHeader: {
           HTMLAttributes: {
-            class: 'table-header',
+            class: "table-header",
           },
         },
         tableRow: {
           HTMLAttributes: {
-            class: 'table-row',
+            class: "table-row",
           },
         },
       }),
     ],
-  })
+  });
   ```
 
   ## Table repackaging
@@ -1233,7 +1242,7 @@
   Usage:
 
   ```ts
-  import { Table } from '@tiptap/extension-table'
+  import { Table } from "@tiptap/extension-table";
   ```
 
   ### TableCell
@@ -1250,7 +1259,7 @@
   Usage:
 
   ```ts
-  import { TableCell } from '@tiptap/extension-table'
+  import { TableCell } from "@tiptap/extension-table";
   ```
 
   ### TableHeader
@@ -1267,7 +1276,7 @@
   Usage:
 
   ```ts
-  import { TableHeader } from '@tiptap/extension-table'
+  import { TableHeader } from "@tiptap/extension-table";
   ```
 
   ### TableRow
@@ -1284,7 +1293,7 @@
   Usage:
 
   ```ts
-  import { TableRow } from '@tiptap/extension-table'
+  import { TableRow } from "@tiptap/extension-table";
   ```
 
 ## 3.0.0-next.5
