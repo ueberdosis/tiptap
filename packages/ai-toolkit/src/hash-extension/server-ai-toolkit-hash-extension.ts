@@ -5,6 +5,14 @@ import { Extension } from '@tiptap/core'
  */
 const ATTRIBUTE_NAME = '_hash'
 
+const EXCLUDED_NODE_TYPES = new Set(['text', 'doc', 'tableHeader', 'tableCell'])
+
+type Extension = {
+  config?: { group?: unknown }
+  name: string
+  type: string
+}
+
 /**
  * Checks whether the editor already includes the full {@link AiToolkit} extension.
  *
@@ -13,6 +21,24 @@ const ATTRIBUTE_NAME = '_hash'
  */
 function hasAiToolkitExtension(extensionNames: string[]): boolean {
   return extensionNames.includes('aiToolkit')
+}
+
+function isInlineExtension(extension: Extension): boolean {
+  return typeof extension.config?.group === 'string' && extension.config.group.includes('inline')
+}
+
+/**
+ * Checks whether an extension is a node that should receive a hash attribute.
+ *
+ * @param extension - Extension to check.
+ * @return `true` when the extension should receive the hash attribute.
+ */
+function shouldAddHashAttribute(extension: Extension): boolean {
+  return (
+    extension.type === 'node' &&
+    !EXCLUDED_NODE_TYPES.has(extension.name) &&
+    !isInlineExtension(extension)
+  )
 }
 
 /**
@@ -34,24 +60,7 @@ export const ServerAiToolkitHashExtension = Extension.create({
       return []
     }
 
-    const types = this.extensions
-      .filter(ext => {
-        if (
-          // Only add hashes to nodes, not to marks
-          ext.type !== 'node' ||
-          // Exclude certain node types
-          ext.name === 'text' ||
-          ext.name === 'doc' ||
-          ext.name === 'tableHeader' ||
-          ext.name === 'tableCell' ||
-          // Exclude inline nodes
-          (typeof ext.config?.group === 'string' && ext.config.group.includes('inline'))
-        ) {
-          return false
-        }
-        return true
-      })
-      .map(ext => ext.name)
+    const types = this.extensions.filter(shouldAddHashAttribute).map(ext => ext.name)
 
     return [
       {

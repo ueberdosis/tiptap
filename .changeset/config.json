@@ -2,7 +2,10 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@tiptap/*", "!@tiptap/server-ai-toolkit"]],
+  "fixed": [
+    ["@tiptap/*", "!@tiptap/ai-toolkit", "!@tiptap/server-ai-toolkit"],
+    ["@tiptap/ai-toolkit", "@tiptap/server-ai-toolkit"]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
