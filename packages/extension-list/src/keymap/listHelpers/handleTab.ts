@@ -4,12 +4,17 @@ import { Fragment } from '@tiptap/pm/model'
 import { TextSelection } from '@tiptap/pm/state'
 
 export const handleTab = (editor: Editor, name: string, parentListTypes: string[]) => {
-  const { state, view } = editor
+  const { state } = editor
   const { selection } = state
   if (!selection.empty) return false
 
   const { $from } = selection
   if ($from.parentOffset !== 0) return false
+
+  // A GapCursor also satisfies the two checks above but resolves inside a
+  // non-textblock parent, where the position math below would move whole
+  // block containers and produce an invalid text selection.
+  if (!$from.parent.isTextblock) return false
 
   // Bail when the cursor is already inside a list item. ListItem and TaskItem
   // own Tab themselves (sinkListItem) and we should not double-handle it.
@@ -37,11 +42,15 @@ export const handleTab = (editor: Editor, name: string, parentListTypes: string[
   // token of the last item).
   const insideLastItemEnd = blockStart - 2
 
-  const tr = state.tr
-  tr.delete(blockStart, blockEnd).insert(insideLastItemEnd, Fragment.from(block))
-  // Cursor lands right inside the inserted block at its start: one position
-  // past the insertion point steps over the block's opening token.
-  tr.setSelection(TextSelection.create(tr.doc, insideLastItemEnd + 1))
-  view.dispatch(tr.scrollIntoView())
-  return true
+  return editor.commands.command(({ tr, dispatch }) => {
+    if (dispatch) {
+      tr.delete(blockStart, blockEnd).insert(insideLastItemEnd, Fragment.from(block))
+      // Cursor lands right inside the inserted block at its start: one position
+      // past the insertion point steps over the block's opening token.
+      tr.setSelection(TextSelection.create(tr.doc, insideLastItemEnd + 1))
+      tr.scrollIntoView()
+    }
+
+    return true
+  })
 }
