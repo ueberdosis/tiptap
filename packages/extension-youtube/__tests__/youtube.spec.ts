@@ -289,18 +289,38 @@ describe('extension-youtube', () => {
       getEditorEl()?.remove()
     })
 
-    it('falls back to the default dimensions for values that are not numeric or percentages', () => {
+    it.each([
+      ['100px', '200px'],
+      ['20rem', '10em'],
+      ['50vw', '30vh'],
+    ])('preserves unit-based dimensions like %s when parsing HTML', (width, height) => {
       editor = new Editor({
         element: createEditorEl(),
         extensions: [Document, Text, Paragraph, Youtube],
-        content:
-          '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="auto" height="auto"></iframe></div>',
+        content: `<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="${width}" height="${height}"></iframe></div>`,
       })
 
       const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
 
-      expect(attrs.width).toBe(640)
-      expect(attrs.height).toBe(480)
+      expect(attrs.width).toBe(width)
+      expect(attrs.height).toBe(height)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('preserves non-numeric strings instead of falling back to the default dimensions', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content:
+          '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="not-a-size" height="auto"></iframe></div>',
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe('not-a-size')
+      expect(attrs.height).toBe('auto')
 
       editor?.destroy()
       getEditorEl()?.remove()

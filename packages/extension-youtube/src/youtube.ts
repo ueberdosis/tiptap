@@ -14,14 +14,13 @@ const getParsedDimension = (value: string | null) => {
 
   const trimmedValue = value.trim()
 
-  // keep percentage values like "100%" as strings
-  if (/^\d+(\.\d+)?%$/.test(trimmedValue)) {
-    return trimmedValue
+  if (trimmedValue === '') {
+    return null
   }
 
-  const parsedValue = Number.parseInt(trimmedValue, 10)
+  const parsedValue = Number(trimmedValue)
 
-  return Number.isNaN(parsedValue) ? null : parsedValue
+  return Number.isNaN(parsedValue) ? trimmedValue : parsedValue
 }
 
 const getParsedYoutubeAttributes = (element: HTMLElement) => {
