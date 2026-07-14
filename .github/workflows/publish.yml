@@ -44,23 +44,21 @@ jobs:
     needs: resolve-config
     if: needs.resolve-config.outputs.configured == 'true'
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v7
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          cache: 'true'
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
       - name: Run build
         run: pnpm run build && pnpm run build:demos
+
       - name: Archive package dist artifacts
         run: tar -cf package-dist-artifacts.tar packages/*/dist packages-deprecated/*/dist
+
       - name: Upload package dist artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -82,30 +80,30 @@ jobs:
       label: ${{ needs.resolve-config.outputs.label }}
       published: ${{ steps.changesets.outputs.published }}
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v7
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: ${{ env.PNPM_VERSION }}
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          cache: 'true'
+
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.2
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
       - name: Download package dist artifacts
         uses: actions/download-artifact@v8
         with:
           name: package-dist-artifacts
           path: .
+
       - name: Restore package dist artifacts
         run: tar -xf package-dist-artifacts.tar
+
       - name: Verify package dist artifacts
         run: bash ./scripts/check-package-dists.sh
+
       - name: Run changesets release flow
         id: changesets
         uses: changesets/action@v1
