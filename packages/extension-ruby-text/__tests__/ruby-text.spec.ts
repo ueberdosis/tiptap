@@ -6,9 +6,12 @@ import { afterEach, describe, expect, it } from 'vitest'
 
 import { RubyText, type RubyTextOptions } from '../src/ruby-text.js'
 
+let container: HTMLElement | undefined
+
 function createEditor(content = '<p></p>', options: Partial<RubyTextOptions> = {}) {
   const element = document.createElement('div')
   document.body.appendChild(element)
+  container = element
 
   return new Editor({
     element,
@@ -22,6 +25,8 @@ describe('RubyText', () => {
 
   afterEach(() => {
     editor?.destroy()
+    container?.remove()
+    container = undefined
   })
 
   it('stores base text in the document and annotation in mark attributes', () => {
@@ -98,7 +103,7 @@ describe('RubyText', () => {
     editor.commands.selectAll()
     editor.commands.setRubyText({ rt: '' })
 
-    expect(editor.getHTML()).toContain('data-rt=""')
+    expect(editor.getHTML()).not.toContain('data-rt')
     expect(editor.getHTML()).toContain('<rt contenteditable="false"></rt>')
   })
 
@@ -136,6 +141,19 @@ describe('RubyText', () => {
     rt.click()
 
     expect(rt.querySelector('input')).toBeNull()
+  })
+
+  it('does not open an inline editor when the editor is not editable', () => {
+    editor = createEditor('<p>漢字</p>')
+    editor.commands.selectAll()
+    editor.commands.setRubyText({ rt: 'かんじ' })
+    editor.setEditable(false)
+
+    const rt = editor.view.dom.querySelector('ruby > rt') as HTMLElement
+    rt.click()
+
+    expect(rt.querySelector('input')).toBeNull()
+    expect(editor.getHTML()).toContain('かんじ')
   })
 
   it('discards an annotation edit when dismissed', () => {

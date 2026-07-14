@@ -40,12 +40,22 @@ test.describe(`${demoPath}/${demoName}`, () => {
       })
 
       test('submitting ruby text applies annotation to selection', async ({ page }) => {
+        await setEditorContent(page, '<p>東京</p>')
+
         const editor = await getEditor(page)
 
         await editor.click()
         await page.keyboard.press('Home')
         await page.keyboard.press('Shift+ArrowRight')
         await page.keyboard.press('Shift+ArrowRight')
+
+        await expect
+          .poll(() =>
+            editor.evaluate(
+              (el: any) => el.editor.state.selection.to - el.editor.state.selection.from,
+            ),
+          )
+          .toBe(2)
 
         const rubyTextInput = page.locator('[data-test-id="ruby-text-input"]')
 

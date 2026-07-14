@@ -27,12 +27,12 @@ function createRtElement(
     view.focus()
   }
 
-  if (!allowClickToEdit) {
+  if (!allowClickToEdit || !view.editable) {
     return rt
   }
 
   rt.addEventListener('click', () => {
-    if (editing) {
+    if (editing || !view.editable) {
       return
     }
 
@@ -63,6 +63,12 @@ function createRtElement(
 
       if (event.key === 'Enter') {
         event.preventDefault()
+
+        if (!view.editable) {
+          cancel()
+          return
+        }
+
         editing = false
         const transaction = view.state.tr.addMark(
           range.from,

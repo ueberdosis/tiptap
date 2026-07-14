@@ -64,20 +64,6 @@ export const RubyText = Mark.create<RubyTextOptions>({
     return {
       rt: {
         default: null,
-        parseHTML: element => {
-          const rt = element.querySelector('rt')
-
-          return rt?.textContent ?? null
-        },
-        renderHTML: attributes => {
-          if (attributes.rt == null) {
-            return {}
-          }
-
-          return {
-            'data-rt': attributes.rt,
-          }
-        },
       },
     }
   },
