@@ -44,6 +44,8 @@ jobs:
     needs: resolve-config
     if: needs.resolve-config.outputs.configured == 'true'
     steps:
+      - uses: actions/checkout@v7
+
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -80,6 +82,8 @@ jobs:
       label: ${{ needs.resolve-config.outputs.label }}
       published: ${{ steps.changesets.outputs.published }}
     steps:
+      - uses: actions/checkout@v7
+
       - uses: ./.github/actions/setup-env
         with:
           node-version: ${{ env.NODE_VERSION }}

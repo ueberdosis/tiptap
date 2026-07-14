@@ -1,5 +1,5 @@
 name: Setup Node.js and pnpm
-description: Checkout repo, install pnpm, setup Node.js, and optionally configure pnpm store
+description: Install pnpm, setup Node.js, and optionally configure pnpm store
 
 inputs:
   node-version:
@@ -12,10 +12,6 @@ inputs:
     description: Relative pnpm store directory within the workspace. Empty uses the default pnpm store.
     default: ''
     required: false
-  checkout:
-    description: Whether to checkout the repository
-    default: 'true'
-    required: false
   cache:
     description: Whether to use setup-node's pnpm caching (pass literal string `'true'` to enable)
     default: 'false'
@@ -24,9 +20,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v7
-      if: inputs.checkout == 'true'
-
     - uses: pnpm/action-setup@v5
       with:
         version: ${{ inputs.pnpm-version }}
