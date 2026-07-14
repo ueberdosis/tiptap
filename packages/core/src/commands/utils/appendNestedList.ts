@@ -22,7 +22,7 @@ export function appendNestedList(
     return false
   }
 
-  const nestedList = createNode(context.listType, Fragment.from(nestedItems))
+  const nestedList = createNode(context.listType, Fragment.from(nestedItems), sourceList.attrs)
 
   if (!nestedList) {
     return false
