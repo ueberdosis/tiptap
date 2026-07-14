@@ -2,16 +2,36 @@ import { Editor, Extension } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { render, waitFor } from '@testing-library/react'
+import React from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { EditorContent } from './EditorContent.js'
 import { ReactWidgetRenderer } from './ReactWidgetRenderer.js'
 
 import { UndoRedo } from '@tiptap/extensions'
 
-// The component is never actually rendered in these tests (vitest maps JSX to
-// @tiptap/core's runtime). We only exercise the renderer's registration and
-// lifecycle bookkeeping against a mock content component.
+vi.mock('@tiptap/core/jsx-runtime', async () => import('react/jsx-runtime'))
+vi.mock('@tiptap/core/jsx-dev-runtime', async () => import('react/jsx-dev-runtime'))
+
+// The lifecycle tests below use this lightweight component with a mock content
+// component. Separate tests mount widgets through a real React root.
 const Widget = () => null
+
+let widgetRenderCount = 0
+const propLog: Array<{ editor: Editor; getPos: unknown }> = []
+
+const RenderCounter = () => {
+  widgetRenderCount += 1
+
+  return React.createElement('span', { className: 'render-counter' })
+}
+
+const PropSpy = ({ editor, getPos }: { editor: Editor; getPos: unknown }) => {
+  propLog.push({ editor, getPos })
+
+  return React.createElement('span', { className: 'prop-spy' })
+}
 
 function makeContentComponent() {
   const live = new Set<string>()
@@ -69,6 +89,58 @@ function paragraphWidgets() {
   })
 }
 
+function unchangedPropsWidget() {
+  return Extension.create({
+    name: 'unchangedPropsWidget',
+    addDecorations() {
+      return {
+        create: ({ editor, state }) => {
+          const first = state.doc.firstChild
+
+          if (!first) {
+            return []
+          }
+
+          return [
+            ReactWidgetRenderer(RenderCounter, {
+              editor,
+              pos: first.nodeSize - 1,
+              key: 'render-counter',
+              props: { label: 'constant' },
+            }),
+          ]
+        },
+      }
+    },
+  })
+}
+
+function propSpyWidget() {
+  return Extension.create({
+    name: 'propSpyWidget',
+    addDecorations() {
+      return {
+        create: ({ editor, state }) => {
+          const first = state.doc.firstChild
+
+          if (!first) {
+            return []
+          }
+
+          return [
+            ReactWidgetRenderer(PropSpy, {
+              editor,
+              pos: first.nodeSize - 1,
+              key: 'prop-spy',
+              props: { size: state.doc.content.size },
+            }),
+          ]
+        },
+      }
+    },
+  })
+}
+
 function createEditor(content: string) {
   const contentComponent = makeContentComponent()
   const editor = new Editor({
@@ -95,6 +167,16 @@ function createEditorWithUndo(content: string) {
   return { editor, contentComponent }
 }
 
+function createMountedEditor(content: string, extension: Extension) {
+  const editor = new Editor({
+    extensions: [Document, Paragraph, Text, extension],
+    content,
+  })
+  const mounted = render(React.createElement(EditorContent, { editor }))
+
+  return { editor, ...mounted }
+}
+
 async function flush() {
   await Promise.resolve()
   await new Promise(resolve => setTimeout(resolve, 0))
@@ -102,10 +184,15 @@ async function flush() {
 
 describe('ReactWidgetRenderer', () => {
   let active: Editor | null = null
+  let unmount: (() => void) | null = null
 
   afterEach(() => {
+    unmount?.()
+    unmount = null
     active?.destroy()
     active = null
+    widgetRenderCount = 0
+    propLog.length = 0
   })
 
   it('registers a portal for every widget', async () => {
@@ -158,6 +245,37 @@ describe('ReactWidgetRenderer', () => {
 
     editor.destroy()
     expect(destroy).not.toHaveBeenCalled()
+  })
+
+  it('does not render a mounted widget again when props are unchanged', async () => {
+    const mounted = createMountedEditor('<p>a</p>', unchangedPropsWidget())
+
+    active = mounted.editor
+    unmount = mounted.unmount
+    await waitFor(() => expect(widgetRenderCount).toBeGreaterThan(0))
+    const rendersAfterMount = widgetRenderCount
+
+    mounted.editor.commands.insertContentAt(2, 'X')
+    await flush()
+
+    expect(widgetRenderCount).toBe(rendersAfterMount)
+  })
+
+  it('keeps editor and getPos when mounted widget props change', async () => {
+    const mounted = createMountedEditor('<p>a</p>', propSpyWidget())
+
+    active = mounted.editor
+    unmount = mounted.unmount
+    await waitFor(() => expect(propLog.length).toBeGreaterThan(0))
+
+    mounted.editor.commands.insertContentAt(2, 'X')
+    await flush()
+    mounted.editor.commands.insertContentAt(2, 'Y')
+    await flush()
+
+    expect(propLog.length).toBeGreaterThan(1)
+    expect(propLog.every(entry => entry.editor === mounted.editor)).toBe(true)
+    expect(propLog.every(entry => typeof entry.getPos === 'function')).toBe(true)
   })
 
   it('keeps every widget registered when keys are reassigned by a split', async () => {

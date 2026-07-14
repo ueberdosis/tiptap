@@ -23,6 +23,42 @@ function getDecorations(editor: Editor): Decoration[] {
   return set ? set.find() : []
 }
 
+describe('decoration', () => {
+  it('creates node descriptors with default attrs', () => {
+    expect(decoration.node(1, 4)).toEqual({
+      kind: 'node',
+      from: 1,
+      to: 4,
+      attrs: {},
+      spec: undefined,
+    })
+  })
+
+  it('creates inline descriptors with attrs and spec', () => {
+    expect(decoration.inline(2, 5, { class: 'highlight' }, { inclusiveStart: true })).toEqual({
+      kind: 'inline',
+      from: 2,
+      to: 5,
+      attrs: { class: 'highlight' },
+      spec: { inclusiveStart: true },
+    })
+  })
+
+  it('keeps widget keys out of the ProseMirror spec', () => {
+    const render = () => document.createElement('span')
+
+    expect(
+      decoration.widget(3, render, { key: 'widget-1', side: -1, stopEvent: () => true }),
+    ).toEqual({
+      kind: 'widget',
+      pos: 3,
+      render,
+      key: 'widget-1',
+      spec: { side: -1, stopEvent: expect.any(Function) },
+    })
+  })
+})
+
 describe('addDecorations', () => {
   it('does not register a plugin when no extension declares decorations', () => {
     const editor = createEditor()
