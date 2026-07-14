@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
+      - name: Validate publish config
+        run: node --test .github/scripts/__tests__/*.test.mjs
       - name: Look up branch in publish config
         id: resolve
         run: node .github/scripts/resolve-publish-config.mjs "${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
