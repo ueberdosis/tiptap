@@ -173,8 +173,19 @@ export function VueWidgetRenderer<P extends Record<string, any> = object>(
       // expensive and corrupts its internals.
       const base = (editor.contentComponent?.$options as any)?._base as VueConstructor | undefined
       const VueBase = base ?? Vue
-      const Constructor = VueBase.extend(component as any).extend({
-        props: Object.keys(mountProps),
+      const Component = VueBase.extend(component as any)
+      const declaredProps = {
+        ...(Component as unknown as { options: { props?: Record<string, any> } }).options.props,
+      }
+
+      for (const name of Object.keys(mountProps)) {
+        if (!Object.prototype.hasOwnProperty.call(declaredProps, name)) {
+          declaredProps[name] = null
+        }
+      }
+
+      const Constructor = Component.extend({
+        props: declaredProps,
       })
 
       renderer = new VueRenderer(Constructor, {
