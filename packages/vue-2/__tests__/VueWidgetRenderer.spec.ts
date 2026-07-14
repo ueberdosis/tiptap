@@ -11,6 +11,8 @@ import { VueWidgetRenderer } from '../src/VueWidgetRenderer.js'
 
 let renderCount = 0
 let destroyCount = 0
+let propDefinitions: Record<string, any> | null = null
+let validatorCalls = 0
 
 const Counter = {
   name: 'Counter',
@@ -24,6 +26,26 @@ const Counter = {
   render(this: any, h: CreateElement) {
     renderCount += 1
     return h('button', { class: 'counter' }, `${this.index}:${this.count}`)
+  },
+}
+
+const indexValidator = (value: unknown) => {
+  validatorCalls += 1
+
+  return typeof value === 'number'
+}
+
+const PropDefinitions = {
+  name: 'PropDefinitions',
+  props: {
+    index: { type: Number, validator: indexValidator },
+    label: { type: String, default: 'fallback' },
+  },
+  created(this: any) {
+    propDefinitions = this.$options.props
+  },
+  render(this: any, h: CreateElement) {
+    return h('span', { class: 'prop-definitions' }, `${this.index}:${this.label}`)
   },
 }
 
@@ -67,6 +89,32 @@ function paragraphWidgets() {
   })
 }
 
+function propDefinitionsWidget() {
+  return Extension.create({
+    name: 'propDefinitionsWidget',
+    addDecorations() {
+      return {
+        create: ({ editor, state }) => {
+          const first = state.doc.firstChild
+
+          if (!first) {
+            return []
+          }
+
+          return [
+            VueWidgetRenderer(PropDefinitions, {
+              editor: editor as unknown as Editor,
+              pos: first.nodeSize - 1,
+              key: 'prop-definitions',
+              props: { index: 1 },
+            }),
+          ]
+        },
+      }
+    },
+  })
+}
+
 describe('VueWidgetRenderer (vue-2)', () => {
   let editor: Editor | null = null
   let el: HTMLElement | null = null
@@ -80,6 +128,8 @@ describe('VueWidgetRenderer (vue-2)', () => {
     el = null
     renderCount = 0
     destroyCount = 0
+    propDefinitions = null
+    validatorCalls = 0
   })
 
   function mount(content: string, extraExtensions: AnyExtension[] = []) {
@@ -154,6 +204,19 @@ describe('VueWidgetRenderer (vue-2)', () => {
     editor!.commands.insertContentAt(2, 'Y')
 
     expect(renderCount).toBe(afterMount)
+  })
+
+  it('preserves declared prop definitions while adding widget props', () => {
+    mount('<p>aaa</p>', [propDefinitionsWidget()])
+
+    expect(el!.querySelector('.prop-definitions')?.textContent).toBe('1:fallback')
+    expect(validatorCalls).toBeGreaterThan(0)
+    expect(propDefinitions?.index.type).toBe(Number)
+    expect(propDefinitions?.index.validator).toBe(indexValidator)
+    expect(propDefinitions?.label.type).toBe(String)
+    expect(propDefinitions?.label.default).toBe('fallback')
+    expect(propDefinitions).toHaveProperty('editor')
+    expect(propDefinitions).toHaveProperty('getPos')
   })
 
   it('keeps every widget mounted when keys are reassigned by a split', () => {
