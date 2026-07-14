@@ -22,6 +22,8 @@ The following scripts are defined at the repo root and can be run via `pnpm <scr
   - **unit tests with Vitest**
     - `pnpm test:unit` - run Vitest unit tests in `packages/**/__tests__/`
     - `pnpm test:unit:dev` - run Vitest in watch mode
+  - **publish config tests**
+    - `pnpm test:publish-config` - run resolver tests for `.github/publish-config.json`
   - **e2e tests with Playwright**
     - `pnpm test:e2e` - run Playwright e2e tests headlessly in Chromium
     - `pnpm test:e2e:firefox` - same, in Firefox
