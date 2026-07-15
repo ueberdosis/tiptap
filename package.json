@@ -27,6 +27,7 @@
     "test:e2e:open:firefox": "playwright test --ui --project=firefox",
     "test:e2e:open:all": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
+    "test:publish-config": "node --test .github/scripts/__tests__/*.test.mjs",
     "test": "turbo run build && pnpm run test:unit",
     "build": "turbo build",
     "build:demos": "pnpm --prefix demos run build:demos",

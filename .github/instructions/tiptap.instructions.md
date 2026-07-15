@@ -175,7 +175,7 @@ export function toggleBold(editor: Editor): boolean {
 
 * Run `pnpm changeset` to create a new changeset (choose packages + bump type).
 * Run `pnpm version` to update versions and changelogs.
-* Maintainers publish with `pnpm publish`.
+* Publishing happens automatically via the Publish CI workflow on configured branches. See `agents/VERSIONING.md` for details.
 
 Changelogs must describe **user-facing changes**. Avoid internal noise.
 

@@ -84,6 +84,15 @@ When adding a new package to the repository that does not yet exist on NPM, addi
 
 Without this setup, the publish CI will fail when attempting to release a new package.
 
+### Adding a new release branch
+
+When setting up a new release line (e.g., `v2`), you need to update two places:
+
+1. **Workflow trigger** — Add the branch name to the `on.push.branches` list in `.github/workflows/publish.yml`.
+2. **Publish configuration** — Add a matching entry in `.github/publish-config.json` with the desired dist-tag and release messages.
+
+Both lists must stay in sync. A branch present in one but not the other will either never trigger the workflow or produce a harmless no-op. See [`agents/VERSIONING.md`](agents/VERSIONING.md) for the full documentation.
+
 ## Requirements
 
 If the project maintainer has any additional requirements, you will find them listed here.

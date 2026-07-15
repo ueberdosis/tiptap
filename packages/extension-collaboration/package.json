@@ -44,12 +44,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.6"
+    "@tiptap/y-tiptap": "^3.0.7"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.6",
+    "@tiptap/y-tiptap": "^3.0.7",
     "yjs": "^13"
   }
 }

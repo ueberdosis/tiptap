@@ -1,0 +1,35 @@
+name: Setup Node.js and pnpm
+description: Install pnpm, setup Node.js, and optionally configure pnpm store
+
+inputs:
+  node-version:
+    description: Node.js version
+    required: true
+  pnpm-version:
+    description: pnpm version
+    required: true
+  store-dir:
+    description: Relative pnpm store directory within the workspace. Empty uses the default pnpm store.
+    default: ''
+    required: false
+  cache:
+    description: Whether to use setup-node's pnpm caching (pass literal string `'true'` to enable)
+    default: 'false'
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v5
+      with:
+        version: ${{ inputs.pnpm-version }}
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: ${{ inputs.cache == 'true' && 'pnpm' || '' }}
+
+    - name: Configure pnpm store
+      if: inputs.store-dir != ''
+      shell: bash
+      run: pnpm config set store-dir ${{ github.workspace }}/${{ inputs.store-dir }}
