@@ -6,7 +6,7 @@ import Heading from '@tiptap/extension-heading'
 import InvisibleCharacters from '@tiptap/extension-invisible-characters'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -23,6 +23,11 @@ export default () => {
         This is a paragraph, but without breaks.
       </p>
     `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   if (!editor) {
