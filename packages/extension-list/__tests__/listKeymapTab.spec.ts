@@ -91,9 +91,7 @@ describe('ListKeymap Tab', () => {
       },
     })
 
-    // Place a gap cursor before the horizontal rule inside the blockquote.
-    // It satisfies the empty-selection and parentOffset checks of handleTab
-    // while resolving inside a non-textblock parent.
+    // a gap cursor before the hr passes handleTab's empty-selection and parentOffset checks
     const $gap = editor.state.doc.resolve(findNodePosition(editor, 'horizontalRule'))
     editor.view.dispatch(editor.state.tr.setSelection(new GapCursor($gap)))
 
@@ -141,9 +139,7 @@ describe('ListKeymap Tab', () => {
 
     const listItem = editor.getJSON().content?.[0]?.content?.[0]
 
-    // "B" becomes the last child of the list item. Without the short-circuit
-    // in the Tab handler, the taskItem pass would sink it a second time into
-    // the task item that now precedes it.
+    // "B" becomes the last child of the list item and must not sink again into the taskItem
     expect(listItem?.content?.map(node => node.type)).toEqual([
       'paragraph',
       'taskList',

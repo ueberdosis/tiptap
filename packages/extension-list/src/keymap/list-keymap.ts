@@ -102,10 +102,7 @@ export const ListKeymap = Extension.create<ListKeymapOptions>({
         return handled
       },
       Tab: ({ editor }) => {
-        // Stop at the first list type that handles the key. Unlike Backspace
-        // and Delete above, a successful Tab pass changes the state in a way
-        // that can re-satisfy the preconditions of the next list type, which
-        // would sink the block a second time in a single keypress.
+        // stop at the first handled list type so a single Tab cannot sink the block twice
         for (const { itemName, wrapperNames } of this.options.listTypes) {
           if (editor.state.schema.nodes[itemName] === undefined) {
             continue
