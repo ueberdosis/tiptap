@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
+import { EditorContent, Extension, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -52,6 +52,11 @@ export default () => {
         Hey, try to hit Shift+Enter, Ctrl+Enter or Meta+Enter. The last shortcut hit will be displayed above.
       </p>
     `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   if (!editor) {
