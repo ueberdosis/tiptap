@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Subscript from '@tiptap/extension-subscript'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -15,6 +15,11 @@ export default () => {
         <p><sub>This is subscript.</sub></p>
         <p><span style="vertical-align: sub">And this.</span></p>
       `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   if (!editor) {
