@@ -213,6 +213,141 @@ describe('extension-youtube', () => {
     },
   )
 
+  describe('iframe dimension handling', () => {
+    it('preserves percentage width and height when parsing HTML', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content:
+          '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="100%" height="56.25%"></iframe></div>',
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe('100%')
+      expect(attrs.height).toBe('56.25%')
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('keeps percentage dimensions when content is loaded back from rendered HTML', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content: {
+          type: 'doc',
+          content: [
+            {
+              type: 'youtube',
+              attrs: {
+                src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                width: '100%',
+                height: 480,
+              },
+            },
+          ],
+        },
+      })
+
+      const html = editor.getHTML()
+
+      expect(html).toContain('width="100%"')
+
+      editor.destroy()
+      getEditorEl()?.remove()
+
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content: html,
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe('100%')
+      expect(attrs.height).toBe(480)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('still parses plain numeric dimensions as numbers', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content:
+          '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="720" height="405"></iframe></div>',
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe(720)
+      expect(attrs.height).toBe(405)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it.each([
+      ['100px', '200px'],
+      ['20rem', '10em'],
+      ['50vw', '30vh'],
+    ])('preserves unit-based dimensions like %s when parsing HTML', (width, height) => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content: `<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="${width}" height="${height}"></iframe></div>`,
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe(width)
+      expect(attrs.height).toBe(height)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('preserves non-numeric strings instead of falling back to the default dimensions', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+        content:
+          '<div data-youtube-video><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="not-a-size" height="auto"></iframe></div>',
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe('not-a-size')
+      expect(attrs.height).toBe('auto')
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+
+    it('accepts a percentage width in the setYoutubeVideo command', () => {
+      editor = new Editor({
+        element: createEditorEl(),
+        extensions: [Document, Text, Paragraph, Youtube],
+      })
+
+      editor.commands.setYoutubeVideo({
+        src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        width: '100%',
+        height: 405,
+      })
+
+      const attrs = editor.getJSON().content?.[0]?.attrs ?? {}
+
+      expect(attrs.width).toBe('100%')
+      expect(attrs.height).toBe(405)
+
+      editor?.destroy()
+      getEditorEl()?.remove()
+    })
+  })
+
   it('does not persist NaN width or height when parsing iframe dimensions from HTML', () => {
     editor = new Editor({
       element: createEditorEl(),
