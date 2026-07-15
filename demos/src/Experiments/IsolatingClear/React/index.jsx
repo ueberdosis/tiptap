@@ -7,7 +7,6 @@ import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
 import { content } from '../content.ts'
-import { menuBarStateSelector } from '../../../Examples/Default/React/menuBarState.ts'
 
 const WrapperBlock = Node.create({
   name: 'wrapperBlock',
@@ -31,11 +30,25 @@ const MenuBar = ({ editor }) => {
   const editorState = useEditorState({
     editor,
     selector: ctx => ({
-      ...menuBarStateSelector(ctx),
+      isBold: ctx.editor.isActive('bold') ?? false,
       canBold: ctx.editor.can().chain().focus().toggleBold().run() ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
       canItalic: ctx.editor.can().chain().focus().toggleItalic().run() ?? false,
+      isStrike: ctx.editor.isActive('strike') ?? false,
       canStrike: ctx.editor.can().chain().focus().toggleStrike().run() ?? false,
+      isCode: ctx.editor.isActive('code') ?? false,
       canCode: ctx.editor.can().chain().focus().toggleCode().run() ?? false,
+      isParagraph: ctx.editor.isActive('paragraph') ?? false,
+      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+      isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+      isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
+      isHeading4: ctx.editor.isActive('heading', { level: 4 }) ?? false,
+      isHeading5: ctx.editor.isActive('heading', { level: 5 }) ?? false,
+      isHeading6: ctx.editor.isActive('heading', { level: 6 }) ?? false,
+      isBulletList: ctx.editor.isActive('bulletList') ?? false,
+      isOrderedList: ctx.editor.isActive('orderedList') ?? false,
+      isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+      isBlockquote: ctx.editor.isActive('blockquote') ?? false,
       canUndo: ctx.editor.can().chain().focus().undo().run() ?? false,
       canRedo: ctx.editor.can().chain().focus().redo().run() ?? false,
       isPurple: ctx.editor.isActive('textStyle', { color: '#958DF1' }) ?? false,
