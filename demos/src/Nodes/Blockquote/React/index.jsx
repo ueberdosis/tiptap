@@ -4,7 +4,7 @@ import Blockquote from '@tiptap/extension-blockquote'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -17,6 +17,14 @@ export default () => {
       <p>Audrey Hepburn</p>
     `,
   })
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBlockquote: ctx.editor.isActive('blockquote') ?? false,
+      canSetBlockquote: ctx.editor.can().setBlockquote() ?? false,
+      canUnsetBlockquote: ctx.editor.can().unsetBlockquote() ?? false,
+    }),
+  })
 
   if (!editor) {
     return null
@@ -28,19 +36,19 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={editor.isActive('blockquote') ? 'is-active' : ''}
+            className={editorState.isBlockquote ? 'is-active' : ''}
           >
             Toggle blockquote
           </button>
           <button
             onClick={() => editor.chain().focus().setBlockquote().run()}
-            disabled={!editor.can().setBlockquote()}
+            disabled={!editorState.canSetBlockquote}
           >
             Set blockquote
           </button>
           <button
             onClick={() => editor.chain().focus().unsetBlockquote().run()}
-            disabled={!editor.can().unsetBlockquote()}
+            disabled={!editorState.canUnsetBlockquote}
           >
             Unset blockquote
           </button>

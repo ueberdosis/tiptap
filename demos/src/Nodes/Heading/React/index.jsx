@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -24,6 +24,14 @@ export default () => {
         <h4>This 4th level heading will be converted to a paragraph, because levels are configured to be only 1, 2 or 3.</h4>
       `,
   })
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+      isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+      isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
+    }),
+  })
 
   if (!editor) {
     return null
@@ -35,19 +43,19 @@ export default () => {
         <div className="button-group">
           <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+            className={editorState.isHeading1 ? 'is-active' : ''}
           >
             H1
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+            className={editorState.isHeading2 ? 'is-active' : ''}
           >
             H2
           </button>
           <button
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
+            className={editorState.isHeading3 ? 'is-active' : ''}
           >
             H3
           </button>
