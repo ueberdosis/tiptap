@@ -1,5 +1,14 @@
 # @tiptap/extension-details
 
+## 3.28.0
+
+### Patch Changes
+
+- 231b10d: Fix the cursor moving to the details summary after typing in content at the start of a document.
+  - @tiptap/core@3.28.0
+  - @tiptap/extension-text-style@3.28.0
+  - @tiptap/pm@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes

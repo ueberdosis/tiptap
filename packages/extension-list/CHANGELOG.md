@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.28.0
+
+### Patch Changes
+
+- c1254c1: Fix markdown parsing a line like `(216) 555-1234` as an ordered list. A number followed by `)` mid-line is no longer treated as a list marker.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.28.0
+
+### Minor Changes
+
+- 1939086: Allow string `width` and `height` values like `'100%'` or `'20rem'` in the YouTube extension. Non-numeric values in parsed HTML are now preserved instead of being converted to numbers.
+
+### Patch Changes
+
+- @tiptap/core@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes
