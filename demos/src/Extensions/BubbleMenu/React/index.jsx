@@ -28,6 +28,11 @@ export default () => {
     `,
   })
 
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
+  })
+
   const [showMenu, setShowMenu] = React.useState(true)
   const [isEditable, setIsEditable] = React.useState(true)
 
