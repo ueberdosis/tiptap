@@ -1,5 +1,16 @@
 # @tiptap/extension-drag-handle
 
+## 3.28.0
+
+### Patch Changes
+
+- 3c8da6a: Bump @tiptap/y-tiptap version to ensure users use latest version
+- Updated dependencies [3c8da6a]
+  - @tiptap/extension-collaboration@3.28.0
+  - @tiptap/core@3.28.0
+  - @tiptap/extension-node-range@3.28.0
+  - @tiptap/pm@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Change Log
 
+## 3.28.0
+
+### Patch Changes
+
+- 8614730: Batch React node view portal store notifications that happen in the same microtask to avoid nested update depth warnings when many node views mount together.
+- 1ecf814: Bind onMount and onUnmount event handlers when initializing an Editor with useEditor hook.
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes

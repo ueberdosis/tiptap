@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.28.0
+
+### Patch Changes
+
+- 3c8da6a: Bump @tiptap/y-tiptap version to ensure users use latest version
+  - @tiptap/core@3.28.0
+  - @tiptap/pm@3.28.0
+
 ## 3.27.4
 
 ### Patch Changes
