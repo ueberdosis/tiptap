@@ -165,6 +165,7 @@ export const Image = Node.create<ImageOptions>({
       Object.entries(mergedAttributes).forEach(([key, value]) => {
         if (value != null) {
           switch (key) {
+            case 'src':
             case 'width':
             case 'height':
               break
@@ -180,6 +181,25 @@ export const Image = Node.create<ImageOptions>({
       }
 
       let previousHTMLAttributes = { ...HTMLAttributes }
+      const syncImageSource = (src: unknown) => {
+        if (typeof src === 'string' && src !== '') {
+          if (el.getAttribute('src') !== src) {
+            el.src = src
+          }
+
+          return
+        }
+
+        if (el.hasAttribute('src')) {
+          el.removeAttribute('src')
+        }
+
+        if (el.src !== '') {
+          el.src = ''
+        }
+      }
+
+      syncImageSource(HTMLAttributes.src)
 
       const onUpdate: ResizableNodeViewOptions['onUpdate'] = (
         updatedNode: Parameters<typeof getRenderedAttributes>[0],
@@ -195,7 +215,7 @@ export const Image = Node.create<ImageOptions>({
 
         // Remove attributes that were previously rendered but are no longer present
         Object.keys(previousHTMLAttributes).forEach(key => {
-          if (key !== 'width' && key !== 'height' && !(key in newHTMLAttributes)) {
+          if (key !== 'src' && key !== 'width' && key !== 'height' && !(key in newHTMLAttributes)) {
             el.removeAttribute(key)
           }
         })
@@ -203,6 +223,7 @@ export const Image = Node.create<ImageOptions>({
         Object.entries(newHTMLAttributes).forEach(([key, value]) => {
           if (value != null) {
             switch (key) {
+              case 'src':
               case 'width':
               case 'height':
                 break
@@ -215,9 +236,7 @@ export const Image = Node.create<ImageOptions>({
           }
         })
 
-        if (newHTMLAttributes.src !== el.src) {
-          el.src = newHTMLAttributes.src
-        }
+        syncImageSource(newHTMLAttributes.src)
 
         previousHTMLAttributes = newHTMLAttributes
 
