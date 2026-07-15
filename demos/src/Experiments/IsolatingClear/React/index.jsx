@@ -2,7 +2,7 @@ import './styles.scss'
 
 import { ListItem } from '@tiptap/extension-list'
 import { Color, TextStyle } from '@tiptap/extension-text-style'
-import { EditorContent, Node, useEditor } from '@tiptap/react'
+import { EditorContent, Node, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -166,6 +166,11 @@ export default () => {
       TextStyle.configure({ types: [ListItem.name] }),
     ],
     content,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   return (
