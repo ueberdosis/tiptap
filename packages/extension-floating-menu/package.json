@@ -42,13 +42,14 @@
   "scripts": {
     "build": "tsup"
   },
+  "dependencies": {
+    "@floating-ui/dom": "^1.0.0"
+  },
   "devDependencies": {
-    "@floating-ui/dom": "^1.6.12",
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@floating-ui/dom": "^1.0.0",
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*"
   }
