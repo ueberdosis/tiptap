@@ -4,7 +4,7 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -29,6 +29,11 @@ export default () => {
           Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.
         </p>
       `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   if (!editor) {
