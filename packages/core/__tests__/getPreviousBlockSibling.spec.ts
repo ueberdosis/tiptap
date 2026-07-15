@@ -103,8 +103,7 @@ describe('getPreviousBlockSibling', () => {
       ],
     })
 
-    // resolve(0) sits before the very first node, so there is no parent depth
-    // above it to read a sibling from.
+    // resolve(0) has no parent depth to read a sibling from
     expect(getPreviousBlockSibling(doc.resolve(0))).toBeNull()
   })
 })
