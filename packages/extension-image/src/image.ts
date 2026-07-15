@@ -155,6 +155,7 @@ export const Image = Node.create<ImageOptions>({
     }
 
     const { directions, minWidth, minHeight, alwaysPreserveAspectRatio } = this.options.resize
+    const resizeManagedAttributes = new Set(['src', 'width', 'height'])
 
     return ({ node, getPos, HTMLAttributes, editor }) => {
       const el = document.createElement('img')
@@ -215,22 +216,18 @@ export const Image = Node.create<ImageOptions>({
 
         // Remove attributes that were previously rendered but are no longer present
         Object.keys(previousHTMLAttributes).forEach(key => {
-          if (key !== 'src' && key !== 'width' && key !== 'height' && !(key in newHTMLAttributes)) {
+          if (!resizeManagedAttributes.has(key) && !(key in newHTMLAttributes)) {
             el.removeAttribute(key)
           }
         })
 
         Object.entries(newHTMLAttributes).forEach(([key, value]) => {
+          if (resizeManagedAttributes.has(key)) {
+            return
+          }
+
           if (value != null) {
-            switch (key) {
-              case 'src':
-              case 'width':
-              case 'height':
-                break
-              default:
-                el.setAttribute(key, value)
-                break
-            }
+            el.setAttribute(key, value)
           } else {
             el.removeAttribute(key)
           }
