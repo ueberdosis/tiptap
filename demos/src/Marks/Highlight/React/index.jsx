@@ -4,7 +4,7 @@ import Document from '@tiptap/extension-document'
 import Highlight from '@tiptap/extension-highlight'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import React from 'react'
 
 export default () => {
@@ -16,6 +16,11 @@ export default () => {
         <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
         <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
       `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   if (!editor) {
