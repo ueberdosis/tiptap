@@ -63,7 +63,7 @@ reviews:
       instructions: Apply this label if the PR fixes a bug without a reproduction or regression test for the reported behavior.
   auto_review:
     ignore_usernames:
-      - github-actions
+      - github-actions[bot]
 
 issue_enrichment:
   auto_enrich:
