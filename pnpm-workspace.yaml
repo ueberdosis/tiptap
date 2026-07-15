@@ -7,9 +7,9 @@ allowBuilds:
   esbuild: true
   iframe-resizer: true
 minimumReleaseAgeExclude:
-  - '@tiptap/y-tiptap'
-  - '@tiptap/core'
-  - '@tiptap/pm'
+  - '@tiptap/y-tiptap@3.0.7'
+  - '@tiptap/core@3.27.4'
+  - '@tiptap/pm@3.27.4'
 overrides:
   '@rollup/pluginutils>picomatch': '2.3.2'
   '@octokit/action>undici': '6.24.1'
