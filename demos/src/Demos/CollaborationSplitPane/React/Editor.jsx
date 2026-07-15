@@ -3,7 +3,7 @@ import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import Highlight from '@tiptap/extension-highlight'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -110,6 +110,11 @@ const Editor = ({ ydoc, provider, room }) => {
         provider,
       }),
     ],
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   useEffect(() => {
