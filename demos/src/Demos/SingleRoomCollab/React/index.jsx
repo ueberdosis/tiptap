@@ -4,7 +4,7 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import { CharacterCount } from '@tiptap/extensions'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as Y from 'yjs'
@@ -63,6 +63,7 @@ const getInitialUser = () => {
 export default () => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
+  const [userCount, setUserCount] = useState(0)
 
   const editor = useEditor({
     extensions: [
@@ -81,19 +82,29 @@ export default () => {
     ],
   })
 
-  const { userCount } = useEditorState({
-    editor,
-    selector: ctx => ({
-      userCount: ctx.editor.storage.collaborationCaret.users.length,
-    }),
-  })
-
   useEffect(() => {
     // Update status changes
     websocketProvider.on('status', event => {
       setStatus(event.status)
     })
   }, [])
+
+  useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
+    const updateUserCount = () => {
+      setUserCount(editor.storage.collaborationCaret.users.length)
+    }
+
+    updateUserCount()
+    websocketProvider.awareness.on('update', updateUserCount)
+
+    return () => {
+      websocketProvider.awareness.off('update', updateUserCount)
+    }
+  }, [editor])
 
   // Save current user to localStorage and emit to editor
   useEffect(() => {

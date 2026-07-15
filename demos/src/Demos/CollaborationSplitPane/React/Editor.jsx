@@ -80,6 +80,7 @@ const getInitialUser = () => {
 const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState('connecting')
   const [currentUser, setCurrentUser] = useState(getInitialUser)
+  const [userCount, setUserCount] = useState(0)
 
   const editor = useEditor({
     enableContentCheck: true,
@@ -112,7 +113,7 @@ const Editor = ({ ydoc, provider, room }) => {
     ],
   })
 
-  const { isBold, isItalic, isStrike, isBulletList, isCode, userCount } = useEditorState({
+  const { isBold, isItalic, isStrike, isBulletList, isCode } = useEditorState({
     editor,
     selector: ctx => ({
       isBold: ctx.editor.isActive('bold') ?? false,
@@ -120,7 +121,6 @@ const Editor = ({ ydoc, provider, room }) => {
       isStrike: ctx.editor.isActive('strike') ?? false,
       isBulletList: ctx.editor.isActive('bulletList') ?? false,
       isCode: ctx.editor.isActive('code') ?? false,
-      userCount: ctx.editor.storage.collaborationCaret.users.length,
     }),
   })
 
@@ -136,6 +136,23 @@ const Editor = ({ ydoc, provider, room }) => {
       provider.off('status', statusHandler)
     }
   }, [provider])
+
+  useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
+    const updateUserCount = () => {
+      setUserCount(editor.storage.collaborationCaret.users.length)
+    }
+
+    updateUserCount()
+    provider.awareness.on('update', updateUserCount)
+
+    return () => {
+      provider.awareness.off('update', updateUserCount)
+    }
+  }, [editor, provider])
 
   // Save current user to localStorage and emit to editor
   useEffect(() => {
