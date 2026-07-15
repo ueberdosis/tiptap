@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { BubbleMenu, FloatingMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
@@ -16,6 +16,11 @@ export default () => {
         Neat, isn’t it? Add an empty paragraph to see the floating menu.
       </p>
     `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   return (
