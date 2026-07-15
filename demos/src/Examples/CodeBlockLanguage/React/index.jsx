@@ -4,7 +4,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import { EditorContent, ReactNodeViewRenderer, useEditor, useEditorState } from '@tiptap/react'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
@@ -75,6 +75,11 @@ export default () => {
           Press Command/Ctrl + Enter to leave the fenced code block and continue typing in boring paragraphs.
         </p>
       `,
+  })
+
+  useEditorState({
+    editor,
+    selector: ({ editor: currentEditor }) => currentEditor.state,
   })
 
   return (
