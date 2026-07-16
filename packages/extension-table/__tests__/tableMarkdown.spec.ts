@@ -10,7 +10,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('table markdown — inline code with pipe characters', () => {
   const manager = new MarkdownManager({
-    extensions: [Document, Paragraph, Text, Code, TableKit],
+    extensions: [Document, Heading, Paragraph, Text, Code, TableKit],
   })
 
   it('should parse `||` inside a code span as a single cell', () => {
