@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-collaboration",
-  "version": "3.27.3",
+  "version": "3.28.0",
   "description": "collaboration extension for tiptap",
   "keywords": [
     "tiptap",
@@ -44,12 +44,12 @@
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.6"
+    "@tiptap/y-tiptap": "^3.0.7"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.6",
+    "@tiptap/y-tiptap": "^3.0.7",
     "yjs": "^13"
   }
 }

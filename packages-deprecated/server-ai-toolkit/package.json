@@ -1,0 +1,50 @@
+{
+  "name": "@tiptap/server-ai-toolkit",
+  "version": "0.3.0",
+  "description": "Integrate AI capabilities into the Tiptap editor. This package contains the SDK for connecting to the Server AI Toolkit service.",
+  "keywords": [
+    "ai toolkit",
+    "server",
+    "server ai toolkit",
+    "tiptap",
+    "tiptap ai"
+  ],
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/ai-toolkit",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages-deprecated/server-ai-toolkit"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@tiptap/ai-toolkit": "workspace:*"
+  }
+}

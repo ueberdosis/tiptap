@@ -1,6 +1,6 @@
 {
-  "name": "@tiptap/server-ai-toolkit",
-  "version": "0.2.0",
+  "name": "@tiptap/ai-toolkit",
+  "version": "0.3.0",
   "description": "Integrate AI capabilities into the Tiptap editor. This package contains the SDK for connecting to the Server AI Toolkit service.",
   "keywords": [
     "ai toolkit",
@@ -9,7 +9,7 @@
     "tiptap",
     "tiptap ai"
   ],
-  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/server-ai-toolkit",
+  "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/ai-toolkit",
   "bugs": {
     "url": "https://github.com/ueberdosis/tiptap/issues"
   },
@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ueberdosis/tiptap",
-    "directory": "packages/server-ai-toolkit"
+    "directory": "packages/ai-toolkit"
   },
   "funding": {
     "type": "github",
