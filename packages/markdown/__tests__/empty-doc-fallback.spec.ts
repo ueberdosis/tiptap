@@ -1,4 +1,4 @@
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension, Node } from '@tiptap/core'
 import { Document } from '@tiptap/extension-document'
 import { Paragraph } from '@tiptap/extension-paragraph'
 import { Text } from '@tiptap/extension-text'
@@ -23,6 +23,38 @@ const BareTextBlock = Extension.create({
         return undefined
       }
       return { type: 'bareTextBlock', raw: match[0], text: match[1] }
+    },
+  },
+})
+
+// A real block node, registered via `registerExtension()` after construction
+// rather than passed to the constructor. Proves the block-node cache reads
+// `this.extensions` (every extension ever registered) and not just
+// `this.baseExtensions` (only the constructor's initial list).
+const DirectlyRegisteredCallout = Node.create({
+  name: 'callout',
+  group: 'block',
+  content: 'text*',
+  markdownTokenName: 'callout',
+  parseMarkdown: (token, helpers) => ({
+    type: 'callout',
+    content: helpers.parseInline(token.tokens || []),
+  }),
+  markdownTokenizer: {
+    name: 'callout',
+    level: 'block',
+    start: ':::callout',
+    tokenize: (src: string, _tokens: unknown, lexer: any) => {
+      const match = src.match(/^:::callout\s+(.+?)\s+:::/)
+      if (!match) {
+        return undefined
+      }
+      return {
+        type: 'callout',
+        raw: match[0],
+        text: match[1],
+        tokens: lexer.inlineTokens(match[1]),
+      }
     },
   },
 })
@@ -97,5 +129,14 @@ describe('markdown parse never yields an empty document (#7914)', () => {
       })
     }).not.toThrow()
     expect(editor!.getJSON().content![0].type).toBe('paragraph')
+  })
+
+  it('recognizes a block extension registered directly via registerExtension, not just the constructor', () => {
+    const directManager = new MarkdownManager({ extensions: [Document, Paragraph, Text] })
+    directManager.registerExtension(DirectlyRegisteredCallout)
+
+    const json = directManager.parse(':::callout hello :::')
+
+    expect(json.content![0].type).toBe('callout')
   })
 })

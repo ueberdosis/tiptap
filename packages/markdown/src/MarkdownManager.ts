@@ -125,6 +125,7 @@ export class MarkdownManager {
   registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
+    this.schemaBlockNodeNamesCache = null
 
     // Track extensions that declare `code: true` so we can skip HTML entity
     // encoding inside code contexts without hardcoding specific type names.
@@ -1062,8 +1063,7 @@ export class MarkdownManager {
   /**
    * Collect the node type names that are block nodes, so top-level parse
    * output can be checked against the `doc` node's `block+` content
-   * requirement. Result is cached for the lifetime of the manager since
-   * extensions don't change after registration.
+   * requirement. Result is cached until the next `registerExtension()` call.
    *
    * Derived per-extension (mirroring ProseMirror's own `NodeType.isBlock`:
    * not inline, not the top node, not `text`) rather than via `getSchema`,
@@ -1073,6 +1073,12 @@ export class MarkdownManager {
    * parse (duplicate/incompatible node names across an app's full extension
    * set), and treating that failure as "no block nodes exist" would discard
    * otherwise-correct parsed content.
+   *
+   * Reads `this.extensions` (every extension ever passed to
+   * `registerExtension`, including ones registered directly after
+   * construction) rather than `this.baseExtensions` (only the constructor's
+   * initial list), so a block extension registered post-construction is
+   * still recognized instead of having its content replaced by the fallback.
    */
   private getSchemaBlockNodeNames(): Set<string> {
     if (this.schemaBlockNodeNamesCache) {
@@ -1081,7 +1087,7 @@ export class MarkdownManager {
 
     const names = new Set<string>()
 
-    flattenExtensions(this.baseExtensions).forEach(extension => {
+    this.extensions.forEach(extension => {
       if (extension.type !== 'node') {
         return
       }
