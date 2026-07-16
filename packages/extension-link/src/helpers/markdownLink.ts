@@ -89,8 +89,8 @@ function isConvertibleLink(
   const [, linkText, href] = match
   const characterBefore = match.index ? text[match.index - 1] : undefined
 
-  // `!` is the Markdown image syntax, `\` an escaped bracket
-  if (characterBefore === '!' || characterBefore === '\\') {
+  // `!` is the Markdown image syntax, `\` may escape the opening bracket
+  if (characterBefore === '!' || isEscaped(text, match.index ?? 0)) {
     return false
   }
 
