@@ -1,4 +1,4 @@
-import { type EditorOptions, Editor } from '@tiptap/core'
+import { type AnyExtension, type EditorOptions, Editor } from '@tiptap/core'
 import type { DependencyList, MutableRefObject } from 'react'
 import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
@@ -13,21 +13,22 @@ const isNext = isSSR || Boolean(typeof window !== 'undefined' && (window as any)
 /**
  * The options for the `useEditor` hook.
  */
-export type UseEditorOptions = Partial<EditorOptions> & {
-  /**
-   * Whether to render the editor on the first render.
-   * If client-side rendering, set this to `true`.
-   * If server-side rendering, set this to `false`.
-   * @default true
-   */
-  immediatelyRender?: boolean
-  /**
-   * Whether to re-render the editor on each transaction.
-   * This is legacy behavior that will be removed in future versions.
-   * @default false
-   */
-  shouldRerenderOnTransaction?: boolean
-}
+export type UseEditorOptions<TExtensions extends readonly AnyExtension[] = AnyExtension[]> =
+  Partial<EditorOptions<TExtensions>> & {
+    /**
+     * Whether to render the editor on the first render.
+     * If client-side rendering, set this to `true`.
+     * If server-side rendering, set this to `false`.
+     * @default true
+     */
+    immediatelyRender?: boolean
+    /**
+     * Whether to re-render the editor on each transaction.
+     * This is legacy behavior that will be removed in future versions.
+     * @default false
+     */
+    shouldRerenderOnTransaction?: boolean
+  }
 
 /**
  * This class handles the creation, destruction, and re-creation of the editor instance.
@@ -318,10 +319,10 @@ class EditorInstanceManager {
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(
-  options: UseEditorOptions & { immediatelyRender: false },
+export function useEditor<const TExtensions extends readonly AnyExtension[]>(
+  options: UseEditorOptions<TExtensions> & { immediatelyRender: false },
   deps?: DependencyList,
-): Editor | null
+): Editor<TExtensions> | null
 
 /**
  * This hook allows you to create an editor instance.
@@ -330,7 +331,10 @@ export function useEditor(
  * @returns The editor instance
  * @example const editor = useEditor({ extensions: [...] })
  */
-export function useEditor(options: UseEditorOptions, deps?: DependencyList): Editor
+export function useEditor<const TExtensions extends readonly AnyExtension[]>(
+  options: UseEditorOptions<TExtensions>,
+  deps?: DependencyList,
+): Editor<TExtensions>
 
 export function useEditor(
   options: UseEditorOptions = {},
