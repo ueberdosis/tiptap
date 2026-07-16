@@ -45,8 +45,14 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await expect(page.locator('.tiptap h1')).toBeVisible()
 
         const editor = await getEditor(page)
-        await editor.click()
-        await editor.evaluate((el: any) => el.editor.commands.selectAll())
+        // Focus and select programmatically instead of clicking first: a real
+        // mouse click emits an async `selectionchange` that can land after the
+        // programmatic selectAll (or even after the keydown) under CI load,
+        // collapsing the selection before the shortcut applies.
+        await editor.evaluate((el: any) => {
+          el.editor.commands.focus()
+          el.editor.commands.selectAll()
+        })
         await editor.press(process.platform === 'darwin' ? 'Meta+Alt+0' : 'Control+Alt+0')
 
         await expect(page.locator('.tiptap p').first()).toContainText('Example Text')
