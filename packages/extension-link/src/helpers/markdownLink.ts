@@ -26,20 +26,43 @@ export interface MarkdownLinkRuleConfig {
   isAllowedHref: (href: string) => boolean
 }
 
+export interface MarkdownLinkPasteRuleConfig extends MarkdownLinkRuleConfig {
+  /**
+   * Finds plain URLs to link in the same pass. Matches overlapping a
+   * converted Markdown link are dropped so its href is kept.
+   */
+  findPlainUrls?: (text: string) => PasteRuleMatch[]
+}
+
 /**
- * An odd number of backticks before the match means it sits in an unclosed
- * code span, either one still being typed or one from pasted text.
+ * Pairs the backtick runs before the match by length, as CommonMark does.
+ * A run left open means the match sits in an unfinished code span.
  */
 function isInsideCodeSpan(text: string, matchIndex: number): boolean {
-  let backticks = 0
+  let openRunLength = 0
+  let index = 0
 
-  for (let index = 0; index < matchIndex; index += 1) {
-    if (text[index] === '`') {
-      backticks += 1
+  while (index < matchIndex) {
+    if (text[index] !== '`') {
+      index += 1
+      continue
+    }
+
+    let runLength = 0
+
+    while (index < matchIndex && text[index] === '`') {
+      runLength += 1
+      index += 1
+    }
+
+    if (openRunLength === 0) {
+      openRunLength = runLength
+    } else if (runLength === openRunLength) {
+      openRunLength = 0
     }
   }
 
-  return backticks % 2 === 1
+  return openRunLength > 0
 }
 
 function isConvertibleLink(
@@ -73,8 +96,13 @@ function toRuleMatch(match: RegExpMatchArray): InputRuleMatch & PasteRuleMatch {
       href,
       // an empty title ("") counts as no title, as in CommonMark
       title: title || null,
+      markdown: true,
     },
   }
+}
+
+function matchesOverlap(a: PasteRuleMatch, b: PasteRuleMatch): boolean {
+  return a.index < b.index + b.text.length && b.index < a.index + a.text.length
 }
 
 function getMarkdownLinkAttributes(match: { data?: Record<string, any> }) {
@@ -118,20 +146,25 @@ export function markdownLinkInputRule(config: MarkdownLinkRuleConfig): InputRule
 }
 
 /**
- * Same for pasting, converts every Markdown link found in the pasted text.
+ * Same for pasting, converts every Markdown link found in the pasted text
+ * and links the plain URLs from `findPlainUrls`.
  */
-export function markdownLinkPasteRule(config: MarkdownLinkRuleConfig): PasteRule {
+export function markdownLinkPasteRule(config: MarkdownLinkPasteRuleConfig): PasteRule {
   const rule = markPasteRule({
     find: text => {
-      const matches: PasteRuleMatch[] = []
+      const markdownMatches: PasteRuleMatch[] = []
 
       for (const match of text.matchAll(MARKDOWN_LINK_PASTE_REGEX)) {
         if (isConvertibleLink(text, match, config.isAllowedHref)) {
-          matches.push(toRuleMatch(match))
+          markdownMatches.push(toRuleMatch(match))
         }
       }
 
-      return matches
+      const plainUrlMatches = (config.findPlainUrls?.(text) ?? []).filter(
+        urlMatch => !markdownMatches.some(markdownMatch => matchesOverlap(markdownMatch, urlMatch)),
+      )
+
+      return [...markdownMatches, ...plainUrlMatches]
     },
     type: config.type,
     getAttributes: getMarkdownLinkAttributes,
@@ -142,7 +175,8 @@ export function markdownLinkPasteRule(config: MarkdownLinkRuleConfig): PasteRule
     handler: props => {
       const result = rule.handler(props)
 
-      if (result !== null && props.state.tr.steps.length) {
+      // only Markdown conversions suppress autolink
+      if (result !== null && props.state.tr.steps.length && props.match.data?.markdown) {
         props.state.tr.setMeta('preventAutolink', true)
       }
 

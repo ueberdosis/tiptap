@@ -223,6 +223,33 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
     })
 
+    it('does not convert inside an unclosed double-backtick code span', () => {
+      createEditor({ content: '<p>``some code [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
+    it('treats a single backtick inside a double-backtick span as literal', () => {
+      createEditor({ content: '<p>``some ` code [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
+    it('converts after a closed double-backtick span containing a backtick', () => {
+      createEditor({ content: '<p>`` ` `` [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+    })
+
     it('does not convert inside code marks', () => {
       createEditor({
         extensions: [Document, Text, Paragraph, Code, Link],
@@ -349,6 +376,34 @@ describe('markdown links', () => {
 
       expect(editor!.getHTML()).toContain('href="https://tiptap.dev/docs"')
       expect(editor!.state.doc.textContent).toBe('see `some code` then read the docs')
+    })
+
+    it('keeps a Markdown link inside an unclosed double-backtick span as plain text', () => {
+      createEditor()
+
+      editor!.view.pasteText('``some code [Tiptap](https://tiptap.dev)')
+
+      expect(editor!.getHTML()).not.toContain('>Tiptap</a>')
+      expect(editor!.state.doc.textContent).toBe('``some code [Tiptap](https://tiptap.dev)')
+    })
+
+    it('converts a Markdown link pasted after a closed double-backtick span', () => {
+      createEditor()
+
+      editor!.view.pasteText('`` ` `` then read [the docs](https://tiptap.dev/docs)')
+
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev/docs"')
+      expect(editor!.state.doc.textContent).toBe('`` ` `` then read the docs')
+    })
+
+    it('updates the href when a bare URL is pasted inside an existing link', () => {
+      createEditor({ content: '<p><a href="https://old.example.com">click here</a></p>' })
+
+      editor!.commands.setTextSelection(6)
+      editor!.view.pasteText('https://new.example.com')
+
+      expect(editor!.getHTML()).toContain('href="https://new.example.com"')
+      expect(editor!.getHTML()).toContain('href="https://old.example.com"')
     })
 
     it('keeps the Markdown image syntax as plain text', () => {

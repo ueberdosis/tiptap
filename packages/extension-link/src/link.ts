@@ -1,5 +1,5 @@
 import type { PasteRuleMatch } from '@tiptap/core'
-import { Mark, markPasteRule, mergeAttributes, PasteRule } from '@tiptap/core'
+import { Mark, markPasteRule, mergeAttributes } from '@tiptap/core'
 import type { Plugin } from '@tiptap/pm/state'
 import { find, registerCustomProtocol, reset } from 'linkifyjs'
 
@@ -448,10 +448,41 @@ export const Link = Mark.create<LinkOptions>({
   },
 
   addPasteRules() {
-    const rules: PasteRule[] = []
+    const findPlainUrls = (text: string): PasteRuleMatch[] => {
+      const foundLinks: PasteRuleMatch[] = []
+
+      if (text) {
+        const { protocols, defaultProtocol } = this.options
+        const links = find(text).filter(
+          item =>
+            item.isLink &&
+            this.options.isAllowedUri(item.value, {
+              defaultValidate: href => !!isAllowedUri(href, protocols),
+              protocols,
+              defaultProtocol,
+            }),
+        )
+
+        links.forEach(link => {
+          if (!this.options.shouldAutoLink(link.value)) {
+            return
+          }
+
+          foundLinks.push({
+            text: link.value,
+            data: {
+              href: link.href,
+            },
+            index: link.start,
+          })
+        })
+      }
+
+      return foundLinks
+    }
 
     if (this.options.markdownLinks) {
-      rules.push(
+      return [
         markdownLinkPasteRule({
           type: this.type,
           isAllowedHref: href =>
@@ -460,69 +491,22 @@ export const Link = Mark.create<LinkOptions>({
               protocols: this.options.protocols,
               defaultProtocol: this.options.defaultProtocol,
             }),
+          findPlainUrls,
         }),
-      )
+      ]
     }
 
-    const urlPasteRule = markPasteRule({
-      find: text => {
-        const foundLinks: PasteRuleMatch[] = []
-
-        if (text) {
-          const { protocols, defaultProtocol } = this.options
-          const links = find(text).filter(
-            item =>
-              item.isLink &&
-              this.options.isAllowedUri(item.value, {
-                defaultValidate: href => !!isAllowedUri(href, protocols),
-                protocols,
-                defaultProtocol,
-              }),
-          )
-
-          if (links.length) {
-            links.forEach(link => {
-              if (!this.options.shouldAutoLink(link.value)) {
-                return
-              }
-
-              foundLinks.push({
-                text: link.value,
-                data: {
-                  href: link.href,
-                },
-                index: link.start,
-              })
-            })
+    return [
+      markPasteRule({
+        find: findPlainUrls,
+        type: this.type,
+        getAttributes: match => {
+          return {
+            href: match.data?.href,
           }
-        }
-
-        return foundLinks
-      },
-      type: this.type,
-      getAttributes: match => {
-        return {
-          href: match.data?.href,
-        }
-      },
-    })
-
-    rules.push(
-      new PasteRule({
-        find: urlPasteRule.find,
-        handler: props => {
-          // the Markdown paste rule above may have already linked this range,
-          // re-marking it here would replace its href
-          if (props.state.doc.rangeHasMark(props.range.from, props.range.to, this.type)) {
-            return
-          }
-
-          return urlPasteRule.handler(props)
         },
       }),
-    )
-
-    return rules
+    ]
   },
 
   addProseMirrorPlugins() {
