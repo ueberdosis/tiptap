@@ -1,6 +1,6 @@
 import { type EditorOptions, Editor } from '@tiptap/core'
 import type { DependencyList, MutableRefObject } from 'react'
-import { useDebugValue, useEffect, useRef, useState } from 'react'
+import { useDebugValue, useEffect, useRef } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import { useEditorState } from './useEditorState.js'
@@ -340,7 +340,18 @@ export function useEditor(
 
   mostRecentOptions.current = options
 
-  const [instanceManager] = useState(() => new EditorInstanceManager(mostRecentOptions))
+  // Lazily initialized via a guarded ref instead of `useState(() => ...)`.
+  // React Strict Mode intentionally invokes state initializer functions twice
+  // to surface impure logic, which here would construct two separate editor
+  // instances (and fire onCreate twice). A ref guard only ever runs the
+  // constructor once, since `current` is already set on the second invocation.
+  const instanceManagerRef = useRef<EditorInstanceManager | null>(null)
+
+  if (instanceManagerRef.current === null) {
+    instanceManagerRef.current = new EditorInstanceManager(mostRecentOptions)
+  }
+
+  const instanceManager = instanceManagerRef.current
 
   const editor = useSyncExternalStore(
     instanceManager.subscribe,
