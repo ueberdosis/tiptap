@@ -32,12 +32,8 @@ export class CommandManager {
   }
 
   /**
-   * Marks this command manager as destroyed. Once destroyed, `commands`, `chain()` and `can()`
-   * become permanent safe no-ops (commands return `false`, chains never dispatch) instead of
-   * throwing when the underlying editor's view/state is torn down. The command name list is
-   * snapshotted so the no-op API surface stays identical, and `rawCommands` (which holds
-   * closures capturing extension options/storage) is released so extensions can be garbage
-   * collected instead of being kept alive by this manager.
+   * Marks the manager as destroyed. Commands become safe no-ops, the command API
+   * remains unchanged, and extension references are released for garbage collection.
    */
   public destroy(): void {
     if (this.destroyed) {
