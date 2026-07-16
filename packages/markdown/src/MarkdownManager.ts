@@ -58,8 +58,6 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
-  /** Lazy cache of node type names the registered schema considers block nodes. */
-  private schemaBlockNodeNamesCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -125,7 +123,6 @@ export class MarkdownManager {
   registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
-    this.schemaBlockNodeNamesCache = null
 
     // Track extensions that declare `code: true` so we can skip HTML entity
     // encoding inside code contexts without hardcoding specific type names.
@@ -352,12 +349,13 @@ export class MarkdownManager {
       const content = this.parseTokens(tokens, true)
 
       // A document requires at least one block child. A non-empty `content`
-      // array isn't sufficient proof of that: a custom token handler can
-      // return a bare inline node (e.g. `{ type: 'text' }`) at the top
-      // level, which would still violate the schema's `block+` requirement.
-      const hasBlockContent = content.some(
-        node => !!node.type && this.getSchemaBlockNodeNames().has(node.type),
-      )
+      // array isn't sufficient proof of that: a bare top-level `text` node
+      // (the only inline type parseToken ever returns unwrapped — see the
+      // 'text'/'escape' cases above) would still violate the schema's
+      // `block+` requirement. Every other type parseTokens can produce,
+      // whether from a hardcoded case like 'heading' or from a registered
+      // extension's own handler, is meant to stand alone at the top level.
+      const hasBlockContent = content.some(node => node.type !== 'text')
 
       // Return a document node containing the parsed content
       return {
@@ -1060,59 +1058,6 @@ export class MarkdownManager {
 
     this.schemaParseDomTagsCache = tags
     return tags
-  }
-
-  /**
-   * Collect the node type names that are block nodes, so top-level parse
-   * output can be checked against the `doc` node's `block+` content
-   * requirement. Result is cached until the next `registerExtension()` call.
-   *
-   * Derived per-extension (mirroring ProseMirror's own `NodeType.isBlock`:
-   * not inline, not the top node, not `text`) rather than via `getSchema`,
-   * which requires every registered extension to combine into one globally
-   * valid ProseMirror schema. That's a stricter bar than markdown parsing
-   * needs — schema construction can fail for reasons unrelated to a given
-   * parse (duplicate/incompatible node names across an app's full extension
-   * set), and treating that failure as "no block nodes exist" would discard
-   * otherwise-correct parsed content.
-   *
-   * Reads `this.extensions` (every extension ever passed to
-   * `registerExtension`, including ones registered directly after
-   * construction) rather than `this.baseExtensions` (only the constructor's
-   * initial list), so a block extension registered post-construction is
-   * still recognized instead of having its content replaced by the fallback.
-   */
-  private getSchemaBlockNodeNames(): Set<string> {
-    if (this.schemaBlockNodeNamesCache) {
-      return this.schemaBlockNodeNamesCache
-    }
-
-    const names = new Set<string>()
-
-    this.extensions.forEach(extension => {
-      if (extension.type !== 'node') {
-        return
-      }
-
-      // Match the context `extendNodeSchema`/field resolvers receive during
-      // real schema construction, since fields like `inline` can be defined
-      // as a function reading `this.options` (e.g. the Youtube extension).
-      const context = {
-        name: extension.name,
-        options: extension.options,
-        storage: extension.storage,
-      }
-
-      const isInline = !!callOrReturn(getExtensionField(extension, 'inline', context))
-      const isTopNode = !!callOrReturn(getExtensionField(extension, 'topNode', context))
-
-      if (!isInline && !isTopNode && extension.name !== 'text') {
-        names.add(extension.name)
-      }
-    })
-
-    this.schemaBlockNodeNamesCache = names
-    return names
   }
 
   /**

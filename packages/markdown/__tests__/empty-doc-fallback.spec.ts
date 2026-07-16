@@ -139,4 +139,15 @@ describe('markdown parse never yields an empty document (#7914)', () => {
 
     expect(json.content![0].type).toBe('callout')
   })
+
+  it('keeps a hardcoded token-type result (e.g. a setext heading) even without a matching registered extension', () => {
+    // parseToken's 'heading' case builds a { type: 'heading' } node directly —
+    // it doesn't depend on a Heading extension being registered. The fallback
+    // check must not mistake "no extension named 'heading'" for "not block
+    // content" and discard it.
+    const noHeadingManager = new MarkdownManager({ extensions: [Document, Paragraph, Text] })
+    const json = noHeadingManager.parse('Title\n---')
+
+    expect(json.content![0].type).toBe('heading')
+  })
 })
