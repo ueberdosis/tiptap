@@ -1,4 +1,4 @@
-import type { InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
+import type { Command, InputRuleMatch, PasteRuleMatch } from '@tiptap/core'
 import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
 
 export interface CodeOptions {
@@ -10,22 +10,24 @@ export interface CodeOptions {
   HTMLAttributes: Record<string, any>
 }
 
+export interface CodeCommands<ReturnType = Command> {
+  /**
+   * Set a code mark.
+   */
+  setCode: () => ReturnType
+  /**
+   * Toggle inline code.
+   */
+  toggleCode: () => ReturnType
+  /**
+   * Unset a code mark.
+   */
+  unsetCode: () => ReturnType
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    code: {
-      /**
-       * Set a code mark
-       */
-      setCode: () => ReturnType
-      /**
-       * Toggle inline code
-       */
-      toggleCode: () => ReturnType
-      /**
-       * Unset a code mark
-       */
-      unsetCode: () => ReturnType
-    }
+    code: CodeCommands<ReturnType>
   }
 }
 
@@ -97,7 +99,7 @@ export const pasteRegexMatch = (text: string): PasteRuleMatch[] => {
  * This extension allows you to mark text as inline code.
  * @see https://tiptap.dev/api/marks/code
  */
-export const Code = Mark.create<CodeOptions>({
+export const Code = Mark.create<CodeOptions, any, CodeCommands>({
   name: 'code',
 
   addOptions() {
