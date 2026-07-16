@@ -20,13 +20,17 @@ import type {
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'
-import type { ExtensionConfig } from './Extension.js'
+import type { Extension, ExtensionConfig } from './Extension.js'
 import type { GetUpdatedPositionResult, MappablePosition } from './helpers/MappablePosition.js'
 import type { Mark, MarkConfig } from './Mark.js'
 import type { Node, NodeConfig } from './Node.js'
 
 export type AnyConfig = ExtensionConfig | NodeConfig | MarkConfig
-export type AnyExtension = Extendable
+export type AnyExtension =
+  | Extendable
+  | Extension<any, any, any>
+  | Node<any, any, any>
+  | Mark<any, any, any>
 export type Extensions = AnyExtension[]
 
 export type ParentConfig<T> = Partial<{
@@ -286,7 +290,7 @@ export type DispatchTransactionProps = {
 
 export type EnableRules = (AnyExtension | string)[] | boolean
 
-export interface EditorOptions {
+export interface EditorOptions<TExtensions extends readonly AnyExtension[] = Extensions> {
   /**
    * The element to bind the editor to:
    * - If an `Element` is passed, the editor will be mounted appended to that element
@@ -302,7 +306,7 @@ export interface EditorOptions {
   /**
    * The extensions to use
    */
-  extensions: Extensions
+  extensions: TExtensions
   /**
    * Whether to inject base CSS styles
    */
@@ -641,6 +645,18 @@ export type Command = (props: CommandProps) => boolean
 
 export type CommandSpec = (...args: any[]) => Command
 
+export type CommandMap = object
+
+export type CommandArguments<T> = T extends {
+  (...args: infer First): Command
+  (...args: infer Second): Command
+  (...args: infer Third): Command
+  (...args: infer Fourth): Command
+  (...args: infer Fifth): Command
+}
+  ? First | Second | Third | Fourth | Fifth
+  : never
+
 export type KeyboardShortcutCommand = (props: { editor: Editor }) => boolean
 
 export type Attribute = {
@@ -857,6 +873,74 @@ export type ChainedCommands = {
 }
 
 export type CanCommands = SingleCommands & { chain: () => ChainedCommands }
+
+export type CommandsOf<Extension> = Extension extends { __commands?: infer Commands }
+  ? Commands extends CommandMap
+    ? Commands
+    : {}
+  : {}
+
+export type MergeCommandMaps<Parent extends CommandMap, Child extends CommandMap> = Omit<
+  Parent,
+  keyof Child
+> &
+  Child
+
+export type CommandsFromExtensions<
+  Extensions extends readonly AnyExtension[],
+  Commands extends CommandMap = {},
+> = number extends Extensions['length']
+  ? Commands
+  : Extensions extends readonly [
+        infer Extension extends AnyExtension,
+        ...infer Rest extends AnyExtension[],
+      ]
+    ? CommandsFromExtensions<Rest, MergeCommandMaps<Commands, CommandsOf<Extension>>>
+    : Commands
+
+export type InferredCommandsFromConfig<Config> = Config extends {
+  addCommands?: (...args: any[]) => infer Commands
+}
+  ? Commands extends CommandMap
+    ? Commands
+    : {}
+  : {}
+
+export type InferredCommandsFromExtensions<Config> = Config extends {
+  addExtensions?: (...args: any[]) => infer Extensions
+}
+  ? Extensions extends readonly AnyExtension[]
+    ? CommandsFromExtensions<Extensions>
+    : {}
+  : {}
+
+export type InferredCommands<Config> = MergeCommandMaps<
+  InferredCommandsFromConfig<Config>,
+  InferredCommandsFromExtensions<Config>
+>
+
+export type SingleCommandMap<Commands extends CommandMap> = {
+  [Name in keyof Commands]: Commands[Name] extends CommandSpec
+    ? (...args: CommandArguments<Commands[Name]>) => boolean
+    : never
+}
+
+export type SingleCommandsFor<Commands extends CommandMap> = SingleCommands &
+  SingleCommandMap<Commands>
+
+export type ChainedCommandMap<Commands extends CommandMap> = {
+  [Name in keyof Commands]: Commands[Name] extends CommandSpec
+    ? (...args: CommandArguments<Commands[Name]>) => ChainedCommandsFor<Commands>
+    : never
+}
+
+export type ChainedCommandsFor<Commands extends CommandMap> = ChainedCommands &
+  ChainedCommandMap<Commands>
+
+export type CanCommandsFor<Commands extends CommandMap> = CanCommands &
+  SingleCommandMap<Commands> & {
+    chain: () => ChainedCommandsFor<Commands>
+  }
 
 export type FocusPosition = 'start' | 'end' | 'all' | number | boolean | null
 

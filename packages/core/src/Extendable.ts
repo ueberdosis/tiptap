@@ -9,6 +9,7 @@ import type { Node } from './Node.js'
 import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
+  CommandSpec,
   DispatchTransactionProps,
   EditorEvents,
   Extensions,
@@ -131,7 +132,7 @@ export interface ExtendableConfig<
     editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addCommands']
-  }) => Partial<RawCommands>
+  }) => Partial<RawCommands> & Record<string, CommandSpec>
 
   /**
    * This function registers keyboard shortcuts.

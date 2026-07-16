@@ -3,7 +3,14 @@ import type { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec, NodeType } from 
 import type { Editor } from './Editor.js'
 import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
-import type { Attributes, NodeViewRenderer, ParentConfig } from './types.js'
+import type {
+  Attributes,
+  CommandMap,
+  InferredCommands,
+  MergeCommandMaps,
+  NodeViewRenderer,
+  ParentConfig,
+} from './types.js'
 
 export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,
@@ -341,27 +348,35 @@ export interface NodeConfig<Options = any, Storage = any> extends ExtendableConf
  * The Node class is used to create custom node extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Node<Options = any, Storage = any> extends Extendable<
-  Options,
-  Storage,
-  NodeConfig<Options, Storage>
-> {
+export class Node<
+  Options = any,
+  Storage = any,
+  Commands extends CommandMap = {},
+> extends Extendable<Options, Storage, NodeConfig<Options, Storage>> {
+  declare readonly __commands?: Commands
+
   type = 'node'
 
   /**
    * Create a new Node instance
    * @param config - Node configuration object or a function that returns a configuration object
    */
-  static create<O = any, S = any>(
-    config: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>) = {},
-  ) {
+  static create<Config extends Partial<NodeConfig>>(
+    config: Config | (() => Config),
+  ): Node<any, any, InferredCommands<Config>>
+
+  static create<O = any, S = any, Commands extends CommandMap = {}>(
+    config?: Partial<NodeConfig<O, S>> | (() => Partial<NodeConfig<O, S>>),
+  ): Node<O, S, Commands>
+
+  static create(config: Partial<NodeConfig> | (() => Partial<NodeConfig>) = {}) {
     // If the config is a function, execute it to get the configuration object
     const resolvedConfig = typeof config === 'function' ? config() : config
-    return new Node<O, S>(resolvedConfig)
+    return new Node(resolvedConfig)
   }
 
   configure(options?: Partial<Options>) {
-    return super.configure(options) as Node<Options, Storage>
+    return super.configure(options) as Node<Options, Storage, Commands>
   }
 
   extend<
@@ -370,6 +385,10 @@ export class Node<Options = any, Storage = any> extends Extendable<
     ExtendedConfig extends NodeConfig<ExtendedOptions, ExtendedStorage> = NodeConfig<
       ExtendedOptions,
       ExtendedStorage
+    >,
+    ExtendedCommands extends CommandMap = MergeCommandMaps<
+      Commands,
+      InferredCommands<ExtendedConfig>
     >,
   >(
     extendedConfig?:
@@ -382,9 +401,9 @@ export class Node<Options = any, Storage = any> extends Extendable<
             editor: Editor
             type: NodeType
           }>),
-  ): Node<ExtendedOptions, ExtendedStorage> {
+  ): Node<ExtendedOptions, ExtendedStorage, ExtendedCommands> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
-    return super.extend(resolvedConfig) as Node<ExtendedOptions, ExtendedStorage>
+    return super.extend(resolvedConfig) as Node<ExtendedOptions, ExtendedStorage, ExtendedCommands>
   }
 }

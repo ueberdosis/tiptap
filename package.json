@@ -20,6 +20,7 @@
     "fallow:health": "fallow health --score --targets",
     "test:unit": "vitest run",
     "test:unit:dev": "vitest",
+    "test:types": "pnpm --filter @tiptap/core test:types && pnpm --filter @tiptap/react test:types && pnpm --filter @tiptap/vue-2 test:types && pnpm --filter @tiptap/vue-3 test:types",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:firefox": "playwright test --project=firefox",
     "test:e2e:all": "playwright test",

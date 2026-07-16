@@ -32,12 +32,15 @@ import type { Storage } from './index.js'
 import { NodePos } from './NodePos.js'
 import { style } from './style.js'
 import type {
-  CanCommands,
-  ChainedCommands,
+  AnyExtension,
+  CanCommandsFor,
+  ChainedCommandsFor,
+  CommandsFromExtensions,
   DocumentType,
   EditorEvents,
   EditorOptions,
   NodeType as TNodeType,
+  SingleCommandsFor,
   SingleCommands,
   TextSerializer,
   TextType as TTextType,
@@ -53,7 +56,9 @@ export interface TiptapEditorHTMLElement extends HTMLElement {
   editor?: Editor
 }
 
-export class Editor extends EventEmitter<EditorEvents> {
+export class Editor<
+  const TExtensions extends readonly AnyExtension[] = AnyExtension[],
+> extends EventEmitter<EditorEvents> {
   private commandManager!: CommandManager
 
   public extensionManager!: ExtensionManager
@@ -120,9 +125,9 @@ export class Editor extends EventEmitter<EditorEvents> {
     enableExtensionDispatchTransaction: true,
   }
 
-  constructor(options: Partial<EditorOptions> = {}) {
+  constructor(options: Partial<EditorOptions<TExtensions>> = {}) {
     super()
-    this.setOptions(options)
+    this.setOptions(options as Partial<EditorOptions>)
     this.createExtensionManager()
     this.createCommandManager()
     this.createSchema()
@@ -179,7 +184,8 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
 
       if (this.options.autofocus !== false && this.options.autofocus !== null) {
-        this.commands.focus(this.options.autofocus)
+        const commands = this.commands as SingleCommands
+        commands.focus(this.options.autofocus)
       }
       this.emit('create', { editor: this })
       this.isInitialized = true
@@ -231,22 +237,22 @@ export class Editor extends EventEmitter<EditorEvents> {
   /**
    * An object of all registered commands.
    */
-  public get commands(): SingleCommands {
-    return this.commandManager.commands
+  public get commands(): SingleCommandsFor<CommandsFromExtensions<TExtensions>> {
+    return this.commandManager.commands as SingleCommandsFor<CommandsFromExtensions<TExtensions>>
   }
 
   /**
    * Create a command chain to call multiple commands at once.
    */
-  public chain(): ChainedCommands {
-    return this.commandManager.chain()
+  public chain(): ChainedCommandsFor<CommandsFromExtensions<TExtensions>> {
+    return this.commandManager.chain() as ChainedCommandsFor<CommandsFromExtensions<TExtensions>>
   }
 
   /**
    * Check if a command or a command chain can be executed. Without executing it.
    */
-  public can(): CanCommands {
-    return this.commandManager.can()
+  public can(): CanCommandsFor<CommandsFromExtensions<TExtensions>> {
+    return this.commandManager.can() as CanCommandsFor<CommandsFromExtensions<TExtensions>>
   }
 
   /**
@@ -814,7 +820,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$doc?.querySelectorAll(selector, attributes) || null
   }
 
-  public $pos(pos: number) {
+  public $pos(pos: number): NodePos {
     const $pos = this.state.doc.resolve(pos)
     // For positions directly before a non-text atom, resolvedPos.node() returns
     // the parent, so pass the atom explicitly. Container nodes and $pos(0) keep
@@ -827,7 +833,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     return new NodePos($pos, this, false, node)
   }
 
-  get $doc() {
+  get $doc(): NodePos {
     return this.$pos(0)
   }
 

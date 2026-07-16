@@ -3,7 +3,14 @@ import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType } from 
 import type { Editor } from './Editor.js'
 import type { ExtendableConfig } from './Extendable.js'
 import { Extendable } from './Extendable.js'
-import type { Attributes, MarkViewRenderer, ParentConfig } from './types.js'
+import type {
+  Attributes,
+  CommandMap,
+  InferredCommands,
+  MarkViewRenderer,
+  MergeCommandMaps,
+  ParentConfig,
+} from './types.js'
 
 export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<
   Options,
@@ -154,23 +161,31 @@ export interface MarkConfig<Options = any, Storage = any> extends ExtendableConf
  * The Mark class is used to create custom mark extensions.
  * @see https://tiptap.dev/api/extensions#create-a-new-extension
  */
-export class Mark<Options = any, Storage = any> extends Extendable<
-  Options,
-  Storage,
-  MarkConfig<Options, Storage>
-> {
+export class Mark<
+  Options = any,
+  Storage = any,
+  Commands extends CommandMap = {},
+> extends Extendable<Options, Storage, MarkConfig<Options, Storage>> {
+  declare readonly __commands?: Commands
+
   type = 'mark'
 
   /**
    * Create a new Mark instance
    * @param config - Mark configuration object or a function that returns a configuration object
    */
-  static create<O = any, S = any>(
-    config: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>) = {},
-  ) {
+  static create<Config extends Partial<MarkConfig>>(
+    config: Config | (() => Config),
+  ): Mark<any, any, InferredCommands<Config>>
+
+  static create<O = any, S = any, Commands extends CommandMap = {}>(
+    config?: Partial<MarkConfig<O, S>> | (() => Partial<MarkConfig<O, S>>),
+  ): Mark<O, S, Commands>
+
+  static create(config: Partial<MarkConfig> | (() => Partial<MarkConfig>) = {}) {
     // If the config is a function, execute it to get the configuration object
     const resolvedConfig = typeof config === 'function' ? config() : config
-    return new Mark<O, S>(resolvedConfig)
+    return new Mark(resolvedConfig)
   }
 
   static handleExit({ editor, mark }: { editor: Editor; mark: Mark }) {
@@ -202,7 +217,7 @@ export class Mark<Options = any, Storage = any> extends Extendable<
   }
 
   configure(options?: Partial<Options>) {
-    return super.configure(options) as Mark<Options, Storage>
+    return super.configure(options) as Mark<Options, Storage, Commands>
   }
 
   extend<
@@ -211,6 +226,10 @@ export class Mark<Options = any, Storage = any> extends Extendable<
     ExtendedConfig extends MarkConfig<ExtendedOptions, ExtendedStorage> = MarkConfig<
       ExtendedOptions,
       ExtendedStorage
+    >,
+    ExtendedCommands extends CommandMap = MergeCommandMaps<
+      Commands,
+      InferredCommands<ExtendedConfig>
     >,
   >(
     extendedConfig?:
@@ -223,9 +242,9 @@ export class Mark<Options = any, Storage = any> extends Extendable<
             editor: Editor
             type: MarkType
           }>),
-  ): Mark<ExtendedOptions, ExtendedStorage> {
+  ): Mark<ExtendedOptions, ExtendedStorage, ExtendedCommands> {
     // If the extended config is a function, execute it to get the configuration object
     const resolvedConfig = typeof extendedConfig === 'function' ? extendedConfig() : extendedConfig
-    return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage>
+    return super.extend(resolvedConfig) as Mark<ExtendedOptions, ExtendedStorage, ExtendedCommands>
   }
 }

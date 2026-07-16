@@ -61,7 +61,8 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "test:types": "tsc -p type-tests/tsconfig.json"
   },
   "devDependencies": {
     "@tiptap/pm": "workspace:^"
