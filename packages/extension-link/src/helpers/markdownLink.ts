@@ -34,6 +34,16 @@ export interface MarkdownLinkPasteRuleConfig extends MarkdownLinkRuleConfig {
   findPlainUrls?: (text: string) => PasteRuleMatch[]
 }
 
+function isEscaped(text: string, index: number): boolean {
+  let backslashes = 0
+
+  for (let position = index - 1; position >= 0 && text[position] === '\\'; position -= 1) {
+    backslashes += 1
+  }
+
+  return backslashes % 2 === 1
+}
+
 /**
  * Pairs the backtick runs before the match by length, as CommonMark does.
  * A run left open means the match sits in an unfinished code span.
@@ -44,6 +54,12 @@ function isInsideCodeSpan(text: string, matchIndex: number): boolean {
 
   while (index < matchIndex) {
     if (text[index] !== '`') {
+      index += 1
+      continue
+    }
+
+    // escapes only apply outside code spans
+    if (openRunLength === 0 && isEscaped(text, index)) {
       index += 1
       continue
     }

@@ -241,6 +241,24 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).not.toContain('<a')
     })
 
+    it('converts after an escaped backtick', () => {
+      createEditor({ content: '<p>\\`[Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+    })
+
+    it('closes a code span on a backtick preceded by a backslash', () => {
+      createEditor({ content: '<p>`code\\` [Tiptap](https://tiptap.dev</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+    })
+
     it('converts after a closed double-backtick span containing a backtick', () => {
       createEditor({ content: '<p>`` ` `` [Tiptap](https://tiptap.dev</p>' })
 
@@ -385,6 +403,15 @@ describe('markdown links', () => {
 
       expect(editor!.getHTML()).not.toContain('>Tiptap</a>')
       expect(editor!.state.doc.textContent).toBe('``some code [Tiptap](https://tiptap.dev)')
+    })
+
+    it('converts a Markdown link pasted after an escaped backtick', () => {
+      createEditor()
+
+      editor!.view.pasteText('\\`not code [Tiptap](https://tiptap.dev)')
+
+      expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
+      expect(editor!.state.doc.textContent).toBe('\\`not code Tiptap')
     })
 
     it('converts a Markdown link pasted after a closed double-backtick span', () => {
