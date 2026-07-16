@@ -1,3 +1,3 @@
 export function isAndroid(): boolean {
-  return navigator.platform === 'Android' || /android/i.test(navigator.userAgent)
+  return typeof navigator !== 'undefined' ? /android/i.test(navigator.userAgent) : false
 }
