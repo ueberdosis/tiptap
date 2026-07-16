@@ -23,6 +23,13 @@ inferredEditor.commands.setInferredValue('value', 2)
 inferredEditor.chain().setInferredValue('value', 2).run()
 inferredEditor.can().setInferredValue('value')
 
+const inferredExtensions = [InferredCommands]
+const inferredArrayEditor = new Editor({
+  extensions: inferredExtensions,
+})
+
+inferredArrayEditor.commands.setInferredValue('value')
+
 // @ts-expect-error The inferred command requires a string value.
 inferredEditor.commands.setInferredValue(1)
 

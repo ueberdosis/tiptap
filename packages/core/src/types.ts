@@ -886,11 +886,15 @@ export type MergeCommandMaps<Parent extends CommandMap, Child extends CommandMap
 > &
   Child
 
+export type IsAny<T> = 0 extends 1 & T ? true : false
+
 export type CommandsFromExtensions<
   Extensions extends readonly AnyExtension[],
   Commands extends CommandMap = {},
 > = number extends Extensions['length']
-  ? Commands
+  ? IsAny<CommandsOf<Extensions[number]>> extends true
+    ? Commands
+    : MergeCommandMaps<Commands, CommandsOf<Extensions[number]>>
   : Extensions extends readonly [
         infer Extension extends AnyExtension,
         ...infer Rest extends AnyExtension[],
