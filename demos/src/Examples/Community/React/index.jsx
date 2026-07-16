@@ -38,6 +38,12 @@ export default () => {
   const { characterCount } = useEditorState({
     editor,
     selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          characterCount: 0,
+        }
+      }
+
       return {
         characterCount: ctx.editor.storage.characterCount.characters(),
       }
@@ -45,14 +51,13 @@ export default () => {
   })
 
   const percentage = editor ? Math.round((100 / limit) * characterCount) : 0
+  const isAtLimit = characterCount === limit
 
   return (
     <>
       <EditorContent editor={editor} />
       {editor && (
-        <div
-          className={`character-count ${editor.storage.characterCount.characters() === limit ? 'character-count--warning' : ''}`}
-        >
+        <div className={`character-count ${isAtLimit ? 'character-count--warning' : ''}`}>
           <svg height="20" width="20" viewBox="0 0 20 20">
             <circle r="10" cx="10" cy="10" fill="#e9ecef" />
             <circle
@@ -67,7 +72,7 @@ export default () => {
             />
             <circle r="6" cx="10" cy="10" fill="white" />
           </svg>
-          {editor.storage.characterCount.characters()} / {limit} characters
+          {characterCount} / {limit} characters
         </div>
       )}
     </>
