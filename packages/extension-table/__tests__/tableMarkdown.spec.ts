@@ -1,4 +1,5 @@
 import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
@@ -7,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('table markdown alignment', () => {
   const markdownManager = new MarkdownManager({
-    extensions: [Document, Paragraph, Text, TableKit],
+    extensions: [Document, Heading, Paragraph, Text, TableKit],
   })
 
   it('should parse and serialize left/right/center table alignment', () => {
