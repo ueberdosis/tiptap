@@ -1,5 +1,5 @@
 /* oslint-disable react-hooks/rules-of-hooks */
-import type { EditorOptions, Storage } from '@tiptap/core'
+import type { AnyExtension, EditorOptions, Storage } from '@tiptap/core'
 import { Editor as CoreEditor } from '@tiptap/core'
 import type { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import type { AppContext, ComponentInternalInstance, ComponentPublicInstance, Ref } from 'vue'
@@ -31,7 +31,9 @@ export type ContentComponent = ComponentInternalInstance & {
   ctx: ComponentPublicInstance
 }
 
-export class Editor extends CoreEditor {
+export class Editor<
+  const TExtensions extends readonly AnyExtension[] = AnyExtension[],
+> extends CoreEditor<TExtensions> {
   private reactiveState: Ref<EditorState>
 
   private reactiveExtensionStorage: Ref<Storage>
@@ -40,7 +42,7 @@ export class Editor extends CoreEditor {
 
   public appContext: AppContext | null = null
 
-  constructor(options: Partial<EditorOptions> = {}) {
+  constructor(options: Partial<EditorOptions<TExtensions>> = {}) {
     super(options)
 
     this.reactiveState = useDebouncedRef(this.view.state)
