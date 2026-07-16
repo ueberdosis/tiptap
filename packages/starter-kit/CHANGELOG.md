@@ -1,5 +1,68 @@
 # Change Log
 
+## 3.28.0
+
+### Patch Changes
+
+- Updated dependencies [c1254c1]
+  - @tiptap/extension-list@3.28.0
+  - @tiptap/extension-list-item@3.28.0
+  - @tiptap/extension-list-keymap@3.28.0
+  - @tiptap/extension-bullet-list@3.28.0
+  - @tiptap/extension-ordered-list@3.28.0
+  - @tiptap/extension-dropcursor@3.28.0
+  - @tiptap/extension-gapcursor@3.28.0
+  - @tiptap/core@3.28.0
+  - @tiptap/extension-blockquote@3.28.0
+  - @tiptap/extension-bold@3.28.0
+  - @tiptap/extension-code@3.28.0
+  - @tiptap/extension-code-block@3.28.0
+  - @tiptap/extension-document@3.28.0
+  - @tiptap/extension-hard-break@3.28.0
+  - @tiptap/extension-heading@3.28.0
+  - @tiptap/extension-horizontal-rule@3.28.0
+  - @tiptap/extension-italic@3.28.0
+  - @tiptap/extension-link@3.28.0
+  - @tiptap/extension-paragraph@3.28.0
+  - @tiptap/extension-strike@3.28.0
+  - @tiptap/extension-text@3.28.0
+  - @tiptap/extension-underline@3.28.0
+  - @tiptap/extensions@3.28.0
+  - @tiptap/pm@3.28.0
+
+## 3.27.4
+
+### Patch Changes
+
+- Updated dependencies [d2983cd]
+- Updated dependencies [53f8e57]
+- Updated dependencies [6238a3c]
+- Updated dependencies [c28d888]
+  - @tiptap/extensions@3.27.4
+  - @tiptap/extension-blockquote@3.27.4
+  - @tiptap/extension-list@3.27.4
+  - @tiptap/extension-dropcursor@3.27.4
+  - @tiptap/extension-gapcursor@3.27.4
+  - @tiptap/extension-list-item@3.27.4
+  - @tiptap/extension-list-keymap@3.27.4
+  - @tiptap/extension-bullet-list@3.27.4
+  - @tiptap/extension-ordered-list@3.27.4
+  - @tiptap/core@3.27.4
+  - @tiptap/extension-bold@3.27.4
+  - @tiptap/extension-code@3.27.4
+  - @tiptap/extension-code-block@3.27.4
+  - @tiptap/extension-document@3.27.4
+  - @tiptap/extension-hard-break@3.27.4
+  - @tiptap/extension-heading@3.27.4
+  - @tiptap/extension-horizontal-rule@3.27.4
+  - @tiptap/extension-italic@3.27.4
+  - @tiptap/extension-link@3.27.4
+  - @tiptap/extension-paragraph@3.27.4
+  - @tiptap/extension-strike@3.27.4
+  - @tiptap/extension-text@3.27.4
+  - @tiptap/extension-underline@3.27.4
+  - @tiptap/pm@3.27.4
+
 ## 3.27.3
 
 ### Patch Changes

@@ -40,9 +40,9 @@ export default () => {
   const { isBold, isItalic, isStrikethrough } = useEditorState({
     editor,
     selector: ctx => ({
-      isBold: ctx.editor.isActive('bold'),
-      isItalic: ctx.editor.isActive('italic'),
-      isStrikethrough: ctx.editor.isActive('strike'),
+      isBold: ctx.editor.isActive('bold') ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
+      isStrikethrough: ctx.editor.isActive('strike') ?? false,
     }),
   })
 

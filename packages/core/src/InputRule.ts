@@ -133,6 +133,22 @@ function run(config: {
       return
     }
 
+    // Leaf nodes have a different length in text and the document.
+    // Skip matches across them to avoid wrong document positions.
+    const matchedDocLength = match[0].length - text.length
+
+    if (matchedDocLength > 0) {
+      const matchStartOffset = $from.parentOffset - matchedDocLength
+
+      if (
+        matchStartOffset < 0 ||
+        $from.parent.textBetween(matchStartOffset, $from.parentOffset) !==
+          match[0].slice(0, matchedDocLength)
+      ) {
+        return
+      }
+    }
+
     const tr = view.state.tr
     const state = createChainableState({
       state: view.state,

@@ -1,6 +1,6 @@
 import './styles.scss'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useCallback, useEffect, useState } from 'react'
 
@@ -54,6 +54,14 @@ export default () => {
     editor.chain().clearContent(true).focus().run()
   }, [editor])
 
+  const { isBold, isItalic } = useEditorState({
+    editor,
+    selector: ctx => ({
+      isBold: ctx.editor.isActive('bold') ?? false,
+      isItalic: ctx.editor.isActive('italic') ?? false,
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -70,13 +78,13 @@ export default () => {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
+            className={isBold ? 'is-active' : ''}
           >
             Bold
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive('italic') ? 'is-active' : ''}
+            className={isItalic ? 'is-active' : ''}
           >
             Italic
           </button>

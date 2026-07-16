@@ -1,6 +1,6 @@
 {
   "name": "@tiptap/extension-drag-handle",
-  "version": "3.27.3",
+  "version": "3.28.0",
   "description": "drag handle extension for tiptap",
   "keywords": [
     "tiptap",
@@ -50,13 +50,13 @@
     "@tiptap/extension-collaboration": "workspace:^",
     "@tiptap/extension-node-range": "workspace:^",
     "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.6"
+    "@tiptap/y-tiptap": "^3.0.7"
   },
   "peerDependencies": {
     "@tiptap/core": "workspace:*",
     "@tiptap/extension-collaboration": "workspace:*",
     "@tiptap/extension-node-range": "workspace:*",
     "@tiptap/pm": "workspace:*",
-    "@tiptap/y-tiptap": "^3.0.6"
+    "@tiptap/y-tiptap": "^3.0.7"
   }
 }
