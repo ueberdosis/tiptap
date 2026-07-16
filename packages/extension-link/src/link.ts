@@ -76,8 +76,8 @@ export interface LinkOptions {
   /**
    * If enabled, typing or pasting the Markdown link syntax, e.g. `[Tiptap](https://tiptap.dev)`
    * or `[Tiptap](https://tiptap.dev "Rich text editor")`, converts it into a link.
-   * @default true
-   * @example false
+   * @default false
+   * @example true
    */
   markdownLinks: boolean
 
@@ -256,7 +256,7 @@ export const Link = Mark.create<LinkOptions>({
       openOnClick: true,
       enableClickSelection: false,
       linkOnPaste: true,
-      markdownLinks: true,
+      markdownLinks: false, // TODO (major) - default to true on next major version
       autolink: true,
       protocols: [],
       defaultProtocol: 'http',
