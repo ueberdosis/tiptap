@@ -816,13 +816,13 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public $pos(pos: number) {
     const $pos = this.state.doc.resolve(pos)
-    // When the position sits directly before a non-text node (e.g. an image or
-    // other atom), nodeAfter is that node but resolvedPos.node() would return
-    // the parent (often the doc at depth 0). Pass nodeAfter as the explicit node
-    // so NodePos.node returns the expected node instead of the parent.
-    // Keep $pos(0) returning the doc node; for other positions, prefer nodeAfter
-    // when it points at a non-text node.
-    const node = pos > 0 && $pos.nodeAfter && !$pos.nodeAfter.isText ? $pos.nodeAfter : null
+    // For positions directly before a non-text atom, resolvedPos.node() returns
+    // the parent, so pass the atom explicitly. Container nodes and $pos(0) keep
+    // resolving to the parent.
+    const node =
+      pos > 0 && $pos.nodeAfter && !$pos.nodeAfter.isText && $pos.nodeAfter.isAtom
+        ? $pos.nodeAfter
+        : null
 
     return new NodePos($pos, this, false, node)
   }
