@@ -35,7 +35,7 @@ describe('markdown links', () => {
   const createEditor = (options: Partial<ConstructorParameters<typeof Editor>[0]> = {}) => {
     editor = new Editor({
       element: createEditorEl(),
-      extensions: [Document, Text, Paragraph, Link],
+      extensions: [Document, Text, Paragraph, Link.configure({ markdownLinks: true })],
       ...options,
     })
 
@@ -270,7 +270,7 @@ describe('markdown links', () => {
 
     it('does not convert inside code marks', () => {
       createEditor({
-        extensions: [Document, Text, Paragraph, Code, Link],
+        extensions: [Document, Text, Paragraph, Code, Link.configure({ markdownLinks: true })],
         content: '<p><code>[Tiptap](https://tiptap.dev</code></p>',
       })
 
@@ -280,9 +280,9 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).not.toContain('<a')
     })
 
-    it('can be disabled with the markdownLinks option', () => {
+    it('does not convert unless the markdownLinks option is enabled', () => {
       createEditor({
-        extensions: [Document, Text, Paragraph, Link.configure({ markdownLinks: false })],
+        extensions: [Document, Text, Paragraph, Link],
         content: '<p>[Tiptap](https://tiptap.dev</p>',
       })
 
@@ -294,7 +294,12 @@ describe('markdown links', () => {
 
     it('respects a custom isAllowedUri option', () => {
       createEditor({
-        extensions: [Document, Text, Paragraph, Link.configure({ isAllowedUri: () => false })],
+        extensions: [
+          Document,
+          Text,
+          Paragraph,
+          Link.configure({ markdownLinks: true, isAllowedUri: () => false }),
+        ],
         content: '<p>[Tiptap](https://tiptap.dev</p>',
       })
 
@@ -442,9 +447,9 @@ describe('markdown links', () => {
       expect(editor!.state.doc.textContent).toBe('![alt](https://example.com/image.png)')
     })
 
-    it('can be disabled with the markdownLinks option', () => {
+    it('does not convert unless the markdownLinks option is enabled', () => {
       createEditor({
-        extensions: [Document, Text, Paragraph, Link.configure({ markdownLinks: false })],
+        extensions: [Document, Text, Paragraph, Link],
       })
 
       editor!.view.pasteText('[Tiptap](https://tiptap.dev)')
