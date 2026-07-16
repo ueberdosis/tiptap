@@ -20,12 +20,23 @@ export default () => {
 
   const { isBulletList, canSplitListItem, canSinkListItem, canLiftListItem } = useEditorState({
     editor,
-    selector: ctx => ({
-      isBulletList: ctx.editor.isActive('bulletList') ?? false,
-      canSplitListItem: ctx.editor.can().splitListItem('listItem') ?? false,
-      canSinkListItem: ctx.editor.can().sinkListItem('listItem') ?? false,
-      canLiftListItem: ctx.editor.can().liftListItem('listItem') ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isBulletList: false,
+          canSplitListItem: false,
+          canSinkListItem: false,
+          canLiftListItem: false,
+        }
+      }
+
+      return {
+        isBulletList: ctx.editor.isActive('bulletList') ?? false,
+        canSplitListItem: ctx.editor.can().splitListItem('listItem') ?? false,
+        canSinkListItem: ctx.editor.can().sinkListItem('listItem') ?? false,
+        canLiftListItem: ctx.editor.can().liftListItem('listItem') ?? false,
+      }
+    },
   })
 
   if (!editor) {

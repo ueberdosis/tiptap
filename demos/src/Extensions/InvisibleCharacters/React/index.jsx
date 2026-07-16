@@ -27,9 +27,17 @@ export default () => {
 
   const { isVisible } = useEditorState({
     editor,
-    selector: ctx => ({
-      isVisible: ctx.editor.storage.invisibleCharacters.visibility() ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isVisible: false,
+        }
+      }
+
+      return {
+        isVisible: ctx.editor.storage.invisibleCharacters.visibility() ?? false,
+      }
+    },
   })
 
   if (!editor) {

@@ -79,9 +79,17 @@ export default () => {
 
   const { isEditable } = useEditorState({
     editor,
-    selector: ctx => ({
-      isEditable: ctx.editor.isEditable ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isEditable: false,
+        }
+      }
+
+      return {
+        isEditable: ctx.editor.isEditable ?? false,
+      }
+    },
   })
 
   const toggleEditing = useCallback(

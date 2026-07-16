@@ -31,10 +31,11 @@ export default () => {
       `,
   })
 
-  const { isCodeBlock } = useEditorState({
+  const { isCodeBlock, canSetCodeBlock } = useEditorState({
     editor,
     selector: ctx => ({
       isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+      canSetCodeBlock: ctx.editor.can().chain().focus().setCodeBlock().run() ?? false,
     }),
   })
 
@@ -54,7 +55,7 @@ export default () => {
           </button>
           <button
             onClick={() => editor.chain().focus().setCodeBlock().run()}
-            disabled={isCodeBlock}
+            disabled={isCodeBlock || !canSetCodeBlock}
           >
             Set code block
           </button>

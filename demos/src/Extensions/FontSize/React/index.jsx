@@ -16,10 +16,19 @@ export default () => {
 
   const { is28px, is32px } = useEditorState({
     editor,
-    selector: ctx => ({
-      is28px: ctx.editor.isActive('textStyle', { fontSize: '28px' }) ?? false,
-      is32px: ctx.editor.isActive('textStyle', { fontSize: '32px' }) ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          is28px: false,
+          is32px: false,
+        }
+      }
+
+      return {
+        is28px: ctx.editor.isActive('textStyle', { fontSize: '28px' }) ?? false,
+        is32px: ctx.editor.isActive('textStyle', { fontSize: '32px' }) ?? false,
+      }
+    },
   })
 
   if (!editor) {

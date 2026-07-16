@@ -38,6 +38,12 @@ export default () => {
   const { characterCount } = useEditorState({
     editor,
     selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          characterCount: 0,
+        }
+      }
+
       return {
         characterCount: ctx.editor.storage.characterCount.characters(),
       }

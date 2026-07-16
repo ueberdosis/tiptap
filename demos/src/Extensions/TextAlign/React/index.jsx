@@ -28,14 +28,27 @@ export default () => {
 
   const { isLeft, isCenter, isRight, isJustify, isHeading1, isHeading2 } = useEditorState({
     editor,
-    selector: ctx => ({
-      isLeft: ctx.editor.isActive({ textAlign: 'left' }) ?? false,
-      isCenter: ctx.editor.isActive({ textAlign: 'center' }) ?? false,
-      isRight: ctx.editor.isActive({ textAlign: 'right' }) ?? false,
-      isJustify: ctx.editor.isActive({ textAlign: 'justify' }) ?? false,
-      isHeading1: ctx.editor.isActive({ level: 1 }) ?? false,
-      isHeading2: ctx.editor.isActive({ level: 2 }) ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isLeft: false,
+          isCenter: false,
+          isRight: false,
+          isJustify: false,
+          isHeading1: false,
+          isHeading2: false,
+        }
+      }
+
+      return {
+        isLeft: ctx.editor.isActive({ textAlign: 'left' }) ?? false,
+        isCenter: ctx.editor.isActive({ textAlign: 'center' }) ?? false,
+        isRight: ctx.editor.isActive({ textAlign: 'right' }) ?? false,
+        isJustify: ctx.editor.isActive({ textAlign: 'justify' }) ?? false,
+        isHeading1: ctx.editor.isActive({ level: 1 }) ?? false,
+        isHeading2: ctx.editor.isActive({ level: 2 }) ?? false,
+      }
+    },
   })
 
   if (!editor) {

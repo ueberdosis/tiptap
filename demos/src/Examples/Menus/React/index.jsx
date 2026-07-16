@@ -20,14 +20,27 @@ export default () => {
 
   const { isBold, isItalic, isStrike, isHeading1, isHeading2, isBulletList } = useEditorState({
     editor,
-    selector: ctx => ({
-      isBold: ctx.editor.isActive('bold') ?? false,
-      isItalic: ctx.editor.isActive('italic') ?? false,
-      isStrike: ctx.editor.isActive('strike') ?? false,
-      isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
-      isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
-      isBulletList: ctx.editor.isActive('bulletList') ?? false,
-    }),
+    selector: ctx => {
+      if (!ctx.editor) {
+        return {
+          isBold: false,
+          isItalic: false,
+          isStrike: false,
+          isHeading1: false,
+          isHeading2: false,
+          isBulletList: false,
+        }
+      }
+
+      return {
+        isBold: ctx.editor.isActive('bold') ?? false,
+        isItalic: ctx.editor.isActive('italic') ?? false,
+        isStrike: ctx.editor.isActive('strike') ?? false,
+        isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
+        isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
+        isBulletList: ctx.editor.isActive('bulletList') ?? false,
+      }
+    },
   })
 
   return (
