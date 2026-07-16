@@ -213,6 +213,26 @@ describe('table markdown line breaks', () => {
     expect(serialized).toContain('foo<br>bar')
   })
 
+  it('keeps consecutive hard breaks as separate <br> tags', () => {
+    const doc = tableDoc([
+      cell([
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'foo' },
+            { type: 'hardBreak' },
+            { type: 'hardBreak' },
+            { type: 'text', text: 'bar' },
+          ],
+        },
+      ]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain('foo<br><br>bar')
+  })
+
   it('round trips <br> inside cells', () => {
     const markdown = `| desc |
 | --- |

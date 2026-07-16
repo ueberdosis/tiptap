@@ -120,7 +120,7 @@ export function renderTableToMarkdown(
           raw
             .split(cellSep)
             .join('\n')
-            .replace(/[ \t]*\n\s*/g, '<br>'),
+            .replace(/[ \t]*\r?\n[ \t]*/g, '<br>'),
         )
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
