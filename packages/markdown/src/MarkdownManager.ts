@@ -58,6 +58,8 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of node type names the registered schema considers block nodes. */
+  private schemaBlockNodeNamesCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -348,11 +350,16 @@ export class MarkdownManager {
       // Convert tokens to Tiptap JSON
       const content = this.parseTokens(tokens, true)
 
+      // A document requires at least one block child. A non-empty `content`
+      // array isn't sufficient proof of that: a custom token handler can
+      // return a bare inline node (e.g. `{ type: 'text' }`) at the top
+      // level, which would still violate the schema's `block+` requirement.
+      const hasBlockContent = content.some(node => this.getSchemaBlockNodeNames().has(node.type))
+
       // Return a document node containing the parsed content
       return {
         type: 'doc',
-        // A document requires at least one block child.
-        content: content.length > 0 ? content : [{ type: 'paragraph' }],
+        content: hasBlockContent ? content : [{ type: 'paragraph' }],
       }
     } finally {
       this.activeParseLexer = previousParseLexer
@@ -1050,6 +1057,54 @@ export class MarkdownManager {
 
     this.schemaParseDomTagsCache = tags
     return tags
+  }
+
+  /**
+   * Collect the node type names that are block nodes, so top-level parse
+   * output can be checked against the `doc` node's `block+` content
+   * requirement. Result is cached for the lifetime of the manager since
+   * extensions don't change after registration.
+   *
+   * Derived per-extension (mirroring ProseMirror's own `NodeType.isBlock`:
+   * not inline, not the top node, not `text`) rather than via `getSchema`,
+   * which requires every registered extension to combine into one globally
+   * valid ProseMirror schema. That's a stricter bar than markdown parsing
+   * needs — schema construction can fail for reasons unrelated to a given
+   * parse (duplicate/incompatible node names across an app's full extension
+   * set), and treating that failure as "no block nodes exist" would discard
+   * otherwise-correct parsed content.
+   */
+  private getSchemaBlockNodeNames(): Set<string> {
+    if (this.schemaBlockNodeNamesCache) {
+      return this.schemaBlockNodeNamesCache
+    }
+
+    const names = new Set<string>()
+
+    flattenExtensions(this.baseExtensions).forEach(extension => {
+      if (extension.type !== 'node') {
+        return
+      }
+
+      // Match the context `extendNodeSchema`/field resolvers receive during
+      // real schema construction, since fields like `inline` can be defined
+      // as a function reading `this.options` (e.g. the Youtube extension).
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: extension.storage,
+      }
+
+      const isInline = !!callOrReturn(getExtensionField(extension, 'inline', context))
+      const isTopNode = !!callOrReturn(getExtensionField(extension, 'topNode', context))
+
+      if (!isInline && !isTopNode && extension.name !== 'text') {
+        names.add(extension.name)
+      }
+    })
+
+    this.schemaBlockNodeNamesCache = names
+    return names
   }
 
   /**
