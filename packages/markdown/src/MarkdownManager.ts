@@ -355,7 +355,9 @@ export class MarkdownManager {
       // array isn't sufficient proof of that: a custom token handler can
       // return a bare inline node (e.g. `{ type: 'text' }`) at the top
       // level, which would still violate the schema's `block+` requirement.
-      const hasBlockContent = content.some(node => this.getSchemaBlockNodeNames().has(node.type))
+      const hasBlockContent = content.some(
+        node => !!node.type && this.getSchemaBlockNodeNames().has(node.type),
+      )
 
       // Return a document node containing the parsed content
       return {
