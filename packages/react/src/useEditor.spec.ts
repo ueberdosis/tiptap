@@ -223,4 +223,47 @@ describe('useEditor', () => {
 
     unmount()
   })
+
+  it('does not crash the render if a user-provided onCreate throws', async () => {
+    function TestComponent() {
+      useEditor({
+        extensions: [Document, Text, Paragraph],
+        onCreate: () => {
+          throw new Error('boom from onCreate')
+        },
+      })
+
+      return null
+    }
+
+    const caughtAsync: unknown[] = []
+    const onUnhandled = (error: unknown) => {
+      caughtAsync.push(error)
+    }
+
+    process.on('uncaughtException', onUnhandled)
+
+    let unmount: () => void = () => {}
+
+    try {
+      expect(() => {
+        ;({ unmount } = render(
+          React.createElement(React.StrictMode, null, React.createElement(TestComponent)),
+        ))
+      }).not.toThrow()
+
+      await flushTimers(500)
+    } finally {
+      unmount()
+      await flushTimers(100)
+      process.off('uncaughtException', onUnhandled)
+    }
+
+    // A throwing onCreate should surface asynchronously (same as it would
+    // have before this fix, since it fires from a 0ms timer or a React
+    // effect, never synchronously inside the render call itself) - not
+    // crash the render.
+    expect(caughtAsync.length).toBeGreaterThanOrEqual(1)
+    expect(caughtAsync.every(error => error instanceof Error)).toBe(true)
+  })
 })
