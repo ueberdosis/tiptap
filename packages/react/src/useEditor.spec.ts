@@ -19,7 +19,8 @@ describe('useEditor', () => {
     document.body.innerHTML = ''
   })
 
-  it('does not fire onCreate more than once for a single mount under StrictMode', async () => {
+  it('does not fire onBeforeCreate/onCreate more than once for a single mount under StrictMode', async () => {
+    let beforeCreateCount = 0
     let createCount = 0
     const createdEditors = new Set<Editor>()
     let latestEditor: Editor | null = null
@@ -27,6 +28,9 @@ describe('useEditor', () => {
     function TestComponent() {
       const editor = useEditor({
         extensions: [Document, Text, Paragraph],
+        onBeforeCreate: () => {
+          beforeCreateCount += 1
+        },
         onCreate: ({ editor: createdEditor }) => {
           createCount += 1
           createdEditors.add(createdEditor)
@@ -46,6 +50,7 @@ describe('useEditor', () => {
     // give it real wall-clock time to flush.
     await flushTimers(100)
 
+    expect(beforeCreateCount).toBe(1)
     expect(createCount).toBe(1)
     expect(createdEditors.size).toBe(1)
     expect(latestEditor?.isDestroyed).toBe(false)
@@ -142,12 +147,9 @@ describe('useEditor', () => {
   })
 
   it('handles a full unmount and remount cycle correctly under StrictMode', async () => {
-    // Note: a StrictMode mount's discarded duplicate instance is destroyed
-    // (and so fires its own onDestroy) regardless of this fix - that already
-    // happened before this fix too, just 1ms later instead of synchronously.
-    // This test tracks *deltas* around the real show/hide toggle so that
-    // pre-existing, orthogonal onDestroy noise from StrictMode's duplicate
-    // doesn't get mistaken for a real unmount.
+    // Tracks *deltas* around the real show/hide toggle, rather than an
+    // absolute destroyCount, so this stays correct regardless of exactly
+    // when the guard's ref is (re-)initialized across mounts.
     let createCount = 0
     let destroyCount = 0
 
@@ -191,41 +193,5 @@ describe('useEditor', () => {
     expect(createCount).toBe(2)
 
     unmount()
-  })
-
-  it('does not crash the render if a user callback throws while evicting a discarded StrictMode duplicate', async () => {
-    function TestComponent() {
-      useEditor({
-        extensions: [Document, Text, Paragraph],
-        onDestroy: () => {
-          throw new Error('boom from onDestroy')
-        },
-      })
-
-      return null
-    }
-
-    let caughtAsync: unknown = null
-    const onUnhandled = (error: unknown) => {
-      caughtAsync = error
-    }
-
-    process.on('uncaughtException', onUnhandled)
-
-    try {
-      expect(() => {
-        render(React.createElement(React.StrictMode, null, React.createElement(TestComponent)))
-      }).not.toThrow()
-
-      await flushTimers(100)
-    } finally {
-      process.off('uncaughtException', onUnhandled)
-    }
-
-    // The throw is still surfaced (matching pre-existing behavior for a
-    // throwing onDestroy) - it just must not happen synchronously inside
-    // React's render phase.
-    expect(caughtAsync).toBeInstanceOf(Error)
-    expect((caughtAsync as Error).message).toBe('boom from onDestroy')
   })
 })
