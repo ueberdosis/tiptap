@@ -1,7 +1,7 @@
 import './styles.scss'
 
 import { TableCell, TableKit } from '@tiptap/extension-table'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 
@@ -52,6 +52,29 @@ export const tableHTML = `
 `
 
 const MenuBar = ({ editor }) => {
+  const editorState = useEditorState({
+    editor,
+    selector: ctx => ({
+      canAddColumnBefore: ctx.editor.can().addColumnBefore() ?? false,
+      canAddColumnAfter: ctx.editor.can().addColumnAfter() ?? false,
+      canDeleteColumn: ctx.editor.can().deleteColumn() ?? false,
+      canAddRowBefore: ctx.editor.can().addRowBefore() ?? false,
+      canAddRowAfter: ctx.editor.can().addRowAfter() ?? false,
+      canDeleteRow: ctx.editor.can().deleteRow() ?? false,
+      canDeleteTable: ctx.editor.can().deleteTable() ?? false,
+      canMergeCells: ctx.editor.can().mergeCells() ?? false,
+      canSplitCell: ctx.editor.can().splitCell() ?? false,
+      canToggleHeaderColumn: ctx.editor.can().toggleHeaderColumn() ?? false,
+      canToggleHeaderRow: ctx.editor.can().toggleHeaderRow() ?? false,
+      canToggleHeaderCell: ctx.editor.can().toggleHeaderCell() ?? false,
+      canMergeOrSplit: ctx.editor.can().mergeOrSplit() ?? false,
+      canSetCellAttribute: ctx.editor.can().setCellAttribute('backgroundColor', '#FAF594') ?? false,
+      canFixTables: ctx.editor.can().fixTables() ?? false,
+      canGoToNextCell: ctx.editor.can().goToNextCell() ?? false,
+      canGoToPreviousCell: ctx.editor.can().goToPreviousCell() ?? false,
+    }),
+  })
+
   if (!editor) {
     return null
   }
@@ -83,79 +106,79 @@ const MenuBar = ({ editor }) => {
         </button>
         <button
           onClick={() => editor.chain().focus().addColumnBefore().run()}
-          disabled={!editor.can().addColumnBefore()}
+          disabled={!editorState.canAddColumnBefore}
         >
           Add column before
         </button>
         <button
           onClick={() => editor.chain().focus().addColumnAfter().run()}
-          disabled={!editor.can().addColumnAfter()}
+          disabled={!editorState.canAddColumnAfter}
         >
           Add column after
         </button>
         <button
           onClick={() => editor.chain().focus().deleteColumn().run()}
-          disabled={!editor.can().deleteColumn()}
+          disabled={!editorState.canDeleteColumn}
         >
           Delete column
         </button>
         <button
           onClick={() => editor.chain().focus().addRowBefore().run()}
-          disabled={!editor.can().addRowBefore()}
+          disabled={!editorState.canAddRowBefore}
         >
           Add row before
         </button>
         <button
           onClick={() => editor.chain().focus().addRowAfter().run()}
-          disabled={!editor.can().addRowAfter()}
+          disabled={!editorState.canAddRowAfter}
         >
           Add row after
         </button>
         <button
           onClick={() => editor.chain().focus().deleteRow().run()}
-          disabled={!editor.can().deleteRow()}
+          disabled={!editorState.canDeleteRow}
         >
           Delete row
         </button>
         <button
           onClick={() => editor.chain().focus().deleteTable().run()}
-          disabled={!editor.can().deleteTable()}
+          disabled={!editorState.canDeleteTable}
         >
           Delete table
         </button>
         <button
           onClick={() => editor.chain().focus().mergeCells().run()}
-          disabled={!editor.can().mergeCells()}
+          disabled={!editorState.canMergeCells}
         >
           Merge cells
         </button>
         <button
           onClick={() => editor.chain().focus().splitCell().run()}
-          disabled={!editor.can().splitCell()}
+          disabled={!editorState.canSplitCell}
         >
           Split cell
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
-          disabled={!editor.can().toggleHeaderColumn()}
+          disabled={!editorState.canToggleHeaderColumn}
         >
           Toggle header column
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeaderRow().run()}
-          disabled={!editor.can().toggleHeaderRow()}
+          disabled={!editorState.canToggleHeaderRow}
         >
           Toggle header row
         </button>
         <button
           onClick={() => editor.chain().focus().toggleHeaderCell().run()}
-          disabled={!editor.can().toggleHeaderCell()}
+          disabled={!editorState.canToggleHeaderCell}
         >
           Toggle header cell
         </button>
         <button
           onClick={() => editor.chain().focus().mergeOrSplit().run()}
-          disabled={!editor.can().mergeOrSplit()}
+          disabled={!editorState.canMergeOrSplit}
         >
           Merge or split
         </button>
@@ -163,25 +186,25 @@ const MenuBar = ({ editor }) => {
           onClick={() =>
             editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()
           }
-          disabled={!editor.can().setCellAttribute('backgroundColor', '#FAF594')}
+          disabled={!editorState.canSetCellAttribute}
         >
           Set cell attribute
         </button>
         <button
           onClick={() => editor.chain().focus().fixTables().run()}
-          disabled={!editor.can().fixTables()}
+          disabled={!editorState.canFixTables}
         >
           Fix tables
         </button>
         <button
           onClick={() => editor.chain().focus().goToNextCell().run()}
-          disabled={!editor.can().goToNextCell()}
+          disabled={!editorState.canGoToNextCell}
         >
           Go to next cell
         </button>
         <button
           onClick={() => editor.chain().focus().goToPreviousCell().run()}
-          disabled={!editor.can().goToPreviousCell()}
+          disabled={!editorState.canGoToPreviousCell}
         >
           Go to previous cell
         </button>
@@ -241,7 +264,6 @@ export default () => {
         </tbody>
       </table>
     `,
-    shouldRerenderOnTransaction: true,
   })
 
   return (
