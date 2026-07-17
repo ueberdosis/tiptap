@@ -267,4 +267,55 @@ describe('useEditor', () => {
     expect(caughtAsync[0]).toBeInstanceOf(Error)
     expect((caughtAsync[0] as Error).message).toBe('boom from onCreate')
   })
+
+  it('fires onCreate exactly once per deps change under StrictMode, including the first mount', async () => {
+    let createCount = 0
+
+    function TestComponent({ depKey }: { depKey: string }) {
+      useEditor(
+        {
+          extensions: [Document, Text, Paragraph],
+          onCreate: () => {
+            createCount += 1
+          },
+        },
+        [depKey],
+      )
+
+      return null
+    }
+
+    const { rerender, unmount } = render(
+      React.createElement(
+        React.StrictMode,
+        null,
+        React.createElement(TestComponent, { depKey: 'a' }),
+      ),
+    )
+
+    await flushTimers(200)
+    expect(createCount).toBe(1)
+
+    rerender(
+      React.createElement(
+        React.StrictMode,
+        null,
+        React.createElement(TestComponent, { depKey: 'b' }),
+      ),
+    )
+    await flushTimers(200)
+    expect(createCount).toBe(2)
+
+    rerender(
+      React.createElement(
+        React.StrictMode,
+        null,
+        React.createElement(TestComponent, { depKey: 'c' }),
+      ),
+    )
+    await flushTimers(200)
+    expect(createCount).toBe(3)
+
+    unmount()
+  })
 })
