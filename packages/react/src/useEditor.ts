@@ -30,6 +30,20 @@ export type UseEditorOptions = Partial<EditorOptions> & {
 }
 
 /**
+ * React 18/19 StrictMode invokes a `useState` lazy initializer twice for a
+ * single logical mount, keeping only the first call's result - but both
+ * calls synchronously construct (and auto-mount) a real `Editor`. Tracks,
+ * per `useEditor()` call (keyed by its stable options ref), the most recent
+ * `EditorInstanceManager` still waiting to be confirmed as mounted, so a
+ * duplicate construction can destroy itself before its `Editor`'s `onCreate`
+ * (scheduled via a 0ms timer) fires for an instance nobody will use.
+ */
+const unconfirmedInstanceManagers = new WeakMap<
+  MutableRefObject<UseEditorOptions>,
+  EditorInstanceManager
+>()
+
+/**
  * This class handles the creation, destruction, and re-creation of the editor instance.
  */
 class EditorInstanceManager {
@@ -73,7 +87,31 @@ class EditorInstanceManager {
     this.options = options
     this.subscriptions = new Set<() => void>()
     this.setEditor(this.getInitialEditor())
-    this.scheduleDestroy()
+
+    const unconfirmedInstance = unconfirmedInstanceManagers.get(options)
+
+    if (unconfirmedInstance && !unconfirmedInstance.isComponentMounted) {
+      // We're a duplicate construction from StrictMode's double-invoked lazy
+      // initializer. React keeps the first call's result, so this instance
+      // is guaranteed to be discarded - destroy it synchronously, before
+      // its Editor's 0ms-scheduled 'create' emission has a chance to fire.
+      try {
+        this.editor?.destroy()
+      } catch (error) {
+        // A user callback (e.g. onDestroy) threw. Don't let that propagate
+        // through React's render phase - surface it asynchronously instead,
+        // same as it would have surfaced before this instance was destroyed
+        // synchronously (e.g. via the scheduleDestroy timer below).
+        setTimeout(() => {
+          throw error
+        })
+      } finally {
+        this.editor = null
+      }
+    } else {
+      unconfirmedInstanceManagers.set(options, this)
+      this.scheduleDestroy()
+    }
 
     this.getEditor = this.getEditor.bind(this)
     this.getServerSnapshot = this.getServerSnapshot.bind(this)
@@ -219,6 +257,9 @@ class EditorInstanceManager {
     // The returned callback will run on each render
     return () => {
       this.isComponentMounted = true
+      // We've been confirmed as the real instance for this hook call - no
+      // longer relevant to the StrictMode-duplicate detection above.
+      unconfirmedInstanceManagers.delete(this.options)
       // Cleanup any scheduled destructions, since we are currently rendering
       clearTimeout(this.scheduledDestructionTimeout)
 
