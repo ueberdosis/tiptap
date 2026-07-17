@@ -259,11 +259,12 @@ describe('useEditor', () => {
       process.off('uncaughtException', onUnhandled)
     }
 
-    // A throwing onCreate should surface asynchronously (same as it would
-    // have before this fix, since it fires from a 0ms timer or a React
-    // effect, never synchronously inside the render call itself) - not
-    // crash the render.
-    expect(caughtAsync.length).toBeGreaterThanOrEqual(1)
-    expect(caughtAsync.every(error => error instanceof Error)).toBe(true)
+    // A throwing onCreate should surface asynchronously exactly once (same
+    // as it would have before this fix, since it fires from a 0ms timer or
+    // a React effect, never synchronously inside the render call itself) -
+    // not crash the render.
+    expect(caughtAsync.length).toBe(1)
+    expect(caughtAsync[0]).toBeInstanceOf(Error)
+    expect((caughtAsync[0] as Error).message).toBe('boom from onCreate')
   })
 })
