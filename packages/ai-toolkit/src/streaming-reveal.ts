@@ -50,10 +50,9 @@ type YSyncState = {
 const aiInsertRevealKey = new PluginKey('aiInsertReveal')
 
 /**
- * Resolves one reveal entry to an absolute range, or null if it has expired, its
- * anchors no longer resolve (the run's text was deleted by a concurrent edit), or
- * the span is empty or implausibly large. Returns the run's `age` so the caller
- * can seed the fade from it.
+ * Resolves one reveal entry to an absolute range, or null if it has expired or no
+ * longer maps to a valid span. Returns the run's `age` so the caller can seed the
+ * fade from it.
  */
 function resolveRevealRange(
   ystate: YSyncState,
@@ -61,10 +60,19 @@ function resolveRevealRange(
   now: number,
   durationMs: number,
 ): { from: number; to: number; age: number } | null {
-  if (!ystate.binding) return null
-
   const age = now - entry.at
   if (age >= durationMs) return null
+
+  const span = resolveSpan(ystate, entry)
+  return span === null ? null : { ...span, age }
+}
+
+/**
+ * Resolves a reveal entry's relative-position anchors to an absolute, ordered,
+ * plausibly-sized span, or null if the run was deleted or its span is invalid.
+ */
+function resolveSpan(ystate: YSyncState, entry: RevealEntry): { from: number; to: number } | null {
+  if (!ystate.binding) return null
 
   const from = relativePositionToAbsolutePosition(
     ystate.doc,
@@ -78,13 +86,14 @@ function resolveRevealRange(
     entry.end,
     ystate.binding.mapping,
   )
-  if (from === null || to === null) return null
+  return from === null || to === null ? null : orderedSpan(from, to)
+}
 
+/** Orders two positions and rejects an empty or implausibly large span. */
+function orderedSpan(from: number, to: number): { from: number; to: number } | null {
   const a = Math.min(from, to)
   const b = Math.max(from, to)
-  if (a >= b || b - a > MAX_REVEAL_RANGE) return null
-
-  return { from: a, to: b, age }
+  return a >= b || b - a > MAX_REVEAL_RANGE ? null : { from: a, to: b }
 }
 
 /**
@@ -99,25 +108,37 @@ function collectInsertedRuns(event: Y.YEvent<Y.AbstractType<unknown>>, now: numb
   const runs: RevealEntry[] = []
   let index = 0
   for (const op of event.delta) {
-    if (typeof op.retain === 'number') {
-      index += op.retain
-    } else if (typeof op.insert === 'string') {
-      const length = op.insert.length
-      if (length > 0) {
-        runs.push({
-          start: Y.createRelativePositionFromTypeIndex(target, index),
-          // Anchor the end to the run's last char (assoc < 0) so the next token
-          // appended here starts its own run instead of extending this one.
-          end: Y.createRelativePositionFromTypeIndex(target, index + length, -1),
-          at: now,
-        })
-      }
-      index += length
-    } else if (op.insert !== undefined) {
-      index += 1
-    }
+    const { advance, inserted } = scanDeltaOp(op)
+    if (inserted > 0) runs.push(makeRun(target, index, inserted, now))
+    index += advance
   }
   return runs
+}
+
+/**
+ * Reads one delta op for the run scan: how far it advances the cursor, and the
+ * length of a string insert (0 for any non-string-insert op).
+ */
+function scanDeltaOp(op: { retain?: number; insert?: unknown }): {
+  advance: number
+  inserted: number
+} {
+  if (typeof op.retain === 'number') return { advance: op.retain, inserted: 0 }
+  if (typeof op.insert === 'string')
+    return { advance: op.insert.length, inserted: op.insert.length }
+  return op.insert === undefined ? { advance: 0, inserted: 0 } : { advance: 1, inserted: 0 }
+}
+
+/**
+ * Builds one reveal entry. The end is anchored to the run's last char (assoc < 0)
+ * so the next token appended here starts its own run instead of extending this one.
+ */
+function makeRun(target: Y.XmlText, index: number, length: number, now: number): RevealEntry {
+  return {
+    start: Y.createRelativePositionFromTypeIndex(target, index),
+    end: Y.createRelativePositionFromTypeIndex(target, index + length, -1),
+    at: now,
+  }
 }
 
 /**
@@ -166,28 +187,26 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
 
         props: {
           decorations: state => {
-            if (entries.length === 0) return null
             const ystate = ySyncPluginKey.getState(state) as YSyncState | undefined
-            if (!ystate?.binding) return null
+            if (entries.length === 0 || !ystate?.binding) return null
 
             const now = Date.now()
-            const decorations: Decoration[] = []
-            for (const entry of entries) {
-              const range = resolveRevealRange(ystate, entry, now, durationMs)
-              if (range === null) continue
-
+            const decorations = entries
+              .map(entry => resolveRevealRange(ystate, entry, now, durationMs))
+              .filter((range): range is NonNullable<typeof range> => range !== null)
               // Seed the CSS animation from the run's real age so a re-render
-              // (y-tiptap rebuilds the doc on every token) resumes the fade at
-              // the correct point instead of restarting it.
-              decorations.push(
+              // (y-tiptap rebuilds the doc on every token) resumes the fade at the
+              // correct point instead of restarting it.
+              .map(range =>
                 Decoration.inline(range.from, range.to, {
                   class: className,
                   style: `animation-delay: -${Math.round(range.age)}ms`,
                 }),
               )
-            }
 
-            return decorations.length ? DecorationSet.create(state.doc, decorations) : null
+            // An empty set is equivalent to null here (no decorations rendered);
+            // the early return above covers the common no-entries case.
+            return DecorationSet.create(state.doc, decorations)
           },
         },
 
@@ -236,19 +255,12 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
             const now = Date.now()
             dropExpired(now)
 
-            let captured = false
-            for (const event of events) {
-              const runs = collectInsertedRuns(event, now)
-              if (runs.length > 0) {
-                entries.push(...runs)
-                captured = true
-              }
-            }
+            const runs = events.flatMap(event => collectInsertedRuns(event, now))
+            if (runs.length === 0) return
 
-            if (captured) {
-              scheduleRerender()
-              schedulePrune()
-            }
+            entries.push(...runs)
+            scheduleRerender()
+            schedulePrune()
           }
 
           fragment?.observeDeep(onChange)
