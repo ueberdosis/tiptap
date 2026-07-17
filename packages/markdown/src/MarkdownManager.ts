@@ -367,7 +367,7 @@ export class MarkdownManager {
     parseImplicitEmptyParagraphs = false,
   ): JSONContent[] {
     // Blank lines between blocks are reconstructed below from `space` tokens.
-    // marked emits them consistently for most blocks, but some tokenizers
+    // Marked emits them consistently for most blocks, but some tokenizers
     // (notably heading, table and html blocks, whose rules match a trailing
     // `\n+`) absorb the following blank lines into the block token's own `raw`
     // and emit no `space` token. Normalize those into explicit `space` tokens
