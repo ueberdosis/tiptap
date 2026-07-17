@@ -6,7 +6,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { describe, expect, it } from 'vitest'
 import * as Y from 'yjs'
 
-import { AiInsertReveal } from './ai-insert-reveal.js'
+import { AiInsertReveal } from './streaming-reveal.js'
 
 /**
  * Creates an editor with the {@link AiInsertReveal} extension and no
