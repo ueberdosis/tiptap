@@ -7,15 +7,16 @@ import type { MarkType } from '@tiptap/pm/model'
  * for ex: [Tiptap](https://tiptap.dev) or [Tiptap](https://tiptap.dev "some title")
  * the URL may also contain one level of balanced parentheses, as in CommonMark
  * (titles accept curly quotes too, the Typography extension swaps them in while typing)
+ * the title delimiters must come in matching pairs
  */
 const MARKDOWN_LINK_INPUT_REGEX =
-  /\[([^[\]]+)\]\(((?:[^\s()]|\([^\s()]*\))+)(?:\s+["'“‘](.*?)["'”’])?\)$/
+  /\[([^[\]]+)\]\(((?:[^\s()]|\([^\s()]*\))+)(?:\s+(?:(["'])(.*?)\3|“(.*?)”|‘(.*?)’))?\)$/
 
 /**
  * Same as the input regex but global, to find every Markdown link in pasted text.
  */
 const MARKDOWN_LINK_PASTE_REGEX =
-  /\[([^[\]]+)\]\(((?:[^\s()]|\([^\s()]*\))+)(?:\s+["'“‘](.*?)["'”’])?\)/g
+  /\[([^[\]]+)\]\(((?:[^\s()]|\([^\s()]*\))+)(?:\s+(?:(["'])(.*?)\3|“(.*?)”|‘(.*?)’))?\)/g
 
 export interface MarkdownLinkRuleConfig {
   type: MarkType
@@ -102,7 +103,9 @@ function isConvertibleLink(
 }
 
 function toRuleMatch(match: RegExpMatchArray): InputRuleMatch & PasteRuleMatch {
-  const [linkSyntax, linkText, href, title] = match
+  const [linkSyntax, linkText, href, , straightQuotedTitle, curlyDoubleTitle, curlySingleTitle] =
+    match
+  const title = straightQuotedTitle ?? curlyDoubleTitle ?? curlySingleTitle
 
   return {
     index: match.index ?? 0,

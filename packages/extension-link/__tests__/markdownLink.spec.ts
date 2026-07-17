@@ -107,6 +107,42 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).toContain('title="Rich text editor"')
     })
 
+    it('supports titles in curly single quotes', () => {
+      createEditor({ content: '<p>[Tiptap](https://tiptap.dev ‘Rich text editor’</p>' })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain('title="Rich text editor"')
+    })
+
+    it('supports titles containing the other quote character', () => {
+      createEditor({ content: `<p>[Tiptap](https://tiptap.dev "editor's title"</p>` })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBe(true)
+      expect(editor!.getHTML()).toContain(`title="editor's title"`)
+    })
+
+    it('does not convert a title with mismatched quotes', () => {
+      createEditor({ content: `<p>[Tiptap](https://tiptap.dev “Rich text editor'</p>` })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
+    it('does not convert a title closed by a different straight quote', () => {
+      createEditor({ content: `<p>[Tiptap](https://tiptap.dev "Rich text editor'</p>` })
+
+      const handled = typeAtEnd(editor!, ')')
+
+      expect(handled).toBeFalsy()
+      expect(editor!.getHTML()).not.toContain('<a')
+    })
+
     it('converts URLs containing balanced parentheses', () => {
       createEditor({ content: '<p>[Wiki](https://en.wikipedia.org/wiki/Node_(disambiguation)</p>' })
 
@@ -351,6 +387,16 @@ describe('markdown links', () => {
       expect(editor!.getHTML()).toContain('href="https://tiptap.dev"')
       expect(editor!.getHTML()).toContain('title="Rich text editor"')
       expect(editor!.state.doc.textContent).toBe('Tiptap')
+    })
+
+    it('keeps a pasted link with a mismatched title quote as plain text', () => {
+      createEditor()
+
+      editor!.view.pasteText(`[Tiptap](https://tiptap.dev “Rich text editor')`)
+
+      // the bare URL inside may still get autolinked, we only care that the syntax survives
+      expect(editor!.getHTML()).not.toContain('>Tiptap</a>')
+      expect(editor!.state.doc.textContent).toBe(`[Tiptap](https://tiptap.dev “Rich text editor')`)
     })
 
     it('keeps the Markdown href when the link text looks like a URL', () => {
