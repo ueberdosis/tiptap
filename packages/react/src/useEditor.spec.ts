@@ -58,6 +58,29 @@ describe('useEditor', () => {
     unmount()
   })
 
+  it('still fires onCreate exactly once when mounted without StrictMode', async () => {
+    let createCount = 0
+
+    function TestComponent() {
+      useEditor({
+        extensions: [Document, Text, Paragraph],
+        onCreate: () => {
+          createCount += 1
+        },
+      })
+
+      return null
+    }
+
+    const { unmount } = render(React.createElement(TestComponent))
+
+    await flushTimers(100)
+
+    expect(createCount).toBe(1)
+
+    unmount()
+  })
+
   it('keeps two sibling editors independent under StrictMode', async () => {
     let createCountA = 0
     let createCountB = 0
