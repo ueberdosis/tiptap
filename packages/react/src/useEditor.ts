@@ -1,6 +1,6 @@
-import { type EditorOptions, Editor } from '@tiptap/core'
+import { type EditorEvents, type EditorOptions, Editor } from '@tiptap/core'
 import type { DependencyList, MutableRefObject } from 'react'
-import { useDebugValue, useEffect, useRef } from 'react'
+import { useDebugValue, useEffect, useRef, useState } from 'react'
 import { useSyncExternalStore } from 'use-sync-external-store/shim/index.js'
 
 import { useEditorState } from './useEditorState.js'
@@ -58,6 +58,19 @@ class EditorInstanceManager {
    * Whether the editor has been mounted.
    */
   private isComponentMounted = false
+
+  /**
+   * Under React 18/19 StrictMode, the `useState` lazy initializer that
+   * constructs this manager is invoked twice for a single logical mount; the
+   * discarded instance's `Editor` still auto-mounts and schedules its own
+   * `create` event via a 0ms timer. Rather than trying to prevent that
+   * second construction (StrictMode's exact hook-sharing behavior differs
+   * across React versions, so that's not reliable), buffer a `create` event
+   * that fires before this instance is confirmed mounted, and only forward
+   * it once `onRender`'s effect actually runs. An instance whose effect
+   * never runs (i.e. the discarded one) simply never forwards it.
+   */
+  private pendingOnCreateEvent: EditorEvents['create'] | null = null
 
   /**
    * The most recent dependencies array.
@@ -124,7 +137,16 @@ class EditorInstanceManager {
       // Always call the most recent version of the callback function by default
       onBeforeCreate: (...args) => this.options.current.onBeforeCreate?.(...args),
       onBlur: (...args) => this.options.current.onBlur?.(...args),
-      onCreate: (...args) => this.options.current.onCreate?.(...args),
+      onCreate: props => {
+        if (this.isComponentMounted) {
+          this.options.current.onCreate?.(props)
+        } else {
+          // Not confirmed mounted yet - this may be a StrictMode duplicate
+          // whose onRender effect will never run. Buffer it; onRender flushes
+          // this if the instance turns out to be the real one.
+          this.pendingOnCreateEvent = props
+        }
+      },
       onDestroy: (...args) => this.options.current.onDestroy?.(...args),
       onFocus: (...args) => this.options.current.onFocus?.(...args),
       onSelectionUpdate: (...args) => this.options.current.onSelectionUpdate?.(...args),
@@ -221,6 +243,12 @@ class EditorInstanceManager {
       this.isComponentMounted = true
       // Cleanup any scheduled destructions, since we are currently rendering
       clearTimeout(this.scheduledDestructionTimeout)
+
+      if (this.pendingOnCreateEvent) {
+        const event = this.pendingOnCreateEvent
+        this.pendingOnCreateEvent = null
+        this.options.current.onCreate?.(event)
+      }
 
       if (this.editor && !this.editor.isDestroyed && deps.length === 0) {
         // if the editor does exist & deps are empty, we don't need to re-initialize the editor generally
@@ -340,19 +368,7 @@ export function useEditor(
 
   mostRecentOptions.current = options
 
-  // Deliberately not a `useState` lazy initializer: React 18/19 StrictMode
-  // invokes that twice for a single logical mount, and since it constructs
-  // (and auto-mounts) a real `Editor`, that fires `onCreate` twice for two
-  // different instances. A ref's `current` is not reset between StrictMode's
-  // double invocation of this component function, so this guard only ever
-  // constructs one `EditorInstanceManager` per mount.
-  const instanceManagerRef = useRef<EditorInstanceManager | null>(null)
-
-  if (instanceManagerRef.current === null) {
-    instanceManagerRef.current = new EditorInstanceManager(mostRecentOptions)
-  }
-
-  const instanceManager = instanceManagerRef.current
+  const [instanceManager] = useState(() => new EditorInstanceManager(mostRecentOptions))
 
   const editor = useSyncExternalStore(
     instanceManager.subscribe,

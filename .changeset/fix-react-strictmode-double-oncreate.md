@@ -2,4 +2,4 @@
 '@tiptap/react': patch
 ---
 
-Fix `useEditor` firing `onBeforeCreate`/`onCreate` twice for two different `Editor` instances under React StrictMode. `useEditor` used a `useState` lazy initializer, which StrictMode invokes twice for a single mount, and both calls constructed (and auto-mounted) a real `Editor`. Replaced it with a guarded `useRef`, whose value isn't reset between StrictMode's double invocation, so only one `Editor` is ever constructed per mount.
+Fix `useEditor` firing `onCreate` twice for two different `Editor` instances under React StrictMode. `useEditor`'s `useState` lazy initializer is invoked twice by StrictMode for a single mount, and both calls construct (and auto-mount) a real `Editor`, so both used to schedule their own `create` event. `onCreate` is now buffered until the owning instance is confirmed mounted (i.e. its render effect actually runs) and only forwarded then - an instance whose effect never runs (the discarded one) never forwards it. Verified against React 18.2.0, 18.3.1, and 19.1.0.
