@@ -82,14 +82,11 @@ function remoteInsert(ydoc: Y.Doc, index: number, text: string): void {
  */
 function revealDecorations(editor: Editor): Array<{ from: number; to: number; style: string }> {
   for (const plugin of editor.state.plugins) {
-    // biome-ignore lint/suspicious/noExplicitAny: reading the decoration prop generically
     const set = (plugin as any).props?.decorations?.call(plugin, editor.state)
-    // biome-ignore lint/suspicious/noExplicitAny: DecorationSet.find returns internal decoration objects
     const found = (set?.find?.() ?? []).filter(
       (d: any) => d.type?.attrs?.class === 'ai-insert-reveal',
     )
     if (found.length > 0) {
-      // biome-ignore lint/suspicious/noExplicitAny: decoration internals
       return found.map((d: any) => ({ from: d.from, to: d.to, style: d.type.attrs.style ?? '' }))
     }
   }
@@ -138,7 +135,6 @@ describe('AiInsertReveal', () => {
     expect(editor.getText()).toBe('Hello WORLD')
     const decorations = revealDecorations(editor)
     expect(decorations).toHaveLength(1)
-    // The decoration spans exactly the 6 inserted characters.
     expect(decorations[0].to - decorations[0].from).toBe(' WORLD'.length)
     // The age-seeded animation-delay is present so the fade survives re-renders.
     expect(decorations[0].style).toMatch(/animation-delay: -\d+ms/)

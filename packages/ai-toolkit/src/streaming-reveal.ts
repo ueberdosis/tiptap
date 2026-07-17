@@ -11,8 +11,7 @@ import * as Y from 'yjs'
 export type AiInsertRevealOptions = {
   /**
    * CSS class applied to each freshly-inserted run. Style this class in your app
-   * to define the fade (see the package docs for a default). Change it to run
-   * more than one reveal effect, or to avoid a class-name collision.
+   * to define the fade (see the package docs for a default).
    */
   className: string
   /**
@@ -49,11 +48,6 @@ type YSyncState = {
 
 const aiInsertRevealKey = new PluginKey('aiInsertReveal')
 
-/**
- * Resolves one reveal entry to an absolute range, or null if it has expired or no
- * longer maps to a valid span. Returns the run's `age` so the caller can seed the
- * fade from it.
- */
 function resolveRevealRange(
   ystate: YSyncState,
   entry: RevealEntry,
@@ -67,10 +61,6 @@ function resolveRevealRange(
   return span === null ? null : { ...span, age }
 }
 
-/**
- * Resolves a reveal entry's relative-position anchors to an absolute, ordered,
- * plausibly-sized span, or null if the run was deleted or its span is invalid.
- */
 function resolveSpan(ystate: YSyncState, entry: RevealEntry): { from: number; to: number } | null {
   if (!ystate.binding) return null
 
@@ -89,18 +79,12 @@ function resolveSpan(ystate: YSyncState, entry: RevealEntry): { from: number; to
   return from === null || to === null ? null : orderedSpan(from, to)
 }
 
-/** Orders two positions and rejects an empty or implausibly large span. */
 function orderedSpan(from: number, to: number): { from: number; to: number } | null {
   const a = Math.min(from, to)
   const b = Math.max(from, to)
   return a >= b || b - a > MAX_REVEAL_RANGE ? null : { from: a, to: b }
 }
 
-/**
- * Extracts the freshly-inserted text runs carried by one remote Yjs event,
- * anchored by relative positions. Returns an empty array when the event's target
- * is not a text node or carries no string inserts.
- */
 function collectInsertedRuns(event: Y.YEvent<Y.AbstractType<unknown>>, now: number): RevealEntry[] {
   const target = event.target
   if (!(target instanceof Y.XmlText)) return []
@@ -115,10 +99,6 @@ function collectInsertedRuns(event: Y.YEvent<Y.AbstractType<unknown>>, now: numb
   return runs
 }
 
-/**
- * Reads one delta op for the run scan: how far it advances the cursor, and the
- * length of a string insert (0 for any non-string-insert op).
- */
 function scanDeltaOp(op: { retain?: number; insert?: unknown }): {
   advance: number
   inserted: number
@@ -126,12 +106,13 @@ function scanDeltaOp(op: { retain?: number; insert?: unknown }): {
   if (typeof op.retain === 'number') return { advance: op.retain, inserted: 0 }
   if (typeof op.insert === 'string')
     return { advance: op.insert.length, inserted: op.insert.length }
+  // A non-string insert (embed) advances one position but is not a revealed run.
   return op.insert === undefined ? { advance: 0, inserted: 0 } : { advance: 1, inserted: 0 }
 }
 
 /**
- * Builds one reveal entry. The end is anchored to the run's last char (assoc < 0)
- * so the next token appended here starts its own run instead of extending this one.
+ * The end anchor binds to the run's last char (assoc < 0) so a token appended
+ * here starts its own run instead of extending this one.
  */
 function makeRun(target: Y.XmlText, index: number, length: number, now: number): RevealEntry {
   return {
@@ -204,8 +185,6 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
                 }),
               )
 
-            // An empty set is equivalent to null here (no decorations rendered);
-            // the early return above covers the common no-entries case.
             return DecorationSet.create(state.doc, decorations)
           },
         },
