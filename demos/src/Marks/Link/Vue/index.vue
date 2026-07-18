@@ -43,6 +43,7 @@ export default {
         Code,
         Link.configure({
           openOnClick: false,
+          markdownLinks: true,
           defaultProtocol: 'https',
         }),
       ],
