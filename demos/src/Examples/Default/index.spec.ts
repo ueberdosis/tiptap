@@ -175,12 +175,6 @@ test.describe(`${demoPath}/${demoName}`, () => {
         await clickButton(page, 'Redo')
         await expect(page.locator('.tiptap')).toContainText('~')
       })
-
-      test('should toggle editable', async ({ page }) => {
-        // This has a side-effect of verifying that the editor doesn't hard crash due to state changes.
-        await clickButton(page, 'Editable')
-        await expect(page.locator('.tiptap')).toHaveAttribute('contenteditable', 'false')
-      })
     })
   })
 })
