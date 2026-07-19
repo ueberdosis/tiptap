@@ -90,8 +90,4 @@ export default defineConfig({
       })),
     ],
   },
-  esbuild: {
-    jsx: 'automatic',
-    jsxImportSource: '@tiptap/core',
-  },
 })
