@@ -32,11 +32,23 @@ export class InvisibleCharacter {
 
     return textContent.reduce((oldDecorations, currentPosition) => {
       return currentPosition.text.split('').reduce((innerDecorations, char, i) => {
-        return this.test(char)
-          ? innerDecorations.add(doc, [
-              createDecorationWidget(currentPosition.pos + i, this.type, this.content),
-            ])
-          : innerDecorations
+        if (!this.test(char)) {
+          return innerDecorations
+        }
+
+        const decorationPosition = currentPosition.pos + i
+
+        // Multi-step transactions can produce overlapping update ranges
+        // remove any existing widget first to avoid duplicates
+        const oldDecorationsAtPosition = innerDecorations.find(
+          decorationPosition,
+          decorationPosition,
+          spec => spec.key === this.type,
+        )
+
+        return innerDecorations
+          .remove(oldDecorationsAtPosition)
+          .add(doc, [createDecorationWidget(decorationPosition, this.type, this.content)])
       }, oldDecorations)
     }, decorations)
   }
