@@ -1,8 +1,12 @@
+import type { Editor } from '@tiptap/core'
 import type { Mark, MarkType, Node as ProseMirrorNode } from '@tiptap/pm/model'
 import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
 import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view'
 
 const rubyTextDecorationPluginKey = new PluginKey('rubyTextDecoration')
+
+// Ends a widget's edit session on destroy, so stale submit/dismiss calls do nothing.
+const editSessions = new WeakMap<Node, () => void>()
 
 interface RubyTextRange {
   from: number
@@ -10,12 +14,79 @@ interface RubyTextRange {
   mark: Mark
 }
 
+export interface RubyTextAnnotationEditorProps {
+  /**
+   * The current annotation value (`''` when the mark has an empty annotation).
+   */
+  annotation: string
+  /**
+   * Applies the given value as the new annotation and closes the editor.
+   * Calling it more than once (or after `dismiss`) is a no-op.
+   */
+  submit: (value: string) => void
+  /**
+   * Closes the editor without changing the annotation.
+   * Calling it more than once (or after `submit`) is a no-op.
+   */
+  dismiss: () => void
+  /**
+   * The editor instance.
+   */
+  editor: Editor
+}
+
+export interface RubyTextDecorationPluginOptions {
+  editor: Editor
+  allowClickToEdit: boolean
+  renderAnnotationEditor?: (props: RubyTextAnnotationEditorProps) => HTMLElement
+}
+
+// Enter and Escape during IME composition must not close the editor.
+// Safari reports some IME keydowns only via the deprecated keyCode 229.
+function isImeEvent(event: KeyboardEvent) {
+  const legacyKeyCode = (event as { keyCode?: number }).keyCode
+  return event.isComposing || legacyKeyCode === 229
+}
+
+/** Default annotation editor: a plain text input. Enter submits, Escape or blur dismisses. */
+function defaultRenderAnnotationEditor({
+  annotation,
+  submit,
+  dismiss,
+}: RubyTextAnnotationEditorProps) {
+  const input = document.createElement('input')
+  input.type = 'text'
+  input.value = annotation
+  input.size = Math.max(annotation.length, 1)
+  input.setAttribute('aria-label', 'Ruby text annotation')
+
+  input.addEventListener('focus', () => input.select(), { once: true })
+  input.addEventListener('blur', () => dismiss())
+  input.addEventListener('keydown', event => {
+    if (isImeEvent(event)) {
+      return
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      dismiss()
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      submit(input.value)
+    }
+  })
+
+  return input
+}
+
 function createRtElement(
   annotation: string,
   range: RubyTextRange,
   rubyTextType: MarkType,
   view: EditorView,
-  allowClickToEdit: boolean,
+  options: RubyTextDecorationPluginOptions,
 ) {
   const rt = document.createElement('rt')
   rt.contentEditable = 'false'
@@ -27,8 +98,56 @@ function createRtElement(
     view.focus()
   }
 
-  if (!allowClickToEdit || !view.editable) {
+  if (!options.allowClickToEdit || !view.editable) {
     return rt
+  }
+
+  editSessions.set(rt, () => {
+    editing = false
+  })
+
+  const dismiss = () => {
+    if (!editing) {
+      return
+    }
+
+    editing = false
+    rt.textContent = annotation
+    restoreEditorFocus()
+  }
+
+  const submit = (value: string) => {
+    if (!editing) {
+      return
+    }
+
+    // An unchanged value produces no doc change, so the widget would not
+    // re-render and the editor element would stay mounted.
+    if (!view.editable || value === annotation) {
+      dismiss()
+      return
+    }
+
+    editing = false
+    const transaction = view.state.tr.addMark(
+      range.from,
+      range.to,
+      rubyTextType.create({ ...range.mark.attrs, rt: value }),
+    )
+
+    view.dispatch(transaction.setSelection(TextSelection.create(transaction.doc, range.to)))
+    view.focus()
+  }
+
+  const openEditor = () => {
+    const renderEditor = options.renderAnnotationEditor ?? defaultRenderAnnotationEditor
+    const element = renderEditor({ annotation, submit, dismiss, editor: options.editor })
+
+    rt.replaceChildren(element)
+
+    // Browsers ignore autofocus on inserted nodes, so we focus it manually.
+    const focusTarget = element.querySelector<HTMLElement>('[autofocus]') ?? element
+    focusTarget.focus()
   }
 
   rt.addEventListener('click', () => {
@@ -37,53 +156,7 @@ function createRtElement(
     }
 
     editing = true
-
-    const input = document.createElement('input')
-    input.type = 'text'
-    input.value = annotation
-    input.size = Math.max(annotation.length, 1)
-    input.setAttribute('aria-label', 'Ruby text annotation')
-
-    const cancel = () => {
-      if (!editing) {
-        return
-      }
-
-      editing = false
-      rt.textContent = annotation
-      restoreEditorFocus()
-    }
-
-    input.addEventListener('blur', cancel)
-    input.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        cancel()
-      }
-
-      if (event.key === 'Enter') {
-        event.preventDefault()
-
-        if (!view.editable) {
-          cancel()
-          return
-        }
-
-        editing = false
-        const transaction = view.state.tr.addMark(
-          range.from,
-          range.to,
-          rubyTextType.create({ ...range.mark.attrs, rt: input.value }),
-        )
-
-        view.dispatch(transaction.setSelection(TextSelection.create(transaction.doc, range.to)))
-        view.focus()
-      }
-    })
-
-    rt.replaceChildren(input)
-    input.focus()
-    input.select()
+    openEditor()
   })
 
   return rt
@@ -150,35 +223,51 @@ function getRubyTextRanges(doc: ProseMirrorNode, rubyTextType: MarkType) {
   return ranges
 }
 
+// Events from the annotation editor that ProseMirror must not handle itself.
+const STOPPED_EVENT_TYPES = new Set([
+  'click',
+  'dblclick',
+  'contextmenu',
+  'mousedown',
+  'mouseup',
+  'pointerdown',
+  'pointerup',
+  'touchstart',
+  'touchend',
+  'keydown',
+  'keypress',
+  'keyup',
+  'input',
+  'beforeinput',
+  'compositionstart',
+  'compositionupdate',
+  'compositionend',
+  'paste',
+  'cut',
+  'copy',
+  'focus',
+  'blur',
+  'focusin',
+  'focusout',
+])
+
 function createDecorations(
   doc: ProseMirrorNode,
   rubyTextType: MarkType,
-  allowClickToEdit: boolean,
+  options: RubyTextDecorationPluginOptions,
 ) {
   const decorations = getRubyTextRanges(doc, rubyTextType).map(range => {
     const annotation = range.mark.attrs.rt ?? ''
 
     return Decoration.widget(
       range.to,
-      view => createRtElement(annotation, range, rubyTextType, view, allowClickToEdit),
+      view => createRtElement(annotation, range, rubyTextType, view, options),
       {
         key: `ruby-text-${range.from}-${range.to}-${annotation}`,
         marks: [range.mark],
         side: 1,
-        stopEvent: event =>
-          allowClickToEdit &&
-          [
-            'click',
-            'input',
-            'keydown',
-            'keyup',
-            'mousedown',
-            'mouseup',
-            'pointerdown',
-            'pointerup',
-            'touchstart',
-            'touchend',
-          ].includes(event.type),
+        stopEvent: event => options.allowClickToEdit && STOPPED_EVENT_TYPES.has(event.type),
+        destroy: node => editSessions.get(node)?.(),
       },
     )
   })
@@ -186,14 +275,17 @@ function createDecorations(
   return DecorationSet.create(doc, decorations)
 }
 
-export function RubyTextDecorationPlugin(rubyTextType: MarkType, allowClickToEdit: boolean) {
+export function RubyTextDecorationPlugin(
+  rubyTextType: MarkType,
+  options: RubyTextDecorationPluginOptions,
+) {
   return new Plugin({
     key: rubyTextDecorationPluginKey,
     state: {
-      init: (_, state) => createDecorations(state.doc, rubyTextType, allowClickToEdit),
+      init: (_, state) => createDecorations(state.doc, rubyTextType, options),
       apply: (transaction, decorations) =>
         transaction.docChanged
-          ? createDecorations(transaction.doc, rubyTextType, allowClickToEdit)
+          ? createDecorations(transaction.doc, rubyTextType, options)
           : decorations.map(transaction.mapping, transaction.doc),
     },
     props: {

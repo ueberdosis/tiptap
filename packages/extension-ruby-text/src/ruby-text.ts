@@ -1,6 +1,9 @@
 import { Mark, mergeAttributes } from '@tiptap/core'
 
+import type { RubyTextAnnotationEditorProps } from './ruby-text-decoration-plugin.js'
 import { RubyTextDecorationPlugin } from './ruby-text-decoration-plugin.js'
+
+export type { RubyTextAnnotationEditorProps }
 
 export interface RubyTextOptions {
   /**
@@ -13,6 +16,14 @@ export interface RubyTextOptions {
    * @default true
    */
   allowClickToEdit: boolean
+  /**
+   * Renders a custom element used as the inline annotation editor.
+   * The returned element is mounted inside the `rt` element. A descendant
+   * with the `autofocus` attribute is focused, otherwise the element itself.
+   * When not set, a plain text input is rendered.
+   * @default undefined
+   */
+  renderAnnotationEditor?: (props: RubyTextAnnotationEditorProps) => HTMLElement
 }
 
 export interface RubyTextAttributes {
@@ -57,6 +68,7 @@ export const RubyText = Mark.create<RubyTextOptions>({
     return {
       HTMLAttributes: {},
       allowClickToEdit: true,
+      renderAnnotationEditor: undefined,
     }
   },
 
@@ -132,7 +144,13 @@ export const RubyText = Mark.create<RubyTextOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [RubyTextDecorationPlugin(this.type, this.options.allowClickToEdit)]
+    return [
+      RubyTextDecorationPlugin(this.type, {
+        editor: this.editor,
+        allowClickToEdit: this.options.allowClickToEdit,
+        renderAnnotationEditor: this.options.renderAnnotationEditor,
+      }),
+    ]
   },
 
   addMarkView() {
