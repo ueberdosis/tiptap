@@ -13,6 +13,7 @@
         <button @click="editor.commands.toggleInvisibleCharacters()">
           Toggle invisible characters
         </button>
+        <button @click="editor.chain().focus().insertContent('\t').run()">Insert tab</button>
       </div>
       <div>
         <input
@@ -32,7 +33,13 @@
 import Document from '@tiptap/extension-document'
 import HardBreak from '@tiptap/extension-hard-break'
 import Heading from '@tiptap/extension-heading'
-import InvisibleCharacters from '@tiptap/extension-invisible-characters'
+import InvisibleCharacters, {
+  HardBreakNode,
+  NonBreakingSpaceCharacter,
+  ParagraphNode,
+  SpaceCharacter,
+  TabCharacter,
+} from '@tiptap/extension-invisible-characters'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
@@ -50,7 +57,22 @@ export default {
 
   mounted() {
     this.editor = new Editor({
-      extensions: [Document, Paragraph, Text, Heading, InvisibleCharacters, HardBreak],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Heading,
+        InvisibleCharacters.configure({
+          builders: [
+            new SpaceCharacter(),
+            new ParagraphNode(),
+            new HardBreakNode(),
+            new TabCharacter(),
+            new NonBreakingSpaceCharacter(),
+          ],
+        }),
+        HardBreak,
+      ],
       content: `
         <h1>
           This is a heading.
@@ -60,6 +82,9 @@ export default {
         </p>
         <p>
           This is a paragraph, but without breaks.
+        </p>
+        <p>
+          This paragraph contains non&nbsp;breaking&nbsp;spaces.
         </p>
       `,
     })
