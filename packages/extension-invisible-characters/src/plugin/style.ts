@@ -28,6 +28,14 @@ export const style = `.tiptap-invisible-character {
   content: '¶'
 }
 
+.tiptap-invisible-character--tab::before {
+  content: '→'
+}
+
+.tiptap-invisible-character--non-breaking-space::before {
+  content: '°'
+}
+
 .tiptap-invisible-character + img.ProseMirror-separator {
   height: 0 !important;
   pointer-events: none;
