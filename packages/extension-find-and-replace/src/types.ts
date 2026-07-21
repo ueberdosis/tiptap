@@ -1,0 +1,77 @@
+import type { SearchResult } from './search.js'
+
+export interface FindAndReplaceOptions {
+  /**
+   * The initial search term.
+   * @default ''
+   */
+  searchTerm: string
+
+  /**
+   * The initial replace term.
+   * @default ''
+   */
+  replaceTerm: string
+
+  /**
+   * Whether the search is case sensitive.
+   * @default false
+   */
+  caseSensitive: boolean
+
+  /**
+   * Whether the search term is treated as a regular expression.
+   * @default false
+   */
+  useRegex: boolean
+
+  /**
+   * Whether the default result highlight styles are injected.
+   * @default true
+   */
+  injectCSS: boolean
+
+  /**
+   * A nonce for the injected style tag, needed for strict CSP setups.
+   * @default undefined
+   */
+  injectNonce: string | undefined
+}
+
+export interface FindAndReplaceStorage {
+  /**
+   * The current search term.
+   */
+  searchTerm: string
+
+  /**
+   * The current replace term.
+   */
+  replaceTerm: string
+
+  /**
+   * Whether the search is case sensitive.
+   */
+  caseSensitive: boolean
+
+  /**
+   * Whether the search term is treated as a regular expression.
+   */
+  useRegex: boolean
+
+  /**
+   * The current search results in document order.
+   */
+  results: SearchResult[]
+
+  /**
+   * The index of the current result, or `null` when no result is selected.
+   */
+  currentIndex: number | null
+}
+
+declare module '@tiptap/core' {
+  interface Storage {
+    findAndReplace: FindAndReplaceStorage
+  }
+}

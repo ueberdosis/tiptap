@@ -694,6 +694,15 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/extension-find-and-replace:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+
   packages/extension-floating-menu:
     devDependencies:
       '@floating-ui/dom':

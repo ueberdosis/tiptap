@@ -1,0 +1,182 @@
+import { Editor } from '@tiptap/core'
+import Bold from '@tiptap/extension-bold'
+import Document from '@tiptap/extension-document'
+import FindAndReplace from '@tiptap/extension-find-and-replace'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+
+describe('FindAndReplace', () => {
+  let editor: Editor
+
+  const createEditor = (content: string) => {
+    const element = document.createElement('div')
+    document.body.appendChild(element)
+
+    return new Editor({
+      element,
+      extensions: [Document, Paragraph, Text, Bold, FindAndReplace],
+      content,
+    })
+  }
+
+  beforeEach(() => {
+    editor = createEditor('<p>Hello hello HELLO</p>')
+  })
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('finds matches case insensitively by default', () => {
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 7, to: 12 },
+      { from: 13, to: 18 },
+    ])
+  })
+
+  it('syncs the search term to the storage', () => {
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.searchTerm).toBe('hello')
+  })
+
+  it('finds only exact matches when case sensitive', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setCaseSensitive(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 7, to: 12 }])
+  })
+
+  it('supports regular expressions', () => {
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('h.llo')
+
+    expect(editor.storage.findAndReplace.results).toHaveLength(3)
+  })
+
+  it('returns no results for an invalid regular expression', () => {
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('([')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+  })
+
+  it('finds matches across marks', () => {
+    editor.destroy()
+    editor = createEditor('<p>he<strong>llo</strong> world</p>')
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 6 }])
+  })
+
+  it('renders decorations for all results', () => {
+    editor.commands.setSearchTerm('hello')
+
+    const results = editor.view.dom.querySelectorAll('.find-and-replace-result')
+    const current = editor.view.dom.querySelectorAll('.find-and-replace-result-current')
+
+    expect(results).toHaveLength(3)
+    expect(current).toHaveLength(1)
+  })
+
+  it('updates results when the document changes', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setContent('<p>hello hello</p>')
+
+    expect(editor.storage.findAndReplace.results).toHaveLength(2)
+  })
+
+  it('clears results and decorations on clearSearch', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.clearSearch()
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+    expect(editor.view.dom.querySelectorAll('.find-and-replace-result')).toHaveLength(0)
+  })
+
+  it('navigates results with wrap around', () => {
+    editor.destroy()
+    editor = createEditor('<p>one two one two one</p>')
+    editor.commands.setSearchTerm('one')
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+
+    editor.commands.goToNextResult()
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.state.selection.from).toBe(9)
+    expect(editor.state.selection.to).toBe(12)
+
+    editor.commands.goToNextResult()
+    editor.commands.goToNextResult()
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+
+    editor.commands.goToPreviousResult()
+    expect(editor.storage.findAndReplace.currentIndex).toBe(2)
+  })
+
+  it('replaces the current result and jumps to the next one', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo bar foo</p>')
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('baz')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('baz bar foo')
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 9, to: 12 }])
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.state.selection.from).toBe(9)
+    expect(editor.state.selection.to).toBe(12)
+  })
+
+  it('skips a replacement that still matches the search term', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo bar foo</p>')
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('foobar')
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('foobar bar foo')
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.state.selection.from).toBe(12)
+    expect(editor.state.selection.to).toBe(15)
+  })
+
+  it('wraps around when replacing the last result', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo bar foo</p>')
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('foo')
+    editor.commands.goToNextResult()
+    editor.commands.replace()
+
+    expect(editor.getText()).toBe('foo bar foo')
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+  })
+
+  it('replaces all results at once', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setReplaceTerm('world')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('world world world')
+    expect(editor.storage.findAndReplace.results).toEqual([])
+    expect(editor.storage.findAndReplace.currentIndex).toBeNull()
+  })
+
+  it('keeps new results when the replacement still matches', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setReplaceTerm('hell')
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe('hell hell hell')
+  })
+
+  it('does nothing on replace without results', () => {
+    expect(editor.commands.replace()).toBe(false)
+    expect(editor.commands.replaceAll()).toBe(false)
+  })
+})
