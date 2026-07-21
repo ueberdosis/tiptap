@@ -172,6 +172,35 @@ describe('ReactNodeViewRenderer', () => {
     editor.destroy()
   })
 
+  it('resolves getPos to undefined while the view desc is detached mid-update', async () => {
+    const editor = createEditorWithContainers()
+    const { container } = render(React.createElement(EditorContent, { editor }))
+
+    await flushMicrotasks()
+
+    // Recreate the state ProseMirror's view tree goes through while it
+    // updates: the desc has a parent but is not in parent.children yet.
+    // getPos then walks past the end of the children array and throws.
+    const desc = (container.querySelector('.react-renderer') as any).pmViewDesc
+    const siblings = desc.parent.children
+
+    siblings.splice(siblings.indexOf(desc), 1)
+
+    renderedPositions.length = 0
+
+    await act(async () => {
+      bumpHandles.get('a')?.()
+    })
+
+    // put the tree back so teardown works on a consistent view
+    siblings.unshift(desc)
+
+    expect(renderErrors).toEqual([])
+    expect(renderedPositions).toEqual([undefined])
+
+    editor.destroy()
+  })
+
   it('does not crash when node views are created while React has pending updates', async () => {
     const editor = createEditorWithContainers()
     const { container } = render(React.createElement(EditorContent, { editor }))
