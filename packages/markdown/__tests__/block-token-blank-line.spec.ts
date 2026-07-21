@@ -53,18 +53,23 @@ describe('Blank lines after a block token', () => {
 
   it('round-trips blank lines after a heading without eroding them', () => {
     const markdown = '# Title\n\n\n\nBody'
-  
+
     const once = markdownManager.serialize(markdownManager.parse(markdown))
     const twice = markdownManager.serialize(markdownManager.parse(once))
-  
+
     // Stable across repeated cycles (no erosion).
     expect(twice).toBe(once)
   })
 
-  it('round-trips explicit &nbsp; paragraphs', () => {
-    const markdown = '# Title\n\n&nbsp;\n\nBody'
-    const once = markdownManager.serialize(markdownManager.parse(markdown))
-    expect(once).toBe(markdown)
+  // A lone `&nbsp;` paragraph is an empty-paragraph marker, not verbatim
+  // content, so it normalizes to blank-line spacing (see paragraph.spec.ts).
+  // What must hold is that the blank line is not eroded across cycles.
+  it('normalizes an explicit &nbsp; paragraph without eroding the blank line', () => {
+    const once = markdownManager.serialize(markdownManager.parse('# Title\n\n&nbsp;\n\nBody'))
+    const twice = markdownManager.serialize(markdownManager.parse(once))
+
+    expect(once).toBe('# Title\n\n\n\nBody')
+    expect(twice).toBe(once)
   })
 
   // Tables absorb trailing blank lines the same way.
