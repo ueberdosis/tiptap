@@ -169,10 +169,15 @@ describe('FindAndReplace', () => {
 
   it('keeps new results when the replacement still matches', () => {
     editor.commands.setSearchTerm('hello')
-    editor.commands.setReplaceTerm('hell')
+    editor.commands.setReplaceTerm('hello!')
     editor.commands.replaceAll()
 
-    expect(editor.getText()).toBe('hell hell hell')
+    expect(editor.getText()).toBe('hello! hello! hello!')
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 8, to: 13 },
+      { from: 15, to: 20 },
+    ])
   })
 
   it('does nothing on replace without results', () => {
