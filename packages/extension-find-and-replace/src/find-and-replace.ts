@@ -224,8 +224,6 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
             results.forEach(result => {
               tr.insertText(pluginState.replaceTerm, result.from, result.to)
             })
-
-            tr.setMeta(FindAndReplacePluginKey, { currentIndex: null })
           }
 
           return true

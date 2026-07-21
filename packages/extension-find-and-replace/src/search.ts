@@ -20,11 +20,34 @@ const escapeRegExp = (value: string): string => {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+// Heuristic only; reject common catastrophic-backtracking patterns.
+const isUnsafeRegex = (pattern: string): boolean => {
+  // Nested quantifiers: (a+)+, (a*)+, (a+)*, etc.
+  if (/\([^)]*[+*][^)]*\)[+*]/.test(pattern)) {
+    return true
+  }
+
+  // Overlapping alternations with quantifiers: (a|a)+, (a|a)*
+  if (/\(([^|]+)\|(\1)\)[+*]/.test(pattern)) {
+    return true
+  }
+
+  // Quantified groups with overlapping patterns: (a.*a)+
+  if (/\([^)]*\.[^)]*\)[+*]/.test(pattern)) {
+    return true
+  }
+
+  return false
+}
+
 function compileRegex(source: string, caseSensitive: boolean): RegExp | null {
+  if (isUnsafeRegex(source)) {
+    return null
+  }
+
   try {
     return new RegExp(source, caseSensitive ? 'g' : 'gi')
   } catch {
-    // Invalid regex input should not break the editor, just yield no results.
     return null
   }
 }
@@ -95,7 +118,6 @@ export function searchDocument(doc: Node, term: string, options: SearchOptions):
     const text = segments.map(segment => segment.text).join('')
 
     for (const match of text.matchAll(regex)) {
-      // Skip empty matches (e.g. "a*"), they can't be highlighted or replaced.
       if (match[0].length === 0) {
         continue
       }

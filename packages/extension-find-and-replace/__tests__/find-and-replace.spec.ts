@@ -184,4 +184,11 @@ describe('FindAndReplace', () => {
     expect(editor.commands.replace()).toBe(false)
     expect(editor.commands.replaceAll()).toBe(false)
   })
+
+  it('rejects regex patterns with catastrophic backtracking risk', () => {
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(a+)+')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+  })
 })
