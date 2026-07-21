@@ -14,7 +14,7 @@ export const createStyleTag = (style: string, nonce?: string): HTMLStyleElement 
   }
 
   styleNode.setAttribute('data-tiptap-extension-find-and-replace-style', '')
-  styleNode.innerHTML = style
+  styleNode.textContent = style
   document.getElementsByTagName('head')[0].appendChild(styleNode)
 
   return styleNode
