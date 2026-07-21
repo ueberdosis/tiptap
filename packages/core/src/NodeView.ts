@@ -51,14 +51,7 @@ export class NodeView<
     this.innerDecorations = props.innerDecorations
     this.view = props.view
     this.HTMLAttributes = props.HTMLAttributes
-    this.getPos = () => {
-      // ProseMirror throws while this node view is not attached to its parent yet.
-      try {
-        return props.getPos()
-      } catch {
-        return undefined
-      }
-    }
+    this.getPos = props.getPos
     this.mount()
   }
 
