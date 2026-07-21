@@ -7,6 +7,10 @@ import type { ContentType } from './types.js'
 /**
  * Matches a run of two or more consecutive line breaks (a blank line) at the
  * end of a string, allowing horizontal whitespace between the breaks.
+ *
+ * @example
+ * TRAILING_BLANK_LINES.test('paragraph\n  \n')
+ * // => true
  */
 const TRAILING_BLANK_LINES = /\n[^\S\n]*(?:\n[^\S\n]*)+$/
 
