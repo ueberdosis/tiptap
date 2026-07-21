@@ -117,6 +117,7 @@
     },
     "overrides": {
       "@rollup/pluginutils>picomatch": "2.3.2",
+      "prosemirror-model": "^1.25.11",
       "@octokit/action>undici": "6.24.1",
       "anymatch>picomatch": "2.3.2",
       "glob": "^10.5.0",
