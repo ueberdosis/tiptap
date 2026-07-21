@@ -3,6 +3,7 @@ import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import { AllSelection } from '@tiptap/pm/state'
 import { describe, expect, it, vi } from 'vitest'
 
 const InlineDocument = Document.extend({
@@ -140,6 +141,21 @@ describe('delete extension', () => {
 
     // The node should remain with remaining text
     expect(editor.getHTML()).toBe('<p>before <span data-test-node="">st</span> after</p>')
+    editor.destroy()
+  })
+
+  it('collapses the selection to a cursor after deleting an AllSelection', () => {
+    const editor = new Editor({
+      extensions: [Document, Paragraph, Text],
+      content: '<p>hello world</p>',
+    })
+
+    editor.chain().selectAll().deleteSelection().run()
+
+    expect(editor.getHTML()).toBe('<p></p>')
+    expect(editor.state.selection.empty).toBe(true)
+    expect(editor.state.selection instanceof AllSelection).toBe(false)
+
     editor.destroy()
   })
 
