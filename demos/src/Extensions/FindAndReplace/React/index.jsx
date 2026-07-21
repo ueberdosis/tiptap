@@ -25,7 +25,7 @@ export default () => {
     `,
   })
 
-  const { searchTerm, replaceTerm, caseSensitive, useRegex, resultCount, currentIndex } =
+  const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord, resultCount, currentIndex } =
     useEditorState({
       editor,
       selector: ctx => ({
@@ -33,6 +33,7 @@ export default () => {
         replaceTerm: ctx.editor.storage.findAndReplace.replaceTerm,
         caseSensitive: ctx.editor.storage.findAndReplace.caseSensitive,
         useRegex: ctx.editor.storage.findAndReplace.useRegex,
+        wholeWord: ctx.editor.storage.findAndReplace.wholeWord,
         resultCount: ctx.editor.storage.findAndReplace.results.length,
         currentIndex: ctx.editor.storage.findAndReplace.currentIndex,
       }),
@@ -83,6 +84,16 @@ export default () => {
               data-testid="case-sensitive-checkbox"
             />
             Match case
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={wholeWord}
+              disabled={useRegex}
+              onChange={event => editor.commands.setWholeWord(event.currentTarget.checked)}
+              data-testid="whole-word-checkbox"
+            />
+            Whole word
           </label>
           <label>
             <input

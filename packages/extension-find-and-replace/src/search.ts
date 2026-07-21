@@ -8,6 +8,7 @@ export interface SearchResult {
 export interface SearchOptions {
   caseSensitive: boolean
   useRegex: boolean
+  wholeWord: boolean
 }
 
 interface TextSegment {
@@ -57,7 +58,16 @@ export function createSearchRegex(term: string, options: SearchOptions): RegExp 
     return null
   }
 
-  return compileRegex(options.useRegex ? term : escapeRegExp(term), options.caseSensitive)
+  let source: string
+
+  if (options.useRegex) {
+    source = term
+  } else {
+    const escaped = escapeRegExp(term)
+    source = options.wholeWord ? `\\b${escaped}\\b` : escaped
+  }
+
+  return compileRegex(source, options.caseSensitive)
 }
 
 // Non-text inline nodes (hard break, mention, ...) contribute a placeholder
@@ -97,7 +107,7 @@ function offsetToPos(segments: TextSegment[], offset: number): number {
  * Matches may span multiple text nodes (e.g. across marks), but never leave a textblock.
  * @param doc The document to search in.
  * @param term The search term, treated as regex source when `useRegex` is enabled.
- * @param options Case sensitivity and regex mode.
+ * @param options Case sensitivity, regex mode, and whole word matching.
  * @returns The list of matched ranges in document order.
  */
 export function searchDocument(doc: Node, term: string, options: SearchOptions): SearchResult[] {

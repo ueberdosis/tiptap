@@ -191,4 +191,32 @@ describe('FindAndReplace', () => {
 
     expect(editor.storage.findAndReplace.results).toEqual([])
   })
+
+  it('finds only whole words when wholeWord is enabled', () => {
+    editor.destroy()
+    editor = createEditor('<p>hello helloworld worldhello hello</p>')
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 29, to: 34 },
+    ])
+  })
+
+  it('ignores wholeWord when regex mode is enabled', () => {
+    editor.destroy()
+    editor = createEditor('<p>hello helloworld worldhello hello</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toHaveLength(4)
+  })
+
+  it('syncs wholeWord to the storage', () => {
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.wholeWord).toBe(true)
+  })
 })

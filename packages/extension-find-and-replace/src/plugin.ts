@@ -18,6 +18,7 @@ export interface FindAndReplacePluginState {
   replaceTerm: string
   caseSensitive: boolean
   useRegex: boolean
+  wholeWord: boolean
   results: SearchResult[]
   currentIndex: number | null
   decorations: DecorationSet
@@ -25,17 +26,18 @@ export interface FindAndReplacePluginState {
 
 /**
  * Transaction meta to patch the plugin state. Setting `searchTerm`,
- * `caseSensitive` or `useRegex` re-runs the search.
+ * `caseSensitive`, `useRegex` or `wholeWord` re-runs the search.
  */
 export interface FindAndReplaceMeta {
   searchTerm?: string
   replaceTerm?: string
   caseSensitive?: boolean
   useRegex?: boolean
+  wholeWord?: boolean
   currentIndex?: number | null
 }
 
-const searchKeys = ['searchTerm', 'caseSensitive', 'useRegex'] as const
+const searchKeys = ['searchTerm', 'caseSensitive', 'useRegex', 'wholeWord'] as const
 
 function touchesSearch(meta: FindAndReplaceMeta | undefined): boolean {
   return !!meta && searchKeys.some(key => key in meta)
@@ -117,6 +119,7 @@ function createState(doc: Node, options: FindAndReplaceOptions): FindAndReplaceP
     replaceTerm: options.replaceTerm,
     caseSensitive: options.caseSensitive,
     useRegex: options.useRegex,
+    wholeWord: options.wholeWord,
     results,
     currentIndex,
     decorations: createDecorations(doc, results, currentIndex),

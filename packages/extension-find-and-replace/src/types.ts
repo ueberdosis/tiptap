@@ -26,6 +26,12 @@ export interface FindAndReplaceOptions {
   useRegex: boolean
 
   /**
+   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   * @default false
+   */
+  wholeWord: boolean
+
+  /**
    * Whether the default result highlight styles are injected.
    * @default true
    */
@@ -58,6 +64,11 @@ export interface FindAndReplaceStorage {
    * Whether the search term is treated as a regular expression.
    */
   useRegex: boolean
+
+  /**
+   * Whether to match whole words only. Ignored when `useRegex` is enabled.
+   */
+  wholeWord: boolean
 
   /**
    * The current search results in document order.

@@ -41,6 +41,13 @@ declare module '@tiptap/core' {
       setUseRegex: (useRegex: boolean) => ReturnType
 
       /**
+       * Set whether to match whole words only. Ignored when regex mode is enabled.
+       * @param wholeWord The new whole word mode.
+       * @example editor.commands.setWholeWord(true)
+       */
+      setWholeWord: (wholeWord: boolean) => ReturnType
+
+      /**
        * Replace the current search result and jump to the next one.
        * @example editor.commands.replace()
        */
@@ -116,13 +123,13 @@ function replaceResult(
   pluginState: FindAndReplacePluginState,
   result: SearchResult,
 ): void {
-  const { searchTerm, replaceTerm, caseSensitive, useRegex } = pluginState
+  const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord } = pluginState
 
   tr.insertText(replaceTerm, result.from, result.to)
 
   // Jump to the first result behind the inserted text, so a replacement
   // that still matches the search (e.g. "foo" -> "foobar") is skipped.
-  const results = searchDocument(tr.doc, searchTerm, { caseSensitive, useRegex })
+  const results = searchDocument(tr.doc, searchTerm, { caseSensitive, useRegex, wholeWord })
   const nextIndex = findNextIndex(results, result.from + replaceTerm.length)
 
   if (nextIndex === null) {
@@ -142,6 +149,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       replaceTerm: '',
       caseSensitive: false,
       useRegex: false,
+      wholeWord: false,
       injectCSS: true,
       injectNonce: undefined,
     }
@@ -153,6 +161,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       replaceTerm: this.options.replaceTerm,
       caseSensitive: this.options.caseSensitive,
       useRegex: this.options.useRegex,
+      wholeWord: this.options.wholeWord,
       results: [],
       currentIndex: null,
     }
@@ -173,6 +182,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
     this.storage.replaceTerm = pluginState.replaceTerm
     this.storage.caseSensitive = pluginState.caseSensitive
     this.storage.useRegex = pluginState.useRegex
+    this.storage.wholeWord = pluginState.wholeWord
     this.storage.results = pluginState.results
     this.storage.currentIndex = pluginState.currentIndex
   },
@@ -183,6 +193,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       setReplaceTerm: term => setPluginMeta({ replaceTerm: term }),
       setCaseSensitive: caseSensitive => setPluginMeta({ caseSensitive }),
       setUseRegex: useRegex => setPluginMeta({ useRegex }),
+      setWholeWord: wholeWord => setPluginMeta({ wholeWord }),
       clearSearch: () => setPluginMeta({ searchTerm: '' }),
 
       replace:

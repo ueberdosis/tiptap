@@ -32,6 +32,16 @@
         <label>
           <input
             type="checkbox"
+            :checked="editor.storage.findAndReplace.wholeWord"
+            :disabled="editor.storage.findAndReplace.useRegex"
+            @change="event => editor.commands.setWholeWord(event.target.checked)"
+            data-testid="whole-word-checkbox"
+          />
+          Whole word
+        </label>
+        <label>
+          <input
+            type="checkbox"
             :checked="editor.storage.findAndReplace.useRegex"
             @change="event => editor.commands.setUseRegex(event.target.checked)"
             data-testid="regex-checkbox"
