@@ -61,6 +61,7 @@ export default () => {
           <input
             type="text"
             placeholder="Search"
+            aria-label="Search"
             value={searchTerm}
             onChange={event => editor.commands.setSearchTerm(event.currentTarget.value)}
             onKeyDown={onSearchKeyDown}
@@ -69,6 +70,7 @@ export default () => {
           <input
             type="text"
             placeholder="Replace"
+            aria-label="Replace"
             value={replaceTerm}
             onChange={event => editor.commands.setReplaceTerm(event.currentTarget.value)}
             data-testid="replace-input"

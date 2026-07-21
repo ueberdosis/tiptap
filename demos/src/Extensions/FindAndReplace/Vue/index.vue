@@ -5,6 +5,7 @@
         <input
           type="text"
           placeholder="Search"
+          aria-label="Search"
           :value="editor.storage.findAndReplace.searchTerm"
           @input="event => editor.commands.setSearchTerm(event.target.value)"
           @keydown.enter.exact="editor.commands.goToNextResult()"
@@ -14,6 +15,7 @@
         <input
           type="text"
           placeholder="Replace"
+          aria-label="Replace"
           :value="editor.storage.findAndReplace.replaceTerm"
           @input="event => editor.commands.setReplaceTerm(event.target.value)"
           data-testid="replace-input"
