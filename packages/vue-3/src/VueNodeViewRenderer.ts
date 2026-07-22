@@ -162,12 +162,17 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
         provide('onDragStart', onDragStart)
         provide('decorationClasses', this.decorationClasses)
         provide('nodeViewContentRef', (el: HTMLElement | null) => {
-          if (!this.contentDOMElement) return
+          if (!el || el === this.contentDOMElement) return
 
-          if (el && el.firstChild !== this.contentDOMElement) {
-            // NodeViewContent mounted: move the contentDOMElement inside it
-            el.appendChild(this.contentDOMElement)
+          // Adopt the NodeViewContent element as the contentDOM instead of nesting
+          // the placeholder inside it (nesting breaks restricted parents like <tbody>).
+          // Assumes a stable element — don't conditionally remount it (use v-show, not v-if).
+          if (this.contentDOMElement) {
+            while (this.contentDOMElement.firstChild) {
+              el.appendChild(this.contentDOMElement.firstChild)
+            }
           }
+          this.contentDOMElement = el
         })
 
         return (this.component as any).setup?.(reactiveProps, {
