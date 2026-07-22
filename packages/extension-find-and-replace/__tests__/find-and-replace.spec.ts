@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
-import FindAndReplace from '@tiptap/extension-find-and-replace'
+import FindAndReplace, { createSearchRegex } from '@tiptap/extension-find-and-replace'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
@@ -77,6 +77,15 @@ describe('FindAndReplace', () => {
     editor.commands.setSearchTerm('h.llo')
 
     expect(editor.storage.findAndReplace.results).toHaveLength(3)
+  })
+
+  it('supports Unicode property escapes in regex mode', () => {
+    editor.destroy()
+    editor = createEditor('<p>café 123</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('\\p{L}+')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 5 }])
   })
 
   it('matches an emoji as one character in regex mode', () => {
@@ -237,9 +246,42 @@ describe('FindAndReplace', () => {
     expect(editor.commands.replaceAll()).toBe(false)
   })
 
-  it('rejects regex patterns with catastrophic backtracking risk', () => {
+  it('handles nested quantifiers with the safe regex engine', () => {
+    editor.destroy()
+    editor = createEditor('<p>aaaa</p>')
     editor.commands.setUseRegex(true)
     editor.commands.setSearchTerm('(a+)+')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 5 }])
+  })
+
+  it('handles overlapping alternatives without catastrophic backtracking', () => {
+    editor.destroy()
+    editor = createEditor(`<p>${'a'.repeat(40)}!</p>`)
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('^(a|aa)+$')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+  })
+
+  it('creates a safe matcher for regex mode', () => {
+    const regex = createSearchRegex('^(a|aa)+$', {
+      caseSensitive: true,
+      useRegex: true,
+      wholeWord: false,
+    })
+
+    expect(regex).not.toBeNull()
+    expect(regex).not.toBeInstanceOf(RegExp)
+  })
+
+  it('returns no results for unsupported regex syntax', () => {
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('(?=hello)hello')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
+
+    editor.commands.setSearchTerm('(hello)\\1')
 
     expect(editor.storage.findAndReplace.results).toEqual([])
   })

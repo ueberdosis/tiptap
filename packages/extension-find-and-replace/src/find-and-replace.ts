@@ -34,7 +34,8 @@ declare module '@tiptap/core' {
       setCaseSensitive: (caseSensitive: boolean) => ReturnType
 
       /**
-       * Set whether the search term is treated as a regular expression.
+       * Set whether the search term is treated as an RE2-compatible regular expression.
+       * Lookarounds and backreferences are not supported.
        * @param useRegex The new regex mode.
        * @example editor.commands.setUseRegex(true)
        */

@@ -41,6 +41,9 @@
   "scripts": {
     "build": "tsup"
   },
+  "dependencies": {
+    "re2js": "^2.8.6"
+  },
   "devDependencies": {
     "@tiptap/core": "workspace:^",
     "@tiptap/pm": "workspace:^"

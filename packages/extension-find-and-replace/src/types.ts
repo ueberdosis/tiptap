@@ -20,7 +20,8 @@ export interface FindAndReplaceOptions {
   caseSensitive: boolean
 
   /**
-   * Whether the search term is treated as a regular expression.
+   * Whether the search term is treated as an RE2-compatible regular expression.
+   * Lookarounds and backreferences are not supported.
    * @default false
    */
   useRegex: boolean
@@ -61,7 +62,7 @@ export interface FindAndReplaceStorage {
   caseSensitive: boolean
 
   /**
-   * Whether the search term is treated as a regular expression.
+   * Whether the search term is treated as an RE2-compatible regular expression.
    */
   useRegex: boolean
 
