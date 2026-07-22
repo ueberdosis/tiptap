@@ -44,6 +44,26 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.searchTerm).toBe('hello')
   })
 
+  it('syncs initial search results to the storage', () => {
+    editor.destroy()
+    editor = new Editor({
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Bold,
+        FindAndReplace.configure({ searchTerm: 'hello' }),
+      ],
+      content: '<p>Hello hello HELLO</p>',
+    })
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 7, to: 12 },
+      { from: 13, to: 18 },
+    ])
+  })
+
   it('finds only exact matches when case sensitive', () => {
     editor.commands.setSearchTerm('hello')
     editor.commands.setCaseSensitive(true)

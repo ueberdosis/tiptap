@@ -174,7 +174,12 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
   },
 
   addProseMirrorPlugins() {
-    return [FindAndReplacePlugin(this.options)]
+    return [
+      FindAndReplacePlugin(this.options, pluginState => {
+        this.storage.results = pluginState.results
+        this.storage.currentIndex = pluginState.currentIndex
+      }),
+    ]
   },
 
   onTransaction() {

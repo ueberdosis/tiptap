@@ -126,7 +126,10 @@ function createState(doc: Node, options: FindAndReplaceOptions): FindAndReplaceP
   }
 }
 
-export const FindAndReplacePlugin = (options: FindAndReplaceOptions) => {
+export const FindAndReplacePlugin = (
+  options: FindAndReplaceOptions,
+  onCreate: (pluginState: FindAndReplacePluginState) => void,
+) => {
   return new Plugin<FindAndReplacePluginState>({
     key: FindAndReplacePluginKey,
 
@@ -136,7 +139,11 @@ export const FindAndReplacePlugin = (options: FindAndReplaceOptions) => {
           createStyleTag(style, options.injectNonce)
         }
 
-        return createState(state.doc, options)
+        const pluginState = createState(state.doc, options)
+
+        onCreate(pluginState)
+
+        return pluginState
       },
 
       apply: (tr, state, _oldState, newState) => {
