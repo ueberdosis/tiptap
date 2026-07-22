@@ -8,6 +8,7 @@ import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin.js'
 import { findNextIndex, searchDocument } from './search.js'
 import type { SearchResult } from './search.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
+import { replaceAllResults } from './utils/replaceAllResults.js'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -240,13 +241,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           }
 
           if (dispatch) {
-            // Replace from the end of the document, so earlier results
-            // keep their positions while later ones are replaced.
-            const results = [...pluginState.results].reverse()
-
-            results.forEach(result => {
-              tr.insertText(pluginState.replaceTerm, result.from, result.to)
-            })
+            replaceAllResults(tr, state, pluginState.results, pluginState.replaceTerm)
           }
 
           return true

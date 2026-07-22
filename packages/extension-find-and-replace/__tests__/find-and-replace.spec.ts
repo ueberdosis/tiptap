@@ -287,6 +287,44 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.currentIndex).toBeNull()
   })
 
+  it('replaces results across textblocks without removing trailing text', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo end</p><p>foo end</p>')
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('long replacement')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>long replacement end</p><p>long replacement end</p>')
+  })
+
+  it('replaces results across marks', () => {
+    editor.destroy()
+    editor = createEditor('<p>he<strong>llo</strong> he<strong>llo</strong></p>')
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setReplaceTerm('world')
+    editor.commands.replaceAll()
+
+    expect(editor.getHTML()).toBe('<p>world world</p>')
+  })
+
+  it('replaces many results with one transaction step', () => {
+    const resultCount = 20_000
+    const content = Array.from({ length: resultCount }, () => 'foo').join(' ')
+    const transactions: number[] = []
+
+    editor.destroy()
+    editor = createEditor(`<p>${content}</p>`)
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('bar')
+    editor.on('transaction', ({ transaction }) => {
+      transactions.push(transaction.steps.length)
+    })
+    editor.commands.replaceAll()
+
+    expect(editor.getText()).toBe(content.replaceAll('foo', 'bar'))
+    expect(transactions).toEqual([1])
+  })
+
   it('keeps new results when the replacement still matches', () => {
     editor.commands.setSearchTerm('hello')
     editor.commands.setReplaceTerm('hello!')
