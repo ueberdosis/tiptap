@@ -834,6 +834,15 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-ruby-text:
+    devDependencies:
+      '@tiptap/core':
+        specifier: workspace:^
+        version: link:../core
+      '@tiptap/pm':
+        specifier: workspace:^
+        version: link:../pm
+
   packages/extension-strike:
     devDependencies:
       '@tiptap/core':
