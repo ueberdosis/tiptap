@@ -47,7 +47,7 @@ function compileRegex(source: string, caseSensitive: boolean): RegExp | null {
   }
 
   try {
-    return new RegExp(source, caseSensitive ? 'g' : 'gi')
+    return new RegExp(source, caseSensitive ? 'gu' : 'giu')
   } catch {
     return null
   }

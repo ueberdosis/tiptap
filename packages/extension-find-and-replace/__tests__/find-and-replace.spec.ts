@@ -79,6 +79,15 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.results).toHaveLength(3)
   })
 
+  it('matches an emoji as one character in regex mode', () => {
+    editor.destroy()
+    editor = createEditor('<p>😀</p>')
+    editor.commands.setUseRegex(true)
+    editor.commands.setSearchTerm('.')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 3 }])
+  })
+
   it('returns no results for an invalid regular expression', () => {
     editor.commands.setUseRegex(true)
     editor.commands.setSearchTerm('([')
