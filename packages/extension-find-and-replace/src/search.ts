@@ -18,6 +18,7 @@ export interface SearchOptions {
 }
 
 interface TextSegment {
+  isText: boolean
   pos: number
   length: number
   text: string
@@ -121,6 +122,7 @@ function getTextSegments(textblock: Node, pos: number): TextSegment[] {
     const text = child.isText ? (child.text ?? '') : '\n'
 
     segments.push({
+      isText: child.isText,
       pos: pos + 1 + offset,
       length: child.nodeSize,
       text,
@@ -157,6 +159,13 @@ function offsetToPos(segments: TextSegment[], offset: number): number {
   return segment ? segment.pos + Math.min(offset - segment.textOffset, segment.length) : 0
 }
 
+function overlapsNonTextSegment(segments: TextSegment[], from: number, to: number): boolean {
+  return segments.some(
+    segment =>
+      !segment.isText && from < segment.textOffset + segment.text.length && to > segment.textOffset,
+  )
+}
+
 function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
   const segments = getTextSegments(textblock, pos)
   const text = segments.map(segment => segment.text).join('')
@@ -167,9 +176,15 @@ function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): Sear
       continue
     }
 
+    const matchEnd = match.index + match.value.length
+
+    if (overlapsNonTextSegment(segments, match.index, matchEnd)) {
+      continue
+    }
+
     results.push({
       from: offsetToPos(segments, match.index),
-      to: offsetToPos(segments, match.index + match.value.length),
+      to: offsetToPos(segments, matchEnd),
     })
   }
 

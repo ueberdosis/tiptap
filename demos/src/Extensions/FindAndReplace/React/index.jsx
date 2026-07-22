@@ -4,8 +4,9 @@ import Document from '@tiptap/extension-document'
 import FindAndReplace from '@tiptap/extension-find-and-replace'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
-import React from 'react'
+import { EditorContent, useEditor } from '@tiptap/react'
+
+import { useFindAndReplace } from './hooks/useFindAndReplace'
 
 export default () => {
   const editor = useEditor({
@@ -25,34 +26,29 @@ export default () => {
     `,
   })
 
-  const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord, resultCount, currentIndex } =
-    useEditorState({
-      editor,
-      selector: ctx => ({
-        searchTerm: ctx.editor.storage.findAndReplace.searchTerm,
-        replaceTerm: ctx.editor.storage.findAndReplace.replaceTerm,
-        caseSensitive: ctx.editor.storage.findAndReplace.caseSensitive,
-        useRegex: ctx.editor.storage.findAndReplace.useRegex,
-        wholeWord: ctx.editor.storage.findAndReplace.wholeWord,
-        resultCount: ctx.editor.storage.findAndReplace.results.length,
-        currentIndex: ctx.editor.storage.findAndReplace.currentIndex,
-      }),
-    })
+  const {
+    searchInput,
+    replaceTerm,
+    caseSensitive,
+    useRegex,
+    wholeWord,
+    resultCount,
+    currentIndex,
+    setSearchTerm,
+    setReplaceTerm,
+    setCaseSensitive,
+    setUseRegex,
+    setWholeWord,
+    goToNextResult,
+    goToPreviousResult,
+    replace,
+    replaceAll,
+    clearSearch,
+    onSearchKeyDown,
+  } = useFindAndReplace(editor)
 
   if (!editor) {
     return null
-  }
-
-  const onSearchKeyDown = event => {
-    if (event.key !== 'Enter') {
-      return
-    }
-
-    if (event.shiftKey) {
-      editor.commands.goToPreviousResult()
-    } else {
-      editor.commands.goToNextResult()
-    }
   }
 
   return (
@@ -63,8 +59,8 @@ export default () => {
             type="text"
             placeholder="Search"
             aria-label="Search"
-            value={searchTerm}
-            onChange={event => editor.commands.setSearchTerm(event.currentTarget.value)}
+            value={searchInput}
+            onChange={event => setSearchTerm(event.currentTarget.value)}
             onKeyDown={onSearchKeyDown}
             data-testid="search-input"
           />
@@ -73,14 +69,14 @@ export default () => {
             placeholder="Replace"
             aria-label="Replace"
             value={replaceTerm}
-            onChange={event => editor.commands.setReplaceTerm(event.currentTarget.value)}
+            onChange={event => setReplaceTerm(event.currentTarget.value)}
             data-testid="replace-input"
           />
           <label>
             <input
               type="checkbox"
               checked={caseSensitive}
-              onChange={event => editor.commands.setCaseSensitive(event.currentTarget.checked)}
+              onChange={event => setCaseSensitive(event.currentTarget.checked)}
               data-testid="case-sensitive-checkbox"
             />
             Match case
@@ -90,7 +86,7 @@ export default () => {
               type="checkbox"
               checked={wholeWord}
               disabled={useRegex}
-              onChange={event => editor.commands.setWholeWord(event.currentTarget.checked)}
+              onChange={event => setWholeWord(event.currentTarget.checked)}
               data-testid="whole-word-checkbox"
             />
             Whole word
@@ -99,7 +95,7 @@ export default () => {
             <input
               type="checkbox"
               checked={useRegex}
-              onChange={event => editor.commands.setUseRegex(event.currentTarget.checked)}
+              onChange={event => setUseRegex(event.currentTarget.checked)}
               data-testid="regex-checkbox"
             />
             Regex
@@ -107,34 +103,26 @@ export default () => {
         </div>
         <div className="button-group">
           <button
-            onClick={() => editor.commands.goToPreviousResult()}
+            onClick={goToPreviousResult}
             disabled={resultCount === 0}
             data-testid="previous-button"
           >
             Previous
           </button>
-          <button
-            onClick={() => editor.commands.goToNextResult()}
-            disabled={resultCount === 0}
-            data-testid="next-button"
-          >
+          <button onClick={goToNextResult} disabled={resultCount === 0} data-testid="next-button">
             Next
           </button>
-          <button
-            onClick={() => editor.commands.replace()}
-            disabled={resultCount === 0}
-            data-testid="replace-button"
-          >
+          <button onClick={replace} disabled={resultCount === 0} data-testid="replace-button">
             Replace
           </button>
           <button
-            onClick={() => editor.commands.replaceAll()}
+            onClick={replaceAll}
             disabled={resultCount === 0}
             data-testid="replace-all-button"
           >
             Replace all
           </button>
-          <button onClick={() => editor.commands.clearSearch()} data-testid="clear-button">
+          <button onClick={clearSearch} data-testid="clear-button">
             Clear
           </button>
           <span className="result-count" data-testid="result-count">

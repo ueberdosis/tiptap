@@ -5,9 +5,12 @@ import FindAndReplace, {
   createSearchRegex,
   searchDocument,
 } from '@tiptap/extension-find-and-replace'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+
+import { normalizeCurrentIndex } from '../src/utils/normalizeCurrentIndex.js'
 
 describe('FindAndReplace', () => {
   let editor: Editor
@@ -113,6 +116,17 @@ describe('FindAndReplace', () => {
     editor.commands.setSearchTerm('hello')
 
     expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 6 }])
+  })
+
+  it('does not match across hard breaks', () => {
+    editor.destroy()
+    editor = new Editor({
+      extensions: [Document, Paragraph, Text, HardBreak, FindAndReplace],
+      content: '<p>foo<br>bar</p>',
+    })
+    editor.commands.setSearchTerm('foo\nbar')
+
+    expect(editor.storage.findAndReplace.results).toEqual([])
   })
 
   it('finds results in a mark-heavy paragraph', () => {
@@ -447,5 +461,13 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.results).toHaveLength(4)
     expect(editor.storage.findAndReplace.currentIndex).toBe(1)
     expect(editor.storage.findAndReplace.results[1]).toEqual({ from: 7, to: 12 })
+  })
+
+  it('normalizes search result indices', () => {
+    expect(normalizeCurrentIndex(undefined, 1)).toBeNull()
+    expect(normalizeCurrentIndex(null, 1)).toBeNull()
+    expect(normalizeCurrentIndex(0, 0)).toBeNull()
+    expect(normalizeCurrentIndex(-1, 2)).toBe(0)
+    expect(normalizeCurrentIndex(2, 2)).toBe(1)
   })
 })
