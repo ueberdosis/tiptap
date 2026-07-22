@@ -164,9 +164,8 @@ class VueNodeView extends NodeView<Component, Editor, VueNodeViewRendererOptions
         provide('nodeViewContentRef', (el: HTMLElement | null) => {
           if (!el || el === this.contentDOMElement) return
 
-          // Adopt the NodeViewContent element as the contentDOM instead of nesting
-          // the placeholder inside it (nesting breaks restricted parents like <tbody>).
-          // Assumes a stable element — don't conditionally remount it (use v-show, not v-if).
+          // Adopt this stable element as contentDOM, preserving existing children.
+          // Do not conditionally remount it; use v-show instead of v-if).
           if (this.contentDOMElement) {
             while (this.contentDOMElement.firstChild) {
               el.appendChild(this.contentDOMElement.firstChild)
