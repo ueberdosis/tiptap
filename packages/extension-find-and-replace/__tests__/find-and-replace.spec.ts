@@ -256,6 +256,18 @@ describe('FindAndReplace', () => {
     ])
   })
 
+  it('finds Unicode whole words when wholeWord is enabled', () => {
+    editor.destroy()
+    editor = createEditor('<p>café caféine café</p>')
+    editor.commands.setSearchTerm('café')
+    editor.commands.setWholeWord(true)
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 5 },
+      { from: 14, to: 18 },
+    ])
+  })
+
   it('ignores wholeWord when regex mode is enabled', () => {
     editor.destroy()
     editor = createEditor('<p>hello helloworld worldhello hello</p>')

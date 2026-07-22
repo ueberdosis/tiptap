@@ -21,6 +21,9 @@ const escapeRegExp = (value: string): string => {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+/** Unicode word characters like letters, accents, numbers, and underscore-like punctuation. */
+const unicodeWordCharacter = '[\\p{L}\\p{M}\\p{N}\\p{Pc}]'
+
 // Heuristic only; reject common catastrophic-backtracking patterns.
 const isUnsafeRegex = (pattern: string): boolean => {
   // Nested quantifiers: (a+)+, (a*)+, (a+)*, etc.
@@ -64,7 +67,11 @@ export function createSearchRegex(term: string, options: SearchOptions): RegExp 
     source = term
   } else {
     const escaped = escapeRegExp(term)
-    source = options.wholeWord ? `\\b${escaped}\\b` : escaped
+
+    // Whole-word searches reject terms next to another Unicode word character.
+    source = options.wholeWord
+      ? `(?<!${unicodeWordCharacter})${escaped}(?!${unicodeWordCharacter})`
+      : escaped
   }
 
   return compileRegex(source, options.caseSensitive)
