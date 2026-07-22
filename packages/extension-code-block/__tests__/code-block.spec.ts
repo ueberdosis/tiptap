@@ -28,6 +28,8 @@ describe('CodeBlock ArrowUp exit', () => {
 
     expect(editor.getHTML()).toBe('<p></p><pre><code>hello</code></pre>')
     expect(editor.state.selection.$from.parent.type.name).toBe('paragraph')
+    expect(editor.state.selection.from).toBe(1)
+    expect(editor.state.selection.to).toBe(1)
   })
 
   it('inserts a paragraph above when the code block is the first node in the doc', () => {
@@ -41,6 +43,8 @@ describe('CodeBlock ArrowUp exit', () => {
 
     expect(editor.getHTML()).toBe('<p></p><pre><code>hello</code></pre><p>after</p>')
     expect(editor.state.selection.$from.parent.type.name).toBe('paragraph')
+    expect(editor.state.selection.from).toBe(1)
+    expect(editor.state.selection.to).toBe(1)
   })
 
   it('does nothing when exitOnArrowUp is disabled', () => {
