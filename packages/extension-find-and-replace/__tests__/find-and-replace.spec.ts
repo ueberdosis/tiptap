@@ -1,7 +1,10 @@
 import { Editor } from '@tiptap/core'
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
-import FindAndReplace, { createSearchRegex } from '@tiptap/extension-find-and-replace'
+import FindAndReplace, {
+  createSearchRegex,
+  searchDocument,
+} from '@tiptap/extension-find-and-replace'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
@@ -110,6 +113,26 @@ describe('FindAndReplace', () => {
     editor.commands.setSearchTerm('hello')
 
     expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 6 }])
+  })
+
+  it('finds results in a mark-heavy paragraph', () => {
+    const segmentCount = 10_000
+    const content = Array.from({ length: segmentCount }, (_, index) =>
+      index % 2 === 0 ? '<strong>a</strong>' : 'a',
+    ).join('')
+
+    editor.destroy()
+    editor = createEditor(`<p>${content}</p>`)
+
+    const results = searchDocument(editor.state.doc, 'a', {
+      caseSensitive: false,
+      useRegex: false,
+      wholeWord: false,
+    })
+
+    expect(results).toHaveLength(segmentCount)
+    expect(results[0]).toEqual({ from: 1, to: 2 })
+    expect(results.at(-1)).toEqual({ from: segmentCount, to: segmentCount + 1 })
   })
 
   it('renders decorations for all results', () => {

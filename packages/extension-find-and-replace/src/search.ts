@@ -21,6 +21,7 @@ interface TextSegment {
   pos: number
   length: number
   text: string
+  textOffset: number
 }
 
 interface TextMatch {
@@ -114,32 +115,46 @@ function findMatches(regex: SearchRegex, text: string): Generator<TextMatch> {
 // so matches never silently span across them.
 function getTextSegments(textblock: Node, pos: number): TextSegment[] {
   const segments: TextSegment[] = []
+  let textOffset = 0
 
   textblock.forEach((child, offset) => {
+    const text = child.isText ? (child.text ?? '') : '\n'
+
     segments.push({
       pos: pos + 1 + offset,
       length: child.nodeSize,
-      text: child.isText ? (child.text ?? '') : '\n',
+      text,
+      textOffset,
     })
+    textOffset += text.length
   })
 
   return segments
 }
 
-function offsetToPos(segments: TextSegment[], offset: number): number {
-  let remaining = offset
+function findOffsetSegment(segments: TextSegment[], offset: number): TextSegment | undefined {
+  let low = 0
+  let high = segments.length
 
-  for (const segment of segments) {
-    if (remaining < segment.text.length) {
-      return segment.pos + Math.min(remaining, segment.length)
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2)
+    const segment = segments[middle]
+    const segmentEnd = segment.textOffset + segment.text.length
+
+    if (offset < segmentEnd) {
+      high = middle
+    } else {
+      low = middle + 1
     }
-
-    remaining -= segment.text.length
   }
 
-  const last = segments[segments.length - 1]
+  return segments[low] ?? segments.at(-1)
+}
 
-  return last ? last.pos + last.length : 0
+function offsetToPos(segments: TextSegment[], offset: number): number {
+  const segment = findOffsetSegment(segments, offset)
+
+  return segment ? segment.pos + Math.min(offset - segment.textOffset, segment.length) : 0
 }
 
 function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
