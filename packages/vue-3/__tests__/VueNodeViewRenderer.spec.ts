@@ -145,7 +145,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
     expect(content!.textContent).toContain('Hello World')
   })
 
-  it('adopts <node-view-content as="tbody"> as the contentDOM instead of nesting a wrapper div inside it (#7950)', async () => {
+  it('adopts <node-view-content as="tbody"> as the contentDOM instead of nesting a wrapper div inside it', async () => {
     await withEditor('<custom-block>Hello World</custom-block>', ComponentWithTbodyContent)
     const tbody = el!.querySelector('tbody[data-node-view-content]')
     expect(tbody).toBeTruthy()
