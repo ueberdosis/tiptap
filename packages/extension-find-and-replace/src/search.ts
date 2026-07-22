@@ -6,6 +6,11 @@ export interface SearchResult {
   to: number
 }
 
+export interface TextblockSearchTarget {
+  node: Node
+  pos: number
+}
+
 export interface SearchOptions {
   caseSensitive: boolean
   useRegex: boolean
@@ -137,6 +142,46 @@ function offsetToPos(segments: TextSegment[], offset: number): number {
   return last ? last.pos + last.length : 0
 }
 
+function searchTextblock(regex: SearchRegex, textblock: Node, pos: number): SearchResult[] {
+  const segments = getTextSegments(textblock, pos)
+  const text = segments.map(segment => segment.text).join('')
+  const results: SearchResult[] = []
+
+  for (const match of findMatches(regex, text)) {
+    if (match.value.length === 0) {
+      continue
+    }
+
+    results.push({
+      from: offsetToPos(segments, match.index),
+      to: offsetToPos(segments, match.index + match.value.length),
+    })
+  }
+
+  return results
+}
+
+/**
+ * Searches textblocks for a term and returns their matched ranges.
+ * @param textblocks The textblocks and their document positions.
+ * @param term The search term, treated as regex source when `useRegex` is enabled.
+ * @param options Case sensitivity, regex mode, and whole word matching.
+ * @returns The list of matched ranges in textblock order.
+ */
+export function searchTextblocks(
+  textblocks: readonly TextblockSearchTarget[],
+  term: string,
+  options: SearchOptions,
+): SearchResult[] {
+  const regex = createSearchRegex(term, options)
+
+  if (!regex) {
+    return []
+  }
+
+  return textblocks.flatMap(({ node, pos }) => searchTextblock(regex, node, pos))
+}
+
 /**
  * Searches all textblocks of a document for a term and returns the matched ranges.
  * Matches may span multiple text nodes (e.g. across marks), but never leave a textblock.
@@ -146,37 +191,19 @@ function offsetToPos(segments: TextSegment[], offset: number): number {
  * @returns The list of matched ranges in document order.
  */
 export function searchDocument(doc: Node, term: string, options: SearchOptions): SearchResult[] {
-  const regex = createSearchRegex(term, options)
-
-  if (!regex) {
-    return []
-  }
-
-  const results: SearchResult[] = []
+  const textblocks: TextblockSearchTarget[] = []
 
   doc.descendants((node, pos) => {
     if (!node.isTextblock) {
       return true
     }
 
-    const segments = getTextSegments(node, pos)
-    const text = segments.map(segment => segment.text).join('')
-
-    for (const match of findMatches(regex, text)) {
-      if (match.value.length === 0) {
-        continue
-      }
-
-      results.push({
-        from: offsetToPos(segments, match.index),
-        to: offsetToPos(segments, match.index + match.value.length),
-      })
-    }
+    textblocks.push({ node, pos })
 
     return false
   })
 
-  return results
+  return searchTextblocks(textblocks, term, options)
 }
 
 /**

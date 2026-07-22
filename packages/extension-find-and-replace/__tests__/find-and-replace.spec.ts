@@ -129,6 +129,42 @@ describe('FindAndReplace', () => {
     expect(editor.storage.findAndReplace.results).toHaveLength(2)
   })
 
+  it('updates only the matches in a changed textblock', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo</p><p>foo</p><p>foo</p>')
+    editor.commands.setSearchTerm('foo')
+
+    editor.commands.insertContentAt(2, 'x')
+
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 7, to: 10 },
+      { from: 12, to: 15 },
+    ])
+    expect(editor.view.dom.querySelectorAll('.find-and-replace-result')).toHaveLength(2)
+  })
+
+  it('removes mapped matches from a deleted textblock', () => {
+    editor.destroy()
+    editor = createEditor('<p>foo</p><p>foo</p>')
+    editor.commands.setSearchTerm('foo')
+
+    editor.view.dispatch(editor.state.tr.delete(0, 5))
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 4 }])
+    expect(editor.view.dom.querySelectorAll('.find-and-replace-result')).toHaveLength(1)
+  })
+
+  it('updates whole-word matches at a changed textblock boundary', () => {
+    editor.destroy()
+    editor = createEditor('<p>hello</p><p>hello</p>')
+    editor.commands.setSearchTerm('hello')
+    editor.commands.setWholeWord(true)
+
+    editor.commands.insertContentAt(6, 'x')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 9, to: 14 }])
+  })
+
   it('selects the first result created by a document change', () => {
     editor.commands.setSearchTerm('world')
     editor.commands.setContent('<p>world</p>')
