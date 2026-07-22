@@ -4,6 +4,7 @@ import { mergeAttributes, Node } from '@tiptap/core'
 
 import { createAlignAttribute } from '../utils/parseAlign.js'
 import { parseColwidth } from '../utils/parseColwidth.js'
+import { fillEmptyCellContent, isEmptyCellElement } from '../utils/fillEmptyCellContent.js'
 
 export interface TableCellOptions {
   /**
@@ -50,7 +51,15 @@ export const TableCell = Node.create<TableCellOptions>({
   isolating: true,
 
   parseHTML() {
-    return [{ tag: 'td' }]
+    return [
+      {
+        // Backfill empty cells; non-empty cells fall through to the rule below.
+        tag: 'td',
+        getAttrs: node => (isEmptyCellElement(node) ? {} : false),
+        getContent: (_node, schema) => fillEmptyCellContent(schema.nodes[this.name]),
+      },
+      { tag: 'td' },
+    ]
   },
 
   renderHTML({ HTMLAttributes }) {

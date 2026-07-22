@@ -114,7 +114,14 @@ export function renderTableToMarkdown(
             : ''
         }
 
-        const text = collapseWhitespace(raw)
+        // Cells have to stay on a single line, so line breaks become <br> tags.
+        // The parser already turns <br> back into hard breaks, so this round trips.
+        const text = collapseWhitespace(
+          raw
+            .split(cellSep)
+            .join('\n')
+            .replace(/[ \t]*\r?\n[ \t]*/g, '<br>'),
+        )
         const isHeader = cellNode.type === 'tableHeader'
         const align = normalizeTableCellAlignFromAttributes(cellNode.attrs)
 

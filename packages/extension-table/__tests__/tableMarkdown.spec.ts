@@ -1,5 +1,6 @@
 import { Code } from '@tiptap/extension-code'
 import Document from '@tiptap/extension-document'
+import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import { TableKit } from '@tiptap/extension-table'
 import Text from '@tiptap/extension-text'
@@ -170,5 +171,105 @@ describe('table markdown alignment', () => {
 
     expect(serialized).toContain('| left | right | center |')
     expect(serialized).toMatch(/\|\s*:[-]+\s*\|\s*[-]+:\s*\|\s*:[-]+:\s*\|/)
+  })
+})
+
+describe('table markdown line breaks', () => {
+  const markdownManager = new MarkdownManager({
+    extensions: [Document, Paragraph, Text, HardBreak, TableKit],
+  })
+
+  const cell = (content: Record<string, unknown>[]) => ({
+    type: 'tableCell',
+    content,
+  })
+
+  const tableDoc = (cells: ReturnType<typeof cell>[]) => ({
+    type: 'doc',
+    content: [
+      {
+        type: 'table',
+        content: [{ type: 'tableRow', content: cells }],
+      },
+    ],
+  })
+
+  it('keeps hard breaks in cells as <br>', () => {
+    const doc = tableDoc([
+      cell([
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'foo' },
+            { type: 'hardBreak' },
+            { type: 'text', text: 'bar' },
+          ],
+        },
+      ]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain('foo<br>bar')
+  })
+
+  it('keeps consecutive hard breaks as separate <br> tags', () => {
+    const doc = tableDoc([
+      cell([
+        {
+          type: 'paragraph',
+          content: [
+            { type: 'text', text: 'foo' },
+            { type: 'hardBreak' },
+            { type: 'hardBreak' },
+            { type: 'text', text: 'bar' },
+          ],
+        },
+      ]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain('foo<br><br>bar')
+  })
+
+  it('round trips <br> inside cells', () => {
+    const markdown = `| desc |
+| --- |
+| foo<br>bar |`
+
+    const parsed = markdownManager.parse(markdown)
+    const parsedText = JSON.stringify(parsed)
+
+    expect(parsedText).toContain('"hardBreak"')
+
+    const serialized = markdownManager.serialize(parsed)
+
+    expect(serialized).toContain('foo<br>bar')
+  })
+
+  it('joins multiple paragraphs in a cell with <br>', () => {
+    const doc = tableDoc([
+      cell([
+        { type: 'paragraph', content: [{ type: 'text', text: 'one' }] },
+        { type: 'paragraph', content: [{ type: 'text', text: 'two' }] },
+      ]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain('one<br>two')
+    expect(serialized).not.toContain('\u001F')
+  })
+
+  it('leaves cells without breaks alone', () => {
+    const doc = tableDoc([
+      cell([{ type: 'paragraph', content: [{ type: 'text', text: 'plain' }] }]),
+    ])
+
+    const serialized = markdownManager.serialize(doc)
+
+    expect(serialized).toContain('| plain |')
+    expect(serialized).not.toContain('<br>')
   })
 })
