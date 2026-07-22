@@ -36,6 +36,7 @@ describe('FindAndReplace', () => {
       { from: 7, to: 12 },
       { from: 13, to: 18 },
     ])
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
   })
 
   it('syncs the search term to the storage', () => {
@@ -108,6 +109,28 @@ describe('FindAndReplace', () => {
     editor.commands.setContent('<p>hello hello</p>')
 
     expect(editor.storage.findAndReplace.results).toHaveLength(2)
+  })
+
+  it('selects the first result created by a document change', () => {
+    editor.commands.setSearchTerm('world')
+    editor.commands.setContent('<p>world</p>')
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.view.dom.querySelectorAll('.find-and-replace-result-current')).toHaveLength(1)
+  })
+
+  it('selects the first result when text is inserted after setting the search term', () => {
+    editor.destroy()
+    editor = createEditor('<p></p>')
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.currentIndex).toBeNull()
+
+    editor.commands.insertContent('hello')
+
+    expect(editor.storage.findAndReplace.results).toEqual([{ from: 1, to: 6 }])
+    expect(editor.storage.findAndReplace.currentIndex).toBe(0)
+    expect(editor.view.dom.querySelectorAll('.find-and-replace-result-current')).toHaveLength(1)
   })
 
   it('clears results and decorations on clearSearch', () => {

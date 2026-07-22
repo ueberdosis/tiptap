@@ -75,7 +75,7 @@ function clampIndex(
   }
 
   if (currentIndex === null) {
-    return null
+    return 0
   }
 
   return Math.min(currentIndex, results.length - 1)
