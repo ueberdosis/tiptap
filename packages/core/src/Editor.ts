@@ -143,14 +143,17 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.on('delete', this.options.onDelete)
 
     const initialDoc = this.createDoc()
-    const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
 
-    // Set editor state immediately, so that it's available independently from the view
-    this.editorState = EditorState.create({
-      doc: initialDoc,
-      schema: this.schema,
-      selection: selection || undefined,
-    })
+    // createDoc() already seeds editorState from the fallback doc on a content error
+    if (!this.editorState) {
+      const selection = resolveFocusPosition(initialDoc, this.options.autofocus)
+
+      this.editorState = EditorState.create({
+        doc: initialDoc,
+        schema: this.schema,
+        selection: selection || undefined,
+      })
+    }
 
     if (this.options.element) {
       this.mount(this.options.element)
@@ -497,6 +500,24 @@ export class Editor extends EventEmitter<EditorEvents> {
         // Not the content error we were expecting
         throw e
       }
+
+      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
+      const fallbackDoc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        {
+          errorOnInvalidContent: false,
+        },
+      )
+
+      // Seed editorState with the fallback doc so a handler can safely use `editor.commands`
+      this.editorState = EditorState.create({
+        doc: fallbackDoc,
+        schema: this.schema,
+        selection: resolveFocusPosition(fallbackDoc, this.options.autofocus) || undefined,
+      })
+
       this.emit('contentError', {
         editor: this,
         error: e as Error,
@@ -518,10 +539,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         },
       })
 
-      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
-      doc = createDocument(this.options.content, this.schema, this.options.parseOptions, {
-        errorOnInvalidContent: false,
-      })
+      return this.editorState.doc
     }
     return doc
   }
