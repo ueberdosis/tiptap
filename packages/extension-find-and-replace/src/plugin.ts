@@ -1,10 +1,11 @@
 import type { Node } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Mapping } from '@tiptap/pm/transform'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
 import { createStyleTag } from './create-style-tag.js'
 import type { SearchResult } from './search.js'
-import { searchDocument } from './search.js'
+import { findNextIndex, searchDocument } from './search.js'
 import { style } from './style.js'
 import type { FindAndReplaceOptions } from './types.js'
 
@@ -61,33 +62,64 @@ function isNewSearch(meta: FindAndReplaceMeta | undefined): boolean {
   return !!meta && 'searchTerm' in meta
 }
 
-function clampIndex(
-  currentIndex: number | null,
+function resolveCurrentIndex(
+  previousState: FindAndReplacePluginState,
   results: SearchResult[],
   meta: FindAndReplaceMeta | undefined,
+  docChanged: boolean,
+  mapping: Mapping | undefined,
 ): number | null {
   if (results.length === 0) {
     return null
+  }
+
+  if (meta && 'currentIndex' in meta) {
+    if (meta.currentIndex === null || meta.currentIndex === undefined) {
+      return null
+    }
+
+    return Math.min(meta.currentIndex, results.length - 1)
   }
 
   if (isNewSearch(meta)) {
     return 0
   }
 
-  if (currentIndex === null) {
+  if (
+    docChanged &&
+    previousState.currentIndex !== null &&
+    mapping &&
+    previousState.results.length > 0
+  ) {
+    const previousResult = previousState.results[previousState.currentIndex]
+
+    if (previousResult) {
+      const mappedFrom = mapping.map(previousResult.from, 1)
+      const nextIndex = findNextIndex(results, mappedFrom)
+
+      if (nextIndex !== null) {
+        return nextIndex
+      }
+    }
+  }
+
+  if (previousState.currentIndex === null) {
     return 0
   }
 
-  return Math.min(currentIndex, results.length - 1)
+  return Math.min(previousState.currentIndex, results.length - 1)
 }
 
 function refreshState(
+  previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,
   doc: Node,
   meta: FindAndReplaceMeta | undefined,
+  docChanged: boolean,
+  mapping: Mapping | undefined,
 ): FindAndReplacePluginState {
   const results = searchDocument(doc, state.searchTerm, state)
-  const currentIndex = clampIndex(state.currentIndex, results, meta)
+  const currentIndex = resolveCurrentIndex(previousState, results, meta, docChanged, mapping)
 
   return {
     ...state,
@@ -98,13 +130,15 @@ function refreshState(
 }
 
 function updateState(
+  previousState: FindAndReplacePluginState,
   state: FindAndReplacePluginState,
   doc: Node,
   meta: FindAndReplaceMeta | undefined,
   docChanged: boolean,
+  mapping: Mapping | undefined,
 ): FindAndReplacePluginState {
   if (docChanged || touchesSearch(meta)) {
-    return refreshState(state, doc, meta)
+    return refreshState(previousState, state, doc, meta, docChanged, mapping)
   }
 
   return { ...state, decorations: createDecorations(doc, state.results, state.currentIndex) }
@@ -153,7 +187,14 @@ export const FindAndReplacePlugin = (
           return state
         }
 
-        return updateState({ ...state, ...meta }, newState.doc, meta, tr.docChanged)
+        return updateState(
+          state,
+          { ...state, ...meta },
+          newState.doc,
+          meta,
+          tr.docChanged,
+          tr.mapping,
+        )
       },
     },
 

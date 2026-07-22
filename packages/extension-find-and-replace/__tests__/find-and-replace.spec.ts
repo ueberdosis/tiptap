@@ -262,4 +262,30 @@ describe('FindAndReplace', () => {
 
     expect(editor.storage.findAndReplace.wholeWord).toBe(true)
   })
+
+  it('keeps the active result when a new match is inserted before it', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.goToNextResult()
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+
+    editor.commands.insertContentAt(7, 'hello ')
+
+    expect(editor.storage.findAndReplace.results).toHaveLength(4)
+    expect(editor.storage.findAndReplace.currentIndex).toBe(2)
+    expect(editor.storage.findAndReplace.results[2]).toEqual({ from: 13, to: 18 })
+  })
+
+  it('keeps the active result when a new match is inserted after it', () => {
+    editor.commands.setSearchTerm('hello')
+    editor.commands.goToNextResult()
+
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+
+    editor.commands.insertContentAt(12, 'hello ')
+
+    expect(editor.storage.findAndReplace.results).toHaveLength(4)
+    expect(editor.storage.findAndReplace.currentIndex).toBe(1)
+    expect(editor.storage.findAndReplace.results[1]).toEqual({ from: 7, to: 12 })
+  })
 })
