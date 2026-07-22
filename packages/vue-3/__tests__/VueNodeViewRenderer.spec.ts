@@ -161,14 +161,7 @@ describe('VueNodeViewRenderer contentDOM', () => {
     expect(() => editor!.destroy()).not.toThrow()
   })
 
-  // SEMANTICS CHANGE (#7950): previously the contentDOMElementTag placeholder was
-  // always created up front and then nested inside the rendered <node-view-content>
-  // element, so it showed up in the DOM even when a real <node-view-content> was
-  // present. That nesting is exactly the bug being fixed here (e.g. it broke
-  // <tbody>, which may only contain <tr>). Now, when the component renders a real
-  // <node-view-content>, that element is adopted as the contentDOM directly and
-  // contentDOMElementTag is not used — it only applies to the fallback placeholder
-  // used when a component has NO <node-view-content> at all.
+  // Uses `<node-view-content>` as `contentDOM`; `contentDOMElementTag` only defines the fallback when none is rendered.
   it('ignores contentDOMElementTag when a real <node-view-content> is present', async () => {
     await withEditor('<custom-block>Hello World</custom-block>', ComponentWithContent, false, {
       contentDOMElementTag: 'custom-content-dom',
