@@ -80,10 +80,16 @@ declare module '@tiptap/core' {
   }
 }
 
+function mergePluginMeta(tr: Transaction, meta: FindAndReplaceMeta): void {
+  const currentMeta = tr.getMeta(FindAndReplacePluginKey) as FindAndReplaceMeta | undefined
+
+  tr.setMeta(FindAndReplacePluginKey, { ...currentMeta, ...meta })
+}
+
 function setPluginMeta(meta: FindAndReplaceMeta): Command {
   return ({ tr, dispatch }) => {
     if (dispatch) {
-      tr.setMeta(FindAndReplacePluginKey, meta)
+      mergePluginMeta(tr, meta)
     }
 
     return true
@@ -114,7 +120,7 @@ function shiftIndex(currentIndex: number | null, length: number, direction: 1 | 
 
 function selectResult(tr: Transaction, result: SearchResult, index: number): void {
   tr.setSelection(TextSelection.create(tr.doc, result.from, result.to))
-  tr.setMeta(FindAndReplacePluginKey, { currentIndex: index })
+  mergePluginMeta(tr, { currentIndex: index })
   tr.scrollIntoView()
 }
 
@@ -133,7 +139,7 @@ function replaceResult(
   const nextIndex = findNextIndex(results, result.from + replaceTerm.length)
 
   if (nextIndex === null) {
-    tr.setMeta(FindAndReplacePluginKey, { currentIndex: null })
+    mergePluginMeta(tr, { currentIndex: null })
     return
   }
 
