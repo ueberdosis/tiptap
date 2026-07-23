@@ -22,9 +22,10 @@ export type AiInsertRevealOptions = {
 }
 
 /**
- * Upper bound (chars) on a single revealed run. A normal streamed token is a
- * few chars; this only guards against a mis-resolved relative position yielding
- * an absurd range (e.g. spanning the whole document).
+ * Upper bound (chars) on one revealed run: the text from a single streamed
+ * insert, usually a token of a few chars. This only guards against a
+ * mis-resolved relative position yielding an absurd range (e.g. spanning the
+ * whole document).
  */
 const MAX_REVEAL_RANGE = 400
 
@@ -123,20 +124,11 @@ function makeRun(target: Y.XmlText, index: number, length: number, now: number):
 }
 
 /**
- * Fades in text that arrives from a remote peer (the Server AI Toolkit streaming
- * into the shared Y.Doc), one run per token, without mutating the document.
- *
- * It reads the authored signal directly: each remote Yjs transaction carries a
- * delta describing exactly what was inserted and where. Those ranges are stored
- * as relative positions and re-resolved to absolute positions on every render to
- * drive view-only inline decorations. It does no document diffing and adds no
- * marks, so it is inert to accept/reject and to persistence. Local edits are
- * ignored via `transaction.local`, so a user typing sees no fade.
- *
- * Requires the Collaboration extension (its y-sync plugin) to be present. The
- * actual fade is defined in CSS on the configured `className` (default
- * `ai-insert-reveal`); without that stylesheet the decorations are added but
- * invisible.
+ * Fades in text inserted by remote Yjs transactions using view-only inline
+ * decorations anchored by relative positions. It never mutates the document,
+ * so it stays inert to accept/reject and to persistence, and local edits are
+ * ignored so a user's own typing does not fade. Requires the Collaboration
+ * extension and CSS on the configured `className` (default `ai-insert-reveal`).
  */
 export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
   name: 'aiInsertReveal',
@@ -175,9 +167,8 @@ export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
             const decorations = entries
               .map(entry => resolveRevealRange(ystate, entry, now, durationMs))
               .filter((range): range is NonNullable<typeof range> => range !== null)
-              // Seed the CSS animation from the run's real age so a re-render
-              // (y-tiptap rebuilds the doc on every token) resumes the fade at the
-              // correct point instead of restarting it.
+              // y-tiptap rebuilds the whole doc per token, restarting the CSS
+              // animation; offset by the run's age to resume the fade instead.
               .map(range =>
                 Decoration.inline(range.from, range.to, {
                   class: className,
