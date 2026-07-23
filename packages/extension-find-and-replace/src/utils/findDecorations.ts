@@ -1,6 +1,6 @@
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 import type { TextblockRange } from './types.js'
 

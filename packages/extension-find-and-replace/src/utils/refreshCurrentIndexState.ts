@@ -1,6 +1,6 @@
 import type { Node } from '@tiptap/pm/model'
 
-import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin-state.js'
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 
 import { refreshDecorations } from './refreshDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'

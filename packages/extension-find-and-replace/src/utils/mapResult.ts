@@ -1,6 +1,6 @@
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 export function mapResult(result: SearchResult, mapping: Mapping): SearchResult | null {
   const from = mapping.map(result.from, 1)

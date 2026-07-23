@@ -1,4 +1,4 @@
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 import { shouldRefreshResult } from './shouldRefreshResult.js'
 import type { IndexedResult, TextblockRange } from './types.js'

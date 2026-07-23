@@ -1,8 +1,8 @@
 import type { Node } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin-state.js'
-import { searchDocument } from '../search.js'
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import { searchDocument } from '../search/search.js'
 
 import { createDecorations } from './createDecorations.js'
 import { resolveCurrentIndex } from './resolveCurrentIndex.js'

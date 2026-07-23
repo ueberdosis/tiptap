@@ -3,11 +3,14 @@ import { Extension } from '@tiptap/core'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { TextSelection } from '@tiptap/pm/state'
 
-import { clearDebouncedSearchState, getDebouncedSearchState } from './debounced-search-state.js'
-import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin.js'
-import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin.js'
-import { findNextIndex, searchDocument } from './search.js'
-import type { SearchResult } from './search.js'
+import {
+  clearDebouncedSearchState,
+  getDebouncedSearchState,
+} from './state/debounced-search-state.js'
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin/plugin.js'
+import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin/plugin.js'
+import { findNextIndex, searchDocument } from './search/search.js'
+import type { SearchResult } from './search/search.js'
 import type { FindAndReplaceOptions, FindAndReplaceStorage } from './types.js'
 import { replaceAllResults } from './utils/replaceAllResults.js'
 
@@ -207,7 +210,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       caseSensitive: false,
       useRegex: false,
       wholeWord: false,
-      searchDebounceMs: 200,
+      searchDebounceMs: 250,
       injectCSS: true,
       injectNonce: undefined,
     }

@@ -1,7 +1,7 @@
 import type { Node } from '@tiptap/pm/model'
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin-state.js'
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
 
 import { hasCurrentIndex } from './hasCurrentIndex.js'
 import { refreshCurrentIndexState } from './refreshCurrentIndexState.js'

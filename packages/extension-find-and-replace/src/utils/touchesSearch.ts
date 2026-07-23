@@ -1,4 +1,4 @@
-import type { FindAndReplaceMeta } from '../plugin-state.js'
+import type { FindAndReplaceMeta } from '../plugin/plugin-state.js'
 
 const searchKeys = ['searchTerm', 'caseSensitive', 'useRegex', 'wholeWord'] as const
 

@@ -1,4 +1,4 @@
-import type { FindAndReplacePluginState } from '../plugin-state.js'
+import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
 
 export function getFallbackCurrentIndex(
   previousState: FindAndReplacePluginState,

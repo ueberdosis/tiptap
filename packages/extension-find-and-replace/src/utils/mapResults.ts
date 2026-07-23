@@ -1,6 +1,6 @@
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 import { mapResult } from './mapResult.js'
 

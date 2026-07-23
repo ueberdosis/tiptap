@@ -1,4 +1,4 @@
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 export function mergeResults(first: SearchResult[], second: SearchResult[]): SearchResult[] {
   const results: SearchResult[] = []

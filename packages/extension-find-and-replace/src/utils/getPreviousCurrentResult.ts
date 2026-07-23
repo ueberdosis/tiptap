@@ -1,5 +1,5 @@
-import type { FindAndReplacePluginState } from '../plugin-state.js'
-import type { SearchResult } from '../search.js'
+import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import type { SearchResult } from '../search/search.js'
 
 export function getPreviousCurrentResult(
   previousState: FindAndReplacePluginState,

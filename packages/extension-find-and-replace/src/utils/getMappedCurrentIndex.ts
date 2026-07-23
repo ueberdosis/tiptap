@@ -1,8 +1,8 @@
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { FindAndReplacePluginState } from '../plugin-state.js'
-import type { SearchResult } from '../search.js'
-import { findNextIndex } from '../search.js'
+import type { FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import type { SearchResult } from '../search/search.js'
+import { findNextIndex } from '../search/search.js'
 
 import { getPreviousCurrentResult } from './getPreviousCurrentResult.js'
 

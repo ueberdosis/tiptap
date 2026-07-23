@@ -1,7 +1,7 @@
 import type { Mapping } from '@tiptap/pm/transform'
 
-import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin-state.js'
-import type { SearchResult } from '../search.js'
+import type { FindAndReplaceMeta, FindAndReplacePluginState } from '../plugin/plugin-state.js'
+import type { SearchResult } from '../search/search.js'
 
 import { getMetaCurrentIndex } from './getMetaCurrentIndex.js'
 import { getSearchCurrentIndex } from './getSearchCurrentIndex.js'

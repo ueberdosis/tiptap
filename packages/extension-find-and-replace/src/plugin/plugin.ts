@@ -1,11 +1,11 @@
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
-import { currentResultClass, resultClass } from './constants.js'
-import { createStyleTag } from './create-style-tag.js'
+import { currentResultClass, resultClass } from '../constants/constants.js'
+import { createStyleTag } from '../style/create-style-tag.js'
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin-state.js'
-import { style } from './style.js'
-import type { FindAndReplaceOptions } from './types.js'
-import { createState, updateState } from './utils/index.js'
+import { style } from '../style/style.js'
+import type { FindAndReplaceOptions } from '../types.js'
+import { createState, updateState } from '../utils/index.js'
 
 export { currentResultClass, resultClass }
 export type { FindAndReplaceMeta, FindAndReplacePluginState }

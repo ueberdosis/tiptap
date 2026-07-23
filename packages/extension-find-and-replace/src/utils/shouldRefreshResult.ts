@@ -1,4 +1,4 @@
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 
 import { isCurrentResult } from './isCurrentResult.js'
 import { resultInTextblocks } from './resultInTextblocks.js'

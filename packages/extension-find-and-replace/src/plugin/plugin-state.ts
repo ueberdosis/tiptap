@@ -1,6 +1,6 @@
 import type { DecorationSet } from '@tiptap/pm/view'
 
-import type { SearchResult } from './search.js'
+import type { SearchResult } from '../search/search.js'
 
 export interface FindAndReplacePluginState {
   searchTerm: string

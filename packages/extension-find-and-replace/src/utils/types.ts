@@ -1,4 +1,4 @@
-import type { TextblockSearchTarget } from '../search.js'
+import type { TextblockSearchTarget } from '../search/search.js'
 
 export interface TextblockRange extends TextblockSearchTarget {
   from: number
@@ -6,6 +6,6 @@ export interface TextblockRange extends TextblockSearchTarget {
 }
 
 export interface IndexedResult {
-  result: import('../search.js').SearchResult
+  result: import('../search/search.js').SearchResult
   index: number
 }

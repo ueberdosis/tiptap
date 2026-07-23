@@ -1,4 +1,4 @@
-import type { FindAndReplaceMeta } from '../plugin-state.js'
+import type { FindAndReplaceMeta } from '../plugin/plugin-state.js'
 
 import { hasCurrentIndex } from './hasCurrentIndex.js'
 import { normalizeCurrentIndex } from './normalizeCurrentIndex.js'

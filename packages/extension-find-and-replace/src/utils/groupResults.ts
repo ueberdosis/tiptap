@@ -1,6 +1,6 @@
 import type { EditorState } from '@tiptap/pm/state'
 
-import type { SearchResult } from '../search.js'
+import type { SearchResult } from '../search/search.js'
 import type { TextNodeResult } from './getTextNodeResult.js'
 import { getTextNodeResult } from './getTextNodeResult.js'
 
