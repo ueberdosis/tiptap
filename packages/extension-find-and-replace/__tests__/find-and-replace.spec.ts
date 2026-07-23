@@ -5,23 +5,27 @@ import FindAndReplace, {
   createSearchRegex,
   searchDocument,
 } from '@tiptap/extension-find-and-replace'
+import type { FindAndReplaceOptions } from '@tiptap/extension-find-and-replace'
 import HardBreak from '@tiptap/extension-hard-break'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { normalizeCurrentIndex } from '../src/utils/normalizeCurrentIndex.js'
 
 describe('FindAndReplace', () => {
   let editor: Editor
 
-  const createEditor = (content: string) => {
+  const createEditor = (
+    content: string,
+    options: Partial<FindAndReplaceOptions> = { searchDebounceMs: 0 },
+  ) => {
     const element = document.createElement('div')
     document.body.appendChild(element)
 
     return new Editor({
       element,
-      extensions: [Document, Paragraph, Text, Bold, FindAndReplace],
+      extensions: [Document, Paragraph, Text, Bold, FindAndReplace.configure(options)],
       content,
     })
   }
@@ -32,6 +36,47 @@ describe('FindAndReplace', () => {
 
   afterEach(() => {
     editor.destroy()
+    vi.useRealTimers()
+  })
+
+  it('debounces setSearchTerm by default', () => {
+    vi.useFakeTimers()
+
+    editor.destroy()
+    editor = createEditor('<p>Hello hello HELLO</p>', { searchDebounceMs: 250 })
+
+    editor.commands.setSearchTerm('hel')
+    editor.commands.setSearchTerm('hello')
+
+    expect(editor.storage.findAndReplace.searchTerm).toBe('')
+    expect(editor.storage.findAndReplace.results).toEqual([])
+
+    vi.advanceTimersByTime(249)
+
+    expect(editor.storage.findAndReplace.searchTerm).toBe('')
+    expect(editor.storage.findAndReplace.results).toEqual([])
+
+    vi.advanceTimersByTime(1)
+
+    expect(editor.storage.findAndReplace.searchTerm).toBe('hello')
+    expect(editor.storage.findAndReplace.results).toEqual([
+      { from: 1, to: 6 },
+      { from: 7, to: 12 },
+      { from: 13, to: 18 },
+    ])
+  })
+
+  it('flushes pending search before replace', () => {
+    vi.useFakeTimers()
+
+    editor.destroy()
+    editor = createEditor('<p>foo bar foo</p>', { searchDebounceMs: 250 })
+
+    editor.commands.setSearchTerm('foo')
+    editor.commands.setReplaceTerm('baz')
+
+    expect(editor.commands.replace()).toBe(true)
+    expect(editor.getText()).toBe('baz bar foo')
   })
 
   it('finds matches case insensitively by default', () => {
@@ -59,7 +104,7 @@ describe('FindAndReplace', () => {
         Paragraph,
         Text,
         Bold,
-        FindAndReplace.configure({ searchTerm: 'hello' }),
+        FindAndReplace.configure({ searchTerm: 'hello', searchDebounceMs: 0 }),
       ],
       content: '<p>Hello hello HELLO</p>',
     })
@@ -121,7 +166,13 @@ describe('FindAndReplace', () => {
   it('does not match across hard breaks', () => {
     editor.destroy()
     editor = new Editor({
-      extensions: [Document, Paragraph, Text, HardBreak, FindAndReplace],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        HardBreak,
+        FindAndReplace.configure({ searchDebounceMs: 0 }),
+      ],
       content: '<p>foo<br>bar</p>',
     })
     editor.commands.setSearchTerm('foo\nbar')

@@ -1,7 +1,5 @@
 import { useEditorState } from '@tiptap/react'
-import { useEffect, useRef, useState } from 'react'
-
-const searchDebounceDelay = 250
+import { useEffect, useState } from 'react'
 
 export function useFindAndReplace(editor) {
   const { searchTerm, replaceTerm, caseSensitive, useRegex, wholeWord, resultCount, currentIndex } =
@@ -17,63 +15,34 @@ export function useFindAndReplace(editor) {
         currentIndex: ctx.editor.storage.findAndReplace.currentIndex,
       }),
     })
-  const searchTimeout = useRef(null)
   const [searchInput, setSearchInput] = useState(searchTerm)
 
   useEffect(() => {
-    if (searchTimeout.current === null) {
-      setSearchInput(searchTerm)
-    }
+    setSearchInput(searchTerm)
   }, [searchTerm])
-
-  useEffect(() => {
-    return () => clearTimeout(searchTimeout.current)
-  }, [])
-
-  const clearSearchTimeout = () => {
-    clearTimeout(searchTimeout.current)
-    searchTimeout.current = null
-  }
 
   const setSearchTerm = term => {
     setSearchInput(term)
-    clearSearchTimeout()
-    searchTimeout.current = setTimeout(() => {
-      searchTimeout.current = null
-      editor.commands.setSearchTerm(term)
-    }, searchDebounceDelay)
-  }
-
-  const flushSearchTerm = term => {
-    clearSearchTimeout()
-
-    if (term !== searchTerm) {
-      editor.commands.setSearchTerm(term)
-    }
+    editor.commands.setSearchTerm(term)
   }
 
   const goToNextResult = () => {
-    flushSearchTerm(searchInput)
     editor.commands.goToNextResult()
   }
 
   const goToPreviousResult = () => {
-    flushSearchTerm(searchInput)
     editor.commands.goToPreviousResult()
   }
 
   const replace = () => {
-    flushSearchTerm(searchInput)
     editor.commands.replace()
   }
 
   const replaceAll = () => {
-    flushSearchTerm(searchInput)
     editor.commands.replaceAll()
   }
 
   const clearSearch = () => {
-    clearSearchTimeout()
     setSearchInput('')
     editor.commands.clearSearch()
   }
@@ -82,8 +51,6 @@ export function useFindAndReplace(editor) {
     if (event.key !== 'Enter') {
       return
     }
-
-    flushSearchTerm(event.currentTarget.value)
 
     if (event.shiftKey) {
       editor.commands.goToPreviousResult()

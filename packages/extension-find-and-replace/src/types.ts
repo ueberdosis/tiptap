@@ -33,6 +33,13 @@ export interface FindAndReplaceOptions {
   wholeWord: boolean
 
   /**
+   * Debounce delay in milliseconds applied to `setSearchTerm`.
+   * Set to `0` to disable debouncing.
+   * @default 250
+   */
+  searchDebounceMs: number
+
+  /**
    * Whether the default result highlight styles are injected.
    * @default true
    */

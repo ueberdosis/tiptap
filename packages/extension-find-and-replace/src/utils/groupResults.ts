@@ -45,7 +45,7 @@ function appendResult(
   const group = groups.at(-1)
 
   if (shouldMergeResult(group, textNode)) {
-    group.results.push(result)
+    group!.results.push(result)
     return
   }
 

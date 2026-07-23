@@ -1,8 +1,9 @@
-import type { Command } from '@tiptap/core'
+import type { Command, Editor } from '@tiptap/core'
 import { Extension } from '@tiptap/core'
 import type { EditorState, Transaction } from '@tiptap/pm/state'
 import { TextSelection } from '@tiptap/pm/state'
 
+import { clearDebouncedSearchState, getDebouncedSearchState } from './debounced-search-state.js'
 import type { FindAndReplaceMeta, FindAndReplacePluginState } from './plugin.js'
 import { FindAndReplacePlugin, FindAndReplacePluginKey } from './plugin.js'
 import { findNextIndex, searchDocument } from './search.js'
@@ -98,14 +99,62 @@ function setPluginMeta(meta: FindAndReplaceMeta): Command {
   }
 }
 
-function getPluginState(state: EditorState): FindAndReplacePluginState | null {
-  const pluginState = FindAndReplacePluginKey.getState(state)
+function applySearchTerm(editor: Editor, term: string): void {
+  const tr = editor.state.tr
 
-  if (!pluginState || pluginState.results.length === 0) {
+  mergePluginMeta(tr, { searchTerm: term })
+  editor.view.dispatch(tr)
+}
+
+function consumePendingSearch(editor: Editor): string | null {
+  const state = getDebouncedSearchState(editor)
+
+  if (state.pendingTerm === null) {
     return null
   }
 
-  return pluginState
+  const pendingTerm = state.pendingTerm
+
+  state.pendingTerm = null
+
+  if (state.timeout !== null) {
+    clearTimeout(state.timeout)
+    state.timeout = null
+  }
+
+  return pendingTerm
+}
+
+function getPendingAwarePluginState(
+  state: EditorState,
+  pendingTerm: string | null,
+): FindAndReplacePluginState | null {
+  const pluginState = FindAndReplacePluginKey.getState(state)
+
+  if (!pluginState) {
+    return null
+  }
+
+  if (pendingTerm === null) {
+    return pluginState.results.length === 0 ? null : pluginState
+  }
+
+  const results = searchDocument(state.doc, pendingTerm, {
+    caseSensitive: pluginState.caseSensitive,
+    useRegex: pluginState.useRegex,
+    wholeWord: pluginState.wholeWord,
+  })
+
+  if (results.length === 0) {
+    return null
+  }
+
+  return {
+    ...pluginState,
+    searchTerm: pendingTerm,
+    results,
+    currentIndex: 0,
+  }
 }
 
 function currentResult(pluginState: FindAndReplacePluginState): SearchResult | undefined {
@@ -158,6 +207,7 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       caseSensitive: false,
       useRegex: false,
       wholeWord: false,
+      searchDebounceMs: 200,
       injectCSS: true,
       injectNonce: undefined,
     }
@@ -201,18 +251,88 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
   },
 
   addCommands() {
+    const scheduleSearchTerm = (term: string): boolean => {
+      const state = getDebouncedSearchState(this.editor)
+
+      if (this.options.searchDebounceMs <= 0) {
+        if (state.timeout !== null) {
+          clearTimeout(state.timeout)
+          state.timeout = null
+        }
+
+        state.pendingTerm = null
+
+        applySearchTerm(this.editor, term)
+
+        return true
+      }
+
+      if (state.timeout !== null) {
+        clearTimeout(state.timeout)
+      }
+
+      state.pendingTerm = term
+      state.timeout = setTimeout(() => {
+        const debouncedState = getDebouncedSearchState(this.editor)
+
+        debouncedState.timeout = null
+
+        if (debouncedState.pendingTerm === null) {
+          return
+        }
+
+        const pendingTerm = debouncedState.pendingTerm
+
+        debouncedState.pendingTerm = null
+        applySearchTerm(this.editor, pendingTerm)
+      }, this.options.searchDebounceMs)
+
+      return true
+    }
+
     return {
-      setSearchTerm: term => setPluginMeta({ searchTerm: term }),
+      setSearchTerm:
+        term =>
+        ({ dispatch }) => {
+          if (!dispatch) {
+            return true
+          }
+
+          return scheduleSearchTerm(term)
+        },
       setReplaceTerm: term => setPluginMeta({ replaceTerm: term }),
       setCaseSensitive: caseSensitive => setPluginMeta({ caseSensitive }),
       setUseRegex: useRegex => setPluginMeta({ useRegex }),
       setWholeWord: wholeWord => setPluginMeta({ wholeWord }),
-      clearSearch: () => setPluginMeta({ searchTerm: '' }),
+      clearSearch:
+        () =>
+        ({ tr, dispatch }) => {
+          const state = getDebouncedSearchState(this.editor)
+
+          if (state.timeout !== null) {
+            clearTimeout(state.timeout)
+            state.timeout = null
+          }
+
+          state.pendingTerm = null
+
+          if (dispatch) {
+            mergePluginMeta(tr, { searchTerm: '' })
+          }
+
+          return true
+        },
 
       replace:
         () =>
         ({ tr, state, dispatch }) => {
-          const pluginState = getPluginState(state)
+          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
+
+          if (dispatch && pendingTerm !== null) {
+            mergePluginMeta(tr, { searchTerm: pendingTerm })
+          }
+
+          const pluginState = getPendingAwarePluginState(state, pendingTerm)
 
           if (!pluginState) {
             return false
@@ -234,7 +354,13 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       replaceAll:
         () =>
         ({ tr, state, dispatch }) => {
-          const pluginState = getPluginState(state)
+          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
+
+          if (dispatch && pendingTerm !== null) {
+            mergePluginMeta(tr, { searchTerm: pendingTerm })
+          }
+
+          const pluginState = getPendingAwarePluginState(state, pendingTerm)
 
           if (!pluginState) {
             return false
@@ -250,7 +376,13 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       goToNextResult:
         () =>
         ({ tr, state, dispatch }) => {
-          const pluginState = getPluginState(state)
+          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
+
+          if (dispatch && pendingTerm !== null) {
+            mergePluginMeta(tr, { searchTerm: pendingTerm })
+          }
+
+          const pluginState = getPendingAwarePluginState(state, pendingTerm)
 
           if (!pluginState) {
             return false
@@ -268,7 +400,13 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
       goToPreviousResult:
         () =>
         ({ tr, state, dispatch }) => {
-          const pluginState = getPluginState(state)
+          const pendingTerm = dispatch ? consumePendingSearch(this.editor) : null
+
+          if (dispatch && pendingTerm !== null) {
+            mergePluginMeta(tr, { searchTerm: pendingTerm })
+          }
+
+          const pluginState = getPendingAwarePluginState(state, pendingTerm)
 
           if (!pluginState) {
             return false
@@ -283,6 +421,10 @@ export const FindAndReplace = Extension.create<FindAndReplaceOptions, FindAndRep
           return true
         },
     }
+  },
+
+  onDestroy() {
+    clearDebouncedSearchState(this.editor)
   },
 })
 

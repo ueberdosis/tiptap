@@ -2,8 +2,6 @@ import type { Editor } from '@tiptap/vue-3'
 import type { FindAndReplaceStorage } from '@tiptap/extension-find-and-replace'
 import { computed, ref } from 'vue'
 
-const searchDebounceDelay = 250
-
 function createFindAndReplaceState(): FindAndReplaceStorage {
   return {
     searchTerm: '',
@@ -24,26 +22,10 @@ export function useFindAndReplace() {
     return results.length === 0 ? 'No results' : `${(currentIndex ?? 0) + 1} of ${results.length}`
   })
   let editor: Editor | null = null
-  let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
   const updateFindAndReplace = () => {
     if (editor) {
       findAndReplace.value = { ...editor.storage.findAndReplace }
-    }
-  }
-
-  const clearSearchTimeout = () => {
-    if (searchTimeout !== null) {
-      clearTimeout(searchTimeout)
-      searchTimeout = null
-    }
-  }
-
-  const flushSearchTerm = () => {
-    clearSearchTimeout()
-
-    if (editor && findAndReplace.value.searchTerm !== editor.storage.findAndReplace.searchTerm) {
-      editor.commands.setSearchTerm(findAndReplace.value.searchTerm)
     }
   }
 
@@ -57,13 +39,11 @@ export function useFindAndReplace() {
     },
     disconnect() {
       editor?.off('transaction', updateFindAndReplace)
-      clearSearchTimeout()
       editor = null
     },
     setSearchTerm(term: string) {
       findAndReplace.value.searchTerm = term
-      clearSearchTimeout()
-      searchTimeout = setTimeout(() => editor?.commands.setSearchTerm(term), searchDebounceDelay)
+      editor?.commands.setSearchTerm(term)
     },
     setReplaceTerm(term: string) {
       editor?.commands.setReplaceTerm(term)
@@ -78,23 +58,18 @@ export function useFindAndReplace() {
       editor?.commands.setWholeWord(value)
     },
     goToNextResult() {
-      flushSearchTerm()
       editor?.commands.goToNextResult()
     },
     goToPreviousResult() {
-      flushSearchTerm()
       editor?.commands.goToPreviousResult()
     },
     replace() {
-      flushSearchTerm()
       editor?.commands.replace()
     },
     replaceAll() {
-      flushSearchTerm()
       editor?.commands.replaceAll()
     },
     clearSearch() {
-      clearSearchTimeout()
       editor?.commands.clearSearch()
     },
   }
