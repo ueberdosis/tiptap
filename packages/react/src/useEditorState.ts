@@ -95,9 +95,7 @@ class EditorStateManager<TEditor extends Editor | null = Editor | null> {
        * This is to support things like `editor.can().toggleBold()` in components that `useEditor`.
        * This could be more efficient, but it's a good trade-off for now.
        */
-      // A document change emits both `transaction` and `update` carrying the same
-      // transaction; dedupe by identity so consumers are notified once. `setEditable()`
-      // emits only `update` (with a distinct transaction), so it still gets through.
+      // Changes can emit both events, so notify only once
       let lastTransaction: unknown
       const fn = (props?: { transaction?: unknown }) => {
         if (props?.transaction !== undefined && props.transaction === lastTransaction) {
