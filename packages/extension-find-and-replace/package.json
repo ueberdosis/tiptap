@@ -1,0 +1,55 @@
+{
+  "name": "@tiptap/extension-find-and-replace",
+  "version": "3.28.0",
+  "description": "find and replace extension for tiptap",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "homepage": "https://tiptap.dev",
+  "bugs": {
+    "url": "https://github.com/ueberdosis/tiptap/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueberdosis/tiptap",
+    "directory": "packages/extension-find-and-replace"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "re2js": "^2.8.6"
+  },
+  "devDependencies": {
+    "@tiptap/core": "workspace:^",
+    "@tiptap/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "workspace:*",
+    "@tiptap/pm": "workspace:*"
+  }
+}
