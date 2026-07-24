@@ -412,6 +412,12 @@ importers:
       '@tiptap/pm':
         specifier: workspace:^
         version: link:../pm
+      '@tiptap/y-tiptap':
+        specifier: ^3.0.7
+        version: 3.0.7(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.41.9)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
+      yjs:
+        specifier: ^13.6.23
+        version: 13.6.23
 
   packages/core:
     devDependencies:
