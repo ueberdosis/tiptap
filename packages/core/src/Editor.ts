@@ -813,7 +813,10 @@ export class Editor extends EventEmitter<EditorEvents> {
     this.extensionManager.destroy()
     this.extensionManager = null as any
     this.schema = null as any
-    this.commandManager = null as any
+    // Keep the command manager instance alive (instead of nulling it) so that
+    // `editor.can()` / `editor.chain()` / `editor.commands` remain safe to call
+    // after destroy — they become permanent no-ops rather than throwing.
+    this.commandManager.destroy()
     this.extensionStorage = {} as Storage
   }
 
