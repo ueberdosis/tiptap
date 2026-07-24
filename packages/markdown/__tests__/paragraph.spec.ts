@@ -115,8 +115,12 @@ describe('Paragraph Markdown Rendering', () => {
         ],
       }
 
+      // Updated for #7495: serialize() now checks structural emptiness (matching
+      // editor.isEmpty) on the whole document up front. A doc containing only a
+      // bullet list whose sole item is an empty paragraph has no real content
+      // anywhere, so it now serializes to "" instead of leaking a bare "- " marker.
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('- ')
+      expect(markdown).toBe('')
     })
 
     it('should not emit &nbsp; for an empty paragraph inside an ordered list item', () => {
@@ -135,8 +139,10 @@ describe('Paragraph Markdown Rendering', () => {
         ],
       }
 
+      // whole-document structural emptiness
+      // now takes precedence over rendering a bare "1. " marker.
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('1. ')
+      expect(markdown).toBe('')
     })
 
     it('should keep the first empty paragraph inside a blockquote empty', () => {
@@ -150,8 +156,10 @@ describe('Paragraph Markdown Rendering', () => {
         ],
       }
 
+      // Updated for #7495 (see comment above): whole-document structural emptiness
+      // now takes precedence over rendering a bare ">" marker.
       const markdown = markdownManager.serialize(doc)
-      expect(markdown).toBe('>')
+      expect(markdown).toBe('')
     })
 
     it('should preserve multiple empty paragraphs inside a blockquote with &nbsp; after the first', () => {

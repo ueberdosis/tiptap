@@ -177,6 +177,8 @@ export const Markdown = Extension.create<MarkdownExtensionOptions, MarkdownExten
       marked: this.options.marked,
       markedOptions: this.options.markedOptions,
       extensions: this.editor.extensionManager.baseExtensions,
+      // Use the editor's actual schema so emptiness matches `editor.isEmpty`.
+      schema: this.editor.schema,
     })
 
     this.editor.markdown = this.storage.manager

@@ -18,6 +18,7 @@ import {
   generateJSON,
   getExtensionField,
   getSchema,
+  isNodeEmpty,
   marksEqual,
   sortExtensions,
 } from '@tiptap/core'
@@ -59,6 +60,8 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of the built schema (extensions don't change after registration). */
+  private schemaCache: ReturnType<typeof getSchema> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -66,17 +69,20 @@ export class MarkdownManager {
    * @param options.markedOptions Optional options to pass to marked.setOptions
    * @param options.indentation Indentation settings (style and size).
    * @param options.extensions An array of Tiptap extensions to register for markdown parsing and rendering.
+   * @param options.schema The editor's schema, so emptiness checks match `editor.isEmpty`. Falls back to one built from `extensions`.
    */
   constructor(options?: {
     marked?: typeof marked
     markedOptions?: Parameters<typeof marked.setOptions>[0]
     indentation?: { style?: 'space' | 'tab'; size?: number }
     extensions: AnyExtension[]
+    schema?: ReturnType<typeof getSchema>
   }) {
     this.markedInstance = options?.marked ?? marked
     this.indentStyle = options?.indentation?.style ?? 'space'
     this.indentSize = options?.indentation?.size ?? 2
     this.baseExtensions = options?.extensions || []
+    this.schemaCache = options?.schema ?? null
 
     if (options?.markedOptions && typeof this.markedInstance.setOptions === 'function') {
       this.markedInstance.setOptions(options.markedOptions)
@@ -305,27 +311,33 @@ export class MarkdownManager {
       return ''
     }
 
-    const result = this.renderNodes(docOrContent, docOrContent)
-    // Return empty string if result is only whitespace entities or non-breaking spaces
-    return this.isEmptyOutput(result) ? '' : result
+    if (this.isStructurallyEmpty(docOrContent)) {
+      return ''
+    }
+
+    return this.renderNodes(docOrContent, docOrContent)
   }
 
   /**
-   * Check if the markdown output represents an empty document.
-   * Empty documents may contain only &nbsp; entities or non-breaking space characters
-   * which are used by the Paragraph extension to preserve blank lines.
+   * Check emptiness structurally (before rendering), using the same rules as
+   * `editor.isEmpty`. This avoids the previous string-based heuristic, which
+   * treated a real non-breaking space as empty output and discarded it.
    */
-  private isEmptyOutput(markdown: string): boolean {
-    if (!markdown || markdown.trim() === '') {
-      return true
+  private isStructurallyEmpty(docOrContent: JSONContent): boolean {
+    try {
+      return isNodeEmpty(this.getCachedSchema().nodeFromJSON(docOrContent))
+    } catch {
+      return false
+    }
+  }
+
+  /** Build and cache the schema for the registered extensions. */
+  private getCachedSchema(): ReturnType<typeof getSchema> {
+    if (!this.schemaCache) {
+      this.schemaCache = getSchema(this.baseExtensions)
     }
 
-    // Check if the output is only &nbsp; entities or non-breaking space characters
-    const cleanedOutput = markdown
-      .replace(/&nbsp;/g, '')
-      .replace(/\u00A0/g, '')
-      .trim()
-    return cleanedOutput === ''
+    return this.schemaCache
   }
 
   /**
@@ -1028,7 +1040,7 @@ export class MarkdownManager {
     const tags = new Set<string>()
 
     try {
-      const schema = getSchema(this.baseExtensions)
+      const schema = this.getCachedSchema()
 
       const collect = (spec: any) => {
         const parseDOM = spec?.parseDOM

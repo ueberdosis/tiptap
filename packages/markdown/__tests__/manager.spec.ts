@@ -454,6 +454,39 @@ Final paragraph.`
       expect(markdown).toBe('')
     })
 
+    it('should return empty string when serializing two consecutive empty paragraphs', () => {
+      const emptyDoc = {
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [],
+          },
+          {
+            type: 'paragraph',
+            content: [],
+          },
+        ],
+      }
+
+      const markdown = markdownManager.serialize(emptyDoc)
+      expect(markdown).toBe('')
+    })
+
+    it('should not throw when serialize() is called with a bare content array', () => {
+      // serialize() accepts a bare content array (not just a `doc` node); the
+      // structural-emptiness check must not throw on it and should render normally.
+      const bareContent = [
+        {
+          type: 'paragraph',
+          content: [{ type: 'text', text: 'Hello world' }],
+        },
+      ]
+
+      expect(() => markdownManager.serialize(bareContent as any)).not.toThrow()
+      expect(markdownManager.serialize(bareContent as any)).toBe('Hello world')
+    })
+
     it('should preserve blank lines between paragraphs with content', () => {
       // Multiple paragraphs with content should preserve blank lines
       const doc = {
