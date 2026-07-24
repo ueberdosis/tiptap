@@ -62,30 +62,35 @@ describe('DragHandle plugin registration stability', () => {
     expect(unregister.mock.calls.length).toBe(0)
   })
 
-  // The ref must still forward to the latest callback.
-  it('still invokes onNodeChange through the stable wrapper', () => {
+  // The ref must forward to the newest callback, not the one from the first render.
+  it('invokes the most recent onNodeChange after a re-render', () => {
     editor = createRealEditor()
-    const seen: Array<{ node: unknown; pos: number }> = []
+    const calls: Array<{ tag: string; pos: number }> = []
+    let bumpTag: (() => void) | undefined
 
-    function Parent({ editor: ed }: { editor: Editor }) {
-      useEditorState({ editor: ed, selector: s => s.transactionNumber })
+    function Parent() {
+      const [tag, setTag] = React.useState('first')
+      bumpTag = () => setTag('latest')
       return React.createElement(DragHandle, {
-        editor: ed,
-        onNodeChange: (data: { node: unknown; pos: number }) => seen.push(data),
+        editor,
+        onNodeChange: (data: { pos: number }) => calls.push({ tag, pos: data.pos }),
         children: React.createElement('span', null, 'handle'),
       } as never)
     }
 
     act(() => {
-      render(React.createElement(Parent, { editor }))
+      render(React.createElement(Parent))
     })
 
+    // Re-render with a new callback identity, then fire the hide event.
+    act(() => {
+      bumpTag?.()
+    })
     // `hideDragHandle` meta triggers onNodeChange(null, -1) in the plugin.
     act(() => {
       editor.view.dispatch(editor.state.tr.setMeta('hideDragHandle', true))
     })
 
-    expect(seen.length).toBeGreaterThan(0)
-    expect(seen.at(-1)).toMatchObject({ node: null, pos: -1 })
+    expect(calls.at(-1)).toEqual({ tag: 'latest', pos: -1 })
   })
 })
