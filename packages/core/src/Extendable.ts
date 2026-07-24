@@ -1,6 +1,7 @@
 import type { Plugin } from '@tiptap/pm/state'
 
 import type { Editor } from './Editor.js'
+import type { DecorationSpec } from './features/decorations/index.js'
 import { getExtensionField } from './helpers/getExtensionField.js'
 import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
 import type { InputRule } from './InputRule.js'
@@ -216,6 +217,41 @@ export interface ExtendableConfig<
     type: PMType
     parent: ParentConfig<Config>['addProseMirrorPlugins']
   }) => Plugin[]
+
+  /**
+   * This function declaratively adds editor decorations (node, inline, widget).
+   *
+   * Return a descriptor with a `create` function that builds the decorations
+   * from the current state. By default they are recomputed whenever the
+   * document changes. Use `shouldUpdate` to skip work when the decorations do
+   * not depend on a transaction, or use `update: 'changedRanges'` with
+   * `createInRange` to rescan only the blocks changed by an edit. Use
+   * `update: 'manual'` for decorations driven by external state and refresh
+   * them with `updateDecorations()`. Use the `decoration` factory helpers to
+   * build descriptors.
+   * @see https://tiptap.dev/docs/editor/core-concepts/decorations
+   * @example
+   * addDecorations() {
+   *   return {
+   *     create: ({ state }) =>
+   *       findChildren(state.doc, node => node.type.name === 'heading').map(
+   *         ({ pos, node }) =>
+   *           decoration.node(pos, pos + node.nodeSize, { class: 'is-heading' }),
+   *       ),
+   *   }
+   * }
+   *
+   * For framework widgets, use `ReactWidgetRenderer` or `VueWidgetRenderer`
+   * from the matching framework package. Give stateful widgets a stable key.
+   */
+  addDecorations?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    editor: Editor
+    type: PMType
+    parent: ParentConfig<Config>['addDecorations']
+  }) => DecorationSpec | null
 
   /**
    * This function transforms pasted HTML content before it's parsed.
