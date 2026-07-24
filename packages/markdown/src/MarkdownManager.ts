@@ -59,6 +59,8 @@ export class MarkdownManager {
   private codeTypes: Set<string> = new Set()
   /** Lazy cache of tag names declared by the registered schema's parseDOM rules. */
   private schemaParseDomTagsCache: Set<string> | null = null
+  /** Lazy cache of node type names the registered schema considers block nodes. */
+  private blockNodeNamesCache: Set<string> | null = null
 
   /**
    * Create a MarkdownManager.
@@ -124,6 +126,7 @@ export class MarkdownManager {
   registerExtension(extension: AnyExtension): void {
     // Keep track of all extensions for HTML parsing
     this.extensions.push(extension)
+    this.blockNodeNamesCache = null
 
     // Track extensions that declare `code: true` so we can skip HTML entity
     // encoding inside code contexts without hardcoding specific type names.
@@ -349,10 +352,17 @@ export class MarkdownManager {
       // Convert tokens to Tiptap JSON
       const content = this.parseTokens(tokens, true)
 
+      // A document requires at least one block child. A non-empty `content`
+      // array isn't sufficient proof of that: a custom token handler can
+      // return a bare inline node (e.g. `{ type: 'text' }`) at the top
+      // level, which would still violate the schema's `block+` requirement.
+      const blockNodeNames = this.getBlockNodeNames()
+      const hasBlockContent = content.some(node => node.type && blockNodeNames.has(node.type))
+
       // Return a document node containing the parsed content
       return {
         type: 'doc',
-        content,
+        content: hasBlockContent ? content : [{ type: 'paragraph' }],
       }
     } finally {
       this.activeParseLexer = previousParseLexer
@@ -1055,6 +1065,38 @@ export class MarkdownManager {
 
     this.schemaParseDomTagsCache = tags
     return tags
+  }
+
+  /**
+   * Collect node type names in the `block` group. The result is cached until
+   * the next registration.
+   */
+  private getBlockNodeNames(): Set<string> {
+    if (this.blockNodeNamesCache) {
+      return this.blockNodeNamesCache
+    }
+
+    const names = new Set<string>()
+
+    for (const extension of this.extensions) {
+      if (extension.type !== 'node') {
+        continue
+      }
+
+      const context = {
+        name: extension.name,
+        options: extension.options,
+        storage: extension.storage,
+      }
+      const group = callOrReturn(getExtensionField(extension, 'group', context))
+
+      if (typeof group === 'string' && group.split(' ').includes('block')) {
+        names.add(extension.name)
+      }
+    }
+
+    this.blockNodeNamesCache = names
+    return names
   }
 
   /**
