@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- bd47229: Fix `<node-view-content as="tbody">` (and similar restricted-content elements) rendering with an extra wrapper `<div>` nested inside them, which broke tables in Vue node views. Note: keep `<node-view-content>` mounted (use `v-show`, not `v-if`) — conditionally remounting it can leave ProseMirror attached to the old element.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes
