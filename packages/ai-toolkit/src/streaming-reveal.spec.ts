@@ -8,13 +8,7 @@ import * as Y from 'yjs'
 
 import { AiInsertReveal } from './streaming-reveal.js'
 
-/**
- * Creates an editor with the {@link AiInsertReveal} extension and no
- * collaboration, to prove the extension loads and degrades gracefully when the
- * y-sync plugin it reads is absent.
- *
- * @return Promise resolving once the editor create lifecycle has finished.
- */
+/** Creates an editor with {@link AiInsertReveal} but no collaboration (no y-sync plugin). */
 function createEditor(): Promise<Editor> {
   return new Promise(resolve => {
     const editor = new Editor({
@@ -31,13 +25,7 @@ function createEditor(): Promise<Editor> {
   })
 }
 
-/**
- * Creates a collaborative editor bound to a fresh Y.Doc with {@link AiInsertReveal},
- * seeded with a single `Hello` paragraph.
- *
- * @param options - Optional reveal configuration forwarded to `configure`.
- * @return Promise resolving to the editor and its backing Y.Doc.
- */
+/** Creates a collaborative editor (fresh Y.Doc, {@link AiInsertReveal}) seeded with one `Hello` paragraph. */
 function createCollabEditor(options?: {
   durationMs?: number
 }): Promise<{ editor: Editor; ydoc: Y.Doc }> {
@@ -62,11 +50,7 @@ function createCollabEditor(options?: {
   })
 }
 
-/**
- * Applies a remote (non-local) insert into the first paragraph's text, mimicking
- * an AI streaming into the shared document from another peer. Uses a second Y.Doc
- * synced from `ydoc` so the resulting transaction has `local === false`.
- */
+/** Applies a remote insert via a synced second Y.Doc. */
 function remoteInsert(ydoc: Y.Doc, index: number, text: string): void {
   const remote = new Y.Doc()
   Y.applyUpdate(remote, Y.encodeStateAsUpdate(ydoc))
@@ -76,10 +60,7 @@ function remoteInsert(ydoc: Y.Doc, index: number, text: string): void {
   Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(remote, Y.encodeStateVector(ydoc)))
 }
 
-/**
- * Collects the reveal decorations currently produced by the extension, resolved
- * against the editor's live state (mirrors what the view renders).
- */
+/** Collects the extension's current reveal decorations from the editor's live state. */
 function revealDecorations(editor: Editor): Array<{ from: number; to: number; style: string }> {
   for (const plugin of editor.state.plugins) {
     const set = (plugin as any).props?.decorations?.call(plugin, editor.state)

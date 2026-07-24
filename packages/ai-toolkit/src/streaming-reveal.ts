@@ -9,10 +9,7 @@ import * as Y from 'yjs'
  * Configuration for {@link AiInsertReveal}.
  */
 export type AiInsertRevealOptions = {
-  /**
-   * CSS class applied to each freshly-inserted run. Style this class in your app
-   * to define the fade (see the package docs for a default).
-   */
+  /** CSS class on each revealed run; style it in your app to define the fade. */
   className: string
   /**
    * How long (ms) each run keeps its reveal decoration before it is dropped.
@@ -21,19 +18,10 @@ export type AiInsertRevealOptions = {
   durationMs: number
 }
 
-/**
- * Upper bound (chars) on one revealed run: the text from a single streamed
- * insert, usually a token of a few chars. This only guards against a
- * mis-resolved relative position yielding an absurd range (e.g. spanning the
- * whole document).
- */
+/** Limits each revealed streamed insert to guard against mis-resolved positions spanning the document. */
 const MAX_REVEAL_RANGE = 400
 
-/**
- * One freshly-inserted text run, anchored by Yjs relative positions so it stays
- * valid across the whole-document rebuild that y-tiptap applies on every remote
- * sync (a plain ProseMirror position would be collapsed by that rebuild).
- */
+/** Anchors each inserted run with Yjs relative positions so it survives y-tiptap document rebuilds. */
 type RevealEntry = {
   start: Y.RelativePosition
   end: Y.RelativePosition
@@ -111,10 +99,7 @@ function scanDeltaOp(op: { retain?: number; insert?: unknown }): {
   return op.insert === undefined ? { advance: 0, inserted: 0 } : { advance: 1, inserted: 0 }
 }
 
-/**
- * The end anchor binds to the run's last char (assoc < 0) so a token appended
- * here starts its own run instead of extending this one.
- */
+/** End anchor uses assoc < 0 so an appended token starts a new run, not extends this one. */
 function makeRun(target: Y.XmlText, index: number, length: number, now: number): RevealEntry {
   return {
     start: Y.createRelativePositionFromTypeIndex(target, index),
@@ -124,11 +109,9 @@ function makeRun(target: Y.XmlText, index: number, length: number, now: number):
 }
 
 /**
- * Fades in text inserted by remote Yjs transactions using view-only inline
- * decorations anchored by relative positions. It never mutates the document,
- * so it stays inert to accept/reject and to persistence, and local edits are
- * ignored so a user's own typing does not fade. Requires the Collaboration
- * extension and CSS on the configured `className` (default `ai-insert-reveal`).
+ * Fades in remote Yjs inserts with view-only decorations. It never mutates the
+ * document, so it is inert to accept/reject and persistence, and ignores local edits.
+ * Requires Collaboration and CSS for `className` (default `ai-insert-reveal`).
  */
 export const AiInsertReveal = Extension.create<AiInsertRevealOptions>({
   name: 'aiInsertReveal',
