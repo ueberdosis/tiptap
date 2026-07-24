@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- d26840f: Fix a TypeScript build error in `isAndroid()` where comparing `navigator.platform` against the literal `'Android'` with `===` could fail to compile under some `lib.dom.d.ts` typings ("types have no overlap"). Switched to the same `.includes()` pattern already used by `isiOS()`, which is not affected by this TypeScript narrowing issue. No runtime behavior change.
+- 935e63f: Fixed a bug where deleting an `AllSelection` (for example right after Ctrl/Cmd+A) left a lingering "phantom" selection highlight over the emptied document instead of a text cursor. `deleteSelection` now collapses the selection to a cursor.
+- b4c5a2d: Fix input rules crashing when the matched text spans an inline atom node like a mention.
+- a963d48: Node view `getPos()` now returns `undefined` instead of throwing when the position cannot be resolved yet, for example when React 19 renders a node view component while the editor view is still updating.
+- 51f45b6: Fixed `onContentError` throwing when calling `editor.commands` from inside the handler on initial load with invalid content. The editor now has a usable state (seeded from the stripped fallback document) before `onContentError` fires.
+- 0f63969: Fix `editor.$pos()` returning the wrong node inside container nodes, for example the list item instead of the list.
+- 9acaa65: Add `insertDefaultBlock` to insert the default textblock allowed at a position. It accepts an optional position, attributes, content, and selection-update option.
+- Updated dependencies [e150ee0]
+  - @tiptap/pm@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes

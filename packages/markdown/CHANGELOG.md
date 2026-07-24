@@ -1,5 +1,21 @@
 # @tiptap/markdown
 
+## 3.29.0
+
+### Patch Changes
+
+- 9af2f2b: Fixed blank lines being dropped after block elements (headings, tables, etc.) when parsing markdown. Blank lines were being absorbed into the block token instead of being preserved, causing content to lose a blank line on each parse/serialize cycle.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes

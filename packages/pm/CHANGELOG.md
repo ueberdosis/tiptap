@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- e150ee0: Bump `prosemirror-model` to `^1.25.11`, fixing pasting content copied from the editor inserting extra empty paragraphs (a regression introduced in `prosemirror-view` 1.42.0).
+
 ## 3.28.0
 
 ## 3.27.4

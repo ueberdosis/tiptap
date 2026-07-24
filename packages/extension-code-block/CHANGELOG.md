@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- 48f25af: Fixed a bug where pressing `ArrowUp` in a code block that is the first node in the document did nothing, leaving no way to insert content above it. A new default block is now inserted above the code block, mirroring the existing `ArrowDown` behavior. The behavior can be disabled via the new `exitOnArrowUp` option.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes

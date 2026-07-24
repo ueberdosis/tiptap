@@ -1,5 +1,22 @@
 # Change Log
 
+## 3.29.0
+
+### Patch Changes
+
+- 093573a: Fix inserting a table with an empty cell or header (e.g. via `insertContent`/`insertContentAt`) throwing `RangeError: Invalid content for node tableCell/tableHeader: <>`. Empty `<td>`/`<th>` elements are now backfilled with the cell's default block content, matching the behavior you already get from `setContent`.
+- 8649f2f: Keep line breaks inside table cells when serializing to markdown. Hard breaks and paragraph breaks in a cell are now written as `<br>` instead of being collapsed into a space, so they survive a parse/serialize round trip.
+- Updated dependencies [d26840f]
+- Updated dependencies [e150ee0]
+- Updated dependencies [935e63f]
+- Updated dependencies [b4c5a2d]
+- Updated dependencies [a963d48]
+- Updated dependencies [51f45b6]
+- Updated dependencies [0f63969]
+- Updated dependencies [9acaa65]
+  - @tiptap/core@3.29.0
+  - @tiptap/pm@3.29.0
+
 ## 3.28.0
 
 ### Patch Changes
