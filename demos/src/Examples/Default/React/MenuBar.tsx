@@ -102,6 +102,12 @@ export const MenuBar = ({ editor }: { editor: Editor | null }) => {
           Ordered list
         </button>
         <button
+          onClick={() => editor.chain().focus().toggleTaskList().run()}
+          className={editorState.isTaskList ? 'is-active' : ''}
+        >
+          Task list
+        </button>
+        <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={editorState.isCodeBlock ? 'is-active' : ''}
         >
